@@ -9,18 +9,27 @@
 		"prepare": "svelte-kit sync",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "eslint ."
+		"lint": "eslint .",
+		"test": "jest",
+		"test:watch": "npm run test -- --watchAll",
+		"test:coverage": "jest --coverage"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
+		"@testing-library/jest-dom": "^5.16.4",
+		"@testing-library/svelte": "^3.1.3",
+		"@types/jest": "^28.1.4",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
 		"@typescript-eslint/parser": "^5.27.0",
 		"eslint": "^8.16.0",
 		"eslint-plugin-svelte3": "^4.0.0",
+		"jest": "^28.1.2",
 		"svelte": "^3.44.0",
 		"svelte-check": "^2.7.1",
+		"svelte-jester": "^2.3.2",
 		"svelte-preprocess": "^4.10.6",
+		"ts-jest": "^28.0.5",
 		"tslib": "^2.3.1",
 		"typescript": "^4.7.2"
 	},
