@@ -21,12 +21,20 @@
     }
 
     :global(:root){
-        --wordplay-foreground: rgb(255,255,255);  
-        --wordplay-medium: rgb(60, 60, 60);
-        --wordplay-background: rgb(0,0,0);
+        --wordplay-foreground: black; 
+        --wordplay-background: white;
+        --wordplay-chrome: rgb(240,240,240);
+        --wordplay-border-color: rgb(230,230,230);
         --wordplay-highlight: rgb(255, 220, 43);
-        --wordplay-spacing: 1em;
+        --wordplay-spacing: 0.5em;
         --wordplay-font-face: "Noto Sans", sans-serif;
         --wordplay-font-weight: 500;
+        --wordplay-border-width: 4px;
+        --wordplay-border-radius: 6px;
+    }
+
+    :global(textarea) {
+        border: none;
+        resize: none;
     }
 </style>
