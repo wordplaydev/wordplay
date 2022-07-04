@@ -1,5 +1,5 @@
 <script>
-    import Header from './Header.svelte';
+    import Header from '../components/Header.svelte';
 </script>
 
 <div class="manager">
@@ -20,5 +20,4 @@
         height: auto;
         padding: var(--wordplay-spacing);
     }
-
 </style>

@@ -1,5 +1,5 @@
 <script>
-    import Manager from './Manager.svelte';
+    import Manager from '../components/Manager.svelte';
 </script>
 
 <svelte:head>
