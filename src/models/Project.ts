@@ -13,6 +13,14 @@ export default class Project {
     withRevisedDocument(doc: Document, newDoc: Document): Project | undefined {
         const index = this.docs.indexOf(doc);
         if(index < 0) return;
-        return new Project(this.name, [ ... this.docs.slice(0, index), newDoc, ... this.docs.slice(index + 1)]);
+        // Make a new project replacing the doc itself and also any documents that depend on it.
+        const newProject = new Project(this.name, 
+            this.docs.map(d =>
+                d === doc ? newDoc :
+                d.content === doc ? d.withContent(newDoc) :
+                d
+            )
+        );
+        return newProject;
     }
 }

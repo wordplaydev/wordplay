@@ -6,8 +6,8 @@ export function tokenize(source: string): string[] {
 
 }
 
-export function parse(source: string): Program {
+export function parse(tokens: string[]): Program {
 
-    return new Program();
+    return new Program(tokens.map(t => t.toUpperCase()).join(""));
 
 }

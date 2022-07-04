@@ -1,21 +1,15 @@
 <!-- A window in a window manager that displays a document -->
 <script lang="ts">
-    import type Project from '../models/Project';
     import Document from '../models/Document';
     import { project } from '../models/stores';
 
     export let doc: Document;
-
-    let docProj: Project | undefined;
-    project.subscribe(value => {
-        docProj = value;
-    });
+    $: content = doc.getContent();        
 
     function handleEdit(event: Event) {
-        if(docProj !== undefined) {
-            const newProject = docProj.withRevisedDocument(doc, new Document(doc.getName(), (event.target as HTMLTextAreaElement).value));
-            if(newProject)
-                project.set(newProject);
+        if($project !== undefined) {
+            const newDoc = new Document(doc.getName(), (event.target as HTMLTextAreaElement).value);
+            project.set($project.withRevisedDocument(doc, newDoc));
         }
     }
 
@@ -26,7 +20,7 @@
     <textarea 
         on:input={handleEdit} 
         class="document-content" 
-        value={doc.getContent()} 
+        bind:value={content} 
         readonly={!doc.isEditable()}
         style="height: {doc.getContent().split("\n").length}em;"></textarea>
 </div>

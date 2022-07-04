@@ -1,5 +1,22 @@
 <script>
+
+    import Project from '../models/Project';
+    import Document from '../models/Document';
+    import { project } from '../models/stores';
+    import { parse, tokenize } from '../parser/Parser';
+
     import Manager from '../components/Manager.svelte';
+
+    const code = new Document("code", "hi" );
+    const tokens = new Document("tokens", code, doc => tokenize(doc.getContent()).join(", "));
+    const tree = new Document("tree", code, doc => parse(tokenize(doc.getContent())).toWordplay());
+
+    project.set(new Project("Play", [
+        code,
+        tokens,
+        tree
+    ]));
+
 </script>
 
 <svelte:head>
