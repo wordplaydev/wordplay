@@ -22,7 +22,9 @@
         class="document-content" 
         bind:value={content} 
         readonly={!doc.isEditable()}
-        style="height: {doc.getContent().split("\n").length}em;"></textarea>
+        style="height: {doc.getContent().split("\n").length}em;"
+        tabIndex=0
+    />
 </div>
 
 <style>
@@ -37,7 +39,8 @@
     .document-title {
         height: auto;
         background: var(--wordplay-chrome);
-        padding: var(--wordplay-spacing);        
+        padding: var(--wordplay-spacing);
+        border-bottom: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
     .document-content {
@@ -46,5 +49,13 @@
         background: var(--wordplay-background);
         padding: var(--wordplay-spacing);
         color: var(--wordplay-foreground);
+    }
+
+    textarea:focus {
+        outline: var(--wordplay-border-width) solid var(--wordplay-highlight)
+    }
+
+    textarea[readonly] {
+        background: var(--wordplay-chrome);
     }
 </style>
