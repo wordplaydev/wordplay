@@ -23,6 +23,8 @@ enum TokenType {
     // The trailing text at the end encodes the format.
     // Text literals can also come in multiple formats, to encode multilingual apps in place.
     TEXT,       // ‘“«„“「‹(.*)‘”»”」›
+    TEXT_OPEN,
+    TEXT_CLOSE,
     LANGUAGE,   // /[a-z]{3} (ISO 639-2: https://en.wikipedia.org/wiki/ISO_639-2
     // The optional negative sign allows for negative number literals.
     // The optional dash allows for a random number range.
@@ -44,22 +46,11 @@ class Token {
         this.text = text;
     }
     getLength() { return this.text.length; }
+    toString(){ return `${TokenType[this.type]}: ${this.text}`; }
     toWordplay() { return this.text }
 }
 
-export function tokenize(source: string): Token[] {
-    const tokens: Token[] = [];
-    while(source.length > 0) {
-        const nextToken = getNextToken(source);
-        tokens.push(nextToken);
-        source = source.substring(nextToken.getLength());
-    }
-    return tokens;
-}
-
 const patterns = [
-    { pattern: "(", type: TokenType.EXPR_OPEN },
-    { pattern: ")", type: TokenType.EXPR_CLOSE },
     { pattern: "[", type: TokenType.LIST_OPEN },
     { pattern: "]", type: TokenType.LIST_CLOSE },
     { pattern: "{", type: TokenType.SET_OPEN },
@@ -91,16 +82,41 @@ const patterns = [
     { pattern: "🙃", type: TokenType.BOOLEAN },
     { pattern: /^\n+/, type: TokenType.LINES },
     { pattern: /^[ \t]+/, type: TokenType.SPACE },
-    { pattern: /^["“”„].*?["“”]/u, type: TokenType.TEXT },
+    // Match all of the string open/close patterns before matching just an open or close parenthesis.
+    // Also match the open and close patterns before the regular string patterns.
+    { pattern: /^["“”„].*?["“”\(]/u, type: TokenType.TEXT },
+    { pattern: /^\).*?["“”]/u, type: TokenType.TEXT },
+    { pattern: /^['‘’].*?\(/u, type: TokenType.TEXT_OPEN },
+    { pattern: /^\).*?['‘’]/u, type: TokenType.TEXT_CLOSE },
     { pattern: /^['‘’].*?['‘’]/u, type: TokenType.TEXT },
+    { pattern: /^‹.*?\(/u, type: TokenType.TEXT_OPEN },
+    { pattern: /^\).*?›/u, type: TokenType.TEXT_CLOSE },
     { pattern: /^‹.*?›/u, type: TokenType.TEXT },
+    { pattern: /^«.*?[»\(]/u, type: TokenType.TEXT_OPEN },
+    { pattern: /^\).*?»/u, type: TokenType.TEXT_CLOSE },
     { pattern: /^«.*?»/u, type: TokenType.TEXT },
+    { pattern: /^「.*?\(/u, type: TokenType.TEXT_OPEN },
+    { pattern: /^\).*?」/u, type: TokenType.TEXT_CLOSE },
     { pattern: /^「.*?」/u, type: TokenType.TEXT },
+    { pattern: /^『.*?\(/u, type: TokenType.TEXT_OPEN },
+    { pattern: /^\).*?』/u, type: TokenType.TEXT_CLOSE },
     { pattern: /^『.*?』/u, type: TokenType.TEXT },
+    { pattern: "(", type: TokenType.EXPR_OPEN },
+    { pattern: ")", type: TokenType.EXPR_CLOSE },
     { pattern: /^\/[a-z]{3}/, type: TokenType.LANGUAGE },
     // One or more unicode characters that are not one of the reserved characters
     { pattern: /^[^\(\)\[\]\{\}:.ƒ↓↑`!•… \t\n+\-×÷%<≤≥>~&|'‘’"“”„«»‹›「」『』🙂🙃\/]+/u, type: TokenType.NAME }
 ];
+
+export function tokenize(source: string): Token[] {
+    const tokens: Token[] = [];
+    while(source.length > 0) {
+        const nextToken = getNextToken(source);
+        tokens.push(nextToken);
+        source = source.substring(nextToken.getLength());
+    }
+    return tokens;
+}
 
 function getNextToken(source: string): Token {
     let c = source.charAt(0);

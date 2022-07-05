@@ -8,7 +8,7 @@
     import Manager from '../components/Manager.svelte';
 
     const code = new Document("code", "hi" );
-    const tokens = new Document("tokens", code, doc => tokenize(doc.getContent()).map(t => t.toWordplay()).join("\n"));
+    const tokens = new Document("tokens", code, doc => tokenize(doc.getContent()).map(t => t.toString()).join("\n"));
     const tree = new Document("tree", code, doc => parse(tokenize(doc.getContent())).toWordplay());
 
     project.set(new Project("Play", [
