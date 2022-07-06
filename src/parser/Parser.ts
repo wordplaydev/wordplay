@@ -17,7 +17,7 @@ import Parenthetical from "./Parenthetical";
 import { tokenize } from "./Tokenizer";
 import Template from "./Template";
 import PrimitiveType from "./OopsType";
-import CompoundType from "./CompoundType";
+import CompoundType from "./ListType";
 import UnionType from "./UnionType";
 import MapType from "./MapType";
 import Oops from "./Oops";
@@ -27,6 +27,8 @@ import Text from "./Text";
 import NameType from "./NameType";
 import OopsType from "./OopsType";
 import TextType from "./TextType";
+import ListType from "./ListType";
+import SetType from "./SetType";
 
 export enum ErrorMessage {
     EXPECTED_BORROW,
@@ -505,11 +507,13 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
  * */
 function parseType(tokens: Tokens): Type | Unparsable {
     let left: Type = (
+        tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read()) :
         tokens.nextIs(TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :
         tokens.nextIs(TokenType.TEXT_TYPE) ? parseTextType(tokens) :
         tokens.nextIs(TokenType.OOPS) ? parseOopsType(tokens) :
-        tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read()) :
-        tokens.nextIsOneOf(TokenType.LIST_OPEN, TokenType.SET_OPEN, TokenType.MAP_OPEN) ? parseCompoundType(tokens) :
+        tokens.nextIs(TokenType.LIST_OPEN) ? parseListType(tokens) :
+        tokens.nextIs(TokenType.SET_OPEN) ? parseSetType(tokens) :
+        tokens.nextIs(TokenType.MAP_OPEN) ? parseMapType(tokens) :
         tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE)
     );
 
@@ -544,30 +548,39 @@ function parseMeasurementType(tokens: Tokens): MeasurementType {
 
 }
 
-function parseCompoundType(tokens: Tokens): CompoundType | MapType | Unparsable {
+function parseListType(tokens: Tokens): ListType | Unparsable {
+
     const open = tokens.read();
     const type = parseType(tokens);
-    if(open.is(TokenType.LIST_OPEN)) {
-        if(tokens.nextIsnt(TokenType.LIST_CLOSE))
-            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_LIST_CLOSE);
-        const close = tokens.read();
-        return new CompoundType(open, type, close);    
-    }
-    if(open.is(TokenType.SET_OPEN)) {
-        if(tokens.nextIsnt(TokenType.SET_CLOSE))
-            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_SET_CLOSE);
-        const close = tokens.read();
-        return new CompoundType(open, type, close);    
-    }
-    if(open.is(TokenType.MAP_OPEN)) {
-        if(tokens.nextIsnt(TokenType.BIND))
-            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_MAP_BIND);
-        const bind = tokens.read();
-        const value = parseType(tokens);
-        if(tokens.nextIsnt(TokenType.MAP_CLOSE))
-            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_MAP_CLOSE);
-        const close = tokens.read();
-        return new MapType(open, type, bind, value, close);
-    }
-    return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE);
+    if(tokens.nextIsnt(TokenType.LIST_CLOSE))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_LIST_CLOSE);
+    const close = tokens.read();
+    return new ListType(open, type, close);    
+
+}
+
+function parseSetType(tokens: Tokens): SetType | Unparsable {
+
+    const open = tokens.read();
+    const type = parseType(tokens);
+    if(tokens.nextIsnt(TokenType.SET_CLOSE))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_SET_CLOSE);
+    const close = tokens.read();
+    return new SetType(open, type, close);    
+
+}
+
+function parseMapType(tokens: Tokens): MapType | Unparsable {
+
+    const open = tokens.read();
+    const type = parseType(tokens);
+    if(tokens.nextIsnt(TokenType.BIND))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_MAP_BIND);
+    const bind = tokens.read();
+    const value = parseType(tokens);
+    if(tokens.nextIsnt(TokenType.MAP_CLOSE))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_MAP_CLOSE);
+    const close = tokens.read();
+    return new MapType(open, type, bind, value, close);
+
 }

@@ -1,7 +1,7 @@
 import type { Token } from "./Token";
 import Type from "./Type";
 
-export default class CompoundType extends Type {
+export default class SetType extends Type {
 
     readonly open: Token;
     readonly type: Type;
