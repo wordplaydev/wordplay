@@ -16,8 +16,6 @@ import AccessName from "./AccessName";
 import Parenthetical from "./Parenthetical";
 import { tokenize } from "./Tokenizer";
 import Template from "./Template";
-import PrimitiveType from "./OopsType";
-import CompoundType from "./ListType";
 import UnionType from "./UnionType";
 import MapType from "./MapType";
 import Oops from "./Oops";
