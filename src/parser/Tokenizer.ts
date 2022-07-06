@@ -36,7 +36,6 @@ const patterns = [
     { pattern: /^\n+/, type: TokenType.LINES },
     { pattern: /^[ \t]+/, type: TokenType.SPACE },
     // Also match the open and close patterns before the regular string patterns.
-    { pattern: /^\)[^\)]*?\(/, type: TokenType.TEXT_BETWEEN },
     { pattern: /^["“”„].*?["“”\(]/u, type: TokenType.TEXT_OPEN },
     { pattern: /^\)[^\)]*?["“”]/u, type: TokenType.TEXT_CLOSE },
     { pattern: /^['‘’].*?\(/u, type: TokenType.TEXT_OPEN },
@@ -57,6 +56,8 @@ const patterns = [
     // Match all of the string open/close patterns before matching just an open or close parenthesis.
     { pattern: "(", type: TokenType.EVAL_OPEN },
     { pattern: ")", type: TokenType.EVAL_CLOSE },
+    // Match this after the eval close to avoid capturing function evaluations in templates.
+    { pattern: /^\)[^\)]*?\(/, type: TokenType.TEXT_BETWEEN },
     // Match primtive types after strings since one is a standalone quote symbol.
     { pattern: /^[?#!'"‹‘“„«「]/u, type: TokenType.PRIMITIVE },
     { pattern: /^\/[a-z]{3}/, type: TokenType.LANGUAGE },
