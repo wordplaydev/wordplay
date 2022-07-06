@@ -25,10 +25,11 @@ const patterns = [
     { pattern: /^[-~√]/, types: [ TokenType.BINARY, TokenType.UNARY ] },
     { pattern: "⊤", types: [ TokenType.BOOLEAN ] },
     { pattern: "⊥", types: [ TokenType.BOOLEAN ] },
-    { pattern: /^\n+/, types: [ TokenType.LINES ] },
+    // We don't allow whitespace in any tokens; this means no multi-line strings.
     { pattern: /^[ \t]+/, types: [ TokenType.SPACE ] },
+    { pattern: /^\n+/, types: [ TokenType.LINES ] },
     // Also match the open and close patterns before the regular string patterns.
-    { pattern: /^["“”„].*?["“”\(]/u, types: [ TokenType.TEXT_OPEN ] },
+    { pattern: /^["“”„].*?\(/u, types: [ TokenType.TEXT_OPEN ] },
     { pattern: /^\)[^\)]*?["“”]/u, types: [ TokenType.TEXT_CLOSE ] },
     { pattern: /^['‘’].*?\(/u, types: [ TokenType.TEXT_OPEN ] },
     { pattern: /^\)[^\)]*?['‘’]/u, types: [ TokenType.TEXT_CLOSE ] },
@@ -40,6 +41,7 @@ const patterns = [
     { pattern: /^\)[^\)]*?」/u, types: [ TokenType.TEXT_CLOSE ] },
     { pattern: /^『.*?\(/u, types: [ TokenType.TEXT_OPEN ] },
     { pattern: /^\)[^\)]*?』/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^["“”„].*?["“”]/u, types: [ TokenType.TEXT ] },
     { pattern: /^['‘’].*?['‘’]/u, types: [ TokenType.TEXT ] },
     { pattern: /^‹.*?›/u, types: [ TokenType.TEXT ] },
     { pattern: /^«.*?»/u, types: [ TokenType.TEXT ] },
