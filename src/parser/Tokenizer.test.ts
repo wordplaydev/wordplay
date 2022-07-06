@@ -19,6 +19,7 @@ test("Tokenize numbers", () => {
     expect(tokenize("-1.0").map(t => t.toWordplay()).join("\n")).toBe("-1.0");
     expect(tokenize("1,0").map(t => t.toWordplay()).join("\n")).toBe("1,0");
     expect(tokenize("-1,0").map(t => t.toWordplay()).join("\n")).toBe("-1,0");
+    expect(tokenize("0∞π").map(t => t.toWordplay()).join("\n")).toBe("0\n∞\nπ");
 
 })
 
