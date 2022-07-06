@@ -23,10 +23,11 @@
 <style>
     .manager {
         width: 100vw;
-        height: 100vw;
+        height: 100vh;
         padding: 0;
         display: flex;
         flex-direction: column;
+        box-sizing: border-box;
     }
 
     .windows {
