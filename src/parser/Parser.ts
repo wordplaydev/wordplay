@@ -296,6 +296,7 @@ function parseText(tokens: Tokens): Text {
 
 }
 
+/** OOPS :: ! NAME? */
 function parseOops(tokens: Tokens): Oops | Unparsable {
 
     const error = tokens.read();
@@ -307,6 +308,7 @@ function parseOops(tokens: Tokens): Oops | Unparsable {
 
 }
 
+/** PARENTHETICAL :: ( EXPRESSION ) */
 function parseParenthetical(tokens: Tokens): Parenthetical | Unparsable {
     let open;
     let close;
@@ -325,6 +327,7 @@ function parseParenthetical(tokens: Tokens): Parenthetical | Unparsable {
 
 }
 
+/** ACCESS :: EXPRESSION (.NAME)+ */
 function parseAccess(left: Expression, tokens: Tokens): Expression | Unparsable {
     if(!tokens.nextIs(TokenType.ACCESS))
         return left;
@@ -348,6 +351,7 @@ function parseAccess(left: Expression, tokens: Tokens): Expression | Unparsable 
     return left;
 }
 
+/** EVAL :: EXPRESSION (EXPRESSION*) */
 function parseEval(left: Expression, tokens: Tokens): Evaluate | Unparsable {
 
     const open = tokens.read();
@@ -395,6 +399,7 @@ function parseDelimited<T extends Expression | Bind>(tokens: Tokens, openType: T
 
 }
 
+/** LIST :: [ EXPRESSION* ] */
 function parseList(tokens: Tokens): List | Unparsable {
 
     const stuff = parseDelimited<Expression>(
@@ -409,6 +414,7 @@ function parseList(tokens: Tokens): List | Unparsable {
 
 }
 
+/** SET :: { EXPRESSION* } */
 function parseSet(tokens: Tokens): SetNode | Unparsable {
 
     const stuff = parseDelimited<Expression>(
@@ -423,6 +429,7 @@ function parseSet(tokens: Tokens): SetNode | Unparsable {
 
 }
 
+/** MAP :: < (EXPRESSION : EXPRESSION)* > */
 function parseMap(tokens: Tokens): MapNode | Unparsable {
 
     const stuff = parseDelimited<Bind>(
@@ -437,6 +444,7 @@ function parseMap(tokens: Tokens): MapNode | Unparsable {
 
 }
 
+/** BIND :: name TYPE? : EXPRESSION */
 function parseBind(tokens: Tokens): Bind | Unparsable {
 
     let name;
@@ -466,6 +474,7 @@ function parseBind(tokens: Tokens): Bind | Unparsable {
 
 }
 
+/** TEMPLATE :: text_open ( EXPRESSION text_between )* EXPRESSION text_close */
 function parseTemplate(tokens: Tokens): Template | Unparsable {
 
     const parts = [];
@@ -524,6 +533,7 @@ function parseType(tokens: Tokens): Type | Unparsable {
 
 }
 
+/** TEXT_TYPE :: text_type NAME? */
 function parseTextType(tokens: Tokens): TextType {
 
     const quote = tokens.read();
@@ -532,6 +542,7 @@ function parseTextType(tokens: Tokens): TextType {
 
 }
 
+/** OOPS_TYPE :: ! NAME? */
 function parseOopsType(tokens: Tokens): OopsType {
 
     const oops = tokens.read();
@@ -540,6 +551,7 @@ function parseOopsType(tokens: Tokens): OopsType {
 
 }
 
+/** NUMBER_TYPE :: # NAME? */
 function parseMeasurementType(tokens: Tokens): MeasurementType {
 
     const number = tokens.read();
@@ -548,6 +560,7 @@ function parseMeasurementType(tokens: Tokens): MeasurementType {
 
 }
 
+/** LIST_TYPE :: [ TYPE ] */
 function parseListType(tokens: Tokens): ListType | Unparsable {
 
     const open = tokens.read();
@@ -559,6 +572,7 @@ function parseListType(tokens: Tokens): ListType | Unparsable {
 
 }
 
+/** SET_TYPE :: { TYPE } */
 function parseSetType(tokens: Tokens): SetType | Unparsable {
 
     const open = tokens.read();
@@ -570,6 +584,7 @@ function parseSetType(tokens: Tokens): SetType | Unparsable {
 
 }
 
+/** MAP_TYPE :: < TYPE : TYPE > */
 function parseMapType(tokens: Tokens): MapType | Unparsable {
 
     const open = tokens.read();
