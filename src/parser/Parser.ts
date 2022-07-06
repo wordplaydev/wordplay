@@ -60,9 +60,14 @@ class Tokens {
 
     /** Returns true if and only if the next token is the specified type. */
     nextIs(type: TokenType): boolean {
-        return this.hasNext() ? this.tokens[0].type === type : false;
+        return this.hasNext() && this.tokens[0].type === type;
     }
 
+    /** Returns true if and only if there is a next token and it's not the specified type. */
+    nextIsnt(type: TokenType): boolean {
+        return this.hasNext() && this.tokens[0].type !== type;
+    }
+    
     /** Returns true if and only if the next series of tokens matches the series of given token types. */
     nextAre(...types: TokenType[]) {
         return types.every((type, index) => index < this.tokens.length && this.tokens[index].type === type);
@@ -154,7 +159,7 @@ export function parseBlock(expectParentheses: boolean, tokens: Tokens): Block {
             tokens.consumeUnparsable(ErrorMessage.EXPECTED_LINES);
     }
 
-    while(tokens.hasNext() && !tokens.nextIs(TokenType.EVAL_CLOSE)) {
+    while(tokens.nextIsnt(TokenType.EVAL_CLOSE)) {
         if(tokens.nextAre(TokenType.NAME, TokenType.BIND) || tokens.nextAre(TokenType.NAME, TokenType.TYPE))
             statements.push(parseBind(tokens))
         else
@@ -286,7 +291,7 @@ function parseEval(left: Expression, tokens: Tokens): Evaluate | Unparsable {
     const objects = [];
     let close;
     
-    while(tokens.hasNext() && !tokens.nextIs(TokenType.EVAL_CLOSE))
+    while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
         objects.push(parseExpression(tokens));
     
     if(tokens.nextIs(TokenType.EVAL_CLOSE))
@@ -312,7 +317,7 @@ function parseDelimited<T extends Expression | Bind>(tokens: Tokens, openType: T
     while(tokens.nextIs(TokenType.LINES))
         tokens.consume();
 
-    while(tokens.hasNext() && !tokens.nextIs(closeType)) {
+    while(tokens.nextIsnt(closeType)) {
         values.push((bind ? parseBind(tokens) : parseExpression(tokens)) as T|Unparsable);
         while(tokens.nextIs(TokenType.LINES))
            tokens.consume();
@@ -412,7 +417,7 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
         parts.push(expression);
         if(tokens.nextIs(TokenType.TEXT_BETWEEN))
             parts.push(tokens.consume());
-    } while(tokens.hasNext() && !tokens.nextIs(TokenType.TEXT_CLOSE));
+    } while(tokens.nextIsnt(TokenType.TEXT_CLOSE));
 
     if(!tokens.nextIs(TokenType.TEXT_CLOSE))
         return tokens.consumeUnparsable(ErrorMessage.EXPECTED_TEXT_CLOSE);
