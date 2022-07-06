@@ -19,6 +19,7 @@ import Template from "./Template";
 import PrimitiveType from "./PrimitiveType";
 import CompoundType from "./CompoundType";
 import UnionType from "./UnionType";
+import MapType from "./MapType";
 
 export enum ErrorMessage {
     EXPECTED_BORROW,
@@ -434,7 +435,7 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
  *    ! 
  *    {TYPE}
  *    [TYPE]
- *    <TYPE>
+ *    <TYPE:TYPE>
  *    TYPE | TYPE
  * */
 function parseType(tokens: Tokens): Type | Unparsable {
@@ -451,15 +452,30 @@ function parseType(tokens: Tokens): Type | Unparsable {
 
 }
 
-function parseCompoundType(tokens: Tokens): CompoundType | Unparsable {
+function parseCompoundType(tokens: Tokens): CompoundType | MapType | Unparsable {
     const open = tokens.consume();
     const type = parseType(tokens);
-    if(open.is(TokenType.LIST_OPEN) && tokens.nextIsnt(TokenType.LIST_CLOSE))
-        return tokens.consumeUnparsable(ErrorMessage.EXPECTED_LIST_CLOSE);
-    if(open.is(TokenType.SET_OPEN) && tokens.nextIsnt(TokenType.SET_CLOSE))
-        return tokens.consumeUnparsable(ErrorMessage.EXPECTED_SET_CLOSE);
-    if(open.is(TokenType.MAP_OPEN) && tokens.nextIsnt(TokenType.MAP_CLOSE))
-        return tokens.consumeUnparsable(ErrorMessage.EXPECTED_MAP_CLOSE);
-    const close = tokens.consume();
-    return new CompoundType(open, type, close);
+    if(open.is(TokenType.LIST_OPEN)) {
+        if(tokens.nextIsnt(TokenType.LIST_CLOSE))
+            return tokens.consumeUnparsable(ErrorMessage.EXPECTED_LIST_CLOSE);
+        const close = tokens.consume();
+        return new CompoundType(open, type, close);    
+    }
+    if(open.is(TokenType.SET_OPEN)) {
+        if(tokens.nextIsnt(TokenType.SET_CLOSE))
+            return tokens.consumeUnparsable(ErrorMessage.EXPECTED_SET_CLOSE);
+        const close = tokens.consume();
+        return new CompoundType(open, type, close);    
+    }
+    if(open.is(TokenType.MAP_OPEN)) {
+        if(tokens.nextIsnt(TokenType.BIND))
+            return tokens.consumeUnparsable(ErrorMessage.EXPECTED_MAP_BIND);
+        const bind = tokens.consume();
+        const value = parseType(tokens);
+        if(tokens.nextIsnt(TokenType.MAP_CLOSE))
+            return tokens.consumeUnparsable(ErrorMessage.EXPECTED_MAP_CLOSE);
+        const close = tokens.consume();
+        return new MapType(open, type, bind, value, close);
+    }
+    return tokens.consumeUnparsable(ErrorMessage.EXPECTED_TYPE);
 }
