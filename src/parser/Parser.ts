@@ -60,17 +60,17 @@ class Tokens {
 
     /** Returns true if and only if the next token is the specified type. */
     nextIs(type: TokenType): boolean {
-        return this.hasNext() && this.tokens[0].type === type;
+        return this.hasNext() && this.tokens[0].is(type);
     }
 
     /** Returns true if and only if there is a next token and it's not the specified type. */
     nextIsnt(type: TokenType): boolean {
-        return this.hasNext() && this.tokens[0].type !== type;
+        return this.hasNext() && this.tokens[0].isnt(type);
     }
     
     /** Returns true if and only if the next series of tokens matches the series of given token types. */
     nextAre(...types: TokenType[]) {
-        return types.every((type, index) => index < this.tokens.length && this.tokens[index].type === type);
+        return types.every((type, index) => index < this.tokens.length && this.tokens[index].is(type));
     }
 
     nextIsOneOf(...types: TokenType[]): boolean {
@@ -82,12 +82,12 @@ class Tokens {
         if(this.hasNext())
             return this.tokens.shift() as Token;
         else
-            return new Token(TokenType.END, "");
+            return new Token("", [ TokenType.END ]);
     }
 
     /** Returns a token list without all of the tokens until the next line or the end of the list. */
     consumeUnparsable(reason: ErrorMessage): Unparsable {
-        const index = this.tokens.findIndex(t => t.type === TokenType.LINES);
+        const index = this.tokens.findIndex(t => t.is(TokenType.LINES));
         return new Unparsable(reason, this.tokens.splice(0, index < 0 ? this.tokens.length : index));
     }
 
@@ -98,7 +98,7 @@ export function parse(code: string): Program {
 }
 
 export function parseTokens(tokens: Token[]): Program {
-    return parseProgram(new Tokens(tokens.filter(t => t.type !== TokenType.SPACE)));
+    return parseProgram(new Tokens(tokens.filter(t => !t.is(TokenType.SPACE))));
 }
 
 // PROGRAM :: BORROW* BLOCK
@@ -219,7 +219,7 @@ function parseExpression(tokens: Tokens): Expression {
         // A string template
         tokens.nextIs(TokenType.TEXT_OPEN) ? parseTemplate(tokens) :
         // Unary expressions!
-        (tokens.nextIs(TokenType.UNARY) || tokens.peek() === "-") ? new UnaryOperation(tokens.consume(), parseExpression(tokens)) :
+        (tokens.nextIs(TokenType.UNARY)) ? new UnaryOperation(tokens.consume(), parseExpression(tokens)) :
         // Anything that doesn't is unparsable.
         tokens.consumeUnparsable(ErrorMessage.EXPECTED_EXPRESSION)
     );
@@ -233,7 +233,7 @@ function parseExpression(tokens: Tokens): Expression {
 
     // Finally, keep reading binary operators until we see no more. Order of operations is 
     // plain left to right; we rely on tools to warn about evaluation order.
-    while(tokens.nextIs(TokenType.BINARY) || (tokens.nextIs(TokenType.UNARY) && tokens.peek() === "-")) {
+    while(tokens.nextIs(TokenType.BINARY)) {
         const operator = tokens.consume();
         const right = parseExpression(tokens);
         left = new BinaryOperation(operator, left, right);
@@ -444,7 +444,7 @@ function parseType(tokens: Tokens): Type | Unparsable {
         tokens.consumeUnparsable(ErrorMessage.EXPECTED_TYPE)
     );
 
-    while(tokens.peek() === "|")
+    while(tokens.nextIs(TokenType.UNION))
         left = new UnionType(left, tokens.consume(), parseType(tokens));
     
     return left;
@@ -454,11 +454,11 @@ function parseType(tokens: Tokens): Type | Unparsable {
 function parseCompoundType(tokens: Tokens): CompoundType | Unparsable {
     const open = tokens.consume();
     const type = parseType(tokens);
-    if(open.type === TokenType.LIST_OPEN && !tokens.nextIs(TokenType.LIST_CLOSE))
+    if(open.is(TokenType.LIST_OPEN) && tokens.nextIsnt(TokenType.LIST_CLOSE))
         return tokens.consumeUnparsable(ErrorMessage.EXPECTED_LIST_CLOSE);
-    if(open.type === TokenType.SET_OPEN && !tokens.nextIs(TokenType.SET_CLOSE))
+    if(open.is(TokenType.SET_OPEN) && tokens.nextIsnt(TokenType.SET_CLOSE))
         return tokens.consumeUnparsable(ErrorMessage.EXPECTED_SET_CLOSE);
-    if(open.type === TokenType.MAP_OPEN && !tokens.nextIs(TokenType.MAP_CLOSE))
+    if(open.is(TokenType.MAP_OPEN) && tokens.nextIsnt(TokenType.MAP_CLOSE))
         return tokens.consumeUnparsable(ErrorMessage.EXPECTED_MAP_CLOSE);
     const close = tokens.consume();
     return new CompoundType(open, type, close);

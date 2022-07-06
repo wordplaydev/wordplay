@@ -9,6 +9,7 @@ export enum TokenType {
     LIST_CLOSE, // ]
     MAP_OPEN,   // [
     MAP_CLOSE,  // ]
+    COLUMN,     // |
     BIND,       // :
     ACCESS,     // .
     FUNCTION,   // ƒ
@@ -18,7 +19,7 @@ export enum TokenType {
     ERROR,      // !
     TYPE,       // •
     PRIMITIVE,  // ?"#!
-    BAR,        // |
+    UNION,      // |
     // These are the only operators eligible for unary or infix notation.
     // We’ve included them for consistency with math notation.
     BINARY,     // +-×÷%<≤≥>&|
@@ -46,16 +47,18 @@ export enum TokenType {
 }
 
 export class Token extends Node {
-    readonly type: TokenType;
+    readonly types: TokenType[];
     readonly text: string;
-    constructor(type: TokenType, text: string) {
+    constructor(text: string, types: TokenType[]) {
         super();
-        this.type = type;
+        this.types = types.slice();
         this.text = text;
     }
     getLength() { return this.text.length; }
     getChildren() { return []; }
-    isName() { return this.type === TokenType.NAME; }
-    toString(depth: number=0){ return `${"\t".repeat(depth)}${TokenType[this.type]}: ${this.text.replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
+    isnt(type: TokenType) { return !this.is(type); }
+    is(type: TokenType) { return this.types.includes(type); }
+    isName() { return this.is(TokenType.NAME); }
+    toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}: ${this.text.replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
     toWordplay() { return this.text; }
 }
