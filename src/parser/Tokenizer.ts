@@ -35,7 +35,6 @@ const patterns = [
     { pattern: "⊥", type: TokenType.BOOLEAN },
     { pattern: /^\n+/, type: TokenType.LINES },
     { pattern: /^[ \t]+/, type: TokenType.SPACE },
-    // Match all of the string open/close patterns before matching just an open or close parenthesis.
     // Also match the open and close patterns before the regular string patterns.
     { pattern: /^\)[^\)]*?\(/, type: TokenType.TEXT_BETWEEN },
     { pattern: /^["“”„].*?["“”\(]/u, type: TokenType.TEXT_OPEN },
@@ -55,8 +54,11 @@ const patterns = [
     { pattern: /^«.*?»/u, type: TokenType.TEXT },
     { pattern: /^「.*?」/u, type: TokenType.TEXT },
     { pattern: /^『.*?』/u, type: TokenType.TEXT },
+    // Match all of the string open/close patterns before matching just an open or close parenthesis.
     { pattern: "(", type: TokenType.EVAL_OPEN },
     { pattern: ")", type: TokenType.EVAL_CLOSE },
+    // Match primtive types after strings since one is a standalone quote symbol.
+    { pattern: /^[?#!'"‹‘“„«「]/u, type: TokenType.PRIMITIVE },
     { pattern: /^\/[a-z]{3}/, type: TokenType.LANGUAGE },
     // One or more unicode characters that are not one of the reserved characters
     { pattern: /^[^\(\)\[\]\{\}:.ƒ↓↑`!•… \t\n+\-×÷%<≤≥>~&|'‘’"“”„«»‹›「」『』🙂🙃\/]+/u, type: TokenType.NAME }

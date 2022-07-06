@@ -7,8 +7,8 @@ export enum TokenType {
     SET_CLOSE,  // }
     LIST_OPEN,  // [
     LIST_CLOSE, // ]
-    MAP_OPEN,  // [
-    MAP_CLOSE, // ]
+    MAP_OPEN,   // [
+    MAP_CLOSE,  // ]
     BIND,       // :
     ACCESS,     // .
     FUNCTION,   // ƒ
@@ -17,6 +17,8 @@ export enum TokenType {
     DOCS,       // `
     ERROR,      // !
     TYPE,       // •
+    PRIMITIVE,  // ?"#!
+    BAR,        // |
     // These are the only operators eligible for unary or infix notation.
     // We’ve included them for consistency with math notation.
     BINARY,     // +-×÷%<≤≥>&|
