@@ -20,6 +20,7 @@ import PrimitiveType from "./PrimitiveType";
 import CompoundType from "./CompoundType";
 import UnionType from "./UnionType";
 import MapType from "./MapType";
+import Oops from "./Oops";
 
 export enum ErrorMessage {
     EXPECTED_BORROW,
@@ -40,7 +41,8 @@ export enum ErrorMessage {
     EXPECTED_TYPE,
     EXPECTED_ACCESS_NAME,
     EXPECTED_TEXT_OPEN,
-    EXPECTED_TEXT_CLOSE
+    EXPECTED_TEXT_CLOSE,
+    EXPECTED_ERROR_NAME
 }
 
 class Tokens {
@@ -215,6 +217,8 @@ function parseExpression(tokens: Tokens): Expression {
     let left: Expression = (
         // Literal tokens
         tokens.nextIsOneOf(TokenType.NAME, TokenType.NUMBER, TokenType.BOOLEAN, TokenType.TEXT) ? tokens.read() :
+        // Errors
+        tokens.nextIs(TokenType.ERROR) ? parseError(tokens): 
         // A block
         tokens.nextAre(TokenType.EVAL_OPEN, TokenType.LINES) ? parseBlock(true, tokens) :
         // A parenthetical
@@ -250,6 +254,17 @@ function parseExpression(tokens: Tokens): Expression {
 
     // Return the beautiful tree we built.
     return left;
+
+}
+
+function parseError(tokens: Tokens): Oops | Unparsable {
+
+    const error = tokens.read();
+    if(tokens.nextIs(TokenType.NAME)) {
+        const name = tokens.read();
+        return new Oops(error, name);
+    }
+    return tokens.readUnparsableLine(ErrorMessage.EXPECTED_ERROR_NAME);
 
 }
 
