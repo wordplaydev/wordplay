@@ -1,20 +1,22 @@
+import { tokenize } from "./Tokenizer";
+import { Token, TokenType } from "./Token";
+
+import type Expression from "./Expression";
+import type Type from "./Type";
+
 import Program from "./Program";
 import Borrow from "./Borrow";
-import { Token, TokenType } from "./Token";
 import Unparsable from "./Unparsable";
 import Block from "./Block";
-import type Expression from "./Expression";
 import List from "./List";
 import SetNode from "./Set";
 import MapNode from "./Map";
 import Bind from "./Bind";
-import type Type from "./Type";
 import Evaluate from "./Evaluate";
 import UnaryOperation from "./UnaryOperation";
 import BinaryOperation from "./BinaryOperation";
 import AccessName from "./AccessName";
 import Parenthetical from "./Parenthetical";
-import { tokenize } from "./Tokenizer";
 import Template from "./Template";
 import UnionType from "./UnionType";
 import MapType from "./MapType";
