@@ -16,20 +16,10 @@ const patterns = [
     { pattern: "!", type: TokenType.ERROR },
     { pattern: "•", type: TokenType.TYPE },
     { pattern: "…", type: TokenType.STREAM },
-    // Tokenize numbers before - gets slurped up.
+    // Tokenize numbers before - gets slurped up, to allow for negative numbers.
     { pattern: /^-?[0-9]+([.,][0-9]+)?/, type: TokenType.NUMBER },
-    { pattern: "+", type: TokenType.BINARY },
-    { pattern: "-", type: TokenType.BINARY },
-    { pattern: "×", type: TokenType.BINARY },
-    { pattern: "*", type: TokenType.BINARY },
-    { pattern: "÷", type: TokenType.BINARY },
-    { pattern: "%", type: TokenType.BINARY },
-    { pattern: "<", type: TokenType.BINARY },
-    { pattern: ">", type: TokenType.BINARY },
-    { pattern: "≤", type: TokenType.BINARY },
-    { pattern: "≥", type: TokenType.BINARY },
-    { pattern: "&", type: TokenType.BINARY },
-    { pattern: "|", type: TokenType.BINARY },
+    { pattern: /^[-+×*^÷%<>≤≥=≠]/u, type: TokenType.BINARY },
+    { pattern: /^[&|]/, type: TokenType.BINARY },
     { pattern: "~", type: TokenType.UNARY },
     { pattern: "⊤", type: TokenType.BOOLEAN },
     { pattern: "⊥", type: TokenType.BOOLEAN },
@@ -62,7 +52,7 @@ const patterns = [
     { pattern: /^[?#!'"‹‘“„«「]/u, type: TokenType.PRIMITIVE },
     { pattern: /^\/[a-z]{3}/, type: TokenType.LANGUAGE },
     // One or more unicode characters that are not one of the reserved characters
-    { pattern: /^[^\(\)\[\]\{\}:.ƒ↓↑`!•… \t\n+\-×÷%<≤≥>~&|'‘’"“”„«»‹›「」『』🙂🙃\/]+/u, type: TokenType.NAME }
+    { pattern: /^[^\(\)\[\]\{\}:.ƒ↓↑`!•… \t\n+\-×*^÷%<≤=≠≥>~&|'‘’"“”„«»‹›「」『』🙂🙃\/]+/u, type: TokenType.NAME }
 ];
 
 export function tokenize(source: string): Token[] {
