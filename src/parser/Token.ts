@@ -47,18 +47,25 @@ export enum TokenType {
 }
 
 export class Token extends Node {
+    /** The one or more types of token this might represent. */
     readonly types: TokenType[];
+    /** The text of the token */
     readonly text: string;
-    constructor(text: string, types: TokenType[]) {
+    /** The index in the source file at which this token starts. */
+    readonly index: number;
+
+    constructor(text: string, types: TokenType[], index: number) {
         super();
         this.types = types.slice();
         this.text = text;
+        this.index = index;
     }
+    getIndex() { return this.index; }
     getLength() { return this.text.length; }
     getChildren() { return []; }
     isnt(type: TokenType) { return !this.is(type); }
     is(type: TokenType) { return this.types.includes(type); }
     isName() { return this.is(TokenType.NAME); }
-    toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}: ${this.text.replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
+    toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}(${this.index}): ${this.text.replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
     toWordplay() { return this.text; }
 }

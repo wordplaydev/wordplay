@@ -61,29 +61,33 @@ const patterns = [
 
 export function tokenize(source: string): Token[] {
     const tokens: Token[] = [];
+    let index = 0;
     while(source.length > 0) {
-        const nextToken = getNextToken(source);
+        const nextToken = getNextToken(source, index);
+        const length = nextToken.getLength();
+        source = source.substring(length);
         tokens.push(nextToken);
-        source = source.substring(nextToken.getLength());
+        index += length;
     }
     return tokens;
 }
 
-function getNextToken(source: string): Token {
+function getNextToken(source: string, index: number): Token {
     let c = source.charAt(0);
     // See if one of the more complex regular expression patterns matches.
     for(let i = 0; i < patterns.length; i++) {
         const pattern = patterns[i];
+        // If it's a string pattern, just see if the source starts with it.
         if(typeof pattern.pattern === 'string' && source.startsWith(pattern.pattern))
-            return new Token(pattern.pattern, pattern.types);
+            return new Token(pattern.pattern, pattern.types, index);
         else if(pattern.pattern instanceof RegExp) {
             const match = source.match(pattern.pattern);
             if(match !== null)
-                return new Token(match[0], pattern.types);
+                return new Token(match[0], pattern.types, index);
         }
     }
 
     // Otherwise, we fail and return an error token that contains the remainder of the text.
-    return new Token(source, [ TokenType.OOPS ]);
+    return new Token(source, [ TokenType.OOPS ], index);
 
 }

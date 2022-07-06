@@ -44,34 +44,39 @@ export enum ErrorMessage {
 }
 
 class Tokens {
-    readonly tokens: Token[];
+    /** The tokens that have been read. */
+    readonly #read: Token[] = [];
+
+    /** The tokens that have yet to be read. */
+    readonly #unread: Token[];
+
     constructor(tokens: Token[]) {
-        this.tokens = tokens;
+        this.#unread = tokens;
     }
 
     /** Returns the text of the next token */
     peek(): string | undefined {
-        return this.hasNext() ? this.tokens[0].text : undefined
+        return this.hasNext() ? this.#unread[0].text : undefined
     }
 
     /** Returns true if the token list isn't empty. */
     hasNext(): boolean {
-        return this.tokens.length > 0;
+        return this.#unread.length > 0;
     }
 
     /** Returns true if and only if the next token is the specified type. */
     nextIs(type: TokenType): boolean {
-        return this.hasNext() && this.tokens[0].is(type);
+        return this.hasNext() && this.#unread[0].is(type);
     }
 
     /** Returns true if and only if there is a next token and it's not the specified type. */
     nextIsnt(type: TokenType): boolean {
-        return this.hasNext() && this.tokens[0].isnt(type);
+        return this.hasNext() && this.#unread[0].isnt(type);
     }
     
     /** Returns true if and only if the next series of tokens matches the series of given token types. */
     nextAre(...types: TokenType[]) {
-        return types.every((type, index) => index < this.tokens.length && this.tokens[index].is(type));
+        return types.every((type, index) => index < this.#unread.length && this.#unread[index].is(type));
     }
 
     nextIsOneOf(...types: TokenType[]): boolean {
@@ -79,17 +84,20 @@ class Tokens {
     }
 
     /** Returns a token list without the first token. */
-    consume(): Token {
-        if(this.hasNext())
-            return this.tokens.shift() as Token;
+    read(): Token {
+        if(this.hasNext()) {
+            const token = this.#unread.shift() as Token;
+            this.#read.push(token);
+            return token;
+        }
         else
-            return new Token("", [ TokenType.END ]);
+            return new Token("", [ TokenType.END ], this.#read.length === 0 ? 0 : this.#read[this.#read.length - 1].getIndex() + this.#read[this.#read.length - 1].getLength());
     }
 
     /** Returns a token list without all of the tokens until the next line or the end of the list. */
-    consumeUnparsable(reason: ErrorMessage): Unparsable {
-        const index = this.tokens.findIndex(t => t.is(TokenType.LINES));
-        return new Unparsable(reason, this.tokens.splice(0, index < 0 ? this.tokens.length : index));
+    readUnparsableLine(reason: ErrorMessage): Unparsable {
+        const index = this.#unread.findIndex(t => t.is(TokenType.LINES));
+        return new Unparsable(reason, this.#unread.splice(0, index < 0 ? this.#unread.length : index));
     }
 
 }
@@ -107,7 +115,7 @@ export function parseProgram(tokens: Tokens): Program {
 
     // Consume some lines.
     if(tokens.nextIs(TokenType.LINES))
-        tokens.consume();
+        tokens.read();
 
     const borrows = [];
     while(tokens.nextIs(TokenType.BORROW))
@@ -115,7 +123,7 @@ export function parseProgram(tokens: Tokens): Program {
 
     // Consume some more lines.
     if(tokens.nextIs(TokenType.LINES))
-        tokens.consume();
+        tokens.read();
 
     const block = parseBlock(false, tokens);
 
@@ -129,17 +137,17 @@ export function parseBorrow(tokens: Tokens): Borrow | Unparsable {
     let name;
     let version;
     if(tokens.nextIs(TokenType.BORROW))
-        borrow = tokens.consume();
+        borrow = tokens.read();
     else 
-        return tokens.consumeUnparsable(ErrorMessage.EXPECTED_BORROW);
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_BORROW);
 
     if(tokens.nextIs(TokenType.NAME))
-        name = tokens.consume();
+        name = tokens.read();
     else
-        return tokens.consumeUnparsable(ErrorMessage.EXPECTED_NAME);
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_NAME);
 
     if(tokens.nextIs(TokenType.NUMBER))
-        version = tokens.consume();
+        version = tokens.read();
 
     return new Borrow(borrow, name, version);
 }
@@ -152,12 +160,12 @@ export function parseBlock(expectParentheses: boolean, tokens: Tokens): Block {
 
     if(expectParentheses) {
         open = tokens.nextIs(TokenType.EVAL_OPEN) ? 
-            tokens.consume() :
-            tokens.consumeUnparsable(ErrorMessage.EXPECTED_EVAL_OPEN);
+            tokens.read() :
+            tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
         if(tokens.nextIs(TokenType.LINES))
-            tokens.consume();
+            tokens.read();
         else
-            tokens.consumeUnparsable(ErrorMessage.EXPECTED_LINES);
+            tokens.readUnparsableLine(ErrorMessage.EXPECTED_LINES);
     }
 
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE)) {
@@ -166,15 +174,15 @@ export function parseBlock(expectParentheses: boolean, tokens: Tokens): Block {
         else
             statements.push(parseExpression(tokens));
         if(tokens.nextIs(TokenType.LINES))
-            tokens.consume();
+            tokens.read();
         else if(tokens.hasNext())
-            statements.push(tokens.consumeUnparsable(ErrorMessage.EXPECTED_LINES))
+            statements.push(tokens.readUnparsableLine(ErrorMessage.EXPECTED_LINES))
     }
 
     if(expectParentheses) {
         close = tokens.nextIs(TokenType.EVAL_CLOSE) ? 
-            tokens.consume() :
-            tokens.consumeUnparsable(ErrorMessage.EXPECTED_EVAL_CLOSE);
+            tokens.read() :
+            tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_CLOSE);
     }
 
     return new Block(statements, open, close);
@@ -206,7 +214,7 @@ function parseExpression(tokens: Tokens): Expression {
     // All expressions must start with one of the following
     let left: Expression = (
         // Literal tokens
-        tokens.nextIsOneOf(TokenType.NAME, TokenType.NUMBER, TokenType.BOOLEAN, TokenType.TEXT) ? tokens.consume() :
+        tokens.nextIsOneOf(TokenType.NAME, TokenType.NUMBER, TokenType.BOOLEAN, TokenType.TEXT) ? tokens.read() :
         // A block
         tokens.nextAre(TokenType.EVAL_OPEN, TokenType.LINES) ? parseBlock(true, tokens) :
         // A parenthetical
@@ -220,9 +228,9 @@ function parseExpression(tokens: Tokens): Expression {
         // A string template
         tokens.nextIs(TokenType.TEXT_OPEN) ? parseTemplate(tokens) :
         // Unary expressions!
-        (tokens.nextIs(TokenType.UNARY)) ? new UnaryOperation(tokens.consume(), parseExpression(tokens)) :
+        (tokens.nextIs(TokenType.UNARY)) ? new UnaryOperation(tokens.read(), parseExpression(tokens)) :
         // Anything that doesn't is unparsable.
-        tokens.consumeUnparsable(ErrorMessage.EXPECTED_EXPRESSION)
+        tokens.readUnparsableLine(ErrorMessage.EXPECTED_EXPRESSION)
     );
 
     // But wait! Is it one or more accessors? Slurp them up.
@@ -235,7 +243,7 @@ function parseExpression(tokens: Tokens): Expression {
     // Finally, keep reading binary operators until we see no more. Order of operations is 
     // plain left to right; we rely on tools to warn about evaluation order.
     while(tokens.nextIs(TokenType.BINARY)) {
-        const operator = tokens.consume();
+        const operator = tokens.read();
         const right = parseExpression(tokens);
         left = new BinaryOperation(operator, left, right);
     }
@@ -249,15 +257,15 @@ function parseParenthetical(tokens: Tokens): Parenthetical | Unparsable {
     let open;
     let close;
     if(tokens.nextIs(TokenType.EVAL_OPEN))
-        open = tokens.consume();
+        open = tokens.read();
     else
-        return tokens.consumeUnparsable(ErrorMessage.EXPECTED_EVAL_OPEN);
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
 
     const value = parseExpression(tokens);
     if(tokens.nextIs(TokenType.EVAL_CLOSE))
-        close = tokens.consume();
+        close = tokens.read();
     else
-        return tokens.consumeUnparsable(ErrorMessage.EXPECTED_EVAL_CLOSE);
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_CLOSE);
 
     return new Parenthetical(open, value, close);
 
@@ -268,11 +276,11 @@ function parseAccess(left: Expression, tokens: Tokens): Expression | Unparsable 
         return left;
     do {
 
-        const access = tokens.consume();
+        const access = tokens.read();
         let name;
         if(tokens.nextIs(TokenType.NAME))
-            name = tokens.consume();
-        else return tokens.consumeUnparsable(ErrorMessage.EXPECTED_ACCESS_NAME);
+            name = tokens.read();
+        else return tokens.readUnparsableLine(ErrorMessage.EXPECTED_ACCESS_NAME);
 
         left = new AccessName(left, access, name);
 
@@ -288,7 +296,7 @@ function parseAccess(left: Expression, tokens: Tokens): Expression | Unparsable 
 
 function parseEval(left: Expression, tokens: Tokens): Evaluate | Unparsable {
 
-    const open = tokens.consume();
+    const open = tokens.read();
     const objects = [];
     let close;
     
@@ -296,9 +304,9 @@ function parseEval(left: Expression, tokens: Tokens): Evaluate | Unparsable {
         objects.push(parseExpression(tokens));
     
     if(tokens.nextIs(TokenType.EVAL_CLOSE))
-        close = tokens.consume();
+        close = tokens.read();
     else
-        return tokens.consumeUnparsable(ErrorMessage.EXPECTED_EVAL_OPEN);
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
     
     return new Evaluate(open, left, objects, close);    
 
@@ -311,23 +319,23 @@ function parseDelimited<T extends Expression | Bind>(tokens: Tokens, openType: T
     let close;
 
     if(tokens.nextIs(openType))
-        open = tokens.consume();
+        open = tokens.read();
     else
-        return tokens.consumeUnparsable(openError);
+        return tokens.readUnparsableLine(openError);
 
     while(tokens.nextIs(TokenType.LINES))
-        tokens.consume();
+        tokens.read();
 
     while(tokens.nextIsnt(closeType)) {
         values.push((bind ? parseBind(tokens) : parseExpression(tokens)) as T|Unparsable);
         while(tokens.nextIs(TokenType.LINES))
-           tokens.consume();
+           tokens.read();
     }
 
     if(tokens.nextIs(closeType))
-        close = tokens.consume();
+        close = tokens.read();
     else
-        return tokens.consumeUnparsable(closeError);
+        return tokens.readUnparsableLine(closeError);
 
     return [ open, values, close ];
 
@@ -384,19 +392,19 @@ function parseBind(tokens: Tokens): Bind | Unparsable {
     let type;
 
     if(tokens.nextIs(TokenType.NAME))
-        name = tokens.consume();
+        name = tokens.read();
     else
-        return tokens.consumeUnparsable(ErrorMessage.EXPECTED_MAP_NAME);
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_MAP_NAME);
 
     if(tokens.nextIs(TokenType.TYPE)) {
-        dot = tokens.consume();
+        dot = tokens.read();
         type = parseType(tokens);
     }
 
     if(tokens.nextIs(TokenType.BIND))
-        colon = tokens.consume();
+        colon = tokens.read();
     else
-        return tokens.consumeUnparsable(ErrorMessage.EXPECTED_NAME_BIND);
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_NAME_BIND);
 
     value = parseExpression(tokens);
 
@@ -409,20 +417,20 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
     const parts = [];
 
     if(!tokens.nextIs(TokenType.TEXT_OPEN))
-        return tokens.consumeUnparsable(ErrorMessage.EXPECTED_TEXT_OPEN);
-    parts.push(tokens.consume());
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TEXT_OPEN);
+    parts.push(tokens.read());
 
     do {
         const expression = parseExpression(tokens);
         if(expression instanceof Unparsable) return expression;
         parts.push(expression);
         if(tokens.nextIs(TokenType.TEXT_BETWEEN))
-            parts.push(tokens.consume());
+            parts.push(tokens.read());
     } while(tokens.nextIsnt(TokenType.TEXT_CLOSE));
 
     if(!tokens.nextIs(TokenType.TEXT_CLOSE))
-        return tokens.consumeUnparsable(ErrorMessage.EXPECTED_TEXT_CLOSE);
-    parts.push(tokens.consume());
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TEXT_CLOSE);
+    parts.push(tokens.read());
 
     return new Template(parts);
 
@@ -440,42 +448,42 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
  * */
 function parseType(tokens: Tokens): Type | Unparsable {
     let left: Type = (
-        tokens.nextIsOneOf(TokenType.PRIMITIVE, TokenType.ERROR, TokenType.NAME) ? new PrimitiveType(tokens.consume()) :
+        tokens.nextIsOneOf(TokenType.PRIMITIVE, TokenType.ERROR, TokenType.NAME) ? new PrimitiveType(tokens.read()) :
         tokens.nextIsOneOf(TokenType.LIST_OPEN, TokenType.SET_OPEN, TokenType.MAP_OPEN) ? parseCompoundType(tokens) :
-        tokens.consumeUnparsable(ErrorMessage.EXPECTED_TYPE)
+        tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE)
     );
 
     while(tokens.nextIs(TokenType.UNION))
-        left = new UnionType(left, tokens.consume(), parseType(tokens));
+        left = new UnionType(left, tokens.read(), parseType(tokens));
     
     return left;
 
 }
 
 function parseCompoundType(tokens: Tokens): CompoundType | MapType | Unparsable {
-    const open = tokens.consume();
+    const open = tokens.read();
     const type = parseType(tokens);
     if(open.is(TokenType.LIST_OPEN)) {
         if(tokens.nextIsnt(TokenType.LIST_CLOSE))
-            return tokens.consumeUnparsable(ErrorMessage.EXPECTED_LIST_CLOSE);
-        const close = tokens.consume();
+            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_LIST_CLOSE);
+        const close = tokens.read();
         return new CompoundType(open, type, close);    
     }
     if(open.is(TokenType.SET_OPEN)) {
         if(tokens.nextIsnt(TokenType.SET_CLOSE))
-            return tokens.consumeUnparsable(ErrorMessage.EXPECTED_SET_CLOSE);
-        const close = tokens.consume();
+            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_SET_CLOSE);
+        const close = tokens.read();
         return new CompoundType(open, type, close);    
     }
     if(open.is(TokenType.MAP_OPEN)) {
         if(tokens.nextIsnt(TokenType.BIND))
-            return tokens.consumeUnparsable(ErrorMessage.EXPECTED_MAP_BIND);
-        const bind = tokens.consume();
+            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_MAP_BIND);
+        const bind = tokens.read();
         const value = parseType(tokens);
         if(tokens.nextIsnt(TokenType.MAP_CLOSE))
-            return tokens.consumeUnparsable(ErrorMessage.EXPECTED_MAP_CLOSE);
-        const close = tokens.consume();
+            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_MAP_CLOSE);
+        const close = tokens.read();
         return new MapType(open, type, bind, value, close);
     }
-    return tokens.consumeUnparsable(ErrorMessage.EXPECTED_TYPE);
+    return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE);
 }
