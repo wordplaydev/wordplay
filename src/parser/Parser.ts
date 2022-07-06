@@ -218,7 +218,7 @@ function parseExpression(tokens: Tokens): Expression {
         // Literal tokens
         tokens.nextIsOneOf(TokenType.NAME, TokenType.NUMBER, TokenType.BOOLEAN, TokenType.TEXT) ? tokens.read() :
         // Errors
-        tokens.nextIs(TokenType.ERROR) ? parseError(tokens): 
+        tokens.nextIs(TokenType.OOPS) ? parseOops(tokens): 
         // A block
         tokens.nextAre(TokenType.EVAL_OPEN, TokenType.LINES) ? parseBlock(true, tokens) :
         // A parenthetical
@@ -257,7 +257,7 @@ function parseExpression(tokens: Tokens): Expression {
 
 }
 
-function parseError(tokens: Tokens): Oops | Unparsable {
+function parseOops(tokens: Tokens): Oops | Unparsable {
 
     const error = tokens.read();
     if(tokens.nextIs(TokenType.NAME)) {
@@ -463,7 +463,7 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
  * */
 function parseType(tokens: Tokens): Type | Unparsable {
     let left: Type = (
-        tokens.nextIsOneOf(TokenType.PRIMITIVE, TokenType.ERROR, TokenType.NAME) ? new PrimitiveType(tokens.read()) :
+        tokens.nextIsOneOf(TokenType.PRIMITIVE, TokenType.OOPS, TokenType.NAME) ? new PrimitiveType(tokens.read()) :
         tokens.nextIsOneOf(TokenType.LIST_OPEN, TokenType.SET_OPEN, TokenType.MAP_OPEN) ? parseCompoundType(tokens) :
         tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE)
     );

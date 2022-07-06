@@ -14,7 +14,7 @@ const patterns = [
     { pattern: "↓", types: [ TokenType.BORROW ] },
     { pattern: "↑", types: [ TokenType.SHARE ] },
     { pattern: "`", types: [ TokenType.DOCS ] },
-    { pattern: "!", types: [ TokenType.ERROR ] },
+    { pattern: "!", types: [ TokenType.OOPS ] },
     { pattern: "•", types: [ TokenType.TYPE ] },
     { pattern: "…", types: [ TokenType.STREAM ] },
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
@@ -88,6 +88,6 @@ function getNextToken(source: string, index: number): Token {
     }
 
     // Otherwise, we fail and return an error token that contains the remainder of the text.
-    return new Token(source, [ TokenType.OOPS ], index);
+    return new Token(source, [ TokenType.UNKNOWN ], index);
 
 }

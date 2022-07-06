@@ -16,7 +16,7 @@ export enum TokenType {
     BORROW,     // ↓
     SHARE,      // ↑
     DOCS,       // `
-    ERROR,      // !
+    OOPS,      // !
     TYPE,       // •
     PRIMITIVE,  // ?"#!
     UNION,      // |
@@ -42,7 +42,7 @@ export enum TokenType {
     SPACE,      // [ \t]+
     LINES,       // \n
     NAME,       // .+
-    OOPS,        // Represents any characters that couldn't be tokenized.
+    UNKNOWN,        // Represents any characters that couldn't be tokenized.
     END
 }
 
