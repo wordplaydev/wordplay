@@ -1,16 +1,23 @@
 import Node from "./Node";
+import type Block from "./Block";
+import type Borrow from "./Borrow";
+import type Unparsable from "./Unparsable";
 
 export default class Program extends Node {
     
-    readonly placeholder: string;
+    readonly borrows: (Borrow|Unparsable)[];
+    readonly block: Block;
 
-    constructor(placeholder: string) {
+    constructor(borrows: (Borrow|Unparsable)[], block: Block) {
         super();
-        this.placeholder = placeholder;
+        this.borrows = borrows.slice();
+        this.block = block;
     }
 
+    getChildren() { return [ ...this.borrows, this.block ]; }
+
     toWordplay(): string {
-        return this.placeholder;
+        return `${this.borrows.map(b => b.toWordplay()).join("\n")}${this.block.toWordplay()}`;
     }
 
 }

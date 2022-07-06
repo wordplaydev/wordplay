@@ -3,13 +3,14 @@
     import Project from '../models/Project';
     import Document from '../models/Document';
     import { project } from '../models/stores';
-    import { parse, tokenize } from '../parser/Parser';
+    import { parse } from '../parser/Parser';
+    import { tokenize } from '../parser/Tokenizer'
 
     import Manager from '../components/Manager.svelte';
 
-    const code = new Document("code", "hi" );
+    const code = new Document("code", "" );
     const tokens = new Document("tokens", code, doc => tokenize(doc.getContent()).map(t => t.toString()).join("\n"));
-    const tree = new Document("tree", code, doc => parse(tokenize(doc.getContent())).toWordplay());
+    const tree = new Document("ast", code, doc => parse(doc.getContent()).toString());
 
     project.set(new Project("Play", [
         code,

@@ -1,4 +1,4 @@
-import { tokenize} from "./Parser";
+import { tokenize } from "./Tokenizer";
 
 test("Tokenize names and whitespace", () => {
 
@@ -26,8 +26,8 @@ test("Tokenize punctuation", () => {
 
     expect(tokenize("()[]{}:.ƒ↑↓`!•…").map(t => t.toWordplay()).join("\n"))
         .toBe("(\n)\n[\n]\n{\n}\n:\n.\nƒ\n↑\n↓\n`\n!\n•\n…");
-    expect(tokenize("🙃🙂+-×÷%<>boomy≤≥&|~").map(t => t.toWordplay()).join("\n"))
-        .toBe("🙃\n🙂\n+\n-\n×\n÷\n%\n<\n>\nboomy\n≤\n≥\n&\n|\n~");
+    expect(tokenize("⊥⊤+-×÷%<>boomy≤≥&|~").map(t => t.toWordplay()).join("\n"))
+        .toBe("⊥\n⊤\n+\n-\n×\n÷\n%\n<\n>\nboomy\n≤\n≥\n&\n|\n~");
 
 })
 

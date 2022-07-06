@@ -57,5 +57,6 @@
 
     textarea[readonly] {
         background: var(--wordplay-chrome);
+        tab-size : 2;
     }
 </style>
