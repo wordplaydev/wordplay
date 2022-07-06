@@ -21,6 +21,8 @@ import CompoundType from "./CompoundType";
 import UnionType from "./UnionType";
 import MapType from "./MapType";
 import Oops from "./Oops";
+import Measurement from "./Measurement";
+import MeasurementType from "./MeasurementType";
 
 export enum ErrorMessage {
     EXPECTED_BORROW,
@@ -42,7 +44,8 @@ export enum ErrorMessage {
     EXPECTED_ACCESS_NAME,
     EXPECTED_TEXT_OPEN,
     EXPECTED_TEXT_CLOSE,
-    EXPECTED_ERROR_NAME
+    EXPECTED_ERROR_NAME,
+    EXPECTED_UNIT
 }
 
 class Tokens {
@@ -215,8 +218,10 @@ function parseExpression(tokens: Tokens): Expression {
 
     // All expressions must start with one of the following
     let left: Expression = (
+        // Numbers with units
+        tokens.nextIs(TokenType.NUMBER) ? parseMeasurement(tokens) :
         // Literal tokens
-        tokens.nextIsOneOf(TokenType.NAME, TokenType.NUMBER, TokenType.BOOLEAN, TokenType.TEXT) ? tokens.read() :
+        tokens.nextIsOneOf(TokenType.NAME, TokenType.BOOLEAN, TokenType.TEXT) ? tokens.read() :
         // Errors
         tokens.nextIs(TokenType.OOPS) ? parseOops(tokens): 
         // A block
@@ -254,6 +259,17 @@ function parseExpression(tokens: Tokens): Expression {
 
     // Return the beautiful tree we built.
     return left;
+
+}
+
+function parseMeasurement(tokens: Tokens): Measurement | Unparsable {
+
+    const number = tokens.read();
+    let unit;
+    if(tokens.nextIs(TokenType.NAME)) {
+        unit = tokens.read();
+    }
+    return new Measurement(number, unit);
 
 }
 
@@ -463,6 +479,7 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
  * */
 function parseType(tokens: Tokens): Type | Unparsable {
     let left: Type = (
+        tokens.peek() === "#" ? parseMeasurementType(tokens) :
         tokens.nextIsOneOf(TokenType.PRIMITIVE, TokenType.OOPS, TokenType.NAME) ? new PrimitiveType(tokens.read()) :
         tokens.nextIsOneOf(TokenType.LIST_OPEN, TokenType.SET_OPEN, TokenType.MAP_OPEN) ? parseCompoundType(tokens) :
         tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE)
@@ -472,6 +489,14 @@ function parseType(tokens: Tokens): Type | Unparsable {
         left = new UnionType(left, tokens.read(), parseType(tokens));
     
     return left;
+
+}
+
+function parseMeasurementType(tokens: Tokens): Type {
+
+    const number = tokens.read();
+    const unit = tokens.nextIs(TokenType.NAME) ? tokens.read() : undefined;
+    return new MeasurementType(number, unit);
 
 }
 
