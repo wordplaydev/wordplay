@@ -5,16 +5,18 @@ import type { Token } from "./Token";
 export default class Template extends Node {
     
     readonly parts: (Token|Expression)[];
+    readonly format?: Token;
 
-    constructor(parts: (Token|Expression)[]) {
+    constructor(parts: (Token|Expression)[], format?: Token) {
         super();
 
         this.parts = parts;
+        this.format = format;
     }
 
-    getChildren() { return [ ...this.parts ]; }
+    getChildren() { return this.format ? [ ...this.parts, this.format ] : [ ...this.parts ]; }
     toWordplay(): string {
-        return `${this.parts.map(p => p.toWordplay())}`;
+        return `${this.parts.map(p => p.toWordplay())}${this.format ? this.format.toWordplay() : ""}`;
     }
 
 }

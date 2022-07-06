@@ -1,7 +1,7 @@
 import type { Token } from "./Token";
 import Type from "./Type";
 
-export default class PrimitiveType extends Type {
+export default class NameType extends Type {
 
     readonly type: Token;
 

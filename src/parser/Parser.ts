@@ -16,13 +16,17 @@ import AccessName from "./AccessName";
 import Parenthetical from "./Parenthetical";
 import { tokenize } from "./Tokenizer";
 import Template from "./Template";
-import PrimitiveType from "./PrimitiveType";
+import PrimitiveType from "./OopsType";
 import CompoundType from "./CompoundType";
 import UnionType from "./UnionType";
 import MapType from "./MapType";
 import Oops from "./Oops";
 import Measurement from "./Measurement";
 import MeasurementType from "./MeasurementType";
+import Text from "./Text";
+import NameType from "./NameType";
+import OopsType from "./OopsType";
+import TextType from "./TextType";
 
 export enum ErrorMessage {
     EXPECTED_BORROW,
@@ -220,8 +224,10 @@ function parseExpression(tokens: Tokens): Expression {
     let left: Expression = (
         // Numbers with units
         tokens.nextIs(TokenType.NUMBER) ? parseMeasurement(tokens) :
+        // Text with optional formats
+        tokens.nextIs(TokenType.TEXT) ? parseText(tokens) :
         // Literal tokens
-        tokens.nextIsOneOf(TokenType.NAME, TokenType.BOOLEAN, TokenType.TEXT) ? tokens.read() :
+        tokens.nextIsOneOf(TokenType.NAME, TokenType.BOOLEAN) ? tokens.read() :
         // Errors
         tokens.nextIs(TokenType.OOPS) ? parseOops(tokens): 
         // A block
@@ -262,7 +268,8 @@ function parseExpression(tokens: Tokens): Expression {
 
 }
 
-function parseMeasurement(tokens: Tokens): Measurement | Unparsable {
+/** NUMBER :: number name? */
+function parseMeasurement(tokens: Tokens): Measurement {
 
     const number = tokens.read();
     let unit;
@@ -270,6 +277,20 @@ function parseMeasurement(tokens: Tokens): Measurement | Unparsable {
         unit = tokens.read();
     }
     return new Measurement(number, unit);
+
+}
+
+/** TEXT :: text name? 
+ * 
+ * Most often a 3-letter ISO 639-2 code, but could be anyything: https://en.wikipedia.org/wiki/ISO_639-2
+*/
+function parseText(tokens: Tokens): Text {
+
+    const text = tokens.read();
+    let format;
+    if(tokens.nextIs(TokenType.NAME))
+        format = tokens.read();
+    return new Text(text, format);
 
 }
 
@@ -446,6 +467,7 @@ function parseBind(tokens: Tokens): Bind | Unparsable {
 function parseTemplate(tokens: Tokens): Template | Unparsable {
 
     const parts = [];
+    let format;
 
     if(!tokens.nextIs(TokenType.TEXT_OPEN))
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TEXT_OPEN);
@@ -463,7 +485,11 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TEXT_CLOSE);
     parts.push(tokens.read());
 
-    return new Template(parts);
+    // Read an optional format.
+    if(tokens.nextIs(TokenType.NAME))
+        format = tokens.read();
+
+    return new Template(parts, format);
 
 }
 
@@ -479,8 +505,10 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
  * */
 function parseType(tokens: Tokens): Type | Unparsable {
     let left: Type = (
-        tokens.peek() === "#" ? parseMeasurementType(tokens) :
-        tokens.nextIsOneOf(TokenType.PRIMITIVE, TokenType.OOPS, TokenType.NAME) ? new PrimitiveType(tokens.read()) :
+        tokens.nextIs(TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :
+        tokens.nextIs(TokenType.TEXT_TYPE) ? parseTextType(tokens) :
+        tokens.nextIs(TokenType.OOPS) ? parseOopsType(tokens) :
+        tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read()) :
         tokens.nextIsOneOf(TokenType.LIST_OPEN, TokenType.SET_OPEN, TokenType.MAP_OPEN) ? parseCompoundType(tokens) :
         tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE)
     );
@@ -492,7 +520,23 @@ function parseType(tokens: Tokens): Type | Unparsable {
 
 }
 
-function parseMeasurementType(tokens: Tokens): Type {
+function parseTextType(tokens: Tokens): TextType {
+
+    const quote = tokens.read();
+    const format = tokens.nextIs(TokenType.NAME) ? tokens.read() : undefined;
+    return new TextType(quote, format);
+
+}
+
+function parseOopsType(tokens: Tokens): OopsType {
+
+    const oops = tokens.read();
+    const name = tokens.nextIs(TokenType.NAME) ? tokens.read() : undefined;
+    return new OopsType(oops, name);
+
+}
+
+function parseMeasurementType(tokens: Tokens): MeasurementType {
 
     const number = tokens.read();
     const unit = tokens.nextIs(TokenType.NAME) ? tokens.read() : undefined;

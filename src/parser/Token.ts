@@ -18,7 +18,10 @@ export enum TokenType {
     DOCS,       // `
     OOPS,      // !
     TYPE,       // •
-    PRIMITIVE,  // ?"#!
+    BOOLEAN_TYPE,  // ?
+    TEXT_TYPE,  // '"‹‘“„«「
+    NUMBER_TYPE,  // #
+    OOPS_TYPE,  // !
     UNION,      // |
     // These are the only operators eligible for unary or infix notation.
     // We’ve included them for consistency with math notation.
@@ -32,7 +35,6 @@ export enum TokenType {
     TEXT_OPEN,
     TEXT_BETWEEN,
     TEXT_CLOSE,
-    LANGUAGE,   // /[a-z]{3} (ISO 639-2: https://en.wikipedia.org/wiki/ISO_639-2
     // The optional negative sign allows for negative number literals.
     // The optional dash allows for a random number range.
     // The trailing text at the end encodes the unit.
