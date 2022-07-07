@@ -28,33 +28,34 @@ const patterns = [
     // Note that we explicitly exclude • from text so that we can use text
     // delimiters in type declarations. Without excluding them, we wouldn't be able to
     // write consecutive function input type declarations that include text types.
+    { pattern: /^""|''|“”|‘’|«»|「」/u, types: [ TokenType.TEXT, TokenType.TEXT_TYPE ] },
     { pattern: /^["“”„][^•]*?\(/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^\)[^•\)]*?["“”]/u, types: [ TokenType.TEXT_CLOSE ] },
     { pattern: /^['‘’][^•]*?\(/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^\)[^•\)]*?['‘’]/u, types: [ TokenType.TEXT_CLOSE ] },
     { pattern: /^‹[^•]?\(/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^\)[^•\)]*?›/u, types: [ TokenType.TEXT_CLOSE ] },
     { pattern: /^«[^•]*?[»\(]/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^\)[^•\)]*?»/u, types: [ TokenType.TEXT_CLOSE ] },
     { pattern: /^「[^•]*?\(/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^\)[^•\)]*?」/u, types: [ TokenType.TEXT_CLOSE ] },
     { pattern: /^『[^•]*?\(/u, types: [ TokenType.TEXT_OPEN ] },
     { pattern: /^\)[^•\)]*?』/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\)[^•\)]*?」/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\)[^•\)]*?»/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\)[^•\)]*?›/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\)[^•\)]*?['‘’]/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\)[^•\)]*?["“”]/u, types: [ TokenType.TEXT_CLOSE ] },
+    // Match this after the eval close to avoid capturing function evaluations in templates.
+    { pattern: /^\)[^\)]*?\(/, types: [ TokenType.TEXT_BETWEEN ] },
     { pattern: /^["“”„][^•]*?["“”]/u, types: [ TokenType.TEXT ] },
     { pattern: /^['‘’][^•]*?['‘’]/u, types: [ TokenType.TEXT ] },
+    // Match all of the string open patterns before matching just an open parenthesis to allow for templates.
+    { pattern: "(", types: [ TokenType.EVAL_OPEN ] },
+    // Match close before matching text close to allow for closing evaluations.
+    { pattern: ")", types: [ TokenType.EVAL_CLOSE ] },
     { pattern: /^‹.*?›/u, types: [ TokenType.TEXT ] },
     { pattern: /^«.*?»/u, types: [ TokenType.TEXT ] },
     { pattern: /^「.*?」/u, types: [ TokenType.TEXT ] },
     { pattern: /^『.*?』/u, types: [ TokenType.TEXT ] },
-    // Match all of the string open/close patterns before matching just an open or close parenthesis.
-    { pattern: "(", types: [ TokenType.EVAL_OPEN ] },
-    { pattern: ")", types: [ TokenType.EVAL_CLOSE ] },
-    // Match this after the eval close to avoid capturing function evaluations in templates.
-    { pattern: /^\)[^\)]*?\(/, types: [ TokenType.TEXT_BETWEEN ] },
     // Match primtive types after strings since one is a standalone quote symbol.
     { pattern: "#", types: [ TokenType.NUMBER_TYPE ] },
     { pattern: /^[?¿]/, types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
-    { pattern: /^['"‹‘“„«「]/u, types: [ TokenType.TEXT_TYPE ] },
     // One or more unicode characters that are not one of the reserved characters
     { pattern: /^[^\(\)\[\]\{\}:.ƒ↓↑`!•… \t\n+\-×*·^√÷%<≤=≠≥>~&|'‘’"“”„«»‹›「」『』🙂🙃\/]+/u, types: [ TokenType.NAME ] }
 ];
@@ -62,13 +63,18 @@ const patterns = [
 export function tokenize(source: string): Token[] {
     const tokens: Token[] = [];
     let index = 0;
+    let precedingTextOpen = false;
     while(source.length > 0) {
-        const nextToken = getNextToken(source, index);
+        const nextToken = getNextToken(source, index, precedingTextOpen);
         if(nextToken === undefined) break;
         const length = nextToken.getLength() + nextToken.getPrecedingSpace().length;
         source = source.substring(length);
         tokens.push(nextToken);
         index += length;
+        if(nextToken.is(TokenType.TEXT_OPEN))
+            precedingTextOpen = true;
+        else if(nextToken.is(TokenType.TEXT_CLOSE))
+            precedingTextOpen = false;
     }
 
     // If there's nothing left and the last token isn't an end token, add one.
@@ -78,7 +84,7 @@ export function tokenize(source: string): Token[] {
     return tokens;
 }
 
-function getNextToken(source: string, index: number): Token | undefined {
+function getNextToken(source: string, index: number, precedingTextOpen: boolean): Token | undefined {
 
     // Is there a series of space or tabs?
     const spaceMatch = source.match(/^[ \t\n]+/);
@@ -97,7 +103,9 @@ function getNextToken(source: string, index: number): Token | undefined {
             return new Token(pattern.pattern, pattern.types, startIndex, space);
         else if(pattern.pattern instanceof RegExp) {
             const match = trimmedSource.match(pattern.pattern);
-            if(match !== null)
+            // If we found a match and it's either not a text close or it is and there's a corresponding text open
+            // that hasn't been closed, then return the match.
+            if(match !== null && (!(pattern.types.includes(TokenType.TEXT_BETWEEN) || pattern.types.includes(TokenType.TEXT_CLOSE)) || precedingTextOpen))
                 return new Token(match[0], pattern.types, startIndex, space);
         }
     }

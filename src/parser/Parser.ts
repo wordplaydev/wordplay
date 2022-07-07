@@ -613,8 +613,8 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TEXT_CLOSE);
     parts.push(tokens.read());
 
-    // Read an optional format.
-    if(tokens.nextIs(TokenType.NAME))
+    // Read an optional format if there's no preceding space.
+    if(tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
         format = tokens.read();
 
     return new Template(parts, format);
