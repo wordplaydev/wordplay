@@ -34,6 +34,7 @@ import KeyValue from "./KeyValue";
 import ListAccess from "./ListAccess";
 import { Conditional } from "./Conditional";
 import Share from "./Share";
+import CustomType from "./CustomType";
 
 export enum ErrorMessage {
     UNEXPECTED_SHARE,
@@ -188,9 +189,10 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
     while(tokens.nextIsnt(TokenType.END) && tokens.nextIsnt(TokenType.EVAL_CLOSE)) {
         if(tokens.nextAre(TokenType.NAME, TokenType.BIND) || tokens.nextAre(TokenType.NAME, TokenType.TYPE))
             statements.push(parseBind(tokens))
-        else if(tokens.nextIs(TokenType.SHARE)) {
-            statements.push(root ? parseShare(tokens) : tokens.readUnparsableLine(ErrorMessage.UNEXPECTED_SHARE));
-        }
+        else if(tokens.nextIs(TokenType.SHARE))
+            statements.push(parseShare(tokens));
+        else if(tokens.nextIs(TokenType.TYPE))
+            statements.push(parseCustomType(tokens));
         else
             statements.push(parseExpression(tokens));
         if(!tokens.nextHasPrecedingLineBreak() && tokens.nextIsnt(TokenType.END))
@@ -573,7 +575,7 @@ function parseBind(tokens: Tokens): Bind | Unparsable {
     if(tokens.nextIs(TokenType.NAME))
         name = tokens.read();
     else
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_MAP_NAME);
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_NAME);
 
     if(tokens.nextIs(TokenType.TYPE)) {
         dot = tokens.read();
@@ -723,5 +725,31 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
     const output = parseType(tokens);
 
     return new FunctionType(fun, open, input, close, dot, output);
+
+}
+
+/** CUSTOM_TYPE :: • name TYPE_VARS ( BIND* ) BLOCK */
+function parseCustomType(tokens: Tokens): CustomType | Unparsable {
+
+    const type = tokens.read();
+    if(tokens.nextIsnt(TokenType.NAME))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_NAME);
+    const name = tokens.read();
+    const typeVars = tokens.nextIs(TokenType.TYPE_VARS) ? parseTypeVariables(tokens) : undefined;
+    if(tokens.nextIsnt(TokenType.EVAL_OPEN))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
+    const open = tokens.read();
+
+    const inputs: (Bind|Unparsable)[] = [];
+    while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
+        inputs.push(parseBind(tokens));
+
+    if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_CLOSE);
+    const close = tokens.read();
+
+    const block = parseBlock(false, tokens);
+
+    return new CustomType(type, name, open, inputs, close, block, typeVars);
 
 }
