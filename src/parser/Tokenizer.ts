@@ -28,13 +28,13 @@ const patterns = [
     // Note that we explicitly exclude • from text so that we can use text
     // delimiters in type declarations. Without excluding them, we wouldn't be able to
     // write consecutive function input type declarations that include text types.
-    { pattern: /^""|''|“”|‘’|«»|「」/u, types: [ TokenType.TEXT, TokenType.TEXT_TYPE ] },
-    { pattern: /^["“”„].*?\(/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^['‘’].*?\(/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^‹.*?\(/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^«.*?[»\(]/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^「.*?\(/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^『.*?\(/u, types: [ TokenType.TEXT_OPEN ] },
+    { pattern: /^""|''|“”|‘’|«»|「」『』/u, types: [ TokenType.TEXT, TokenType.TEXT_TYPE ] },
+    { pattern: /^["“”„].*?(?<!\\)\(/u, types: [ TokenType.TEXT_OPEN ] },
+    { pattern: /^['‘’].*?(?<!\\)\(/u, types: [ TokenType.TEXT_OPEN ] },
+    { pattern: /^‹.*?(?<!\\)\(/u, types: [ TokenType.TEXT_OPEN ] },
+    { pattern: /^«.*?(?<!\\)\(/u, types: [ TokenType.TEXT_OPEN ] },
+    { pattern: /^「.*?(?<!\\)\(/u, types: [ TokenType.TEXT_OPEN ] },
+    { pattern: /^『.*?(?<!\\)\(/u, types: [ TokenType.TEXT_OPEN ] },
     { pattern: /^\)[^\)]*?』/u, types: [ TokenType.TEXT_CLOSE ] },
     { pattern: /^\)[^\)]*?」/u, types: [ TokenType.TEXT_CLOSE ] },
     { pattern: /^\)[^\)]*?»/u, types: [ TokenType.TEXT_CLOSE ] },
@@ -42,7 +42,7 @@ const patterns = [
     { pattern: /^\)[^\)]*?['‘’]/u, types: [ TokenType.TEXT_CLOSE ] },
     { pattern: /^\)[^\)]*?["“”]/u, types: [ TokenType.TEXT_CLOSE ] },
     // Match this after the eval close to avoid capturing function evaluations in templates.
-    { pattern: /^\)[^\)]*?\(/, types: [ TokenType.TEXT_BETWEEN ] },
+    { pattern: /^(?<!\\)\)[^\)]*?(?<!\\)\(/, types: [ TokenType.TEXT_BETWEEN ] },
     { pattern: /^["“”„].*?["“”]/u, types: [ TokenType.TEXT ] },
     { pattern: /^['‘’].*?['‘’]/u, types: [ TokenType.TEXT ] },
     // Match all of the string open patterns before matching just an open parenthesis to allow for templates.

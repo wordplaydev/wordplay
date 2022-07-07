@@ -41,3 +41,24 @@ test("Tokenize text", () => {
         .toBe("'hello'\neng\n\n'hola'\nspa\n")
 
 })
+
+test("Escapes", () => {
+
+    expect(tokenize('"Hello \\(name\\), how are you?"').map(t => t.toWordplay()).join("\n"))
+        .toBe('"Hello \\(name\\), how are you?"\n');
+    expect(tokenize("'Hello \\(name\\), how are you?'").map(t => t.toWordplay()).join("\n"))
+        .toBe("'Hello \\(name\\), how are you?'\n");
+    expect(tokenize('“Hello \\(name\\), how are you?”').map(t => t.toWordplay()).join("\n"))
+        .toBe('“Hello \\(name\\), how are you?”\n');
+    expect(tokenize('‘Hello \\(name\\), how are you?’').map(t => t.toWordplay()).join("\n"))
+        .toBe('‘Hello \\(name\\), how are you?’\n');
+    expect(tokenize('«Hello \\(name\\), how are you?»').map(t => t.toWordplay()).join("\n"))
+        .toBe('«Hello \\(name\\), how are you?»\n');
+    expect(tokenize('‹Hello \\(name\\), how are you?›').map(t => t.toWordplay()).join("\n"))
+        .toBe('‹Hello \\(name\\), how are you?›\n');
+    expect(tokenize('「Hello \\(name\\), how are you?」').map(t => t.toWordplay()).join("\n"))
+        .toBe('「Hello \\(name\\), how are you?」\n');
+    expect(tokenize('『Hello \\(name\\), how are you?』').map(t => t.toWordplay()).join("\n"))
+        .toBe('『Hello \\(name\\), how are you?』\n');
+
+})
