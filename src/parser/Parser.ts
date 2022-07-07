@@ -35,6 +35,7 @@ import ListAccess from "./ListAccess";
 import { Conditional } from "./Conditional";
 import Share from "./Share";
 import CustomType from "./CustomType";
+import Excluded from "./Excluded";
 
 export enum ErrorMessage {
     UNEXPECTED_SHARE,
@@ -239,6 +240,9 @@ function parseShare(tokens: Tokens): Share {
  */
 function parseExpression(tokens: Tokens): Expression {
 
+    // Is this expression excluded?
+    const excluded = tokens.nextIs(TokenType.DOCS) ? tokens.read() : undefined;
+    
     // All expressions must start with one of the following
     let left: Expression = (
         // A block. (Has precedent over inline parenthetical).
@@ -288,6 +292,10 @@ function parseExpression(tokens: Tokens): Expression {
         const right = parseExpression(tokens);
         left = new BinaryOperation(operator, left, right);
     }
+
+    // Is the expression excluded? Wrap it.
+    if(excluded !== undefined)
+        left = new Excluded(excluded, left);
 
     // Return the beautiful tree we built.
     return left;
