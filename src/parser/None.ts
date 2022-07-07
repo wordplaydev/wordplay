@@ -1,18 +1,18 @@
 import type { Token } from "./Token";
 import Expression from "./Expression";
 
-export default class Oops extends Expression {
+export default class None extends Expression {
     
-    readonly error: Token;
+    readonly none: Token;
     readonly name: Token;
 
     constructor(error: Token, name: Token) {
         super();
 
-        this.error = error;
+        this.none = error;
         this.name = name;
     }
 
-    getChildren() { return [ this.error, this.name ]; }
+    getChildren() { return [ this.none, this.name ]; }
 
 }

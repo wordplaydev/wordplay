@@ -12,7 +12,7 @@ const patterns = [
     { pattern: "↓", types: [ TokenType.BORROW ] },
     { pattern: "↑", types: [ TokenType.SHARE ] },
     { pattern: /^`.*?`/, types: [ TokenType.DOCS ] },
-    { pattern: "!", types: [ TokenType.OOPS, TokenType.OOPS_TYPE ] },
+    { pattern: "ø", types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
     { pattern: "•", types: [ TokenType.TYPE ] },
     { pattern: "/", types: [ TokenType.TYPE_VARS ] },
     { pattern: "…", types: [ TokenType.STREAM ] },
@@ -57,7 +57,7 @@ const patterns = [
     { pattern: "#", types: [ TokenType.NUMBER_TYPE ] },
     { pattern: /^[?¿]/, types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
     // One or more unicode characters that are not one of the reserved characters
-    { pattern: /^[^\(\)\[\]\{\}:.ƒ↓↑`!•… \t\n+\-×*·^√÷%<≤=≠≥>~&|'‘’"“”„«»‹›「」『』🙂🙃\/]+/u, types: [ TokenType.NAME ] }
+    { pattern: /^[^\(\)\[\]\{\}:.ƒ↓↑`ø•… \t\n+\-×*·^√÷%<≤=≠≥>~&|'‘’"“”„«»‹›「」『』🙂🙃\/]+/u, types: [ TokenType.NAME ] }
 ];
 
 export function tokenize(source: string): Token[] {

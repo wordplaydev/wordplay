@@ -19,7 +19,7 @@ import Parenthetical from "./Parenthetical";
 import Function from "./Function";
 import Template from "./Template";
 import UnionType from "./UnionType";
-import Oops from "./Oops";
+import None from "./None";
 import Measurement from "./Measurement";
 import MeasurementType from "./MeasurementType";
 import Text from "./Text";
@@ -262,7 +262,7 @@ function parseExpression(tokens: Tokens): Expression {
         // Literal tokens
         tokens.nextIsOneOf(TokenType.NAME, TokenType.BOOLEAN) ? tokens.read() :
         // Errors
-        tokens.nextIs(TokenType.OOPS) ? parseOops(tokens): 
+        tokens.nextIs(TokenType.NONE) ? parseOops(tokens): 
         // A function
         (tokens.nextIs(TokenType.FUNCTION) || tokens.nextAre(TokenType.DOCS, TokenType.FUNCTION)) ? parseFunction(tokens) :
         // A list
@@ -344,12 +344,12 @@ function parseText(tokens: Tokens): Text {
 }
 
 /** OOPS :: ! NAME? */
-function parseOops(tokens: Tokens): Oops | Unparsable {
+function parseOops(tokens: Tokens): None | Unparsable {
 
     const error = tokens.read();
     if(tokens.nextIs(TokenType.NAME)) {
         const name = tokens.read();
-        return new Oops(error, name);
+        return new None(error, name);
     }
     return tokens.readUnparsableLine(ErrorMessage.EXPECTED_ERROR_NAME);
 
@@ -653,7 +653,7 @@ function parseType(tokens: Tokens): Type | Unparsable {
         tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read()) :
         tokens.nextIs(TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :
         tokens.nextIs(TokenType.TEXT_TYPE) ? parseTextType(tokens) :
-        tokens.nextIs(TokenType.OOPS) ? parseOopsType(tokens) :
+        tokens.nextIs(TokenType.NONE) ? parseOopsType(tokens) :
         tokens.nextIs(TokenType.LIST_OPEN) ? parseListType(tokens) :
         tokens.nextIs(TokenType.SET_OPEN) ? parseSetType(tokens) :
         tokens.nextIs(TokenType.FUNCTION) ? parseFunctionType(tokens) :

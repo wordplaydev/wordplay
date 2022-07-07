@@ -14,13 +14,13 @@ export enum TokenType {
     BORROW,     // ↓
     SHARE,      // ↑
     DOCS,       // `
-    OOPS,       // !
+    NONE,       // ø
     TYPE,       // •
     TYPE_VARS,  // /
     BOOLEAN_TYPE, // ?
     TEXT_TYPE,  // '"‹‘“„«「
     NUMBER_TYPE,  // #
-    OOPS_TYPE,  // !
+    NONE_TYPE,  // ø
     UNION,      // |
     // These are the only operators eligible for unary or infix notation.
     // We’ve included them for consistency with math notation.
