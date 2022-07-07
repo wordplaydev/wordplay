@@ -7,8 +7,6 @@ export enum TokenType {
     SET_CLOSE,  // }
     LIST_OPEN,  // [
     LIST_CLOSE, // ]
-    MAP_OPEN,   // [
-    MAP_CLOSE,  // ]
     COLUMN,     // |
     BIND,       // :
     ACCESS,     // .

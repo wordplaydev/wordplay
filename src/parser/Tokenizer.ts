@@ -5,8 +5,6 @@ const patterns = [
     { pattern: "]", types: [ TokenType.LIST_CLOSE ] },
     { pattern: "{", types: [ TokenType.SET_OPEN ] },
     { pattern: "}", types: [ TokenType.SET_CLOSE ] },
-    { pattern: "<", types: [ TokenType.MAP_OPEN, TokenType.BINARY ] },
-    { pattern: ">", types: [ TokenType.MAP_CLOSE, TokenType.BINARY ] },
     { pattern: "|", types: [ TokenType.BINARY, TokenType.UNION ] },
     { pattern: ":", types: [ TokenType.BIND ] },
     { pattern: ".", types: [ TokenType.ACCESS ] },
@@ -21,7 +19,7 @@ const patterns = [
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
     { pattern: /^-?[0-9]+([.,][0-9]+)?/, types: [ TokenType.NUMBER ] },
     { pattern: /^[π∞]/, types: [ TokenType.NUMBER ] },
-    { pattern: /^[-+×*^÷%≤≥=≠]/u, types: [ TokenType.BINARY ] },
+    { pattern: /^[-+×*^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY ] },
     { pattern: /^[&|]/, types: [ TokenType.BINARY ] },
     { pattern: /^[-~√]/, types: [ TokenType.BINARY, TokenType.UNARY ] },
     { pattern: "⊤", types: [ TokenType.BOOLEAN ] },

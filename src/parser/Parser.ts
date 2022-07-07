@@ -10,7 +10,6 @@ import Unparsable from "./Unparsable";
 import Block from "./Block";
 import List from "./List";
 import SetNode from "./Set";
-import MapNode from "./Map";
 import Bind from "./Bind";
 import Evaluate from "./Evaluate";
 import UnaryOperation from "./UnaryOperation";
@@ -20,7 +19,6 @@ import Parenthetical from "./Parenthetical";
 import Function from "./Function";
 import Template from "./Template";
 import UnionType from "./UnionType";
-import MapType from "./MapType";
 import Oops from "./Oops";
 import Measurement from "./Measurement";
 import MeasurementType from "./MeasurementType";
@@ -32,6 +30,7 @@ import ListType from "./ListType";
 import SetType from "./SetType";
 import FunctionType from "./FunctionType";
 import TypeVariables from "./TypeVariables";
+import KeyValue from "./KeyValue";
 
 export enum ErrorMessage {
     EXPECTED_BORROW,
@@ -249,9 +248,7 @@ function parseExpression(tokens: Tokens): Expression {
         // A list
         tokens.nextIs(TokenType.LIST_OPEN) ? parseList(tokens) :
         // A set
-        tokens.nextIs(TokenType.SET_OPEN) ? parseSet(tokens) :
-        // A map
-        tokens.nextIs(TokenType.MAP_OPEN) ? parseMap(tokens) :
+        tokens.nextIs(TokenType.SET_OPEN) ? parseSetOrMap(tokens) :
         // A string template
         tokens.nextIs(TokenType.TEXT_OPEN) ? parseTemplate(tokens) :
         // Unary expressions!
@@ -425,11 +422,12 @@ function parseTypeVariables(tokens: Tokens): TypeVariables | Unparsable {
 
 }
 
-function parseDelimited<T extends Expression | Bind>(tokens: Tokens, openType: TokenType, closeType: TokenType, openError: ErrorMessage, closeError: ErrorMessage, bind: boolean): Unparsable | [ Token, (T|Unparsable)[], Token ] {
+function parseDelimited<T extends Expression | KeyValue>(tokens: Tokens, openType: TokenType, closeType: TokenType, openError: ErrorMessage, closeError: ErrorMessage, keyValue: boolean): Unparsable | [ Token, (T|Unparsable)[], Token ] {
 
     let open;
     let values: (T|Unparsable)[] = [];
     let close;
+    let foundBind = false;
 
     if(tokens.nextIs(openType))
         open = tokens.read();
@@ -440,7 +438,22 @@ function parseDelimited<T extends Expression | Bind>(tokens: Tokens, openType: T
         tokens.read();
 
     while(tokens.nextIsnt(closeType)) {
-        values.push((bind ? parseBind(tokens) : parseExpression(tokens)) as T|Unparsable);
+
+        const key = parseExpression(tokens);
+
+        if(keyValue && tokens.nextIs(TokenType.BIND))
+            foundBind = true;
+
+        if(foundBind) {
+            if(tokens.nextIsnt(TokenType.BIND))
+                return tokens.readUnparsableLine(ErrorMessage.EXPECTED_MAP_BIND);
+            const bind = tokens.read();            
+            const value = parseExpression(tokens);
+            values.push(new KeyValue(key, bind, value) as T|Unparsable)
+        }
+        else {
+            values.push(key as T|Unparsable);
+        }
         while(tokens.nextIs(TokenType.LINES))
            tokens.read();
     }
@@ -469,8 +482,8 @@ function parseList(tokens: Tokens): List | Unparsable {
 
 }
 
-/** SET :: { EXPRESSION* } */
-function parseSet(tokens: Tokens): SetNode | Unparsable {
+/** SET :: { EXPRESSION* } | { (EXPRESSION:EXPRESSION)* } */
+function parseSetOrMap(tokens: Tokens): SetNode | Unparsable {
 
     const stuff = parseDelimited<Expression>(
         tokens, 
@@ -478,24 +491,9 @@ function parseSet(tokens: Tokens): SetNode | Unparsable {
         TokenType.SET_CLOSE, 
         ErrorMessage.EXPECTED_SET_OPEN, 
         ErrorMessage.EXPECTED_SET_CLOSE, 
-        false
+        true
     );
     return stuff instanceof Unparsable ? stuff : new SetNode(stuff[0], stuff[1], stuff[2]);
-
-}
-
-/** MAP :: < (EXPRESSION : EXPRESSION)* > */
-function parseMap(tokens: Tokens): MapNode | Unparsable {
-
-    const stuff = parseDelimited<Bind>(
-        tokens,
-        TokenType.MAP_OPEN,
-        TokenType.MAP_CLOSE,
-        ErrorMessage.EXPECTED_MAP_OPEN,
-        ErrorMessage.EXPECTED_MAP_CLOSE,
-        true
-    )
-    return stuff instanceof Unparsable? stuff : new MapNode(stuff[0], stuff[1], stuff[2]);
 
 }
 
@@ -575,7 +573,6 @@ function parseType(tokens: Tokens): Type | Unparsable {
         tokens.nextIs(TokenType.OOPS) ? parseOopsType(tokens) :
         tokens.nextIs(TokenType.LIST_OPEN) ? parseListType(tokens) :
         tokens.nextIs(TokenType.SET_OPEN) ? parseSetType(tokens) :
-        tokens.nextIs(TokenType.MAP_OPEN) ? parseMapType(tokens) :
         tokens.nextIs(TokenType.FUNCTION) ? parseFunctionType(tokens) :
         tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE)
     );
@@ -626,31 +623,17 @@ function parseListType(tokens: Tokens): ListType | Unparsable {
 
 }
 
-/** SET_TYPE :: { TYPE } */
+/** SET_TYPE :: { TYPE } | { TYPE:TYPE } */
 function parseSetType(tokens: Tokens): SetType | Unparsable {
 
     const open = tokens.read();
     const type = parseType(tokens);
+    const bind = tokens.nextIs(TokenType.BIND) ? tokens.read() : undefined;
+    const value = bind !== undefined ? parseType(tokens) : undefined;
     if(tokens.nextIsnt(TokenType.SET_CLOSE))
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_SET_CLOSE);
     const close = tokens.read();
-    return new SetType(open, type, close);    
-
-}
-
-/** MAP_TYPE :: < TYPE : TYPE > */
-function parseMapType(tokens: Tokens): MapType | Unparsable {
-
-    const open = tokens.read();
-    const type = parseType(tokens);
-    if(tokens.nextIsnt(TokenType.BIND))
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_MAP_BIND);
-    const bind = tokens.read();
-    const value = parseType(tokens);
-    if(tokens.nextIsnt(TokenType.MAP_CLOSE))
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_MAP_CLOSE);
-    const close = tokens.read();
-    return new MapType(open, type, bind, value, close);
+    return new SetType(open, type, close, bind, value);
 
 }
 
