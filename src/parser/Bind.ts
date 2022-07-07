@@ -9,10 +9,10 @@ export default class Bind extends Node {
     readonly name: Token;
     readonly dot?: Token;
     readonly type?: Type;
-    readonly colon: Token;
-    readonly value: Expression;
+    readonly colon?: Token;
+    readonly value?: Expression;
 
-    constructor(name: Token, colon: Token, value: Expression, dot?: Token, type?: Type | Unparsable) {
+    constructor(name: Token, dot?: Token, type?: Type | Unparsable, colon?: Token, value?: Expression) {
         super();
 
         this.name = name;
@@ -22,9 +22,16 @@ export default class Bind extends Node {
         this.type = type;
     }
 
-    getChildren() { return this.type !== undefined && this.dot !== undefined ? [ this.name, this.dot, this.type, this.colon, this.value ]: [ this.name, this.colon, this.value ] }
+    getChildren() { 
+        const children: Node[] = [ this.name ];
+        if(this.dot) children.push(this.dot);
+        if(this.type) children.push(this.type);
+        if(this.colon) children.push(this.colon);
+        if(this.value) children.push(this.value);
+        return children;
+    }
     toWordplay(): string {
-        return `${this.name.toWordplay()}${this.dot === undefined ? "" : this.dot.toWordplay()}${this.type === undefined ? "" : this.type.toWordplay()}${this.colon.toWordplay()} ${this.value.toWordplay()}`;
+        return `${this.name.toWordplay()}${this.dot === undefined ? "" : this.dot.toWordplay()}${this.type === undefined ? "" : this.type.toWordplay()}${this.colon ? this.colon.toWordplay() : ""} ${this.value ? this.value.toWordplay() : ""}`;
     }
 
 }

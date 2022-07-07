@@ -17,6 +17,7 @@ import UnaryOperation from "./UnaryOperation";
 import BinaryOperation from "./BinaryOperation";
 import AccessName from "./AccessName";
 import Parenthetical from "./Parenthetical";
+import Function from "./Function";
 import Template from "./Template";
 import UnionType from "./UnionType";
 import MapType from "./MapType";
@@ -29,6 +30,8 @@ import OopsType from "./OopsType";
 import TextType from "./TextType";
 import ListType from "./ListType";
 import SetType from "./SetType";
+import FunctionType from "./FunctionType";
+import TypeVariables from "./TypeVariables";
 
 export enum ErrorMessage {
     EXPECTED_BORROW,
@@ -51,7 +54,7 @@ export enum ErrorMessage {
     EXPECTED_TEXT_OPEN,
     EXPECTED_TEXT_CLOSE,
     EXPECTED_ERROR_NAME,
-    EXPECTED_UNIT
+    EXPECTED_TYPE_VARS_CLOSE
 }
 
 class Tokens {
@@ -94,6 +97,11 @@ class Tokens {
         return types.find(type => this.nextIs(type)) !== undefined;
     }
 
+    /** Returns true if and only if the next token is the specified type. */
+    nextLacksPrecedingSpace(): boolean {
+        return this.hasNext() && !this.#unread[0].hasPrecedingSpace();
+    }
+    
     /** Returns a token list without the first token. */
     read(): Token {
         if(this.hasNext()) {
@@ -118,7 +126,7 @@ export function parse(code: string): Program {
 }
 
 export function parseTokens(tokens: Token[]): Program {
-    return parseProgram(new Tokens(tokens.filter(t => !t.is(TokenType.SPACE))));
+    return parseProgram(new Tokens(tokens));
 }
 
 // PROGRAM :: BORROW* BLOCK
@@ -234,6 +242,8 @@ function parseExpression(tokens: Tokens): Expression {
         tokens.nextIs(TokenType.OOPS) ? parseOops(tokens): 
         // A block
         tokens.nextAre(TokenType.EVAL_OPEN, TokenType.LINES) ? parseBlock(true, tokens) :
+        // A function
+        tokens.nextIs(TokenType.FUNCTION) ? parseFunction(tokens) :
         // A parenthetical
         tokens.nextAre(TokenType.EVAL_OPEN) ? parseParenthetical(tokens) :
         // A list
@@ -370,6 +380,51 @@ function parseEval(left: Expression, tokens: Tokens): Evaluate | Unparsable {
 
 }
 
+/** FUNCTION :: ƒ TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
+function parseFunction(tokens: Tokens): Function | Unparsable {
+
+    const fun = tokens.read();
+
+    const typeVars = tokens.nextIs(TokenType.TYPE_VARS) ? parseTypeVariables(tokens) : undefined;
+
+    if(tokens.nextIsnt(TokenType.EVAL_OPEN))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
+    const open = tokens.read();
+
+    const inputs: (Bind|Unparsable)[] = [];
+    while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
+        inputs.push(parseBind(tokens));
+
+    if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_CLOSE);
+    const close = tokens.read();
+
+    let type;
+    let output;
+    if(tokens.nextIs(TokenType.TYPE)) {
+        type = tokens.read();
+        output = parseType(tokens);
+    }
+
+    const expression = parseExpression(tokens);
+
+    return new Function(fun, open, inputs, close, expression, typeVars, type, output);
+
+}
+
+function parseTypeVariables(tokens: Tokens): TypeVariables | Unparsable {
+
+    const open = tokens.read();
+    const names = [];
+    while(tokens.nextIs(TokenType.NAME))
+        names.push(tokens.read());
+    if(tokens.nextIsnt(TokenType.TYPE_VARS))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE_VARS_CLOSE);
+    const close = tokens.read();
+    return new TypeVariables(open, names, close);
+
+}
+
 function parseDelimited<T extends Expression | Bind>(tokens: Tokens, openType: TokenType, closeType: TokenType, openError: ErrorMessage, closeError: ErrorMessage, bind: boolean): Unparsable | [ Token, (T|Unparsable)[], Token ] {
 
     let open;
@@ -463,12 +518,10 @@ function parseBind(tokens: Tokens): Bind | Unparsable {
         type = parseType(tokens);
     }
 
-    if(tokens.nextIs(TokenType.BIND))
-        colon = tokens.read();
-    else
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_NAME_BIND);
-
-    value = parseExpression(tokens);
+    if(tokens.nextIs(TokenType.BIND)) {
+        colon = tokens.read(); 
+        value = parseExpression(tokens);
+    }
 
     return new Bind(name, colon, value, dot, type);
 
@@ -523,6 +576,7 @@ function parseType(tokens: Tokens): Type | Unparsable {
         tokens.nextIs(TokenType.LIST_OPEN) ? parseListType(tokens) :
         tokens.nextIs(TokenType.SET_OPEN) ? parseSetType(tokens) :
         tokens.nextIs(TokenType.MAP_OPEN) ? parseMapType(tokens) :
+        tokens.nextIs(TokenType.FUNCTION) ? parseFunctionType(tokens) :
         tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE)
     );
 
@@ -537,25 +591,25 @@ function parseType(tokens: Tokens): Type | Unparsable {
 function parseTextType(tokens: Tokens): TextType {
 
     const quote = tokens.read();
-    const format = tokens.nextIs(TokenType.NAME) ? tokens.read() : undefined;
+    const format = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? tokens.read() : undefined;
     return new TextType(quote, format);
 
 }
 
-/** OOPS_TYPE :: ! NAME? */
+/** OOPS_TYPE :: !NAME? */
 function parseOopsType(tokens: Tokens): OopsType {
 
     const oops = tokens.read();
-    const name = tokens.nextIs(TokenType.NAME) ? tokens.read() : undefined;
+    const name = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? tokens.read() : undefined;
     return new OopsType(oops, name);
 
 }
 
-/** NUMBER_TYPE :: # NAME? */
+/** NUMBER_TYPE :: #NAME? */
 function parseMeasurementType(tokens: Tokens): MeasurementType {
 
     const number = tokens.read();
-    const unit = tokens.nextIs(TokenType.NAME) ? tokens.read() : undefined;
+    const unit = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? tokens.read() : undefined;
     return new MeasurementType(number, unit);
 
 }
@@ -597,5 +651,30 @@ function parseMapType(tokens: Tokens): MapType | Unparsable {
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_MAP_CLOSE);
     const close = tokens.read();
     return new MapType(open, type, bind, value, close);
+
+}
+
+/** FUNCTION_TYPE :: ƒ([•TYPE]*) •TYPE */
+function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
+
+    const fun = tokens.read();
+    if(tokens.nextIsnt(TokenType.EVAL_OPEN))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
+    const open = tokens.read();
+
+    const input = [];
+    while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
+        input.push(parseType(tokens));
+
+    if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_CLOSE);
+    const close = tokens.read();
+
+    if(tokens.nextIsnt(TokenType.TYPE))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE);
+    const dot = tokens.read();
+    const output = parseType(tokens);
+
+    return new FunctionType(fun, open, input, close, dot, output);
 
 }

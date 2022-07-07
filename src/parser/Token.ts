@@ -16,9 +16,10 @@ export enum TokenType {
     BORROW,     // ↓
     SHARE,      // ↑
     DOCS,       // `
-    OOPS,      // !
+    OOPS,       // !
     TYPE,       // •
-    BOOLEAN_TYPE,  // ?
+    TYPE_VARS,  // /
+    BOOLEAN_TYPE, // ?
     TEXT_TYPE,  // '"‹‘“„«「
     NUMBER_TYPE,  // #
     OOPS_TYPE,  // !
@@ -41,7 +42,6 @@ export enum TokenType {
     // Both commas and periods are allowed to cover different conventions globally.
     NUMBER,     // -?[0-9]+([.,][0-9]+)?(-[0-9]+([.,][0-9]+)?)[^\s]*
     BOOLEAN,    // \u22a4 (true) \u22a5 (false)
-    SPACE,      // [ \t]+
     LINES,       // \n
     NAME,       // .+
     UNKNOWN,        // Represents any characters that couldn't be tokenized.
@@ -53,21 +53,26 @@ export class Token extends Node {
     readonly types: TokenType[];
     /** The text of the token */
     readonly text: string;
+    /** Spaces and tabs preceding this token. */
+    readonly space: string;
     /** The index in the source file at which this token starts. */
     readonly index: number;
 
-    constructor(text: string, types: TokenType[], index: number) {
+    constructor(text: string, types: TokenType[], index: number, space: string="") {
         super();
         this.types = types.slice();
         this.text = text;
+        this.space = space;
         this.index = index;
     }
     getIndex() { return this.index; }
     getLength() { return this.text.length; }
     getChildren() { return []; }
+    getPrecedingSpace() { return this.space; }
+    hasPrecedingSpace() { return this.space.length > 0; }
     isnt(type: TokenType) { return !this.is(type); }
     is(type: TokenType) { return this.types.includes(type); }
     isName() { return this.is(TokenType.NAME); }
-    toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}(${this.index}): ${this.text.replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
-    toWordplay() { return this.text; }
+    toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}(${this.space.length},${this.index}): ${this.text.replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
+    toWordplay() { return this.space + this.text; }
 }
