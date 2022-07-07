@@ -14,8 +14,4 @@ export default class Documented extends Expression {
 
     getChildren() { return [ this.tick, this.expression ]; }
 
-    toWordplay(): string {
-        return this.getChildren().map(c => c.toWordplay()).join("");
-    }
-
 }

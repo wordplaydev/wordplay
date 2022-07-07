@@ -17,8 +17,4 @@ export default class TextType extends Type {
         return this.format ? [ this.quote, this.format ] : [ this.quote ];
     }
 
-    toWordplay(): string {
-        return this.format ? `${this.quote.toWordplay()}${this.format?.toWordplay()}` : `${this.quote.toWordplay()}`;
-    }
-
 }

@@ -20,8 +20,4 @@ export default class KeyValue extends Node {
         return [ this.key, this.bind, this.value ];
     }
 
-    toWordplay(): string {
-        return `${this.key.toWordplay()}${this.bind.toWordplay()}${this.value.toWordplay()}`;
-    }
-
 }

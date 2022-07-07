@@ -16,8 +16,5 @@ export default class Share extends Node {
     }
 
     getChildren() { return [ this.share, this.bind ]; }
-    toWordplay(): string {
-        return this.getChildren().map(c => c.toWordplay()).join("");
-    }
 
 }

@@ -19,8 +19,4 @@ export default class AccessName extends Expression {
         return [ this.subject, this.access, this.name ];
     }
 
-    toWordplay(): string {
-        return `${this.subject.toWordplay()}${this.access.toWordplay()}${this.name.toWordplay()}`;
-    }
-
 }

@@ -14,8 +14,4 @@ export default class Measurement extends Node {
 
     getChildren() { return this.unit !== undefined ? [ this.number, this.unit ] : [ this.number ]; }
 
-    toWordplay(): string {
-        return this.unit !== undefined ? `${this.number.toWordplay()}${this.unit.toWordplay()}` : this.number.toWordplay();
-    }
-
 }

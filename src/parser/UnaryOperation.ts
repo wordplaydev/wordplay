@@ -18,8 +18,4 @@ export default class UnaryOperation extends Expression {
         return [ this.operator, this.value ];
     }
 
-    toWordplay(): string {
-        return `${this.operator.toWordplay()}${this.value.toWordplay()}`;
-    }
-
 }

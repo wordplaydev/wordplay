@@ -15,8 +15,5 @@ export default class Template extends Node {
     }
 
     getChildren() { return this.format ? [ ...this.parts, this.format ] : [ ...this.parts ]; }
-    toWordplay(): string {
-        return `${this.parts.map(p => p.toWordplay())}${this.format ? this.format.toWordplay() : ""}`;
-    }
 
 }

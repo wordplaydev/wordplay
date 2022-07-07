@@ -14,8 +14,4 @@ export default class Text extends Node {
 
     getChildren() { return this.format !== undefined ? [ this.text, this.format ] : [ this.text ]; }
 
-    toWordplay(): string {
-        return this.format !== undefined ? `${this.text.toWordplay()}${this.format.toWordplay()}` : this.text.toWordplay();
-    }
-
 }

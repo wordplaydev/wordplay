@@ -19,8 +19,4 @@ export default class List extends Expression {
         return [ this.open, ...this.values, this.close ];
     }
 
-    toWordplay(): string {
-        return `${this.open.toWordplay()}${this.values.map(s => s.toWordplay()).join(' ')}${this.close.toWordplay()}`;
-    }
-
 }

@@ -19,8 +19,4 @@ export default class TypeVariables extends Node {
         return [ this.open, ...this.names, this.close ];
     }
 
-    toWordplay(): string {
-        return `${this.open.toWordplay()}${this.names.map(s => s.toWordplay()).join(' ')}${this.close.toWordplay()}`;
-    }
-
 }

@@ -19,8 +19,4 @@ export default class BinaryOperation extends Expression {
         return [ this.left, this.operator, this.right ];
     }
 
-    toWordplay(): string {
-        return `${this.left.toWordplay()}${this.operator.toWordplay()}${this.right.toWordplay()}`;
-    }
-
 }

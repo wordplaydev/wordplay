@@ -21,8 +21,4 @@ export default class ListAccess extends Expression {
         return [ this.list, this.open, this.index, this.close ];
     }
 
-    toWordplay(): string {
-        return this.getChildren().map(c => c.toWordplay()).join("");
-    }
-
 }

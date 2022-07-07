@@ -17,8 +17,5 @@ export default class Parenthetical extends Expression {
     }
 
     getChildren() { return [ this.open, this.value, this.close ]; }
-    toWordplay(): string {
-        return `${this.open.toWordplay()}${this.value.toWordplay()}${this.close.toWordplay()}`;
-    }
 
 }

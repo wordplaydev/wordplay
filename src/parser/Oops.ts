@@ -14,8 +14,5 @@ export default class Oops extends Expression {
     }
 
     getChildren() { return [ this.error, this.name ]; }
-    toWordplay(): string {
-        return `${this.error.toWordplay()}${this.name.toWordplay()}`;
-    }
 
 }

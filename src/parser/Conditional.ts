@@ -19,8 +19,5 @@ export class Conditional extends Expression {
     }
 
     getChildren() { return [ this.condition, this.conditional, this.yes, this.no ]; }
-    toWordplay(): string {
-        return this.getChildren().map(c => c.toWordplay()).join("");
-    }
 
 }

@@ -22,9 +22,5 @@ export default class Block extends Expression {
     getChildren() {
         return [ ...(this.open ? [ this.open ] : []), ...this.statements, ...(this.close ? [ this.close ] : []), ...(this.docs ? [ this.docs] : [])];
     }
-
-    toWordplay(): string {
-        return `${this.open ? this.open.toWordplay() : ""}${this.statements.map(s => s.toWordplay()).join('\n')}${this.close ? this.close.toWordplay() : ""}`;
-    }
-
+    
 }

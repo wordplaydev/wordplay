@@ -15,8 +15,4 @@ export default class NameType extends Type {
         return [ this.type ];
     }
 
-    toWordplay(): string {
-        return `${this.type.toWordplay()}`;
-    }
-
 }

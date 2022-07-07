@@ -15,12 +15,6 @@ export default class ListType extends Type {
         this.close = close;
     }
 
-    getChildren() {
-        return [ this.open, this.type, this.close ];
-    }
-
-    toWordplay(): string {
-        return `${this.open.toWordplay()}${this.type.toWordplay()}${this.close.toWordplay()}`;
-    }
+    getChildren() { return [ this.open, this.type, this.close ]; }
 
 }

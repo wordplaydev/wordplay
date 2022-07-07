@@ -15,9 +15,7 @@ export default class Unparsable extends Node {
     }
 
     getChildren() { return this.tokens.slice() }
-    toWordplay(): string {
-        return this.tokens.map(t => t.toWordplay()).join("");
-    }
+
     toString(depth: number=0) {
         const s = super.toString(depth);
         return `${s}\n${"\t".repeat(depth + 1)}${ErrorMessage[this.reason]}`;

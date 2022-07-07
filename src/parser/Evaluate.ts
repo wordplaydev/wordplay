@@ -22,8 +22,4 @@ export default class Evaluate extends Expression {
         return [ this.func, this.open, ...this.values, this.close ];
     }
 
-    toWordplay(): string {
-        return `${this.open.toWordplay()}${this.values.map(s => s.toWordplay()).join(' ')}${this.close.toWordplay()}`;
-    }
-
 }

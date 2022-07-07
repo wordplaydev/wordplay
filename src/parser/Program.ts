@@ -16,8 +16,4 @@ export default class Program extends Node {
 
     getChildren() { return [ ...this.borrows, this.block ]; }
 
-    toWordplay(): string {
-        return `${this.borrows.map(b => b.toWordplay()).join("\n")}${this.block.toWordplay()}`;
-    }
-
 }

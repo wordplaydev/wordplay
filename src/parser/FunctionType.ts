@@ -26,8 +26,4 @@ export default class Function extends Type {
         return [ this.fun, this.open, ...this.inputs, this.close, this.dot, this.output ];
     }
 
-    toWordplay(): string {
-        return `${this.fun.toWordplay()}${this.open.toWordplay()}${this.inputs.map(i => i.toWordplay())}${this.close.toWordplay()}${this.dot.toWordplay()}${this.output.toWordplay()}`
-    }
-
 }

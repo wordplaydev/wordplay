@@ -16,8 +16,5 @@ export default class Borrow extends Node {
     }
 
     getChildren() { return this.version === undefined ? [ this.borrow, this.name ] : [ this.borrow, this.name, this.version ]}
-    toWordplay(): string {
-        return `${this.borrow.toWordplay()} ${this.name.toWordplay()}${this.version === undefined ? "" : " " + this.version.toWordplay()}`;
-    }
-
+ 
 }

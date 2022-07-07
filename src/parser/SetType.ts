@@ -23,8 +23,4 @@ export default class SetType extends Type {
         return this.bind && this.value ? [ this.open, this.type, this.bind, this.value, this.close ] : [ this.open, this.type, this.close ];
     }
 
-    toWordplay(): string {
-        return `${this.open.toWordplay()}${this.type.toWordplay()}${this.bind ? this.bind.toWordplay() : ""}${this.value ? this.value.toWordplay() : ""}${this.close.toWordplay()}`;
-    }
-
 }
