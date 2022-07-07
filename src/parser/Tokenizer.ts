@@ -20,8 +20,8 @@ const patterns = [
     { pattern: /^-?[0-9]+([.,][0-9]+)?/, types: [ TokenType.NUMBER ] },
     { pattern: /^[π∞]/, types: [ TokenType.NUMBER ] },
     { pattern: /^[-+×*·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
-    { pattern: /^[&|]/, types: [ TokenType.BINARY_OP ] },
-    { pattern: /^[-~√]/, types: [ TokenType.BINARY_OP, TokenType.UNARY_OP ] },
+    { pattern: /^[&|∧∨]/, types: [ TokenType.BINARY_OP ] },
+    { pattern: /^[-~√¬]/, types: [ TokenType.BINARY_OP, TokenType.UNARY_OP ] },
     { pattern: "⊤", types: [ TokenType.BOOLEAN ] },
     { pattern: "⊥", types: [ TokenType.BOOLEAN ] },
     // Also match the open and close patterns before the regular text patterns.
