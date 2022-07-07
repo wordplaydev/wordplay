@@ -32,6 +32,7 @@ import FunctionType from "./FunctionType";
 import TypeVariables from "./TypeVariables";
 import KeyValue from "./KeyValue";
 import ListAccess from "./ListAccess";
+import { Conditional } from "./Conditional";
 
 export enum ErrorMessage {
     EXPECTED_BORROW,
@@ -232,6 +233,8 @@ function parseExpression(tokens: Tokens): Expression {
 
     // All expressions must start with one of the following
     let left: Expression = (
+        // A parenthetical
+        tokens.nextAre(TokenType.EVAL_OPEN) ? parseParenthetical(tokens) :
         // Numbers with units
         tokens.nextIs(TokenType.NUMBER) ? parseMeasurement(tokens) :
         // Text with optional formats
@@ -244,8 +247,6 @@ function parseExpression(tokens: Tokens): Expression {
         tokens.nextAre(TokenType.EVAL_OPEN, TokenType.LINES) ? parseBlock(true, tokens) :
         // A function
         tokens.nextIs(TokenType.FUNCTION) ? parseFunction(tokens) :
-        // A parenthetical
-        tokens.nextAre(TokenType.EVAL_OPEN) ? parseParenthetical(tokens) :
         // A list
         tokens.nextIs(TokenType.LIST_OPEN) ? parseList(tokens) :
         // A set
@@ -253,7 +254,7 @@ function parseExpression(tokens: Tokens): Expression {
         // A string template
         tokens.nextIs(TokenType.TEXT_OPEN) ? parseTemplate(tokens) :
         // Unary expressions!
-        (tokens.nextIs(TokenType.UNARY)) ? new UnaryOperation(tokens.read(), parseExpression(tokens)) :
+        (tokens.nextIs(TokenType.UNARY_OP)) ? new UnaryOperation(tokens.read(), parseExpression(tokens)) :
         // Anything that doesn't is unparsable.
         tokens.readUnparsableLine(ErrorMessage.EXPECTED_EXPRESSION)
     );
@@ -265,13 +266,16 @@ function parseExpression(tokens: Tokens): Expression {
         left = parseListAccess(left, tokens);
     else if(tokens.nextIs(TokenType.SET_OPEN))
         left = parseSetAccess(left, tokens);
-    // If not that, is it an evaluation with an accessor?
-    else if(left instanceof Token && left.isName() && tokens.nextIs(TokenType.EVAL_OPEN))
+    // Is it a function evaluation on a name?
+    else if(left instanceof Token && left.isName() && tokens.nextIs(TokenType.EVAL_OPEN) && tokens.nextLacksPrecedingSpace())
         left = parseEval(left, tokens);
+    // Is it conditional statement?
+    else if(tokens.nextIs(TokenType.CONDITIONAL))
+        left = parseConditional(left, tokens);
 
     // Finally, keep reading binary operators until we see no more. Order of operations is 
     // plain left to right; we rely on tools to warn about evaluation order.
-    while(tokens.nextIs(TokenType.BINARY)) {
+    while(tokens.nextIs(TokenType.BINARY_OP)) {
         const operator = tokens.read();
         const right = parseExpression(tokens);
         left = new BinaryOperation(operator, left, right);
@@ -279,6 +283,15 @@ function parseExpression(tokens: Tokens): Expression {
 
     // Return the beautiful tree we built.
     return left;
+
+}
+
+/** CONDITIONAL :: EXPRESSSION ? EXPRESSION EXPRESSION */
+function parseConditional(condition: Expression, tokens: Tokens): Conditional {
+    const conditional = tokens.read();
+    const yes = parseExpression(tokens);
+    const no = parseExpression(tokens);
+    return new Conditional(condition, conditional, yes, no);
 
 }
 

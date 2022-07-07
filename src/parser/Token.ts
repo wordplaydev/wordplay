@@ -24,8 +24,9 @@ export enum TokenType {
     UNION,      // |
     // These are the only operators eligible for unary or infix notation.
     // We’ve included them for consistency with math notation.
-    BINARY,     // +-×÷%<≤≥>&|
-    UNARY,      // ~
+    UNARY_OP,      // ~
+    BINARY_OP,     // +-×÷%<≤≥>&|
+    CONDITIONAL, // ?
     STREAM,     // …
     // Also supports escapes with \to encode various characters
     // The trailing text at the end encodes the format.

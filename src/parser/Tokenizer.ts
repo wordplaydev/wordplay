@@ -5,7 +5,7 @@ const patterns = [
     { pattern: "]", types: [ TokenType.LIST_CLOSE ] },
     { pattern: "{", types: [ TokenType.SET_OPEN ] },
     { pattern: "}", types: [ TokenType.SET_CLOSE ] },
-    { pattern: "|", types: [ TokenType.BINARY, TokenType.UNION ] },
+    { pattern: "|", types: [ TokenType.BINARY_OP, TokenType.UNION ] },
     { pattern: ":", types: [ TokenType.BIND ] },
     { pattern: ".", types: [ TokenType.ACCESS ] },
     { pattern: /^[ƒf]/, types: [ TokenType.FUNCTION ] },
@@ -19,9 +19,9 @@ const patterns = [
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
     { pattern: /^-?[0-9]+([.,][0-9]+)?/, types: [ TokenType.NUMBER ] },
     { pattern: /^[π∞]/, types: [ TokenType.NUMBER ] },
-    { pattern: /^[-+×*·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY ] },
-    { pattern: /^[&|]/, types: [ TokenType.BINARY ] },
-    { pattern: /^[-~√]/, types: [ TokenType.BINARY, TokenType.UNARY ] },
+    { pattern: /^[-+×*·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
+    { pattern: /^[&|]/, types: [ TokenType.BINARY_OP ] },
+    { pattern: /^[-~√]/, types: [ TokenType.BINARY_OP, TokenType.UNARY_OP ] },
     { pattern: "⊤", types: [ TokenType.BOOLEAN ] },
     { pattern: "⊥", types: [ TokenType.BOOLEAN ] },
     // We don't allow whitespace in any tokens; this means no multi-line strings.
@@ -55,7 +55,7 @@ const patterns = [
     { pattern: /^\)[^\)]*?\(/, types: [ TokenType.TEXT_BETWEEN ] },
     // Match primtive types after strings since one is a standalone quote symbol.
     { pattern: "#", types: [ TokenType.NUMBER_TYPE ] },
-    { pattern: /^[?¿]/, types: [ TokenType.BOOLEAN_TYPE ] },
+    { pattern: /^[?¿]/, types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
     { pattern: /^['"‹‘“„«「]/u, types: [ TokenType.TEXT_TYPE ] },
     // One or more unicode characters that are not one of the reserved characters
     { pattern: /^[^\(\)\[\]\{\}:.ƒ↓↑`!•… \t\n+\-×*·^√÷%<≤=≠≥>~&|'‘’"“”„«»‹›「」『』🙂🙃\/]+/u, types: [ TokenType.NAME ] }
