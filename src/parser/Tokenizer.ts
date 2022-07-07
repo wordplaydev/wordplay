@@ -19,7 +19,7 @@ const patterns = [
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
     { pattern: /^-?[0-9]+([.,][0-9]+)?/, types: [ TokenType.NUMBER ] },
     { pattern: /^[π∞]/, types: [ TokenType.NUMBER ] },
-    { pattern: /^[-+×*^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY ] },
+    { pattern: /^[-+×*·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY ] },
     { pattern: /^[&|]/, types: [ TokenType.BINARY ] },
     { pattern: /^[-~√]/, types: [ TokenType.BINARY, TokenType.UNARY ] },
     { pattern: "⊤", types: [ TokenType.BOOLEAN ] },
@@ -55,10 +55,10 @@ const patterns = [
     { pattern: /^\)[^\)]*?\(/, types: [ TokenType.TEXT_BETWEEN ] },
     // Match primtive types after strings since one is a standalone quote symbol.
     { pattern: "#", types: [ TokenType.NUMBER_TYPE ] },
-    { pattern: "?", types: [ TokenType.BOOLEAN_TYPE ] },
+    { pattern: /^[?¿]/, types: [ TokenType.BOOLEAN_TYPE ] },
     { pattern: /^['"‹‘“„«「]/u, types: [ TokenType.TEXT_TYPE ] },
     // One or more unicode characters that are not one of the reserved characters
-    { pattern: /^[^\(\)\[\]\{\}:.ƒ↓↑`!•… \t\n+\-×*^√÷%<≤=≠≥>~&|'‘’"“”„«»‹›「」『』🙂🙃\/]+/u, types: [ TokenType.NAME ] }
+    { pattern: /^[^\(\)\[\]\{\}:.ƒ↓↑`!•… \t\n+\-×*·^√÷%<≤=≠≥>~&|'‘’"“”„«»‹›「」『』🙂🙃\/]+/u, types: [ TokenType.NAME ] }
 ];
 
 export function tokenize(source: string): Token[] {
