@@ -11,8 +11,9 @@ export default class Bind extends Node {
     readonly type?: Type;
     readonly colon?: Token;
     readonly value?: Expression;
+    readonly docs?: Token;
 
-    constructor(name: Token, dot?: Token, type?: Type | Unparsable, colon?: Token, value?: Expression) {
+    constructor(name: Token, dot?: Token, type?: Type | Unparsable, colon?: Token, value?: Expression, docs?: Token) {
         super();
 
         this.name = name;
@@ -20,6 +21,7 @@ export default class Bind extends Node {
         this.value = value;
         this.dot = dot;
         this.type = type;
+        this.docs = docs;
     }
 
     getChildren() { 
@@ -28,10 +30,8 @@ export default class Bind extends Node {
         if(this.type) children.push(this.type);
         if(this.colon) children.push(this.colon);
         if(this.value) children.push(this.value);
+        if(this.docs) children.push(this.docs);
         return children;
-    }
-    toWordplay(): string {
-        return `${this.name.toWordplay()}${this.dot === undefined ? "" : this.dot.toWordplay()}${this.type === undefined ? "" : this.type.toWordplay()}${this.colon ? this.colon.toWordplay() : ""} ${this.value ? this.value.toWordplay() : ""}`;
     }
 
 }

@@ -35,7 +35,7 @@ import ListAccess from "./ListAccess";
 import { Conditional } from "./Conditional";
 import Share from "./Share";
 import CustomType from "./CustomType";
-import Excluded from "./Excluded";
+import Documented from "./Documented";
 
 export enum ErrorMessage {
     UNEXPECTED_SHARE,
@@ -179,6 +179,9 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
     let close;
     let statements = [];
 
+    // Grab any documentation
+    let docs = tokens.nextIs(TokenType.DOCS) ? tokens.read() : undefined;
+
     if(!root) {
         open = tokens.nextIs(TokenType.EVAL_OPEN) ? 
             tokens.read() :
@@ -188,11 +191,14 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
     }
 
     while(tokens.nextIsnt(TokenType.END) && tokens.nextIsnt(TokenType.EVAL_CLOSE)) {
-        if(tokens.nextAre(TokenType.NAME, TokenType.BIND) || tokens.nextAre(TokenType.NAME, TokenType.TYPE))
+        if( tokens.nextAre(TokenType.NAME, TokenType.BIND) || 
+            tokens.nextAre(TokenType.NAME, TokenType.TYPE) || 
+            tokens.nextAre(TokenType.DOCS, TokenType.NAME, TokenType.BIND) ||
+            tokens.nextAre(TokenType.DOCS, TokenType.NAME, TokenType.TYPE))
             statements.push(parseBind(tokens))
         else if(tokens.nextIs(TokenType.SHARE))
             statements.push(parseShare(tokens));
-        else if(tokens.nextIs(TokenType.TYPE))
+        else if(tokens.nextIs(TokenType.TYPE) || tokens.nextAre(TokenType.DOCS, TokenType.TYPE))
             statements.push(parseCustomType(tokens));
         else
             statements.push(parseExpression(tokens));
@@ -206,7 +212,7 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
             tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_CLOSE);
     }
 
-    return new Block(statements, open, close);
+    return new Block(statements, open, close, docs);
 
 }
 
@@ -258,7 +264,7 @@ function parseExpression(tokens: Tokens): Expression {
         // Errors
         tokens.nextIs(TokenType.OOPS) ? parseOops(tokens): 
         // A function
-        tokens.nextIs(TokenType.FUNCTION) ? parseFunction(tokens) :
+        (tokens.nextIs(TokenType.FUNCTION) || tokens.nextAre(TokenType.DOCS, TokenType.FUNCTION)) ? parseFunction(tokens) :
         // A list
         tokens.nextIs(TokenType.LIST_OPEN) ? parseList(tokens) :
         // A set
@@ -295,7 +301,7 @@ function parseExpression(tokens: Tokens): Expression {
 
     // Is the expression excluded? Wrap it.
     if(excluded !== undefined)
-        left = new Excluded(excluded, left);
+        left = new Documented(excluded, left);
 
     // Return the beautiful tree we built.
     return left;
@@ -458,6 +464,8 @@ function parseEval(left: Expression, tokens: Tokens): Evaluate | Unparsable {
 /** FUNCTION :: ƒ TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
 function parseFunction(tokens: Tokens): Function | Unparsable {
 
+    const docs = tokens.nextIs(TokenType.DOCS) ? tokens.read() : undefined;
+
     const fun = tokens.read();
 
     const typeVars = tokens.nextIs(TokenType.TYPE_VARS) ? parseTypeVariables(tokens) : undefined;
@@ -483,7 +491,7 @@ function parseFunction(tokens: Tokens): Function | Unparsable {
 
     const expression = parseExpression(tokens);
 
-    return new Function(fun, open, inputs, close, expression, typeVars, type, output);
+    return new Function(fun, open, inputs, close, expression, typeVars, type, output, docs);
 
 }
 
@@ -574,6 +582,7 @@ function parseSetOrMap(tokens: Tokens): SetNode | Unparsable {
 /** BIND :: name TYPE? : EXPRESSION */
 function parseBind(tokens: Tokens): Bind | Unparsable {
 
+    let docs = tokens.nextIs(TokenType.DOCS) ? tokens.read() : undefined;
     let name;
     let colon;
     let value;
@@ -595,7 +604,7 @@ function parseBind(tokens: Tokens): Bind | Unparsable {
         value = parseExpression(tokens);
     }
 
-    return new Bind(name, colon, value, dot, type);
+    return new Bind(name, colon, value, dot, type, docs);
 
 }
 
@@ -739,6 +748,8 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 /** CUSTOM_TYPE :: • name TYPE_VARS ( BIND* ) BLOCK */
 function parseCustomType(tokens: Tokens): CustomType | Unparsable {
 
+    const docs = tokens.nextIs(TokenType.DOCS) ? tokens.read() : undefined;
+
     const type = tokens.read();
     if(tokens.nextIsnt(TokenType.NAME))
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_NAME);
@@ -758,6 +769,6 @@ function parseCustomType(tokens: Tokens): CustomType | Unparsable {
 
     const block = parseBlock(false, tokens);
 
-    return new CustomType(type, name, open, inputs, close, block, typeVars);
+    return new CustomType(type, name, open, inputs, close, block, typeVars, docs);
 
 }

@@ -1,7 +1,7 @@
 import Expression from "./Expression";
 import type { Token } from "./Token";
 
-export default class Excluded extends Expression {
+export default class Documented extends Expression {
     
     readonly tick: Token;
     readonly expression: Expression;

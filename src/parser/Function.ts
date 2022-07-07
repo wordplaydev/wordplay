@@ -16,8 +16,9 @@ export default class Function extends Expression {
     readonly dot?: Token;
     readonly output?: Type;
     readonly expression: Expression;
+    readonly docs?: Token;
 
-    constructor(fun: Token, open: Token, inputs: (Bind|Unparsable)[], close: Token, expression: Expression, typeVars?: TypeVariables|Unparsable, dot?: Token, output?: Type) {
+    constructor(fun: Token, open: Token, inputs: (Bind|Unparsable)[], close: Token, expression: Expression, typeVars?: TypeVariables|Unparsable, dot?: Token, output?: Type, docs?: Token) {
         super();
 
         this.fun = fun;
@@ -28,6 +29,7 @@ export default class Function extends Expression {
         this.dot = dot;
         this.output = output;
         this.expression = expression;
+        this.docs = docs;
     }
 
     getChildren() {
@@ -39,11 +41,8 @@ export default class Function extends Expression {
         if(this.dot) children.push(this.dot);
         if(this.output) children.push(this.output);
         children.push(this.expression);
+        if(this.docs) children.push(this.docs);
         return children;
-    }
-
-    toWordplay(): string {
-        return `${this.fun.toWordplay()}${this.fun.toWordplay()}${this.inputs.map(i => i.toWordplay())}${this.close.toWordplay()}${this.expression.toWordplay()}`
     }
 
 }
