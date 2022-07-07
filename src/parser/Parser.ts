@@ -198,8 +198,6 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
             statements.push(parseBind(tokens))
         else if(tokens.nextIs(TokenType.SHARE))
             statements.push(parseShare(tokens));
-        else if(tokens.nextIs(TokenType.TYPE) || tokens.nextAre(TokenType.DOCS, TokenType.TYPE))
-            statements.push(parseCustomType(tokens));
         else
             statements.push(parseExpression(tokens));
         if(!tokens.nextHasPrecedingLineBreak() && tokens.nextIsnt(TokenType.END))
@@ -259,10 +257,12 @@ function parseExpression(tokens: Tokens): Expression {
         tokens.nextIs(TokenType.NUMBER) ? parseMeasurement(tokens) :
         // Text with optional formats
         tokens.nextIs(TokenType.TEXT) ? parseText(tokens) :
-        // Literal tokens
+        // Names or booleans are easy
         tokens.nextIsOneOf(TokenType.NAME, TokenType.BOOLEAN) ? tokens.read() :
-        // Errors
-        tokens.nextIs(TokenType.NONE) ? parseOops(tokens): 
+        // Nones
+        tokens.nextIs(TokenType.NONE) ? parseNone(tokens): 
+        // Custom types
+        (tokens.nextIs(TokenType.TYPE) || tokens.nextAre(TokenType.DOCS, TokenType.TYPE)) ? parseCustomType(tokens) :
         // A function
         (tokens.nextIs(TokenType.FUNCTION) || tokens.nextAre(TokenType.DOCS, TokenType.FUNCTION)) ? parseFunction(tokens) :
         // A list
@@ -343,8 +343,8 @@ function parseText(tokens: Tokens): Text {
 
 }
 
-/** OOPS :: ! NAME? */
-function parseOops(tokens: Tokens): None | Unparsable {
+/** NONE :: ! NAME? */
+function parseNone(tokens: Tokens): None | Unparsable {
 
     const error = tokens.read();
     if(tokens.nextIs(TokenType.NAME)) {
@@ -745,15 +745,11 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 
 }
 
-/** CUSTOM_TYPE :: • name TYPE_VARS ( BIND* ) BLOCK */
+/** CUSTOM_TYPE :: • TYPE_VARS ( BIND* ) BLOCK */
 function parseCustomType(tokens: Tokens): CustomType | Unparsable {
 
-    const docs = tokens.nextIs(TokenType.DOCS) ? tokens.read() : undefined;
-
     const type = tokens.read();
-    if(tokens.nextIsnt(TokenType.NAME))
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_NAME);
-    const name = tokens.read();
+ 
     const typeVars = tokens.nextIs(TokenType.TYPE_VARS) ? parseTypeVariables(tokens) : undefined;
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
@@ -769,6 +765,6 @@ function parseCustomType(tokens: Tokens): CustomType | Unparsable {
 
     const block = parseBlock(false, tokens);
 
-    return new CustomType(type, name, open, inputs, close, block, typeVars, docs);
+    return new CustomType(type, open, inputs, close, block, typeVars);
 
 }
