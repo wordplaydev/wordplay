@@ -102,6 +102,16 @@ class Tokens {
     nextLacksPrecedingSpace(): boolean {
         return this.hasNext() && !this.#unread[0].hasPrecedingSpace();
     }
+
+    /** Returns true if and only if the next token has a preceding line break. */
+    nextHasPrecedingLineBreak(): boolean {
+        return this.hasNext() && this.#unread[0].hasPrecedingLineBreak();
+    }
+
+    /** Returns true if and only if the next token after next has a preceding line break. */
+    afterNextHasPrecedingLineBreak(): boolean {
+        return this.#unread.length > 1  && this.#unread[1].hasPrecedingLineBreak();
+    }
     
     /** Returns a token list without the first token. */
     read(): Token {
@@ -116,8 +126,8 @@ class Tokens {
 
     /** Returns a token list without all of the tokens until the next line or the end of the list. */
     readUnparsableLine(reason: ErrorMessage): Unparsable {
-        const index = this.#unread.findIndex(t => t.is(TokenType.LINES));
-        return new Unparsable(reason, this.#unread.splice(0, index < 0 ? this.#unread.length : index));
+        const index = this.#unread.findIndex(t => t.hasPrecedingLineBreak());
+        return new Unparsable(reason, this.#unread.splice(0, index < 1 ? this.#unread.length : index));
     }
 
 }
@@ -133,17 +143,9 @@ export function parseTokens(tokens: Token[]): Program {
 // PROGRAM :: BORROW* BLOCK
 export function parseProgram(tokens: Tokens): Program {
 
-    // Consume some lines.
-    if(tokens.nextIs(TokenType.LINES))
-        tokens.read();
-
     const borrows = [];
     while(tokens.nextIs(TokenType.BORROW))
         borrows.push(parseBorrow(tokens));
-
-    // Consume some more lines.
-    if(tokens.nextIs(TokenType.LINES))
-        tokens.read();
 
     const block = parseBlock(false, tokens);
 
@@ -173,7 +175,7 @@ export function parseBorrow(tokens: Tokens): Borrow | Unparsable {
 }
 
 /** BLOCK :: EXPR_OPEN? LINES (BIND|EXPRESSION) LINES EXPR_CLOSE? */
-export function parseBlock(expectParentheses: boolean, tokens: Tokens): Block {
+export function parseBlock(expectParentheses: boolean, tokens: Tokens): Block | Unparsable {
     let open;
     let close;
     let statements = [];
@@ -182,20 +184,16 @@ export function parseBlock(expectParentheses: boolean, tokens: Tokens): Block {
         open = tokens.nextIs(TokenType.EVAL_OPEN) ? 
             tokens.read() :
             tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
-        if(tokens.nextIs(TokenType.LINES))
-            tokens.read();
-        else
-            tokens.readUnparsableLine(ErrorMessage.EXPECTED_LINES);
+        if(!tokens.nextHasPrecedingLineBreak())
+            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_LINES);
     }
 
-    while(tokens.nextIsnt(TokenType.EVAL_CLOSE)) {
+    while(tokens.nextIsnt(TokenType.END) && tokens.nextIsnt(TokenType.EVAL_CLOSE)) {
         if(tokens.nextAre(TokenType.NAME, TokenType.BIND) || tokens.nextAre(TokenType.NAME, TokenType.TYPE))
             statements.push(parseBind(tokens))
         else
             statements.push(parseExpression(tokens));
-        if(tokens.nextIs(TokenType.LINES))
-            tokens.read();
-        else if(tokens.hasNext())
+        if(!tokens.nextHasPrecedingLineBreak() && tokens.nextIsnt(TokenType.END))
             statements.push(tokens.readUnparsableLine(ErrorMessage.EXPECTED_LINES))
     }
 
@@ -233,6 +231,8 @@ function parseExpression(tokens: Tokens): Expression {
 
     // All expressions must start with one of the following
     let left: Expression = (
+        // A block. (Has precedent over inline parenthetical).
+        (tokens.nextIs(TokenType.EVAL_OPEN) && tokens.afterNextHasPrecedingLineBreak()) ? parseBlock(true, tokens) :
         // A parenthetical
         tokens.nextAre(TokenType.EVAL_OPEN) ? parseParenthetical(tokens) :
         // Numbers with units
@@ -243,8 +243,6 @@ function parseExpression(tokens: Tokens): Expression {
         tokens.nextIsOneOf(TokenType.NAME, TokenType.BOOLEAN) ? tokens.read() :
         // Errors
         tokens.nextIs(TokenType.OOPS) ? parseOops(tokens): 
-        // A block
-        tokens.nextAre(TokenType.EVAL_OPEN, TokenType.LINES) ? parseBlock(true, tokens) :
         // A function
         tokens.nextIs(TokenType.FUNCTION) ? parseFunction(tokens) :
         // A list
@@ -496,9 +494,6 @@ function parseDelimited<T extends Expression | KeyValue>(tokens: Tokens, openTyp
     else
         return tokens.readUnparsableLine(openError);
 
-    while(tokens.nextIs(TokenType.LINES))
-        tokens.read();
-
     while(tokens.nextIsnt(closeType)) {
 
         const key = parseExpression(tokens);
@@ -516,8 +511,7 @@ function parseDelimited<T extends Expression | KeyValue>(tokens: Tokens, openTyp
         else {
             values.push(key as T|Unparsable);
         }
-        while(tokens.nextIs(TokenType.LINES))
-           tokens.read();
+
     }
 
     if(tokens.nextIs(closeType))

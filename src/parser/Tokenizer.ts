@@ -24,8 +24,6 @@ const patterns = [
     { pattern: /^[-~√]/, types: [ TokenType.BINARY_OP, TokenType.UNARY_OP ] },
     { pattern: "⊤", types: [ TokenType.BOOLEAN ] },
     { pattern: "⊥", types: [ TokenType.BOOLEAN ] },
-    // We don't allow whitespace in any tokens; this means no multi-line strings.
-    { pattern: /^\n+/, types: [ TokenType.LINES ] },
     // Also match the open and close patterns before the regular text patterns.
     // Note that we explicitly exclude • from text so that we can use text
     // delimiters in type declarations. Without excluding them, we wouldn't be able to
@@ -72,18 +70,24 @@ export function tokenize(source: string): Token[] {
         tokens.push(nextToken);
         index += length;
     }
+
+    // If there's nothing left and the last token isn't an end token, add one.
+    if(tokens.length === 0 || !tokens[tokens.length - 1].is(TokenType.END))
+        tokens.push(new Token("", [ TokenType.END ], index));
+
     return tokens;
 }
 
 function getNextToken(source: string, index: number): Token | undefined {
 
     // Is there a series of space or tabs?
-    const spaceMatch = source.match(/^[ \t]+/);
+    const spaceMatch = source.match(/^[ \t\n]+/);
     const space = spaceMatch === null ? "" : spaceMatch[0];
     const trimmedSource = source.substring(space.length);
     const startIndex = index + space.length;
 
-    if(trimmedSource.length === 0) return;
+    // If there's nothing left, return an end of file token.
+    if(trimmedSource.length === 0) return new Token("", [ TokenType.END ], startIndex, space);
 
     // See if one of the more complex regular expression patterns matches.
     for(let i = 0; i < patterns.length; i++) {

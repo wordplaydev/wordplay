@@ -5,10 +5,10 @@ import type Unparsable from "./Unparsable";
 
 export default class Program extends Node {
     
-    readonly borrows: (Borrow|Unparsable)[];
-    readonly block: Block;
+    readonly borrows: (Borrow | Unparsable)[];
+    readonly block: Block | Unparsable;
 
-    constructor(borrows: (Borrow|Unparsable)[], block: Block) {
+    constructor(borrows: (Borrow|Unparsable)[], block: Block | Unparsable) {
         super();
         this.borrows = borrows.slice();
         this.block = block;

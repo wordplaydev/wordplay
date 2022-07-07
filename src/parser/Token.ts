@@ -41,7 +41,6 @@ export enum TokenType {
     // Both commas and periods are allowed to cover different conventions globally.
     NUMBER,     // -?[0-9]+([.,][0-9]+)?(-[0-9]+([.,][0-9]+)?)[^\s]*
     BOOLEAN,    // \u22a4 (true) \u22a5 (false)
-    LINES,       // \n
     NAME,       // .+
     UNKNOWN,        // Represents any characters that couldn't be tokenized.
     END
@@ -69,6 +68,7 @@ export class Token extends Node {
     getChildren() { return []; }
     getPrecedingSpace() { return this.space; }
     hasPrecedingSpace() { return this.space.length > 0; }
+    hasPrecedingLineBreak() { return this.space.includes("\n"); }
     isnt(type: TokenType) { return !this.is(type); }
     is(type: TokenType) { return this.types.includes(type); }
     isName() { return this.is(TokenType.NAME); }
