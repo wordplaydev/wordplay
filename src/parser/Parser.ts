@@ -31,6 +31,7 @@ import SetType from "./SetType";
 import FunctionType from "./FunctionType";
 import TypeVariables from "./TypeVariables";
 import KeyValue from "./KeyValue";
+import ListAccess from "./ListAccess";
 
 export enum ErrorMessage {
     EXPECTED_BORROW,
@@ -260,6 +261,10 @@ function parseExpression(tokens: Tokens): Expression {
     // But wait! Is it one or more accessors? Slurp them up.
     if(tokens.nextIs(TokenType.ACCESS))
         left = parseAccess(left, tokens);
+    else if(tokens.nextIs(TokenType.LIST_OPEN))
+        left = parseListAccess(left, tokens);
+    else if(tokens.nextIs(TokenType.SET_OPEN))
+        left = parseSetAccess(left, tokens);
     // If not that, is it an evaluation with an accessor?
     else if(left instanceof Token && left.isName() && tokens.nextIs(TokenType.EVAL_OPEN))
         left = parseEval(left, tokens);
@@ -332,6 +337,50 @@ function parseParenthetical(tokens: Tokens): Parenthetical | Unparsable {
 
     return new Parenthetical(open, value, close);
 
+}
+
+/** LIST_ACCESS :: EXPRESSION ([ EXPRESSION ])+ */
+function parseListAccess(left: Expression, tokens: Tokens): Expression | Unparsable {
+    do {
+
+        const open = tokens.read();
+        const index = parseExpression(tokens);
+        if(tokens.nextIsnt(TokenType.LIST_CLOSE))
+            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_LIST_CLOSE);
+        const close = tokens.read();
+
+        left = new ListAccess(left, open, index, close);
+
+        // But wait, is it a function evaluation?
+        if(tokens.nextIs(TokenType.EVAL_OPEN))
+            left = parseEval(left, tokens);
+
+    } while(tokens.nextIs(TokenType.LIST_OPEN));
+
+    // Return the series of accesses and evaluations we created.
+    return left;
+}
+
+/** SET_ACCESS :: EXPRESSION ([ EXPRESSION ])+ */
+function parseSetAccess(left: Expression, tokens: Tokens): Expression | Unparsable {
+    do {
+
+        const open = tokens.read();
+        const index = parseExpression(tokens);
+        if(tokens.nextIsnt(TokenType.SET_CLOSE))
+            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_LIST_CLOSE);
+        const close = tokens.read();
+
+        left = new ListAccess(left, open, index, close);
+
+        // But wait, is it a function evaluation?
+        if(tokens.nextIs(TokenType.EVAL_OPEN))
+            left = parseEval(left, tokens);
+
+    } while(tokens.nextIs(TokenType.SET_OPEN));
+
+    // Return the series of accesses and evaluations we created.
+    return left;
 }
 
 /** ACCESS :: EXPRESSION (.NAME)+ */
