@@ -33,9 +33,10 @@ import TypeVariables from "./TypeVariables";
 import KeyValue from "./KeyValue";
 import ListAccess from "./ListAccess";
 import { Conditional } from "./Conditional";
+import Share from "./Share";
 
 export enum ErrorMessage {
-    EXPECTED_BORROW,
+    UNEXPECTED_SHARE,
     EXPECTED_NAME,
     EXPECTED_EVAL_OPEN,
     EXPECTED_EVAL_CLOSE,
@@ -147,21 +148,17 @@ export function parseProgram(tokens: Tokens): Program {
     while(tokens.nextIs(TokenType.BORROW))
         borrows.push(parseBorrow(tokens));
 
-    const block = parseBlock(false, tokens);
+    const block = parseBlock(true, tokens);
 
     return new Program(borrows, block);
 
 }
 
-// BORROW :: borrow name number?
+// BORROW :: ↓ name number?
 export function parseBorrow(tokens: Tokens): Borrow | Unparsable {
-    let borrow;
+    let borrow = tokens.read();
     let name;
     let version;
-    if(tokens.nextIs(TokenType.BORROW))
-        borrow = tokens.read();
-    else 
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_BORROW);
 
     if(tokens.nextIs(TokenType.NAME))
         name = tokens.read();
@@ -175,12 +172,12 @@ export function parseBorrow(tokens: Tokens): Borrow | Unparsable {
 }
 
 /** BLOCK :: EXPR_OPEN? LINES (BIND|EXPRESSION) LINES EXPR_CLOSE? */
-export function parseBlock(expectParentheses: boolean, tokens: Tokens): Block | Unparsable {
+export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
     let open;
     let close;
     let statements = [];
 
-    if(expectParentheses) {
+    if(!root) {
         open = tokens.nextIs(TokenType.EVAL_OPEN) ? 
             tokens.read() :
             tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
@@ -191,19 +188,30 @@ export function parseBlock(expectParentheses: boolean, tokens: Tokens): Block | 
     while(tokens.nextIsnt(TokenType.END) && tokens.nextIsnt(TokenType.EVAL_CLOSE)) {
         if(tokens.nextAre(TokenType.NAME, TokenType.BIND) || tokens.nextAre(TokenType.NAME, TokenType.TYPE))
             statements.push(parseBind(tokens))
+        else if(tokens.nextIs(TokenType.SHARE)) {
+            statements.push(root ? parseShare(tokens) : tokens.readUnparsableLine(ErrorMessage.UNEXPECTED_SHARE));
+        }
         else
             statements.push(parseExpression(tokens));
         if(!tokens.nextHasPrecedingLineBreak() && tokens.nextIsnt(TokenType.END))
             statements.push(tokens.readUnparsableLine(ErrorMessage.EXPECTED_LINES))
     }
 
-    if(expectParentheses) {
+    if(!root) {
         close = tokens.nextIs(TokenType.EVAL_CLOSE) ? 
             tokens.read() :
             tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_CLOSE);
     }
 
     return new Block(statements, open, close);
+
+}
+
+function parseShare(tokens: Tokens): Share {
+
+    const share = tokens.read();
+    const bind = parseBind(tokens);
+    return new Share(share, bind);
 
 }
 
@@ -232,7 +240,7 @@ function parseExpression(tokens: Tokens): Expression {
     // All expressions must start with one of the following
     let left: Expression = (
         // A block. (Has precedent over inline parenthetical).
-        (tokens.nextIs(TokenType.EVAL_OPEN) && tokens.afterNextHasPrecedingLineBreak()) ? parseBlock(true, tokens) :
+        (tokens.nextIs(TokenType.EVAL_OPEN) && tokens.afterNextHasPrecedingLineBreak()) ? parseBlock(false, tokens) :
         // A parenthetical
         tokens.nextAre(TokenType.EVAL_OPEN) ? parseParenthetical(tokens) :
         // Numbers with units
@@ -298,7 +306,7 @@ function parseMeasurement(tokens: Tokens): Measurement {
 
     const number = tokens.read();
     let unit;
-    if(tokens.nextIs(TokenType.NAME)) {
+    if(tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace()) {
         unit = tokens.read();
     }
     return new Measurement(number, unit);
@@ -313,7 +321,7 @@ function parseText(tokens: Tokens): Text {
 
     const text = tokens.read();
     let format;
-    if(tokens.nextIs(TokenType.NAME))
+    if(tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
         format = tokens.read();
     return new Text(text, format);
 
