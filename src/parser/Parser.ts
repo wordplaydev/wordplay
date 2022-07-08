@@ -291,17 +291,20 @@ function parseExpression(tokens: Tokens): Expression {
     );
 
     // But wait! Is it one or more accessors? Slurp them up.
-    if(tokens.nextIs(TokenType.ACCESS))
-        left = parseAccess(left, tokens);
-    else if(tokens.nextIs(TokenType.LIST_OPEN))
-        left = parseListAccess(left, tokens);
-    else if(tokens.nextIs(TokenType.SET_OPEN))
-        left = parseSetAccess(left, tokens);
-    // Is it a function evaluation on a name?
-    else if(left instanceof Token && left.isName() && tokens.nextIs(TokenType.EVAL_OPEN) && tokens.nextLacksPrecedingSpace())
-        left = parseEval(left, tokens);
+    while(tokens.nextIsOneOf(TokenType.ACCESS, TokenType.LIST_OPEN, TokenType.SET_OPEN, TokenType.EVAL_OPEN)) {
+        if(tokens.nextIs(TokenType.ACCESS))
+            left = parseAccess(left, tokens);
+        else if(tokens.nextIs(TokenType.LIST_OPEN))
+            left = parseListAccess(left, tokens);
+        else if(tokens.nextIs(TokenType.SET_OPEN))
+            left = parseSetAccess(left, tokens);
+        // Is it a function evaluation on a name?
+        else if(tokens.nextIs(TokenType.EVAL_OPEN) && tokens.nextLacksPrecedingSpace())
+            left = parseEval(left, tokens);
+    }
+    
     // Is it conditional statement?
-    else if(tokens.nextIs(TokenType.CONDITIONAL))
+    if(tokens.nextIs(TokenType.CONDITIONAL))
         left = parseConditional(left, tokens);
 
     // Finally, keep reading binary operators until we see no more. Order of operations is 
