@@ -20,7 +20,7 @@ export default class Block extends Expression {
     }
 
     getChildren() {
-        return [ ...(this.open ? [ this.open ] : []), ...this.statements, ...(this.close ? [ this.close ] : []), ...(this.docs ? [ this.docs] : [])];
+        return [ ...(this.docs ? [ this.docs] : []), ...(this.open ? [ this.open ] : []), ...this.statements, ...(this.close ? [ this.close ] : [])];
     }
     
 }

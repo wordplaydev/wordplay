@@ -26,8 +26,9 @@ export default class Bind extends Node {
     }
 
     getChildren() { 
-        const children: Node[] = [ ...this.names ];
+        let children: Node[] = [];
         if(this.docs) children.push(this.docs);
+        children = children.concat(this.names);
         if(this.dot) children.push(this.dot);
         if(this.type) children.push(this.type);
         if(this.colon) children.push(this.colon);
