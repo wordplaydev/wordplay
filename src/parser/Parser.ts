@@ -44,6 +44,10 @@ import Row from "./Row";
 import Table from "./Table";
 import ColumnType from "./ColumnTYpe";
 import TableType from "./TableType";
+import Select from "./Select";
+import Insert from "./Insert";
+import Update from "./Update";
+import Delete from "./Delete";
 
 export enum ErrorMessage {
     UNEXPECTED_SHARE,
@@ -289,7 +293,7 @@ function parseExpression(tokens: Tokens): Expression {
         // A set
         tokens.nextIs(TokenType.SET_OPEN) ? parseSetOrMap(tokens) :
         // Table literals
-        tokens.nextIs(TokenType.CELL) ? parseTable(tokens) :
+        tokens.nextIs(TokenType.TABLE) ? parseTable(tokens) :
         // A string template
         tokens.nextIs(TokenType.TEXT_OPEN) ? parseTemplate(tokens) :
         // Unary expressions!
@@ -299,16 +303,31 @@ function parseExpression(tokens: Tokens): Expression {
     );
 
     // But wait! Is it one or more accessors? Slurp them up.
-    while(tokens.nextIsOneOf(TokenType.ACCESS, TokenType.LIST_OPEN, TokenType.SET_OPEN, TokenType.EVAL_OPEN)) {
+    while(tokens.nextIsOneOf(
+        TokenType.ACCESS, 
+        TokenType.LIST_OPEN, 
+        TokenType.SET_OPEN, 
+        TokenType.EVAL_OPEN, 
+        TokenType.SELECT, 
+        TokenType.INSERT, 
+        TokenType.UPDATE, 
+        TokenType.DELETE)) {
         if(tokens.nextIs(TokenType.ACCESS))
             left = parseAccess(left, tokens);
         else if(tokens.nextIs(TokenType.LIST_OPEN))
             left = parseListAccess(left, tokens);
         else if(tokens.nextIs(TokenType.SET_OPEN))
             left = parseSetAccess(left, tokens);
-        // Is it a function evaluation on a name?
         else if(tokens.nextIs(TokenType.EVAL_OPEN) && tokens.nextLacksPrecedingSpace())
             left = parseEval(left, tokens);
+        else if(tokens.nextIs(TokenType.SELECT))
+            left = parseSelect(left, tokens);
+        else if(tokens.nextIs(TokenType.INSERT))
+            left = parseInsert(left, tokens);
+        else if(tokens.nextIs(TokenType.UPDATE))
+            left = parseUpdate(left, tokens);
+        else if(tokens.nextIs(TokenType.DELETE))
+            left = parseDelete(left, tokens);
     }
     
     // Is it conditional statement?
@@ -607,7 +626,7 @@ function parseTable(tokens: Tokens): Table {
 
     // Read the column definitions. Stop when we see a newline.
     const columns = [];
-    while(tokens.nextIs(TokenType.CELL)) {
+    while(tokens.nextIs(TokenType.TABLE)) {
         const cell = tokens.read();
         const bind = parseBind(tokens);
         columns.push(new Column(cell, bind));
@@ -617,21 +636,69 @@ function parseTable(tokens: Tokens): Table {
 
     // Read the rows.
     const rows = [];
-    while(tokens.nextIs(TokenType.CELL)) {
-        const cells = [];
-        // Read the cells.
-        while(tokens.nextIs(TokenType.CELL)) {
-            const cell = tokens.read();
-            const value = parseExpression(tokens);
-            cells.push(new Cell(cell, value));
-            if(tokens.nextHasPrecedingLineBreak())
-                break;
-        }
-        rows.push(new Row(cells));
-    }
+    while(tokens.nextIs(TokenType.TABLE))
+        rows.push(parseRow(tokens));
 
     return new Table(columns, rows);
 
+}
+
+/** ROW :: [| (BIND|EXPRESSION)]+ */
+function parseRow(tokens: Tokens): Row {
+
+    const cells = [];
+    // Read the cells.
+    while(tokens.nextIs(TokenType.TABLE)) {
+        const cell = tokens.read();
+        const value = tokens.nextIsBind() ? parseBind(tokens) : parseExpression(tokens);
+        cells.push(new Cell(cell, value));
+        if(tokens.nextHasPrecedingLineBreak())
+            break;
+    }
+    return new Row(cells);
+
+}
+
+/** SELECT :: EXPRESSION |? ROW EXPRESSION */
+function parseSelect(table: Expression, tokens: Tokens): Select {
+
+    const select = tokens.read();
+    const row = parseRow(tokens);
+    const query = parseExpression(tokens);
+
+    return new Select(table, select, row, query);
+
+}
+
+/** INSERT :: EXPRESSION |+ ROW */
+function parseInsert(table: Expression, tokens: Tokens): Insert {
+
+    const insert = tokens.read();
+    const row = parseRow(tokens);
+
+    return new Insert(table, insert, row);
+    
+}
+
+/** UPDATE :: EXPRESSION |: ROW EXPRESSION */
+function parseUpdate(table: Expression, tokens: Tokens): Update {
+
+    const update = tokens.read();
+    const row = parseRow(tokens);
+    const query = parseExpression(tokens);
+
+    return new Update(table, update, row, query);
+    
+}
+
+/** DELETE :: EXPRESSION |- EXPRESSION */
+function parseDelete(table: Expression, tokens: Tokens): Delete {
+
+    const del = tokens.read();
+    const query = parseExpression(tokens);
+
+    return new Delete(table, del, query);
+    
 }
 
 /** BIND :: name TYPE? : EXPRESSION */
@@ -715,7 +782,7 @@ function parseType(tokens: Tokens): Type | Unparsable {
         tokens.nextIs(TokenType.NONE) ? parseOopsType(tokens) :
         tokens.nextIs(TokenType.LIST_OPEN) ? parseListType(tokens) :
         tokens.nextIs(TokenType.SET_OPEN) ? parseSetType(tokens) :
-        tokens.nextIs(TokenType.CELL) ? parseTableType(tokens) :
+        tokens.nextIs(TokenType.TABLE) ? parseTableType(tokens) :
         tokens.nextIs(TokenType.FUNCTION) ? parseFunctionType(tokens) :
         tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE)
     );
@@ -784,7 +851,7 @@ function parseSetType(tokens: Tokens): SetType | Unparsable {
 function parseTableType(tokens: Tokens): TableType | Unparsable {
 
     const columns = [];
-    while(tokens.nextIs(TokenType.CELL)) {
+    while(tokens.nextIs(TokenType.TABLE)) {
         const bar = tokens.read();
         const type = parseType(tokens);
         columns.push(new ColumnType(bar, type))

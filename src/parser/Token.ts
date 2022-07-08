@@ -16,12 +16,16 @@ export enum TokenType {
     NONE,       // ø
     TYPE,       // •
     TYPE_VARS,  // /
-    LANGUAGE,      // /
-    BOOLEAN_TYPE, // ?
+    LANGUAGE,   // /
+    BOOLEAN_TYPE,// ?
     TEXT_TYPE,  // '"‹‘“„«「
-    NUMBER_TYPE,  // #
+    NUMBER_TYPE,// #
     NONE_TYPE,  // !
-    CELL,      // ,
+    TABLE,      // |
+    SELECT,     // |?
+    INSERT,     // |+
+    UPDATE,     // |:
+    DELETE,     // |-
     UNION,      // |
     // These are the only operators eligible for unary or infix notation.
     // We’ve included them for consistency with math notation.
