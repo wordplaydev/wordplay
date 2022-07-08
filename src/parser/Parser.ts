@@ -42,6 +42,8 @@ import Column from "./Column";
 import Cell from "./Cell";
 import Row from "./Row";
 import Table from "./Table";
+import ColumnType from "./ColumnTYpe";
+import TableType from "./TableType";
 
 export enum ErrorMessage {
     UNEXPECTED_SHARE,
@@ -104,18 +106,12 @@ class Tokens {
     }
 
     nextIsBind() {
-        // ALIAS :: (DOCS? NAME LANG? NAME?)+ bind 
-        // To detect this, we'll just peek ahead and see if it follows this pattern.
+        // To detect this, we'll just peek ahead and see if there's a bind before the next line.
         let index = 0;
-        while(index < this.#unread.length && !this.#unread[index].is(TokenType.BIND)) {
-            const token = this.#unread[index];
-            if(!(token.is(TokenType.DOCS) || token.is(TokenType.NAME) || token.is(TokenType.LANGUAGE)))
-                return false;
+        while(index < this.#unread.length && !this.#unread[index].is(TokenType.BIND) && !this.#unread[index].hasPrecedingSpace())
             index++;
-        }
         // If we found a bind, it's a bind.
-        return this.#unread[index].is(TokenType.BIND);
-
+        return index < this.#unread.length && this.#unread[index].is(TokenType.BIND);
     }
 
     nextIsOneOf(...types: TokenType[]): boolean {
@@ -719,6 +715,7 @@ function parseType(tokens: Tokens): Type | Unparsable {
         tokens.nextIs(TokenType.NONE) ? parseOopsType(tokens) :
         tokens.nextIs(TokenType.LIST_OPEN) ? parseListType(tokens) :
         tokens.nextIs(TokenType.SET_OPEN) ? parseSetType(tokens) :
+        tokens.nextIs(TokenType.CELL) ? parseTableType(tokens) :
         tokens.nextIs(TokenType.FUNCTION) ? parseFunctionType(tokens) :
         tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE)
     );
@@ -780,6 +777,19 @@ function parseSetType(tokens: Tokens): SetType | Unparsable {
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_SET_CLOSE);
     const close = tokens.read();
     return new SetType(open, type, close, bind, value);
+
+}
+
+/** SET_TYPE :: (| TYPE)+ */
+function parseTableType(tokens: Tokens): TableType | Unparsable {
+
+    const columns = [];
+    while(tokens.nextIs(TokenType.CELL)) {
+        const bar = tokens.read();
+        const type = parseType(tokens);
+        columns.push(new ColumnType(bar, type))
+    }
+    return new TableType(columns);
 
 }
 
