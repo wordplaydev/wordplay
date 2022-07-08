@@ -112,8 +112,13 @@ class Tokens {
     nextIsBind() {
         // To detect this, we'll just peek ahead and see if there's a bind before the next line.
         let index = 0;
-        while(index < this.#unread.length && !this.#unread[index].is(TokenType.BIND) && !this.#unread[index].hasPrecedingSpace())
+        while(index < this.#unread.length && !this.#unread[index].hasPrecedingLineBreak()) {
+            const token = this.#unread[index];
+            if(token.is(TokenType.BIND)) break;
+            if(token.hasPrecedingLineBreak()) break;
+            if(token.is(TokenType.EVAL_OPEN)) return false;
             index++;
+        }
         // If we found a bind, it's a bind.
         return index < this.#unread.length && this.#unread[index].is(TokenType.BIND);
     }
@@ -493,7 +498,7 @@ function parseEval(left: Expression, tokens: Tokens): Evaluate | Unparsable {
     let close;
     
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        objects.push(parseExpression(tokens));
+        objects.push(tokens.nextIsBind() ? parseBind(tokens) : parseExpression(tokens));
     
     if(tokens.nextIs(TokenType.EVAL_CLOSE))
         close = tokens.read();
