@@ -20,7 +20,7 @@ export enum TokenType {
     BOOLEAN_TYPE, // ?
     TEXT_TYPE,  // '"‹‘“„«「
     NUMBER_TYPE,  // #
-    NONE_TYPE,  // ø
+    NONE_TYPE,  // !
     CELL,      // ,
     UNION,      // |
     // These are the only operators eligible for unary or infix notation.

@@ -9,11 +9,11 @@ const patterns = [
     { pattern: "|", types: [ TokenType.CELL] },
     { pattern: ":", types: [ TokenType.BIND ] },
     { pattern: ".", types: [ TokenType.ACCESS ] },
-    { pattern: /^[ƒf]/, types: [ TokenType.FUNCTION ] },
+    { pattern: "ƒ", types: [ TokenType.FUNCTION ] },
     { pattern: "↓", types: [ TokenType.BORROW ] },
     { pattern: "↑", types: [ TokenType.SHARE ] },
     { pattern: /^`.*?`/, types: [ TokenType.DOCS ] },
-    { pattern: "ø", types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
+    { pattern: "!", types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
     { pattern: "•", types: [ TokenType.TYPE ] },
     { pattern: "/", types: [ TokenType.TYPE_VARS, TokenType.LANGUAGE ] },
     { pattern: "…", types: [ TokenType.STREAM ] },
@@ -57,8 +57,8 @@ const patterns = [
     // Match primtive types after strings since one is a standalone quote symbol.
     { pattern: "#", types: [ TokenType.NUMBER_TYPE ] },
     { pattern: /^[?¿]/, types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
-    // One or more unicode characters that are not one of the reserved characters
-    { pattern: /^[^\(\)\[\]\{\}:.,ƒ↓↑`ø•… \t\n+\-×*·^√÷%<≤=≠≥>~|¬∧∨'‘’"“”„«»‹›「」『』🙂🙃\/]+/u, types: [ TokenType.NAME ] }
+    // One or more unicode characters that are not one of the reserved symbols above.
+    { pattern: /^[^\(\)\[\]\{\}|:.,ƒ↓↑`!•… \t\n+\-×*·^√÷%<≤=≠≥>⊥⊤~¬∧∨'‘’"“”„«»‹›「」『』\/]+/u, types: [ TokenType.NAME ] }
 ];
 
 export function tokenize(source: string): Token[] {
