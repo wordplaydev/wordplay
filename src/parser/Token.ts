@@ -1,42 +1,43 @@
 import Node from "./Node";
 
 export enum TokenType {
-    EVAL_OPEN,  // (
-    EVAL_CLOSE, // )
-    SET_OPEN,   // {
-    SET_CLOSE,  // }
-    LIST_OPEN,  // [
-    LIST_CLOSE, // ]
-    BIND,       // :
-    ACCESS,     // .
-    FUNCTION,   // ƒ
-    BORROW,     // ↓
-    SHARE,      // ↑
-    DOCS,       // `
-    NONE,       // ø
-    TYPE,       // •
-    TYPE_VARS,  // /
-    LANGUAGE,   // /
-    BOOLEAN_TYPE,// ?
-    TEXT_TYPE,  // '"‹‘“„«「
-    NUMBER_TYPE,// #
-    NONE_TYPE,  // !
-    TABLE,      // |
-    SELECT,     // |?
-    INSERT,     // |+
-    UPDATE,     // |:
-    DELETE,     // |-
-    UNION,      // |
-    // These are the only operators eligible for unary or infix notation.
-    // We’ve included them for consistency with math notation.
-    UNARY_OP,      // ~
+    EVAL_OPEN,     // (
+    EVAL_CLOSE,    // )
+    SET_OPEN,      // {
+    SET_CLOSE,     // }
+    LIST_OPEN,     // [
+    LIST_CLOSE,    // ]
+    BIND,          // :
+    ACCESS,        // .
+    FUNCTION,      // ƒ
+    BORROW,        // ↓
+    SHARE,         // ↑
+    DOCS,          // `
+    NONE,          // ø
+    TYPE,          // •
+    TYPE_VARS,     // /
+    LANGUAGE,      // /
+    BOOLEAN_TYPE,  // ?
+    TEXT_TYPE,     // ""
+    NUMBER_TYPE,   // #
+    NONE_TYPE,     // !
+    TABLE,         // |
+    SELECT,        // |?
+    INSERT,        // |+
+    UPDATE,        // |:
+    DELETE,        // |-
+    UNION,         // |
+    STREAM,        // ∆
+    TBD,           // …
+    // These are the only operators eligible for unary, binary, or teriary notation.
+    // We’ve included them for consistency with math notation and readability.
+    UNARY_OP,      // e.g., ¬~
     BINARY_OP,     // +-×÷%<≤≥>&|
-    CONDITIONAL, // ?
-    STREAM,     // …
+    CONDITIONAL,   // ?
     // Also supports escapes with \to encode various characters
     // The trailing text at the end encodes the format.
     // Text literals can also come in multiple formats, to encode multilingual apps in place.
-    TEXT,       // ‘“«„“「‹(.*)‘”»”」›
+    TEXT,          // ‘“«„“「‹(.*)‘”»”」›
     TEXT_OPEN,
     TEXT_BETWEEN,
     TEXT_CLOSE,
@@ -44,9 +45,9 @@ export enum TokenType {
     // The optional dash allows for a random number range.
     // The trailing text at the end encodes the unit.
     // Both commas and periods are allowed to cover different conventions globally.
-    NUMBER,     // -?[0-9]+([.,][0-9]+)?(-[0-9]+([.,][0-9]+)?)[^\s]*
-    BOOLEAN,    // \u22a4 (true) \u22a5 (false)
-    NAME,       // .+
+    NUMBER,         // -?[0-9]+([.,][0-9]+)?(-[0-9]+([.,][0-9]+)?)[^\s]*
+    BOOLEAN,        // \u22a4 (true) \u22a5 (false)
+    NAME,           // (anything not the above)+
     UNKNOWN,        // Represents any characters that couldn't be tokenized.
     END
 }
