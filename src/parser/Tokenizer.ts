@@ -5,7 +5,8 @@ const patterns = [
     { pattern: "]", types: [ TokenType.LIST_CLOSE ] },
     { pattern: "{", types: [ TokenType.SET_OPEN ] },
     { pattern: "}", types: [ TokenType.SET_CLOSE ] },
-    { pattern: "|", types: [ TokenType.BINARY_OP, TokenType.UNION ] },
+    { pattern: "/", types: [ TokenType.UNION ] },
+    { pattern: "|", types: [ TokenType.CELL] },
     { pattern: ":", types: [ TokenType.BIND ] },
     { pattern: ".", types: [ TokenType.ACCESS ] },
     { pattern: /^[ƒf]/, types: [ TokenType.FUNCTION ] },
@@ -20,7 +21,7 @@ const patterns = [
     { pattern: /^-?[0-9]+([.,][0-9]+)?/, types: [ TokenType.NUMBER ] },
     { pattern: /^[π∞]/, types: [ TokenType.NUMBER ] },
     { pattern: /^[-+×*·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
-    { pattern: /^[&|∧∨]/, types: [ TokenType.BINARY_OP ] },
+    { pattern: /^[∧∨]/, types: [ TokenType.BINARY_OP ] },
     { pattern: /^[-~√¬]/, types: [ TokenType.BINARY_OP, TokenType.UNARY_OP ] },
     { pattern: "⊤", types: [ TokenType.BOOLEAN ] },
     { pattern: "⊥", types: [ TokenType.BOOLEAN ] },
@@ -57,7 +58,7 @@ const patterns = [
     { pattern: "#", types: [ TokenType.NUMBER_TYPE ] },
     { pattern: /^[?¿]/, types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
     // One or more unicode characters that are not one of the reserved characters
-    { pattern: /^[^\(\)\[\]\{\}:.ƒ↓↑`ø•… \t\n+\-×*·^√÷%<≤=≠≥>~&|'‘’"“”„«»‹›「」『』🙂🙃\/]+/u, types: [ TokenType.NAME ] }
+    { pattern: /^[^\(\)\[\]\{\}:.,ƒ↓↑`ø•… \t\n+\-×*·^√÷%<≤=≠≥>~|¬∧∨'‘’"“”„«»‹›「」『』🙂🙃\/]+/u, types: [ TokenType.NAME ] }
 ];
 
 export function tokenize(source: string): Token[] {

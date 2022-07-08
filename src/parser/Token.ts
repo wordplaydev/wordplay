@@ -7,7 +7,6 @@ export enum TokenType {
     SET_CLOSE,  // }
     LIST_OPEN,  // [
     LIST_CLOSE, // ]
-    COLUMN,     // |
     BIND,       // :
     ACCESS,     // .
     FUNCTION,   // ƒ
@@ -22,6 +21,7 @@ export enum TokenType {
     TEXT_TYPE,  // '"‹‘“„«「
     NUMBER_TYPE,  // #
     NONE_TYPE,  // ø
+    CELL,      // ,
     UNION,      // |
     // These are the only operators eligible for unary or infix notation.
     // We’ve included them for consistency with math notation.

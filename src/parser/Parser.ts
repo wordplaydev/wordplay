@@ -38,6 +38,10 @@ import CustomType from "./CustomType";
 import Documented from "./Documented";
 import Alias from "./Alias";
 import Docs from "./Docs";
+import Column from "./Column";
+import Cell from "./Cell";
+import Row from "./Row";
+import Table from "./Table";
 
 export enum ErrorMessage {
     UNEXPECTED_SHARE,
@@ -103,10 +107,11 @@ class Tokens {
         // ALIAS :: (DOCS? NAME LANG? NAME?)+ bind 
         // To detect this, we'll just peek ahead and see if it follows this pattern.
         let index = 0;
-        while(index < this.#unread.length && this.#unread[index].is(TokenType.BIND)) {
+        while(index < this.#unread.length && !this.#unread[index].is(TokenType.BIND)) {
             const token = this.#unread[index];
             if(!(token.is(TokenType.DOCS) || token.is(TokenType.NAME) || token.is(TokenType.LANGUAGE)))
                 return false;
+            index++;
         }
         // If we found a bind, it's a bind.
         return this.#unread[index].is(TokenType.BIND);
@@ -127,6 +132,11 @@ class Tokens {
         return this.hasNext() && this.#unread[0].hasPrecedingLineBreak();
     }
 
+    /** Returns true if and only if the next token has a preceding line break. */
+    nextLacksPrecedingLineBreak(): boolean {
+        return this.hasNext() && !this.#unread[0].hasPrecedingLineBreak();
+    }
+    
     /** Returns true if and only if the next token after next has a preceding line break. */
     afterNextHasPrecedingLineBreak(): boolean {
         return this.#unread.length > 1  && this.#unread[1].hasPrecedingLineBreak();
@@ -282,6 +292,8 @@ function parseExpression(tokens: Tokens): Expression {
         tokens.nextIs(TokenType.LIST_OPEN) ? parseList(tokens) :
         // A set
         tokens.nextIs(TokenType.SET_OPEN) ? parseSetOrMap(tokens) :
+        // Table literals
+        tokens.nextIs(TokenType.CELL) ? parseTable(tokens) :
         // A string template
         tokens.nextIs(TokenType.TEXT_OPEN) ? parseTemplate(tokens) :
         // Unary expressions!
@@ -592,6 +604,37 @@ function parseSetOrMap(tokens: Tokens): SetNode | Unparsable {
         true
     );
     return stuff instanceof Unparsable ? stuff : new SetNode(stuff[0], stuff[1], stuff[2]);
+
+}
+
+function parseTable(tokens: Tokens): Table {
+
+    // Read the column definitions. Stop when we see a newline.
+    const columns = [];
+    while(tokens.nextIs(TokenType.CELL)) {
+        const cell = tokens.read();
+        const bind = parseBind(tokens);
+        columns.push(new Column(cell, bind));
+        if(tokens.nextHasPrecedingLineBreak())
+            break;
+    }
+
+    // Read the rows.
+    const rows = [];
+    while(tokens.nextIs(TokenType.CELL)) {
+        const cells = [];
+        // Read the cells.
+        while(tokens.nextIs(TokenType.CELL)) {
+            const cell = tokens.read();
+            const value = parseExpression(tokens);
+            cells.push(new Cell(cell, value));
+            if(tokens.nextHasPrecedingLineBreak())
+                break;
+        }
+        rows.push(new Row(cells));
+    }
+
+    return new Table(columns, rows);
 
 }
 
