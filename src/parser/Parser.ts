@@ -36,6 +36,7 @@ import { Conditional } from "./Conditional";
 import Share from "./Share";
 import CustomType from "./CustomType";
 import Documented from "./Documented";
+import Alias from "./Alias";
 
 export enum ErrorMessage {
     UNEXPECTED_SHARE,
@@ -95,6 +96,18 @@ class Tokens {
     /** Returns true if and only if the next series of tokens matches the series of given token types. */
     nextAre(...types: TokenType[]) {
         return types.every((type, index) => index < this.#unread.length && this.#unread[index].is(type));
+    }
+
+    nextAreAliases() {
+        // ALIAS :: (DOCS? NAME LANG? NAME?)+ bind 
+        // To detect this, we'll just peek ahead and see if it follows this pattern.
+        let index = 0;
+        while(index < this.#unread.length && this.#unread[index].is(TokenType.BIND)) {
+            const token = this.#unread[index];
+            if(!(token.is(TokenType.DOCS) || token.is(TokenType.NAME) || token.is(TokenType.LANGUAGE)))
+                return false;
+        }
+        return true;
     }
 
     nextIsOneOf(...types: TokenType[]): boolean {
@@ -191,10 +204,7 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
     }
 
     while(tokens.nextIsnt(TokenType.END) && tokens.nextIsnt(TokenType.EVAL_CLOSE)) {
-        if( tokens.nextAre(TokenType.NAME, TokenType.BIND) || 
-            tokens.nextAre(TokenType.NAME, TokenType.TYPE) || 
-            tokens.nextAre(TokenType.DOCS, TokenType.NAME, TokenType.BIND) ||
-            tokens.nextAre(TokenType.DOCS, TokenType.NAME, TokenType.TYPE))
+        if( tokens.nextAreAliases())
             statements.push(parseBind(tokens))
         else if(tokens.nextIs(TokenType.SHARE))
             statements.push(parseShare(tokens));
@@ -583,15 +593,19 @@ function parseSetOrMap(tokens: Tokens): SetNode | Unparsable {
 function parseBind(tokens: Tokens): Bind | Unparsable {
 
     let docs = tokens.nextIs(TokenType.DOCS) ? tokens.read() : undefined;
-    let name;
+    let names = [];
     let colon;
     let value;
     let dot;
     let type;
 
-    if(tokens.nextIs(TokenType.NAME))
-        name = tokens.read();
-    else
+    while(tokens.nextIs(TokenType.NAME)) {
+        const name = tokens.read();
+        const alias = tokens.nextIs(TokenType.LANGUAGE) ? tokens.read() : undefined;
+        const lang = alias ? tokens.read() : undefined;
+        names.push(new Alias(name, alias, lang));
+    }
+    if(names.length === 0)
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_NAME);
 
     if(tokens.nextIs(TokenType.TYPE)) {
@@ -604,7 +618,7 @@ function parseBind(tokens: Tokens): Bind | Unparsable {
         value = parseExpression(tokens);
     }
 
-    return new Bind(name, colon, value, dot, type, docs);
+    return new Bind(names, colon, value, dot, type, docs);
 
 }
 

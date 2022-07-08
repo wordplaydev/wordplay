@@ -17,6 +17,7 @@ export enum TokenType {
     NONE,       // ø
     TYPE,       // •
     TYPE_VARS,  // /
+    LANGUAGE,      // /
     BOOLEAN_TYPE, // ?
     TEXT_TYPE,  // '"‹‘“„«「
     NUMBER_TYPE,  // #

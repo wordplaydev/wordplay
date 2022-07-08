@@ -1,5 +1,6 @@
 import type Expression from "./Expression";
 import Node from "./Node";
+import type Alias from "./Alias";
 import type { Token } from "./Token";
 import type Type from "./Type";
 import type Unparsable from "./Unparsable";
@@ -7,17 +8,17 @@ import type Unparsable from "./Unparsable";
 export default class Bind extends Node {
     
     readonly docs?: Token;
-    readonly name: Token;
+    readonly names: Alias[];
     readonly dot?: Token;
     readonly type?: Type;
     readonly colon?: Token;
     readonly value?: Expression;
 
-    constructor(name: Token, dot?: Token, type?: Type | Unparsable, colon?: Token, value?: Expression, docs?: Token) {
+    constructor(names: Alias[], dot?: Token, type?: Type | Unparsable, colon?: Token, value?: Expression, docs?: Token) {
         super();
 
         this.docs = docs;
-        this.name = name;
+        this.names = names;
         this.colon = colon;
         this.value = value;
         this.dot = dot;
@@ -25,7 +26,7 @@ export default class Bind extends Node {
     }
 
     getChildren() { 
-        const children: Node[] = [ this.name ];
+        const children: Node[] = [ ...this.names ];
         if(this.docs) children.push(this.docs);
         if(this.dot) children.push(this.dot);
         if(this.type) children.push(this.type);

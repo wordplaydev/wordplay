@@ -14,7 +14,7 @@ const patterns = [
     { pattern: /^`.*?`/, types: [ TokenType.DOCS ] },
     { pattern: "ø", types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
     { pattern: "•", types: [ TokenType.TYPE ] },
-    { pattern: "/", types: [ TokenType.TYPE_VARS ] },
+    { pattern: "/", types: [ TokenType.TYPE_VARS, TokenType.LANGUAGE ] },
     { pattern: "…", types: [ TokenType.STREAM ] },
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
     { pattern: /^-?[0-9]+([.,][0-9]+)?/, types: [ TokenType.NUMBER ] },
