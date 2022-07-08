@@ -1,17 +1,17 @@
+import type Docs from "./Docs";
 import Expression from "./Expression";
-import type { Token } from "./Token";
 
 export default class Documented extends Expression {
     
-    readonly tick: Token;
+    readonly docs: Docs[];
     readonly expression: Expression;
 
-    constructor(tick: Token, expression: Expression) {
+    constructor(docs: Docs[], expression: Expression) {
         super();
-        this.tick = tick;
+        this.docs = docs;
         this.expression = expression;
     }
 
-    getChildren() { return [ this.tick, this.expression ]; }
+    getChildren() { return [ ...this.docs, this.expression ]; }
 
 }
