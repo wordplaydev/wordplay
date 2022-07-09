@@ -1,7 +1,9 @@
+import Bind from "./Bind";
 import Block from "./Block";
 import Borrow from "./Borrow";
 import { parse } from "./Parser";
 import Program from "./Program";
+import Share from "./Share";
 import { Token, TokenType } from "./Token";
 import Unparsable from "./Unparsable";
 
@@ -22,6 +24,22 @@ test("Parse borrows", () => {
     const bad = parse("↓");
     expect(bad.borrows).toHaveLength(1);
     expect(bad.borrows[0]).toBeInstanceOf(Unparsable);
+
+})
+
+test("Parse shares", () => {
+
+    const good = parse("↑ fancy");
+    expect(good.block).toBeInstanceOf(Block);
+    expect((good.block as Block).expressions).toHaveLength(1);
+    expect((good.block as Block).expressions[0]).toBeInstanceOf(Share)
+    expect(((good.block as Block).expressions[0] as Share).bind).toBeInstanceOf(Bind);
+
+    const bad = parse("↑");
+    expect(bad.block).toBeInstanceOf(Block);
+    expect((bad.block as Block).expressions).toHaveLength(1);
+    expect((bad.block as Block).expressions[0]).toBeInstanceOf(Share)
+    expect(((bad.block as Block).expressions[0] as Share).bind).toBeInstanceOf(Unparsable);
 
 })
 
