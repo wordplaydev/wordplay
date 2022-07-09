@@ -310,15 +310,7 @@ function parseExpression(tokens: Tokens): Expression {
     );
 
     // But wait! Is it one or more accessors? Slurp them up.
-    while(tokens.nextIsOneOf(
-        TokenType.ACCESS, 
-        TokenType.LIST_OPEN, 
-        TokenType.SET_OPEN, 
-        TokenType.EVAL_OPEN, 
-        TokenType.SELECT, 
-        TokenType.INSERT, 
-        TokenType.UPDATE, 
-        TokenType.DELETE)) {
+    while(true) {
         if(tokens.nextIs(TokenType.ACCESS))
             left = parseAccess(left, tokens);
         else if(tokens.nextIs(TokenType.LIST_OPEN))
@@ -335,19 +327,14 @@ function parseExpression(tokens: Tokens): Expression {
             left = parseUpdate(left, tokens);
         else if(tokens.nextIs(TokenType.DELETE))
             left = parseDelete(left, tokens);
+        else if(tokens.nextIs(TokenType.BINARY_OP))
+            left = parseBinaryOperation(left, tokens);
+        else break;
     }
     
     // Is it conditional statement?
     if(tokens.nextIs(TokenType.CONDITIONAL))
         left = parseConditional(left, tokens);
-
-    // Finally, keep reading binary operators until we see no more. Order of operations is 
-    // plain left to right; we rely on tools to warn about evaluation order.
-    while(tokens.nextIs(TokenType.BINARY_OP)) {
-        const operator = tokens.read();
-        const right = parseExpression(tokens);
-        left = new BinaryOperation(operator, left, right);
-    }
 
     // Is the expression excluded? Wrap it.
     if(excluded.length > 0)
@@ -356,6 +343,13 @@ function parseExpression(tokens: Tokens): Expression {
     // Return the beautiful tree we built.
     return left;
 
+}
+
+/** BINARY_OP :: EXPRESSION binary_op EXPRESSION */
+function parseBinaryOperation(left: Expression, tokens: Tokens): BinaryOperation {
+    const operator = tokens.read();
+    const right = parseExpression(tokens);
+    return new BinaryOperation(operator, left, right); 
 }
 
 /** CONDITIONAL :: EXPRESSSION ? EXPRESSION EXPRESSION */
@@ -556,7 +550,6 @@ function parseConversion(tokens: Tokens): Conversion {
     return new Conversion(docs, convert, output, expression);
 
 }
-
 
 function parseTypeVariables(tokens: Tokens): TypeVariables | Unparsable {
 
