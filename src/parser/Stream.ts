@@ -1,4 +1,6 @@
+import type Conflict from "./Conflict";
 import Expression from "./Expression";
+import type Program from "./Program";
 import type { Token } from "./Token";
 
 export default class Stream extends Expression {
@@ -21,5 +23,7 @@ export default class Stream extends Expression {
     getChildren() {
         return [ this.initial, this.dots, this.stream, this.next ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

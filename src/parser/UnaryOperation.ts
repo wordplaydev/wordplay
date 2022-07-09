@@ -1,5 +1,6 @@
-import type Bind from "./Bind";
+import type Conflict from "./Conflict";
 import Expression from "./Expression";
+import type Program from "./Program";
 import type { Token } from "./Token";
 
 export default class UnaryOperation extends Expression {
@@ -17,5 +18,7 @@ export default class UnaryOperation extends Expression {
     getChildren() {
         return [ this.operator, this.value ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

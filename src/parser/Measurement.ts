@@ -1,4 +1,6 @@
+import type Conflict from "./Conflict";
 import Node from "./Node";
+import type Program from "./Program";
 import type { Token } from "./Token";
 
 export default class Measurement extends Node {
@@ -13,5 +15,7 @@ export default class Measurement extends Node {
     }
 
     getChildren() { return this.unit !== undefined ? [ this.number, this.unit ] : [ this.number ]; }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

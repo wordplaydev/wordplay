@@ -1,4 +1,6 @@
+import type Conflict from "./Conflict";
 import Node from "./Node";
+import type Program from "./Program";
 
 export enum TokenType {
     EVAL_OPEN,     // (
@@ -82,4 +84,7 @@ export class Token extends Node {
     isName() { return this.is(TokenType.NAME); }
     toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}(${this.space.length},${this.index}): ${this.text.replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
     toWordplay() { return this.space + this.text; }
+
+    getConflicts(program: Program): Conflict[] { return []; }
+
 }

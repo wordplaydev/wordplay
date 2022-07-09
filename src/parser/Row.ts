@@ -1,5 +1,7 @@
 import Node from "./Node";
 import type Cell from "./Cell";
+import type Program from "./Program";
+import type Conflict from "./Conflict";
 
 export default class Row extends Node {
 
@@ -14,5 +16,7 @@ export default class Row extends Node {
     getChildren() {
         return [ ...this.cells ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

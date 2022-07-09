@@ -6,6 +6,8 @@ import type Type from "./Type";
 import type TypeVariable from "./TypeVariable";
 import type Unparsable from "./Unparsable";
 import type Docs from "./Docs";
+import type Program from "./Program";
+import type Conflict from "./Conflict";
 
 export default class Function extends Expression {
 
@@ -46,5 +48,7 @@ export default class Function extends Expression {
         children.push(this.expression);
         return children;
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

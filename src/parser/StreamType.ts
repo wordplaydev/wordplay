@@ -1,4 +1,6 @@
+import type Conflict from "./Conflict";
 import Node from "./Node";
+import type Program from "./Program";
 import type { Token } from "./Token";
 import type Type from "./Type";
 
@@ -17,5 +19,7 @@ export default class StreamType extends Node {
     getChildren() {
         return [ this.dots, this.type ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

@@ -6,6 +6,8 @@ import type TypeVariable from "./TypeVariable";
 import type Unparsable from "./Unparsable";
 import type Block from "./Block";
 import type Docs from "./Docs";
+import type Program from "./Program";
+import type Conflict from "./Conflict";
 
 export default class CustomType extends Expression {
 
@@ -35,5 +37,7 @@ export default class CustomType extends Expression {
         children = children.concat([ this.open, ...this.inputs, this.close, this.block ]);
         return children;
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

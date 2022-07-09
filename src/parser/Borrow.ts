@@ -1,4 +1,6 @@
+import type Conflict from "./Conflict";
 import Node from "./Node";
+import type Program from "./Program";
 import type { Token } from "./Token";
 
 export default class Borrow extends Node {
@@ -16,5 +18,7 @@ export default class Borrow extends Node {
     }
 
     getChildren() { return this.version === undefined ? [ this.borrow, this.name ] : [ this.borrow, this.name, this.version ]}
- 
+
+    getConflicts(program: Program): Conflict[] { return []; }
+
 }

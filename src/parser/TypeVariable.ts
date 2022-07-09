@@ -1,4 +1,6 @@
+import type Conflict from "./Conflict";
 import Node from "./Node";
+import type Program from "./Program";
 import type { Token } from "./Token";
 
 export default class TypeVariable extends Node {
@@ -16,5 +18,7 @@ export default class TypeVariable extends Node {
     getChildren() {
         return [ this.type, this.name ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

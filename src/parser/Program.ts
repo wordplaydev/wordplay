@@ -2,6 +2,7 @@ import Node from "./Node";
 import type Block from "./Block";
 import type Borrow from "./Borrow";
 import type Unparsable from "./Unparsable";
+import type Conflict from "./Conflict";
 
 export default class Program extends Node {
     
@@ -15,5 +16,6 @@ export default class Program extends Node {
     }
 
     getChildren() { return [ ...this.borrows, this.block ]; }
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

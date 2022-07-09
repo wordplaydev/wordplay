@@ -1,5 +1,7 @@
+import type Conflict from "./Conflict";
 import type Expression from "./Expression";
 import Node from "./Node";
+import type Program from "./Program";
 import type { Token } from "./Token";
 
 export default class KeyValue extends Node {
@@ -19,5 +21,7 @@ export default class KeyValue extends Node {
     getChildren() {
         return [ this.key, this.bind, this.value ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

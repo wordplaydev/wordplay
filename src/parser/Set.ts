@@ -1,5 +1,7 @@
+import type Conflict from "./Conflict";
 import Expression from "./Expression";
 import type KeyValue from "./KeyValue";
+import type Program from "./Program";
 import type { Token } from "./Token";
 
 export default class Set extends Expression {
@@ -19,5 +21,7 @@ export default class Set extends Expression {
     getChildren() {
         return [ this.open, ...this.values, this.close ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

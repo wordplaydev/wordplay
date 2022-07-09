@@ -1,3 +1,5 @@
+import type Conflict from "./Conflict";
+import type Program from "./Program";
 import type { Token } from "./Token";
 import Type from "./Type";
 
@@ -16,5 +18,7 @@ export default class NoneType extends Type {
     getChildren() {
         return this.name ? [ this.none, this.name ] : [ this.none ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

@@ -1,5 +1,7 @@
+import type Conflict from "./Conflict";
 import type Expression from "./Expression";
 import Node from "./Node";
+import type Program from "./Program";
 import type { Token } from "./Token";
 
 export default class Cell extends Node {
@@ -17,5 +19,7 @@ export default class Cell extends Node {
     getChildren() {
         return [ this.cell, this.expression ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

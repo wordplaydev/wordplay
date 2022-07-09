@@ -1,5 +1,7 @@
 import type { Token } from "./Token";
 import Expression from "./Expression";
+import type Program from "./Program";
+import type Conflict from "./Conflict";
 
 export default class Delete extends Expression {
     
@@ -17,5 +19,7 @@ export default class Delete extends Expression {
     }
 
     getChildren() { return [ this.table, this.del, this.query ]; }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

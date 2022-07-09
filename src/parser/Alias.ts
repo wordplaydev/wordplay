@@ -1,7 +1,9 @@
+import Node from "./Node";
 import type { Token } from "./Token";
-import Expression from "./Expression";
+import type Program from "./Program";
+import type Conflict from "./Conflict";
 
-export default class Alias extends Expression {
+export default class Alias extends Node {
     
     readonly alias?: Token;
     readonly name: Token;
@@ -18,5 +20,7 @@ export default class Alias extends Expression {
     }
 
     getChildren() { return this.alias && this.lang ? [ this.name, this.alias, this.lang ] : [ this.name ]; }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

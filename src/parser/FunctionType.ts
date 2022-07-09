@@ -1,3 +1,5 @@
+import type Conflict from "./Conflict";
+import type Program from "./Program";
 import type { Token } from "./Token";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
@@ -23,5 +25,7 @@ export default class FunctionType extends Type {
     getChildren() {
         return [ this.fun, this.open, ...this.inputs, this.close, this.output ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

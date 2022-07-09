@@ -1,4 +1,6 @@
+import type Conflict from "./Conflict";
 import Expression from "./Expression";
+import type Program from "./Program";
 import type { Token } from "./Token";
 
 export default class SetAccess extends Expression {
@@ -20,5 +22,7 @@ export default class SetAccess extends Expression {
     getChildren() {
         return [ this.setOrMap, this.open, this.key, this.close ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

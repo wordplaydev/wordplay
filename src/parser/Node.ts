@@ -11,7 +11,7 @@ export default abstract class Node {
     abstract getChildren() : Node[];
 
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
-    getConflicts(program: Program) : Conflict[] { return []; }
+    abstract getConflicts(program: Program) : Conflict[];
     
     toString(depth: number=0): string {
         const tabs = "\t".repeat(depth);

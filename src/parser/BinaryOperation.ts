@@ -1,4 +1,6 @@
+import type Conflict from "./Conflict";
 import Expression from "./Expression";
+import type Program from "./Program";
 import type { Token } from "./Token";
 
 export default class BinaryOperation extends Expression {
@@ -18,5 +20,7 @@ export default class BinaryOperation extends Expression {
     getChildren() {
         return [ this.left, this.operator, this.right ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

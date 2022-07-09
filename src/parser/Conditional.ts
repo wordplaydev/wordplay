@@ -1,4 +1,6 @@
+import type Conflict from "./Conflict";
 import Expression from "./Expression";
+import type Program from "./Program";
 import type { Token } from "./Token";
 
 export default class Conditional extends Expression {
@@ -19,5 +21,7 @@ export default class Conditional extends Expression {
     }
 
     getChildren() { return [ this.condition, this.conditional, this.yes, this.no ]; }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

@@ -1,3 +1,5 @@
+import type Conflict from "./Conflict";
+import type Program from "./Program";
 import type { Token } from "./Token";
 import Type from "./Type";
 
@@ -16,5 +18,7 @@ export default class TextType extends Type {
     getChildren() {
         return this.format ? [ this.quote, this.format ] : [ this.quote ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

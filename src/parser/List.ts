@@ -1,4 +1,6 @@
+import type Conflict from "./Conflict";
 import Expression from "./Expression";
+import type Program from "./Program";
 import type { Token } from "./Token";
 
 export default class List extends Expression {
@@ -18,5 +20,7 @@ export default class List extends Expression {
     getChildren() {
         return [ this.open, ...this.values, this.close ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }

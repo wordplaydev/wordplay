@@ -1,5 +1,7 @@
 import type Bind from "./Bind";
+import type Conflict from "./Conflict";
 import Expression from "./Expression";
+import type Program from "./Program";
 import type { Token } from "./Token";
 import type TypeVariable from "./TypeVariable";
 import type Unparsable from "./Unparsable";
@@ -25,5 +27,7 @@ export default class Evaluate extends Expression {
     getChildren() {
         return [ ...this.typeVars, this.func, this.open, ...this.inputs, this.close ];
     }
+
+    getConflicts(program: Program): Conflict[] { return []; }
 
 }
