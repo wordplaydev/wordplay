@@ -11,11 +11,16 @@
     const code = new Document("code", "" );
     const tokens = new Document("tokens", code, doc => tokenize(doc.getContent()).map(t => t.toString()).join("\n"));
     const tree = new Document("ast", code, doc => parse(doc.getContent()).toString());
+    const conflicts = new Document("conflicts", code, doc => { 
+        const program = parse(doc.getContent());
+        return program.getAllConflicts(program).join("\n");
+    });
 
     project.set(new Project("Play", [
         code,
         tokens,
-        tree
+        tree,
+        conflicts
     ]));
 
 </script>

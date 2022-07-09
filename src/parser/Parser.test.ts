@@ -10,7 +10,7 @@ import Measurement from "./Measurement";
 import MeasurementType from "./MeasurementType";
 import NameType from "./NameType";
 import NoneType from "./NoneType";
-import { ErrorMessage, parse, parseBind, parseBlock, parseExpression, parseType, tokens } from "./Parser";
+import { SyntacticConflict, parse, parseBind, parseBlock, parseExpression, parseType, tokens } from "./Parser";
 import Program from "./Program";
 import SetType from "./SetType";
 import Share from "./Share";
@@ -64,15 +64,15 @@ test("Parse shares", () => {
 
     const good = parse("↑ fancy");
     expect(good.block).toBeInstanceOf(Block);
-    expect((good.block as Block).expressions).toHaveLength(1);
-    expect((good.block as Block).expressions[0]).toBeInstanceOf(Share)
-    expect(((good.block as Block).expressions[0] as Share).bind).toBeInstanceOf(Bind);
+    expect((good.block as Block).statements).toHaveLength(1);
+    expect((good.block as Block).statements[0]).toBeInstanceOf(Share)
+    expect(((good.block as Block).statements[0] as Share).bind).toBeInstanceOf(Bind);
 
     const bad = parse("↑");
     expect(bad.block).toBeInstanceOf(Block);
-    expect((bad.block as Block).expressions).toHaveLength(1);
-    expect((bad.block as Block).expressions[0]).toBeInstanceOf(Share)
-    expect(((bad.block as Block).expressions[0] as Share).bind).toBeInstanceOf(Unparsable);
+    expect((bad.block as Block).statements).toHaveLength(1);
+    expect((bad.block as Block).statements[0]).toBeInstanceOf(Share)
+    expect(((bad.block as Block).statements[0] as Share).bind).toBeInstanceOf(Unparsable);
 
 })
 
@@ -80,9 +80,9 @@ test("Parse block", () => {
 
     const good = parseBlock(false, tokens("(\nhi\n)"));
     expect(good).toBeInstanceOf(Block);
-    expect((good as Block).expressions).toHaveLength(1);
-    expect(((good as Block).expressions[0])).toBeInstanceOf(Token);
-    expect(((good as Block).expressions[0].toWordplay())).toBe("\nhi");
+    expect((good as Block).statements).toHaveLength(1);
+    expect(((good as Block).statements[0])).toBeInstanceOf(Token);
+    expect(((good as Block).statements[0].toWordplay())).toBe("\nhi");
 
     const documented = parseBlock(false, tokens("`Nothing` ( hi )"));
     expect(documented).toBeInstanceOf(Block);
@@ -90,8 +90,8 @@ test("Parse block", () => {
 
     const bad = parse("(\nhi");
     expect(bad.block).toBeInstanceOf(Block);
-    expect(((bad.block as Block).expressions[0] as Block).expressions).toHaveLength(1);
-    expect(((bad.block as Block).expressions[0] as Block).close).toBeInstanceOf(Unparsable);
+    expect(((bad.block as Block).statements[0] as Block).statements).toHaveLength(1);
+    expect(((bad.block as Block).statements[0] as Block).close).toBeInstanceOf(Unparsable);
 
 })
 
@@ -296,7 +296,7 @@ test("Expressions", () => {
     const customType = parseExpression(tokens("•(species•'') ( meow: ƒ() say(species) )"))
     expect(customType).toBeInstanceOf(CustomType);
     expect((customType as CustomType).inputs).toHaveLength(1);
-    expect(((customType as CustomType).block as Block).expressions).toHaveLength(1);
+    expect(((customType as CustomType).block as Block).statements).toHaveLength(1);
 
     const access = parseExpression(tokens("a.b.c()[d]{f}"));
     expect(access).toBeInstanceOf(SetAccess);
@@ -355,6 +355,6 @@ test("Type variables", () => {
 
     const hmm = parseType(tokens("/"))
     expect(hmm).toBeInstanceOf(Unparsable);
-    expect((hmm as Unparsable).reason).toBe(ErrorMessage.EXPECTED_TYPE);
+    expect((hmm as Unparsable).reason).toBe(SyntacticConflict.EXPECTED_TYPE);
 
 })

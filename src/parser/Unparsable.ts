@@ -1,14 +1,15 @@
 import Node from "./Node";
 import type { Token } from "./Token";
-import { ErrorMessage } from "./Parser"
+import { SyntacticConflict } from "./Parser"
+import Conflict from "./Conflict";
 
 export default class Unparsable extends Node {
     
-    readonly reason: ErrorMessage;
+    readonly reason: SyntacticConflict;
     readonly lineBefore: Token[];
     readonly lineAfter: Token[];
 
-    constructor(reason: ErrorMessage, lineBefore: Token[], lineAfter: Token[]) {
+    constructor(reason: SyntacticConflict, lineBefore: Token[], lineAfter: Token[]) {
         super();
 
         this.reason = reason;
@@ -20,7 +21,12 @@ export default class Unparsable extends Node {
 
     toString(depth: number=0) {
         const s = super.toString(depth);
-        return `${s}\n${"\t".repeat(depth + 1)}${ErrorMessage[this.reason]}`;
+        return `${s}\n${"\t".repeat(depth + 1)}${SyntacticConflict[this.reason]}`;
+    }
+
+    getConflicts(): Conflict[] {
+        // All syntax errors are conflicts
+        return [ new Conflict(this, this) ];
     }
 
 }
