@@ -4,19 +4,19 @@ import Type from "./Type";
 export default class UnionType extends Type {
 
     readonly left: Type;
-    readonly bar: Token;
+    readonly or: Token;
     readonly right: Type;
 
-    constructor(left: Type, bar: Token, right: Type) {
+    constructor(left: Type, or: Token, right: Type) {
         super();
 
         this.left = left;
-        this.bar = bar;
+        this.or = or;
         this.right = right;
     }
 
     getChildren() {
-        return [ this.left, this.bar, this.right ];
+        return [ this.left, this.or, this.right ];
     }
 
 }

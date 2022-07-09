@@ -118,7 +118,6 @@ class Tokens {
             const token = this.#unread[index];
             if(index > 0 && this.#unread[index].hasPrecedingLineBreak()) break;
             if(token.is(TokenType.BIND)) break;
-            if(token.is(TokenType.EVAL_OPEN)) return false;
             index++;
         }
         // If we found a bind, it's a bind.
@@ -777,14 +776,14 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
  *    <TYPE:TYPE>
  *    TYPE | TYPE
  * */
-function parseType(tokens: Tokens): Type | Unparsable {
+export function parseType(tokens: Tokens): Type | Unparsable {
     let left: Type = (
         tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read()) :
         tokens.nextIs(TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :
         tokens.nextIs(TokenType.TEXT_TYPE) ? parseTextType(tokens) :
-        tokens.nextIs(TokenType.NONE) ? parseOopsType(tokens) :
+        tokens.nextIs(TokenType.NONE) ? parseNoneType(tokens) :
         tokens.nextIs(TokenType.LIST_OPEN) ? parseListType(tokens) :
-        tokens.nextIs(TokenType.SET_OPEN) ? parseSetType(tokens) :
+        tokens.nextIs(TokenType.SET_OPEN) ? parseSetOrMapType(tokens) :
         tokens.nextIs(TokenType.TABLE) ? parseTableType(tokens) :
         tokens.nextIs(TokenType.FUNCTION) ? parseFunctionType(tokens) :
         tokens.nextIs(TokenType.STREAM) ? parseStreamType(tokens) :
@@ -807,8 +806,17 @@ function parseTextType(tokens: Tokens): TextType {
 
 }
 
-/** OOPS_TYPE :: !NAME? */
-function parseOopsType(tokens: Tokens): NoneType {
+/** NUMBER_TYPE :: #NAME? */
+function parseMeasurementType(tokens: Tokens): MeasurementType {
+
+    const number = tokens.read();
+    const unit = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? tokens.read() : undefined;
+    return new MeasurementType(number, unit);
+
+}
+
+/** NONE_TYPE :: !NAME? */
+function parseNoneType(tokens: Tokens): NoneType {
 
     const oops = tokens.read();
     const name = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? tokens.read() : undefined;
@@ -825,15 +833,6 @@ function parseStreamType(tokens: Tokens): StreamType {
 
 }
 
-/** NUMBER_TYPE :: #NAME? */
-function parseMeasurementType(tokens: Tokens): MeasurementType {
-
-    const number = tokens.read();
-    const unit = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? tokens.read() : undefined;
-    return new MeasurementType(number, unit);
-
-}
-
 /** LIST_TYPE :: [ TYPE ] */
 function parseListType(tokens: Tokens): ListType | Unparsable {
 
@@ -847,7 +846,7 @@ function parseListType(tokens: Tokens): ListType | Unparsable {
 }
 
 /** SET_TYPE :: { TYPE } | { TYPE:TYPE } */
-function parseSetType(tokens: Tokens): SetType | Unparsable {
+function parseSetOrMapType(tokens: Tokens): SetType | Unparsable {
 
     const open = tokens.read();
     const type = parseType(tokens);
@@ -873,7 +872,7 @@ function parseTableType(tokens: Tokens): TableType | Unparsable {
 
 }
 
-/** FUNCTION_TYPE :: ƒ([•TYPE]*) •TYPE */
+/** FUNCTION_TYPE :: ƒ(TYPE*) TYPE */
 function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 
     const fun = tokens.read();
@@ -881,20 +880,17 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
     const open = tokens.read();
 
-    const input = [];
+    const inputs = [];
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        input.push(parseType(tokens));
+        inputs.push(parseType(tokens));
 
     if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_CLOSE);
     const close = tokens.read();
 
-    if(tokens.nextIsnt(TokenType.TYPE))
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE);
-    const dot = tokens.read();
     const output = parseType(tokens);
 
-    return new FunctionType(fun, open, input, close, dot, output);
+    return new FunctionType(fun, open, inputs, close, output);
 
 }
 

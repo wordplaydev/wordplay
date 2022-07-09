@@ -3,13 +3,22 @@ import Bind from "./Bind";
 import Block from "./Block";
 import Borrow from "./Borrow";
 import Docs from "./Docs";
+import FunctionType from "./FunctionType";
+import ListType from "./ListType";
 import Measurement from "./Measurement";
 import MeasurementType from "./MeasurementType";
-import { parse, parseBind, tokens } from "./Parser";
+import NameType from "./NameType";
+import NoneType from "./NoneType";
+import { ErrorMessage, parse, parseBind, parseType, tokens } from "./Parser";
 import Program from "./Program";
+import SetType from "./SetType";
 import Share from "./Share";
+import StreamType from "./StreamType";
+import TableType from "./TableType";
+import TextType from "./TextType";
 import { Token, TokenType } from "./Token";
 import { tokenize } from "./Tokenizer";
+import UnionType from "./UnionType";
 import Unparsable from "./Unparsable";
 
 test("Parse programs", () => {
@@ -106,5 +115,53 @@ test("Parse binds", () => {
 
     const invalidName = parseBind(tokens("1•#: 1"));
     expect(invalidName).toBeInstanceOf(Unparsable);
+
+})
+
+test("Type variables", () => {
+
+    const name = parseType(tokens("Cat"));
+    expect(name).toBeInstanceOf(NameType);
+
+    const number = parseType(tokens("#"));
+    expect(number).toBeInstanceOf(MeasurementType);
+
+    const text = parseType(tokens("''"));
+    expect(text).toBeInstanceOf(TextType);
+
+    const none = parseType(tokens("!"));
+    expect(none).toBeInstanceOf(NoneType);
+
+    const noneRefined = parseType(tokens("!zero"));
+    expect(noneRefined).toBeInstanceOf(NoneType);
+    expect((noneRefined as NoneType).name?.toWordplay()).toBe("zero");
+
+    const list = parseType(tokens("[#]"));
+    expect(list).toBeInstanceOf(ListType);
+
+    const set = parseType(tokens("{#}"));
+    expect(set).toBeInstanceOf(SetType);
+
+    const map = parseType(tokens("{'':#}"));
+    expect(map).toBeInstanceOf(SetType);
+    expect((map as SetType).value).toBeInstanceOf(MeasurementType);
+
+    const table = parseType(tokens("|#|''|Cat"));
+    expect(table).toBeInstanceOf(TableType);
+
+    const fun = parseType(tokens("ƒ(# #) #"));
+    expect(fun).toBeInstanceOf(FunctionType);
+
+    const stream = parseType(tokens("∆#"));
+    expect(stream).toBeInstanceOf(StreamType);
+
+    const union = parseType(tokens("Cat ∨ #"))
+    expect(union).toBeInstanceOf(UnionType);
+    expect((union as UnionType).left).toBeInstanceOf(NameType);
+    expect((union as UnionType).right).toBeInstanceOf(MeasurementType);
+
+    const hmm = parseType(tokens("/"))
+    expect(hmm).toBeInstanceOf(Unparsable);
+    expect((hmm as Unparsable).reason).toBe(ErrorMessage.EXPECTED_TYPE);
 
 })
