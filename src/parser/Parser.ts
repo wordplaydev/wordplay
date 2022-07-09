@@ -161,10 +161,14 @@ class Tokens {
             return new Token("", [ TokenType.END ], this.#read.length === 0 ? 0 : this.#read[this.#read.length - 1].getIndex() + this.#read[this.#read.length - 1].getLength());
     }
 
-    /** Returns a token list without all of the tokens until the next line or the end of the list. */
+    /** Returns a node annotated with an error message, as well as all surrounding tokens. */
     readUnparsableLine(reason: ErrorMessage): Unparsable {
-        const index = this.#unread.findIndex(t => t.hasPrecedingLineBreak());
-        return new Unparsable(reason, this.#unread.splice(0, index < 1 ? this.#unread.length : index));
+        // Find all of the tokens on the previous line for context.
+        const indexOfLineBefore = this.#read.length - 1 - this.#read.slice().reverse().findIndex(t => t.hasPrecedingLineBreak());
+        const tokensBefore = indexOfLineBefore >= this.#read.length ? [] : this.#read.slice(indexOfLineBefore);
+        // Find all of the tokens before the next line break, include them
+        const indexOfNextAfter = this.#unread.findIndex(t => t.hasPrecedingLineBreak());
+        return new Unparsable(reason, tokensBefore, this.#unread.splice(0, indexOfNextAfter < 1 ? this.#unread.length : indexOfNextAfter));
     }
 
 }
