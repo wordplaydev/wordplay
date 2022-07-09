@@ -28,7 +28,7 @@ import TextType from "./TextType";
 import ListType from "./ListType";
 import SetType from "./SetType";
 import FunctionType from "./FunctionType";
-import TypeVariables from "./TypeVariables";
+import TypeVariable from "./TypeVariable";
 import KeyValue from "./KeyValue";
 import ListAccess from "./ListAccess";
 import Conditional from "./Conditional";
@@ -72,7 +72,7 @@ export enum ErrorMessage {
     EXPECTED_TEXT_OPEN,
     EXPECTED_TEXT_CLOSE,
     EXPECTED_ERROR_NAME,
-    EXPECTED_TYPE_VARS_CLOSE
+    EXPECTED_TYPE_VAR_NAME
 }
 
 class Tokens {
@@ -313,7 +313,7 @@ function parseExpression(tokens: Tokens): Expression {
             left = parseListAccess(left, tokens);
         else if(tokens.nextIs(TokenType.SET_OPEN))
             left = parseSetAccess(left, tokens);
-        else if(tokens.nextIs(TokenType.EVAL_OPEN) && tokens.nextLacksPrecedingSpace())
+        else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE))
             left = parseEval(left, tokens);
         else if(tokens.nextIs(TokenType.SELECT))
             left = parseSelect(left, tokens);
@@ -477,6 +477,7 @@ function parseAccess(left: Expression, tokens: Tokens): Expression | Unparsable 
 /** EVAL :: EXPRESSION (EXPRESSION*) */
 function parseEval(left: Expression, tokens: Tokens): Evaluate | Unparsable {
 
+    const typeVars = parseTypeVariables(tokens);
     const open = tokens.read();
     const objects = [];
     let close;
@@ -489,7 +490,7 @@ function parseEval(left: Expression, tokens: Tokens): Evaluate | Unparsable {
     else
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
     
-    return new Evaluate(open, left, objects, close);    
+    return new Evaluate(typeVars, open, left, objects, close);    
 
 }
 
@@ -500,7 +501,7 @@ function parseFunction(tokens: Tokens): Function | Unparsable {
 
     const fun = tokens.read();
 
-    const typeVars = tokens.nextIs(TokenType.TYPE_VARS) ? parseTypeVariables(tokens) : undefined;
+    const typeVars = parseTypeVariables(tokens);
 
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
@@ -539,16 +540,20 @@ function parseConversion(tokens: Tokens): Conversion {
 
 }
 
-function parseTypeVariables(tokens: Tokens): TypeVariables | Unparsable {
+/** TYPE_VARS :: [•NAME]* */
+function parseTypeVariables(tokens: Tokens): (TypeVariable|Unparsable)[] {
 
-    const open = tokens.read();
-    const names = [];
-    while(tokens.nextIs(TokenType.NAME))
-        names.push(tokens.read());
-    if(tokens.nextIsnt(TokenType.TYPE_VARS))
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE_VARS_CLOSE);
-    const close = tokens.read();
-    return new TypeVariables(open, names, close);
+    const vars = [];
+    while(tokens.nextIs(TokenType.TYPE)) {
+        const type = tokens.read();
+        if(tokens.nextIsnt(TokenType.NAME)) {
+            vars.push(tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE_VAR_NAME));
+            return vars;
+        }
+        const name = tokens.read();
+        vars.push(new TypeVariable(type, name));
+    }
+    return vars;
 
 }
 
@@ -901,7 +906,7 @@ function parseCustomType(tokens: Tokens): CustomType | Unparsable {
 
     const type = tokens.read();
  
-    const typeVars = tokens.nextIs(TokenType.TYPE_VARS) ? parseTypeVariables(tokens) : undefined;
+    const typeVars = parseTypeVariables(tokens);
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
     const open = tokens.read();
@@ -916,7 +921,7 @@ function parseCustomType(tokens: Tokens): CustomType | Unparsable {
 
     const block = parseBlock(false, tokens);
 
-    return new CustomType(type, open, inputs, close, block, typeVars);
+    return new CustomType(type, typeVars, open, inputs, close, block);
 
 }
 

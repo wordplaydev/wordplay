@@ -3,7 +3,7 @@ import type Bind from "./Bind";
 import Expression from "./Expression";
 import type { Token } from "./Token";
 import type Type from "./Type";
-import type TypeVariables from "./TypeVariables";
+import type TypeVariable from "./TypeVariable";
 import type Unparsable from "./Unparsable";
 import type Docs from "./Docs";
 
@@ -11,7 +11,7 @@ export default class Function extends Expression {
 
     readonly docs: Docs[];
     readonly fun: Token;
-    readonly typeVars?: TypeVariables|Unparsable;
+    readonly typeVars: (TypeVariable|Unparsable)[];
     readonly open: Token;
     readonly inputs: (Bind|Unparsable)[];
     readonly close: Token;
@@ -19,7 +19,7 @@ export default class Function extends Expression {
     readonly output?: Type;
     readonly expression: Expression | Token;
 
-    constructor(docs: Docs[], fun: Token, open: Token, inputs: (Bind|Unparsable)[], close: Token, expression: Expression | Token, typeVars?: TypeVariables|Unparsable, dot?: Token, output?: Type) {
+    constructor(docs: Docs[], fun: Token, open: Token, inputs: (Bind|Unparsable)[], close: Token, expression: Expression | Token, typeVars: (TypeVariable|Unparsable)[], dot?: Token, output?: Type) {
         super();
 
         this.docs = docs;
@@ -37,7 +37,7 @@ export default class Function extends Expression {
         let children: Node[] = [];
         children = children.concat(this.docs);
         children.push(this.fun);
-        if(this.typeVars) children.push(this.typeVars);
+        if(this.typeVars) children = children.concat(this.typeVars);
         children.push(this.open);
         children = children.concat(this.inputs);
         children.push(this.close);

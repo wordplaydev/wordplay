@@ -1,17 +1,21 @@
 import type Bind from "./Bind";
 import Expression from "./Expression";
 import type { Token } from "./Token";
+import type TypeVariable from "./TypeVariable";
+import type Unparsable from "./Unparsable";
 
 export default class Evaluate extends Expression {
 
+    readonly typeVars: (TypeVariable|Unparsable)[];
     readonly open: Token;
     readonly func: Expression;
     readonly values: (Bind|Expression)[];
     readonly close: Token;
 
-    constructor(open: Token, subject: Expression, values: (Bind|Expression)[], close: Token) {
+    constructor(typeVars: (TypeVariable|Unparsable)[], open: Token, subject: Expression, values: (Bind|Expression)[], close: Token) {
         super();
 
+        this.typeVars = typeVars;
         this.open = open;
         this.func = subject;
         this.values = values.slice();
@@ -19,7 +23,7 @@ export default class Evaluate extends Expression {
     }
 
     getChildren() {
-        return [ this.func, this.open, ...this.values, this.close ];
+        return [ ...this.typeVars, this.func, this.open, ...this.values, this.close ];
     }
 
 }
