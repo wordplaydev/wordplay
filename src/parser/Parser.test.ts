@@ -1,6 +1,7 @@
 import Alias from "./Alias";
 import Bind from "./Bind";
 import Block from "./Block";
+import BooleanType from "./BooleanType";
 import Borrow from "./Borrow";
 import Docs from "./Docs";
 import FunctionType from "./FunctionType";
@@ -122,6 +123,9 @@ test("Type variables", () => {
 
     const name = parseType(tokens("Cat"));
     expect(name).toBeInstanceOf(NameType);
+
+    const bool = parseType(tokens("?"));
+    expect(bool).toBeInstanceOf(BooleanType);
 
     const number = parseType(tokens("#"));
     expect(number).toBeInstanceOf(MeasurementType);

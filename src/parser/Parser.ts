@@ -50,6 +50,7 @@ import Delete from "./Delete";
 import Conversion from "./Conversion";
 import Stream from "./Stream";
 import StreamType from "./StreamType";
+import BooleanType from "./BooleanType";
 
 export enum ErrorMessage {
     UNEXPECTED_SHARE,
@@ -766,7 +767,7 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
     
 }
 
-/** TYPE :: 
+/** TYPE :: (? | name | MEASUREMENT_TYPE | TEXT_TYPE | NONE_TYPE | LIST_TYPE | SET_TYPE | FUNCTION_TYPE | STREAM_TYPE) (∨ TYPE)*
  *    ?
  *    " 
  *    # 
@@ -779,6 +780,7 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 export function parseType(tokens: Tokens): Type | Unparsable {
     let left: Type = (
         tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read()) :
+        tokens.nextIs(TokenType.BOOLEAN_TYPE) ? new BooleanType(tokens.read()) :
         tokens.nextIs(TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :
         tokens.nextIs(TokenType.TEXT_TYPE) ? parseTextType(tokens) :
         tokens.nextIs(TokenType.NONE) ? parseNoneType(tokens) :
