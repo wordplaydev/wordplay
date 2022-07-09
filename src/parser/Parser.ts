@@ -225,8 +225,8 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
     const expressions = [];
     while(tokens.nextIsnt(TokenType.END) && tokens.nextIsnt(TokenType.EVAL_CLOSE))
         expressions.push(
-            tokens.nextIsBind() ? parseBind(tokens) :
             tokens.nextIs(TokenType.SHARE) ? parseShare(tokens) :
+            tokens.nextIsBind() ? parseBind(tokens) :
             parseExpression(tokens)
         );
 
