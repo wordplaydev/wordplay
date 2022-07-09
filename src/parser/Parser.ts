@@ -54,27 +54,20 @@ import BooleanType from "./BooleanType";
 import SetAccess from "./SetAccess";
 
 export enum ErrorMessage {
-    UNEXPECTED_SHARE,
-    EXPECTED_NAME,
+    EXPECTED_BORRW_NAME,
+    EXPECTED_BIND_NAME,
+    EXPECTED_ACCESS_NAME,
+    EXPECTED_TYPE_VAR_NAME,
     EXPECTED_EVAL_OPEN,
     EXPECTED_EVAL_CLOSE,
-    EXPECTED_LINES,
-    EXPECTED_EXPRESSION,
     EXPECTED_LIST_OPEN,
     EXPECTED_LIST_CLOSE,
     EXPECTED_SET_OPEN,
     EXPECTED_SET_CLOSE,
-    EXPECTED_MAP_OPEN,
-    EXPECTED_MAP_CLOSE,
-    EXPECTED_MAP_NAME,
-    EXPECTED_MAP_BIND,
-    EXPECTED_NAME_BIND,
-    EXPECTED_TYPE,
-    EXPECTED_ACCESS_NAME,
     EXPECTED_TEXT_OPEN,
     EXPECTED_TEXT_CLOSE,
-    EXPECTED_ERROR_NAME,
-    EXPECTED_TYPE_VAR_NAME
+    EXPECTED_EXPRESSION,
+    EXPECTED_TYPE
 }
 
 class Tokens {
@@ -218,7 +211,7 @@ export function parseBorrow(tokens: Tokens): Borrow | Unparsable {
     if(tokens.nextIs(TokenType.NAME))
         name = tokens.read();
     else
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_NAME);
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_BORRW_NAME);
 
     if(tokens.nextIs(TokenType.NUMBER))
         version = tokens.read();
@@ -282,7 +275,7 @@ export function parseBind(tokens: Tokens): Bind | Unparsable {
         names.push(new Alias(name, alias, slash, lang));
     }
     if(names.length === 0)
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_NAME);
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_BIND_NAME);
 
     if(tokens.nextIs(TokenType.TYPE)) {
         dot = tokens.read();
@@ -484,8 +477,6 @@ function parseDelimited<T extends Expression | KeyValue>(tokens: Tokens, openTyp
             foundBind = true;
 
         if(foundBind) {
-            if(tokens.nextIsnt(TokenType.BIND))
-                return tokens.readUnparsableLine(ErrorMessage.EXPECTED_MAP_BIND);
             const bind = tokens.read();            
             const value = parseExpression(tokens);
             values.push(new KeyValue(key, bind, value) as T|Unparsable)
@@ -565,7 +556,7 @@ function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression | Unp
         const key = parseExpression(tokens);
 
         if(tokens.nextIsnt(TokenType.SET_CLOSE))
-            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_LIST_CLOSE);
+            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_SET_CLOSE);
         const close = tokens.read();
 
         left = new SetAccess(left, open, key, close);
