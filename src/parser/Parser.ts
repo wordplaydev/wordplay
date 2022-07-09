@@ -369,7 +369,7 @@ export function parseExpression(tokens: Tokens): Expression {
             left = parseListAccess(left, tokens);
         else if(tokens.nextIs(TokenType.SET_OPEN))
             left = parseSetOrMapAccess(left, tokens);
-        else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE))
+        else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE) && tokens.nextLacksPrecedingLineBreak())
             left = parseEvaluate(left, tokens);
         else if(tokens.nextIs(TokenType.SELECT))
             left = parseSelect(left, tokens);
