@@ -20,10 +20,10 @@ export default class Bind extends Node {
 
         this.docs = docs;
         this.names = names;
-        this.colon = colon;
-        this.value = value;
         this.dot = dot;
         this.type = type;
+        this.colon = colon;
+        this.value = value;
     }
 
     getChildren() { 

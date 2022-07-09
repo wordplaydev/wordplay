@@ -173,11 +173,11 @@ class Tokens {
 }
 
 export function parse(code: string): Program {
-    return parseTokens(tokenize(code));
+    return parseProgram(tokens(code));
 }
 
-export function parseTokens(tokens: Token[]): Program {
-    return parseProgram(new Tokens(tokens));
+export function tokens(code: string): Tokens {
+    return new Tokens(tokenize(code));
 }
 
 // PROGRAM :: BORROW* BLOCK
@@ -249,7 +249,7 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
 }
 
 /** BIND :: (NAME/LANGUAGE)+ TYPE? (: EXPRESSION)? */
-function parseBind(tokens: Tokens): Bind | Unparsable {
+export function parseBind(tokens: Tokens): Bind | Unparsable {
 
     let docs = parseDocs(tokens);
     let names = [];
@@ -277,7 +277,7 @@ function parseBind(tokens: Tokens): Bind | Unparsable {
         value = parseExpression(tokens);
     }
 
-    return new Bind(docs, names, colon, value, dot, type);
+    return new Bind(docs, names, dot, type, colon, value);
 
 }
 
