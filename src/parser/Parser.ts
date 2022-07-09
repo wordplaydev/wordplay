@@ -210,6 +210,14 @@ export function parseBorrow(tokens: Tokens): Borrow | Unparsable {
     return new Borrow(borrow, name, version);
 }
 
+function parseShare(tokens: Tokens): Share {
+
+    const share = tokens.read();
+    const bind = parseBind(tokens);
+    return new Share(share, bind);
+
+}
+
 /** BLOCK :: ( [BIND|EXPRESSION]+ )  */
 export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
 
@@ -240,11 +248,36 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
 
 }
 
-function parseShare(tokens: Tokens): Share {
+/** BIND :: (NAME/LANGUAGE)+ TYPE? (: EXPRESSION)? */
+function parseBind(tokens: Tokens): Bind | Unparsable {
 
-    const share = tokens.read();
-    const bind = parseBind(tokens);
-    return new Share(share, bind);
+    let docs = parseDocs(tokens);
+    let names = [];
+    let colon;
+    let value;
+    let dot;
+    let type;
+
+    while(tokens.nextIs(TokenType.NAME)) {
+        const name = tokens.read();
+        const alias = tokens.nextIs(TokenType.LANGUAGE) ? tokens.read() : undefined;
+        const lang = alias ? tokens.read() : undefined;
+        names.push(new Alias(name, alias, lang));
+    }
+    if(names.length === 0)
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_NAME);
+
+    if(tokens.nextIs(TokenType.TYPE)) {
+        dot = tokens.read();
+        type = parseType(tokens);
+    }
+
+    if(tokens.nextIs(TokenType.BIND)) {
+        colon = tokens.read(); 
+        value = parseExpression(tokens);
+    }
+
+    return new Bind(docs, names, colon, value, dot, type);
 
 }
 
@@ -705,39 +738,6 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 
     return new Delete(table, del, query);
     
-}
-
-/** BIND :: name TYPE? : EXPRESSION */
-function parseBind(tokens: Tokens): Bind | Unparsable {
-
-    let docs = parseDocs(tokens);
-    let names = [];
-    let colon;
-    let value;
-    let dot;
-    let type;
-
-    while(tokens.nextIs(TokenType.NAME)) {
-        const name = tokens.read();
-        const alias = tokens.nextIs(TokenType.LANGUAGE) ? tokens.read() : undefined;
-        const lang = alias ? tokens.read() : undefined;
-        names.push(new Alias(name, alias, lang));
-    }
-    if(names.length === 0)
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_NAME);
-
-    if(tokens.nextIs(TokenType.TYPE)) {
-        dot = tokens.read();
-        type = parseType(tokens);
-    }
-
-    if(tokens.nextIs(TokenType.BIND)) {
-        colon = tokens.read(); 
-        value = parseExpression(tokens);
-    }
-
-    return new Bind(docs, names, colon, value, dot, type);
-
 }
 
 /** TEMPLATE :: text_open ( EXPRESSION text_between )* EXPRESSION text_close */
