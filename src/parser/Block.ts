@@ -32,20 +32,26 @@ export default class Block extends Expression {
 
     getConflicts(): Conflict[] {
 
+        const conflicts = [];
+
         // Blocks can't be empty
         if(this.statements.length === 0)
-            return [ new Conflict(this, SemanticConflict.EXPECTED_BLOCK_EXPRESSION) ];
-
+            conflicts.push(new Conflict(this, SemanticConflict.EXPECTED_BLOCK_EXPRESSION));
         // The last statement must be an expression.
-        if(!(this.statements[this.statements.length  - 1] instanceof Expression))
-            return [ new Conflict(this, SemanticConflict.EXPECTED_BLOCK_LAST_EXPRESSION) ];
+        else if(!(this.statements[this.statements.length  - 1] instanceof Expression))
+            conflicts.push(new Conflict(this, SemanticConflict.EXPECTED_BLOCK_LAST_EXPRESSION));
 
         // None of the statements prior can be expressions.
-        const ignoredExpression = this.statements.slice(0, this.statements.length - 1).find(s => s instanceof Expression);
-        if(ignoredExpression !== undefined)
-            return [ new Conflict(this, SemanticConflict.IGNORED_BLOCK_EXPRESSION) ];
+        this.statements
+            .slice(0, this.statements.length - 1)
+            .filter(s => s instanceof Expression)
+            .forEach(s => conflicts.push(new Conflict(s, SemanticConflict.IGNORED_BLOCK_EXPRESSION)));
 
-        return [];
+        // Docs must be unique.
+        if(!this.docs.every(d1 => this.docs.find(d2 => d1 !== d2 && d1.lang?.text === d2.lang?.text) === undefined))
+            conflicts.push(new Conflict(this, SemanticConflict.DOC_LANGUAGES_ARENT_UNIQUE))
+
+        return conflicts;
         
     }
 

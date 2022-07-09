@@ -44,7 +44,7 @@ export default class Bind extends Node {
 
         const conflicts = [];
 
-        if(this.names.length !== this.names.filter(n => this.names.find(n2 => n !== n2 && n.name.text === n2.name.text) === undefined).length)
+        if(!this.names.every(n => this.names.find(n2 => n !== n2 && n.name.text === n2.name.text) === undefined))
             conflicts.push(new Conflict(this, SemanticConflict.BIND_ALIASES_ARENT_UNIQUE))
 
         return conflicts;
