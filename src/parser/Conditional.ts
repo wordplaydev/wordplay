@@ -1,7 +1,7 @@
 import Expression from "./Expression";
 import type { Token } from "./Token";
 
-export class Conditional extends Expression {
+export default class Conditional extends Expression {
     
     readonly condition: Expression;
     readonly conditional: Token;

@@ -32,7 +32,7 @@ import FunctionType from "./FunctionType";
 import TypeVariables from "./TypeVariables";
 import KeyValue from "./KeyValue";
 import ListAccess from "./ListAccess";
-import { Conditional } from "./Conditional";
+import Conditional from "./Conditional";
 import Share from "./Share";
 import CustomType from "./CustomType";
 import Documented from "./Documented";
