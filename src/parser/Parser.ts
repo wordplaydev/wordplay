@@ -52,6 +52,8 @@ import Stream from "./Stream";
 import StreamType from "./StreamType";
 import BooleanType from "./BooleanType";
 import SetAccess from "./SetAccess";
+import Name from "./Name";
+import Bool from "./Bool";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -330,7 +332,9 @@ export function parseExpression(tokens: Tokens): Expression {
         // Nones
         tokens.nextIs(TokenType.NONE) ? parseNone(tokens): 
         // Names or booleans are easy
-        tokens.nextIsOneOf(TokenType.NAME, TokenType.BOOLEAN) ? tokens.read() :
+        tokens.nextIs(TokenType.NAME) ? new Name(tokens.read()) :
+        // Booleans
+        tokens.nextIs(TokenType.BOOLEAN) ? new Bool(tokens.read()) :
         // Numbers with units
         tokens.nextIs(TokenType.NUMBER) ? parseMeasurement(tokens) :
         // Text with optional formats

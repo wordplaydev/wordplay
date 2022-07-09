@@ -39,6 +39,8 @@ import Evaluate from "./Evaluate";
 import Conversion from "./Conversion";
 import CustomType from "./CustomType";
 import AccessName from "./AccessName";
+import Name from "./Name";
+import Bool from "./Bool";
 
 test("Parse programs", () => {
 
@@ -81,8 +83,7 @@ test("Parse block", () => {
     const good = parseBlock(false, tokens("(\nhi\n)"));
     expect(good).toBeInstanceOf(Block);
     expect((good as Block).statements).toHaveLength(1);
-    expect(((good as Block).statements[0])).toBeInstanceOf(Token);
-    expect(((good as Block).statements[0].toWordplay())).toBe("\nhi");
+    expect(((good as Block).statements[0])).toBeInstanceOf(Name);
 
     const documented = parseBlock(false, tokens("`Nothing` ( hi )"));
     expect(documented).toBeInstanceOf(Block);
@@ -149,12 +150,11 @@ test("Expressions", () => {
     expect((noneRefined as None).name?.toWordplay()).toBe("zero");
 
     const name = parseExpression(tokens("boomy"));
-    expect(name).toBeInstanceOf(Token);
-    expect((name as Token).is(TokenType.NAME)).toBe(true);
+    expect(name).toBeInstanceOf(Name);
 
     const bool = parseExpression(tokens("⊤"));
-    expect(bool).toBeInstanceOf(Token);
-    expect((bool as Token).is(TokenType.BOOLEAN)).toBe(true);
+    expect(bool).toBeInstanceOf(Bool);
+    expect((bool as Bool).value.is(TokenType.BOOLEAN)).toBe(true);
 
     const number = parseExpression(tokens("1"));
     expect(number).toBeInstanceOf(Measurement);
@@ -236,12 +236,12 @@ test("Expressions", () => {
 
     const conditional = parseExpression(tokens("a ? b c ? d e"));
     expect(conditional).toBeInstanceOf(Conditional);
-    expect((conditional as Conditional).condition).toBeInstanceOf(Token);
-    expect((conditional as Conditional).yes.toWordplay()).toBe(" b");
+    expect((conditional as Conditional).condition).toBeInstanceOf(Name);
+    expect((conditional as Conditional).yes).toBeInstanceOf(Name);
     expect((conditional as Conditional).no).toBeInstanceOf(Conditional);
-    expect(((conditional as Conditional).no as Conditional).condition.toWordplay()).toBe(" c");
-    expect(((conditional as Conditional).no as Conditional).yes.toWordplay()).toBe(" d");
-    expect(((conditional as Conditional).no as Conditional).no.toWordplay()).toBe(" e");
+    expect(((conditional as Conditional).no as Conditional).condition).toBeInstanceOf(Name);
+    expect(((conditional as Conditional).no as Conditional).yes).toBeInstanceOf(Name);
+    expect(((conditional as Conditional).no as Conditional).no).toBeInstanceOf(Name);
 
     const abstractFun = parseExpression(tokens("ƒ(a b) …"));
     expect(abstractFun).toBeInstanceOf(Function);
@@ -272,7 +272,7 @@ test("Expressions", () => {
 
     const evaluate = parseExpression(tokens("a()"));
     expect(evaluate).toBeInstanceOf(Evaluate);
-    expect((evaluate as Evaluate).func).toBeInstanceOf(Token);
+    expect((evaluate as Evaluate).func).toBeInstanceOf(Name);
 
     const evaluateWithUnnamedInputs = parseExpression(tokens("a(1 2)"));
     expect(evaluateWithUnnamedInputs).toBeInstanceOf(Evaluate);
@@ -304,7 +304,7 @@ test("Expressions", () => {
     expect(((access as SetAccess).setOrMap as ListAccess).list).toBeInstanceOf(Evaluate);
     expect((((access as SetAccess).setOrMap as ListAccess).list as Evaluate).func).toBeInstanceOf(AccessName);
     expect(((((access as SetAccess).setOrMap as ListAccess).list as Evaluate).func as AccessName).subject).toBeInstanceOf(AccessName);
-    expect((((((access as SetAccess).setOrMap as ListAccess).list as Evaluate).func as AccessName).subject as AccessName).subject).toBeInstanceOf(Token);
+    expect((((((access as SetAccess).setOrMap as ListAccess).list as Evaluate).func as AccessName).subject as AccessName).subject).toBeInstanceOf(Name);
 
 })
 
