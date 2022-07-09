@@ -1,9 +1,12 @@
-import type Bind from "./Bind";
+import Bind from "./Bind";
 import Conflict from "./Conflict";
+import CustomType from "./CustomType";
 import type Docs from "./Docs";
 import Expression from "./Expression";
+import Function from "./Function";
+import type Program from "./Program";
 import { SemanticConflict } from "./SemanticConflict";
-import type Share from "./Share";
+import Share from "./Share";
 import type { Token } from "./Token";
 import type Unparsable from "./Unparsable";
 
@@ -43,6 +46,35 @@ export default class Block extends Expression {
             return [ new Conflict(this, SemanticConflict.IGNORED_BLOCK_EXPRESSION) ];
 
         return [];
+        
+    }
+
+    /** Given the index in this block and the given name, binds the bind that declares it, if there is one. */
+    getDefinition(program: Program, index: number, name: string): Bind | undefined {
+
+        // Do any of the binds declare it?
+        const localBind = this.statements.find((s, i)  => 
+            (s instanceof Bind && i < index && s.names.find(n => n.name.text == name) !== undefined) ||
+            (s instanceof Share && i < index && s.bind instanceof Bind && s.bind.names.find(n => n.name.text == name) !== undefined)
+        ) as Bind;
+        if(localBind !== undefined) return localBind;
+
+        // Is there an enclosing function or block?
+        const enclosure = program.getAncestorsOf(this)?.find(a => a instanceof Block || a instanceof Function || a instanceof CustomType) as Block | Function | CustomType;
+        if(enclosure instanceof Function) 
+            return enclosure.getDefinition(program, name);
+        else if(enclosure instanceof Block) {
+            const ancestors = program.getAncestorsOf(this);
+            if(ancestors) {
+                const enclosingBlockIndex = ancestors.indexOf(enclosure);
+                const statement = enclosingBlockIndex === 0 ? this: ancestors[enclosingBlockIndex - 1];
+                const index = enclosure.statements.indexOf(statement);
+                return enclosure.getDefinition(program, index, name);
+            }
+            return enclosure.getDefinition(program, enclosure.statements.length, name);
+        }
+        else if(enclosure instanceof CustomType)
+            return enclosure.getDefinition(program, name);
         
     }
     

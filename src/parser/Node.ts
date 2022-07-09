@@ -21,23 +21,38 @@ export default abstract class Node {
     toWordplay() { this.getChildren().map(t => t.toWordplay()).join(""); }
 
     /** A depth first traversal of this node and its descendants. */
-    traverse(inspector: (node: Node) => void) {
-        this.getChildren().forEach(c => { c.traverse(inspector); });
-        inspector.call(undefined, this);
+    traverse(ancestors: Node[], inspector: (ancestors: Node[], node: Node) => void) {
+        const thisAncestors = [ this, ...ancestors ];
+        this.getChildren().some(c => { c.traverse(thisAncestors, inspector); });
+        inspector.call(undefined, ancestors, this);
     }
 
     /** Returns all this and all decedants in depth first order. */
     nodes(): Node[] {
         const nodes: Node[] = [];
-        this.traverse((node) => nodes.push(node));
+        this.traverse([], (ancestors, node) => nodes.push(node));
         return nodes;
     }
 
     /** Returns all the conflicts in this tree. */
     getAllConflicts(program: Program): Conflict[] {
         let conflicts: Conflict[] = [];
-        this.traverse((node) => conflicts = conflicts.concat(node.getConflicts(program)));
+        this.traverse([], (ancestors, node) => conflicts = conflicts.concat(node.getConflicts(program)));
         return conflicts;
+    }
+
+    getAncestorsOf(node: Node): Node[] | undefined {
+        let ancestors = undefined;
+        this.traverse([], (a, n) => { if(node === n) ancestors = a; });
+        return ancestors;
+    }
+
+    /** Finds the nearest ancestor of the given type. */
+    getNearestAncestor<T extends Node>(node: Node, type: Function): T | undefined {
+
+        const match = this.getAncestorsOf(node)?.find(n => n instanceof type);
+        return match === undefined ? undefined : match as T;
+
     }
 
 }

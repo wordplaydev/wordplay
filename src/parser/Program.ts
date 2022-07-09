@@ -1,8 +1,10 @@
 import Node from "./Node";
-import type Block from "./Block";
+import Block from "./Block";
 import type Borrow from "./Borrow";
 import type Unparsable from "./Unparsable";
 import type Conflict from "./Conflict";
+import Function from "./Function";
+import CustomType from "./CustomType";
 
 export default class Program extends Node {
     
@@ -17,5 +19,9 @@ export default class Program extends Node {
 
     getChildren() { return [ ...this.borrows, this.block ]; }
     getConflicts(program: Program): Conflict[] { return []; }
+
+    getBindingEnclosureOf(node: Node): Block | Function | CustomType | undefined {
+        return this.getAncestorsOf(node)?.find(a => a instanceof Block || a instanceof Function || a instanceof CustomType) as Block | Function | CustomType | undefined;
+    }
 
 }

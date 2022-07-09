@@ -1,10 +1,11 @@
 import type Node from "./Node";
-import type Bind from "./Bind";
+import Bind from "./Bind";
 import Expression from "./Expression";
+import Function from "./Function";
 import type { Token } from "./Token";
 import type TypeVariable from "./TypeVariable";
 import type Unparsable from "./Unparsable";
-import type Block from "./Block";
+import Block from "./Block";
 import type Docs from "./Docs";
 import type Program from "./Program";
 import type Conflict from "./Conflict";
@@ -39,5 +40,23 @@ export default class CustomType extends Expression {
     }
 
     getConflicts(program: Program): Conflict[] { return []; }
+
+    /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
+    getDefinition(program: Program, name: string): Bind | undefined {
+
+        // Does an input delare the name?
+        const input = this.inputs.find(i => i instanceof Bind && i.names.find(n => n.name.text === name)) as Bind | undefined;
+        if(input !== undefined) return input;
+
+        // If not, does the function nearest function or block declare the name?
+        const enclosure = program.getBindingEnclosureOf(this);
+        if(enclosure instanceof Function) 
+            return enclosure.getDefinition(program, name);
+        else if(enclosure instanceof Block)
+            return enclosure.getDefinition(program, enclosure.statements.length, name);
+        else if(enclosure instanceof CustomType)
+            return enclosure.getDefinition(program, name);
+
+    }
 
 }
