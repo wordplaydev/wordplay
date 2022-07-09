@@ -767,16 +767,7 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
     
 }
 
-/** TYPE :: (? | name | MEASUREMENT_TYPE | TEXT_TYPE | NONE_TYPE | LIST_TYPE | SET_TYPE | FUNCTION_TYPE | STREAM_TYPE) (∨ TYPE)*
- *    ?
- *    " 
- *    # 
- *    ! 
- *    {TYPE}
- *    [TYPE]
- *    <TYPE:TYPE>
- *    TYPE | TYPE
- * */
+/** TYPE :: (? | name | MEASUREMENT_TYPE | TEXT_TYPE | NONE_TYPE | LIST_TYPE | SET_TYPE | FUNCTION_TYPE | STREAM_TYPE) (∨ TYPE)* */
 export function parseType(tokens: Tokens): Type | Unparsable {
     let left: Type = (
         tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read()) :
