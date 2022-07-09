@@ -49,6 +49,8 @@ import Insert from "./Insert";
 import Update from "./Update";
 import Delete from "./Delete";
 import Conversion from "./Conversion";
+import Stream from "./Stream";
+import StreamType from "./StreamType";
 
 export enum ErrorMessage {
     UNEXPECTED_SHARE,
@@ -329,6 +331,8 @@ function parseExpression(tokens: Tokens): Expression {
             left = parseDelete(left, tokens);
         else if(tokens.nextIs(TokenType.BINARY_OP))
             left = parseBinaryOperation(left, tokens);
+        else if(tokens.nextIs(TokenType.STREAM))
+            left = parseStream(left, tokens);
         else break;
     }
     
@@ -351,6 +355,15 @@ function parseBinaryOperation(left: Expression, tokens: Tokens): BinaryOperation
     const right = parseExpression(tokens);
     return new BinaryOperation(operator, left, right); 
 }
+
+/** STREAM :: EXPRESSION ∆ EXPRESSION EXPRESSION */
+function parseStream(initial: Expression, tokens: Tokens): Stream {
+    const dots = tokens.read();
+    const stream = parseExpression(tokens);
+    const next = parseExpression(tokens);
+    return new Stream(initial, dots, stream, next); 
+}
+
 
 /** CONDITIONAL :: EXPRESSSION ? EXPRESSION EXPRESSION */
 function parseConditional(condition: Expression, tokens: Tokens): Conditional {
@@ -797,6 +810,7 @@ function parseType(tokens: Tokens): Type | Unparsable {
         tokens.nextIs(TokenType.SET_OPEN) ? parseSetType(tokens) :
         tokens.nextIs(TokenType.TABLE) ? parseTableType(tokens) :
         tokens.nextIs(TokenType.FUNCTION) ? parseFunctionType(tokens) :
+        tokens.nextIs(TokenType.STREAM) ? parseStreamType(tokens) :
         tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE)
     );
 
@@ -822,6 +836,15 @@ function parseOopsType(tokens: Tokens): OopsType {
     const oops = tokens.read();
     const name = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? tokens.read() : undefined;
     return new OopsType(oops, name);
+
+}
+
+/** STREAM_TYPE :: ∆ TYPE */
+function parseStreamType(tokens: Tokens): StreamType {
+
+    const dots = tokens.read();
+    const type = parseType(tokens);
+    return new StreamType(dots, type);
 
 }
 
