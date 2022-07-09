@@ -345,7 +345,7 @@ function parseExpression(tokens: Tokens): Expression {
         else if(tokens.nextIs(TokenType.LIST_OPEN))
             left = parseListAccess(left, tokens);
         else if(tokens.nextIs(TokenType.SET_OPEN))
-            left = parseSetAccess(left, tokens);
+            left = parseSetOrMapAccess(left, tokens);
         else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE))
             left = parseEval(left, tokens);
         else if(tokens.nextIs(TokenType.SELECT))
@@ -413,10 +413,7 @@ function parseMeasurement(tokens: Tokens): Measurement {
 
 }
 
-/** TEXT :: text name? 
- * 
- * Most often a 3-letter ISO 639-2 code, but could be anyything: https://en.wikipedia.org/wiki/ISO_639-2
-*/
+/** TEXT :: text name? */
 function parseText(tokens: Tokens): Text {
 
     const text = tokens.read();
@@ -427,7 +424,37 @@ function parseText(tokens: Tokens): Text {
 
 }
 
-/** NONE :: ! NAME? */
+/** TEMPLATE :: text_open ( EXPRESSION text_between )* EXPRESSION text_close name? */
+function parseTemplate(tokens: Tokens): Template | Unparsable {
+
+    const parts = [];
+    let format;
+
+    if(!tokens.nextIs(TokenType.TEXT_OPEN))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TEXT_OPEN);
+    parts.push(tokens.read());
+
+    do {
+        const expression = parseExpression(tokens);
+        if(expression instanceof Unparsable) return expression;
+        parts.push(expression);
+        if(tokens.nextIs(TokenType.TEXT_BETWEEN))
+            parts.push(tokens.read());
+    } while(tokens.nextIsnt(TokenType.TEXT_CLOSE));
+
+    if(!tokens.nextIs(TokenType.TEXT_CLOSE))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TEXT_CLOSE);
+    parts.push(tokens.read());
+
+    // Read an optional format if there's no preceding space.
+    if(tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
+        format = tokens.read();
+
+    return new Template(parts, format);
+
+}
+
+/** NONE :: ! name? */
 function parseNone(tokens: Tokens): None | Unparsable {
 
     const error = tokens.read();
@@ -437,74 +464,6 @@ function parseNone(tokens: Tokens): None | Unparsable {
     }
     return tokens.readUnparsableLine(ErrorMessage.EXPECTED_ERROR_NAME);
 
-}
-
-/** LIST_ACCESS :: EXPRESSION ([ EXPRESSION ])+ */
-function parseListAccess(left: Expression, tokens: Tokens): Expression | Unparsable {
-    do {
-
-        const open = tokens.read();
-        const index = parseExpression(tokens);
-        if(tokens.nextIsnt(TokenType.LIST_CLOSE))
-            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_LIST_CLOSE);
-        const close = tokens.read();
-
-        left = new ListAccess(left, open, index, close);
-
-        // But wait, is it a function evaluation?
-        if(tokens.nextIs(TokenType.EVAL_OPEN))
-            left = parseEval(left, tokens);
-
-    } while(tokens.nextIs(TokenType.LIST_OPEN));
-
-    // Return the series of accesses and evaluations we created.
-    return left;
-}
-
-/** SET_ACCESS :: EXPRESSION ([ EXPRESSION ])+ */
-function parseSetAccess(left: Expression, tokens: Tokens): Expression | Unparsable {
-    do {
-
-        const open = tokens.read();
-        const index = parseExpression(tokens);
-        if(tokens.nextIsnt(TokenType.SET_CLOSE))
-            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_LIST_CLOSE);
-        const close = tokens.read();
-
-        left = new ListAccess(left, open, index, close);
-
-        // But wait, is it a function evaluation?
-        if(tokens.nextIs(TokenType.EVAL_OPEN))
-            left = parseEval(left, tokens);
-
-    } while(tokens.nextIs(TokenType.SET_OPEN));
-
-    // Return the series of accesses and evaluations we created.
-    return left;
-}
-
-/** ACCESS :: EXPRESSION (.NAME)+ */
-function parseAccess(left: Expression, tokens: Tokens): Expression | Unparsable {
-    if(!tokens.nextIs(TokenType.ACCESS))
-        return left;
-    do {
-
-        const access = tokens.read();
-        let name;
-        if(tokens.nextIs(TokenType.NAME))
-            name = tokens.read();
-        else return tokens.readUnparsableLine(ErrorMessage.EXPECTED_ACCESS_NAME);
-
-        left = new AccessName(left, access, name);
-
-        // But wait, is it a function evaluation?
-        if(tokens.nextIs(TokenType.EVAL_OPEN))
-            left = parseEval(left, tokens);
-
-    } while(tokens.nextIs(TokenType.ACCESS));
-
-    // Return the series of accesses and evaluatios we created.
-    return left;
 }
 
 /** EVAL :: EXPRESSION (EXPRESSION*) */
@@ -646,6 +605,28 @@ function parseList(tokens: Tokens): List | Unparsable {
 
 }
 
+/** LIST_ACCESS :: EXPRESSION ([ EXPRESSION ])+ */
+function parseListAccess(left: Expression, tokens: Tokens): Expression | Unparsable {
+    do {
+
+        const open = tokens.read();
+        const index = parseExpression(tokens);
+        if(tokens.nextIsnt(TokenType.LIST_CLOSE))
+            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_LIST_CLOSE);
+        const close = tokens.read();
+
+        left = new ListAccess(left, open, index, close);
+
+        // But wait, is it a function evaluation?
+        if(tokens.nextIs(TokenType.EVAL_OPEN))
+            left = parseEval(left, tokens);
+
+    } while(tokens.nextIs(TokenType.LIST_OPEN));
+
+    // Return the series of accesses and evaluations we created.
+    return left;
+}
+
 /** SET :: { EXPRESSION* } | { (EXPRESSION:EXPRESSION)* } */
 function parseSetOrMap(tokens: Tokens): SetNode | Unparsable {
 
@@ -659,6 +640,52 @@ function parseSetOrMap(tokens: Tokens): SetNode | Unparsable {
     );
     return stuff instanceof Unparsable ? stuff : new SetNode(stuff[0], stuff[1], stuff[2]);
 
+}
+
+/** SET_ACCESS :: EXPRESSION ([ EXPRESSION ])+ */
+function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression | Unparsable {
+    do {
+
+        const open = tokens.read();
+        const index = parseExpression(tokens);
+        if(tokens.nextIsnt(TokenType.SET_CLOSE))
+            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_LIST_CLOSE);
+        const close = tokens.read();
+
+        left = new ListAccess(left, open, index, close);
+
+        // But wait, is it a function evaluation?
+        if(tokens.nextIs(TokenType.EVAL_OPEN))
+            left = parseEval(left, tokens);
+
+    } while(tokens.nextIs(TokenType.SET_OPEN));
+
+    // Return the series of accesses and evaluations we created.
+    return left;
+}
+
+/** ACCESS :: EXPRESSION (.NAME)+ */
+function parseAccess(left: Expression, tokens: Tokens): Expression | Unparsable {
+    if(!tokens.nextIs(TokenType.ACCESS))
+        return left;
+    do {
+
+        const access = tokens.read();
+        let name;
+        if(tokens.nextIs(TokenType.NAME))
+            name = tokens.read();
+        else return tokens.readUnparsableLine(ErrorMessage.EXPECTED_ACCESS_NAME);
+
+        left = new AccessName(left, access, name);
+
+        // But wait, is it a function evaluation?
+        if(tokens.nextIs(TokenType.EVAL_OPEN))
+            left = parseEval(left, tokens);
+
+    } while(tokens.nextIs(TokenType.ACCESS));
+
+    // Return the series of accesses and evaluatios we created.
+    return left;
 }
 
 function parseTable(tokens: Tokens): Table {
@@ -738,36 +765,6 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 
     return new Delete(table, del, query);
     
-}
-
-/** TEMPLATE :: text_open ( EXPRESSION text_between )* EXPRESSION text_close */
-function parseTemplate(tokens: Tokens): Template | Unparsable {
-
-    const parts = [];
-    let format;
-
-    if(!tokens.nextIs(TokenType.TEXT_OPEN))
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TEXT_OPEN);
-    parts.push(tokens.read());
-
-    do {
-        const expression = parseExpression(tokens);
-        if(expression instanceof Unparsable) return expression;
-        parts.push(expression);
-        if(tokens.nextIs(TokenType.TEXT_BETWEEN))
-            parts.push(tokens.read());
-    } while(tokens.nextIsnt(TokenType.TEXT_CLOSE));
-
-    if(!tokens.nextIs(TokenType.TEXT_CLOSE))
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_TEXT_CLOSE);
-    parts.push(tokens.read());
-
-    // Read an optional format if there's no preceding space.
-    if(tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
-        format = tokens.read();
-
-    return new Template(parts, format);
-
 }
 
 /** TYPE :: 
