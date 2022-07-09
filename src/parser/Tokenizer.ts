@@ -20,7 +20,8 @@ const patterns = [
     { pattern: "!", types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
     { pattern: "•", types: [ TokenType.TYPE ] },
     { pattern: "/", types: [ TokenType.TYPE_VARS, TokenType.LANGUAGE ] },
-    { pattern: "…", types: [ TokenType.STREAM ] },
+    { pattern: "∆", types: [ TokenType.STREAM ] },
+    { pattern: "…", types: [ TokenType.TBD ] },
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
     { pattern: /^-?[0-9]+([.,][0-9]+)?/, types: [ TokenType.NUMBER ] },
     { pattern: /^[π∞]/, types: [ TokenType.NUMBER ] },
@@ -62,7 +63,7 @@ const patterns = [
     { pattern: "#", types: [ TokenType.NUMBER_TYPE ] },
     { pattern: /^[?¿]/, types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
     // One or more unicode characters that are not one of the reserved symbols above.
-    { pattern: /^[^\(\)\[\]\{\}|:.,ƒ↓↑`!•… \t\n+\-×*·^√÷%<≤=≠≥>⊥⊤~¬∧∨'‘’"“”„«»‹›「」『』\/]+/u, types: [ TokenType.NAME ] }
+    { pattern: /^[^\(\)\[\]\{\}|:.,ƒ↓↑`!•∆… \t\n+\-×*·^√÷%<≤=≠≥>⊥⊤~¬∧∨'‘’"“”„«»‹›「」『』\/]+/u, types: [ TokenType.NAME ] }
 ];
 
 export function tokenize(source: string): Token[] {

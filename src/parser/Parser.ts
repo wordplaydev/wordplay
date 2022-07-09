@@ -112,10 +112,10 @@ class Tokens {
     nextIsBind() {
         // To detect this, we'll just peek ahead and see if there's a bind before the next line.
         let index = 0;
-        while(index < this.#unread.length && !this.#unread[index].hasPrecedingLineBreak()) {
+        while(index < this.#unread.length) {
             const token = this.#unread[index];
+            if(index > 0 && this.#unread[index].hasPrecedingLineBreak()) break;
             if(token.is(TokenType.BIND)) break;
-            if(token.hasPrecedingLineBreak()) break;
             if(token.is(TokenType.EVAL_OPEN)) return false;
             index++;
         }
@@ -222,12 +222,11 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
     }
 
     while(tokens.nextIsnt(TokenType.END) && tokens.nextIsnt(TokenType.EVAL_CLOSE)) {
-        if( tokens.nextIsBind())
-            statements.push(parseBind(tokens))
-        else if(tokens.nextIs(TokenType.SHARE))
-            statements.push(parseShare(tokens));
-        else
-            statements.push(parseExpression(tokens));
+        statements.push(
+            tokens.nextIsBind() ? parseBind(tokens) :
+            tokens.nextIs(TokenType.SHARE) ? parseShare(tokens) :
+            parseExpression(tokens)
+        );
         if(!tokens.nextHasPrecedingLineBreak() && tokens.nextIsnt(TokenType.END))
             statements.push(tokens.readUnparsableLine(ErrorMessage.EXPECTED_LINES))
     }
@@ -537,7 +536,7 @@ function parseFunction(tokens: Tokens): Function | Unparsable {
         output = parseType(tokens);
     }
 
-    const expression = parseExpression(tokens);
+    const expression = tokens.nextIs(TokenType.TBD) ? tokens.read() : parseExpression(tokens);
 
     return new Function(docs, fun, open, inputs, close, expression, typeVars, type, output);
 

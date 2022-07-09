@@ -17,9 +17,9 @@ export default class Function extends Expression {
     readonly close: Token;
     readonly dot?: Token;
     readonly output?: Type;
-    readonly expression: Expression;
+    readonly expression: Expression | Token;
 
-    constructor(docs: Docs[], fun: Token, open: Token, inputs: (Bind|Unparsable)[], close: Token, expression: Expression, typeVars?: TypeVariables|Unparsable, dot?: Token, output?: Type) {
+    constructor(docs: Docs[], fun: Token, open: Token, inputs: (Bind|Unparsable)[], close: Token, expression: Expression | Token, typeVars?: TypeVariables|Unparsable, dot?: Token, output?: Type) {
         super();
 
         this.docs = docs;
