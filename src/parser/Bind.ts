@@ -5,6 +5,9 @@ import type { Token } from "./Token";
 import type Type from "./Type";
 import type Unparsable from "./Unparsable";
 import type Docs from "./Docs";
+import type Program from "./Program";
+import Conflict from "./Conflict";
+import { SemanticConflict } from "./SemanticConflict";
 
 export default class Bind extends Node {
     
@@ -35,6 +38,17 @@ export default class Bind extends Node {
         if(this.colon) children.push(this.colon);
         if(this.value) children.push(this.value);
         return children;
+    }
+
+    getConflicts(program: Program): Conflict[] {
+
+        const conflicts = [];
+
+        if(this.names.length !== this.names.filter(n => this.names.find(n2 => n.name.text === n2.name.text) === undefined).length)
+            conflicts.push(new Conflict(this, SemanticConflict.BIND_ALIASES_ARENT_UNIQUE))
+
+        return conflicts;
+
     }
 
 }
