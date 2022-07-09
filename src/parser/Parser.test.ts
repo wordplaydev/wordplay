@@ -2,7 +2,7 @@ import Block from "./Block";
 import Borrow from "./Borrow";
 import { parse } from "./Parser";
 import Program from "./Program";
-import { TokenType } from "./Token";
+import { Token, TokenType } from "./Token";
 import Unparsable from "./Unparsable";
 
 test("Parse programs", () => {
@@ -23,4 +23,22 @@ test("Parse borrows", () => {
     expect(bad.borrows).toHaveLength(1);
     expect(bad.borrows[0]).toBeInstanceOf(Unparsable);
 
+})
+
+test("Parse block", () => {
+
+    const good = parse("(\nhi\n)");
+    expect(good.block).toBeInstanceOf(Block);
+    expect((good.block as Block).statements).toHaveLength(1);
+    expect((good.block as Block).statements[0]).toBeInstanceOf(Block);
+    expect(((good.block as Block).statements[0] as Block).statements).toHaveLength(1);
+    expect(((good.block as Block).statements[0] as Block).statements[0]).toBeInstanceOf(Token);
+    expect(((good.block as Block).statements[0] as Block).statements[0].toWordplay()).toBe("\nhi");
+
+    const bad = parse("(\nhi)");
+    expect(bad.block).toBeInstanceOf(Block);
+    expect(((bad.block as Block).statements[0] as Block).statements).toHaveLength(2);
+    expect(((bad.block as Block).statements[0] as Block).statements[0]).toBeInstanceOf(Token);
+    expect(((bad.block as Block).statements[0] as Block).statements[1]).toBeInstanceOf(Unparsable);
+    
 })
