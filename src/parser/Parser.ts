@@ -42,7 +42,7 @@ import Column from "./Column";
 import Cell from "./Cell";
 import Row from "./Row";
 import Table from "./Table";
-import ColumnType from "./ColumnTYpe";
+import ColumnType from "./ColumnType";
 import TableType from "./TableType";
 import Select from "./Select";
 import Insert from "./Insert";

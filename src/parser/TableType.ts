@@ -1,5 +1,5 @@
 import Node from "./Node";
-import type ColumnType from "./ColumnTYpe";
+import type ColumnType from "./ColumnType";
 
 export default class TableType extends Node {
     
