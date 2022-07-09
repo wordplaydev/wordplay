@@ -15,7 +15,6 @@ import Evaluate from "./Evaluate";
 import UnaryOperation from "./UnaryOperation";
 import BinaryOperation from "./BinaryOperation";
 import AccessName from "./AccessName";
-import Parenthetical from "./Parenthetical";
 import Function from "./Function";
 import Template from "./Template";
 import UnionType from "./UnionType";
@@ -211,40 +210,33 @@ export function parseBorrow(tokens: Tokens): Borrow | Unparsable {
     return new Borrow(borrow, name, version);
 }
 
-/** BLOCK :: EXPR_OPEN? LINES (BIND|EXPRESSION) LINES EXPR_CLOSE? */
+/** BLOCK :: ( [BIND|EXPRESSION]+ )  */
 export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
-    let open;
-    let close;
-    let statements = [];
 
     // Grab any documentation
     let docs = parseDocs(tokens);
 
-    if(!root) {
-        open = tokens.nextIs(TokenType.EVAL_OPEN) ? 
+    const open = root ? 
+        undefined :
+        tokens.nextIs(TokenType.EVAL_OPEN) ? 
             tokens.read() :
             tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
-        if(!tokens.nextHasPrecedingLineBreak())
-            return tokens.readUnparsableLine(ErrorMessage.EXPECTED_LINES);
-    }
 
-    while(tokens.nextIsnt(TokenType.END) && tokens.nextIsnt(TokenType.EVAL_CLOSE)) {
-        statements.push(
+    const expressions = [];
+    while(tokens.nextIsnt(TokenType.END) && tokens.nextIsnt(TokenType.EVAL_CLOSE))
+        expressions.push(
             tokens.nextIsBind() ? parseBind(tokens) :
             tokens.nextIs(TokenType.SHARE) ? parseShare(tokens) :
             parseExpression(tokens)
         );
-        if(!tokens.nextHasPrecedingLineBreak() && tokens.nextIsnt(TokenType.END))
-            statements.push(tokens.readUnparsableLine(ErrorMessage.EXPECTED_LINES))
-    }
 
-    if(!root) {
-        close = tokens.nextIs(TokenType.EVAL_CLOSE) ? 
+    const close = root ?
+        undefined :
+        tokens.nextIs(TokenType.EVAL_CLOSE) ? 
             tokens.read() :
             tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_CLOSE);
-    }
 
-    return new Block(docs, statements, open, close);
+    return new Block(docs, expressions, open, close);
 
 }
 
@@ -283,10 +275,8 @@ function parseExpression(tokens: Tokens): Expression {
     
     // All expressions must start with one of the following
     let left: Expression = (
-        // A block. (Has precedent over inline parenthetical).
-        (tokens.nextIs(TokenType.EVAL_OPEN) && tokens.afterNextHasPrecedingLineBreak()) ? parseBlock(false, tokens) :
-        // A parenthetical
-        tokens.nextAre(TokenType.EVAL_OPEN) ? parseParenthetical(tokens) :
+        // A block expression
+        tokens.nextIs(TokenType.EVAL_OPEN) ? parseBlock(false, tokens) :
         // Numbers with units
         tokens.nextIs(TokenType.NUMBER) ? parseMeasurement(tokens) :
         // Text with optional formats
@@ -413,25 +403,6 @@ function parseNone(tokens: Tokens): None | Unparsable {
         return new None(error, name);
     }
     return tokens.readUnparsableLine(ErrorMessage.EXPECTED_ERROR_NAME);
-
-}
-
-/** PARENTHETICAL :: ( EXPRESSION ) */
-function parseParenthetical(tokens: Tokens): Parenthetical | Unparsable {
-    let open;
-    let close;
-    if(tokens.nextIs(TokenType.EVAL_OPEN))
-        open = tokens.read();
-    else
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
-
-    const value = parseExpression(tokens);
-    if(tokens.nextIs(TokenType.EVAL_CLOSE))
-        close = tokens.read();
-    else
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_CLOSE);
-
-    return new Parenthetical(open, value, close);
 
 }
 

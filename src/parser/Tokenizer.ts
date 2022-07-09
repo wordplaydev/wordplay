@@ -5,7 +5,7 @@ const patterns = [
     { pattern: "]", types: [ TokenType.LIST_CLOSE ] },
     { pattern: "{", types: [ TokenType.SET_OPEN ] },
     { pattern: "}", types: [ TokenType.SET_CLOSE ] },
-    { pattern: "/", types: [ TokenType.UNION ] },
+    { pattern: "/", types: [ TokenType.UNION, TokenType.TYPE_VARS, TokenType.LANGUAGE ] },
     { pattern: "|?", types: [ TokenType.SELECT] },
     { pattern: "|+", types: [ TokenType.INSERT] },
     { pattern: "|-", types: [ TokenType.DELETE] },
@@ -20,7 +20,6 @@ const patterns = [
     { pattern: /^`.*?`/, types: [ TokenType.DOCS ] },
     { pattern: "!", types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
     { pattern: "•", types: [ TokenType.TYPE ] },
-    { pattern: "/", types: [ TokenType.TYPE_VARS, TokenType.LANGUAGE ] },
     { pattern: "∆", types: [ TokenType.STREAM ] },
     { pattern: "…", types: [ TokenType.TBD ] },
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.

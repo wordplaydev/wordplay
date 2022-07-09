@@ -29,16 +29,15 @@ test("Parse block", () => {
 
     const good = parse("(\nhi\n)");
     expect(good.block).toBeInstanceOf(Block);
-    expect((good.block as Block).statements).toHaveLength(1);
-    expect((good.block as Block).statements[0]).toBeInstanceOf(Block);
-    expect(((good.block as Block).statements[0] as Block).statements).toHaveLength(1);
-    expect(((good.block as Block).statements[0] as Block).statements[0]).toBeInstanceOf(Token);
-    expect(((good.block as Block).statements[0] as Block).statements[0].toWordplay()).toBe("\nhi");
+    expect((good.block as Block).expressions).toHaveLength(1);
+    expect((good.block as Block).expressions[0]).toBeInstanceOf(Block);
+    expect(((good.block as Block).expressions[0] as Block).expressions).toHaveLength(1);
+    expect(((good.block as Block).expressions[0] as Block).expressions[0]).toBeInstanceOf(Token);
+    expect(((good.block as Block).expressions[0] as Block).expressions[0].toWordplay()).toBe("\nhi");
 
-    const bad = parse("(\nhi)");
+    const bad = parse("(\nhi");
     expect(bad.block).toBeInstanceOf(Block);
-    expect(((bad.block as Block).statements[0] as Block).statements).toHaveLength(2);
-    expect(((bad.block as Block).statements[0] as Block).statements[0]).toBeInstanceOf(Token);
-    expect(((bad.block as Block).statements[0] as Block).statements[1]).toBeInstanceOf(Unparsable);
-    
+    expect(((bad.block as Block).expressions[0] as Block).expressions).toHaveLength(1);
+    expect(((bad.block as Block).expressions[0] as Block).close).toBeInstanceOf(Unparsable);
+
 })
