@@ -24,7 +24,7 @@ import Measurement from "./Measurement";
 import MeasurementType from "./MeasurementType";
 import Text from "./Text";
 import NameType from "./NameType";
-import OopsType from "./OopsType";
+import NoneType from "./NoneType";
 import TextType from "./TextType";
 import ListType from "./ListType";
 import SetType from "./SetType";
@@ -831,11 +831,11 @@ function parseTextType(tokens: Tokens): TextType {
 }
 
 /** OOPS_TYPE :: !NAME? */
-function parseOopsType(tokens: Tokens): OopsType {
+function parseOopsType(tokens: Tokens): NoneType {
 
     const oops = tokens.read();
     const name = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? tokens.read() : undefined;
-    return new OopsType(oops, name);
+    return new NoneType(oops, name);
 
 }
 
