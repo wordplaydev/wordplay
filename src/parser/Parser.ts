@@ -241,9 +241,9 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
             tokens.read() :
             tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN);
 
-    const expressions = [];
+    const statements = [];
     while(tokens.nextIsnt(TokenType.END) && tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        expressions.push(
+        statements.push(
             tokens.nextIs(TokenType.SHARE) ? parseShare(tokens) :
             tokens.nextIsBind() ? parseBind(tokens) :
             parseExpression(tokens)
@@ -255,7 +255,7 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
             tokens.read() :
             tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
 
-    return new Block(docs, expressions, open, close);
+    return new Block(docs, statements, open, close);
 
 }
 
