@@ -16,6 +16,7 @@ const patterns = [
     { pattern: "ƒ", types: [ TokenType.FUNCTION ] },
     { pattern: "↓", types: [ TokenType.BORROW ] },
     { pattern: "↑", types: [ TokenType.SHARE ] },
+    { pattern: "→", types: [ TokenType.CONVERT ] },
     { pattern: /^`.*?`/, types: [ TokenType.DOCS ] },
     { pattern: "!", types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
     { pattern: "•", types: [ TokenType.TYPE ] },

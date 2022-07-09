@@ -12,6 +12,7 @@ export enum TokenType {
     FUNCTION,      // ƒ
     BORROW,        // ↓
     SHARE,         // ↑
+    CONVERT,       // →
     DOCS,          // `
     NONE,          // ø
     TYPE,          // •

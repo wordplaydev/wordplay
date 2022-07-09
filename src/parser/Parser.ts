@@ -48,6 +48,7 @@ import Select from "./Select";
 import Insert from "./Insert";
 import Update from "./Update";
 import Delete from "./Delete";
+import Conversion from "./Conversion";
 
 export enum ErrorMessage {
     UNEXPECTED_SHARE,
@@ -292,6 +293,8 @@ function parseExpression(tokens: Tokens): Expression {
         (tokens.nextIs(TokenType.TYPE) || tokens.nextAre(TokenType.DOCS, TokenType.TYPE)) ? parseCustomType(tokens) :
         // A function
         (tokens.nextIs(TokenType.FUNCTION) || tokens.nextAre(TokenType.DOCS, TokenType.FUNCTION)) ? parseFunction(tokens) :
+        // A conversion
+        (tokens.nextIs(TokenType.CONVERT) || tokens.nextAre(TokenType.DOCS, TokenType.CONVERT)) ? parseConversion(tokens) :
         // A list
         tokens.nextIs(TokenType.LIST_OPEN) ? parseList(tokens) :
         // A set
@@ -508,7 +511,7 @@ function parseEval(left: Expression, tokens: Tokens): Evaluate | Unparsable {
 
 }
 
-/** FUNCTION :: ƒ TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
+/** FUNCTION :: DOCS? ƒ TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
 function parseFunction(tokens: Tokens): Function | Unparsable {
 
     const docs = parseDocs(tokens);
@@ -541,6 +544,19 @@ function parseFunction(tokens: Tokens): Function | Unparsable {
     return new Function(docs, fun, open, inputs, close, expression, typeVars, type, output);
 
 }
+
+/** CONVERSION :: DOCS? → TYPE EXPRESSION */
+function parseConversion(tokens: Tokens): Conversion {
+
+    const docs = parseDocs(tokens);
+    const convert = tokens.read();
+    const output = parseType(tokens);
+    const expression = tokens.nextIs(TokenType.TBD) ? tokens.read() : parseExpression(tokens);
+
+    return new Conversion(docs, convert, output, expression);
+
+}
+
 
 function parseTypeVariables(tokens: Tokens): TypeVariables | Unparsable {
 
