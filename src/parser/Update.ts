@@ -2,7 +2,7 @@ import type { Token } from "./Token";
 import Expression from "./Expression";
 import type Row from "./Row";
 
-export default class Select extends Expression {
+export default class Update extends Expression {
     
     readonly table: Expression;
     readonly update: Token;

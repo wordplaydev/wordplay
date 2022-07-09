@@ -9,7 +9,7 @@ export default class Evaluate extends Expression {
     readonly typeVars: (TypeVariable|Unparsable)[];
     readonly open: Token;
     readonly func: Expression;
-    readonly values: (Bind|Expression)[];
+    readonly inputs: (Bind|Expression)[];
     readonly close: Token;
 
     constructor(typeVars: (TypeVariable|Unparsable)[], open: Token, subject: Expression, values: (Bind|Expression)[], close: Token) {
@@ -18,12 +18,12 @@ export default class Evaluate extends Expression {
         this.typeVars = typeVars;
         this.open = open;
         this.func = subject;
-        this.values = values.slice();
+        this.inputs = values.slice();
         this.close = close;
     }
 
     getChildren() {
-        return [ ...this.typeVars, this.func, this.open, ...this.values, this.close ];
+        return [ ...this.typeVars, this.func, this.open, ...this.inputs, this.close ];
     }
 
 }

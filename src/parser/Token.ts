@@ -17,6 +17,7 @@ export enum TokenType {
     NONE,          // ø
     TYPE,          // •
     TYPE_VARS,     // /
+    ALIAS,         // ,
     LANGUAGE,      // /
     BOOLEAN_TYPE,  // ?
     TEXT_TYPE,     // ""
@@ -47,7 +48,7 @@ export enum TokenType {
     // The trailing text at the end encodes the unit.
     // Both commas and periods are allowed to cover different conventions globally.
     NUMBER,         // -?[0-9]+([.,][0-9]+)?(-[0-9]+([.,][0-9]+)?)[^\s]*
-    BOOLEAN,        // \u22a4 (true) \u22a5 (false)
+    BOOLEAN,        // ⊥⊤
     NAME,           // (anything not the above)+
     UNKNOWN,        // Represents any characters that couldn't be tokenized.
     END

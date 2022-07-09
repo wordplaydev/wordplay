@@ -51,6 +51,7 @@ import Conversion from "./Conversion";
 import Stream from "./Stream";
 import StreamType from "./StreamType";
 import BooleanType from "./BooleanType";
+import SetAccess from "./SetAccess";
 
 export enum ErrorMessage {
     UNEXPECTED_SHARE,
@@ -112,17 +113,32 @@ class Tokens {
         return types.every((type, index) => index < this.#unread.length && this.#unread[index].is(type));
     }
 
-    nextIsBind() {
+    nextIsBind() { return this.beforeNextLineIs(TokenType.BIND); }
+
+    beforeNextLineIs(type: TokenType) {
         // To detect this, we'll just peek ahead and see if there's a bind before the next line.
         let index = 0;
         while(index < this.#unread.length) {
             const token = this.#unread[index];
             if(index > 0 && this.#unread[index].hasPrecedingLineBreak()) break;
-            if(token.is(TokenType.BIND)) break;
+            if(token.is(type)) break;
             index++;
         }
         // If we found a bind, it's a bind.
-        return index < this.#unread.length && this.#unread[index].is(TokenType.BIND);
+        return index < this.#unread.length && this.#unread[index].is(type);        
+    }    
+
+    nextAreDocsThen(type: TokenType) {
+
+        let index = 0;
+        while(index < this.#unread.length) {
+            const token = this.#unread[index];
+            if(token.is(type)) return true;
+            if(!token.is(TokenType.DOCS) && !token.is(TokenType.NAME)) return false;
+            index++;
+        }
+        return false;
+
     }
 
     nextIsOneOf(...types: TokenType[]): boolean {
@@ -218,7 +234,7 @@ function parseShare(tokens: Tokens): Share {
 
 }
 
-/** BLOCK :: ( [BIND|EXPRESSION]+ )  */
+/** BLOCK :: DOCS ? ( [BIND|EXPRESSION]+ )  */
 export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
 
     // Grab any documentation
@@ -257,12 +273,13 @@ export function parseBind(tokens: Tokens): Bind | Unparsable {
     let value;
     let dot;
     let type;
-
-    while(tokens.nextIs(TokenType.NAME)) {
+    
+    while((names.length === 0 && tokens.nextIs(TokenType.NAME)) || tokens.nextIs(TokenType.ALIAS)) {
+        const alias = tokens.nextIs(TokenType.ALIAS) ? tokens.read() : undefined;
         const name = tokens.read();
-        const alias = tokens.nextIs(TokenType.LANGUAGE) ? tokens.read() : undefined;
-        const lang = alias ? tokens.read() : undefined;
-        names.push(new Alias(name, alias, lang));
+        const slash = tokens.nextIs(TokenType.LANGUAGE) ? tokens.read() : undefined;
+        const lang = slash ? tokens.read() : undefined;
+        names.push(new Alias(name, alias, slash, lang));
     }
     if(names.length === 0)
         return tokens.readUnparsableLine(ErrorMessage.EXPECTED_NAME);
@@ -301,39 +318,48 @@ export function parseBind(tokens: Tokens): Bind | Unparsable {
  *   CUSTOM |
  *   DOCS |
  */
-function parseExpression(tokens: Tokens): Expression {
+export function parseExpression(tokens: Tokens): Expression {
 
     // Is this expression excluded?
-    const excluded = parseDocs(tokens);
+    const docs = tokens.nextIsOneOf(
+        TokenType.NONE, 
+        TokenType.NAME, 
+        TokenType.BOOLEAN, 
+        TokenType.TEXT, 
+        TokenType.TEXT_OPEN, 
+        TokenType.LIST_OPEN, 
+        TokenType.SET_OPEN, 
+        TokenType.TABLE,
+        TokenType.UNARY_OP) ? parseDocs(tokens) : undefined;
     
     // All expressions must start with one of the following
     let left: Expression = (
-        // A block expression
-        tokens.nextIs(TokenType.EVAL_OPEN) ? parseBlock(false, tokens) :
+        // Nones
+        tokens.nextIs(TokenType.NONE) ? parseNone(tokens): 
+        // Names or booleans are easy
+        tokens.nextIsOneOf(TokenType.NAME, TokenType.BOOLEAN) ? tokens.read() :
         // Numbers with units
         tokens.nextIs(TokenType.NUMBER) ? parseMeasurement(tokens) :
         // Text with optional formats
         tokens.nextIs(TokenType.TEXT) ? parseText(tokens) :
-        // Names or booleans are easy
-        tokens.nextIsOneOf(TokenType.NAME, TokenType.BOOLEAN) ? tokens.read() :
-        // Nones
-        tokens.nextIs(TokenType.NONE) ? parseNone(tokens): 
-        // Custom types
-        (tokens.nextIs(TokenType.TYPE) || tokens.nextAre(TokenType.DOCS, TokenType.TYPE)) ? parseCustomType(tokens) :
-        // A function
-        (tokens.nextIs(TokenType.FUNCTION) || tokens.nextAre(TokenType.DOCS, TokenType.FUNCTION)) ? parseFunction(tokens) :
-        // A conversion
-        (tokens.nextIs(TokenType.CONVERT) || tokens.nextAre(TokenType.DOCS, TokenType.CONVERT)) ? parseConversion(tokens) :
+        // A string template
+        tokens.nextIs(TokenType.TEXT_OPEN) ? parseTemplate(tokens) :
         // A list
         tokens.nextIs(TokenType.LIST_OPEN) ? parseList(tokens) :
-        // A set
+        // A set or map
         tokens.nextIs(TokenType.SET_OPEN) ? parseSetOrMap(tokens) :
         // Table literals
         tokens.nextIs(TokenType.TABLE) ? parseTable(tokens) :
-        // A string template
-        tokens.nextIs(TokenType.TEXT_OPEN) ? parseTemplate(tokens) :
+        // A block expression
+        tokens.nextAreDocsThen(TokenType.EVAL_OPEN) ? parseBlock(false, tokens) :
+        // Custom types
+        tokens.nextAreDocsThen(TokenType.TYPE) ? parseCustomType(tokens) :
+        // A function
+        tokens.nextAreDocsThen(TokenType.FUNCTION) ? parseFunction(tokens) :
+        // A conversion
+        tokens.nextAreDocsThen(TokenType.CONVERT) ? parseConversion(tokens) :
         // Unary expressions!
-        (tokens.nextIs(TokenType.UNARY_OP)) ? new UnaryOperation(tokens.read(), parseExpression(tokens)) :
+        tokens.nextIs(TokenType.UNARY_OP) ? new UnaryOperation(tokens.read(), parseExpression(tokens)) :
         // Anything that doesn't is unparsable.
         tokens.readUnparsableLine(ErrorMessage.EXPECTED_EXPRESSION)
     );
@@ -347,7 +373,7 @@ function parseExpression(tokens: Tokens): Expression {
         else if(tokens.nextIs(TokenType.SET_OPEN))
             left = parseSetOrMapAccess(left, tokens);
         else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE))
-            left = parseEval(left, tokens);
+            left = parseEvaluate(left, tokens);
         else if(tokens.nextIs(TokenType.SELECT))
             left = parseSelect(left, tokens);
         else if(tokens.nextIs(TokenType.INSERT))
@@ -368,36 +394,20 @@ function parseExpression(tokens: Tokens): Expression {
         left = parseConditional(left, tokens);
 
     // Is the expression excluded? Wrap it.
-    if(excluded.length > 0)
-        left = new Documented(excluded, left);
+    if(docs !== undefined && docs.length > 0)
+        left = new Documented(docs, left);
 
     // Return the beautiful tree we built.
     return left;
 
 }
 
-/** BINARY_OP :: EXPRESSION binary_op EXPRESSION */
-function parseBinaryOperation(left: Expression, tokens: Tokens): BinaryOperation {
-    const operator = tokens.read();
-    const right = parseExpression(tokens);
-    return new BinaryOperation(operator, left, right); 
-}
+/** NONE :: ! name? */
+function parseNone(tokens: Tokens): None | Unparsable {
 
-/** STREAM :: EXPRESSION ∆ EXPRESSION EXPRESSION */
-function parseStream(initial: Expression, tokens: Tokens): Stream {
-    const dots = tokens.read();
-    const stream = parseExpression(tokens);
-    const next = parseExpression(tokens);
-    return new Stream(initial, dots, stream, next); 
-}
-
-
-/** CONDITIONAL :: EXPRESSSION ? EXPRESSION EXPRESSION */
-function parseConditional(condition: Expression, tokens: Tokens): Conditional {
-    const conditional = tokens.read();
-    const yes = parseExpression(tokens);
-    const no = parseExpression(tokens);
-    return new Conditional(condition, conditional, yes, no);
+    const error = tokens.read();
+    const name = tokens.nextIs(TokenType.NAME) ? tokens.read() : undefined;
+    return new None(error, name);
 
 }
 
@@ -451,101 +461,6 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
         format = tokens.read();
 
     return new Template(parts, format);
-
-}
-
-/** NONE :: ! name? */
-function parseNone(tokens: Tokens): None | Unparsable {
-
-    const error = tokens.read();
-    if(tokens.nextIs(TokenType.NAME)) {
-        const name = tokens.read();
-        return new None(error, name);
-    }
-    return tokens.readUnparsableLine(ErrorMessage.EXPECTED_ERROR_NAME);
-
-}
-
-/** EVAL :: EXPRESSION (EXPRESSION*) */
-function parseEval(left: Expression, tokens: Tokens): Evaluate | Unparsable {
-
-    const typeVars = parseTypeVariables(tokens);
-    const open = tokens.read();
-    const objects = [];
-    let close;
-    
-    while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        objects.push(tokens.nextIsBind() ? parseBind(tokens) : parseExpression(tokens));
-    
-    if(tokens.nextIs(TokenType.EVAL_CLOSE))
-        close = tokens.read();
-    else
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
-    
-    return new Evaluate(typeVars, open, left, objects, close);    
-
-}
-
-/** FUNCTION :: DOCS? ƒ TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
-function parseFunction(tokens: Tokens): Function | Unparsable {
-
-    const docs = parseDocs(tokens);
-
-    const fun = tokens.read();
-
-    const typeVars = parseTypeVariables(tokens);
-
-    if(tokens.nextIsnt(TokenType.EVAL_OPEN))
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
-    const open = tokens.read();
-
-    const inputs: (Bind|Unparsable)[] = [];
-    while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        inputs.push(parseBind(tokens));
-
-    if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_CLOSE);
-    const close = tokens.read();
-
-    let type;
-    let output;
-    if(tokens.nextIs(TokenType.TYPE)) {
-        type = tokens.read();
-        output = parseType(tokens);
-    }
-
-    const expression = tokens.nextIs(TokenType.TBD) ? tokens.read() : parseExpression(tokens);
-
-    return new Function(docs, fun, open, inputs, close, expression, typeVars, type, output);
-
-}
-
-/** CONVERSION :: DOCS? → TYPE EXPRESSION */
-function parseConversion(tokens: Tokens): Conversion {
-
-    const docs = parseDocs(tokens);
-    const convert = tokens.read();
-    const output = parseType(tokens);
-    const expression = tokens.nextIs(TokenType.TBD) ? tokens.read() : parseExpression(tokens);
-
-    return new Conversion(docs, convert, output, expression);
-
-}
-
-/** TYPE_VARS :: [•NAME]* */
-function parseTypeVariables(tokens: Tokens): (TypeVariable|Unparsable)[] {
-
-    const vars = [];
-    while(tokens.nextIs(TokenType.TYPE)) {
-        const type = tokens.read();
-        if(tokens.nextIsnt(TokenType.NAME)) {
-            vars.push(tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE_VAR_NAME));
-            return vars;
-        }
-        const name = tokens.read();
-        vars.push(new TypeVariable(type, name));
-    }
-    return vars;
 
 }
 
@@ -619,7 +534,7 @@ function parseListAccess(left: Expression, tokens: Tokens): Expression | Unparsa
 
         // But wait, is it a function evaluation?
         if(tokens.nextIs(TokenType.EVAL_OPEN))
-            left = parseEval(left, tokens);
+            left = parseEvaluate(left, tokens);
 
     } while(tokens.nextIs(TokenType.LIST_OPEN));
 
@@ -647,44 +562,21 @@ function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression | Unp
     do {
 
         const open = tokens.read();
-        const index = parseExpression(tokens);
+        const key = parseExpression(tokens);
+
         if(tokens.nextIsnt(TokenType.SET_CLOSE))
             return tokens.readUnparsableLine(ErrorMessage.EXPECTED_LIST_CLOSE);
         const close = tokens.read();
 
-        left = new ListAccess(left, open, index, close);
+        left = new SetAccess(left, open, key, close);
 
         // But wait, is it a function evaluation?
         if(tokens.nextIs(TokenType.EVAL_OPEN))
-            left = parseEval(left, tokens);
+            left = parseEvaluate(left, tokens);
 
     } while(tokens.nextIs(TokenType.SET_OPEN));
 
     // Return the series of accesses and evaluations we created.
-    return left;
-}
-
-/** ACCESS :: EXPRESSION (.NAME)+ */
-function parseAccess(left: Expression, tokens: Tokens): Expression | Unparsable {
-    if(!tokens.nextIs(TokenType.ACCESS))
-        return left;
-    do {
-
-        const access = tokens.read();
-        let name;
-        if(tokens.nextIs(TokenType.NAME))
-            name = tokens.read();
-        else return tokens.readUnparsableLine(ErrorMessage.EXPECTED_ACCESS_NAME);
-
-        left = new AccessName(left, access, name);
-
-        // But wait, is it a function evaluation?
-        if(tokens.nextIs(TokenType.EVAL_OPEN))
-            left = parseEval(left, tokens);
-
-    } while(tokens.nextIs(TokenType.ACCESS));
-
-    // Return the series of accesses and evaluatios we created.
     return left;
 }
 
@@ -765,6 +657,137 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 
     return new Delete(table, del, query);
     
+}
+
+/** STREAM :: EXPRESSION ∆ EXPRESSION EXPRESSION */
+function parseStream(initial: Expression, tokens: Tokens): Stream {
+    const delta = tokens.read();
+    const stream = parseExpression(tokens);
+    const next = parseExpression(tokens);
+    return new Stream(initial, delta, stream, next); 
+}
+
+/** BINARY_OP :: EXPRESSION binary_op EXPRESSION */
+function parseBinaryOperation(left: Expression, tokens: Tokens): BinaryOperation {
+    const operator = tokens.read();
+    const right = parseExpression(tokens);
+    return new BinaryOperation(operator, left, right); 
+}
+
+/** CONDITIONAL :: EXPRESSSION ? EXPRESSION EXPRESSION */
+function parseConditional(condition: Expression, tokens: Tokens): Conditional {
+    const conditional = tokens.read();
+    const yes = parseExpression(tokens);
+    const no = parseExpression(tokens);
+    return new Conditional(condition, conditional, yes, no);
+
+}
+
+/** FUNCTION :: DOCS? ƒ TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
+function parseFunction(tokens: Tokens): Function | Unparsable {
+
+    const docs = parseDocs(tokens);
+
+    const fun = tokens.read();
+
+    const typeVars = parseTypeVariables(tokens);
+
+    if(tokens.nextIsnt(TokenType.EVAL_OPEN))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
+    const open = tokens.read();
+
+    const inputs: (Bind|Unparsable)[] = [];
+    while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
+        inputs.push(parseBind(tokens));
+
+    if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_CLOSE);
+    const close = tokens.read();
+
+    let type;
+    let output;
+    if(tokens.nextIs(TokenType.TYPE)) {
+        type = tokens.read();
+        output = parseType(tokens);
+    }
+
+    const expression = tokens.nextIs(TokenType.TBD) ? tokens.read() : parseExpression(tokens);
+
+    return new Function(docs, fun, open, inputs, close, expression, typeVars, type, output);
+
+}
+
+/** EVAL :: EXPRESSION TYPE_VARS? (EXPRESSION*) */
+function parseEvaluate(left: Expression, tokens: Tokens): Evaluate | Unparsable {
+
+    const typeVars = parseTypeVariables(tokens);
+    const open = tokens.read();
+    const objects = [];
+    let close;
+    
+    while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
+        objects.push(tokens.nextIsBind() ? parseBind(tokens) : parseExpression(tokens));
+    
+    if(tokens.nextIs(TokenType.EVAL_CLOSE))
+        close = tokens.read();
+    else
+        return tokens.readUnparsableLine(ErrorMessage.EXPECTED_EVAL_OPEN);
+    
+    return new Evaluate(typeVars, open, left, objects, close);    
+
+}
+
+/** CONVERSION :: DOCS? → TYPE EXPRESSION */
+function parseConversion(tokens: Tokens): Conversion {
+
+    const docs = parseDocs(tokens);
+    const convert = tokens.read();
+    const output = parseType(tokens);
+    const expression = tokens.nextIs(TokenType.TBD) ? tokens.read() : parseExpression(tokens);
+
+    return new Conversion(docs, convert, output, expression);
+
+}
+
+/** TYPE_VARS :: [•NAME]* */
+function parseTypeVariables(tokens: Tokens): (TypeVariable|Unparsable)[] {
+
+    const vars = [];
+    while(tokens.nextIs(TokenType.TYPE)) {
+        const type = tokens.read();
+        if(tokens.nextIsnt(TokenType.NAME)) {
+            vars.push(tokens.readUnparsableLine(ErrorMessage.EXPECTED_TYPE_VAR_NAME));
+            return vars;
+        }
+        const name = tokens.read();
+        vars.push(new TypeVariable(type, name));
+    }
+    return vars;
+
+}
+
+/** ACCESS :: EXPRESSION (.NAME)+ */
+function parseAccess(left: Expression, tokens: Tokens): Expression | Unparsable {
+    if(!tokens.nextIs(TokenType.ACCESS))
+        return left;
+    do {
+
+        const access = tokens.read();
+        let name;
+        if(tokens.nextIs(TokenType.NAME))
+            name = tokens.read();
+        else return tokens.readUnparsableLine(ErrorMessage.EXPECTED_ACCESS_NAME);
+
+        left = new AccessName(left, access, name);
+
+        // But wait, is it a function evaluation?
+        if(tokens.nextIs(TokenType.EVAL_OPEN))
+            left = parseEvaluate(left, tokens);
+
+    } while(tokens.nextIs(TokenType.ACCESS));
+
+    // Return the series of accesses and evaluatios we created.
+    return left;
 }
 
 /** TYPE :: (? | name | MEASUREMENT_TYPE | TEXT_TYPE | NONE_TYPE | LIST_TYPE | SET_TYPE | FUNCTION_TYPE | STREAM_TYPE) (∨ TYPE)* */
@@ -887,8 +910,10 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 
 }
 
-/** CUSTOM_TYPE :: • TYPE_VARS ( BIND* ) BLOCK */
+/** CUSTOM_TYPE :: DOCS? • TYPE_VARS ( BIND* ) BLOCK */
 function parseCustomType(tokens: Tokens): CustomType | Unparsable {
+
+    const docs = parseDocs(tokens);
 
     const type = tokens.read();
  
@@ -907,7 +932,7 @@ function parseCustomType(tokens: Tokens): CustomType | Unparsable {
 
     const block = parseBlock(false, tokens);
 
-    return new CustomType(type, typeVars, open, inputs, close, block);
+    return new CustomType(docs, type, typeVars, open, inputs, close, block);
 
 }
 

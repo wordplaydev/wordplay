@@ -3,15 +3,17 @@ import Expression from "./Expression";
 
 export default class Alias extends Expression {
     
-    readonly name: Token;
     readonly alias?: Token;
+    readonly name: Token;
+    readonly slash?: Token;
     readonly lang?: Token;
 
-    constructor(name: Token, alias?: Token, lang?: Token) {
+    constructor(name: Token, alias?: Token, slash?: Token, lang?: Token) {
         super();
 
-        this.name = name;
         this.alias = alias;
+        this.name = name;
+        this.slash = slash;
         this.lang = lang;
     }
 
