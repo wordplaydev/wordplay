@@ -5,6 +5,7 @@ import type Unparsable from "./Unparsable";
 import type Conflict from "./Conflict";
 import Function from "./Function";
 import CustomType from "./CustomType";
+import type Docs from "./Docs";
 
 export default class Program extends Node {
     
@@ -22,6 +23,10 @@ export default class Program extends Node {
 
     getBindingEnclosureOf(node: Node): Block | Function | CustomType | undefined {
         return this.getAncestorsOf(node)?.find(a => a instanceof Block || a instanceof Function || a instanceof CustomType) as Block | Function | CustomType | undefined;
+    }
+
+    docsAreUnique(docs: Docs[]): boolean {
+        return docs.every(d1 => docs.find(d2 => d1 !== d2 && d1.lang?.text === d2.lang?.text) === undefined);
     }
 
 }

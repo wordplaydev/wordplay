@@ -30,7 +30,7 @@ export default class Block extends Expression {
         return [ ...this.docs, ...(this.open ? [ this.open ] : []), ...this.statements, ...(this.close ? [ this.close ] : [])];
     }
 
-    getConflicts(): Conflict[] {
+    getConflicts(program: Program): Conflict[] {
 
         const conflicts = [];
 
@@ -48,7 +48,7 @@ export default class Block extends Expression {
             .forEach(s => conflicts.push(new Conflict(s, SemanticConflict.IGNORED_BLOCK_EXPRESSION)));
 
         // Docs must be unique.
-        if(!this.docs.every(d1 => this.docs.find(d2 => d1 !== d2 && d1.lang?.text === d2.lang?.text) === undefined))
+        if(!program.docsAreUnique(this.docs))
             conflicts.push(new Conflict(this, SemanticConflict.DOC_LANGUAGES_ARENT_UNIQUE))
 
         return conflicts;

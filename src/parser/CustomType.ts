@@ -8,7 +8,8 @@ import type Unparsable from "./Unparsable";
 import Block from "./Block";
 import type Docs from "./Docs";
 import type Program from "./Program";
-import type Conflict from "./Conflict";
+import Conflict from "./Conflict";
+import { SemanticConflict } from "./SemanticConflict";
 
 export default class CustomType extends Expression {
 
@@ -39,7 +40,17 @@ export default class CustomType extends Expression {
         return children;
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(program: Program): Conflict[] { 
+        
+        const conflicts: Conflict[] = [];
+    
+        // Docs must be unique.
+        if(!program.docsAreUnique(this.docs))
+            conflicts.push(new Conflict(this, SemanticConflict.DOC_LANGUAGES_ARENT_UNIQUE))
+    
+        return conflicts; 
+    
+    }
 
     /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
     getDefinition(program: Program, name: string): Bind | undefined {

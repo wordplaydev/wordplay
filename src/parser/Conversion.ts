@@ -4,7 +4,8 @@ import type { Token } from "./Token";
 import type Type from "./Type";
 import type Docs from "./Docs";
 import type Program from "./Program";
-import type Conflict from "./Conflict";
+import Conflict from "./Conflict";
+import { SemanticConflict } from "./SemanticConflict";
 
 export default class Conversion extends Expression {
 
@@ -31,6 +32,16 @@ export default class Conversion extends Expression {
         return children;
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(program: Program): Conflict[] { 
+        
+        const conflicts: Conflict[] = [];
+    
+        // Docs must be unique.
+        if(!program.docsAreUnique(this.docs))
+            conflicts.push(new Conflict(this, SemanticConflict.DOC_LANGUAGES_ARENT_UNIQUE))
+    
+        return conflicts; 
+    
+    }
 
 }
