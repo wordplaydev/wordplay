@@ -58,6 +58,11 @@ export default class Bind extends Node {
         if(this.type instanceof Type && this.value && this.value instanceof Expression && !this.type.isCompatible(this.value.getType(program)))
             conflicts.push(new Conflict(this, SemanticConflict.INCOMPATIBLE_TYPES))
 
+        // It can't already be defined.
+        const definitions = this.names.map(alias => program.getBindingEnclosureOf(this)?.getDefinition(program, this, alias.name.text)).filter(def => def !== undefined);
+        if(definitions.length > 0)
+            conflicts.push(new Conflict(this, SemanticConflict.ALREADY_BOUND));
+
         return conflicts;
 
     }
