@@ -1,6 +1,8 @@
-import type Conflict from "./Conflict";
+import Conflict from "./Conflict";
 import Expression from "./Expression";
 import type Program from "./Program";
+import { SemanticConflict } from "./SemanticConflict";
+import StreamType from "./StreamType";
 import type { Token } from "./Token";
 import type Type from "./Type";
 import type Unparsable from "./Unparsable";
@@ -26,7 +28,23 @@ export default class Stream extends Expression {
         return [ this.initial, this.dots, this.stream, this.next ];
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(program: Program): Conflict[] { 
+    
+        const conflicts = [];
+
+        // Streams have to be stream types!
+        if(this.stream instanceof Expression && !(this.stream.getType(program) instanceof StreamType))
+            conflicts.push(new Conflict(this, SemanticConflict.EXPECTED_STREAM))
+
+        // The initial and next must be compatible
+        if(this.next instanceof Expression && !this.initial.getType(program).isCompatible(this.next.getType(program)))
+            conflicts.push(new Conflict(this, SemanticConflict.STREAM_VALUES_INCOMPATIBLE))
+
+
+        return conflicts; 
+    
+    
+    }
 
     getType(program: Program): Type {
         // The type depends on the type of the initial value.
