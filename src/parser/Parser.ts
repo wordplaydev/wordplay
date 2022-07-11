@@ -864,7 +864,7 @@ function parseListType(tokens: Tokens): ListType | Unparsable {
     if(tokens.nextIsnt(TokenType.LIST_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_LIST_CLOSE);
     const close = tokens.read();
-    return new ListType(open, type, close);    
+    return new ListType(type, open, close);    
 
 }
 

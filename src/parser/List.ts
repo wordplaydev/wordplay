@@ -1,5 +1,6 @@
 import type Conflict from "./Conflict";
 import Expression from "./Expression";
+import ListType from "./ListType";
 import type Program from "./Program";
 import type { Token } from "./Token";
 import type Type from "./Type";
@@ -30,7 +31,7 @@ export default class List extends Expression {
         const expressions = this.values.filter(e => e instanceof Expression) as Expression[];
         if(expressions.length === 0) return new UnknownType(this);
         const firstValue = expressions[0];
-        return firstValue.getType(program);
+        return new ListType(firstValue.getType(program));
     }
 
 }

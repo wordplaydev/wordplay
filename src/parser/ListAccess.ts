@@ -1,7 +1,9 @@
-import type Conflict from "./Conflict";
+import Conflict from "./Conflict";
 import Expression from "./Expression";
 import ListType from "./ListType";
+import MeasurementType from "./MeasurementType";
 import type Program from "./Program";
+import { SemanticConflict } from "./SemanticConflict";
 import type { Token } from "./Token";
 import Type from "./Type";
 import UnknownType from "./UnknownType";
@@ -27,7 +29,18 @@ export default class ListAccess extends Expression {
         return [ this.list, this.open, this.index, this.close ];
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(program: Program): Conflict[] { 
+    
+        if(this.list instanceof Unparsable || this.index instanceof Unparsable) return [];
+
+        const indexType = this.index.getType(program);
+
+        if(!(indexType instanceof MeasurementType) || indexType.unit !== undefined)
+            return [ new Conflict(this, SemanticConflict.LIST_INDEX_ISNT_NUMBER) ];
+
+        return []; 
+    
+    }
 
     getType(program: Program): Type {
         // The type is the list's value type, or unknown otherwise.

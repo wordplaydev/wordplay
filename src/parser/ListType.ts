@@ -6,11 +6,11 @@ import type Unparsable from "./Unparsable";
 
 export default class ListType extends Type {
 
-    readonly open: Token;
+    readonly open?: Token;
     readonly type: Type | Unparsable;
-    readonly close: Token;
+    readonly close?: Token;
 
-    constructor(open: Token, type: Type | Unparsable, close: Token) {
+    constructor(type: Type | Unparsable, open?: Token, close?: Token) {
         super();
 
         this.open = open;
@@ -18,7 +18,13 @@ export default class ListType extends Type {
         this.close = close;
     }
 
-    getChildren() { return [ this.open, this.type, this.close ]; }
+    getChildren() { 
+        const children = [];
+        if(this.open) children.push(this.open);
+        children.push(this.type);
+        if(this.close) children.push(this.close);
+        return children;    
+    }
 
     getConflicts(program: Program): Conflict[] { return []; }
 
