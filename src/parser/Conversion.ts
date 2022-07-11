@@ -9,6 +9,8 @@ import { SemanticConflict } from "./SemanticConflict";
 import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
 import { docsAreUnique } from "./util";
+import CustomType from "./CustomType";
+import Block from "./Block";
 
 export default class Conversion extends Expression {
 
@@ -42,6 +44,11 @@ export default class Conversion extends Expression {
         // Docs must be unique.
         if(!docsAreUnique(this.docs))
             conflicts.push(new Conflict(this, SemanticConflict.DOC_LANGUAGES_ARENT_UNIQUE))
+
+        // Can only appear in custom types.
+        const enclosure = program.getBindingEnclosureOf(this);
+        if(!(enclosure instanceof Block) ||  !(program.getBindingEnclosureOf(enclosure) instanceof CustomType))
+            conflicts.push(new Conflict(this, SemanticConflict.CONVERSIONS_ONLY_IN_TYPES))
     
         return conflicts; 
     
