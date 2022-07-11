@@ -1,6 +1,7 @@
-import type Conflict from "./Conflict";
+import Conflict from "./Conflict";
 import Expression from "./Expression";
 import type Program from "./Program";
+import { SemanticConflict } from "./SemanticConflict";
 import SetOrMapType from "./SetOrMapType";
 import type { Token } from "./Token";
 import Type from "./Type";
@@ -27,7 +28,19 @@ export default class SetAccess extends Expression {
         return [ this.setOrMap, this.open, this.key, this.close ];
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(program: Program): Conflict[] { 
+    
+        if(this.setOrMap instanceof Unparsable || this.key instanceof Unparsable) return [];
+
+        const setMapType = this.setOrMap.getType(program);
+        const keyType = this.key.getType(program);
+
+        if(setMapType instanceof SetOrMapType && setMapType.key instanceof Type && !setMapType.key.isCompatible(keyType))
+            return [ new Conflict(this, SemanticConflict.INCOMPATIBLE_KEY) ];
+
+        return [];
+    
+    }
 
     getType(program: Program): Type {
         // Either a set or map type, and if so, the key or value's type.
