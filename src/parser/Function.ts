@@ -8,8 +8,6 @@ import Unparsable from "./Unparsable";
 import type Docs from "./Docs";
 import type Program from "./Program";
 import Conflict from "./Conflict";
-import Block from "./Block";
-import CustomType from "./CustomType";
 import { SemanticConflict } from "./SemanticConflict";
 import FunctionType from "./FunctionType";
 import UnknownType from "./UnknownType";
@@ -70,6 +68,19 @@ export default class Function extends Expression {
         // Type variables must have unique names.
         if(!typeVarsAreUnique(this.typeVars))
             conflicts.push(new Conflict(this, SemanticConflict.TYPE_VARS_ARENT_UNIQUE))
+
+        // Required inputs can never follow an optional one.
+        const binds = this.inputs.filter(i => i instanceof Bind) as Bind[];
+        if(this.inputs.length === binds.length && binds.length > 0) {
+            let foundOptional = false;
+            let requiredAfterOptional = false;
+            binds.forEach(bind => {
+                if(bind.value !== undefined) foundOptional = true;
+                else if(bind.value === undefined && foundOptional) requiredAfterOptional = true;
+            })
+            if(requiredAfterOptional)
+                conflicts.push(new Conflict(this, SemanticConflict.REQUIRED_INPUT_AFTER_OPTIONAL));
+        }
 
         return conflicts; 
     
