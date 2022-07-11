@@ -66,6 +66,10 @@ export default class Function extends Expression {
         if(!program.inputsAreUnique(this.inputs))
             conflicts.push(new Conflict(this, SemanticConflict.FUNCTION_INPUT_NAMES_MUST_BE_UNIQUE))
 
+        // Type variables must have unique names.
+        if(!program.typeVarsAreUnique(this.typeVars))
+            conflicts.push(new Conflict(this, SemanticConflict.TYPE_VARS_ARENT_UNIQUE))
+
         return conflicts; 
     
     }
