@@ -31,7 +31,7 @@ const patterns = [
     { pattern: "∨", types: [ TokenType.BINARY_OP, TokenType.UNION ] },
     // Both a unary and binary op.
     { pattern: "-", types: [ TokenType.BINARY_OP, TokenType.UNARY_OP ] },
-    { pattern: /^[¬√]/, types: [ TokenType.BINARY_OP, TokenType.UNARY_OP ] },
+    { pattern: /^[¬√]/, types: [ TokenType.UNARY_OP ] },
     { pattern: "⊤", types: [ TokenType.BOOLEAN ] },
     { pattern: "⊥", types: [ TokenType.BOOLEAN ] },
     // Also match the open and close patterns before the regular text patterns.
