@@ -21,7 +21,10 @@ export default class Program extends Node {
     getConflicts(program: Program): Conflict[] { return []; }
 
     getBindingEnclosureOf(node: Node): Block | Function | CustomType | undefined {
-        return this.getAncestorsOf(node)?.find(a => a instanceof Block || a instanceof Function || a instanceof CustomType) as Block | Function | CustomType | undefined;
+        const ancestors = this.getAncestorsOf(node);
+        if(ancestors && ancestors.length > 0 && (ancestors[0] instanceof Function || ancestors[0] instanceof CustomType))
+            ancestors.shift();
+        return ancestors?.find(a => a instanceof Block || a instanceof Function || a instanceof CustomType) as Block | Function | CustomType | undefined;
     }
 
 }
