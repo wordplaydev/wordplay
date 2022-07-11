@@ -8,6 +8,7 @@ import Conflict from "./Conflict";
 import { SemanticConflict } from "./SemanticConflict";
 import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
+import { docsAreUnique } from "./util";
 
 export default class Conversion extends Expression {
 
@@ -39,7 +40,7 @@ export default class Conversion extends Expression {
         const conflicts: Conflict[] = [];
     
         // Docs must be unique.
-        if(!program.docsAreUnique(this.docs))
+        if(!docsAreUnique(this.docs))
             conflicts.push(new Conflict(this, SemanticConflict.DOC_LANGUAGES_ARENT_UNIQUE))
     
         return conflicts; 

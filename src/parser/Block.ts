@@ -10,6 +10,7 @@ import type { Token } from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
+import { docsAreUnique } from "./util";
 
 export default class Block extends Expression {
 
@@ -49,7 +50,7 @@ export default class Block extends Expression {
             .forEach(s => conflicts.push(new Conflict(s, SemanticConflict.IGNORED_BLOCK_EXPRESSION)));
 
         // Docs must be unique.
-        if(!program.docsAreUnique(this.docs))
+        if(!docsAreUnique(this.docs))
             conflicts.push(new Conflict(this, SemanticConflict.DOC_LANGUAGES_ARENT_UNIQUE))
 
         // All binds must have values.

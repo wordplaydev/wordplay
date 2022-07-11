@@ -36,7 +36,7 @@ export default class SetOrMapType extends Type {
 
     getConflicts(program: Program): Conflict[] { return []; }
 
-    isCompatible(type: Type) { 
+    isCompatible(type: Type): boolean { 
         return  type instanceof SetOrMapType &&
                 this.key instanceof Type &&
                 type.key instanceof Type &&

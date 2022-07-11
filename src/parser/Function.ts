@@ -13,6 +13,7 @@ import CustomType from "./CustomType";
 import { SemanticConflict } from "./SemanticConflict";
 import FunctionType from "./FunctionType";
 import UnknownType from "./UnknownType";
+import { docsAreUnique, inputsAreUnique, typeVarsAreUnique } from "./util";
 
 export default class Function extends Expression {
 
@@ -59,15 +60,15 @@ export default class Function extends Expression {
         const conflicts: Conflict[] = [];
     
         // Docs must be unique.
-        if(!program.docsAreUnique(this.docs))
+        if(!docsAreUnique(this.docs))
             conflicts.push(new Conflict(this, SemanticConflict.DOC_LANGUAGES_ARENT_UNIQUE))
     
         // Inputs must have unique names
-        if(!program.inputsAreUnique(this.inputs))
+        if(!inputsAreUnique(this.inputs))
             conflicts.push(new Conflict(this, SemanticConflict.FUNCTION_INPUT_NAMES_MUST_BE_UNIQUE))
 
         // Type variables must have unique names.
-        if(!program.typeVarsAreUnique(this.typeVars))
+        if(!typeVarsAreUnique(this.typeVars))
             conflicts.push(new Conflict(this, SemanticConflict.TYPE_VARS_ARENT_UNIQUE))
 
         return conflicts; 
