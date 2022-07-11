@@ -26,8 +26,8 @@ test("Tokenize punctuation", () => {
 
     expect(tokenize("()[]{}:.,ƒf↑↓``!•∆…").map(t => t.toWordplay()).join("\n"))
         .toBe("(\n)\n[\n]\n{\n}\n:\n.\n,\nƒ\nf\n↑\n↓\n``\n!\n•\n∆\n…\n");
-    expect(tokenize("⊥⊤?¿+-×*·÷/^√%boomy=≠<>≤≥||?|+|-|:~∧∨¬").map(t => t.toWordplay()).join("\n"))
-        .toBe("⊥\n⊤\n?\n¿\n+\n-\n×\n*\n·\n÷\n/\n^\n√\n%\nboomy\n=\n≠\n<\n>\n≤\n≥\n|\n|?\n|+\n|-\n|:\n~\n∧\n∨\n¬\n");
+    expect(tokenize("⊥⊤?¿+-×*·÷/^√%boomy=≠<>≤≥||?|+|-|:∧∨¬").map(t => t.toWordplay()).join("\n"))
+        .toBe("⊥\n⊤\n?\n¿\n+\n-\n×\n*\n·\n÷\n/\n^\n√\n%\nboomy\n=\n≠\n<\n>\n≤\n≥\n|\n|?\n|+\n|-\n|:\n∧\n∨\n¬\n");
 
 })
 
