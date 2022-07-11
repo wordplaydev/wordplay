@@ -36,10 +36,30 @@ export default class SetOrMap extends Expression {
         if(!allExpressions && !allKeyValue)
             return [ new Conflict(this, SemanticConflict.NEITHER_SET_NOR_MAP)]
 
-        // The list values have to all be of compatible types.
-        // const types = (this.values.filter(v => v instanceof Expression) as Expression[]).map(e => e.getType(program));
-        // if(types.length > 1 && !types.every(t => t.isCompatible(types[0])))
-        //     return [ new Conflict(this, SemanticConflict.LIST_VALUES_ARENT_SAME_TYPE) ]
+        // If all expressions. they must all be of the same type.
+        if(allExpressions) {
+            const types = (this.values.filter(v => v instanceof Expression) as Expression[]).map(e => e.getType(program));
+            if(types.length > 1 && !types.every(t => t.isCompatible(types[0])))
+                return [ new Conflict(this, SemanticConflict.SET_VALUES_ARENT_SAME_TYPE) ]
+        }
+        else if(allKeyValue) {
+            const conflicts = [];
+            const keyTypes = 
+                ((this.values.filter(v => v instanceof KeyValue) as KeyValue[])
+                .map(k => k.key)
+                .filter(k => k instanceof Expression) as Expression[])
+                .map(k => k.getType(program));
+            if(keyTypes.length > 1 && !keyTypes.every(t => t.isCompatible(keyTypes[0])))
+                conflicts.push(new Conflict(this, SemanticConflict.MAP_KEYS_ARENT_SAME_TYPE));
+            const valueTypes = 
+                ((this.values.filter(v => v instanceof KeyValue) as KeyValue[])
+                .map(v => v.value)
+                .filter(v => v instanceof Expression) as Expression[])
+                .map(v => v.getType(program));
+            if(valueTypes.length > 1 && !valueTypes.every(t => t.isCompatible(valueTypes[0])))
+                conflicts.push(new Conflict(this, SemanticConflict.MAP_VALUES_ARENT_SAME_TYPE));
+            return conflicts;
+        }
         
         return [];
 
