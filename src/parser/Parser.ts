@@ -9,7 +9,6 @@ import Borrow from "./Borrow";
 import Unparsable from "./Unparsable";
 import Block from "./Block";
 import List from "./List";
-import SetNode from "./SetOrMap";
 import Bind from "./Bind";
 import Evaluate from "./Evaluate";
 import UnaryOperation from "./UnaryOperation";
@@ -55,6 +54,7 @@ import SetAccess from "./SetAccess";
 import Name from "./Name";
 import Bool from "./Bool";
 import Convert from "./Convert";
+import SetOrMap from "./SetOrMap";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -464,57 +464,22 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
 
 }
 
-function parseDelimited<T extends Expression | KeyValue>(tokens: Tokens, openType: TokenType, closeType: TokenType, openError: SyntacticConflict, closeError: SyntacticConflict, keyValue: boolean): Unparsable | [ Token, (T|Unparsable)[], Token ] {
-
-    let open;
-    let values: (T|Unparsable)[] = [];
-    let close;
-    let foundBind = false;
-
-    if(tokens.nextIs(openType))
-        open = tokens.read();
-    else
-        return tokens.readUnparsableLine(openError);
-
-    while(tokens.nextIsnt(closeType)) {
-
-        const key = parseExpression(tokens);
-
-        if(keyValue && tokens.nextIs(TokenType.BIND))
-            foundBind = true;
-
-        if(foundBind) {
-            const bind = tokens.read();            
-            const value = parseExpression(tokens);
-            values.push(new KeyValue(key, bind, value) as T|Unparsable)
-        }
-        else {
-            values.push(key as T|Unparsable);
-        }
-
-    }
-
-    if(tokens.nextIs(closeType))
-        close = tokens.read();
-    else
-        return tokens.readUnparsableLine(closeError);
-
-    return [ open, values, close ];
-
-}
-
 /** LIST :: [ EXPRESSION* ] */
 function parseList(tokens: Tokens): List | Unparsable {
 
-    const stuff = parseDelimited<Expression>(
-        tokens, 
-        TokenType.LIST_OPEN, 
-        TokenType.LIST_CLOSE, 
-        SyntacticConflict.EXPECTED_LIST_OPEN, 
-        SyntacticConflict.EXPECTED_LIST_CLOSE, 
-        false
-    );
-    return stuff instanceof Unparsable ? stuff : new List(stuff[0], stuff[1], stuff[2]);
+    let open = tokens.read();
+    let values: (Expression|Unparsable)[] = [];
+    let close;
+
+    while(tokens.nextIsnt(TokenType.LIST_CLOSE))
+        values.push(parseExpression(tokens));
+
+    if(tokens.nextIs(TokenType.LIST_CLOSE))
+        close = tokens.read();
+    else
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_LIST_CLOSE);
+
+    return new List(open, values, close);
 
 }
 
@@ -541,17 +506,28 @@ function parseListAccess(left: Expression | Unparsable, tokens: Tokens): Express
 }
 
 /** SET :: { EXPRESSION* } | { (EXPRESSION:EXPRESSION)* } */
-function parseSetOrMap(tokens: Tokens): SetNode | Unparsable {
+function parseSetOrMap(tokens: Tokens): SetOrMap | Unparsable {
 
-    const stuff = parseDelimited<Expression>(
-        tokens, 
-        TokenType.SET_OPEN, 
-        TokenType.SET_CLOSE, 
-        SyntacticConflict.EXPECTED_SET_OPEN, 
-        SyntacticConflict.EXPECTED_SET_CLOSE, 
-        true
-    );
-    return stuff instanceof Unparsable ? stuff : new SetNode(stuff[0], stuff[1], stuff[2]);
+    let open = tokens.read();
+    let values: (Expression|KeyValue|Unparsable)[] = [];
+    let close;
+
+    while(tokens.nextIsnt(TokenType.SET_CLOSE)) {
+        const key = parseExpression(tokens);
+        if(tokens.nextIs(TokenType.BIND)) {
+            const bind = tokens.read();            
+            const value = parseExpression(tokens);
+            values.push(new KeyValue(key, bind, value))
+        }
+        else values.push(key);
+    }
+
+    if(tokens.nextIs(TokenType.SET_CLOSE))
+        close = tokens.read();
+    else
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE);
+
+    return new SetOrMap(open, values, close);
 
 }
 

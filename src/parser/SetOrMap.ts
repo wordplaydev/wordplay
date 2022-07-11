@@ -1,7 +1,8 @@
-import type Conflict from "./Conflict";
+import Conflict from "./Conflict";
 import Expression from "./Expression";
 import KeyValue from "./KeyValue";
 import type Program from "./Program";
+import { SemanticConflict } from "./SemanticConflict";
 import SetOrMapType from "./SetOrMapType";
 import type { Token } from "./Token";
 import type Type from "./Type";
@@ -14,7 +15,7 @@ export default class SetOrMap extends Expression {
     readonly values: (Unparsable|Expression|KeyValue)[];
     readonly close: Token;
 
-    constructor(open: Token, values: (Unparsable|Expression)[] | (Unparsable|KeyValue)[], close: Token) {
+    constructor(open: Token, values: (Unparsable|Expression|KeyValue)[], close: Token) {
         super();
 
         this.open = open;
@@ -26,7 +27,23 @@ export default class SetOrMap extends Expression {
         return [ this.open, ...this.values, this.close ];
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(program: Program): Conflict[] { 
+        
+        // Must all be expressions or all key/values
+        const allExpressions = this.values.every(v => v instanceof Expression);
+        const allKeyValue = this.values.every(v => v instanceof KeyValue);
+
+        if(!allExpressions && !allKeyValue)
+            return [ new Conflict(this, SemanticConflict.NEITHER_SET_NOR_MAP)]
+
+        // The list values have to all be of compatible types.
+        // const types = (this.values.filter(v => v instanceof Expression) as Expression[]).map(e => e.getType(program));
+        // if(types.length > 1 && !types.every(t => t.isCompatible(types[0])))
+        //     return [ new Conflict(this, SemanticConflict.LIST_VALUES_ARENT_SAME_TYPE) ]
+        
+        return [];
+
+    }
 
     getType(program: Program): Type {
         const values = this.values.filter(v => !(v instanceof Unparsable)) as (Expression|KeyValue)[];
