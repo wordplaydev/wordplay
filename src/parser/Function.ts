@@ -101,12 +101,10 @@ export default class Function extends Expression {
     getType(program: Program): Type {
         // The type is equivalent to the signature.
         const inputTypes = this.inputs.map(i => i instanceof Bind ? i.getType(program) : new UnknownType(program));
-        if(inputTypes.find(t => t instanceof UnknownType)) return new UnknownType(this);
         const outputType = 
             this.output instanceof Type ? this.output : 
             this.expression instanceof Token || this.expression instanceof Unparsable ? new UnknownType(this) : 
             this.expression.getType(program);
-        if(outputType instanceof UnknownType) return new UnknownType(this);
         return new FunctionType(inputTypes, outputType);
     }
 

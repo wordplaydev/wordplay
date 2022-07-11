@@ -3,14 +3,14 @@ import Bind from "./Bind";
 import Expression from "./Expression";
 import type { Token } from "./Token";
 import type TypeVariable from "./TypeVariable";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 import type Docs from "./Docs";
 import type Program from "./Program";
 import Conflict from "./Conflict";
 import { SemanticConflict } from "./SemanticConflict";
 import type Type from "./Type";
 import type Block from "./Block";
-import CustomTypeType from "./CustomTypeType";
+import Function from "./Function";
 import { docsAreUnique, inputsAreUnique, typeVarsAreUnique } from "./util";
 
 export default class CustomType extends Expression {
@@ -33,6 +33,12 @@ export default class CustomType extends Expression {
         this.inputs = inputs;
         this.close = close;
         this.block = block;
+    }
+
+    isInterface() {
+        if(this.block instanceof Unparsable) return false;
+        const binds = this.block.statements.filter(s => s instanceof Bind) as Bind[];
+        return !binds.every(b => !(b.value instanceof Function) || b.value.expression instanceof Expression);
     }
 
     getChildren() {
