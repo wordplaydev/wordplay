@@ -1,7 +1,8 @@
 import Node from "./Node";
 import type { Token } from "./Token";
 import type Program from "./Program";
-import type Conflict from "./Conflict";
+import Conflict from "./Conflict";
+import { SemanticConflict } from "./SemanticConflict";
 
 export default class Alias extends Node {
     
@@ -21,6 +22,13 @@ export default class Alias extends Node {
 
     getChildren() { return this.alias && this.lang ? [ this.name, this.alias, this.lang ] : [ this.name ]; }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(program: Program): Conflict[] { 
+        
+        if(this.lang && !/^[a-z]{3}$/.test(this.lang.text))
+            return [ new Conflict(this, SemanticConflict.EXPECTED_LANGUAGE) ]
+        return []; 
+    
+    
+    }
 
 }
