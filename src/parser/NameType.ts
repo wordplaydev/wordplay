@@ -19,4 +19,8 @@ export default class NameType extends Type {
 
     getConflicts(program: Program): Conflict[] { return []; }
 
+    isCompatible(type: Type): boolean {    
+        return false; 
+    } 
+    
 }

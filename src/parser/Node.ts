@@ -55,4 +55,9 @@ export default abstract class Node {
 
     }
 
+    /** True if the given nodes appears in this tree */
+    contains(node: Node) {
+        return this.nodes().indexOf(node) >= 0;
+    }
+
 }

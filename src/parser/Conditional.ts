@@ -1,16 +1,21 @@
-import type Conflict from "./Conflict";
+import BooleanType from "./BooleanType";
+import Conflict from "./Conflict";
 import Expression from "./Expression";
 import type Program from "./Program";
+import { SemanticConflict } from "./SemanticConflict";
 import type { Token } from "./Token";
+import type Type from "./Type";
+import UnknownType from "./UnknownType";
+import Unparsable from "./Unparsable";
 
 export default class Conditional extends Expression {
     
     readonly condition: Expression;
     readonly conditional: Token;
-    readonly yes: Expression;
-    readonly no: Expression;
+    readonly yes: Expression | Unparsable;
+    readonly no: Expression | Unparsable;
 
-    constructor(condition: Expression, conditional: Token, yes: Expression, no: Expression) {
+    constructor(condition: Expression, conditional: Token, yes: Expression | Unparsable, no: Expression | Unparsable) {
         super();
 
         this.condition = condition;
@@ -22,6 +27,23 @@ export default class Conditional extends Expression {
 
     getChildren() { return [ this.condition, this.conditional, this.yes, this.no ]; }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(program: Program): Conflict[] {
+    
+        const children = [];
+
+        if(!(this.condition.getType(program) instanceof BooleanType))
+            children.push(new Conflict(this, SemanticConflict.EXPECTED_BOOLEAN_CONDITION))
+
+        if(this.yes instanceof Expression && this.no instanceof Expression && !(this.yes.getType(program).isCompatible(this.no.getType(program))))
+            children.push(new Conflict(this, SemanticConflict.EXPECTED_MATCHING_CONDITION_TYPES))
+
+        return children; 
+    
+    }
+
+    getType(program: Program): Type {
+        // Whatever tyoe the yes/no returns.
+        return this.yes instanceof Unparsable ? new UnknownType(this) : this.yes.getType(program);
+    }
 
 }

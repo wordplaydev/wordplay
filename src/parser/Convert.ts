@@ -1,15 +1,16 @@
 import type Conflict from "./Conflict";
 import Expression from "./Expression";
 import type Program from "./Program";
-import type { Token } from "./Token";
-import type Type from "./Type";
+import Type from "./Type";
+import UnknownType from "./UnknownType";
+import type Unparsable from "./Unparsable";
 
 export default class Convert extends Expression {
     
     readonly expression: Expression;
-    readonly type: Type;
+    readonly type: Type | Unparsable;
 
-    constructor(expression: Expression, type: Type) {
+    constructor(expression: Expression, type: Type | Unparsable) {
         super();
 
         this.expression = expression;
@@ -19,5 +20,10 @@ export default class Convert extends Expression {
     getChildren() { return [ this.expression, this.type ]; }
 
     getConflicts(program: Program): Conflict[] { return []; }
+
+    getType(program: Program): Type {
+        // Whatever this converts to.
+        return this.type instanceof Type ? this.type : new UnknownType(this);
+    }
 
 }

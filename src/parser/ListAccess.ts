@@ -1,16 +1,20 @@
 import type Conflict from "./Conflict";
 import Expression from "./Expression";
+import ListType from "./ListType";
 import type Program from "./Program";
 import type { Token } from "./Token";
+import Type from "./Type";
+import UnknownType from "./UnknownType";
+import Unparsable from "./Unparsable";
 
 export default class ListAccess extends Expression {
 
-    readonly list: Expression;
+    readonly list: Expression | Unparsable;
     readonly open: Token;
-    readonly index: Expression;
+    readonly index: Expression | Unparsable;
     readonly close: Token;
 
-    constructor(list: Expression, open: Token, index: Expression, close: Token) {
+    constructor(list: Expression | Unparsable, open: Token, index: Expression | Unparsable, close: Token) {
         super();
 
         this.list = list;
@@ -24,5 +28,13 @@ export default class ListAccess extends Expression {
     }
 
     getConflicts(program: Program): Conflict[] { return []; }
+
+    getType(program: Program): Type {
+        // The type is the list's value type, or unknown otherwise.
+        if(this.list instanceof Unparsable) return new UnknownType(this);
+        const listType = this.list.getType(program);
+        if(listType instanceof ListType && listType.type instanceof Type) return listType.type;
+        else return new UnknownType(this);
+    }
 
 }

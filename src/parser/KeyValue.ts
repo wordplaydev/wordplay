@@ -3,14 +3,15 @@ import type Expression from "./Expression";
 import Node from "./Node";
 import type Program from "./Program";
 import type { Token } from "./Token";
+import type Unparsable from "./Unparsable";
 
 export default class KeyValue extends Node {
 
-    readonly key: Expression;
+    readonly key: Expression | Unparsable;
     readonly bind: Token;
-    readonly value: Expression;
+    readonly value: Expression | Unparsable;
 
-    constructor(key: Expression, bind: Token, value: Expression) {
+    constructor(key: Expression | Unparsable, bind: Token, value: Expression | Unparsable) {
         super();
 
         this.key = key;

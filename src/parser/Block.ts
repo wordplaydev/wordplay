@@ -1,13 +1,14 @@
+import type Node from "./Node";
 import Bind from "./Bind";
 import Conflict from "./Conflict";
-import CustomType from "./CustomType";
 import type Docs from "./Docs";
 import Expression from "./Expression";
-import Function from "./Function";
 import type Program from "./Program";
 import { SemanticConflict } from "./SemanticConflict";
 import Share from "./Share";
 import type { Token } from "./Token";
+import type Type from "./Type";
+import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
 
 export default class Block extends Expression {
@@ -37,11 +38,11 @@ export default class Block extends Expression {
         // Blocks can't be empty
         if(this.statements.length === 0)
             conflicts.push(new Conflict(this, SemanticConflict.EXPECTED_BLOCK_EXPRESSION));
-        // The last statement must be an expression.
+        // And if they aren't empty, the last statement must be an expression.
         else if(!(this.statements[this.statements.length  - 1] instanceof Expression))
             conflicts.push(new Conflict(this, SemanticConflict.EXPECTED_BLOCK_LAST_EXPRESSION));
 
-        // None of the statements prior can be expressions.
+        // The only expression allowed is the last one.
         this.statements
             .slice(0, this.statements.length - 1)
             .filter(s => s instanceof Expression)
@@ -51,12 +52,21 @@ export default class Block extends Expression {
         if(!program.docsAreUnique(this.docs))
             conflicts.push(new Conflict(this, SemanticConflict.DOC_LANGUAGES_ARENT_UNIQUE))
 
+        // All binds must have values.
+        if(!this.statements.every(s => !(s instanceof Bind) || s.value !== undefined))
+            conflicts.push(new Conflict(this, SemanticConflict.BINDS_MISSING_VALUES))
+
         return conflicts;
         
     }
 
     /** Given the index in this block and the given name, binds the bind that declares it, if there is one. */
-    getDefinition(program: Program, index: number, name: string): Bind | undefined {
+    getDefinition(program: Program, node: Node, name: string): Bind | undefined {
+
+        const containingStatement = this.statements.find(s => s.contains(node));
+        if(containingStatement === undefined) return;
+        const index = this.statements.indexOf(containingStatement);
+        if(index < 0) return;
 
         // Do any of the binds declare it?
         const localBind = this.statements.find((s, i)  => 
@@ -66,22 +76,14 @@ export default class Block extends Expression {
         if(localBind !== undefined) return localBind;
 
         // Is there an enclosing function or block?
-        const enclosure = program.getAncestorsOf(this)?.find(a => a instanceof Block || a instanceof Function || a instanceof CustomType) as Block | Function | CustomType;
-        if(enclosure instanceof Function) 
-            return enclosure.getDefinition(program, name);
-        else if(enclosure instanceof Block) {
-            const ancestors = program.getAncestorsOf(this);
-            if(ancestors) {
-                const enclosingBlockIndex = ancestors.indexOf(enclosure);
-                const statement = enclosingBlockIndex === 0 ? this: ancestors[enclosingBlockIndex - 1];
-                const index = enclosure.statements.indexOf(statement);
-                return enclosure.getDefinition(program, index, name);
-            }
-            return enclosure.getDefinition(program, enclosure.statements.length, name);
-        }
-        else if(enclosure instanceof CustomType)
-            return enclosure.getDefinition(program, name);
+        return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
         
     }
-    
+ 
+    getType(program: Program): Type {
+        // The type of the last expression.
+        const lastExpression = this.statements.slice().reverse().find(s => s instanceof Expression) as Expression | undefined;
+        return lastExpression === undefined ? new UnknownType(this) : lastExpression.getType(program);
+    }
+
 }

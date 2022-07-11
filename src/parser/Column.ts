@@ -1,9 +1,10 @@
 import Node from "./Node";
 import type Bind from "./Bind";
 import type { Token } from "./Token";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 import type Program from "./Program";
 import type Conflict from "./Conflict";
+import UnknownType from "./UnknownType";
 
 export default class Column extends Node {
 
@@ -22,5 +23,7 @@ export default class Column extends Node {
     }
 
     getConflicts(program: Program): Conflict[] { return []; }
+
+    getType(program: Program) { return this.bind instanceof Unparsable ? new UnknownType(this) : this.bind.getType(program); }
 
 }

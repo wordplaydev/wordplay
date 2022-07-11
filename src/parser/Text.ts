@@ -1,9 +1,11 @@
 import type Conflict from "./Conflict";
-import Node from "./Node";
+import Expression from "./Expression";
 import type Program from "./Program";
+import TextType from "./TextType";
 import type { Token } from "./Token";
+import type Type from "./Type";
 
-export default class Text extends Node {
+export default class Text extends Expression {
     
     readonly text: Token;
     readonly format?: Token;
@@ -17,5 +19,9 @@ export default class Text extends Node {
     getChildren() { return this.format !== undefined ? [ this.text, this.format ] : [ this.text ]; }
 
     getConflicts(program: Program): Conflict[] { return []; }
+
+    getType(program: Program): Type {
+        return new TextType(undefined, this.format);
+    }
 
 }

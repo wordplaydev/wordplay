@@ -1,15 +1,16 @@
 import type Node from "./Node";
 import Bind from "./Bind";
 import Expression from "./Expression";
-import Function from "./Function";
 import type { Token } from "./Token";
 import type TypeVariable from "./TypeVariable";
 import type Unparsable from "./Unparsable";
-import Block from "./Block";
 import type Docs from "./Docs";
 import type Program from "./Program";
 import Conflict from "./Conflict";
 import { SemanticConflict } from "./SemanticConflict";
+import type Type from "./Type";
+import type Block from "./Block";
+import CustomTypeType from "./CustomTypeType";
 
 export default class CustomType extends Expression {
 
@@ -48,26 +49,32 @@ export default class CustomType extends Expression {
         if(!program.docsAreUnique(this.docs))
             conflicts.push(new Conflict(this, SemanticConflict.DOC_LANGUAGES_ARENT_UNIQUE))
     
+        // Inputs must have unique names
+        if(!program.inputsAreUnique(this.inputs))
+            conflicts.push(new Conflict(this, SemanticConflict.TYPE_INPUT_NAMES_MUST_BE_UNIQUE))
+
         return conflicts; 
     
     }
 
     /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
-    getDefinition(program: Program, name: string): Bind | undefined {
+    getDefinition(program: Program, node: Node, name: string): Bind | undefined {
 
         // Does an input delare the name?
-        const input = this.inputs.find(i => i instanceof Bind && i.names.find(n => n.name.text === name)) as Bind | undefined;
+        const input = this.getBind(name);
         if(input !== undefined) return input;
 
         // If not, does the function nearest function or block declare the name?
-        const enclosure = program.getBindingEnclosureOf(this);
-        if(enclosure instanceof Function) 
-            return enclosure.getDefinition(program, name);
-        else if(enclosure instanceof Block)
-            return enclosure.getDefinition(program, enclosure.statements.length, name);
-        else if(enclosure instanceof CustomType)
-            return enclosure.getDefinition(program, name);
+        return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
 
     }
+
+    getBind(name: string): Bind | undefined {
+        return this.inputs.find(i => i instanceof Bind && i.names.find(n => n.name.text === name)) as Bind | undefined;
+    }
+
+    getType(program: Program): Type { return this; }
+
+    isCompatible(type: Type): boolean { return type === this; }
 
 }

@@ -6,6 +6,7 @@ import type Conflict from "./Conflict";
 import Function from "./Function";
 import CustomType from "./CustomType";
 import type Docs from "./Docs";
+import Bind from "./Bind";
 
 export default class Program extends Node {
     
@@ -27,6 +28,14 @@ export default class Program extends Node {
 
     docsAreUnique(docs: Docs[]): boolean {
         return docs.every(d1 => docs.find(d2 => d1 !== d2 && d1.lang?.text === d2.lang?.text) === undefined);
+    }
+
+    inputsAreUnique(inputs: (Bind | Unparsable)[]): boolean {
+
+        // Inputs must have unique names
+        const inputNames = inputs.reduce((previous: string[], current) => previous.concat(current instanceof Bind ? current.getNames() : []), []);
+        return inputNames.every((d1, i1) => inputNames.find((d2, i2) => i1 !== i2 && d1 === d2) === undefined);
+        
     }
 
 }

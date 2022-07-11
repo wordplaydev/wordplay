@@ -5,18 +5,20 @@ import Type from "./Type";
 
 export default class BooleanType extends Type {
 
-    readonly type: Token;
+    readonly type?: Token;
 
-    constructor(type: Token) {
+    constructor(type?: Token) {
         super();
 
         this.type = type;
     }
 
     getChildren() {
-        return [ this.type ];
+        return this.type === undefined ? [] : [ this.type ];
     }
 
     getConflicts(program: Program): Conflict[] { return []; }
 
+    isCompatible(type: Type) { return type instanceof BooleanType; }
+    
 }

@@ -9,7 +9,7 @@ import Borrow from "./Borrow";
 import Unparsable from "./Unparsable";
 import Block from "./Block";
 import List from "./List";
-import SetNode from "./Set";
+import SetNode from "./SetOrMap";
 import Bind from "./Bind";
 import Evaluate from "./Evaluate";
 import UnaryOperation from "./UnaryOperation";
@@ -26,7 +26,7 @@ import NameType from "./NameType";
 import NoneType from "./NoneType";
 import TextType from "./TextType";
 import ListType from "./ListType";
-import SetType from "./SetType";
+import SetOrMapType from "./SetOrMapType";
 import FunctionType from "./FunctionType";
 import TypeVariable from "./TypeVariable";
 import KeyValue from "./KeyValue";
@@ -314,7 +314,7 @@ export function parseBind(tokens: Tokens): Bind | Unparsable {
  *   CUSTOM |
  *   DOCS |
  */
-export function parseExpression(tokens: Tokens): Expression {
+export function parseExpression(tokens: Tokens): Expression | Unparsable {
 
     // Is this expression excluded?
     const docs = tokens.nextIsOneOf(
@@ -329,7 +329,7 @@ export function parseExpression(tokens: Tokens): Expression {
         TokenType.UNARY_OP) ? parseDocs(tokens) : undefined;
     
     // All expressions must start with one of the following
-    let left: Expression = (
+    let left: Expression | Unparsable = (
         // Nones
         tokens.nextIs(TokenType.NONE) ? parseNone(tokens): 
         // Names or booleans are easy
@@ -363,7 +363,7 @@ export function parseExpression(tokens: Tokens): Expression {
     );
 
     // But wait! Is it one or more accessors? Slurp them up.
-    while(true) {
+    while(!(left instanceof Unparsable)) {
         if(tokens.nextIs(TokenType.ACCESS))
             left = parseAccess(left, tokens);
         else if(tokens.nextIs(TokenType.LIST_OPEN))
@@ -390,7 +390,7 @@ export function parseExpression(tokens: Tokens): Expression {
     }
     
     // Is it conditional statement?
-    if(tokens.nextIs(TokenType.CONDITIONAL))
+    if(!(left instanceof Unparsable) && tokens.nextIs(TokenType.CONDITIONAL))
         left = parseConditional(left, tokens);
 
     // Is the expression excluded? Wrap it.
@@ -519,7 +519,7 @@ function parseList(tokens: Tokens): List | Unparsable {
 }
 
 /** LIST_ACCESS :: EXPRESSION ([ EXPRESSION ])+ */
-function parseListAccess(left: Expression, tokens: Tokens): Expression | Unparsable {
+function parseListAccess(left: Expression | Unparsable, tokens: Tokens): Expression | Unparsable {
     do {
 
         const open = tokens.read();
@@ -556,7 +556,7 @@ function parseSetOrMap(tokens: Tokens): SetNode | Unparsable {
 }
 
 /** SET_ACCESS :: EXPRESSION ([ EXPRESSION ])+ */
-function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression | Unparsable {
+function parseSetOrMapAccess(left: Expression | Unparsable, tokens: Tokens): Expression | Unparsable {
     do {
 
         const open = tokens.read();
@@ -716,22 +716,22 @@ function parseFunction(tokens: Tokens): Function | Unparsable {
 }
 
 /** EVAL :: EXPRESSION TYPE_VARS? (EXPRESSION*) */
-function parseEvaluate(left: Expression, tokens: Tokens): Evaluate | Unparsable {
+function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate | Unparsable {
 
     const typeVars = parseTypeVariables(tokens);
     const open = tokens.read();
-    const objects = [];
+    const inputs = [];
     let close;
     
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        objects.push(tokens.nextIsBind() ? parseBind(tokens) : parseExpression(tokens));
+        inputs.push(tokens.nextIsBind() ? parseBind(tokens) : parseExpression(tokens));
     
     if(tokens.nextIs(TokenType.EVAL_CLOSE))
         close = tokens.read();
     else
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN);
     
-    return new Evaluate(typeVars, open, left, objects, close);    
+    return new Evaluate(typeVars, open, left, inputs, close);
 
 }
 
@@ -741,7 +741,7 @@ function parseConversion(tokens: Tokens): Conversion {
     const docs = parseDocs(tokens);
     const convert = tokens.read();
     const output = parseType(tokens);
-    const expression = tokens.nextIs(TokenType.TBD) ? tokens.read() : parseExpression(tokens);
+    const expression = parseExpression(tokens);
 
     return new Conversion(docs, convert, output, expression);
 
@@ -774,7 +774,7 @@ function parseTypeVariables(tokens: Tokens): (TypeVariable|Unparsable)[] {
 }
 
 /** ACCESS :: EXPRESSION (.NAME)+ */
-function parseAccess(left: Expression, tokens: Tokens): Expression | Unparsable {
+function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression | Unparsable {
     if(!tokens.nextIs(TokenType.ACCESS))
         return left;
     do {
@@ -799,7 +799,7 @@ function parseAccess(left: Expression, tokens: Tokens): Expression | Unparsable 
 
 /** TYPE :: (? | name | MEASUREMENT_TYPE | TEXT_TYPE | NONE_TYPE | LIST_TYPE | SET_TYPE | FUNCTION_TYPE | STREAM_TYPE) (∨ TYPE)* */
 export function parseType(tokens: Tokens): Type | Unparsable {
-    let left: Type = (
+    let left: Type | Unparsable = (
         tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read()) :
         tokens.nextIs(TokenType.BOOLEAN_TYPE) ? new BooleanType(tokens.read()) :
         tokens.nextIs(TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :
@@ -813,7 +813,7 @@ export function parseType(tokens: Tokens): Type | Unparsable {
         tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TYPE)
     );
 
-    while(tokens.nextIs(TokenType.UNION))
+    while(!(left instanceof Unparsable) && tokens.nextIs(TokenType.UNION))
         left = new UnionType(left, tokens.read(), parseType(tokens));
     
     return left;
@@ -869,16 +869,16 @@ function parseListType(tokens: Tokens): ListType | Unparsable {
 }
 
 /** SET_TYPE :: { TYPE } | { TYPE:TYPE } */
-function parseSetOrMapType(tokens: Tokens): SetType | Unparsable {
+function parseSetOrMapType(tokens: Tokens): SetOrMapType | Unparsable {
 
     const open = tokens.read();
-    const type = parseType(tokens);
+    const key = parseType(tokens);
     const bind = tokens.nextIs(TokenType.BIND) ? tokens.read() : undefined;
     const value = bind !== undefined ? parseType(tokens) : undefined;
     if(tokens.nextIsnt(TokenType.SET_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE);
     const close = tokens.read();
-    return new SetType(open, type, close, bind, value);
+    return new SetOrMapType(key, value, open, close, bind);
 
 }
 
@@ -889,7 +889,7 @@ function parseTableType(tokens: Tokens): TableType | Unparsable {
     while(tokens.nextIs(TokenType.TABLE)) {
         const bar = tokens.read();
         const type = parseType(tokens);
-        columns.push(new ColumnType(bar, type))
+        columns.push(new ColumnType(type, bar))
     }
     return new TableType(columns);
 
@@ -913,7 +913,7 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 
     const output = parseType(tokens);
 
-    return new FunctionType(fun, open, inputs, close, output);
+    return new FunctionType(inputs, output, fun, open, close);
 
 }
 

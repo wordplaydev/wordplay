@@ -6,7 +6,10 @@ import Expression from "./Expression";
 import Function from "./Function";
 import type Program from "./Program";
 import { SemanticConflict } from "./SemanticConflict";
+import type Share from "./Share";
 import type { Token } from "./Token";
+import type Type from "./Type";
+import UnknownType from "./UnknownType";
 
 export default class Name extends Expression {
     
@@ -29,21 +32,15 @@ export default class Name extends Expression {
     getBind(program: Program): Bind | undefined {
 
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
-        const enclosure = program.getBindingEnclosureOf(this);
-        if(enclosure instanceof Function)
-            return enclosure.getDefinition(program, this.name.text);
-        else if(enclosure instanceof Block) {
-            const ancestors = program.getAncestorsOf(this);
-            if(ancestors) {
-                const enclosingBlockIndex = ancestors.indexOf(enclosure);
-                const statement = enclosingBlockIndex === 0 ? this: ancestors[enclosingBlockIndex - 1];
-                const index = enclosure.statements.indexOf(statement);
-                return enclosure.getDefinition(program, index, this.name.text);
-            }
-        }
-        else if(enclosure instanceof CustomType)
-            return enclosure.getDefinition(program, this.name.text);
+        return program.getBindingEnclosureOf(this)?.getDefinition(program, this, this.name.text);
 
+    }
+
+    getType(program: Program): Type {
+        // The type is the type of the bind.
+        const bind = this.getBind(program);
+        if(bind === undefined) return new UnknownType(this);
+        else return bind.getType(program);        
     }
 
 }

@@ -1,20 +1,22 @@
 import type Node from "./Node";
 import Expression from "./Expression";
 import type { Token } from "./Token";
-import type Type from "./Type";
+import Type from "./Type";
 import type Docs from "./Docs";
 import type Program from "./Program";
 import Conflict from "./Conflict";
 import { SemanticConflict } from "./SemanticConflict";
+import UnknownType from "./UnknownType";
+import type Unparsable from "./Unparsable";
 
 export default class Conversion extends Expression {
 
     readonly docs: Docs[];
     readonly convert: Token;
-    readonly output: Type;
-    readonly expression: Expression;
+    readonly output: Type | Unparsable;
+    readonly expression: Expression | Unparsable;
 
-    constructor(docs: Docs[], convert: Token, output: Type, expression: Expression) {
+    constructor(docs: Docs[], convert: Token, output: Type | Unparsable, expression: Expression | Unparsable) {
         super();
 
         this.docs = docs;
@@ -42,6 +44,10 @@ export default class Conversion extends Expression {
     
         return conflicts; 
     
+    }
+
+    getType(program: Program): Type {
+        return this.output instanceof Type ? this.output : new UnknownType(this);
     }
 
 }
