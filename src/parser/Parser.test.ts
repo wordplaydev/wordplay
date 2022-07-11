@@ -41,6 +41,7 @@ import CustomType from "./CustomType";
 import AccessName from "./AccessName";
 import Name from "./Name";
 import Bool from "./Bool";
+import Convert from "./Convert";
 
 test("Parse programs", () => {
 
@@ -288,6 +289,9 @@ test("Expressions", () => {
 
     const conversion = parseExpression(tokens("→ '' meow()"));
     expect(conversion).toBeInstanceOf(Conversion);
+
+    const convert = parseExpression(tokens("(1 + 2) → ''"));
+    expect(convert).toBeInstanceOf(Convert);
 
     const conversionWithDocs = parseExpression(tokens("`To meows`eng → '' meow()"));
     expect(conversionWithDocs).toBeInstanceOf(Conversion);

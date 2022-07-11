@@ -54,6 +54,7 @@ import BooleanType from "./BooleanType";
 import SetAccess from "./SetAccess";
 import Name from "./Name";
 import Bool from "./Bool";
+import Convert from "./Convert";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -371,6 +372,8 @@ export function parseExpression(tokens: Tokens): Expression {
             left = parseSetOrMapAccess(left, tokens);
         else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE) && tokens.nextLacksPrecedingLineBreak())
             left = parseEvaluate(left, tokens);
+        else if(tokens.nextIs(TokenType.CONVERT))
+            left = parseConvert(left, tokens);
         else if(tokens.nextIs(TokenType.SELECT))
             left = parseSelect(left, tokens);
         else if(tokens.nextIs(TokenType.INSERT))
@@ -741,6 +744,15 @@ function parseConversion(tokens: Tokens): Conversion {
     const expression = tokens.nextIs(TokenType.TBD) ? tokens.read() : parseExpression(tokens);
 
     return new Conversion(docs, convert, output, expression);
+
+}
+
+/** CONVERT :: EXPRESSION CONVERT TYPE */
+function parseConvert(expression: Expression, tokens: Tokens): Convert {
+
+    const type = parseType(tokens);
+        
+    return new Convert(expression, type);
 
 }
 
