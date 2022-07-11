@@ -1,7 +1,8 @@
-import type Conflict from "./Conflict";
+import Conflict from "./Conflict";
 import Expression from "./Expression";
 import ListType from "./ListType";
 import type Program from "./Program";
+import { SemanticConflict } from "./SemanticConflict";
 import type { Token } from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
@@ -25,7 +26,16 @@ export default class List extends Expression {
         return [ this.open, ...this.values, this.close ];
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(program: Program): Conflict[] { 
+
+        // The list values have to all be of compatible types.
+        const types = (this.values.filter(v => v instanceof Expression) as Expression[]).map(e => e.getType(program));
+        if(types.length > 1 && !types.every(t => t.isCompatible(types[0])))
+            return [ new Conflict(this, SemanticConflict.LIST_VALUES_ARENT_SAME_TYPE) ]
+
+        return []; 
+    
+    }
 
     getType(program: Program): Type {
         const expressions = this.values.filter(e => e instanceof Expression) as Expression[];
