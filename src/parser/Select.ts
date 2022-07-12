@@ -9,6 +9,7 @@ import type Unparsable from "./Unparsable";
 import { SemanticConflict } from "./SemanticConflict";
 import Name from "./Name";
 import TableType from "./TableType";
+import type ColumnType from "./ColumnType";
 
 export default class Select extends Expression {
     
@@ -51,9 +52,6 @@ export default class Select extends Expression {
                   )
                     conflicts.push(new Conflict(cell, SemanticConflict.UNKNOWN_TABLE_COLUMN))
             });
-    
-
-            
         }
 
         return conflicts;
@@ -61,8 +59,24 @@ export default class Select extends Expression {
     }
 
     getType(program: Program): Type {
-        // A table type based on the row
-        return new UnknownType(this);
+
+        // Get the table type and find the rows corresponding the selected columns.
+        const tableType = this.table.getType(program);
+        if(!(tableType instanceof TableType)) return new UnknownType(this);
+
+        // For each cell in the select row, find the corresponding column type in the table type.
+        // If we can't find one, return unknown.
+        const columnTypes = this.row.cells.map(cell => {
+            const cellName = cell.expression instanceof Name ? cell.expression : undefined; 
+            if(cellName === undefined) return new UnknownType(this);
+            const matchingColumn = tableType.columns.find(col => col.names?.find(name => name.name.text === cellName.name.text) !== undefined);
+            return matchingColumn === undefined ? new UnknownType(this) : matchingColumn;
+        });
+
+        if(columnTypes.find(t => t instanceof UnknownType)) return new UnknownType(this);
+
+        return new TableType(columnTypes as ColumnType[]);
+
     }
 
 }
