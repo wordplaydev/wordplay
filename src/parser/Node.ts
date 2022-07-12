@@ -55,6 +55,12 @@ export default abstract class Node {
 
     }
 
+    /** Finds the parent of the given node. */
+    getParent(program: Program): Node | undefined {
+        const ancestors = program.getAncestorsOf(this);
+        return ancestors === undefined || ancestors.length === 0 ? undefined : ancestors.shift();
+    }
+
     /** True if the given nodes appears in this tree */
     contains(node: Node) {
         return this.nodes().indexOf(node) >= 0;

@@ -13,6 +13,7 @@ import NameType from "./NameType";
 import CustomTypeType from "./CustomTypeType";
 import CustomType from "./CustomType";
 import TypeVariable from "./TypeVariable";
+import Name from "./Name";
 
 export default class Bind extends Node {
     
@@ -63,6 +64,18 @@ export default class Bind extends Node {
         const definitions = this.names.map(alias => program.getBindingEnclosureOf(this)?.getDefinition(program, this, alias.name.text)).filter(def => def !== undefined);
         if(definitions.length > 0)
             conflicts.push(new Conflict(this, SemanticConflict.ALREADY_BOUND));
+
+        // It should be used in some expression in its parent.
+        const parent = this.getParent(program);
+        if(parent) {
+            const uses = parent.nodes().filter(n => n instanceof Name && this.names.find(name => name.name.text === n.name.text) !== undefined);
+            if(uses.length === 0)
+                conflicts.push(new Conflict(this, SemanticConflict.UNUSED_BIND));
+
+
+        }
+
+
 
         return conflicts;
 
