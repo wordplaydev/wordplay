@@ -14,6 +14,10 @@ export default class TableType extends Node {
         this.columns = columns;
     }
 
+    getColumnNamed(name: string): ColumnType | undefined {
+        return this.columns.find(c => c.names?.find(n => n.name.text === name) !== undefined);
+    }
+
     getChildren() { return [ ...this.columns ]; }
 
     getConflicts(program: Program): Conflict[] { return []; }

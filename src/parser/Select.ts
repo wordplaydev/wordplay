@@ -43,13 +43,9 @@ export default class Select extends Expression {
         // The columns named must be names in the table's type.
         const tableType = this.table.getType(program);
         if(tableType instanceof TableType) {
-            this.row.cells.forEach((cell, index) => {
+            this.row.cells.forEach(cell => {
                 const cellName = cell.expression instanceof Name ? cell.expression : undefined; 
-                if(!(cellName !== undefined && 
-                    index < tableType.columns.length && 
-                    tableType.columns.find(c => c.names?.find(n => n.name.text === cellName.name.text) !== undefined) !== undefined
-                    )
-                  )
+                if(!(cellName !== undefined && tableType.getColumnNamed(cellName.name.text) !== undefined))
                     conflicts.push(new Conflict(cell, SemanticConflict.UNKNOWN_TABLE_COLUMN))
             });
         }
@@ -67,13 +63,10 @@ export default class Select extends Expression {
         // For each cell in the select row, find the corresponding column type in the table type.
         // If we can't find one, return unknown.
         const columnTypes = this.row.cells.map(cell => {
-            const cellName = cell.expression instanceof Name ? cell.expression : undefined; 
-            if(cellName === undefined) return new UnknownType(this);
-            const matchingColumn = tableType.columns.find(col => col.names?.find(name => name.name.text === cellName.name.text) !== undefined);
-            return matchingColumn === undefined ? new UnknownType(this) : matchingColumn;
+            const column = cell.expression instanceof Name ? tableType.getColumnNamed(cell.expression.name.text) : undefined; 
+            return column === undefined ? undefined : column;
         });
-
-        if(columnTypes.find(t => t instanceof UnknownType)) return new UnknownType(this);
+        if(columnTypes.find(t => t === undefined)) return new UnknownType(this);
 
         return new TableType(columnTypes as ColumnType[]);
 
