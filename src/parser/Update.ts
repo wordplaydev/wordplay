@@ -54,7 +54,7 @@ export default class Update extends Expression {
 
         // The query must be truthy.
         if(this.query instanceof Expression && !(this.query.getType(program) instanceof BooleanType))
-            conflicts.push(new Conflict(this, SemanticConflict.TABLE_UPDATE_QUERY_MUST_BE_TRUTHY))
+            conflicts.push(new Conflict(this, SemanticConflict.TABLE_QUERY_MUST_BE_TRUTHY))
 
         return conflicts; 
     

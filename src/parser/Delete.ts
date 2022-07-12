@@ -1,9 +1,11 @@
 import type { Token } from "./Token";
 import Expression from "./Expression";
 import type Program from "./Program";
-import type Conflict from "./Conflict";
+import Conflict from "./Conflict";
 import type Type from "./Type";
 import type Unparsable from "./Unparsable";
+import BooleanType from "./BooleanType";
+import { SemanticConflict } from "./SemanticConflict";
 
 export default class Delete extends Expression {
     
@@ -22,7 +24,17 @@ export default class Delete extends Expression {
 
     getChildren() { return [ this.table, this.del, this.query ]; }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(program: Program): Conflict[] { 
+
+        const conflicts: Conflict[] = [];
+
+        // The query must be truthy.
+        if(this.query instanceof Expression && !(this.query.getType(program) instanceof BooleanType))
+            conflicts.push(new Conflict(this, SemanticConflict.TABLE_QUERY_MUST_BE_TRUTHY))
+
+        return conflicts; 
+        
+    }
 
     getType(program: Program): Type {
         // The type is identical to the table's type.

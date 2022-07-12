@@ -10,6 +10,7 @@ import { SemanticConflict } from "./SemanticConflict";
 import Name from "./Name";
 import TableType from "./TableType";
 import type ColumnType from "./ColumnType";
+import BooleanType from "./BooleanType";
 
 export default class Select extends Expression {
     
@@ -50,6 +51,10 @@ export default class Select extends Expression {
             });
         }
 
+        // The query must be truthy.
+        if(this.query instanceof Expression && !(this.query.getType(program) instanceof BooleanType))
+            conflicts.push(new Conflict(this, SemanticConflict.TABLE_QUERY_MUST_BE_TRUTHY))
+    
         return conflicts;
     
     }
