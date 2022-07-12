@@ -21,7 +21,7 @@ export default class NoneType extends Type {
 
     getConflicts(program: Program): Conflict[] { return []; }
 
-    isCompatible(type: Type): boolean { 
+    isCompatible(program: Program, type: Type): boolean { 
         return type instanceof NoneType && (
             (this.name === undefined && type.name === undefined ) || 
             (this.name !== undefined && type.name !== undefined && this.name.text === type.name.text)

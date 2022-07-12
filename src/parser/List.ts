@@ -30,7 +30,7 @@ export default class List extends Expression {
 
         // The list values have to all be of compatible types.
         const types = (this.values.filter(v => v instanceof Expression) as Expression[]).map(e => e.getType(program));
-        if(types.length > 1 && !types.every(t => t.isCompatible(types[0])))
+        if(types.length > 1 && !types.every(t => t.isCompatible(program, types[0])))
             return [ new Conflict(this, SemanticConflict.LIST_VALUES_ARENT_SAME_TYPE) ]
 
         return []; 

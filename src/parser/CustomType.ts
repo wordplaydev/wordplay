@@ -86,6 +86,6 @@ export default class CustomType extends Expression {
 
     getType(program: Program): Type { return this; }
 
-    isCompatible(type: Type): boolean { return type === this; }
+    isCompatible(program: Program, type: Type): boolean { return type === this; }
 
 }

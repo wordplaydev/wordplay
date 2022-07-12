@@ -24,8 +24,8 @@ export default class UnionType extends Type {
 
     getConflicts(program: Program): Conflict[] { return []; }
 
-    isCompatible(type: Type): boolean {
-        return this.left.isCompatible(type) || (this.right instanceof Type && this.right.isCompatible(type));
+    isCompatible(program: Program, type: Type): boolean {
+        return this.left.isCompatible(program, type) || (this.right instanceof Type && this.right.isCompatible(program, type));
 
     }
 }

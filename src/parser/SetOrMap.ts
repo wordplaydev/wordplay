@@ -39,7 +39,7 @@ export default class SetOrMap extends Expression {
         // If all expressions. they must all be of the same type.
         if(allExpressions) {
             const types = (this.values.filter(v => v instanceof Expression) as Expression[]).map(e => e.getType(program));
-            if(types.length > 1 && !types.every(t => t.isCompatible(types[0])))
+            if(types.length > 1 && !types.every(t => t.isCompatible(program, types[0])))
                 return [ new Conflict(this, SemanticConflict.SET_VALUES_ARENT_SAME_TYPE) ]
         }
         else if(allKeyValue) {
@@ -49,14 +49,14 @@ export default class SetOrMap extends Expression {
                 .map(k => k.key)
                 .filter(k => k instanceof Expression) as Expression[])
                 .map(k => k.getType(program));
-            if(keyTypes.length > 1 && !keyTypes.every(t => t.isCompatible(keyTypes[0])))
+            if(keyTypes.length > 1 && !keyTypes.every(t => t.isCompatible(program, keyTypes[0])))
                 conflicts.push(new Conflict(this, SemanticConflict.MAP_KEYS_ARENT_SAME_TYPE));
             const valueTypes = 
                 ((this.values.filter(v => v instanceof KeyValue) as KeyValue[])
                 .map(v => v.value)
                 .filter(v => v instanceof Expression) as Expression[])
                 .map(v => v.getType(program));
-            if(valueTypes.length > 1 && !valueTypes.every(t => t.isCompatible(valueTypes[0])))
+            if(valueTypes.length > 1 && !valueTypes.every(t => t.isCompatible(program, valueTypes[0])))
                 conflicts.push(new Conflict(this, SemanticConflict.MAP_VALUES_ARENT_SAME_TYPE));
             return conflicts;
         }

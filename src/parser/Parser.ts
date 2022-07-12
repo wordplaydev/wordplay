@@ -769,7 +769,7 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
 
     } while(tokens.nextIs(TokenType.ACCESS));
 
-    // Return the series of accesses and evaluatios we created.
+    // Return the series of accesses and evaluations we created.
     return left;
 }
 

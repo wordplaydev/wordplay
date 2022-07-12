@@ -34,7 +34,7 @@ export default class Conditional extends Expression {
         if(!(this.condition.getType(program) instanceof BooleanType))
             children.push(new Conflict(this, SemanticConflict.EXPECTED_BOOLEAN_CONDITION))
 
-        if(this.yes instanceof Expression && this.no instanceof Expression && !(this.yes.getType(program).isCompatible(this.no.getType(program))))
+        if(this.yes instanceof Expression && this.no instanceof Expression && !(this.yes.getType(program).isCompatible(program, this.no.getType(program))))
             children.push(new Conflict(this, SemanticConflict.EXPECTED_MATCHING_CONDITION_TYPES))
 
         return children; 

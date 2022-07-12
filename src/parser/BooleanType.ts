@@ -19,6 +19,6 @@ export default class BooleanType extends Type {
 
     getConflicts(program: Program): Conflict[] { return []; }
 
-    isCompatible(type: Type) { return type instanceof BooleanType; }
+    isCompatible(program: Program, type: Type) { return type instanceof BooleanType; }
     
 }

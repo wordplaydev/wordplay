@@ -20,6 +20,6 @@ export default class UnknownType extends Type {
         return [ new Conflict(this.node, SemanticConflict.UNKNOWN_TYPE) ];
     }
 
-    isCompatible(type: Type) { return false; }
+    isCompatible(program: Program, type: Type) { return false; }
 
 }

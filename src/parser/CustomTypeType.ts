@@ -19,7 +19,7 @@ export default class CustomTypeType extends Type {
 
     getConflicts(program: Program): Conflict[] { return []; }
 
-    isCompatible(type: Type): boolean {
+    isCompatible(program: Program, type: Type): boolean {
         return type instanceof CustomTypeType && this.type === type.type;
     }
 

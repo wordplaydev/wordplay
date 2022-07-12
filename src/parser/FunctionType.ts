@@ -35,18 +35,18 @@ export default class FunctionType extends Type {
 
     getConflicts(program: Program): Conflict[] { return []; }
 
-    isCompatible(type: Type): boolean {
+    isCompatible(program: Program, type: Type): boolean {
         if(!(type instanceof FunctionType)) return false;
         if(!(this.output instanceof Type)) return false;
         if(!(type.output instanceof Type)) return false;
-        if(!this.output.isCompatible(type.output)) return false;
+        if(!this.output.isCompatible(program, type.output)) return false;
         if(this.inputs.length != type.inputs.length) return false;
         for(let i = 0; i < this.inputs.length; i++) {
             const thisType = this.inputs[i];
             const thatType = type.inputs[i];
             if( thisType instanceof Unparsable || 
                 thatType instanceof Unparsable || 
-                !thisType.isCompatible(thatType))
+                !thisType.isCompatible(program, thatType))
                 return false;
         }
         return true;

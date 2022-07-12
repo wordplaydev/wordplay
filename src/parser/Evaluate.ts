@@ -67,7 +67,7 @@ export default class Evaluate extends Expression {
                 if(targetInputs !== undefined && this.inputs.filter(i => i instanceof Expression).length === this.inputs.length) {
                     // Check the type of every input provided. Ignore the optional inputs, since they have defaults.
                     if(!this.inputs.every((expression, index) =>
-                        targetInputs !== undefined && (expression as Expression).getType(program).isCompatible(targetInputs[index])))
+                        targetInputs !== undefined && (expression as Expression).getType(program).isCompatible(program, targetInputs[index])))
                         conflicts.push(new Conflict(this, SemanticConflict.INPUT_TYPES_MISMATCH))
                 }
             }

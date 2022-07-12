@@ -24,7 +24,7 @@ export default class TextType extends Type {
 
     getConflicts(program: Program): Conflict[] { return []; }
 
-    isCompatible(type: Type): boolean { 
+    isCompatible(program: Program, type: Type): boolean { 
         return  type instanceof TextType && 
                 ((this.format === undefined && type.format === undefined) || 
                  (this.format !== undefined && type.format !== undefined && this.format.text === type.format.text)); 

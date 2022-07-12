@@ -1,5 +1,5 @@
 import Conflict from "./Conflict";
-import CustomType from "./CustomType";
+import CustomTypeType from "./CustomTypeType";
 import type Program from "./Program";
 import { SemanticConflict } from "./SemanticConflict";
 import type { Token } from "./Token";
@@ -28,15 +28,16 @@ export default class NameType extends Type {
         if(type === undefined)
             conflicts.push(new Conflict(this, SemanticConflict.UNDEFINED_NAME));
         // The name should be a custom type.
-        else if(!(type instanceof CustomType))
+        else if(!(type instanceof CustomTypeType))
             conflicts.push(new Conflict(this, SemanticConflict.NOT_A_TYPE));
 
         return conflicts; 
     
     }
 
-    isCompatible(type: Type): boolean {    
-        return type instanceof NameType && this.type.text === type.type.text;
+    isCompatible(program: Program, type: Type): boolean {    
+        const thisType = this.getType(program);
+        return thisType instanceof CustomTypeType && thisType.type === type;
     } 
 
     getType(program: Program): Type | undefined {

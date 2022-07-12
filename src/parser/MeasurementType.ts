@@ -24,7 +24,7 @@ export default class MeasurementType extends Type {
 
     getConflicts(program: Program): Conflict[] { return []; }
 
-    isCompatible(type: Type): boolean {
+    isCompatible(program: Program, type: Type): boolean {
         return type instanceof MeasurementType && 
             (
                 (this.unit === undefined && type.unit === undefined) ||

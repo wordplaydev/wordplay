@@ -36,14 +36,14 @@ export default class SetOrMapType extends Type {
 
     getConflicts(program: Program): Conflict[] { return []; }
 
-    isCompatible(type: Type): boolean { 
+    isCompatible(program: Program, type: Type): boolean { 
         return  type instanceof SetOrMapType &&
                 this.key instanceof Type &&
                 type.key instanceof Type &&
-                this.key.isCompatible(type.key) &&
+                this.key.isCompatible(program, type.key) &&
                 (
                     (this.value === undefined && type.value === undefined) ||
-                    (this.value !== undefined && type.value !== undefined && this.value instanceof Type && type.value instanceof Type && this.value.isCompatible(type.value))
+                    (this.value !== undefined && type.value !== undefined && this.value instanceof Type && type.value instanceof Type && this.value.isCompatible(program, type.value))
                 ); 
     }
 

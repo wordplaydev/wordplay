@@ -1,4 +1,5 @@
 import Node from "./Node";
+import type Program from "./Program";
 
 export default abstract class Type extends Node {
 
@@ -6,6 +7,6 @@ export default abstract class Type extends Node {
         super();
     }
 
-    abstract isCompatible(type: Type): boolean;
+    abstract isCompatible(program: Program, type: Type): boolean;
 
 }

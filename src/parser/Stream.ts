@@ -37,7 +37,7 @@ export default class Stream extends Expression {
             conflicts.push(new Conflict(this, SemanticConflict.EXPECTED_STREAM))
 
         // The initial and next must be compatible
-        if(this.next instanceof Expression && !this.initial.getType(program).isCompatible(this.next.getType(program)))
+        if(this.next instanceof Expression && !this.initial.getType(program).isCompatible(program, this.next.getType(program)))
             conflicts.push(new Conflict(this, SemanticConflict.STREAM_VALUES_INCOMPATIBLE))
 
 

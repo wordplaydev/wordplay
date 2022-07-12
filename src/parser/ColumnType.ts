@@ -23,8 +23,8 @@ export default class ColumnType extends Node {
 
     getConflicts(program: Program): Conflict[] { return []; }
 
-    isCompatible(type: Type): boolean {
-        return type instanceof ColumnType && this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(type.type);
+    isCompatible(program: Program, type: Type): boolean {
+        return type instanceof ColumnType && this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(program, type.type);
     }
 
 }

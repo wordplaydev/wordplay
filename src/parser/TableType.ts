@@ -18,12 +18,12 @@ export default class TableType extends Node {
 
     getConflicts(program: Program): Conflict[] { return []; }
 
-    isCompatible(type: Type) {
+    isCompatible(program: Program, type: Type) {
 
         if(!(type instanceof TableType)) return false;
         if(this.columns.length !== type.columns.length) return false;    
         for(let i = 0; i < this.columns.length; i++)
-            if(!this.columns[i].isCompatible(type.columns[i]))
+            if(!this.columns[i].isCompatible(program, type.columns[i]))
                 return false;
         return true;
 

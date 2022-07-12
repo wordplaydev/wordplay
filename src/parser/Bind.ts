@@ -55,7 +55,7 @@ export default class Bind extends Node {
             conflicts.push(new Conflict(this, SemanticConflict.BIND_ALIASES_ARENT_UNIQUE))
 
         // If there's a type, the value must match.
-        if(this.type instanceof Type && this.value && this.value instanceof Expression && !this.type.isCompatible(this.value.getType(program)))
+        if(this.type instanceof Type && this.value && this.value instanceof Expression && !this.type.isCompatible(program, this.value.getType(program)))
             conflicts.push(new Conflict(this, SemanticConflict.INCOMPATIBLE_TYPES))
 
         // It can't already be defined.
