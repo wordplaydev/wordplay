@@ -141,7 +141,7 @@ test("Parse binds", () => {
 
 })
 
-test("Expressions", () => {
+test("Parse expressions", () => {
 
     const none = parseExpression(tokens("!"));
     expect(none).toBeInstanceOf(None);
@@ -311,6 +311,34 @@ test("Expressions", () => {
     expect((((((access as SetAccess).setOrMap as ListAccess).list as Evaluate).func as AccessName).subject as AccessName).subject).toBeInstanceOf(Name);
 
 })
+
+test("Blocks and binds", () => {
+
+    const map = parseBlock(true, tokens("{1:1 2:2 3:3}"));
+    expect(map).toBeInstanceOf(Block);
+    expect((map as Block).statements[0]).toBeInstanceOf(SetOrMap);
+
+    const bindMap = parseBlock(true, tokens("map: {1:1 2:2 3:3}"));
+    expect(bindMap).toBeInstanceOf(Block);
+    expect((bindMap as Block).statements[0]).toBeInstanceOf(Bind);
+    expect(((bindMap as Block).statements[0] as Bind).value).toBeInstanceOf(SetOrMap);
+
+    const table = parseBlock(true, tokens("|a•#|b•#\n|1|2"));
+    expect(table).toBeInstanceOf(Block);
+    expect((table as Block).statements[0]).toBeInstanceOf(Table);
+
+    const bindTable = parseBlock(true, tokens("table: |a•#|b•#\n|1|2"));
+    expect(bindTable).toBeInstanceOf(Block);
+    expect((bindTable as Block).statements[0]).toBeInstanceOf(Bind);
+    expect(((bindTable as Block).statements[0] as Bind).value).toBeInstanceOf(Table);
+
+    const bindTypedTable = parseBlock(true, tokens("table•|a•#|b•#: |a•#|b•#\n|1|2"));
+    expect(bindTypedTable).toBeInstanceOf(Block);
+    expect((bindTypedTable as Block).statements[0]).toBeInstanceOf(Bind);
+    expect(((bindTypedTable as Block).statements[0] as Bind).type).toBeInstanceOf(TableType);
+    expect(((bindTypedTable as Block).statements[0] as Bind).value).toBeInstanceOf(Table);
+
+});
 
 test("Type variables", () => {
 
