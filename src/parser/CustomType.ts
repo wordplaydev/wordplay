@@ -35,6 +35,10 @@ export default class CustomType extends Expression {
         this.block = block;
     }
 
+    isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }
+
+    isBindingEnclosure() { return true; }
+
     isInterface() {
         if(this.block instanceof Unparsable) return false;
         const binds = this.block.statements.filter(s => s instanceof Bind) as Bind[];

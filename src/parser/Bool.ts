@@ -1,3 +1,4 @@
+import type Node from "./Node";
 import BooleanType from "./BooleanType";
 import type Conflict from "./Conflict";
 import Expression from "./Expression";

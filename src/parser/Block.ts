@@ -29,6 +29,10 @@ export default class Block extends Expression {
         this.docs = docs;
     }
 
+    isBindingEnclosureOfChild(child: Node): boolean { return true; }
+
+    isBindingEnclosure() { return true; }
+
     getChildren() {
         return [ ...this.docs, ...(this.open ? [ this.open ] : []), ...this.statements, ...(this.close ? [ this.close ] : [])];
     }

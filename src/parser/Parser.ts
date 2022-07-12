@@ -864,8 +864,8 @@ function parseTableType(tokens: Tokens): TableType | Unparsable {
     const columns = [];
     while(tokens.nextIs(TokenType.TABLE)) {
         const bar = tokens.read();
-        const type = parseType(tokens);
-        columns.push(new ColumnType(type, undefined, bar))
+        const bind = parseBind(tokens);
+        columns.push(new ColumnType(bind, bar))
     }
     return new TableType(columns);
 

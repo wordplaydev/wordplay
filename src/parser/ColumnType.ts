@@ -2,32 +2,30 @@ import Node from "./Node";
 import type Program from "./Program";
 import type Conflict from "./Conflict";
 import type { Token } from "./Token";
-import Type from "./Type";
 import type Unparsable from "./Unparsable";
-import type Alias from "./Alias";
+import Bind from "./Bind";
+import type Type from "./Type";
 
 export default class ColumnType extends Node {
 
     readonly bar?: Token;
-    readonly names?: Alias[];
-    readonly type: Type | Unparsable;
+    readonly bind: Bind | Unparsable;
 
-    constructor(type: Type | Unparsable, names?: Alias[], bar?: Token) {
+    constructor(bind: Bind | Unparsable, bar?: Token) {
         super();
 
         this.bar = bar;
-        this.names = names;
-        this.type = type;
+        this.bind = bind;
     }
 
     getChildren() {
-        return this.bar === undefined ? [ this.type ] : [ this.bar, this.type ];
+        return this.bar === undefined ? [ this.bind ] : [ this.bar, this.bind ];
     }
 
     getConflicts(program: Program): Conflict[] { return []; }
 
     isCompatible(program: Program, type: Type): boolean {
-        return type instanceof ColumnType && this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(program, type.type);
+        return type instanceof ColumnType && type.bind instanceof Bind && this.bind instanceof Bind && this.bind.getType(program).isCompatible(program, type.bind.getType(program));
     }
 
 }

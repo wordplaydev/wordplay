@@ -1,3 +1,4 @@
+import type Node from "./Node";
 import type { Token } from "./Token";
 import Expression from "./Expression";
 import type Row from "./Row";
@@ -6,6 +7,8 @@ import Conflict from "./Conflict";
 import Type from "./Type";
 import TableType from "./TableType";
 import { SemanticConflict } from "./SemanticConflict";
+import type TypeVariable from "./TypeVariable";
+import Bind from "./Bind";
 
 export default class Insert extends Expression {
     
@@ -21,6 +24,8 @@ export default class Insert extends Expression {
         this.row = row;
 
     }
+    
+    isBindingEnclosureOfChild(child: Node): boolean { return child === this.row; }
 
     getChildren() { return [ this.table, this.insert, this.row ]; }
 
@@ -43,7 +48,7 @@ export default class Insert extends Expression {
                 if(!(expr instanceof Expression))
                     conflicts.push(new Conflict(this, SemanticConflict.INSERT_COLUMNS_MUST_BE_EXPRESSIONS));
                 else if(index < tableType.columns.length) {
-                    const columnType = tableType.columns[index].type;
+                    const columnType = tableType.columns[index].bind;
                     if(columnType instanceof Type && !expr.getType(program).isCompatible(program, columnType))
                         conflicts.push(new Conflict(cell, SemanticConflict.CELL_TYPE_MISMATCH));
                 }
@@ -59,4 +64,17 @@ export default class Insert extends Expression {
         return this.table.getType(program);
     }
 
+    // Check the table's column binds.
+    getDefinition(program: Program, node: Node, name: string): Expression | TypeVariable | Bind | undefined {
+    
+        const type = this.table.getType(program);
+        if(type instanceof TableType) {
+            const column = type.getColumnNamed(name);
+            if(column !== undefined && column.bind instanceof Bind) return column.bind;
+        }
+
+        return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
+
+    }
+    
 }

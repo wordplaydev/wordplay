@@ -35,6 +35,8 @@ export default class Bind extends Node {
         this.value = value;
     }
 
+    hasName(name: string) { return this.names.find(n => n.name.text === name) !== undefined; }
+
     getNames() { return this.names.map(n => n.name.text ); }
 
     getChildren() { 

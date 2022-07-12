@@ -1,3 +1,4 @@
+import type Node from "./Node";
 import type { Token } from "./Token";
 import Expression from "./Expression";
 import type Program from "./Program";
@@ -7,6 +8,8 @@ import type Unparsable from "./Unparsable";
 import BooleanType from "./BooleanType";
 import { SemanticConflict } from "./SemanticConflict";
 import TableType from "./TableType";
+import type TypeVariable from "./TypeVariable";
+import Bind from "./Bind";
 
 export default class Delete extends Expression {
     
@@ -22,6 +25,8 @@ export default class Delete extends Expression {
         this.query = query;
 
     }
+
+    isBindingEnclosureOfChild(child: Node): boolean { return child === this.query; }
 
     getChildren() { return [ this.table, this.del, this.query ]; }
 
@@ -46,6 +51,19 @@ export default class Delete extends Expression {
     getType(program: Program): Type {
         // The type is identical to the table's type.
         return this.table.getType(program);
+    }
+
+    // Check the table's column binds.
+    getDefinition(program: Program, node: Node, name: string): Expression | TypeVariable | Bind | undefined {
+        
+        const type = this.table.getType(program);
+        if(type instanceof TableType) {
+            const column = type.getColumnNamed(name);
+            if(column !== undefined && column.bind instanceof Bind) return column.bind;
+        }
+
+        return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
+
     }
 
 }

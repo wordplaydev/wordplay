@@ -3,6 +3,7 @@ import type ColumnType from "./ColumnType";
 import type Program from "./Program";
 import type Conflict from "./Conflict";
 import type Type from "./Type";
+import Bind from "./Bind";
 
 export default class TableType extends Node {
     
@@ -15,7 +16,7 @@ export default class TableType extends Node {
     }
 
     getColumnNamed(name: string): ColumnType | undefined {
-        return this.columns.find(c => c.names?.find(n => n.name.text === name) !== undefined);
+        return this.columns.find(c => c.bind instanceof Bind && c.bind.hasName(name));
     }
 
     getChildren() { return [ ...this.columns ]; }

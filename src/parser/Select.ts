@@ -11,6 +11,9 @@ import Name from "./Name";
 import TableType from "./TableType";
 import type ColumnType from "./ColumnType";
 import BooleanType from "./BooleanType";
+import Bind from "./Bind";
+import type Node from "./Node";
+import type TypeVariable from "./TypeVariable";
 
 export default class Select extends Expression {
     
@@ -29,6 +32,8 @@ export default class Select extends Expression {
 
     }
 
+    isBindingEnclosureOfChild(child: Node): boolean { return child === this.query || child === this.row; }
+    
     getChildren() { return [ this.table, this.select, this.row, this.query ]; }
 
     getConflicts(program: Program): Conflict[] { 
@@ -79,6 +84,19 @@ export default class Select extends Expression {
         if(columnTypes.find(t => t === undefined)) return new UnknownType(this);
 
         return new TableType(columnTypes as ColumnType[]);
+
+    }
+
+    // Check the table's column binds.
+    getDefinition(program: Program, node: Node, name: string): Expression | TypeVariable | Bind | undefined {
+        
+        const type = this.table.getType(program);
+        if(type instanceof TableType) {
+            const column = type.getColumnNamed(name);
+            if(column !== undefined && column.bind instanceof Bind) return column.bind;
+        }
+
+        return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
 
     }
 

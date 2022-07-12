@@ -1,12 +1,11 @@
 import Node from "./Node";
-import Block from "./Block";
 import type Borrow from "./Borrow";
 import type Unparsable from "./Unparsable";
 import type Conflict from "./Conflict";
-import Function from "./Function";
-import CustomType from "./CustomType";
-import Bind from "./Bind";
 import type Expression from "./Expression";
+import type TypeVariable from "./TypeVariable";
+import type Block from "./Block";
+import type Bind from "./Bind";
 
 export default class Program extends Node {
     
@@ -19,21 +18,36 @@ export default class Program extends Node {
         this.block = block;
     }
 
+    isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }
+
     getChildren() { return [ ...this.borrows, this.block ]; }
     getConflicts(program: Program): Conflict[] { return []; }
 
-    getDefinition(program: Program, node: Node, name: string): Expression | undefined {
+    getDefinition(program: Program, node: Node, name: string): Bind | TypeVariable | Expression | undefined {
         // TODO: We don't yet have a repository of imports, built-in or otherwise.
         return undefined;
-    } 
-
+    }
     
-    getBindingEnclosureOf(node: Node): Block | Function | CustomType | Program | undefined {
+    getBindingEnclosureOf(node: Node): Node | undefined {
         const ancestors = this.getAncestorsOf(node);
-        // If the nearest ancestor is a function or custom type and the given node is a bind it it, ignore it.
-        if(ancestors && ancestors.length > 0 && (ancestors[0] instanceof Function || ancestors[0] instanceof CustomType) && node instanceof Bind && ancestors[0].getChildren().includes(node))
-            ancestors.shift();
-        return ancestors?.find(a => a instanceof Block || a instanceof Function || a instanceof CustomType || a instanceof Program) as Block | Function | CustomType | Program | undefined;
+        
+        // Keep searching for an ancestor that's a binding 
+        // If the parent is not a binding enclosure of the specific child, then skip the parent.
+        if(ancestors && ancestors.length > 0) {
+            let child = node;
+            let parent = ancestors.shift();
+            do {
+                if(parent !== undefined) {
+                    // Is this parent a binding enclosure if it's child? Return it!
+                    if(parent.isBindingEnclosureOfChild(child))
+                        return parent;
+                    // If not, the child becomes the parent and we get the parent's parent.
+                    child = parent;
+                    parent = ancestors.shift();
+                }
+            } while(parent !== undefined && ancestors.length > 0);
+        }
+
     }
 
 }

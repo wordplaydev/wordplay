@@ -1,3 +1,4 @@
+import type Node from "./Node";
 import type { Token } from "./Token";
 import Expression from "./Expression";
 import type Row from "./Row";
@@ -9,6 +10,7 @@ import Bind from "./Bind";
 import { SemanticConflict } from "./SemanticConflict";
 import TableType from "./TableType";
 import BooleanType from "./BooleanType";
+import type TypeVariable from "./TypeVariable";
 
 export default class Update extends Expression {
     
@@ -26,6 +28,8 @@ export default class Update extends Expression {
         this.query = query;
 
     }
+
+    isBindingEnclosureOfChild(child: Node): boolean { return child === this.query; }
 
     getChildren() { return [ this.table, this.update, this.row, this.query ]; }
 
@@ -49,8 +53,8 @@ export default class Update extends Expression {
                 if(columnType === undefined)
                     conflicts.push(new Conflict(cell, SemanticConflict.UNKNOWN_TABLE_COLUMN));
                 // The types of the bound values must match the column types.
-                else if(columnType.type instanceof Type) {
-                    if(!columnType.type.isCompatible(program, cell.expression.getType(program)))
+                else if(columnType.bind instanceof Type) {
+                    if(!columnType.bind.isCompatible(program, cell.expression.getType(program)))
                         conflicts.push(new Conflict(cell, SemanticConflict.TABLE_UPDATE_TYPE_MISMATCH));
                 }
             }
@@ -67,6 +71,19 @@ export default class Update extends Expression {
     getType(program: Program): Type {
         // The type of an update is the type of its table
         return this.table.getType(program);        
+    }
+
+    // Check the table's column binds.
+    getDefinition(program: Program, node: Node, name: string): Expression | TypeVariable | Bind | undefined {
+        
+        const type = this.table.getType(program);
+        if(type instanceof TableType) {
+            const column = type.getColumnNamed(name);
+            if(column !== undefined && column.bind instanceof Bind) return column.bind;
+        }
+
+        return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
+
     }
 
 }

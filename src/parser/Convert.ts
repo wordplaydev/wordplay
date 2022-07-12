@@ -1,3 +1,4 @@
+import type Node from "./Node";
 import type Conflict from "./Conflict";
 import Expression from "./Expression";
 import type Program from "./Program";

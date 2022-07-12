@@ -1,7 +1,6 @@
 import Conflict from "./Conflict";
 import CustomType from "./CustomType";
 import Expression from "./Expression";
-import NameType from "./NameType";
 import type Program from "./Program";
 import { SemanticConflict } from "./SemanticConflict";
 import type { Token } from "./Token";

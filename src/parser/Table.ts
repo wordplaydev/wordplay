@@ -53,8 +53,8 @@ export default class Table extends Expression {
     }
 
     getType(program: Program): Type {
-        const columnTypes = this.columns.map(c => new ColumnType(c.getType(program), c.bind instanceof Bind ? c.bind.names : undefined));
-        if(!columnTypes.every(c => !(c.type instanceof UnknownType))) return new UnknownType(this);
+        const columnTypes = this.columns.map(c => new ColumnType(c.bind));
+        if(!columnTypes.every(c => !(c.bind instanceof UnknownType))) return new UnknownType(this);
         return new TableType(columnTypes);
     }
 
