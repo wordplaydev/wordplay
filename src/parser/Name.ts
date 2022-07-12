@@ -9,6 +9,7 @@ import { SemanticConflict } from "./SemanticConflict";
 import type Share from "./Share";
 import type { Token } from "./Token";
 import type Type from "./Type";
+import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
 
 export default class Name extends Expression {
@@ -24,12 +25,14 @@ export default class Name extends Expression {
 
     getConflicts(program: Program): Conflict[] { 
 
-        const bind = this.getBind(program);
-        return bind === undefined ? [ new Conflict(this, SemanticConflict.UNDEFINED_NAME )] : [];
+        const bindOrTypeVar = this.getBind(program);
+        return bindOrTypeVar === undefined ? [ new Conflict(this, SemanticConflict.UNDEFINED_NAME )] :
+            bindOrTypeVar instanceof TypeVariable ? [ new Conflict(this, SemanticConflict.TYPE_VARIABLE_ISNT_EXPRESSION)] : 
+            [];
         
     }
 
-    getBind(program: Program): Bind | undefined {
+    getBind(program: Program): Bind | TypeVariable | undefined {
 
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
         return program.getBindingEnclosureOf(this)?.getDefinition(program, this, this.name.text);
@@ -38,9 +41,10 @@ export default class Name extends Expression {
 
     getType(program: Program): Type {
         // The type is the type of the bind.
-        const bind = this.getBind(program);
-        if(bind === undefined) return new UnknownType(this);
-        else return bind.getType(program);        
+        const bindOrTypeVar = this.getBind(program);
+        if(bindOrTypeVar === undefined) return new UnknownType(this);
+        if(bindOrTypeVar instanceof TypeVariable) return new UnknownType(this);
+        else return bindOrTypeVar.getType(program);
     }
 
 }

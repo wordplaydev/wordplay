@@ -2,7 +2,7 @@ import type Node from "./Node";
 import Bind from "./Bind";
 import Expression from "./Expression";
 import type { Token } from "./Token";
-import type TypeVariable from "./TypeVariable";
+import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
 import type Docs from "./Docs";
 import type Program from "./Program";
@@ -69,11 +69,15 @@ export default class CustomType extends Expression {
     }
 
     /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
-    getDefinition(program: Program, node: Node, name: string): Bind | undefined {
+    getDefinition(program: Program, node: Node, name: string): Bind | TypeVariable | undefined {
 
         // Does an input delare the name?
         const input = this.getBind(name);
         if(input !== undefined) return input;
+
+        // Is it a type variable?
+        const typeVar = this.typeVars.find(t => t instanceof TypeVariable && t.name.text === name) as TypeVariable | undefined;
+        if(typeVar !== undefined) return typeVar;
 
         // If not, does the function nearest function or block declare the name?
         return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);

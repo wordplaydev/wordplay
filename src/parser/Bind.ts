@@ -12,6 +12,7 @@ import UnknownType from "./UnknownType";
 import NameType from "./NameType";
 import CustomTypeType from "./CustomTypeType";
 import CustomType from "./CustomType";
+import TypeVariable from "./TypeVariable";
 
 export default class Bind extends Node {
     
@@ -78,8 +79,11 @@ export default class Bind extends Node {
         // Resolve the name 
         if(type instanceof NameType) {
             // Find the name.
-            const nameType = program.getBindingEnclosureOf(this)?.getDefinition(program, this, type.type.text)?.getType(program);
-            return nameType === undefined ? new UnknownType(this) : type;
+            const bindOrTypeVariable = program.getBindingEnclosureOf(this)?.getDefinition(program, this, type.type.text);
+            if(bindOrTypeVariable === undefined) return new UnknownType(this);
+            else if(bindOrTypeVariable instanceof Bind) return bindOrTypeVariable.getType(program);
+            else if(bindOrTypeVariable instanceof TypeVariable) return new UnknownType(this);
+            else return new UnknownType(this);
         }
         else return type;
         

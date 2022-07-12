@@ -4,6 +4,8 @@ import type Program from "./Program";
 import { SemanticConflict } from "./SemanticConflict";
 import type { Token } from "./Token";
 import Type from "./Type";
+import TypeVariable from "./TypeVariable";
+import UnknownType from "./UnknownType";
 
 export default class NameType extends Type {
 
@@ -45,8 +47,8 @@ export default class NameType extends Type {
         // The name should be defined.
         const definition = program.getBindingEnclosureOf(this)?.getDefinition(program, this, this.type.text);
         if(definition === undefined) return undefined;
-        // The name should be a custom type.
-        return definition.getType(program);
+        else if(definition instanceof TypeVariable) return new UnknownType(this);
+        else return definition.getType(program);
 
     }
     

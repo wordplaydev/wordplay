@@ -11,6 +11,7 @@ import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
 import { docsAreUnique } from "./util";
+import type TypeVariable from "./TypeVariable";
 
 export default class Block extends Expression {
 
@@ -62,7 +63,7 @@ export default class Block extends Expression {
     }
 
     /** Given the index in this block and the given name, binds the bind that declares it, if there is one. */
-    getDefinition(program: Program, node: Node, name: string): Bind | undefined {
+    getDefinition(program: Program, node: Node, name: string): Bind | TypeVariable | undefined {
 
         const containingStatement = this.statements.find(s => s.contains(node));
         if(containingStatement === undefined) return;
