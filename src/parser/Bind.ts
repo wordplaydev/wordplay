@@ -14,7 +14,6 @@ import CustomTypeType from "./CustomTypeType";
 import CustomType from "./CustomType";
 import TypeVariable from "./TypeVariable";
 import Name from "./Name";
-import Table from "./Table";
 import Column from "./Column";
 import ColumnType from "./ColumnType";
 

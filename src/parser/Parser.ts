@@ -85,8 +85,8 @@ class Tokens {
     }
 
     /** Returns the text of the next token */
-    peek(): string | undefined {
-        return this.hasNext() ? this.#unread[0].text : undefined
+    peek(): Token | undefined {
+        return this.hasNext() ? this.#unread[0] : undefined
     }
 
     /** Returns true if the token list isn't empty. */
@@ -108,8 +108,6 @@ class Tokens {
     nextAre(...types: TokenType[]) {
         return types.every((type, index) => index < this.#unread.length && this.#unread[index].is(type));
     }
-
-    nextIsBind() { return this.beforeNextLineIs(TokenType.BIND); }
 
     beforeNextLineIs(type: TokenType) {
         // To detect this, we'll just peek ahead and see if there's a bind before the next line.
@@ -179,7 +177,24 @@ class Tokens {
         const tokensBefore = indexOfLineBefore >= this.#read.length ? [] : this.#read.slice(indexOfLineBefore);
         // Find all of the tokens before the next line break, include them
         const indexOfNextAfter = this.#unread.findIndex(t => t.hasPrecedingLineBreak());
-        return new Unparsable(reason, tokensBefore, this.#unread.splice(0, indexOfNextAfter < 1 ? this.#unread.length : indexOfNextAfter));
+        const tokensAfter = this.#unread.splice(0, indexOfNextAfter < 1 ? this.#unread.length : indexOfNextAfter);
+        const unparsable = new Unparsable(reason, tokensBefore, tokensAfter);
+        // Put the parsed things in the read list.
+        while(tokensAfter.length > 0) {
+            const next = tokensAfter.shift();
+            if(next)
+                this.#read.push(next);
+        }
+        return unparsable;
+    }
+
+    /** Rollback to the given token. */
+    unreadTo(token: Token) {
+        while(this.#read.length > 0 && this.#unread[0] !== token) {
+            const unreadToken = this.#read.pop();
+            if(unreadToken !== undefined)
+                this.#unread.unshift(unreadToken);
+        }
     }
 
 }
@@ -246,7 +261,7 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
     while(tokens.nextIsnt(TokenType.END) && tokens.nextIsnt(TokenType.EVAL_CLOSE))
         statements.push(
             tokens.nextIs(TokenType.SHARE) ? parseShare(tokens) :
-            tokens.nextIsBind() ? parseBind(true, tokens) :
+            nextIsBind(tokens) ? parseBind(true, tokens) :
             parseExpression(tokens)
         );
 
@@ -257,6 +272,20 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
             tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
 
     return new Block(docs, statements, open, close);
+
+}
+
+function nextIsBind(tokens: Tokens): boolean {
+
+    const rollbackToken = tokens.peek();
+    if(rollbackToken === undefined) return false;
+    const bind = parseBind(true, tokens);
+    tokens.unreadTo(rollbackToken);
+    const expression = parseExpression(tokens);
+    tokens.unreadTo(rollbackToken);
+    const bindUnparsableCount = bind.nodes().reduce((previous, current) => previous + (current instanceof Unparsable ? 1 : 0), 0);
+    const expressionUnparsableCount = expression.nodes().reduce((previous, current) => previous + (current instanceof Unparsable ? 1 : 0), 0);
+    return bind instanceof Bind && (bind.dot !== undefined || bind.colon !== undefined) && bindUnparsableCount <= expressionUnparsableCount;
 
 }
 
@@ -582,7 +611,7 @@ function parseRow(tokens: Tokens): Row {
     // Read the cells.
     while(tokens.nextIs(TokenType.TABLE)) {
         const cell = tokens.read();
-        const value = tokens.nextIsBind() ? parseBind(true, tokens) : parseExpression(tokens);
+        const value = nextIsBind(tokens) ? parseBind(true, tokens) : parseExpression(tokens);
         cells.push(new Cell(cell, value));
         if(tokens.nextHasPrecedingLineBreak())
             break;
@@ -700,7 +729,7 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
     let close;
     
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        inputs.push(tokens.nextIsBind() ? parseBind(true, tokens) : parseExpression(tokens));
+        inputs.push(nextIsBind(tokens) ? parseBind(true, tokens) : parseExpression(tokens));
     
     if(tokens.nextIs(TokenType.EVAL_CLOSE))
         close = tokens.read();

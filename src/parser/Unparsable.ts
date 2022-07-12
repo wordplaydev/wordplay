@@ -13,8 +13,8 @@ export default class Unparsable extends Node {
         super();
 
         this.reason = reason;
-        this.lineBefore = lineBefore;
-        this.lineAfter = lineAfter;
+        this.lineBefore = lineBefore.slice();
+        this.lineAfter = lineAfter.slice();
     }
 
     getChildren() { return this.lineAfter.slice() }
