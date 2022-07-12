@@ -35,6 +35,10 @@ export default class Update extends Expression {
 
         const tableType = this.table.getType(program);
 
+        // Table must be table typed.
+        if(!(tableType instanceof TableType))
+            conflicts.push(new Conflict(this, SemanticConflict.NOT_A_TABLE));
+
         this.row.cells.forEach(cell => {
             // The columns in an update must be binds with expressions.
             if(!(cell.expression instanceof Bind && cell.expression.value !== undefined && cell.expression.names.length === 1))

@@ -6,6 +6,7 @@ import type Type from "./Type";
 import type Unparsable from "./Unparsable";
 import BooleanType from "./BooleanType";
 import { SemanticConflict } from "./SemanticConflict";
+import TableType from "./TableType";
 
 export default class Delete extends Expression {
     
@@ -27,6 +28,12 @@ export default class Delete extends Expression {
     getConflicts(program: Program): Conflict[] { 
 
         const conflicts: Conflict[] = [];
+        
+        const tableType = this.table.getType(program);
+
+        // Table must be table typed.
+        if(!(tableType instanceof TableType))
+            conflicts.push(new Conflict(this, SemanticConflict.NOT_A_TABLE));
 
         // The query must be truthy.
         if(this.query instanceof Expression && !(this.query.getType(program) instanceof BooleanType))

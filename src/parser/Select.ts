@@ -35,6 +35,12 @@ export default class Select extends Expression {
         
         const conflicts: Conflict[] = [];
 
+        const tableType = this.table.getType(program);
+
+        // Table must be table typed.
+        if(!(tableType instanceof TableType))
+            conflicts.push(new Conflict(this, SemanticConflict.NOT_A_TABLE));
+
         // The columns in a select must be names.
         this.row.cells.forEach(cell => {
             if(!(cell.expression instanceof Name))
@@ -42,7 +48,6 @@ export default class Select extends Expression {
         });
 
         // The columns named must be names in the table's type.
-        const tableType = this.table.getType(program);
         if(tableType instanceof TableType) {
             this.row.cells.forEach(cell => {
                 const cellName = cell.expression instanceof Name ? cell.expression : undefined; 
