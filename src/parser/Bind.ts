@@ -16,6 +16,7 @@ import TypeVariable from "./TypeVariable";
 import Name from "./Name";
 import Table from "./Table";
 import Column from "./Column";
+import ColumnType from "./ColumnType";
 
 export default class Bind extends Node {
     
@@ -72,7 +73,8 @@ export default class Bind extends Node {
             conflicts.push(new Conflict(this, SemanticConflict.ALREADY_BOUND));
 
         // It should be used in some expression in its parent.
-        if(enclosure && !(this.getParent(program) instanceof Column)) {
+        const parent = this.getParent(program);
+        if(enclosure && !(parent instanceof Column || parent instanceof ColumnType)) {
             const uses = enclosure.nodes().filter(n => n instanceof Name && this.names.find(name => name.name.text === n.name.text) !== undefined);
             if(uses.length === 0)
                 conflicts.push(new Conflict(this, SemanticConflict.UNUSED_BIND));

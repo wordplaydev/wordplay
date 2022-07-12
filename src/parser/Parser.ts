@@ -225,7 +225,7 @@ export function parseBorrow(tokens: Tokens): Borrow | Unparsable {
 function parseShare(tokens: Tokens): Share {
 
     const share = tokens.read();
-    const bind = parseBind(tokens);
+    const bind = parseBind(true, tokens);
     return new Share(share, bind);
 
 }
@@ -246,7 +246,7 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
     while(tokens.nextIsnt(TokenType.END) && tokens.nextIsnt(TokenType.EVAL_CLOSE))
         statements.push(
             tokens.nextIs(TokenType.SHARE) ? parseShare(tokens) :
-            tokens.nextIsBind() ? parseBind(tokens) :
+            tokens.nextIsBind() ? parseBind(true, tokens) :
             parseExpression(tokens)
         );
 
@@ -261,7 +261,7 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
 }
 
 /** BIND :: (NAME/LANGUAGE)+ TYPE? (: EXPRESSION)? */
-export function parseBind(tokens: Tokens): Bind | Unparsable {
+export function parseBind(expectExpression: boolean, tokens: Tokens): Bind | Unparsable {
 
     let docs = parseDocs(tokens);
     let names = [];
@@ -285,7 +285,7 @@ export function parseBind(tokens: Tokens): Bind | Unparsable {
         type = parseType(tokens);
     }
 
-    if(tokens.nextIs(TokenType.BIND)) {
+    if(expectExpression && tokens.nextIs(TokenType.BIND)) {
         colon = tokens.read(); 
         value = parseExpression(tokens);
     }
@@ -560,7 +560,7 @@ function parseTable(tokens: Tokens): Table {
     const columns = [];
     while(tokens.nextIs(TokenType.TABLE)) {
         const cell = tokens.read();
-        const bind = parseBind(tokens);
+        const bind = parseBind(true, tokens);
         columns.push(new Column(cell, bind));
         if(tokens.nextHasPrecedingLineBreak())
             break;
@@ -582,7 +582,7 @@ function parseRow(tokens: Tokens): Row {
     // Read the cells.
     while(tokens.nextIs(TokenType.TABLE)) {
         const cell = tokens.read();
-        const value = tokens.nextIsBind() ? parseBind(tokens) : parseExpression(tokens);
+        const value = tokens.nextIsBind() ? parseBind(true, tokens) : parseExpression(tokens);
         cells.push(new Cell(cell, value));
         if(tokens.nextHasPrecedingLineBreak())
             break;
@@ -672,7 +672,7 @@ function parseFunction(tokens: Tokens): Function | Unparsable {
 
     const inputs: (Bind|Unparsable)[] = [];
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        inputs.push(parseBind(tokens));
+        inputs.push(parseBind(true, tokens));
 
     if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
@@ -700,7 +700,7 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
     let close;
     
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        inputs.push(tokens.nextIsBind() ? parseBind(tokens) : parseExpression(tokens));
+        inputs.push(tokens.nextIsBind() ? parseBind(true, tokens) : parseExpression(tokens));
     
     if(tokens.nextIs(TokenType.EVAL_CLOSE))
         close = tokens.read();
@@ -858,13 +858,13 @@ function parseSetOrMapType(tokens: Tokens): SetOrMapType | Unparsable {
 
 }
 
-/** TABLE_TYPE :: (| TYPE)+ */
+/** TABLE_TYPE :: (| BIND)+ */
 function parseTableType(tokens: Tokens): TableType | Unparsable {
 
     const columns = [];
     while(tokens.nextIs(TokenType.TABLE)) {
         const bar = tokens.read();
-        const bind = parseBind(tokens);
+        const bind = parseBind(false, tokens);
         columns.push(new ColumnType(bind, bar))
     }
     return new TableType(columns);
@@ -907,7 +907,7 @@ function parseCustomType(tokens: Tokens): CustomType | Unparsable {
 
     const inputs: (Bind|Unparsable)[] = [];
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        inputs.push(parseBind(tokens));
+        inputs.push(parseBind(true, tokens));
 
     if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
