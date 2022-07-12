@@ -69,7 +69,7 @@ export default class CustomType extends Expression {
     }
 
     /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
-    getDefinition(program: Program, node: Node, name: string): Bind | TypeVariable | undefined {
+    getDefinition(program: Program, node: Node, name: string): Bind | TypeVariable | Expression | undefined {
 
         // Does an input delare the name?
         const input = this.getBind(name);

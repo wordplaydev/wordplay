@@ -87,7 +87,7 @@ export default class Function extends Expression {
     }
 
     /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
-    getDefinition(program: Program, node: Node, name: string): Bind | TypeVariable | undefined {
+    getDefinition(program: Program, node: Node, name: string): Bind | TypeVariable | Expression | undefined {
 
         // Does an input delare the name?
         const input = this.inputs.find(i => i instanceof Bind && i.names.find(n => n.name.text === name)) as Bind | undefined;

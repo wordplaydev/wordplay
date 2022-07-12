@@ -32,7 +32,7 @@ export default class Name extends Expression {
         
     }
 
-    getBind(program: Program): Bind | TypeVariable | undefined {
+    getBind(program: Program): Bind | TypeVariable | Expression | undefined {
 
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
         return program.getBindingEnclosureOf(this)?.getDefinition(program, this, this.name.text);

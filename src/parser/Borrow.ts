@@ -1,6 +1,7 @@
-import type Conflict from "./Conflict";
+import Conflict from "./Conflict";
 import Node from "./Node";
 import type Program from "./Program";
+import { SemanticConflict } from "./SemanticConflict";
 import type { Token } from "./Token";
 
 export default class Borrow extends Node {
@@ -19,6 +20,16 @@ export default class Borrow extends Node {
 
     getChildren() { return this.version === undefined ? [ this.borrow, this.name ] : [ this.borrow, this.name, this.version ]}
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(program: Program): Conflict[] { 
+    
+        const conflicts = [];
+
+        const type = program.getDefinition(program, this, this.name.text);
+        if(type === undefined)
+            conflicts.push(new Conflict(this, SemanticConflict.UNKNOWN_BORROW));
+
+        return conflicts; 
+    
+    }
 
 }

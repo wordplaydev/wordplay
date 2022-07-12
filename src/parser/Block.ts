@@ -63,7 +63,7 @@ export default class Block extends Expression {
     }
 
     /** Given the index in this block and the given name, binds the bind that declares it, if there is one. */
-    getDefinition(program: Program, node: Node, name: string): Bind | TypeVariable | undefined {
+    getDefinition(program: Program, node: Node, name: string): Bind | TypeVariable | Expression | undefined {
 
         const containingStatement = this.statements.find(s => s.contains(node));
         if(containingStatement === undefined) return;
