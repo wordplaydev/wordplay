@@ -4,16 +4,19 @@ import type Conflict from "./Conflict";
 import type { Token } from "./Token";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
+import type Alias from "./Alias";
 
 export default class ColumnType extends Node {
 
     readonly bar?: Token;
+    readonly names?: Alias[];
     readonly type: Type | Unparsable;
 
-    constructor(type: Type | Unparsable, bar?: Token) {
+    constructor(type: Type | Unparsable, names?: Alias[], bar?: Token) {
         super();
 
         this.bar = bar;
+        this.names = names;
         this.type = type;
     }
 

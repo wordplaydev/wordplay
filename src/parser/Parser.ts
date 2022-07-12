@@ -858,14 +858,14 @@ function parseSetOrMapType(tokens: Tokens): SetOrMapType | Unparsable {
 
 }
 
-/** SET_TYPE :: (| TYPE)+ */
+/** TABLE_TYPE :: (| TYPE)+ */
 function parseTableType(tokens: Tokens): TableType | Unparsable {
 
     const columns = [];
     while(tokens.nextIs(TokenType.TABLE)) {
         const bar = tokens.read();
         const type = parseType(tokens);
-        columns.push(new ColumnType(type, bar))
+        columns.push(new ColumnType(type, undefined, bar))
     }
     return new TableType(columns);
 
