@@ -24,7 +24,7 @@ const patterns = [
     { pattern: "∆", types: [ TokenType.STREAM ] },
     { pattern: "…", types: [ TokenType.TBD ] },
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
-    { pattern: /^-?[0-9]+([.,][0-9]+)?/, types: [ TokenType.NUMBER ] },
+    { pattern: /^[0-9]+([.,][0-9]+)?/, types: [ TokenType.NUMBER ] },
     { pattern: /^[π∞]/, types: [ TokenType.NUMBER ] },
     { pattern: /^[+×*·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
     { pattern: "∧", types: [ TokenType.BINARY_OP ] },

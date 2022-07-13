@@ -13,11 +13,11 @@ test("Tokenize names and whitespace", () => {
 test("Tokenize numbers", () => {
 
     expect(tokenize("1").map(t => t.toWordplay()).join("\n")).toBe("1\n");
-    expect(tokenize("-1").map(t => t.toWordplay()).join("\n")).toBe("-1\n");
+    expect(tokenize("-1").map(t => t.toWordplay()).join("\n")).toBe("-\n1\n");
     expect(tokenize("1.0").map(t => t.toWordplay()).join("\n")).toBe("1.0\n");
-    expect(tokenize("-1.0").map(t => t.toWordplay()).join("\n")).toBe("-1.0\n");
+    expect(tokenize("-1.0").map(t => t.toWordplay()).join("\n")).toBe("-\n1.0\n");
     expect(tokenize("1,0").map(t => t.toWordplay()).join("\n")).toBe("1,0\n");
-    expect(tokenize("-1,0").map(t => t.toWordplay()).join("\n")).toBe("-1,0\n");
+    expect(tokenize("-1,0").map(t => t.toWordplay()).join("\n")).toBe("-\n1,0\n");
     expect(tokenize("0∞π").map(t => t.toWordplay()).join("\n")).toBe("0\n∞\nπ\n");
 
 })
