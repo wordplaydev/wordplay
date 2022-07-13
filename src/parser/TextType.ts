@@ -1,4 +1,5 @@
 import type Conflict from "./Conflict";
+import type Conversion from "./Conversion";
 import type Program from "./Program";
 import type { Token } from "./Token";
 import Type from "./Type";
@@ -28,6 +29,12 @@ export default class TextType extends Type {
         return  type instanceof TextType && 
                 ((this.format === undefined && type.format === undefined) || 
                  (this.format !== undefined && type.format !== undefined && this.format.text === type.format.text)); 
+    }
+
+    getConversion(program: Program, type: Type): Conversion | undefined {
+        // TODO Define conversions from booleans to other types
+        // TODO Look for custom conversions that extend the Boolean type
+        return undefined;
     }
 
 }

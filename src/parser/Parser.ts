@@ -752,12 +752,13 @@ function parseConversion(tokens: Tokens): Conversion {
 
 }
 
-/** CONVERT :: EXPRESSION CONVERT TYPE */
+/** CONVERT :: EXPRESSION → TYPE */
 function parseConvert(expression: Expression, tokens: Tokens): Convert {
 
+    const convert = tokens.read();
     const type = parseType(tokens);
         
-    return new Convert(expression, type);
+    return new Convert(expression, convert, type);
 
 }
 

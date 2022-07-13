@@ -1,11 +1,10 @@
 import type Conflict from "./Conflict";
-import Node from "./Node";
 import type Program from "./Program";
 import type { Token } from "./Token";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
 
-export default class StreamType extends Node {
+export default class StreamType extends Type {
 
     readonly dots: Token;
     readonly type: Type | Unparsable;

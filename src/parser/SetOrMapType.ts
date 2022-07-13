@@ -1,4 +1,5 @@
 import type Conflict from "./Conflict";
+import type Conversion from "./Conversion";
 import type Program from "./Program";
 import type { Token } from "./Token";
 import Type from "./Type";
@@ -45,6 +46,12 @@ export default class SetOrMapType extends Type {
                     (this.value === undefined && type.value === undefined) ||
                     (this.value !== undefined && type.value !== undefined && this.value instanceof Type && type.value instanceof Type && this.value.isCompatible(program, type.value))
                 ); 
+    }
+
+    getConversion(program: Program, type: Type): Conversion | undefined {
+        // TODO Define conversions from booleans to other types
+        // TODO Look for custom conversions that extend the Boolean type
+        return undefined;
     }
 
 }

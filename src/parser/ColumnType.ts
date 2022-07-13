@@ -4,9 +4,9 @@ import type Conflict from "./Conflict";
 import type { Token } from "./Token";
 import type Unparsable from "./Unparsable";
 import Bind from "./Bind";
-import type Type from "./Type";
+import Type from "./Type";
 
-export default class ColumnType extends Node {
+export default class ColumnType extends Type {
 
     readonly bar?: Token;
     readonly bind: Bind | Unparsable;

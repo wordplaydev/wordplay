@@ -22,4 +22,6 @@ export default class UnknownType extends Type {
 
     isCompatible(program: Program, type: Type) { return false; }
 
+    getConversion(program: Program, type: Type) { return undefined; }
+
 }

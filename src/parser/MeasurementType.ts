@@ -1,4 +1,5 @@
 import type Conflict from "./Conflict";
+import type Conversion from "./Conversion";
 import type Program from "./Program";
 import type { Token } from "./Token";
 import Type from "./Type";
@@ -30,6 +31,12 @@ export default class MeasurementType extends Type {
                 (this.unit === undefined && type.unit === undefined) ||
                 (this.unit !== undefined && type.unit !== undefined && this.unit.text === type.unit.text)
             );
+    }
+
+    getConversion(program: Program, type: Type): Conversion | undefined {
+        // TODO Define conversions from booleans to other types
+        // TODO Look for custom conversions that extend the Boolean type
+        return undefined;
     }
 
 }

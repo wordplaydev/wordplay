@@ -1,4 +1,5 @@
 import type Conflict from "./Conflict";
+import type Conversion from "./Conversion";
 import type Program from "./Program";
 import type { Token } from "./Token";
 import Type from "./Type";
@@ -31,4 +32,11 @@ export default class ListType extends Type {
     isCompatible(program: Program, type: Type): boolean {
         return type instanceof ListType && this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(program, type.type);
     }
+
+    getConversion(program: Program, type: Type): Conversion | undefined {
+        // TODO Define conversions from booleans to other types
+        // TODO Look for custom conversions that extend the Boolean type
+        return undefined;
+    }
+
 }

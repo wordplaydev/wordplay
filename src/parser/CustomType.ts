@@ -8,10 +8,11 @@ import type Docs from "./Docs";
 import type Program from "./Program";
 import Conflict from "./Conflict";
 import { SemanticConflict } from "./SemanticConflict";
-import type Type from "./Type";
-import type Block from "./Block";
+import Type from "./Type";
+import Block from "./Block";
 import Function from "./Function";
 import { docsAreUnique, inputsAreUnique, typeVarsAreUnique } from "./util";
+import Conversion from "./Conversion";
 
 export default class CustomType extends Expression {
 
@@ -86,6 +87,15 @@ export default class CustomType extends Expression {
         // If not, does the function nearest function or block declare the name?
         return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
 
+    }
+
+    getConversion(program: Program, type: Type): Conversion | undefined {
+
+        // Find the conversion in this type's block that produces a compatible type. 
+        return this.block instanceof Block ? 
+            this.block.statements.find(s => s instanceof Conversion && s.output instanceof Type && s.output.isCompatible(program, type)) as Conversion | undefined :
+            undefined;
+        
     }
 
     getBind(name: string): Bind | undefined {

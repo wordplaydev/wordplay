@@ -2,10 +2,10 @@ import Node from "./Node";
 import type ColumnType from "./ColumnType";
 import type Program from "./Program";
 import type Conflict from "./Conflict";
-import type Type from "./Type";
+import Type from "./Type";
 import Bind from "./Bind";
 
-export default class TableType extends Node {
+export default class TableType extends Type {
     
     readonly columns: ColumnType[];
 
