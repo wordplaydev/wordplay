@@ -46,6 +46,7 @@ export default class BinaryOperation extends Expression {
             case "·":
             case "÷":
             case "%":
+            case "^":
                 // Both operands must be measurement types.
                 if(!(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperatorType(this.left, this.operator, new MeasurementType()));
                 if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperatorType(this.right, this.operator, new MeasurementType()));
@@ -65,8 +66,6 @@ export default class BinaryOperation extends Expression {
                 if(rightType !== undefined && !leftType.isCompatible(program, rightType))
                     conflicts.push(new IncompatibleUnits(this));
                 break;
-            case "^":
-        
             case "∧":
             case "∨":
                 if(!(leftType instanceof BooleanType)) conflicts.push(new IncompatibleOperatorType(this.left, this.operator, new BooleanType()));
@@ -138,10 +137,8 @@ export default class BinaryOperation extends Expression {
                 // If left has a unit and the right does not, duplicate the units the number of times of the power
                 else if(leftType.unit !== undefined && rightType.unit === undefined) {
                     // If the exponent is computed, we can't know the resulting type.
-                    if(!(this.right instanceof Measurement)) return new UnknownType(this);
+                    if(!(this.right instanceof Measurement) || !this.right.isInteger()) return new UnknownType(this);
                     const exponent = parseInt(this.right.number.text);
-                    // If it's not an integer, unknown type.
-                    if(isNaN(exponent)) return new UnknownType(this);
                     // If the exponent is an integer, then we can compute it.
                     let newNumerator = leftType.unit.numerator;
                     let newDenominator = leftType.unit.denominator;

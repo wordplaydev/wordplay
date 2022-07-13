@@ -18,6 +18,8 @@ export default class Measurement extends Expression {
         this.unit = unit;
     }
 
+    isInteger() { return !isNaN(parseInt(this.number.text)); }
+
     getChildren() { return this.unit === undefined ? [ this.number ] : [ this.number, this.unit ]; }
 
     getConflicts(program: Program): Conflict[] { return []; }
