@@ -10,7 +10,7 @@ import type Program from "./Program";
 import Conflict, { DuplicateLanguages, DuplicateNames, DuplicateTypeVariables, RequiredAfterOptional } from "./Conflict";
 import FunctionType from "./FunctionType";
 import UnknownType from "./UnknownType";
-import { docsAreUnique, inputsAreUnique, typeVarsAreUnique } from "./util";
+import { docsAreUnique, inputsAreUnique, requiredBindAfterOptional, typeVarsAreUnique } from "./util";
 
 export default class Function extends Expression {
 
@@ -72,16 +72,8 @@ export default class Function extends Expression {
 
         // Required inputs can never follow an optional one.
         const binds = this.inputs.filter(i => i instanceof Bind) as Bind[];
-        if(this.inputs.length === binds.length && binds.length > 0) {
-            let foundOptional = false;
-            let requiredAfterOptional = false;
-            binds.forEach(bind => {
-                if(bind.value !== undefined) foundOptional = true;
-                else if(bind.value === undefined && foundOptional) requiredAfterOptional = true;
-            })
-            if(requiredAfterOptional)
-                conflicts.push(new RequiredAfterOptional(this));
-        }
+        if(this.inputs.length === binds.length && requiredBindAfterOptional(binds) !== undefined)
+            conflicts.push(new RequiredAfterOptional(this));
 
         return conflicts; 
     

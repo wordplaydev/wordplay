@@ -6,11 +6,11 @@ import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
 import type Docs from "./Docs";
 import type Program from "./Program";
-import Conflict, { DuplicateLanguages, DuplicateNames, DuplicateTypeVariables } from "./Conflict";
+import Conflict, { DuplicateLanguages, DuplicateNames, DuplicateTypeVariables, RequiredAfterOptional } from "./Conflict";
 import Type from "./Type";
 import Block from "./Block";
 import Function from "./Function";
-import { docsAreUnique, inputsAreUnique, typeVarsAreUnique } from "./util";
+import { docsAreUnique, inputsAreUnique, requiredBindAfterOptional, typeVarsAreUnique } from "./util";
 import Conversion from "./Conversion";
 
 export default class CustomType extends Expression {
@@ -68,6 +68,12 @@ export default class CustomType extends Expression {
         // Type variables must have unique names
         if(!typeVarsAreUnique(this.typeVars))
             conflicts.push(new DuplicateTypeVariables(this));
+
+        // No required binds after optionals.
+        const binds = this.inputs.filter(i => i instanceof Bind) as Bind[];
+        if(this.inputs.length === binds.length && requiredBindAfterOptional(binds) !== undefined)
+            conflicts.push(new RequiredAfterOptional(this));
+    
 
         return conflicts; 
     

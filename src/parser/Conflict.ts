@@ -117,8 +117,8 @@ export class DuplicateTypeVariables extends Conflict {
 }
 
 export class RequiredAfterOptional extends Conflict {
-    readonly func: Function;
-    constructor(func: Function) {
+    readonly func: Function | CustomType;
+    constructor(func: Function | CustomType) {
         super(false);
         this.func = func;
     }
