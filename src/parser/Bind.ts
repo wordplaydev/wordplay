@@ -60,8 +60,11 @@ export default class Bind extends Node {
             conflicts.push(new DuplicateAliases(this))
 
         // If there's a type, the value must match.
-        if(this.type instanceof Type && this.value && this.value instanceof Expression && !this.type.isCompatible(program, this.value.getType(program)))
-            conflicts.push(new IncompatibleBind(this.type, this.value));
+        if(this.type instanceof Type && this.value && this.value instanceof Expression) {
+            const valueType = this.value.getType(program);
+            if(!this.type.isCompatible(program, valueType))
+                conflicts.push(new IncompatibleBind(this.type, this.value));
+        }
 
         const enclosure = program.getBindingEnclosureOf(this);
 

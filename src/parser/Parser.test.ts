@@ -161,9 +161,17 @@ test("Parse expressions", () => {
     expect(number).toBeInstanceOf(Measurement);
     expect((number as Measurement).unit).toBe(undefined);
 
-    const unit = parseExpression(tokens("1s"));
-    expect(unit).toBeInstanceOf(Measurement);
-    expect((unit as Measurement).unit?.toWordplay()).toBe("s");
+    const sec = parseExpression(tokens("1s"));
+    expect(sec).toBeInstanceOf(Measurement);
+    expect((sec as Measurement).unit?.toWordplay()).toBe("s");
+
+    const speed = parseExpression(tokens("1m/s"));
+    expect(speed).toBeInstanceOf(Measurement);
+    expect((speed as Measurement).unit?.toWordplay()).toBe("m/s");
+
+    const badSpeed = parseExpression(tokens("1 m/s"));
+    expect(badSpeed).toBeInstanceOf(Measurement);
+    expect((badSpeed as Measurement).unit).toBe(undefined);
 
     const text = parseExpression(tokens("«hola»"));
     expect(text).toBeInstanceOf(Text);

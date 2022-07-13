@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        // To use this debug configuration, first run this on the command line: node --inspect-brk node_modules/.bin/jest --runInBand
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach",
+            "port": 9229
+          }
+    ]
+}

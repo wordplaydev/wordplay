@@ -1,5 +1,6 @@
 import type AccessName from "./AccessName";
 import type Alias from "./Alias";
+import type BinaryOperation from "./BinaryOperation";
 import type Bind from "./Bind";
 import type Block from "./Block";
 import type Borrow from "./Borrow";
@@ -89,6 +90,14 @@ export class IncompatibleOperatorType extends Conflict {
         this.expr = expr;
         this.operator = op;
         this.expectedType = expectedType;
+    }
+}
+
+export class IncompatibleUnits extends Conflict {
+    readonly binary: BinaryOperation;
+    constructor(binary: BinaryOperation) {
+        super(false);
+        this.binary = binary;
     }
 }
 

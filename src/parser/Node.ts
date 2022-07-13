@@ -30,7 +30,7 @@ export default abstract class Node {
         return `${tabs}${this.constructor.name}\n${this.getChildren().map(n => n.toString(depth + 1)).join("\n")}`;
     }
 
-    toWordplay() { this.getChildren().map(t => t.toWordplay()).join(""); }
+    toWordplay(): string { return this.getChildren().map(t => t.toWordplay()).join(""); }
 
     /** A depth first traversal of this node and its descendants. */
     traverse(ancestors: Node[], inspector: (ancestors: Node[], node: Node) => void) {

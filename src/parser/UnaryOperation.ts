@@ -5,8 +5,9 @@ import MeasurementType from "./MeasurementType";
 import type Program from "./Program";
 import type Token from "./Token";
 import type Type from "./Type";
+import Unit from "./Unit";
 import UnknownType from "./UnknownType";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 
 export default class UnaryOperation extends Expression {
 
@@ -37,15 +38,34 @@ export default class UnaryOperation extends Expression {
         else if(this.value instanceof Expression && this.operator.text === "¬" && !(type instanceof BooleanType))
             conflicts.push(new IncompatibleOperatorType(this.value, this.operator, new BooleanType()));
 
-        return conflicts; 
+        return conflicts;
     
     }
 
     getType(program: Program): Type {
-        // The type depends on the operator and the value type.
-        return  this.operator.text === "¬" ? new BooleanType() :
-                this.operator.text === "√" && this.value instanceof Expression ? this.value.getType(program) : 
-                new UnknownType(this);
+        if(this.operator.text === "¬") return new BooleanType();
+        else if(this.operator.text === "√" && this.value instanceof Expression) {
+            const type = this.value.getType(program);
+            if(!(type instanceof MeasurementType)) return new UnknownType(this);
+            if(type.unit ===  undefined || type.unit instanceof Unparsable) return type;
+            const newNumerator = type.unit.numerator.slice();
+            const newDenominator = type.unit.denominator.slice();
+            // If it has a unit, remove one of each unique unit on the numerator, and if it's the last one, move it to the denominator.
+            // For example:
+            //   m·m·m => m·m
+            //   m => 1/m
+            //   1/m => 1/m·m
+            const numeratorUnits = [ ... new Set(type.unit.numerator) ];
+            const denominatorUnits = [ ... new Set(type.unit.denominator) ];
+            // Remove one of each numerator unit from the numerator.
+            numeratorUnits.forEach(u => newNumerator.splice(newNumerator.indexOf(u), 1));
+            // Add an extra of each denominator unit to the denominator.
+            denominatorUnits.forEach(u => newDenominator.push(u));
+            // For each numerator unit no longer in the numerator, add one unit to the denominator.
+            numeratorUnits.forEach(u => { if(newNumerator.indexOf(u) < 0) newDenominator.push(u); });
+            return new MeasurementType(undefined, new Unit(newNumerator, newDenominator));
+        }
+        else return new UnknownType(this);
     }
     
 

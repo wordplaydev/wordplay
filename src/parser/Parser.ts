@@ -55,6 +55,7 @@ import Name from "./Name";
 import Bool from "./Bool";
 import Convert from "./Convert";
 import SetOrMap from "./SetOrMap";
+import Unit from "./Unit";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -70,6 +71,7 @@ export enum SyntacticConflict {
     EXPECTED_TEXT_OPEN,
     EXPECTED_TEXT_CLOSE,
     EXPECTED_EXPRESSION,
+    EXPECTED_UNIT_NAME,
     EXPECTED_TYPE
 }
 
@@ -87,6 +89,11 @@ class Tokens {
     /** Returns the text of the next token */
     peek(): Token | undefined {
         return this.hasNext() ? this.#unread[0] : undefined
+    }
+    
+    /** Returns the text of the next token */
+    peekText(): string | undefined {
+        return this.hasNext() ? this.#unread[0].text : undefined
     }
 
     /** Returns true if the token list isn't empty. */
@@ -441,14 +448,41 @@ function parseNone(tokens: Tokens): None | Unparsable {
 }
 
 /** NUMBER :: number name? */
-function parseMeasurement(tokens: Tokens): Measurement {
+function parseMeasurement(tokens: Tokens): Measurement | Unparsable {
 
     const number = tokens.read();
-    let unit;
-    if(tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace()) {
-        unit = tokens.read();
-    }
+    const unit = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
     return new Measurement(number, unit);
+
+}
+
+/** UNIT :: name (· NAME)* (/ name (· NAME)*)? */
+function parseUnit(tokens: Tokens): Unit | Unparsable {
+    
+    const numeratorTokens = [ tokens.read() ];
+    // Keep reading · unit pairs until we run out or hit a /
+    while(tokens.nextIs(TokenType.BINARY_OP) && tokens.peekText() === "·") {
+        numeratorTokens.push(tokens.read());
+        if(!tokens.nextIs(TokenType.NAME))
+            return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_UNIT_NAME);
+        numeratorTokens.push(tokens.read());
+    }
+    const denominatorTokens = [];
+    // Is a ratio next? Read it then
+    if(tokens.nextIs(TokenType.LANGUAGE)) {
+        denominatorTokens.push(tokens.read());
+        if(!tokens.nextIs(TokenType.NAME))
+            return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_UNIT_NAME);
+        denominatorTokens.push(tokens.read());
+        while(tokens.nextIs(TokenType.BINARY_OP) && tokens.peekText() === "·") {
+            denominatorTokens.push(tokens.read());
+            if(!tokens.nextIs(TokenType.NAME))
+                return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_UNIT_NAME);
+            denominatorTokens.push(tokens.read());
+        }
+    }
+
+    return new Unit(numeratorTokens, denominatorTokens);
 
 }
 
@@ -839,7 +873,7 @@ function parseTextType(tokens: Tokens): TextType {
 function parseMeasurementType(tokens: Tokens): MeasurementType {
 
     const number = tokens.read();
-    const unit = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? tokens.read() : undefined;
+    const unit = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
     return new MeasurementType(number, unit);
 
 }
