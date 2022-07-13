@@ -101,6 +101,14 @@ export class IncompatibleUnits extends Conflict {
     }
 }
 
+export class LeftToRightOrderOfOperations extends Conflict {
+    readonly binary: BinaryOperation;
+    constructor(binary: BinaryOperation) {
+        super(true);
+        this.binary = binary;
+    }
+}
+
 export class DuplicateAliases extends Conflict {
     readonly bind: Bind;
     constructor(bind: Bind) {

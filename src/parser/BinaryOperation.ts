@@ -1,10 +1,10 @@
 import BooleanType from "./BooleanType";
-import Conflict, { IncompatibleOperatorType, IncompatibleUnits, UnknownName } from "./Conflict";
+import Conflict, { IncompatibleOperatorType, IncompatibleUnits, LeftToRightOrderOfOperations, UnknownName } from "./Conflict";
 import Expression from "./Expression";
 import Measurement from "./Measurement";
 import MeasurementType from "./MeasurementType";
 import type Program from "./Program";
-import Token from "./Token";
+import Token, { TokenType } from "./Token";
 import type Type from "./Type";
 import Unit from "./Unit";
 import UnknownType from "./UnknownType";
@@ -34,6 +34,10 @@ export default class BinaryOperation extends Expression {
 
         const leftType = this.left.getType(program);
         const rightType = this.right instanceof Expression ? this.right.getType(program) : undefined;
+
+        const operators = new Set(this.nodes().filter(n => n instanceof Token && n.is(TokenType.BINARY_OP)).map(n => (n as Token).text));
+        if(operators.size > 1)
+            conflicts.push(new LeftToRightOrderOfOperations(this));
 
         // Left and right must be compatible measurements.
         switch(this.operator.text) {
