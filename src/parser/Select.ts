@@ -1,12 +1,11 @@
-import type { Token } from "./Token";
+import type Token from "./Token";
 import Expression from "./Expression";
 import type Row from "./Row";
 import type Program from "./Program";
-import Conflict from "./Conflict";
+import Conflict, { ExpectedSelectName, NonBooleanQuery, NotATable, UnknownColumn } from "./Conflict";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
-import { SemanticConflict } from "./SemanticConflict";
 import Name from "./Name";
 import TableType from "./TableType";
 import type ColumnType from "./ColumnType";
@@ -44,12 +43,12 @@ export default class Select extends Expression {
 
         // Table must be table typed.
         if(!(tableType instanceof TableType))
-            conflicts.push(new Conflict(this, SemanticConflict.NOT_A_TABLE));
+            conflicts.push(new NotATable(this));
 
         // The columns in a select must be names.
         this.row.cells.forEach(cell => {
             if(!(cell.expression instanceof Name))
-                conflicts.push(new Conflict(cell, SemanticConflict.SELECT_COLUMNS_MUST_BE_NAMES))
+                conflicts.push(new ExpectedSelectName(cell))
         });
 
         // The columns named must be names in the table's type.
@@ -57,13 +56,13 @@ export default class Select extends Expression {
             this.row.cells.forEach(cell => {
                 const cellName = cell.expression instanceof Name ? cell.expression : undefined; 
                 if(!(cellName !== undefined && tableType.getColumnNamed(cellName.name.text) !== undefined))
-                    conflicts.push(new Conflict(cell, SemanticConflict.UNKNOWN_TABLE_COLUMN))
+                    conflicts.push(new UnknownColumn(tableType, cell));
             });
         }
 
         // The query must be truthy.
         if(this.query instanceof Expression && !(this.query.getType(program) instanceof BooleanType))
-            conflicts.push(new Conflict(this, SemanticConflict.TABLE_QUERY_MUST_BE_TRUTHY))
+            conflicts.push(new NonBooleanQuery(this))
     
         return conflicts;
     

@@ -1,12 +1,11 @@
 import type Node from "./Node";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import Expression from "./Expression";
 import type Row from "./Row";
 import type Program from "./Program";
-import Conflict from "./Conflict";
+import Conflict, { ExpectedInsertExpression, IncompatibleCellType, MissingColumns, NotATable } from "./Conflict";
 import Type from "./Type";
 import TableType from "./TableType";
-import { SemanticConflict } from "./SemanticConflict";
 import type TypeVariable from "./TypeVariable";
 import Bind from "./Bind";
 
@@ -37,20 +36,20 @@ export default class Insert extends Expression {
 
         // Table must be table typed.
         if(!(tableType instanceof TableType))
-            conflicts.push(new Conflict(this, SemanticConflict.NOT_A_TABLE));
+            conflicts.push(new NotATable(this));
         // The row must have all of the table type's columns.
         else if(tableType.columns.length !== this.row.cells.length)
-            conflicts.push(new Conflict(this, SemanticConflict.INSERT_REQUIRES_ALL_COLUMNS));
+            conflicts.push(new MissingColumns(this));
         // The row types must match the column types
         else {
             this.row.cells.forEach((cell, index) => {
                 const expr = cell.expression;
-                if(!(expr instanceof Expression))
-                    conflicts.push(new Conflict(this, SemanticConflict.INSERT_COLUMNS_MUST_BE_EXPRESSIONS));
-                else if(index < tableType.columns.length) {
+                if(expr instanceof Bind)
+                    conflicts.push(new ExpectedInsertExpression(expr));
+                else if(expr instanceof Expression && index < tableType.columns.length) {
                     const columnType = tableType.columns[index].bind;
                     if(columnType instanceof Type && !expr.getType(program).isCompatible(program, columnType))
-                        conflicts.push(new Conflict(cell, SemanticConflict.CELL_TYPE_MISMATCH));
+                        conflicts.push(new IncompatibleCellType(tableType, cell));
                 }
             });
         }

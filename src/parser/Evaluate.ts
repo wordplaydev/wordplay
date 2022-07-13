@@ -1,12 +1,11 @@
 import Bind from "./Bind";
-import Conflict from "./Conflict";
+import Conflict, { IncompatibleInputs, NotAFunction, NotInstantiable } from "./Conflict";
 import CustomType from "./CustomType";
 import CustomTypeType from "./CustomTypeType";
 import Expression from "./Expression";
 import FunctionType from "./FunctionType";
 import type Program from "./Program";
-import { SemanticConflict } from "./SemanticConflict";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import Type from "./Type";
 import type TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
@@ -43,7 +42,7 @@ export default class Evaluate extends Expression {
 
             // The function must be a function.
             if(!(functionType instanceof FunctionType || functionType instanceof CustomTypeType))
-                conflicts.push(new Conflict(this, SemanticConflict.NOT_A_FUNCTION_OR_TYPE))
+                conflicts.push(new NotAFunction(this));
             else { 
                 let targetInputs: Type[] | undefined = undefined;
                 if(functionType instanceof FunctionType) {
@@ -55,7 +54,7 @@ export default class Evaluate extends Expression {
                 else if(functionType instanceof CustomTypeType) {
                     // Can't create interfaces that don't have missing function definitions.
                     if(functionType.type.isInterface())
-                        conflicts.push(new Conflict(this, SemanticConflict.CANT_CREATE_INTERFACES))
+                        conflicts.push(new NotInstantiable(this));
 
                     // Inputs of function or type must match this evaluations inputs.
                     const types = functionType.type.inputs.filter(t => t instanceof Bind).map(b => (b as Bind).getType(program));
@@ -68,7 +67,7 @@ export default class Evaluate extends Expression {
                     // Check the type of every input provided. Ignore the optional inputs, since they have defaults.
                     if(!this.inputs.every((expression, index) =>
                         targetInputs !== undefined && (expression as Expression).getType(program).isCompatible(program, targetInputs[index])))
-                        conflicts.push(new Conflict(this, SemanticConflict.INPUT_TYPES_MISMATCH))
+                        conflicts.push(new IncompatibleInputs(functionType, this));
                 }
             }
         }

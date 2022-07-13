@@ -1,7 +1,6 @@
-import type Node from "./Node";
 import type Conflict from "./Conflict";
 import type Program from "./Program";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import Type from "./Type";
 import type Conversion from "./Conversion";
 

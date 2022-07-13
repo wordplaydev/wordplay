@@ -1,10 +1,9 @@
 import type Node from "./Node";
 import Expression from "./Expression";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Docs from "./Docs";
 import type Program from "./Program";
-import Conflict from "./Conflict";
-import { SemanticConflict } from "./SemanticConflict";
+import Conflict, { DuplicateLanguages, MisplacedConversion } from "./Conflict";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import { docsAreUnique } from "./util";
@@ -44,12 +43,12 @@ export default class Conversion extends Expression {
     
         // Docs must be unique.
         if(!docsAreUnique(this.docs))
-            conflicts.push(new Conflict(this, SemanticConflict.DOC_LANGUAGES_ARENT_UNIQUE))
+            conflicts.push(new DuplicateLanguages(this.docs))
 
         // Can only appear in custom types.
         const enclosure = program.getBindingEnclosureOf(this);
         if(!(enclosure instanceof Block) ||  !(program.getBindingEnclosureOf(enclosure) instanceof CustomType))
-            conflicts.push(new Conflict(this, SemanticConflict.CONVERSIONS_ONLY_IN_TYPES))
+            conflicts.push(new MisplacedConversion(this));
     
         return conflicts; 
     

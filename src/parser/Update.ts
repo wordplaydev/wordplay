@@ -1,13 +1,12 @@
 import type Node from "./Node";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import Expression from "./Expression";
 import type Row from "./Row";
 import type Program from "./Program";
-import Conflict from "./Conflict";
+import Conflict, { ExpectedUpdateBind, IncompatibleCellType, NonBooleanQuery, NotATable, UnknownColumn } from "./Conflict";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
 import Bind from "./Bind";
-import { SemanticConflict } from "./SemanticConflict";
 import TableType from "./TableType";
 import BooleanType from "./BooleanType";
 import type TypeVariable from "./TypeVariable";
@@ -41,28 +40,28 @@ export default class Update extends Expression {
 
         // Table must be table typed.
         if(!(tableType instanceof TableType))
-            conflicts.push(new Conflict(this, SemanticConflict.NOT_A_TABLE));
+            conflicts.push(new NotATable(this));
 
         this.row.cells.forEach(cell => {
             // The columns in an update must be binds with expressions.
             if(!(cell.expression instanceof Bind && cell.expression.value !== undefined && cell.expression.names.length === 1))
-                conflicts.push(new Conflict(cell, SemanticConflict.EXPECTED_UPDATE_SINGLE_NAME_VALUED_BIND))
+                conflicts.push(new ExpectedUpdateBind(cell))
             else if(tableType instanceof TableType) {
                 const columnType = tableType.getColumnNamed(cell.expression.names[0].name.text);
                 // The named table column must exist.
                 if(columnType === undefined)
-                    conflicts.push(new Conflict(cell, SemanticConflict.UNKNOWN_TABLE_COLUMN));
+                    conflicts.push(new UnknownColumn(tableType, cell));
                 // The types of the bound values must match the column types.
                 else if(columnType.bind instanceof Type) {
                     if(!columnType.bind.isCompatible(program, cell.expression.getType(program)))
-                        conflicts.push(new Conflict(cell, SemanticConflict.TABLE_UPDATE_TYPE_MISMATCH));
+                        conflicts.push(new IncompatibleCellType(tableType, cell));
                 }
             }
         });
 
         // The query must be truthy.
         if(this.query instanceof Expression && !(this.query.getType(program) instanceof BooleanType))
-            conflicts.push(new Conflict(this, SemanticConflict.TABLE_QUERY_MUST_BE_TRUTHY))
+            conflicts.push(new NonBooleanQuery(this))
 
         return conflicts; 
     

@@ -1,10 +1,9 @@
 import BooleanType from "./BooleanType";
-import Conflict from "./Conflict";
+import Conflict, { IncompatibleOperatorType } from "./Conflict";
 import Expression from "./Expression";
 import MeasurementType from "./MeasurementType";
 import type Program from "./Program";
-import { SemanticConflict } from "./SemanticConflict";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
@@ -29,10 +28,10 @@ export default class BinaryOperation extends Expression {
 
     getConflicts(program: Program): Conflict[] { 
 
+        const conflicts = [];
+
         const leftType = this.left.getType(program);
         const rightType = this.right instanceof Expression ? this.right.getType(program) : undefined;
-
-        if(rightType === undefined) return [];
 
         // Left and right must be numbers
         switch(this.operator.text) {
@@ -50,18 +49,18 @@ export default class BinaryOperation extends Expression {
             case "≥":
             case "=":
             case "≠":
-                if(!(leftType instanceof MeasurementType) || !(rightType instanceof MeasurementType))
-                    return [ new Conflict(this, SemanticConflict.ARITHMETIC_REQUIRES_NUMBERS)]
-                // Need to verify units
+                if(!(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperatorType(this.left, this.operator, new MeasurementType()));
+                if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperatorType(this.right, this.operator, new MeasurementType()));
+                // TODO Need to verify units
                 break;
             case "∧":
             case "∨":
-                if(!(leftType instanceof BooleanType) || !(rightType instanceof BooleanType))
-                    return [ new Conflict(this, SemanticConflict.LOGIC_REQUIRES_BOOLEANS)]
+                if(!(leftType instanceof BooleanType)) conflicts.push(new IncompatibleOperatorType(this.left, this.operator, new BooleanType()));
+                if(this.right instanceof Expression && !(rightType instanceof BooleanType)) conflicts.push(new IncompatibleOperatorType(this.right, this.operator, new BooleanType()));
                 break;
         }
 
-        return [];
+        return conflicts;
     
     }
 

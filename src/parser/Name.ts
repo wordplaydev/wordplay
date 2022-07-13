@@ -1,13 +1,8 @@
 import type Bind from "./Bind";
-import Block from "./Block";
-import Conflict from "./Conflict";
-import CustomType from "./CustomType";
+import Conflict, { UnexpectedTypeVariable, UnknownName } from "./Conflict";
 import Expression from "./Expression";
-import Function from "./Function";
 import type Program from "./Program";
-import { SemanticConflict } from "./SemanticConflict";
-import type Share from "./Share";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
@@ -26,8 +21,8 @@ export default class Name extends Expression {
     getConflicts(program: Program): Conflict[] { 
 
         const bindOrTypeVar = this.getBind(program);
-        return bindOrTypeVar === undefined ? [ new Conflict(this, SemanticConflict.UNDEFINED_NAME )] :
-            bindOrTypeVar instanceof TypeVariable ? [ new Conflict(this, SemanticConflict.TYPE_VARIABLE_ISNT_EXPRESSION)] : 
+        return bindOrTypeVar === undefined ? [ new UnknownName(this )] :
+            bindOrTypeVar instanceof TypeVariable ? [ new UnexpectedTypeVariable(this)] : 
             [];
         
     }

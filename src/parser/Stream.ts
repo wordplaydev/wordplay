@@ -1,9 +1,8 @@
-import Conflict from "./Conflict";
+import Conflict, { IncompatibleStreamValues, NotAStream } from "./Conflict";
 import Expression from "./Expression";
 import type Program from "./Program";
-import { SemanticConflict } from "./SemanticConflict";
 import StreamType from "./StreamType";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Type from "./Type";
 import type Unparsable from "./Unparsable";
 
@@ -34,12 +33,11 @@ export default class Stream extends Expression {
 
         // Streams have to be stream types!
         if(this.stream instanceof Expression && !(this.stream.getType(program) instanceof StreamType))
-            conflicts.push(new Conflict(this, SemanticConflict.EXPECTED_STREAM))
+            conflicts.push(new NotAStream(this));
 
         // The initial and next must be compatible
         if(this.next instanceof Expression && !this.initial.getType(program).isCompatible(program, this.next.getType(program)))
-            conflicts.push(new Conflict(this, SemanticConflict.STREAM_VALUES_INCOMPATIBLE))
-
+            conflicts.push(new IncompatibleStreamValues(this));
 
         return conflicts; 
     

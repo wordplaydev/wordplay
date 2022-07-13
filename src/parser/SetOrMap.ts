@@ -1,10 +1,9 @@
-import Conflict from "./Conflict";
+import Conflict, { IncompatibleValues, NotASetOrMap } from "./Conflict";
 import Expression from "./Expression";
 import KeyValue from "./KeyValue";
 import type Program from "./Program";
-import { SemanticConflict } from "./SemanticConflict";
 import SetOrMapType from "./SetOrMapType";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
@@ -34,13 +33,13 @@ export default class SetOrMap extends Expression {
         const allKeyValue = this.values.every(v => v instanceof KeyValue);
 
         if(!allExpressions && !allKeyValue)
-            return [ new Conflict(this, SemanticConflict.NEITHER_SET_NOR_MAP)]
+            return [ new NotASetOrMap(this)]
 
         // If all expressions. they must all be of the same type.
         if(allExpressions) {
             const types = (this.values.filter(v => v instanceof Expression) as Expression[]).map(e => e.getType(program));
             if(types.length > 1 && !types.every(t => t.isCompatible(program, types[0])))
-                return [ new Conflict(this, SemanticConflict.SET_VALUES_ARENT_SAME_TYPE) ]
+                return [ new IncompatibleValues(this) ]
         }
         else if(allKeyValue) {
             const conflicts = [];
@@ -50,14 +49,14 @@ export default class SetOrMap extends Expression {
                 .filter(k => k instanceof Expression) as Expression[])
                 .map(k => k.getType(program));
             if(keyTypes.length > 1 && !keyTypes.every(t => t.isCompatible(program, keyTypes[0])))
-                conflicts.push(new Conflict(this, SemanticConflict.MAP_KEYS_ARENT_SAME_TYPE));
+                conflicts.push(new IncompatibleValues(this));
             const valueTypes = 
                 ((this.values.filter(v => v instanceof KeyValue) as KeyValue[])
                 .map(v => v.value)
                 .filter(v => v instanceof Expression) as Expression[])
                 .map(v => v.getType(program));
             if(valueTypes.length > 1 && !valueTypes.every(t => t.isCompatible(program, valueTypes[0])))
-                conflicts.push(new Conflict(this, SemanticConflict.MAP_VALUES_ARENT_SAME_TYPE));
+                conflicts.push(new IncompatibleValues(this));
             return conflicts;
         }
         

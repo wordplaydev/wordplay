@@ -1,10 +1,9 @@
-import Conflict from "./Conflict";
+import Conflict, { NotAListIndex } from "./Conflict";
 import Expression from "./Expression";
 import ListType from "./ListType";
 import MeasurementType from "./MeasurementType";
 import type Program from "./Program";
-import { SemanticConflict } from "./SemanticConflict";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
@@ -36,7 +35,7 @@ export default class ListAccess extends Expression {
         const indexType = this.index.getType(program);
 
         if(!(indexType instanceof MeasurementType) || indexType.unit !== undefined)
-            return [ new Conflict(this, SemanticConflict.LIST_INDEX_ISNT_NUMBER) ];
+            return [ new NotAListIndex(this) ];
 
         return []; 
     

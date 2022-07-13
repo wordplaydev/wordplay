@@ -1,12 +1,10 @@
-import type Node from "./Node";
-import Conflict from "./Conflict";
+import Conflict, { UnknownConversion } from "./Conflict";
 import Expression from "./Expression";
 import type Program from "./Program";
 import Type from "./Type";
 import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
-import { SemanticConflict } from "./SemanticConflict";
-import type { Token } from "./Token";
+import type Token from "./Token";
 
 export default class Convert extends Expression {
     
@@ -29,7 +27,7 @@ export default class Convert extends Expression {
         // The expression's type must have a conversion.
         const exprType = this.expression.getType(program);
         if(this.type instanceof Type && exprType.getConversion(program, this.type) === undefined)
-            return [ new Conflict(this, SemanticConflict.MISSING_CONVERSION) ];
+            return [ new UnknownConversion(this, this.type) ];
         
         return []; 
     

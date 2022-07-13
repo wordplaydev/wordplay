@@ -1,12 +1,11 @@
 import type Node from "./Node";
 import Bind from "./Bind";
-import Conflict from "./Conflict";
+import Conflict, { DuplicateLanguages, ExpectedBindValue, ExpectedEndingExpression, IgnoredExpression } from "./Conflict";
 import type Docs from "./Docs";
 import Expression from "./Expression";
 import type Program from "./Program";
-import { SemanticConflict } from "./SemanticConflict";
 import Share from "./Share";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
@@ -41,26 +40,25 @@ export default class Block extends Expression {
 
         const conflicts = [];
 
-        // Blocks can't be empty
-        if(this.statements.length === 0)
-            conflicts.push(new Conflict(this, SemanticConflict.EXPECTED_BLOCK_EXPRESSION));
-        // And if they aren't empty, the last statement must be an expression.
-        else if(!(this.statements[this.statements.length  - 1] instanceof Expression))
-            conflicts.push(new Conflict(this, SemanticConflict.EXPECTED_BLOCK_LAST_EXPRESSION));
+        // Blocks can't be empty. And if they aren't empty, the last statement must be an expression.
+        if(this.statements.length === 0 || !(this.statements[this.statements.length  - 1] instanceof Expression))
+            conflicts.push(new ExpectedEndingExpression(this));
 
         // The only expression allowed is the last one.
         this.statements
             .slice(0, this.statements.length - 1)
             .filter(s => s instanceof Expression)
-            .forEach(s => conflicts.push(new Conflict(s, SemanticConflict.IGNORED_BLOCK_EXPRESSION)));
+            .forEach(s => conflicts.push(new IgnoredExpression(s as Expression)));
 
         // Docs must be unique.
         if(!docsAreUnique(this.docs))
-            conflicts.push(new Conflict(this, SemanticConflict.DOC_LANGUAGES_ARENT_UNIQUE))
+            conflicts.push(new DuplicateLanguages(this.docs));
 
         // All binds must have values.
-        if(!this.statements.every(s => !(s instanceof Bind) || s.value !== undefined))
-            conflicts.push(new Conflict(this, SemanticConflict.BINDS_MISSING_VALUES))
+        this.statements.forEach(s => {
+            if(s instanceof Bind && s.value === undefined)
+                conflicts.push(new ExpectedBindValue(s));
+        });
 
         return conflicts;
         

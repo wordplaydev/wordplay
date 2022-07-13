@@ -3,7 +3,7 @@ import type Conflict from "./Conflict";
 import type Expression from "./Expression";
 import Node from "./Node";
 import type Program from "./Program";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Unparsable from "./Unparsable";
 
 export default class Cell extends Node {

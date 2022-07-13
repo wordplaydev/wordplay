@@ -13,7 +13,9 @@ export default class Program extends Node {
     readonly block: Block | Unparsable;
 
     constructor(borrows: (Borrow|Unparsable)[], block: Block | Unparsable) {
+
         super();
+
         this.borrows = borrows.slice();
         this.block = block;
     }

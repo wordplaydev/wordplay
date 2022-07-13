@@ -1,9 +1,8 @@
 import BooleanType from "./BooleanType";
-import Conflict from "./Conflict";
+import Conflict, { ExpectedBooleanCondition, ExpectedMatchingConditionalTypes } from "./Conflict";
 import Expression from "./Expression";
 import type Program from "./Program";
-import { SemanticConflict } from "./SemanticConflict";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
@@ -32,10 +31,10 @@ export default class Conditional extends Expression {
         const children = [];
 
         if(!(this.condition.getType(program) instanceof BooleanType))
-            children.push(new Conflict(this, SemanticConflict.EXPECTED_BOOLEAN_CONDITION))
+            children.push(new ExpectedBooleanCondition(this));
 
         if(this.yes instanceof Expression && this.no instanceof Expression && !(this.yes.getType(program).isCompatible(program, this.no.getType(program))))
-            children.push(new Conflict(this, SemanticConflict.EXPECTED_MATCHING_CONDITION_TYPES))
+            children.push(new ExpectedMatchingConditionalTypes(this))
 
         return children; 
     

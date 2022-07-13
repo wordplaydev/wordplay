@@ -1,5 +1,5 @@
 import { tokenize } from "./Tokenizer";
-import { Token, TokenType } from "./Token";
+import Token, { TokenType } from "./Token";
 
 import type Expression from "./Expression";
 import type Type from "./Type";

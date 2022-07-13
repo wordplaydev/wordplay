@@ -17,7 +17,7 @@ import Share from "./Share";
 import StreamType from "./StreamType";
 import TableType from "./TableType";
 import TextType from "./TextType";
-import { Token, TokenType } from "./Token";
+import Token, { TokenType } from "./Token";
 import UnionType from "./UnionType";
 import Unparsable from "./Unparsable";
 import Text from "./Text";

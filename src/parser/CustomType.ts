@@ -1,13 +1,12 @@
 import type Node from "./Node";
 import Bind from "./Bind";
 import Expression from "./Expression";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
 import type Docs from "./Docs";
 import type Program from "./Program";
-import Conflict from "./Conflict";
-import { SemanticConflict } from "./SemanticConflict";
+import Conflict, { DuplicateLanguages, DuplicateNames, DuplicateTypeVariables } from "./Conflict";
 import Type from "./Type";
 import Block from "./Block";
 import Function from "./Function";
@@ -25,6 +24,7 @@ export default class CustomType extends Expression {
     readonly block: Block | Unparsable;
 
     constructor(docs: Docs[], type: Token, typeVars: (TypeVariable|Unparsable)[], open: Token, inputs: (Bind|Unparsable)[], close: Token, block: Block | Unparsable) {
+
         super();
 
         this.docs = docs;
@@ -59,15 +59,15 @@ export default class CustomType extends Expression {
     
         // Docs must be unique.
         if(!docsAreUnique(this.docs))
-            conflicts.push(new Conflict(this, SemanticConflict.DOC_LANGUAGES_ARENT_UNIQUE))
+            conflicts.push(new DuplicateLanguages(this.docs))
     
         // Inputs must have unique names
         if(!inputsAreUnique(this.inputs))
-            conflicts.push(new Conflict(this, SemanticConflict.FUNCTION_INPUT_NAMES_MUST_BE_UNIQUE))
+            conflicts.push(new DuplicateNames(this))
 
         // Type variables must have unique names
         if(!typeVarsAreUnique(this.typeVars))
-            conflicts.push(new Conflict(this, SemanticConflict.TYPE_VARS_ARENT_UNIQUE))
+            conflicts.push(new DuplicateTypeVariables(this));
 
         return conflicts; 
     

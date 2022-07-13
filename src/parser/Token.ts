@@ -56,7 +56,7 @@ export enum TokenType {
     END
 }
 
-export class Token extends Node {
+export default class Token extends Node {
     /** The one or more types of token this might represent. */
     readonly types: TokenType[];
     /** The text of the token */

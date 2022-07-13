@@ -1,8 +1,7 @@
-import Conflict from "./Conflict";
+import Conflict, { UnknownTypeName } from "./Conflict";
 import CustomTypeType from "./CustomTypeType";
 import type Program from "./Program";
-import { SemanticConflict } from "./SemanticConflict";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
@@ -26,12 +25,9 @@ export default class NameType extends Type {
         const conflicts = [];
 
         const type = this.getType(program);
-        // The name should be defined.
-        if(type === undefined)
-            conflicts.push(new Conflict(this, SemanticConflict.UNDEFINED_NAME));
         // The name should be a custom type.
-        else if(!(type instanceof CustomTypeType))
-            conflicts.push(new Conflict(this, SemanticConflict.NOT_A_TYPE));
+        if(!(type instanceof CustomTypeType))
+            conflicts.push(new UnknownTypeName(this));
 
         return conflicts; 
     

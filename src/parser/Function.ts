@@ -1,14 +1,13 @@
 import type Node from "./Node";
 import Bind from "./Bind";
 import Expression from "./Expression";
-import { Token, TokenType } from "./Token";
+import Token from "./Token";
 import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
 import type Docs from "./Docs";
 import type Program from "./Program";
-import Conflict from "./Conflict";
-import { SemanticConflict } from "./SemanticConflict";
+import Conflict, { DuplicateLanguages, DuplicateNames, DuplicateTypeVariables, RequiredAfterOptional } from "./Conflict";
 import FunctionType from "./FunctionType";
 import UnknownType from "./UnknownType";
 import { docsAreUnique, inputsAreUnique, typeVarsAreUnique } from "./util";
@@ -61,15 +60,15 @@ export default class Function extends Expression {
     
         // Docs must be unique.
         if(!docsAreUnique(this.docs))
-            conflicts.push(new Conflict(this, SemanticConflict.DOC_LANGUAGES_ARENT_UNIQUE))
+            conflicts.push(new DuplicateLanguages(this.docs));
     
         // Inputs must have unique names
         if(!inputsAreUnique(this.inputs))
-            conflicts.push(new Conflict(this, SemanticConflict.FUNCTION_INPUT_NAMES_MUST_BE_UNIQUE))
+            conflicts.push(new DuplicateNames(this));
 
         // Type variables must have unique names.
         if(!typeVarsAreUnique(this.typeVars))
-            conflicts.push(new Conflict(this, SemanticConflict.TYPE_VARS_ARENT_UNIQUE))
+            conflicts.push(new DuplicateTypeVariables(this));
 
         // Required inputs can never follow an optional one.
         const binds = this.inputs.filter(i => i instanceof Bind) as Bind[];
@@ -81,7 +80,7 @@ export default class Function extends Expression {
                 else if(bind.value === undefined && foundOptional) requiredAfterOptional = true;
             })
             if(requiredAfterOptional)
-                conflicts.push(new Conflict(this, SemanticConflict.REQUIRED_INPUT_AFTER_OPTIONAL));
+                conflicts.push(new RequiredAfterOptional(this));
         }
 
         return conflicts; 

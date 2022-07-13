@@ -1,4 +1,4 @@
-import type { Token } from "./Token";
+import type Token from "./Token";
 import Expression from "./Expression";
 import type Program from "./Program";
 import type Conflict from "./Conflict";

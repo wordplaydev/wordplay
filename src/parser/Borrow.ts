@@ -1,8 +1,7 @@
-import Conflict from "./Conflict";
+import Conflict, { UnknownBorrow } from "./Conflict";
 import Node from "./Node";
 import type Program from "./Program";
-import { SemanticConflict } from "./SemanticConflict";
-import type { Token } from "./Token";
+import type Token from "./Token";
 
 export default class Borrow extends Node {
     
@@ -26,7 +25,7 @@ export default class Borrow extends Node {
 
         const type = program.getDefinition(program, this, this.name.text);
         if(type === undefined)
-            conflicts.push(new Conflict(this, SemanticConflict.UNKNOWN_BORROW));
+            conflicts.push(new UnknownBorrow(this));
 
         return conflicts; 
     

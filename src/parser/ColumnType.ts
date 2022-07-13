@@ -1,7 +1,6 @@
-import Node from "./Node";
 import type Program from "./Program";
 import type Conflict from "./Conflict";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Unparsable from "./Unparsable";
 import Bind from "./Bind";
 import Type from "./Type";

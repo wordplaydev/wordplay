@@ -1,9 +1,8 @@
-import Conflict from "./Conflict";
+import Conflict, { UnknownProperty } from "./Conflict";
 import CustomType from "./CustomType";
 import Expression from "./Expression";
 import type Program from "./Program";
-import { SemanticConflict } from "./SemanticConflict";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
@@ -32,7 +31,7 @@ export default class AccessName extends Expression {
 
         const subjectType = this.getSubjectType(program);
         if(subjectType === undefined || subjectType.getBind(this.name.text) === undefined)
-            conflicts.push(new Conflict(this, SemanticConflict.UNKNOWN_NAME_ON_TYPE))
+            conflicts.push(new UnknownProperty(this));
 
         return conflicts;
     }

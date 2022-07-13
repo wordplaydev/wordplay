@@ -1,13 +1,12 @@
 import Expression from "./Expression";
 import Node from "./Node";
 import type Alias from "./Alias";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
 import type Docs from "./Docs";
 import type Program from "./Program";
-import Conflict from "./Conflict";
-import { SemanticConflict } from "./SemanticConflict";
+import Conflict, { DuplicateBinds, DuplicateAliases, IncompatibleBind, UnusedBind } from "./Conflict";
 import UnknownType from "./UnknownType";
 import NameType from "./NameType";
 import CustomTypeType from "./CustomTypeType";
@@ -58,25 +57,25 @@ export default class Bind extends Node {
 
         // Bind aliases have to be unique
         if(!this.names.every(n => this.names.find(n2 => n !== n2 && n.name.text === n2.name.text) === undefined))
-            conflicts.push(new Conflict(this, SemanticConflict.BIND_ALIASES_ARENT_UNIQUE))
+            conflicts.push(new DuplicateAliases(this))
 
         // If there's a type, the value must match.
         if(this.type instanceof Type && this.value && this.value instanceof Expression && !this.type.isCompatible(program, this.value.getType(program)))
-            conflicts.push(new Conflict(this, SemanticConflict.INCOMPATIBLE_TYPES))
+            conflicts.push(new IncompatibleBind(this.type, this.value));
 
         const enclosure = program.getBindingEnclosureOf(this);
 
         // It can't already be defined.
-        const definitions = this.names.map(alias => enclosure?.getDefinition(program, this, alias.name.text)).filter(def => def !== undefined);
+        const definitions = this.names.map(alias => enclosure?.getDefinition(program, this, alias.name.text)).filter(def => def !== undefined) as (Expression | Bind | TypeVariable)[];
         if(definitions.length > 0)
-            conflicts.push(new Conflict(this, SemanticConflict.ALREADY_BOUND));
+            conflicts.push(new DuplicateBinds(this, definitions));
 
         // It should be used in some expression in its parent.
         const parent = this.getParent(program);
         if(enclosure && !(parent instanceof Column || parent instanceof ColumnType)) {
             const uses = enclosure.nodes().filter(n => n instanceof Name && this.names.find(name => name.name.text === n.name.text) !== undefined);
             if(uses.length === 0)
-                conflicts.push(new Conflict(this, SemanticConflict.UNUSED_BIND));
+                conflicts.push(new UnusedBind(this));
         }
 
         return conflicts;

@@ -8,7 +8,6 @@ export default class ConversionType extends Type {
     
     constructor(output: Type) {
         super();
-
         this.output = output;
     }
 

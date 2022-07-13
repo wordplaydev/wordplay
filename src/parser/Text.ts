@@ -2,7 +2,7 @@ import type Conflict from "./Conflict";
 import Expression from "./Expression";
 import type Program from "./Program";
 import TextType from "./TextType";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Type from "./Type";
 
 export default class Text extends Expression {

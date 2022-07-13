@@ -9,6 +9,7 @@ export default class CustomTypeType extends Type {
     readonly type: CustomType;
 
     constructor(type: CustomType) {
+
         super();
 
         this.type = type;

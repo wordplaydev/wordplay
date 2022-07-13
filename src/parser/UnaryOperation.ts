@@ -1,10 +1,9 @@
 import BooleanType from "./BooleanType";
-import Conflict from "./Conflict";
+import Conflict, { IncompatibleOperatorType } from "./Conflict";
 import Expression from "./Expression";
 import MeasurementType from "./MeasurementType";
 import type Program from "./Program";
-import { SemanticConflict } from "./SemanticConflict";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
@@ -31,14 +30,12 @@ export default class UnaryOperation extends Expression {
 
         // If the type is unknown, that's bad.
         const type = this.value instanceof Expression ? this.value.getType(program) : undefined;
-        if(type === undefined || type instanceof UnknownType)
-            conflicts.push(new Conflict(this, SemanticConflict.UNKNOWN_TYPE));
 
         // If the type doesn't match the operator, that's bad.
-        if(this.operator.text === "√" && !(type instanceof MeasurementType))
-            conflicts.push(new Conflict(this, SemanticConflict.INCOMPATIBLE_TYPES));
-        else if(this.operator.text === "¬" && !(type instanceof BooleanType))
-            conflicts.push(new Conflict(this, SemanticConflict.INCOMPATIBLE_TYPES));
+        if(this.value instanceof Expression && this.operator.text === "√" && !(type instanceof MeasurementType))
+            conflicts.push(new IncompatibleOperatorType(this.value, this.operator, new MeasurementType()));
+        else if(this.value instanceof Expression && this.operator.text === "¬" && !(type instanceof BooleanType))
+            conflicts.push(new IncompatibleOperatorType(this.value, this.operator, new BooleanType()));
 
         return conflicts; 
     

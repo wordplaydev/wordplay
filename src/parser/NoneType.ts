@@ -1,7 +1,7 @@
 import type Conflict from "./Conflict";
 import type Conversion from "./Conversion";
 import type Program from "./Program";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import Type from "./Type";
 
 export default class NoneType extends Type {

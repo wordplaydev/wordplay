@@ -6,7 +6,9 @@ import type TypeVariable from "./TypeVariable";
 
 export default abstract class Node {
 
-    constructor() {}
+    constructor() {
+        
+    }
 
     /** Returns the children in the node, in order. Needed for batch operations on trees. */
     abstract getChildren() : Node[];

@@ -12,7 +12,9 @@ export default class Documented extends Expression {
     readonly expression: Expression | Unparsable;
 
     constructor(docs: Docs[], expression: Expression | Unparsable) {
+
         super();
+
         this.docs = docs;
         this.expression = expression;
     }

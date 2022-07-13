@@ -1,9 +1,8 @@
-import Conflict from "./Conflict";
+import Conflict, { UnknownConversion } from "./Conflict";
 import Expression from "./Expression";
 import type Program from "./Program";
-import { SemanticConflict } from "./SemanticConflict";
 import TextType from "./TextType";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Type from "./Type";
 
 export default class Template extends Expression {
@@ -28,7 +27,7 @@ export default class Template extends Expression {
         (this.parts.filter(p => p instanceof Expression) as Expression[]).forEach(expr => {
             const type = expr.getType(program);
             if(type.getConversion(program, new TextType()) === undefined)
-                conflicts.push(new Conflict(expr, SemanticConflict.MISSING_CONVERSION));
+                conflicts.push(new UnknownConversion(expr, new TextType()));
         });
 
         return conflicts; 

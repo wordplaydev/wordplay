@@ -1,12 +1,11 @@
 import type Node from "./Node";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import Expression from "./Expression";
 import type Program from "./Program";
-import Conflict from "./Conflict";
+import Conflict, { NonBooleanQuery, NotATable } from "./Conflict";
 import type Type from "./Type";
 import type Unparsable from "./Unparsable";
 import BooleanType from "./BooleanType";
-import { SemanticConflict } from "./SemanticConflict";
 import TableType from "./TableType";
 import type TypeVariable from "./TypeVariable";
 import Bind from "./Bind";
@@ -38,11 +37,11 @@ export default class Delete extends Expression {
 
         // Table must be table typed.
         if(!(tableType instanceof TableType))
-            conflicts.push(new Conflict(this, SemanticConflict.NOT_A_TABLE));
+            conflicts.push(new NotATable(this));
 
         // The query must be truthy.
         if(this.query instanceof Expression && !(this.query.getType(program) instanceof BooleanType))
-            conflicts.push(new Conflict(this, SemanticConflict.TABLE_QUERY_MUST_BE_TRUTHY))
+            conflicts.push(new NonBooleanQuery(this))
 
         return conflicts; 
         

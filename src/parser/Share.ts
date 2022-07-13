@@ -1,9 +1,8 @@
 import Bind from "./Bind";
-import Conflict from "./Conflict";
+import Conflict, { MisplacedShare, MissingShareLanguages } from "./Conflict";
 import Node from "./Node";
 import type Program from "./Program";
-import { SemanticConflict } from "./SemanticConflict";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Unparsable from "./Unparsable";
 
 export default class Share extends Node {
@@ -26,11 +25,11 @@ export default class Share extends Node {
 
         // Shares can only appear in the program's root block.
         if(!program.block.getChildren().includes(this))
-            conflicts.push(new Conflict(this, SemanticConflict.SHARE_NOT_ALLOWED));
+            conflicts.push(new MisplacedShare(this));
 
         // Bindings must have language tags on all names to clarify what langauge they're written in.
         if(this.bind instanceof Bind && !this.bind.names.every(n => n.lang !== undefined))
-            conflicts.push(new Conflict(this, SemanticConflict.SHARING_REQUIRES_LANGUAGES))
+            conflicts.push(new MissingShareLanguages(this));
 
         return conflicts;
 

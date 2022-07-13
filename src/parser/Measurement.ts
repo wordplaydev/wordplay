@@ -2,7 +2,7 @@ import type Conflict from "./Conflict";
 import Expression from "./Expression";
 import MeasurementType from "./MeasurementType";
 import type Program from "./Program";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import type Type from "./Type";
 
 export default class Measurement extends Expression {

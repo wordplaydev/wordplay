@@ -1,7 +1,7 @@
 import Node from "./Node";
-import type { Token } from "./Token";
+import type Token from "./Token";
 import { SyntacticConflict } from "./Parser"
-import Conflict from "./Conflict";
+import Conflict, { UnparsableConflict } from "./Conflict";
 
 export default class Unparsable extends Node {
     
@@ -26,7 +26,7 @@ export default class Unparsable extends Node {
 
     getConflicts(): Conflict[] {
         // All syntax errors are conflicts
-        return [ new Conflict(this, this) ];
+        return [ new UnparsableConflict(this) ];
     }
 
 }
