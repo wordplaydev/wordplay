@@ -1,16 +1,17 @@
 import type Node from "./Node";
 import Expression from "./Expression";
 import type { Token } from "./Token";
-import Type from "./Type";
 import type Docs from "./Docs";
 import type Program from "./Program";
 import Conflict from "./Conflict";
 import { SemanticConflict } from "./SemanticConflict";
 import UnknownType from "./UnknownType";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 import { docsAreUnique } from "./util";
 import CustomType from "./CustomType";
 import Block from "./Block";
+import ConversionType from "./ConversionType";
+import type Type from "./Type";
 
 export default class Conversion extends Expression {
 
@@ -55,7 +56,7 @@ export default class Conversion extends Expression {
     }
 
     getType(program: Program): Type {
-        return this.output instanceof Type ? this.output : new UnknownType(this);
+        return this.output instanceof Unparsable ? new UnknownType(this) : new ConversionType(this.output);
     }
 
 }
