@@ -34,9 +34,9 @@
         height: auto;
         padding: var(--wordplay-spacing);
         display: flex;
-        flex-direction: row;
+        flex-flow: row wrap;
         align-items: stretch;
         justify-content: center;
         gap: var(--wordplay-spacing);
-}
+    }
 </style>

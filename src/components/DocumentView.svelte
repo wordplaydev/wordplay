@@ -29,8 +29,9 @@
 
 <style>
     .document {
+        min-width: 20em;
         display: flex;
-        flex-direction: column;
+        flex-flow: column wrap;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         flex: 1; /* Have each document fill an equal amount of space in the window manager */
         border-radius: var(--wordplay-border-radius);
