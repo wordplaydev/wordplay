@@ -4,7 +4,7 @@ import Expression from "./Expression";
 import type Row from "./Row";
 import type Program from "./Program";
 import Conflict, { ExpectedUpdateBind, IncompatibleCellType, NonBooleanQuery, NotATable, UnknownColumn } from "../parser/Conflict";
-import Type from "./Type";
+import type Type from "./Type";
 import type Unparsable from "./Unparsable";
 import Bind from "../nodes/Bind";
 import TableType from "./TableType";
@@ -39,8 +39,10 @@ export default class Update extends Expression {
         const tableType = this.table.getType(program);
 
         // Table must be table typed.
-        if(!(tableType instanceof TableType))
+        if(!(tableType instanceof TableType)) {
             conflicts.push(new NotATable(this));
+            return conflicts;
+        }
 
         this.row.cells.forEach(cell => {
             // The columns in an update must be binds with expressions.
@@ -52,8 +54,8 @@ export default class Update extends Expression {
                 if(columnType === undefined)
                     conflicts.push(new UnknownColumn(tableType, cell));
                 // The types of the bound values must match the column types.
-                else if(columnType.bind instanceof Type) {
-                    if(!columnType.bind.isCompatible(program, cell.expression.getType(program)))
+                else if(columnType.bind instanceof Bind) {
+                    if(!columnType.bind.getType(program).isCompatible(program, cell.expression.getType(program)))
                         conflicts.push(new IncompatibleCellType(tableType, cell));
                 }
             }

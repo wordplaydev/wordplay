@@ -14,7 +14,7 @@ import type Delete from "../nodes/Delete";
 import type Docs from "../nodes/Docs";
 import type Evaluate from "../nodes/Evaluate";
 import type Expression from "../nodes/Expression";
-import type Function from "../nodes/Function";
+import type { default as Func } from "../nodes/Function";
 import type FunctionType from "../nodes/FunctionType";
 import type Insert from "../nodes/Insert";
 import type List from "../nodes/List";
@@ -33,6 +33,7 @@ import type Type from "../nodes/Type";
 import type TypeVariable from "../nodes/TypeVariable";
 import type Unparsable from "../nodes/Unparsable";
 import type Update from "../nodes/Update";
+import { parse } from "./Parser";
 
 export default abstract class Conflict {
     readonly #minor: boolean;
@@ -81,7 +82,7 @@ export class UnexpectedTypeVariable extends Conflict {
     }
 }
 
-export class IncompatibleOperatorType extends Conflict {
+export class IncompatibleOperand extends Conflict {
     readonly expr: Expression;
     readonly operator: Token;
     readonly expectedType: Type;
@@ -117,25 +118,25 @@ export class DuplicateAliases extends Conflict {
     }
 }
 
-export class DuplicateNames extends Conflict {
-    readonly func: CustomType | Function;
-    constructor(func: CustomType | Function) {
+export class DuplicateInputNames extends Conflict {
+    readonly func: CustomType | Func;
+    constructor(func: CustomType | Func) {
         super(false);
         this.func = func;
     }
 }
 
 export class DuplicateTypeVariables extends Conflict {
-    readonly func: CustomType | Function;
-    constructor(func: CustomType | Function) {
+    readonly func: CustomType | Func;
+    constructor(func: CustomType | Func) {
         super(false);
         this.func = func;
     }
 }
 
 export class RequiredAfterOptional extends Conflict {
-    readonly func: Function | CustomType;
-    constructor(func: Function | CustomType) {
+    readonly func: Func | CustomType;
+    constructor(func: Func | CustomType) {
         super(false);
         this.func = func;
     }
@@ -238,7 +239,7 @@ export class ExpectedBooleanCondition extends Conflict {
     }
 }
 
-export class ExpectedMatchingConditionalTypes extends Conflict {
+export class IncompatibleConditionalBranches extends Conflict {
     readonly conditional: Conditional;
     constructor(conditional: Conditional) {
         super(false);
@@ -273,14 +274,6 @@ export class MissingColumns extends Conflict {
 export class ExpectedUpdateBind extends Conflict {
     readonly cell: Cell;
     constructor(cell: Cell) {
-        super(false);
-        this.cell = cell;
-    }
-}
-
-export class ExpectedInsertExpression extends Conflict {
-    readonly cell: Bind;
-    constructor(cell: Bind) {
         super(false);
         this.cell = cell;
     }
@@ -424,4 +417,18 @@ export class ExpectedEndingExpression extends Conflict {
         super(false);
         this.block = block;
     }
+}
+
+export function testConflict(goodCode: string, badCode: string, nodeType: Function, conflictType: Function, nodeIndex:number=0) {
+
+    const goodProgram = parse(goodCode);
+    const goodOp = goodProgram.nodes().filter(n => n instanceof nodeType)[nodeIndex];
+    expect(goodOp).toBeInstanceOf(nodeType);
+    expect(goodOp?.getConflicts(goodProgram).filter(n => n instanceof conflictType)).toHaveLength(0);
+
+    const badProgram = parse(badCode);
+    const badOp = badProgram.nodes().filter(n => n instanceof nodeType)[nodeIndex];
+    expect(badOp).toBeInstanceOf(nodeType);
+    expect(badOp?.getConflicts(badProgram).find(c => c instanceof conflictType)).toBeInstanceOf(conflictType);
+
 }

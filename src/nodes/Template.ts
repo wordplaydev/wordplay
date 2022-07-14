@@ -26,7 +26,7 @@ export default class Template extends Expression {
         // Expressions must be convertable to text.
         (this.parts.filter(p => p instanceof Expression) as Expression[]).forEach(expr => {
             const type = expr.getType(program);
-            if(type.getConversion(program, new TextType()) === undefined)
+            if(!(type instanceof TextType) && type.getConversion(program, new TextType()) === undefined)
                 conflicts.push(new UnknownConversion(expr, new TextType()));
         });
 

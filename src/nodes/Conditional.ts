@@ -1,5 +1,5 @@
 import BooleanType from "./BooleanType";
-import Conflict, { ExpectedBooleanCondition, ExpectedMatchingConditionalTypes } from "../parser/Conflict";
+import Conflict, { ExpectedBooleanCondition, IncompatibleConditionalBranches } from "../parser/Conflict";
 import Expression from "./Expression";
 import type Program from "./Program";
 import type Token from "./Token";
@@ -34,7 +34,7 @@ export default class Conditional extends Expression {
             children.push(new ExpectedBooleanCondition(this));
 
         if(this.yes instanceof Expression && this.no instanceof Expression && !(this.yes.getType(program).isCompatible(program, this.no.getType(program))))
-            children.push(new ExpectedMatchingConditionalTypes(this))
+            children.push(new IncompatibleConditionalBranches(this))
 
         return children; 
     

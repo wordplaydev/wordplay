@@ -6,7 +6,7 @@ import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
 import type Docs from "./Docs";
 import type Program from "./Program";
-import Conflict, { DuplicateLanguages, DuplicateNames, DuplicateTypeVariables, RequiredAfterOptional } from "../parser/Conflict";
+import Conflict, { DuplicateLanguages, DuplicateInputNames, DuplicateTypeVariables, RequiredAfterOptional } from "../parser/Conflict";
 import Type from "./Type";
 import Block from "../nodes/Block";
 import Function from "./Function";
@@ -63,7 +63,7 @@ export default class CustomType extends Expression {
     
         // Inputs must have unique names
         if(!inputsAreUnique(this.inputs))
-            conflicts.push(new DuplicateNames(this))
+            conflicts.push(new DuplicateInputNames(this))
 
         // Type variables must have unique names
         if(!typeVarsAreUnique(this.typeVars))

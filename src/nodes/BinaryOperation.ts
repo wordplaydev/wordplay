@@ -1,5 +1,5 @@
 import BooleanType from "./BooleanType";
-import Conflict, { IncompatibleOperatorType, IncompatibleUnits, LeftToRightOrderOfOperations, UnknownName } from "../parser/Conflict";
+import Conflict, { IncompatibleOperand, IncompatibleUnits, LeftToRightOrderOfOperations, UnknownName } from "../parser/Conflict";
 import Expression from "./Expression";
 import Measurement from "./Measurement";
 import MeasurementType from "./MeasurementType";
@@ -49,8 +49,8 @@ export default class BinaryOperation extends Expression {
             case "%":
             case "^":
                 // Both operands must be measurement types.
-                if(!(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperatorType(this.left, this.operator, new MeasurementType()));
-                if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperatorType(this.right, this.operator, new MeasurementType()));
+                if(!(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.left, this.operator, new MeasurementType()));
+                if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.right, this.operator, new MeasurementType()));
                 break;
             case "-":
             case "+":
@@ -61,16 +61,16 @@ export default class BinaryOperation extends Expression {
             case "=":
             case "≠":
                 // Both operands must be measurement types.
-                if(!(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperatorType(this.left, this.operator, new MeasurementType()));
-                if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperatorType(this.right, this.operator, new MeasurementType()));
+                if(!(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.left, this.operator, new MeasurementType()));
+                if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.right, this.operator, new MeasurementType()));
                 // Both operands must have compatible types.
                 if(rightType !== undefined && !leftType.isCompatible(program, rightType))
                     conflicts.push(new IncompatibleUnits(this));
                 break;
             case "∧":
             case "∨":
-                if(!(leftType instanceof BooleanType)) conflicts.push(new IncompatibleOperatorType(this.left, this.operator, new BooleanType()));
-                if(this.right instanceof Expression && !(rightType instanceof BooleanType)) conflicts.push(new IncompatibleOperatorType(this.right, this.operator, new BooleanType()));
+                if(!(leftType instanceof BooleanType)) conflicts.push(new IncompatibleOperand(this.left, this.operator, new BooleanType()));
+                if(this.right instanceof Expression && !(rightType instanceof BooleanType)) conflicts.push(new IncompatibleOperand(this.right, this.operator, new BooleanType()));
                 break;
         }
 

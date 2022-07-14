@@ -1,5 +1,5 @@
 import BooleanType from "./BooleanType";
-import Conflict, { IncompatibleOperatorType } from "../parser/Conflict";
+import Conflict, { IncompatibleOperand } from "../parser/Conflict";
 import Expression from "./Expression";
 import MeasurementType from "./MeasurementType";
 import type Program from "./Program";
@@ -34,9 +34,9 @@ export default class UnaryOperation extends Expression {
 
         // If the type doesn't match the operator, that's bad.
         if(this.value instanceof Expression && (this.operator.text === "√" || this.operator.text === "-") && !(type instanceof MeasurementType))
-            conflicts.push(new IncompatibleOperatorType(this.value, this.operator, new MeasurementType()));
+            conflicts.push(new IncompatibleOperand(this.value, this.operator, new MeasurementType()));
         else if(this.value instanceof Expression && this.operator.text === "¬" && !(type instanceof BooleanType))
-            conflicts.push(new IncompatibleOperatorType(this.value, this.operator, new BooleanType()));
+            conflicts.push(new IncompatibleOperand(this.value, this.operator, new BooleanType()));
 
         return conflicts;
     

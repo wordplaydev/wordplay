@@ -5,9 +5,7 @@ import type Type from "./Type";
 export default abstract class Expression extends Node {
     
     constructor() {
-
         super();
-
     }
     
     abstract getChildren(): Node[];

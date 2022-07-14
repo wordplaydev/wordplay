@@ -3,11 +3,11 @@ import type Token from "./Token";
 import Expression from "./Expression";
 import type Row from "./Row";
 import type Program from "./Program";
-import Conflict, { ExpectedInsertExpression, IncompatibleCellType, MissingColumns, NotATable } from "../parser/Conflict";
-import Type from "./Type";
+import Conflict, { IncompatibleCellType, MissingColumns, NotATable } from "../parser/Conflict";
 import TableType from "./TableType";
 import type TypeVariable from "./TypeVariable";
 import Bind from "../nodes/Bind";
+import type Type from "./Type";
 
 export default class Insert extends Expression {
     
@@ -44,11 +44,9 @@ export default class Insert extends Expression {
         else {
             this.row.cells.forEach((cell, index) => {
                 const expr = cell.expression;
-                if(expr instanceof Bind)
-                    conflicts.push(new ExpectedInsertExpression(expr));
-                else if(expr instanceof Expression && index < tableType.columns.length) {
-                    const columnType = tableType.columns[index].bind;
-                    if(columnType instanceof Type && !expr.getType(program).isCompatible(program, columnType))
+                if(expr instanceof Expression && index < tableType.columns.length) {
+                    const columnBind = tableType.columns[index].bind;
+                    if(columnBind instanceof Bind && !expr.getType(program).isCompatible(program, columnBind.getType(program)))
                         conflicts.push(new IncompatibleCellType(tableType, cell));
                 }
             });
