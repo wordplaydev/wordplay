@@ -25,11 +25,7 @@ const patterns = [
     { pattern: "…", types: [ TokenType.TBD ] },
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
     { pattern: /^[0-9]+([.,][0-9]+)?/, types: [ TokenType.NUMBER ] },    
-    { pattern: /^万?[一二三四五六七八九]千?[一二三四五六七八九]百[一二三四五六七八九]十[一二三四五六七八九]/, types: [ TokenType.NUMBER ] },
-    { pattern: /^千?[一二三四五六七八九]百[一二三四五六七八九]十[一二三四五六七八九]/, types: [ TokenType.NUMBER ] },
-    { pattern: /^百?[一二三四五六七八九]十[一二三四五六七八九]/, types: [ TokenType.NUMBER ] },
-    { pattern: /^十?[一二三四五六七八九]/, types: [ TokenType.NUMBER ] },
-    { pattern: /^[十百千万]/, types: [ TokenType.NUMBER ] },
+    { pattern: /^万[一二三四五六七八九]?(千[一二三四五六七八九]?)?(百[一二三四五六七八九]?)?(十[一二三四五六七八九]?)?/, types: [ TokenType.NUMBER ] },
     { pattern: /^[π∞]/, types: [ TokenType.NUMBER ] },
     { pattern: /^[+×*·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
     { pattern: "∧", types: [ TokenType.BINARY_OP ] },
