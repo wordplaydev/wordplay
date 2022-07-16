@@ -8,7 +8,7 @@ import Program from "../nodes/Program";
 import Borrow from "../nodes/Borrow";
 import Unparsable from "../nodes/Unparsable";
 import Block from "../nodes/Block";
-import List from "../nodes/List";
+import ListLiteral from "../nodes/ListLiteral";
 import Bind from "../nodes/Bind";
 import Evaluate from "../nodes/Evaluate";
 import UnaryOperation from "../nodes/UnaryOperation";
@@ -17,10 +17,10 @@ import AccessName from "../nodes/AccessName";
 import Function from "../nodes/Function";
 import Template from "../nodes/Template";
 import UnionType from "../nodes/UnionType";
-import None from "../nodes/None";
-import Measurement from "../nodes/Measurement";
+import NoneLiteral from "../nodes/NoneLiteral";
+import MeasurementLiteral from "../nodes/MeasurementLiteral";
 import MeasurementType from "../nodes/MeasurementType";
-import Text from "../nodes/Text";
+import TextLiteral from "../nodes/TextLiteral";
 import NameType from "../nodes/NameType";
 import NoneType from "../nodes/NoneType";
 import TextType from "../nodes/TextType";
@@ -39,7 +39,7 @@ import Docs from "../nodes/Docs";
 import Column from "../nodes/Column";
 import Cell from "../nodes/Cell";
 import Row from "../nodes/Row";
-import Table from "../nodes/Table";
+import TableLiteral from "../nodes/TableLiteral";
 import ColumnType from "../nodes/ColumnType";
 import TableType from "../nodes/TableType";
 import Select from "../nodes/Select";
@@ -52,9 +52,9 @@ import StreamType from "../nodes/StreamType";
 import BooleanType from "../nodes/BooleanType";
 import SetAccess from "../nodes/SetAccess";
 import Name from "../nodes/Name";
-import Bool from "../nodes/Bool";
+import BooleanLiteral from "../nodes/BooleanLiteral";
 import Convert from "../nodes/Convert";
-import SetOrMap from "../nodes/SetOrMap";
+import SetOrMapLiteral from "../nodes/SetOrMapLiteral";
 import Unit from "../nodes/Unit";
 
 export enum SyntacticConflict {
@@ -371,7 +371,7 @@ export function parseExpression(tokens: Tokens): Expression | Unparsable {
         // Names or booleans are easy
         tokens.nextIs(TokenType.NAME) ? new Name(tokens.read()) :
         // Booleans
-        tokens.nextIs(TokenType.BOOLEAN) ? new Bool(tokens.read()) :
+        tokens.nextIs(TokenType.BOOLEAN) ? new BooleanLiteral(tokens.read()) :
         // Numbers with units
         tokens.nextIs(TokenType.NUMBER) ? parseMeasurement(tokens) :
         // Text with optional formats
@@ -439,20 +439,20 @@ export function parseExpression(tokens: Tokens): Expression | Unparsable {
 }
 
 /** NONE :: ! name? */
-function parseNone(tokens: Tokens): None | Unparsable {
+function parseNone(tokens: Tokens): NoneLiteral | Unparsable {
 
     const error = tokens.read();
     const name = tokens.nextIs(TokenType.NAME) ? tokens.read() : undefined;
-    return new None(error, name);
+    return new NoneLiteral(error, name);
 
 }
 
 /** NUMBER :: number name? */
-function parseMeasurement(tokens: Tokens): Measurement | Unparsable {
+function parseMeasurement(tokens: Tokens): MeasurementLiteral | Unparsable {
 
     const number = tokens.read();
     const unit = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
-    return new Measurement(number, unit);
+    return new MeasurementLiteral(number, unit);
 
 }
 
@@ -487,13 +487,13 @@ function parseUnit(tokens: Tokens): Unit | Unparsable {
 }
 
 /** TEXT :: text name? */
-function parseText(tokens: Tokens): Text {
+function parseText(tokens: Tokens): TextLiteral {
 
     const text = tokens.read();
     let format;
     if(tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
         format = tokens.read();
-    return new Text(text, format);
+    return new TextLiteral(text, format);
 
 }
 
@@ -528,7 +528,7 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
 }
 
 /** LIST :: [ EXPRESSION* ] */
-function parseList(tokens: Tokens): List | Unparsable {
+function parseList(tokens: Tokens): ListLiteral | Unparsable {
 
     let open = tokens.read();
     let values: (Expression|Unparsable)[] = [];
@@ -542,7 +542,7 @@ function parseList(tokens: Tokens): List | Unparsable {
     else
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_LIST_CLOSE);
 
-    return new List(open, values, close);
+    return new ListLiteral(open, values, close);
 
 }
 
@@ -569,7 +569,7 @@ function parseListAccess(left: Expression | Unparsable, tokens: Tokens): Express
 }
 
 /** SET :: { EXPRESSION* } | { (EXPRESSION:EXPRESSION)* } */
-function parseSetOrMap(tokens: Tokens): SetOrMap | Unparsable {
+function parseSetOrMap(tokens: Tokens): SetOrMapLiteral | Unparsable {
 
     let open = tokens.read();
     let values: (Expression|KeyValue|Unparsable)[] = [];
@@ -590,7 +590,7 @@ function parseSetOrMap(tokens: Tokens): SetOrMap | Unparsable {
     else
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE);
 
-    return new SetOrMap(open, values, close);
+    return new SetOrMapLiteral(open, values, close);
 
 }
 
@@ -617,7 +617,7 @@ function parseSetOrMapAccess(left: Expression | Unparsable, tokens: Tokens): Exp
     return left;
 }
 
-function parseTable(tokens: Tokens): Table {
+function parseTable(tokens: Tokens): TableLiteral {
 
     // Read the column definitions. Stop when we see a newline.
     const columns = [];
@@ -634,7 +634,7 @@ function parseTable(tokens: Tokens): Table {
     while(tokens.nextIs(TokenType.TABLE))
         rows.push(parseRow(tokens));
 
-    return new Table(columns, rows);
+    return new TableLiteral(columns, rows);
 
 }
 

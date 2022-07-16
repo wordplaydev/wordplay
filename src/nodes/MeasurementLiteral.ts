@@ -1,13 +1,18 @@
+import type Evaluator from "../runtime/Evaluator";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import Measurement from "../runtime/Measurement";
+import type Value from "../runtime/Value";
 import type Conflict from "../parser/Conflict";
 import Expression from "./Expression";
 import MeasurementType from "./MeasurementType";
+import type Node from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
 import type Type from "./Type";
-import type Unit from "./Unit";
+import Unit from "./Unit";
 import Unparsable from "./Unparsable";
 
-export default class Measurement extends Expression {
+export default class MeasurementLiteral extends Expression {
     
     readonly number: Token;
     readonly unit?: Unit | Unparsable;
@@ -26,6 +31,12 @@ export default class Measurement extends Expression {
 
     getType(program: Program): Type {
         return new MeasurementType(undefined, this.unit instanceof Unparsable ? undefined : this.unit);
+    }
+
+    evaluate(evaluator: Evaluator): Node | Value {
+        if(this.unit instanceof Unparsable) return new Exception(ExceptionType.UNPARSABLE);
+        // This needs to translate between different number formats.
+        else return new Measurement(parseFloat(this.number.text), this.unit === undefined ? new Unit([], []) : this.unit);
     }
 
 }

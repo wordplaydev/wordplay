@@ -11,6 +11,10 @@ import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
 import { docsAreUnique } from "./util";
 import type TypeVariable from "./TypeVariable";
+import type { Evaluable } from "../runtime/Evaluation";
+import type Evaluator from "../runtime/Evaluator";
+import type Value from "../runtime/Value";
+import Exception, { ExceptionType } from "../runtime/Exception";
 
 export default class Block extends Expression {
 
@@ -88,6 +92,26 @@ export default class Block extends Expression {
         // The type of the last expression.
         const lastExpression = this.statements.slice().reverse().find(s => s instanceof Expression) as Expression | undefined;
         return lastExpression === undefined ? new UnknownType(this) : lastExpression.getType(program);
+    }
+
+    evaluate(evaluator: Evaluator): Value | Evaluable {
+
+        // If there are no statements, return an exception.
+        if(this.statements.length === 0) return new Exception(ExceptionType.NO_BLOCK_EXPRESSION);
+
+        // If not, what was last evaluated?
+        const lastEvaluated = evaluator.lastEvaluated();
+
+        // Find it in the list of statements.
+        const index = lastEvaluated === undefined ? -1 : this.statements.indexOf(lastEvaluated);
+
+        // If we haven't executed the first statement yet, start it.
+        if(index < 0) return this.statements[0];
+        // If we have, execute the statement after it if there is one.
+        else if(index < this.statements.length - 1) return this.statements[index + 1];
+        // If we're at the end of the last, return the last value computed.
+        else return evaluator.popValue();
+
     }
 
 }

@@ -6,7 +6,7 @@ import Borrow from "../nodes/Borrow";
 import Docs from "../nodes/Docs";
 import FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
-import Measurement from "../nodes/Measurement";
+import MeasurementLiteral from "../nodes/MeasurementLiteral";
 import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
 import NoneType from "../nodes/NoneType";
@@ -20,17 +20,17 @@ import TextType from "../nodes/TextType";
 import Token, { TokenType } from "../nodes/Token";
 import UnionType from "../nodes/UnionType";
 import Unparsable from "../nodes/Unparsable";
-import Text from "../nodes/Text";
-import None from "../nodes/None";
+import TextLiteral from "../nodes/TextLiteral";
+import NoneLiteral from "../nodes/NoneLiteral";
 import Template from "../nodes/Template";
 import BinaryOperation from "../nodes/BinaryOperation";
-import List from "../nodes/List";
+import ListLiteral from "../nodes/ListLiteral";
 import ListAccess from "../nodes/ListAccess";
-import SetOrMap from "../nodes/SetOrMap";
+import SetOrMapLiteral from "../nodes/SetOrMapLiteral";
 import SetAccess from "../nodes/SetAccess";
 import Stream from "../nodes/Stream";
 import Conditional from "../nodes/Conditional";
-import Table from "../nodes/Table";
+import TableLiteral from "../nodes/TableLiteral";
 import Select from "../nodes/Select";
 import Insert from "../nodes/Insert";
 import Update from "../nodes/Update";
@@ -40,7 +40,7 @@ import Conversion from "../nodes/Conversion";
 import CustomType from "../nodes/CustomType";
 import AccessName from "../nodes/AccessName";
 import Name from "../nodes/Name";
-import Bool from "../nodes/Bool";
+import BooleanLiteral from "../nodes/BooleanLiteral";
 import Convert from "../nodes/Convert";
 
 test("Parse programs", () => {
@@ -112,12 +112,12 @@ test("Parse binds", () => {
     expect((valuedName as Bind).names[0]).toBeInstanceOf(Alias);
     expect((valuedName as Bind).names[0].name.toWordplay()).toBe("a");
     expect((valuedName as Bind).names[0].lang).toBe(undefined);
-    expect((valuedName as Bind).value).toBeInstanceOf(Measurement);
+    expect((valuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
     const typedValuedName = parseBind(true, tokens("a•#: 1"));
     expect(typedValuedName).toBeInstanceOf(Bind);
     expect((typedValuedName as Bind).type).toBeInstanceOf(MeasurementType);
-    expect((typedValuedName as Bind).value).toBeInstanceOf(Measurement);
+    expect((typedValuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
     const aliasedTypedValuedName = parseBind(true, tokens("a/eng, b/span•#: 1"));
     expect(aliasedTypedValuedName).toBeInstanceOf(Bind);
@@ -125,7 +125,7 @@ test("Parse binds", () => {
     expect((aliasedTypedValuedName as Bind).names[0]).toBeInstanceOf(Alias);
     expect((aliasedTypedValuedName as Bind).names[0].lang?.text).toBe("eng");
     expect((aliasedTypedValuedName as Bind).type).toBeInstanceOf(MeasurementType);
-    expect((aliasedTypedValuedName as Bind).value).toBeInstanceOf(Measurement);
+    expect((aliasedTypedValuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
     const documentedName = parseBind(true, tokens("`Some letters`eng a/eng, b/span"));
     expect(documentedName).toBeInstanceOf(Bind);
@@ -144,37 +144,37 @@ test("Parse binds", () => {
 test("Parse expressions", () => {
 
     const none = parseExpression(tokens("!"));
-    expect(none).toBeInstanceOf(None);
+    expect(none).toBeInstanceOf(NoneLiteral);
 
     const noneRefined = parseExpression(tokens("!zero"));
-    expect(noneRefined).toBeInstanceOf(None);
-    expect((noneRefined as None).name?.toWordplay()).toBe("zero");
+    expect(noneRefined).toBeInstanceOf(NoneLiteral);
+    expect((noneRefined as NoneLiteral).name?.toWordplay()).toBe("zero");
 
     const name = parseExpression(tokens("boomy"));
     expect(name).toBeInstanceOf(Name);
 
     const bool = parseExpression(tokens("⊤"));
-    expect(bool).toBeInstanceOf(Bool);
-    expect((bool as Bool).value.is(TokenType.BOOLEAN)).toBe(true);
+    expect(bool).toBeInstanceOf(BooleanLiteral);
+    expect((bool as BooleanLiteral).value.is(TokenType.BOOLEAN)).toBe(true);
 
     const number = parseExpression(tokens("1"));
-    expect(number).toBeInstanceOf(Measurement);
-    expect((number as Measurement).unit).toBe(undefined);
+    expect(number).toBeInstanceOf(MeasurementLiteral);
+    expect((number as MeasurementLiteral).unit).toBe(undefined);
 
     const sec = parseExpression(tokens("1s"));
-    expect(sec).toBeInstanceOf(Measurement);
-    expect((sec as Measurement).unit?.toWordplay()).toBe("s");
+    expect(sec).toBeInstanceOf(MeasurementLiteral);
+    expect((sec as MeasurementLiteral).unit?.toWordplay()).toBe("s");
 
     const speed = parseExpression(tokens("1m/s"));
-    expect(speed).toBeInstanceOf(Measurement);
-    expect((speed as Measurement).unit?.toWordplay()).toBe("m/s");
+    expect(speed).toBeInstanceOf(MeasurementLiteral);
+    expect((speed as MeasurementLiteral).unit?.toWordplay()).toBe("m/s");
 
     const badSpeed = parseExpression(tokens("1 m/s"));
-    expect(badSpeed).toBeInstanceOf(Measurement);
-    expect((badSpeed as Measurement).unit).toBe(undefined);
+    expect(badSpeed).toBeInstanceOf(MeasurementLiteral);
+    expect((badSpeed as MeasurementLiteral).unit).toBe(undefined);
 
     const text = parseExpression(tokens("«hola»"));
-    expect(text).toBeInstanceOf(Text);
+    expect(text).toBeInstanceOf(TextLiteral);
 
     const template = parseExpression(tokens("'My cat\'s name is (name + name), what\'s yours?'"));
     expect(template).toBeInstanceOf(Template);
@@ -184,12 +184,12 @@ test("Parse expressions", () => {
     expect((template as Template).parts[2]).toBeInstanceOf(Token);
 
     const format = parseExpression(tokens("«hola»spa"));
-    expect(format).toBeInstanceOf(Text);
-    expect((format as Text).format?.toWordplay()).toBe("spa");
+    expect(format).toBeInstanceOf(TextLiteral);
+    expect((format as TextLiteral).format?.toWordplay()).toBe("spa");
 
     const list = parseExpression(tokens("[1 2 3]"));
-    expect(list).toBeInstanceOf(List);
-    expect((list as List).values).toHaveLength(3);
+    expect(list).toBeInstanceOf(ListLiteral);
+    expect((list as ListLiteral).values).toHaveLength(3);
 
     const listAccess = parseExpression(tokens("list[2]"));
     expect(listAccess).toBeInstanceOf(ListAccess);
@@ -199,8 +199,8 @@ test("Parse expressions", () => {
     expect((nestedListAccess as ListAccess).list).toBeInstanceOf(ListAccess);
 
     const set = parseExpression(tokens("{1 2 3}"));
-    expect(set).toBeInstanceOf(SetOrMap);
-    expect((set as SetOrMap).values).toHaveLength(3);
+    expect(set).toBeInstanceOf(SetOrMapLiteral);
+    expect((set as SetOrMapLiteral).values).toHaveLength(3);
 
     const setAccess = parseExpression(tokens("set{2}"));
     expect(setAccess).toBeInstanceOf(SetAccess);
@@ -210,13 +210,13 @@ test("Parse expressions", () => {
     expect((nestedSetAccess as SetAccess).setOrMap).toBeInstanceOf(SetAccess);
 
     const map = parseExpression(tokens("{1:2 3:4 5:6}"));
-    expect(map).toBeInstanceOf(SetOrMap);
-    expect((map as SetOrMap).values).toHaveLength(3);
+    expect(map).toBeInstanceOf(SetOrMapLiteral);
+    expect((map as SetOrMapLiteral).values).toHaveLength(3);
 
     const table = parseExpression(tokens("|a•#|b•#|c•#\n|1|2|3\n|4|5|6"));
-    expect(table).toBeInstanceOf(Table);
-    expect((table as Table).columns).toHaveLength(3);
-    expect((table as Table).rows).toHaveLength(2);
+    expect(table).toBeInstanceOf(TableLiteral);
+    expect((table as TableLiteral).columns).toHaveLength(3);
+    expect((table as TableLiteral).rows).toHaveLength(2);
 
     const select = parseExpression(tokens("table|?|a|b c > 3"));
     expect(select).toBeInstanceOf(Select);
@@ -238,10 +238,10 @@ test("Parse expressions", () => {
 
     const binary = parseExpression(tokens("1 + 2 + 3 + 4"));
     expect(binary).toBeInstanceOf(BinaryOperation);
-    expect((binary as BinaryOperation).left).toBeInstanceOf(Measurement);
+    expect((binary as BinaryOperation).left).toBeInstanceOf(MeasurementLiteral);
     expect((binary as BinaryOperation).right).toBeInstanceOf(BinaryOperation);
     expect(((binary as BinaryOperation).right as BinaryOperation).right).toBeInstanceOf(BinaryOperation);
-    expect((((binary as BinaryOperation).right as BinaryOperation).right as BinaryOperation).right).toBeInstanceOf(Measurement);
+    expect((((binary as BinaryOperation).right as BinaryOperation).right as BinaryOperation).right).toBeInstanceOf(MeasurementLiteral);
 
     const conditional = parseExpression(tokens("a ? b c ? d e"));
     expect(conditional).toBeInstanceOf(Conditional);
@@ -324,27 +324,27 @@ test("Blocks and binds", () => {
 
     const map = parseBlock(true, tokens("{1:1 2:2 3:3}"));
     expect(map).toBeInstanceOf(Block);
-    expect((map as Block).statements[0]).toBeInstanceOf(SetOrMap);
+    expect((map as Block).statements[0]).toBeInstanceOf(SetOrMapLiteral);
 
     const bindMap = parseBlock(true, tokens("map: {1:1 2:2 3:3}"));
     expect(bindMap).toBeInstanceOf(Block);
     expect((bindMap as Block).statements[0]).toBeInstanceOf(Bind);
-    expect(((bindMap as Block).statements[0] as Bind).value).toBeInstanceOf(SetOrMap);
+    expect(((bindMap as Block).statements[0] as Bind).value).toBeInstanceOf(SetOrMapLiteral);
 
     const table = parseBlock(true, tokens("|a•#|b•#\n|1|2"));
     expect(table).toBeInstanceOf(Block);
-    expect((table as Block).statements[0]).toBeInstanceOf(Table);
+    expect((table as Block).statements[0]).toBeInstanceOf(TableLiteral);
 
     const bindTable = parseBlock(true, tokens("table: |a•#|b•#\n|1|2"));
     expect(bindTable).toBeInstanceOf(Block);
     expect((bindTable as Block).statements[0]).toBeInstanceOf(Bind);
-    expect(((bindTable as Block).statements[0] as Bind).value).toBeInstanceOf(Table);
+    expect(((bindTable as Block).statements[0] as Bind).value).toBeInstanceOf(TableLiteral);
 
     const bindTypedTable = parseBlock(true, tokens("table•|a•#|b•#: |a•#|b•#\n|1|2"));
     expect(bindTypedTable).toBeInstanceOf(Block);
     expect((bindTypedTable as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindTypedTable as Block).statements[0] as Bind).type).toBeInstanceOf(TableType);
-    expect(((bindTypedTable as Block).statements[0] as Bind).value).toBeInstanceOf(Table);
+    expect(((bindTypedTable as Block).statements[0] as Bind).value).toBeInstanceOf(TableLiteral);
 
 });
 

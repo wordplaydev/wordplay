@@ -2,8 +2,12 @@ import Node from "./Node";
 import type Token from "./Token";
 import { SyntacticConflict } from "../parser/Parser"
 import Conflict, { UnparsableConflict } from "../parser/Conflict";
+import type { Evaluable } from "../runtime/Evaluation";
+import type Evaluator from "../runtime/Evaluator";
+import type Value from "../runtime/Value";
+import Exception, { ExceptionType } from "../runtime/Exception";
 
-export default class Unparsable extends Node {
+export default class Unparsable extends Node implements Evaluable {
     
     readonly reason: SyntacticConflict;
     readonly lineBefore: Token[];
@@ -27,6 +31,10 @@ export default class Unparsable extends Node {
     getConflicts(): Conflict[] {
         // All syntax errors are conflicts
         return [ new UnparsableConflict(this) ];
+    }
+
+    evaluate(evaluator: Evaluator): Node | Value {
+        return new Exception(ExceptionType.UNPARSABLE);
     }
 
 }

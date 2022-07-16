@@ -46,7 +46,7 @@
 
     .document-content {
         width: auto;
-        min-height: 20rem;
+        min-height: 10rem;
         background: var(--wordplay-background);
         padding: var(--wordplay-spacing);
         color: var(--wordplay-foreground);

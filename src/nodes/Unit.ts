@@ -22,7 +22,7 @@ export default class Unit extends Type {
         }
         // If we were given strings, just assign them.
         else {
-            this.numerator = denominator as string[];
+            this.numerator = numerator as string[];
             this.denominator = denominator as string[];
             this.tokens = [];
         }
@@ -50,6 +50,13 @@ export default class Unit extends Type {
     isCompatible(program: Program, unit: Unit): boolean {
         return this.numerator.join("·") === unit.numerator.join("·") && 
                this.denominator.join("·") === unit.denominator.join("·");
+    }
+
+    toString(depth?: number) {
+        return (depth === undefined ? "" : "\t".repeat(depth)) + 
+            (this.numerator.length === 0 && this.denominator.length === 0 ? "" :
+            (this.numerator.length === 0 ? "1" : this.numerator.join("·")) + 
+            (this.denominator.length === 0 ? "" : "/" + this.denominator.join("·")));
     }
 
 }

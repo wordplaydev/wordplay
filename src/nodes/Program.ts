@@ -1,13 +1,17 @@
 import Node from "./Node";
 import type Borrow from "./Borrow";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 import type Conflict from "../parser/Conflict";
 import type Expression from "./Expression";
 import type TypeVariable from "./TypeVariable";
 import type Block from "../nodes/Block";
 import type Bind from "../nodes/Bind";
+import type Evaluator from "../runtime/Evaluator";
+import type Value from "../runtime/Value";
+import type { Evaluable } from "../runtime/Evaluation";
+import Exception, { ExceptionType } from "../runtime/Exception";
 
-export default class Program extends Node {
+export default class Program extends Node implements Evaluable {
     
     readonly borrows: (Borrow | Unparsable)[];
     readonly block: Block | Unparsable;
@@ -49,6 +53,18 @@ export default class Program extends Node {
                 }
             } while(parent !== undefined && ancestors.length > 0);
         }
+
+    }
+
+    evaluate(evaluator: Evaluator): Value | Evaluable {
+
+        // TODO Evaluate the borrows.
+
+        // If we just started to evaluate this, evaluate the block.
+        // Otherwise, return the value returned by the block.
+        return this.block instanceof Unparsable ? new Exception(ExceptionType.UNPARSABLE) :
+            evaluator.justEvaluated(this.block) ? evaluator.popValue() : 
+            this.block;
 
     }
 

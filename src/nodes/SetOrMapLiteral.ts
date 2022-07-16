@@ -8,7 +8,7 @@ import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 
-export default class SetOrMap extends Expression {
+export default class SetOrMapLiteral extends Expression {
 
     readonly open: Token;
     readonly values: (Unparsable|Expression|KeyValue)[];

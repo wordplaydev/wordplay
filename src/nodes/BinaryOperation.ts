@@ -1,7 +1,7 @@
 import BooleanType from "./BooleanType";
 import Conflict, { IncompatibleOperand, IncompatibleUnits, LeftToRightOrderOfOperations, UnknownName } from "../parser/Conflict";
 import Expression from "./Expression";
-import Measurement from "./Measurement";
+import MeasurementLiteral from "./MeasurementLiteral";
 import MeasurementType from "./MeasurementType";
 import type Program from "./Program";
 import Token, { TokenType } from "./Token";
@@ -10,6 +10,12 @@ import UnaryOperation from "./UnaryOperation";
 import Unit from "./Unit";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
+import type Evaluator from "src/runtime/Evaluator";
+import type Value from "src/runtime/Value";
+import type Node from "./Node";
+import Measurement from "../runtime/Measurement";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import Bool from "../runtime/Bool";
 
 export default class BinaryOperation extends Expression {
 
@@ -140,10 +146,10 @@ export default class BinaryOperation extends Expression {
                     // If the exponent is computed, we can't know the resulting type.
                     // But we can special case literals and negated literals.
                     let exponent = undefined;
-                    if(this.right instanceof Measurement && this.right.isInteger())
+                    if(this.right instanceof MeasurementLiteral && this.right.isInteger())
                         exponent = parseInt(this.right.number.text);
-                    else if(this.right instanceof UnaryOperation && this.right.value instanceof Measurement && this.right.value.isInteger())
-                        exponent = parseInt(this.right.value.number.text);
+                    else if(this.right instanceof UnaryOperation && this.right.operand instanceof MeasurementLiteral && this.right.operand.isInteger())
+                        exponent = parseInt(this.right.operand.number.text);
                     if(exponent === undefined) return new UnknownType(this);
                     // If the exponent is an integer, then we can compute it.
                     let newNumerator = leftType.unit.numerator;
@@ -179,6 +185,88 @@ export default class BinaryOperation extends Expression {
             default:
                 return new UnknownType(this);
         }
+    }
+
+    evaluate(evaluator: Evaluator): Node | Value {
+        
+        // If we've evaluated the left, evaluate the right.
+        if(evaluator.justEvaluated(this.left))
+            return this.right;
+        // If we've evaluated the right, compute and return the value.
+        else if(evaluator.justEvaluated(this.right)) {
+
+            const right = evaluator.popValue();
+            const left = evaluator.popValue();
+
+            switch(this.operator.text) {
+                case "+":
+                    return left instanceof Measurement && right instanceof Measurement && left.unit.toString() === right.unit.toString() ?
+                        new Measurement(left.number + right.number, left.unit) :
+                        new Exception(ExceptionType.INCOMPATIBLE_TYPE)
+                case "-":
+                    return left instanceof Measurement && right instanceof Measurement && left.unit.toString() === right.unit.toString() ?
+                        new Measurement(left.number - right.number, left.unit) :
+                        new Exception(ExceptionType.INCOMPATIBLE_TYPE)
+                case "×":
+                case "*":
+                case "·":
+                    return left instanceof Measurement && right instanceof Measurement ?
+                        new Measurement(left.number * right.number, new Unit(
+                            left.unit.numerator.concat(right.unit.numerator),
+                            left.unit.denominator.concat(right.unit.denominator)
+                        )) :
+                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+                case "÷":
+                    return left instanceof Measurement && right instanceof Measurement ?
+                        new Measurement(left.number / right.number, new Unit(
+                                left.unit.numerator.concat(right.unit.denominator),
+                                left.unit.denominator.concat(right.unit.numerator)
+                            )) :
+                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+                case "%":
+                    return left instanceof Measurement && right instanceof Measurement ?
+                        new Measurement(left.number % right.number, left.unit) :
+                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+                case "^":
+                case "<":
+                    return left instanceof Measurement && right instanceof Measurement ?
+                        new Bool(left.number < right.number) :
+                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+                case ">":
+                    return left instanceof Measurement && right instanceof Measurement ?
+                        new Bool(left.number > right.number) :
+                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+                case "≤":
+                    return left instanceof Measurement && right instanceof Measurement ?
+                        new Bool(left.number >= right.number) :
+                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+                case "≥":
+                    return left instanceof Measurement && right instanceof Measurement ?
+                        new Bool(left.number <= right.number) :
+                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+                case "=":
+                    return left instanceof Measurement && right instanceof Measurement ?
+                        new Bool(left.number === right.number) :
+                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+                case "≠":
+                    return left instanceof Measurement && right instanceof Measurement ?
+                        new Bool(left.number !== right.number) :
+                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+                case "∧":
+                    return left instanceof Bool && right instanceof Bool ?
+                        new Bool(left.bool && right.bool) :
+                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+                case "∨":
+                    return left instanceof Bool && right instanceof Bool ?
+                        new Bool(left.bool || right.bool) :
+                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+                default:
+                    return new Exception(ExceptionType.UNKNOWN_OPERATOR);
+            }
+        }
+        // Otherwise, evaluate the left.
+        else return this.left;
+
     }
 
 }

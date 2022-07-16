@@ -7,7 +7,7 @@ import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
 
-export default class List extends Expression {
+export default class ListLiteral extends Expression {
 
     readonly open: Token;
     readonly values: (Expression | Unparsable)[];

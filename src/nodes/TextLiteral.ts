@@ -1,11 +1,15 @@
 import type Conflict from "../parser/Conflict";
 import Expression from "./Expression";
+import type Node from "./Node";
 import type Program from "./Program";
 import TextType from "./TextType";
 import type Token from "./Token";
 import type Type from "./Type";
+import type Evaluator from "../runtime/Evaluator";
+import type Value from "../runtime/Value";
+import Text from "../runtime/Text";
 
-export default class Text extends Expression {
+export default class TextLiteral extends Expression {
     
     readonly text: Token;
     readonly format?: Token;
@@ -22,6 +26,10 @@ export default class Text extends Expression {
 
     getType(program: Program): Type {
         return new TextType(undefined, this.format);
+    }
+
+    evaluate(evaluator: Evaluator): Value | Node {
+        return new Text(this.text.text, this.format === undefined ? undefined : this.format.text);
     }
 
 }

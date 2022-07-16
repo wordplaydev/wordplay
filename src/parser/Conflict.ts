@@ -17,14 +17,14 @@ import type Expression from "../nodes/Expression";
 import type { default as Func } from "../nodes/Function";
 import type FunctionType from "../nodes/FunctionType";
 import type Insert from "../nodes/Insert";
-import type List from "../nodes/List";
+import type ListLiteral from "../nodes/ListLiteral";
 import type ListAccess from "../nodes/ListAccess";
 import type Name from "../nodes/Name";
 import type NameType from "../nodes/NameType";
 import type Row from "../nodes/Row";
 import type Select from "../nodes/Select";
 import type SetAccess from "../nodes/SetAccess";
-import type SetOrMap from "../nodes/SetOrMap";
+import type SetOrMapLiteral from "../nodes/SetOrMapLiteral";
 import type Share from "../nodes/Share";
 import type Stream from "../nodes/Stream";
 import type TableType from "../nodes/TableType";
@@ -372,16 +372,16 @@ export class IncompatibleStreamValues extends Conflict {
 }
 
 export class NotASetOrMap extends Conflict {
-    readonly set: SetOrMap;
-    constructor(set: SetOrMap) {
+    readonly set: SetOrMapLiteral;
+    constructor(set: SetOrMapLiteral) {
         super(false);
         this.set = set;
     }
 }
 
 export class IncompatibleValues extends Conflict {
-    readonly structure: SetOrMap | List;
-    constructor(set: SetOrMap | List) {
+    readonly structure: SetOrMapLiteral | ListLiteral;
+    constructor(set: SetOrMapLiteral | ListLiteral) {
         super(false);
         this.structure = set;
     }

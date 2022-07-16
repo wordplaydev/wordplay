@@ -4,9 +4,12 @@ import type Program from "./Program";
 import type Conflict from "../parser/Conflict";
 import NoneType from "./NoneType";
 import type Type from "./Type";
+import type Node from "./Node";
+import None from "../runtime/None";
+import type Evaluator from "../runtime/Evaluator";
+import type Value from "../runtime/Value";
 
-export default class None extends Expression {
-    
+export default class NoneLiteral extends Expression {
     readonly none: Token;
     readonly name?: Token;
 
@@ -25,5 +28,9 @@ export default class None extends Expression {
         // Always of type none, with the optional name.
         return new NoneType(this.none, this.name);
     }
+
+    evaluate(evaluator: Evaluator): Value | Node {
+        return new None(this.name ? this.name.text : undefined);
+    }    
 
 }

@@ -6,9 +6,9 @@ import Expression from "./Expression";
 import TableType from "./TableType";
 import UnknownType from "./UnknownType";
 import ColumnType from "./ColumnType";
-import Bind from "../nodes/Bind";
+import Bind from "./Bind";
 
-export default class Table extends Expression {
+export default class TableLiteral extends Expression {
     
     readonly columns: Column[];
     readonly rows: Row[];

@@ -6,6 +6,11 @@ import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
+import type Evaluator from "../runtime/Evaluator";
+import type Value from "../runtime/Value";
+import type Node from "../nodes/Node";
+import Bool from "../runtime/Bool";
+import Exception, { ExceptionType } from "../runtime/Exception";
 
 export default class Conditional extends Expression {
     
@@ -43,6 +48,24 @@ export default class Conditional extends Expression {
     getType(program: Program): Type {
         // Whatever tyoe the yes/no returns.
         return this.yes instanceof Unparsable ? new UnknownType(this) : this.yes.getType(program);
+    }
+
+    evaluate(evaluator: Evaluator): Node | Value {
+
+        // Did we just evaluate the condition? Choose which branch to execute.
+        if(evaluator.justEvaluated(this.condition)) {
+            const value = evaluator.popValue();
+            return value instanceof Bool ?
+                (value.bool ? this.yes : this.no) :
+                new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+        }
+        // If we evaluated one of the branches, return the value.
+        else if(evaluator.justEvaluated(this.yes) || evaluator.justEvaluated(this.no))
+            return evaluator.popValue();
+        // Otherwise, evaluate the condition.
+        else 
+            return this.condition;
+
     }
 
 }

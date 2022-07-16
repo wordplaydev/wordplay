@@ -7,6 +7,7 @@
     import { tokenize } from '../parser/Tokenizer'
 
     import Manager from '../components/Manager.svelte';
+    import Evaluator from '../runtime/Evaluator';
 
     const code = new Document("code", "" );
     const tokens = new Document("tokens", code, doc => tokenize(doc.getContent()).map(t => t.toString()).join("\n"));
@@ -15,12 +16,17 @@
         const program = parse(doc.getContent());
         return program.getAllConflicts(program).join("\n");
     });
+    const output = new Document("output", code, doc => {
+        const evaluator = new Evaluator(parse(doc.getContent()));
+        return `${evaluator.evaluate()}`;
+    });
 
     project.set(new Project("Play", [
         code,
         tokens,
         tree,
-        conflicts
+        conflicts,
+        output
     ]));
 
 </script>
