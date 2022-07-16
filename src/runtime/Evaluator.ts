@@ -1,6 +1,7 @@
 import type Program from "../nodes/Program";
 import Evaluation, { type Evaluable } from "./Evaluation";
 import Exception, { ExceptionType } from "./Exception";
+import NoOp from "./NoOp";
 import Value from "./Value";
 
 export default class Evaluator {
@@ -16,7 +17,7 @@ export default class Evaluator {
 
     constructor(program: Program) {
 
-        this.evaluations = [ new Evaluation(program) ];
+        this.evaluations = [ new Evaluation(undefined, program) ];
 
     }
 
@@ -41,8 +42,9 @@ export default class Evaluator {
         // Remember the evaluation we just finished.
         if(result instanceof Value) {
 
-            // Save the value on the value stack.
-            this.values.unshift(result);
+            // Save the value on the value stack if it wasn't a no op.
+            if(!(result instanceof NoOp))
+                this.values.unshift(result);
 
             // If it was an exception, stop evaluating.
             if(result instanceof Exception)
@@ -55,7 +57,7 @@ export default class Evaluator {
         }
         // Otherwise, evaluate the node returned.
         else {
-            this.evaluations.unshift(new Evaluation(result));
+            this.evaluations.unshift(new Evaluation(this.evaluations[0], result));
         }
 
         // If this particular frame has been stuck on the same node for a long time, there's a defect in a Node.evaluate() function.
@@ -82,6 +84,17 @@ export default class Evaluator {
     popValue(): Value { 
         const value = this.values.shift(); 
         return value === undefined ? new Exception(ExceptionType.EXPECTED_VALUE) : value;
+    }
+
+    /** Bind the given value to the given name in the context of the current evaluation. */
+    bind(name: string, value: Value) {
+        if(this.evaluations.length > 0 && this.evaluations[0].context !== undefined)
+            this.evaluations[0].context.bind(name, value);
+    }
+
+    /** Resolve the given name in the current execution context. */
+    resolve(name: string): Value | undefined {
+        return this.evaluations.length === 0 ? undefined : this.evaluations[0].resolve(name);
     }
 
 }

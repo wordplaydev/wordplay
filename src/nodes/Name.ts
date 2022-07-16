@@ -46,7 +46,13 @@ export default class Name extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value | Node {
-        return new Exception(ExceptionType.NOT_IMPLEMENTED);
+
+        // Search for the name in the given evaluation context.
+        const value = evaluator.resolve(this.name.text);
+
+        return value === undefined ? new Exception(ExceptionType.EXPECTED_VALUE) : value;
+
+
     }
 
 }
