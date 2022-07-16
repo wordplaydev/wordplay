@@ -8,6 +8,10 @@ import TableType from "./TableType";
 import type TypeVariable from "./TypeVariable";
 import Bind from "../nodes/Bind";
 import type Type from "./Type";
+import type Evaluator from "../runtime/Evaluator";
+import type Value from "../runtime/Value";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import Table from "../runtime/Table";
 
 export default class Insert extends Expression {
     
@@ -73,5 +77,39 @@ export default class Insert extends Expression {
         return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
 
     }
-    
+
+    evaluate(evaluator: Evaluator): Value | Node {
+
+        const nodeLastEvaluated = evaluator.lastEvaluated();
+
+        // Haven't started? Evaluate the table.
+        if(nodeLastEvaluated !== this.table && this.row.cells.find(c => c.expression === nodeLastEvaluated) === undefined)
+            return this.table;
+        
+        // Just finished the table? First cell's expression.
+        if(nodeLastEvaluated === this.table && this.row.cells.length > 0)
+            return this.row.cells[0].expression;
+        
+        // Next cell's expression.
+        const lastCell = this.row.cells.find(c => c.expression === nodeLastEvaluated);
+        if(lastCell !== undefined && lastCell.expression !== this.row.cells[this.row.cells.length - 1].expression)
+            return this.row.cells[this.row.cells.indexOf(lastCell) + 1].expression;
+
+        // We've got a table and some cells, insert the row!
+        const values: Value[] = [];
+        for(let i = 0; i < this.row.cells.length; i++) {
+            const value = evaluator.popValue();
+            if(value === undefined) return new Exception(ExceptionType.EXPECTED_VALUE);
+            else values.unshift(value);
+        }
+
+        const table = evaluator.popValue();
+        if(table === undefined) return new Exception(ExceptionType.EXPECTED_VALUE);
+        else if(!(table instanceof Table)) return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+
+        // Return a new table with the values.
+        return table.insert(values);
+
+    }
+
 }

@@ -1,3 +1,4 @@
+import type Exception from "./Exception";
 import Value from "./Value";
 
 export default class Table extends Value {
@@ -7,6 +8,12 @@ export default class Table extends Value {
     constructor(rows: Value[][]) {
         super();
         this.rows = rows;
+    }
+
+    insert(row: Value[]): Table | Exception {
+
+        return new Table([ ... this.rows, row ]);
+        
     }
 
     toString(): string {
