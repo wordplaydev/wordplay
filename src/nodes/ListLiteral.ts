@@ -65,7 +65,7 @@ export default class ListLiteral extends Expression {
             // Pop all of the values.
             const values = [];
             for(let i = 0; i < this.values.length; i++)
-                values.unshift(evaluator.popValue())
+                values.unshift(evaluator.popValue());
 
             return new List(values);
 

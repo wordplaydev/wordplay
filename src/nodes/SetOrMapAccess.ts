@@ -1,11 +1,17 @@
 import Conflict, { IncompatibleKey } from "../parser/Conflict";
 import Expression from "./Expression";
+import type Node from "./Node";
 import type Program from "./Program";
 import SetOrMapType from "./SetOrMapType";
 import type Token from "./Token";
 import Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
+import type Evaluator from "../runtime/Evaluator";
+import type Value from "../runtime/Value";
+import SetValue from "../runtime/SetValue";
+import MapValue from "../runtime/MapValue";
+import Exception, { ExceptionType } from "../runtime/Exception";
 
 export default class SetOrMapAccess extends Expression {
 
@@ -49,6 +55,26 @@ export default class SetOrMapAccess extends Expression {
         if(setOrMapType.value !== undefined && setOrMapType.value instanceof Type) return setOrMapType.value;
         if(setOrMapType.key instanceof Type) return setOrMapType.key;
         return new UnknownType(this);
+    }
+
+    evaluate(evaluator: Evaluator): Node | Value {
+        
+        // Evaluate the index next.
+        if(evaluator.justEvaluated(this.setOrMap))
+            return this.key;
+        // Return the index item, or none if it doesn't exist.
+        else if(evaluator.justEvaluated(this.key)) {
+
+            const key = evaluator.popValue();
+            const setOrMap = evaluator.popValue();
+
+            if(!(setOrMap instanceof SetValue || setOrMap instanceof MapValue)) return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+            else return setOrMap.get(key);
+
+        }
+        // Otherwise, evaluate the list.
+        else return this.setOrMap;
+    
     }
 
 }
