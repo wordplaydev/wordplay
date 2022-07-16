@@ -1,5 +1,7 @@
-export default class Value {
+export default abstract class Value {
 
     constructor() {}
+
+    abstract toString(): string;
 
 }

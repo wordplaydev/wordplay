@@ -15,7 +15,8 @@ export default class Measurement extends Value {
         this.unit = unit;
     }
 
-    toString() { return this.number.toString() + this.unit.toString(); }
+    // TODO Check the integer part once we implement it.
+    isInteger() { return this.number === Math.floor(this.number); }
 
     evaluatePrefix(operator: string) {
 
@@ -72,5 +73,7 @@ export default class Measurement extends Value {
         }
 
     }
+
+    toString() { return this.number.toString() + this.unit.toString(); }
 
 }

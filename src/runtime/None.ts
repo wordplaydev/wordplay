@@ -9,6 +9,6 @@ export default class None extends Value {
         this.name = name;
     }
 
-    toString() { return `!${name === undefined ? "" : name}`; }
+    toString() { return `!${this.name === undefined ? "" : this.name}`; }
 
 }
