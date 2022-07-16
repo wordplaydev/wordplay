@@ -27,7 +27,7 @@ import BinaryOperation from "../nodes/BinaryOperation";
 import ListLiteral from "../nodes/ListLiteral";
 import ListAccess from "../nodes/ListAccess";
 import SetOrMapLiteral from "../nodes/SetOrMapLiteral";
-import SetAccess from "../nodes/SetAccess";
+import SetOrMapAccess from "../nodes/SetOrMapAccess";
 import Stream from "../nodes/Stream";
 import Conditional from "../nodes/Conditional";
 import TableLiteral from "../nodes/TableLiteral";
@@ -203,11 +203,11 @@ test("Parse expressions", () => {
     expect((set as SetOrMapLiteral).values).toHaveLength(3);
 
     const setAccess = parseExpression(tokens("set{2}"));
-    expect(setAccess).toBeInstanceOf(SetAccess);
+    expect(setAccess).toBeInstanceOf(SetOrMapAccess);
 
     const nestedSetAccess = parseExpression(tokens("set{2}{3}"));
-    expect(nestedSetAccess).toBeInstanceOf(SetAccess);
-    expect((nestedSetAccess as SetAccess).setOrMap).toBeInstanceOf(SetAccess);
+    expect(nestedSetAccess).toBeInstanceOf(SetOrMapAccess);
+    expect((nestedSetAccess as SetOrMapAccess).setOrMap).toBeInstanceOf(SetOrMapAccess);
 
     const map = parseExpression(tokens("{1:2 3:4 5:6}"));
     expect(map).toBeInstanceOf(SetOrMapLiteral);
@@ -311,12 +311,12 @@ test("Parse expressions", () => {
     expect(((customType as CustomType).block as Block).statements).toHaveLength(1);
 
     const access = parseExpression(tokens("a.b.c()[d]{f}"));
-    expect(access).toBeInstanceOf(SetAccess);
-    expect((access as SetAccess).setOrMap).toBeInstanceOf(ListAccess);
-    expect(((access as SetAccess).setOrMap as ListAccess).list).toBeInstanceOf(Evaluate);
-    expect((((access as SetAccess).setOrMap as ListAccess).list as Evaluate).func).toBeInstanceOf(AccessName);
-    expect(((((access as SetAccess).setOrMap as ListAccess).list as Evaluate).func as AccessName).subject).toBeInstanceOf(AccessName);
-    expect((((((access as SetAccess).setOrMap as ListAccess).list as Evaluate).func as AccessName).subject as AccessName).subject).toBeInstanceOf(Name);
+    expect(access).toBeInstanceOf(SetOrMapAccess);
+    expect((access as SetOrMapAccess).setOrMap).toBeInstanceOf(ListAccess);
+    expect(((access as SetOrMapAccess).setOrMap as ListAccess).list).toBeInstanceOf(Evaluate);
+    expect((((access as SetOrMapAccess).setOrMap as ListAccess).list as Evaluate).func).toBeInstanceOf(AccessName);
+    expect(((((access as SetOrMapAccess).setOrMap as ListAccess).list as Evaluate).func as AccessName).subject).toBeInstanceOf(AccessName);
+    expect((((((access as SetOrMapAccess).setOrMap as ListAccess).list as Evaluate).func as AccessName).subject as AccessName).subject).toBeInstanceOf(Name);
 
 })
 

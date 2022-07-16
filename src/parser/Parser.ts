@@ -50,7 +50,7 @@ import Conversion from "../nodes/Conversion";
 import Stream from "../nodes/Stream";
 import StreamType from "../nodes/StreamType";
 import BooleanType from "../nodes/BooleanType";
-import SetAccess from "../nodes/SetAccess";
+import SetOrMapAccess from "../nodes/SetOrMapAccess";
 import Name from "../nodes/Name";
 import BooleanLiteral from "../nodes/BooleanLiteral";
 import Convert from "../nodes/Convert";
@@ -605,7 +605,7 @@ function parseSetOrMapAccess(left: Expression | Unparsable, tokens: Tokens): Exp
             return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE);
         const close = tokens.read();
 
-        left = new SetAccess(left, open, key, close);
+        left = new SetOrMapAccess(left, open, key, close);
 
         // But wait, is it a function evaluation?
         if(tokens.nextIs(TokenType.EVAL_OPEN))

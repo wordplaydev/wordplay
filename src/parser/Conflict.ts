@@ -23,7 +23,7 @@ import type Name from "../nodes/Name";
 import type NameType from "../nodes/NameType";
 import type Row from "../nodes/Row";
 import type Select from "../nodes/Select";
-import type SetAccess from "../nodes/SetAccess";
+import type SetOrMapAccess from "../nodes/SetOrMapAccess";
 import type SetOrMapLiteral from "../nodes/SetOrMapLiteral";
 import type Share from "../nodes/Share";
 import type Stream from "../nodes/Stream";
@@ -348,8 +348,8 @@ export class UnknownTypeName extends Conflict {
 }
 
 export class IncompatibleKey extends Conflict {
-    readonly access: SetAccess;
-    constructor(access: SetAccess) {
+    readonly access: SetOrMapAccess;
+    constructor(access: SetOrMapAccess) {
         super(false);
         this.access = access;
     }
