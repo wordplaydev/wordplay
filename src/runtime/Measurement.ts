@@ -17,11 +17,22 @@ export default class Measurement extends Value {
 
     toString() { return this.number.toString() + this.unit.toString(); }
 
-    evaluate(operator: string, right: Value) {
+    evaluatePrefix(operator: string) {
+
+        switch(operator) {
+            case "-": return new Measurement(-this.number, this.unit);
+            // TODO Fix the unit on square roots.
+            case "√": return new Measurement(Math.sqrt(this.number), this.unit);
+            default: return new Exception(ExceptionType.UNKNOWN_OPERATOR);
+        }
+
+    }
+
+    evaluateInfix(operator: string, right: Value) {
 
         if(!(right instanceof Measurement)) 
             return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-
+    
         switch(operator) {
             case "+":
                 return this.unit.toString() === right.unit.toString() ?
@@ -48,24 +59,16 @@ export default class Measurement extends Value {
                         this.unit.denominator.concat(right.unit.numerator)
                     )
                 );
-            case "%":
-                return new Measurement(this.number % right.number, this.unit);
+            case "%": return new Measurement(this.number % right.number, this.unit);
+            // TODO Implement
             case "^":
-                // TODO Implement
-            case "<":
-                return new Bool(this.number < right.number);
-            case ">":
-                return new Bool(this.number > right.number);
-            case "≤":
-                return new Bool(this.number >= right.number);
-            case "≥":
-                return new Bool(this.number <= right.number);
-            case "=":
-                return new Bool(this.number === right.number);
-            case "≠":
-                return new Bool(this.number !== right.number);
-            default:
-                return new Exception(ExceptionType.UNKNOWN_OPERATOR);
+            case "<": return new Bool(this.number < right.number);
+            case ">": return new Bool(this.number > right.number);
+            case "≤": return new Bool(this.number >= right.number);
+            case "≥": return new Bool(this.number <= right.number);
+            case "=": return new Bool(this.number === right.number);
+            case "≠": return new Bool(this.number !== right.number);
+            default: return new Exception(ExceptionType.UNKNOWN_OPERATOR);
         }
 
     }

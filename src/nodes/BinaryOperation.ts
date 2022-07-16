@@ -201,7 +201,7 @@ export default class BinaryOperation extends Expression {
             // Ask the value to evaluate it. We could do this here, but it's
             // just cleaner to delegate it to specific types.
             if(left instanceof Measurement || left instanceof Bool)
-                return left.evaluate(this.operator.text, right);
+                return left.evaluateInfix(this.operator.text, right);
             else
                 return new Exception(ExceptionType.UNKNOWN_OPERATOR);
 

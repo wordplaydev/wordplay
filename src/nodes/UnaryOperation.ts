@@ -85,23 +85,11 @@ export default class UnaryOperation extends Expression {
         // Get the value of the operand.
         const value = evaluator.popValue();
 
-        // Compute the new value based on the operator.
-        if(this.operator.text === "¬") {
-            return value instanceof Bool ?
-                new Bool(!value.bool) :
-                new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-        }
-        else if(this.operator.text === "√") {
-            return value instanceof Measurement ?
-                new Measurement(Math.sqrt(value.number), value.unit) :
-                new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-        } 
-        else if(this.operator.text === "-") {
-            return value instanceof Measurement ?
-                new Measurement(-value.number, value.unit) :
-                new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-        }
-        else return new Exception(ExceptionType.UNKNOWN_OPERATOR);
+        // Evaluate the function on the value.
+        if(value instanceof Measurement || value instanceof Bool)
+            return value.evaluatePrefix(this.operator.text);
+        else
+            return new Exception(ExceptionType.UNKNOWN_OPERATOR);
 
     }
 
