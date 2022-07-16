@@ -50,7 +50,11 @@ export default class Template extends Expression {
         if(this.expressions.length === 0) return new Text(this.parts.map(p => (p as Token).text).join(""), this.format?.text);
 
         const lastPart = evaluator.lastEvaluated();
-        const index = lastPart === undefined ? -1 : this.expressions.indexOf(lastPart);
+        const index = 
+            lastPart === undefined ? -1 : 
+            lastPart instanceof Expression ? this.expressions.indexOf(lastPart) :
+            -1;
+            
         // First TODO Handle conversions
         if(index < 0) return this.expressions[0];
         // Middle TODO Handle conversions

@@ -11,6 +11,9 @@ import CustomType from "./CustomType";
 import Block from "../nodes/Block";
 import ConversionType from "./ConversionType";
 import type Type from "./Type";
+import type Evaluator from "../runtime/Evaluator";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import type Value from "../runtime/Value";
 
 export default class Conversion extends Expression {
 
@@ -56,6 +59,10 @@ export default class Conversion extends Expression {
 
     getType(program: Program): Type {
         return this.output instanceof Unparsable ? new UnknownType(this) : new ConversionType(this.output);
+    }
+
+    evaluate(evaluator: Evaluator): Value | Node {
+        return new Exception(ExceptionType.NOT_IMPLEMENTED);
     }
 
 }

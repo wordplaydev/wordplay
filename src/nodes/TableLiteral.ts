@@ -13,12 +13,13 @@ import type Node from "./Node";
 import type { Evaluable } from "../runtime/Evaluation";
 import Table from "../runtime/Table";
 import Exception, { ExceptionType } from "../runtime/Exception";
+import type Unparsable from "./Unparsable";
 
 export default class TableLiteral extends Expression {
     
     readonly columns: Column[];
     readonly rows: Row[];
-    readonly expressions: Expression[];
+    readonly expressions: (Expression|Unparsable|Bind)[];
 
     constructor(columns: Column[], rows: Row[]) {
         super();
@@ -27,7 +28,7 @@ export default class TableLiteral extends Expression {
         this.rows = rows;
 
         // A convenient representation of all cell expressions in order.
-        let expressions: Evaluable[] = [];
+        let expressions: (Expression|Unparsable|Bind)[] = [];
         this.rows.forEach(r => r.cells.forEach(c => expressions.push(c.expression)));
         this.expressions = expressions;
     
@@ -74,7 +75,11 @@ export default class TableLiteral extends Expression {
         if(this.expressions.length === 0) return new Table([]);
 
         const lastExpression = evaluator.lastEvaluated();
-        const index = lastExpression === undefined ? -1 : this.expressions.indexOf(lastExpression);
+        const index = 
+            lastExpression === undefined ? -1 : 
+            lastExpression instanceof Expression ? this.expressions.indexOf(lastExpression) :
+            -1;
+
         if(index < this.expressions.length - 1) return this.expressions[index + 1];
         else {
             const values: Value[] = [];

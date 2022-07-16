@@ -55,7 +55,10 @@ export default class ListLiteral extends Expression {
 
         // Which value are we on?
         const lastValue = evaluator.lastEvaluated();
-        const index = lastValue === undefined ? -1 : this.values.indexOf(lastValue);
+        const index = 
+            lastValue === undefined ? -1 : 
+            lastValue instanceof Expression ? this.values.indexOf(lastValue) :
+            -1;
         // If we haven't started, return the first.
         if(index < 0)
             return this.values[0];

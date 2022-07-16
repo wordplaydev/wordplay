@@ -5,6 +5,9 @@ import StreamType from "./StreamType";
 import type Token from "./Token";
 import type Type from "./Type";
 import type Unparsable from "./Unparsable";
+import type Evaluator from "../runtime/Evaluator";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import type Value from "../runtime/Value";
 
 export default class Stream extends Expression {
 
@@ -47,6 +50,10 @@ export default class Stream extends Expression {
     getType(program: Program): Type {
         // The type depends on the type of the initial value.
         return this.initial.getType(program);
+    }
+
+    evaluate(evaluator: Evaluator): Value | Node {
+        return new Exception(ExceptionType.NOT_IMPLEMENTED);
     }
 
 }

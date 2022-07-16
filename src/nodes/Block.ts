@@ -103,7 +103,10 @@ export default class Block extends Expression {
         const lastEvaluated = evaluator.lastEvaluated();
 
         // Find it in the list of statements.
-        const index = lastEvaluated === undefined ? -1 : this.statements.indexOf(lastEvaluated);
+        const index = 
+            lastEvaluated === undefined ? -1 : 
+            lastEvaluated instanceof Expression || lastEvaluated instanceof Bind || lastEvaluated instanceof Share || lastEvaluated instanceof Bind ? this.statements.indexOf(lastEvaluated) :
+            -1;
 
         // If we haven't executed the first statement yet, start it.
         if(index < 0) return this.statements[0];

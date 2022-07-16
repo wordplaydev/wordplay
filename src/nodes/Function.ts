@@ -11,6 +11,9 @@ import Conflict, { DuplicateLanguages, DuplicateInputNames, DuplicateTypeVariabl
 import FunctionType from "./FunctionType";
 import UnknownType from "./UnknownType";
 import { docsAreUnique, inputsAreUnique, requiredBindAfterOptional, typeVarsAreUnique } from "./util";
+import type Evaluator from "../runtime/Evaluator";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import type Value from "../runtime/Value";
 
 export default class Function extends Expression {
 
@@ -103,6 +106,10 @@ export default class Function extends Expression {
             this.expression instanceof Token || this.expression instanceof Unparsable ? new UnknownType(this) : 
             this.expression.getType(program);
         return new FunctionType(inputTypes, outputType);
+    }
+
+    evaluate(evaluator: Evaluator): Value | Node {
+        return new Exception(ExceptionType.NOT_IMPLEMENTED);
     }
 
 }

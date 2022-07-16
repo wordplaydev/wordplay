@@ -6,6 +6,9 @@ import type Token from "./Token";
 import type Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
+import type Evaluator from "../runtime/Evaluator";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import type Value from "../runtime/Value";
 
 export default class Name extends Expression {
     
@@ -40,6 +43,10 @@ export default class Name extends Expression {
         if(bindOrTypeVar === undefined) return new UnknownType(this);
         if(bindOrTypeVar instanceof TypeVariable) return new UnknownType(this);
         else return bindOrTypeVar.getType(program);
+    }
+
+    evaluate(evaluator: Evaluator): Value | Node {
+        return new Exception(ExceptionType.NOT_IMPLEMENTED);
     }
 
 }

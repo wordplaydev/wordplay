@@ -10,6 +10,9 @@ import Bind from "../nodes/Bind";
 import TableType from "./TableType";
 import BooleanType from "./BooleanType";
 import type TypeVariable from "./TypeVariable";
+import type Evaluator from "../runtime/Evaluator";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import type Value from "../runtime/Value";
 
 export default class Update extends Expression {
     
@@ -87,4 +90,7 @@ export default class Update extends Expression {
 
     }
 
+    evaluate(evaluator: Evaluator): Value | Node {
+        return new Exception(ExceptionType.NOT_IMPLEMENTED);
+    }
 }

@@ -5,6 +5,9 @@ import Type from "./Type";
 import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
 import type Token from "./Token";
+import type Evaluator from "../runtime/Evaluator";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import type Value from "../runtime/Value";
 
 export default class Convert extends Expression {
     
@@ -36,6 +39,10 @@ export default class Convert extends Expression {
     getType(program: Program): Type {
         // Whatever this converts to.
         return this.type instanceof Type ? this.type : new UnknownType(this);
+    }
+
+    evaluate(evaluator: Evaluator): Value | Node {
+        return new Exception(ExceptionType.NOT_IMPLEMENTED);
     }
 
 }

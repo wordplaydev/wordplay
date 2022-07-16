@@ -13,6 +13,10 @@ import BooleanType from "./BooleanType";
 import Bind from "../nodes/Bind";
 import type Node from "./Node";
 import type TypeVariable from "./TypeVariable";
+import type Evaluator from "../runtime/Evaluator";
+import type Value from "../runtime/Value";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import Table from "../runtime/Table";
 
 export default class Select extends Expression {
     
@@ -96,6 +100,12 @@ export default class Select extends Expression {
         }
 
         return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
+
+    }
+
+    evaluate(evaluator: Evaluator): Value | Node {
+
+        return new Exception(ExceptionType.NOT_IMPLEMENTED);
 
     }
 

@@ -10,6 +10,9 @@ import Type from "./Type";
 import type TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
+import type Evaluator from "../runtime/Evaluator";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import type Value from "../runtime/Value";
 
 export default class Evaluate extends Expression {
 
@@ -85,4 +88,8 @@ export default class Evaluate extends Expression {
         else return new UnknownType(this);
     }
 
+    evaluate(evaluator: Evaluator): Value | Node {
+        return new Exception(ExceptionType.NOT_IMPLEMENTED);
+    }
+    
 }

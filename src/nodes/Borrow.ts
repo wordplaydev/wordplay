@@ -2,8 +2,12 @@ import Conflict, { UnknownBorrow } from "../parser/Conflict";
 import Node from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
+import type { Evaluable } from "../runtime/Evaluation";
+import type Evaluator from "../runtime/Evaluator";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import type Value from "../runtime/Value";
 
-export default class Borrow extends Node {
+export default class Borrow extends Node implements Evaluable {
     
     readonly borrow: Token;
     readonly name: Token;
@@ -29,6 +33,10 @@ export default class Borrow extends Node {
 
         return conflicts; 
     
+    }
+
+    evaluate(evaluator: Evaluator): Node | Value {
+        return new Exception(ExceptionType.NOT_IMPLEMENTED);
     }
 
 }

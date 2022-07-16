@@ -9,6 +9,9 @@ import BooleanType from "./BooleanType";
 import TableType from "./TableType";
 import type TypeVariable from "./TypeVariable";
 import Bind from "../nodes/Bind";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import type Evaluator from "../runtime/Evaluator";
+import type Value from "../runtime/Value";
 
 export default class Delete extends Expression {
     
@@ -63,6 +66,10 @@ export default class Delete extends Expression {
 
         return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
 
+    }
+
+    evaluate(evaluator: Evaluator): Value | Node {
+        return new Exception(ExceptionType.NOT_IMPLEMENTED);
     }
 
 }

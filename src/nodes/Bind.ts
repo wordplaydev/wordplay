@@ -15,8 +15,12 @@ import TypeVariable from "./TypeVariable";
 import Name from "./Name";
 import Column from "./Column";
 import ColumnType from "./ColumnType";
+import type Evaluator from "../runtime/Evaluator";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import type Value from "../runtime/Value";
+import type { Evaluable } from "../runtime/Evaluation";
 
-export default class Bind extends Node {
+export default class Bind extends Node implements Evaluable {
     
     readonly docs: Docs[];
     readonly names: Alias[];
@@ -104,6 +108,10 @@ export default class Bind extends Node {
         }
         else return type;
         
+    }
+
+    evaluate(evaluator: Evaluator): Value | Node {
+        return new Exception(ExceptionType.NOT_IMPLEMENTED);
     }
 
 }

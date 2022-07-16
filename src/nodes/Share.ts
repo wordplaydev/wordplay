@@ -4,8 +4,12 @@ import Node from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
 import type Unparsable from "./Unparsable";
+import type { Evaluable } from "../runtime/Evaluation";
+import type Evaluator from "../runtime/Evaluator";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import type Value from "../runtime/Value";
 
-export default class Share extends Node {
+export default class Share extends Node implements Evaluable {
     
     readonly share: Token;
     readonly bind: Bind | Unparsable;
@@ -35,4 +39,7 @@ export default class Share extends Node {
 
     }
 
+    evaluate(evaluator: Evaluator): Node | Value {
+        return new Exception(ExceptionType.NOT_IMPLEMENTED);
+    }
 }

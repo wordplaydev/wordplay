@@ -6,6 +6,9 @@ import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
+import type Evaluator from "../runtime/Evaluator";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import type Value from "../runtime/Value";
 
 export default class AccessName extends Expression {
 
@@ -50,6 +53,10 @@ export default class AccessName extends Expression {
         const bind = subjectType.getBind(this.name.text);
         if(bind === undefined) return new UnknownType(this);
         else return bind.getType(program);
+    }
+
+    evaluate(evaluator: Evaluator): Value | Node {
+        return new Exception(ExceptionType.NOT_IMPLEMENTED);
     }
 
 }

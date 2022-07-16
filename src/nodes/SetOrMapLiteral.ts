@@ -106,7 +106,11 @@ export default class SetOrMapLiteral extends Expression {
         // Which value are we on?
         const lastNode = evaluator.lastEvaluated();
         if(this.kind === SetKind.Set) {
-            const index = lastNode === undefined ? -1 : this.values.indexOf(lastNode);
+            const index = 
+                lastNode === undefined ? -1 : 
+                lastNode instanceof Expression ? this.values.indexOf(lastNode) :
+                -1; 
+                
             // If we haven't started, return the first.
             if(index < 0)
                 return this.values[0];

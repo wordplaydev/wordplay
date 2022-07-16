@@ -5,7 +5,8 @@ export enum ExceptionType {
     UNPARSABLE,
     NO_BLOCK_EXPRESSION,
     UNKNOWN_OPERATOR,
-    INCOMPATIBLE_TYPE
+    INCOMPATIBLE_TYPE,
+    NOT_IMPLEMENTED
 }
 
 export default class Exception extends Value {
