@@ -198,71 +198,13 @@ export default class BinaryOperation extends Expression {
             const right = evaluator.popValue();
             const left = evaluator.popValue();
 
-            switch(this.operator.text) {
-                case "+":
-                    return left instanceof Measurement && right instanceof Measurement && left.unit.toString() === right.unit.toString() ?
-                        new Measurement(left.number + right.number, left.unit) :
-                        new Exception(ExceptionType.INCOMPATIBLE_TYPE)
-                case "-":
-                    return left instanceof Measurement && right instanceof Measurement && left.unit.toString() === right.unit.toString() ?
-                        new Measurement(left.number - right.number, left.unit) :
-                        new Exception(ExceptionType.INCOMPATIBLE_TYPE)
-                case "×":
-                case "*":
-                case "·":
-                    return left instanceof Measurement && right instanceof Measurement ?
-                        new Measurement(left.number * right.number, new Unit(
-                            left.unit.numerator.concat(right.unit.numerator),
-                            left.unit.denominator.concat(right.unit.denominator)
-                        )) :
-                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-                case "÷":
-                    return left instanceof Measurement && right instanceof Measurement ?
-                        new Measurement(left.number / right.number, new Unit(
-                                left.unit.numerator.concat(right.unit.denominator),
-                                left.unit.denominator.concat(right.unit.numerator)
-                            )) :
-                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-                case "%":
-                    return left instanceof Measurement && right instanceof Measurement ?
-                        new Measurement(left.number % right.number, left.unit) :
-                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-                case "^":
-                case "<":
-                    return left instanceof Measurement && right instanceof Measurement ?
-                        new Bool(left.number < right.number) :
-                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-                case ">":
-                    return left instanceof Measurement && right instanceof Measurement ?
-                        new Bool(left.number > right.number) :
-                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-                case "≤":
-                    return left instanceof Measurement && right instanceof Measurement ?
-                        new Bool(left.number >= right.number) :
-                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-                case "≥":
-                    return left instanceof Measurement && right instanceof Measurement ?
-                        new Bool(left.number <= right.number) :
-                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-                case "=":
-                    return left instanceof Measurement && right instanceof Measurement ?
-                        new Bool(left.number === right.number) :
-                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-                case "≠":
-                    return left instanceof Measurement && right instanceof Measurement ?
-                        new Bool(left.number !== right.number) :
-                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-                case "∧":
-                    return left instanceof Bool && right instanceof Bool ?
-                        new Bool(left.bool && right.bool) :
-                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-                case "∨":
-                    return left instanceof Bool && right instanceof Bool ?
-                        new Bool(left.bool || right.bool) :
-                        new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-                default:
-                    return new Exception(ExceptionType.UNKNOWN_OPERATOR);
-            }
+            // Ask the value to evaluate it. We could do this here, but it's
+            // just cleaner to delegate it to specific types.
+            if(left instanceof Measurement || left instanceof Bool)
+                return left.evaluate(this.operator.text, right);
+            else
+                return new Exception(ExceptionType.UNKNOWN_OPERATOR);
+
         }
         // Otherwise, evaluate the left.
         else return this.left;
