@@ -7,17 +7,30 @@ import TableType from "./TableType";
 import UnknownType from "./UnknownType";
 import ColumnType from "./ColumnType";
 import Bind from "./Bind";
+import type Evaluator from "../runtime/Evaluator";
+import type Value from "../runtime/Value";
+import type Node from "./Node";
+import type { Evaluable } from "../runtime/Evaluation";
+import Table from "../runtime/Table";
+import Exception, { ExceptionType } from "../runtime/Exception";
 
 export default class TableLiteral extends Expression {
     
     readonly columns: Column[];
     readonly rows: Row[];
+    readonly expressions: Expression[];
 
     constructor(columns: Column[], rows: Row[]) {
         super();
 
         this.columns = columns;
         this.rows = rows;
+
+        // A convenient representation of all cell expressions in order.
+        let expressions: Evaluable[] = [];
+        this.rows.forEach(r => r.cells.forEach(c => expressions.push(c.expression)));
+        this.expressions = expressions;
+    
     }
 
     getChildren() { return [ ...this.columns, ...this.rows ]; }
@@ -54,6 +67,31 @@ export default class TableLiteral extends Expression {
     getType(program: Program): TableType {
         const columnTypes = this.columns.map(c => new ColumnType(c.bind));
         return new TableType(columnTypes);
+    }
+
+    evaluate(evaluator: Evaluator): Node | Value {
+        
+        if(this.expressions.length === 0) return new Table([]);
+
+        const lastExpression = evaluator.lastEvaluated();
+        const index = lastExpression === undefined ? -1 : this.expressions.indexOf(lastExpression);
+        if(index < this.expressions.length - 1) return this.expressions[index + 1];
+        else {
+            const values: Value[] = [];
+            for(let i = 0; i < this.expressions.length; i++) values.unshift(evaluator.popValue());
+            const rows: Value[][] = [];
+            for(let r = 0; r < this.rows.length; r++) {
+                const row: Value[] = [];
+                for(let c = 0; c < this.columns.length; c++) {
+                    const cell = values.shift();
+                    if(cell === undefined) return new Exception(ExceptionType.EXPECTED_VALUE);
+                    else row.push(cell);
+                }
+                rows.push(row);
+            }
+            return new Table(rows);
+        }
+
     }
 
 }
