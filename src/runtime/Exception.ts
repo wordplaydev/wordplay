@@ -11,7 +11,8 @@ export enum ExceptionType {
     NO_FUNCTION_EXPRESSION,
     POSSIBLE_INFINITE_RECURSION,
     UNKNOWN_NAME,
-    EXPECTED_STRUCTURE
+    EXPECTED_STRUCTURE,
+    UNKNOWN_CONVERSION
 }
 
 export default class Exception extends Value {

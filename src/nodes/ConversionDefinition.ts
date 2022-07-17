@@ -8,16 +8,16 @@ import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import { docsAreUnique } from "./util";
 import StructureDefinition from "./StructureDefinition";
-import Block from "../nodes/Block";
+import Block from "./Block";
 import ConversionType from "./ConversionType";
 import type Type from "./Type";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
-import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import Conversion from "../runtime/Conversion";
 
-export default class Conversion extends Expression {
+export default class ConversionDefinition extends Expression {
 
     readonly docs: Docs[];
     readonly convert: Token;
@@ -67,8 +67,13 @@ export default class Conversion extends Expression {
         return [ new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
-        return new Exception(ExceptionType.NOT_IMPLEMENTED);
+    evaluate(evaluator: Evaluator) {
+
+        const context = evaluator.getEvaluationContext();
+        if(context === undefined) return new Exception(ExceptionType.EXPECTED_CONTEXT);
+
+        context.addConversion(new Conversion(this, context));
+        
     }
 
 }

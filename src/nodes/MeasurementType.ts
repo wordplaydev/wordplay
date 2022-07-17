@@ -1,5 +1,5 @@
 import type Conflict from "../parser/Conflict";
-import type Conversion from "./Conversion";
+import type ConversionDefinition from "./ConversionDefinition";
 import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
@@ -39,7 +39,7 @@ export default class MeasurementType extends Type {
         return thisUnit.isCompatible(program, thatUnit);
     }
 
-    getConversion(program: Program, type: Type): Conversion | undefined {
+    getConversion(program: Program, type: Type): ConversionDefinition | undefined {
         // TODO Define conversions from booleans to other types
         // TODO Look for custom conversions that extend the Boolean type
         return undefined;

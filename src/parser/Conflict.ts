@@ -7,7 +7,7 @@ import type Borrow from "../nodes/Borrow";
 import type Cell from "../nodes/Cell";
 import type Column from "../nodes/Column";
 import type Conditional from "../nodes/Conditional";
-import type Conversion from "../nodes/Conversion";
+import type ConversionDefinition from "../nodes/ConversionDefinition";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import type StructureType from "../nodes/StructureType";
 import type Delete from "../nodes/Delete";
@@ -214,8 +214,8 @@ export class DuplicateLanguages extends Conflict {
 }
 
 export class MisplacedConversion extends Conflict {
-    readonly conversion: Conversion;
-    constructor(conversion: Conversion) {
+    readonly conversion: ConversionDefinition;
+    constructor(conversion: ConversionDefinition) {
         super(false);
         this.conversion = conversion;
     }

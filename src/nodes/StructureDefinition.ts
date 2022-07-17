@@ -11,7 +11,7 @@ import Type from "./Type";
 import Block from "./Block";
 import FunctionDefinition from "./FunctionDefinition";
 import { docsAreUnique, inputsAreUnique, requiredBindAfterOptional, typeVarsAreUnique } from "./util";
-import Conversion from "./Conversion";
+import ConversionDefinition from "./ConversionDefinition";
 import type Evaluator from "../runtime/Evaluator";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
@@ -100,11 +100,11 @@ export default class StructureDefinition extends Expression {
 
     }
 
-    getConversion(program: Program, type: Type): Conversion | undefined {
+    getConversion(program: Program, type: Type): ConversionDefinition | undefined {
 
         // Find the conversion in this type's block that produces a compatible type. 
         return this.block instanceof Block ? 
-            this.block.statements.find(s => s instanceof Conversion && s.output instanceof Type && s.output.isCompatible(program, type)) as Conversion | undefined :
+            this.block.statements.find(s => s instanceof ConversionDefinition && s.output instanceof Type && s.output.isCompatible(program, type)) as ConversionDefinition | undefined :
             undefined;
         
     }

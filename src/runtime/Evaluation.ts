@@ -1,6 +1,9 @@
+import type ConversionDefinition from "../nodes/ConversionDefinition";
 import type FunctionDefinition from "../nodes/FunctionDefinition";
-import type Program from "../nodes/Program";
+import Program from "../nodes/Program";
 import type StructureDefinition from "../nodes/StructureDefinition";
+import Type from "../nodes/Type";
+import type Conversion from "./Conversion";
 import type Evaluable from "./Evaluable";
 import type Evaluator from "./Evaluator";
 import Exception, { ExceptionType } from "./Exception";
@@ -10,7 +13,7 @@ import Value from "./Value";
 export default class Evaluation {
 
     /** The node that defined this program. */
-    readonly #definition: Program | FunctionDefinition | StructureDefinition;
+    readonly #definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition;
 
     /** The node being evaluated. */
     readonly #node: Evaluable;
@@ -27,10 +30,13 @@ export default class Evaluation {
     /** This represents a stack of values returned by steps. */
     readonly #values: Value[] = [];
 
+    /** A list of conversions in this context. */
+    readonly #conversions: Conversion[] = [];
+
     /** The step to execute next */
     #step: number = 0;
     
-    constructor(definition: Program | FunctionDefinition | StructureDefinition, node: Evaluable, context?: Evaluation, bindings?: Map<string, Value>) {
+    constructor(definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition, node: Evaluable, context?: Evaluation, bindings?: Map<string, Value>) {
 
         this.#definition = definition;
         this.#node = node;
@@ -93,6 +99,28 @@ export default class Evaluation {
         return this.#bindings.has(name) ? this.#bindings.get(name) : 
             this.#context === undefined ? undefined : 
             this.#context.resolve(name);
+    }
+
+    /** Remember the given conversion for later. */
+    addConversion(conversion: Conversion) {
+        this.#conversions.push(conversion);
+    }
+
+    /** Find a conversion that matches the given type */
+    getConversion(type: Type) {
+
+        const program = this.getProgram();
+        if(program === undefined) return undefined;
+        return this.#conversions.find(c => c.definition.output instanceof Type && c.definition.output.isCompatible(program, type));
+
+    }
+
+    getProgram(): Program | undefined {
+        
+        return this.#definition instanceof Program ? this.#definition : 
+            this.#context !== undefined ? this.#context.getProgram() : 
+            undefined;
+
     }
 
 }

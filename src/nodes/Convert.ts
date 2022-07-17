@@ -3,7 +3,7 @@ import Expression from "./Expression";
 import type Program from "./Program";
 import Type from "./Type";
 import UnknownType from "./UnknownType";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 import type Token from "./Token";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
@@ -11,6 +11,8 @@ import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
+import Structure from "../runtime/Structure";
+import Evaluation from "../runtime/Evaluation";
 
 export default class Convert extends Expression {
     
@@ -45,11 +47,34 @@ export default class Convert extends Expression {
     }
 
     compile(): Step[] {
-        return [ new Start(this), ...this.expression.compile(), new Finish(this) ]
+        return [ new Start(this), ...this.expression.compile(), new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
-        return new Exception(ExceptionType.NOT_IMPLEMENTED);
+    evaluate(evaluator: Evaluator) {
+        
+        if(this.type instanceof Unparsable) return new Exception(ExceptionType.UNPARSABLE);
+
+        const value = evaluator.popValue();
+        if(value instanceof Exception) return value;
+        else if(value instanceof Structure) {
+
+            // Find the conversion function on the structure.
+            const conversion = value.getConversion(this.type);
+            if(conversion === undefined) return new Exception(ExceptionType.UNKNOWN_CONVERSION);
+
+            // If we found one, then execute it to get a value of the appropriate type on the value stack.
+            evaluator.startEvaluation(
+                new Evaluation(
+                    conversion.definition, 
+                    conversion.definition.expression, 
+                    evaluator.getEvaluationContext()
+                )
+            );
+
+        }
+        else return new Exception(ExceptionType.UNKNOWN_CONVERSION);
+
+
     }
 
 }

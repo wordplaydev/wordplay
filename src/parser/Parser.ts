@@ -46,7 +46,7 @@ import Select from "../nodes/Select";
 import Insert from "../nodes/Insert";
 import Update from "../nodes/Update";
 import Delete from "../nodes/Delete";
-import Conversion from "../nodes/Conversion";
+import ConversionDefinition from "../nodes/ConversionDefinition";
 import Stream from "../nodes/Stream";
 import StreamType from "../nodes/StreamType";
 import BooleanType from "../nodes/BooleanType";
@@ -775,14 +775,14 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
 }
 
 /** CONVERSION :: DOCS? → TYPE EXPRESSION */
-function parseConversion(tokens: Tokens): Conversion {
+function parseConversion(tokens: Tokens): ConversionDefinition {
 
     const docs = parseDocs(tokens);
     const convert = tokens.read();
     const output = parseType(tokens);
     const expression = parseExpression(tokens);
 
-    return new Conversion(docs, convert, output, expression);
+    return new ConversionDefinition(docs, convert, output, expression);
 
 }
 

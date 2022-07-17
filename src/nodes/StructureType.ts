@@ -2,7 +2,7 @@ import type Program from "./Program";
 import type Conflict from "../parser/Conflict";
 import Type from "./Type";
 import type StructureDefinition from "./StructureDefinition";
-import type Conversion from "./Conversion";
+import type ConversionDefinition from "./ConversionDefinition";
 
 export default class StructureType extends Type {
 
@@ -25,7 +25,7 @@ export default class StructureType extends Type {
         return type instanceof StructureType && this.type === type.type;
     }
 
-    getConversion(program: Program, type: Type): Conversion | undefined {
+    getConversion(program: Program, type: Type): ConversionDefinition | undefined {
         return this.type.getConversion(program, type);
     }
 

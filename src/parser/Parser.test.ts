@@ -36,7 +36,7 @@ import Insert from "../nodes/Insert";
 import Update from "../nodes/Update";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import Evaluate from "../nodes/Evaluate";
-import Conversion from "../nodes/Conversion";
+import ConversionDefinition from "../nodes/ConversionDefinition";
 import StructureDefinition from "../nodes/StructureDefinition";
 import AccessName from "../nodes/AccessName";
 import Name from "../nodes/Name";
@@ -296,14 +296,14 @@ test("Parse expressions", () => {
     expect((evaluateWithTypeVars as Evaluate).typeVars).toHaveLength(1);
 
     const conversion = parseExpression(tokens("→ '' meow()"));
-    expect(conversion).toBeInstanceOf(Conversion);
+    expect(conversion).toBeInstanceOf(ConversionDefinition);
 
     const convert = parseExpression(tokens("(1 + 2) → ''"));
     expect(convert).toBeInstanceOf(Convert);
 
     const conversionWithDocs = parseExpression(tokens("`To meows`eng → '' meow()"));
-    expect(conversionWithDocs).toBeInstanceOf(Conversion);
-    expect((conversionWithDocs as Conversion).docs).toHaveLength(1);
+    expect(conversionWithDocs).toBeInstanceOf(ConversionDefinition);
+    expect((conversionWithDocs as ConversionDefinition).docs).toHaveLength(1);
 
     const customType = parseExpression(tokens("•(species•'') ( meow: ƒ() say(species) )"))
     expect(customType).toBeInstanceOf(StructureDefinition);

@@ -1,4 +1,6 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
+import type Type from "../nodes/Type";
+import type Conversion from "./Conversion";
 import type Evaluation from "./Evaluation";
 import Value from "./Value";
 
@@ -17,6 +19,10 @@ export default class Structure extends Value {
 
     resolve(name: string) {
         return this.context.resolve(name);
+    }
+
+    getConversion(type: Type): Conversion | undefined {
+        return this.context.getConversion(type);
     }
 
     toString(): string {
