@@ -105,7 +105,7 @@ export default class Block extends Expression {
 
         // If there are no statements, halt on exception.
         return !this.creator && this.statements.length === 0 ? 
-            [ new Halt(new Exception(ExceptionType.NO_BLOCK_EXPRESSION), this) ] :
+            [ new Halt(new Exception(ExceptionType.EXPECTED_EXPRESSION), this) ] :
             [ 
                 new Start(this), 
                 ...this.statements.reduce((prev: Step[], current) => [ ...prev, ...current.compile() ], []),

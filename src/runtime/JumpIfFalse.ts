@@ -18,7 +18,7 @@ export default class Jump extends Step {
     evaluate(evaluator: Evaluator): Value | undefined {
         const value = evaluator.popValue();
         if(!(value instanceof Bool)) 
-            return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+            return new Exception(ExceptionType.EXPECTED_TYPE);
         if(!value.bool) evaluator.jump(this.count);
         return undefined;
     }

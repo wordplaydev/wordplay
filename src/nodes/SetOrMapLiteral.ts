@@ -98,7 +98,7 @@ export default class SetOrMapLiteral extends Expression {
 
     compile(): Step[] {
         return this.kind === SetKind.Neither ?
-            [ new Halt(new Exception(ExceptionType.INCOMPATIBLE_TYPE), this)] :
+            [ new Halt(new Exception(ExceptionType.EXPECTED_TYPE), this)] :
             [
                 new Start(this),
                 // Evaluate all of the item or key/value expressions

@@ -32,17 +32,17 @@ export default class Measurement extends Value {
     evaluateInfix(operator: string, right: Value) {
 
         if(!(right instanceof Measurement)) 
-            return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+            return new Exception(ExceptionType.EXPECTED_TYPE);
     
         switch(operator) {
             case "+":
                 return this.unit.toString() === right.unit.toString() ?
                     new Measurement(this.number + right.number, this.unit) :
-                    new Exception(ExceptionType.INCOMPATIBLE_TYPE)
+                    new Exception(ExceptionType.EXPECTED_TYPE)
             case "-":
                 return this.unit.toString() === right.unit.toString() ?
                     new Measurement(this.number - right.number, this.unit) :
-                    new Exception(ExceptionType.INCOMPATIBLE_TYPE)
+                    new Exception(ExceptionType.EXPECTED_TYPE)
             case "×":
             case "*":
             case "·":

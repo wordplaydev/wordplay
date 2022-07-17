@@ -121,7 +121,7 @@ export default class Evaluate extends Expression {
 
             // Bail if the function's body isn't an expression.
             if(!(functionOrStructure.definition.expression instanceof Expression))
-                return new Exception(ExceptionType.NO_FUNCTION_EXPRESSION);
+                return new Exception(ExceptionType.PLACEHOLDER);
 
             // Build the bindings.
             const bindings = this.buildBindings(functionOrStructure.definition.inputs, values);
@@ -143,7 +143,7 @@ export default class Evaluate extends Expression {
 
         }
         // We don't know how to evaluate anything else...
-        else return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+        else return new Exception(ExceptionType.EXPECTED_TYPE);
 
     }
 

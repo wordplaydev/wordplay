@@ -25,7 +25,7 @@ export default class Bool extends Value {
     evaluateInfix(operator: string, operand: Value): Value {
 
         if(!(operand instanceof Bool))
-            return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+            return new Exception(ExceptionType.EXPECTED_TYPE);
 
         switch(operator) {
             case "∧": return new Bool(this.bool && operand.bool);

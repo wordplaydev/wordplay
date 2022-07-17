@@ -102,7 +102,7 @@ export default class Insert extends Expression {
 
         const table = evaluator.popValue();
         if(table === undefined) return new Exception(ExceptionType.EXPECTED_VALUE);
-        else if(!(table instanceof Table)) return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+        else if(!(table instanceof Table)) return new Exception(ExceptionType.EXPECTED_TYPE);
 
         // Return a new table with the values.
         return table.insert(values);
