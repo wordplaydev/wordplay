@@ -1,3 +1,4 @@
+import Token from "../nodes/Token";
 import Unit from "../nodes/Unit";
 import Bool from "./Bool";
 import Exception, { ExceptionType } from "./Exception";
@@ -8,10 +9,11 @@ export default class Measurement extends Value {
     readonly number: number;
     readonly unit: Unit;
 
-    constructor(number: number, unit: Unit) {
+    constructor(number: number | Token, unit: Unit) {
         super();
 
-        this.number = number;
+        // TODO Properly convert any text into a number.
+        this.number = number instanceof Token ? parseFloat(number.text) : number;
         this.unit = unit;
     }
 

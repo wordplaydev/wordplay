@@ -4,10 +4,12 @@ import type Program from "./Program";
 import type Token from "./Token";
 import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionType } from "../runtime/Exception";
-import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import { TokenType } from "./Token";
+import Measurement from "../runtime/Measurement";
+import Unit from "./Unit";
 
 export default class Borrow extends Node implements Evaluable {
     
@@ -41,8 +43,14 @@ export default class Borrow extends Node implements Evaluable {
         return [ new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Node | Value {
-        return new Exception(ExceptionType.NOT_IMPLEMENTED);
+    evaluate(evaluator: Evaluator) {
+
+        if(!(this.name.is(TokenType.NAME))) 
+            return new Exception(ExceptionType.EXPECTED_TYPE);
+        if(this.version !== undefined && !(this.version.is(TokenType.NUMBER))) 
+            return new Exception(ExceptionType.EXPECTED_TYPE);
+        return evaluator.borrow(this.name.text, this.version === undefined ? undefined : (new Measurement(this.version, new Unit())).number);
+
     }
 
 }

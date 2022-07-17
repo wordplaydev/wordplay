@@ -10,7 +10,7 @@ export default class Unit extends Type {
     readonly numerator: string[];
     readonly denominator: string[];
 
-    constructor(numerator: Token[] | string[], denominator: Token[] | string[]) {
+    constructor(numerator: Token[] | string[] = [], denominator: Token[] | string[] = []) {
 
         super();
 

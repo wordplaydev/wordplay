@@ -8,6 +8,7 @@
 
     import Manager from '../components/Manager.svelte';
     import Evaluator from '../runtime/Evaluator';
+    import Shares from '../runtime/Shares';
 
     const code = new Document("code", "" );
     const tokens = new Document("tokens", code, doc => tokenize(doc.getContent()).map(t => t.toString()).join("\n"));
@@ -20,7 +21,7 @@
         return parse(doc.getContent()).compile().map(s => s.toString()).join("\n");
     });
     const output = new Document("output", code, doc => {
-        const evaluator = new Evaluator(parse(doc.getContent()));
+        const evaluator = new Evaluator(parse(doc.getContent()), new Shares());
         return `${evaluator.evaluate()}`;
     });
 

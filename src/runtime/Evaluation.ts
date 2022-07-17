@@ -115,11 +115,17 @@ export default class Evaluation {
 
     }
 
+    /** Finds the program that executed all of this in the evaluation context stack. */
     getProgram(): Program | undefined {
         
         return this.#definition instanceof Program ? this.#definition : 
             this.#context !== undefined ? this.#context.getProgram() : 
             undefined;
+
+    }
+
+    /** Allow the given aliases to be borrowed. */
+    share(name: string) {
 
     }
 

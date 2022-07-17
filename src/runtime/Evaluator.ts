@@ -1,16 +1,21 @@
 import type Program from "../nodes/Program";
 import Evaluation from "./Evaluation";
 import Exception, { ExceptionType } from "./Exception";
+import type Shares from "./Shares";
 import Value from "./Value";
 
 export default class Evaluator {
-    
+
     /** This represents a stack of node evaluations. The first element of the stack is the currently executing node. */
     evaluations: Evaluation[] = [];
 
-    constructor(program: Program) {
+    /** THe global namespace of shared code. */
+    shares: Shares;
+
+    constructor(program: Program, shares: Shares) {
 
         this.evaluations = [ new Evaluation(program, program) ];
+        this.shares = shares;
 
     }
 
@@ -97,4 +102,20 @@ export default class Evaluator {
             this.evaluations[0];
     }
 
+    /** Share the given value */
+    share(name: string, value: Value) { 
+        return this.shares.bind(name, value);
+    }
+    
+    /** Borrow the given name from the global namespace. */
+    borrow(name: string, version?: number): Exception | undefined { 
+
+        const share = this.shares.resolve(name, version);
+        if(share === undefined) return new Exception(ExceptionType.UNKNOWN_SHARE);
+
+        // Bind the shared value in this context.
+        this.bind(name, share);
+
+    }
+    
 }
