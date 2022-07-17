@@ -9,19 +9,19 @@ import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Text from "../runtime/Text";
 import Exception, { ExceptionType } from "../runtime/Exception";
+import Finish from "../runtime/Finish";
+import type Step from "../runtime/Step";
 
 export default class Template extends Expression {
     
     readonly parts: (Token|Expression)[];
     readonly format?: Token;
-    readonly expressions: Expression [];
 
     constructor(parts: (Token|Expression)[], format?: Token) {
         super();
 
         this.parts = parts;
         this.format = format;
-        this.expressions = this.parts.filter(p => p instanceof Expression) as Expression[];
     }
 
     getChildren() { return this.format ? [ ...this.parts, this.format ] : [ ...this.parts ]; }
@@ -45,36 +45,27 @@ export default class Template extends Expression {
         return new TextType(undefined, this.format);
     }
 
+    compile(): Step[] {
+        return [
+            ...this.parts.filter(p => p instanceof Expression).reduce(
+                (parts: Step[], part) => [...parts, ...(part as Expression).compile()], []
+            ),
+            new Finish(this)
+        ];
+    }
+    
     evaluate(evaluator: Evaluator): Value | Node {
         
-        if(this.expressions.length === 0) return new Text(this.parts.map(p => (p as Token).text).join(""), this.format?.text);
-
-        const lastPart = evaluator.lastEvaluated();
-        const index = 
-            lastPart === undefined ? -1 : 
-            lastPart instanceof Expression ? this.expressions.indexOf(lastPart) :
-            -1;
-            
-        // First TODO Handle conversions
-        if(index < 0) return this.expressions[0];
-        // Middle TODO Handle conversions
-        else if(index < this.expressions.length - 1) return this.expressions[index + 1];
-        // Done
-        else {
-            // Get the values in order
-            const values = [];
-            for(let i = 0; i < this.expressions.length; i++)
-                values.unshift(evaluator.popValue());
-            let text = "";
-            for(let i = 0; i < this.parts.length; i++) {
-                const p = this.parts[i];
-                const part = p instanceof Token ? new Text(p.text.substring(1, p.text.length - 1)) : values.shift();
-                if(!(part instanceof Text))
-                    return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-                text = text + part.text;
-            }
-            return new Text(text, this.format?.text);
+        // Build the string in reverse, accounting for the reversed stack of values.
+        let text = "";
+        for(let i = this.parts.length - 1; i >= 0; i--) {
+            const p = this.parts[i];
+            const part = p instanceof Token ? new Text(p.text.substring(1, p.text.length - 1)) : evaluator.popValue();
+            if(!(part instanceof Text))
+                return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+            text = part.text + text;
         }
+        return new Text(text, this.format?.text);
 
     }
 

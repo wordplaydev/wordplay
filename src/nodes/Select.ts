@@ -16,7 +16,8 @@ import type TypeVariable from "./TypeVariable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Exception, { ExceptionType } from "../runtime/Exception";
-import Table from "../runtime/Table";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class Select extends Expression {
     
@@ -101,6 +102,14 @@ export default class Select extends Expression {
 
         return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
 
+    }
+
+    compile(): Step[] {
+        // Evaluate the table expression then this.
+        return [ 
+            ...this.table.compile(),
+            new Finish(this)
+        ];
     }
 
     evaluate(evaluator: Evaluator): Value | Node {

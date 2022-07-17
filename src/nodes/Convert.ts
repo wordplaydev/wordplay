@@ -8,6 +8,8 @@ import type Token from "./Token";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
+import Finish from "../runtime/Finish";
+import type Step from "../runtime/Step";
 
 export default class Convert extends Expression {
     
@@ -39,6 +41,10 @@ export default class Convert extends Expression {
     getType(program: Program): Type {
         // Whatever this converts to.
         return this.type instanceof Type ? this.type : new UnknownType(this);
+    }
+
+    compile(): Step[] {
+        return [ ...this.expression.compile(), new Finish(this) ]
     }
 
     evaluate(evaluator: Evaluator): Value | Node {

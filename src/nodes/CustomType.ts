@@ -15,6 +15,8 @@ import Conversion from "./Conversion";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
+import Finish from "../runtime/Finish";
+import type Step from "../runtime/Step";
 
 export default class CustomType extends Expression {
 
@@ -114,6 +116,10 @@ export default class CustomType extends Expression {
     getType(program: Program): Type { return this; }
 
     isCompatible(program: Program, type: Type): boolean { return type === this; }
+
+    compile(): Step[] {
+        return [ new Finish(this) ];
+    }
 
     evaluate(evaluator: Evaluator): Value | Node {
         return new Exception(ExceptionType.NOT_IMPLEMENTED);

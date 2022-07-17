@@ -11,11 +11,12 @@ import Unit from "./Unit";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "src/runtime/Evaluator";
-import type Value from "src/runtime/Value";
-import type Node from "./Node";
 import Measurement from "../runtime/Measurement";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import Bool from "../runtime/Bool";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
+import Start from "../runtime/Start";
 
 export default class BinaryOperation extends Expression {
 
@@ -187,27 +188,21 @@ export default class BinaryOperation extends Expression {
         }
     }
 
-    evaluate(evaluator: Evaluator): Node | Value {
-        
-        // If we've evaluated the left, evaluate the right.
-        if(evaluator.justEvaluated(this.left))
-            return this.right;
-        // If we've evaluated the right, compute and return the value.
-        else if(evaluator.justEvaluated(this.right)) {
+    compile(): Step[] {
+        return [ new Start(this), ...this.left.compile(), ...this.right.compile(), new Finish(this) ];
+    }
 
-            const right = evaluator.popValue();
-            const left = evaluator.popValue();
+    evaluate(evaluator: Evaluator) {
 
-            // Ask the value to evaluate it. We could do this here, but it's
-            // just cleaner to delegate it to specific types.
-            if(left instanceof Measurement || left instanceof Bool)
-                return left.evaluateInfix(this.operator.text, right);
-            else
-                return new Exception(ExceptionType.UNKNOWN_OPERATOR);
+        const right = evaluator.popValue();
+        const left = evaluator.popValue();
 
-        }
-        // Otherwise, evaluate the left.
-        else return this.left;
+        // Ask the value to evaluate it. We could do this here, but it's
+        // just cleaner to delegate it to specific types.
+        if(left instanceof Measurement || left instanceof Bool)
+            return left.evaluateInfix(this.operator.text, right);
+        else
+            return new Exception(ExceptionType.UNKNOWN_OPERATOR);
 
     }
 

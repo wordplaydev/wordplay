@@ -12,6 +12,8 @@ import type Value from "../runtime/Value";
 import SetValue from "../runtime/SetValue";
 import MapValue from "../runtime/MapValue";
 import Exception, { ExceptionType } from "../runtime/Exception";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class SetOrMapAccess extends Expression {
 
@@ -57,23 +59,22 @@ export default class SetOrMapAccess extends Expression {
         return new UnknownType(this);
     }
 
+    compile(): Step[] {
+        // Evaluate the set expression, then the key expression, then this.
+        return [ 
+            ...this.setOrMap.compile(),
+            ...this.key.compile(),
+            new Finish(this)
+        ];
+    }
+
     evaluate(evaluator: Evaluator): Node | Value {
         
-        // Evaluate the index next.
-        if(evaluator.justEvaluated(this.setOrMap))
-            return this.key;
-        // Return the index item, or none if it doesn't exist.
-        else if(evaluator.justEvaluated(this.key)) {
+        const key = evaluator.popValue();
+        const setOrMap = evaluator.popValue();
 
-            const key = evaluator.popValue();
-            const setOrMap = evaluator.popValue();
-
-            if(!(setOrMap instanceof SetValue || setOrMap instanceof MapValue)) return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-            else return setOrMap.get(key);
-
-        }
-        // Otherwise, evaluate the list.
-        else return this.setOrMap;
+        if(!(setOrMap instanceof SetValue || setOrMap instanceof MapValue)) return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+        else return setOrMap.get(key);
     
     }
 

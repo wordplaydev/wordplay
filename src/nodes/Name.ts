@@ -9,6 +9,8 @@ import UnknownType from "./UnknownType";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class Name extends Expression {
     
@@ -45,13 +47,16 @@ export default class Name extends Expression {
         else return bindOrTypeVar.getType(program);
     }
 
+    compile(): Step[] {
+        return [ new Finish(this) ];
+    }
+
     evaluate(evaluator: Evaluator): Value | Node {
 
         // Search for the name in the given evaluation context.
         const value = evaluator.resolve(this.name.text);
-
-        return value === undefined ? new Exception(ExceptionType.EXPECTED_VALUE) : value;
-
+        // Return it or an exception if we didn't find it.
+        return value === undefined ? new Exception(ExceptionType.UNKNOWN_NAME) : value;
 
     }
 

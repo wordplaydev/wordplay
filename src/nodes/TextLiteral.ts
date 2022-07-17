@@ -8,6 +8,8 @@ import type Type from "./Type";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Text from "../runtime/Text";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class TextLiteral extends Expression {
     
@@ -28,6 +30,10 @@ export default class TextLiteral extends Expression {
         return new TextType(undefined, this.format);
     }
 
+    compile(): Step[] {
+        return [ new Finish(this) ];
+    }
+    
     evaluate(evaluator: Evaluator): Value | Node {
         return new Text(this.text.text, this.format === undefined ? undefined : this.format.text);
     }

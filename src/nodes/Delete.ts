@@ -12,6 +12,8 @@ import Bind from "../nodes/Bind";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
+import Finish from "../runtime/Finish";
+import type Step from "../runtime/Step";
 
 export default class Delete extends Expression {
     
@@ -66,6 +68,10 @@ export default class Delete extends Expression {
 
         return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
 
+    }
+
+    compile(): Step[] {
+        return [ ...this.table.compile(), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value | Node {

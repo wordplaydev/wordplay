@@ -8,6 +8,8 @@ import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import type Node from "./Node";
 import Bool from "../runtime/Bool";
+import Finish from "../runtime/Finish";
+import type Step from "../runtime/Step";
 
 export default class BooleanLiteral extends Expression {
     readonly value: Token;
@@ -23,6 +25,10 @@ export default class BooleanLiteral extends Expression {
 
     getType(program: Program): Type {
         return new BooleanType();
+    }
+
+    compile(): Step[] {
+        return [ new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value | Node {

@@ -4,10 +4,13 @@ import Node from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
 import type Unparsable from "./Unparsable";
-import type { Evaluable } from "../runtime/Evaluation";
+import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
+import Finish from "../runtime/Finish";
+import Start from "../runtime/Start";
+import type Step from "../runtime/Step";
 
 export default class Share extends Node implements Evaluable {
     
@@ -37,6 +40,10 @@ export default class Share extends Node implements Evaluable {
 
         return conflicts;
 
+    }
+
+    compile(): Step[] {
+        return [ new Start(this), ...this.bind.compile(), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Node | Value {

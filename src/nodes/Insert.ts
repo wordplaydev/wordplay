@@ -12,6 +12,8 @@ import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import Table from "../runtime/Table";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class Insert extends Expression {
     
@@ -78,22 +80,15 @@ export default class Insert extends Expression {
 
     }
 
+    compile(): Step[] {
+        return [ 
+            ...this.table.compile(), 
+            ...this.row.cells.reduce((steps: Step[], cell) => [ ...steps, ...cell.expression.compile() ], []),
+            new Finish(this) 
+        ];
+    }
+
     evaluate(evaluator: Evaluator): Value | Node {
-
-        const nodeLastEvaluated = evaluator.lastEvaluated();
-
-        // Haven't started? Evaluate the table.
-        if(nodeLastEvaluated !== this.table && this.row.cells.find(c => c.expression === nodeLastEvaluated) === undefined)
-            return this.table;
-        
-        // Just finished the table? First cell's expression.
-        if(nodeLastEvaluated === this.table && this.row.cells.length > 0)
-            return this.row.cells[0].expression;
-        
-        // Next cell's expression.
-        const lastCell = this.row.cells.find(c => c.expression === nodeLastEvaluated);
-        if(lastCell !== undefined && lastCell.expression !== this.row.cells[this.row.cells.length - 1].expression)
-            return this.row.cells[this.row.cells.indexOf(lastCell) + 1].expression;
 
         // We've got a table and some cells, insert the row!
         const values: Value[] = [];

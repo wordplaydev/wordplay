@@ -8,7 +8,9 @@ export enum ExceptionType {
     INCOMPATIBLE_TYPE,
     EXCPECTED_CONTEXT,
     NOT_IMPLEMENTED,
-    NO_FUNCTION_EXPRESSION
+    NO_FUNCTION_EXPRESSION,
+    POSSIBLE_INFINITE_RECURSION,
+    UNKNOWN_NAME
 }
 
 export default class Exception extends Value {
@@ -21,6 +23,6 @@ export default class Exception extends Value {
         this.exception = exception;
     }
 
-    toString() { return ExceptionType[this.exception]; }
+    toString() { return `Exception: ${ExceptionType[this.exception]}`; }
 
 }

@@ -8,7 +8,9 @@ import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
-import type Value from "../runtime/Value";
+import type Step from "../runtime/Step";
+import Start from "../runtime/Start";
+import Finish from "../runtime/Finish";
 
 export default class AccessName extends Expression {
 
@@ -55,7 +57,13 @@ export default class AccessName extends Expression {
         else return bind.getType(program);
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
+    compile(): Step[] {
+        
+        return [ new Start(this), ...this.subject.compile(), new Finish(this) ]
+
+    }
+
+    evaluate(evaluator: Evaluator) {
         return new Exception(ExceptionType.NOT_IMPLEMENTED);
     }
 

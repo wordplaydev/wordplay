@@ -16,10 +16,12 @@ import Name from "./Name";
 import Column from "./Column";
 import ColumnType from "./ColumnType";
 import type Evaluator from "../runtime/Evaluator";
-import type Value from "../runtime/Value";
-import type { Evaluable } from "../runtime/Evaluation";
+import type Evaluable from "../runtime/Evaluable";
+import type Step from "../runtime/Step";
+import Start from "../runtime/Start";
+import Halt from "../runtime/Halt";
+import Finish from "../runtime/Finish";
 import Exception, { ExceptionType } from "../runtime/Exception";
-import NoOp from "../runtime/NoOp";
 
 export default class Bind extends Node implements Evaluable {
     
@@ -111,17 +113,17 @@ export default class Bind extends Node implements Evaluable {
         
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
+    compile(): Step[] {
+        return this.value === undefined ?
+            [ new Halt(new Exception(ExceptionType.EXPECTED_VALUE), this) ] :
+            [ new Start(this), ...this.value.compile(), new Finish(this) ];
+    }
+
+    evaluate(evaluator: Evaluator) {
         
-        if(this.value === undefined) return new Exception(ExceptionType.EXPECTED_VALUE);
-
-        // Evaluate the expression.
-        if(!evaluator.justEvaluated(this.value)) return this.value;
-
-        // Otherwise, bind the name and value and return a special no-op value.
+        // Bind the value on the stack to the names.
         this.names.forEach(alias => evaluator.bind(alias.name.text, evaluator.popValue()));
-
-        return new NoOp();
+        return undefined;
 
     }
 

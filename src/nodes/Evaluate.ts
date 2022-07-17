@@ -15,7 +15,8 @@ import type Value from "../runtime/Value";
 import Evaluation from "../runtime/Evaluation";
 import FunctionValue from "../runtime/FunctionValue";
 import Exception, { ExceptionType } from "../runtime/Exception";
-import NoOp from "../runtime/NoOp";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class Evaluate extends Expression {
 
@@ -91,24 +92,16 @@ export default class Evaluate extends Expression {
         else return new UnknownType(this);
     }
 
-    evaluate(evaluator: Evaluator): Node | Value | Evaluation {
+    compile(): Step[] {
+        // Evaluate the function expression, then the inputs, then evaluate this this.
+        return [ 
+            ...this.func.compile(), 
+            ...this.inputs.reduce((steps: Step[], input) => [ ...steps, ...input.compile()], []), 
+            new Finish(this) 
+        ];
+    }
 
-        // Evaluate all of the inputs
-        const lastNode = evaluator.lastEvaluated();
-
-        // Is the last node the 
-
-        // Have we evaluated one of the inputs?
-        const index = 
-            lastNode === undefined ? -1 : 
-            lastNode instanceof Expression || lastNode instanceof Unparsable ? 
-            this.inputs.indexOf(lastNode) : -1;
-
-        // If we didn't evaluate an input, we start with the funciton
-        if(lastNode !== this.func && index < 0) return this.func;
-        // Evaluate the next node if there is one.
-        else if(lastNode === this.func || index < this.inputs.length - 1) 
-            return this.inputs[index + 1];
+    evaluate(evaluator: Evaluator): Value | undefined {
 
         // Get the inputs and functions off the stack.
         const values: Value[] = [];
@@ -120,22 +113,22 @@ export default class Evaluate extends Expression {
         if(!(func instanceof FunctionValue)) 
             return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
 
-        // Bail if the function body isn't an expression.
+        // Bail if the function's body isn't an expression.
         if(!(func.definition.expression instanceof Expression))
             return new Exception(ExceptionType.NO_FUNCTION_EXPRESSION);
 
-        // Now that all of the inputs are resolved, create an execution context that binds all of the inputs.
-        const evaluation = new Evaluation(evaluator.getEvaluationContext(), func.definition.expression);
-
-        // Bind all of the values.
+        // Build the bindings.
+        const bindings = new Map<string, Value>();
         for(let i = 0; i < func.definition.inputs.length; i++) {
             const bind = func.definition.inputs[i];
             if(bind instanceof Unparsable) return new Exception(ExceptionType.UNPARSABLE);
-            bind.names.forEach(name => evaluation.bind(name.name.text, values.shift() as Value));
+            const value = values.shift();
+            if(value === undefined) return new Exception(ExceptionType.EXPECTED_VALUE);
+            bind.names.forEach(name => bindings.set(name.name.text, value));
         }
 
-        // Ask the evaluator to add the evaluation.
-        return evaluation;
+        // Now that all of the inputs are resolved, create an execution context that binds all of the inputs.
+        evaluator.startEvaluation(new Evaluation(func.definition.expression, undefined, bindings));
 
     }
     

@@ -11,6 +11,8 @@ import type Token from "./Token";
 import type Type from "./Type";
 import Unit from "./Unit";
 import Unparsable from "./Unparsable";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class MeasurementLiteral extends Expression {
     
@@ -31,6 +33,10 @@ export default class MeasurementLiteral extends Expression {
 
     getType(program: Program): Type {
         return new MeasurementType(undefined, this.unit instanceof Unparsable ? undefined : this.unit);
+    }
+
+    compile(): Step[] {
+        return [ new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Node | Value {

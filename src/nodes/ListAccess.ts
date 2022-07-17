@@ -13,6 +13,8 @@ import type Value from "../runtime/Value";
 import List from "../runtime/List";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import Measurement from "../runtime/Measurement";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class ListAccess extends Expression {
 
@@ -55,24 +57,18 @@ export default class ListAccess extends Expression {
         else return new UnknownType(this);
     }
 
+    compile(): Step[] {
+        return [ ...this.list.compile(), ...this.index.compile(), new Finish(this) ];
+    }
+
     evaluate(evaluator: Evaluator): Node | Value {
 
-        // Evaluate the index next.
-        if(evaluator.justEvaluated(this.list))
-            return this.index;
-        // Return the index item, or none if it doesn't exist.
-        else if(evaluator.justEvaluated(this.index)) {
+        const index = evaluator.popValue();
+        const list = evaluator.popValue();
 
-            const index = evaluator.popValue();
-            const list = evaluator.popValue();
-
-            if(!(list instanceof List)) return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-            else if(!(index instanceof Measurement) || !index.isInteger()) return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-            else return list.get(index);
-
-        }
-        // Otherwise, evaluate the list.
-        else return this.list;
+        if(!(list instanceof List)) return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+        else if(!(index instanceof Measurement) || !index.isInteger()) return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+        else return list.get(index);
 
     }
 

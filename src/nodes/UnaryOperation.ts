@@ -14,6 +14,8 @@ import type Value from "../runtime/Value";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import Bool from "../runtime/Bool";
 import Measurement from "../runtime/Measurement";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class UnaryOperation extends Expression {
 
@@ -76,20 +78,22 @@ export default class UnaryOperation extends Expression {
         else return new UnknownType(this);
     }
     
-    evaluate(evaluator: Evaluator): Value | Node {
+    compile(): Step[] {
+        return [
+            ...this.operand.compile(),
+            new Finish(this)
+        ];
+    }
 
-        // If the operand hasn't been evaluated, evaluate it.
-        if(!evaluator.justEvaluated(this.operand))
-            return this.operand;
+    evaluate(evaluator: Evaluator): Value | Node {
 
         // Get the value of the operand.
         const value = evaluator.popValue();
 
         // Evaluate the function on the value.
-        if(value instanceof Measurement || value instanceof Bool)
-            return value.evaluatePrefix(this.operator.text);
-        else
-            return new Exception(ExceptionType.UNKNOWN_OPERATOR);
+        return value instanceof Measurement || value instanceof Bool ?
+            value.evaluatePrefix(this.operator.text) :
+            new Exception(ExceptionType.UNKNOWN_OPERATOR);
 
     }
 

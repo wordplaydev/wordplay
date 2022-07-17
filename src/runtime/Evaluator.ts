@@ -1,32 +1,25 @@
 import type Program from "../nodes/Program";
-import Evaluation, { type Evaluable } from "./Evaluation";
+import Evaluation from "./Evaluation";
 import Exception, { ExceptionType } from "./Exception";
-import NoOp from "./NoOp";
 import Value from "./Value";
 
 export default class Evaluator {
-
-    /** This represents a stack of values returned by evaluations. */
-    values: Value[] = [];
     
     /** This represents a stack of node evaluations. The first element of the stack is the currently executing node. */
     evaluations: Evaluation[] = [];
 
-    /** This is a list of previous evaluations, in reverse order of execution. */
-    history: Evaluation[] = [];
-
     constructor(program: Program) {
 
-        this.evaluations = [ new Evaluation(undefined, program) ];
+        this.evaluations = [ new Evaluation(program) ];
 
     }
 
     /** Advance one step in execution. Returns false if there's nothing left to execute. */
-    step(): boolean {
+    step(): Value | undefined {
 
         // If it seems like we're stuck in an infinite (recursive) loop, halt.
         if(this.evaluations.length > 100000)
-            return false;
+            return new Exception(ExceptionType.POSSIBLE_INFINITE_RECURSION);
 
         // If there's no node evaluating, we're done.
         if(this.evaluations.length === 0)
@@ -35,64 +28,48 @@ export default class Evaluator {
         const evaluation = this.evaluations[0];
 
         // Evaluate the node.
-        const result = evaluation.evaluate(this);
+        const result = evaluation.step(this);
 
-        // If the value is an instance of undefined, something went wrong. THis shouldn't be possible.
-        // If it's a value, it's done evaluating. Remove it from the stack and push the value to the value stack.
-        // Remember the evaluation we just finished.
-        if(result instanceof Value) {
-
-            // Save the value on the value stack if it wasn't a no op.
-            if(!(result instanceof NoOp))
-                this.values.unshift(result);
-            // If it was an exception, stop evaluating.
-            else if(result instanceof Exception)
-                return false;
-
-            // Otherwise, finish the evaluation and save it in the history.
+        // If it's an exception, halt execution.
+        if(result instanceof Exception)
+            return result;
+        // If it's a value, pop the evaluation off the stack and add the value to the 
+        // vaule stack of the new top of the stack.
+        else if(result instanceof Value) {
             this.endEvaluation();
+            if(this.evaluations.length > 0)
+                this.evaluations[0].pushValue(result);
+            else return result;
         }
-        // If the result was an evaluation, push it on to the stack.
-        else if(result instanceof Evaluation) {
-            this.endEvaluation();
-            this.startEvaluation(result);
-        }
-        // Otherwise, evaluate the node returned.
-        else {
-            this.startEvaluation(new Evaluation(this.evaluations[0], result));
-        }
+        // Otherwise, just keep steppin'
 
-        // If this particular frame has been stuck on the same node for a long time, there's a defect in a Node.evaluate() function.
-        // All of them should execute a finite number of steps.
-        if(evaluation.getCount() > 1000)
-            return false;
-
-        // Keep on evaluatin'
-        return true;
     }
 
     /** Evaluate until we're done */
     evaluate(): Value | undefined{
 
-        while(this.step());
-
-        return this.values.shift();
+        while(true) {
+            const value = this.step();
+            if(value !== undefined) return value;
+        }
 
     }
 
-    justEvaluated(node: Evaluable) { return this.history.length > 0 && this.history[0].node === node; }
-    lastEvaluated() { return this.history.length > 0 ? this.history[0].node : undefined; }
-
+    /** Get the value on the top of the stack. */
     popValue(): Value { 
-        const value = this.values.shift(); 
-        return value === undefined ? new Exception(ExceptionType.EXPECTED_VALUE) : value;
+        return this.evaluations.length > 0 ? 
+            this.evaluations[0].popValue() : 
+            new Exception(ExceptionType.EXPECTED_VALUE);
+    }
+
+    /** Tell the current evaluation to jump to a new instruction. */
+    jump(distance: number) {
+        this.evaluations[0].jump(distance);
     }
 
     /** Start evaluation */
     endEvaluation() {
-        const finishedEvaluation = this.evaluations.shift();
-        if(finishedEvaluation)
-            this.history.unshift(finishedEvaluation);
+        this.evaluations.shift();
     }
     
     /** Start evaluation */
@@ -102,18 +79,22 @@ export default class Evaluator {
 
     /** Bind the given value to the given name in the context of the current evaluation. */
     bind(name: string, value: Value) {
-        if(this.evaluations.length > 0 && this.evaluations[0].context !== undefined)
-            this.evaluations[0].context.bind(name, value);
+        if(this.evaluations.length > 0)
+            this.evaluations[0].bind(name, value);
     }
 
     /** Resolve the given name in the current execution context. */
     resolve(name: string): Value | undefined {
-        return this.evaluations.length === 0 ? undefined : this.evaluations[0].resolve(name);
+        return this.evaluations.length === 0 ? 
+            undefined : 
+            this.evaluations[0].resolve(name);
     }
 
     /** Get the context of the currently evaluating evaluation. */
     getEvaluationContext() {
-        return this.evaluations.length === 0 ? undefined : this.evaluations[0].context;
+        return this.evaluations.length === 0 ? 
+            undefined :
+            this.evaluations[0];
     }
 
 }

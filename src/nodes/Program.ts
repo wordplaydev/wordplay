@@ -1,6 +1,6 @@
 import Node from "./Node";
 import type Borrow from "./Borrow";
-import Unparsable from "./Unparsable";
+import type Unparsable from "./Unparsable";
 import type Conflict from "../parser/Conflict";
 import type Expression from "./Expression";
 import type TypeVariable from "./TypeVariable";
@@ -8,8 +8,9 @@ import type Block from "../nodes/Block";
 import type Bind from "../nodes/Bind";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import type { Evaluable } from "../runtime/Evaluation";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import type Evaluable from "../runtime/Evaluable";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class Program extends Node implements Evaluable {
     
@@ -56,15 +57,19 @@ export default class Program extends Node implements Evaluable {
 
     }
 
+    compile(): Step[] {
+        // Execute the borrows, then the block, then this.
+        return [ 
+            ...this.borrows.reduce((steps: Step[], borrow) => [...steps, ...borrow.compile()], []),
+            ...this.block.compile(),
+            new Finish(this)            
+        ];
+    }
+
     evaluate(evaluator: Evaluator): Value | Evaluable {
 
-        // TODO Evaluate the borrows.
-
-        // If we just started to evaluate this, evaluate the block.
-        // Otherwise, return the value returned by the block.
-        return this.block instanceof Unparsable ? new Exception(ExceptionType.UNPARSABLE) :
-            evaluator.justEvaluated(this.block) ? evaluator.popValue() : 
-            this.block;
+        // Return whatever the block computed.
+        return evaluator.popValue();
 
     }
 

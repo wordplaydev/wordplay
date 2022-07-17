@@ -10,27 +10,22 @@ import Bind from "./Bind";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import type Node from "./Node";
-import type { Evaluable } from "../runtime/Evaluation";
 import Table from "../runtime/Table";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Unparsable from "./Unparsable";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class TableLiteral extends Expression {
     
     readonly columns: Column[];
     readonly rows: Row[];
-    readonly expressions: (Expression|Unparsable|Bind)[];
 
     constructor(columns: Column[], rows: Row[]) {
         super();
 
         this.columns = columns;
         this.rows = rows;
-
-        // A convenient representation of all cell expressions in order.
-        let expressions: (Expression|Unparsable|Bind)[] = [];
-        this.rows.forEach(r => r.cells.forEach(c => expressions.push(c.expression)));
-        this.expressions = expressions;
     
     }
 
@@ -70,32 +65,30 @@ export default class TableLiteral extends Expression {
         return new TableType(columnTypes);
     }
 
+    compile(): Step[] {
+        return [
+            // Compile all of the row's 's cells expressions.
+            ...this.rows.reduce((rows: Step[], row) =>
+                row.cells.reduce((cells: Step[], cell) => [...cells, ...cell.expression.compile()], []), 
+                []
+            ),
+            new Finish(this)
+        ];
+    }
+
     evaluate(evaluator: Evaluator): Node | Value {
         
-        if(this.expressions.length === 0) return new Table([]);
-
-        const lastExpression = evaluator.lastEvaluated();
-        const index = 
-            lastExpression === undefined ? -1 : 
-            lastExpression instanceof Expression ? this.expressions.indexOf(lastExpression) :
-            -1;
-
-        if(index < this.expressions.length - 1) return this.expressions[index + 1];
-        else {
-            const values: Value[] = [];
-            for(let i = 0; i < this.expressions.length; i++) values.unshift(evaluator.popValue());
-            const rows: Value[][] = [];
-            for(let r = 0; r < this.rows.length; r++) {
-                const row: Value[] = [];
-                for(let c = 0; c < this.columns.length; c++) {
-                    const cell = values.shift();
-                    if(cell === undefined) return new Exception(ExceptionType.EXPECTED_VALUE);
-                    else row.push(cell);
-                }
-                rows.push(row);
+        const rows: Value[][] = [];
+        for(let r = 0; r < this.rows.length; r++) {
+            const row: Value[] = [];
+            for(let c = 0; c < this.columns.length; c++) {
+                const cell = evaluator.popValue();
+                if(cell === undefined) return new Exception(ExceptionType.EXPECTED_VALUE);
+                else row.unshift(cell);
             }
-            return new Table(rows);
+            rows.unshift(row);
         }
+        return new Table(rows);
 
     }
 

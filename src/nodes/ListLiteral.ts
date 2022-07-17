@@ -10,6 +10,8 @@ import type Unparsable from "./Unparsable";
 import List from "../runtime/List";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class ListLiteral extends Expression {
 
@@ -47,34 +49,22 @@ export default class ListLiteral extends Expression {
         return new ListType(firstValue.getType(program));
     }
 
+    compile(): Step[] {
+        return [ 
+            ...this.values.reduce((steps: Step[], item) => [...steps, ...item.compile()], []),
+            new Finish(this)
+        ];
+    }
+
     evaluate(evaluator: Evaluator): Value | Node {
 
-        // Empty list? Just make it.
-        if(this.values.length === 0)
-            return new List([]);
+        // Pop all of the values.
+        const values = [];
+        for(let i = 0; i < this.values.length; i++)
+            values.unshift(evaluator.popValue());
 
-        // Which value are we on?
-        const lastValue = evaluator.lastEvaluated();
-        const index = 
-            lastValue === undefined ? -1 : 
-            lastValue instanceof Expression ? this.values.indexOf(lastValue) :
-            -1;
-        // If we haven't started, return the first.
-        if(index < 0)
-            return this.values[0];
-        // If it was the last value, return the list.
-        else if(index === this.values.length - 1) {
-
-            // Pop all of the values.
-            const values = [];
-            for(let i = 0; i < this.values.length; i++)
-                values.unshift(evaluator.popValue());
-
-            return new List(values);
-
-        }
-        // If we're in the middle of the list, evaluate the next value.
-        else return this.values[index + 1];
+        // Construct the new list.
+        return new List(values);
         
     }
 

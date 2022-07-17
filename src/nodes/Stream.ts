@@ -8,6 +8,7 @@ import type Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
+import type Step from "../runtime/Step";
 
 export default class Stream extends Expression {
 
@@ -52,6 +53,13 @@ export default class Stream extends Expression {
         return this.initial.getType(program);
     }
 
+    compile(): Step[] {
+        return [
+            ...this.initial.compile(),
+            ...this.stream.compile()
+        ];
+    }
+    
     evaluate(evaluator: Evaluator): Value | Node {
         return new Exception(ExceptionType.NOT_IMPLEMENTED);
     }

@@ -14,6 +14,8 @@ import type Type from "./Type";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class Conversion extends Expression {
 
@@ -59,6 +61,10 @@ export default class Conversion extends Expression {
 
     getType(program: Program): Type {
         return this.output instanceof Unparsable ? new UnknownType(this) : new ConversionType(this.output);
+    }
+
+    compile(): Step[] {
+        return [ new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value | Node {

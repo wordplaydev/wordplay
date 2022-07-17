@@ -11,6 +11,9 @@ import type Value from "../runtime/Value";
 import type Node from "../nodes/Node";
 import Bool from "../runtime/Bool";
 import Exception, { ExceptionType } from "../runtime/Exception";
+import type Step from "../runtime/Step";
+import JumpIfFalse from "../runtime/JumpIfFalse";
+import Jump from "../runtime/JumpIfFalse";
 
 export default class Conditional extends Expression {
     
@@ -50,22 +53,17 @@ export default class Conditional extends Expression {
         return this.yes instanceof Unparsable ? new UnknownType(this) : this.yes.getType(program);
     }
 
-    evaluate(evaluator: Evaluator): Node | Value {
+    compile(): Step[] {
 
-        // Did we just evaluate the condition? Choose which branch to execute.
-        if(evaluator.justEvaluated(this.condition)) {
-            const value = evaluator.popValue();
-            return value instanceof Bool ?
-                (value.bool ? this.yes : this.no) :
-                new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-        }
-        // If we evaluated one of the branches, return the value.
-        else if(evaluator.justEvaluated(this.yes) || evaluator.justEvaluated(this.no))
-            return evaluator.popValue();
-        // Otherwise, evaluate the condition.
-        else 
-            return this.condition;
+        const yes = this.yes.compile();
+        const no = this.no.compile();
 
+        // Evaluate the condition, jump past the yes if false, otherwise evaluate the yes then jump past the no.
+        return [ ...this.condition.compile(), new JumpIfFalse(yes.length, this), ...yes, new Jump(no.length, this), ...no ];
+        
     }
+
+    /** We never actually evaluate this node below because the jump logic handles things. */
+    evaluate(evaluator: Evaluator) { return undefined; }
 
 }

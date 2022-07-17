@@ -14,6 +14,9 @@ import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import SetValue from "../runtime/SetValue";
 import MapValue from "../runtime/MapValue";
+import type Step from "../runtime/Step";
+import Halt from "../runtime/Halt";
+import Finish from "../runtime/Finish";
 
 enum SetKind { Set, Map, Neither };
 
@@ -92,63 +95,45 @@ export default class SetOrMapLiteral extends Expression {
         else return new UnknownType(this);
     }
 
+    compile(): Step[] {
+        return this.kind === SetKind.Neither ?
+            [ new Halt(new Exception(ExceptionType.INCOMPATIBLE_TYPE), this)] :
+            [
+                // Evaluate all of the item or key/value expressions
+                ...this.values.reduce(
+                    (steps: Step[], item) => [
+                        ...steps, 
+                        ...(this.kind === SetKind.Set ? 
+                            // Evaluate all of the set item expressions
+                            (item as Expression).compile() : 
+                            // Evaluate all of the key/value pairs
+                            [...(item as KeyValue).key.compile(), ...(item as KeyValue).value.compile()])
+                    ], []),
+                // Then build the set or map.
+                new Finish(this)
+            ];
+    }
+
     evaluate(evaluator: Evaluator): Node | Value {
 
-        // Neither? Return an exception.
-        if(this.kind === SetKind.Neither)
-            return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-
-        // Empty set? Just make it.
-        // TODO Distinguish between empty sets and empty maps.
-        if(this.values.length === 0)
-            return new SetValue(new Set());
-
         // Which value are we on?
-        const lastNode = evaluator.lastEvaluated();
         if(this.kind === SetKind.Set) {
-            const index = 
-                lastNode === undefined ? -1 : 
-                lastNode instanceof Expression ? this.values.indexOf(lastNode) :
-                -1; 
-                
-            // If we haven't started, return the first.
-            if(index < 0)
-                return this.values[0];
-            // If it was the last value, return the list.
-            else if(index === this.values.length - 1) {
-                // Pop all of the values. Order doesn't matter.
-                const set = new Set();
-                for(let i = 0; i < this.values.length; i++)
-                    set.add(evaluator.popValue());
-                return new SetValue(set);
-            }
-            // If we're in the middle of the list, evaluate the next value.
-            else return this.values[index + 1];
+            // Pop all of the values. Order doesn't matter.
+            const set = new Set();
+            for(let i = 0; i < this.values.length; i++)
+                set.add(evaluator.popValue());
+            return new SetValue(set);
         }
         else {
-            const lastKeyValue = lastNode === undefined ? undefined : (this.values as KeyValue[]).find(v => v.key === lastNode || v.value === lastNode);
-            // If we haven't started, return the first.
-            if(lastKeyValue === undefined)
-                return (this.values[0] as KeyValue).key;
-            // If it was the last value, return the list.
-            else if((this.values[this.values.length - 1] as KeyValue).value === lastNode) {
-                // Pop all of the values. Order doesn't matter.
-                const map = new Map();
-                for(let i = 0; i < this.values.length; i++) {
-                    const value = evaluator.popValue();
-                    const key = evaluator.popValue();
-                    map.set(key, value);
-                }
-                return new MapValue(map);
+            // Pop all of the values. Order doesn't matter.
+            const map = new Map();
+            for(let i = 0; i < this.values.length; i++) {
+                const value = evaluator.popValue();
+                const key = evaluator.popValue();
+                map.set(key, value);
             }
-            // If we're in the middle of the list, evaluate the next key or value.
-            else {
-                return lastNode === lastKeyValue.key ? 
-                    lastKeyValue.value :
-                    (this.values[this.values.indexOf(lastKeyValue) + 1] as KeyValue).key;
-            }
-
-        }
+            return new MapValue(map);
+       }
             
     }
 

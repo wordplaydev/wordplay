@@ -8,6 +8,8 @@ import type Node from "./Node";
 import None from "../runtime/None";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
+import Finish from "../runtime/Finish";
+import type Step from "../runtime/Step";
 
 export default class NoneLiteral extends Expression {
     readonly none: Token;
@@ -29,8 +31,12 @@ export default class NoneLiteral extends Expression {
         return new NoneType(this.none, this.name);
     }
 
+    compile(): Step[] {
+        return [ new Finish(this) ];
+    }
+
     evaluate(evaluator: Evaluator): Value | Node {
         return new None(this.name ? this.name.text : undefined);
-    }    
+    }
 
 }

@@ -15,6 +15,8 @@ import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
 import FunctionValue from "../runtime/FunctionValue";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class FunctionDefinition extends Expression {
 
@@ -107,6 +109,10 @@ export default class FunctionDefinition extends Expression {
             this.expression instanceof Token || this.expression instanceof Unparsable ? new UnknownType(this) : 
             this.expression.getType(program);
         return new FunctionType(inputTypes, outputType);
+    }
+
+    compile(): Step[] {
+        return [ new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value | Node {

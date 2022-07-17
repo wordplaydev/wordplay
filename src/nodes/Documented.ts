@@ -9,6 +9,7 @@ import Unparsable from "./Unparsable";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
+import type Step from "../runtime/Step";
 
 export default class Documented extends Expression {
     readonly docs: Docs[];
@@ -30,8 +31,12 @@ export default class Documented extends Expression {
         return this.expression instanceof Unparsable ? new UnknownType(this) : this.expression.getType(program);
     }
 
-    evaluate(evaluator: Evaluator): Node | Value {
-        return new Exception(ExceptionType.NOT_IMPLEMENTED);
+    compile(): Step[] {
+        return [ ...this.expression.compile() ];
+    }
+
+    evaluate(evaluator: Evaluator): Value | undefined {
+        return undefined;
     }    
 
 }

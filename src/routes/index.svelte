@@ -16,6 +16,9 @@
         const program = parse(doc.getContent());
         return program.getAllConflicts(program).join("\n");
     });
+    const steps = new Document("steps", code, doc => { 
+        return parse(doc.getContent()).compile().map(s => s.toString()).join("\n");
+    });
     const output = new Document("output", code, doc => {
         const evaluator = new Evaluator(parse(doc.getContent()));
         return `${evaluator.evaluate()}`;
@@ -26,6 +29,7 @@
         tokens,
         tree,
         conflicts,
+        steps,
         output
     ]));
 

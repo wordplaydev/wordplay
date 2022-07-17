@@ -13,6 +13,8 @@ import type TypeVariable from "./TypeVariable";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class Update extends Expression {
     
@@ -88,6 +90,13 @@ export default class Update extends Expression {
 
         return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
 
+    }
+
+    compile(): Step[] {
+        return [
+            ...this.table.compile(),
+            new Finish(this)
+        ];
     }
 
     evaluate(evaluator: Evaluator): Value | Node {

@@ -2,10 +2,12 @@ import Conflict, { UnknownBorrow } from "../parser/Conflict";
 import Node from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
-import type { Evaluable } from "../runtime/Evaluation";
+import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
+import type Step from "../runtime/Step";
+import Finish from "../runtime/Finish";
 
 export default class Borrow extends Node implements Evaluable {
     
@@ -33,6 +35,10 @@ export default class Borrow extends Node implements Evaluable {
 
         return conflicts; 
     
+    }
+
+    compile(): Step[] {
+        return [ new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Node | Value {

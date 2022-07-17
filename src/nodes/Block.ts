@@ -11,10 +11,14 @@ import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
 import { docsAreUnique } from "./util";
 import type TypeVariable from "./TypeVariable";
-import type { Evaluable } from "../runtime/Evaluation";
+import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Exception, { ExceptionType } from "../runtime/Exception";
+import Start from "../runtime/Start";
+import Finish from "../runtime/Finish";
+import type Step from "../runtime/Step";
+import Halt from "../runtime/Halt";
 
 export default class Block extends Expression {
 
@@ -94,26 +98,19 @@ export default class Block extends Expression {
         return lastExpression === undefined ? new UnknownType(this) : lastExpression.getType(program);
     }
 
+    compile(): Step[] {
+
+        // If there are no statements, halt on exception.
+        return this.statements.length === 0 ? 
+            [ new Halt(new Exception(ExceptionType.NO_BLOCK_EXPRESSION), this) ] :
+            [ new Start(this), ...this.statements.reduce((prev: Step[], current) => [ ...prev, ...current.compile() ], []), new Finish(this) ];
+
+    }
+
     evaluate(evaluator: Evaluator): Value | Evaluable {
 
-        // If there are no statements, return an exception.
-        if(this.statements.length === 0) return new Exception(ExceptionType.NO_BLOCK_EXPRESSION);
-
-        // If not, what was last evaluated?
-        const lastEvaluated = evaluator.lastEvaluated();
-
-        // Find it in the list of statements.
-        const index = 
-            lastEvaluated === undefined ? -1 : 
-            lastEvaluated instanceof Expression || lastEvaluated instanceof Bind || lastEvaluated instanceof Share || lastEvaluated instanceof Bind ? this.statements.indexOf(lastEvaluated) :
-            -1;
-
-        // If we haven't executed the first statement yet, start it.
-        if(index < 0) return this.statements[0];
-        // If we have, execute the statement after it if there is one.
-        else if(index < this.statements.length - 1) return this.statements[index + 1];
-        // If we're at the end of the last, return the last value computed.
-        else return evaluator.popValue();
+        // If we're at the end of the last, evaluate this as the last value computed in the statement list.
+        return evaluator.popValue();
 
     }
 
