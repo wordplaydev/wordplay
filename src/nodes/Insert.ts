@@ -14,6 +14,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import Table from "../runtime/Table";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import Start from "../runtime/Start";
 
 export default class Insert extends Expression {
     
@@ -82,6 +83,7 @@ export default class Insert extends Expression {
 
     compile(): Step[] {
         return [ 
+            new Start(this),
             ...this.table.compile(), 
             ...this.row.cells.reduce((steps: Step[], cell) => [ ...steps, ...cell.expression.compile() ], []),
             new Finish(this) 

@@ -15,6 +15,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import type Unparsable from "./Unparsable";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import Start from "../runtime/Start";
 
 export default class TableLiteral extends Expression {
     
@@ -67,6 +68,7 @@ export default class TableLiteral extends Expression {
 
     compile(): Step[] {
         return [
+            new Start(this),
             // Compile all of the row's 's cells expressions.
             ...this.rows.reduce((rows: Step[], row) =>
                 row.cells.reduce((cells: Step[], cell) => [...cells, ...cell.expression.compile()], []), 

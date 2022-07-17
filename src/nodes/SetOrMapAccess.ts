@@ -14,6 +14,7 @@ import MapValue from "../runtime/MapValue";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import Start from "../runtime/Start";
 
 export default class SetOrMapAccess extends Expression {
 
@@ -62,6 +63,7 @@ export default class SetOrMapAccess extends Expression {
     compile(): Step[] {
         // Evaluate the set expression, then the key expression, then this.
         return [ 
+            new Start(this),
             ...this.setOrMap.compile(),
             ...this.key.compile(),
             new Finish(this)

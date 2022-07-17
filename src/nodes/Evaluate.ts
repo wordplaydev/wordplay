@@ -17,6 +17,7 @@ import FunctionValue from "../runtime/FunctionValue";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import Start from "../runtime/Start";
 
 export default class Evaluate extends Expression {
 
@@ -95,6 +96,7 @@ export default class Evaluate extends Expression {
     compile(): Step[] {
         // Evaluate the function expression, then the inputs, then evaluate this this.
         return [ 
+            new Start(this),
             ...this.func.compile(), 
             ...this.inputs.reduce((steps: Step[], input) => [ ...steps, ...input.compile()], []), 
             new Finish(this) 

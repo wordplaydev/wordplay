@@ -14,6 +14,7 @@ import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
+import Start from "../runtime/Start";
 
 export default class Delete extends Expression {
     
@@ -71,7 +72,7 @@ export default class Delete extends Expression {
     }
 
     compile(): Step[] {
-        return [ ...this.table.compile(), new Finish(this) ];
+        return [ new Start(this), ...this.table.compile(), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value | Node {

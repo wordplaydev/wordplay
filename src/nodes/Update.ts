@@ -15,6 +15,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import Start from "../runtime/Start";
 
 export default class Update extends Expression {
     
@@ -94,6 +95,7 @@ export default class Update extends Expression {
 
     compile(): Step[] {
         return [
+            new Start(this),
             ...this.table.compile(),
             new Finish(this)
         ];

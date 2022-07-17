@@ -17,6 +17,7 @@ import MapValue from "../runtime/MapValue";
 import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
+import Start from "../runtime/Start";
 
 enum SetKind { Set, Map, Neither };
 
@@ -99,6 +100,7 @@ export default class SetOrMapLiteral extends Expression {
         return this.kind === SetKind.Neither ?
             [ new Halt(new Exception(ExceptionType.INCOMPATIBLE_TYPE), this)] :
             [
+                new Start(this),
                 // Evaluate all of the item or key/value expressions
                 ...this.values.reduce(
                     (steps: Step[], item) => [

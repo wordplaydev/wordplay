@@ -16,6 +16,7 @@ import Bool from "../runtime/Bool";
 import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import Start from "../runtime/Start";
 
 export default class UnaryOperation extends Expression {
 
@@ -80,6 +81,7 @@ export default class UnaryOperation extends Expression {
     
     compile(): Step[] {
         return [
+            new Start(this),
             ...this.operand.compile(),
             new Finish(this)
         ];

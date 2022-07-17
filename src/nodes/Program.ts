@@ -11,6 +11,7 @@ import type Value from "../runtime/Value";
 import type Evaluable from "../runtime/Evaluable";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import Start from "../runtime/Start";
 
 export default class Program extends Node implements Evaluable {
     
@@ -60,6 +61,7 @@ export default class Program extends Node implements Evaluable {
     compile(): Step[] {
         // Execute the borrows, then the block, then this.
         return [ 
+            new Start(this),
             ...this.borrows.reduce((steps: Step[], borrow) => [...steps, ...borrow.compile()], []),
             ...this.block.compile(),
             new Finish(this)            

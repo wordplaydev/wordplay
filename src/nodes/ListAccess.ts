@@ -15,6 +15,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import Start from "../runtime/Start";
 
 export default class ListAccess extends Expression {
 
@@ -58,7 +59,7 @@ export default class ListAccess extends Expression {
     }
 
     compile(): Step[] {
-        return [ ...this.list.compile(), ...this.index.compile(), new Finish(this) ];
+        return [ new Start(this), ...this.list.compile(), ...this.index.compile(), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Node | Value {

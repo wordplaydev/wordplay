@@ -10,6 +10,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
+import Start from "../runtime/Start";
 
 export default class Convert extends Expression {
     
@@ -44,7 +45,7 @@ export default class Convert extends Expression {
     }
 
     compile(): Step[] {
-        return [ ...this.expression.compile(), new Finish(this) ]
+        return [ new Start(this), ...this.expression.compile(), new Finish(this) ]
     }
 
     evaluate(evaluator: Evaluator): Value | Node {

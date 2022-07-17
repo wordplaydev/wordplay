@@ -12,6 +12,7 @@ import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import Start from "../runtime/Start";
 
 export default class ListLiteral extends Expression {
 
@@ -51,6 +52,7 @@ export default class ListLiteral extends Expression {
 
     compile(): Step[] {
         return [ 
+            new Start(this),
             ...this.values.reduce((steps: Step[], item) => [...steps, ...item.compile()], []),
             new Finish(this)
         ];
