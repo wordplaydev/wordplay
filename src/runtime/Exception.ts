@@ -6,7 +6,9 @@ export enum ExceptionType {
     NO_BLOCK_EXPRESSION,
     UNKNOWN_OPERATOR,
     INCOMPATIBLE_TYPE,
-    NOT_IMPLEMENTED
+    EXCPECTED_CONTEXT,
+    NOT_IMPLEMENTED,
+    NO_FUNCTION_EXPRESSION
 }
 
 export default class Exception extends Value {

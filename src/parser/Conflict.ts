@@ -14,7 +14,7 @@ import type Delete from "../nodes/Delete";
 import type Docs from "../nodes/Docs";
 import type Evaluate from "../nodes/Evaluate";
 import type Expression from "../nodes/Expression";
-import type { default as Func } from "../nodes/Function";
+import type { default as Func } from "../nodes/FunctionDefinition";
 import type FunctionType from "../nodes/FunctionType";
 import type Insert from "../nodes/Insert";
 import type ListLiteral from "../nodes/ListLiteral";

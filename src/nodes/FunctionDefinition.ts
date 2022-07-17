@@ -1,5 +1,5 @@
 import type Node from "./Node";
-import Bind from "../nodes/Bind";
+import Bind from "./Bind";
 import Expression from "./Expression";
 import Token from "./Token";
 import Type from "./Type";
@@ -14,8 +14,9 @@ import { docsAreUnique, inputsAreUnique, requiredBindAfterOptional, typeVarsAreU
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
+import FunctionValue from "../runtime/FunctionValue";
 
-export default class Function extends Expression {
+export default class FunctionDefinition extends Expression {
 
     readonly docs: Docs[];
     readonly fun: Token;
@@ -109,7 +110,10 @@ export default class Function extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value | Node {
-        return new Exception(ExceptionType.NOT_IMPLEMENTED);
+        const context = evaluator.getEvaluationContext();
+        return context === undefined ? 
+            new Exception(ExceptionType.EXCPECTED_CONTEXT) : 
+            new FunctionValue(this, context);
     }
 
 }

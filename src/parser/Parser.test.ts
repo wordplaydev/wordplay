@@ -34,7 +34,7 @@ import TableLiteral from "../nodes/TableLiteral";
 import Select from "../nodes/Select";
 import Insert from "../nodes/Insert";
 import Update from "../nodes/Update";
-import Function from "../nodes/Function";
+import FunctionDefinition from "../nodes/FunctionDefinition";
 import Evaluate from "../nodes/Evaluate";
 import Conversion from "../nodes/Conversion";
 import CustomType from "../nodes/CustomType";
@@ -253,31 +253,31 @@ test("Parse expressions", () => {
     expect(((conditional as Conditional).no as Conditional).no).toBeInstanceOf(Name);
 
     const abstractFun = parseExpression(tokens("ƒ(a b) …"));
-    expect(abstractFun).toBeInstanceOf(Function);
-    expect((abstractFun as Function).inputs).toHaveLength(2);
+    expect(abstractFun).toBeInstanceOf(FunctionDefinition);
+    expect((abstractFun as FunctionDefinition).inputs).toHaveLength(2);
 
     const noInputs = parseExpression(tokens("ƒ() …"));
-    expect(noInputs).toBeInstanceOf(Function);
-    expect((noInputs as Function).inputs).toHaveLength(0);
+    expect(noInputs).toBeInstanceOf(FunctionDefinition);
+    expect((noInputs as FunctionDefinition).inputs).toHaveLength(0);
 
     const withOutputType = parseExpression(tokens("ƒ() •# …"));
-    expect(withOutputType).toBeInstanceOf(Function);
-    expect((withOutputType as Function).output).toBeInstanceOf(MeasurementType);
+    expect(withOutputType).toBeInstanceOf(FunctionDefinition);
+    expect((withOutputType as FunctionDefinition).output).toBeInstanceOf(MeasurementType);
 
     const withBody = parseExpression(tokens("ƒ(a b) •# a+b"));
-    expect(withBody).toBeInstanceOf(Function);
-    expect((withBody as Function).expression).toBeInstanceOf(BinaryOperation);
+    expect(withBody).toBeInstanceOf(FunctionDefinition);
+    expect((withBody as FunctionDefinition).expression).toBeInstanceOf(BinaryOperation);
 
     const withDocs = parseExpression(tokens("`Add things`eng ƒ(a b) a = b"));
-    expect(withDocs).toBeInstanceOf(Function);
-    expect((withDocs as Function).docs).toHaveLength(1);
+    expect(withDocs).toBeInstanceOf(FunctionDefinition);
+    expect((withDocs as FunctionDefinition).docs).toHaveLength(1);
 
     const withMultipleDocs = parseExpression(tokens("`Number one`eng `Numero uno`spa ƒ(a b) a = b"));
-    expect(withMultipleDocs).toBeInstanceOf(Function);
-    expect((withMultipleDocs as Function).docs).toHaveLength(2);
+    expect(withMultipleDocs).toBeInstanceOf(FunctionDefinition);
+    expect((withMultipleDocs as FunctionDefinition).docs).toHaveLength(2);
 
     const withTypeVariables = parseExpression(tokens("ƒ •T (a: T b: T) a + b"));
-    expect(withTypeVariables).toBeInstanceOf(Function);
+    expect(withTypeVariables).toBeInstanceOf(FunctionDefinition);
 
     const evaluate = parseExpression(tokens("a()"));
     expect(evaluate).toBeInstanceOf(Evaluate);

@@ -9,7 +9,7 @@ import type Program from "./Program";
 import Conflict, { DuplicateLanguages, DuplicateInputNames, DuplicateTypeVariables, RequiredAfterOptional } from "../parser/Conflict";
 import Type from "./Type";
 import Block from "../nodes/Block";
-import Function from "./Function";
+import FunctionDefinition from "./FunctionDefinition";
 import { docsAreUnique, inputsAreUnique, requiredBindAfterOptional, typeVarsAreUnique } from "./util";
 import Conversion from "./Conversion";
 import type Evaluator from "../runtime/Evaluator";
@@ -46,7 +46,7 @@ export default class CustomType extends Expression {
     isInterface() {
         if(this.block instanceof Unparsable) return false;
         const binds = this.block.statements.filter(s => s instanceof Bind) as Bind[];
-        return !binds.every(b => !(b.value instanceof Function) || b.value.expression instanceof Expression);
+        return !binds.every(b => !(b.value instanceof FunctionDefinition) || b.value.expression instanceof Expression);
     }
 
     getChildren() {

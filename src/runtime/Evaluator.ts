@@ -45,19 +45,21 @@ export default class Evaluator {
             // Save the value on the value stack if it wasn't a no op.
             if(!(result instanceof NoOp))
                 this.values.unshift(result);
-
             // If it was an exception, stop evaluating.
-            if(result instanceof Exception)
+            else if(result instanceof Exception)
                 return false;
 
             // Otherwise, finish the evaluation and save it in the history.
-            const finishedEvaluation = this.evaluations.shift();
-            if(finishedEvaluation)
-                this.history.unshift(finishedEvaluation);
+            this.endEvaluation();
+        }
+        // If the result was an evaluation, push it on to the stack.
+        else if(result instanceof Evaluation) {
+            this.endEvaluation();
+            this.startEvaluation(result);
         }
         // Otherwise, evaluate the node returned.
         else {
-            this.evaluations.unshift(new Evaluation(this.evaluations[0], result));
+            this.startEvaluation(new Evaluation(this.evaluations[0], result));
         }
 
         // If this particular frame has been stuck on the same node for a long time, there's a defect in a Node.evaluate() function.
@@ -86,6 +88,18 @@ export default class Evaluator {
         return value === undefined ? new Exception(ExceptionType.EXPECTED_VALUE) : value;
     }
 
+    /** Start evaluation */
+    endEvaluation() {
+        const finishedEvaluation = this.evaluations.shift();
+        if(finishedEvaluation)
+            this.history.unshift(finishedEvaluation);
+    }
+    
+    /** Start evaluation */
+    startEvaluation(evaluation: Evaluation) {
+        this.evaluations.unshift(evaluation);
+    }
+
     /** Bind the given value to the given name in the context of the current evaluation. */
     bind(name: string, value: Value) {
         if(this.evaluations.length > 0 && this.evaluations[0].context !== undefined)
@@ -95,6 +109,11 @@ export default class Evaluator {
     /** Resolve the given name in the current execution context. */
     resolve(name: string): Value | undefined {
         return this.evaluations.length === 0 ? undefined : this.evaluations[0].resolve(name);
+    }
+
+    /** Get the context of the currently evaluating evaluation. */
+    getEvaluationContext() {
+        return this.evaluations.length === 0 ? undefined : this.evaluations[0].context;
     }
 
 }

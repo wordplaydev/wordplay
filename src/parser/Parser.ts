@@ -14,7 +14,7 @@ import Evaluate from "../nodes/Evaluate";
 import UnaryOperation from "../nodes/UnaryOperation";
 import BinaryOperation from "../nodes/BinaryOperation";
 import AccessName from "../nodes/AccessName";
-import Function from "../nodes/Function";
+import FunctionDefinition from "../nodes/FunctionDefinition";
 import Template from "../nodes/Template";
 import UnionType from "../nodes/UnionType";
 import NoneLiteral from "../nodes/NoneLiteral";
@@ -721,7 +721,7 @@ function parseConditional(condition: Expression, tokens: Tokens): Conditional {
 }
 
 /** FUNCTION :: DOCS? ƒ TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
-function parseFunction(tokens: Tokens): Function | Unparsable {
+function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 
     const docs = parseDocs(tokens);
 
@@ -750,7 +750,7 @@ function parseFunction(tokens: Tokens): Function | Unparsable {
 
     const expression = tokens.nextIs(TokenType.TBD) ? tokens.read() : parseExpression(tokens);
 
-    return new Function(docs, fun, open, inputs, close, expression, typeVars, type, output);
+    return new FunctionDefinition(docs, fun, open, inputs, close, expression, typeVars, type, output);
 
 }
 

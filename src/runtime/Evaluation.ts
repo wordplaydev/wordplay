@@ -5,7 +5,7 @@ import Value from "./Value";
 export interface Evaluable {
     /** Evaluates one step of the node in the context of the given Evaluator.
      *  Returns a Value when done evaluating or the next node to evaluate. */
-    evaluate(evaluator: Evaluator): Value | Node;
+    evaluate(evaluator: Evaluator): Value | Node | Evaluation;
 
 }
 

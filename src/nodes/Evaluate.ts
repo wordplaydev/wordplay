@@ -11,8 +11,11 @@ import type TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
+import Evaluation from "../runtime/Evaluation";
+import FunctionValue from "../runtime/FunctionValue";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import NoOp from "../runtime/NoOp";
 
 export default class Evaluate extends Expression {
 
@@ -88,8 +91,52 @@ export default class Evaluate extends Expression {
         else return new UnknownType(this);
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
-        return new Exception(ExceptionType.NOT_IMPLEMENTED);
+    evaluate(evaluator: Evaluator): Node | Value | Evaluation {
+
+        // Evaluate all of the inputs
+        const lastNode = evaluator.lastEvaluated();
+
+        // Is the last node the 
+
+        // Have we evaluated one of the inputs?
+        const index = 
+            lastNode === undefined ? -1 : 
+            lastNode instanceof Expression || lastNode instanceof Unparsable ? 
+            this.inputs.indexOf(lastNode) : -1;
+
+        // If we didn't evaluate an input, we start with the funciton
+        if(lastNode !== this.func && index < 0) return this.func;
+        // Evaluate the next node if there is one.
+        else if(lastNode === this.func || index < this.inputs.length - 1) 
+            return this.inputs[index + 1];
+
+        // Get the inputs and functions off the stack.
+        const values: Value[] = [];
+        for(let i = 0; i < this.inputs.length; i++)
+            values.unshift(evaluator.popValue());
+
+        // Get the function off the stack and bail if it's not a function.
+        const func = evaluator.popValue();
+        if(!(func instanceof FunctionValue)) 
+            return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+
+        // Bail if the function body isn't an expression.
+        if(!(func.definition.expression instanceof Expression))
+            return new Exception(ExceptionType.NO_FUNCTION_EXPRESSION);
+
+        // Now that all of the inputs are resolved, create an execution context that binds all of the inputs.
+        const evaluation = new Evaluation(evaluator.getEvaluationContext(), func.definition.expression);
+
+        // Bind all of the values.
+        for(let i = 0; i < func.definition.inputs.length; i++) {
+            const bind = func.definition.inputs[i];
+            if(bind instanceof Unparsable) return new Exception(ExceptionType.UNPARSABLE);
+            bind.names.forEach(name => evaluation.bind(name.name.text, values.shift() as Value));
+        }
+
+        // Ask the evaluator to add the evaluation.
+        return evaluation;
+
     }
     
 }
