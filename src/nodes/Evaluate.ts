@@ -1,7 +1,7 @@
 import Bind from "../nodes/Bind";
 import Conflict, { IncompatibleInputs, NotAFunction, NotInstantiable } from "../parser/Conflict";
-import CustomType from "./CustomType";
-import CustomTypeType from "./CustomTypeType";
+import StructureDefinition from "./StructureDefinition";
+import StructureType from "./StructureType";
 import Expression from "./Expression";
 import FunctionType from "./FunctionType";
 import type Program from "./Program";
@@ -18,6 +18,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
+import CustomType from "../runtime/CustomType";
 
 export default class Evaluate extends Expression {
 
@@ -49,7 +50,7 @@ export default class Evaluate extends Expression {
             const functionType = this.func.getType(program);
 
             // The function must be a function.
-            if(!(functionType instanceof FunctionType || functionType instanceof CustomTypeType))
+            if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
                 conflicts.push(new NotAFunction(this));
             else { 
                 let targetInputs: Type[] | undefined = undefined;
@@ -59,7 +60,7 @@ export default class Evaluate extends Expression {
                     if(types.length === functionType.inputs.length)
                         targetInputs = types;
                 }
-                else if(functionType instanceof CustomTypeType) {
+                else if(functionType instanceof StructureType) {
                     // Can't create interfaces that don't have missing function definitions.
                     if(functionType.type.isInterface())
                         conflicts.push(new NotInstantiable(this));
@@ -88,8 +89,8 @@ export default class Evaluate extends Expression {
         if(this.func instanceof Unparsable) return new UnknownType(this);
         const funcType = this.func.getType(program);
         if(funcType instanceof FunctionType && funcType.output instanceof Type) return funcType.output;
-        if(funcType instanceof CustomTypeType) return funcType.type;
-        if(funcType instanceof CustomType) return funcType;
+        if(funcType instanceof StructureType) return funcType.type;
+        if(funcType instanceof StructureDefinition) return funcType;
         else return new UnknownType(this);
     }
 
@@ -99,38 +100,64 @@ export default class Evaluate extends Expression {
             new Start(this),
             ...this.func.compile(), 
             ...this.inputs.reduce((steps: Step[], input) => [ ...steps, ...input.compile()], []), 
-            new Finish(this) 
+            new Finish(this)
         ];
     }
 
     evaluate(evaluator: Evaluator): Value | undefined {
 
-        // Get the inputs and functions off the stack.
-        const values: Value[] = [];
-        for(let i = 0; i < this.inputs.length; i++)
-            values.unshift(evaluator.popValue());
-
-        // Get the function off the stack and bail if it's not a function.
-        const func = evaluator.popValue();
-        if(!(func instanceof FunctionValue)) 
-            return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
-
-        // Bail if the function's body isn't an expression.
-        if(!(func.definition.expression instanceof Expression))
-            return new Exception(ExceptionType.NO_FUNCTION_EXPRESSION);
-
-        // Build the bindings.
-        const bindings = new Map<string, Value>();
-        for(let i = 0; i < func.definition.inputs.length; i++) {
-            const bind = func.definition.inputs[i];
-            if(bind instanceof Unparsable) return new Exception(ExceptionType.UNPARSABLE);
-            const value = values.shift();
-            if(value === undefined) return new Exception(ExceptionType.EXPECTED_VALUE);
-            bind.names.forEach(name => bindings.set(name.name.text, value));
+        // Get all the values off the stack.
+        const values = [];
+        for(let i = 0; i < this.inputs.length; i++) {
+            const value = evaluator.popValue();
+            if(value instanceof Unparsable) return new Exception(ExceptionType.UNPARSABLE);
+            else if(value instanceof Exception) return value;
+            else values.unshift(value);
         }
 
-        // Now that all of the inputs are resolved, create an execution context that binds all of the inputs.
-        evaluator.startEvaluation(new Evaluation(func.definition.expression, undefined, bindings));
+        // Get the function off the stack and bail if it's not a function.
+        const functionOrStructure = evaluator.popValue();
+        if(functionOrStructure instanceof FunctionValue) {
+
+            // Bail if the function's body isn't an expression.
+            if(!(functionOrStructure.definition.expression instanceof Expression))
+                return new Exception(ExceptionType.NO_FUNCTION_EXPRESSION);
+
+            // Build the bindings.
+            const bindings = this.buildBindings(functionOrStructure.definition.inputs, values);
+            if(bindings instanceof Exception) return bindings;
+
+            // Now that all of the inputs are resolved, create an execution context that binds all of the inputs.
+            evaluator.startEvaluation(new Evaluation(functionOrStructure.definition, functionOrStructure.definition.expression, undefined, bindings));
+
+        }
+        else if(functionOrStructure instanceof CustomType) {
+
+            // Build the custom type's bindings.
+            const bindings = this.buildBindings(functionOrStructure.definition.inputs, values);
+            if(bindings instanceof Exception) return bindings;
+
+            // Evaluate the type's block with the bindings, generating an evaluation context with the
+            // type's inputs and functions.
+            evaluator.startEvaluation(new Evaluation(functionOrStructure.definition, functionOrStructure.definition.block, evaluator.getEvaluationContext(), bindings));
+
+        }
+        // We don't know how to evaluate anything else...
+        else return new Exception(ExceptionType.INCOMPATIBLE_TYPE);
+
+    }
+
+    buildBindings(inputs: (Bind | Unparsable)[], values: Value[], ): Map<string, Value> | Exception {
+
+        // Build the bindings, backwards because they are in reverse on the stack.
+        const bindings = new Map<string, Value>();
+        for(let i = 0; i < inputs.length; i++) {
+            const bind = inputs[i];
+            if(bind instanceof Unparsable) return new Exception(ExceptionType.UNPARSABLE);
+            else if(i >= values.length) return new Exception(ExceptionType.EXPECTED_VALUE);
+            bind.names.forEach(name => bindings.set(name.name.text, values[i]));
+        }
+        return bindings;
 
     }
     

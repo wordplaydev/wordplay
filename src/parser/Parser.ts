@@ -32,7 +32,7 @@ import KeyValue from "../nodes/KeyValue";
 import ListAccess from "../nodes/ListAccess";
 import Conditional from "../nodes/Conditional";
 import Share from "../nodes/Share";
-import CustomType from "../nodes/CustomType";
+import StructureDefinition from "../nodes/StructureDefinition";
 import Documented from "../nodes/Documented";
 import Alias from "../nodes/Alias";
 import Docs from "../nodes/Docs";
@@ -221,7 +221,7 @@ export function parseProgram(tokens: Tokens): Program {
     while(tokens.nextIs(TokenType.BORROW))
         borrows.push(parseBorrow(tokens));
 
-    const block = parseBlock(true, tokens);
+    const block = parseBlock(tokens, true, false);
 
     return new Program(borrows, block);
 
@@ -253,7 +253,7 @@ function parseShare(tokens: Tokens): Share {
 }
 
 /** BLOCK :: DOCS ? ( [BIND|EXPRESSION]+ )  */
-export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
+export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean=false): Block | Unparsable {
 
     // Grab any documentation
     let docs = parseDocs(tokens);
@@ -278,7 +278,7 @@ export function parseBlock(root: boolean, tokens: Tokens): Block | Unparsable {
             tokens.read() :
             tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
 
-    return new Block(docs, statements, open, close);
+    return new Block(docs, statements, creator, open, close);
 
 }
 
@@ -385,10 +385,10 @@ export function parseExpression(tokens: Tokens): Expression | Unparsable {
         // Table literals
         tokens.nextIs(TokenType.TABLE) ? parseTable(tokens) :
         // A block expression
-        tokens.nextAreDocsThen(TokenType.EVAL_OPEN) ? parseBlock(false, tokens) :
-        // Custom types
-        tokens.nextAreDocsThen(TokenType.TYPE) ? parseCustomType(tokens) :
-        // A function
+        tokens.nextAreDocsThen(TokenType.EVAL_OPEN) ? parseBlock(tokens) :
+        // A structure definition
+        tokens.nextAreDocsThen(TokenType.TYPE) ? parseStructure(tokens) :
+        // A function function
         tokens.nextAreDocsThen(TokenType.FUNCTION) ? parseFunction(tokens) :
         // A conversion
         tokens.nextAreDocsThen(TokenType.CONVERT) ? parseConversion(tokens) :
@@ -958,7 +958,7 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 }
 
 /** CUSTOM_TYPE :: DOCS? • TYPE_VARS ( BIND* ) BLOCK */
-function parseCustomType(tokens: Tokens): CustomType | Unparsable {
+function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     const docs = parseDocs(tokens);
 
@@ -977,9 +977,9 @@ function parseCustomType(tokens: Tokens): CustomType | Unparsable {
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
     const close = tokens.read();
 
-    const block = parseBlock(false, tokens);
+    const block = parseBlock(tokens, false, true);
 
-    return new CustomType(docs, type, typeVars, open, inputs, close, block);
+    return new StructureDefinition(docs, type, typeVars, open, inputs, close, block);
 
 }
 

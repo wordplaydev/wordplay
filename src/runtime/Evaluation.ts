@@ -1,3 +1,6 @@
+import type FunctionDefinition from "../nodes/FunctionDefinition";
+import type Program from "../nodes/Program";
+import type StructureDefinition from "../nodes/StructureDefinition";
 import type Evaluable from "./Evaluable";
 import type Evaluator from "./Evaluator";
 import Exception, { ExceptionType } from "./Exception";
@@ -5,6 +8,9 @@ import type Step from "./Step";
 import Value from "./Value";
 
 export default class Evaluation {
+
+    /** The node that defined this program. */
+    readonly #definition: Program | FunctionDefinition | StructureDefinition;
 
     /** The node being evaluated. */
     readonly #node: Evaluable;
@@ -24,8 +30,9 @@ export default class Evaluation {
     /** The step to execute next */
     #step: number = 0;
     
-    constructor(node: Evaluable, context?: Evaluation, bindings?: Map<string, Value>) {
+    constructor(definition: Program | FunctionDefinition | StructureDefinition, node: Evaluable, context?: Evaluation, bindings?: Map<string, Value>) {
 
+        this.#definition = definition;
         this.#node = node;
         this.#context = context;
 
@@ -36,6 +43,9 @@ export default class Evaluation {
         this.#bindings = bindings === undefined ? new Map() : bindings;
 
     }
+
+    getDefinition() { return this.#definition; }
+    getNode() { return this.#node; }
 
     /** Given an Evaluator, evaluate this node, and return true if it's done. 
      *  Undefined means that this will continue evaluating. A Value means it's done. */

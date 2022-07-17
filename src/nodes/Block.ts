@@ -19,6 +19,7 @@ import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
+import Structure from "../runtime/Structure";
 
 export default class Block extends Expression {
 
@@ -26,14 +27,16 @@ export default class Block extends Expression {
     readonly statements: (Expression | Unparsable | Share | Bind)[];
     readonly close?: Token | Unparsable;
     readonly docs: Docs[];
+    readonly creator: boolean;
 
-    constructor(docs: Docs[], statements: (Expression | Unparsable | Share | Bind)[], open?: Token | Unparsable, close?: Token | Unparsable) {
+    constructor(docs: Docs[], statements: (Expression | Unparsable | Share | Bind)[], creator: boolean, open?: Token | Unparsable, close?: Token | Unparsable) {
         super();
 
         this.open = open;
         this.statements = statements.slice();
         this.close = close;
         this.docs = docs;
+        this.creator = creator;
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return true; }
@@ -49,7 +52,7 @@ export default class Block extends Expression {
         const conflicts = [];
 
         // Blocks can't be empty. And if they aren't empty, the last statement must be an expression.
-        if(this.statements.length === 0 || !(this.statements[this.statements.length  - 1] instanceof Expression))
+        if(!this.creator && (this.statements.length === 0 || !(this.statements[this.statements.length  - 1] instanceof Expression)))
             conflicts.push(new ExpectedEndingExpression(this));
 
         // The only expression allowed is the last one.
@@ -101,16 +104,27 @@ export default class Block extends Expression {
     compile(): Step[] {
 
         // If there are no statements, halt on exception.
-        return this.statements.length === 0 ? 
+        return !this.creator && this.statements.length === 0 ? 
             [ new Halt(new Exception(ExceptionType.NO_BLOCK_EXPRESSION), this) ] :
-            [ new Start(this), ...this.statements.reduce((prev: Step[], current) => [ ...prev, ...current.compile() ], []), new Finish(this) ];
+            [ 
+                new Start(this), 
+                ...this.statements.reduce((prev: Step[], current) => [ ...prev, ...current.compile() ], []),
+                new Finish(this) 
+            ];
 
     }
 
-    evaluate(evaluator: Evaluator): Value | Evaluable {
+    evaluate(evaluator: Evaluator) {
 
-        // If we're at the end of the last, evaluate this as the last value computed in the statement list.
-        return evaluator.popValue();
+        // If this block is creating a structure, take the context and bindings we just created
+        // and convert it into a structure.
+        if(this.creator) {
+            const context = evaluator.getEvaluationContext();
+            if(context === undefined) return new Exception(ExceptionType.EXPECTED_CONTEXT);
+            return new Structure(context);
+        }
+        // If this block is just an expression, return the (last) value on the value stack of the current evaluation context.
+        else return evaluator.popValue();            
 
     }
 

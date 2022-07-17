@@ -1,5 +1,5 @@
 import Conflict, { UnknownProperty } from "../parser/Conflict";
-import CustomType from "./CustomType";
+import StructureDefinition from "./StructureDefinition";
 import Expression from "./Expression";
 import type Program from "./Program";
 import type Token from "./Token";
@@ -11,6 +11,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
+import Structure from "../runtime/Structure";
 
 export default class AccessName extends Expression {
 
@@ -41,11 +42,11 @@ export default class AccessName extends Expression {
         return conflicts;
     }
 
-    getSubjectType(program: Program): CustomType | undefined {
+    getSubjectType(program: Program): StructureDefinition | undefined {
 
         if(this.subject instanceof Unparsable) return;
         const subjectType = this.subject.getType(program);
-        if(subjectType instanceof CustomType) return subjectType;
+        if(subjectType instanceof StructureDefinition) return subjectType;
 
     }
 
@@ -64,7 +65,12 @@ export default class AccessName extends Expression {
     }
 
     evaluate(evaluator: Evaluator) {
-        return new Exception(ExceptionType.NOT_IMPLEMENTED);
+
+        const subject = evaluator.popValue();
+        return subject instanceof Exception ? subject :
+            subject instanceof Structure ? subject.resolve(this.name.text) :
+            new Exception(ExceptionType.EXPECTED_STRUCTURE);
+
     }
 
 }

@@ -10,7 +10,7 @@ export default class Evaluator {
 
     constructor(program: Program) {
 
-        this.evaluations = [ new Evaluation(program) ];
+        this.evaluations = [ new Evaluation(program, program) ];
 
     }
 

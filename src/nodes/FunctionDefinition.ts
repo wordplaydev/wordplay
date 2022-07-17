@@ -115,10 +115,10 @@ export default class FunctionDefinition extends Expression {
         return [ new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
+    evaluate(evaluator: Evaluator) {
         const context = evaluator.getEvaluationContext();
         return context === undefined ? 
-            new Exception(ExceptionType.EXCPECTED_CONTEXT) : 
+            new Exception(ExceptionType.EXPECTED_CONTEXT) : 
             new FunctionValue(this, context);
     }
 

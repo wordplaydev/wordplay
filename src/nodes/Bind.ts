@@ -9,8 +9,8 @@ import type Program from "./Program";
 import Conflict, { DuplicateBinds, DuplicateAliases, IncompatibleBind, UnusedBind } from "../parser/Conflict";
 import UnknownType from "./UnknownType";
 import NameType from "./NameType";
-import CustomTypeType from "./CustomTypeType";
-import CustomType from "./CustomType";
+import StructureType from "./StructureType";
+import StructureDefinition from "./StructureDefinition";
 import TypeVariable from "./TypeVariable";
 import Name from "./Name";
 import Column from "./Column";
@@ -96,7 +96,7 @@ export default class Bind extends Node implements Evaluable {
 
         const type = 
             this.type instanceof Type ? this.type :
-            this.value instanceof CustomType ? new CustomTypeType(this.value) :
+            this.value instanceof StructureDefinition ? new StructureType(this.value) :
             this.value instanceof Expression ? this.value.getType(program) :
             new UnknownType(this);
 

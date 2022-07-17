@@ -1,14 +1,14 @@
 import type Program from "./Program";
 import type Conflict from "../parser/Conflict";
 import Type from "./Type";
-import type CustomType from "./CustomType";
+import type StructureDefinition from "./StructureDefinition";
 import type Conversion from "./Conversion";
 
-export default class CustomTypeType extends Type {
+export default class StructureType extends Type {
 
-    readonly type: CustomType;
+    readonly type: StructureDefinition;
 
-    constructor(type: CustomType) {
+    constructor(type: StructureDefinition) {
 
         super();
 
@@ -22,7 +22,7 @@ export default class CustomTypeType extends Type {
     getConflicts(program: Program): Conflict[] { return []; }
 
     isCompatible(program: Program, type: Type): boolean {
-        return type instanceof CustomTypeType && this.type === type.type;
+        return type instanceof StructureType && this.type === type.type;
     }
 
     getConversion(program: Program, type: Type): Conversion | undefined {

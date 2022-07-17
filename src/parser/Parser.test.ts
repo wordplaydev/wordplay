@@ -37,7 +37,7 @@ import Update from "../nodes/Update";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import Evaluate from "../nodes/Evaluate";
 import Conversion from "../nodes/Conversion";
-import CustomType from "../nodes/CustomType";
+import StructureDefinition from "../nodes/StructureDefinition";
 import AccessName from "../nodes/AccessName";
 import Name from "../nodes/Name";
 import BooleanLiteral from "../nodes/BooleanLiteral";
@@ -81,12 +81,12 @@ test("Parse shares", () => {
 
 test("Parse block", () => {
 
-    const good = parseBlock(false, tokens("(\nhi\n)"));
+    const good = parseBlock(tokens("(\nhi\n)"));
     expect(good).toBeInstanceOf(Block);
     expect((good as Block).statements).toHaveLength(1);
     expect(((good as Block).statements[0])).toBeInstanceOf(Name);
 
-    const documented = parseBlock(false, tokens("`Nothing` ( hi )"));
+    const documented = parseBlock(tokens("`Nothing` ( hi )"));
     expect(documented).toBeInstanceOf(Block);
     expect((documented as Block).docs).toHaveLength(1);
 
@@ -306,9 +306,9 @@ test("Parse expressions", () => {
     expect((conversionWithDocs as Conversion).docs).toHaveLength(1);
 
     const customType = parseExpression(tokens("•(species•'') ( meow: ƒ() say(species) )"))
-    expect(customType).toBeInstanceOf(CustomType);
-    expect((customType as CustomType).inputs).toHaveLength(1);
-    expect(((customType as CustomType).block as Block).statements).toHaveLength(1);
+    expect(customType).toBeInstanceOf(StructureDefinition);
+    expect((customType as StructureDefinition).inputs).toHaveLength(1);
+    expect(((customType as StructureDefinition).block as Block).statements).toHaveLength(1);
 
     const access = parseExpression(tokens("a.b.c()[d]{f}"));
     expect(access).toBeInstanceOf(SetOrMapAccess);
@@ -322,25 +322,25 @@ test("Parse expressions", () => {
 
 test("Blocks and binds", () => {
 
-    const map = parseBlock(true, tokens("{1:1 2:2 3:3}"));
+    const map = parseBlock(tokens("{1:1 2:2 3:3}"), true);
     expect(map).toBeInstanceOf(Block);
     expect((map as Block).statements[0]).toBeInstanceOf(SetOrMapLiteral);
 
-    const bindMap = parseBlock(true, tokens("map: {1:1 2:2 3:3}"));
+    const bindMap = parseBlock(tokens("map: {1:1 2:2 3:3}"), true);
     expect(bindMap).toBeInstanceOf(Block);
     expect((bindMap as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindMap as Block).statements[0] as Bind).value).toBeInstanceOf(SetOrMapLiteral);
 
-    const table = parseBlock(true, tokens("|a•#|b•#\n|1|2"));
+    const table = parseBlock(tokens("|a•#|b•#\n|1|2"), true);
     expect(table).toBeInstanceOf(Block);
     expect((table as Block).statements[0]).toBeInstanceOf(TableLiteral);
 
-    const bindTable = parseBlock(true, tokens("table: |a•#|b•#\n|1|2"));
+    const bindTable = parseBlock(tokens("table: |a•#|b•#\n|1|2"), true);
     expect(bindTable).toBeInstanceOf(Block);
     expect((bindTable as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindTable as Block).statements[0] as Bind).value).toBeInstanceOf(TableLiteral);
 
-    const bindTypedTable = parseBlock(true, tokens("table•|a•#|b•#: |a•#|b•#\n|1|2"));
+    const bindTypedTable = parseBlock(tokens("table•|a•#|b•#: |a•#|b•#\n|1|2"), true);
     expect(bindTypedTable).toBeInstanceOf(Block);
     expect((bindTypedTable as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindTypedTable as Block).statements[0] as Bind).type).toBeInstanceOf(TableType);

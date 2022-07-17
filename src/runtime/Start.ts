@@ -10,7 +10,6 @@ export default class Start extends Step {
     }
     
     evaluate(evaluator: Evaluator): Value | undefined {
-        // evaluator.startEvaluation(new Evaluation());
         return undefined;
     }
 

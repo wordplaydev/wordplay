@@ -8,8 +8,8 @@ import type Cell from "../nodes/Cell";
 import type Column from "../nodes/Column";
 import type Conditional from "../nodes/Conditional";
 import type Conversion from "../nodes/Conversion";
-import type CustomType from "../nodes/CustomType";
-import type CustomTypeType from "../nodes/CustomTypeType";
+import type StructureDefinition from "../nodes/StructureDefinition";
+import type StructureType from "../nodes/StructureType";
 import type Delete from "../nodes/Delete";
 import type Docs from "../nodes/Docs";
 import type Evaluate from "../nodes/Evaluate";
@@ -119,24 +119,24 @@ export class DuplicateAliases extends Conflict {
 }
 
 export class DuplicateInputNames extends Conflict {
-    readonly func: CustomType | Func;
-    constructor(func: CustomType | Func) {
+    readonly func: StructureDefinition | Func;
+    constructor(func: StructureDefinition | Func) {
         super(false);
         this.func = func;
     }
 }
 
 export class DuplicateTypeVariables extends Conflict {
-    readonly func: CustomType | Func;
-    constructor(func: CustomType | Func) {
+    readonly func: StructureDefinition | Func;
+    constructor(func: StructureDefinition | Func) {
         super(false);
         this.func = func;
     }
 }
 
 export class RequiredAfterOptional extends Conflict {
-    readonly func: Func | CustomType;
-    constructor(func: Func | CustomType) {
+    readonly func: Func | StructureDefinition;
+    constructor(func: Func | StructureDefinition) {
         super(false);
         this.func = func;
     }
@@ -169,9 +169,9 @@ export class NotInstantiable extends Conflict {
 }
 
 export class IncompatibleInputs extends Conflict {
-    readonly func: FunctionType | CustomTypeType;
+    readonly func: FunctionType | StructureType;
     readonly evaluate: Evaluate;
-    constructor(func: FunctionType | CustomTypeType, evaluate: Evaluate) {
+    constructor(func: FunctionType | StructureType, evaluate: Evaluate) {
         super(false);
         this.func = func;
         this.evaluate = evaluate;

@@ -7,7 +7,7 @@ import Conflict, { DuplicateLanguages, MisplacedConversion } from "../parser/Con
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import { docsAreUnique } from "./util";
-import CustomType from "./CustomType";
+import StructureDefinition from "./StructureDefinition";
 import Block from "../nodes/Block";
 import ConversionType from "./ConversionType";
 import type Type from "./Type";
@@ -52,7 +52,7 @@ export default class Conversion extends Expression {
 
         // Can only appear in custom types.
         const enclosure = program.getBindingEnclosureOf(this);
-        if(!(enclosure instanceof Block) ||  !(program.getBindingEnclosureOf(enclosure) instanceof CustomType))
+        if(!(enclosure instanceof Block) ||  !(program.getBindingEnclosureOf(enclosure) instanceof StructureDefinition))
             conflicts.push(new MisplacedConversion(this));
     
         return conflicts; 

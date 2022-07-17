@@ -1,5 +1,5 @@
 import type Node from "./Node";
-import Bind from "../nodes/Bind";
+import Bind from "./Bind";
 import Expression from "./Expression";
 import type Token from "./Token";
 import TypeVariable from "./TypeVariable";
@@ -8,17 +8,17 @@ import type Docs from "./Docs";
 import type Program from "./Program";
 import Conflict, { DuplicateLanguages, DuplicateInputNames, DuplicateTypeVariables, RequiredAfterOptional } from "../parser/Conflict";
 import Type from "./Type";
-import Block from "../nodes/Block";
+import Block from "./Block";
 import FunctionDefinition from "./FunctionDefinition";
 import { docsAreUnique, inputsAreUnique, requiredBindAfterOptional, typeVarsAreUnique } from "./util";
 import Conversion from "./Conversion";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionType } from "../runtime/Exception";
-import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
+import Exception, { ExceptionType } from "../runtime/Exception";
+import CustomType from "../runtime/CustomType";
 
-export default class CustomType extends Expression {
+export default class StructureDefinition extends Expression {
 
     readonly docs: Docs[];
     readonly type: Token;
@@ -121,8 +121,11 @@ export default class CustomType extends Expression {
         return [ new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
-        return new Exception(ExceptionType.NOT_IMPLEMENTED);
+    evaluate(evaluator: Evaluator) {
+        const context = evaluator.getEvaluationContext();
+        return context === undefined ? 
+            new Exception(ExceptionType.EXPECTED_CONTEXT) : 
+            new CustomType(this, context);
     }
 
 }

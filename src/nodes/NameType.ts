@@ -1,5 +1,5 @@
 import Conflict, { UnknownTypeName } from "../parser/Conflict";
-import CustomTypeType from "./CustomTypeType";
+import StructureType from "./StructureType";
 import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
@@ -26,7 +26,7 @@ export default class NameType extends Type {
 
         const type = this.getType(program);
         // The name should be a custom type.
-        if(!(type instanceof CustomTypeType))
+        if(!(type instanceof StructureType))
             conflicts.push(new UnknownTypeName(this));
 
         return conflicts; 
@@ -35,7 +35,7 @@ export default class NameType extends Type {
 
     isCompatible(program: Program, type: Type): boolean {    
         const thisType = this.getType(program);
-        return thisType instanceof CustomTypeType && thisType.type === type;
+        return thisType instanceof StructureType && thisType.type === type;
     } 
 
     getType(program: Program): Type | undefined {

@@ -51,7 +51,7 @@ export default class Name extends Expression {
         return [ new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
+    evaluate(evaluator: Evaluator): Value {
 
         // Search for the name in the given evaluation context.
         const value = evaluator.resolve(this.name.text);
