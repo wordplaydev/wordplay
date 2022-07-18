@@ -77,7 +77,7 @@ export default class Evaluation {
     }
 
     jump(distance: number) {
-        this.#step += distance;            
+        this.#step += distance;  
     }
 
     pushValue(value: Value): void { 

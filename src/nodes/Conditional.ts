@@ -7,13 +7,9 @@ import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
-import type Value from "../runtime/Value";
-import type Node from "../nodes/Node";
-import Bool from "../runtime/Bool";
-import Exception, { ExceptionType } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import JumpIfFalse from "../runtime/JumpIfFalse";
-import Jump from "../runtime/JumpIfFalse";
+import Jump from "../runtime/Jump";
 
 export default class Conditional extends Expression {
     
@@ -59,7 +55,7 @@ export default class Conditional extends Expression {
         const no = this.no.compile();
 
         // Evaluate the condition, jump past the yes if false, otherwise evaluate the yes then jump past the no.
-        return [ ...this.condition.compile(), new JumpIfFalse(yes.length, this), ...yes, new Jump(no.length, this), ...no ];
+        return [ ...this.condition.compile(), new JumpIfFalse(yes.length + 1, this), ...yes, new Jump(no.length + 1, this), ...no ];
         
     }
 

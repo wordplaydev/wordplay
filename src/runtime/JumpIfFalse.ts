@@ -5,7 +5,7 @@ import Exception, { ExceptionType } from "./Exception";
 import Step from "./Step";
 import type Value from "./Value";
 
-export default class Jump extends Step {
+export default class JumpIfFalse extends Step {
 
     readonly count: number;
 
