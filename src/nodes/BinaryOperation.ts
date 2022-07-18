@@ -21,10 +21,10 @@ import Start from "../runtime/Start";
 export default class BinaryOperation extends Expression {
 
     readonly operator: Token;
-    readonly left: Expression;
+    readonly left: Expression | Unparsable;
     readonly right: Expression | Unparsable;
 
-    constructor(operator: Token, left: Expression, right: Expression | Unparsable) {
+    constructor(operator: Token, left: Expression | Unparsable, right: Expression | Unparsable) {
         super();
 
         this.operator = operator;
@@ -40,7 +40,7 @@ export default class BinaryOperation extends Expression {
 
         const conflicts = [];
 
-        const leftType = this.left.getType(program);
+        const leftType = this.left instanceof Expression ? this.left.getType(program) : undefined;
         const rightType = this.right instanceof Expression ? this.right.getType(program) : undefined;
 
         const operators = new Set(this.nodes().filter(n => n instanceof Token && n.is(TokenType.BINARY_OP)).map(n => (n as Token).text));
@@ -56,7 +56,7 @@ export default class BinaryOperation extends Expression {
             case "%":
             case "^":
                 // Both operands must be measurement types.
-                if(!(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.left, this.operator, new MeasurementType()));
+                if(this.left instanceof Expression && !(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.left, this.operator, new MeasurementType()));
                 if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.right, this.operator, new MeasurementType()));
                 break;
             case "-":
@@ -68,15 +68,15 @@ export default class BinaryOperation extends Expression {
             case "=":
             case "≠":
                 // Both operands must be measurement types.
-                if(!(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.left, this.operator, new MeasurementType()));
+                if(this.left instanceof Expression && !(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.left, this.operator, new MeasurementType()));
                 if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.right, this.operator, new MeasurementType()));
                 // Both operands must have compatible types.
-                if(rightType !== undefined && !leftType.isCompatible(program, rightType))
+                if(leftType !== undefined && rightType !== undefined && !leftType.isCompatible(program, rightType))
                     conflicts.push(new IncompatibleUnits(this));
                 break;
             case "∧":
             case "∨":
-                if(!(leftType instanceof BooleanType)) conflicts.push(new IncompatibleOperand(this.left, this.operator, new BooleanType()));
+                if(this.left instanceof Expression && !(leftType instanceof BooleanType)) conflicts.push(new IncompatibleOperand(this.left, this.operator, new BooleanType()));
                 if(this.right instanceof Expression && !(rightType instanceof BooleanType)) conflicts.push(new IncompatibleOperand(this.right, this.operator, new BooleanType()));
                 break;
         }
@@ -86,7 +86,7 @@ export default class BinaryOperation extends Expression {
     }
 
     getType(program: Program): Type {
-        const leftType = this.left.getType(program);
+        const leftType = this.left instanceof Expression ? this.left.getType(program) : undefined;
         const rightType = this.right instanceof Expression ? this.right.getType(program) : undefined;
 
         if(!(leftType instanceof MeasurementType)) return new UnknownType(this);

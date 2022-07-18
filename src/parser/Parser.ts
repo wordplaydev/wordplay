@@ -330,9 +330,39 @@ export function parseBind(expectExpression: boolean, tokens: Tokens): Bind | Unp
 
 }
 
+/** EXPRESSION :: BINARY_OPERATION [ conditional EXPRESSION EXPRESSION ]? */
+export function parseExpression(tokens: Tokens): Expression | Unparsable {
+
+    const left = parseBinaryOperation(tokens);
+
+    // Is it conditional statement?
+    if(!(left instanceof Unparsable) && tokens.nextIs(TokenType.CONDITIONAL)) {
+        const conditional = tokens.read();
+        const yes = parseExpression(tokens);
+        const no = parseExpression(tokens);
+        return new Conditional(left, conditional, yes, no);    
+    }
+    else return left;
+
+}
+
+/** BINARY_OPERATION :: ATOMIC_EXPRESSION [ binary_op ATOMIC_EXPRESSION ]* */
+export function parseBinaryOperation(tokens: Tokens): Expression | Unparsable {
+
+    let left = parseAtomicExpression(tokens);
+
+    while(tokens.nextIs(TokenType.BINARY_OP)) {
+        const operator = tokens.read();
+        const right = parseAtomicExpression(tokens);
+        left = new BinaryOperation(operator, left, right);
+    }
+    return left;
+
+}
+
 /**
  * 
- * EXPRESSION :: 
+ * ATOMIC_EXPRESSION :: 
  *   name |
  *   number |
  *   boolean |
@@ -348,22 +378,9 @@ export function parseBind(expectExpression: boolean, tokens: Tokens): Bind | Unp
  *   CONVERSION |
  *   STREAM |
  *   CUSTOM |
- *   DOCS |
  */
-export function parseExpression(tokens: Tokens): Expression | Unparsable {
+function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
 
-    // Is this expression excluded?
-    const docs = tokens.nextIsOneOf(
-        TokenType.NONE, 
-        TokenType.NAME, 
-        TokenType.BOOLEAN, 
-        TokenType.TEXT, 
-        TokenType.TEXT_OPEN, 
-        TokenType.LIST_OPEN, 
-        TokenType.SET_OPEN, 
-        TokenType.TABLE,
-        TokenType.UNARY_OP) ? parseDocs(tokens) : undefined;
-    
     // All expressions must start with one of the following
     let left: Expression | Unparsable = (
         // Nones
@@ -418,24 +435,12 @@ export function parseExpression(tokens: Tokens): Expression | Unparsable {
             left = parseUpdate(left, tokens);
         else if(tokens.nextIs(TokenType.DELETE))
             left = parseDelete(left, tokens);
-        else if(tokens.nextIs(TokenType.BINARY_OP))
-            left = parseBinaryOperation(left, tokens);
         else if(tokens.nextIs(TokenType.STREAM))
             left = parseStream(left, tokens);
         else break;
     }
-    
-    // Is it conditional statement?
-    if(!(left instanceof Unparsable) && tokens.nextIs(TokenType.CONDITIONAL))
-        left = parseConditional(left, tokens);
-
-    // Is the expression excluded? Wrap it.
-    if(docs !== undefined && docs.length > 0)
-        left = new Documented(docs, left);
-
-    // Return the beautiful tree we built.
     return left;
-
+    
 }
 
 /** NONE :: ! name? */
@@ -702,22 +707,6 @@ function parseStream(initial: Expression, tokens: Tokens): Stream {
     const stream = parseExpression(tokens);
     const next = parseExpression(tokens);
     return new Stream(initial, delta, stream, next); 
-}
-
-/** BINARY_OP :: EXPRESSION binary_op EXPRESSION */
-function parseBinaryOperation(left: Expression, tokens: Tokens): BinaryOperation {
-    const operator = tokens.read();
-    const right = parseExpression(tokens);
-    return new BinaryOperation(operator, left, right); 
-}
-
-/** CONDITIONAL :: EXPRESSSION ? EXPRESSION EXPRESSION */
-function parseConditional(condition: Expression, tokens: Tokens): Conditional {
-    const conditional = tokens.read();
-    const yes = parseExpression(tokens);
-    const no = parseExpression(tokens);
-    return new Conditional(condition, conditional, yes, no);
-
 }
 
 /** FUNCTION :: DOCS? ƒ TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */

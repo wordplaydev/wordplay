@@ -238,10 +238,10 @@ test("Parse expressions", () => {
 
     const binary = parseExpression(tokens("1 + 2 + 3 + 4"));
     expect(binary).toBeInstanceOf(BinaryOperation);
-    expect((binary as BinaryOperation).left).toBeInstanceOf(MeasurementLiteral);
-    expect((binary as BinaryOperation).right).toBeInstanceOf(BinaryOperation);
-    expect(((binary as BinaryOperation).right as BinaryOperation).right).toBeInstanceOf(BinaryOperation);
-    expect((((binary as BinaryOperation).right as BinaryOperation).right as BinaryOperation).right).toBeInstanceOf(MeasurementLiteral);
+    expect((binary as BinaryOperation).right).toBeInstanceOf(MeasurementLiteral);
+    expect((binary as BinaryOperation).left).toBeInstanceOf(BinaryOperation);
+    expect(((binary as BinaryOperation).left as BinaryOperation).left).toBeInstanceOf(BinaryOperation);
+    expect((((binary as BinaryOperation).left as BinaryOperation).left as BinaryOperation).left).toBeInstanceOf(MeasurementLiteral);
 
     const conditional = parseExpression(tokens("a ? b c ? d e"));
     expect(conditional).toBeInstanceOf(Conditional);
