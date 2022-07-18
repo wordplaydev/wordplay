@@ -35,11 +35,20 @@ const patterns = [
     { pattern: /^[¬√]/, types: [ TokenType.UNARY_OP ] },
     { pattern: "⊤", types: [ TokenType.BOOLEAN ] },
     { pattern: "⊥", types: [ TokenType.BOOLEAN ] },
-    // Also match the open and close patterns before the regular text patterns.
-    // Note that we explicitly exclude • from text so that we can use text
-    // delimiters in type declarations. Without excluding them, we wouldn't be able to
-    // write consecutive function input type declarations that include text types.
+    // Match empty strings as both text and text types.
     { pattern: /^(""|''|“”|„“|‘’|«»|「」|『』)/u, types: [ TokenType.TEXT, TokenType.TEXT_TYPE ] },
+    // Lazily match non-template strings that lack open parentheses and aren't closed with a preceding escape.
+    { pattern: /^"[^(]*?(?<!\\)"/u, types: [ TokenType.TEXT ] },
+    { pattern: /^“[^(]*?(?<!\\)”/u, types: [ TokenType.TEXT ] },
+    { pattern: /^„[^(]*?(?<!\\)“/u, types: [ TokenType.TEXT ] },
+    { pattern: /^'[^(]*?(?<!\\)'/u, types: [ TokenType.TEXT ] },
+    { pattern: /^‘[^(]*?(?<!\\)’/u, types: [ TokenType.TEXT ] },
+    { pattern: /^‘[^(]*?(?<!\\)’/u, types: [ TokenType.TEXT ] },
+    { pattern: /^‹[^(]*?(?<!\\)›/u, types: [ TokenType.TEXT ] },
+    { pattern: /^«[^(]*?(?<!\\)»/u, types: [ TokenType.TEXT ] },
+    { pattern: /^「[^(]*?(?<!\\)」/u, types: [ TokenType.TEXT ] },
+    { pattern: /^『[^(]*?(?<!\\)』/u, types: [ TokenType.TEXT ] },
+    // Lazily match open template strings that aren't opened with a preceding scape.
     { pattern: /^".*?(?<!\\)\(/u, types: [ TokenType.TEXT_OPEN ] },
     { pattern: /^“.*?(?<!\\)\(/u, types: [ TokenType.TEXT_OPEN ] },
     { pattern: /^„.*?(?<!\\)\(/u, types: [ TokenType.TEXT_OPEN ] },
@@ -49,28 +58,20 @@ const patterns = [
     { pattern: /^«.*?(?<!\\)\(/u, types: [ TokenType.TEXT_OPEN ] },
     { pattern: /^「.*?(?<!\\)\(/u, types: [ TokenType.TEXT_OPEN ] },
     { pattern: /^『.*?(?<!\\)\(/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^\)[^\)]*?』/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^\)[^\)]*?」/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^\)[^\)]*?»/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^\)[^\)]*?›/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^\)[^\)]*?'/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^\)[^\)]*?’/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^\)[^\)]*?"/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^\)[^\)]*?”/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: "(", types: [ TokenType.EVAL_OPEN ] },
-    { pattern: ")", types: [ TokenType.EVAL_CLOSE ] },
+    // Lazily match closing strings that don't contain another opening string. This alllows betweens to match.
+    { pattern: /^\)[^()]*?(?<!\\)』/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\)[^()]*?(?<!\\)」/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\)[^()]*?(?<!\\)»/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\)[^()]*?(?<!\\)›/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\)[^()]*?(?<!\\)'/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\)[^()]*?(?<!\\)’/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\)[^()]*?(?<!\\)"/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\)[^()]*?(?<!\\)”/u, types: [ TokenType.TEXT_CLOSE ] },
     // Match this after the eval close to avoid capturing function evaluations in templates.
     { pattern: /^(?<!\\)\)[^\)]*?(?<!\\)\(/, types: [ TokenType.TEXT_BETWEEN ] },
-    { pattern: /^".*?"/u, types: [ TokenType.TEXT ] },
-    { pattern: /^“.*?”/u, types: [ TokenType.TEXT ] },
-    { pattern: /^„.*?“/u, types: [ TokenType.TEXT ] },
-    { pattern: /^'.*?'/u, types: [ TokenType.TEXT ] },
-    { pattern: /^‘.*?’/u, types: [ TokenType.TEXT ] },
-    { pattern: /^‘.*?’/u, types: [ TokenType.TEXT ] },
-    { pattern: /^‹.*?›/u, types: [ TokenType.TEXT ] },
-    { pattern: /^«.*?»/u, types: [ TokenType.TEXT ] },
-    { pattern: /^「.*?」/u, types: [ TokenType.TEXT ] },
-    { pattern: /^『.*?』/u, types: [ TokenType.TEXT ] },
+    // Finally, catch any leftover single open or close parentheses.
+    { pattern: "(", types: [ TokenType.EVAL_OPEN ] },
+    { pattern: ")", types: [ TokenType.EVAL_CLOSE ] },
     // Match primtive types after strings since one is a standalone quote symbol.
     { pattern: "#", types: [ TokenType.NUMBER_TYPE ] },
     { pattern: /^[?¿]/, types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },

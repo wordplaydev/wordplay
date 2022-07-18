@@ -63,3 +63,10 @@ test("Escapes", () => {
         .toBe('『Hello \\(name\\), how are you?』\n');
 
 })
+
+test("Tokenize betweens", () => {
+
+    expect(tokenize("'I am (between) us'").map(t => t.toWordplay()).join("\n")).toBe("'I am (\nbetween\n) us'\n");
+    expect(tokenize("\"hi ('hello') and ('hey')\"").map(t => t.toWordplay()).join("\n")).toBe("\"hi (\n'hello'\n) and (\n'hey'\n)\"\n");
+
+})

@@ -176,7 +176,7 @@ test("Parse expressions", () => {
     const text = parseExpression(tokens("«hola»"));
     expect(text).toBeInstanceOf(TextLiteral);
 
-    const template = parseExpression(tokens("'My cat\'s name is (name + name), what\'s yours?'"));
+    const template = parseExpression(tokens("'My cat\\'s name is (name + name), what\\'s yours?'"));
     expect(template).toBeInstanceOf(Template);
     expect((template as Template).parts).toHaveLength(3);
     expect((template as Template).parts[0]).toBeInstanceOf(Token);
