@@ -26,25 +26,27 @@ export default class SetOrMapLiteral extends Expression {
     readonly open: Token;
     readonly values: (Unparsable|Expression|KeyValue)[];
     readonly close: Token;
+    readonly bind?: Token;
     readonly kind: SetKind;
 
-    constructor(open: Token, values: (Unparsable|Expression|KeyValue)[], close: Token) {
+    constructor(open: Token, values: (Unparsable|Expression|KeyValue)[], close: Token, bind?: Token) {
         super();
 
         this.open = open;
         this.values = values.slice();
         this.close = close;
+        this.bind = bind;
         
         // Must all be expressions or all key/values
         const allExpressions = this.values.every(v => v instanceof Expression);
         const allKeyValue = this.values.every(v => v instanceof KeyValue);
 
-        this.kind = allExpressions ? SetKind.Set : allKeyValue ? SetKind.Map : SetKind.Neither;
+        this.kind = bind ? SetKind.Map : allExpressions ? SetKind.Set : allKeyValue ? SetKind.Map : SetKind.Neither;
         
     }
 
     getChildren() {
-        return [ this.open, ...this.values, this.close ];
+        return [ this.open, ...this.values, this.close, ... (this.bind ? [ this.bind ] : []) ];
     }
 
     getConflicts(program: Program): Conflict[] { 

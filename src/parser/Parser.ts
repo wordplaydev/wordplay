@@ -573,12 +573,19 @@ function parseListAccess(left: Expression | Unparsable, tokens: Tokens): Express
     return left;
 }
 
-/** SET :: { EXPRESSION* } | { (EXPRESSION:EXPRESSION)* } */
+/** SET :: { EXPRESSION* } | { (EXPRESSION:EXPRESSION)* } | {:} */
 function parseSetOrMap(tokens: Tokens): SetOrMapLiteral | Unparsable {
 
     let open = tokens.read();
     let values: (Expression|KeyValue|Unparsable)[] = [];
     let close;
+
+    // Is this an empty map?
+    if(tokens.nextAre(TokenType.BIND, TokenType.SET_CLOSE)) {
+        const bind = tokens.read();
+        close = tokens.read();
+        return new SetOrMapLiteral(open, values, close, bind);
+    }
 
     while(tokens.nextIsnt(TokenType.SET_CLOSE)) {
         const key = parseExpression(tokens);

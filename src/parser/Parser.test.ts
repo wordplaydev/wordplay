@@ -202,6 +202,14 @@ test("Parse expressions", () => {
     expect(set).toBeInstanceOf(SetOrMapLiteral);
     expect((set as SetOrMapLiteral).values).toHaveLength(3);
 
+    const emptyMap = parseExpression(tokens("{:}"));
+    expect(emptyMap).toBeInstanceOf(SetOrMapLiteral);
+    expect((emptyMap as SetOrMapLiteral).values).toHaveLength(0);
+
+    const nonEmptyMap = parseExpression(tokens("{1:1 2:2 3:3}"));
+    expect(nonEmptyMap).toBeInstanceOf(SetOrMapLiteral);
+    expect((nonEmptyMap as SetOrMapLiteral).values).toHaveLength(3);
+
     const setAccess = parseExpression(tokens("set{2}"));
     expect(setAccess).toBeInstanceOf(SetOrMapAccess);
 
