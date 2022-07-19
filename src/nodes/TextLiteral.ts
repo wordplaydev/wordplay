@@ -34,7 +34,7 @@ export default class TextLiteral extends Expression {
         return [ new Finish(this) ];
     }
     
-    evaluate(evaluator: Evaluator): Value | Node {
+    evaluate(evaluator: Evaluator): Value {
         return new Text(this.text.text, this.format === undefined ? undefined : this.format.text);
     }
 

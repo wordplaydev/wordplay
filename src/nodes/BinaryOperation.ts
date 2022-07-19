@@ -201,6 +201,11 @@ export default class BinaryOperation extends Expression {
         // just cleaner to delegate it to specific types.
         if(left instanceof Measurement || left instanceof Bool)
             return left.evaluateInfix(this.operator.text, right);
+        // Process equality and inequality
+        else if(this.operator.text === "=")
+            return new Bool(left.toString() === right.toString());
+        else if(this.operator.text === "≠")
+            return new Bool(left.toString() !== right.toString());
         else
             return new Exception(ExceptionType.UNKNOWN_OPERATOR);
 

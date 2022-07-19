@@ -12,6 +12,6 @@ export default class Text extends Value {
         this.format = format;
     }
 
-    toString() { return `${this.text}${this.format ? this.format : ""}`; }
+    toString() { return `"${this.text}"${this.format ? this.format : ""}`; }
 
 }
