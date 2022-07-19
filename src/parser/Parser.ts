@@ -238,7 +238,7 @@ export function parseBorrow(tokens: Tokens): Borrow | Unparsable {
     else
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_BORRW_NAME);
 
-    if(tokens.nextIs(TokenType.NUMBER))
+    if(tokens.nextIs(TokenType.NUMBER) && !tokens.nextHasPrecedingLineBreak())
         version = tokens.read();
 
     return new Borrow(borrow, name, version);
