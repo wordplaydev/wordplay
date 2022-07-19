@@ -128,7 +128,7 @@ export default class Evaluate extends Expression {
             if(bindings instanceof Exception) return bindings;
 
             // Now that all of the inputs are resolved, create an execution context that binds all of the inputs.
-            evaluator.startEvaluation(new Evaluation(functionOrStructure.definition, functionOrStructure.definition.expression, undefined, bindings));
+            evaluator.startEvaluation(new Evaluation(functionOrStructure.definition, functionOrStructure.definition.expression, functionOrStructure.context, bindings));
 
         }
         else if(functionOrStructure instanceof CustomType) {
