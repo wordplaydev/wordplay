@@ -13,6 +13,6 @@ export default class MapValue extends Value {
 
     get(key: Value) { return this.map.has(key) ? this.map.get(key) as Value : new None("unknownkey"); }
 
-    toString() { return `{${Array.from(this.map.keys()).map(k => `${k.toString()}:${(this.map.get(k) as Value).toString()}`).join(" ")}}`; }
+    toString() { return `{${Array.from(this.map.keys()).sort().map(k => `${k.toString()}:${(this.map.get(k) as Value).toString()}`).join(" ")}}`; }
 
 }

@@ -13,6 +13,6 @@ export default class SetValue extends Value {
 
     get(key: Value) { return new Bool(this.set.has(key))}
 
-    toString() { return `{${Array.from(this.set).join(" ")}}`; }
+    toString() { return `{${Array.from(this.set).sort().join(" ")}}`; }
 
 }
