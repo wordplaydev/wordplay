@@ -24,9 +24,10 @@ const patterns = [
     { pattern: "∆", types: [ TokenType.STREAM ] },
     { pattern: "…", types: [ TokenType.TBD ] },
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
-    { pattern: /^[0-9]+([.,][0-9]+)?/, types: [ TokenType.NUMBER ] },    
-    { pattern: /^万[一二三四五六七八九]?(千[一二三四五六七八九]?)?(百[一二三四五六七八九]?)?(十[一二三四五六七八九]?)?/, types: [ TokenType.NUMBER ] },
-    { pattern: /^[π∞]/, types: [ TokenType.NUMBER ] },
+    { pattern: /^[0-9]+([.,][0-9]+)?/, types: [ TokenType.NUMBER, TokenType.DECIMAL ] },    
+    { pattern: /^万[一二三四五六七八九]?(千[一二三四五六七八九]?)?(百[一二三四五六七八九]?)?(十[一二三四五六七八九]?)?/, types: [ TokenType.NUMBER, TokenType.JAPANESE ] },
+    { pattern: "π", types: [ TokenType.NUMBER, TokenType.PI ] },
+    { pattern: "∞", types: [ TokenType.NUMBER, TokenType.INFINITY ] },
     { pattern: /^[+×*·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
     { pattern: "∧", types: [ TokenType.BINARY_OP ] },
     { pattern: "∨", types: [ TokenType.BINARY_OP, TokenType.UNION ] },

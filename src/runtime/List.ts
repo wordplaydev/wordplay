@@ -13,7 +13,7 @@ export default class List extends Value {
     }
 
     get(index: Measurement) {
-        const value = this.values[index.number - 1];
+        const value = this.values[index.toNumber() - 1];
         return value === undefined ? new None("indexoutofbounds") : value;
     }
 

@@ -24,6 +24,10 @@ export enum TokenType {
     BOOLEAN_TYPE,  // ?
     TEXT_TYPE,     // ""
     NUMBER_TYPE,   // #
+    DECIMAL,
+    JAPANESE,
+    PI,
+    INFINITY,    
     NONE_TYPE,     // !
     TABLE,         // |
     SELECT,        // |?
