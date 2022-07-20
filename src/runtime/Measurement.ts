@@ -53,6 +53,7 @@ export default class Measurement extends Value {
         }
         else if(number instanceof Token) {
             if(number.is(TokenType.DECIMAL)) {
+
                 this.num = new Decimal(number.text);
                 // // Remove zeros on the front until reaching a digit or the decimal point.
                 // let digits = number.text;
@@ -78,6 +79,40 @@ export default class Measurement extends Value {
                 // // No fraction initially.
                 // this.numerator = [];
                 // this.denominator = [];
+            }
+            else if(number.is(TokenType.BASE)) {
+                const [ baseString, numString ] = number.text.split(";");
+                const base = parseInt(baseString);
+                if(isNaN(base))
+                    this.num = new Decimal(NaN);
+                else {
+                    const [ integral, fractional ] = numString.split(".");
+                    const integralDigits = integral.split("").map(d => d === "A" ? 10 : d === "B" ? 11 : d === "C" ? 12 : d === "D" ? 13 : d === "E" ? 14 : d === "F" ? 15 : Number(d));
+                    if(integralDigits.find(d => d >= base) !== undefined) {
+                        this.num = new Decimal(NaN);
+                    }
+                    else {
+                        let num = new Decimal(0);
+                        let position = 0;
+                        while(integralDigits.length > 0) {
+                            const digit = integralDigits.pop() as number;
+                            num = num.plus(new Decimal(digit).times(new Decimal(base).pow(new Decimal(position))));
+                            position++;
+                        }
+
+                        if(fractional !== undefined) {
+                            position = 1;
+                            const fractionalDigits = fractional.split("").map(d => d === "A" ? 10 : d === "B" ? 11 : d === "C" ? 12 : d === "D" ? 13 : d === "E" ? 14 : d === "F" ? 15 : Number(d));
+                            while(fractionalDigits.length > 0) {
+                                const digit = fractionalDigits.shift() as number;
+                                num = num.plus(new Decimal(digit).times(new Decimal(base).pow(new Decimal(position).neg())));
+                                position++;
+                            }
+                        }                        
+                        
+                        this.num = num;
+                    }
+                }
             }
             else if(number.is(TokenType.PI)) {
                 this.num = Decimal.acos(-1);

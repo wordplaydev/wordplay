@@ -24,7 +24,6 @@ export enum TokenType {
     BOOLEAN_TYPE,  // ?
     TEXT_TYPE,     // ""
     NUMBER_TYPE,   // #
-    DECIMAL,
     JAPANESE,
     PI,
     INFINITY,    
@@ -54,6 +53,8 @@ export enum TokenType {
     // The trailing text at the end encodes the unit.
     // Both commas and periods are allowed to cover different conventions globally.
     NUMBER,         // -?[0-9]+([.,][0-9]+)?(-[0-9]+([.,][0-9]+)?)[^\s]*
+    DECIMAL,
+    BASE,           // a number in base 2-16
     BOOLEAN,        // ⊥⊤
     NAME,           // (anything not the above)+
     UNKNOWN,        // Represents any characters that couldn't be tokenized.

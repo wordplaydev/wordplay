@@ -23,6 +23,8 @@ const patterns = [
     { pattern: "•", types: [ TokenType.TYPE ] },
     { pattern: "∆", types: [ TokenType.STREAM ] },
     { pattern: "…", types: [ TokenType.TBD ] },
+    // Numbers with bases between base 2 and 16
+    { pattern: /^([2-9]|1[0-6]);[0-9A-F]+([.,][0-9A-F]+)?/, types: [ TokenType.NUMBER, TokenType.BASE ] },    
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
     { pattern: /^[0-9]+([.,][0-9]+)?/, types: [ TokenType.NUMBER, TokenType.DECIMAL ] },    
     { pattern: /^万[一二三四五六七八九]?(千[一二三四五六七八九]?)?(百[一二三四五六七八九]?)?(十[一二三四五六七八九]?)?/, types: [ TokenType.NUMBER, TokenType.JAPANESE ] },
@@ -77,7 +79,7 @@ const patterns = [
     { pattern: "#", types: [ TokenType.NUMBER_TYPE ] },
     { pattern: /^[?¿]/, types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
     // One or more unicode characters that are not one of the reserved symbols above.
-    { pattern: /^[^\(\)\[\]\{\}|:.,ƒ↓↑`!•∆… \t\n+\-×*·^√÷%<≤=≠≥>⊥⊤~¬∧∨'‘’"“”„«»‹›「」『』\/]+/u, types: [ TokenType.NAME ] }
+    { pattern: /^[^\(\)\[\]\{\}|:.,;ƒ↓↑`!•∆… \t\n+\-×*·^√÷%<≤=≠≥>⊥⊤~¬∧∨'‘’"“”„«»‹›「」『』\/]+/u, types: [ TokenType.NAME ] }
 ];
 
 export function tokenize(source: string): Token[] {
