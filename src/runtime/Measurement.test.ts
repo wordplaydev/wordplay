@@ -1,7 +1,7 @@
 import Token, { TokenType } from "../nodes/Token";
 import Measurement from "./Measurement";
 
-test("Parse number translation", () => {
+test("Test number translation", () => {
 
     // Test JavaScript number translation.
     expect((new Measurement(18.2)).toString()).toBe("18.2");
@@ -17,7 +17,7 @@ test("Parse number translation", () => {
 
 })
 
-test("Parse inequalities", () => {
+test("Test inequalities", () => {
 
     expect((new Measurement(5)).lessThan(new Measurement(3)).bool).toBe(false);
     expect((new Measurement(5)).lessThan(new Measurement(10)).bool).toBe(true);
@@ -30,7 +30,7 @@ test("Parse inequalities", () => {
 
 })
 
-test("Parse addition", () => {
+test("Test addition", () => {
     expect(Measurement.addDigits([ 1 ], [ 1 ]).join("")).toBe("2");
     expect(Measurement.addDigits([ 9 ], [ 6 ]).join("")).toBe("15");
     expect(Measurement.addDigits([ 1, 0, 0 ], [ 1 ]).join("")).toBe("101");
@@ -47,7 +47,7 @@ test("Parse addition", () => {
 
 })
 
-test("Parse subtraction", () => {
+test("Test subtraction", () => {
     expect(Measurement.subtractDigits([ 1 ], [ 1 ]).join("")).toBe("0");
     expect(Measurement.subtractDigits([ 5 ], [ 1 ]).join("")).toBe("4");
     expect(Measurement.subtractDigits([ 1, 5 ], [ 1 ]).join("")).toBe("14");
@@ -63,7 +63,7 @@ test("Parse subtraction", () => {
 
 })
 
-test("Parse multiplication", () => {
+test("Test multiplication", () => {
 
     expect((new Measurement(11)).multiply(new Measurement(12)).toString()).toBe("132");
     expect((new Measurement(-11)).multiply(new Measurement(12)).toString()).toBe("-132");
