@@ -18,7 +18,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
-import CustomType from "../runtime/CustomType";
+import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 
 export default class Evaluate extends Expression {
 
@@ -131,7 +131,7 @@ export default class Evaluate extends Expression {
             evaluator.startEvaluation(new Evaluation(functionOrStructure.definition, functionOrStructure.definition.expression, functionOrStructure.context, bindings));
 
         }
-        else if(functionOrStructure instanceof CustomType) {
+        else if(functionOrStructure instanceof StructureDefinitionValue) {
 
             // Build the custom type's bindings.
             const bindings = this.buildBindings(functionOrStructure.definition.inputs, values);

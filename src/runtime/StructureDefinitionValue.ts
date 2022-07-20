@@ -4,7 +4,7 @@ import Value from "./Value";
 
 
 // We could have just called this Function, but Javascript claims that globally.
-export default class CustomType extends Value {
+export default class StructureDefinitionValue extends Value {
 
     /** The definition from the AST. */
     readonly definition: StructureDefinition;

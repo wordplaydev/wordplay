@@ -1,5 +1,6 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
 import type Type from "../nodes/Type";
+import Unparsable from "../nodes/Unparsable";
 import type Conversion from "./Conversion";
 import type Evaluation from "./Evaluation";
 import Value from "./Value";
@@ -12,7 +13,7 @@ export default class Structure extends Value {
     constructor(context: Evaluation) {
         super();
 
-        this.type = context.getNode() as StructureDefinition;
+        this.type = context.getDefinition() as StructureDefinition;
         this.context = context;
 
     }
@@ -26,8 +27,15 @@ export default class Structure extends Value {
     }
 
     toString(): string {
-        // TODO We can do better than this...
-        return this.context.getDefinition().toWordplay();
+        return `(${this.type.inputs.map(bind => {
+            
+            if(bind instanceof Unparsable) return "";
+            
+            const name = bind.names[0].name.text;
+            const value = this.resolve(name);
+            return value === undefined ? "" : `${name}: ${value}`;
+        
+        }).join(" ")})`;
     }
 
 

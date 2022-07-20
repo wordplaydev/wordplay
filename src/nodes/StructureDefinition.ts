@@ -16,7 +16,7 @@ import type Evaluator from "../runtime/Evaluator";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Exception, { ExceptionType } from "../runtime/Exception";
-import CustomType from "../runtime/CustomType";
+import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 
 export default class StructureDefinition extends Expression {
 
@@ -125,7 +125,7 @@ export default class StructureDefinition extends Expression {
         const context = evaluator.getEvaluationContext();
         return context === undefined ? 
             new Exception(ExceptionType.EXPECTED_CONTEXT) : 
-            new CustomType(this, context);
+            new StructureDefinitionValue(this, context);
     }
 
 }
