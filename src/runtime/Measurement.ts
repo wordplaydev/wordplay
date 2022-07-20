@@ -90,7 +90,7 @@ export default class Measurement extends Value {
             this.positive = number >= 0;
             this.digits = [ ...integral.split("").map(s => Number(s)), ...(fractional === undefined ? [] : fractional.split("").map(s => Number(s))) ];
             this.exponent = -(fractional === undefined ? 0 : fractional.length);
-            while(this.digits[this.digits.length - 1] === 0) {
+            while(this.digits.length > 1 && this.digits[this.digits.length - 1] === 0) {
                 this.digits.pop();
                 this.exponent++;
             }
@@ -323,13 +323,58 @@ export default class Measurement extends Value {
 
     multiply(operand: Measurement): Measurement {
 
-        return this;
-        // return new Measurement([], 
-        //     new Unit(
-        //         this.unit.numerator.concat(operand.unit.numerator),
-        //         this.unit.denominator.concat(operand.unit.denominator)
-        //     )
-        // );
+        // Left pad with zeroes to match their lengths.
+        const left = this.digits.slice();
+        const right = operand.digits.slice();
+        while(left.length < right.length)
+            left.unshift(0);
+        while(right.length < left.length)
+            right.unshift(0);
+
+        // Create a bunch of digits for the product. We'll sum on this.
+        const product = [];
+        for(let i = 0; i < this.digits.length + operand.digits.length; i++)
+            product.push(0);
+
+        // The algorithm below operates on rightmost digits at the beginning, so we reverse.
+        left.reverse();
+        right.reverse();
+
+        // Iterate from the rightmost digit to the left of the right digits
+        for(let r = 1; r <= right.length; r++) {
+            let carry = 0;
+            // Iterate from the rightmost digit of the left digits
+            for(let l = 1; l <= left.length; l++) {
+                const place = r + l - 1;
+                product[place - 1] += carry + right[r - 1] * left[l - 1];
+                carry = Math.floor(product[place - 1] / 10);
+                product[place - 1] = product[place - 1] % 10;
+            }
+            product[r + left.length] = carry;
+        }
+
+        // Reverse to get the digits in order.
+        product.reverse();
+
+        // Remove preceding zeros
+        while(product.length > 1 && product[0] === 0)
+            product.shift();
+
+        // Compute the exponent by suming them.
+        let newExponent = this.exponent + operand.exponent;
+
+        // While there are trailing zeroes, remove them 
+        while(product.length > 1 && product[product.length - 1] === 0) {
+            product.pop();
+            newExponent++;
+        }
+
+        return new Measurement([ this.positive === operand.positive, product, newExponent, this.numerator, this.denominator], 
+            new Unit(
+                this.unit.numerator.concat(operand.unit.numerator),
+                this.unit.denominator.concat(operand.unit.denominator)
+            )
+        );
 
     }
 
@@ -425,7 +470,7 @@ export default class Measurement extends Value {
         const after = digits.substring(this.digits.length + this.exponent);
         const ratio = (this.numerator.length === 0 || this.denominator.length === 0 ? "" : " " + this.numerator.join("") + "/" + this.denominator.join(""));
         const unit = this.unit.toString();
-        return `${this.positive ? "" : "-"}${before}${after.length > 0 ? "." : ""}${after}${ratio}${unit}`;
+        return `${this.positive ? "" : "-"}${before.length === 0 ? "0" : before}${after.length > 0 ? "." : ""}${after}${ratio}${unit}`;
     }
 
 }
