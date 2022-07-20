@@ -416,14 +416,14 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
     );
 
     // But wait! Is it one or more accessors? Slurp them up.
-    while(!(left instanceof Unparsable)) {
+    while(!(left instanceof Unparsable) && tokens.nextLacksPrecedingLineBreak()) {
         if(tokens.nextIs(TokenType.ACCESS))
             left = parseAccess(left, tokens);
         else if(tokens.nextIs(TokenType.LIST_OPEN))
             left = parseListAccess(left, tokens);
         else if(tokens.nextIs(TokenType.SET_OPEN))
             left = parseSetOrMapAccess(left, tokens);
-        else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE) && tokens.nextLacksPrecedingLineBreak())
+        else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE))
             left = parseEvaluate(left, tokens);
         else if(tokens.nextIs(TokenType.CONVERT))
             left = parseConvert(left, tokens);
