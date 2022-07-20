@@ -54,7 +54,13 @@ export default class Measurement extends Value {
         else if(number instanceof Token) {
             if(number.is(TokenType.DECIMAL)) {
 
-                this.num = new Decimal(number.text);
+                // Randomize any underscore digits.
+                let text = number.text;
+                while(text.indexOf("_") >= 0)
+                    text = text.replace("_", Decimal.random().times(10).floor().toString());
+
+                // Set the number.
+                this.num = new Decimal(text);
                 // // Remove zeros on the front until reaching a digit or the decimal point.
                 // let digits = number.text;
                 // while(digits.charAt(0) === "0" && digits.length > 1 && digits.charAt(0) !== ".") 
@@ -86,7 +92,12 @@ export default class Measurement extends Value {
                 if(isNaN(base))
                     this.num = new Decimal(NaN);
                 else {
-                    const [ integral, fractional ] = numString.split(".");
+
+                    let text = numString;
+                    while(text.indexOf("_") >= 0)
+                        text = text.replace("_", Decimal.random().times(base).floor().toString());
+    
+                    const [ integral, fractional ] = text.split(".");
                     const integralDigits = integral.split("").map(d => d === "A" ? 10 : d === "B" ? 11 : d === "C" ? 12 : d === "D" ? 13 : d === "E" ? 14 : d === "F" ? 15 : Number(d));
                     if(integralDigits.find(d => d >= base) !== undefined) {
                         this.num = new Decimal(NaN);
