@@ -15,6 +15,9 @@ test("Test number translation", () => {
     expect((new Measurement(new Token("001.100", [ TokenType.DECIMAL ], 0))).toString()).toBe("1.1");
     expect((new Measurement(new Token("1000", [ TokenType.DECIMAL ], 0))).toString()).toBe("1000");
 
+    // Bases
+    expect((new Measurement(new Token("2;10101.01", [ TokenType.BASE ], 0)).toString())).toBe("21.25");
+
 })
 
 test("Test inequalities", () => {
