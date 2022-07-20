@@ -62,7 +62,7 @@ export default class ListAccess extends Expression {
         return [ new Start(this), ...this.list.compile(), ...this.index.compile(), new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Node | Value {
+    evaluate(evaluator: Evaluator): Value {
 
         const index = evaluator.popValue();
         const list = evaluator.popValue();

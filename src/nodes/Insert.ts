@@ -90,7 +90,7 @@ export default class Insert extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
+    evaluate(evaluator: Evaluator): Value {
 
         // We've got a table and some cells, insert the row!
         const values: Value[] = [];

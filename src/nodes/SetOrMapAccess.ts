@@ -70,7 +70,7 @@ export default class SetOrMapAccess extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Node | Value {
+    evaluate(evaluator: Evaluator): Value {
         
         const key = evaluator.popValue();
         const setOrMap = evaluator.popValue();

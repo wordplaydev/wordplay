@@ -35,7 +35,7 @@ export default class NoneLiteral extends Expression {
         return [ new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
+    evaluate(evaluator: Evaluator): Value {
         return new None(this.name ? this.name.text : undefined);
     }
 

@@ -3,16 +3,24 @@ import Value from "./Value";
 
 export default class SetValue extends Value {
 
-    readonly set: Set<any>;
+    readonly values: Value[];
 
-    constructor(set: Set<any>) {
+    constructor(values: Value[]) {
         super();
 
-        this.set = set;
+        this.values = [];
+        values.forEach(v => {
+            if(this.values.find(v2 => v.isEqualTo(v2)) === undefined)
+                this.values.push(v);
+
+        });
+
     }
 
-    get(key: Value) { return new Bool(this.set.has(key))}
+    get(key: Value) { 
+        return new Bool(this.values.find(v => key.isEqualTo(v)) !== undefined);
+    }
 
-    toString() { return `{${Array.from(this.set).sort().join(" ")}}`; }
+    toString() { return `{${Array.from(this.values).sort().join(" ")}}`; }
 
 }

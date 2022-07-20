@@ -17,6 +17,7 @@ import Bool from "../runtime/Bool";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
+import type Value from "../runtime/Value";
 
 export default class BinaryOperation extends Expression {
 
@@ -192,7 +193,7 @@ export default class BinaryOperation extends Expression {
         return [ new Start(this), ...this.left.compile(), ...this.right.compile(), new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator) {
+    evaluate(evaluator: Evaluator): Value {
 
         const right = evaluator.popValue();
         const left = evaluator.popValue();

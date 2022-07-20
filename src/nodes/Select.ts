@@ -114,7 +114,7 @@ export default class Select extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
+    evaluate(evaluator: Evaluator): Value {
 
         return new Exception(ExceptionType.NOT_IMPLEMENTED);
 

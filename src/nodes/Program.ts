@@ -68,7 +68,7 @@ export default class Program extends Node implements Evaluable {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value | Evaluable {
+    evaluate(evaluator: Evaluator) {
 
         // Return whatever the block computed.
         return evaluator.popValue();

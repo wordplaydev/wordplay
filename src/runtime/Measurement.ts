@@ -208,7 +208,7 @@ export default class Measurement extends Value {
 
     }
 
-    evaluateInfix(operator: string, right: Value) {
+    evaluateInfix(operator: string, right: Value): Measurement | Bool | Exception | None {
 
         if(!(right instanceof Measurement)) 
             return new Exception(ExceptionType.EXPECTED_TYPE);
@@ -234,7 +234,7 @@ export default class Measurement extends Value {
             case "≤": return this.lessThan(right) || this.equals(right);
             case "≥": return this.greaterThan(right) || this.equals(right);
             case "=": return this.equals(right);
-            case "≠": return !this.equals(right);
+            case "≠": return new Bool(!this.equals(right));
             default: return new Exception(ExceptionType.UNKNOWN_OPERATOR);
         }
 

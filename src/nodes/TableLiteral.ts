@@ -78,7 +78,7 @@ export default class TableLiteral extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Node | Value {
+    evaluate(evaluator: Evaluator): Value {
         
         const rows: Value[][] = [];
         for(let r = 0; r < this.rows.length; r++) {

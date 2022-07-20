@@ -118,25 +118,25 @@ export default class SetOrMapLiteral extends Expression {
             ];
     }
 
-    evaluate(evaluator: Evaluator): Node | Value {
+    evaluate(evaluator: Evaluator): Value {
 
         // Which value are we on?
         if(this.kind === SetKind.Set) {
             // Pop all of the values. Order doesn't matter.
-            const set = new Set();
+            const values = [];
             for(let i = 0; i < this.values.length; i++)
-                set.add(evaluator.popValue());
-            return new SetValue(set);
+                values.push(evaluator.popValue());
+            return new SetValue(values);
         }
         else {
             // Pop all of the values. Order doesn't matter.
-            const map = new Map();
+            const values: [Value, Value][] = [];
             for(let i = 0; i < this.values.length; i++) {
                 const value = evaluator.popValue();
                 const key = evaluator.popValue();
-                map.set(key, value);
+                values.push([ key, value ]);
             }
-            return new MapValue(map);
+            return new MapValue(values);
        }
             
     }

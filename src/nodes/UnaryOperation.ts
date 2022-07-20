@@ -87,7 +87,7 @@ export default class UnaryOperation extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
+    evaluate(evaluator: Evaluator): Value {
 
         // Get the value of the operand.
         const value = evaluator.popValue();

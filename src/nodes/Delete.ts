@@ -75,7 +75,7 @@ export default class Delete extends Expression {
         return [ new Start(this), ...this.table.compile(), new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
+    evaluate(evaluator: Evaluator): Value {
         return new Exception(ExceptionType.NOT_IMPLEMENTED);
     }
 

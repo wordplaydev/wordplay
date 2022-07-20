@@ -39,7 +39,7 @@ export default class Unparsable extends Node implements Evaluable {
         return [ new Halt(new Exception(ExceptionType.UNPARSABLE), this) ];
     }
 
-    evaluate(evaluator: Evaluator): Node | Value {
+    evaluate(evaluator: Evaluator): Value {
         return new Exception(ExceptionType.UNPARSABLE);
     }
 

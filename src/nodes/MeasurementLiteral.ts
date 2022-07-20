@@ -39,7 +39,7 @@ export default class MeasurementLiteral extends Expression {
         return [ new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Node | Value {
+    evaluate(evaluator: Evaluator): Value {
         if(this.unit instanceof Unparsable) return new Exception(ExceptionType.UNPARSABLE);
         // This needs to translate between different number formats.
         else return new Measurement(this.number, this.unit === undefined ? new Unit([], []) : this.unit);

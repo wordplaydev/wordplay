@@ -31,7 +31,7 @@ export default class BooleanLiteral extends Expression {
         return [ new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
+    evaluate(evaluator: Evaluator): Value {
         return new Bool(this.value.text === "⊤");
     }
 }

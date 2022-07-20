@@ -16,6 +16,6 @@ export default abstract class Expression extends Node implements Evaluable {
     abstract getChildren(): Node[];
     abstract getType(program: Program): Type;
     abstract compile(): Step[];
-    abstract evaluate(evaluator: Evaluator): Value | Evaluation | undefined;
+    abstract evaluate(evaluator: Evaluator): Value | undefined;
 
 }

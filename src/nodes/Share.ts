@@ -46,7 +46,7 @@ export default class Share extends Node implements Evaluable {
         return [ new Start(this), ...this.bind.compile(), new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value | undefined {
+    evaluate(evaluator: Evaluator) {
 
         if(this.bind instanceof Unparsable) 
             return new Exception(ExceptionType.UNPARSABLE);

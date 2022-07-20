@@ -58,7 +58,7 @@ export default class ListLiteral extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value | Node {
+    evaluate(evaluator: Evaluator): Value {
 
         // Pop all of the values.
         const values = [];

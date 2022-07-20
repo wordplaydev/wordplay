@@ -54,7 +54,7 @@ export default class Template extends Expression {
         ];
     }
     
-    evaluate(evaluator: Evaluator): Value | Node {
+    evaluate(evaluator: Evaluator): Value {
         
         // Build the string in reverse, accounting for the reversed stack of values.
         let text = "";

@@ -4,4 +4,8 @@ export default abstract class Value {
 
     abstract toString(): string;
 
+    isEqualTo(value: Value): boolean {
+        return this.toString() === value.toString();
+    }
+
 }
