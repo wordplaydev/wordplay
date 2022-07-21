@@ -33,7 +33,6 @@ import ListAccess from "../nodes/ListAccess";
 import Conditional from "../nodes/Conditional";
 import Share from "../nodes/Share";
 import StructureDefinition from "../nodes/StructureDefinition";
-import Documented from "../nodes/Documented";
 import Alias from "../nodes/Alias";
 import Docs from "../nodes/Docs";
 import Column from "../nodes/Column";
