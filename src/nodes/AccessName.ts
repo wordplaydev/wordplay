@@ -12,6 +12,7 @@ import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import Structure from "../runtime/Structure";
+import Stream from "../runtime/Stream";
 
 export default class AccessName extends Expression {
 
@@ -69,6 +70,7 @@ export default class AccessName extends Expression {
         const subject = evaluator.popValue();
         return subject instanceof Exception ? subject :
             subject instanceof Structure ? subject.resolve(this.name.text) :
+            subject instanceof Stream ? subject.resolve(this.name.text) :
             new Exception(ExceptionType.EXPECTED_STRUCTURE);
 
     }

@@ -28,7 +28,7 @@ import ListLiteral from "../nodes/ListLiteral";
 import ListAccess from "../nodes/ListAccess";
 import SetOrMapLiteral from "../nodes/SetOrMapLiteral";
 import SetOrMapAccess from "../nodes/SetOrMapAccess";
-import Stream from "../nodes/Stream";
+import Reaction from "../nodes/Reaction";
 import Conditional from "../nodes/Conditional";
 import TableLiteral from "../nodes/TableLiteral";
 import Select from "../nodes/Select";
@@ -241,8 +241,8 @@ test("Parse expressions", () => {
     expect((update as Update).query).toBeInstanceOf(BinaryOperation);
 
     const stream = parseExpression(tokens("0 ∆ clicks a + 1"));
-    expect(stream).toBeInstanceOf(Stream);
-    expect((stream as Stream).next).toBeInstanceOf(BinaryOperation);
+    expect(stream).toBeInstanceOf(Reaction);
+    expect((stream as Reaction).next).toBeInstanceOf(BinaryOperation);
 
     const binary = parseExpression(tokens("1 + 2 + 3 + 4"));
     expect(binary).toBeInstanceOf(BinaryOperation);

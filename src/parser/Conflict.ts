@@ -26,7 +26,7 @@ import type Select from "../nodes/Select";
 import type SetOrMapAccess from "../nodes/SetOrMapAccess";
 import type SetOrMapLiteral from "../nodes/SetOrMapLiteral";
 import type Share from "../nodes/Share";
-import type Stream from "../nodes/Stream";
+import type Reaction from "../nodes/Reaction";
 import type TableType from "../nodes/TableType";
 import type Token from "../nodes/Token";
 import type Type from "../nodes/Type";
@@ -356,16 +356,16 @@ export class IncompatibleKey extends Conflict {
 }
 
 export class NotAStream extends Conflict {
-    readonly stream: Stream;
-    constructor(stream: Stream) {
+    readonly stream: Reaction;
+    constructor(stream: Reaction) {
         super(false);
         this.stream = stream;
     }
 }
 
 export class IncompatibleStreamValues extends Conflict {
-    readonly stream: Stream;
-    constructor(stream: Stream) {
+    readonly stream: Reaction;
+    constructor(stream: Reaction) {
         super(false);
         this.stream = stream;
     }

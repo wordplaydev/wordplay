@@ -3,26 +3,71 @@ import { parse } from "../parser/Parser";
 import Evaluation from "./Evaluation";
 import Exception, { ExceptionType } from "./Exception";
 import Shares from "./Shares";
+import type Stream from "./Stream";
 import Value from "./Value";
 
 export default class Evaluator {
 
+    readonly program: Program;
+
     /** This represents a stack of node evaluations. The first element of the stack is the currently executing node. */
     evaluations: Evaluation[] = [];
 
-    /** THe global namespace of shared code. */
+    /** The global namespace of shared code. */
     shares: Shares;
 
-    constructor(program: Program, shares: Shares) {
+    /** True if stop() was called */
+    stopped = false;
 
-        this.evaluations = [ new Evaluation(program, program) ];
+    /** The callback to notify if the program's value changes. */
+    listener?: (value: Value | undefined) => void;
+
+    reactListener: (stream: Stream) => void;
+
+    /** The latest value computed. */
+    result: Value | undefined;
+
+    constructor(program: Program, shares: Shares, listener?: (value: Value | undefined) => void) {
+
+        this.program = program;
+        this.evaluations = [];
         this.shares = shares;
+        this.listener = listener;
+
+        // We keep a reference here so the listener isn't garbage collected by a stream's weak references.
+        this.reactListener = (stream: Stream) => this.react(stream);
+
+        // Listen to streams
+        this.shares.getStreams().forEach(stream => stream.listen(this.reactListener));
+
+        // Evaluate the first time
+        this.evaluate();
 
     }
 
     static evaluateCode(code: string): Value | undefined {
         const evaluator = new Evaluator(parse(code), new Shares());
         return evaluator.evaluate();
+    }
+
+    react(stream: Stream) {
+        // Reevaluate everything in case it has Reactions that are dependent on the stream. 
+        // We can be smarter about this in the future, updating those specific expressions and their downstream dependencies.
+        const result = this.evaluate();
+
+        if(this.listener !== undefined)
+            this.listener.call(undefined, result);
+    }
+
+    /** Initializes the evaluator for execution. */
+    start() {
+        this.evaluations = [ new Evaluation(this.program, this.program) ];
+    }
+
+    /** Stops listening to listeners and halts execution. */
+    stop() {
+        this.shares.getStreams().forEach(stream => stream.ignore(this.react));
+        this.stopped = true;
     }
 
     /** Advance one step in execution. Returns false if there's nothing left to execute. */
@@ -59,12 +104,29 @@ export default class Evaluator {
     /** Evaluate until we're done */
     evaluate(): Value | undefined{
 
-        while(true) {
+        // Initialize for execution
+        this.start();
+
+        // Run all of the steps until we get a value.
+        while(!this.stopped) {
             const value = this.step();
-            if(value !== undefined) return value;
+            if(value !== undefined) {
+                this.result = value;
+                break;
+            }
         }
 
+        // Notify the listener of the result.
+        if(this.listener !== undefined)
+            this.listener.call(undefined, this.result);
+
+        // Return the result.
+        return this.result;
+
     }
+
+    /** Get whatever the latest result was of evaluating the program and its streams. */
+    getResult() { return this.result; }
 
     /** Get the value on the top of the stack. */
     popValue(): Value { 
@@ -99,6 +161,7 @@ export default class Evaluator {
         return this.evaluations.length === 0 ? 
             undefined : 
             this.evaluations[0].resolve(name);
+
     }
 
     /** Get the context of the currently evaluating evaluation. */

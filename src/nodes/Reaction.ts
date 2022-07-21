@@ -10,7 +10,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 
-export default class Stream extends Expression {
+export default class Reaction extends Expression {
 
     readonly initial: Expression;
     readonly dots: Token;

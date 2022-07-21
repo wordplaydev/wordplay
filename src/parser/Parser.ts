@@ -46,7 +46,7 @@ import Insert from "../nodes/Insert";
 import Update from "../nodes/Update";
 import Delete from "../nodes/Delete";
 import ConversionDefinition from "../nodes/ConversionDefinition";
-import Stream from "../nodes/Stream";
+import Reaction from "../nodes/Reaction";
 import StreamType from "../nodes/StreamType";
 import BooleanType from "../nodes/BooleanType";
 import SetOrMapAccess from "../nodes/SetOrMapAccess";
@@ -74,7 +74,7 @@ export enum SyntacticConflict {
     EXPECTED_TYPE
 }
 
-class Tokens {
+export class Tokens {
     /** The tokens that have been read. */
     readonly #read: Token[] = [];
 
@@ -708,11 +708,11 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 }
 
 /** STREAM :: EXPRESSION ∆ EXPRESSION EXPRESSION */
-function parseStream(initial: Expression, tokens: Tokens): Stream {
+function parseStream(initial: Expression, tokens: Tokens): Reaction {
     const delta = tokens.read();
     const stream = parseExpression(tokens);
     const next = parseExpression(tokens);
-    return new Stream(initial, delta, stream, next); 
+    return new Reaction(initial, delta, stream, next); 
 }
 
 /** FUNCTION :: DOCS? ƒ TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */

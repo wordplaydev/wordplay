@@ -1,15 +1,22 @@
 <!-- A window in a window manager that displays a document -->
 <script lang="ts">
-    import Document from '../models/Document';
+import Project from '../models/Project';
+
     import { project } from '../models/stores';
+    import type Document from "../models/Document";
 
     export let doc: Document;
-    $: content = doc.getContent();        
+    $: content = doc.getContent(); 
 
     function handleEdit(event: Event) {
+        // When the document changes, create a new document with the new value and update the project,
+        // triggering a rerender.
         if($project !== undefined) {
-            const newDoc = new Document(doc.getName(), (event.target as HTMLTextAreaElement).value);
-            project.set($project.withRevisedDocument(doc, newDoc));
+            const newCode = (event.target as HTMLTextAreaElement).value;
+            // Clean up the project before we create a new one.
+            $project.cleanup();
+            // Make a new one based on the new program
+            project.set(new Project("Play", newCode, () => project.set($project)));
         }
     }
 

@@ -1,27 +1,20 @@
+import type Evaluator from "../runtime/Evaluator";
+
 /** A document representing some text content or a function that produces some text content. */
 export default class Document {
     readonly name: string;
-    readonly content: string | Document;
-    readonly translator: ((doc: Document) => string) | undefined;
+    readonly content: string;
+    readonly editable: boolean;
 
-    constructor(name: string, content: string | Document, translator?: ((doc: Document) => string) | undefined) {
+    constructor(name: string, content: string, editable=false) {
         this.name = name;
         this.content = content;
-        this.translator = translator;
+        this.editable = editable;
     }
 
     getName() { return this.name; }
-    isEditable() { return typeof this.content === 'string'; }
+    isEditable() { return this.editable; }
 
-    getContent(): string {
-        return typeof this.content === 'string' ? 
-            this.content : 
-            this.translator === undefined ? this.content.getContent() :
-            this.translator.call(undefined, this.content);
-    }
-
-    withContent(newContent: string | Document) {
-        return new Document(this.name, newContent, this.translator);
-    }
+    getContent(): string { return this.content; }
 
 }

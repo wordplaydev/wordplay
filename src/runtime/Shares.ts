@@ -1,14 +1,22 @@
 import Exception, { ExceptionType } from "./Exception";
+import Stream from "./Stream";
 import type Value from "./Value";
 
 export default class Shares {
 
     readonly values: Map<string, Value>;
 
-    constructor() {
+    constructor(bindings?: Record<string, Value>) {
 
         this.values = new Map();
 
+        if(bindings)
+            Object.keys(bindings).forEach(name => this.bind(name, bindings[name]));
+
+    }
+
+    getStreams(): Stream[] {
+        return Array.from(this.values.values()).filter(v => v instanceof Stream) as Stream[];
     }
 
     bind(name: string, value: Value): Exception | undefined {
@@ -18,9 +26,7 @@ export default class Shares {
     }
 
     resolve(name: string, version?: number): Value {
-        // TODO Resolve Native shares
-        // TODO Resolve web shares
-        return new Exception(ExceptionType.UNKNOWN_SHARE);
+        return this.values.has(name) ? this.values.get(name) as Value : new Exception(ExceptionType.UNKNOWN_SHARE);
     }
 
 }

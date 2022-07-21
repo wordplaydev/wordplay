@@ -5,7 +5,6 @@ import type Value from "src/runtime/Value";
 import type Program from "./Program";
 import type Type from "./Type";
 import type Step from "src/runtime/Step";
-import type Evaluation from "../runtime/Evaluation";
 
 export default abstract class Expression extends Node implements Evaluable {
     

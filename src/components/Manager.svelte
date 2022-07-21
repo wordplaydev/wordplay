@@ -1,3 +1,4 @@
+
 <!-- A window manager that displays a set of windows -->
 <script lang="ts">
     import DocumentView from './DocumentView.svelte';
