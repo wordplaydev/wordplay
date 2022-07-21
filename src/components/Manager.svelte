@@ -4,6 +4,10 @@
     import DocumentView from './DocumentView.svelte';
     import Header from '../components/Header.svelte';
     import { project } from '../models/stores';
+    import { onDestroy } from 'svelte';
+
+    // Clean up the project when unmounted.
+    onDestroy(() => $project?.cleanup());
 
 </script>
 
