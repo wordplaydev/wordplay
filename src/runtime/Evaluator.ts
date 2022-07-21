@@ -1,7 +1,8 @@
 import type Program from "../nodes/Program";
+import { parse } from "../parser/Parser";
 import Evaluation from "./Evaluation";
 import Exception, { ExceptionType } from "./Exception";
-import type Shares from "./Shares";
+import Shares from "./Shares";
 import Value from "./Value";
 
 export default class Evaluator {
@@ -19,6 +20,11 @@ export default class Evaluator {
 
     }
 
+    static evaluateCode(code: string): Value | undefined {
+        const evaluator = new Evaluator(parse(code), new Shares());
+        return evaluator.evaluate();
+    }
+
     /** Advance one step in execution. Returns false if there's nothing left to execute. */
     step(): Value | undefined {
 
@@ -28,7 +34,7 @@ export default class Evaluator {
 
         // If there's no node evaluating, we're done.
         if(this.evaluations.length === 0)
-            return false;
+            return new Exception(ExceptionType.EXPECTED_CONTEXT);
 
         const evaluation = this.evaluations[0];
 
