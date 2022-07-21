@@ -36,8 +36,8 @@ test("Tokenize text", () => {
 
     expect(tokenize("'hi'\"hi\"‘hi’«hi»‹hi›„hi“「hi」").map(t => t.toWordplay()).join("\n"))
         .toBe("'hi'\n\"hi\"\n‘hi’\n«hi»\n‹hi›\n„hi“\n「hi」\n");
-    expect(tokenize("'hello (1 + 2) number 3'").map(t => t.toWordplay()).join("\n"))
-        .toBe("'hello (\n1\n +\n 2\n) number 3'\n")
+    expect(tokenize("'hello \\1 + 2\\ number 3'").map(t => t.toWordplay()).join("\n"))
+        .toBe("'hello \\\n1\n +\n 2\n\\ number 3'\n")
     expect(tokenize("'hello'eng\n'hola'spa").map(t => t.toWordplay()).join("\n"))
         .toBe("'hello'\neng\n\n'hola'\nspa\n")
 
@@ -45,28 +45,28 @@ test("Tokenize text", () => {
 
 test("Escapes", () => {
 
-    expect(tokenize('"Hello \\(name\\), how are you?"').map(t => t.toWordplay()).join("\n"))
-        .toBe('"Hello \\(name\\), how are you?"\n');
-    expect(tokenize("'Hello \\(name\\), how are you?'").map(t => t.toWordplay()).join("\n"))
-        .toBe("'Hello \\(name\\), how are you?'\n");
-    expect(tokenize('“Hello \\(name\\), how are you?”').map(t => t.toWordplay()).join("\n"))
-        .toBe('“Hello \\(name\\), how are you?”\n');
-    expect(tokenize('‘Hello \\(name\\), how are you?’').map(t => t.toWordplay()).join("\n"))
-        .toBe('‘Hello \\(name\\), how are you?’\n');
-    expect(tokenize('«Hello \\(name\\), how are you?»').map(t => t.toWordplay()).join("\n"))
-        .toBe('«Hello \\(name\\), how are you?»\n');
-    expect(tokenize('‹Hello \\(name\\), how are you?›').map(t => t.toWordplay()).join("\n"))
-        .toBe('‹Hello \\(name\\), how are you?›\n');
-    expect(tokenize('「Hello \\(name\\), how are you?」').map(t => t.toWordplay()).join("\n"))
-        .toBe('「Hello \\(name\\), how are you?」\n');
-    expect(tokenize('『Hello \\(name\\), how are you?』').map(t => t.toWordplay()).join("\n"))
-        .toBe('『Hello \\(name\\), how are you?』\n');
+    expect(tokenize('"Hello \\name\\, how are you?"').map(t => t.toWordplay()).join("\n"))
+        .toBe('"Hello \\\nname\n\\, how are you?"\n');
+    expect(tokenize("'Hello \\name\\, how are you?'").map(t => t.toWordplay()).join("\n"))
+        .toBe("'Hello \\\nname\n\\, how are you?'\n");
+    expect(tokenize('“Hello \\name\\, how are you?”').map(t => t.toWordplay()).join("\n"))
+        .toBe('“Hello \\\nname\n\\, how are you?”\n');
+    expect(tokenize('‘Hello \\name\\, how are you?’').map(t => t.toWordplay()).join("\n"))
+        .toBe('‘Hello \\\nname\n\\, how are you?’\n');
+    expect(tokenize('«Hello \\name\\, how are you?»').map(t => t.toWordplay()).join("\n"))
+        .toBe('«Hello \\\nname\n\\, how are you?»\n');
+    expect(tokenize('‹Hello \\name\\, how are you?›').map(t => t.toWordplay()).join("\n"))
+        .toBe('‹Hello \\\nname\n\\, how are you?›\n');
+    expect(tokenize('「Hello \\name\\, how are you?」').map(t => t.toWordplay()).join("\n"))
+        .toBe('「Hello \\\nname\n\\, how are you?」\n');
+    expect(tokenize('『Hello \\name\\, how are you?』').map(t => t.toWordplay()).join("\n"))
+        .toBe('『Hello \\\nname\n\\, how are you?』\n');
 
 })
 
 test("Tokenize betweens", () => {
 
-    expect(tokenize("'I am (between) us'").map(t => t.toWordplay()).join("\n")).toBe("'I am (\nbetween\n) us'\n");
-    expect(tokenize("\"hi ('hello') and ('hey')\"").map(t => t.toWordplay()).join("\n")).toBe("\"hi (\n'hello'\n) and (\n'hey'\n)\"\n");
+    expect(tokenize("'I am \\between\\ us'").map(t => t.toWordplay()).join("\n")).toBe("'I am \\\nbetween\n\\ us'\n");
+    expect(tokenize("\"hi \\'hello'\\ and \\'hey'\\\"").map(t => t.toWordplay()).join("\n")).toBe("\"hi \\\n'hello'\n\\ and \\\n'hey'\n\\\"\n");
 
 })
