@@ -2,17 +2,35 @@ import Value from "./Value";
 
 export default abstract class Stream extends Value {
 
-    // Any listeners that are garbage collected are removed during notification.
+    /** The stream of values */
+    values: Value[] = [];
+
     listeners: ((stream: Stream)=>void)[] = [];
 
     readonly name: string;
 
-    constructor(name: string) {
+    constructor(name: string, initalValue: Value) {
         super();
 
         this.name = name;
+        this.add(initalValue);
+    }
+
+    add(value: Value) {
+
+        // Update the time.
+        this.values.push(value);
+
+        // Limit the array to 1000 ticks to avoid leaking memory.
+        this.values.splice(0, Math.max(0, this.values.length - 1000));
+
+        // Notify subscribers of the state change.
+        this.notify();
+
     }
     
+    latest() { return this.values[this.values.length - 1]; }
+
     listen(listener: (stream: Stream)=>void) {
         this.listeners.push(listener);
     }
@@ -28,11 +46,17 @@ export default abstract class Stream extends Value {
     /** Should produce valid Wordplay code string representing the stream's name */
     toString() { return this.name; };
 
+    /** Should return named values on the stream. */
+    resolve(name: string): Value | undefined {
+
+        switch(name) {
+            case "∂": return this.values[this.values.length - 2];
+            default: return undefined;
+        }
+        
+    }
+
     /** Should do whatever cleanup is necessary to stop listening to a data stream */
     abstract stop(): void;
-
-    /** Should return named values on the stream. */
-    abstract resolve(name: string): Value | undefined;
-
 
 }

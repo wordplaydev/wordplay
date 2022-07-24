@@ -1,7 +1,9 @@
 import type Program from "../nodes/Program";
+import type Reaction from "../nodes/Reaction";
 import { parse } from "../parser/Parser";
 import Evaluation from "./Evaluation";
 import Exception, { ExceptionType } from "./Exception";
+import ReactionStream from "./ReactionStream";
 import Shares from "./Shares";
 import type Stream from "./Stream";
 import Value from "./Value";
@@ -22,10 +24,17 @@ export default class Evaluator {
     /** The callback to notify if the program's value changes. */
     listener?: (value: Value | undefined) => void;
 
-    reactListener: (stream: Stream) => void;
-
     /** The latest value computed. */
     result: Value | undefined;
+
+    /** The streams changes that triggered this evaluation */
+    changedStreams: Stream[] = [];
+
+    /** The streams accessed since the latest time requested */
+    accessedStreams: Stream[] | undefined = undefined;
+
+    /** A set of node streams */
+    reactionStreams: Map<Reaction, Stream> = new Map();
 
     constructor(program: Program, shares: Shares, listener?: (value: Value | undefined) => void) {
 
@@ -34,26 +43,23 @@ export default class Evaluator {
         this.shares = shares;
         this.listener = listener;
 
-        // We keep a reference here so the listener isn't garbage collected by a stream's weak references.
-        this.reactListener = (stream: Stream) => this.react(stream);
-
         // Listen to streams
-        this.shares.getStreams().forEach(stream => stream.listen(this.reactListener));
+        this.shares.getStreams().forEach(stream => stream.listen(this.react.bind(this)));
 
         // Evaluate the first time
-        this.evaluate();
+        this.evaluate([]);
 
     }
 
     static evaluateCode(code: string): Value | undefined {
         const evaluator = new Evaluator(parse(code), new Shares());
-        return evaluator.evaluate();
+        return evaluator.evaluate([]);
     }
 
     react(stream: Stream) {
         // Reevaluate everything in case it has Reactions that are dependent on the stream. 
         // We can be smarter about this in the future, updating those specific expressions and their downstream dependencies.
-        const result = this.evaluate();
+        const result = this.evaluate([ stream ]);
 
         if(this.listener !== undefined)
             this.listener.call(undefined, result);
@@ -61,7 +67,11 @@ export default class Evaluator {
 
     /** Initializes the evaluator for execution. */
     start() {
+        // Start executing the program node.
         this.evaluations = [ new Evaluation(this.program, this.program) ];
+
+        // Stop remembering in case the last execution ended abruptly.
+        this.stopRememberingStreamAccesses();
     }
 
     /** Stops listening to listeners and halts execution. */
@@ -102,7 +112,9 @@ export default class Evaluator {
     }
 
     /** Evaluate until we're done */
-    evaluate(): Value | undefined{
+    evaluate(changedStreams: Stream[]): Value | undefined{
+
+        this.changedStreams = changedStreams;
 
         // Initialize for execution
         this.start();
@@ -128,6 +140,12 @@ export default class Evaluator {
     /** Get whatever the latest result was of evaluating the program and its streams. */
     getResult() { return this.result; }
 
+    /** Push a value on top of the current evaluation's stack. */
+    pushValue(value: Value): void { 
+        if(this.evaluations.length > 0)
+            this.evaluations[0].pushValue(value);
+    }
+    
     /** Get the value on the top of the stack. */
     popValue(): Value { 
         return this.evaluations.length > 0 ? 
@@ -187,4 +205,39 @@ export default class Evaluator {
 
     }
     
+    startRememberingStreamAccesses() {
+        this.accessedStreams = [];
+    }
+
+    rememberStreamAccess(stream: Stream) {
+        this.accessedStreams?.push(stream);
+    }
+
+    stopRememberingStreamAccesses(): Stream[] | undefined {
+        const accessedStreams = this.accessedStreams;
+        this.accessedStreams = undefined;
+        return accessedStreams;
+    }
+
+    streamChanged(stream: Stream) {
+        return this.changedStreams.indexOf(stream) >= 0;
+    }
+
+    hasReactionStream(reaction: Reaction) {
+        return this.reactionStreams.has(reaction);
+    }
+
+    getReactionStreamLatest(reaction: Reaction): Value | undefined {
+        return this.reactionStreams.get(reaction)?.latest();
+    }
+
+    addToReactionStream(reaction: Reaction, value: Value) {
+        if(this.hasReactionStream(reaction))
+            this.reactionStreams.get(reaction)?.add(value);
+        else {
+            const newStream = new ReactionStream(value);
+            this.reactionStreams.set(reaction, newStream);
+        }
+    }
+
 }

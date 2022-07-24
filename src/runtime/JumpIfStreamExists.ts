@@ -1,21 +1,26 @@
-import type Evaluable from "./Evaluable";
+import type Reaction from "../nodes/Reaction";
+import Bool from "./Bool";
 import type Evaluator from "./Evaluator";
 import Step from "./Step";
 import type Value from "./Value";
 
-export default class Jump extends Step {
+export default class JumpIfStreamExists extends Step {
 
     readonly count: number;
 
-    constructor(count: number, node: Evaluable) {
-        super(node);
+    constructor(count: number, reaction: Reaction) {
+        super(reaction);
 
         this.count = count;
     }
     
     evaluate(evaluator: Evaluator): Value | undefined {
-        evaluator.jump(this.count);
+
+        if(evaluator.hasReactionStream(this.node as Reaction))
+            evaluator.jump(this.count);
+
         return undefined;
+
     }
 
     toString() { 

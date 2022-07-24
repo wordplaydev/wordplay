@@ -82,7 +82,7 @@ export class Tokens {
     readonly #unread: Token[];
 
     constructor(tokens: Token[]) {
-        this.#unread = tokens;
+        this.#unread = tokens.slice();
     }
 
     /** Returns the text of the next token */
@@ -422,7 +422,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
             left = parseListAccess(left, tokens);
         else if(tokens.nextIs(TokenType.SET_OPEN))
             left = parseSetOrMapAccess(left, tokens);
-        else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE))
+        else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
         else if(tokens.nextIs(TokenType.CONVERT))
             left = parseConvert(left, tokens);
@@ -435,7 +435,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
         else if(tokens.nextIs(TokenType.DELETE))
             left = parseDelete(left, tokens);
         else if(tokens.nextIs(TokenType.STREAM))
-            left = parseStream(left, tokens);
+            left = parseReaction(left, tokens);
         else break;
     }
     return left;
@@ -563,7 +563,7 @@ function parseListAccess(left: Expression | Unparsable, tokens: Tokens): Express
         left = new ListAccess(left, open, index, close);
 
         // But wait, is it a function evaluation?
-        if(tokens.nextIs(TokenType.EVAL_OPEN))
+        if(tokens.nextIs(TokenType.EVAL_OPEN) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
 
     } while(tokens.nextIs(TokenType.LIST_OPEN));
@@ -619,7 +619,7 @@ function parseSetOrMapAccess(left: Expression | Unparsable, tokens: Tokens): Exp
         left = new SetOrMapAccess(left, open, key, close);
 
         // But wait, is it a function evaluation?
-        if(tokens.nextIs(TokenType.EVAL_OPEN))
+        if(tokens.nextIs(TokenType.EVAL_OPEN) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
 
     } while(tokens.nextIs(TokenType.SET_OPEN));
@@ -708,7 +708,7 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 }
 
 /** STREAM :: EXPRESSION ∆ EXPRESSION EXPRESSION */
-function parseStream(initial: Expression, tokens: Tokens): Reaction {
+function parseReaction(initial: Expression, tokens: Tokens): Reaction {
     const delta = tokens.read();
     const stream = parseExpression(tokens);
     const next = parseExpression(tokens);
@@ -823,7 +823,7 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
         left = new AccessName(left, access, name);
 
         // But wait, is it a function evaluation?
-        if(tokens.nextIs(TokenType.EVAL_OPEN))
+        if(tokens.nextIs(TokenType.EVAL_OPEN) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
 
     } while(tokens.nextIs(TokenType.ACCESS));

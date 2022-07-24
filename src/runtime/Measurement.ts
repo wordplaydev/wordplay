@@ -535,7 +535,7 @@ export default class Measurement extends Value {
     /** Equal if all of their parts are equal. */
     equals(operand: Measurement): Bool {
 
-        return new Bool(this.num === operand.num);
+        return new Bool(this.num.equals(operand.num));
         
         // return new Bool(
         //     this.positive === operand.positive &&

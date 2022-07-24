@@ -8,6 +8,7 @@ import type Evaluable from "./Evaluable";
 import type Evaluator from "./Evaluator";
 import Exception, { ExceptionType } from "./Exception";
 import type Step from "./Step";
+import Stream from "./Stream";
 import Value from "./Value";
 
 export default class Evaluation {
@@ -67,9 +68,15 @@ export default class Evaluation {
         // If it's an exception, return it to the evaluator to halt the program.
         if(result instanceof Exception)
             return result;
+        // If it's a stream, resolve it to its latest value.
+        else if(result instanceof Stream) {
+            evaluator.rememberStreamAccess(result);
+            this.#values.unshift(result.latest());
+        }
         // If it's a value, add it to the top of the stack.
-        else if(result instanceof Value)
+        else if(result instanceof Value) {
             this.#values.unshift(result);
+        }
 
         // Move to the next step.
         this.#step++;
