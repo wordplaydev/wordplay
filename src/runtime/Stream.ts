@@ -1,18 +1,20 @@
+import type { LanguageCode } from "../nodes/LanguageCode";
+import type { Named } from "../nodes/Named";
 import Value from "./Value";
 
-export default abstract class Stream extends Value {
+export default abstract class Stream extends Value implements Named {
 
     /** The stream of values */
     values: Value[] = [];
 
     listeners: ((stream: Stream)=>void)[] = [];
 
-    readonly name: string;
+    readonly names: Record<LanguageCode,string>;
 
-    constructor(name: string, initalValue: Value) {
+    constructor(names: Record<LanguageCode, string>, initalValue: Value) {
         super();
 
-        this.name = name;
+        this.names = names;
         this.add(initalValue);
     }
 
@@ -44,7 +46,9 @@ export default abstract class Stream extends Value {
     }
 
     /** Should produce valid Wordplay code string representing the stream's name */
-    toString() { return this.name; };
+    toString() { return this.names["eng"]; };
+
+    getNames() { return Object.values(this.names); }
 
     /** Should return named values on the stream. */
     resolve(name: string): Value | undefined {

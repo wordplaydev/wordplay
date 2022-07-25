@@ -22,8 +22,9 @@ import Start from "../runtime/Start";
 import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
 import Exception, { ExceptionType } from "../runtime/Exception";
+import type { Named } from "./Named";
 
-export default class Bind extends Node implements Evaluable {
+export default class Bind extends Node implements Evaluable, Named {
     
     readonly docs: Docs[];
     readonly names: Alias[];

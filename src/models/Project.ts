@@ -36,7 +36,11 @@ export default class Project {
         this.program = parseProgram(new Tokens(this.tokens));
         this.conflicts = this.program.getAllConflicts(this.program);
         this.steps = this.program.compile();
-        this.evaluator = new Evaluator(this.program, new Shares({ time: time }), this.handleResult.bind(this) );
+
+        const shares = new Shares();
+        Object.values(time.getNames()).forEach(name => shares.bind(name, time));
+
+        this.evaluator = new Evaluator(this.program, shares, this.handleResult.bind(this) );
            
         // Generate documents based on the code.
         this.docs = [

@@ -23,7 +23,7 @@ export default class Alias extends Node {
 
     getConflicts(program: Program): Conflict[] { 
         
-        if(this.lang && !/^[a-z]{3}$/.test(this.lang.text))
+        if(this.lang !== undefined && !/^[a-z]{3}$/.test(this.lang.text))
             return [ new ExpectedLanguage(this) ]
         return []; 
         

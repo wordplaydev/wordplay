@@ -7,7 +7,6 @@ import Unparsable from "./Unparsable";
 import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
-import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type Step from "../runtime/Step";
