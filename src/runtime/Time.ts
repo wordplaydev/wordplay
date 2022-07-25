@@ -9,7 +9,7 @@ export default class Time extends Stream {
     timerID: NodeJS.Timer;
 
     constructor() {
-        super({"eng": "time"}, new Measurement(Date.now(), new Unit(["ms"])));
+        super({"eng": "⏱"}, new Measurement(Date.now(), new Unit(["ms"])));
 
         // Tick every 33 milliseconds, trying to achieve a 30 fps frame rate.
         this.timerID = setInterval(() => this.tick(), 33);
