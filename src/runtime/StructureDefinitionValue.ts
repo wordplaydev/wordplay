@@ -10,9 +10,9 @@ export default class StructureDefinitionValue extends Value {
     readonly definition: StructureDefinition;
     
     /** The evaluation context in which this function was created. This enables closures. */
-    readonly context: Evaluation;
+    readonly context: Evaluation | undefined;
 
-    constructor(definition: StructureDefinition, context: Evaluation) {
+    constructor(definition: StructureDefinition, context?: Evaluation) {
         super();
 
         this.definition = definition;

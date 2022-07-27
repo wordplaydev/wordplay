@@ -33,7 +33,7 @@ export default class Bind extends Node implements Evaluable, Named {
     readonly colon?: Token;
     readonly value?: Expression | Unparsable; 
 
-    constructor(docs: Docs[], names: Alias[], dot?: Token, type?: Type | Unparsable, colon?: Token, value?: Expression | Unparsable) {
+    constructor(docs: Docs[], names: Alias[], type?: Type | Unparsable, value?: Expression | Unparsable, dot?: Token, colon?: Token) {
         super();
 
         this.docs = docs;
@@ -47,6 +47,8 @@ export default class Bind extends Node implements Evaluable, Named {
     hasName(name: string) { return this.names.find(n => n.name.text === name) !== undefined; }
 
     getNames() { return this.names.map(n => n.name.text ); }
+
+    hasDefault() { return this.value !== undefined; }
 
     getChildren() { 
         let children: Node[] = [];

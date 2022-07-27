@@ -21,14 +21,14 @@ import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 export default class StructureDefinition extends Expression {
 
     readonly docs: Docs[];
-    readonly type: Token;
+    readonly type?: Token;
     readonly typeVars: (TypeVariable|Unparsable)[];
-    readonly open: Token;
+    readonly open?: Token;
     readonly inputs: (Bind | Unparsable)[];
-    readonly close: Token;
+    readonly close?: Token;
     readonly block: Block | Unparsable;
 
-    constructor(docs: Docs[], type: Token, typeVars: (TypeVariable|Unparsable)[], open: Token, inputs: (Bind|Unparsable)[], close: Token, block: Block | Unparsable) {
+    constructor(docs: Docs[], typeVars: (TypeVariable|Unparsable)[], inputs: (Bind|Unparsable)[], block: Block | Unparsable, type?: Token, open?: Token, close?: Token) {
 
         super();
 
@@ -52,9 +52,12 @@ export default class StructureDefinition extends Expression {
     }
 
     getChildren() {
-        let children: Node[] = [ ...this.docs, this.type ];
+        let children: Node[] = [ ...this.docs ];
         children = children.concat(this.typeVars);
-        children = children.concat([ this.open, ...this.inputs, this.close, this.block ]);
+        if(this.open) children.push(this.open);
+        children = children.concat(this.inputs);
+        if(this.close) children.push(this.close);
+        children.push(this.block);
         return children;
     }
 

@@ -4,7 +4,7 @@
     import Manager from '../components/Manager.svelte';
     import { project } from '../models/stores';
 
-    project.set(new Project("Play", "↓ ⏱\nlabels: { ⊤: '🟢' ⊥: '🔴'}\neven: ⏱ % 2 = 0\nlabels{even}", () => project.set($project)));
+    project.set(new Project("Play", "↓ ⏱\nsímbolo: { ⊤: «🟢» ⊥: «🔴»}\npar: ⏱ % 2 = 0ms\nsímbolo{par}", () => project.set($project)));
 
 </script>
 

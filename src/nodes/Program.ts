@@ -7,7 +7,6 @@ import type TypeVariable from "./TypeVariable";
 import type Block from "../nodes/Block";
 import type Bind from "../nodes/Bind";
 import type Evaluator from "../runtime/Evaluator";
-import type Value from "../runtime/Value";
 import type Evaluable from "../runtime/Evaluable";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";

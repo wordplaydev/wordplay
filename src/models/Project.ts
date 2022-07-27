@@ -1,14 +1,18 @@
 import type Program from '../nodes/Program';
 import type Token from '../nodes/Token';
 import type Conflict from '../parser/Conflict';
-import { parse, parseProgram, Tokens } from '../parser/Parser';
+import { parseProgram, Tokens } from '../parser/Parser';
 import { tokenize } from '../parser/Tokenizer';
 import Evaluator from '../runtime/Evaluator';
 import Shares from '../runtime/Shares';
 import type Step from '../runtime/Step';
 import Time from '../runtime/Time';
-import type Value from '../runtime/Value';
+import Value from '../runtime/Value';
+import Text from '../runtime/Text';
 import Document from './Document';
+import Verse from '../native/Verse';
+import StructureDefinitionValue from '../runtime/StructureDefinitionValue';
+import Words from '../native/Words';
 
 /** An immutable representation of a project with a name and some documents */
 export default class Project {
@@ -39,9 +43,11 @@ export default class Project {
 
         const shares = new Shares();
         Object.values(time.getNames()).forEach(name => shares.bind(name, time));
+        shares.bind("V", new StructureDefinitionValue(Verse));
+        shares.bind("W", new StructureDefinitionValue(Words));
 
         this.evaluator = new Evaluator(this.program, shares, this.handleResult.bind(this) );
-           
+
         // Generate documents based on the code.
         this.docs = [
             new Document("code", this.code, true),
@@ -49,7 +55,8 @@ export default class Project {
             new Document("tree", this.program.toString()),
             new Document("conflicts", this.conflicts.join("\n")),
             new Document("steps", this.steps.map(s => s.toString()).join("\n")),
-            new Document("output", this.evaluator.getResult()?.toString() ?? "no result")
+            new Document("output", this.evaluator.getResult()?.toString() ?? "no result"),
+            new Document("render", this.wrapResult(this.evaluator.getResult()))
         ];
 
     }
@@ -58,9 +65,17 @@ export default class Project {
 
         if(this.docs) {
             this.docs[5] = new Document("output", result?.toString() ?? "no result");
+            this.docs[6] = new Document("render", this.wrapResult(result));
             this.updater.call(undefined);
         }
 
+    }
+
+    wrapResult(value: Value | undefined): Value {
+
+        if(value instanceof Value) return value;
+        else return new Text("No result");
+        
     }
 
     cleanup() {

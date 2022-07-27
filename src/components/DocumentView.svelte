@@ -1,9 +1,12 @@
-<!-- A window in a window manager that displays a document -->
 <script lang="ts">
-import Project from '../models/Project';
 
+    import Project from '../models/Project';
     import { project } from '../models/stores';
     import type Document from "../models/Document";
+    import Value from '../runtime/Value';
+    import Text from '../runtime/Text';
+import Structure from '../runtime/Structure';
+import Words from '../native/Words';
 
     export let doc: Document;
     $: content = doc.getContent(); 
@@ -24,14 +27,24 @@ import Project from '../models/Project';
 
 <div class="document">
     <div class="document-title">{doc.getName()}</div>
-    <textarea 
-        on:input={handleEdit} 
-        class="document-content" 
-        bind:value={content} 
-        readonly={!doc.isEditable()}
-        style="height: {doc.getContent().split("\n").length}em;"
-        tabIndex=0
-    />
+    {#if content instanceof Text}
+        <p style="text-align: center; font-size: 20pt">{content.toString().substring(1, content.toString().length - 1)}</p>
+    {:else if content instanceof Structure && content.type === Words}
+        <p style={`text-align: center; font-size: ${content.resolve("size")}; font-family: ${content.resolve("font")}`}>{content.resolve("text")}</p>
+    {:else if content instanceof Value}
+        <p style="text-align: center; font-size: 20pt">{content.toString()}</p>
+    {:else if typeof content === "string"}
+        <textarea 
+            on:input={handleEdit} 
+            class="document-content" 
+            bind:value={content} 
+            readonly={!doc.isEditable()}
+            style="height: {content.split("\n").length}em;"
+            tabIndex=0
+        />
+    {:else}
+        <p>No value</p>
+    {/if}
 </div>
 
 <style>

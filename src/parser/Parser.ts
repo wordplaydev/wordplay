@@ -325,7 +325,7 @@ export function parseBind(expectExpression: boolean, tokens: Tokens): Bind | Unp
         value = parseExpression(tokens);
     }
 
-    return new Bind(docs, names, dot, type, colon, value);
+    return new Bind(docs, names, type, value, dot, colon);
 
 }
 
@@ -745,7 +745,7 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 
     const expression = tokens.nextIs(TokenType.TBD) ? tokens.read() : parseExpression(tokens);
 
-    return new FunctionDefinition(docs, fun, open, inputs, close, expression, typeVars, type, output);
+    return new FunctionDefinition(docs, typeVars, inputs, expression, output, fun, open, close, type);
 
 }
 
@@ -974,7 +974,7 @@ function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     const block = parseBlock(tokens, false, true);
 
-    return new StructureDefinition(docs, type, typeVars, open, inputs, close, block);
+    return new StructureDefinition(docs, typeVars, inputs, block, type, open, close);
 
 }
 

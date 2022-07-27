@@ -71,7 +71,7 @@ export default class Token extends Node {
     /** The index in the source file at which this token starts. */
     readonly index: number;
 
-    constructor(text: string, types: TokenType[], index: number, space: string="") {
+    constructor(text: string, types: TokenType[], index: number=0, space: string="") {
         super();
         this.types = types.slice();
         this.text = text;

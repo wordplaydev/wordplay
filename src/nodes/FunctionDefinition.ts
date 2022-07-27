@@ -13,7 +13,6 @@ import UnknownType from "./UnknownType";
 import { docsAreUnique, inputsAreUnique, requiredBindAfterOptional, typeVarsAreUnique } from "./util";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
-import type Value from "../runtime/Value";
 import FunctionValue from "../runtime/FunctionValue";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
@@ -21,16 +20,22 @@ import Finish from "../runtime/Finish";
 export default class FunctionDefinition extends Expression {
 
     readonly docs: Docs[];
-    readonly fun: Token;
+    readonly fun?: Token;
     readonly typeVars: (TypeVariable|Unparsable)[];
-    readonly open: Token;
+    readonly open?: Token;
     readonly inputs: (Bind|Unparsable)[];
-    readonly close: Token;
+    readonly close?: Token;
     readonly dot?: Token;
-    readonly output?: Type | Unparsable;
+    readonly type?: Type | Unparsable;
     readonly expression: Expression | Unparsable | Token;
 
-    constructor(docs: Docs[], fun: Token, open: Token, inputs: (Bind|Unparsable)[], close: Token, expression: Expression | Unparsable | Token, typeVars: (TypeVariable|Unparsable)[], dot?: Token, output?: Type | Unparsable) {
+    constructor(
+        docs: Docs[], 
+        typeVars: (TypeVariable|Unparsable)[], 
+        inputs: (Bind|Unparsable)[], 
+        expression: Expression | Unparsable | Token, 
+        output?: Type | Unparsable, 
+        fun?: Token, dot?: Token, open?: Token, close?: Token) {
         super();
 
         this.docs = docs;
@@ -40,7 +45,7 @@ export default class FunctionDefinition extends Expression {
         this.inputs = inputs;
         this.close = close;
         this.dot = dot;
-        this.output = output;
+        this.type = output;
         this.expression = expression;
     }
 
@@ -49,13 +54,13 @@ export default class FunctionDefinition extends Expression {
     getChildren() {
         let children: Node[] = [];
         children = children.concat(this.docs);
-        children.push(this.fun);
+        if(this.fun) children.push(this.fun);
         if(this.typeVars) children = children.concat(this.typeVars);
-        children.push(this.open);
+        if(this.open) children.push(this.open);
         children = children.concat(this.inputs);
-        children.push(this.close);
+        if(this.close) children.push(this.close);
         if(this.dot) children.push(this.dot);
-        if(this.output) children.push(this.output);
+        if(this.type) children.push(this.type);
         children.push(this.expression);
         return children;
     }
@@ -105,7 +110,7 @@ export default class FunctionDefinition extends Expression {
         // The type is equivalent to the signature.
         const inputTypes = this.inputs.map(i => i instanceof Bind ? i.getType(program) : new UnknownType(program));
         const outputType = 
-            this.output instanceof Type ? this.output : 
+            this.type instanceof Type ? this.type : 
             this.expression instanceof Token || this.expression instanceof Unparsable ? new UnknownType(this) : 
             this.expression.getType(program);
         return new FunctionType(inputTypes, outputType);
