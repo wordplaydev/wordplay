@@ -5,11 +5,31 @@
     import type Document from "../models/Document";
     import Value from '../runtime/Value';
     import Text from '../runtime/Text';
-import Structure from '../runtime/Structure';
-import Words from '../native/Words';
+    import Structure from '../runtime/Structure';
+    import Words from '../native/Words';
+    import WordsView from './WordsView.svelte';
+    import Evaluation from '../runtime/Evaluation';
+    import Measurement from '../runtime/Measurement';
 
     export let doc: Document;
-    $: content = doc.getContent(); 
+    $: content = doc.getContent();
+
+    let view: Structure | undefined;
+    let bindings = new Map<string,Value>();
+    bindings.set("size", new Measurement(20));
+    bindings.set("font", new Text("Noto Sans"));
+    $: {
+        if(content instanceof Structure && content.type === Words)
+            view = content;
+        else if(content instanceof Text) {
+            bindings.set("text", content);
+            view = new Structure(new Evaluation(Words, Words, undefined, bindings));
+        }
+        else if(content instanceof Value) {
+            bindings.set("text", new Text(content.toString()));
+            view = new Structure(new Evaluation(Words, Words, undefined, bindings));
+        }
+    }
 
     function handleEdit(event: Event) {
         // When the document changes, create a new document with the new value and update the project,
@@ -27,12 +47,8 @@ import Words from '../native/Words';
 
 <div class="document">
     <div class="document-title">{doc.getName()}</div>
-    {#if content instanceof Text}
-        <p style="text-align: center; font-size: 20pt">{content.toString().substring(1, content.toString().length - 1)}</p>
-    {:else if content instanceof Structure && content.type === Words}
-        <p style={`text-align: center; font-size: ${content.resolve("size")}; font-family: ${content.resolve("font")}`}>{content.resolve("text")}</p>
-    {:else if content instanceof Value}
-        <p style="text-align: center; font-size: 20pt">{content.toString()}</p>
+    {#if view instanceof Structure}
+        <WordsView words={view} />
     {:else if typeof content === "string"}
         <textarea 
             on:input={handleEdit} 
