@@ -10,6 +10,7 @@ import type Evaluator from "../runtime/Evaluator";
 import type Step from "../runtime/Step";
 import JumpIfFalse from "../runtime/JumpIfFalse";
 import Jump from "../runtime/Jump";
+import type { ConflictContext } from "./Node";
 
 export default class Conditional extends Expression {
     
@@ -30,23 +31,23 @@ export default class Conditional extends Expression {
 
     getChildren() { return [ this.condition, this.conditional, this.yes, this.no ]; }
 
-    getConflicts(program: Program): Conflict[] {
+    getConflicts(context: ConflictContext): Conflict[] {
     
         const children = [];
 
-        if(!(this.condition.getType(program) instanceof BooleanType))
+        if(!(this.condition.getType(context) instanceof BooleanType))
             children.push(new ExpectedBooleanCondition(this));
 
-        if(this.yes instanceof Expression && this.no instanceof Expression && !(this.yes.getType(program).isCompatible(program, this.no.getType(program))))
+        if(this.yes instanceof Expression && this.no instanceof Expression && !(this.yes.getType(context).isCompatible(context, this.no.getType(context))))
             children.push(new IncompatibleConditionalBranches(this))
 
         return children; 
     
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         // Whatever tyoe the yes/no returns.
-        return this.yes instanceof Unparsable ? new UnknownType(this) : this.yes.getType(program);
+        return this.yes instanceof Unparsable ? new UnknownType(this) : this.yes.getType(context);
     }
 
     compile(): Step[] {

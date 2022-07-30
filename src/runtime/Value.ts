@@ -1,4 +1,4 @@
-import type { StructureDefinitionInterface } from "../native/StructureDefinitionInterface";
+import type Type from "../nodes/Type";
 
 export default abstract class Value {
 
@@ -8,7 +8,7 @@ export default abstract class Value {
     abstract toString(): string;
 
     /** Returns the Structure defining this value's interface. */
-    abstract getType(): StructureDefinitionInterface;
+    abstract getType(): Type;
 
     isEqualTo(value: Value): boolean {
         return this.toString() === value.toString();

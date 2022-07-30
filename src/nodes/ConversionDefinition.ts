@@ -16,6 +16,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Conversion from "../runtime/Conversion";
+import type { ConflictContext } from "./Node";
 
 export default class ConversionDefinition extends Expression {
 
@@ -42,7 +43,7 @@ export default class ConversionDefinition extends Expression {
         return children;
     }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
         
         const conflicts: Conflict[] = [];
     
@@ -51,15 +52,15 @@ export default class ConversionDefinition extends Expression {
             conflicts.push(new DuplicateLanguages(this.docs))
 
         // Can only appear in custom types.
-        const enclosure = program.getBindingEnclosureOf(this);
-        if(!(enclosure instanceof Block) ||  !(program.getBindingEnclosureOf(enclosure) instanceof StructureDefinition))
+        const enclosure = context.program.getBindingEnclosureOf(this);
+        if(!(enclosure instanceof Block) ||  !(context.program.getBindingEnclosureOf(enclosure) instanceof StructureDefinition))
             conflicts.push(new MisplacedConversion(this));
     
         return conflicts; 
     
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         return this.output instanceof Unparsable ? new UnknownType(this) : new ConversionType(this.output);
     }
 

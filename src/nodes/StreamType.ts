@@ -1,4 +1,5 @@
 import type Conflict from "../parser/Conflict";
+import type { ConflictContext } from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
@@ -20,10 +21,10 @@ export default class StreamType extends Type {
         return [ this.dots, this.type ];
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    isCompatible(program: Program, type: Type): boolean {
-        return type instanceof StreamType && this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(program, type.type);
+    isCompatible(context: ConflictContext, type: Type): boolean {
+        return type instanceof StreamType && this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(context, type.type);
     }
 
 }

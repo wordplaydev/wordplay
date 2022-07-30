@@ -1,7 +1,6 @@
 import type Conflict from "../parser/Conflict";
 import type Expression from "./Expression";
-import Node from "./Node";
-import type Program from "./Program";
+import Node, { type ConflictContext } from "./Node";
 import type Token from "./Token";
 import type Unparsable from "./Unparsable";
 
@@ -23,6 +22,6 @@ export default class KeyValue extends Node {
         return [ this.key, this.bind, this.value ];
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
 }

@@ -4,7 +4,7 @@ import { parse } from "../parser/Parser";
 import Evaluation from "./Evaluation";
 import Exception, { ExceptionType } from "./Exception";
 import ReactionStream from "./ReactionStream";
-import Shares from "./Shares";
+import Shares, { DEFAULT_SHARES as DEFAULT_BORROWS } from "./Shares";
 import type Stream from "./Stream";
 import Value from "./Value";
 
@@ -70,13 +70,18 @@ export default class Evaluator {
         // Start executing the program node.
         this.evaluations = [ new Evaluation(this.program, this.program) ];
 
+        // Borrow all of the implicit shares.
+        Object.keys(DEFAULT_BORROWS).forEach(name => this.borrow(name));
+
         // Stop remembering in case the last execution ended abruptly.
         this.stopRememberingStreamAccesses();
     }
 
     /** Stops listening to listeners and halts execution. */
     stop() {
-        this.shares.getStreams().forEach(stream => stream.ignore(this.react));
+        this.shares.getStreams().forEach(stream => {
+            stream.ignore(this.react);
+        });
         this.stopped = true;
     }
 

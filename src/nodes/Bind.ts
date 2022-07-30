@@ -1,5 +1,5 @@
 import Expression from "./Expression";
-import Node from "./Node";
+import Node, { type ConflictContext } from "./Node";
 import type Alias from "./Alias";
 import type Token from "./Token";
 import Type from "./Type";
@@ -61,7 +61,7 @@ export default class Bind extends Node implements Evaluable, Named {
         return children;
     }
 
-    getConflicts(program: Program): Conflict[] {
+    getConflicts(context: ConflictContext): Conflict[] {
 
         const conflicts = [];
 
@@ -71,20 +71,20 @@ export default class Bind extends Node implements Evaluable, Named {
 
         // If there's a type, the value must match.
         if(this.type instanceof Type && this.value && this.value instanceof Expression) {
-            const valueType = this.value.getType(program);
-            if(!this.type.isCompatible(program, valueType))
+            const valueType = this.value.getType(context);
+            if(!this.type.isCompatible(context, valueType))
                 conflicts.push(new IncompatibleBind(this.type, this.value));
         }
 
-        const enclosure = program.getBindingEnclosureOf(this);
+        const enclosure = context.program.getBindingEnclosureOf(this);
 
         // It can't already be defined.
-        const definitions = this.names.map(alias => enclosure?.getDefinition(program, this, alias.name.text)).filter(def => def !== undefined) as (Expression | Bind | TypeVariable)[];
+        const definitions = this.names.map(alias => enclosure?.getDefinition(context, this, alias.name.text)).filter(def => def !== undefined) as (Expression | Bind | TypeVariable)[];
         if(definitions.length > 0)
             conflicts.push(new DuplicateBinds(this, definitions));
 
         // It should be used in some expression in its parent.
-        const parent = this.getParent(program);
+        const parent = this.getParent(context.program);
         if(enclosure && !(parent instanceof Column || parent instanceof ColumnType)) {
             const uses = enclosure.nodes().filter(n => n instanceof Name && this.names.find(name => name.name.text === n.name.text) !== undefined);
             if(uses.length === 0)
@@ -95,20 +95,20 @@ export default class Bind extends Node implements Evaluable, Named {
 
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
 
         const type = 
             this.type instanceof Type ? this.type :
             this.value instanceof StructureDefinition ? new StructureType(this.value) :
-            this.value instanceof Expression ? this.value.getType(program) :
+            this.value instanceof Expression ? this.value.getType(context) :
             new UnknownType(this);
 
         // Resolve the name 
         if(type instanceof NameType) {
             // Find the name.
-            const bindOrTypeVariable = program.getBindingEnclosureOf(this)?.getDefinition(program, this, type.type.text);
+            const bindOrTypeVariable = context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, type.type.text);
             if(bindOrTypeVariable === undefined) return new UnknownType(this);
-            else if(bindOrTypeVariable instanceof Bind) return bindOrTypeVariable.getType(program);
+            else if(bindOrTypeVariable instanceof Bind) return bindOrTypeVariable.getType(context);
             else if(bindOrTypeVariable instanceof TypeVariable) return new UnknownType(this);
             else return new UnknownType(this);
         }

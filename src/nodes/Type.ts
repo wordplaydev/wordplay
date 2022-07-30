@@ -1,6 +1,5 @@
 import type ConversionDefinition from "./ConversionDefinition";
-import Node from "./Node";
-import type Program from "./Program";
+import Node, { type ConflictContext } from "./Node";
 
 export default abstract class Type extends Node {
 
@@ -8,8 +7,8 @@ export default abstract class Type extends Node {
         super();
     }
 
-    abstract isCompatible(program: Program, type: Type): boolean;
+    abstract isCompatible(context: ConflictContext, type: Type): boolean;
 
-    getConversion(program: Program, type: Type): ConversionDefinition | undefined { return undefined; }
+    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined { return undefined; }
 
 }

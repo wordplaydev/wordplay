@@ -1,10 +1,10 @@
 import Conflict, { UnknownTypeName } from "../parser/Conflict";
 import StructureType from "./StructureType";
-import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
+import type { ConflictContext } from "./Node";
 
 export default class NameType extends Type {
 
@@ -20,11 +20,11 @@ export default class NameType extends Type {
         return [ this.type ];
     }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
         
         const conflicts = [];
 
-        const type = this.getType(program);
+        const type = this.getType(context);
         // The name should be a custom type.
         if(!(type instanceof StructureType))
             conflicts.push(new UnknownTypeName(this));
@@ -33,18 +33,18 @@ export default class NameType extends Type {
     
     }
 
-    isCompatible(program: Program, type: Type): boolean {    
-        const thisType = this.getType(program);
+    isCompatible(context: ConflictContext, type: Type): boolean {    
+        const thisType = this.getType(context);
         return thisType instanceof StructureType && thisType.type === type;
     } 
 
-    getType(program: Program): Type | undefined {
+    getType(context: ConflictContext): Type | undefined {
 
         // The name should be defined.
-        const definition = program.getBindingEnclosureOf(this)?.getDefinition(program, this, this.type.text);
+        const definition = context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, this.type.text);
         if(definition === undefined) return undefined;
         else if(definition instanceof TypeVariable) return new UnknownType(this);
-        else return definition.getType(program);
+        else return definition.getType(context);
 
     }
     

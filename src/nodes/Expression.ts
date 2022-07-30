@@ -1,8 +1,7 @@
-import Node from "./Node";
+import Node, { type ConflictContext } from "./Node";
 import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "src/runtime/Value";
-import type Program from "./Program";
 import type Type from "./Type";
 import type Step from "src/runtime/Step";
 
@@ -13,7 +12,7 @@ export default abstract class Expression extends Node implements Evaluable {
     }
 
     abstract getChildren(): Node[];
-    abstract getType(program: Program): Type;
+    abstract getType(context: ConflictContext): Type;
     abstract compile(): Step[];
     abstract evaluate(evaluator: Evaluator): Value | undefined;
 

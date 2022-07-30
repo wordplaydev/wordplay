@@ -15,6 +15,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
+import type { ConflictContext } from "./Node";
 
 export default class SetOrMapAccess extends Expression {
 
@@ -36,24 +37,24 @@ export default class SetOrMapAccess extends Expression {
         return [ this.setOrMap, this.open, this.key, this.close ];
     }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
     
         if(this.setOrMap instanceof Unparsable || this.key instanceof Unparsable) return [];
 
-        const setMapType = this.setOrMap.getType(program);
-        const keyType = this.key.getType(program);
+        const setMapType = this.setOrMap.getType(context);
+        const keyType = this.key.getType(context);
 
-        if(setMapType instanceof SetOrMapType && setMapType.key instanceof Type && !setMapType.key.isCompatible(program, keyType))
+        if(setMapType instanceof SetOrMapType && setMapType.key instanceof Type && !setMapType.key.isCompatible(context, keyType))
             return [ new IncompatibleKey(this) ];
 
         return [];
     
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         // Either a set or map type, and if so, the key or value's type.
         if(this.setOrMap instanceof Unparsable) return new UnknownType(this);
-        const setOrMapType = this.setOrMap.getType(program);
+        const setOrMapType = this.setOrMap.getType(context);
         if(!(setOrMapType instanceof SetOrMapType)) return new UnknownType(this);
         if(setOrMapType.value !== undefined && setOrMapType.value instanceof Type) return setOrMapType.value;
         if(setOrMapType.key instanceof Type) return setOrMapType.key;

@@ -1,4 +1,5 @@
 import type Conflict from "../parser/Conflict";
+import type { ConflictContext } from "./Node";
 import type Program from "./Program";
 import Type from "./Type";
 
@@ -13,10 +14,10 @@ export default class ConversionType extends Type {
 
     getChildren() { return [ this.output ]; }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    isCompatible(program: Program, type: Type): boolean {
-        return type instanceof ConversionType && type.output.isCompatible(program, this.output);
+    isCompatible(context: ConflictContext, type: Type): boolean {
+        return type instanceof ConversionType && type.output.isCompatible(context, this.output);
     }
 
 }

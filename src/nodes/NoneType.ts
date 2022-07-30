@@ -1,5 +1,6 @@
 import type Conflict from "../parser/Conflict";
 import type ConversionDefinition from "./ConversionDefinition";
+import type { ConflictContext } from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
@@ -20,16 +21,16 @@ export default class NoneType extends Type {
         return this.name ? [ this.none, this.name ] : [ this.none ];
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    isCompatible(program: Program, type: Type): boolean { 
+    isCompatible(context: ConflictContext, type: Type): boolean { 
         return type instanceof NoneType && (
             (this.name === undefined && type.name === undefined ) || 
             (this.name !== undefined && type.name !== undefined && this.name.text === type.name.text)
         );
     }
 
-    getConversion(program: Program, type: Type): ConversionDefinition | undefined {
+    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
         // TODO Define conversions from booleans to other types
         // TODO Look for custom conversions that extend the Boolean type
         return undefined;

@@ -15,6 +15,7 @@ import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
+import type { ConflictContext, Definition } from "./Node";
 
 export default class Delete extends Expression {
     
@@ -35,39 +36,39 @@ export default class Delete extends Expression {
 
     getChildren() { return [ this.table, this.del, this.query ]; }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
 
         const conflicts: Conflict[] = [];
         
-        const tableType = this.table.getType(program);
+        const tableType = this.table.getType(context);
 
         // Table must be table typed.
         if(!(tableType instanceof TableType))
             conflicts.push(new NotATable(this));
 
         // The query must be truthy.
-        if(this.query instanceof Expression && !(this.query.getType(program) instanceof BooleanType))
+        if(this.query instanceof Expression && !(this.query.getType(context) instanceof BooleanType))
             conflicts.push(new NonBooleanQuery(this))
 
         return conflicts; 
         
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         // The type is identical to the table's type.
-        return this.table.getType(program);
+        return this.table.getType(context);
     }
 
     // Check the table's column binds.
-    getDefinition(program: Program, node: Node, name: string): Expression | TypeVariable | Bind | undefined {
+    getDefinition(context: ConflictContext, node: Node, name: string): Definition {
         
-        const type = this.table.getType(program);
+        const type = this.table.getType(context);
         if(type instanceof TableType) {
             const column = type.getColumnNamed(name);
             if(column !== undefined && column.bind instanceof Bind) return column.bind;
         }
 
-        return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
+        return context.program.getBindingEnclosureOf(this)?.getDefinition(context, node, name);
 
     }
 

@@ -1,5 +1,6 @@
 import type Conflict from "../parser/Conflict";
 import type ConversionDefinition from "./ConversionDefinition";
+import type { ConflictContext } from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
@@ -27,13 +28,13 @@ export default class ListType extends Type {
         return children;    
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    isCompatible(program: Program, type: Type): boolean {
-        return type instanceof ListType && this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(program, type.type);
+    isCompatible(context: ConflictContext, type: Type): boolean {
+        return type instanceof ListType && this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(context, type.type);
     }
 
-    getConversion(program: Program, type: Type): ConversionDefinition | undefined {
+    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
         // TODO Define conversions from booleans to other types
         // TODO Look for custom conversions that extend the Boolean type
         return undefined;

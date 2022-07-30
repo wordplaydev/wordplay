@@ -1,8 +1,7 @@
 import type Bind from "../nodes/Bind";
 import type Conflict from "../parser/Conflict";
 import type Expression from "./Expression";
-import Node from "./Node";
-import type Program from "./Program";
+import Node, { type ConflictContext } from "./Node";
 import type Token from "./Token";
 import type Unparsable from "./Unparsable";
 
@@ -22,6 +21,6 @@ export default class Cell extends Node {
         return [ this.cell, this.expression ];
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
 }

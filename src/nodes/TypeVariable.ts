@@ -1,6 +1,5 @@
 import type Conflict from "../parser/Conflict";
-import Node from "./Node";
-import type Program from "./Program";
+import Node, { type ConflictContext } from "./Node";
 import type Token from "./Token";
 
 export default class TypeVariable extends Node {
@@ -19,6 +18,6 @@ export default class TypeVariable extends Node {
         return [ this.type, this.name ];
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
 }

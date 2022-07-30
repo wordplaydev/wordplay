@@ -18,6 +18,7 @@ import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
 import Structure from "../runtime/Structure";
+import type { ConflictContext, Definition } from "./Node";
 
 export default class Block extends Expression {
 
@@ -45,7 +46,7 @@ export default class Block extends Expression {
         return [ ...this.docs, ...(this.open ? [ this.open ] : []), ...this.statements, ...(this.close ? [ this.close ] : [])];
     }
 
-    getConflicts(program: Program): Conflict[] {
+    getConflicts(context: ConflictContext): Conflict[] {
 
         const conflicts = [];
 
@@ -74,7 +75,7 @@ export default class Block extends Expression {
     }
 
     /** Given the index in this block and the given name, binds the bind that declares it, if there is one. */
-    getDefinition(program: Program, node: Node, name: string): Bind | TypeVariable | Expression | undefined {
+    getDefinition(context: ConflictContext, node: Node, name: string): Definition {
 
         const containingStatement = this.statements.find(s => s.contains(node));
         if(containingStatement === undefined) return;
@@ -89,14 +90,14 @@ export default class Block extends Expression {
         if(localBind !== undefined) return localBind;
 
         // Is there an enclosing function or block?
-        return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
+        return context.program.getBindingEnclosureOf(this)?.getDefinition(context, node, name);
         
     }
  
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         // The type of the last expression.
         const lastExpression = this.statements.slice().reverse().find(s => s instanceof Expression) as Expression | undefined;
-        return lastExpression === undefined ? new UnknownType(this) : lastExpression.getType(program);
+        return lastExpression === undefined ? new UnknownType(this) : lastExpression.getType(context);
     }
 
     compile(): Step[] {

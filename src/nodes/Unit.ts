@@ -1,4 +1,5 @@
 import type Conflict from "../parser/Conflict";
+import type { ConflictContext } from "./Node";
 import type Node from "./Node";
 import type Program from "./Program";
 import Token, { TokenType } from "./Token";
@@ -45,9 +46,9 @@ export default class Unit extends Type {
 
     getChildren(): Node[] { return this.tokens === undefined ? [] : this.tokens.slice(); }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    isCompatible(program: Program, unit: Unit): boolean {
+    isCompatible(context: ConflictContext, unit: Unit): boolean {
         return this.numerator.join("·") === unit.numerator.join("·") && 
                this.denominator.join("·") === unit.denominator.join("·");
     }

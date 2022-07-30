@@ -5,7 +5,6 @@ import type Value from "../runtime/Value";
 import type Conflict from "../parser/Conflict";
 import Expression from "./Expression";
 import MeasurementType from "./MeasurementType";
-import type Node from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
 import type Type from "./Type";
@@ -13,6 +12,7 @@ import Unit from "./Unit";
 import Unparsable from "./Unparsable";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import type { ConflictContext } from "./Node";
 
 export default class MeasurementLiteral extends Expression {
     
@@ -29,9 +29,9 @@ export default class MeasurementLiteral extends Expression {
 
     getChildren() { return this.unit === undefined ? [ this.number ] : [ this.number, this.unit ]; }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         return new MeasurementType(undefined, this.unit instanceof Unparsable ? undefined : this.unit);
     }
 

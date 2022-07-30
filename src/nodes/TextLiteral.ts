@@ -1,6 +1,5 @@
 import type Conflict from "../parser/Conflict";
 import Expression from "./Expression";
-import type Node from "./Node";
 import type Program from "./Program";
 import TextType from "./TextType";
 import type Token from "./Token";
@@ -10,6 +9,7 @@ import type Value from "../runtime/Value";
 import Text from "../runtime/Text";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import type { ConflictContext } from "./Node";
 
 export default class TextLiteral extends Expression {
     
@@ -24,9 +24,9 @@ export default class TextLiteral extends Expression {
 
     getChildren() { return this.format !== undefined ? [ this.text, this.format ] : [ this.text ]; }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         return new TextType(undefined, this.format);
     }
 

@@ -13,6 +13,7 @@ import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
 import Structure from "../runtime/Structure";
 import Evaluation from "../runtime/Evaluation";
+import type { ConflictContext } from "./Node";
 
 export default class Convert extends Expression {
     
@@ -30,18 +31,18 @@ export default class Convert extends Expression {
 
     getChildren() { return [ this.expression, this.type ]; }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
         
         // The expression's type must have a conversion.
-        const exprType = this.expression.getType(program);
-        if(this.type instanceof Type && exprType.getConversion(program, this.type) === undefined)
+        const exprType = this.expression.getType(context);
+        if(this.type instanceof Type && exprType.getConversion(context, this.type) === undefined)
             return [ new UnknownConversion(this, this.type) ];
         
         return []; 
     
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         // Whatever this converts to.
         return this.type instanceof Type ? this.type : new UnknownType(this);
     }

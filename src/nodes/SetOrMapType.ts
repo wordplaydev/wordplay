@@ -1,5 +1,6 @@
 import type Conflict from "../parser/Conflict";
 import type ConversionDefinition from "./ConversionDefinition";
+import type { ConflictContext } from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
@@ -35,20 +36,20 @@ export default class SetOrMapType extends Type {
         return children;
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    isCompatible(program: Program, type: Type): boolean { 
+    isCompatible(context: ConflictContext, type: Type): boolean { 
         return  type instanceof SetOrMapType &&
                 this.key instanceof Type &&
                 type.key instanceof Type &&
-                this.key.isCompatible(program, type.key) &&
+                this.key.isCompatible(context, type.key) &&
                 (
                     (this.value === undefined && type.value === undefined) ||
-                    (this.value !== undefined && type.value !== undefined && this.value instanceof Type && type.value instanceof Type && this.value.isCompatible(program, type.value))
+                    (this.value !== undefined && type.value !== undefined && this.value instanceof Type && type.value instanceof Type && this.value.isCompatible(context, type.value))
                 ); 
     }
 
-    getConversion(program: Program, type: Type): ConversionDefinition | undefined {
+    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
         // TODO Define conversions from booleans to other types
         // TODO Look for custom conversions that extend the Boolean type
         return undefined;

@@ -1,4 +1,4 @@
-import Node from "./Node";
+import Node, { type ConflictContext } from "./Node";
 import type Bind from "../nodes/Bind";
 import type Token from "./Token";
 import Unparsable from "./Unparsable";
@@ -22,8 +22,8 @@ export default class Column extends Node {
         return [ this.bar, this.bind ];
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    getType(program: Program) { return this.bind instanceof Unparsable ? new UnknownType(this) : this.bind.getType(program); }
+    getType(context: ConflictContext) { return this.bind instanceof Unparsable ? new UnknownType(this) : this.bind.getType(context); }
 
 }

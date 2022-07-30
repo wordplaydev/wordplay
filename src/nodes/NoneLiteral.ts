@@ -4,12 +4,12 @@ import type Program from "./Program";
 import type Conflict from "../parser/Conflict";
 import NoneType from "./NoneType";
 import type Type from "./Type";
-import type Node from "./Node";
 import None from "../runtime/None";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
+import type { ConflictContext } from "./Node";
 
 export default class NoneLiteral extends Expression {
     readonly none: Token;
@@ -24,9 +24,9 @@ export default class NoneLiteral extends Expression {
 
     getChildren() { return this.name ? [ this.none, this.name ] : [ this.none ]; }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         // Always of type none, with the optional name.
         return new NoneType(this.none, this.name);
     }

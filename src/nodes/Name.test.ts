@@ -1,6 +1,4 @@
-import { parse } from "../parser/Parser";
 import { testConflict, UnexpectedTypeVariable, UnknownName } from "../parser/Conflict";
-import BinaryOperation from "./BinaryOperation";
 import Name from "./Name";
 
 test("Test name conflicts", () => {

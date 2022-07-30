@@ -1,7 +1,6 @@
 import type Token from "./Token";
 import Expression from "./Expression";
 import type Row from "./Row";
-import type Program from "./Program";
 import Conflict, { ExpectedSelectName, NonBooleanQuery, NotATable, UnknownColumn } from "../parser/Conflict";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
@@ -19,6 +18,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
+import type { ConflictContext, Definition } from "./Node";
 
 export default class Select extends Expression {
     
@@ -41,11 +41,11 @@ export default class Select extends Expression {
     
     getChildren() { return [ this.table, this.select, this.row, this.query ]; }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
         
         const conflicts: Conflict[] = [];
 
-        const tableType = this.table.getType(program);
+        const tableType = this.table.getType(context);
 
         // Table must be table typed.
         if(!(tableType instanceof TableType))
@@ -67,17 +67,17 @@ export default class Select extends Expression {
         }
 
         // The query must be truthy.
-        if(this.query instanceof Expression && !(this.query.getType(program) instanceof BooleanType))
+        if(this.query instanceof Expression && !(this.query.getType(context) instanceof BooleanType))
             conflicts.push(new NonBooleanQuery(this))
     
         return conflicts;
     
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
 
         // Get the table type and find the rows corresponding the selected columns.
-        const tableType = this.table.getType(program);
+        const tableType = this.table.getType(context);
         if(!(tableType instanceof TableType)) return new UnknownType(this);
 
         // For each cell in the select row, find the corresponding column type in the table type.
@@ -93,15 +93,15 @@ export default class Select extends Expression {
     }
 
     // Check the table's column binds.
-    getDefinition(program: Program, node: Node, name: string): Expression | TypeVariable | Bind | undefined {
+    getDefinition(context: ConflictContext, node: Node, name: string): Definition {
         
-        const type = this.table.getType(program);
+        const type = this.table.getType(context);
         if(type instanceof TableType) {
             const column = type.getColumnNamed(name);
             if(column !== undefined && column.bind instanceof Bind) return column.bind;
         }
 
-        return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
+        return context.program.getBindingEnclosureOf(this)?.getDefinition(context, node, name);
 
     }
 

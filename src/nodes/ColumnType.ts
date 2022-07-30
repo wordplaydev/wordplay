@@ -4,6 +4,7 @@ import type Token from "./Token";
 import type Unparsable from "./Unparsable";
 import Bind from "../nodes/Bind";
 import Type from "./Type";
+import type { ConflictContext } from "./Node";
 
 export default class ColumnType extends Type {
 
@@ -21,10 +22,10 @@ export default class ColumnType extends Type {
         return this.bar === undefined ? [ this.bind ] : [ this.bar, this.bind ];
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    isCompatible(program: Program, type: Type): boolean {
-        return type instanceof ColumnType && type.bind instanceof Bind && this.bind instanceof Bind && this.bind.getType(program).isCompatible(program, type.bind.getType(program));
+    isCompatible(context: ConflictContext, type: Type): boolean {
+        return type instanceof ColumnType && type.bind instanceof Bind && this.bind instanceof Bind && this.bind.getType(context).isCompatible(context, type.bind.getType(context));
     }
 
 }

@@ -5,7 +5,6 @@ import type Token from "./Token";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
 import type Docs from "./Docs";
-import type Program from "./Program";
 import Conflict, { DuplicateLanguages, DuplicateInputNames, DuplicateTypeVariables, RequiredAfterOptional } from "../parser/Conflict";
 import Type from "./Type";
 import Block from "./Block";
@@ -17,7 +16,8 @@ import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
-import type { StructureDefinitionInterface } from "../native/StructureDefinitionInterface";
+import type StructureDefinitionInterface from "../native/StructureDefinitionInterface";
+import type { ConflictContext, Definition } from "./Node";
 
 export default class StructureDefinition extends Expression implements StructureDefinitionInterface {
 
@@ -46,7 +46,9 @@ export default class StructureDefinition extends Expression implements Structure
 
     isBindingEnclosure() { return true; }
 
-    isInterface() {
+    getInputs() { return this.inputs.filter(i => i instanceof Bind) as Bind[]; }
+
+    isInterface(): boolean {
         if(this.block instanceof Unparsable) return false;
         const binds = this.block.statements.filter(s => s instanceof Bind) as Bind[];
         return !binds.every(b => !(b.value instanceof FunctionDefinition) || b.value.expression instanceof Expression);
@@ -62,7 +64,7 @@ export default class StructureDefinition extends Expression implements Structure
         return children;
     }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
         
         const conflicts: Conflict[] = [];
     
@@ -89,7 +91,7 @@ export default class StructureDefinition extends Expression implements Structure
     }
 
     /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
-    getDefinition(program: Program, node: Node, name: string): Bind | TypeVariable | Expression | undefined {
+    getDefinition(context: ConflictContext, node: Node, name: string): Definition {
 
         // Does an input delare the name?
         const input = this.getBind(name);
@@ -100,15 +102,15 @@ export default class StructureDefinition extends Expression implements Structure
         if(typeVar !== undefined) return typeVar;
 
         // If not, does the function nearest function or block declare the name?
-        return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
+        return context.program.getBindingEnclosureOf(this)?.getDefinition(context, node, name);
 
     }
 
-    getConversion(program: Program, type: Type): ConversionDefinition | undefined {
+    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
 
         // Find the conversion in this type's block that produces a compatible type. 
         return this.block instanceof Block ? 
-            this.block.statements.find(s => s instanceof ConversionDefinition && s.output instanceof Type && s.output.isCompatible(program, type)) as ConversionDefinition | undefined :
+            this.block.statements.find(s => s instanceof ConversionDefinition && s.output instanceof Type && s.output.isCompatible(context, type)) as ConversionDefinition | undefined :
             undefined;
         
     }
@@ -117,9 +119,9 @@ export default class StructureDefinition extends Expression implements Structure
         return this.inputs.find(i => i instanceof Bind && i.names.find(n => n.name.text === name)) as Bind | undefined;
     }
 
-    getType(program: Program): Type { return this; }
+    getType(context: ConflictContext): Type { return this; }
 
-    isCompatible(program: Program, type: Type): boolean { return type === this; }
+    isCompatible(context: ConflictContext, type: Type): boolean { return type === this; }
 
     compile(): Step[] {
         return [ new Finish(this) ];

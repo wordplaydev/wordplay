@@ -15,6 +15,7 @@ import Table from "../runtime/Table";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
+import type { ConflictContext, Definition } from "./Node";
 
 export default class Insert extends Expression {
     
@@ -35,11 +36,11 @@ export default class Insert extends Expression {
 
     getChildren() { return [ this.table, this.insert, this.row ]; }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
      
         const conflicts = [];
 
-        const tableType = this.table.getType(program);
+        const tableType = this.table.getType(context);
 
         // Table must be table typed.
         if(!(tableType instanceof TableType))
@@ -53,7 +54,7 @@ export default class Insert extends Expression {
                 const expr = cell.expression;
                 if(expr instanceof Expression && index < tableType.columns.length) {
                     const columnBind = tableType.columns[index].bind;
-                    if(columnBind instanceof Bind && !expr.getType(program).isCompatible(program, columnBind.getType(program)))
+                    if(columnBind instanceof Bind && !expr.getType(context).isCompatible(context, columnBind.getType(context)))
                         conflicts.push(new IncompatibleCellType(tableType, cell));
                 }
             });
@@ -63,21 +64,21 @@ export default class Insert extends Expression {
     
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         // The type is identical to the table's type.
-        return this.table.getType(program);
+        return this.table.getType(context);
     }
 
     // Check the table's column binds.
-    getDefinition(program: Program, node: Node, name: string): Expression | TypeVariable | Bind | undefined {
+    getDefinition(context: ConflictContext, node: Node, name: string): Definition {
     
-        const type = this.table.getType(program);
+        const type = this.table.getType(context);
         if(type instanceof TableType) {
             const column = type.getColumnNamed(name);
             if(column !== undefined && column.bind instanceof Bind) return column.bind;
         }
 
-        return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
+        return context.program.getBindingEnclosureOf(this)?.getDefinition(context, node, name);
 
     }
 

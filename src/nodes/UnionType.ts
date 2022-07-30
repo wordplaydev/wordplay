@@ -1,4 +1,5 @@
 import type Conflict from "../parser/Conflict";
+import type { ConflictContext } from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
@@ -22,10 +23,10 @@ export default class UnionType extends Type {
         return [ this.left, this.or, this.right ];
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    isCompatible(program: Program, type: Type): boolean {
-        return this.left.isCompatible(program, type) || (this.right instanceof Type && this.right.isCompatible(program, type));
+    isCompatible(context: ConflictContext, type: Type): boolean {
+        return this.left.isCompatible(context, type) || (this.right instanceof Type && this.right.isCompatible(context, type));
 
     }
 }

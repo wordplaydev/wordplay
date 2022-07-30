@@ -10,7 +10,7 @@
     import VerseView from './VerseView.svelte';
     import Measurement from '../runtime/Measurement';
     import Verse from '../native/Verse';
-    import Group from '../native/Paragraph';
+    import Group from '../native/Group';
     import TextStructureType from '../native/TextStructureType';
 import List from '../runtime/List';
 

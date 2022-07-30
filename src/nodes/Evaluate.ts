@@ -4,7 +4,6 @@ import StructureDefinition from "./StructureDefinition";
 import StructureType from "./StructureType";
 import Expression from "./Expression";
 import FunctionType from "./FunctionType";
-import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
 import type TypeVariable from "./TypeVariable";
@@ -19,6 +18,7 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
+import type { ConflictContext } from "./Node";
 
 export default class Evaluate extends Expression {
 
@@ -42,12 +42,12 @@ export default class Evaluate extends Expression {
         return [ ...this.typeVars, this.func, this.open, ...this.inputs, this.close ];
     }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
     
         const conflicts = [];
 
         if(this.func instanceof Expression) {
-            const functionType = this.func.getType(program);
+            const functionType = this.func.getType(context);
 
             // The function must be a function.
             if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
@@ -66,8 +66,8 @@ export default class Evaluate extends Expression {
                         conflicts.push(new NotInstantiable(this));
 
                     // Inputs of function or type must match this evaluations inputs.
-                    const types = functionType.type.inputs.filter(t => t instanceof Bind).map(b => (b as Bind).getType(program));
-                    if(types.length === functionType.type.inputs.length)
+                    const types = functionType.type.getInputs().filter(t => t instanceof Bind).map(b => (b as Bind).getType(context));
+                    if(types.length === functionType.type.getInputs().length)
                         targetInputs = types;
                 }
 
@@ -75,7 +75,7 @@ export default class Evaluate extends Expression {
                 if(targetInputs !== undefined && this.inputs.filter(i => i instanceof Expression).length === this.inputs.length) {
                     // Check the type of every input provided. Ignore the optional inputs, since they have defaults.
                     if(!this.inputs.every((expression, index) =>
-                        targetInputs !== undefined && (expression as Expression).getType(program).isCompatible(program, targetInputs[index])))
+                        targetInputs !== undefined && (expression as Expression).getType(context).isCompatible(context, targetInputs[index])))
                         conflicts.push(new IncompatibleInputs(functionType, this));
                 }
             }
@@ -85,9 +85,9 @@ export default class Evaluate extends Expression {
     
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         if(this.func instanceof Unparsable) return new UnknownType(this);
-        const funcType = this.func.getType(program);
+        const funcType = this.func.getType(context);
         if(funcType instanceof FunctionType && funcType.output instanceof Type) return funcType.output;
         if(funcType instanceof StructureType) return funcType.type;
         if(funcType instanceof StructureDefinition) return funcType;

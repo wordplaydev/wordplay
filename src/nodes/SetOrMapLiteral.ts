@@ -1,6 +1,5 @@
 import Expression from "./Expression";
 import KeyValue from "./KeyValue";
-import type Node from "./Node";
 import type Program from "./Program";
 import SetOrMapType from "./SetOrMapType";
 import type Token from "./Token";
@@ -18,6 +17,7 @@ import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
+import type { ConflictContext } from "./Node";
 
 enum SetKind { Set, Map, Neither };
 
@@ -49,7 +49,7 @@ export default class SetOrMapLiteral extends Expression {
         return [ this.open, ...this.values, this.close, ... (this.bind ? [ this.bind ] : []) ];
     }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
         
         // Must all be expressions or all key/values
         if(this.kind === SetKind.Neither)
@@ -57,8 +57,8 @@ export default class SetOrMapLiteral extends Expression {
 
         // If all expressions. they must all be of the same type.
         if(this.kind === SetKind.Set) {
-            const types = (this.values.filter(v => v instanceof Expression) as Expression[]).map(e => e.getType(program));
-            if(types.length > 1 && !types.every(t => t.isCompatible(program, types[0])))
+            const types = (this.values.filter(v => v instanceof Expression) as Expression[]).map(e => e.getType(context));
+            if(types.length > 1 && !types.every(t => t.isCompatible(context, types[0])))
                 return [ new IncompatibleValues(this) ]
         }
         else if(this.kind === SetKind.Map) {
@@ -67,15 +67,15 @@ export default class SetOrMapLiteral extends Expression {
                 ((this.values.filter(v => v instanceof KeyValue) as KeyValue[])
                 .map(k => k.key)
                 .filter(k => k instanceof Expression) as Expression[])
-                .map(k => k.getType(program));
-            if(keyTypes.length > 1 && !keyTypes.every(t => t.isCompatible(program, keyTypes[0])))
+                .map(k => k.getType(context));
+            if(keyTypes.length > 1 && !keyTypes.every(t => t.isCompatible(context, keyTypes[0])))
                 conflicts.push(new IncompatibleValues(this));
             const valueTypes = 
                 ((this.values.filter(v => v instanceof KeyValue) as KeyValue[])
                 .map(v => v.value)
                 .filter(v => v instanceof Expression) as Expression[])
-                .map(v => v.getType(program));
-            if(valueTypes.length > 1 && !valueTypes.every(t => t.isCompatible(program, valueTypes[0])))
+                .map(v => v.getType(context));
+            if(valueTypes.length > 1 && !valueTypes.every(t => t.isCompatible(context, valueTypes[0])))
                 conflicts.push(new IncompatibleValues(this));
             return conflicts;
         }
@@ -85,7 +85,7 @@ export default class SetOrMapLiteral extends Expression {
 
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         const values = this.values.filter(v => !(v instanceof Unparsable)) as (Expression|KeyValue)[];
         if(values.length === 0) return new UnknownType(this);
 
@@ -93,8 +93,8 @@ export default class SetOrMapLiteral extends Expression {
         if(firstValue instanceof KeyValue) 
             return firstValue.key instanceof Unparsable || firstValue.value instanceof Unparsable ? 
                 new UnknownType(this) : 
-                new SetOrMapType(firstValue.key.getType(program), firstValue.value.getType(program));
-        else if(firstValue instanceof Expression) return new SetOrMapType(firstValue.getType(program));
+                new SetOrMapType(firstValue.key.getType(context), firstValue.value.getType(context));
+        else if(firstValue instanceof Expression) return new SetOrMapType(firstValue.getType(context));
         else return new UnknownType(this);
     }
 

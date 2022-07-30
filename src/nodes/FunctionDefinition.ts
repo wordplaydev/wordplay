@@ -16,6 +16,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import FunctionValue from "../runtime/FunctionValue";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import type { ConflictContext, Definition } from "./Node";
 
 export default class FunctionDefinition extends Expression {
 
@@ -65,7 +66,7 @@ export default class FunctionDefinition extends Expression {
         return children;
     }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
 
         const conflicts: Conflict[] = [];
     
@@ -91,7 +92,7 @@ export default class FunctionDefinition extends Expression {
     }
 
     /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
-    getDefinition(program: Program, node: Node, name: string): Bind | TypeVariable | Expression | undefined {
+    getDefinition(context: ConflictContext, node: Node, name: string): Definition {
 
         // Does an input delare the name?
         const input = this.inputs.find(i => i instanceof Bind && i.names.find(n => n.name.text === name)) as Bind | undefined;
@@ -102,17 +103,17 @@ export default class FunctionDefinition extends Expression {
         if(typeVar !== undefined) return typeVar;
 
         // If not, does the function nearest function or block declare the name?
-        return program.getBindingEnclosureOf(this)?.getDefinition(program, node, name);
+        return context.program.getBindingEnclosureOf(this)?.getDefinition(context, node, name);
 
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         // The type is equivalent to the signature.
-        const inputTypes = this.inputs.map(i => i instanceof Bind ? i.getType(program) : new UnknownType(program));
+        const inputTypes = this.inputs.map(i => i instanceof Bind ? i.getType(context) : new UnknownType(context.program));
         const outputType = 
             this.type instanceof Type ? this.type : 
             this.expression instanceof Token || this.expression instanceof Unparsable ? new UnknownType(this) : 
-            this.expression.getType(program);
+            this.expression.getType(context);
         return new FunctionType(inputTypes, outputType);
     }
 

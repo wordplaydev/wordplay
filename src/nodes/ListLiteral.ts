@@ -1,7 +1,6 @@
 import Conflict, { IncompatibleValues } from "../parser/Conflict";
 import Expression from "./Expression";
 import ListType from "./ListType";
-import type Node from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
 import type Type from "./Type";
@@ -13,6 +12,7 @@ import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
+import type { ConflictContext } from "./Node";
 
 export default class ListLiteral extends Expression {
 
@@ -32,22 +32,22 @@ export default class ListLiteral extends Expression {
         return [ this.open, ...this.values, this.close ];
     }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
 
         // The list values have to all be of compatible types.
-        const types = (this.values.filter(v => v instanceof Expression) as Expression[]).map(e => e.getType(program));
-        if(types.length > 1 && !types.every(t => t.isCompatible(program, types[0])))
+        const types = (this.values.filter(v => v instanceof Expression) as Expression[]).map(e => e.getType(context));
+        if(types.length > 1 && !types.every(t => t.isCompatible(context, types[0])))
             return [ new IncompatibleValues(this) ]
 
         return []; 
     
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         const expressions = this.values.filter(e => e instanceof Expression) as Expression[];
         if(expressions.length === 0) return new UnknownType(this);
         const firstValue = expressions[0];
-        return new ListType(firstValue.getType(program));
+        return new ListType(firstValue.getType(context));
     }
 
     compile(): Step[] {

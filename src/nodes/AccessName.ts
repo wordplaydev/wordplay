@@ -13,6 +13,7 @@ import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import Structure from "../runtime/Structure";
 import Stream from "../runtime/Stream";
+import type { ConflictContext } from "./Node";
 
 export default class AccessName extends Expression {
 
@@ -32,31 +33,31 @@ export default class AccessName extends Expression {
         return [ this.subject, this.access, this.name ];
     }
 
-    getConflicts(program: Program): Conflict[] {
+    getConflicts(context: ConflictContext): Conflict[] {
 
         const conflicts = [];
 
-        const subjectType = this.getSubjectType(program);
+        const subjectType = this.getSubjectType(context);
         if(subjectType === undefined || subjectType.getBind(this.name.text) === undefined)
             conflicts.push(new UnknownProperty(this));
 
         return conflicts;
     }
 
-    getSubjectType(program: Program): StructureDefinition | undefined {
+    getSubjectType(context: ConflictContext): StructureDefinition | undefined {
 
         if(this.subject instanceof Unparsable) return;
-        const subjectType = this.subject.getType(program);
+        const subjectType = this.subject.getType(context);
         if(subjectType instanceof StructureDefinition) return subjectType;
 
     }
 
-    getType(program: Program): Type {
-        const subjectType = this.getSubjectType(program);
+    getType(context: ConflictContext): Type {
+        const subjectType = this.getSubjectType(context);
         if(subjectType === undefined) return new UnknownType(this);
         const bind = subjectType.getBind(this.name.text);
         if(bind === undefined) return new UnknownType(this);
-        else return bind.getType(program);
+        else return bind.getType(context);
     }
 
     compile(): Step[] {

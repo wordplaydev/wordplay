@@ -1,6 +1,5 @@
 import Conflict, { UnknownBorrow } from "../parser/Conflict";
-import Node from "./Node";
-import type Program from "./Program";
+import Node, { type ConflictContext } from "./Node";
 import type Token from "./Token";
 import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
@@ -27,11 +26,11 @@ export default class Borrow extends Node implements Evaluable {
 
     getChildren() { return this.version === undefined ? [ this.borrow, this.name ] : [ this.borrow, this.name, this.version ]}
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
     
         const conflicts = [];
 
-        const type = program.getDefinition(program, this, this.name.text);
+        const type = context.program.getDefinition(context, this, this.name.text);
         if(type === undefined)
             conflicts.push(new UnknownBorrow(this));
 

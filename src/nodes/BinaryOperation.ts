@@ -18,6 +18,7 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type Value from "../runtime/Value";
+import type { ConflictContext } from "./Node";
 
 export default class BinaryOperation extends Expression {
 
@@ -37,12 +38,12 @@ export default class BinaryOperation extends Expression {
         return [ this.left, this.operator, this.right ];
     }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
 
         const conflicts = [];
 
-        const leftType = this.left instanceof Expression ? this.left.getType(program) : undefined;
-        const rightType = this.right instanceof Expression ? this.right.getType(program) : undefined;
+        const leftType = this.left instanceof Expression ? this.left.getType(context) : undefined;
+        const rightType = this.right instanceof Expression ? this.right.getType(context) : undefined;
 
         const operators = new Set(this.nodes().filter(n => n instanceof Token && n.is(TokenType.BINARY_OP)).map(n => (n as Token).text));
         if(operators.size > 1)
@@ -72,7 +73,7 @@ export default class BinaryOperation extends Expression {
                 if(this.left instanceof Expression && !(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.left, this.operator, new MeasurementType()));
                 if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.right, this.operator, new MeasurementType()));
                 // Both operands must have compatible types.
-                if(leftType !== undefined && rightType !== undefined && !leftType.isCompatible(program, rightType))
+                if(leftType !== undefined && rightType !== undefined && !leftType.isCompatible(context, rightType))
                     conflicts.push(new IncompatibleUnits(this));
                 break;
             case "∧":
@@ -86,9 +87,9 @@ export default class BinaryOperation extends Expression {
     
     }
 
-    getType(program: Program): Type {
-        const leftType = this.left instanceof Expression ? this.left.getType(program) : undefined;
-        const rightType = this.right instanceof Expression ? this.right.getType(program) : undefined;
+    getType(context: ConflictContext): Type {
+        const leftType = this.left instanceof Expression ? this.left.getType(context) : undefined;
+        const rightType = this.right instanceof Expression ? this.right.getType(context) : undefined;
 
         if(!(leftType instanceof MeasurementType)) return new UnknownType(this);
         if(!(rightType instanceof MeasurementType)) return new UnknownType(this);
@@ -102,7 +103,7 @@ export default class BinaryOperation extends Expression {
                 if(leftType.unit === undefined && rightType.unit === undefined) return leftType;
                 else if(leftType.unit !== undefined && rightType.unit === undefined) return new UnknownType(this);
                 else if(leftType.unit === undefined && rightType.unit !== undefined) return new UnknownType(this);
-                else return leftType.isCompatible(program, rightType) ? leftType : new UnknownType(this);
+                else return leftType.isCompatible(context, rightType) ? leftType : new UnknownType(this);
             case "×":
             case "*":
             case "·":

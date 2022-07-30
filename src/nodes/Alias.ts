@@ -1,6 +1,5 @@
-import Node from "./Node";
+import Node, { type ConflictContext } from "./Node";
 import type Token from "./Token";
-import type Program from "./Program";
 import Conflict, { ExpectedLanguage } from "../parser/Conflict";
 
 export default class Alias extends Node {
@@ -21,7 +20,7 @@ export default class Alias extends Node {
 
     getChildren() { return this.alias && this.lang ? [ this.name, this.alias, this.lang ] : [ this.name ]; }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
         
         if(this.lang !== undefined && !/^[a-z]{3}$/.test(this.lang.text))
             return [ new ExpectedLanguage(this) ]

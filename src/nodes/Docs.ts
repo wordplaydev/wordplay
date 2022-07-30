@@ -1,5 +1,5 @@
 import type Conflict from "../parser/Conflict";
-import Node from "./Node";
+import Node, { type ConflictContext } from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
 
@@ -17,6 +17,6 @@ export default class Docs extends Node {
 
     getChildren() { return this.lang === undefined ? [ this.docs ] : [ this.docs, this.lang ]}
  
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
 }

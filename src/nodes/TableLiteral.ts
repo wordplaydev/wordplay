@@ -9,13 +9,12 @@ import ColumnType from "./ColumnType";
 import Bind from "./Bind";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import type Node from "./Node";
 import Table from "../runtime/Table";
 import Exception, { ExceptionType } from "../runtime/Exception";
-import type Unparsable from "./Unparsable";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
+import type { ConflictContext } from "./Node";
 
 export default class TableLiteral extends Expression {
     
@@ -32,13 +31,13 @@ export default class TableLiteral extends Expression {
 
     getChildren() { return [ ...this.columns, ...this.rows ]; }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
     
         const conflicts: Conflict[] = [];
 
         // Columns must all have types.
         this.columns.forEach(column => {
-            if(column.bind instanceof Bind && column.bind.getType(program) instanceof UnknownType)
+            if(column.bind instanceof Bind && column.bind.getType(context) instanceof UnknownType)
                 conflicts.push(new ExpectedColumnType(column))
         });
 
@@ -50,8 +49,8 @@ export default class TableLiteral extends Expression {
                 if(cell.expression instanceof Expression || cell.expression instanceof Bind) {
                     if(index <= this.columns.length) {
                        const columnBind = this.columns[index].bind;
-                        if(columnBind instanceof Bind && !columnBind.getType(program).isCompatible(program, cell.expression.getType(program)))
-                            conflicts.push(new IncompatibleCellType(this.getType(program), cell));
+                        if(columnBind instanceof Bind && !columnBind.getType(context).isCompatible(context, cell.expression.getType(context)))
+                            conflicts.push(new IncompatibleCellType(this.getType(context), cell));
                     }
                 }
             });
@@ -61,7 +60,7 @@ export default class TableLiteral extends Expression {
     
     }
 
-    getType(program: Program): TableType {
+    getType(context: ConflictContext): TableType {
         const columnTypes = this.columns.map(c => new ColumnType(c.bind));
         return new TableType(columnTypes);
     }

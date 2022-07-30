@@ -6,10 +6,10 @@ import type Token from "./Token";
 import type Type from "./Type";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import type Node from "./Node";
 import Bool from "../runtime/Bool";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
+import type { ConflictContext } from "./Node";
 
 export default class BooleanLiteral extends Expression {
     readonly value: Token;
@@ -21,9 +21,9 @@ export default class BooleanLiteral extends Expression {
 
     getChildren() { return [ this.value ]; }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         return new BooleanType();
     }
 

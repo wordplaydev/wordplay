@@ -11,6 +11,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
+import type { ConflictContext, Definition } from "./Node";
 
 export default class Name extends Expression {
     
@@ -23,28 +24,28 @@ export default class Name extends Expression {
 
     getChildren() { return [ this.name ]; }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
 
-        const bindOrTypeVar = this.getBind(program);
+        const bindOrTypeVar = this.getBind(context);
         return bindOrTypeVar === undefined ? [ new UnknownName(this )] :
             bindOrTypeVar instanceof TypeVariable ? [ new UnexpectedTypeVariable(this)] : 
             [];
         
     }
 
-    getBind(program: Program): Bind | TypeVariable | Expression | undefined {
+    getBind(context: ConflictContext): Definition {
 
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
-        return program.getBindingEnclosureOf(this)?.getDefinition(program, this, this.name.text);
+        return context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, this.name.text);
 
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         // The type is the type of the bind.
-        const bindOrTypeVar = this.getBind(program);
+        const bindOrTypeVar = this.getBind(context);
         if(bindOrTypeVar === undefined) return new UnknownType(this);
         if(bindOrTypeVar instanceof TypeVariable) return new UnknownType(this);
-        else return bindOrTypeVar.getType(program);
+        else return bindOrTypeVar.getType(context);
     }
 
     compile(): Step[] {

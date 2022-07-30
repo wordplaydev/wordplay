@@ -3,6 +3,7 @@ import type Program from "./Program";
 import type Conflict from "../parser/Conflict";
 import Type from "./Type";
 import Bind from "../nodes/Bind";
+import type { ConflictContext } from "./Node";
 
 export default class TableType extends Type {
     
@@ -20,14 +21,14 @@ export default class TableType extends Type {
 
     getChildren() { return [ ...this.columns ]; }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    isCompatible(program: Program, type: Type) {
+    isCompatible(context: ConflictContext, type: Type) {
 
         if(!(type instanceof TableType)) return false;
         if(this.columns.length !== type.columns.length) return false;    
         for(let i = 0; i < this.columns.length; i++)
-            if(!this.columns[i].isCompatible(program, type.columns[i]))
+            if(!this.columns[i].isCompatible(context, type.columns[i]))
                 return false;
         return true;
 

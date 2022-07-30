@@ -1,4 +1,3 @@
-import type Node from "./Node";
 import BooleanType from "./BooleanType";
 import Conflict, { IncompatibleOperand } from "../parser/Conflict";
 import Expression from "./Expression";
@@ -17,6 +16,7 @@ import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
+import type { ConflictContext } from "./Node";
 
 export default class UnaryOperation extends Expression {
 
@@ -34,12 +34,12 @@ export default class UnaryOperation extends Expression {
         return [ this.operator, this.operand ];
     }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
     
         const conflicts = [];
 
         // If the type is unknown, that's bad.
-        const type = this.operand instanceof Expression ? this.operand.getType(program) : undefined;
+        const type = this.operand instanceof Expression ? this.operand.getType(context) : undefined;
 
         // If the type doesn't match the operator, that's bad.
         if(this.operand instanceof Expression && (this.operator.text === "√" || this.operator.text === "-") && !(type instanceof MeasurementType))
@@ -51,10 +51,10 @@ export default class UnaryOperation extends Expression {
     
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         if(this.operator.text === "¬") return new BooleanType();
         else if(this.operator.text === "√" && this.operand instanceof Expression) {
-            const type = this.operand.getType(program);
+            const type = this.operand.getType(context);
             if(!(type instanceof MeasurementType)) return new UnknownType(this);
             if(type.unit ===  undefined || type.unit instanceof Unparsable) return type;
             const newNumerator = type.unit.numerator.slice();
@@ -75,7 +75,7 @@ export default class UnaryOperation extends Expression {
             return new MeasurementType(undefined, new Unit(newNumerator, newDenominator));
         } 
         else if(this.operator.text === "-" && this.operand instanceof Expression)
-            return this.operand.getType(program);
+            return this.operand.getType(context);
         else return new UnknownType(this);
     }
     

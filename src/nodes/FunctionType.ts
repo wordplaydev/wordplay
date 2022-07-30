@@ -4,6 +4,7 @@ import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
+import type { ConflictContext } from "./Node";
 
 export default class FunctionType extends Type {
 
@@ -33,20 +34,20 @@ export default class FunctionType extends Type {
         return children;
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    isCompatible(program: Program, type: Type): boolean {
+    isCompatible(context: ConflictContext, type: Type): boolean {
         if(!(type instanceof FunctionType)) return false;
         if(!(this.output instanceof Type)) return false;
         if(!(type.output instanceof Type)) return false;
-        if(!this.output.isCompatible(program, type.output)) return false;
+        if(!this.output.isCompatible(context, type.output)) return false;
         if(this.inputs.length != type.inputs.length) return false;
         for(let i = 0; i < this.inputs.length; i++) {
             const thisType = this.inputs[i];
             const thatType = type.inputs[i];
             if( thisType instanceof Unparsable || 
                 thatType instanceof Unparsable || 
-                !thisType.isCompatible(program, thatType))
+                !thisType.isCompatible(context, thatType))
                 return false;
         }
         return true;

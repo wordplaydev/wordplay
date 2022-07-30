@@ -10,9 +10,6 @@ import Time from '../runtime/Time';
 import Value from '../runtime/Value';
 import Text from '../runtime/Text';
 import Document from './Document';
-import Verse from '../native/Verse';
-import StructureDefinitionValue from '../runtime/StructureDefinitionValue';
-import Sentence from '../native/Sentence';
 
 /** An immutable representation of a project with a name and some documents */
 export default class Project {
@@ -32,19 +29,12 @@ export default class Project {
         this.code = code;
         this.updater = updater;
 
-        // Generate the intermediate values.
-        // Create one global timer stream for programs to listen to.
-        const time = new Time();
+        const shares = new Shares();
 
         this.tokens = tokenize(this.code);
         this.program = parseProgram(new Tokens(this.tokens));
-        this.conflicts = this.program.getAllConflicts(this.program);
+        this.conflicts = this.program.getAllConflicts(this.program, shares);
         this.steps = this.program.compile();
-
-        const shares = new Shares();
-        Object.values(time.getNames()).forEach(name => shares.bind(name, time));
-        shares.bind("V", new StructureDefinitionValue(Verse));
-        shares.bind("W", new StructureDefinitionValue(Sentence));
 
         this.evaluator = new Evaluator(this.program, shares, this.handleResult.bind(this) );
 

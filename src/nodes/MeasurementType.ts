@@ -1,5 +1,6 @@
 import type Conflict from "../parser/Conflict";
 import type ConversionDefinition from "./ConversionDefinition";
+import type { ConflictContext } from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
@@ -25,9 +26,9 @@ export default class MeasurementType extends Type {
         
     }
 
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    isCompatible(program: Program, type: Type): boolean {
+    isCompatible(context: ConflictContext, type: Type): boolean {
         // Not a measurement? Not compatible.
         if(!(type instanceof MeasurementType)) return false;
         // One measurement without a unit? Compatible. Just inherit the other unit.
@@ -36,10 +37,10 @@ export default class MeasurementType extends Type {
         // Both with a unit? Convert to units and ask them.
         const thisUnit = this.unit instanceof Unit ? this.unit : new Unit([], []);
         const thatUnit = type.unit instanceof Unit ? type.unit : new Unit([], []);
-        return thisUnit.isCompatible(program, thatUnit);
+        return thisUnit.isCompatible(context, thatUnit);
     }
 
-    getConversion(program: Program, type: Type): ConversionDefinition | undefined {
+    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
         // TODO Define conversions from booleans to other types
         // TODO Look for custom conversions that extend the Boolean type
         return undefined;

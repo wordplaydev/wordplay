@@ -1,4 +1,4 @@
-import Node from "./Node";
+import Node, { type ConflictContext, type Definition } from "./Node";
 import type Borrow from "./Borrow";
 import type Unparsable from "./Unparsable";
 import type Conflict from "../parser/Conflict";
@@ -11,6 +11,9 @@ import type Evaluable from "../runtime/Evaluable";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
+import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
+import Stream from "../runtime/Stream";
+import StreamStructureType from "../native/StreamStructureType";
 
 export default class Program extends Node implements Evaluable {
     
@@ -28,10 +31,17 @@ export default class Program extends Node implements Evaluable {
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }
 
     getChildren() { return [ ...this.borrows, this.block ]; }
-    getConflicts(program: Program): Conflict[] { return []; }
+    getConflicts(conflict: ConflictContext): Conflict[] { return []; }
 
-    getDefinition(program: Program, node: Node, name: string): Bind | TypeVariable | Expression | undefined {
-        // TODO: We don't yet have a repository of imports, built-in or otherwise.
+    getDefinition(context: ConflictContext, node: Node, name: string): Definition {
+
+        if(context.shares !== undefined) {
+            const share = context.shares.resolve(name);
+            if(share instanceof StructureDefinitionValue)
+                return share.definition;
+            else if(share instanceof Stream)
+                return share;
+        }
         return undefined;
     }
     

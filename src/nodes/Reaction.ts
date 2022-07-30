@@ -15,6 +15,7 @@ import Start from "../runtime/Start";
 import JumpIfStreamExists from "../runtime/JumpIfStreamExists";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import Bind from "./Bind";
+import type { ConflictContext } from "./Node";
 
 export default class Reaction extends Expression {
 
@@ -37,16 +38,16 @@ export default class Reaction extends Expression {
         return [ this.initial, this.dots, this.stream, this.next ];
     }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
     
         const conflicts = [];
 
         // Streams have to be stream types!
-        if(this.stream instanceof Expression && !(this.stream.getType(program) instanceof StreamType))
+        if(this.stream instanceof Expression && !(this.stream.getType(context) instanceof StreamType))
             conflicts.push(new NotAStream(this));
 
         // The initial and next must be compatible
-        if(this.next instanceof Expression && !this.initial.getType(program).isCompatible(program, this.next.getType(program)))
+        if(this.next instanceof Expression && !this.initial.getType(context).isCompatible(context, this.next.getType(context)))
             conflicts.push(new IncompatibleStreamValues(this));
 
         return conflicts; 
@@ -54,9 +55,9 @@ export default class Reaction extends Expression {
     
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         // The type depends on the type of the initial value.
-        return this.initial.getType(program);
+        return this.initial.getType(context);
     }
 
     compile(): Step[] {

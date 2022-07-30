@@ -1,6 +1,5 @@
 import Conflict, { UnknownConversion } from "../parser/Conflict";
 import Expression from "./Expression";
-import type Node from "./Node";
 import type Program from "./Program";
 import TextType from "./TextType";
 import Token from "./Token";
@@ -11,6 +10,7 @@ import Text from "../runtime/Text";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
+import type { ConflictContext } from "./Node";
 
 export default class Template extends Expression {
     
@@ -26,14 +26,14 @@ export default class Template extends Expression {
 
     getChildren() { return this.format ? [ ...this.parts, this.format ] : [ ...this.parts ]; }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
         
         const conflicts: Conflict[] = [];
 
         // Expressions must be convertable to text.
         (this.parts.filter(p => p instanceof Expression) as Expression[]).forEach(expr => {
-            const type = expr.getType(program);
-            if(!(type instanceof TextType) && type.getConversion(program, new TextType()) === undefined)
+            const type = expr.getType(context);
+            if(!(type instanceof TextType) && type.getConversion(context, new TextType()) === undefined)
                 conflicts.push(new UnknownConversion(expr, new TextType()));
         });
 
@@ -41,7 +41,7 @@ export default class Template extends Expression {
     
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         return new TextType(undefined, this.format);
     }
 

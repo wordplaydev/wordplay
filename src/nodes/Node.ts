@@ -1,8 +1,17 @@
 import type Bind from "../nodes/Bind";
 import type Conflict from "../parser/Conflict";
+import type Shares from "../runtime/Shares";
+import type Value from "../runtime/Value";
 import type Expression from "./Expression";
 import type Program from "./Program";
 import type TypeVariable from "./TypeVariable";
+
+export type ConflictContext = { 
+    program: Program,
+    shares?: Shares
+}
+
+export type Definition = Bind | TypeVariable | Expression | Value | undefined
 
 export default abstract class Node {
 
@@ -14,13 +23,13 @@ export default abstract class Node {
     abstract getChildren() : Node[];
 
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
-    abstract getConflicts(program: Program) : Conflict[];
+    abstract getConflicts(context: ConflictContext) : Conflict[];
     
     /** True if the given node is a child of this node and this node should act as a binding enclosure of it. */
     isBindingEnclosureOfChild(child: Node): boolean { return false; }
 
     /** Given a program, a node that triggered a search, and a name, get the thing that defined the name. */
-    getDefinition(program: Program, node: Node, name: string): Bind | TypeVariable | Expression | undefined { return undefined; }
+    getDefinition(context: ConflictContext, node: Node, name: string): Definition { return undefined; }
     
     /** True if the node contains bindings that should be searched. */
     isBindingEnclosure() { return false; }
@@ -47,9 +56,9 @@ export default abstract class Node {
     }
 
     /** Returns all the conflicts in this tree. */
-    getAllConflicts(program: Program): Conflict[] {
+    getAllConflicts(program: Program, shares: Shares): Conflict[] {
         let conflicts: Conflict[] = [];
-        this.traverse([], (ancestors, node) => conflicts = conflicts.concat(node.getConflicts(program)));
+        this.traverse([], (ancestors, node) => conflicts = conflicts.concat(node.getConflicts({ program: program, shares: shares })));
         return conflicts;
     }
 

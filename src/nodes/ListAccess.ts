@@ -2,7 +2,6 @@ import Conflict, { NotAListIndex } from "../parser/Conflict";
 import Expression from "./Expression";
 import ListType from "./ListType";
 import MeasurementType from "./MeasurementType";
-import type Node from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
@@ -16,6 +15,7 @@ import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
+import type { ConflictContext } from "./Node";
 
 export default class ListAccess extends Expression {
 
@@ -37,11 +37,11 @@ export default class ListAccess extends Expression {
         return [ this.list, this.open, this.index, this.close ];
     }
 
-    getConflicts(program: Program): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] { 
     
         if(this.list instanceof Unparsable || this.index instanceof Unparsable) return [];
 
-        const indexType = this.index.getType(program);
+        const indexType = this.index.getType(context);
 
         if(!(indexType instanceof MeasurementType) || indexType.unit !== undefined)
             return [ new NotAListIndex(this) ];
@@ -50,10 +50,10 @@ export default class ListAccess extends Expression {
     
     }
 
-    getType(program: Program): Type {
+    getType(context: ConflictContext): Type {
         // The type is the list's value type, or unknown otherwise.
         if(this.list instanceof Unparsable) return new UnknownType(this);
-        const listType = this.list.getType(program);
+        const listType = this.list.getType(context);
         if(listType instanceof ListType && listType.type instanceof Type) return listType.type;
         else return new UnknownType(this);
     }
