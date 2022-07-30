@@ -1,3 +1,4 @@
+import BoolStructureType from "../native/BoolStructureType";
 import Exception, { ExceptionType } from "./Exception";
 import Value from "./Value";
 
@@ -12,6 +13,8 @@ export default class Bool extends Value {
     }
 
     toString() { return this.bool ? "⊤" : "⊥"; }
+
+    getType() { return BoolStructureType;}
 
     evaluatePrefix(operator: string): Value {
 

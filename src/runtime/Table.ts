@@ -1,3 +1,4 @@
+import { TableStructureType } from "../native/TableStructureType";
 import type Exception from "./Exception";
 import Value from "./Value";
 
@@ -15,6 +16,8 @@ export default class Table extends Value {
         return new Table([ ... this.rows, row ]);
         
     }
+
+    getType() { return TableStructureType; }
 
     toString(): string {
         return this.rows.map(r => r.map(c => `|${c.toString()}`).join("")).join("\n");

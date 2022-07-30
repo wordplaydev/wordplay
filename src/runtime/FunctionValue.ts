@@ -1,4 +1,5 @@
-import type FunctionDefinition from "src/nodes/FunctionDefinition";
+import FunctionStructureType from "../native/FunctionStructureType";
+import type FunctionDefinition from "../nodes/FunctionDefinition";
 import type Evaluation from "./Evaluation";
 import Value from "./Value";
 
@@ -18,6 +19,8 @@ export default class FunctionValue extends Value {
         this.definition = definition;
         this.context = context;
     }
+
+    getType() { return FunctionStructureType; }
 
     toString() { return this.definition.toWordplay(); }
 

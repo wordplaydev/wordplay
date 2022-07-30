@@ -1,3 +1,4 @@
+import ConversionStructureType from "../native/ConversionStructureType";
 import type ConversionDefinition from "../nodes/ConversionDefinition";
 import type Evaluation from "./Evaluation";
 import Value from "./Value";
@@ -18,6 +19,8 @@ export default class Conversion extends Value {
         this.definition = definition;
         this.context = context;
     }
+
+    getType() { return ConversionStructureType; }
 
     toString() { return this.definition.toWordplay(); }
 

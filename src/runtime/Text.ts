@@ -1,3 +1,4 @@
+import TextStructureType from "../native/TextStructureType";
 import Value from "./Value";
 
 export default class Text extends Value {
@@ -11,6 +12,8 @@ export default class Text extends Value {
         this.text = text;
         this.format = format;
     }
+
+    getType() { return TextStructureType; }
 
     toString() { return `"${this.text}"${this.format ? this.format : ""}`; }
 

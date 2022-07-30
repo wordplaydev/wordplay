@@ -17,10 +17,10 @@ export default class Evaluation {
     readonly #definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition;
 
     /** The node being evaluated. */
-    readonly #node: Evaluable;
+    readonly #node?: Evaluable;
 
     /** A cache of the node's steps */
-    readonly #steps: Step[];
+    readonly #steps?: Step[];
 
     /** The evaluation in which this is being evaluated. */
     readonly #context: Evaluation | undefined;
@@ -37,14 +37,18 @@ export default class Evaluation {
     /** The step to execute next */
     #step: number = 0;
     
-    constructor(definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition, node: Evaluable, context?: Evaluation, bindings?: Map<string, Value>) {
+    constructor(
+        definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition, 
+        node?: Evaluable, 
+        context?: Evaluation, 
+        bindings?: Map<string, Value>) {
 
         this.#definition = definition;
         this.#node = node;
         this.#context = context;
 
         // Cache the steps for the given node.
-        this.#steps = node.compile();
+        this.#steps = node?.compile();
 
         // Set up the bindings
         this.#bindings = bindings === undefined ? new Map() : bindings;
@@ -57,6 +61,8 @@ export default class Evaluation {
     /** Given an Evaluator, evaluate this node, and return true if it's done. 
      *  Undefined means that this will continue evaluating. A Value means it's done. */
     step(evaluator: Evaluator): Value | undefined {
+
+        if(this.#steps === undefined) return;
 
         // If there are no more steps, return the value on the top of the stack.
         if(this.#step >= this.#steps.length) 

@@ -17,8 +17,9 @@ import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
+import type { StructureDefinitionInterface } from "../native/StructureDefinitionInterface";
 
-export default class StructureDefinition extends Expression {
+export default class StructureDefinition extends Expression implements StructureDefinitionInterface {
 
     readonly docs: Docs[];
     readonly type?: Token;

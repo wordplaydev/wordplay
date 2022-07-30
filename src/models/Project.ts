@@ -12,7 +12,7 @@ import Text from '../runtime/Text';
 import Document from './Document';
 import Verse from '../native/Verse';
 import StructureDefinitionValue from '../runtime/StructureDefinitionValue';
-import Words from '../native/Words';
+import Sentence from '../native/Sentence';
 
 /** An immutable representation of a project with a name and some documents */
 export default class Project {
@@ -44,7 +44,7 @@ export default class Project {
         const shares = new Shares();
         Object.values(time.getNames()).forEach(name => shares.bind(name, time));
         shares.bind("V", new StructureDefinitionValue(Verse));
-        shares.bind("W", new StructureDefinitionValue(Words));
+        shares.bind("W", new StructureDefinitionValue(Sentence));
 
         this.evaluator = new Evaluator(this.program, shares, this.handleResult.bind(this) );
 

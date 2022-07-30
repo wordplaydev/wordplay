@@ -1,3 +1,4 @@
+import { StructureStructureType } from "../native/StructureStructureType";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import type Evaluation from "./Evaluation";
 import Value from "./Value";
@@ -18,6 +19,8 @@ export default class StructureDefinitionValue extends Value {
         this.definition = definition;
         this.context = context;
     }
+
+    getType() { return StructureStructureType; }
 
     toString() { return this.definition.toWordplay(); }
 

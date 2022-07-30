@@ -3,10 +3,12 @@ import StructureDefinition from "../nodes/StructureDefinition";
 import { parseBind, tokens } from "../parser/Parser";
 
 const Group = new StructureDefinition(
-    [],
+    [], // TODO Add documentation.
     [],
     [
-        parseBind(false, tokens("layout•Layout"))
+        // TODO Localize names, add documentation.
+        parseBind(false, tokens("layout•Layout")),
+        parseBind(false, tokens("…sentences•Sentence"))
     ],
     new Block([], [], true)
 );

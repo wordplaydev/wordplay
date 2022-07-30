@@ -1,3 +1,4 @@
+import { SetStructureType } from "../native/SetStructureType";
 import Bool from "./Bool";
 import Value from "./Value";
 
@@ -20,6 +21,8 @@ export default class SetValue extends Value {
     get(key: Value) { 
         return new Bool(this.values.find(v => key.isEqualTo(v)) !== undefined);
     }
+
+    getType() { return SetStructureType; }
 
     toString() { return `{${Array.from(this.values).sort().join(" ")}}`; }
 

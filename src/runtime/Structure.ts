@@ -2,7 +2,7 @@ import type StructureDefinition from "../nodes/StructureDefinition";
 import type Type from "../nodes/Type";
 import Unparsable from "../nodes/Unparsable";
 import type Conversion from "./Conversion";
-import type Evaluation from "./Evaluation";
+import Evaluation from "./Evaluation";
 import Value from "./Value";
 
 export default class Structure extends Value {
@@ -17,6 +17,8 @@ export default class Structure extends Value {
         this.context = context;
 
     }
+
+    getType() { return this.type; }
 
     resolve(name: string) {
         return this.context.resolve(name);
@@ -38,5 +40,13 @@ export default class Structure extends Value {
         }).join(" ")})`;
     }
 
+
+}
+
+export function createStructure(definition: StructureDefinition, values: Record<string, Value>): Structure {
+
+    const bindings = new Map<string,Value>();
+    Object.keys(values).forEach(key => bindings.set(key, values[key]));
+    return new Structure(new Evaluation(definition, undefined, undefined, bindings));
 
 }

@@ -1,3 +1,4 @@
+import ExceptionStructureType from "../native/ExceptionStructureType";
 import Value from "./Value";
 
 export enum ExceptionType {
@@ -26,6 +27,8 @@ export default class Exception extends Value {
 
         this.exception = exception;
     }
+
+    getType() { return ExceptionStructureType; }
 
     toString() { return `Exception: ${ExceptionType[this.exception]}`; }
 

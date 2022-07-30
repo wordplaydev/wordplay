@@ -5,29 +5,57 @@
     import type Document from "../models/Document";
     import Value from '../runtime/Value';
     import Text from '../runtime/Text';
-    import Structure from '../runtime/Structure';
-    import Words from '../native/Words';
-    import WordsView from './WordsView.svelte';
-    import Evaluation from '../runtime/Evaluation';
+    import Structure, { createStructure } from '../runtime/Structure';
+    import Sentence from '../native/Sentence';
+    import VerseView from './VerseView.svelte';
     import Measurement from '../runtime/Measurement';
+    import Verse from '../native/Verse';
+    import Group from '../native/Paragraph';
+    import TextStructureType from '../native/TextStructureType';
+import List from '../runtime/List';
 
     export let doc: Document;
     $: content = doc.getContent();
 
     let view: Structure | undefined;
-    let bindings = new Map<string,Value>();
-    bindings.set("size", new Measurement(20));
-    bindings.set("font", new Text("Noto Sans"));
     $: {
-        if(content instanceof Structure && content.type === Words)
-            view = content;
-        else if(content instanceof Text) {
-            bindings.set("text", content);
-            view = new Structure(new Evaluation(Words, Words, undefined, bindings));
-        }
-        else if(content instanceof Value) {
-            bindings.set("text", new Text(content.toString()));
-            view = new Structure(new Evaluation(Words, Words, undefined, bindings));
+        // If the content is a Verse, just show it as is.
+        if(content instanceof Value) {
+            if(content.getType() === Verse)
+                view = content as Structure;
+            else if(content.getType() === Group) {
+                view = createStructure(Verse, { group: content });
+            }
+            else if(content.getType() === Sentence) {
+                view = createStructure(Verse, { group: createStructure(Group, { sentences: new List([content]) }) });
+            }
+            else if(content.getType() === TextStructureType) {
+                view = createStructure(Verse, 
+                    {
+                        group: createStructure(Group, {
+                            sentences: new List([createStructure(Sentence, {
+                                size: new Measurement(20),
+                                font: new Text("Noto Sans"),
+                                text: content
+                            })])
+                        })
+                    }
+                );
+            }
+            // Otherise, just wrap in a sentence with the content's toString() text.
+            else {
+                view = createStructure(Verse, 
+                    {
+                        group: createStructure(Group, {
+                            sentences: new List([createStructure(Sentence, {
+                                size: new Measurement(20),
+                                font: new Text("Noto Sans"),
+                                text: new Text(content.toString())
+                            })])
+                        })
+                    }
+                );
+            }
         }
     }
 
@@ -48,7 +76,7 @@
 <div class="document">
     <div class="document-title">{doc.getName()}</div>
     {#if view instanceof Structure}
-        <WordsView words={view} />
+        <VerseView verse={view} />
     {:else if typeof content === "string"}
         <textarea 
             on:input={handleEdit} 

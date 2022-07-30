@@ -1,3 +1,4 @@
+import StreamStructureType from "../native/StreamStructureType";
 import type { LanguageCode } from "../nodes/LanguageCode";
 import type { Named } from "../nodes/Named";
 import Value from "./Value";
@@ -44,6 +45,8 @@ export default abstract class Stream extends Value implements Named {
     notify() {
         this.listeners.forEach(listener => listener.call(undefined, this));
     }
+
+    getType() { return StreamStructureType; }
 
     /** Should produce valid Wordplay code string representing the stream's name */
     toString() { return this.names["eng"]; };

@@ -1,15 +1,13 @@
-import Alias from "../nodes/Alias";
-import Bind from "../nodes/Bind";
 import Block from "../nodes/Block";
-import NameType from "../nodes/NameType";
 import StructureDefinition from "../nodes/StructureDefinition";
 import { parseBind, tokens } from "../parser/Parser";
 
 const Verse = new StructureDefinition(
-    [],
+    [], // TODO Localized documentation
     [],
     [
-        parseBind(false, tokens("group•Group''")),
+        // TODO Localize names, add documentation.
+        parseBind(false, tokens("group•Group"))
     ],
     new Block([], [], true)
 );

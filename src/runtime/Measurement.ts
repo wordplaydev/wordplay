@@ -5,6 +5,7 @@ import Exception, { ExceptionType } from "./Exception";
 import None from "./None";
 import Value from "./Value";
 import Decimal from 'decimal.js';
+import MeasurementStructureType from "../native/MeasurementStructureType";
 
 /** A decimal number with a unit.
  * If all of it's parts are empty, it is not a number.
@@ -610,6 +611,8 @@ export default class Measurement extends Value {
         return new Measurement(this.num.pow(operand.num), this.unit);
 
     }
+
+    getType() { return MeasurementStructureType; }
 
     toString() { 
         return `${this.num.toString()}${this.unit.toString()}`;

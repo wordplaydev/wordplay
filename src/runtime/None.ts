@@ -1,3 +1,4 @@
+import { NoneStructureType } from "../native/NoneStructureType";
 import Value from "./Value";
 
 export default class None extends Value {
@@ -8,6 +9,8 @@ export default class None extends Value {
         super();
         this.name = name;
     }
+
+    getType() { return NoneStructureType; }
 
     toString() { return `!${this.name === undefined ? "" : this.name}`; }
 
