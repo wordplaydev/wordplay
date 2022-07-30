@@ -4,7 +4,7 @@ import Stream from "../runtime/Stream";
 export default class MouseButton extends Stream {
 
     constructor() {
-        super({"eng": "mousebutton"}, new Bool(true));
+        super({"eng": "🖱⬇️"}, new Bool(true));
     }
 
     record(state: boolean) {
