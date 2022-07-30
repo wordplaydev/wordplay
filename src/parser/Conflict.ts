@@ -398,14 +398,6 @@ export class NotASetOrMap extends Conflict {
     }
 }
 
-export class IncompatibleValues extends Conflict {
-    readonly structure: SetOrMapLiteral | ListLiteral;
-    constructor(set: SetOrMapLiteral | ListLiteral) {
-        super(false);
-        this.structure = set;
-    }
-}
-
 export class NotAListIndex extends Conflict {
     readonly access: ListAccess;
     constructor(access: ListAccess) {

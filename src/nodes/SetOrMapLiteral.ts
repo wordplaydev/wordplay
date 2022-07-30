@@ -1,12 +1,11 @@
 import Expression from "./Expression";
 import KeyValue from "./KeyValue";
-import type Program from "./Program";
 import SetOrMapType from "./SetOrMapType";
 import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
-import Conflict, { IncompatibleValues, NotASetOrMap } from "../parser/Conflict";
+import Conflict, { NotASetOrMap } from "../parser/Conflict";
 
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Evaluator from "../runtime/Evaluator";
@@ -18,6 +17,7 @@ import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type { ConflictContext } from "./Node";
+import { getPossibleUnionType } from "./UnionType";
 
 enum SetKind { Set, Map, Neither };
 
@@ -54,31 +54,6 @@ export default class SetOrMapLiteral extends Expression {
         // Must all be expressions or all key/values
         if(this.kind === SetKind.Neither)
             return [ new NotASetOrMap(this)]
-
-        // If all expressions. they must all be of the same type.
-        if(this.kind === SetKind.Set) {
-            const types = (this.values.filter(v => v instanceof Expression) as Expression[]).map(e => e.getType(context));
-            if(types.length > 1 && !types.every(t => t.isCompatible(context, types[0])))
-                return [ new IncompatibleValues(this) ]
-        }
-        else if(this.kind === SetKind.Map) {
-            const conflicts = [];
-            const keyTypes = 
-                ((this.values.filter(v => v instanceof KeyValue) as KeyValue[])
-                .map(k => k.key)
-                .filter(k => k instanceof Expression) as Expression[])
-                .map(k => k.getType(context));
-            if(keyTypes.length > 1 && !keyTypes.every(t => t.isCompatible(context, keyTypes[0])))
-                conflicts.push(new IncompatibleValues(this));
-            const valueTypes = 
-                ((this.values.filter(v => v instanceof KeyValue) as KeyValue[])
-                .map(v => v.value)
-                .filter(v => v instanceof Expression) as Expression[])
-                .map(v => v.getType(context));
-            if(valueTypes.length > 1 && !valueTypes.every(t => t.isCompatible(context, valueTypes[0])))
-                conflicts.push(new IncompatibleValues(this));
-            return conflicts;
-        }
         
         // Otherwise, no conflicts.
         return [];
@@ -89,13 +64,20 @@ export default class SetOrMapLiteral extends Expression {
         const values = this.values.filter(v => !(v instanceof Unparsable)) as (Expression|KeyValue)[];
         if(values.length === 0) return new UnknownType(this);
 
-        const firstValue = this.values[0];
-        if(firstValue instanceof KeyValue) 
-            return firstValue.key instanceof Unparsable || firstValue.value instanceof Unparsable ? 
-                new UnknownType(this) : 
-                new SetOrMapType(firstValue.key.getType(context), firstValue.value.getType(context));
-        else if(firstValue instanceof Expression) return new SetOrMapType(firstValue.getType(context));
-        else return new UnknownType(this);
+        switch(this.kind) {
+            case SetKind.Set: 
+                let type = getPossibleUnionType(context, this.values.map(v => (v as Expression | Unparsable).getType(context)));
+                if(type === undefined) type = new UnknownType(this);
+                else return new SetOrMapType(type);
+            case SetKind.Map:
+                let keyType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.key.getType(context) : v.getType(context)));
+                let valueType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.value.getType(context) : v.getType(context)));
+                if(keyType === undefined) keyType = new UnknownType(this);
+                else if(valueType === undefined) valueType = new UnknownType(this);
+                else return new SetOrMapType(keyType, valueType);
+            default: return new UnknownType(this);
+        }
+
     }
 
     compile(): Step[] {

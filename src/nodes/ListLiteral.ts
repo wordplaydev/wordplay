@@ -1,7 +1,5 @@
-import Conflict, { IncompatibleValues } from "../parser/Conflict";
 import Expression from "./Expression";
 import ListType from "./ListType";
-import type Program from "./Program";
 import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
@@ -13,6 +11,8 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type { ConflictContext } from "./Node";
+import { getPossibleUnionType } from "./UnionType";
+import type Conflict from "../parser/Conflict";
 
 export default class ListLiteral extends Expression {
 
@@ -32,22 +32,14 @@ export default class ListLiteral extends Expression {
         return [ this.open, ...this.values, this.close ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
-
-        // The list values have to all be of compatible types.
-        const types = (this.values.filter(v => v instanceof Expression) as Expression[]).map(e => e.getType(context));
-        if(types.length > 1 && !types.every(t => t.isCompatible(context, types[0])))
-            return [ new IncompatibleValues(this) ]
-
-        return []; 
-    
-    }
+    getConflicts(context: ConflictContext): Conflict[] {  return []; }
 
     getType(context: ConflictContext): Type {
         const expressions = this.values.filter(e => e instanceof Expression) as Expression[];
         if(expressions.length === 0) return new UnknownType(this);
-        const firstValue = expressions[0];
-        return new ListType(firstValue.getType(context));
+        let itemType = getPossibleUnionType(context, expressions.map(v => v.getType(context)));
+        if(itemType === undefined) itemType = new UnknownType(this);
+        return new ListType(itemType);
     }
 
     compile(): Step[] {

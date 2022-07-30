@@ -53,7 +53,6 @@ export default class Reaction extends Expression {
 
         return conflicts; 
     
-    
     }
 
     getType(context: ConflictContext): Type {
