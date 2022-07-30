@@ -117,7 +117,7 @@ export default class StructureDefinition extends Expression implements Structure
     }
 
     getBind(name: string): Bind | undefined {
-        return this.inputs.find(i => i instanceof Bind && i.names.find(n => n.name.text === name)) as Bind | undefined;
+        return this.inputs.find(i => i instanceof Bind && i.names.find(n => n.getName() === name)) as Bind | undefined;
     }
 
     getType(context: ConflictContext): Type { return new StructureType(this); }

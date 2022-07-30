@@ -43,9 +43,9 @@ export default class Bind extends Node implements Evaluable, Named {
         this.value = value;
     }
 
-    hasName(name: string) { return this.names.find(n => n.name.text === name) !== undefined; }
+    hasName(name: string) { return this.names.find(n => n.getName() === name) !== undefined; }
 
-    getNames() { return this.names.map(n => n.name.text ); }
+    getNames() { return this.names.map(n => n.getName() ); }
 
     hasDefault() { return this.value !== undefined; }
 
@@ -65,7 +65,7 @@ export default class Bind extends Node implements Evaluable, Named {
         const conflicts = [];
 
         // Bind aliases have to be unique
-        if(!this.names.every(n => this.names.find(n2 => n !== n2 && n.name.text === n2.name.text) === undefined))
+        if(!this.names.every(n => this.names.find(n2 => n !== n2 && n.getName() === n2.getName()) === undefined))
             conflicts.push(new DuplicateAliases(this))
 
         // If there's a type, the value must match.
@@ -78,14 +78,14 @@ export default class Bind extends Node implements Evaluable, Named {
         const enclosure = context.program.getBindingEnclosureOf(this);
 
         // It can't already be defined.
-        const definitions = this.names.map(alias => enclosure?.getDefinition(context, this, alias.name.text)).filter(def => def !== undefined) as (Expression | Bind | TypeVariable)[];
+        const definitions = this.names.map(alias => enclosure?.getDefinition(context, this, alias.getName())).filter(def => def !== undefined) as (Expression | Bind | TypeVariable)[];
         if(definitions.length > 0)
             conflicts.push(new DuplicateBinds(this, definitions));
 
         // It should be used in some expression in its parent.
         const parent = this.getParent(context.program);
         if(enclosure && !(parent instanceof Column || parent instanceof ColumnType)) {
-            const uses = enclosure.nodes().filter(n => n instanceof Name && this.names.find(name => name.name.text === n.name.text) !== undefined);
+            const uses = enclosure.nodes().filter(n => n instanceof Name && this.names.find(name => name.getName() === n.name.text) !== undefined);
             if(uses.length === 0)
                 conflicts.push(new UnusedBind(this));
         }
@@ -124,7 +124,7 @@ export default class Bind extends Node implements Evaluable, Named {
     evaluate(evaluator: Evaluator) {
         
         // Bind the value on the stack to the names.
-        this.names.forEach(alias => evaluator.bind(alias.name.text, evaluator.popValue()));
+        this.names.forEach(alias => evaluator.bind(alias.getName(), evaluator.popValue()));
         return undefined;
 
     }

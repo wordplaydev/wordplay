@@ -6,6 +6,7 @@ import None from "./None";
 import Value from "./Value";
 import Decimal from 'decimal.js';
 import MeasurementStructureType from "../native/MeasurementStructureType";
+import Alias from "../nodes/Alias";
 
 /** A decimal number with a unit.
  * If all of it's parts are empty, it is not a number.
@@ -461,7 +462,7 @@ export default class Measurement extends Value {
     divide(divisor: Measurement): Measurement | None {
 
         return divisor.num.isZero() ? 
-            new None("nan") : 
+            new None([new Alias("nan")]) : 
             new Measurement(
                 this.num.dividedBy(divisor.num), 
                 new Unit(
@@ -523,7 +524,7 @@ export default class Measurement extends Value {
     remainder(divisor: Measurement): Measurement | None {
 
         return divisor.num.isZero() ? 
-            new None("nan") : 
+            new None([new Alias("nan")]) : 
             new Measurement(
                 this.num.modulo(divisor.num), 
                 this.unit

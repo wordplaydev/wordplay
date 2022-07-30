@@ -1,6 +1,5 @@
 import MapStructureType from "../native/MapStructureType";
-import Block from "../nodes/Block";
-import StructureDefinition from "../nodes/StructureDefinition";
+import Alias from "../nodes/Alias";
 import None from "./None";
 import Value from "./Value";
 
@@ -21,7 +20,8 @@ export default class MapValue extends Value {
 
     get(key: Value) { 
         const kv = this.values.find( kv2 => kv2[0].isEqualTo(key));
-        return kv === undefined ? new None("unknownkey") : kv[1];
+        // TODO Localize
+        return kv === undefined ? new None([new Alias("unknownkey")]) : kv[1];
     }
 
     getType() { return MapStructureType; }

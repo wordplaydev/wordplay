@@ -5,7 +5,7 @@ const patterns = [
     { pattern: "]", types: [ TokenType.LIST_CLOSE ] },
     { pattern: "{", types: [ TokenType.SET_OPEN ] },
     { pattern: "}", types: [ TokenType.SET_CLOSE ] },
-    { pattern: ",", types: [ TokenType.ALIAS ] },
+    { pattern: ";", types: [ TokenType.ALIAS ] },
     { pattern: "/", types: [ TokenType.LANGUAGE ] },
     { pattern: "|?", types: [ TokenType.SELECT] },
     { pattern: "|+", types: [ TokenType.INSERT] },

@@ -1,17 +1,18 @@
 import { NoneStructureType } from "../native/NoneStructureType";
+import type Alias from "../nodes/Alias";
 import Value from "./Value";
 
 export default class None extends Value {
 
-    readonly name: string | undefined;
+    readonly aliases: Alias[];
 
-    constructor(name?: string) {
+    constructor(aliases: Alias[]) {
         super();
-        this.name = name;
+        this.aliases = aliases;
     }
 
     getType() { return NoneStructureType; }
 
-    toString() { return `!${this.name === undefined ? "" : this.name}`; }
+    toString() { return `!${this.aliases.map(a => `${a.getName()}${a.lang === undefined ? "" : "/" + a.getLanguage()}`).join(";")}`; }
 
 }

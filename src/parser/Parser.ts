@@ -295,7 +295,7 @@ function nextIsBind(tokens: Tokens): boolean {
 
 }
 
-/** BIND :: (NAME/LANGUAGE)+ TYPE? (: EXPRESSION)? */
+/** BIND :: ALIAS TYPE? (: EXPRESSION)? */
 export function parseBind(expectExpression: boolean, tokens: Tokens): Bind | Unparsable {
 
     let docs = parseDocs(tokens);
@@ -304,14 +304,9 @@ export function parseBind(expectExpression: boolean, tokens: Tokens): Bind | Unp
     let value;
     let dot;
     let type;
-    
-    while((names.length === 0 && tokens.nextIs(TokenType.NAME)) || tokens.nextIs(TokenType.ALIAS)) {
-        const alias = tokens.nextIs(TokenType.ALIAS) ? tokens.read() : undefined;
-        const name = tokens.read();
-        const slash = tokens.nextIs(TokenType.LANGUAGE) ? tokens.read() : undefined;
-        const lang = slash ? tokens.read() : undefined;
-        names.push(new Alias(name, alias, slash, lang));
-    }
+
+    names = parseAliases(tokens);
+
     if(names.length === 0)
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_BIND_NAME);
 
@@ -328,6 +323,25 @@ export function parseBind(expectExpression: boolean, tokens: Tokens): Bind | Unp
     return new Bind(docs, names, type, value, dot, colon);
 
 }
+
+/** ALIAS (NAME LANGUAGE)+ */
+export function parseAliases(tokens: Tokens): Alias[] {
+
+    const aliases: Alias[] = [];
+
+    while((aliases.length > 0 && tokens.nextIs(TokenType.ALIAS)) || (aliases.length === 0 && tokens.nextIs(TokenType.NAME))) {
+        const semicolon = tokens.nextIs(TokenType.ALIAS) ? tokens.read() : undefined;
+        if(aliases.length > 0 && semicolon === undefined) break;
+        const name = tokens.read();
+        const slash = tokens.nextIs(TokenType.LANGUAGE) ? tokens.read() : undefined;
+        const lang = slash ? tokens.read() : undefined;
+        aliases.push(new Alias(name, semicolon, slash, lang));
+    }
+
+    return aliases;
+
+}
+
 
 /** EXPRESSION :: BINARY_OPERATION [ conditional EXPRESSION EXPRESSION ]? */
 export function parseExpression(tokens: Tokens): Expression | Unparsable {
@@ -442,12 +456,12 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
     
 }
 
-/** NONE :: ! name? */
+/** NONE :: ! ALIASES */
 function parseNone(tokens: Tokens): NoneLiteral | Unparsable {
 
     const error = tokens.read();
-    const name = tokens.nextIs(TokenType.NAME) ? tokens.read() : undefined;
-    return new NoneLiteral(error, name);
+    const names = parseAliases(tokens);
+    return new NoneLiteral(error, names);
 
 }
 
@@ -879,8 +893,8 @@ function parseMeasurementType(tokens: Tokens): MeasurementType {
 function parseNoneType(tokens: Tokens): NoneType {
 
     const oops = tokens.read();
-    const name = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? tokens.read() : undefined;
-    return new NoneType(oops, name);
+    const names = parseAliases(tokens);
+    return new NoneType(oops, names);
 
 }
 

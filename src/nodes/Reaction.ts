@@ -81,7 +81,7 @@ export default class Reaction extends Expression {
                     evaluator.bind("∂", latest);
                     const bind = evaluator.program.getNearestAncestor<Bind>(this, Bind);
                     if(bind !== undefined)
-                        bind.names.forEach(name => evaluator.bind(name.name.text, latest));
+                        bind.names.forEach(name => evaluator.bind(name.getName(), latest));
                 }
             }),
             // Evaluate the stream expression

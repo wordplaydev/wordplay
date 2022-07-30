@@ -103,14 +103,14 @@ test("Parse binds", () => {
     expect(validName).toBeInstanceOf(Bind);
     expect((validName as Bind).names).toHaveLength(1);
     expect((validName as Bind).names[0]).toBeInstanceOf(Alias);
-    expect((validName as Bind).names[0].name.toWordplay()).toBe("a");
+    expect((validName as Bind).names[0].getName()).toBe("a");
     expect((validName as Bind).names[0].lang).toBe(undefined);
 
     const valuedName = parseBind(true, tokens("a: 1"));
     expect(valuedName).toBeInstanceOf(Bind);
     expect((valuedName as Bind).names).toHaveLength(1);
     expect((valuedName as Bind).names[0]).toBeInstanceOf(Alias);
-    expect((valuedName as Bind).names[0].name.toWordplay()).toBe("a");
+    expect((valuedName as Bind).names[0].getName()).toBe("a");
     expect((valuedName as Bind).names[0].lang).toBe(undefined);
     expect((valuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
@@ -119,11 +119,11 @@ test("Parse binds", () => {
     expect((typedValuedName as Bind).type).toBeInstanceOf(MeasurementType);
     expect((typedValuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
-    const aliasedTypedValuedName = parseBind(true, tokens("a/eng, b/span•#: 1"));
+    const aliasedTypedValuedName = parseBind(true, tokens("a/eng; b/span•#: 1"));
     expect(aliasedTypedValuedName).toBeInstanceOf(Bind);
     expect((aliasedTypedValuedName as Bind).names).toHaveLength(2);
     expect((aliasedTypedValuedName as Bind).names[0]).toBeInstanceOf(Alias);
-    expect((aliasedTypedValuedName as Bind).names[0].lang?.text).toBe("eng");
+    expect((aliasedTypedValuedName as Bind).names[0].getLanguage()).toBe("eng");
     expect((aliasedTypedValuedName as Bind).type).toBeInstanceOf(MeasurementType);
     expect((aliasedTypedValuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
@@ -148,7 +148,7 @@ test("Parse expressions", () => {
 
     const noneRefined = parseExpression(tokens("!zero"));
     expect(noneRefined).toBeInstanceOf(NoneLiteral);
-    expect((noneRefined as NoneLiteral).name?.toWordplay()).toBe("zero");
+    expect((noneRefined as NoneLiteral)?.toWordplay()).toBe("!zero");
 
     const name = parseExpression(tokens("boomy"));
     expect(name).toBeInstanceOf(Name);
@@ -375,7 +375,7 @@ test("Type variables", () => {
 
     const noneRefined = parseType(tokens("!zero"));
     expect(noneRefined).toBeInstanceOf(NoneType);
-    expect((noneRefined as NoneType).name?.toWordplay()).toBe("zero");
+    expect((noneRefined as NoneType).aliases[0].getName()).toBe("zero");
 
     const list = parseType(tokens("[#]"));
     expect(list).toBeInstanceOf(ListType);

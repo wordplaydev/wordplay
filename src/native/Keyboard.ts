@@ -12,7 +12,7 @@ function createKey(key: string, down: boolean) {
 export default class Keyboard extends Stream {
 
     constructor() {
-        super({"eng": "⌨️"}, new None());
+        super({"eng": "⌨️"}, new None([]));
     }
 
     record(key: string, down: boolean) {

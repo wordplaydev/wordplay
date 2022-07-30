@@ -84,8 +84,8 @@ export default class Block extends Expression {
 
         // Do any of the binds declare it?
         const localBind = this.statements.find((s, i)  => 
-            (s instanceof Bind && i < index && s.names.find(n => n.name.text == name) !== undefined) ||
-            (s instanceof Share && i < index && s.bind instanceof Bind && s.bind.names.find(n => n.name.text == name) !== undefined)
+            (s instanceof Bind && i < index && s.names.find(n => n.getName() == name) !== undefined) ||
+            (s instanceof Share && i < index && s.bind instanceof Bind && s.bind.names.find(n => n.getName() == name) !== undefined)
         ) as Bind;
         if(localBind !== undefined) return localBind;
 

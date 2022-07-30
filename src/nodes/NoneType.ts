@@ -1,4 +1,5 @@
 import type Conflict from "../parser/Conflict";
+import type Alias from "./Alias";
 import type ConversionDefinition from "./ConversionDefinition";
 import type { ConflictContext } from "./Node";
 import type Program from "./Program";
@@ -8,26 +9,28 @@ import Type from "./Type";
 export default class NoneType extends Type {
 
     readonly none: Token;
-    readonly name?: Token;
+    readonly aliases: Alias[];
 
-    constructor(none: Token, name?: Token) {
+    constructor(none: Token, aliases: Alias[]) {
         super();
 
         this.none = none;
-        this.name = name;
+        this.aliases = aliases;
     }
 
     getChildren() {
-        return this.name ? [ this.none, this.name ] : [ this.none ];
+        return [ this.none, ...this.aliases ];
     }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 
     isCompatible(context: ConflictContext, type: Type): boolean { 
-        return type instanceof NoneType && (
-            (this.name === undefined && type.name === undefined ) || 
-            (this.name !== undefined && type.name !== undefined && this.name.text === type.name.text)
-        );
+        // No if it's not a none type.
+        if(!(type instanceof NoneType)) return false;
+        // Yes if there are no aliases for either.
+        if(this.aliases.length === 0 && type.aliases.length === 0) return true;
+        // Otherwise, yes if they have an intersecting alias.
+        return this.aliases.find(a => type.aliases.find(b => a.isCompatible(b)) !== undefined) !== undefined;
     }
 
     getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {

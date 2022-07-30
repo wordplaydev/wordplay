@@ -56,7 +56,7 @@ export default class Update extends Expression {
             if(!(cell.expression instanceof Bind && cell.expression.value !== undefined && cell.expression.names.length === 1))
                 conflicts.push(new ExpectedUpdateBind(cell))
             else if(tableType instanceof TableType) {
-                const columnType = tableType.getColumnNamed(cell.expression.names[0].name.text);
+                const columnType = tableType.getColumnNamed(cell.expression.names[0].getName());
                 // The named table column must exist.
                 if(columnType === undefined)
                     conflicts.push(new UnknownColumn(tableType, cell));

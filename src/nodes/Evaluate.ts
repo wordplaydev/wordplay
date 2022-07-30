@@ -155,7 +155,7 @@ export default class Evaluate extends Expression {
             const bind = inputs[i];
             if(bind instanceof Unparsable) return new Exception(ExceptionType.UNPARSABLE);
             else if(i >= values.length) return new Exception(ExceptionType.EXPECTED_VALUE);
-            bind.names.forEach(name => bindings.set(name.name.text, values[i]));
+            bind.names.forEach(name => bindings.set(name.getName(), values[i]));
         }
         return bindings;
 
