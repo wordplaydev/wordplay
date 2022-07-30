@@ -30,7 +30,7 @@
 
 </script>
 
-<div style={`width: 100%; height: auto;`} tabindex=0
+<div class="verse" style={`width: 100%; height: auto;`} tabindex=0
     on:mousedown={handleMouseDown} 
     on:mouseup={handleMouseUp}
     on:mousemove={handleMouseMove}

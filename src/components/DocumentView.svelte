@@ -116,10 +116,6 @@
         color: var(--wordplay-foreground);
     }
 
-    textarea:focus {
-        outline: var(--wordplay-border-width) solid var(--wordplay-highlight)
-    }
-
     textarea[readonly] {
         background: var(--wordplay-chrome);
         tab-size : 2;

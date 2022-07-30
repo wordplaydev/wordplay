@@ -43,4 +43,8 @@
         border: none;
         resize: none;
     }
+
+    :global(textarea:focus, .verse:focus) {
+        outline: var(--wordplay-border-width) solid var(--wordplay-highlight)
+    }
 </style>
