@@ -899,7 +899,7 @@ function parseNoneType(tokens: Tokens): NoneType {
 
     const oops = tokens.read();
     const names = parseAliases(tokens);
-    return new NoneType(oops, names);
+    return new NoneType(names, oops);
 
 }
 

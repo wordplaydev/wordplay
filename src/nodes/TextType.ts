@@ -39,4 +39,8 @@ export default class TextType extends Type {
         return undefined;
     }
 
+    toWordplay(): string {
+        return this.quote === undefined ? "•''" : super.toWordplay();
+    }
+
 }

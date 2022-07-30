@@ -17,7 +17,6 @@ import type Expression from "../nodes/Expression";
 import type { default as Func } from "../nodes/FunctionDefinition";
 import type FunctionType from "../nodes/FunctionType";
 import type Insert from "../nodes/Insert";
-import type ListLiteral from "../nodes/ListLiteral";
 import type ListAccess from "../nodes/ListAccess";
 import type Name from "../nodes/Name";
 import type NameType from "../nodes/NameType";
@@ -84,17 +83,17 @@ export class UnexpectedTypeVariable extends Conflict {
 
 export class IncompatibleOperand extends Conflict {
     readonly expr: Expression;
-    readonly operator: Token;
+    readonly receivedType: Type | undefined;
     readonly expectedType: Type;
-    constructor(expr: Expression, op: Token, expectedType: Type) {
+    constructor(expr: Expression, receivedType: Type | undefined, expectedType: Type) {
         super(false);
         this.expr = expr;
-        this.operator = op;
+        this.receivedType = receivedType;
         this.expectedType = expectedType;
     }
 
     toString() {
-        return super.toString() + this.expr.toWordplay();
+        return `${super.toString()} ${this.expr.toWordplay().trim()}: received ${this.receivedType?.toWordplay()}, expected ${this.expectedType.toWordplay()}`;
     }
 }
 

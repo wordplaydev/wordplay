@@ -43,9 +43,9 @@ export default class UnaryOperation extends Expression {
 
         // If the type doesn't match the operator, that's bad.
         if(this.operand instanceof Expression && (this.operator.text === "√" || this.operator.text === "-") && !(type instanceof MeasurementType))
-            conflicts.push(new IncompatibleOperand(this.operand, this.operator, new MeasurementType()));
+            conflicts.push(new IncompatibleOperand(this, type, new MeasurementType()));
         else if(this.operand instanceof Expression && this.operator.text === "¬" && !(type instanceof BooleanType))
-            conflicts.push(new IncompatibleOperand(this.operand, this.operator, new BooleanType()));
+            conflicts.push(new IncompatibleOperand(this, type, new BooleanType()));
 
         return conflicts;
     

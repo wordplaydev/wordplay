@@ -2,20 +2,21 @@ import Conflict, { NotAListIndex } from "../parser/Conflict";
 import Expression from "./Expression";
 import ListType from "./ListType";
 import MeasurementType from "./MeasurementType";
-import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import List from "../runtime/List";
+import List, { outOfBoundsAliases } from "../runtime/List";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type { ConflictContext } from "./Node";
+import NoneType from "./NoneType";
+import UnionType from "./UnionType";
 
 export default class ListAccess extends Expression {
 
@@ -54,7 +55,7 @@ export default class ListAccess extends Expression {
         // The type is the list's value type, or unknown otherwise.
         if(this.list instanceof Unparsable) return new UnknownType(this);
         const listType = this.list.getType(context);
-        if(listType instanceof ListType && listType.type instanceof Type) return listType.type;
+        if(listType instanceof ListType && listType.type instanceof Type) return new UnionType(listType.type, new NoneType(outOfBoundsAliases));
         else return new UnknownType(this);
     }
 

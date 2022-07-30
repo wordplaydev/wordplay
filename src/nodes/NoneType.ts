@@ -2,16 +2,15 @@ import type Conflict from "../parser/Conflict";
 import type Alias from "./Alias";
 import type ConversionDefinition from "./ConversionDefinition";
 import type { ConflictContext } from "./Node";
-import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
 
 export default class NoneType extends Type {
 
-    readonly none: Token;
+    readonly none?: Token;
     readonly aliases: Alias[];
 
-    constructor(none: Token, aliases: Alias[]) {
+    constructor(aliases: Alias[], none?: Token) {
         super();
 
         this.none = none;
@@ -19,7 +18,7 @@ export default class NoneType extends Type {
     }
 
     getChildren() {
-        return [ this.none, ...this.aliases ];
+        return this.none === undefined ? [ ...this.aliases ] : [ this.none, ...this.aliases ];
     }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
@@ -37,6 +36,10 @@ export default class NoneType extends Type {
         // TODO Define conversions from booleans to other types
         // TODO Look for custom conversions that extend the Boolean type
         return undefined;
+    }
+
+    toWordplay(): string {
+        return "•!" + this.aliases.map(a => a.getName());
     }
 
 }

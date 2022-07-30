@@ -28,7 +28,7 @@ export default class NoneLiteral extends Expression {
 
     getType(context: ConflictContext): Type {
         // Always of type none, with the optional name.
-        return new NoneType(this.none, this.aliases);
+        return new NoneType(this.aliases, this.none);
     }
 
     compile(): Step[] {

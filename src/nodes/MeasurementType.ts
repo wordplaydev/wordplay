@@ -1,7 +1,6 @@
 import type Conflict from "../parser/Conflict";
 import type ConversionDefinition from "./ConversionDefinition";
 import type { ConflictContext } from "./Node";
-import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
 import Unit from "./Unit";
@@ -45,5 +44,7 @@ export default class MeasurementType extends Type {
         // TODO Look for custom conversions that extend the Boolean type
         return undefined;
     }
+
+    toWordplay() { return "•#" + (this.unit === undefined ? "" : this.unit.toString()); }
 
 }

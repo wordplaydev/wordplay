@@ -58,8 +58,8 @@ export default class BinaryOperation extends Expression {
             case "%":
             case "^":
                 // Both operands must be measurement types.
-                if(this.left instanceof Expression && !(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.left, this.operator, new MeasurementType()));
-                if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.right, this.operator, new MeasurementType()));
+                if(this.left instanceof Expression && !(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this, leftType, new MeasurementType()));
+                if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this, rightType, new MeasurementType()));
                 break;
             case "-":
             case "+":
@@ -69,8 +69,8 @@ export default class BinaryOperation extends Expression {
             case "≥":
             case "≠":
                 // Both operands must be measurement types.
-                if(this.left instanceof Expression && !(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.left, this.operator, new MeasurementType()));
-                if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.right, this.operator, new MeasurementType()));
+                if(this.left instanceof Expression && !(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this, leftType, new MeasurementType()));
+                if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this, rightType, new MeasurementType()));
                 // Both operands must have compatible types.
                 if(leftType !== undefined && rightType !== undefined && !leftType.isCompatible(context, rightType))
                     conflicts.push(new IncompatibleUnits(this, leftType, rightType));
@@ -80,8 +80,8 @@ export default class BinaryOperation extends Expression {
                 break;
             case "∧":
             case "∨":
-                if(this.left instanceof Expression && !(leftType instanceof BooleanType)) conflicts.push(new IncompatibleOperand(this.left, this.operator, new BooleanType()));
-                if(this.right instanceof Expression && !(rightType instanceof BooleanType)) conflicts.push(new IncompatibleOperand(this.right, this.operator, new BooleanType()));
+                if(this.left instanceof Expression && !(leftType instanceof BooleanType)) conflicts.push(new IncompatibleOperand(this, leftType, new BooleanType()));
+                if(this.right instanceof Expression && !(rightType instanceof BooleanType)) conflicts.push(new IncompatibleOperand(this, rightType, new BooleanType()));
                 break;
         }
 

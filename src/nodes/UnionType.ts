@@ -26,7 +26,10 @@ export default class UnionType extends Type {
 
     isCompatible(context: ConflictContext, type: Type): boolean {
         return this.left.isCompatible(context, type) || (this.right instanceof Type && this.right.isCompatible(context, type));
+    }
 
+    toWordplay(): string {
+        return this.left.toWordplay() + " | " + this.right.toWordplay();
     }
 }
 
