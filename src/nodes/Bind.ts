@@ -5,7 +5,6 @@ import type Token from "./Token";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
 import type Docs from "./Docs";
-import type Program from "./Program";
 import Conflict, { DuplicateBinds, DuplicateAliases, IncompatibleBind, UnusedBind } from "../parser/Conflict";
 import UnknownType from "./UnknownType";
 import NameType from "./NameType";
@@ -31,7 +30,7 @@ export default class Bind extends Node implements Evaluable, Named {
     readonly dot?: Token;
     readonly type?: Type | Unparsable;
     readonly colon?: Token;
-    readonly value?: Expression | Unparsable; 
+    readonly value?: Expression | Unparsable;
 
     constructor(docs: Docs[], names: Alias[], type?: Type | Unparsable, value?: Expression | Unparsable, dot?: Token, colon?: Token) {
         super();

@@ -1,3 +1,4 @@
+import MeasurementType from "../nodes/MeasurementType";
 import Unit from "../nodes/Unit";
 import Measurement from "../runtime/Measurement";
 import Stream from "../runtime/Stream";
@@ -32,5 +33,7 @@ export default class Time extends Stream {
             clearInterval(this.timerID);
 
     }
+
+    getType() { return new MeasurementType(undefined, new Unit(["ms"])); }
 
 }

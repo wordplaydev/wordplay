@@ -22,4 +22,6 @@ export default class Keyboard extends Stream {
     start() {}
     stop() {}
 
+    getType() { return Key; }
+
 }

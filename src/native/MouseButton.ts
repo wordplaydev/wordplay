@@ -1,3 +1,4 @@
+import BooleanType from "../nodes/BooleanType";
 import Bool from "../runtime/Bool";
 import Stream from "../runtime/Stream";
 
@@ -13,5 +14,7 @@ export default class MouseButton extends Stream {
 
     start() {}
     stop() {}
+
+    getType() { return new BooleanType(); }
 
 }

@@ -247,7 +247,7 @@ export default class Evaluator {
         if(this.hasReactionStream(reaction))
             this.reactionStreams.get(reaction)?.add(value);
         else {
-            const newStream = new ReactionStream(value);
+            const newStream = new ReactionStream(reaction, value);
             this.reactionStreams.set(reaction, newStream);
         }
     }

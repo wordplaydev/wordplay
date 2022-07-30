@@ -21,4 +21,6 @@ export default class MousePosition extends Stream {
     start() {}
     stop() {}
 
+    getType() { return Place; }
+
 }
