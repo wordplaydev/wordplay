@@ -16,6 +16,7 @@ import JumpIfStreamExists from "../runtime/JumpIfStreamExists";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import Bind from "./Bind";
 import type { ConflictContext } from "./Node";
+import UnionType from "./UnionType";
 
 export default class Reaction extends Expression {
 
@@ -56,8 +57,12 @@ export default class Reaction extends Expression {
     }
 
     getType(context: ConflictContext): Type {
-        // The type depends on the type of the initial value.
-        return this.initial.getType(context);
+        const initialType = this.initial.getType(context);
+        const nextType = this.next.getType(context);
+        if(initialType.isCompatible(context, nextType))
+            return initialType;
+        else
+            return new UnionType(initialType, nextType);
     }
 
     compile(): Step[] {

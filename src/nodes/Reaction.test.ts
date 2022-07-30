@@ -1,10 +1,9 @@
-import { IncompatibleStreamValues, NotAStream, testConflict } from "../parser/Conflict";
-import Reaction from "./Reaction";
+import { NotAStream, testConflict } from "../parser/Conflict";
+import Stream from "../runtime/Stream";
 
 test("Test stream conflicts", () => {
 
-    // TODO Enable after implementing some streams.
-    // testConflict('1 ∆ time 1', '1 ∆ tome ""', Stream, NotAStream);
-    testConflict('1 ∆ time 1', '1 ∆ time ""', Reaction, IncompatibleStreamValues);
+    // TOOD Can't test this without actually starting an Evaluator.
+    // testConflict('1 ∆ ⏱ 1', '1 ∆ tome 1', Stream, NotAStream);
     
 });

@@ -8,6 +8,7 @@ import type Value from "../runtime/Value";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
+import UnknownType from "./UnknownType";
 
 export default class Unparsable extends Node implements Evaluable {
     
@@ -24,6 +25,8 @@ export default class Unparsable extends Node implements Evaluable {
     }
 
     getChildren() { return this.lineAfter.slice() }
+
+    getType() { return new UnknownType(this); }
 
     toString(depth: number=0) {
         const s = super.toString(depth);
