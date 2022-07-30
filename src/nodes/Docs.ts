@@ -1,14 +1,14 @@
 import type Conflict from "../parser/Conflict";
+import type Language from "./Language";
 import Node, { type ConflictContext } from "./Node";
-import type Program from "./Program";
 import type Token from "./Token";
 
 export default class Docs extends Node {
     
     readonly docs: Token;
-    readonly lang?: Token;
+    readonly lang?: Language;
 
-    constructor(docs: Token, lang?: Token) {
+    constructor(docs: Token, lang?: Language) {
         super();
 
         this.docs = docs;
@@ -16,7 +16,9 @@ export default class Docs extends Node {
     }
 
     getChildren() { return this.lang === undefined ? [ this.docs ] : [ this.docs, this.lang ]}
- 
+
+    getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
+    
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 
 }

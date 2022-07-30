@@ -1,5 +1,6 @@
 import type Conflict from "../parser/Conflict";
 import type ConversionDefinition from "./ConversionDefinition";
+import type Language from "./Language";
 import type { ConflictContext } from "./Node";
 import type Program from "./Program";
 import type Token from "./Token";
@@ -8,9 +9,9 @@ import Type from "./Type";
 export default class TextType extends Type {
 
     readonly quote?: Token;
-    readonly format?: Token;
+    readonly format?: Language;
 
-    constructor(quote?: Token, format?: Token) {
+    constructor(quote?: Token, format?: Language) {
         super();
 
         this.quote = quote;
@@ -29,7 +30,7 @@ export default class TextType extends Type {
     isCompatible(context: ConflictContext, type: Type): boolean { 
         return  type instanceof TextType && 
                 ((this.format === undefined && type.format === undefined) || 
-                 (this.format !== undefined && type.format !== undefined && this.format.text === type.format.text)); 
+                 (this.format !== undefined && type.format !== undefined && this.format.isCompatible(type.format))); 
     }
 
     getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {

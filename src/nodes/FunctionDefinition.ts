@@ -6,7 +6,6 @@ import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
 import type Docs from "./Docs";
-import type Program from "./Program";
 import Conflict, { DuplicateLanguages, DuplicateInputNames, DuplicateTypeVariables, RequiredAfterOptional } from "../parser/Conflict";
 import FunctionType from "./FunctionType";
 import UnknownType from "./UnknownType";

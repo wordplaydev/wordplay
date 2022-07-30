@@ -4,7 +4,7 @@ import TypeVariable from "./TypeVariable";
 import type Unparsable from "./Unparsable";
 
 export function docsAreUnique(docs: Docs[]): boolean {
-    return docs.every(d1 => docs.find(d2 => d1 !== d2 && d1.lang?.text === d2.lang?.text) === undefined);
+    return docs.every(d1 => docs.find(d2 => d1 !== d2 && d1.getLanguage() === d2.getLanguage()) === undefined);
 }
 
 export function inputsAreUnique(inputs: (Bind | Unparsable)[]): boolean {

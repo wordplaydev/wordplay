@@ -1,6 +1,5 @@
 import Conflict, { UnknownConversion } from "../parser/Conflict";
 import Expression from "./Expression";
-import type Program from "./Program";
 import TextType from "./TextType";
 import Token from "./Token";
 import type Type from "./Type";
@@ -11,13 +10,14 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import type { ConflictContext } from "./Node";
+import type Language from "./Language";
 
 export default class Template extends Expression {
     
     readonly parts: (Token|Expression)[];
-    readonly format?: Token;
+    readonly format?: Language;
 
-    constructor(parts: (Token|Expression)[], format?: Token) {
+    constructor(parts: (Token|Expression)[], format?: Language) {
         super();
 
         this.parts = parts;
@@ -65,7 +65,7 @@ export default class Template extends Expression {
                 return new Exception(ExceptionType.EXPECTED_TYPE);
             text = part.text + text;
         }
-        return new Text(text, this.format?.text);
+        return new Text(text, this.format?.getLanguage());
 
     }
 

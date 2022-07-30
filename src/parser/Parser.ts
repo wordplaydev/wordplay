@@ -55,6 +55,7 @@ import BooleanLiteral from "../nodes/BooleanLiteral";
 import Convert from "../nodes/Convert";
 import SetOrMapLiteral from "../nodes/SetOrMapLiteral";
 import Unit from "../nodes/Unit";
+import Language from "../nodes/Language";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -134,7 +135,7 @@ export class Tokens {
         while(index < this.#unread.length) {
             const token = this.#unread[index];
             if(token.is(type)) return true;
-            if(!token.is(TokenType.DOCS) && !token.is(TokenType.NAME)) return false;
+            if(!token.is(TokenType.DOCS) && !token.is(TokenType.LANGUAGE) && !token.is(TokenType.NAME)) return false;
             index++;
         }
         return false;
@@ -333,15 +334,22 @@ export function parseAliases(tokens: Tokens): Alias[] {
         const semicolon = tokens.nextIs(TokenType.ALIAS) ? tokens.read() : undefined;
         if(aliases.length > 0 && semicolon === undefined) break;
         const name = tokens.read();
-        const slash = tokens.nextIs(TokenType.LANGUAGE) ? tokens.read() : undefined;
-        const lang = slash ? tokens.read() : undefined;
-        aliases.push(new Alias(name, semicolon, slash, lang));
+        let lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
+        aliases.push(new Alias(name, semicolon, lang));
     }
 
     return aliases;
 
 }
 
+/** LANGUAGE :: / name */
+export function parseLanguage(tokens: Tokens): Language {
+
+    const slash = tokens.read();
+    const lang = tokens.read();
+    return new Language(lang, slash);
+
+}
 
 /** EXPRESSION :: BINARY_OPERATION [ conditional EXPRESSION EXPRESSION ]? */
 export function parseExpression(tokens: Tokens): Expression | Unparsable {
@@ -508,9 +516,7 @@ function parseUnit(tokens: Tokens): Unit | Unparsable {
 function parseText(tokens: Tokens): TextLiteral {
 
     const text = tokens.read();
-    let format;
-    if(tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
-        format = tokens.read();
+    const format = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
     return new TextLiteral(text, format);
 
 }
@@ -519,7 +525,6 @@ function parseText(tokens: Tokens): TextLiteral {
 function parseTemplate(tokens: Tokens): Template | Unparsable {
 
     const parts = [];
-    let format;
 
     if(!tokens.nextIs(TokenType.TEXT_OPEN))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TEXT_OPEN);
@@ -538,8 +543,7 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
     parts.push(tokens.read());
 
     // Read an optional format if there's no preceding space.
-    if(tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
-        format = tokens.read();
+    const format = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
 
     return new Template(parts, format);
 
@@ -750,16 +754,16 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
     const close = tokens.read();
 
-    let type;
+    let dot;
     let output;
     if(tokens.nextIs(TokenType.TYPE)) {
-        type = tokens.read();
+        dot = tokens.read();
         output = parseType(tokens);
     }
 
     const expression = tokens.nextIs(TokenType.TBD) ? tokens.read() : parseExpression(tokens);
 
-    return new FunctionDefinition(docs, typeVars, inputs, expression, output, fun, open, close, type);
+    return new FunctionDefinition(docs, typeVars, inputs, expression, output, fun, dot, open, close);
 
 }
 
@@ -875,7 +879,7 @@ export function parseType(tokens: Tokens): Type | Unparsable {
 function parseTextType(tokens: Tokens): TextType {
 
     const quote = tokens.read();
-    const format = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? tokens.read() : undefined;
+    const format = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
     return new TextType(quote, format);
 
 }
@@ -999,7 +1003,7 @@ function parseDocs(tokens: Tokens): Docs[]  {
     const docs = [];
     while(tokens.nextIs(TokenType.DOCS)) {
         const doc = tokens.read();
-        const lang = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? tokens.read() : undefined;
+        const lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
         docs.push(new Docs(doc, lang));
     }
     return docs;

@@ -127,11 +127,11 @@ test("Parse binds", () => {
     expect((aliasedTypedValuedName as Bind).type).toBeInstanceOf(MeasurementType);
     expect((aliasedTypedValuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
-    const documentedName = parseBind(true, tokens("`Some letters`eng a/eng, b/span"));
+    const documentedName = parseBind(true, tokens("`Some letters`/eng a/eng; b/spa"));
     expect(documentedName).toBeInstanceOf(Bind);
     expect((documentedName as Bind).docs).toHaveLength(1);
     expect((documentedName as Bind).docs[0]).toBeInstanceOf(Docs);
-    expect((documentedName as Bind).docs[0].lang?.text).toBe("eng");
+    expect((documentedName as Bind).docs[0].getLanguage()).toBe("eng");
 
     const missingName = parseBind(true, tokens(": 1"));
     expect(missingName).toBeInstanceOf(Unparsable);
@@ -183,9 +183,9 @@ test("Parse expressions", () => {
     expect((template as Template).parts[1]).toBeInstanceOf(BinaryOperation);
     expect((template as Template).parts[2]).toBeInstanceOf(Token);
 
-    const format = parseExpression(tokens("«hola»spa"));
+    const format = parseExpression(tokens("«hola»/spa"));
     expect(format).toBeInstanceOf(TextLiteral);
-    expect((format as TextLiteral).format?.toWordplay()).toBe("spa");
+    expect((format as TextLiteral).format?.getLanguage()).toBe("spa");
 
     const list = parseExpression(tokens("[1 2 3]"));
     expect(list).toBeInstanceOf(ListLiteral);
@@ -276,11 +276,11 @@ test("Parse expressions", () => {
     expect(withBody).toBeInstanceOf(FunctionDefinition);
     expect((withBody as FunctionDefinition).expression).toBeInstanceOf(BinaryOperation);
 
-    const withDocs = parseExpression(tokens("`Add things`eng ƒ(a b) a = b"));
+    const withDocs = parseExpression(tokens("`Add things`/eng ƒ(a b) a = b"));
     expect(withDocs).toBeInstanceOf(FunctionDefinition);
     expect((withDocs as FunctionDefinition).docs).toHaveLength(1);
 
-    const withMultipleDocs = parseExpression(tokens("`Number one`eng `Numero uno`spa ƒ(a b) a = b"));
+    const withMultipleDocs = parseExpression(tokens("`Number one`/eng `Numero uno`/spa ƒ(a b) a = b"));
     expect(withMultipleDocs).toBeInstanceOf(FunctionDefinition);
     expect((withMultipleDocs as FunctionDefinition).docs).toHaveLength(2);
 

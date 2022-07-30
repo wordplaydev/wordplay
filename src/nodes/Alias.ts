@@ -1,20 +1,20 @@
 import Node, { type ConflictContext } from "./Node";
 import Token from "./Token";
-import Conflict, { ExpectedLanguage } from "../parser/Conflict";
+import type Conflict from "../parser/Conflict";
+import { ExpectedLanguage } from "../parser/Conflict";
+import Language from "./Language";
 
 export default class Alias extends Node {
     
     readonly semicolon?: Token;
     readonly name: Token | string;
-    readonly slash?: Token;
-    readonly lang?: Token | string;
+    readonly lang?: Language;
 
-    constructor(name: Token | string, semicolon?: Token, slash?: Token, lang?: Token | string) {
+    constructor(name: Token | string, semicolon?: Token, lang?: Language) {
         super();
 
         this.semicolon = semicolon;
         this.name = name;
-        this.slash = slash;
         this.lang = lang;
     }
 
@@ -22,21 +22,21 @@ export default class Alias extends Node {
         const children = [];
         if(this.semicolon instanceof Token) children.push(this.semicolon);
         if(this.name instanceof Token) children.push(this.name);
-        if(this.slash) children.push(this.slash);
-        if(this.lang instanceof Token) children.push(this.lang);
+        if(this.lang instanceof Language) children.push(this.lang);
         return children;
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    getConflicts(context: ConflictContext): Conflict[] {
         
-        if(this.lang !== undefined && !/^[a-z]{3}$/.test(this.lang instanceof Token ? this.lang.text : this.lang))
-            return [ new ExpectedLanguage(this) ]
-        return []; 
+        const lang = this.lang === undefined ? undefined : this.lang.getLanguage();
+        if(lang !== undefined && !/^[a-z]{3}$/.test(lang))
+            return [ new ExpectedLanguage(this) ];
+        return [];
         
     }
 
     getName() { return this.name instanceof Token ? this.name.text : this.name; }
-    getLanguage() { return this.lang === undefined ? undefined : this.lang instanceof Token ? this.lang.text : this.lang; }
+    getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
 
     isCompatible(alias: Alias) { 
         return this.getName() === alias.getName() && (

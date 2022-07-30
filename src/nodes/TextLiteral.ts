@@ -10,13 +10,14 @@ import Text from "../runtime/Text";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import type { ConflictContext } from "./Node";
+import type Language from "./Language";
 
 export default class TextLiteral extends Expression {
     
     readonly text: Token;
-    readonly format?: Token;
+    readonly format?: Language;
 
-    constructor(text: Token, format?: Token) {
+    constructor(text: Token, format?: Language) {
         super();
         this.text = text;
         this.format = format;
@@ -35,7 +36,7 @@ export default class TextLiteral extends Expression {
     }
     
     evaluate(evaluator: Evaluator): Value {
-        return new Text(this.text.text.substring(1, this.text.text.length - 1), this.format === undefined ? undefined : this.format.text);
+        return new Text(this.text.text.substring(1, this.text.text.length - 1), this.format === undefined ? undefined : this.format.getLanguage());
     }
 
 }
