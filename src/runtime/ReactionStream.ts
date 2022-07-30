@@ -7,6 +7,7 @@ export default class ReactionStream extends Stream {
         super({"eng": "reaction"}, initialValue);
     }
 
+    start(): void {}
     stop() {}
 
 }

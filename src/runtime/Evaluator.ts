@@ -43,8 +43,11 @@ export default class Evaluator {
         this.shares = shares;
         this.listener = listener;
 
-        // Listen to streams
-        this.shares.getStreams().forEach(stream => stream.listen(this.react.bind(this)));
+        // Start and listen to all streams
+        this.shares.getStreams().forEach(stream => {
+            stream.listen(this.react.bind(this))
+            stream.start();
+        });
 
         // Evaluate the first time
         this.evaluate([]);
@@ -79,7 +82,9 @@ export default class Evaluator {
 
     /** Stops listening to listeners and halts execution. */
     stop() {
+        // Stop all streams and stop listening to them.
         this.shares.getStreams().forEach(stream => {
+            stream.stop();
             stream.ignore(this.react);
         });
         this.stopped = true;

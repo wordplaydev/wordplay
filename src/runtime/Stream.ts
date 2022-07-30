@@ -63,6 +63,9 @@ export default abstract class Stream extends Value implements Named {
         
     }
 
+    /** Should start whatever is necessary to start listening to data stream. */
+    abstract start(): void;
+
     /** Should do whatever cleanup is necessary to stop listening to a data stream */
     abstract stop(): void;
 
