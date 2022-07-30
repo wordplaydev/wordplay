@@ -67,14 +67,16 @@ export default class BinaryOperation extends Expression {
             case ">":
             case "≤":
             case "≥":
-            case "=":
             case "≠":
                 // Both operands must be measurement types.
                 if(this.left instanceof Expression && !(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.left, this.operator, new MeasurementType()));
                 if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this.right, this.operator, new MeasurementType()));
                 // Both operands must have compatible types.
                 if(leftType !== undefined && rightType !== undefined && !leftType.isCompatible(context, rightType))
-                    conflicts.push(new IncompatibleUnits(this));
+                    conflicts.push(new IncompatibleUnits(this, leftType, rightType));
+                break;
+            case "=":
+                // Equals works for all types.
                 break;
             case "∧":
             case "∨":

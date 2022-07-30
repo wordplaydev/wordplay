@@ -20,4 +20,6 @@ export default class UnknownType extends Type {
     isCompatible(context: ConflictContext, type: Type) { return false; }
     getConversion(context: ConflictContext, type: Type) { return undefined; }
 
+    toWordplay() { return "•_"; }
+
 }

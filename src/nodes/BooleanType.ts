@@ -29,4 +29,6 @@ export default class BooleanType extends Type {
         return undefined;
     }
 
+    toWordplay() { return "•?"; }
+
 }

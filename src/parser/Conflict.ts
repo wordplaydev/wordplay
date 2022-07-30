@@ -92,13 +92,24 @@ export class IncompatibleOperand extends Conflict {
         this.operator = op;
         this.expectedType = expectedType;
     }
+
+    toString() {
+        return super.toString() + this.expr.toWordplay();
+    }
 }
 
 export class IncompatibleUnits extends Conflict {
     readonly binary: BinaryOperation;
-    constructor(binary: BinaryOperation) {
+    readonly left: Type;
+    readonly right: Type;
+    constructor(binary: BinaryOperation, left: Type, right: Type) {
         super(false);
         this.binary = binary;
+        this.left = left;
+        this.right = right;
+    }
+    toString() {
+        return `${super.toString()} ${this.binary.toWordplay()}: (${this.left.toWordplay()}) ≠ (${this.right.toWordplay()})`;
     }
 }
 
@@ -352,9 +363,16 @@ export class UnknownTypeName extends Conflict {
 
 export class IncompatibleKey extends Conflict {
     readonly access: SetOrMapAccess;
-    constructor(access: SetOrMapAccess) {
+    readonly expected: Type;
+    readonly received: Type;
+    constructor(access: SetOrMapAccess, expected: Type, received: Type) {
         super(false);
         this.access = access;
+        this.expected = expected;
+        this.received = received;
+    }
+    toString() {
+        return `${super.toString()} ${this.access.toWordplay()}: ${this.expected.toWordplay()} ≠ ${this.received.toWordplay()}`;
     }
 }
 
