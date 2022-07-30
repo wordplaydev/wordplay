@@ -19,13 +19,23 @@
         if(evaluator)
             evaluator.getShares().getMousePosition().record(event.offsetX, event.offsetY);
     }
+    function handleKeyUp(event: KeyboardEvent) {
+        if(evaluator)
+            evaluator.getShares().getKeyboard().record(event.key, false);
+    }
+    function handleKeyDown(event: KeyboardEvent) {
+        if(evaluator)
+            evaluator.getShares().getKeyboard().record(event.key, true);
+    }
 
 </script>
 
-<div style={`width: 100%; height: auto;`} 
+<div style={`width: 100%; height: auto;`} tabindex=0
     on:mousedown={handleMouseDown} 
     on:mouseup={handleMouseUp}
     on:mousemove={handleMouseMove}
+    on:keydown={handleKeyDown}
+    on:keyup={handleKeyUp}
 >
     <GroupView group={group} />
 </div>

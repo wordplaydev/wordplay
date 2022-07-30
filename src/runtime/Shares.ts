@@ -8,6 +8,7 @@ import Sentence from "../native/Sentence";
 import Group from "../native/Group";
 import MouseButton from "../native/MouseButton";
 import MousePosition from "../native/MousePosition";
+import Keyboard from "../native/Keyboard";
 
 export const DEFAULT_SHARES: Record<string, Value> = {
     // Add the output types as implicit shares.
@@ -23,6 +24,7 @@ export default class Shares {
     readonly time: Time;
     readonly mouseButton: MouseButton;
     readonly mousePosition: MousePosition;
+    readonly keyboard: Keyboard;
 
     constructor(bindings?: Record<string, Value>) {
 
@@ -42,10 +44,14 @@ export default class Shares {
         this.mouseButton = new MouseButton();
         Object.values(this.mouseButton.getNames()).forEach(name => this.bind(name, this.mouseButton));
 
-        // Share a mouse button stream for programs to listen to.
+        // Share a mouse position stream for programs to listen to.
         this.mousePosition = new MousePosition();
         Object.values(this.mousePosition.getNames()).forEach(name => this.bind(name, this.mousePosition));
         
+        // Share a keyboard button stream for programs to listen to.
+        this.keyboard = new Keyboard();
+        Object.values(this.keyboard.getNames()).forEach(name => this.bind(name, this.keyboard));
+
     }
 
     getStreams(): Stream[] {
@@ -54,6 +60,7 @@ export default class Shares {
 
     getMouseButton(): MouseButton { return this.mouseButton; }
     getMousePosition(): MousePosition { return this.mousePosition; }
+    getKeyboard(): Keyboard { return this.keyboard; }
 
     bind(name: string, value: Value): Exception | undefined {
         if(this.values.has(name)) 
