@@ -4,7 +4,6 @@ import Stream from "../runtime/Stream";
 
 export default class Time extends Stream {
 
-    times: number[] = [];
     timerID: NodeJS.Timer | undefined;
     startTime: number | undefined;
 

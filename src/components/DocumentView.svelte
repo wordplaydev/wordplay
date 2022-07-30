@@ -12,7 +12,7 @@
     import Verse from '../native/Verse';
     import Group from '../native/Group';
     import TextStructureType from '../native/TextStructureType';
-import List from '../runtime/List';
+    import List from '../runtime/List';
 
     export let doc: Document;
     $: content = doc.getContent();
@@ -76,7 +76,7 @@ import List from '../runtime/List';
 <div class="document">
     <div class="document-title">{doc.getName()}</div>
     {#if view instanceof Structure}
-        <VerseView verse={view} />
+        <VerseView verse={view} evaluator={$project?.getEvaluator()}/>
     {:else if typeof content === "string"}
         <textarea 
             on:input={handleEdit} 

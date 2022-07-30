@@ -72,4 +72,6 @@ export default class Project {
         this.evaluator.stop();
     }
 
+    getEvaluator() { return this.evaluator; }
+
 }

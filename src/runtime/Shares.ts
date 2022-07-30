@@ -6,9 +6,7 @@ import StructureDefinitionValue from "./StructureDefinitionValue";
 import Verse from "../native/Verse";
 import Sentence from "../native/Sentence";
 import Group from "../native/Group";
-
-// Create one global timer stream for programs to listen to.
-const time = new Time();
+import MouseButton from "../native/MouseButton";
 
 export const DEFAULT_SHARES: Record<string, Value> = {
     // Add the output types as implicit shares.
@@ -17,11 +15,12 @@ export const DEFAULT_SHARES: Record<string, Value> = {
     "W": new StructureDefinitionValue(Sentence)
 }
 
-Object.values(time.getNames()).forEach(name => DEFAULT_SHARES[name] = time);
-
 export default class Shares {
 
     readonly values: Map<string, Value>;
+
+    readonly time: Time;
+    readonly mouseButton: MouseButton;
 
     constructor(bindings?: Record<string, Value>) {
 
@@ -33,11 +32,21 @@ export default class Shares {
         // Add implicit shares.
         Object.keys(DEFAULT_SHARES).forEach(name => this.bind(name, DEFAULT_SHARES[name]));
 
+        // Share a timer stream for programs to listen to.
+        this.time = new Time();
+        Object.values(this.time.getNames()).forEach(name => this.bind(name, this.time));
+
+        // Share a mouse button stream for programs to listen to.
+        this.mouseButton = new MouseButton();
+        Object.values(this.mouseButton.getNames()).forEach(name => this.bind(name, this.mouseButton));
+        
     }
 
     getStreams(): Stream[] {
         return Array.from(this.values.values()).filter(v => v instanceof Stream) as Stream[];
     }
+
+    getMouseButton(): MouseButton { return this.mouseButton; }
 
     bind(name: string, value: Value): Exception | undefined {
         if(this.values.has(name)) 

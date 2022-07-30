@@ -73,7 +73,7 @@ export default class Evaluator {
         // Start executing the program node.
         this.evaluations = [ new Evaluation(this.program, this.program) ];
 
-        // Borrow all of the implicit shares.
+        // Borrow all of the implicit borrows.
         Object.keys(DEFAULT_BORROWS).forEach(name => this.borrow(name));
 
         // Stop remembering in case the last execution ended abruptly.
@@ -198,6 +198,8 @@ export default class Evaluator {
             undefined :
             this.evaluations[0];
     }
+
+    getShares() { return this.shares; }
 
     /** Share the given value */
     share(name: string, value: Value) { 
