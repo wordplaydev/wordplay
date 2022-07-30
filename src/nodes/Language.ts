@@ -4,10 +4,10 @@ import Token from "./Token";
 
 export default class Language extends Node {
     
-    readonly slash: Token;
+    readonly slash?: Token;
     readonly lang: Token | string;
 
-    constructor(lang: Token | string, slash: Token) {
+    constructor(lang: Token | string, slash?: Token) {
         super();
 
         this.slash = slash;
@@ -16,7 +16,7 @@ export default class Language extends Node {
 
     getChildren() { 
         const children = [];
-        children.push(this.slash);
+        if(this.slash !== undefined) children.push(this.slash);
         if(this.lang instanceof Token) children.push(this.lang);
         return children;
     }

@@ -19,6 +19,7 @@ import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
 import Structure from "../runtime/Structure";
 import type { ConflictContext, Definition } from "./Node";
+import StructureDefinition from "./StructureDefinition";
 
 export default class Block extends Expression {
 
@@ -88,6 +89,10 @@ export default class Block extends Expression {
             (s instanceof Share && i < index && s.bind instanceof Bind && s.bind.names.find(n => n.getName() == name) !== undefined)
         ) as Bind;
         if(localBind !== undefined) return localBind;
+
+        // Are there any structure definitions with this name?
+        const structure = this.statements.find(s => s instanceof StructureDefinition && s.hasName(name));
+        if(structure !== undefined) return structure as StructureDefinition;
 
         // Is there an enclosing function or block?
         return context.program.getBindingEnclosureOf(this)?.getDefinition(context, node, name);

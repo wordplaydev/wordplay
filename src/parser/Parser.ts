@@ -60,6 +60,7 @@ import Language from "../nodes/Language";
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
     EXPECTED_BIND_NAME,
+    EXPECTED_STRUCTURE_NAME,
     EXPECTED_ACCESS_NAME,
     EXPECTED_TYPE_VAR_NAME,
     EXPECTED_EVAL_OPEN,
@@ -335,7 +336,7 @@ export function parseAliases(tokens: Tokens): Alias[] {
         if(aliases.length > 0 && semicolon === undefined) break;
         const name = tokens.read();
         let lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
-        aliases.push(new Alias(name, semicolon, lang));
+        aliases.push(new Alias(name, lang, semicolon));
     }
 
     return aliases;
@@ -972,13 +973,17 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 
 }
 
-/** CUSTOM_TYPE :: DOCS? • TYPE_VARS ( BIND* ) BLOCK */
+/** CUSTOM_TYPE :: DOCS? • NAME TYPE_VARS ( BIND* ) BLOCK */
 function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     const docs = parseDocs(tokens);
 
     const type = tokens.read();
- 
+
+    const aliases = parseAliases(tokens);
+    if(aliases.length === 0)
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_STRUCTURE_NAME)
+
     const typeVars = parseTypeVariables(tokens);
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN);
@@ -994,7 +999,7 @@ function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     const block = parseBlock(tokens, false, true);
 
-    return new StructureDefinition(docs, typeVars, inputs, block, type, open, close);
+    return new StructureDefinition(docs, aliases, typeVars, inputs, block, type, open, close);
 
 }
 

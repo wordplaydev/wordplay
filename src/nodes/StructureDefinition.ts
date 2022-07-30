@@ -1,7 +1,6 @@
 import type Node from "./Node";
 import Bind from "./Bind";
 import Expression from "./Expression";
-import type Token from "./Token";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
 import type Docs from "./Docs";
@@ -19,23 +18,27 @@ import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import type StructureDefinitionInterface from "../native/StructureDefinitionInterface";
 import type { ConflictContext, Definition } from "./Node";
 import StructureType from "./StructureType";
+import type Alias from "./Alias";
+import type Token from "./Token";
 
 export default class StructureDefinition extends Expression implements StructureDefinitionInterface {
 
-    readonly docs: Docs[];
+    readonly docs: Docs[];    
     readonly type?: Token;
+    readonly aliases: Alias[];
     readonly typeVars: (TypeVariable|Unparsable)[];
     readonly open?: Token;
     readonly inputs: (Bind | Unparsable)[];
     readonly close?: Token;
     readonly block: Block | Unparsable;
 
-    constructor(docs: Docs[], typeVars: (TypeVariable|Unparsable)[], inputs: (Bind|Unparsable)[], block: Block | Unparsable, type?: Token, open?: Token, close?: Token) {
+    constructor(docs: Docs[], aliases: Alias[], typeVars: (TypeVariable|Unparsable)[], inputs: (Bind|Unparsable)[], block: Block | Unparsable, type?: Token, open?: Token, close?: Token) {
 
         super();
 
         this.docs = docs;
         this.type = type;
+        this.aliases = aliases;
         this.typeVars = typeVars;
         this.open = open;
         this.inputs = inputs;
@@ -56,7 +59,7 @@ export default class StructureDefinition extends Expression implements Structure
     }
 
     getChildren() {
-        let children: Node[] = [ ...this.docs ];
+        let children: Node[] = [ ...this.docs, ...this.aliases ];
         children = children.concat(this.typeVars);
         if(this.open) children.push(this.open);
         children = children.concat(this.inputs);
@@ -86,13 +89,15 @@ export default class StructureDefinition extends Expression implements Structure
         if(this.inputs.length === binds.length && requiredBindAfterOptional(binds) !== undefined)
             conflicts.push(new RequiredAfterOptional(this));
     
-
         return conflicts; 
     
     }
 
     /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
     getDefinition(context: ConflictContext, node: Node, name: string): Definition {
+
+        // Is this it? Return it.
+        if(this.aliases.find(a => a.getName() === name)) return this;
 
         // Does an input delare the name?
         const input = this.getBind(name);
@@ -124,15 +129,22 @@ export default class StructureDefinition extends Expression implements Structure
 
     isCompatible(context: ConflictContext, type: Type): boolean { return type === this; }
 
+    hasName(name: string) { return this.aliases.find(a => a.getName() === name) !== undefined; }
+
     compile(): Step[] {
         return [ new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator) {
         const context = evaluator.getEvaluationContext();
-        return context === undefined ? 
-            new Exception(ExceptionType.EXPECTED_CONTEXT) : 
-            new StructureDefinitionValue(this, context);
+        if(context !== undefined) {
+            const def = new StructureDefinitionValue(this, context);
+            this.aliases.forEach(a => context.bind(a.getName(), def));
+            return undefined;
+        }
+        else
+            return new Exception(ExceptionType.EXPECTED_CONTEXT);
+            
     }
 
 }

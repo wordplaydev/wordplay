@@ -313,7 +313,7 @@ test("Parse expressions", () => {
     expect(conversionWithDocs).toBeInstanceOf(ConversionDefinition);
     expect((conversionWithDocs as ConversionDefinition).docs).toHaveLength(1);
 
-    const customType = parseExpression(tokens("•(species•'') ( meow: ƒ() say(species) )"))
+    const customType = parseExpression(tokens("•Cat(species•'') ( meow: ƒ() say(species) )"))
     expect(customType).toBeInstanceOf(StructureDefinition);
     expect((customType as StructureDefinition).inputs).toHaveLength(1);
     expect(((customType as StructureDefinition).block as Block).statements).toHaveLength(1);

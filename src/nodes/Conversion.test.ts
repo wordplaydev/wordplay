@@ -3,7 +3,7 @@ import ConversionDefinition from "./ConversionDefinition";
 
 test("Test conversion conflicts", () => {
 
-    testConflict('•() (→ "" "meow")', '→ "" "meow"', ConversionDefinition, MisplacedConversion);
-    testConflict('•() (`hi`/eng`hola`/spa → "" "meow")', '•() (`hi`/eng`hola`/eng → "" "meow")', ConversionDefinition, DuplicateLanguages);
+    testConflict('•Cat() (→ "" "meow")', '→ "" "meow"', ConversionDefinition, MisplacedConversion);
+    testConflict('•Cat() (`hi`/eng`hola`/spa → "" "meow")', '•Cat() (`hi`/eng`hola`/eng → "" "meow")', ConversionDefinition, DuplicateLanguages);
 
 });

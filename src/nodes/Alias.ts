@@ -10,7 +10,7 @@ export default class Alias extends Node {
     readonly name: Token | string;
     readonly lang?: Language;
 
-    constructor(name: Token | string, semicolon?: Token, lang?: Language) {
+    constructor(name: Token | string, lang?: Language, semicolon?: Token) {
         super();
 
         this.semicolon = semicolon;
