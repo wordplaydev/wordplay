@@ -19,7 +19,7 @@ test("Tokenize numbers", () => {
     expect(tokenize("1,0").map(t => t.toWordplay()).join("\n")).toBe("1,0\n");
     expect(tokenize("-1,0").map(t => t.toWordplay()).join("\n")).toBe("-\n1,0\n");
     expect(tokenize("0∞π").map(t => t.toWordplay()).join("\n")).toBe("0\n∞\nπ\n");
-    expect(tokenize("一 十 百 百一 百四十五 百九十九 千一 万十一 万").map(t => t.toWordplay()).join("\n")).toBe("一\n 十\n 百\n 百一\n 百四十五\n 百九十九\n 千一\n 万十一\n 万\n");
+    expect(tokenize("一 十 百 百一 百四十五 百九十九 千一 万十一 万 99万").map(t => t.toWordplay()).join("\n")).toBe("一\n 十\n 百\n 百一\n 百四十五\n 百九十九\n 千一\n 万十一\n 万\n 99万\n");
 
 })
 

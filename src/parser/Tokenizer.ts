@@ -23,11 +23,12 @@ const patterns = [
     { pattern: "•", types: [ TokenType.TYPE ] },
     { pattern: "∆", types: [ TokenType.STREAM ] },
     { pattern: "…", types: [ TokenType.TBD ] },
+    // Japaense numbers
+    { pattern: /^[0-9]*万[一二三四五六七八九]?(千[一二三四五六七八九]?)?(百[一二三四五六七八九]?)?(十[一二三四五六七八九]?)?/, types: [ TokenType.NUMBER, TokenType.JAPANESE ] },
     // Numbers with bases between base 2 and 16
     { pattern: /^([2-9]|1[0-6]);[_0-9A-F]+([.,][_0-9A-F]+)?/, types: [ TokenType.NUMBER, TokenType.BASE ] },    
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
     { pattern: /^[_0-9]+([.,][_0-9]+)?/, types: [ TokenType.NUMBER, TokenType.DECIMAL ] },    
-    { pattern: /^万[一二三四五六七八九]?(千[一二三四五六七八九]?)?(百[一二三四五六七八九]?)?(十[一二三四五六七八九]?)?/, types: [ TokenType.NUMBER, TokenType.JAPANESE ] },
     { pattern: "π", types: [ TokenType.NUMBER, TokenType.PI ] },
     { pattern: "∞", types: [ TokenType.NUMBER, TokenType.INFINITY ] },
     { pattern: /^[+×*·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
