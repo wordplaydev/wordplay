@@ -8,10 +8,10 @@ import type Unparsable from "./Unparsable";
 export default class UnionType extends Type {
 
     readonly left: Type;
-    readonly or: Token;
+    readonly or?: Token;
     readonly right: Type | Unparsable;
 
-    constructor(left: Type, or: Token, right: Type | Unparsable) {
+    constructor(left: Type, right: Type | Unparsable, or?: Token) {
         super();
 
         this.left = left;
@@ -20,7 +20,7 @@ export default class UnionType extends Type {
     }
 
     getChildren() {
-        return [ this.left, this.or, this.right ];
+        return this.or === undefined ? [ this.left, this.right ] : [ this.left, this.or, this.right ];
     }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }

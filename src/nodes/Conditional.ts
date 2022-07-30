@@ -1,7 +1,6 @@
 import BooleanType from "./BooleanType";
-import Conflict, { ExpectedBooleanCondition, IncompatibleConditionalBranches } from "../parser/Conflict";
+import Conflict, { ExpectedBooleanCondition } from "../parser/Conflict";
 import Expression from "./Expression";
-import type Program from "./Program";
 import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
@@ -11,6 +10,7 @@ import type Step from "../runtime/Step";
 import JumpIfFalse from "../runtime/JumpIfFalse";
 import Jump from "../runtime/Jump";
 import type { ConflictContext } from "./Node";
+import UnionType from "./UnionType";
 
 export default class Conditional extends Expression {
     
@@ -38,16 +38,30 @@ export default class Conditional extends Expression {
         if(!(this.condition.getType(context) instanceof BooleanType))
             children.push(new ExpectedBooleanCondition(this));
 
-        if(this.yes instanceof Expression && this.no instanceof Expression && !(this.yes.getType(context).isCompatible(context, this.no.getType(context))))
-            children.push(new IncompatibleConditionalBranches(this))
-
         return children; 
     
     }
 
     getType(context: ConflictContext): Type {
-        // Whatever tyoe the yes/no returns.
-        return this.yes instanceof Unparsable ? new UnknownType(this) : this.yes.getType(context);
+        // Whatever type the yes/no returns.
+        if(this.yes instanceof Unparsable) {
+            if(this.no instanceof Unparsable)
+                return new UnknownType(this);
+            else 
+                return this.no.getType(context);
+        }
+        else {
+            if(this.no instanceof Unparsable)
+                return this.yes.getType(context);
+            else {
+                const yesType = this.yes.getType(context);
+                const noType = this.no.getType(context);
+                if(yesType.isCompatible(context, noType))
+                    return yesType;
+                else 
+                return new UnionType(yesType, noType);
+            }
+        }
     }
 
     compile(): Step[] {

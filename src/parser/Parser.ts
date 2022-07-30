@@ -848,8 +848,10 @@ export function parseType(tokens: Tokens): Type | Unparsable {
         tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TYPE)
     );
 
-    while(!(left instanceof Unparsable) && tokens.nextIs(TokenType.UNION))
-        left = new UnionType(left, tokens.read(), parseType(tokens));
+    while(!(left instanceof Unparsable) && tokens.nextIs(TokenType.UNION)) {
+        const or = tokens.read();
+        left = new UnionType(left, parseType(tokens), or);
+    }
     
     return left;
 

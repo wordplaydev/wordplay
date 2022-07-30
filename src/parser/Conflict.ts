@@ -259,14 +259,6 @@ export class ExpectedBooleanCondition extends Conflict {
     }
 }
 
-export class IncompatibleConditionalBranches extends Conflict {
-    readonly conditional: Conditional;
-    constructor(conditional: Conditional) {
-        super(false);
-        this.conditional = conditional;
-    }
-}
-
 export class NotATable extends Conflict {
     readonly op: Insert | Select | Delete | Update;
     constructor(op: Insert | Select | Delete | Update) {
