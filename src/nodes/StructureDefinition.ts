@@ -18,6 +18,7 @@ import Exception, { ExceptionType } from "../runtime/Exception";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import type StructureDefinitionInterface from "../native/StructureDefinitionInterface";
 import type { ConflictContext, Definition } from "./Node";
+import StructureType from "./StructureType";
 
 export default class StructureDefinition extends Expression implements StructureDefinitionInterface {
 
@@ -119,7 +120,7 @@ export default class StructureDefinition extends Expression implements Structure
         return this.inputs.find(i => i instanceof Bind && i.names.find(n => n.name.text === name)) as Bind | undefined;
     }
 
-    getType(context: ConflictContext): Type { return this; }
+    getType(context: ConflictContext): Type { return new StructureType(this); }
 
     isCompatible(context: ConflictContext, type: Type): boolean { return type === this; }
 

@@ -165,9 +165,15 @@ export class IncompatibleBind extends Conflict {
 
 export class NotAFunction extends Conflict {
     readonly evaluate: Evaluate;
-    constructor(evaluate: Evaluate) {
+    readonly received: Type
+    constructor(evaluate: Evaluate, received: Type) {
         super(false);
         this.evaluate = evaluate;
+        this.received = received;
+    }
+
+    toString() {
+        return `${super.toString()}: ${this.evaluate.func.toWordplay().trim()} was ${this.received.toWordplay()}`;
     }
 }
 

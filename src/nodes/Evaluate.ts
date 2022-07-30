@@ -51,7 +51,7 @@ export default class Evaluate extends Expression {
 
             // The function must be a function.
             if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
-                conflicts.push(new NotAFunction(this));
+                conflicts.push(new NotAFunction(this, functionType));
             else { 
                 let targetInputs: Type[] | undefined = undefined;
                 if(functionType instanceof FunctionType) {
