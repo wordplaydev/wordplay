@@ -6,7 +6,7 @@ import { tokenize } from '../parser/Tokenizer';
 import Evaluator from '../runtime/Evaluator';
 import Shares from '../runtime/Shares';
 import type Step from '../runtime/Step';
-import Time from '../runtime/Time';
+import Time from '../native/Time';
 import Value from '../runtime/Value';
 import Text from '../runtime/Text';
 import Document from './Document';

@@ -1,7 +1,7 @@
 import Exception, { ExceptionType } from "./Exception";
 import Stream from "./Stream";
 import type Value from "./Value";
-import Time from "../runtime/Time";
+import Time from "../native/Time";
 import StructureDefinitionValue from "./StructureDefinitionValue";
 import Verse from "../native/Verse";
 import Sentence from "../native/Sentence";

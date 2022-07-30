@@ -1,7 +1,6 @@
 import Bind from "../nodes/Bind";
 import Conflict, { MisplacedShare, MissingShareLanguages } from "../parser/Conflict";
 import Node, { type ConflictContext } from "./Node";
-import type Program from "./Program";
 import type Token from "./Token";
 import Unparsable from "./Unparsable";
 import type Evaluable from "../runtime/Evaluable";

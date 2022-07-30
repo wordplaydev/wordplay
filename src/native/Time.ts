@@ -1,6 +1,6 @@
 import Unit from "../nodes/Unit";
-import Measurement from "./Measurement";
-import Stream from "./Stream";
+import Measurement from "../runtime/Measurement";
+import Stream from "../runtime/Stream";
 
 export default class Time extends Stream {
 
