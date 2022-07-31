@@ -56,7 +56,9 @@ export default class Evaluator {
 
     static evaluateCode(code: string): Value | undefined {
         const evaluator = new Evaluator(parse(code), new Shares());
-        return evaluator.evaluate([]);
+        const result = evaluator.evaluate([]);
+        evaluator.stop();
+        return result;
     }
 
     react(stream: Stream) {
