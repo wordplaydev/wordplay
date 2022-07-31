@@ -14,6 +14,13 @@ test("Test number translation", () => {
     expect((new Measurement(new Token("0.000000001", [ TokenType.DECIMAL ], 0))).toString()).toBe("1e-9");
     expect((new Measurement(new Token("001.100", [ TokenType.DECIMAL ], 0))).toString()).toBe("1.1");
     expect((new Measurement(new Token("1000", [ TokenType.DECIMAL ], 0))).toString()).toBe("1000");
+    expect((new Measurement(new Token("∞", [ TokenType.INFINITY ], 0))).toString()).toBe("Infinity");
+
+    // Test Japanese numbers.
+    expect((new Measurement(new Token("十", [ TokenType.JAPANESE ]))).toString()).toBe("10");
+    expect((new Measurement(new Token("二十", [ TokenType.JAPANESE ]))).toString()).toBe("20");
+    expect((new Measurement(new Token("二十.二分", [ TokenType.JAPANESE ]))).toString()).toBe("20.2");
+    expect((new Measurement(new Token("九万九千九百九十九.九分九厘九毛九糸九忽", [ TokenType.JAPANESE ]))).toString()).toBe("99999.99999");
 
     // Bases
     expect((new Measurement(new Token("2;10101.01", [ TokenType.BASE ], 0)).toString())).toBe("21.25");
@@ -34,11 +41,6 @@ test("Test inequalities", () => {
 })
 
 test("Test addition", () => {
-    // expect(Measurement.addDigits([ 1 ], [ 1 ]).join("")).toBe("2");
-    // expect(Measurement.addDigits([ 9 ], [ 6 ]).join("")).toBe("15");
-    // expect(Measurement.addDigits([ 1, 0, 0 ], [ 1 ]).join("")).toBe("101");
-    // expect(Measurement.addDigits([ 8, 0, 0 ], [ 9, 1, 3 ]).join("")).toBe("1713");
-    // expect(Measurement.addDigits([ 8 ], [ 1 ]).join("")).toBe("9");
 
     expect((new Measurement(1)).add(new Measurement(2)).toString()).toBe("3");
     expect((new Measurement(1)).add(new Measurement(10)).toString()).toBe("11");
@@ -51,12 +53,6 @@ test("Test addition", () => {
 })
 
 test("Test subtraction", () => {
-    // expect(Measurement.subtractDigits([ 1 ], [ 1 ]).join("")).toBe("0");
-    // expect(Measurement.subtractDigits([ 5 ], [ 1 ]).join("")).toBe("4");
-    // expect(Measurement.subtractDigits([ 1, 5 ], [ 1 ]).join("")).toBe("14");
-    // expect(Measurement.subtractDigits([ 1, 0 ], [ 1 ]).join("")).toBe("9");
-    // expect(Measurement.subtractDigits([ 1, 0, 0 ], [ 1 ]).join("")).toBe("99");
-    // expect(Measurement.subtractDigits([ 1, 0, 1, 0, 0 ], [ 1, 0, 1, 1 ]).join("")).toBe("9089");
 
     expect((new Measurement(1)).subtract(new Measurement(2)).toString()).toBe("-1");
     expect((new Measurement(1)).subtract(new Measurement(10)).toString()).toBe("-9");

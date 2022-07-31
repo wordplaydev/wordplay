@@ -31,6 +31,7 @@ import type TypeVariable from "../nodes/TypeVariable";
 import type Unparsable from "../nodes/Unparsable";
 import type Update from "../nodes/Update";
 import { parse } from "./Parser";
+import type MeasurementLiteral from "../nodes/MeasurementLiteral";
 
 export default abstract class Conflict {
     readonly #minor: boolean;
@@ -416,6 +417,14 @@ export class ExpectedEndingExpression extends Conflict {
     constructor(block: Block) {
         super(false);
         this.block = block;
+    }
+}
+
+export class NotANumber extends Conflict {
+    readonly measurement: MeasurementLiteral;
+    constructor(measurement: MeasurementLiteral) {
+        super(false);
+        this.measurement = measurement;
     }
 }
 

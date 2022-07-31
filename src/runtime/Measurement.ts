@@ -8,6 +8,30 @@ import Decimal from 'decimal.js';
 import MeasurementStructureType from "../native/MeasurementStructureType";
 import Alias from "../nodes/Alias";
 
+const kanjiNumbers: Record<string, number> = {
+    "一": 1,
+    "二": 2,
+    "三": 3, 
+    "四": 4,
+    "五": 5,
+    "六": 6,
+    "七": 7,
+    "八": 8,
+    "九": 9
+};
+
+const kanjiOrders: Record<string, number> = {
+    "忽": 0.00001,
+    "糸": 0.0001,
+    "毛": 0.001,
+    "厘": 0.01,
+    "分": 0.1,
+    "十": 10,
+    "百": 100,
+    "千": 1000,
+    "万": 10000
+}
+
 /** A decimal number with a unit.
  * If all of it's parts are empty, it is not a number.
  * If it's numerator 
@@ -20,12 +44,18 @@ export default class Measurement extends Value {
     constructor(number: number | Token | Decimal, unit?: Unit) {
         super();
 
-        // If it's a token, convert the string.
+        // If the number given is a Decimal, just assign it.
         if(number instanceof Decimal) {
             this.num = number;
         }
+        // If the number is a token, convert it to a Decimal.
         else if(number instanceof Token) {
-            if(number.is(TokenType.DECIMAL)) {
+            // Infinity
+            if(number.is(TokenType.INFINITY)) {
+                this.num = new Decimal(Infinity);
+            }
+            // If it matches the decimal pattern, randomize requested digits, then convert to a Decimal.
+            else if(number.is(TokenType.DECIMAL)) {
 
                 // Randomize any underscore digits.
                 let text = number.text;
@@ -35,6 +65,7 @@ export default class Measurement extends Value {
                 // Set the number.
                 this.num = new Decimal(text);
             }
+            // If it matches a number with a different base, convert it to a Decimal.
             else if(number.is(TokenType.BASE)) {
                 const [ baseString, numString ] = number.text.split(";");
                 const base = parseInt(baseString);
@@ -74,19 +105,58 @@ export default class Measurement extends Value {
                     }
                 }
             }
+            else if(number.is(TokenType.JAPANESE)) {
+
+                // Japanese numbers are  sum of products, read left to right.
+                // For example, 千二百八十九 is
+                // one 千 (1000's) + 二 (two) 百 (100's) + 八 (eight) 十 (10's) + 九 (nine) = 1289.
+                let kanji = number.text;
+                let sum = 0;
+                let previousOrder = undefined;
+                while(kanji.length > 0) {
+
+                    // Is the next character a period?
+                    const period = kanji.charAt(0) === ".";
+                    // Skip the period.
+                    if(period) {
+                        kanji = kanji.substring(1);
+                        continue;
+                    }
+
+                    // Is there a 1-9 digit prefix? If so, parse it as a multiplier.
+                    let value = kanjiNumbers[kanji.charAt(0)];
+                    let multiplier = 1;
+                    if(value >= 1 && value <= 9) {
+                        kanji = kanji.substring(1);
+                        multiplier = value;
+                    }
+
+                    // Is there another digit that's not a period? Parse the order.
+                    if(kanji.length > 0 && kanji.charAt(0) !== ".") {
+                        value = kanjiOrders[kanji.charAt(0)];
+                        kanji = kanji.substring(1);
+                        // If somehow a non-Kanji number snuck in, this isn't a valid number.
+                        // If this order of magnitude is greater than the previous one, this isn't a valid number.
+                        if(value === undefined && (previousOrder !== undefined && value > previousOrder)) {
+                            sum = NaN;
+                            break;
+                        }
+                        previousOrder = value;    
+                        sum += multiplier * value;
+                    }
+                    else sum += value;
+
+                }
+
+                this.num = new Decimal(sum);
+
+            }
+            // If it matches the Pi token, convert to Pi.
             else if(number.is(TokenType.PI)) {
                 this.num = Decimal.acos(-1);
             }
             else {
-            // else if(number.is(TokenType.JAPANESE)) {
-            // else if(number.is(TokenType.INFINITY)) {
                 this.num = new Decimal(NaN);
-                // TODO
-                // this.positive = true;
-                // this.digits = [];
-                // this.exponent = 0;
-                // this.numerator = [];
-                // this.denominator = [];
             }
         }
         // If it's a Javascript floating point, convert.

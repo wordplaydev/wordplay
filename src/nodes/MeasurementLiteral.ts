@@ -12,6 +12,7 @@ import Unparsable from "./Unparsable";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import type { ConflictContext } from "./Node";
+import { NotANumber } from "../parser/Conflict";
 
 export default class MeasurementLiteral extends Expression {
     
@@ -28,7 +29,14 @@ export default class MeasurementLiteral extends Expression {
 
     getChildren() { return this.unit === undefined ? [ this.number ] : [ this.number, this.unit ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { 
+    
+        if(new Measurement(this.number).isNotANumber())
+            return [ new NotANumber(this) ];
+        else
+            return []; 
+    
+    }
 
     getType(context: ConflictContext): Type {
         return new MeasurementType(undefined, this.unit instanceof Unparsable ? undefined : this.unit);
