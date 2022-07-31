@@ -106,49 +106,60 @@ export default class Measurement extends Value {
                 }
             }
             else if(number.is(TokenType.JAPANESE)) {
-
+                
                 // Japanese numbers are  sum of products, read left to right.
                 // For example, 千二百八十九 is
                 // one 千 (1000's) + 二 (two) 百 (100's) + 八 (eight) 十 (10's) + 九 (nine) = 1289.
                 let kanji = number.text;
-                let sum = 0;
+                let sum = new Decimal(0);
                 let previousOrder = undefined;
                 while(kanji.length > 0) {
 
                     // Is the next character a period?
-                    const period = kanji.charAt(0) === ".";
+                    const period = kanji.charAt(0) === "・";
                     // Skip the period.
                     if(period) {
                         kanji = kanji.substring(1);
                         continue;
                     }
 
+                    let multiplier = 1;
+
+                    // Is theere a 0-9 prefix? If so, parse it as an arabic multiplier.
+                    if(/^[0-9]/.test(kanji.charAt(0))) {
+                        let digits = "";
+                        while(kanji.length > 0 && /^[0-9]/.test(kanji.charAt(0))) {
+                            digits = digits + kanji.charAt(0);
+                            kanji = kanji.substring(1);
+                        }
+                        multiplier = parseInt(digits);
+                    }
+
                     // Is there a 1-9 digit prefix? If so, parse it as a multiplier.
                     let value = kanjiNumbers[kanji.charAt(0)];
-                    let multiplier = 1;
                     if(value >= 1 && value <= 9) {
                         kanji = kanji.substring(1);
                         multiplier = value;
                     }
 
                     // Is there another digit that's not a period? Parse the order.
-                    if(kanji.length > 0 && kanji.charAt(0) !== ".") {
+                    if(kanji.length > 0 && kanji.charAt(0) !== "・") {
                         value = kanjiOrders[kanji.charAt(0)];
                         kanji = kanji.substring(1);
                         // If somehow a non-Kanji number snuck in, this isn't a valid number.
                         // If this order of magnitude is greater than the previous one, this isn't a valid number.
                         if(value === undefined && (previousOrder !== undefined && value > previousOrder)) {
-                            sum = NaN;
+                            sum = new Decimal(NaN);
                             break;
                         }
                         previousOrder = value;    
-                        sum += multiplier * value;
+                        sum = sum.plus(new Decimal(multiplier).times(new Decimal(value)));
                     }
-                    else sum += value;
+                    else sum = sum.plus(new Decimal(value));
 
                 }
 
-                this.num = new Decimal(sum);
+                this.num = sum;
 
             }
             // If it matches the Pi token, convert to Pi.

@@ -19,8 +19,10 @@ test("Test number translation", () => {
     // Test Japanese numbers.
     expect((new Measurement(new Token("十", [ TokenType.JAPANESE ]))).toString()).toBe("10");
     expect((new Measurement(new Token("二十", [ TokenType.JAPANESE ]))).toString()).toBe("20");
-    expect((new Measurement(new Token("二十.二分", [ TokenType.JAPANESE ]))).toString()).toBe("20.2");
-    expect((new Measurement(new Token("九万九千九百九十九.九分九厘九毛九糸九忽", [ TokenType.JAPANESE ]))).toString()).toBe("99999.99999");
+    expect((new Measurement(new Token("二万", [ TokenType.JAPANESE ]))).toString()).toBe("20000");
+    expect((new Measurement(new Token("二十・二分", [ TokenType.JAPANESE ]))).toString()).toBe("20.2");
+    expect((new Measurement(new Token("九万九千九百九十九・九分九厘九毛九糸九忽", [ TokenType.JAPANESE ]))).toString()).toBe("99999.99999");
+    expect((new Measurement(new Token("99万", [ TokenType.JAPANESE ]))).toString()).toBe("990000");
 
     // Bases
     expect((new Measurement(new Token("2;10101.01", [ TokenType.BASE ], 0)).toString())).toBe("21.25");
