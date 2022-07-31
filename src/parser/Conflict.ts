@@ -1,5 +1,4 @@
 import type AccessName from "../nodes/AccessName";
-import type Alias from "../nodes/Alias";
 import type BinaryOperation from "../nodes/BinaryOperation";
 import type Bind from "../nodes/Bind";
 import type Block from "../nodes/Block";
@@ -27,7 +26,6 @@ import type SetOrMapLiteral from "../nodes/SetOrMapLiteral";
 import type Share from "../nodes/Share";
 import type Reaction from "../nodes/Reaction";
 import type TableType from "../nodes/TableType";
-import type Token from "../nodes/Token";
 import type Type from "../nodes/Type";
 import type TypeVariable from "../nodes/TypeVariable";
 import type Unparsable from "../nodes/Unparsable";
@@ -46,14 +44,6 @@ export class UnparsableConflict extends Conflict {
     constructor(unparsable: Unparsable) {
         super(false);
         this.unparsable = unparsable;
-    }
-}
-
-export class ExpectedLanguage extends Conflict {
-    readonly alias: Alias;
-    constructor(alias: Alias) {
-        super(false);
-        this.alias = alias;
     }
 }
 

@@ -2,7 +2,6 @@ import Node, { type ConflictContext } from "./Node";
 import type Bind from "../nodes/Bind";
 import type Token from "./Token";
 import Unparsable from "./Unparsable";
-import type Program from "./Program";
 import type Conflict from "../parser/Conflict";
 import UnknownType from "./UnknownType";
 

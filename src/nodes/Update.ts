@@ -2,7 +2,6 @@ import type Node from "./Node";
 import type Token from "./Token";
 import Expression from "./Expression";
 import type Row from "./Row";
-import type Program from "./Program";
 import Conflict, { ExpectedUpdateBind, IncompatibleCellType, NonBooleanQuery, NotATable, UnknownColumn } from "../parser/Conflict";
 import type Type from "./Type";
 import type Unparsable from "./Unparsable";

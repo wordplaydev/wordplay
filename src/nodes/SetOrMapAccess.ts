@@ -1,7 +1,5 @@
 import Conflict, { IncompatibleKey } from "../parser/Conflict";
 import Expression from "./Expression";
-import type Node from "./Node";
-import type Program from "./Program";
 import SetOrMapType from "./SetOrMapType";
 import type Token from "./Token";
 import Type from "./Type";

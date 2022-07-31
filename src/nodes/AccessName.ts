@@ -1,7 +1,6 @@
 import Conflict, { UnknownProperty } from "../parser/Conflict";
 import StructureDefinition from "./StructureDefinition";
 import Expression from "./Expression";
-import type Program from "./Program";
 import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";

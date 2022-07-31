@@ -1,6 +1,5 @@
 import Conflict, { UnknownConversion } from "../parser/Conflict";
 import Expression from "./Expression";
-import type Program from "./Program";
 import Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";

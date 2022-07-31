@@ -1,6 +1,5 @@
 import type Conflict from "../parser/Conflict";
 import type { ConflictContext } from "./Node";
-import type Program from "./Program";
 import Type from "./Type";
 
 export default class ConversionType extends Type {

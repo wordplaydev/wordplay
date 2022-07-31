@@ -5,7 +5,6 @@ import type Value from "../runtime/Value";
 import type Conflict from "../parser/Conflict";
 import Expression from "./Expression";
 import MeasurementType from "./MeasurementType";
-import type Program from "./Program";
 import type Token from "./Token";
 import type Type from "./Type";
 import Unit from "./Unit";

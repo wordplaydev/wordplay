@@ -1,11 +1,8 @@
 import { ListStructureType } from "../native/ListStructureType";
-import Alias from "../nodes/Alias";
-import Language from "../nodes/Language";
+import { outOfBoundsAliases } from "../runtime/Constants";
 import type Measurement from "./Measurement";
 import None from "./None";
 import Value from "./Value";
-
-export const outOfBoundsAliases = [ new Alias("indexoutofbounds", new Language("eng")) ];
 
 export default class List extends Value {
 

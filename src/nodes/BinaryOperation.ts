@@ -3,7 +3,6 @@ import Conflict, { IncompatibleOperand, IncompatibleUnits, LeftToRightOrderOfOpe
 import Expression from "./Expression";
 import MeasurementLiteral from "./MeasurementLiteral";
 import MeasurementType from "./MeasurementType";
-import type Program from "./Program";
 import Token, { TokenType } from "./Token";
 import type Type from "./Type";
 import UnaryOperation from "./UnaryOperation";

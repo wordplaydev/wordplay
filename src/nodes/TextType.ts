@@ -2,7 +2,6 @@ import type Conflict from "../parser/Conflict";
 import type ConversionDefinition from "./ConversionDefinition";
 import type Language from "./Language";
 import type { ConflictContext } from "./Node";
-import type Program from "./Program";
 import type Token from "./Token";
 import Type from "./Type";
 

@@ -8,7 +8,7 @@ import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import List, { outOfBoundsAliases } from "../runtime/List";
+import List from "../runtime/List";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
@@ -17,6 +17,7 @@ import Start from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 import NoneType from "./NoneType";
 import UnionType from "./UnionType";
+import { outOfBoundsAliases } from "../runtime/Constants";
 
 export default class ListAccess extends Expression {
 

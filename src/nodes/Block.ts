@@ -3,7 +3,6 @@ import Bind from "./Bind";
 import Conflict, { DuplicateLanguages, ExpectedBindValue, ExpectedEndingExpression, IgnoredExpression } from "../parser/Conflict";
 import type Docs from "./Docs";
 import Expression from "./Expression";
-import type Program from "./Program";
 import Share from "./Share";
 import type Token from "./Token";
 import type Type from "./Type";

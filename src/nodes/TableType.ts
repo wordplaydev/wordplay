@@ -1,5 +1,4 @@
 import type ColumnType from "./ColumnType";
-import type Program from "./Program";
 import type Conflict from "../parser/Conflict";
 import Type from "./Type";
 import Bind from "../nodes/Bind";

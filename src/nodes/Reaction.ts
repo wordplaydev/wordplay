@@ -1,6 +1,5 @@
 import Conflict, { IncompatibleStreamValues, NotAStream } from "../parser/Conflict";
 import Expression from "./Expression";
-import type Program from "./Program";
 import StreamType from "./StreamType";
 import type Token from "./Token";
 import type Type from "./Type";

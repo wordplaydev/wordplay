@@ -2,7 +2,6 @@ import type Node from "./Node";
 import Expression from "./Expression";
 import type Token from "./Token";
 import type Docs from "./Docs";
-import type Program from "./Program";
 import Conflict, { DuplicateLanguages, MisplacedConversion } from "../parser/Conflict";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";

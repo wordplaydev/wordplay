@@ -1,6 +1,5 @@
 import type Column from "./Column";
 import type Row from "./Row";
-import type Program from "./Program";
 import Conflict, { ExpectedColumnType, IncompatibleCellType, MissingCells } from "../parser/Conflict";
 import Expression from "./Expression";
 import TableType from "./TableType";

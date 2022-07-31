@@ -1,7 +1,5 @@
-import type Bind from "../nodes/Bind";
 import Conflict, { UnexpectedTypeVariable, UnknownName } from "../parser/Conflict";
 import Expression from "./Expression";
-import type Program from "./Program";
 import type Token from "./Token";
 import type Type from "./Type";
 import TypeVariable from "./TypeVariable";

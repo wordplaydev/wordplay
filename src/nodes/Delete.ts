@@ -1,7 +1,6 @@
 import type Node from "./Node";
 import type Token from "./Token";
 import Expression from "./Expression";
-import type Program from "./Program";
 import Conflict, { NonBooleanQuery, NotATable } from "../parser/Conflict";
 import type Type from "./Type";
 import type Unparsable from "./Unparsable";

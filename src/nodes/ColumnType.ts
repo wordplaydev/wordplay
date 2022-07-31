@@ -1,4 +1,3 @@
-import type Program from "./Program";
 import type Conflict from "../parser/Conflict";
 import type Token from "./Token";
 import type Unparsable from "./Unparsable";

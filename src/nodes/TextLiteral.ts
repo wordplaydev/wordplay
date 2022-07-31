@@ -1,6 +1,5 @@
 import type Conflict from "../parser/Conflict";
 import Expression from "./Expression";
-import type Program from "./Program";
 import TextType from "./TextType";
 import type Token from "./Token";
 import type Type from "./Type";
