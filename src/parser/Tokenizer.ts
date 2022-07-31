@@ -23,6 +23,8 @@ const patterns = [
     { pattern: "•", types: [ TokenType.TYPE ] },
     { pattern: "∆", types: [ TokenType.STREAM ] },
     { pattern: "…", types: [ TokenType.TBD ] },
+    // Roman numerals
+    { pattern: /^[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/, types: [ TokenType.NUMBER, TokenType.ROMAN ] },
     // Japanese numbers
     { pattern: /^[0-9]*[一二三四五六七八九十百千万]+(・[一二三四五六七八九分厘毛糸忽]+)?/u, types: [ TokenType.NUMBER, TokenType.JAPANESE ] },
     // Numbers with bases between base 2 and 16

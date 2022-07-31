@@ -24,6 +24,7 @@ export enum TokenType {
     TEXT_TYPE,     // ""
     NUMBER_TYPE,   // #
     JAPANESE,
+    ROMAN,
     PI,
     INFINITY,    
     NONE_TYPE,     // !

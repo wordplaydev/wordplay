@@ -24,6 +24,14 @@ test("Test number translation", () => {
     expect((new Measurement(new Token("九万九千九百九十九・九分九厘九毛九糸九忽", [ TokenType.JAPANESE ]))).toString()).toBe("99999.99999");
     expect((new Measurement(new Token("99万", [ TokenType.JAPANESE ]))).toString()).toBe("990000");
 
+    // Test roman numerals.
+    expect((new Measurement(new Token("Ⅹ", [ TokenType.ROMAN ]))).toString()).toBe("10");
+    expect((new Measurement(new Token("ⅩⅩ", [ TokenType.ROMAN ]))).toString()).toBe("20");
+    expect((new Measurement(new Token("ⅩⅩⅩⅠⅩ", [ TokenType.ROMAN ]))).toString()).toBe("39");
+    expect((new Measurement(new Token("ⅭⅭⅩⅬⅤⅠ", [ TokenType.ROMAN ]))).toString()).toBe("246");
+    expect((new Measurement(new Token("ⅮⅭⅭⅬⅩⅩⅩⅠⅩ", [ TokenType.ROMAN ]))).toString()).toBe("789");
+    expect((new Measurement(new Token("ⅯⅯⅭⅮⅩⅩⅠ", [ TokenType.ROMAN ]))).toString()).toBe("2421");
+
     // Bases
     expect((new Measurement(new Token("2;10101.01", [ TokenType.BASE ], 0)).toString())).toBe("21.25");
 

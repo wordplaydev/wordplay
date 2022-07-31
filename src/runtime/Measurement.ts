@@ -32,6 +32,25 @@ const kanjiOrders: Record<string, number> = {
     "万": 10000
 }
 
+const romanNumerals: Record<string, number> = {
+    "Ⅰ": 1,
+    "Ⅱ": 2,
+    "Ⅲ": 3,
+    "Ⅳ": 4, 
+    "Ⅴ": 5,
+    "Ⅵ": 6,
+    "Ⅶ": 7,
+    "Ⅷ": 8,
+    "Ⅸ": 9,
+    "Ⅹ": 10,
+    "Ⅺ": 11,
+    "Ⅻ": 12,
+    "Ⅼ": 50,
+    "Ⅽ": 100,
+    "Ⅾ": 500,
+    "Ⅿ": 1000
+}
+
 /** A decimal number with a unit.
  * If all of it's parts are empty, it is not a number.
  * If it's numerator 
@@ -104,6 +123,27 @@ export default class Measurement extends Value {
                         this.num = num;
                     }
                 }
+            }
+            else if(number.is(TokenType.ROMAN)) {
+
+                // Sum these! Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ Ⅵ Ⅶ Ⅷ Ⅸ Ⅹ Ⅺ Ⅻ Ⅼ Ⅽ Ⅾ Ⅿ
+                let numerals = number.text;
+                let sum = new Decimal(0);
+                let previous = undefined;
+                while(numerals.length > 0) {
+                    const numeral = romanNumerals[numerals.charAt(0)];
+                    sum = sum.plus(new Decimal(numeral));
+                    if((numeral === 5 || numeral === 10) && previous === 1)
+                        sum = sum.minus(2);
+                    if((numeral === 50 || numeral === 100) && previous === 10)
+                        sum = sum.minus(20);
+                    if((numeral === 500 || numeral === 1000) && previous === 100)
+                        sum = sum.minus(200);
+                    numerals = numerals.substring(1);
+                    previous = numeral;
+                }
+                this.num = sum;
+
             }
             else if(number.is(TokenType.JAPANESE)) {
                 
