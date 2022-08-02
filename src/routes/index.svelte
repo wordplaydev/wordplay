@@ -3,8 +3,9 @@
     import Project from '../models/Project';
     import Manager from '../components/Manager.svelte';
     import { project } from '../models/stores';
+    import { examples } from '../examples/examples';
 
-    project.set(new Project("Play", "↓⏱\n🥹: {⊤: «😀» ⊥: «😂»}\n∥: ⏱ % 2 = 0ms\nW(🥹{∥} 32pt «Noto Sans»)", () => project.set($project)));
+    project.set(new Project("Play", examples.AnimatedFace, () => project.set($project)));
 
 </script>
 

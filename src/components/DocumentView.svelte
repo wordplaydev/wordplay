@@ -83,7 +83,7 @@
             class="document-content" 
             bind:value={content} 
             readonly={!doc.isEditable()}
-            style="height: {content.split("\n").length}em;"
+            style="height: {Math.min(20, content.split("\n").length)}em;"
             tabIndex=0
         />
     {:else}
