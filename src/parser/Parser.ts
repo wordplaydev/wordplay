@@ -782,7 +782,7 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
     if(tokens.nextIs(TokenType.EVAL_CLOSE))
         close = tokens.read();
     else
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN);
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
     
     return new Evaluate(typeVars, open, left, inputs, close);
 

@@ -9,7 +9,6 @@ import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
 import { docsAreUnique } from "./util";
-import type TypeVariable from "./TypeVariable";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionType } from "../runtime/Exception";
 import Start from "../runtime/Start";

@@ -31,7 +31,7 @@ Verse(
             state.won() ? title("You won, nice job! Press space to play again.")
             Group(
                 layout: centered
-                Sentence(size: 24pt text: state.secret→[].every(f(letter) guesses.has(letter) ? letter "_").join(' '))
+                Sentence(size: 24pt text: state.secret→[''].every(ƒ(letter) guesses.has(letter) ? letter "_").join(' '))
                 Sentence(size: 16pt "Guesses: /state.guesses.join(' ')/")
                 Sentence(size: 12pt "/state.guessesRemaining()/ remaining")
             )
