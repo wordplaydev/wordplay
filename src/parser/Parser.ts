@@ -441,9 +441,9 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
     while(!(left instanceof Unparsable) && tokens.nextLacksPrecedingLineBreak()) {
         if(tokens.nextIs(TokenType.ACCESS))
             left = parseAccess(left, tokens);
-        else if(tokens.nextIs(TokenType.LIST_OPEN))
+        else if(tokens.nextIs(TokenType.LIST_OPEN) && tokens.nextLacksPrecedingSpace())
             left = parseListAccess(left, tokens);
-        else if(tokens.nextIs(TokenType.SET_OPEN))
+        else if(tokens.nextIs(TokenType.SET_OPEN) && tokens.nextLacksPrecedingSpace())
             left = parseSetOrMapAccess(left, tokens);
         else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);

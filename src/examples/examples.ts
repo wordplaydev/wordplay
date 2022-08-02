@@ -1,19 +1,12 @@
 export const examples: Record<string, string> = {
-    AnimatedFace: 
-`
-↓⏱
-🥹: {⊤: «😀» ⊥: «😂»}
-∥: ⏱ % 2 = 0ms
-W(🥹{∥} 32pt «Noto Sans»)
-`,
-    WhatWord:
+WhatWord:
 `
 ↓ ⌨️
 
-•GameState(playing•? guesses•[""] secret•""|!)
+•GameState(playing•? guesses•[""] secret•""∨!)
 (
     guessesRemaining: ƒ() secret.length * 2 - guesses.length
-    won: ƒ() secret→[].every(ƒ(letter) guesses.has(letter))
+    won: ƒ() secret→[''].every(ƒ(letter) guesses.has(letter))
     lost: ƒ() guessesRemaining < 0
 )
 
@@ -45,5 +38,12 @@ Verse(
         )
         title("Welcome to WhatWord!" "Press space to begin...")
 )
+`,
+AnimatedFace: 
 `
-            };
+↓⏱
+🥹: {⊤: «😀» ⊥: «😂»}
+∥: ⏱ % 2 = 0ms
+W(🥹{∥} 32pt «Noto Sans»)
+`
+};
