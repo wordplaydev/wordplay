@@ -107,7 +107,7 @@ export default class Block extends Expression {
 
         // If there are no statements, halt on exception.
         return !this.creator && this.statements.length === 0 ? 
-            [ new Halt(new Exception(ExceptionType.EXPECTED_EXPRESSION), this) ] :
+            [ new Halt(new Exception(this, ExceptionType.EXPECTED_EXPRESSION), this) ] :
             [ 
                 new Start(this), 
                 ...this.statements.reduce((prev: Step[], current) => [ ...prev, ...current.compile() ], []),
@@ -122,7 +122,7 @@ export default class Block extends Expression {
         // and convert it into a structure.
         if(this.creator) {
             const context = evaluator.getEvaluationContext();
-            if(context === undefined) return new Exception(ExceptionType.EXPECTED_CONTEXT);
+            if(context === undefined) return new Exception(this, ExceptionType.EXPECTED_CONTEXT);
             return new Structure(context);
         }
         // If this block is just an expression, return the (last) value on the value stack of the current evaluation context.

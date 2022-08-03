@@ -62,7 +62,7 @@ export default class Template extends Expression {
             const p = this.parts[i];
             const part = p instanceof Token ? new Text(p.text.substring(1, p.text.length - 1)) : evaluator.popValue();
             if(!(part instanceof Text))
-                return new Exception(ExceptionType.EXPECTED_TYPE);
+                return new Exception(this, ExceptionType.EXPECTED_TYPE);
             text = part.text + text;
         }
         return new Text(text, this.format?.getLanguage());

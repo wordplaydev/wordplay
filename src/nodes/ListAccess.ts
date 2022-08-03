@@ -69,8 +69,8 @@ export default class ListAccess extends Expression {
         const index = evaluator.popValue();
         const list = evaluator.popValue();
 
-        if(!(list instanceof List)) return new Exception(ExceptionType.EXPECTED_TYPE);
-        else if(!(index instanceof Measurement) || !index.isInteger()) return new Exception(ExceptionType.EXPECTED_TYPE);
+        if(!(list instanceof List)) return new Exception(this, ExceptionType.EXPECTED_TYPE);
+        else if(!(index instanceof Measurement) || !index.isInteger()) return new Exception(this, ExceptionType.EXPECTED_TYPE);
         else return list.get(index);
 
     }

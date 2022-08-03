@@ -47,6 +47,6 @@ export function createStructure(definition: StructureDefinition, values: Record<
 
     const bindings = new Map<string,Value>();
     Object.keys(values).forEach(key => bindings.set(key, values[key]));
-    return new Structure(new Evaluation(definition, undefined, undefined, bindings));
+    return new Structure(new Evaluation(definition, definition, undefined, bindings));
 
 }

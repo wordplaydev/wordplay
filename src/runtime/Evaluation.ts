@@ -4,12 +4,13 @@ import Program from "../nodes/Program";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import Type from "../nodes/Type";
 import type Conversion from "./Conversion";
-import type Evaluable from "./Evaluable";
+import type Node from "../nodes/Node";
 import type Evaluator from "./Evaluator";
 import Exception, { ExceptionType } from "./Exception";
 import type Step from "./Step";
 import Stream from "./Stream";
 import Value from "./Value";
+import type Evaluable from "./Evaluable";
 
 export default class Evaluation {
 
@@ -17,7 +18,7 @@ export default class Evaluation {
     readonly #definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition;
 
     /** The node being evaluated. */
-    readonly #node?: Evaluable;
+    readonly #node: Evaluable;
 
     /** A cache of the node's steps */
     readonly #steps?: Step[];
@@ -39,7 +40,7 @@ export default class Evaluation {
     
     constructor(
         definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition, 
-        node?: Evaluable, 
+        node: Evaluable, 
         context?: Evaluation, 
         bindings?: Map<string, Value>) {
 
@@ -99,7 +100,7 @@ export default class Evaluation {
 
     popValue(): Value { 
         const value = this.#values.shift(); 
-        return value === undefined ? new Exception(ExceptionType.EXPECTED_VALUE) : value;
+        return value === undefined ? new Exception(this.#definition, ExceptionType.EXPECTED_VALUE) : value;
     }
 
     /** Binds a value to a name in this evaluation. */

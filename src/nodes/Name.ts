@@ -55,7 +55,7 @@ export default class Name extends Expression {
         // Search for the name in the given evaluation context.
         const value = evaluator.resolve(this.name.text);
         // Return it or an exception if we didn't find it.
-        return value === undefined ? new Exception(ExceptionType.UNKNOWN_NAME) : value;
+        return value === undefined ? new Exception(this, ExceptionType.UNKNOWN_NAME) : value;
 
     }
 

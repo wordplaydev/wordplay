@@ -52,7 +52,7 @@ export default class Convert extends Expression {
 
     evaluate(evaluator: Evaluator) {
         
-        if(this.type instanceof Unparsable) return new Exception(ExceptionType.UNPARSABLE);
+        if(this.type instanceof Unparsable) return new Exception(this, ExceptionType.UNPARSABLE);
 
         const value = evaluator.popValue();
         if(value instanceof Exception) return value;
@@ -60,7 +60,7 @@ export default class Convert extends Expression {
 
             // Find the conversion function on the structure.
             const conversion = value.getConversion(this.type);
-            if(conversion === undefined) return new Exception(ExceptionType.UNKNOWN_CONVERSION);
+            if(conversion === undefined) return new Exception(this, ExceptionType.UNKNOWN_CONVERSION);
 
             // If we found one, then execute it to get a value of the appropriate type on the value stack.
             evaluator.startEvaluation(
@@ -72,7 +72,7 @@ export default class Convert extends Expression {
             );
 
         }
-        else return new Exception(ExceptionType.UNKNOWN_CONVERSION);
+        else return new Exception(this, ExceptionType.UNKNOWN_CONVERSION);
 
 
     }

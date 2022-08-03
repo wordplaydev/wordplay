@@ -39,11 +39,11 @@ export default class Unparsable extends Node implements Evaluable {
     }
 
     compile(): Step[] {
-        return [ new Halt(new Exception(ExceptionType.UNPARSABLE), this) ];
+        return [ new Halt(new Exception(this, ExceptionType.UNPARSABLE), this) ];
     }
 
     evaluate(evaluator: Evaluator): Value {
-        return new Exception(ExceptionType.UNPARSABLE);
+        return new Exception(this, ExceptionType.UNPARSABLE);
     }
 
 }

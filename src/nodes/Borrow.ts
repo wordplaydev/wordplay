@@ -45,11 +45,15 @@ export default class Borrow extends Node implements Evaluable {
     evaluate(evaluator: Evaluator) {
 
         if(!(this.name.is(TokenType.NAME))) 
-            return new Exception(ExceptionType.EXPECTED_TYPE);
+            return new Exception(this, ExceptionType.EXPECTED_TYPE);
         if(this.version !== undefined && !(this.version.is(TokenType.NUMBER))) 
-            return new Exception(ExceptionType.EXPECTED_TYPE);
-        return evaluator.borrow(this.name.text, this.version === undefined ? undefined : (new Measurement(this.version, new Unit())).toNumber());
+            return new Exception(this, ExceptionType.EXPECTED_TYPE);
+        return evaluator.borrow(this.getName(), this.getVersion());
 
     }
+
+    getName() { return this.name.text; }
+
+    getVersion() { return this.version === undefined ? undefined : (new Measurement(this.version, new Unit())).toNumber(); }
 
 }

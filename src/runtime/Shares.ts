@@ -62,14 +62,14 @@ export default class Shares {
     getMousePosition(): MousePosition { return this.mousePosition; }
     getKeyboard(): Keyboard { return this.keyboard; }
 
-    bind(name: string, value: Value): Exception | undefined {
-        if(this.values.has(name)) 
-            return new Exception(ExceptionType.EXISTING_SHARE);
+    bind(name: string, value: Value): undefined {
         this.values.set(name, value);
+        return undefined;
     }
 
-    resolve(name: string, version?: number): Value {
-        return this.values.has(name) ? this.values.get(name) as Value : new Exception(ExceptionType.UNKNOWN_SHARE);
+    /** Handle version. */
+    resolve(name: string, version?: number): Value | undefined {
+        return this.values.has(name) ? this.values.get(name) as Value : undefined;
     }
 
 }

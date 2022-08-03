@@ -47,7 +47,7 @@ export default class MeasurementLiteral extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value {
-        if(this.unit instanceof Unparsable) return new Exception(ExceptionType.UNPARSABLE);
+        if(this.unit instanceof Unparsable) return new Exception(this, ExceptionType.UNPARSABLE);
         // This needs to translate between different number formats.
         else return new Measurement(this.number, this.unit === undefined ? new Unit([], []) : this.unit);
     }

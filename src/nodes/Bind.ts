@@ -117,7 +117,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
     compile(): Step[] {
         return this.value === undefined ?
-            [ new Halt(new Exception(ExceptionType.EXPECTED_VALUE), this) ] :
+            [ new Halt(new Exception(this, ExceptionType.EXPECTED_VALUE), this) ] :
             [ new Start(this), ...this.value.compile(), new Finish(this) ];
     }
 

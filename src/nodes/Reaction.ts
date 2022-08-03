@@ -111,7 +111,7 @@ export default class Reaction extends Expression {
         // At this point in the compiled steps above, we should have a value on the stack
         // that is either the initial value for this reaction's stream or a new value.
         if(streamValue === undefined)
-            return new Exception(ExceptionType.EXPECTED_VALUE);
+            return new Exception(this, ExceptionType.EXPECTED_VALUE);
         else
             evaluator.addToReactionStream(this, streamValue);
 

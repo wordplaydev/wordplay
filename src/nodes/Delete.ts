@@ -76,7 +76,7 @@ export default class Delete extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value {
-        return new Exception(ExceptionType.NOT_IMPLEMENTED);
+        return new Exception(this, ExceptionType.NOT_IMPLEMENTED);
     }
 
 }

@@ -6,7 +6,6 @@ import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import Conflict, { NotASetOrMap } from "../parser/Conflict";
-
 import Exception, { ExceptionType } from "../runtime/Exception";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
@@ -68,13 +67,13 @@ export default class SetOrMapLiteral extends Expression {
             case SetKind.Set: 
                 let type = getPossibleUnionType(context, this.values.map(v => (v as Expression | Unparsable).getType(context)));
                 if(type === undefined) type = new UnknownType(this);
-                else return new SetOrMapType(type);
+                else return new SetOrMapType(undefined, undefined, type);
             case SetKind.Map:
                 let keyType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.key.getType(context) : v.getType(context)));
                 let valueType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.value.getType(context) : v.getType(context)));
                 if(keyType === undefined) keyType = new UnknownType(this);
                 else if(valueType === undefined) valueType = new UnknownType(this);
-                else return new SetOrMapType(keyType, valueType);
+                else return new SetOrMapType(undefined, undefined, keyType, undefined, valueType);
             default: return new UnknownType(this);
         }
 
@@ -82,7 +81,7 @@ export default class SetOrMapLiteral extends Expression {
 
     compile(): Step[] {
         return this.kind === SetKind.Neither ?
-            [ new Halt(new Exception(ExceptionType.EXPECTED_TYPE), this)] :
+            [ new Halt(new Exception(this, ExceptionType.EXPECTED_TYPE), this)] :
             [
                 new Start(this),
                 // Evaluate all of the item or key/value expressions

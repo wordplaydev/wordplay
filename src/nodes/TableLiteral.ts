@@ -83,7 +83,7 @@ export default class TableLiteral extends Expression {
             const row: Value[] = [];
             for(let c = 0; c < this.columns.length; c++) {
                 const cell = evaluator.popValue();
-                if(cell === undefined) return new Exception(ExceptionType.EXPECTED_VALUE);
+                if(cell === undefined) return new Exception(this, ExceptionType.EXPECTED_VALUE);
                 else row.unshift(cell);
             }
             rows.unshift(row);

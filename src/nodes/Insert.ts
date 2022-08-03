@@ -95,13 +95,13 @@ export default class Insert extends Expression {
         const values: Value[] = [];
         for(let i = 0; i < this.row.cells.length; i++) {
             const value = evaluator.popValue();
-            if(value === undefined) return new Exception(ExceptionType.EXPECTED_VALUE);
+            if(value === undefined) return new Exception(this, ExceptionType.EXPECTED_VALUE);
             else values.unshift(value);
         }
 
         const table = evaluator.popValue();
-        if(table === undefined) return new Exception(ExceptionType.EXPECTED_VALUE);
-        else if(!(table instanceof Table)) return new Exception(ExceptionType.EXPECTED_TYPE);
+        if(table === undefined) return new Exception(this, ExceptionType.EXPECTED_VALUE);
+        else if(!(table instanceof Table)) return new Exception(this, ExceptionType.EXPECTED_TYPE);
 
         // Return a new table with the values.
         return table.insert(values);

@@ -29,6 +29,8 @@ export default class UnaryOperation extends Expression {
         this.operand = value;
     }
 
+    getOperator() { return this.operator.text; }
+
     getChildren() {
         return [ this.operator, this.operand ];
     }
@@ -93,8 +95,8 @@ export default class UnaryOperation extends Expression {
 
         // Evaluate the function on the value.
         return value instanceof Measurement || value instanceof Bool ?
-            value.evaluatePrefix(this.operator.text) :
-            new Exception(ExceptionType.UNKNOWN_OPERATOR);
+            value.evaluatePrefix(this) :
+            new Exception(this, ExceptionType.UNKNOWN_OPERATOR);
 
     }
 

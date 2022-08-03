@@ -71,7 +71,7 @@ export default class AccessName extends Expression {
         return subject instanceof Exception ? subject :
             subject instanceof Structure ? subject.resolve(this.name.text) :
             subject instanceof Stream ? subject.resolve(this.name.text) :
-            new Exception(ExceptionType.EXPECTED_STRUCTURE);
+            new Exception(this, ExceptionType.EXPECTED_STRUCTURE);
 
     }
 

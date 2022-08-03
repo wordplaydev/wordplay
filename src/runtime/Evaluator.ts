@@ -1,10 +1,11 @@
+import type Borrow from "../nodes/Borrow";
 import type Program from "../nodes/Program";
 import type Reaction from "../nodes/Reaction";
 import { parse } from "../parser/Parser";
 import Evaluation from "./Evaluation";
 import Exception, { ExceptionType } from "./Exception";
 import ReactionStream from "./ReactionStream";
-import Shares, { DEFAULT_SHARES as DEFAULT_BORROWS } from "./Shares";
+import Shares, { DEFAULT_SHARES } from "./Shares";
 import type Stream from "./Stream";
 import Value from "./Value";
 
@@ -76,7 +77,7 @@ export default class Evaluator {
         this.evaluations = [ new Evaluation(this.program, this.program) ];
 
         // Borrow all of the implicit borrows.
-        Object.keys(DEFAULT_BORROWS).forEach(name => this.borrow(name));
+        Object.keys(DEFAULT_SHARES).forEach(name => this.borrow(name));
 
         // Stop remembering in case the last execution ended abruptly.
         this.stopRememberingStreamAccesses();
@@ -97,11 +98,11 @@ export default class Evaluator {
 
         // If it seems like we're stuck in an infinite (recursive) loop, halt.
         if(this.evaluations.length > 100000)
-            return new Exception(ExceptionType.POSSIBLE_INFINITE_RECURSION);
+            return new Exception(this.program, ExceptionType.POSSIBLE_INFINITE_RECURSION);
 
         // If there's no node evaluating, we're done.
         if(this.evaluations.length === 0)
-            return new Exception(ExceptionType.EXPECTED_CONTEXT);
+            return new Exception(this.program, ExceptionType.EXPECTED_CONTEXT);
 
         const evaluation = this.evaluations[0];
 
@@ -162,7 +163,7 @@ export default class Evaluator {
     popValue(): Value { 
         return this.evaluations.length > 0 ? 
             this.evaluations[0].popValue() : 
-            new Exception(ExceptionType.EXPECTED_VALUE);
+            new Exception(this.program, ExceptionType.EXPECTED_VALUE);
     }
 
     /** Tell the current evaluation to jump to a new instruction. */
@@ -212,7 +213,7 @@ export default class Evaluator {
     borrow(name: string, version?: number): Exception | undefined { 
 
         const share = this.shares.resolve(name, version);
-        if(share === undefined) return new Exception(ExceptionType.UNKNOWN_SHARE);
+        if(share === undefined) return new Exception(this.program, ExceptionType.UNKNOWN_SHARE);
 
         // Bind the shared value in this context.
         this.bind(name, share);

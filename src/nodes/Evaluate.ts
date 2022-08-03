@@ -110,7 +110,7 @@ export default class Evaluate extends Expression {
         const values = [];
         for(let i = 0; i < this.inputs.length; i++) {
             const value = evaluator.popValue();
-            if(value instanceof Unparsable) return new Exception(ExceptionType.UNPARSABLE);
+            if(value instanceof Unparsable) return new Exception(this, ExceptionType.UNPARSABLE);
             else if(value instanceof Exception) return value;
             else values.unshift(value);
         }
@@ -121,7 +121,7 @@ export default class Evaluate extends Expression {
 
             // Bail if the function's body isn't an expression.
             if(!(functionOrStructure.definition.expression instanceof Expression))
-                return new Exception(ExceptionType.PLACEHOLDER);
+                return new Exception(this, ExceptionType.PLACEHOLDER);
 
             // Build the bindings.
             const bindings = this.buildBindings(functionOrStructure.definition.inputs, values);
@@ -143,7 +143,7 @@ export default class Evaluate extends Expression {
 
         }
         // We don't know how to evaluate anything else...
-        else return new Exception(ExceptionType.EXPECTED_TYPE);
+        else return new Exception(this, ExceptionType.EXPECTED_TYPE);
 
     }
 
@@ -153,8 +153,8 @@ export default class Evaluate extends Expression {
         const bindings = new Map<string, Value>();
         for(let i = 0; i < inputs.length; i++) {
             const bind = inputs[i];
-            if(bind instanceof Unparsable) return new Exception(ExceptionType.UNPARSABLE);
-            else if(i >= values.length) return new Exception(ExceptionType.EXPECTED_VALUE);
+            if(bind instanceof Unparsable) return new Exception(this, ExceptionType.UNPARSABLE);
+            else if(i >= values.length) return new Exception(this, ExceptionType.EXPECTED_VALUE);
             bind.names.forEach(name => bindings.set(name.getName(), values[i]));
         }
         return bindings;

@@ -143,7 +143,7 @@ export default class StructureDefinition extends Expression implements Structure
             return undefined;
         }
         else
-            return new Exception(ExceptionType.EXPECTED_CONTEXT);
+            return new Exception(this, ExceptionType.EXPECTED_CONTEXT);
             
     }
 

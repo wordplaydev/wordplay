@@ -1,5 +1,6 @@
 import ExceptionStructureType from "../native/ExceptionStructureType";
 import Value from "./Value";
+import type Node from "../nodes/Node";
 
 export enum ExceptionType {
     NOT_IMPLEMENTED,
@@ -20,16 +21,18 @@ export enum ExceptionType {
 
 export default class Exception extends Value {
 
+    readonly node: Node;
     readonly exception: ExceptionType;
 
-    constructor(exception: ExceptionType) {
+    constructor(node: Node, exception: ExceptionType) {
         super();
 
+        this.node = node;
         this.exception = exception;
     }
 
     getType() { return ExceptionStructureType; }
 
-    toString() { return `Exception: ${ExceptionType[this.exception]}`; }
+    toString() { return `${ExceptionType[this.exception]}: ${this.node.toWordplay().trim()}`; }
 
 }
