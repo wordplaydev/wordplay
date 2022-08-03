@@ -8,10 +8,10 @@ import type Unparsable from "./Unparsable";
 export default class ListType extends Type {
 
     readonly open?: Token;
-    readonly type: Type | Unparsable;
+    readonly type?: Type | Unparsable;
     readonly close?: Token;
 
-    constructor(type: Type | Unparsable, open?: Token, close?: Token) {
+    constructor(open?: Token, close?: Token, type?: Type | Unparsable) {
         super();
 
         this.open = open;
@@ -22,7 +22,7 @@ export default class ListType extends Type {
     getChildren() { 
         const children = [];
         if(this.open) children.push(this.open);
-        children.push(this.type);
+        if(this.type) children.push(this.type);
         if(this.close) children.push(this.close);
         return children;    
     }

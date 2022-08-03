@@ -916,11 +916,11 @@ function parseStreamType(tokens: Tokens): StreamType {
 function parseListType(tokens: Tokens): ListType | Unparsable {
 
     const open = tokens.read();
-    const type = parseType(tokens);
+    const type = tokens.nextIsnt(TokenType.LIST_CLOSE) ? parseType(tokens) : undefined;
     if(tokens.nextIsnt(TokenType.LIST_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_LIST_CLOSE);
     const close = tokens.read();
-    return new ListType(type, open, close);    
+    return new ListType(open, close, type);    
 
 }
 
@@ -928,13 +928,18 @@ function parseListType(tokens: Tokens): ListType | Unparsable {
 function parseSetOrMapType(tokens: Tokens): SetOrMapType | Unparsable {
 
     const open = tokens.read();
-    const key = parseType(tokens);
-    const bind = tokens.nextIs(TokenType.BIND) ? tokens.read() : undefined;
-    const value = bind !== undefined ? parseType(tokens) : undefined;
+    let key = undefined;
+    let bind = undefined;
+    let value = undefined;
+    if(tokens.nextIsnt(TokenType.SET_CLOSE)) {
+        key = parseType(tokens);
+        bind = tokens.nextIs(TokenType.BIND) ? tokens.read() : undefined;
+        value = bind !== undefined ? parseType(tokens) : undefined;
+    }
     if(tokens.nextIsnt(TokenType.SET_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE);
     const close = tokens.read();
-    return new SetOrMapType(key, value, open, close, bind);
+    return new SetOrMapType(open, close, key, bind, value);
 
 }
 

@@ -8,12 +8,12 @@ import type Unparsable from "./Unparsable";
 export default class SetOrMapType extends Type {
 
     readonly open?: Token;
-    readonly key: Type | Unparsable;
-    readonly close?: Token;
+    readonly key?: Type | Unparsable;
     readonly bind?: Token;
     readonly value?: Type | Unparsable;
+    readonly close?: Token;
 
-    constructor(key: Type | Unparsable, value?: Type | Unparsable, open?: Token, close?: Token, bind?: Token) {
+    constructor(open?: Token, close?: Token, key?: Type | Unparsable, bind?: Token, value?: Type | Unparsable) {
         super();
 
         this.open = open;
@@ -28,7 +28,7 @@ export default class SetOrMapType extends Type {
     getChildren() {
         const children = [];
         if(this.open) children.push(this.open);
-        children.push(this.key);
+        if(this.key) children.push(this.key);
         if(this.close) children.push(this.close);
         if(this.bind) children.push(this.bind);
         if(this.value) children.push(this.value);
