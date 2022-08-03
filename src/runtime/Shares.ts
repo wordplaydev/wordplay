@@ -1,4 +1,3 @@
-import Exception, { ExceptionType } from "./Exception";
 import Stream from "./Stream";
 import type Value from "./Value";
 import Time from "../native/Time";
@@ -9,13 +8,18 @@ import Group from "../native/Group";
 import MouseButton from "../native/MouseButton";
 import MousePosition from "../native/MousePosition";
 import Keyboard from "../native/Keyboard";
+import type StructureDefinition from "../nodes/StructureDefinition";
 
-export const DEFAULT_SHARES: Record<string, Value> = {
-    // Add the output types as implicit shares.
-    "V": new StructureDefinitionValue(Verse),
-    "G": new StructureDefinitionValue(Group),
-    "W": new StructureDefinitionValue(Sentence)
+export const DEFAULT_SHARES: Record<string, Value> = {}
+
+function addDefaultShare(def: StructureDefinition) {
+    const val = new StructureDefinitionValue(def);
+    def.aliases.forEach(a => DEFAULT_SHARES[a.getName()] = val);
 }
+
+addDefaultShare(Verse);
+addDefaultShare(Sentence);
+addDefaultShare(Group);
 
 export default class Shares {
 
