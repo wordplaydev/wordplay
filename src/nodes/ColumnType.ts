@@ -1,4 +1,4 @@
-import type Conflict from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
 import type Token from "./Token";
 import type Unparsable from "./Unparsable";
 import Bind from "../nodes/Bind";

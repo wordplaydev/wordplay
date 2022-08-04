@@ -1,11 +1,9 @@
-import Node, { type ConflictContext, type Definition } from "./Node";
+import Node, { type ConflictContext } from "./Node";
+import type Definition from "./Definition";
 import type Borrow from "./Borrow";
 import type Unparsable from "./Unparsable";
-import type Conflict from "../parser/Conflict";
-import type Expression from "./Expression";
-import type TypeVariable from "./TypeVariable";
+import type Conflict from "../conflicts/Conflict";
 import type Block from "../nodes/Block";
-import type Bind from "../nodes/Bind";
 import type Evaluator from "../runtime/Evaluator";
 import type Evaluable from "../runtime/Evaluable";
 import type Step from "../runtime/Step";
@@ -13,7 +11,6 @@ import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import Stream from "../runtime/Stream";
-import StreamStructureType from "../native/StreamStructureType";
 
 export default class Program extends Node implements Evaluable {
     
@@ -38,7 +35,7 @@ export default class Program extends Node implements Evaluable {
         if(context.shares !== undefined) {
             const share = context.shares.resolve(name);
             if(share instanceof StructureDefinitionValue)
-                return share.definition;
+                return new StructureDefinitionValue(share.definition);
             else if(share instanceof Stream)
                 return share;
         }

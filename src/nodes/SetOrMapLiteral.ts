@@ -5,8 +5,9 @@ import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
-import Conflict, { NotASetOrMap } from "../parser/Conflict";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import type Conflict from "../conflicts/Conflict";
+import { NotASetOrMap } from "../conflicts/NotASetOrMap";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import SetValue from "../runtime/SetValue";
@@ -81,7 +82,7 @@ export default class SetOrMapLiteral extends Expression {
 
     compile(): Step[] {
         return this.kind === SetKind.Neither ?
-            [ new Halt(new Exception(this, ExceptionType.EXPECTED_TYPE), this)] :
+            [ new Halt(new Exception(this, ExceptionKind.EXPECTED_TYPE), this)] :
             [
                 new Start(this),
                 // Evaluate all of the item or key/value expressions

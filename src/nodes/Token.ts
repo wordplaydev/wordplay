@@ -1,5 +1,4 @@
-import type Conflict from "../parser/Conflict";
-import Node, { type ConflictContext } from "./Node";
+import Node from "./Node";
 
 export enum TokenType {
     EVAL_OPEN,     // (
@@ -35,7 +34,7 @@ export enum TokenType {
     DELETE,        // |-
     UNION,         // |
     STREAM,        // ∆
-    TBD,           // …
+    ETC,           // …
     // These are the only operators eligible for unary, binary, or teriary notation.
     // We’ve included them for consistency with math notation and readability.
     UNARY_OP,      // e.g., ¬~
@@ -90,6 +89,6 @@ export default class Token extends Node {
     toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}(${this.space.length},${this.index}): ${this.text.replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
     toWordplay() { return this.space + this.text; }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
+    getConflicts() { return []; }
 
 }

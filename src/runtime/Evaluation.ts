@@ -3,16 +3,18 @@ import type FunctionDefinition from "../nodes/FunctionDefinition";
 import Program from "../nodes/Program";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import Type from "../nodes/Type";
-import type Conversion from "./Conversion";
-import type Node from "../nodes/Node";
+import type ConversionValue from "./ConversionValue";
 import type Evaluator from "./Evaluator";
-import Exception, { ExceptionType } from "./Exception";
+import Exception, { ExceptionKind } from "./Exception";
 import type Step from "./Step";
 import Stream from "./Stream";
 import Value from "./Value";
 import type Evaluable from "./Evaluable";
 
 export default class Evaluation {
+
+    /** The evaluator running the program */
+    readonly #evaluator: Evaluator;
 
     /** The node that defined this program. */
     readonly #definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition;
@@ -33,17 +35,19 @@ export default class Evaluation {
     readonly #values: Value[] = [];
 
     /** A list of conversions in this context. */
-    readonly #conversions: Conversion[] = [];
+    readonly #conversions: ConversionValue[] = [];
 
     /** The step to execute next */
     #step: number = 0;
     
     constructor(
+        evaluator: Evaluator,
         definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition, 
         node: Evaluable, 
         context?: Evaluation, 
         bindings?: Map<string, Value>) {
 
+        this.#evaluator = evaluator;
         this.#definition = definition;
         this.#node = node;
         this.#context = context;
@@ -56,6 +60,7 @@ export default class Evaluation {
 
     }
 
+    getEvaluator() { return this.#evaluator; }
     getDefinition() { return this.#definition; }
     getNode() { return this.#node; }
 
@@ -100,7 +105,7 @@ export default class Evaluation {
 
     popValue(): Value { 
         const value = this.#values.shift(); 
-        return value === undefined ? new Exception(this.#definition, ExceptionType.EXPECTED_VALUE) : value;
+        return value === undefined ? new Exception(this.#definition, ExceptionKind.EXPECTED_VALUE) : value;
     }
 
     /** Binds a value to a name in this evaluation. */
@@ -116,7 +121,7 @@ export default class Evaluation {
     }
 
     /** Remember the given conversion for later. */
-    addConversion(conversion: Conversion) {
+    addConversion(conversion: ConversionValue) {
         this.#conversions.push(conversion);
     }
 

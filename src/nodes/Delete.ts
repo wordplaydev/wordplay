@@ -1,20 +1,22 @@
 import type Node from "./Node";
 import type Token from "./Token";
 import Expression from "./Expression";
-import Conflict, { NonBooleanQuery, NotATable } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { NonBooleanQuery } from "../conflicts/NonBooleanQuery";
+import { NotATable } from "../conflicts/NotATable";
 import type Type from "./Type";
 import type Unparsable from "./Unparsable";
 import BooleanType from "./BooleanType";
 import TableType from "./TableType";
-import type TypeVariable from "./TypeVariable";
 import Bind from "../nodes/Bind";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
-import type { ConflictContext, Definition } from "./Node";
+import type { ConflictContext } from "./Node";
+import type Definition from "./Definition";
 
 export default class Delete extends Expression {
     
@@ -76,7 +78,7 @@ export default class Delete extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value {
-        return new Exception(this, ExceptionType.NOT_IMPLEMENTED);
+        return new Exception(this, ExceptionKind.NOT_IMPLEMENTED);
     }
 
 }

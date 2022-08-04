@@ -1,6 +1,6 @@
 import type Token from "./Token";
 import Expression from "./Expression";
-import type Conflict from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
 import NoneType from "./NoneType";
 import type Type from "./Type";
 import None from "../runtime/None";

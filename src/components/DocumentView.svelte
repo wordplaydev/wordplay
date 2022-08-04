@@ -11,29 +11,30 @@
     import Measurement from '../runtime/Measurement';
     import Verse from '../native/Verse';
     import Group from '../native/Group';
-    import TextStructureType from '../native/TextStructureType';
     import List from '../runtime/List';
+    import TextType from '../nodes/TextType';
 
     export let doc: Document;
     $: content = doc.getContent();
 
+    let evaluator = $project?.evaluator;
     let view: Structure | undefined;
     $: {
         // If the content is a Verse, just show it as is.
-        if(content instanceof Value) {
+        if(content instanceof Value && evaluator) {
             if(content.getType() === Verse)
                 view = content as Structure;
             else if(content.getType() === Group) {
-                view = createStructure(Verse, { group: content });
+                view = createStructure(evaluator, Verse, { group: content });
             }
             else if(content.getType() === Sentence) {
-                view = createStructure(Verse, { group: createStructure(Group, { sentences: new List([content]) }) });
+                view = createStructure(evaluator, Verse, { group: createStructure(evaluator, Group, { sentences: new List([content]) }) });
             }
-            else if(content.getType() === TextStructureType) {
-                view = createStructure(Verse, 
+            else if(content.getType() instanceof TextType) {
+                view = createStructure(evaluator, Verse, 
                     {
-                        group: createStructure(Group, {
-                            sentences: new List([createStructure(Sentence, {
+                        group: createStructure(evaluator, Group, {
+                            sentences: new List([createStructure(evaluator, Sentence, {
                                 size: new Measurement(20),
                                 font: new Text("Noto Sans"),
                                 text: content
@@ -44,10 +45,10 @@
             }
             // Otherise, just wrap in a sentence with the content's toString() text.
             else {
-                view = createStructure(Verse, 
+                view = createStructure(evaluator, Verse, 
                     {
-                        group: createStructure(Group, {
-                            sentences: new List([createStructure(Sentence, {
+                        group: createStructure(evaluator, Group, {
+                            sentences: new List([createStructure(evaluator, Sentence, {
                                 size: new Measurement(20),
                                 font: new Text("Noto Sans"),
                                 text: new Text(content.toString())

@@ -1,12 +1,11 @@
 import type Program from '../nodes/Program';
 import type Token from '../nodes/Token';
-import type Conflict from '../parser/Conflict';
+import type Conflict from '../conflicts/Conflict';
 import { parseProgram, Tokens } from '../parser/Parser';
 import { tokenize } from '../parser/Tokenizer';
 import Evaluator from '../runtime/Evaluator';
 import Shares from '../runtime/Shares';
 import type Step from '../runtime/Step';
-import Time from '../native/Time';
 import Value from '../runtime/Value';
 import Text from '../runtime/Text';
 import Document from './Document';
@@ -29,14 +28,11 @@ export default class Project {
         this.code = code;
         this.updater = updater;
 
-        const shares = new Shares();
-
         this.tokens = tokenize(this.code);
         this.program = parseProgram(new Tokens(this.tokens));
-        this.conflicts = this.program.getAllConflicts(this.program, shares);
+        this.evaluator = new Evaluator(this.program, this.handleResult.bind(this) );
+        this.conflicts = this.program.getAllConflicts(this.program, this.evaluator.getShares());
         this.steps = this.program.compile();
-
-        this.evaluator = new Evaluator(this.program, shares, this.handleResult.bind(this) );
 
         // Generate documents based on the code.
         this.docs = [

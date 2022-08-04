@@ -1,8 +1,6 @@
-import FunctionStructureType from "../native/FunctionStructureType";
 import type FunctionDefinition from "../nodes/FunctionDefinition";
 import type Evaluation from "./Evaluation";
 import Value from "./Value";
-
 
 // We could have just called this Function, but Javascript claims that globally.
 export default class FunctionValue extends Value {
@@ -20,7 +18,7 @@ export default class FunctionValue extends Value {
         this.context = context;
     }
 
-    getType() { return FunctionStructureType; }
+    getType() { return this.definition.getType({ program: this.context.getEvaluator().program, shares: this.context.getEvaluator().getShares() }); }
 
     toString() { return this.definition.toWordplay(); }
 

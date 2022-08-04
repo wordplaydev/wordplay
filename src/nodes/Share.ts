@@ -1,11 +1,13 @@
 import Bind from "../nodes/Bind";
-import Conflict, { MisplacedShare, MissingShareLanguages } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { MissingShareLanguages } from "../conflicts/MissingShareLanguages";
+import { MisplacedShare } from "../conflicts/MisplacedShare";
 import Node, { type ConflictContext } from "./Node";
 import type Token from "./Token";
 import Unparsable from "./Unparsable";
 import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type Step from "../runtime/Step";
@@ -47,11 +49,11 @@ export default class Share extends Node implements Evaluable {
     evaluate(evaluator: Evaluator) {
 
         if(this.bind instanceof Unparsable) 
-            return new Exception(this, ExceptionType.UNPARSABLE);
+            return new Exception(this, ExceptionKind.UNPARSABLE);
         const name = this.bind.names[0].getName();
         const value = evaluator.resolve(name);
         if(value === undefined) 
-            return new Exception(this, ExceptionType.UNKNOWN_SHARE);
+            return new Exception(this, ExceptionKind.UNKNOWN_SHARE);
         return evaluator.share(name, value);
         
     }

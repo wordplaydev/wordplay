@@ -1,4 +1,5 @@
-import Conflict, { UnknownConversion } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { UnknownConversion } from "../conflicts/UnknownConversion";
 import Expression from "./Expression";
 import TextType from "./TextType";
 import Token from "./Token";
@@ -6,7 +7,7 @@ import type Type from "./Type";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Text from "../runtime/Text";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import type { ConflictContext } from "./Node";
@@ -62,7 +63,7 @@ export default class Template extends Expression {
             const p = this.parts[i];
             const part = p instanceof Token ? new Text(p.text.substring(1, p.text.length - 1)) : evaluator.popValue();
             if(!(part instanceof Text))
-                return new Exception(this, ExceptionType.EXPECTED_TYPE);
+                return new Exception(this, ExceptionKind.EXPECTED_TYPE);
             text = part.text + text;
         }
         return new Text(text, this.format?.getLanguage());

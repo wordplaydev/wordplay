@@ -2,18 +2,22 @@ import type Node from "./Node";
 import type Token from "./Token";
 import Expression from "./Expression";
 import type Row from "./Row";
-import Conflict, { IncompatibleCellType, MissingColumns, NotATable } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { IncompatibleCellType } from "../conflicts/IncompatibleCellType";
+import { MissingColumns } from "../conflicts/MissingColumns";
+import { NotATable } from "../conflicts/NotATable";
 import TableType from "./TableType";
 import Bind from "../nodes/Bind";
 import type Type from "./Type";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import Table from "../runtime/Table";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
-import type { ConflictContext, Definition } from "./Node";
+import type { ConflictContext } from "./Node";
+import type Definition from "./Definition";
 
 export default class Insert extends Expression {
     
@@ -95,13 +99,13 @@ export default class Insert extends Expression {
         const values: Value[] = [];
         for(let i = 0; i < this.row.cells.length; i++) {
             const value = evaluator.popValue();
-            if(value === undefined) return new Exception(this, ExceptionType.EXPECTED_VALUE);
+            if(value === undefined) return new Exception(this, ExceptionKind.EXPECTED_VALUE);
             else values.unshift(value);
         }
 
         const table = evaluator.popValue();
-        if(table === undefined) return new Exception(this, ExceptionType.EXPECTED_VALUE);
-        else if(!(table instanceof Table)) return new Exception(this, ExceptionType.EXPECTED_TYPE);
+        if(table === undefined) return new Exception(this, ExceptionKind.EXPECTED_VALUE);
+        else if(!(table instanceof Table)) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
 
         // Return a new table with the values.
         return table.insert(values);

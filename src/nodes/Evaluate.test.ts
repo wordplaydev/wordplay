@@ -1,4 +1,7 @@
-import { IncompatibleInputs, NotAFunction, NotInstantiable, testConflict } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
+import { IncompatibleInputs } from "../conflicts/IncompatibleInputs";
+import { NotInstantiable } from "../conflicts/NotInstantiable";
+import { NotAFunction } from "../conflicts/NotAFunction";
 import Evaluator from "../runtime/Evaluator";
 import Evaluate from "./Evaluate";
 

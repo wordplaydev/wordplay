@@ -1,4 +1,5 @@
-import { ExpectedBooleanCondition, testConflict } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
+import { ExpectedBooleanCondition } from "../conflicts/ExpectedBooleanCondition";
 import Evaluator from "../runtime/Evaluator";
 import Conditional from "./Conditional";
 

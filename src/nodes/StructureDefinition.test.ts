@@ -1,4 +1,8 @@
-import { DuplicateLanguages, DuplicateInputNames, testConflict, DuplicateTypeVariables, RequiredAfterOptional } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
+import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
+import { RequiredAfterOptional } from "../conflicts/RequiredAfterOptional";
+import { DuplicateTypeVariables } from "../conflicts/DuplicateTypeVariables";
+import { DuplicateInputNames } from "../conflicts/DuplicateInputNames";
 import StructureDefinition from "./StructureDefinition";
 
 test("Test custom type conflicts", () => {

@@ -12,7 +12,7 @@ import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 import { getPossibleUnionType } from "./UnionType";
-import type Conflict from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
 
 export default class ListLiteral extends Expression {
 

@@ -1,5 +1,5 @@
 import BooleanType from "./BooleanType";
-import type Conflict from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
 import Expression from "./Expression";
 import type Token from "./Token";
 import type Type from "./Type";

@@ -22,7 +22,7 @@ const patterns = [
     { pattern: "!", types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
     { pattern: "•", types: [ TokenType.TYPE ] },
     { pattern: "∆", types: [ TokenType.STREAM ] },
-    { pattern: "…", types: [ TokenType.TBD ] },
+    { pattern: "…", types: [ TokenType.ETC ] },
     // Roman numerals
     { pattern: /^[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/, types: [ TokenType.NUMBER, TokenType.ROMAN ] },
     // Japanese numbers

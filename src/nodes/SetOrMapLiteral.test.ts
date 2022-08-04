@@ -1,4 +1,5 @@
-import { NotASetOrMap, testConflict } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
+import { NotASetOrMap } from "../conflicts/NotASetOrMap";
 import SetOrMapLiteral from "./SetOrMapLiteral";
 
 test("Test set or map conflicts", () => {

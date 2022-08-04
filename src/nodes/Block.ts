@@ -1,6 +1,10 @@
 import type Node from "./Node";
 import Bind from "./Bind";
-import Conflict, { DuplicateLanguages, ExpectedBindValue, ExpectedEndingExpression, IgnoredExpression } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { ExpectedEndingExpression } from "../conflicts/ExpectedEndingExpression";
+import { ExpectedBindValue } from "../conflicts/ExpectedBindValue";
+import { IgnoredExpression } from "../conflicts/IgnoredExpression";
+import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
 import type Docs from "./Docs";
 import Expression from "./Expression";
 import Share from "./Share";
@@ -10,13 +14,14 @@ import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
 import { docsAreUnique } from "./util";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
 import Structure from "../runtime/Structure";
-import type { ConflictContext, Definition } from "./Node";
+import type { ConflictContext } from "./Node";
+import type Definition from "./Definition";
 import StructureDefinition from "./StructureDefinition";
 
 export default class Block extends Expression {
@@ -107,7 +112,7 @@ export default class Block extends Expression {
 
         // If there are no statements, halt on exception.
         return !this.creator && this.statements.length === 0 ? 
-            [ new Halt(new Exception(this, ExceptionType.EXPECTED_EXPRESSION), this) ] :
+            [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ] :
             [ 
                 new Start(this), 
                 ...this.statements.reduce((prev: Step[], current) => [ ...prev, ...current.compile() ], []),
@@ -122,7 +127,7 @@ export default class Block extends Expression {
         // and convert it into a structure.
         if(this.creator) {
             const context = evaluator.getEvaluationContext();
-            if(context === undefined) return new Exception(this, ExceptionType.EXPECTED_CONTEXT);
+            if(context === undefined) return new Exception(this, ExceptionKind.EXPECTED_CONTEXT);
             return new Structure(context);
         }
         // If this block is just an expression, return the (last) value on the value stack of the current evaluation context.

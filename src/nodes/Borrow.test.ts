@@ -1,4 +1,4 @@
-import { testConflict, UnknownBorrow } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
 import Borrow from "./Borrow";
 
 test("Test borrow conflicts", () => {

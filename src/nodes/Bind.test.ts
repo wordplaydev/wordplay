@@ -1,4 +1,7 @@
-import { DuplicateAliases, IncompatibleBind, testConflict, UnusedBind } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
+import { UnusedBind } from "../conflicts/UnusedBind";
+import { IncompatibleBind } from "../conflicts/IncompatibleBind";
+import DuplicateAliases from "../conflicts/DuplicateAliases";
 import Evaluator from "../runtime/Evaluator";
 import Bind from "./Bind";
 

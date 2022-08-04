@@ -5,7 +5,12 @@ import type Token from "./Token";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
 import type Docs from "./Docs";
-import Conflict, { DuplicateBinds, DuplicateAliases, IncompatibleBind, UnusedBind } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { UnusedBind } from "../conflicts/UnusedBind";
+import { DuplicateBinds } from "../conflicts/DuplicateBinds";
+import { IncompatibleBind } from "../conflicts/IncompatibleBind";
+import DuplicateAliases from "../conflicts/DuplicateAliases";
+import { UnexpectedEtc } from "../conflicts/UnexpectedEtc";
 import UnknownType from "./UnknownType";
 import NameType from "./NameType";
 import StructureType from "./StructureType";
@@ -20,22 +25,25 @@ import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
 import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import type { Named } from "./Named";
+import FunctionDefinition from "./FunctionDefinition";
 
 export default class Bind extends Node implements Evaluable, Named {
     
     readonly docs: Docs[];
+    readonly etc: Token | undefined;
     readonly names: Alias[];
     readonly dot?: Token;
     readonly type?: Type | Unparsable;
     readonly colon?: Token;
     readonly value?: Expression | Unparsable;
 
-    constructor(docs: Docs[], names: Alias[], type?: Type | Unparsable, value?: Expression | Unparsable, dot?: Token, colon?: Token) {
+    constructor(docs: Docs[], etc: Token | undefined, names: Alias[], type?: Type | Unparsable, value?: Expression | Unparsable, dot?: Token, colon?: Token) {
         super();
 
         this.docs = docs;
+        this.etc = etc;
         this.names = names;
         this.dot = dot;
         this.type = type;
@@ -47,11 +55,14 @@ export default class Bind extends Node implements Evaluable, Named {
 
     getNames() { return this.names.map(n => n.getName() ); }
 
+    isVariableLength() { return this.etc !== undefined; }
+
     hasDefault() { return this.value !== undefined; }
 
     getChildren() { 
         let children: Node[] = [];
         children = children.concat(this.docs);
+        if(this.etc) children.push(this.etc);
         children = children.concat(this.names);
         if(this.dot) children.push(this.dot);
         if(this.type) children.push(this.type);
@@ -63,6 +74,13 @@ export default class Bind extends Node implements Evaluable, Named {
     getConflicts(context: ConflictContext): Conflict[] {
 
         const conflicts = [];
+
+        // Etc tokens can't appear in block bindings, just structure and function definitions.
+        if(this.isVariableLength()) {
+            const parent = this.getParent(context.program);
+            if(!(parent instanceof StructureDefinition || parent instanceof FunctionDefinition))
+                conflicts.push(new UnexpectedEtc(this));
+        }
 
         // Bind aliases have to be unique
         if(!this.names.every(n => this.names.find(n2 => n !== n2 && n.getName() === n2.getName()) === undefined))
@@ -117,7 +135,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
     compile(): Step[] {
         return this.value === undefined ?
-            [ new Halt(new Exception(this, ExceptionType.EXPECTED_VALUE), this) ] :
+            [ new Halt(new Exception(this, ExceptionKind.EXPECTED_VALUE), this) ] :
             [ new Start(this), ...this.value.compile(), new Finish(this) ];
     }
 

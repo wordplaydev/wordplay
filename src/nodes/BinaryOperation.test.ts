@@ -1,4 +1,6 @@
-import { IncompatibleOperand, IncompatibleUnits, testConflict } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
+import { IncompatibleUnits } from "../conflicts/IncompatibleUnits";
+import { IncompatibleOperand } from "../conflicts/IncompatibleOperand";
 import Evaluator from "../runtime/Evaluator";
 import BinaryOperation from "./BinaryOperation";
 

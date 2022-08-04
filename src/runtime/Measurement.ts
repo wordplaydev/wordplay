@@ -1,7 +1,7 @@
 import Token, { TokenType } from "../nodes/Token";
 import Unit from "../nodes/Unit";
 import Bool from "./Bool";
-import Exception, { ExceptionType } from "./Exception";
+import Exception, { ExceptionKind } from "./Exception";
 import None from "./None";
 import Value from "./Value";
 import Decimal from 'decimal.js';
@@ -9,6 +9,7 @@ import MeasurementStructureType from "../native/MeasurementStructureType";
 import Alias from "../nodes/Alias";
 import type BinaryOperation from "../nodes/BinaryOperation";
 import type UnaryOperation from "../nodes/UnaryOperation";
+import StructureType from "../nodes/StructureType";
 
 const kanjiNumbers: Record<string, number> = {
     "一": 1,
@@ -246,24 +247,24 @@ export default class Measurement extends Value {
                 return new Measurement(this.num.sqrt(), this.unit);
                 // return new Measurement(Math.sqrt(this.toNumber()), this.unit);
             default: 
-                return new Exception(op, ExceptionType.UNKNOWN_OPERATOR);
+                return new Exception(op, ExceptionKind.UNKNOWN_OPERATOR);
         }
 
     }
 
     evaluateInfix(op: BinaryOperation, right: Value): Measurement | Bool | Exception | None {
         if(!(right instanceof Measurement)) 
-            return new Exception(op, ExceptionType.EXPECTED_TYPE);
+            return new Exception(op, ExceptionKind.EXPECTED_TYPE);
     
         switch(op.getOperator()) {
             case "+":
                 return this.unit.toString() === right.unit.toString() ?
                     this.add(right) :
-                    new Exception(op, ExceptionType.EXPECTED_TYPE)
+                    new Exception(op, ExceptionKind.EXPECTED_TYPE)
             case "-":
                 return this.unit.toString() === right.unit.toString() ?
                     this.subtract(right) :
-                    new Exception(op, ExceptionType.EXPECTED_TYPE)
+                    new Exception(op, ExceptionKind.EXPECTED_TYPE)
             case "×":
             case "*":
             case "·": return this.multiply(right);
@@ -276,7 +277,7 @@ export default class Measurement extends Value {
             case "≥": return this.greaterThan(right) || this.equals(right);
             case "=": return this.equals(right);
             case "≠": return new Bool(!this.equals(right));
-            default: return new Exception(op, ExceptionType.UNKNOWN_OPERATOR);
+            default: return new Exception(op, ExceptionKind.UNKNOWN_OPERATOR);
         }
     }
 
@@ -348,7 +349,7 @@ export default class Measurement extends Value {
 
     }
 
-    getType() { return MeasurementStructureType; }
+    getType() { return new StructureType(MeasurementStructureType); }
 
     toString() { 
         return `${this.num.toString()}${this.unit.toString()}`;

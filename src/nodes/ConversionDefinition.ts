@@ -2,7 +2,9 @@ import type Node from "./Node";
 import Expression from "./Expression";
 import type Token from "./Token";
 import type Docs from "./Docs";
-import Conflict, { DuplicateLanguages, MisplacedConversion } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { MisplacedConversion } from "../conflicts/MisplacedConversion";
+import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import { docsAreUnique } from "./util";
@@ -11,10 +13,10 @@ import Block from "./Block";
 import ConversionType from "./ConversionType";
 import type Type from "./Type";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Conversion from "../runtime/Conversion";
+import ConversionValue from "../runtime/ConversionValue";
 import type { ConflictContext } from "./Node";
 
 export default class ConversionDefinition extends Expression {
@@ -70,9 +72,9 @@ export default class ConversionDefinition extends Expression {
     evaluate(evaluator: Evaluator) {
 
         const context = evaluator.getEvaluationContext();
-        if(context === undefined) return new Exception(this, ExceptionType.EXPECTED_CONTEXT);
+        if(context === undefined) return new Exception(this, ExceptionKind.EXPECTED_CONTEXT);
 
-        context.addConversion(new Conversion(this, context));
+        context.addConversion(new ConversionValue(this, context));
         
     }
 

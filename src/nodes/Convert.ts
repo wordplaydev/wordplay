@@ -1,12 +1,12 @@
-import Conflict, { UnknownConversion } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { UnknownConversion } from "../conflicts/UnknownConversion";
 import Expression from "./Expression";
 import Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Token from "./Token";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionType } from "../runtime/Exception";
-import type Value from "../runtime/Value";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
@@ -52,7 +52,7 @@ export default class Convert extends Expression {
 
     evaluate(evaluator: Evaluator) {
         
-        if(this.type instanceof Unparsable) return new Exception(this, ExceptionType.UNPARSABLE);
+        if(this.type instanceof Unparsable) return new Exception(this, ExceptionKind.UNPARSABLE);
 
         const value = evaluator.popValue();
         if(value instanceof Exception) return value;
@@ -60,11 +60,12 @@ export default class Convert extends Expression {
 
             // Find the conversion function on the structure.
             const conversion = value.getConversion(this.type);
-            if(conversion === undefined) return new Exception(this, ExceptionType.UNKNOWN_CONVERSION);
+            if(conversion === undefined) return new Exception(this, ExceptionKind.UNKNOWN_CONVERSION);
 
             // If we found one, then execute it to get a value of the appropriate type on the value stack.
             evaluator.startEvaluation(
                 new Evaluation(
+                    evaluator,
                     conversion.definition, 
                     conversion.definition.expression, 
                     evaluator.getEvaluationContext()
@@ -72,7 +73,7 @@ export default class Convert extends Expression {
             );
 
         }
-        else return new Exception(this, ExceptionType.UNKNOWN_CONVERSION);
+        else return new Exception(this, ExceptionKind.UNKNOWN_CONVERSION);
 
 
     }

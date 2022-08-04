@@ -1,4 +1,4 @@
-import type Conflict from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
 import type ConversionDefinition from "./ConversionDefinition";
 import type Language from "./Language";
 import type { ConflictContext } from "./Node";

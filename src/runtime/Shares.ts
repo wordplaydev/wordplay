@@ -9,6 +9,7 @@ import MouseButton from "../native/MouseButton";
 import MousePosition from "../native/MousePosition";
 import Keyboard from "../native/Keyboard";
 import type StructureDefinition from "../nodes/StructureDefinition";
+import type Evaluator from "./Evaluator";
 
 export const DEFAULT_SHARES: Record<string, Value> = {}
 
@@ -30,7 +31,7 @@ export default class Shares {
     readonly mousePosition: MousePosition;
     readonly keyboard: Keyboard;
 
-    constructor(bindings?: Record<string, Value>) {
+    constructor(evaluator: Evaluator, bindings?: Record<string, Value>) {
 
         this.values = new Map();
 
@@ -49,11 +50,11 @@ export default class Shares {
         Object.values(this.mouseButton.getNames()).forEach(name => this.bind(name, this.mouseButton));
 
         // Share a mouse position stream for programs to listen to.
-        this.mousePosition = new MousePosition();
+        this.mousePosition = new MousePosition(evaluator);
         Object.values(this.mousePosition.getNames()).forEach(name => this.bind(name, this.mousePosition));
         
         // Share a keyboard button stream for programs to listen to.
-        this.keyboard = new Keyboard();
+        this.keyboard = new Keyboard(evaluator);
         Object.values(this.keyboard.getNames()).forEach(name => this.bind(name, this.keyboard));
 
     }

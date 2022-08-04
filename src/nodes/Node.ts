@@ -1,17 +1,12 @@
-import type Bind from "../nodes/Bind";
-import type Conflict from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
 import type Shares from "../runtime/Shares";
-import type Value from "../runtime/Value";
-import type Expression from "./Expression";
 import type Program from "./Program";
-import type TypeVariable from "./TypeVariable";
+import type Definition from "./Definition";
 
 export type ConflictContext = { 
     program: Program,
     shares?: Shares
 }
-
-export type Definition = Bind | TypeVariable | Expression | Value | undefined
 
 export default abstract class Node {
 

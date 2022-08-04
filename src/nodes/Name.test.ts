@@ -1,4 +1,6 @@
-import { testConflict, UnexpectedTypeVariable, UnknownName } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
+import { UnexpectedTypeVariable } from "../conflicts/UnexpectedTypeVariable";
+import { UnknownName } from "../conflicts/UnknownName";
 import Name from "./Name";
 
 test("Test name conflicts", () => {

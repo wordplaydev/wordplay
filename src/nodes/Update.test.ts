@@ -1,4 +1,8 @@
-import { ExpectedUpdateBind, IncompatibleCellType, NotATable, testConflict, UnknownColumn } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
+import { UnknownColumn } from "../conflicts/UnknownColumn";
+import { IncompatibleCellType } from "../conflicts/IncompatibleCellType";
+import { ExpectedUpdateBind } from "../conflicts/ExpectedUpdateBind";
+import { NotATable } from "../conflicts/NotATable";
 import Update from "./Update";
 
 test("Test select conflicts", () => {

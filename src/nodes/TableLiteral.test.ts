@@ -1,4 +1,7 @@
-import { ExpectedColumnType, IncompatibleCellType, MissingCells, testConflict } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
+import { MissingCells } from "../conflicts/MissingCells";
+import { ExpectedColumnType } from "../conflicts/ExpectedColumnType";
+import { IncompatibleCellType } from "../conflicts/IncompatibleCellType";
 import TableLiteral from "./TableLiteral";
 
 test("Test table conflicts", () => {

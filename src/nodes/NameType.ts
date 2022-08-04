@@ -1,4 +1,5 @@
-import Conflict, { UnknownTypeName } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { UnknownTypeName } from "../conflicts/UnknownTypeName";
 import StructureType from "./StructureType";
 import type Token from "./Token";
 import Type from "./Type";

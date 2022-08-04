@@ -4,19 +4,24 @@ import Stream from "../runtime/Stream";
 import Key from "./Key";
 import { createStructure } from "../runtime/Structure";
 import None from "../runtime/None";
+import type Evaluator from "../runtime/Evaluator";
 
-function createKey(key: string, down: boolean) {
-    return createStructure(Key, { key: new Text(key), down: new Bool(down) })
+function createKey(evaluator: Evaluator, key: string, down: boolean) {
+    return createStructure(evaluator, Key, { key: new Text(key), down: new Bool(down) })
 }
 
 export default class Keyboard extends Stream {
 
-    constructor() {
+    readonly evaluator: Evaluator;
+
+    constructor(evaluator: Evaluator) {
         super({"eng": "⌨️"}, new None([]));
+        this.evaluator = evaluator;
+
     }
 
     record(key: string, down: boolean) {
-        this.add(createKey(key, down));
+        this.add(createKey(this.evaluator, key, down));
     }
 
     start() {}

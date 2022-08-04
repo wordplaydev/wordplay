@@ -6,16 +6,22 @@ import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
 import type Docs from "./Docs";
-import Conflict, { DuplicateLanguages, DuplicateInputNames, DuplicateTypeVariables, RequiredAfterOptional } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
+import { VariableLengthArgumentMustBeLast } from "../conflicts/VariableLengthArgumentMustBeLast";
+import { RequiredAfterOptional } from "../conflicts/RequiredAfterOptional";
+import { DuplicateTypeVariables } from "../conflicts/DuplicateTypeVariables";
+import { DuplicateInputNames } from "../conflicts/DuplicateInputNames";
 import FunctionType from "./FunctionType";
 import UnknownType from "./UnknownType";
 import { docsAreUnique, inputsAreUnique, requiredBindAfterOptional, typeVarsAreUnique } from "./util";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import FunctionValue from "../runtime/FunctionValue";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import type { ConflictContext, Definition } from "./Node";
+import type { ConflictContext } from "./Node";
+import type Definition from "./Definition";
 
 export default class FunctionDefinition extends Expression {
 
@@ -86,6 +92,11 @@ export default class FunctionDefinition extends Expression {
         if(this.inputs.length === binds.length && requiredBindAfterOptional(binds) !== undefined)
             conflicts.push(new RequiredAfterOptional(this));
 
+        // Rest arguments must be list
+        const rest = this.inputs.find(i => i instanceof Bind && i.isVariableLength());
+        if(rest !== undefined && this.inputs.indexOf(rest) !== this.inputs.length - 1)
+            conflicts.push(new VariableLengthArgumentMustBeLast(this));
+
         return conflicts; 
     
     }
@@ -108,7 +119,22 @@ export default class FunctionDefinition extends Expression {
 
     getType(context: ConflictContext): Type {
         // The type is equivalent to the signature.
-        const inputTypes = this.inputs.map(i => i instanceof Bind ? i.getType(context) : new UnknownType(context.program));
+        const inputTypes = this.inputs.map(i =>
+             i instanceof Bind ?
+                {
+                    aliases: i.names,
+                    type: i.getType(context),
+                    required: !(i.hasDefault() || i.isVariableLength()),
+                    rest: i.isVariableLength()
+                }
+                :
+                {
+                    aliases: [],
+                    type: new UnknownType(context.program),
+                    required: true,
+                    rest: false
+                }            
+        );
         const outputType = 
             this.type instanceof Type ? this.type : 
             this.expression instanceof Token || this.expression instanceof Unparsable ? new UnknownType(this) : 
@@ -123,7 +149,7 @@ export default class FunctionDefinition extends Expression {
     evaluate(evaluator: Evaluator) {
         const context = evaluator.getEvaluationContext();
         return context === undefined ? 
-            new Exception(this, ExceptionType.EXPECTED_CONTEXT) : 
+            new Exception(this, ExceptionKind.EXPECTED_CONTEXT) : 
             new FunctionValue(this, context);
     }
 

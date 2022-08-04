@@ -1,4 +1,8 @@
-import { ExpectedSelectName, NonBooleanQuery, NotATable, testConflict, UnknownColumn } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
+import { UnknownColumn } from "../conflicts/UnknownColumn";
+import { ExpectedSelectName } from "../conflicts/ExpectedSelectName";
+import { NonBooleanQuery } from "../conflicts/NonBooleanQuery";
+import { NotATable } from "../conflicts/NotATable";
 import Select from "./Select";
 
 test("Test select conflicts", () => {

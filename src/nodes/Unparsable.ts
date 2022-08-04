@@ -1,11 +1,11 @@
 import Node from "./Node";
 import type Token from "./Token";
 import { SyntacticConflict } from "../parser/Parser"
-import Conflict, { UnparsableConflict } from "../parser/Conflict";
+import Conflict from "../conflicts/Conflict";
 import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
 import UnknownType from "./UnknownType";
@@ -39,11 +39,19 @@ export default class Unparsable extends Node implements Evaluable {
     }
 
     compile(): Step[] {
-        return [ new Halt(new Exception(this, ExceptionType.UNPARSABLE), this) ];
+        return [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ];
     }
 
     evaluate(evaluator: Evaluator): Value {
-        return new Exception(this, ExceptionType.UNPARSABLE);
+        return new Exception(this, ExceptionKind.UNPARSABLE);
     }
 
+}
+
+export class UnparsableConflict extends Conflict {
+    readonly unparsable: Unparsable;
+    constructor(unparsable: Unparsable) {
+        super(false);
+        this.unparsable = unparsable;
+    }
 }

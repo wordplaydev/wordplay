@@ -1,15 +1,18 @@
-import Conflict, { UnexpectedTypeVariable, UnknownName } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { UnexpectedTypeVariable } from "../conflicts/UnexpectedTypeVariable";
+import { UnknownName } from "../conflicts/UnknownName";
 import Expression from "./Expression";
 import type Token from "./Token";
 import type Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import type { ConflictContext, Definition } from "./Node";
+import type { ConflictContext } from "./Node";
+import type Definition from "./Definition";
 
 export default class Name extends Expression {
     
@@ -55,7 +58,7 @@ export default class Name extends Expression {
         // Search for the name in the given evaluation context.
         const value = evaluator.resolve(this.name.text);
         // Return it or an exception if we didn't find it.
-        return value === undefined ? new Exception(this, ExceptionType.UNKNOWN_NAME) : value;
+        return value === undefined ? new Exception(this, ExceptionKind.UNKNOWN_NAME) : value;
 
     }
 

@@ -1,4 +1,4 @@
-import { ListStructureType } from "../native/ListStructureType";
+import ListType from "../nodes/ListType";
 import { outOfBoundsAliases } from "../runtime/Constants";
 import type Measurement from "./Measurement";
 import None from "./None";
@@ -22,7 +22,7 @@ export default class List extends Value {
         return value === undefined ? new None(outOfBoundsAliases) : value;
     }
 
-    getType() { return ListStructureType; }
+    getType() { return new ListType(); }
 
     toString() {
         return `[${this.values.map(v => v.toString()).join(" ")}]`

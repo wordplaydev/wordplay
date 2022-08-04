@@ -1,4 +1,6 @@
-import { NonBooleanQuery, NotATable, testConflict } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
+import { NonBooleanQuery } from "../conflicts/NonBooleanQuery";
+import { NotATable } from "../conflicts/NotATable";
 import Delete from "./Delete";
 
 test("Test delete conflicts", () => {

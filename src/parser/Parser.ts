@@ -301,6 +301,7 @@ function nextIsBind(tokens: Tokens): boolean {
 export function parseBind(expectExpression: boolean, tokens: Tokens): Bind | Unparsable {
 
     let docs = parseDocs(tokens);
+    let etc = tokens.nextIs(TokenType.ETC) ? tokens.read() : undefined;
     let names = [];
     let colon;
     let value;
@@ -322,7 +323,7 @@ export function parseBind(expectExpression: boolean, tokens: Tokens): Bind | Unp
         value = parseExpression(tokens);
     }
 
-    return new Bind(docs, names, type, value, dot, colon);
+    return new Bind(docs, etc, names, type, value, dot, colon);
 
 }
 
@@ -762,7 +763,7 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
         output = parseType(tokens);
     }
 
-    const expression = tokens.nextIs(TokenType.TBD) ? tokens.read() : parseExpression(tokens);
+    const expression = tokens.nextIs(TokenType.ETC) ? tokens.read() : parseExpression(tokens);
 
     return new FunctionDefinition(docs, typeVars, inputs, expression, output, fun, dot, open, close);
 
@@ -773,7 +774,7 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
 
     const typeVars = parseTypeVariables(tokens);
     const open = tokens.read();
-    const inputs = [];
+    const inputs: (Bind|Expression|Unparsable)[] = [];
     let close;
     
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
@@ -966,7 +967,7 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 
     const inputs = [];
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        inputs.push(parseType(tokens));
+        inputs.push({ aliases:[], type: parseType(tokens), required: true, rest: false});
 
     if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);

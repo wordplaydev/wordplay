@@ -1,4 +1,6 @@
-import Conflict, { IncompatibleStreamValues, NotAStream } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { IncompatibleStreamValues } from "../conflicts/IncompatibleStreamValues";
+import { NotAStream } from "../conflicts/NotAStream";
 import Expression from "./Expression";
 import StreamType from "./StreamType";
 import type Token from "./Token";
@@ -12,7 +14,7 @@ import Finish from "../runtime/Finish";
 import JumpIfStreamUnchanged from "../runtime/JumpIfStreamUnchanged";
 import Start from "../runtime/Start";
 import JumpIfStreamExists from "../runtime/JumpIfStreamExists";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import Bind from "./Bind";
 import type { ConflictContext } from "./Node";
 import UnionType from "./UnionType";
@@ -111,7 +113,7 @@ export default class Reaction extends Expression {
         // At this point in the compiled steps above, we should have a value on the stack
         // that is either the initial value for this reaction's stream or a new value.
         if(streamValue === undefined)
-            return new Exception(this, ExceptionType.EXPECTED_VALUE);
+            return new Exception(this, ExceptionKind.EXPECTED_VALUE);
         else
             evaluator.addToReactionStream(this, streamValue);
 

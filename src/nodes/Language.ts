@@ -1,4 +1,4 @@
-import type Conflict from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
 import Node, { type ConflictContext } from "./Node";
 import Token from "./Token";
 

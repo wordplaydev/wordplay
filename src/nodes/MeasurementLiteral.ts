@@ -1,8 +1,8 @@
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import Measurement from "../runtime/Measurement";
 import type Value from "../runtime/Value";
-import type Conflict from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
 import Expression from "./Expression";
 import MeasurementType from "./MeasurementType";
 import type Token from "./Token";
@@ -12,7 +12,7 @@ import Unparsable from "./Unparsable";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import type { ConflictContext } from "./Node";
-import { NotANumber } from "../parser/Conflict";
+import { NotANumber } from "../conflicts/NotANumber";
 
 export default class MeasurementLiteral extends Expression {
     
@@ -47,7 +47,7 @@ export default class MeasurementLiteral extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value {
-        if(this.unit instanceof Unparsable) return new Exception(this, ExceptionType.UNPARSABLE);
+        if(this.unit instanceof Unparsable) return new Exception(this, ExceptionKind.UNPARSABLE);
         // This needs to translate between different number formats.
         else return new Measurement(this.number, this.unit === undefined ? new Unit([], []) : this.unit);
     }

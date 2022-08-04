@@ -4,7 +4,12 @@ import Expression from "./Expression";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
 import type Docs from "./Docs";
-import Conflict, { DuplicateLanguages, DuplicateInputNames, DuplicateTypeVariables, RequiredAfterOptional } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
+import { VariableLengthArgumentMustBeLast } from "../conflicts/VariableLengthArgumentMustBeLast";
+import { RequiredAfterOptional } from "../conflicts/RequiredAfterOptional";
+import { DuplicateTypeVariables } from "../conflicts/DuplicateTypeVariables";
+import { DuplicateInputNames } from "../conflicts/DuplicateInputNames";
 import Type from "./Type";
 import Block from "./Block";
 import FunctionDefinition from "./FunctionDefinition";
@@ -13,13 +18,16 @@ import ConversionDefinition from "./ConversionDefinition";
 import type Evaluator from "../runtime/Evaluator";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import type StructureDefinitionInterface from "../native/StructureDefinitionInterface";
-import type { ConflictContext, Definition } from "./Node";
+import type { ConflictContext } from "./Node";
+import type Definition from "./Definition";
 import StructureType from "./StructureType";
 import type Alias from "./Alias";
 import type Token from "./Token";
+import UnknownType from "./UnknownType";
+import FunctionType from "./FunctionType";
 
 export default class StructureDefinition extends Expression implements StructureDefinitionInterface {
 
@@ -51,6 +59,29 @@ export default class StructureDefinition extends Expression implements Structure
     isBindingEnclosure() { return true; }
 
     getInputs() { return this.inputs.filter(i => i instanceof Bind) as Bind[]; }
+
+    getFunctionType(context: ConflictContext): FunctionType {
+
+        // The type is equivalent to the signature.
+        const inputTypes = this.inputs.map(i =>
+            i instanceof Bind ?
+               {
+                   aliases: i.names,
+                   type: i.getType(context),
+                   required: !(i.hasDefault() || i.isVariableLength()),
+                   rest: i.isVariableLength()
+               }
+               :
+               {
+                   aliases: [],
+                   type: new UnknownType(context.program),
+                   required: true,
+                   rest: false
+               }            
+       );
+       return new FunctionType(inputTypes, new StructureType(this));
+
+    }
 
     isInterface(): boolean {
         if(this.block instanceof Unparsable) return false;
@@ -89,6 +120,11 @@ export default class StructureDefinition extends Expression implements Structure
         if(this.inputs.length === binds.length && requiredBindAfterOptional(binds) !== undefined)
             conflicts.push(new RequiredAfterOptional(this));
     
+        // Rest arguments must be list
+        const rest = this.inputs.find(i => i instanceof Bind && i.isVariableLength());
+        if(rest !== undefined && this.inputs.indexOf(rest) !== this.inputs.length - 1)
+            conflicts.push(new VariableLengthArgumentMustBeLast(this));
+
         return conflicts; 
     
     }
@@ -143,7 +179,7 @@ export default class StructureDefinition extends Expression implements Structure
             return undefined;
         }
         else
-            return new Exception(this, ExceptionType.EXPECTED_CONTEXT);
+            return new Exception(this, ExceptionKind.EXPECTED_CONTEXT);
             
     }
 

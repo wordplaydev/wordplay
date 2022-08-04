@@ -1,4 +1,5 @@
-import { testConflict, UnknownTypeName } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
+import { UnknownTypeName } from "../conflicts/UnknownTypeName";
 import NameType from "./NameType";
 
 test("Test name type conflicts", () => {

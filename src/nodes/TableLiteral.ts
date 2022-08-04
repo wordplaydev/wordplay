@@ -1,6 +1,9 @@
 import type Column from "./Column";
 import type Row from "./Row";
-import Conflict, { ExpectedColumnType, IncompatibleCellType, MissingCells } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { MissingCells } from "../conflicts/MissingCells";
+import { ExpectedColumnType } from "../conflicts/ExpectedColumnType";
+import { IncompatibleCellType } from "../conflicts/IncompatibleCellType";
 import Expression from "./Expression";
 import TableType from "./TableType";
 import UnknownType from "./UnknownType";
@@ -9,7 +12,7 @@ import Bind from "./Bind";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Table from "../runtime/Table";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
@@ -83,12 +86,12 @@ export default class TableLiteral extends Expression {
             const row: Value[] = [];
             for(let c = 0; c < this.columns.length; c++) {
                 const cell = evaluator.popValue();
-                if(cell === undefined) return new Exception(this, ExceptionType.EXPECTED_VALUE);
+                if(cell === undefined) return new Exception(this, ExceptionKind.EXPECTED_VALUE);
                 else row.unshift(cell);
             }
             rows.unshift(row);
         }
-        return new Table(rows);
+        return new Table(this, rows);
 
     }
 

@@ -1,4 +1,4 @@
-import TextStructureType from "../native/TextStructureType";
+import TextType from "../nodes/TextType";
 import Value from "./Value";
 
 export default class Text extends Value {
@@ -13,7 +13,7 @@ export default class Text extends Value {
         this.format = format;
     }
 
-    getType() { return TextStructureType; }
+    getType() { return new TextType(); }
 
     toString() { return `"${this.text}"${this.format ? this.format : ""}`; }
 

@@ -1,7 +1,11 @@
 import type Token from "./Token";
 import Expression from "./Expression";
 import type Row from "./Row";
-import Conflict, { ExpectedSelectName, NonBooleanQuery, NotATable, UnknownColumn } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { UnknownColumn } from "../conflicts/UnknownColumn";
+import { ExpectedSelectName } from "../conflicts/ExpectedSelectName";
+import { NonBooleanQuery } from "../conflicts/NonBooleanQuery";
+import { NotATable } from "../conflicts/NotATable";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import type Unparsable from "./Unparsable";
@@ -11,14 +15,14 @@ import type ColumnType from "./ColumnType";
 import BooleanType from "./BooleanType";
 import Bind from "../nodes/Bind";
 import type Node from "./Node";
-import type TypeVariable from "./TypeVariable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
-import type { ConflictContext, Definition } from "./Node";
+import type { ConflictContext } from "./Node";
+import type Definition from "./Definition";
 
 export default class Select extends Expression {
     
@@ -116,7 +120,7 @@ export default class Select extends Expression {
 
     evaluate(evaluator: Evaluator): Value {
 
-        return new Exception(this, ExceptionType.NOT_IMPLEMENTED);
+        return new Exception(this, ExceptionKind.NOT_IMPLEMENTED);
 
     }
 

@@ -1,4 +1,5 @@
-import { IncompatibleOperand, testConflict } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
+import { IncompatibleOperand } from "../conflicts/IncompatibleOperand";
 import UnaryOperation from "./UnaryOperation";
 
 test("Test unary conflicts", () => {

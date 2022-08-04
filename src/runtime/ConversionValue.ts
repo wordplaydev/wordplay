@@ -1,11 +1,9 @@
-import ConversionStructureType from "../native/ConversionStructureType";
 import type ConversionDefinition from "../nodes/ConversionDefinition";
 import type Evaluation from "./Evaluation";
 import Value from "./Value";
 
 
-// We could have just called this Function, but Javascript claims that globally.
-export default class Conversion extends Value {
+export default class ConversionValue extends Value {
 
     /** The definition from the AST. */
     readonly definition: ConversionDefinition;
@@ -20,7 +18,7 @@ export default class Conversion extends Value {
         this.context = context;
     }
 
-    getType() { return ConversionStructureType; }
+    getType() { return this.definition.getType({ program: this.context.getEvaluator().program, shares: this.context.getEvaluator().getShares()}); }
 
     toString() { return this.definition.toWordplay(); }
 

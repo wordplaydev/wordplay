@@ -1,8 +1,9 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
 import type Type from "../nodes/Type";
 import Unparsable from "../nodes/Unparsable";
-import type Conversion from "./Conversion";
+import type ConversionValue from "./ConversionValue";
 import Evaluation from "./Evaluation";
+import type Evaluator from "./Evaluator";
 import Value from "./Value";
 
 export default class Structure extends Value {
@@ -24,7 +25,7 @@ export default class Structure extends Value {
         return this.context.resolve(name);
     }
 
-    getConversion(type: Type): Conversion | undefined {
+    getConversion(type: Type): ConversionValue | undefined {
         return this.context.getConversion(type);
     }
 
@@ -43,10 +44,10 @@ export default class Structure extends Value {
 
 }
 
-export function createStructure(definition: StructureDefinition, values: Record<string, Value>): Structure {
+export function createStructure(evaluator: Evaluator, definition: StructureDefinition, values: Record<string, Value>): Structure {
 
     const bindings = new Map<string,Value>();
     Object.keys(values).forEach(key => bindings.set(key, values[key]));
-    return new Structure(new Evaluation(definition, definition, undefined, bindings));
+    return new Structure(new Evaluation(evaluator, definition, definition, undefined, bindings));
 
 }

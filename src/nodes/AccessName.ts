@@ -1,18 +1,19 @@
-import Conflict, { UnknownProperty } from "../parser/Conflict";
-import StructureDefinition from "./StructureDefinition";
+import type Conflict from "../conflicts/Conflict";
+import { UnknownProperty } from "../conflicts/UnknownProperty";
 import Expression from "./Expression";
 import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import Structure from "../runtime/Structure";
 import Stream from "../runtime/Stream";
 import type { ConflictContext } from "./Node";
+import StructureType from "./StructureType";
 
 export default class AccessName extends Expression {
 
@@ -43,11 +44,11 @@ export default class AccessName extends Expression {
         return conflicts;
     }
 
-    getSubjectType(context: ConflictContext): StructureDefinition | undefined {
+    getSubjectType(context: ConflictContext): StructureType | undefined {
 
         if(this.subject instanceof Unparsable) return;
         const subjectType = this.subject.getType(context);
-        if(subjectType instanceof StructureDefinition) return subjectType;
+        if(subjectType instanceof StructureType) return subjectType;
 
     }
 
@@ -71,7 +72,7 @@ export default class AccessName extends Expression {
         return subject instanceof Exception ? subject :
             subject instanceof Structure ? subject.resolve(this.name.text) :
             subject instanceof Stream ? subject.resolve(this.name.text) :
-            new Exception(this, ExceptionType.EXPECTED_STRUCTURE);
+            new Exception(this, ExceptionKind.EXPECTED_STRUCTURE);
 
     }
 

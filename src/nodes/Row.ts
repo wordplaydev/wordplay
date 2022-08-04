@@ -1,6 +1,6 @@
 import Node, { type ConflictContext } from "./Node";
 import type Cell from "./Cell";
-import type Conflict from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
 
 export default class Row extends Node {
 

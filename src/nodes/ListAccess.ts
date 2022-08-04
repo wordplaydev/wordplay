@@ -1,4 +1,5 @@
-import Conflict, { NotAListIndex } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { NotAListIndex } from "../conflicts/NotAListIndex";
 import Expression from "./Expression";
 import ListType from "./ListType";
 import MeasurementType from "./MeasurementType";
@@ -9,7 +10,7 @@ import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import List from "../runtime/List";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
@@ -69,8 +70,8 @@ export default class ListAccess extends Expression {
         const index = evaluator.popValue();
         const list = evaluator.popValue();
 
-        if(!(list instanceof List)) return new Exception(this, ExceptionType.EXPECTED_TYPE);
-        else if(!(index instanceof Measurement) || !index.isInteger()) return new Exception(this, ExceptionType.EXPECTED_TYPE);
+        if(!(list instanceof List)) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+        else if(!(index instanceof Measurement) || !index.isInteger()) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
         else return list.get(index);
 
     }

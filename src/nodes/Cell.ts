@@ -1,5 +1,5 @@
 import type Bind from "../nodes/Bind";
-import type Conflict from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
 import type Expression from "./Expression";
 import Node, { type ConflictContext } from "./Node";
 import type Token from "./Token";

@@ -1,4 +1,7 @@
-import { IncompatibleCellType, MissingColumns, NotATable, testConflict } from "../parser/Conflict";
+import { testConflict } from "../conflicts/testConflict";
+import { IncompatibleCellType } from "../conflicts/IncompatibleCellType";
+import { MissingColumns } from "../conflicts/MissingColumns";
+import { NotATable } from "../conflicts/NotATable";
 import Insert from "./Insert";
 
 test("Test insert conflicts", () => {

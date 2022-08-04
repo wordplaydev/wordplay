@@ -1,5 +1,5 @@
 import Node from "./Node";
-import type Conflict from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
 import Type from "./Type";
 import type ConversionDefinition from "./ConversionDefinition";
 import type { ConflictContext } from "./Node";
@@ -23,6 +23,8 @@ export default class StructureType extends Type {
         else 
             return [];
     }
+
+    getBind(name: string) { return this.type instanceof StructureDefinition ? this.type.getBind(name) : undefined; }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 

@@ -1,5 +1,8 @@
 import BooleanType from "./BooleanType";
-import Conflict, { IncompatibleOperand, IncompatibleUnits, LeftToRightOrderOfOperations, UnknownName } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { LeftToRightOrderOfOperations } from "../conflicts/LeftToRightOrderOfOperations";
+import { IncompatibleUnits } from "../conflicts/IncompatibleUnits";
+import { IncompatibleOperand } from "../conflicts/IncompatibleOperand";
 import Expression from "./Expression";
 import MeasurementLiteral from "./MeasurementLiteral";
 import MeasurementType from "./MeasurementType";
@@ -11,7 +14,7 @@ import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "src/runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import Bool from "../runtime/Bool";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
@@ -212,7 +215,7 @@ export default class BinaryOperation extends Expression {
         else if(this.operator.text === "≠")
             return new Bool(left.toString() !== right.toString());
         else
-            return new Exception(this, ExceptionType.UNKNOWN_OPERATOR);
+            return new Exception(this, ExceptionKind.UNKNOWN_OPERATOR);
 
     }
 

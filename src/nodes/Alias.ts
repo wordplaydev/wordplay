@@ -1,6 +1,6 @@
 import Node, { type ConflictContext } from "./Node";
 import Token from "./Token";
-import type Conflict from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
 import Language from "./Language";
 
 export default class Alias extends Node {

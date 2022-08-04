@@ -1,5 +1,6 @@
 import BooleanType from "./BooleanType";
-import Conflict, { ExpectedBooleanCondition } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { ExpectedBooleanCondition } from "../conflicts/ExpectedBooleanCondition";
 import Expression from "./Expression";
 import type Token from "./Token";
 import type Type from "./Type";

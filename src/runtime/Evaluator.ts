@@ -3,7 +3,7 @@ import type Program from "../nodes/Program";
 import type Reaction from "../nodes/Reaction";
 import { parse } from "../parser/Parser";
 import Evaluation from "./Evaluation";
-import Exception, { ExceptionType } from "./Exception";
+import Exception, { ExceptionKind } from "./Exception";
 import ReactionStream from "./ReactionStream";
 import Shares, { DEFAULT_SHARES } from "./Shares";
 import type Stream from "./Stream";
@@ -37,11 +37,11 @@ export default class Evaluator {
     /** A set of node streams */
     reactionStreams: Map<Reaction, Stream> = new Map();
 
-    constructor(program: Program, shares: Shares, listener?: (value: Value | undefined) => void) {
+    constructor(program: Program, listener?: (value: Value | undefined) => void) {
 
         this.program = program;
         this.evaluations = [];
-        this.shares = shares;
+        this.shares = new Shares(this);
         this.listener = listener;
 
         // Start and listen to all streams
@@ -56,7 +56,7 @@ export default class Evaluator {
     }
 
     static evaluateCode(code: string): Value | undefined {
-        const evaluator = new Evaluator(parse(code), new Shares());
+        const evaluator = new Evaluator(parse(code));
         const result = evaluator.evaluate([]);
         evaluator.stop();
         return result;
@@ -74,7 +74,7 @@ export default class Evaluator {
     /** Initializes the evaluator for execution. */
     start() {
         // Start executing the program node.
-        this.evaluations = [ new Evaluation(this.program, this.program) ];
+        this.evaluations = [ new Evaluation(this, this.program, this.program) ];
 
         // Borrow all of the implicit borrows.
         Object.keys(DEFAULT_SHARES).forEach(name => this.borrow(name));
@@ -98,11 +98,11 @@ export default class Evaluator {
 
         // If it seems like we're stuck in an infinite (recursive) loop, halt.
         if(this.evaluations.length > 100000)
-            return new Exception(this.program, ExceptionType.POSSIBLE_INFINITE_RECURSION);
+            return new Exception(this.program, ExceptionKind.POSSIBLE_INFINITE_RECURSION);
 
         // If there's no node evaluating, we're done.
         if(this.evaluations.length === 0)
-            return new Exception(this.program, ExceptionType.EXPECTED_CONTEXT);
+            return new Exception(this.program, ExceptionKind.EXPECTED_CONTEXT);
 
         const evaluation = this.evaluations[0];
 
@@ -163,7 +163,7 @@ export default class Evaluator {
     popValue(): Value { 
         return this.evaluations.length > 0 ? 
             this.evaluations[0].popValue() : 
-            new Exception(this.program, ExceptionType.EXPECTED_VALUE);
+            new Exception(this.program, ExceptionKind.EXPECTED_VALUE);
     }
 
     /** Tell the current evaluation to jump to a new instruction. */
@@ -213,7 +213,7 @@ export default class Evaluator {
     borrow(name: string, version?: number): Exception | undefined { 
 
         const share = this.shares.resolve(name, version);
-        if(share === undefined) return new Exception(this.program, ExceptionType.UNKNOWN_SHARE);
+        if(share === undefined) return new Exception(this.program, ExceptionKind.UNKNOWN_SHARE);
 
         // Bind the shared value in this context.
         this.bind(name, share);

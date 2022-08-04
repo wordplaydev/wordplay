@@ -1,5 +1,6 @@
 import BooleanType from "./BooleanType";
-import Conflict, { IncompatibleOperand } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { IncompatibleOperand } from "../conflicts/IncompatibleOperand";
 import Expression from "./Expression";
 import MeasurementType from "./MeasurementType";
 import type Token from "./Token";
@@ -9,7 +10,7 @@ import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import Bool from "../runtime/Bool";
 import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
@@ -96,7 +97,7 @@ export default class UnaryOperation extends Expression {
         // Evaluate the function on the value.
         return value instanceof Measurement || value instanceof Bool ?
             value.evaluatePrefix(this) :
-            new Exception(this, ExceptionType.UNKNOWN_OPERATOR);
+            new Exception(this, ExceptionKind.UNKNOWN_OPERATOR);
 
     }
 

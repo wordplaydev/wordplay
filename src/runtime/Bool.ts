@@ -1,7 +1,8 @@
 import BoolStructureType from "../native/BoolStructureType";
 import type BinaryOperation from "../nodes/BinaryOperation";
+import BooleanType from "../nodes/BooleanType";
 import type UnaryOperation from "../nodes/UnaryOperation";
-import Exception, { ExceptionType } from "./Exception";
+import Exception, { ExceptionKind } from "./Exception";
 import Value from "./Value";
 
 export default class Bool extends Value {
@@ -16,13 +17,13 @@ export default class Bool extends Value {
 
     toString() { return this.bool ? "⊤" : "⊥"; }
 
-    getType() { return BoolStructureType;}
+    getType() { return new BooleanType(); }
 
     evaluatePrefix(op: UnaryOperation): Value {
 
         switch(op.getOperator()) {
             case "¬": return new Bool(!this.bool)
-            default: return new Exception(op, ExceptionType.UNKNOWN_OPERATOR);
+            default: return new Exception(op, ExceptionKind.UNKNOWN_OPERATOR);
         }
 
     }
@@ -30,12 +31,12 @@ export default class Bool extends Value {
     evaluateInfix(op: BinaryOperation, operand: Value): Value {
 
         if(!(operand instanceof Bool))
-            return new Exception(op, ExceptionType.EXPECTED_TYPE);
+            return new Exception(op, ExceptionKind.EXPECTED_TYPE);
 
         switch(op.getOperator()) {
             case "∧": return new Bool(this.bool && operand.bool);
             case "∨": return new Bool(this.bool || operand.bool);
-            default: return new Exception(op, ExceptionType.UNKNOWN_OPERATOR);
+            default: return new Exception(op, ExceptionKind.UNKNOWN_OPERATOR);
         }
 
     }

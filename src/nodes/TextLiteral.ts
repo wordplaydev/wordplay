@@ -1,4 +1,4 @@
-import type Conflict from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
 import Expression from "./Expression";
 import TextType from "./TextType";
 import type Token from "./Token";

@@ -1,10 +1,9 @@
-import { StructureStructureType } from "../native/StructureStructureType";
 import type StructureDefinition from "../nodes/StructureDefinition";
+import StructureType from "../nodes/StructureType";
 import type Evaluation from "./Evaluation";
 import Value from "./Value";
 
 
-// We could have just called this Function, but Javascript claims that globally.
 export default class StructureDefinitionValue extends Value {
 
     /** The definition from the AST. */
@@ -20,7 +19,7 @@ export default class StructureDefinitionValue extends Value {
         this.context = context;
     }
 
-    getType() { return StructureStructureType; }
+    getType() { return new StructureType(this.definition); }
 
     toString() { return this.definition.toWordplay(); }
 

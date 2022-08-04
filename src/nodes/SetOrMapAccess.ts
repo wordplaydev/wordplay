@@ -1,4 +1,5 @@
-import Conflict, { IncompatibleKey } from "../parser/Conflict";
+import type Conflict from "../conflicts/Conflict";
+import { IncompatibleKey } from "../conflicts/IncompatibleKey";
 import Expression from "./Expression";
 import SetOrMapType from "./SetOrMapType";
 import type Token from "./Token";
@@ -9,7 +10,7 @@ import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import SetValue from "../runtime/SetValue";
 import MapValue from "../runtime/MapValue";
-import Exception, { ExceptionType } from "../runtime/Exception";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
@@ -74,7 +75,7 @@ export default class SetOrMapAccess extends Expression {
         const key = evaluator.popValue();
         const setOrMap = evaluator.popValue();
 
-        if(!(setOrMap instanceof SetValue || setOrMap instanceof MapValue)) return new Exception(this, ExceptionType.EXPECTED_TYPE);
+        if(!(setOrMap instanceof SetValue || setOrMap instanceof MapValue)) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
         else return setOrMap.get(key);
     
     }
