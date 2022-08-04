@@ -31,7 +31,7 @@ export default class MeasurementLiteral extends Expression {
 
     getConflicts(context: ConflictContext): Conflict[] { 
     
-        if(new Measurement(this.number).isNotANumber())
+        if(new Measurement(this.number).num.isNaN())
             return [ new NotANumber(this) ];
         else
             return []; 
