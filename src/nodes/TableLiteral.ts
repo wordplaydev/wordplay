@@ -67,12 +67,12 @@ export default class TableLiteral extends Expression {
         return new TableType(columnTypes);
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [
             new Start(this),
             // Compile all of the row's 's cells expressions.
             ...this.rows.reduce((rows: Step[], row) =>
-                row.cells.reduce((cells: Step[], cell) => [...cells, ...cell.expression.compile()], []), 
+                row.cells.reduce((cells: Step[], cell) => [...cells, ...cell.expression.compile(context)], []), 
                 []
             ),
             new Finish(this)

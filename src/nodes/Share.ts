@@ -42,8 +42,8 @@ export default class Share extends Node implements Evaluable {
 
     }
 
-    compile(): Step[] {
-        return [ new Start(this), ...this.bind.compile(), new Finish(this) ];
+    compile(context: ConflictContext):Step[] {
+        return [ new Start(this), ...this.bind.compile(context), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator) {

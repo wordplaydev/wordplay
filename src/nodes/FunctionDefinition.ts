@@ -142,7 +142,7 @@ export default class FunctionDefinition extends Expression {
         return new FunctionType(inputTypes, outputType);
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [ new Finish(this) ];
     }
 

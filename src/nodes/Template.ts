@@ -46,10 +46,10 @@ export default class Template extends Expression {
         return new TextType(undefined, this.format);
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [
             ...this.parts.filter(p => p instanceof Expression).reduce(
-                (parts: Step[], part) => [...parts, ...(part as Expression).compile()], []
+                (parts: Step[], part) => [...parts, ...(part as Expression).compile(context)], []
             ),
             new Finish(this)
         ];

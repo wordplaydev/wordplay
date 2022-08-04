@@ -109,11 +109,11 @@ export default class Select extends Expression {
 
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         // Evaluate the table expression then this.
         return [ 
             new Start(this),
-            ...this.table.compile(),
+            ...this.table.compile(context),
             new Finish(this)
         ];
     }

@@ -31,7 +31,7 @@ export default class NoneLiteral extends Expression {
         return new NoneType(this.aliases, this.none);
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [ new Finish(this) ];
     }
 

@@ -60,12 +60,12 @@ export default class SetOrMapAccess extends Expression {
         return new UnknownType(this);
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         // Evaluate the set expression, then the key expression, then this.
         return [ 
             new Start(this),
-            ...this.setOrMap.compile(),
-            ...this.key.compile(),
+            ...this.setOrMap.compile(context),
+            ...this.key.compile(context),
             new Finish(this)
         ];
     }

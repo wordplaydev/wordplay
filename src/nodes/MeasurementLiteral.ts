@@ -42,7 +42,7 @@ export default class MeasurementLiteral extends Expression {
         return new MeasurementType(undefined, this.unit instanceof Unparsable ? undefined : this.unit);
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [ new Finish(this) ];
     }
 

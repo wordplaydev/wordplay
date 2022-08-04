@@ -73,8 +73,8 @@ export default class Delete extends Expression {
 
     }
 
-    compile(): Step[] {
-        return [ new Start(this), ...this.table.compile(), new Finish(this) ];
+    compile(context: ConflictContext):Step[] {
+        return [ new Start(this), ...this.table.compile(context), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value {

@@ -1,4 +1,4 @@
-import type Borrow from "../nodes/Borrow";
+import type { ConflictContext } from "../nodes/Node";
 import type Program from "../nodes/Program";
 import type Reaction from "../nodes/Reaction";
 import { parse } from "../parser/Parser";
@@ -61,6 +61,8 @@ export default class Evaluator {
         evaluator.stop();
         return result;
     }
+
+    getContext(): ConflictContext { return { program: this.program, shares: this.shares }; }
 
     react(stream: Stream) {
         // Reevaluate everything in case it has Reactions that are dependent on the stream. 

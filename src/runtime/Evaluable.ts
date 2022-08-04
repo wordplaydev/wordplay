@@ -1,6 +1,7 @@
 import type Evaluator from "./Evaluator";
 import type Value from "./Value";
 import type Step from "./Step";
+import type { ConflictContext } from "../nodes/Node";
 
 export default interface Evaluable {
     /** Evaluates one step of the node in the context of the given Evaluator.
@@ -8,6 +9,6 @@ export default interface Evaluable {
     evaluate(evaluator: Evaluator): Value | undefined;
 
     /** Compiles the evaluable into an executable list of Steps. */
-    compile(): Step[];
+    compile(context: ConflictContext): Step[];
 
 }

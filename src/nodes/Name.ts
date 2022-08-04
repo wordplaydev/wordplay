@@ -49,7 +49,7 @@ export default class Name extends Expression {
         else return bindOrTypeVar.getType(context);
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [ new Finish(this) ];
     }
 

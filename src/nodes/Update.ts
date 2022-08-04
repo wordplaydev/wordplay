@@ -98,10 +98,10 @@ export default class Update extends Expression {
 
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [
             new Start(this),
-            ...this.table.compile(),
+            ...this.table.compile(context),
             new Finish(this)
         ];
     }

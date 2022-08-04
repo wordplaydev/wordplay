@@ -61,8 +61,8 @@ export default class ListAccess extends Expression {
         else return new UnknownType(this);
     }
 
-    compile(): Step[] {
-        return [ new Start(this), ...this.list.compile(), ...this.index.compile(), new Finish(this) ];
+    compile(context: ConflictContext):Step[] {
+        return [ new Start(this), ...this.list.compile(context), ...this.index.compile(context), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value {

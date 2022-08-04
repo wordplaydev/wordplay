@@ -1,4 +1,4 @@
-import Node from "./Node";
+import Node, { type ConflictContext } from "./Node";
 import type Token from "./Token";
 import { SyntacticConflict } from "../parser/Parser"
 import Conflict from "../conflicts/Conflict";
@@ -38,7 +38,7 @@ export default class Unparsable extends Node implements Evaluable {
         return [ new UnparsableConflict(this) ];
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ];
     }
 

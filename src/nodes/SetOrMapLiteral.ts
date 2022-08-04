@@ -80,7 +80,7 @@ export default class SetOrMapLiteral extends Expression {
 
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return this.kind === SetKind.Neither ?
             [ new Halt(new Exception(this, ExceptionKind.EXPECTED_TYPE), this)] :
             [
@@ -91,9 +91,9 @@ export default class SetOrMapLiteral extends Expression {
                         ...steps, 
                         ...(this.kind === SetKind.Set ? 
                             // Evaluate all of the set item expressions
-                            (item as Expression).compile() : 
+                            (item as Expression).compile(context) : 
                             // Evaluate all of the key/value pairs
-                            [...(item as KeyValue).key.compile(), ...(item as KeyValue).value.compile()])
+                            [...(item as KeyValue).key.compile(context), ...(item as KeyValue).value.compile(context)])
                     ], []),
                 // Then build the set or map.
                 new Finish(this)

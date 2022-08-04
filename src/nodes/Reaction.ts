@@ -65,10 +65,10 @@ export default class Reaction extends Expression {
             return new UnionType(initialType, nextType);
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
 
-        const initialSteps = this.initial.compile();
-        const nextSteps = this.next.compile();
+        const initialSteps = this.initial.compile(context);
+        const nextSteps = this.next.compile(context);
 
         // and if it has not, evaluate the initial value, then create
         // the stream. If it does exist, then evaluate the next value and then
@@ -86,7 +86,7 @@ export default class Reaction extends Expression {
                 }
             }),
             // Evaluate the stream expression
-            ...this.stream.compile(),
+            ...this.stream.compile(context),
             // Does this stream exist for this node? If so, jump to the check of whether to update it.
             // Otherwise, initialize it.
             new JumpIfStreamExists(initialSteps.length + 1, this),

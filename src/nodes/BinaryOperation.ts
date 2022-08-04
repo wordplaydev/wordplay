@@ -196,8 +196,8 @@ export default class BinaryOperation extends Expression {
         }
     }
 
-    compile(): Step[] {
-        return [ new Start(this), ...this.left.compile(), ...this.right.compile(), new Finish(this) ];
+    compile(context: ConflictContext):Step[] {
+        return [ new Start(this), ...this.left.compile(context), ...this.right.compile(context), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value {

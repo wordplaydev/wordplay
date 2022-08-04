@@ -26,7 +26,7 @@ export default class BooleanLiteral extends Expression {
         return new BooleanType();
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [ new Finish(this) ];
     }
 

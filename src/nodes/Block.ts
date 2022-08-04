@@ -108,14 +108,14 @@ export default class Block extends Expression {
         return lastExpression === undefined ? new UnknownType(this) : lastExpression.getType(context);
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
 
         // If there are no statements, halt on exception.
         return !this.creator && this.statements.length === 0 ? 
             [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ] :
             [ 
                 new Start(this), 
-                ...this.statements.reduce((prev: Step[], current) => [ ...prev, ...current.compile() ], []),
+                ...this.statements.reduce((prev: Step[], current) => [ ...prev, ...current.compile(context) ], []),
                 new Finish(this) 
             ];
 

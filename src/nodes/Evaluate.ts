@@ -7,7 +7,6 @@ import { UnexpectedInputs } from "../conflicts/UnexpectedInputs";
 import { IncompatibleInputs as IncompatibleInput } from "../conflicts/IncompatibleInputs";
 import { NotInstantiable } from "../conflicts/NotInstantiable";
 import { NotAFunction } from "../conflicts/NotAFunction";
-import StructureDefinition from "./StructureDefinition";
 import StructureType from "./StructureType";
 import Expression from "./Expression";
 import FunctionType, { type Input } from "./FunctionType";
@@ -204,16 +203,21 @@ export default class Evaluate extends Expression {
         const funcType = this.func.getType(context);
         if(funcType instanceof FunctionType && funcType.output instanceof Type) return funcType.output;
         if(funcType instanceof StructureType) return funcType;
-        if(funcType instanceof StructureDefinition) return funcType;
         else return new UnknownType(this);
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
+
+        // To compile an evaluate, we need to compile all of the given and default values in
+        // order of the function's declaration. This requires getting the function/structure definition
+        // and finding an expression to compile for each input.
+
+
         // Evaluate the function expression, then the inputs, then evaluate this this.
         return [ 
             new Start(this),
-            ...this.func.compile(), 
-            ...this.inputs.reduce((steps: Step[], input) => [ ...steps, ...input.compile()], []), 
+            ...this.func.compile(context), 
+            ...this.inputs.reduce((steps: Step[], input) => [ ...steps, ...input.compile(context)], []), 
             new Finish(this)
         ];
     }

@@ -133,10 +133,10 @@ export default class Bind extends Node implements Evaluable, Named {
         
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return this.value === undefined ?
             [ new Halt(new Exception(this, ExceptionKind.EXPECTED_VALUE), this) ] :
-            [ new Start(this), ...this.value.compile(), new Finish(this) ];
+            [ new Start(this), ...this.value.compile(context), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator) {

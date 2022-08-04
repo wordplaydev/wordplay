@@ -81,10 +81,10 @@ export default class UnaryOperation extends Expression {
         else return new UnknownType(this);
     }
     
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [
             new Start(this),
-            ...this.operand.compile(),
+            ...this.operand.compile(context),
             new Finish(this)
         ];
     }

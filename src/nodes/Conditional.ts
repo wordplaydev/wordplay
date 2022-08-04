@@ -65,14 +65,14 @@ export default class Conditional extends Expression {
         }
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
 
-        const yes = this.yes.compile();
-        const no = this.no.compile();
+        const yes = this.yes.compile(context);
+        const no = this.no.compile(context);
 
         // Evaluate the condition, jump past the yes if false, otherwise evaluate the yes then jump past the no.
         return [ 
-            ...this.condition.compile(), 
+            ...this.condition.compile(context), 
             new JumpIfFalse(yes.length + 1, this), 
             ...yes, 
             new Jump(no.length + 1, this),

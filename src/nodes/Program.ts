@@ -64,12 +64,12 @@ export default class Program extends Node implements Evaluable {
 
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         // Execute the borrows, then the block, then this.
         return [ 
             new Start(this),
-            ...this.borrows.reduce((steps: Step[], borrow) => [...steps, ...borrow.compile()], []),
-            ...this.block.compile(),
+            ...this.borrows.reduce((steps: Step[], borrow) => [...steps, ...borrow.compile(context)], []),
+            ...this.block.compile(context),
             new Finish(this)            
         ];
     }

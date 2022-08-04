@@ -39,7 +39,7 @@ export default class Borrow extends Node implements Evaluable {
     
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [ new Finish(this) ];
     }
 

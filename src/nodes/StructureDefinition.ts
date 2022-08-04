@@ -167,7 +167,7 @@ export default class StructureDefinition extends Expression implements Structure
 
     hasName(name: string) { return this.aliases.find(a => a.getName() === name) !== undefined; }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [ new Finish(this) ];
     }
 

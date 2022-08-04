@@ -65,7 +65,7 @@ export default class ConversionDefinition extends Expression {
         return this.output instanceof Unparsable ? new UnknownType(this) : new ConversionType(this.output);
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [ new Finish(this) ];
     }
 

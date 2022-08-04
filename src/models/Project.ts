@@ -32,7 +32,7 @@ export default class Project {
         this.program = parseProgram(new Tokens(this.tokens));
         this.evaluator = new Evaluator(this.program, this.handleResult.bind(this) );
         this.conflicts = this.program.getAllConflicts(this.program, this.evaluator.getShares());
-        this.steps = this.program.compile();
+        this.steps = this.program.compile(this.evaluator.getContext());
 
         // Generate documents based on the code.
         this.docs = [

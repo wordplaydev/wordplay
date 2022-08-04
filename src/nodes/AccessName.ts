@@ -60,9 +60,9 @@ export default class AccessName extends Expression {
         else return bind.getType(context);
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         
-        return [ new Start(this), ...this.subject.compile(), new Finish(this) ]
+        return [ new Start(this), ...this.subject.compile(context), new Finish(this) ]
 
     }
 

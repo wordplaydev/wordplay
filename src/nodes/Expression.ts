@@ -13,7 +13,7 @@ export default abstract class Expression extends Node implements Evaluable {
 
     abstract getChildren(): Node[];
     abstract getType(context: ConflictContext): Type;
-    abstract compile(): Step[];
+    abstract compile(context: ConflictContext): Step[];
     abstract evaluate(evaluator: Evaluator): Value | undefined;
 
 }

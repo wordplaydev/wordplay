@@ -42,10 +42,10 @@ export default class ListLiteral extends Expression {
         return new ListType(undefined, undefined, itemType);
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [ 
             new Start(this),
-            ...this.values.reduce((steps: Step[], item) => [...steps, ...item.compile()], []),
+            ...this.values.reduce((steps: Step[], item) => [...steps, ...item.compile(context)], []),
             new Finish(this)
         ];
     }

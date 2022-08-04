@@ -46,8 +46,8 @@ export default class Convert extends Expression {
         return this.type instanceof Type ? this.type : new UnknownType(this);
     }
 
-    compile(): Step[] {
-        return [ new Start(this), ...this.expression.compile(), new Finish(this) ];
+    compile(context: ConflictContext):Step[] {
+        return [ new Start(this), ...this.expression.compile(context), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator) {

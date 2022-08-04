@@ -30,7 +30,7 @@ export default class TextLiteral extends Expression {
         return new TextType(undefined, this.format);
     }
 
-    compile(): Step[] {
+    compile(context: ConflictContext):Step[] {
         return [ new Finish(this) ];
     }
     
