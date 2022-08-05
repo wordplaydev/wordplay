@@ -69,14 +69,16 @@ export default class StructureDefinition extends Expression implements Structure
                    aliases: i.names,
                    type: i.getType(context),
                    required: !(i.hasDefault() || i.isVariableLength()),
-                   rest: i.isVariableLength()
+                   rest: i.isVariableLength(),
+                   default: i.value
                }
                :
                {
                    aliases: [],
                    type: new UnknownType(context.program),
                    required: true,
-                   rest: false
+                   rest: false,
+                   default: undefined
                }            
        );
        return new FunctionType(inputTypes, new StructureType(this));

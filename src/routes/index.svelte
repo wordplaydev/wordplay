@@ -5,7 +5,7 @@
     import { project } from '../models/stores';
     import { examples } from '../examples/examples';
 
-    project.set(new Project("Play", examples.WhatWord, () => project.set($project)));
+    project.set(new Project("Play", examples.AnimatedFace, () => project.set($project)));
 
 </script>
 

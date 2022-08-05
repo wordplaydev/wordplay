@@ -5,12 +5,14 @@ import Type from "./Type";
 import Unparsable from "./Unparsable";
 import type { ConflictContext } from "./Node";
 import type Alias from "./Alias";
+import type Expression from "./Expression";
 
 export type Input = {
     aliases: Alias[],
     type: Type | Unparsable,
     required: boolean,
-    rest: boolean
+    rest: boolean,
+    default: Unparsable | Expression | undefined
 }
 
 export default class FunctionType extends Type {

@@ -4,7 +4,7 @@ import { RedundantNamedInput } from "../conflicts/RedundantNamedInput";
 import { InvalidInputName } from "../conflicts/InvalidInputName";
 import { MissingInput } from "../conflicts/MissingInput";
 import { UnexpectedInputs } from "../conflicts/UnexpectedInputs";
-import { IncompatibleInputs as IncompatibleInput } from "../conflicts/IncompatibleInputs";
+import { IncompatibleInput } from "../conflicts/IncompatibleInput";
 import { NotInstantiable } from "../conflicts/NotInstantiable";
 import { NotAFunction } from "../conflicts/NotAFunction";
 import StructureType from "./StructureType";
@@ -25,6 +25,8 @@ import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import type { ConflictContext } from "./Node";
+import Halt from "../runtime/Halt";
+import List from "../runtime/List";
 
 export default class Evaluate extends Expression {
 
@@ -206,40 +208,110 @@ export default class Evaluate extends Expression {
         else return new UnknownType(this);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: ConflictContext): Step[] {
 
         // To compile an evaluate, we need to compile all of the given and default values in
         // order of the function's declaration. This requires getting the function/structure definition
         // and finding an expression to compile for each input.
+        const funcType = this.func.getType(context);
+        const inputs = funcType instanceof FunctionType ? funcType.inputs :
+            funcType instanceof StructureType ? funcType.type.getFunctionType(context).inputs :
+            undefined;
 
+        // Compile a halt if we couldn't find the function.
+        if(inputs === undefined)
+            return [ new Halt(new Exception(this, ExceptionKind.EXPECTED_FUNCTION), this) ];
 
-        // Evaluate the function expression, then the inputs, then evaluate this this.
+        // Iterate through the inputs, compiling appropriate expressions.
+        // Make a copy of this evaluate's inputs and process them as we go.
+        const given = this.inputs.slice();
+        const inputSteps = inputs.map(input => {
+            
+            // Find the given input that corresponds to the next desired input.
+            // If this input is required, grab the next given input.
+            if(input.required) {
+                const requiredInput = given.shift();
+                if(requiredInput === undefined)
+                    return [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ];
+                else
+                    return requiredInput.compile(context);
+            }
+            // If it's not required...
+            else {
+                // and it's not a variable length input, first search for a named input, otherwise grab the next input.
+                if(!input.rest) {
+                    const bind = given.find(g => g instanceof Bind && input.aliases.find(a => a.getName() === g.names[0].getName()) !== undefined);
+                    // If we found a bind with a matching name, compile it's value.
+                    if(bind instanceof Bind && bind.value !== undefined)
+                        return bind.value.compile(context);
+                    // If we didn't, then compile the next value.
+                    const optionalInput = given.shift();
+                    if(optionalInput !== undefined)
+                        return optionalInput.compile(context);
+                    // If there wasn't one, use the default value.
+                    return input.default === undefined ? 
+                        [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ] :
+                        input.default.compile(context);
+                }
+                // If it is a variable length input, reduce the remaining given input expressions.
+                else {
+                    return given.reduce((prev: Step[], next) =>
+                        [
+                            ...prev, 
+                            ...(
+                                next instanceof Unparsable ? [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ] :
+                                next instanceof Bind ? 
+                                    (
+                                        next.value === undefined ? 
+                                            [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ] : 
+                                            next.value.compile(context)
+                                    ) :
+                                next.compile(context)
+                            )                        
+                        ],
+                        []
+                    );
+                }
+            }
+        });
+    
+        // Evaluate the function expression, then the inputs, then evaluate this using the resulting values.
         return [ 
             new Start(this),
-            ...this.func.compile(context), 
-            ...this.inputs.reduce((steps: Step[], input) => [ ...steps, ...input.compile(context)], []), 
+            ...inputSteps.reduce((steps: Step[], s) => [ ...steps, ...s], []), 
+            ...this.func.compile(context),
             new Finish(this)
         ];
     }
 
     evaluate(evaluator: Evaluator): Value | undefined {
 
-        // Get all the values off the stack.
-        const values = [];
-        for(let i = 0; i < this.inputs.length; i++) {
-            const value = evaluator.popValue();
-            if(value instanceof Unparsable) return new Exception(this, ExceptionKind.UNPARSABLE);
-            else if(value instanceof Exception) return value;
-            else values.unshift(value);
-        }
-
         // Get the function off the stack and bail if it's not a function.
         const functionOrStructure = evaluator.popValue();
+
+        // Pop as many values as the definition requires, or the number of inputs provided, whichever is larger.
+        // This accounts for variable length arguments.
+        const count = Math.max(
+            functionOrStructure instanceof FunctionValue ? functionOrStructure.definition.inputs.length :
+            functionOrStructure instanceof StructureDefinitionValue ? functionOrStructure.definition.inputs.length :
+            0,
+            this.inputs.length
+        )
+
+        // Get all the values off the stack, getting as many as is defined.
+        const values = [];
+        for(let i = 0; i < count; i++) {
+            const value = evaluator.popValue();
+            if(value instanceof Exception) return value;
+            else values.unshift(value);
+        }
+        
         if(functionOrStructure instanceof FunctionValue) {
 
             // Bail if the function's body isn't an expression.
             if(!(functionOrStructure.definition.expression instanceof Expression))
                 return new Exception(this, ExceptionKind.PLACEHOLDER);
+
 
             // Build the bindings.
             const bindings = this.buildBindings(functionOrStructure.definition.inputs, values);
@@ -260,7 +332,6 @@ export default class Evaluate extends Expression {
             evaluator.startEvaluation(new Evaluation(evaluator, functionOrStructure.definition, functionOrStructure.definition.block, evaluator.getEvaluationContext(), bindings));
 
         }
-        // We don't know how to evaluate anything else...
         else return new Exception(this, ExceptionKind.EXPECTED_TYPE);
 
     }
@@ -273,7 +344,11 @@ export default class Evaluate extends Expression {
             const bind = inputs[i];
             if(bind instanceof Unparsable) return new Exception(this, ExceptionKind.UNPARSABLE);
             else if(i >= values.length) return new Exception(this, ExceptionKind.EXPECTED_VALUE);
-            bind.names.forEach(name => bindings.set(name.getName(), values[i]));
+            bind.names.forEach(name => bindings.set(name.getName(), 
+                bind.isVariableLength() ? 
+                    new List(values.slice(i)) :
+                    values[i]
+            ));
         }
         return bindings;
 

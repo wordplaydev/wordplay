@@ -5,7 +5,7 @@ import type { Input } from "../nodes/FunctionType";
 import Conflict from "./Conflict";
 
 
-export class IncompatibleInputs extends Conflict {
+export class IncompatibleInput extends Conflict {
     readonly func: FunctionType | StructureType;
     readonly evaluate: Evaluate;
     readonly input: Input;

@@ -967,7 +967,7 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 
     const inputs = [];
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        inputs.push({ aliases:[], type: parseType(tokens), required: true, rest: false});
+        inputs.push({ aliases:[], type: parseType(tokens), required: true, rest: false, default: undefined });
 
     if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
