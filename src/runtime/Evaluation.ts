@@ -1,6 +1,5 @@
 import type ConversionDefinition from "../nodes/ConversionDefinition";
 import type FunctionDefinition from "../nodes/FunctionDefinition";
-import Program from "../nodes/Program";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import Type from "../nodes/Type";
 import type ConversionValue from "./ConversionValue";
@@ -10,6 +9,7 @@ import type Step from "./Step";
 import Stream from "./Stream";
 import Value from "./Value";
 import type Evaluable from "./Evaluable";
+import type Program from "../nodes/Program";
 
 export default class Evaluation {
 
@@ -26,7 +26,7 @@ export default class Evaluation {
     readonly #steps?: Step[];
 
     /** The evaluation in which this is being evaluated. */
-    readonly #context: Evaluation | undefined;
+    readonly #context: Evaluation | Value | undefined;
 
     /** A dictionary of values bound to names */
     readonly #bindings: Map<string, Value>;
@@ -44,7 +44,7 @@ export default class Evaluation {
         evaluator: Evaluator,
         definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition, 
         node: Evaluable, 
-        context?: Evaluation, 
+        context?: Evaluation | Value, 
         bindings?: Map<string, Value>) {
 
         this.#evaluator = evaluator;
@@ -62,6 +62,7 @@ export default class Evaluation {
 
     getEvaluator() { return this.#evaluator; }
     getDefinition() { return this.#definition; }
+    getContext() { return this.#context; }
     getNode() { return this.#node; }
 
     /** Given an Evaluator, evaluate this node, and return true if it's done. 
@@ -135,12 +136,8 @@ export default class Evaluation {
     }
 
     /** Finds the program that executed all of this in the evaluation context stack. */
-    getProgram(): Program | undefined {
-        
-        return this.#definition instanceof Program ? this.#definition : 
-            this.#context !== undefined ? this.#context.getProgram() : 
-            undefined;
-
+    getProgram(): Program {
+        return this.#evaluator.program;
     }
 
     /** Allow the given aliases to be borrowed. */

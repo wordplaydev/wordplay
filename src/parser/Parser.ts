@@ -327,7 +327,7 @@ export function parseBind(expectExpression: boolean, tokens: Tokens): Bind | Unp
 
 }
 
-/** ALIAS (NAME LANGUAGE)+ */
+/** ALIAS :: (NAME LANGUAGE)+ */
 export function parseAliases(tokens: Tokens): Alias[] {
 
     const aliases: Alias[] = [];
@@ -735,12 +735,14 @@ function parseReaction(initial: Expression, tokens: Tokens): Reaction {
     return new Reaction(initial, delta, stream, next); 
 }
 
-/** FUNCTION :: DOCS? ƒ TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
+/** FUNCTION :: DOCS? (ƒ | ALIASES) TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
 function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 
     const docs = parseDocs(tokens);
 
     const fun = tokens.read();
+
+    const aliases = tokens.nextIs(TokenType.NAME) ? parseAliases(tokens) : [];
 
     const typeVars = parseTypeVariables(tokens);
 
@@ -765,7 +767,7 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 
     const expression = tokens.nextIs(TokenType.ETC) ? tokens.read() : parseExpression(tokens);
 
-    return new FunctionDefinition(docs, typeVars, inputs, expression, output, fun, dot, open, close);
+    return new FunctionDefinition(docs, aliases, typeVars, inputs, expression, output, fun, dot, open, close);
 
 }
 
@@ -907,9 +909,9 @@ function parseNoneType(tokens: Tokens): NoneType {
 /** STREAM_TYPE :: ∆ TYPE */
 function parseStreamType(tokens: Tokens): StreamType {
 
-    const dots = tokens.read();
+    const stream = tokens.read();
     const type = parseType(tokens);
-    return new StreamType(dots, type);
+    return new StreamType(type, stream);
 
 }
 

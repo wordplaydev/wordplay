@@ -1,4 +1,5 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
+import StructureType from "../nodes/StructureType";
 import type Type from "../nodes/Type";
 import Unparsable from "../nodes/Unparsable";
 import type ConversionValue from "./ConversionValue";
@@ -19,7 +20,7 @@ export default class Structure extends Value {
 
     }
 
-    getType() { return this.type; }
+    getType() { return new StructureType(this.type); }
 
     resolve(name: string) {
         return this.context.resolve(name);

@@ -6,7 +6,7 @@ import Text from "../runtime/Text";
 
 test("Test access name conflicts", () => {
 
-    testConflict('•Cat(name•"") ()\nboomy: Cat("boom")\nboomy.name', 'a.b', AccessName, UnknownProperty);
+    testConflict('•Cat(name•"") ()\nboomy: Cat("boom")\nboomy.name', '•Cat(name•"") ()\nboomy: Cat("boom")\nboomy.nam', AccessName, UnknownProperty);
 
 });
 

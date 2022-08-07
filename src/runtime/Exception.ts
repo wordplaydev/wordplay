@@ -22,10 +22,10 @@ export enum ExceptionKind {
 
 export default class Exception extends Value {
 
-    readonly node: Node;
+    readonly node?: Node;
     readonly exception: ExceptionKind;
 
-    constructor(node: Node, exception: ExceptionKind) {
+    constructor(node: Node | undefined, exception: ExceptionKind) {
         super();
 
         this.node = node;
@@ -34,6 +34,6 @@ export default class Exception extends Value {
 
     getType() { return new ExceptionType(this); }
 
-    toString() { return `${ExceptionKind[this.exception]}: ${this.node.toWordplay().trim()}`; }
+    toString() { return `${ExceptionKind[this.exception]}: ${this.node === undefined ? "" : this.node.toWordplay().trim()}`; }
 
 }

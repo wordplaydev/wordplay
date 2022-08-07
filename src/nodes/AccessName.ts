@@ -14,6 +14,8 @@ import Structure from "../runtime/Structure";
 import Stream from "../runtime/Stream";
 import type { ConflictContext } from "./Node";
 import StructureType from "./StructureType";
+import List from "../runtime/List";
+import ListType from "./ListType";
 
 export default class AccessName extends Expression {
 
@@ -38,26 +40,32 @@ export default class AccessName extends Expression {
         const conflicts = [];
 
         const subjectType = this.getSubjectType(context);
-        if(subjectType === undefined || subjectType.getBind(this.name.text) === undefined)
+        if(subjectType instanceof StructureType && subjectType.getBind(this.name.text) === undefined)
             conflicts.push(new UnknownProperty(this));
 
         return conflicts;
     }
 
-    getSubjectType(context: ConflictContext): StructureType | undefined {
+    getSubjectType(context: ConflictContext): Type | undefined {
 
         if(this.subject instanceof Unparsable) return;
-        const subjectType = this.subject.getType(context);
-        if(subjectType instanceof StructureType) return subjectType;
+        return this.subject.getType(context);
 
     }
 
     getType(context: ConflictContext): Type {
         const subjectType = this.getSubjectType(context);
         if(subjectType === undefined) return new UnknownType(this);
-        const bind = subjectType.getBind(this.name.text);
-        if(bind === undefined) return new UnknownType(this);
-        else return bind.getType(context);
+        else if(subjectType instanceof StructureType) {
+            const bind = subjectType.getBind(this.name.text);
+            if(bind === undefined) return new UnknownType(this);
+            else return bind.getType(context);
+        }
+        else {
+            const fun = subjectType.getFunction(context, this.name.text);
+            if(fun === undefined) return new UnknownType(this);
+            else return fun.getType(context);
+        }
     }
 
     compile(context: ConflictContext):Step[] {
@@ -69,9 +77,11 @@ export default class AccessName extends Expression {
     evaluate(evaluator: Evaluator) {
 
         const subject = evaluator.popValue();
+        const name = this.name.text;
         return subject instanceof Exception ? subject :
-            subject instanceof Structure ? subject.resolve(this.name.text) :
-            subject instanceof Stream ? subject.resolve(this.name.text) :
+            subject instanceof Structure ? subject.resolve(name) :
+            subject instanceof List ? subject.resolve(name) :
+            subject instanceof Stream ? subject.resolve(name) :
             new Exception(this, ExceptionKind.EXPECTED_STRUCTURE);
 
     }

@@ -1,3 +1,5 @@
+import StreamType from "../nodes/StreamType";
+import StructureType from "../nodes/StructureType";
 import Unit from "../nodes/Unit";
 import type Evaluator from "../runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
@@ -25,6 +27,6 @@ export default class MousePosition extends Stream {
     start() {}
     stop() {}
 
-    getType() { return Place; }
+    getType() { return new StreamType(new StructureType(Place)); }
 
 }

@@ -165,7 +165,7 @@ export default class StructureDefinition extends Expression implements Structure
 
     getType(context: ConflictContext): Type { return new StructureType(this); }
 
-    isCompatible(context: ConflictContext, type: Type): boolean { return type === this; }
+    isCompatible(context: ConflictContext, type: Type): boolean { return type instanceof StructureType && type.definition === this; }
 
     hasName(name: string) { return this.aliases.find(a => a.getName() === name) !== undefined; }
 

@@ -8,32 +8,32 @@ import type NativeStructureDefinition from "../native/NativeStructureDefinition"
 
 export default class StructureType extends Type {
 
-    readonly type: StructureDefinition | NativeStructureDefinition;
+    readonly definition: StructureDefinition | NativeStructureDefinition;
 
-    constructor(type: StructureDefinition | NativeStructureDefinition) {
+    constructor(definition: StructureDefinition | NativeStructureDefinition) {
 
         super();
 
-        this.type = type;
+        this.definition = definition;
     }
 
     getChildren() {
-        if(this.type instanceof Node)
-            return [ this.type ];
+        if(this.definition instanceof Node)
+            return [ this.definition ];
         else 
             return [];
     }
 
-    getBind(name: string) { return this.type instanceof StructureDefinition ? this.type.getBind(name) : undefined; }
+    getBind(name: string) { return this.definition instanceof StructureDefinition ? this.definition.getBind(name) : undefined; }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 
     isCompatible(context: ConflictContext, type: Type): boolean {
-        return type instanceof StructureType && this.type === type.type;
+        return type instanceof StructureType && this.definition === type.definition;
     }
 
     getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
-        return this.type instanceof StructureDefinition ? this.type.getConversion(context, type) : undefined;
+        return this.definition instanceof StructureDefinition ? this.definition.getConversion(context, type) : undefined;
     }
 
 }

@@ -9,6 +9,7 @@ import { NotInstantiable } from "../conflicts/NotInstantiable";
 import { NotAFunction } from "../conflicts/NotAFunction";
 import StructureType from "./StructureType";
 import Expression from "./Expression";
+import NativeExpression from "./NativeExpression";
 import FunctionType, { type Input } from "./FunctionType";
 import type Token from "./Token";
 import Type from "./Type";
@@ -66,11 +67,11 @@ export default class Evaluate extends Expression {
                     targetInputs = functionType.inputs;
                 else if(functionType instanceof StructureType) {
                     // Can't create interfaces that don't have missing function definitions.
-                    if(functionType.type.isInterface())
+                    if(functionType.definition.isInterface())
                         conflicts.push(new NotInstantiable(this));
 
                     // Get the types of all of the inputs.
-                    targetInputs = functionType.type.getFunctionType(context).inputs;
+                    targetInputs = functionType.definition.getFunctionType(context).inputs;
                 }
 
                 // Did we successfully get types for all of the inputs of this function?
@@ -215,7 +216,7 @@ export default class Evaluate extends Expression {
         // and finding an expression to compile for each input.
         const funcType = this.func.getType(context);
         const inputs = funcType instanceof FunctionType ? funcType.inputs :
-            funcType instanceof StructureType ? funcType.type.getFunctionType(context).inputs :
+            funcType instanceof StructureType ? funcType.definition.getFunctionType(context).inputs :
             undefined;
 
         // Compile a halt if we couldn't find the function.
@@ -308,17 +309,24 @@ export default class Evaluate extends Expression {
         
         if(functionOrStructure instanceof FunctionValue) {
 
+            const definition = functionOrStructure.definition;
+            const body = functionOrStructure.definition.expression;
+
             // Bail if the function's body isn't an expression.
-            if(!(functionOrStructure.definition.expression instanceof Expression))
+            if(!(body instanceof Expression))
                 return new Exception(this, ExceptionKind.PLACEHOLDER);
 
-
             // Build the bindings.
-            const bindings = this.buildBindings(functionOrStructure.definition.inputs, values);
+            const bindings = this.buildBindings(definition.inputs, values);
             if(bindings instanceof Exception) return bindings;
 
-            // Now that all of the inputs are resolved, create an execution context that binds all of the inputs.
-            evaluator.startEvaluation(new Evaluation(evaluator, functionOrStructure.definition, functionOrStructure.definition.expression, functionOrStructure.context, bindings));
+            evaluator.startEvaluation(new Evaluation(
+                evaluator, 
+                definition, 
+                body, 
+                functionOrStructure.context, 
+                bindings)
+            );
 
         }
         else if(functionOrStructure instanceof StructureDefinitionValue) {

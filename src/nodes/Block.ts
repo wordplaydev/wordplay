@@ -23,6 +23,7 @@ import Structure from "../runtime/Structure";
 import type { ConflictContext } from "./Node";
 import type Definition from "./Definition";
 import StructureDefinition from "./StructureDefinition";
+import FunctionDefinition from "./FunctionDefinition";
 
 export default class Block extends Expression {
 
@@ -86,16 +87,17 @@ export default class Block extends Expression {
         const index = this.statements.indexOf(containingStatement);
         if(index < 0) return;
 
-        // Do any of the binds declare it?
+        // Do any of the binds, shares, structure, or function definitions declare it?
         const localBind = this.statements.find((s, i)  => 
-            (s instanceof Bind && i < index && s.names.find(n => n.getName() == name) !== undefined) ||
-            (s instanceof Share && i < index && s.bind instanceof Bind && s.bind.names.find(n => n.getName() == name) !== undefined)
-        ) as Bind;
-        if(localBind !== undefined) return localBind;
-
-        // Are there any structure definitions with this name?
-        const structure = this.statements.find(s => s instanceof StructureDefinition && s.hasName(name));
-        if(structure !== undefined) return structure as StructureDefinition;
+            i < index &&
+            (
+                (s instanceof Bind && s.names.find(n => n.getName() == name) !== undefined) ||
+                (s instanceof Share && s.bind instanceof Bind && s.bind.names.find(n => n.getName() == name) !== undefined) ||
+                (s instanceof StructureDefinition && s.aliases.find(n => n.getName() === name) !== undefined) || 
+                (s instanceof FunctionDefinition && s.aliases.find(n => n.getName() === name) !== undefined)
+            )
+        ) as Bind | Share | StructureDefinition | FunctionDefinition;
+        if(localBind !== undefined) return localBind instanceof Share ? localBind.bind : localBind;
 
         // Is there an enclosing function or block?
         return context.program.getBindingEnclosureOf(this)?.getDefinition(context, node, name);

@@ -6,18 +6,18 @@ import type Unparsable from "./Unparsable";
 
 export default class StreamType extends Type {
 
-    readonly dots: Token;
+    readonly stream?: Token;
     readonly type: Type | Unparsable;
 
-    constructor(dots: Token, type: Type | Unparsable) {
+    constructor(type: Type | Unparsable, stream?: Token) {
         super();
 
-        this.dots = dots;
+        this.stream = stream;
         this.type = type;
     }
 
     getChildren() {
-        return [ this.dots, this.type ];
+        return this.stream === undefined ? [ this.type ] : [ this.stream, this.type ];
     }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }

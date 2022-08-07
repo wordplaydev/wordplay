@@ -9,16 +9,16 @@ export default class FunctionValue extends Value {
     readonly definition: FunctionDefinition;
     
     /** The evaluation context in which this function was created. This enables closures. */
-    readonly context: Evaluation;
+    readonly context: Evaluation | Value;
 
-    constructor(definition: FunctionDefinition, context: Evaluation) {
+    constructor(definition: FunctionDefinition, context: Evaluation | Value) {
         super();
 
         this.definition = definition;
         this.context = context;
     }
 
-    getType() { return this.definition.getType({ program: this.context.getEvaluator().program, shares: this.context.getEvaluator().getShares() }); }
+    getType() { return this.context instanceof Value ? this.context.getType() : this.definition.getType(this.context.getEvaluator().getContext()); }
 
     toString() { return this.definition.toWordplay(); }
 
