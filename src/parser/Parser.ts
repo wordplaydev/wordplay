@@ -799,7 +799,7 @@ function parseConversion(tokens: Tokens): ConversionDefinition {
     const output = parseType(tokens);
     const expression = parseExpression(tokens);
 
-    return new ConversionDefinition(docs, convert, output, expression);
+    return new ConversionDefinition(docs, output, expression, convert);
 
 }
 

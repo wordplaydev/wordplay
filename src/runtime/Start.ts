@@ -5,16 +5,15 @@ import type Value from "./Value";
 
 export default class Start extends Step {
 
-    action?: (evaluator: Evaluator) => void;
+    action?: (evaluator: Evaluator) => Value | undefined;
 
-    constructor(node: Evaluable, action?: (evalulator: Evaluator) => void) {
+    constructor(node: Evaluable, action?: (evalulator: Evaluator) => Value | undefined) {
         super(node);
         this.action = action;
     }
     
     evaluate(evaluator: Evaluator): Value | undefined {
-        this.action?.call(undefined, evaluator);
-        return undefined;
+        return this.action?.call(undefined, evaluator);
     }
 
 }

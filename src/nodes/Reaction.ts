@@ -84,6 +84,7 @@ export default class Reaction extends Expression {
                     if(bind !== undefined)
                         bind.names.forEach(name => evaluator.bind(name.getName(), latest));
                 }
+                return undefined;
             }),
             // Evaluate the stream expression
             ...this.stream.compile(context),

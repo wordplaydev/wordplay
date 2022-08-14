@@ -1,17 +1,20 @@
 import type Conflict from "../conflicts/Conflict";
-import Bool from "../runtime/Bool";
+import Text from "../runtime/Text";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import List from "../runtime/List";
 import Alias from "./Alias";
 import BooleanType from "./BooleanType";
-import type ConversionDefinition from "./ConversionDefinition";
+import ConversionDefinition from "./ConversionDefinition";
 import FunctionDefinition from "./FunctionDefinition";
 import Language from "./Language";
 import NativeExpression from "./NativeExpression";
 import type { ConflictContext } from "./Node";
+import TextType from "./TextType";
 import type Token from "./Token";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
+import SetOrMapType from "./SetOrMapType";
+import SetValue from "../runtime/SetValue";
 
 export default class ListType extends Type {
 
@@ -42,9 +45,7 @@ export default class ListType extends Type {
     }
 
     getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
-        // TODO Define conversions from booleans to other types
-        // TODO Look for custom conversions that extend the Boolean type
-        return undefined;
+        return ListConversions.find(f => f.convertsType(type, context));
     }
 
     getFunction(context: ConflictContext, name: string): FunctionDefinition | undefined {
@@ -91,6 +92,7 @@ export const ListFunctions: FunctionDefinition[] = [
         )
     ),
     new FunctionDefinition(
+        // TODO Documentation
         [], [ new Alias("sansLast", new Language("eng")) ], [], [],
         new NativeExpression(
             // TODO This is wrong.
@@ -104,3 +106,30 @@ export const ListFunctions: FunctionDefinition[] = [
     )
 
 ]
+
+export const ListConversions: ConversionDefinition[] = [
+    new ConversionDefinition(
+        [], // TODO Documentation
+        new TextType(),
+        new NativeExpression(
+            new TextType(),
+            evaluator => {
+                const list = evaluator.getEvaluationContext()?.getContext();
+                if(list instanceof List) return new Text(list.toString());
+                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
+            }
+        )
+    ),
+    new ConversionDefinition(
+        [], // TODO Documentation
+        new SetOrMapType(),
+        new NativeExpression(
+            new SetOrMapType(),
+            evaluator => {
+                const list = evaluator.getEvaluationContext()?.getContext();
+                if(list instanceof List) return new SetValue(list.getValues());
+                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
+            }
+        )
+    )
+];

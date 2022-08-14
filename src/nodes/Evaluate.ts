@@ -9,7 +9,6 @@ import { NotInstantiable } from "../conflicts/NotInstantiable";
 import { NotAFunction } from "../conflicts/NotAFunction";
 import StructureType from "./StructureType";
 import Expression from "./Expression";
-import NativeExpression from "./NativeExpression";
 import FunctionType, { type Input } from "./FunctionType";
 import type Token from "./Token";
 import Type from "./Type";

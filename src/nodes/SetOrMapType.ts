@@ -39,13 +39,20 @@ export default class SetOrMapType extends Type {
 
     isCompatible(context: ConflictContext, type: Type): boolean { 
         return  type instanceof SetOrMapType &&
-                this.key instanceof Type &&
-                type.key instanceof Type &&
-                this.key.isCompatible(context, type.key) &&
+            (
+                // If there is no key type, then must both have no key type.
+                (this.key === undefined && type.key === undefined) ||
+                // If they have one, then they must be compable, and if there is a value type, they must be compatible.
                 (
-                    (this.value === undefined && type.value === undefined) ||
-                    (this.value !== undefined && type.value !== undefined && this.value instanceof Type && type.value instanceof Type && this.value.isCompatible(context, type.value))
-                ); 
+                    this.key instanceof Type &&
+                    type.key instanceof Type &&
+                    this.key.isCompatible(context, type.key) &&
+                    (
+                        (this.value === undefined && type.value === undefined) ||
+                        (this.value !== undefined && type.value !== undefined && this.value instanceof Type && type.value instanceof Type && this.value.isCompatible(context, type.value))
+                    )
+                )
+            ); 
     }
 
     getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {

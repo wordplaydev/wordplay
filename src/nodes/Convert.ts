@@ -13,6 +13,9 @@ import Start from "../runtime/Start";
 import Structure from "../runtime/Structure";
 import Evaluation from "../runtime/Evaluation";
 import type { ConflictContext } from "./Node";
+import NativeExpression from "./NativeExpression";
+import Halt from "../runtime/Halt";
+import ConversionValue from "../runtime/ConversionValue";
 
 export default class Convert extends Expression {
     
@@ -30,11 +33,21 @@ export default class Convert extends Expression {
 
     getChildren() { return [ this.expression, this.type ]; }
 
+    getConversionDefinition(context: ConflictContext) {
+
+        // The expression's type must have a conversion.
+        const exprType = this.expression.getType(context);
+        return this.type instanceof Type ? 
+            exprType.getConversion(context, this.type) :
+            undefined;
+        
+    }
+
     getConflicts(context: ConflictContext): Conflict[] { 
         
         // The expression's type must have a conversion.
-        const exprType = this.expression.getType(context);
-        if(this.type instanceof Type && exprType.getConversion(context, this.type) === undefined)
+        const conversion = this.getConversionDefinition(context);
+        if(this.type instanceof Type && conversion === undefined)
             return [ new UnknownConversion(this, this.type) ];
         
         return []; 
@@ -47,34 +60,45 @@ export default class Convert extends Expression {
     }
 
     compile(context: ConflictContext):Step[] {
-        return [ new Start(this), ...this.expression.compile(context), new Finish(this) ];
+
+        const conversion = this.getConversionDefinition(context);
+        if(conversion === undefined)
+            return [ new Halt(new Exception(this, ExceptionKind.UNKNOWN_CONVERSION), this) ];
+
+        // Evaluate the expression to convert, then push the conversion function on the stack.
+        return [ 
+            new Start(this, evaluator => {
+                const evaluation = evaluator.getEvaluationContext();
+                return evaluation === undefined ? 
+                    new Exception(this, ExceptionKind.EXPECTED_CONTEXT) : 
+                    new ConversionValue(conversion, evaluation);
+            }), 
+            ...this.expression.compile(context),
+            new Finish(this)
+        ];
     }
 
     evaluate(evaluator: Evaluator) {
         
         if(this.type instanceof Unparsable) return new Exception(this, ExceptionKind.UNPARSABLE);
 
+        // Get the value to convert
         const value = evaluator.popValue();
         if(value instanceof Exception) return value;
-        else if(value instanceof Structure) {
+        
+        // Find the conversion function on the structure from compiling.
+        const conversion = evaluator.popValue();
+        if(!(conversion instanceof ConversionValue)) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
 
-            // Find the conversion function on the structure.
-            const conversion = value.getConversion(this.type);
-            if(conversion === undefined) return new Exception(this, ExceptionKind.UNKNOWN_CONVERSION);
-
-            // If we found one, then execute it to get a value of the appropriate type on the value stack.
-            evaluator.startEvaluation(
-                new Evaluation(
-                    evaluator,
-                    conversion.definition, 
-                    conversion.definition.expression, 
-                    evaluator.getEvaluationContext()
-                )
-            );
-
-        }
-        else return new Exception(this, ExceptionKind.UNKNOWN_CONVERSION);
-
+        // Execute the function.
+        evaluator.startEvaluation(
+            new Evaluation(
+                evaluator,
+                conversion.definition, 
+                conversion.definition.expression, 
+                value
+            )
+        );
 
     }
 

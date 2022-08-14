@@ -11,7 +11,7 @@ import { docsAreUnique } from "./util";
 import StructureDefinition from "./StructureDefinition";
 import Block from "./Block";
 import ConversionType from "./ConversionType";
-import type Type from "./Type";
+import Type from "./Type";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
@@ -22,11 +22,11 @@ import type { ConflictContext } from "./Node";
 export default class ConversionDefinition extends Expression {
 
     readonly docs: Docs[];
-    readonly convert: Token;
+    readonly convert?: Token;
     readonly output: Type | Unparsable;
     readonly expression: Expression | Unparsable;
 
-    constructor(docs: Docs[], convert: Token, output: Type | Unparsable, expression: Expression | Unparsable) {
+    constructor(docs: Docs[], output: Type | Unparsable, expression: Expression | Unparsable, convert?: Token) {
         super();
 
         this.docs = docs;
@@ -38,10 +38,14 @@ export default class ConversionDefinition extends Expression {
     getChildren() {
         let children: Node[] = [];
         children = children.concat(this.docs);
-        children.push(this.convert);
+        if(this.convert) children.push(this.convert);
         children.push(this.output);
         children.push(this.expression);
         return children;
+    }
+
+    convertsType(type: Type, context: ConflictContext) {
+        return this.output instanceof Type && this.output.isCompatible(context, type);
     }
 
     getConflicts(context: ConflictContext): Conflict[] { 
