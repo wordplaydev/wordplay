@@ -1,7 +1,6 @@
 import type Conflict from "../conflicts/Conflict";
 import type Token from "./Token";
 import Type from "./Type";
-import type ConversionDefinition from "./ConversionDefinition";
 import type { ConflictContext } from "./Node";
 
 export default class BooleanType extends Type {

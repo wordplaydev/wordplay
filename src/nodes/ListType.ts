@@ -12,7 +12,7 @@ export default class ListType extends Type {
     readonly type?: Type | Unparsable;
     readonly close?: Token;
 
-    constructor(open?: Token, close?: Token, type?: Type | Unparsable) {
+    constructor(type?: Type | Unparsable, open?: Token, close?: Token) {
         super();
 
         this.open = open;

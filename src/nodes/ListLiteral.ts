@@ -39,7 +39,7 @@ export default class ListLiteral extends Expression {
         if(expressions.length === 0) return new UnknownType(this);
         let itemType = getPossibleUnionType(context, expressions.map(v => v.getType(context)));
         if(itemType === undefined) itemType = new UnknownType(this);
-        return new ListType(undefined, undefined, itemType);
+        return new ListType(itemType);
     }
 
     compile(context: ConflictContext):Step[] {

@@ -1,7 +1,7 @@
 import type Conflict from "../conflicts/Conflict";
 import { UnknownTypeName } from "../conflicts/UnknownTypeName";
 import StructureType from "./StructureType";
-import type Token from "./Token";
+import Token from "./Token";
 import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
@@ -9,16 +9,18 @@ import type { ConflictContext } from "./Node";
 
 export default class NameType extends Type {
 
-    readonly type: Token;
+    readonly type: Token | string;
 
-    constructor(type: Token) {
+    constructor(type: Token | string) {
         super();
 
         this.type = type;
     }
 
+    getName() { return this.type instanceof Token ? this.type.text : this.type}
+
     getChildren() {
-        return [ this.type ];
+        return this.type instanceof Token ? [ this.type ] : [];
     }
 
     getConflicts(context: ConflictContext): Conflict[] { 
@@ -42,7 +44,7 @@ export default class NameType extends Type {
     getType(context: ConflictContext): Type | undefined {
 
         // The name should be defined.
-        const definition = context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, this.type.text);
+        const definition = context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, this.getName());
         if(definition === undefined) return undefined;
         else if(definition instanceof TypeVariable) return new UnknownType(this);
         else return definition.getType(context);

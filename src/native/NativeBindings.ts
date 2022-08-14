@@ -1,6 +1,5 @@
 import Alias from "../nodes/Alias";
 import type NativeInterface from "./NativeInterface";
-import BooleanType from "../nodes/BooleanType";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import Language from "../nodes/Language";
 import NativeExpression from "../nodes/NativeExpression";
@@ -15,28 +14,60 @@ import SetValue from "../runtime/SetValue";
 import Bool from "../runtime/Bool";
 import None from "../runtime/None";
 import Measurement from "../runtime/Measurement";
+import type Docs from "../nodes/Docs";
+import type TypeVariable from "../nodes/TypeVariable";
+import type Bind from "../nodes/Bind";
+import type Evaluator from "../runtime/Evaluator";
+import type Value from "../runtime/Value";
+import NameType from "../nodes/NameType";
+import ListType from "../nodes/ListType";
 
 class NativeBindings implements NativeInterface {
 
     readonly functionsByType: Record<string, Record<string, FunctionDefinition>> = {};
     readonly conversionsByType: Record<string, ConversionDefinition[]> = {};
 
-    addFunction(type: string, fun: FunctionDefinition) {
-        if(!(type in this.functionsByType))
-            this.functionsByType[type] = {};
-        fun.aliases.forEach(a => this.functionsByType[type][a.getName()] = fun);
+    addFunction(
+        kind: string, 
+        docs: Docs[], 
+        aliases: Alias[], 
+        typeVars: TypeVariable[], 
+        inputs: Bind[], 
+        output: Type,
+        evaluator: (evaluator: Evaluator) => Value) {
+        
+        if(!(kind in this.functionsByType))
+            this.functionsByType[kind] = {};
+
+        const fun = new FunctionDefinition(
+            docs, aliases, typeVars, inputs,
+            new NativeExpression(output, evaluator ),
+            output
+        );
+
+        fun.aliases.forEach(a => this.functionsByType[kind][a.getName()] = fun);
     }
 
-    addConversion(type: string, con: ConversionDefinition) {
-        if(!(type in this.conversionsByType))
-            this.conversionsByType[type] = [];
-        this.conversionsByType[type].push(con);
+    addConversion(kind: string, docs: Docs[], type: string, expected: Function, fun: Function) {
+
+        if(!(kind in this.conversionsByType))
+            this.conversionsByType[kind] = [];
+
+        this.conversionsByType[kind].push(
+            new ConversionDefinition(
+                docs, type,
+                new NativeExpression(
+                    type,
+                    evaluator => {
+                        const val = evaluator.getEvaluationContext()?.getContext();
+                        if(val instanceof expected) return fun.call(undefined, val);
+                        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
+                    }
+                )
+            )
+        );
     }
-
-    constructor() {
-
-    }    
-
+    
     getConversion(kind: string, context: ConflictContext, type: Type): ConversionDefinition | undefined {
         return this.conversionsByType[kind].find(c => c.convertsType(type, context));
     }
@@ -47,210 +78,56 @@ class NativeBindings implements NativeInterface {
 
 const Native = new NativeBindings();
 
-[
-    new FunctionDefinition(
-        [], [ new Alias("first", new Language("eng")) ], [], [],
-        new NativeExpression(
-            // TODO This is wrong.
-            new BooleanType(),
-            evaluator => {
-                const list = evaluator.getEvaluationContext()?.getContext();
-                if(list instanceof List) return list.first();
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
-            }
-        )
-    ),
-    new FunctionDefinition(
-        [], [ new Alias("last", new Language("eng")) ], [], [],
-        new NativeExpression(
-            // TODO This is wrong.
-            new BooleanType(),
-            evaluator => {
-                const list = evaluator.getEvaluationContext()?.getContext();
-                if(list instanceof List) return list.last();
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
-            }
-        )
-    ),
-    new FunctionDefinition(
-        [], [ new Alias("sansFirst", new Language("eng")) ], [], [],
-        new NativeExpression(
-            // TODO This is wrong.
-            new BooleanType(),
-            evaluator => {
-                const list = evaluator.getEvaluationContext()?.getContext();
-                if(list instanceof List) return list.sansFirst();
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
-            }
-        )
-    ),
-    new FunctionDefinition(
-        // TODO Documentation
-        [], [ new Alias("sansLast", new Language("eng")) ], [], [],
-        new NativeExpression(
-            // TODO This is wrong.
-            new BooleanType(),
-            evaluator => {
-                const list = evaluator.getEvaluationContext()?.getContext();
-                if(list instanceof List) return list.sansLast();
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
-            }
-        )
-    )
+// TODO Documentation
+Native.addFunction("list", [], [ new Alias("first", new Language("eng")) ], [], [], new NameType("T"),
+    evaluator => {
+        const list = evaluator.getEvaluationContext()?.getContext();
+        if(list instanceof List) return list.first();
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
 
-].map(f => Native.addFunction("list", f));
+Native.addFunction("list", [], [ new Alias("last", new Language("eng")) ], [], [], new NameType("T"),
+    evaluator => {
+        const list = evaluator.getEvaluationContext()?.getContext();
+        if(list instanceof List) return list.last();
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
 
-[
-    new ConversionDefinition(
-        [], // TODO Documentation
-        "''",
-        new NativeExpression(
-            "''",
-            evaluator => {
-                const list = evaluator.getEvaluationContext()?.getContext();
-                if(list instanceof List) return new Text(list.toString());
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
-            }
-        )
-    ),
-    new ConversionDefinition(
-        [], // TODO Documentation
-        "{}",
-        new NativeExpression(
-            "{}",
-            evaluator => {
-                const list = evaluator.getEvaluationContext()?.getContext();
-                if(list instanceof List) return new SetValue(list.getValues());
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
-            }
-        )
-    )
-].map(c => Native.addConversion("list", c));
+Native.addFunction("list", [], [ new Alias("withoutFirst", new Language("eng")) ], [], [], new ListType(new NameType("T")),
+    evaluator => {
+        const list = evaluator.getEvaluationContext()?.getContext();
+        if(list instanceof List) return list.sansFirst();
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
 
-[
-    new ConversionDefinition(
-        [], // TODO Documentation
-        "''",
-        new NativeExpression(
-            "''",
-            evaluator => {
-                const set = evaluator.getEvaluationContext()?.getContext();
-                if(set instanceof SetValue) return new Text(set.toString());
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
-            }
-        )
-    ),
-    new ConversionDefinition(
-        [], // TODO Documentation
-        "[]",
-        new NativeExpression(
-            "[]",
-            evaluator => {
-                const set = evaluator.getEvaluationContext()?.getContext();
-                if(set instanceof SetValue) return new List(set.values);
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
-            }
-        )
-    ),
-].map(c => Native.addConversion("set", c));
+Native.addFunction("list", [], [ new Alias("withoutLast", new Language("eng")) ], [], [], new ListType(new NameType("T")),
+    evaluator => {
+        const list = evaluator.getEvaluationContext()?.getContext();
+        if(list instanceof List) return list.sansLast();
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
 
-[
-    new ConversionDefinition(
-        [], // TODO Documentation
-        "''",
-        new NativeExpression(
-            "''",
-            evaluator => {
-                const map = evaluator.getEvaluationContext()?.getContext();
-                if(map instanceof MapValue) return new Text(map.toString());
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
-            }
-        )
-    ),
-    new ConversionDefinition(
-        [], // TODO Documentation
-        "{}",
-        new NativeExpression(
-            "{}",
-            evaluator => {
-                const map = evaluator.getEvaluationContext()?.getContext();
-                if(map instanceof MapValue) return new SetValue(map.getKeys());
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
-            }
-        )
-    ),
-    new ConversionDefinition(
-        [], // TODO Documentation
-        "[]",
-        new NativeExpression(
-            "[]",
-            evaluator => {
-                const map = evaluator.getEvaluationContext()?.getContext();
-                if(map instanceof MapValue) return new List(map.getValues());
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
-            }
-        )
-    )
-].map(c => Native.addConversion("map", c));
+// TODO Documentation
+Native.addConversion("list", [],  "''", List, (val: List) => new Text(val.toString())),
+Native.addConversion("list", [],  "{}", List, (val: List) => new SetValue(val.getValues())),
 
-[
-    new ConversionDefinition(
-        [], // TODO Documentation
-        "''",
-        new NativeExpression(
-            "''",
-            evaluator => {
-                const bool = evaluator.getEvaluationContext()?.getContext();
-                if(bool instanceof Bool) return new Text(bool.toString());
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
-            }
-        )
-    )
-].map(c => Native.addConversion("boolean", c));
+Native.addConversion("set", [], "''", SetValue, (val: SetValue) => new Text(val.toString()));
+Native.addConversion("set", [], "[]", SetValue, (val: SetValue) => new List(val.values));
 
-[
-    new ConversionDefinition(
-        [], // TODO Documentation
-        "''",
-        new NativeExpression(
-            "''",
-            evaluator => {
-                const none = evaluator.getEvaluationContext()?.getContext();
-                if(none instanceof None) return new Text(none.toString());
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
-            }
-        )
-    )
-].map(c => Native.addConversion("none", c));
+Native.addConversion("map", [], "''", MapValue, (val: MapValue) => new Text(val.toString()));
+Native.addConversion("map", [], "{}", MapValue, (val: MapValue) => new SetValue(val.getKeys()));
+Native.addConversion("map", [], "[]", MapValue, (val: MapValue) => new List(val.getValues()));
 
-[
-    new ConversionDefinition(
-        [], // TODO Documentation
-        "[]",
-        new NativeExpression(
-            "[]",
-            evaluator => {
-                const text = evaluator.getEvaluationContext()?.getContext();
-                if(text instanceof Text) return new List(text.text.split("").map(c => new Text(c)));
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
-            }
-        )
-    )
-].map(c => Native.addConversion("text", c));
+Native.addConversion("boolean", [], "''", Bool, (val: Bool) => new Text(val.toString()));
 
-[
-    new ConversionDefinition(
-        [], // TODO Documentation
-        "''",
-        new NativeExpression(
-            "''''",
-            evaluator => {
-                const measurement = evaluator.getEvaluationContext()?.getContext();
-                if(measurement instanceof Measurement) return new Text(measurement.toString());
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
-            }
-        )
-    )
-].map(c => Native.addConversion("measurement", c));
+Native.addConversion("none", [], "''", None, (val: None) => new Text(val.toString()));
+
+Native.addConversion("text", [], "[]", Text, (val: Text) => new List(val.text.split("").map(c => new Text(c))));
+
+Native.addConversion("measurement", [], "''", Measurement, (val: Measurement) => new Text(val.toString()));
 
 export default Native;
