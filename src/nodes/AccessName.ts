@@ -78,11 +78,9 @@ export default class AccessName extends Expression {
 
         const subject = evaluator.popValue();
         const name = this.name.text;
-        return subject instanceof Exception ? subject :
-            subject instanceof Structure ? subject.resolve(name) :
-            subject instanceof List ? subject.resolve(name) :
-            subject instanceof Stream ? subject.resolve(name) :
-            new Exception(this, ExceptionKind.EXPECTED_STRUCTURE);
+        return subject instanceof Exception ? 
+            subject :
+            subject.resolve(name, evaluator);
 
     }
 

@@ -1,5 +1,6 @@
 import type Conflict from "../conflicts/Conflict";
 import type ConversionDefinition from "./ConversionDefinition";
+import type FunctionDefinition from "./FunctionDefinition";
 import type { ConflictContext } from "./Node";
 import type Token from "./Token";
 import Type from "./Type";
@@ -23,7 +24,7 @@ export default class SetOrMapType extends Type {
         this.value = value;
     }
 
-    isMap() { return this.bind !== undefined; }
+    isMap() { return this.bind !== undefined || this.value instanceof Type; }
 
     getChildren() {
         const children = [];
@@ -55,10 +56,6 @@ export default class SetOrMapType extends Type {
             ); 
     }
 
-    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
-        // TODO Define conversions from booleans to other types
-        // TODO Look for custom conversions that extend the Boolean type
-        return undefined;
-    }
+    getNativeTypeName(): string { return this.isMap() ? "map" : "set"; }
 
 }

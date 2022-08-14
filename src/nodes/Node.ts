@@ -2,10 +2,12 @@ import type Conflict from "../conflicts/Conflict";
 import type Shares from "../runtime/Shares";
 import type Program from "./Program";
 import type Definition from "./Definition";
+import type NativeInterface from "../native/NativeInterface";
 
 export type ConflictContext = { 
     program: Program,
-    shares?: Shares
+    shares?: Shares,
+    native?: NativeInterface
 }
 
 export default abstract class Node {
@@ -51,9 +53,9 @@ export default abstract class Node {
     }
 
     /** Returns all the conflicts in this tree. */
-    getAllConflicts(program: Program, shares: Shares): Conflict[] {
+    getAllConflicts(program: Program, shares: Shares, native: NativeInterface): Conflict[] {
         let conflicts: Conflict[] = [];
-        this.traverse([], (ancestors, node) => conflicts = conflicts.concat(node.getConflicts({ program: program, shares: shares })));
+        this.traverse([], (ancestors, node) => conflicts = conflicts.concat(node.getConflicts({ program: program, shares: shares, native: native })));
         return conflicts;
     }
 

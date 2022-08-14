@@ -36,4 +36,6 @@ export default class StructureType extends Type {
         return this.definition instanceof StructureDefinition ? this.definition.getConversion(context, type) : undefined;
     }
 
+    getNativeTypeName(): string { return "structure"; }
+
 }

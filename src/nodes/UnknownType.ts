@@ -17,7 +17,7 @@ export default class UnknownType extends Type {
     getChildren(): Node[] { return []; }
     getConflicts(context: ConflictContext): Conflict[] { return []; }
     isCompatible(context: ConflictContext, type: Type) { return false; }
-    getConversion(context: ConflictContext, type: Type) { return undefined; }
+    getNativeTypeName(): string { return "unknown"; }
 
     toWordplay() { return "•_"; }
 

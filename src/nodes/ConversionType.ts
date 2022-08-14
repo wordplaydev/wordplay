@@ -19,4 +19,6 @@ export default class ConversionType extends Type {
         return type instanceof ConversionType && type.output.isCompatible(context, this.output);
     }
 
+    getNativeTypeName(): string { return "conversion"; }
+
 }

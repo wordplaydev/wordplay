@@ -23,6 +23,7 @@ export default class Table extends Value {
     }
 
     getType() { return new TableType([]); }
+    getNativeTypeName(): string { return "table"; }
 
     toString(): string {
         return this.rows.map(r => r.map(c => `|${c.toString()}`).join("")).join("\n");

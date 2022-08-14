@@ -22,11 +22,7 @@ export default class BooleanType extends Type {
 
     isCompatible(context: ConflictContext, type: Type) { return type instanceof BooleanType; }
 
-    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
-        // TODO Define conversions from booleans to other types
-        // TODO Look for custom conversions that extend the Boolean type
-        return undefined;
-    }
+    getNativeTypeName(): string { return "boolean"; }
 
     toWordplay() { return "•?"; }
 

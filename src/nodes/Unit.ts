@@ -52,6 +52,8 @@ export default class Unit extends Type {
                this.denominator.join("·") === unit.denominator.join("·");
     }
 
+    getNativeTypeName(): string { return "unit"; }
+
     toString(depth?: number) {
         return (depth === undefined ? "" : "\t".repeat(depth)) + 
             (this.numerator.length === 0 && this.denominator.length === 0 ? "" :

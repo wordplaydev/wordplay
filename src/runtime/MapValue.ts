@@ -1,9 +1,10 @@
 import Alias from "../nodes/Alias";
 import SetOrMapType from "../nodes/SetOrMapType";
 import None from "./None";
-import Value from "./Value";
+import Primitive from "./Primitive";
+import type Value from "./Value";
 
-export default class MapValue extends Value {
+export default class MapValue extends Primitive {
 
     readonly values: [Value, Value][];
 
@@ -24,7 +25,16 @@ export default class MapValue extends Value {
         return kv === undefined ? new None([new Alias("unknownkey")]) : kv[1];
     }
 
+    getKeys() { 
+        return this.values.map(kv => kv[0]);
+    }
+
+    getValues() { 
+        return this.values.map(kv => kv[1]);
+    }
+
     getType() { return new SetOrMapType(); }
+    getNativeTypeName(): string { return "map" }
 
     toString() { return `{${Array.from(this.values).sort().map(k => `${k[0].toString()}:${(this.get(k[0]) as Value).toString()}`).join(" ")}}`; }
 

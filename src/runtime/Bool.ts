@@ -1,11 +1,11 @@
-import BoolStructureType from "../native/BoolStructureType";
 import type BinaryOperation from "../nodes/BinaryOperation";
 import BooleanType from "../nodes/BooleanType";
 import type UnaryOperation from "../nodes/UnaryOperation";
 import Exception, { ExceptionKind } from "./Exception";
-import Value from "./Value";
+import Primitive from "./Primitive";
+import type Value from "./Value";
 
-export default class Bool extends Value {
+export default class Bool extends Primitive {
 
     readonly bool: boolean;
 
@@ -18,6 +18,7 @@ export default class Bool extends Value {
     toString() { return this.bool ? "⊤" : "⊥"; }
 
     getType() { return new BooleanType(); }
+    getNativeTypeName(): string { return "boolean" }
 
     evaluatePrefix(op: UnaryOperation): Value {
 

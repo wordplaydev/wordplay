@@ -9,8 +9,14 @@ export default abstract class Type extends Node {
     }
 
     abstract isCompatible(context: ConflictContext, type: Type): boolean;
+    abstract getNativeTypeName(): string;
 
-    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined { return undefined; }
-    getFunction(context: ConflictContext, name: string): FunctionDefinition | undefined { return undefined; }
+    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
+        return context.native?.getConversion(this.getNativeTypeName(), context, type);
+    }
+
+    getFunction(context: ConflictContext, name: string): FunctionDefinition | undefined {
+        return context.native?.getFunction(this.getNativeTypeName(), name);
+    }
 
 }

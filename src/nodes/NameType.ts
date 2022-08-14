@@ -48,5 +48,7 @@ export default class NameType extends Type {
         else return definition.getType(context);
 
     }
-    
+
+    getNativeTypeName(): string { return "structure"; }
+
 }

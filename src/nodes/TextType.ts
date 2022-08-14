@@ -1,5 +1,4 @@
 import type Conflict from "../conflicts/Conflict";
-import type ConversionDefinition from "./ConversionDefinition";
 import type Language from "./Language";
 import type { ConflictContext } from "./Node";
 import type Token from "./Token";
@@ -32,11 +31,7 @@ export default class TextType extends Type {
                  (this.format !== undefined && type.format !== undefined && this.format.isCompatible(type.format))); 
     }
 
-    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
-        // TODO Define conversions from booleans to other types
-        // TODO Look for custom conversions that extend the Boolean type
-        return undefined;
-    }
+    getNativeTypeName(): string { return "text"; }
 
     toWordplay(): string {
         return this.quote === undefined ? "•''" : super.toWordplay();

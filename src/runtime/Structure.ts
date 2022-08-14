@@ -22,6 +22,8 @@ export default class Structure extends Value {
 
     getType() { return new StructureType(this.type); }
 
+    getNativeTypeName(): string { return "structure"; }
+
     resolve(name: string) {
         return this.context.resolve(name);
     }

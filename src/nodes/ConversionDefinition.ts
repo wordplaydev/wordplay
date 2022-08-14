@@ -18,6 +18,7 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import ConversionValue from "../runtime/ConversionValue";
 import type { ConflictContext } from "./Node";
+import { parseType, tokens } from "../parser/Parser";
 
 export default class ConversionDefinition extends Expression {
 
@@ -26,12 +27,12 @@ export default class ConversionDefinition extends Expression {
     readonly output: Type | Unparsable;
     readonly expression: Expression | Unparsable;
 
-    constructor(docs: Docs[], output: Type | Unparsable, expression: Expression | Unparsable, convert?: Token) {
+    constructor(docs: Docs[], output: Type | Unparsable | string, expression: Expression | Unparsable, convert?: Token) {
         super();
 
         this.docs = docs;
         this.convert = convert;
-        this.output = output;
+        this.output = typeof output === "string" ? parseType(tokens(output)) : output;
         this.expression = expression;
     }
 

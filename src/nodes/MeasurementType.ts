@@ -39,11 +39,7 @@ export default class MeasurementType extends Type {
         return thisUnit.isCompatible(context, thatUnit);
     }
 
-    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
-        // TODO Define conversions from booleans to other types
-        // TODO Look for custom conversions that extend the Boolean type
-        return undefined;
-    }
+    getNativeTypeName(): string { return "measurement"; }
 
     toWordplay() { return "•#" + (this.unit === undefined ? "" : this.unit.toString()); }
 

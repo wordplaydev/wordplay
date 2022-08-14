@@ -12,6 +12,7 @@ export default class None extends Value {
     }
 
     getType() { return new NoneType([]); }
+    getNativeTypeName(): string { return "none"; }
 
     toString() { return `!${this.aliases.map(a => `${a.getName()}${a.lang === undefined ? "" : "/" + a.getLanguage()}`).join(";")}`; }
 

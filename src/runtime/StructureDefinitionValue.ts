@@ -1,10 +1,9 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
 import StructureType from "../nodes/StructureType";
 import type Evaluation from "./Evaluation";
-import Value from "./Value";
+import Primitive from "./Primitive";
 
-
-export default class StructureDefinitionValue extends Value {
+export default class StructureDefinitionValue extends Primitive {
 
     /** The definition from the AST. */
     readonly definition: StructureDefinition;
@@ -20,6 +19,7 @@ export default class StructureDefinitionValue extends Value {
     }
 
     getType() { return new StructureType(this.definition); }
+    getNativeTypeName() { return "structuredefinition"; }
 
     toString() { return this.definition.toWordplay(); }
 

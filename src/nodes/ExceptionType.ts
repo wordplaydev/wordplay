@@ -26,6 +26,8 @@ export default class ExceptionType extends Type {
         return undefined;
     }
 
+    getNativeTypeName(): string { return "exception"; }
+
     toWordplay(): string {
         return this.exception.toString();
     }

@@ -62,4 +62,6 @@ export default class FunctionType extends Type {
         return true;
     }
 
+    getNativeTypeName(): string { return "function"; }
+    
 }

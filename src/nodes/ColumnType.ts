@@ -27,4 +27,6 @@ export default class ColumnType extends Type {
         return type instanceof ColumnType && type.bind instanceof Bind && this.bind instanceof Bind && this.bind.getType(context).isCompatible(context, type.bind.getType(context));
     }
 
+    getNativeTypeName(): string { return "column"; }
+
 }

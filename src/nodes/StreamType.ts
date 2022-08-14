@@ -26,4 +26,6 @@ export default class StreamType extends Type {
         return type instanceof StreamType && this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(context, type.type);
     }
 
+    getNativeTypeName(): string { return "stream"; }
+
 }

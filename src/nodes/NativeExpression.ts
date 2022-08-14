@@ -6,16 +6,26 @@ import Finish from "../runtime/Finish";
 import Expression from "./Expression";
 import type Conflict from "../conflicts/Conflict";
 import type { ConflictContext } from "./Node";
+import { parseType, tokens } from "../parser/Parser";
+import Unparsable from "./Unparsable";
+import UnknownType from "./UnknownType";
 
 export default class NativeExpression extends Expression {
     
     readonly type: Type;
     readonly evaluator: (evaluator: Evaluator) => Value;
 
-    constructor(type: Type, evaluator: (evaluator: Evaluator) => Value) {
+    constructor(type: Type | string, evaluator: (evaluator: Evaluator) => Value) {
         super();
 
-        this.type = type;
+        if(typeof type === "string") {
+            let possibleType = parseType(tokens(type));
+            if(possibleType instanceof Unparsable)
+                possibleType = new UnknownType(this);
+            this.type = possibleType;
+        }
+        else this.type = type;
+        
         this.evaluator = evaluator;
 
     }

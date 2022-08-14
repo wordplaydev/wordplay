@@ -118,7 +118,7 @@ export default class Evaluation {
     resolve(name: string): Value | undefined {
         return this.#bindings.has(name) ? this.#bindings.get(name) : 
             this.#context === undefined ? undefined : 
-            this.#context.resolve(name);
+            this.#context.resolve(name, this.#evaluator);
     }
 
     /** Remember the given conversion for later. */

@@ -33,4 +33,6 @@ export default class TableType extends Type {
 
     }
      
+    getNativeTypeName(): string { return "table"; }
+
 }

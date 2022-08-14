@@ -1,8 +1,9 @@
 import type { LanguageCode } from "../nodes/LanguageCode";
 import type { Named } from "../nodes/Named";
-import Value from "./Value";
+import Primitive from "./Primitive";
+import type Value from "./Value";
 
-export default abstract class Stream extends Value implements Named {
+export default abstract class Stream extends Primitive implements Named {
 
     /** The stream of values */
     values: Value[] = [];
@@ -30,7 +31,9 @@ export default abstract class Stream extends Value implements Named {
         this.notify();
 
     }
-    
+
+    getNativeTypeName(): string { return "stream" }
+
     latest() { return this.values[this.values.length - 1]; }
 
     listen(listener: (stream: Stream)=>void) {

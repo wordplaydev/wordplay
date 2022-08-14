@@ -9,6 +9,10 @@ import Shares, { DEFAULT_SHARES } from "./Shares";
 import type Stream from "./Stream";
 import Value from "./Value";
 
+// Import this last, after everything else.
+import Native from "../native/NativeBindings";
+import type NativeInterface from "../native/NativeInterface";
+
 export default class Evaluator {
 
     readonly program: Program;
@@ -62,7 +66,9 @@ export default class Evaluator {
         return result;
     }
 
-    getContext(): ConflictContext { return { program: this.program, shares: this.shares }; }
+    getContext(): ConflictContext { return { program: this.program, shares: this.shares, native: Native }; }
+
+    getNative(): NativeInterface { return Native; }
 
     react(stream: Stream) {
         // Reevaluate everything in case it has Reactions that are dependent on the stream. 

@@ -10,10 +10,8 @@ import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
-import Structure from "../runtime/Structure";
 import Evaluation from "../runtime/Evaluation";
 import type { ConflictContext } from "./Node";
-import NativeExpression from "./NativeExpression";
 import Halt from "../runtime/Halt";
 import ConversionValue from "../runtime/ConversionValue";
 
@@ -31,7 +29,7 @@ export default class Convert extends Expression {
         this.type = type;
     }
 
-    getChildren() { return [ this.expression, this.type ]; }
+    getChildren() { return [ this.expression, this.convert, this.type ]; }
 
     getConversionDefinition(context: ConflictContext) {
 

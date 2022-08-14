@@ -28,9 +28,12 @@ export default class UnionType extends Type {
         return this.left.isCompatible(context, type) || (this.right instanceof Type && this.right.isCompatible(context, type));
     }
 
+    getNativeTypeName(): string { return ""; }
+
     toWordplay(): string {
         return this.left.toWordplay() + " | " + this.right.toWordplay();
     }
+    
 }
 
 /** Given a list of types, remove all duplicates, and if only one remains, return it.

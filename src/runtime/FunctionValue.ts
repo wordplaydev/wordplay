@@ -12,13 +12,14 @@ export default class FunctionValue extends Value {
     readonly context: Evaluation | Value;
 
     constructor(definition: FunctionDefinition, context: Evaluation | Value) {
-        super();
+    super();
 
         this.definition = definition;
         this.context = context;
     }
 
     getType() { return this.context instanceof Value ? this.context.getType() : this.definition.getType(this.context.getEvaluator().getContext()); }
+    getNativeTypeName() { return "function"; }
 
     toString() { return this.definition.toWordplay(); }
 

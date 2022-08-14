@@ -1,6 +1,6 @@
 import ExceptionType from "../nodes/ExceptionType";
-import Value from "./Value";
 import type Node from "../nodes/Node";
+import Primitive from "./Primitive";
 
 export enum ExceptionKind {
     NOT_IMPLEMENTED,
@@ -20,7 +20,7 @@ export enum ExceptionKind {
     POSSIBLE_INFINITE_RECURSION
 }
 
-export default class Exception extends Value {
+export default class Exception extends Primitive {
 
     readonly node?: Node;
     readonly exception: ExceptionKind;
@@ -33,6 +33,7 @@ export default class Exception extends Value {
     }
 
     getType() { return new ExceptionType(this); }
+    getNativeTypeName(): string { return "exception" }
 
     toString() { return `${ExceptionKind[this.exception]}: ${this.node === undefined ? "" : this.node.toWordplay().trim()}`; }
 

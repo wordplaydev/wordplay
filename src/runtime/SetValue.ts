@@ -1,8 +1,9 @@
 import SetOrMapType from "../nodes/SetOrMapType";
 import Bool from "./Bool";
-import Value from "./Value";
+import Primitive from "./Primitive";
+import type Value from "./Value";
 
-export default class SetValue extends Value {
+export default class SetValue extends Primitive {
 
     readonly values: Value[];
 
@@ -13,7 +14,6 @@ export default class SetValue extends Value {
         values.forEach(v => {
             if(this.values.find(v2 => v.isEqualTo(v2)) === undefined)
                 this.values.push(v);
-
         });
 
     }
@@ -23,6 +23,7 @@ export default class SetValue extends Value {
     }
 
     getType() { return new SetOrMapType(); }
+    getNativeTypeName(): string { return "set" }
 
     toString() { return `{${Array.from(this.values).sort().join(" ")}}`; }
 

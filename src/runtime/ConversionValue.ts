@@ -1,10 +1,9 @@
 import type ConversionDefinition from "../nodes/ConversionDefinition";
 import type Evaluation from "./Evaluation";
+import Primitive from "./Primitive";
 import Value from "./Value";
 
-
-export default class ConversionValue extends Value {
-
+export default class ConversionValue extends Primitive {
     /** The definition from the AST. */
     readonly definition: ConversionDefinition;
     
@@ -23,6 +22,8 @@ export default class ConversionValue extends Value {
             this.context.getType() :
             this.definition.getType({ program: this.context.getEvaluator().program, shares: this.context.getEvaluator().getShares()}); 
     }
+
+    getNativeTypeName(): string { return "conversion"; }
 
     toString() { return this.definition.toWordplay(); }
 

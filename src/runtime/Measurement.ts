@@ -3,13 +3,14 @@ import Unit from "../nodes/Unit";
 import Bool from "./Bool";
 import Exception, { ExceptionKind } from "./Exception";
 import None from "./None";
-import Value from "./Value";
+import type Value from "./Value";
 import Decimal from 'decimal.js';
 import MeasurementStructureType from "../native/MeasurementStructureType";
 import Alias from "../nodes/Alias";
 import type BinaryOperation from "../nodes/BinaryOperation";
 import type UnaryOperation from "../nodes/UnaryOperation";
 import StructureType from "../nodes/StructureType";
+import Primitive from "./Primitive";
 
 const kanjiNumbers: Record<string, number> = {
     "一": 1,
@@ -58,7 +59,7 @@ const romanNumerals: Record<string, number> = {
  * If all of it's parts are empty, it is not a number.
  * If it's numerator 
  */
-export default class Measurement extends Value {
+export default class Measurement extends Primitive {
 
     readonly num: Decimal;
     readonly unit: Unit;
@@ -350,6 +351,7 @@ export default class Measurement extends Value {
     }
 
     getType() { return new StructureType(MeasurementStructureType); }
+    getNativeTypeName(): string { return "measurement" }
 
     toString() { 
         return `${this.num.toString()}${this.unit.toString()}`;

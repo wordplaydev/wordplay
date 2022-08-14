@@ -1,6 +1,5 @@
 import type Conflict from "../conflicts/Conflict";
 import type Alias from "./Alias";
-import type ConversionDefinition from "./ConversionDefinition";
 import type { ConflictContext } from "./Node";
 import type Token from "./Token";
 import Type from "./Type";
@@ -32,11 +31,7 @@ export default class NoneType extends Type {
         return this.aliases.find(a => type.aliases.find(b => a.isCompatible(b)) !== undefined) !== undefined;
     }
 
-    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
-        // TODO Define conversions from booleans to other types
-        // TODO Look for custom conversions that extend the Boolean type
-        return undefined;
-    }
+    getNativeTypeName(): string { return "none"; }
 
     toWordplay(): string {
         return "•!" + this.aliases.map(a => a.getName());

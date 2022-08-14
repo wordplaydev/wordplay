@@ -1,7 +1,7 @@
 import TextType from "../nodes/TextType";
-import Value from "./Value";
+import Primitive from "./Primitive";
 
-export default class Text extends Value {
+export default class Text extends Primitive {
 
     readonly text: string;
     readonly format: string | undefined;
@@ -14,6 +14,7 @@ export default class Text extends Value {
     }
 
     getType() { return new TextType(); }
+    getNativeTypeName(): string { return "text" }
 
     toString() { return `"${this.text}"${this.format ? this.format : ""}`; }
 
