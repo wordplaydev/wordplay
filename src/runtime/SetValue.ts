@@ -25,6 +25,6 @@ export default class SetValue extends Primitive {
     getType() { return new SetOrMapType(); }
     getNativeTypeName(): string { return "set" }
 
-    toString() { return `{${Array.from(this.values).sort().join(" ")}}`; }
+    toString() { return `{${Array.from(this.values).join(" ")}}`; }
 
 }

@@ -190,19 +190,7 @@ const Native = new NativeBindings();
                 else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
             }
         )
-    ),
-    new ConversionDefinition(
-        [], // TODO Documentation
-        "''",
-        new NativeExpression(
-            "''",
-            evaluator => {
-                const map = evaluator.getEvaluationContext()?.getContext();
-                if(map instanceof MapValue) return new SetValue(map.getKeys());
-                else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
-            }
-        )
-    ),
+    )
 ].map(c => Native.addConversion("map", c));
 
 [
