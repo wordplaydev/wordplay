@@ -25,6 +25,28 @@ export default class MapValue extends Primitive {
         return kv === undefined ? new None([new Alias("unknownkey")]) : kv[1];
     }
 
+    set(key: Value, value: Value) {
+        let hasKey = false;
+        const values: [Value, Value][] = this.values.map(kv => {
+            if(kv[0].isEqualTo(key)) {
+                hasKey = true;
+                return [ key, value ];
+            }
+            else return kv.slice();
+        }) as [Value, Value][];
+        if(!hasKey)
+            values.push([ key, value ]);
+        return new MapValue(values);
+    }
+
+    unset(key: Value) {
+        return new MapValue(this.values.filter(kv => !kv[0].isEqualTo(key)));
+    }
+
+    remove(value: Value) {
+        return new MapValue(this.values.filter(kv => !kv[1].isEqualTo(value)));
+    }
+
     getKeys() { 
         return this.values.map(kv => kv[0]);
     }

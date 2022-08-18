@@ -98,7 +98,7 @@ Native.addFunction("list", [], [ new Alias("last", "eng") ], [], [], new NameTyp
 );
 
 // TODO Documentation
-Native.addFunction("list", [], [ new Alias("withoutFirst", "eng") ], [], [], new ListType(new NameType("T")),
+Native.addFunction("list", [], [ new Alias("sansFirst", "eng") ], [], [], new ListType(new NameType("T")),
     evaluator => {
         const list = evaluator.getEvaluationContext()?.getContext();
         if(list instanceof List) return list.sansFirst();
@@ -107,7 +107,7 @@ Native.addFunction("list", [], [ new Alias("withoutFirst", "eng") ], [], [], new
 );
 
 // TODO Documentation
-Native.addFunction("list", [], [ new Alias("withoutLast", "eng") ], [], [], new ListType(new NameType("T")),
+Native.addFunction("list", [], [ new Alias("sansLast", "eng") ], [], [], new ListType(new NameType("T")),
     evaluator => {
         const list = evaluator.getEvaluationContext()?.getContext();
         if(list instanceof List) return list.sansLast();
@@ -116,7 +116,44 @@ Native.addFunction("list", [], [ new Alias("withoutLast", "eng") ], [], [], new 
 );
 
 // TODO Documentation
-Native.addFunction("set", [], [ new Alias("add", "eng") ], [], [ new Bind([], undefined, [ new Alias("value", "eng") ] ) ], new SetOrMapType(),
+Native.addFunction("list", [], [ new Alias("sans", "eng") ], [], 
+    [
+        new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType("T"))
+    ], 
+    new ListType(new NameType("T")),
+    evaluator => {
+        const list = evaluator.getEvaluationContext()?.getContext();
+        const value = evaluator.resolve("value");
+        if(list instanceof List && value !== undefined) return list.sans(value);
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
+
+// TODO Documentation
+Native.addFunction("list", [], [ new Alias("sansAll", "eng") ], [], 
+    [
+        new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType("T"))
+    ], 
+    new ListType(new NameType("T")),
+    evaluator => {
+        const list = evaluator.getEvaluationContext()?.getContext();
+        const value = evaluator.resolve("value");
+        if(list instanceof List && value !== undefined) return list.sansAll(value);
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
+
+// TODO Documentation
+Native.addFunction("list", [], [ new Alias("reverse", "eng") ], [], [], new ListType(new NameType("T")),
+    evaluator => {
+        const list = evaluator.getEvaluationContext()?.getContext();
+        if(list instanceof List) return list.reverse();
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
+
+// TODO Documentation
+Native.addFunction("set", [], [ new Alias("add", "eng") ], [], [ new Bind([], undefined, [ new Alias("value", "eng") ] ) ], new NameType("T"),
     evaluator => {
         const evaluation = evaluator.getEvaluationContext();
         const set = evaluation?.getContext();
@@ -127,7 +164,7 @@ Native.addFunction("set", [], [ new Alias("add", "eng") ], [], [ new Bind([], un
 );
 
 // TODO Documentation
-Native.addFunction("set", [], [ new Alias("remove", "eng") ], [], [ new Bind([], undefined, [ new Alias("value", "eng") ] ) ], new SetOrMapType(),
+Native.addFunction("set", [], [ new Alias("remove", "eng") ], [], [ new Bind([], undefined, [ new Alias("value", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
     evaluator => {
         const evaluation = evaluator.getEvaluationContext();
         const set = evaluation?.getContext();
@@ -138,7 +175,7 @@ Native.addFunction("set", [], [ new Alias("remove", "eng") ], [], [ new Bind([],
 );
 
 // TODO Documentation
-Native.addFunction("set", [], [ new Alias("union", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(),
+Native.addFunction("set", [], [ new Alias("union", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
     evaluator => {
         const evaluation = evaluator.getEvaluationContext();
         const set = evaluation?.getContext();
@@ -149,7 +186,7 @@ Native.addFunction("set", [], [ new Alias("union", "eng") ], [], [ new Bind([], 
 );
 
 // TODO Documentation
-Native.addFunction("set", [], [ new Alias("intersection", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(),
+Native.addFunction("set", [], [ new Alias("intersection", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
     evaluator => {
         const evaluation = evaluator.getEvaluationContext();
         const set = evaluation?.getContext();
@@ -160,12 +197,59 @@ Native.addFunction("set", [], [ new Alias("intersection", "eng") ], [], [ new Bi
 );
 
 // TODO Documentation
-Native.addFunction("set", [], [ new Alias("difference", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(),
+Native.addFunction("set", [], [ new Alias("difference", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
     evaluator => {
         const evaluation = evaluator.getEvaluationContext();
         const set = evaluation?.getContext();
         const newSet = evaluator.resolve("set");
         if(set instanceof SetValue && newSet instanceof SetValue) return set.difference(newSet);
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
+
+// TODO Documentation
+Native.addFunction("map", [], [ new Alias("set", "eng") ], [], 
+    [ 
+        new Bind([], undefined, [ new Alias("key", "eng") ], new NameType("K") ),
+        new Bind([], undefined, [ new Alias("value", "eng") ], new NameType("V") )
+    ],
+    new SetOrMapType(),
+    evaluator => {
+        const evaluation = evaluator.getEvaluationContext();
+        const map = evaluation?.getContext();
+        const key = evaluator.resolve("key");
+        const value = evaluator.resolve("value");
+        if(map instanceof MapValue && key !== undefined && value !== undefined) return map.set(key, value);
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
+
+// TODO Documentation
+Native.addFunction("map", [], [ new Alias("unset", "eng") ], [], 
+    [ 
+        new Bind([], undefined, [ new Alias("key", "eng") ], new NameType("K") )
+    ],
+    new SetOrMapType(),
+    evaluator => {
+        const evaluation = evaluator.getEvaluationContext();
+        const map = evaluation?.getContext();
+        const key = evaluator.resolve("key");
+        if(map instanceof MapValue && key !== undefined) return map.unset(key);
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
+
+// TODO Documentation
+Native.addFunction("map", [], [ new Alias("remove", "eng") ], [], 
+    [ 
+        new Bind([], undefined, [ new Alias("value", "eng") ], new NameType("V") )
+    ],
+    new SetOrMapType(),
+    evaluator => {
+        const evaluation = evaluator.getEvaluationContext();
+        const map = evaluation?.getContext();
+        const value = evaluator.resolve("value");
+        if(map instanceof MapValue && value !== undefined) return map.remove(value);
         else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
     }
 );

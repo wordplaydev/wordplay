@@ -27,6 +27,14 @@ export default class List extends Primitive {
     last() { return this.values.length === 0 ? new None(outOfBoundsAliases) : this.values[this.values.length - 1];}
     sansFirst() { return new List(this.values.slice(1)); }
     sansLast() { return new List(this.values.slice(0, -1)); }
+    sans(value: Value) { 
+        const val = this.values.find(v => v.isEqualTo(value));
+        return val === undefined ? this : new List(this.values.filter(v => v !== val));    
+    }
+    sansAll(value: Value) { 
+        return new List(this.values.filter(v => !v.isEqualTo(value)));
+    }
+    reverse() { return new List(this.values.reverse()); }
 
     getType() { return new ListType(); }
 
