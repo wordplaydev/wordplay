@@ -1,7 +1,6 @@
 import Alias from "../nodes/Alias";
 import type NativeInterface from "./NativeInterface";
 import FunctionDefinition from "../nodes/FunctionDefinition";
-import Language from "../nodes/Language";
 import NativeExpression from "../nodes/NativeExpression";
 import type { ConflictContext } from "../nodes/Node";
 import type Type from "../nodes/Type";
