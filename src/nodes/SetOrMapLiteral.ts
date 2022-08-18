@@ -107,7 +107,7 @@ export default class SetOrMapLiteral extends Expression {
             // Pop all of the values. Order doesn't matter.
             const values = [];
             for(let i = 0; i < this.values.length; i++)
-                values.push(evaluator.popValue());
+                values.unshift(evaluator.popValue());
             return new SetValue(values);
         }
         else {
@@ -116,7 +116,7 @@ export default class SetOrMapLiteral extends Expression {
             for(let i = 0; i < this.values.length; i++) {
                 const value = evaluator.popValue();
                 const key = evaluator.popValue();
-                values.push([ key, value ]);
+                values.unshift([ key, value ]);
             }
             return new MapValue(values);
        }

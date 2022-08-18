@@ -9,12 +9,12 @@ export default class Alias extends Node {
     readonly name: Token | string;
     readonly lang?: Language;
 
-    constructor(name: Token | string, lang?: Language, semicolon?: Token) {
+    constructor(name: Token | string, lang?: Language | string, semicolon?: Token) {
         super();
 
         this.semicolon = semicolon;
         this.name = name;
-        this.lang = lang;
+        this.lang = typeof lang === "string" ? new Language(lang) : lang;
     }
 
     getChildren() { 

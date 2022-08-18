@@ -17,8 +17,8 @@ test("Test measurement conversion", () => {
 });
 
 test("Test set conversions", () => {
-    expect(Evaluator.evaluateCode("{1 2 3}→''")?.toString()).toBe('"{3 2 1}"');
-    expect(Evaluator.evaluateCode("{1 2 3}→[]")?.toString()).toBe('[3 2 1]');
+    expect(Evaluator.evaluateCode("{1 2 3}→''")?.toString()).toBe('"{1 2 3}"');
+    expect(Evaluator.evaluateCode("{1 2 3}→[]")?.toString()).toBe('[1 2 3]');
 });
 
 test("Test list conversions", () => {
@@ -28,6 +28,6 @@ test("Test list conversions", () => {
 
 test("Test map conversions", () => {
     expect(Evaluator.evaluateCode("{1:'cat' 2:'dog' 3:'rat'}→''")?.toString()).toBe('"{1:"cat" 2:"dog" 3:"rat"}"');
-    expect(Evaluator.evaluateCode("{1:'cat' 2:'dog' 3:'rat'}→{}")?.toString()).toBe('{3 2 1}');
-    expect(Evaluator.evaluateCode("{1:'cat' 2:'dog' 3:'rat'}→[]")?.toString()).toBe('["rat" "dog" "cat"]');
+    expect(Evaluator.evaluateCode("{1:'cat' 2:'dog' 3:'rat'}→{}")?.toString()).toBe('{1 2 3}');
+    expect(Evaluator.evaluateCode("{1:'cat' 2:'dog' 3:'rat'}→[]")?.toString()).toBe('["cat" "dog" "rat"]');
 });

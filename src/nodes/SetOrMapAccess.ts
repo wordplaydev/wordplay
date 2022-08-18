@@ -76,7 +76,7 @@ export default class SetOrMapAccess extends Expression {
         const setOrMap = evaluator.popValue();
 
         if(!(setOrMap instanceof SetValue || setOrMap instanceof MapValue)) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
-        else return setOrMap.get(key);
+        else return setOrMap.has(key);
     
     }
 

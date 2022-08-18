@@ -19,7 +19,7 @@ export default class MapValue extends Primitive {
 
     }
 
-    get(key: Value) { 
+    has(key: Value) { 
         const kv = this.values.find( kv2 => kv2[0].isEqualTo(key));
         // TODO Localize
         return kv === undefined ? new None([new Alias("unknownkey")]) : kv[1];
@@ -36,6 +36,6 @@ export default class MapValue extends Primitive {
     getType() { return new SetOrMapType(); }
     getNativeTypeName(): string { return "map" }
 
-    toString() { return `{${Array.from(this.values).sort().map(k => `${k[0].toString()}:${(this.get(k[0]) as Value).toString()}`).join(" ")}}`; }
+    toString() { return `{${Array.from(this.values).sort().map(k => `${k[0].toString()}:${(this.has(k[0]) as Value).toString()}`).join(" ")}}`; }
 
 }
