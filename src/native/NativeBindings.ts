@@ -16,7 +16,6 @@ import Measurement from "../runtime/Measurement";
 import type Docs from "../nodes/Docs";
 import type TypeVariable from "../nodes/TypeVariable";
 import Bind from "../nodes/Bind";
-import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import NameType from "../nodes/NameType";
 import ListType from "../nodes/ListType";
