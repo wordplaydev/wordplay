@@ -334,7 +334,7 @@ export default class Evaluate extends Expression {
             const bindings = this.buildBindings(functionOrStructure.definition.inputs, values);
             if(bindings instanceof Exception) return bindings;
 
-            // Evaluate the type's block with the bindings, generating an evaluation context with the
+            // Evaluate the structure's block with the bindings, generating an evaluation context with the
             // type's inputs and functions.
             evaluator.startEvaluation(new Evaluation(evaluator, functionOrStructure.definition, functionOrStructure.definition.block, evaluator.getEvaluationContext(), bindings));
 

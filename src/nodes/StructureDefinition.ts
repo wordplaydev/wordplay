@@ -40,7 +40,7 @@ export default class StructureDefinition extends Expression implements Structure
     readonly close?: Token;
     readonly block: Block | Unparsable;
 
-    constructor(docs: Docs[], aliases: Alias[], typeVars: (TypeVariable|Unparsable)[], inputs: (Bind|Unparsable)[], block: Block | Unparsable, type?: Token, open?: Token, close?: Token) {
+    constructor(docs: Docs[], aliases: Alias[], typeVars: (TypeVariable|Unparsable)[], inputs: (Bind|Unparsable)[], block?: Block | Unparsable, type?: Token, open?: Token, close?: Token) {
 
         super();
 
@@ -51,7 +51,7 @@ export default class StructureDefinition extends Expression implements Structure
         this.open = open;
         this.inputs = inputs;
         this.close = close;
-        this.block = block;
+        this.block = block ?? new Block([], [], true);
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }
@@ -86,7 +86,7 @@ export default class StructureDefinition extends Expression implements Structure
     }
 
     isInterface(): boolean {
-        if(this.block instanceof Unparsable) return false;
+        if(this.block instanceof Unparsable || this.block === undefined) return false;
         const binds = this.block.statements.filter(s => s instanceof Bind) as Bind[];
         return !binds.every(b => !(b.value instanceof FunctionDefinition) || b.value.expression instanceof Expression);
     }
@@ -97,7 +97,7 @@ export default class StructureDefinition extends Expression implements Structure
         if(this.open) children.push(this.open);
         children = children.concat(this.inputs);
         if(this.close) children.push(this.close);
-        children.push(this.block);
+        if(this.block) children.push(this.block);
         return children;
     }
 

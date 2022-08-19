@@ -981,7 +981,7 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 
 }
 
-/** CUSTOM_TYPE :: DOCS? • NAME TYPE_VARS ( BIND* ) BLOCK */
+/** CUSTOM_TYPE :: DOCS? • NAME TYPE_VARS ( BIND* ) BLOCK? */
 function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     const docs = parseDocs(tokens);
@@ -1005,7 +1005,7 @@ function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
     const close = tokens.read();
 
-    const block = parseBlock(tokens, false, true);
+    const block = tokens.nextIsOneOf(TokenType.DOCS, TokenType.EVAL_OPEN) ? parseBlock(tokens, false, true) : undefined;
 
     return new StructureDefinition(docs, aliases, typeVars, inputs, block, type, open, close);
 
