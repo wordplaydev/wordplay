@@ -53,7 +53,7 @@ export default class Evaluation {
         this.#context = context;
 
         // Cache the steps for the given node.
-        this.#steps = node?.compile(this.#evaluator.getContext());
+        this.#steps = node.compile(this.#evaluator.getContext());
 
         // Set up the bindings
         this.#bindings = bindings === undefined ? new Map() : bindings;
