@@ -9,13 +9,14 @@ import type { ConflictContext } from "./Node";
 import { parseType, tokens } from "../parser/Parser";
 import Unparsable from "./Unparsable";
 import UnknownType from "./UnknownType";
+import type Evaluation from "../runtime/Evaluation";
 
 export default class NativeExpression extends Expression {
     
     readonly type: Type;
-    readonly evaluator: (evaluator: Evaluator) => Value;
+    readonly evaluator: (evaluator: Evaluation) => Value;
 
-    constructor(type: Type | string, evaluator: (evaluator: Evaluator) => Value) {
+    constructor(type: Type | string, evaluator: (evaluator: Evaluation) => Value) {
         super();
 
         if(typeof type === "string") {
@@ -35,7 +36,8 @@ export default class NativeExpression extends Expression {
     compile(context: ConflictContext): Step[] { return [ new Finish(this) ]; }
     getConflicts(context: ConflictContext): Conflict[] { return []; }
     evaluate(evaluator: Evaluator): Value | undefined {
-        return this.evaluator.call(undefined, evaluator);
+        const evaluation = evaluator.getEvaluationContext();
+        return evaluation === undefined ? undefined : this.evaluator.call(undefined, evaluation);
     }
 
 }
