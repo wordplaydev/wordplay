@@ -30,6 +30,7 @@ import NativeHOFListUntil from "./NativeHOFListUntil";
 import NativeHOFListFind from "./NativeHOFListFind";
 import UnionType from "../nodes/UnionType";
 import NoneType from "../nodes/NoneType";
+import NativeHOFListCombine from "./NativeHOFListCombine";
 
 class NativeBindings implements NativeInterface {
 
@@ -266,6 +267,34 @@ Native.addFunction("list", new FunctionDefinition(
     ],
     new NativeHOFListFind(),
     new UnionType(new NameType("T"), new NoneType([ new Alias("notfound", "eng")]))
+));
+
+// TODO Documentation
+Native.addFunction("list", new FunctionDefinition(
+    [], 
+    [ new Alias("combine", "eng") ], 
+    [], 
+    [
+        new Bind([], undefined, [ new Alias("initial", "eng")]),
+        new Bind([], undefined, [ new Alias("combiner", "eng")], new FunctionType([ 
+            {
+                aliases: [ new Alias("combination", "eng") ],
+                type: new NameType("V"),
+                required: true,
+                rest: false,
+                default: undefined
+            },
+            {
+                aliases: [ new Alias("next", "eng") ],
+                type: new NameType("T"),
+                required: true,
+                rest: false,
+                default: undefined
+            }
+        ], new NameType("V")))
+    ],
+    new NativeHOFListCombine(),
+    new ListType(new NameType("T"))
 ));
 
 // TODO Documentation
