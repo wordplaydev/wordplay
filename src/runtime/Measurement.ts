@@ -336,8 +336,7 @@ export default class Measurement extends Primitive {
     }
 
     greaterThan(operand: Measurement): Bool {
-        return new Bool(this.num.greaterThan(operand.num));
-        
+        return new Bool(this.num.greaterThan(operand.num));    
     }
 
     lessThan(operand: Measurement): Bool {

@@ -1,4 +1,3 @@
-import Decimal from "decimal.js";
 import type Conflict from "../conflicts/Conflict";
 import Bind from "../nodes/Bind";
 import Expression from "../nodes/Expression";
@@ -35,7 +34,7 @@ export default class NativeHOFListMap extends Expression {
                 const list = evaluator.getEvaluationContext()?.getContext();
                 // If the index is past the last index of the list, jump to the end.
                 if(index instanceof Measurement && list instanceof List) {
-                    if(index.num.greaterThan(new Decimal(list.length())))
+                    if(index.greaterThan(list.length()).bool)
                         evaluator.jump(1);
                     // Otherwise, apply the given translator function to the current list value.
                     else {

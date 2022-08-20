@@ -27,7 +27,6 @@ export default class NativeHOFListMap extends Expression {
             // Initialize an iterator and an empty list in this scope.
             new Action(this, evaluator => {
                 evaluator.bind("index", new Measurement(1));
-                evaluator.bind("list", new List([]));
                 return undefined;
             }),
             new Action(this, evaluator => {
@@ -39,20 +38,20 @@ export default class NativeHOFListMap extends Expression {
                         evaluator.jump(1);
                     // Otherwise, apply the given translator function to the current list value.
                     else {
-                        const include = evaluator.resolve("include");
+                        const translator = evaluator.resolve("matcher");
                         const listValue = list.get(index);
-                        if(include instanceof FunctionValue && 
-                            include.definition.expression instanceof Expression && 
-                            include.definition.inputs[0] instanceof Bind) {
+                        if(translator instanceof FunctionValue && 
+                            translator.definition.expression instanceof Expression && 
+                            translator.definition.inputs[0] instanceof Bind) {
                             const bindings = new Map<string, Value>();
                             // Bind the list value
-                            (include.definition.inputs[0] as Bind).names.forEach(n =>  bindings.set(n.getName(), listValue));
+                            (translator.definition.inputs[0] as Bind).names.forEach(n =>  bindings.set(n.getName(), listValue));
                             // Apply the translator function to the value
                             evaluator.startEvaluation(new Evaluation(
                                 evaluator, 
-                                include.definition, 
-                                include.definition.expression, 
-                                include.context, 
+                                translator.definition, 
+                                translator.definition.expression, 
+                                translator.context, 
                                 bindings
                             ));
                         }
@@ -65,34 +64,22 @@ export default class NativeHOFListMap extends Expression {
             // Save the translated value and then jump to the conditional.
             new Action(this, evaluator => {
 
-                // Get the boolean from the function evaluation.
-                const include = evaluator.popValue();
-                if(!(include instanceof Bool))
+                // Get the bool from the matcher
+                const matched = evaluator.popValue();
+                if(!(matched instanceof Bool))
                     return new Exception(this, ExceptionKind.EXPECTED_TYPE);
 
-                // Get the current index.
+                // Get the current index
                 const index = evaluator.resolve("index");
                 if(!(index instanceof Measurement))
                     return new Exception(this, ExceptionKind.EXPECTED_TYPE);
-
-                const list = evaluator.getEvaluationContext()?.getContext();
-                if(!(list instanceof List))
-                    return new Exception(this, ExceptionKind.EXPECTED_TYPE);
-
-                // If the include decided yes, append the value.
-                const newList = evaluator.resolve("list");
-                if(newList instanceof List && include instanceof Bool) {
-                    if(include.bool) {
-                        const listValue = list.get(index);
-                        evaluator.bind("list", newList.append(listValue));
-                    }
+    
+                // If it matched, increment and jump to the conditional.
+                if(matched.bool) {
+                    evaluator.bind("index", index.add(new Measurement(1)));
+                    evaluator.jump(-2);
                 }
-
-                // Increment the counter
-                evaluator.bind("index", index.add(new Measurement(1)));
-
-                // Jump to the conditional
-                evaluator.jump(-2);
+                // Otherwise, go to the last step and fail.
 
                 return undefined;
             }),
@@ -103,8 +90,18 @@ export default class NativeHOFListMap extends Expression {
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 
     evaluate(evaluator: Evaluator): Value | undefined {
-        // Evaluate to the filtered list.
-        return evaluator.resolve("list");
+
+        // Get the index and list.
+        const index = evaluator.resolve("index");
+        if(!(index instanceof Measurement))
+            return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+        const list = evaluator.getEvaluationContext()?.getContext();
+        if(!(list instanceof List))
+            return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+
+        // Evaluate to true if we made it past the length of the list, false otherwise.
+        return index.greaterThan(list.length());
+
     }
 
 }

@@ -24,6 +24,8 @@ import type Evaluation from "../runtime/Evaluation";
 import FunctionType from "../nodes/FunctionType";
 import NativeHOFListMap from "./NativeHOFListMap";
 import NativeHOFListFilter from "./NativeHOFListFilter";
+import NativeHOFListAll from "./NativeHOFListAll";
+import BooleanType from "../nodes/BooleanType";
 
 class NativeBindings implements NativeInterface {
 
@@ -191,7 +193,7 @@ Native.addFunction("list", new FunctionDefinition(
         new Bind([], undefined, [ new Alias("include", "eng")], new FunctionType([ 
             {
                 aliases: [ new Alias("value", "eng") ],
-                type: new NameType("T"),
+                type: new BooleanType(),
                 required: true,
                 rest: false,
                 default: undefined
@@ -199,6 +201,26 @@ Native.addFunction("list", new FunctionDefinition(
         ], new NameType("T")))
     ],
     new NativeHOFListFilter(),
+    new ListType(new NameType("T"))
+));
+
+// TODO Documentation
+Native.addFunction("list", new FunctionDefinition(
+    [], 
+    [ new Alias("all", "eng") ], 
+    [], 
+    [
+        new Bind([], undefined, [ new Alias("matcher", "eng")], new FunctionType([ 
+            {
+                aliases: [ new Alias("value", "eng") ],
+                type: new BooleanType(),
+                required: true,
+                rest: false,
+                default: undefined
+            }
+        ], new NameType("T")))
+    ],
+    new NativeHOFListAll(),
     new ListType(new NameType("T"))
 ));
 
