@@ -26,6 +26,7 @@ import NativeHOFListMap from "./NativeHOFListMap";
 import NativeHOFListFilter from "./NativeHOFListFilter";
 import NativeHOFListAll from "./NativeHOFListAll";
 import BooleanType from "../nodes/BooleanType";
+import NativeHOFListUntil from "./NativeHOFListUntil";
 
 class NativeBindings implements NativeInterface {
 
@@ -221,6 +222,26 @@ Native.addFunction("list", new FunctionDefinition(
         ], new NameType("T")))
     ],
     new NativeHOFListAll(),
+    new ListType(new NameType("T"))
+));
+
+// TODO Documentation
+Native.addFunction("list", new FunctionDefinition(
+    [], 
+    [ new Alias("until", "eng") ], 
+    [], 
+    [
+        new Bind([], undefined, [ new Alias("checker", "eng")], new FunctionType([ 
+            {
+                aliases: [ new Alias("value", "eng") ],
+                type: new BooleanType(),
+                required: true,
+                rest: false,
+                default: undefined
+            }
+        ], new NameType("T")))
+    ],
+    new NativeHOFListUntil(),
     new ListType(new NameType("T"))
 ));
 

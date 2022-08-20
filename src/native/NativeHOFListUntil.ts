@@ -39,7 +39,7 @@ export default class NativeHOFListMap extends Expression {
                         evaluator.jump(1);
                     // Otherwise, apply the given translator function to the current list value.
                     else {
-                        const include = evaluator.resolve("include");
+                        const include = evaluator.resolve("checker");
                         const listValue = list.get(index);
                         if(include instanceof FunctionValue && 
                             include.definition.expression instanceof Expression && 
@@ -75,16 +75,21 @@ export default class NativeHOFListMap extends Expression {
                 if(!(index instanceof Measurement))
                     return new Exception(this, ExceptionKind.EXPECTED_TYPE);
 
+                // Get the list.
                 const list = evaluator.getEvaluationContext()?.getContext();
                 if(!(list instanceof List))
                     return new Exception(this, ExceptionKind.EXPECTED_TYPE);
 
-                // If the include decided yes, append the value.
                 const newList = evaluator.resolve("list");
                 if(newList instanceof List && include instanceof Bool) {
+                    // If the include decided yes, append the value.
                     if(include.bool) {
                         const listValue = list.get(index);
                         evaluator.bind("list", newList.append(listValue));
+                    }
+                    // Otherwise, don't loop, just go to the end.
+                    else {
+                        return undefined;
                     }
                 }
                 else return new Exception(this, ExceptionKind.EXPECTED_TYPE);
