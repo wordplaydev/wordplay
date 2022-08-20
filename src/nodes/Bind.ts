@@ -22,7 +22,7 @@ import ColumnType from "./ColumnType";
 import type Evaluator from "../runtime/Evaluator";
 import type Evaluable from "../runtime/Evaluable";
 import type Step from "../runtime/Step";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
 import Exception, { ExceptionKind } from "../runtime/Exception";
@@ -136,7 +136,7 @@ export default class Bind extends Node implements Evaluable, Named {
     compile(context: ConflictContext):Step[] {
         return this.value === undefined ?
             [ new Halt(new Exception(this, ExceptionKind.EXPECTED_VALUE), this) ] :
-            [ new Start(this), ...this.value.compile(context), new Finish(this) ];
+            [ new Action(this), ...this.value.compile(context), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator) {

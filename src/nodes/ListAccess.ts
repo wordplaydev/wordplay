@@ -14,7 +14,7 @@ import Exception, { ExceptionKind } from "../runtime/Exception";
 import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 import NoneType from "./NoneType";
 import UnionType from "./UnionType";
@@ -62,7 +62,7 @@ export default class ListAccess extends Expression {
     }
 
     compile(context: ConflictContext):Step[] {
-        return [ new Start(this), ...this.list.compile(context), ...this.index.compile(context), new Finish(this) ];
+        return [ new Action(this), ...this.list.compile(context), ...this.index.compile(context), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value {

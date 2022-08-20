@@ -23,6 +23,7 @@ export default class List extends Primitive {
         return value === undefined ? new None(outOfBoundsAliases) : value;
     }
 
+    length() { return this.values.length; }
     first() { return this.values.length === 0 ? new None(outOfBoundsAliases) : this.values[0]; }
     last() { return this.values.length === 0 ? new None(outOfBoundsAliases) : this.values[this.values.length - 1];}
     sansFirst() { return new List(this.values.slice(1)); }
@@ -35,6 +36,7 @@ export default class List extends Primitive {
         return new List(this.values.filter(v => !v.isEqualTo(value)));
     }
     reverse() { return new List(this.values.reverse()); }
+    append(value: Value) { return new List([ ...this.values, value ]); }
 
     getType() { return new ListType(); }
 

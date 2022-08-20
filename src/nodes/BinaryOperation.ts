@@ -18,7 +18,7 @@ import Exception, { ExceptionKind } from "../runtime/Exception";
 import Bool from "../runtime/Bool";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import type Value from "../runtime/Value";
 import type { ConflictContext } from "./Node";
 
@@ -197,7 +197,7 @@ export default class BinaryOperation extends Expression {
     }
 
     compile(context: ConflictContext):Step[] {
-        return [ new Start(this), ...this.left.compile(context), ...this.right.compile(context), new Finish(this) ];
+        return [ new Action(this), ...this.left.compile(context), ...this.right.compile(context), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value {

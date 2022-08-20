@@ -8,7 +8,7 @@ import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import Structure from "../runtime/Structure";
 import Stream from "../runtime/Stream";
@@ -70,7 +70,7 @@ export default class AccessName extends Expression {
 
     compile(context: ConflictContext):Step[] {
         
-        return [ new Start(this), ...this.subject.compile(context), new Finish(this) ]
+        return [ new Action(this), ...this.subject.compile(context), new Finish(this) ]
 
     }
 

@@ -14,7 +14,7 @@ import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 import type Definition from "./Definition";
 
@@ -74,7 +74,7 @@ export default class Delete extends Expression {
     }
 
     compile(context: ConflictContext):Step[] {
-        return [ new Start(this), ...this.table.compile(context), new Finish(this) ];
+        return [ new Action(this), ...this.table.compile(context), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value {

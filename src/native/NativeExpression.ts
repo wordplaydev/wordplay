@@ -1,14 +1,14 @@
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "src/runtime/Value";
-import type Type from "./Type";
+import type Type from "../nodes/Type";
 import type Step from "src/runtime/Step";
 import Finish from "../runtime/Finish";
-import Expression from "./Expression";
+import Expression from "../nodes/Expression";
 import type Conflict from "../conflicts/Conflict";
-import type { ConflictContext } from "./Node";
+import type { ConflictContext } from "../nodes/Node";
 import { parseType, tokens } from "../parser/Parser";
-import Unparsable from "./Unparsable";
-import UnknownType from "./UnknownType";
+import Unparsable from "../nodes/Unparsable";
+import UnknownType from "../nodes/UnknownType";
 import type Evaluation from "../runtime/Evaluation";
 
 export default class NativeExpression extends Expression {

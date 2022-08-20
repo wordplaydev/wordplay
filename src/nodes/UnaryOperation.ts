@@ -15,7 +15,7 @@ import Bool from "../runtime/Bool";
 import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 
 export default class UnaryOperation extends Expression {
@@ -83,7 +83,7 @@ export default class UnaryOperation extends Expression {
     
     compile(context: ConflictContext):Step[] {
         return [
-            new Start(this),
+            new Action(this),
             ...this.operand.compile(context),
             new Finish(this)
         ];

@@ -15,7 +15,7 @@ import type Unparsable from "./Unparsable";
 import { docsAreUnique } from "./util";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
@@ -116,7 +116,7 @@ export default class Block extends Expression {
         return !this.creator && this.statements.length === 0 ? 
             [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ] :
             [ 
-                new Start(this), 
+                new Action(this), 
                 ...this.statements.reduce((prev: Step[], current) => [ ...prev, ...current.compile(context) ], []),
                 new Finish(this) 
             ];

@@ -1,7 +1,7 @@
 import Alias from "../nodes/Alias";
 import type NativeInterface from "./NativeInterface";
 import FunctionDefinition from "../nodes/FunctionDefinition";
-import NativeExpression from "../nodes/NativeExpression";
+import NativeExpression from "./NativeExpression";
 import type { ConflictContext } from "../nodes/Node";
 import type Type from "../nodes/Type";
 import ConversionDefinition from "../nodes/ConversionDefinition";
@@ -21,6 +21,9 @@ import NameType from "../nodes/NameType";
 import ListType from "../nodes/ListType";
 import SetOrMapType from "../nodes/SetOrMapType";
 import type Evaluation from "../runtime/Evaluation";
+import FunctionType from "../nodes/FunctionType";
+import NativeHOFListMap from "./NativeHOFListMap";
+import NativeHOFListFilter from "./NativeHOFListFilter";
 
 class NativeBindings implements NativeInterface {
 
@@ -28,6 +31,18 @@ class NativeBindings implements NativeInterface {
     readonly conversionsByType: Record<string, ConversionDefinition[]> = {};
 
     addFunction(
+        kind: string,
+        fun: FunctionDefinition
+    ) {
+
+        if(!(kind in this.functionsByType))
+            this.functionsByType[kind] = {};
+
+        fun.aliases.forEach(a => this.functionsByType[kind][a.getName()] = fun);
+
+    }
+
+    addNativeFunction(
         kind: string, 
         docs: Docs[], 
         aliases: Alias[], 
@@ -36,16 +51,12 @@ class NativeBindings implements NativeInterface {
         output: Type,
         evaluator: (evaluator: Evaluation) => Value) {
         
-        if(!(kind in this.functionsByType))
-            this.functionsByType[kind] = {};
-
-        const fun = new FunctionDefinition(
+        this.addFunction(kind, new FunctionDefinition(
             docs, aliases, typeVars, inputs,
             new NativeExpression(output, evaluator),
             output
-        );
+        ));
 
-        fun.aliases.forEach(a => this.functionsByType[kind][a.getName()] = fun);
     }
 
     addConversion(kind: string, docs: Docs[], type: string, expected: Function, fun: Function) {
@@ -79,7 +90,7 @@ class NativeBindings implements NativeInterface {
 const Native = new NativeBindings();
 
 // TODO Documentation
-Native.addFunction("list", [], [ new Alias("first", "eng") ], [], [], new NameType("T"),
+Native.addNativeFunction("list", [], [ new Alias("first", "eng") ], [], [], new NameType("T"),
     evaluation => {
         const list = evaluation.getContext();
         if(list instanceof List) return list.first();
@@ -88,7 +99,7 @@ Native.addFunction("list", [], [ new Alias("first", "eng") ], [], [], new NameTy
 );
 
 // TODO Documentation
-Native.addFunction("list", [], [ new Alias("last", "eng") ], [], [], new NameType("T"),
+Native.addNativeFunction("list", [], [ new Alias("last", "eng") ], [], [], new NameType("T"),
     evaluation => {
         const list = evaluation.getContext();
         if(list instanceof List) return list.last();
@@ -97,7 +108,7 @@ Native.addFunction("list", [], [ new Alias("last", "eng") ], [], [], new NameTyp
 );
 
 // TODO Documentation
-Native.addFunction("list", [], [ new Alias("sansFirst", "eng") ], [], [], new ListType(new NameType("T")),
+Native.addNativeFunction("list", [], [ new Alias("sansFirst", "eng") ], [], [], new ListType(new NameType("T")),
     evaluation => {
         const list = evaluation.getContext();
         if(list instanceof List) return list.sansFirst();
@@ -106,7 +117,7 @@ Native.addFunction("list", [], [ new Alias("sansFirst", "eng") ], [], [], new Li
 );
 
 // TODO Documentation
-Native.addFunction("list", [], [ new Alias("sansLast", "eng") ], [], [], new ListType(new NameType("T")),
+Native.addNativeFunction("list", [], [ new Alias("sansLast", "eng") ], [], [], new ListType(new NameType("T")),
     evaluation => {
         const list = evaluation.getContext();
         if(list instanceof List) return list.sansLast();
@@ -115,7 +126,7 @@ Native.addFunction("list", [], [ new Alias("sansLast", "eng") ], [], [], new Lis
 );
 
 // TODO Documentation
-Native.addFunction("list", [], [ new Alias("sans", "eng") ], [], 
+Native.addNativeFunction("list", [], [ new Alias("sans", "eng") ], [], 
     [
         new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType("T"))
     ], 
@@ -129,9 +140,9 @@ Native.addFunction("list", [], [ new Alias("sans", "eng") ], [],
 );
 
 // TODO Documentation
-Native.addFunction("list", [], [ new Alias("sansAll", "eng") ], [], 
+Native.addNativeFunction("list", [], [ new Alias("sansAll", "eng") ], [], 
     [
-        new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType("T"))
+        new Bind([], undefined, [ new Alias("value", "eng") ], new NameType("T"))
     ], 
     new ListType(new NameType("T")),
     evaluation => {
@@ -143,7 +154,7 @@ Native.addFunction("list", [], [ new Alias("sansAll", "eng") ], [],
 );
 
 // TODO Documentation
-Native.addFunction("list", [], [ new Alias("reverse", "eng") ], [], [], new ListType(new NameType("T")),
+Native.addNativeFunction("list", [], [ new Alias("reverse", "eng") ], [], [], new ListType(new NameType("T")),
     evaluation => {
         const list = evaluation.getContext();
         if(list instanceof List) return list.reverse();
@@ -152,7 +163,47 @@ Native.addFunction("list", [], [ new Alias("reverse", "eng") ], [], [], new List
 );
 
 // TODO Documentation
-Native.addFunction("set", [], [ new Alias("add", "eng") ], [], [ new Bind([], undefined, [ new Alias("value", "eng") ] ) ], new NameType("T"),
+Native.addFunction("list", new FunctionDefinition(
+    [], 
+    [ new Alias("map", "eng") ], 
+    [], 
+    [
+        new Bind([], undefined, [ new Alias("translator", "eng")], new FunctionType([ 
+            {
+                aliases: [ new Alias("value", "eng") ],
+                type: new NameType("T"),
+                required: true,
+                rest: false,
+                default: undefined
+            }
+        ], new NameType("T")))
+    ],
+    new NativeHOFListMap(),
+    new ListType(new NameType("T"))
+));
+
+// TODO Documentation
+Native.addFunction("list", new FunctionDefinition(
+    [], 
+    [ new Alias("filter", "eng") ], 
+    [], 
+    [
+        new Bind([], undefined, [ new Alias("include", "eng")], new FunctionType([ 
+            {
+                aliases: [ new Alias("value", "eng") ],
+                type: new NameType("T"),
+                required: true,
+                rest: false,
+                default: undefined
+            }
+        ], new NameType("T")))
+    ],
+    new NativeHOFListFilter(),
+    new ListType(new NameType("T"))
+));
+
+// TODO Documentation
+Native.addNativeFunction("set", [], [ new Alias("add", "eng") ], [], [ new Bind([], undefined, [ new Alias("value", "eng") ] ) ], new NameType("T"),
 evaluation => {
         const set = evaluation?.getContext();
         const element = evaluation.resolve("value");
@@ -162,7 +213,7 @@ evaluation => {
 );
 
 // TODO Documentation
-Native.addFunction("set", [], [ new Alias("remove", "eng") ], [], [ new Bind([], undefined, [ new Alias("value", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
+Native.addNativeFunction("set", [], [ new Alias("remove", "eng") ], [], [ new Bind([], undefined, [ new Alias("value", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
     evaluation => {
         const set = evaluation.getContext();
         const element = evaluation.resolve("value");
@@ -172,7 +223,7 @@ Native.addFunction("set", [], [ new Alias("remove", "eng") ], [], [ new Bind([],
 );
 
 // TODO Documentation
-Native.addFunction("set", [], [ new Alias("union", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
+Native.addNativeFunction("set", [], [ new Alias("union", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
     evaluation => {
         const set = evaluation.getContext();
         const newSet = evaluation.resolve("set");
@@ -182,7 +233,7 @@ Native.addFunction("set", [], [ new Alias("union", "eng") ], [], [ new Bind([], 
 );
 
 // TODO Documentation
-Native.addFunction("set", [], [ new Alias("intersection", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
+Native.addNativeFunction("set", [], [ new Alias("intersection", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
     evaluation => {
         const set = evaluation.getContext();
         const newSet = evaluation.resolve("set");
@@ -192,7 +243,7 @@ Native.addFunction("set", [], [ new Alias("intersection", "eng") ], [], [ new Bi
 );
 
 // TODO Documentation
-Native.addFunction("set", [], [ new Alias("difference", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
+Native.addNativeFunction("set", [], [ new Alias("difference", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
     evaluation => {
         const set = evaluation.getContext();
         const newSet = evaluation.resolve("set");
@@ -202,7 +253,7 @@ Native.addFunction("set", [], [ new Alias("difference", "eng") ], [], [ new Bind
 );
 
 // TODO Documentation
-Native.addFunction("map", [], [ new Alias("set", "eng") ], [], 
+Native.addNativeFunction("map", [], [ new Alias("set", "eng") ], [], 
     [ 
         new Bind([], undefined, [ new Alias("key", "eng") ], new NameType("K") ),
         new Bind([], undefined, [ new Alias("value", "eng") ], new NameType("V") )
@@ -218,7 +269,7 @@ Native.addFunction("map", [], [ new Alias("set", "eng") ], [],
 );
 
 // TODO Documentation
-Native.addFunction("map", [], [ new Alias("unset", "eng") ], [], 
+Native.addNativeFunction("map", [], [ new Alias("unset", "eng") ], [], 
     [ 
         new Bind([], undefined, [ new Alias("key", "eng") ], new NameType("K") )
     ],
@@ -232,7 +283,7 @@ Native.addFunction("map", [], [ new Alias("unset", "eng") ], [],
 );
 
 // TODO Documentation
-Native.addFunction("map", [], [ new Alias("remove", "eng") ], [], 
+Native.addNativeFunction("map", [], [ new Alias("remove", "eng") ], [], 
     [ 
         new Bind([], undefined, [ new Alias("value", "eng") ], new NameType("V") )
     ],

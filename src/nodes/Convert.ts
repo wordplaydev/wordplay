@@ -9,7 +9,7 @@ import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import Evaluation from "../runtime/Evaluation";
 import type { ConflictContext } from "./Node";
 import Halt from "../runtime/Halt";
@@ -65,7 +65,7 @@ export default class Convert extends Expression {
 
         // Evaluate the expression to convert, then push the conversion function on the stack.
         return [ 
-            new Start(this, evaluator => {
+            new Action(this, evaluator => {
                 const evaluation = evaluator.getEvaluationContext();
                 return evaluation === undefined ? 
                     new Exception(this, ExceptionKind.EXPECTED_CONTEXT) : 

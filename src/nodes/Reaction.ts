@@ -12,7 +12,7 @@ import type Step from "../runtime/Step";
 import Jump from "../runtime/Jump";
 import Finish from "../runtime/Finish";
 import JumpIfStreamUnchanged from "../runtime/JumpIfStreamUnchanged";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import JumpIfStreamExists from "../runtime/JumpIfStreamExists";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import Bind from "./Bind";
@@ -75,7 +75,7 @@ export default class Reaction extends Expression {
         // append the value to the stream.
         return [
             // Ask evaluator to remember streams that are accessed
-            new Start(this, evaluator => {
+            new Action(this, evaluator => {
                 evaluator.startRememberingStreamAccesses();
                 const latest = evaluator.getReactionStreamLatest(this);
                 if(latest) {

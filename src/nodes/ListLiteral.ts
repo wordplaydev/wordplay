@@ -9,7 +9,7 @@ import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 import { getPossibleUnionType } from "./UnionType";
 import type Conflict from "../conflicts/Conflict";
@@ -44,7 +44,7 @@ export default class ListLiteral extends Expression {
 
     compile(context: ConflictContext):Step[] {
         return [ 
-            new Start(this),
+            new Action(this),
             ...this.values.reduce((steps: Step[], item) => [...steps, ...item.compile(context)], []),
             new Finish(this)
         ];

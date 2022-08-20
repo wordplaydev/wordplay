@@ -15,7 +15,7 @@ import Exception, { ExceptionKind } from "../runtime/Exception";
 import Table from "../runtime/Table";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 import type Definition from "./Definition";
 
@@ -86,7 +86,7 @@ export default class Insert extends Expression {
 
     compile(context: ConflictContext):Step[] {
         return [ 
-            new Start(this),
+            new Action(this),
             ...this.table.compile(context), 
             ...this.row.cells.reduce((steps: Step[], cell) => [ ...steps, ...cell.expression.compile(context) ], []),
             new Finish(this) 

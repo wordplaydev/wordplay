@@ -9,7 +9,7 @@ import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import type Step from "../runtime/Step";
 
 export default class Share extends Node implements Evaluable {
@@ -43,7 +43,7 @@ export default class Share extends Node implements Evaluable {
     }
 
     compile(context: ConflictContext):Step[] {
-        return [ new Start(this), ...this.bind.compile(context), new Finish(this) ];
+        return [ new Action(this), ...this.bind.compile(context), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator) {

@@ -13,7 +13,7 @@ import MapValue from "../runtime/MapValue";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 
 export default class SetOrMapAccess extends Expression {
@@ -63,7 +63,7 @@ export default class SetOrMapAccess extends Expression {
     compile(context: ConflictContext):Step[] {
         // Evaluate the set expression, then the key expression, then this.
         return [ 
-            new Start(this),
+            new Action(this),
             ...this.setOrMap.compile(context),
             ...this.key.compile(context),
             new Finish(this)

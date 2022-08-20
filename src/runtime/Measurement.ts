@@ -274,10 +274,10 @@ export default class Measurement extends Primitive {
             case "^": return this.power(right);
             case "<": return this.lessThan(right);
             case ">": return this.greaterThan(right);
-            case "≤": return this.lessThan(right) || this.equals(right);
-            case "≥": return this.greaterThan(right) || this.equals(right);
+            case "≤": return new Bool(this.lessThan(right).bool || this.equals(right).bool);
+            case "≥": return new Bool(this.greaterThan(right).bool || this.equals(right).bool);
             case "=": return this.equals(right);
-            case "≠": return new Bool(!this.equals(right));
+            case "≠": return new Bool(!this.equals(right).bool);
             default: return new Exception(op, ExceptionKind.UNKNOWN_OPERATOR);
         }
     }

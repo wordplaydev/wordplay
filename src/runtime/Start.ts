@@ -3,11 +3,11 @@ import type Evaluator from "./Evaluator";
 import type Evaluable from "./Evaluable";
 import type Value from "./Value";
 
-export default class Start extends Step {
+export default class Action extends Step {
 
     action?: (evaluator: Evaluator) => Value | undefined;
 
-    constructor(node: Evaluable, action?: (evalulator: Evaluator) => Value | undefined) {
+    constructor(node: Evaluable, action?: (evaluator: Evaluator) => Value | undefined) {
         super(node);
         this.action = action;
     }

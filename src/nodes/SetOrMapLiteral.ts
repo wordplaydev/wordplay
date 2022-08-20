@@ -15,7 +15,7 @@ import MapValue from "../runtime/MapValue";
 import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 import { getPossibleUnionType } from "./UnionType";
 
@@ -84,7 +84,7 @@ export default class SetOrMapLiteral extends Expression {
         return this.kind === SetKind.Neither ?
             [ new Halt(new Exception(this, ExceptionKind.EXPECTED_TYPE), this)] :
             [
-                new Start(this),
+                new Action(this),
                 // Evaluate all of the item or key/value expressions
                 ...this.values.reduce(
                     (steps: Step[], item) => [

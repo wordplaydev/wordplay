@@ -20,7 +20,7 @@ import type Value from "../runtime/Value";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 import type Definition from "./Definition";
 
@@ -112,7 +112,7 @@ export default class Select extends Expression {
     compile(context: ConflictContext):Step[] {
         // Evaluate the table expression then this.
         return [ 
-            new Start(this),
+            new Action(this),
             ...this.table.compile(context),
             new Finish(this)
         ];

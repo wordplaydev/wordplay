@@ -15,7 +15,7 @@ import Table from "../runtime/Table";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 
 export default class TableLiteral extends Expression {
@@ -69,7 +69,7 @@ export default class TableLiteral extends Expression {
 
     compile(context: ConflictContext):Step[] {
         return [
-            new Start(this),
+            new Action(this),
             // Compile all of the row's 's cells expressions.
             ...this.rows.reduce((rows: Step[], row) =>
                 row.cells.reduce((cells: Step[], cell) => [...cells, ...cell.expression.compile(context)], []), 

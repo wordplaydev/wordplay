@@ -22,7 +22,7 @@ import FunctionValue from "../runtime/FunctionValue";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Start from "../runtime/Start";
+import Action from "../runtime/Start";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import type { ConflictContext } from "./Node";
 import Halt from "../runtime/Halt";
@@ -277,7 +277,7 @@ export default class Evaluate extends Expression {
     
         // Evaluate the function expression, then the inputs, then evaluate this using the resulting values.
         return [ 
-            new Start(this),
+            new Action(this),
             ...inputSteps.reduce((steps: Step[], s) => [ ...steps, ...s], []), 
             ...this.func.compile(context),
             new Finish(this)
