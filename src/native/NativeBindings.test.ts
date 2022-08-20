@@ -9,7 +9,7 @@ test("Test list functions", () => {
     expect(Evaluator.evaluateCode("[1 2 3].sansLast()")?.toString()).toBe('[1 2]');
     expect(Evaluator.evaluateCode("[1 2 3].sans(2)")?.toString()).toBe('[1 3]');
     expect(Evaluator.evaluateCode("[1 2 3 1 2 3].sansAll(1)")?.toString()).toBe('[2 3 2 3]');
-    expect(Evaluator.evaluateCode("[1 2 3].map(ƒ(v) v + 1)")?.toString()).toBe('[2 3 4]');
+    expect(Evaluator.evaluateCode("[1 2 3].translate(ƒ(v) v + 1)")?.toString()).toBe('[2 3 4]');
     expect(Evaluator.evaluateCode("[1 2 3].filter(ƒ(v) v > 2)")?.toString()).toBe('[3]');
     expect(Evaluator.evaluateCode("[1 2 3].all(ƒ(v) v > 0)")?.toString()).toBe('⊤');
 

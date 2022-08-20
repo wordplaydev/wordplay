@@ -167,7 +167,7 @@ Native.addNativeFunction("list", [], [ new Alias("reverse", "eng") ], [], [], ne
 // TODO Documentation
 Native.addFunction("list", new FunctionDefinition(
     [], 
-    [ new Alias("map", "eng") ], 
+    [ new Alias("translate", "eng") ], 
     [], 
     [
         new Bind([], undefined, [ new Alias("translator", "eng")], new FunctionType([ 
