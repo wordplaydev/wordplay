@@ -31,6 +31,7 @@ import NativeHOFListFind from "./NativeHOFListFind";
 import UnionType from "../nodes/UnionType";
 import NoneType from "../nodes/NoneType";
 import NativeHOFListCombine from "./NativeHOFListCombine";
+import NativeHOFSetFilter from "./NativeHOFSetFilter";
 
 class NativeBindings implements NativeInterface {
 
@@ -346,6 +347,26 @@ Native.addNativeFunction("set", [], [ new Alias("difference", "eng") ], [], [ ne
         else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
     }
 );
+
+// TODO Documentation
+Native.addFunction("set", new FunctionDefinition(
+    [], 
+    [ new Alias("filter", "eng") ], 
+    [], 
+    [
+        new Bind([], undefined, [ new Alias("checker", "eng")], new FunctionType([ 
+            {
+                aliases: [ new Alias("value", "eng") ],
+                type: new BooleanType(),
+                required: true,
+                rest: false,
+                default: undefined
+            }
+        ], new NameType("T")))
+    ],
+    new NativeHOFSetFilter(),
+    new SetOrMapType(undefined, undefined, new NameType("T"))
+));
 
 // TODO Documentation
 Native.addNativeFunction("map", [], [ new Alias("set", "eng") ], [], 

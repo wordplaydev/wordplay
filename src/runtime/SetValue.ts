@@ -1,5 +1,6 @@
 import SetOrMapType from "../nodes/SetOrMapType";
 import Bool from "./Bool";
+import Measurement from "./Measurement";
 import Primitive from "./Primitive";
 import type Value from "./Value";
 
@@ -16,6 +17,10 @@ export default class SetValue extends Primitive {
                 this.values.push(v);
         });
 
+    }
+
+    size() {
+        return new Measurement(this.values.length);
     }
 
     has(key: Value) { 
