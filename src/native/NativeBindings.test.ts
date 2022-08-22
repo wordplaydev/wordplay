@@ -15,6 +15,7 @@ test("Test list functions", () => {
     expect(Evaluator.evaluateCode("[1 2 3].until(ƒ(v) v < 3)")?.toString()).toBe('[1 2]');
     expect(Evaluator.evaluateCode("[1 3 5 7 9].find(ƒ(v) v > 6)")?.toString()).toBe('7');
     expect(Evaluator.evaluateCode("[1 2 3 4 5 6 7 8 9].combine(0 ƒ(sum v) sum + v) ")?.toString()).toBe('45');
+    expect(Evaluator.evaluateCode("{'cat':1 'dog':2 'mouse':3}.filter(ƒ(k v) v ≥ 3)")?.toString()).toBe('{"mouse":3}');
     
 });
 

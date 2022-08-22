@@ -1,5 +1,6 @@
 import Alias from "../nodes/Alias";
 import SetOrMapType from "../nodes/SetOrMapType";
+import Measurement from "./Measurement";
 import None from "./None";
 import Primitive from "./Primitive";
 import type Value from "./Value";
@@ -17,6 +18,10 @@ export default class MapValue extends Primitive {
                 this.values.push(kv);
         });
 
+    }
+
+    size() { 
+        return new Measurement(this.values.length);
     }
 
     has(key: Value) { 

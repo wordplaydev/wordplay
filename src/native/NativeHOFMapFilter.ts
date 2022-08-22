@@ -11,8 +11,8 @@ import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import FunctionValue from "../runtime/FunctionValue";
+import MapValue from "../runtime/MapValue";
 import Measurement from "../runtime/Measurement";
-import SetValue from "../runtime/SetValue";
 import Action from "../runtime/Start";
 import type Step from "../runtime/Step";
 import type Value from "../runtime/Value";
@@ -27,26 +27,29 @@ export default class NativeHOFListMap extends Expression {
             // Initialize an iterator and an empty list in this scope.
             new Action(this, evaluator => {
                 evaluator.bind("index", new Measurement(1));
-                evaluator.bind("set", new SetValue([]));
+                evaluator.bind("map", new MapValue([]));
                 return undefined;
             }),
             new Action(this, evaluator => {
                 const index = evaluator.resolve("index");
-                const set = evaluator.getEvaluationContext()?.getContext();
+                const map = evaluator.getEvaluationContext()?.getContext();
                 // If the index is past the last index of the list, jump to the end.
-                if(index instanceof Measurement && set instanceof SetValue) {
-                    if(index.greaterThan(set.size()).bool)
+                if(index instanceof Measurement && map instanceof MapValue) {
+                    if(index.greaterThan(map.size()).bool)
                         evaluator.jump(1);
                     // Otherwise, apply the given translator function to the current list value.
                     else {
                         const checker = evaluator.resolve("checker");
-                        const setValue = set.values[index.num.toNumber() - 1];
+                        const mapKey = map.values[index.num.toNumber() - 1][0];
+                        const mapValue = map.values[index.num.toNumber() - 1][1];
                         if(checker instanceof FunctionValue && 
                             checker.definition.expression instanceof Expression && 
-                            checker.definition.inputs[0] instanceof Bind) {
+                            checker.definition.inputs[0] instanceof Bind &&
+                            checker.definition.inputs[1] instanceof Bind) {
                             const bindings = new Map<string, Value>();
-                            // Bind the list value
-                            (checker.definition.inputs[0] as Bind).names.forEach(n =>  bindings.set(n.getName(), setValue));
+                            // Bind the key
+                            (checker.definition.inputs[0] as Bind).names.forEach(n =>  bindings.set(n.getName(), mapKey));
+                            (checker.definition.inputs[1] as Bind).names.forEach(n =>  bindings.set(n.getName(), mapValue));
                             // Apply the translator function to the value
                             evaluator.startEvaluation(new Evaluation(
                                 evaluator, 
@@ -75,16 +78,17 @@ export default class NativeHOFListMap extends Expression {
                 if(!(index instanceof Measurement))
                     return new Exception(this, ExceptionKind.EXPECTED_TYPE);
 
-                const set = evaluator.getEvaluationContext()?.getContext();
-                if(!(set instanceof SetValue))
+                const map = evaluator.getEvaluationContext()?.getContext();
+                if(!(map instanceof MapValue))
                     return new Exception(this, ExceptionKind.EXPECTED_TYPE);
 
                 // If the include decided yes, append the value.
-                const newSet = evaluator.resolve("set");
-                if(newSet instanceof SetValue && include instanceof Bool) {
+                const newSet = evaluator.resolve("map");
+                if(newSet instanceof MapValue && include instanceof Bool) {
                     if(include.bool) {
-                        const setValue = set.values[index.num.toNumber() - 1];
-                        evaluator.bind("set", newSet.add(setValue));
+                        const mapKey = map.values[index.num.toNumber() - 1][0];
+                        const mapValue = map.values[index.num.toNumber() - 1][1];
+                        evaluator.bind("map", newSet.set(mapKey, mapValue));
                     }
                 }
                 else return new Exception(this, ExceptionKind.EXPECTED_TYPE);
@@ -105,7 +109,7 @@ export default class NativeHOFListMap extends Expression {
 
     evaluate(evaluator: Evaluator): Value | undefined {
         // Evaluate to the filtered list.
-        return evaluator.resolve("set");
+        return evaluator.resolve("map");
     }
 
 }

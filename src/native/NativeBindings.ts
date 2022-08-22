@@ -32,6 +32,7 @@ import UnionType from "../nodes/UnionType";
 import NoneType from "../nodes/NoneType";
 import NativeHOFListCombine from "./NativeHOFListCombine";
 import NativeHOFSetFilter from "./NativeHOFSetFilter";
+import NativeHOFMapFilter from "./NativeHOFMapFilter";
 
 class NativeBindings implements NativeInterface {
 
@@ -411,6 +412,34 @@ Native.addNativeFunction("map", [], [ new Alias("remove", "eng") ], [],
         else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
     }
 );
+
+// TODO Documentation
+Native.addFunction("map", new FunctionDefinition(
+    [], 
+    [ new Alias("filter", "eng") ], 
+    [], 
+    [
+        new Bind([], undefined, [ new Alias("checker", "eng")], new FunctionType([ 
+            {
+                aliases: [ new Alias("key", "eng") ],
+                type: new BooleanType(),
+                required: true,
+                rest: false,
+                default: undefined
+            },
+            {
+                aliases: [ new Alias("value", "eng") ],
+                type: new BooleanType(),
+                required: true,
+                rest: false,
+                default: undefined
+            }
+        ], new NameType("T")))
+    ],
+    new NativeHOFMapFilter(),
+    new SetOrMapType(undefined, undefined, new NameType("K"), undefined, new NameType("V"))
+));
+
 
 // TODO Documentation
 Native.addConversion("list", [],  "''", List, (val: List) => new Text(val.toString())),
