@@ -4,11 +4,11 @@ import type Conflict from '../conflicts/Conflict';
 import { parseProgram, Tokens } from '../parser/Parser';
 import { tokenize } from '../parser/Tokenizer';
 import Evaluator from '../runtime/Evaluator';
-import Shares from '../runtime/Shares';
 import type Step from '../runtime/Step';
 import Value from '../runtime/Value';
 import Text from '../runtime/Text';
 import Document from './Document';
+import Native from '../native/NativeBindings';
 
 /** An immutable representation of a project with a name and some documents */
 export default class Project {
@@ -31,7 +31,7 @@ export default class Project {
         this.tokens = tokenize(this.code);
         this.program = parseProgram(new Tokens(this.tokens));
         this.evaluator = new Evaluator(this.program, this.handleResult.bind(this) );
-        this.conflicts = this.program.getAllConflicts(this.program, this.evaluator.getShares());
+        this.conflicts = this.program.getAllConflicts(this.program, this.evaluator.getShares(), Native);
         this.steps = this.program.compile(this.evaluator.getContext());
 
         // Generate documents based on the code.

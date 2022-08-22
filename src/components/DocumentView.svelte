@@ -13,6 +13,7 @@
     import Group from '../native/Group';
     import List from '../runtime/List';
     import TextType from '../nodes/TextType';
+    import StructureType from '../nodes/StructureType';
 
     export let doc: Document;
     $: content = doc.getContent();
@@ -22,15 +23,16 @@
     $: {
         // If the content is a Verse, just show it as is.
         if(content instanceof Value && evaluator) {
-            if(content.getType() === Verse)
+            const contentType = content.getType();
+            if(contentType instanceof StructureType && contentType.definition === Verse)
                 view = content as Structure;
-            else if(content.getType() === Group) {
+            else if(contentType instanceof StructureType && contentType.definition === Group) {
                 view = createStructure(evaluator, Verse, { group: content });
             }
-            else if(content.getType() === Sentence) {
+            else if(contentType instanceof StructureType && contentType.definition === Sentence) {
                 view = createStructure(evaluator, Verse, { group: createStructure(evaluator, Group, { sentences: new List([content]) }) });
             }
-            else if(content.getType() instanceof TextType) {
+            else if(contentType instanceof TextType) {
                 view = createStructure(evaluator, Verse, 
                     {
                         group: createStructure(evaluator, Group, {
@@ -84,7 +86,7 @@
             class="document-content" 
             bind:value={content} 
             readonly={!doc.isEditable()}
-            style="height: {Math.min(20, content.split("\n").length)}em;"
+            style="height: {Math.max(20, content.split("\n").length)}em;"
             tabIndex=0
         />
     {:else}
@@ -119,6 +121,12 @@
 
     textarea[readonly] {
         background: var(--wordplay-chrome);
+    }
+    textarea {
         tab-size : 2;
+        white-space: pre;
+        overflow-wrap: normal;
+        overflow-x: scroll;
+        max-height: 40em;
     }
 </style>

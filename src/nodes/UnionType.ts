@@ -1,4 +1,6 @@
 import type Conflict from "../conflicts/Conflict";
+import type ConversionDefinition from "./ConversionDefinition";
+import type FunctionDefinition from "./FunctionDefinition";
 import type { ConflictContext } from "./Node";
 import type Token from "./Token";
 import Type from "./Type";
@@ -25,10 +27,22 @@ export default class UnionType extends Type {
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 
     isCompatible(context: ConflictContext, type: Type): boolean {
-        return this.left.isCompatible(context, type) || (this.right instanceof Type && this.right.isCompatible(context, type));
+        return this.left.isCompatible(context, type) && (!(this.right instanceof Type) || this.right.isCompatible(context, type));
     }
 
-    getNativeTypeName(): string { return ""; }
+    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
+        const left = context.native?.getConversion(this.left.getNativeTypeName(), context, type);
+        if(left !== undefined) return left;
+        return this.right instanceof Type ? context.native?.getConversion(this.right.getNativeTypeName(), context, type) : undefined;
+    }
+
+    getFunction(context: ConflictContext, name: string): FunctionDefinition | undefined {
+        const left = context.native?.getFunction(this.left.getNativeTypeName(), name);
+        if(left !== undefined) return left;
+        return this.right instanceof Type ? context.native?.getFunction(this.right.getNativeTypeName(), name) : undefined;
+    }
+
+    getNativeTypeName(): string { return "union"; }
 
     toWordplay(): string {
         return this.left.toWordplay() + " | " + this.right.toWordplay();

@@ -93,6 +93,7 @@ class NativeBindings implements NativeInterface {
         return this.conversionsByType[kind].find(c => c.convertsType(type, context));
     }
     getFunction(kind: string, name: string): FunctionDefinition | undefined {
+        if(!(kind in this.functionsByType)) return undefined;
         return this.functionsByType[kind][name];
     }
 }
