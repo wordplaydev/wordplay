@@ -10,7 +10,9 @@ const Verse = new StructureDefinition(
     [],
     [
         // TODO Localize names, add documentation.
-        parseBind(false, tokens("group•Group"))
+        parseBind(false, tokens("group•Group")),
+        parseBind(true, tokens("font•'':''")),
+        parseBind(true, tokens("size•#pt: 12pt"))        
     ],
     new Block([], [], true)
 );

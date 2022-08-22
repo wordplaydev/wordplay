@@ -90,6 +90,7 @@ class NativeBindings implements NativeInterface {
     }
     
     getConversion(kind: string, context: ConflictContext, type: Type): ConversionDefinition | undefined {
+        if(!(kind in this.conversionsByType)) return undefined;
         return this.conversionsByType[kind].find(c => c.convertsType(type, context));
     }
     getFunction(kind: string, name: string): FunctionDefinition | undefined {

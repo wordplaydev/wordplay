@@ -11,8 +11,8 @@ const Sentence = new StructureDefinition(
     [
         // TODO Localize names, add documentation.
         parseBind(false, tokens("text•''")),
-        parseBind(false, tokens("size•#pt=12pt")),
-        parseBind(false, tokens("font•''='Noto Sans'"))
+        parseBind(true, tokens("size•#pt:12pt")),
+        parseBind(true, tokens("font•'':'Noto Sans'"))
     ],
     new Block([], [], true)
 );

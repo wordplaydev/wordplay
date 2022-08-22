@@ -10,7 +10,7 @@ const Group = new StructureDefinition(
     [],
     [
         // TODO Localize names, add documentation.
-        parseBind(false, tokens("layout•Layout")),
+        // parseBind(false, tokens("layout•Layout")),
         parseBind(false, tokens("…sentences•Sentence"))
     ],
     new Block([], [], true)
