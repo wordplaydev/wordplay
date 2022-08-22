@@ -22,7 +22,7 @@ import ListType from "../nodes/ListType";
 import SetOrMapType from "../nodes/SetOrMapType";
 import type Evaluation from "../runtime/Evaluation";
 import FunctionType from "../nodes/FunctionType";
-import NativeHOFListMap from "./NativeHOFListMap";
+import NativeHOFListTranslate from "./NativeHOFListTranslate";
 import NativeHOFListFilter from "./NativeHOFListFilter";
 import NativeHOFListAll from "./NativeHOFListAll";
 import BooleanType from "../nodes/BooleanType";
@@ -33,6 +33,7 @@ import NoneType from "../nodes/NoneType";
 import NativeHOFListCombine from "./NativeHOFListCombine";
 import NativeHOFSetFilter from "./NativeHOFSetFilter";
 import NativeHOFMapFilter from "./NativeHOFMapFilter";
+import NativeHOFMapTranslate from "./NativeHOFMapTranslate";
 
 class NativeBindings implements NativeInterface {
 
@@ -187,7 +188,7 @@ Native.addFunction("list", new FunctionDefinition(
             }
         ], new NameType("T")))
     ],
-    new NativeHOFListMap(),
+    new NativeHOFListTranslate(),
     new ListType(new NameType("T"))
 ));
 
@@ -440,6 +441,32 @@ Native.addFunction("map", new FunctionDefinition(
     new SetOrMapType(undefined, undefined, new NameType("K"), undefined, new NameType("V"))
 ));
 
+// TODO Documentation
+Native.addFunction("map", new FunctionDefinition(
+    [], 
+    [ new Alias("translate", "eng") ], 
+    [], 
+    [
+        new Bind([], undefined, [ new Alias("translator", "eng")], new FunctionType([ 
+            {
+                aliases: [ new Alias("key", "eng") ],
+                type: new BooleanType(),
+                required: true,
+                rest: false,
+                default: undefined
+            },
+            {
+                aliases: [ new Alias("value", "eng") ],
+                type: new BooleanType(),
+                required: true,
+                rest: false,
+                default: undefined
+            }
+        ], new NameType("T")))
+    ],
+    new NativeHOFMapTranslate(),
+    new SetOrMapType(undefined, undefined, new NameType("K"), undefined, new NameType("V"))
+));
 
 // TODO Documentation
 Native.addConversion("list", [],  "''", List, (val: List) => new Text(val.toString())),

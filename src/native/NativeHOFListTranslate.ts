@@ -16,7 +16,7 @@ import Action from "../runtime/Start";
 import type Step from "../runtime/Step";
 import type Value from "../runtime/Value";
 
-export default class NativeHOFListMap extends Expression {
+export default class NativeHOFListTranslate extends Expression {
 
     getChildren() { return [] };
     getType(context: ConflictContext): Type { return new ListType(new NameType("T")); }
