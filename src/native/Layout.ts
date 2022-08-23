@@ -4,7 +4,7 @@ import Language from "../nodes/Language";
 import NameType from "../nodes/NameType";
 import StructureDefinition from "../nodes/StructureDefinition";
 
-const Layout = new StructureDefinition(
+export const Layout = new StructureDefinition(
     [], // TODO Localized documentation
     [ new Alias("Layout", new Language("eng")) ],
     [],
@@ -12,14 +12,13 @@ const Layout = new StructureDefinition(
     [],
     new Block([], [], true)
 );
+export default Layout;
 
 export const Vertical = new StructureDefinition(
     [], // TODO Localized documentation
     [ new Alias("Vertical", new Language("eng")) ],
-    [ new NameType("Layout")],
+    [ new NameType("Layout") ],
     [],
     [],
     new Block([], [], true)
 )
-
-export default Layout;

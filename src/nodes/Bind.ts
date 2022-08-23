@@ -28,6 +28,7 @@ import Finish from "../runtime/Finish";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type { Named } from "./Named";
 import FunctionDefinition from "./FunctionDefinition";
+import ListType from "./ListType";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -114,23 +115,39 @@ export default class Bind extends Node implements Evaluable, Named {
 
     getType(context: ConflictContext): Type {
 
-        const type = 
+        // What type is this binding?
+        let type = 
+            // If it's declared, use the declaration.
             this.type instanceof Type ? this.type :
+            // If the value is a structure definition, make a structure type.
             this.value instanceof StructureDefinition ? new StructureType(this.value) :
+            // If it has an expression. ask the expression.
             this.value instanceof Expression ? this.value.getType(context) :
+            // Otherwise, we don't know.
             new UnknownType(this);
 
-        // Resolve the name 
-        if(type instanceof NameType) {
-            // Find the name.
-            const bindOrTypeVariable = context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, type.getName());
-            if(bindOrTypeVariable === undefined) return new UnknownType(this);
-            else if(bindOrTypeVariable instanceof Bind) return bindOrTypeVariable.getType(context);
-            else if(bindOrTypeVariable instanceof TypeVariable) return new UnknownType(this);
-            else return new UnknownType(this);
-        }
-        else return type;
+        // If the type is a name, resolve the name.
+        if(type instanceof NameType)
+            type = this.resolveTypeName(context, type.getName());
+
+        // // If the bind is a variable length argument, wrap it in a list.
+        // if(this.etc !== undefined)
+        //     type = new ListType(type);
+
+        // Return the type.
+        return type;
         
+    }
+
+    resolveTypeName(context: ConflictContext, name: string) {
+
+        // Find the name.
+        const bindOrTypeVariable = context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, name);
+        if(bindOrTypeVariable === undefined) return new UnknownType(this);
+        else if(bindOrTypeVariable instanceof Bind) return bindOrTypeVariable.getType(context);
+        else if(bindOrTypeVariable instanceof TypeVariable) return new UnknownType(this);
+        else return new UnknownType(this);
+
     }
 
     compile(context: ConflictContext):Step[] {

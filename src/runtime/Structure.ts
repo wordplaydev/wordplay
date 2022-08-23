@@ -33,7 +33,7 @@ export default class Structure extends Value {
     }
 
     toString(): string {
-        return `(${this.type.inputs.map(bind => {
+        return `${this.type.aliases[0].getName()}(${this.type.inputs.map(bind => {
             
             if(bind instanceof Unparsable) return "";
             

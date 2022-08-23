@@ -10,6 +10,7 @@ import MousePosition from "../native/MousePosition";
 import Keyboard from "../native/Keyboard";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import type Evaluator from "./Evaluator";
+import { Vertical } from "../native/Layout";
 
 export const DEFAULT_SHARES: Record<string, Value> = {}
 
@@ -21,6 +22,7 @@ function addDefaultShare(def: StructureDefinition) {
 addDefaultShare(Verse);
 addDefaultShare(Sentence);
 addDefaultShare(Group);
+addDefaultShare(Vertical);
 
 export default class Shares {
 

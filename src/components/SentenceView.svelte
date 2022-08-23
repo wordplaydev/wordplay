@@ -10,6 +10,6 @@
 
 </script>
 
-<span style={`font-size: ${size.num.toNumber()}pt; font-family: "${font.text}"`}>
+<div style={`font-size: ${size.num.toNumber()}pt; font-family: "${font.text}"`}>
     {text.text}
-</span>
+</div>

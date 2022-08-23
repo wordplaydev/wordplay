@@ -16,19 +16,15 @@ state: GameState(⊥ [] !)
     ∆ ⌨️ 
         ⌨️.key = "Space"  ? GameState(⊤ [] words.random())
         ⌨️.key = "Escape" ? GameState(⊥ [] !)
-        GameState(⊤ guesses + ⌨️.key state.secret)
-    ∆ 🖱⬇️ ∧ ¬ state.playing
-        GameState(⊤ [] words.random())
+        GameState(⊤ state.guesses + ⌨️.key state.secret)
 
-title: ƒ(…messages•"") Group(Vertical() 16pt messages.map(ƒ(m) Sentence(message)))
+ƒ title(messages•[""]) Group(Vertical() messages.translate(ƒ(m) Sentence(m)))
 
 Verse(
-    font: "Noto Sans"
-    size: 12pt
     state.playing ? 
         (   
-            state.lost() ? title("You lost. Press space to play again.")
-            state.won() ? title("You won, nice job! Press space to play again.")
+            state.lost() ? title(["You lost. Press space to play again."])
+            state.won() ? title(["You won, nice job! Press space to play again."])
             Group(
                 Vertical()
                 Sentence(size: 24pt text: state.secret→[].every(ƒ(letter) guesses.has(letter) ? letter "_").join(' '))
@@ -36,7 +32,9 @@ Verse(
                 Sentence(size: 12pt "/state.guessesRemaining()/ remaining")
             )
         )
-        title("Welcome to WhatWord!" "Press space to begin...")
+        title(["Welcome to WhatWord!" "Press space to begin..."])
+    font: "Noto Sans"
+    size: 12pt
 )
 `,
 AnimatedFace: 
