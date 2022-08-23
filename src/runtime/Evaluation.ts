@@ -106,7 +106,9 @@ export default class Evaluation {
 
     popValue(): Value { 
         const value = this.#values.shift(); 
-        return value === undefined ? new Exception(this.#definition, ExceptionKind.EXPECTED_VALUE) : value;
+        return value === undefined ? 
+            new Exception(this.#definition, ExceptionKind.EXPECTED_VALUE) : 
+            value;
     }
 
     /** Binds a value to a name in this evaluation. */

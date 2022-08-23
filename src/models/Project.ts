@@ -40,7 +40,7 @@ export default class Project {
             new Document("tokens", this.tokens.map(t => t.toString()).join("\n")),
             new Document("tree", this.program.toString()),
             new Document("conflicts", this.conflicts.join("\n")),
-            new Document("steps", this.steps.map(s => s.toString()).join("\n")),
+            new Document("steps", this.steps.map((s, index) => `${index}: ${s.toString()}`).join("\n")),
             new Document("output", this.evaluator.getResult()?.toString() ?? "no result"),
             new Document("render", this.wrapResult(this.evaluator.getResult()))
         ];

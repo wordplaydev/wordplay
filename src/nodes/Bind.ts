@@ -28,7 +28,6 @@ import Finish from "../runtime/Finish";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type { Named } from "./Named";
 import FunctionDefinition from "./FunctionDefinition";
-import ListType from "./ListType";
 
 export default class Bind extends Node implements Evaluable, Named {
     

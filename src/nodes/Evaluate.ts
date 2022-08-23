@@ -350,7 +350,8 @@ export default class Evaluate extends Expression {
         for(let i = 0; i < inputs.length; i++) {
             const bind = inputs[i];
             if(bind instanceof Unparsable) return new Exception(this, ExceptionKind.UNPARSABLE);
-            else if(i >= values.length) return new Exception(this, ExceptionKind.EXPECTED_VALUE);
+            else if(i >= values.length) 
+                return new Exception(this, ExceptionKind.EXPECTED_VALUE);
             bind.names.forEach(name => bindings.set(name.getName(), 
                 bind.isVariableLength() ? 
                     new List(values.slice(i)) :

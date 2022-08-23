@@ -75,7 +75,7 @@ export default class Conditional extends Expression {
             ...this.condition.compile(context), 
             new JumpIfFalse(yes.length + 1, this), 
             ...yes, 
-            new Jump(no.length + 1, this),
+            new Jump(no.length, this),
             ...no 
         ];
         
