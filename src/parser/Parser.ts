@@ -327,7 +327,7 @@ export function parseBind(expectExpression: boolean, tokens: Tokens): Bind | Unp
 
 }
 
-/** ALIAS :: (NAME LANGUAGE)+ */
+/** ALIAS :: (NAME LANGUAGE?)+ */
 export function parseAliases(tokens: Tokens): Alias[] {
 
     const aliases: Alias[] = [];
@@ -981,7 +981,7 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 
 }
 
-/** CUSTOM_TYPE :: DOCS? • NAME TYPE_VARS ( BIND* ) BLOCK? */
+/** CUSTOM_TYPE :: DOCS? • ALIASES TYPE_VARS ( BIND* ) BLOCK? */
 function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     const docs = parseDocs(tokens);
