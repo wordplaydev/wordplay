@@ -1,5 +1,6 @@
 import ListType from "../nodes/ListType";
 ;import { outOfBoundsAliases } from "../runtime/Constants";
+import Bool from "./Bool";
 import Measurement from "./Measurement";
 import None from "./None";
 import Primitive from "./Primitive";
@@ -24,6 +25,10 @@ export default class List extends Primitive {
     }
 
     length() { return new Measurement(this.values.length); }
+    has(value: Value) { 
+        return new Bool(this.values.find(v => value.isEqualTo(v)) !== undefined);
+    }
+
     add(value: Value) { return new List([...this.values, value]); }
     first() { return this.values.length === 0 ? new None(outOfBoundsAliases) : this.values[0]; }
     last() { return this.values.length === 0 ? new None(outOfBoundsAliases) : this.values[this.values.length - 1];}

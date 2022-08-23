@@ -144,6 +144,19 @@ Native.addNativeFunction("list", [], [ new Alias("first", "eng") ], [], [], new 
 );
 
 // TODO Documentation
+Native.addNativeFunction("list", [], [ new Alias("has", "eng") ], [], 
+    [
+        new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType("T"))
+    ], new BooleanType(),
+    evaluation => {
+        const list = evaluation.getContext();
+        const value = evaluation.resolve("value");
+        if(list instanceof List && value !== undefined) return list.has(value);
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
+
+// TODO Documentation
 Native.addNativeFunction("list", [], [ new Alias("last", "eng") ], [], [], new NameType("T"),
     evaluation => {
         const list = evaluation.getContext();
