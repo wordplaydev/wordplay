@@ -7,30 +7,34 @@ WhatWord:
 (
     ƒ guessesRemaining() (secret.length() · 2) - guesses.length()
     ƒ won() secret→[].all(ƒ(letter) guesses.has(letter))
-    ƒ lost() guessesRemaining() < 0
+    ƒ lost() guessesRemaining() ≤ 0
 )
 
 words: ['kitty' 'house' 'heat' 'fart' 'townhouse' 'heatwave']
 
-state: GameState(⊥ [] "") 
+state: GameState(⊥ [] "")
     ∆ ⌨️ 
         state.playing ?
             (
                 ⌨️.key = "Escape" ? 
                     GameState(⊥ [] "")
+                ⌨️.down ?
                     GameState(⊤ state.guesses.add(⌨️.key) state.secret)
+                    GameState(state.playing state.guesses state.secret)
             )
             (
-                ⌨️.key = " " ? 
+                ⌨️.key = " " ?
                     GameState(⊤ [] 'kitty')
                     GameState(⊥ [] "") 
             )
 
+board: Sentence(state.secret→[].translate(ƒ(letter) (state.lost() ∨ state.guesses.has(letter)) ? letter "_").join(' ') 24pt)
+
 content: (¬state.playing)  ?  [Sentence("Welcome to WhatWord!") Sentence("Press space to begin...")]
-         state.lost()   ?  [Sentence("You lost. Press escape to start over.")]
-         state.won()    ?  [Sentence("You won, nice job! Press space to play again.")]
+         state.lost()   ?  [board Sentence("You lost. Press escape to start over.")]
+         state.won()    ?  [board Sentence("You won, nice job! Press escape to start over.")]
                            [
-                            Sentence(state.secret→[].translate(ƒ(letter) state.guesses.has(letter) ? letter "_").join(' ') 24pt)
+                            board
                             Sentence("Guesses: \\state.guesses.join(' ')\\" 16pt)
                             Sentence("\\state.guessesRemaining()→''\\ remaining" 12pt)
                            ]
