@@ -127,7 +127,7 @@ Native.addNativeFunction("list", [], [ new Alias("add", "eng") ], [],
 );
 
 // TODO Documentation
-Native.addNativeFunction("list", [], [ new Alias("length", "eng") ], [], [], new NameType("T"),
+Native.addNativeFunction("list", [], [ new Alias("length", "eng") ], [], [], new MeasurementType(),
     evaluation => {
         const list = evaluation.getContext();
         if(list instanceof List) return list.length();
