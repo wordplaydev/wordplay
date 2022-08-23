@@ -14,10 +14,17 @@ words: ['kitty' 'house' 'heat' 'fart' 'townhouse' 'heatwave']
 
 state: GameState(⊥ [] "") 
     ∆ ⌨️ 
-        ⌨️.key = "Space"  ? GameState(⊤ [] 'kitty')
-        ⌨️.key = "Escape" ? GameState(⊥ [] "")
-        state.playing ? GameState(⊤ state.guesses.add(⌨️.key) state.secret)
-        GameState(state.playing state.guesses state.secret)
+        state.playing ?
+            (
+                ⌨️.key = "Escape" ? 
+                    GameState(⊥ [] "")
+                    GameState(⊤ state.guesses.add(⌨️.key) state.secret)
+            )
+            (
+                ⌨️.key = " " ? 
+                    GameState(⊤ [] 'kitty')
+                    GameState(⊥ [] "") 
+            )
 
 content: (¬state.playing)  ?  [Sentence("Welcome to WhatWord!") Sentence("Press space to begin...")]
          state.lost()   ?  [Sentence("You lost. Press escape to start over.")]
