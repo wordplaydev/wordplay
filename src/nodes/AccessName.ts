@@ -6,16 +6,12 @@ import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionKind } from "../runtime/Exception";
+import Exception from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Action from "../runtime/Start";
 import Finish from "../runtime/Finish";
-import Structure from "../runtime/Structure";
-import Stream from "../runtime/Stream";
 import type { ConflictContext } from "./Node";
 import StructureType from "./StructureType";
-import List from "../runtime/List";
-import ListType from "./ListType";
 
 export default class AccessName extends Expression {
 
