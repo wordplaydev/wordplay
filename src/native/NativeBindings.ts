@@ -102,6 +102,20 @@ class NativeBindings implements NativeInterface {
 const Native = new NativeBindings();
 
 // TODO Documentation
+Native.addNativeFunction("list", [], [ new Alias("add", "eng") ], [], 
+    [
+        new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType("T"))
+    ], 
+    new NameType("T"),
+    evaluation => {
+        const list = evaluation.getContext();
+        const value = evaluation.resolve('value');
+        if(list instanceof List && value !== undefined) return list.add(value);
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
+
+// TODO Documentation
 Native.addNativeFunction("list", [], [ new Alias("first", "eng") ], [], [], new NameType("T"),
     evaluation => {
         const list = evaluation.getContext();

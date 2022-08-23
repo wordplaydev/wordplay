@@ -2,6 +2,7 @@ import Evaluator from "../runtime/Evaluator";
 
 test("Test list functions", () => {
 
+    expect(Evaluator.evaluateCode("[1 2 3].add(4)")?.toString()).toBe('[1 2 3 4]');
     expect(Evaluator.evaluateCode("[1 2 3].first()")?.toString()).toBe('1');
     expect(Evaluator.evaluateCode("[1 2 3].last()")?.toString()).toBe('3');
     expect(Evaluator.evaluateCode("[1 2 3].reverse()")?.toString()).toBe('[3 2 1]');

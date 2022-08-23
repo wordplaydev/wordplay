@@ -24,6 +24,7 @@ export default class List extends Primitive {
     }
 
     length() { return new Measurement(this.values.length); }
+    add(value: Value) { return new List([...this.values, value]); }
     first() { return this.values.length === 0 ? new None(outOfBoundsAliases) : this.values[0]; }
     last() { return this.values.length === 0 ? new None(outOfBoundsAliases) : this.values[this.values.length - 1];}
     sansFirst() { return new List(this.values.slice(1)); }
