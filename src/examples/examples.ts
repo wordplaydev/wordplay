@@ -5,7 +5,7 @@ WhatWord:
 
 •GameState(playing•? guesses•[""] secret•"")
 (
-    ƒ guessesRemaining() secret.length() · 2 - guesses.length()
+    ƒ guessesRemaining() (secret.length() · 2) - guesses.length()
     ƒ won() secret→[].all(ƒ(letter) guesses.has(letter))
     ƒ lost() guessesRemaining() < 0
 )
@@ -31,9 +31,9 @@ content: (¬state.playing)  ?  [Sentence("Welcome to WhatWord!") Sentence("Press
          state.won()    ?  [Sentence("You won, nice job! Press space to play again.")]
                            [
                             Sentence(state.secret→[].translate(ƒ(letter) state.guesses.has(letter) ? letter "_").join(' ') 24pt)
-                            Sentence("Guesses: /state.guesses.join(' ')/" 16pt)
-                            Sentence("/state.guessesRemaining()/ remaining" 12pt)
-                           ] 
+                            Sentence("Guesses: \\state.guesses.join(' ')\\" 16pt)
+                            Sentence("\\state.guessesRemaining()→''\\ remaining" 12pt)
+                           ]
 
 Verse(Group(Vertical() content))
 `,

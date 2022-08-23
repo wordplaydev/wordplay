@@ -35,6 +35,7 @@ import NativeHOFSetFilter from "./NativeHOFSetFilter";
 import NativeHOFMapFilter from "./NativeHOFMapFilter";
 import NativeHOFMapTranslate from "./NativeHOFMapTranslate";
 import MeasurementType from "../nodes/MeasurementType";
+import TextType from "../nodes/TextType";
 
 class NativeBindings implements NativeInterface {
 
@@ -152,6 +153,19 @@ Native.addNativeFunction("list", [], [ new Alias("has", "eng") ], [],
         const list = evaluation.getContext();
         const value = evaluation.resolve("value");
         if(list instanceof List && value !== undefined) return list.has(value);
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
+
+// TODO Documentation
+Native.addNativeFunction("list", [], [ new Alias("join", "eng") ], [], 
+    [
+        new Bind([], undefined, [ new Alias("separator", "eng"), ], new TextType())
+    ], new TextType(),
+    evaluation => {
+        const list = evaluation.getContext();
+        const separator = evaluation.resolve("separator");
+        if(list instanceof List && separator instanceof Text) return list.join(separator);
         else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
     }
 );
