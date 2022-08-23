@@ -4,6 +4,7 @@
     import type Text from "../runtime/Text";
 
     export let sentence: Structure;
+
     $: size = sentence.resolve("size") as Measurement;
     $: text = sentence.resolve("text") as Text;
     $: font = sentence.resolve("font") as Text;

@@ -24,17 +24,19 @@ export default class Exception extends Primitive {
 
     readonly node?: Node;
     readonly exception: ExceptionKind;
+    readonly message?: string | undefined;
 
-    constructor(node: Node | undefined, exception: ExceptionKind) {
+    constructor(node: Node | undefined, exception: ExceptionKind, message?: string) {
         super();
 
         this.node = node;
         this.exception = exception;
+        this.message = message;
     }
 
     getType() { return new ExceptionType(this); }
     getNativeTypeName(): string { return "exception" }
 
-    toString() { return `${ExceptionKind[this.exception]}: ${this.node === undefined ? "" : this.node.toWordplay().trim()}`; }
+    toString() { return `${ExceptionKind[this.exception]}: ${this.message} ${this.node === undefined ? "" : this.node.toWordplay().trim()}`; }
 
 }

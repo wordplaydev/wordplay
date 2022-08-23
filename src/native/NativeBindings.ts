@@ -34,6 +34,7 @@ import NativeHOFListCombine from "./NativeHOFListCombine";
 import NativeHOFSetFilter from "./NativeHOFSetFilter";
 import NativeHOFMapFilter from "./NativeHOFMapFilter";
 import NativeHOFMapTranslate from "./NativeHOFMapTranslate";
+import MeasurementType from "../nodes/MeasurementType";
 
 class NativeBindings implements NativeInterface {
 
@@ -82,7 +83,7 @@ class NativeBindings implements NativeInterface {
                     evaluation => {
                         const val = evaluation.getContext();
                         if(val instanceof expected) return fun.call(undefined, val);
-                        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);                
+                        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE, val?.toString());                
                     }
                 )
             )
@@ -102,6 +103,15 @@ class NativeBindings implements NativeInterface {
 const Native = new NativeBindings();
 
 // TODO Documentation
+Native.addNativeFunction("text", [], [ new Alias("length", "eng") ], [], [], new MeasurementType(),
+    evaluation => {
+        const text = evaluation.getContext();
+        if(text instanceof Text) return text.length();
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE, text?.toString());
+    }
+);
+
+// TODO Documentation
 Native.addNativeFunction("list", [], [ new Alias("add", "eng") ], [], 
     [
         new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType("T"))
@@ -111,6 +121,15 @@ Native.addNativeFunction("list", [], [ new Alias("add", "eng") ], [],
         const list = evaluation.getContext();
         const value = evaluation.resolve('value');
         if(list instanceof List && value !== undefined) return list.add(value);
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
+
+// TODO Documentation
+Native.addNativeFunction("list", [], [ new Alias("length", "eng") ], [], [], new NameType("T"),
+    evaluation => {
+        const list = evaluation.getContext();
+        if(list instanceof List) return list.length();
         else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
     }
 );

@@ -1,13 +1,13 @@
 <script lang="ts">
-import type List from "../runtime/List";
-
+    import List from "../runtime/List";
     import Structure from "../runtime/Structure";
     import SentenceView from "./SentenceView.svelte";
 
     export let group: Structure;
     const layoutStructure = group.resolve("layout");
     const layout = layoutStructure instanceof Structure ? `layout-${layoutStructure.type.aliases[0].getName()}` : "layout-default";
-    $: sentences = (group.resolve("sentences") as List).getValues() as Structure[];
+    $: sentencesStructure = group.resolve("sentences");
+    $: sentences = sentencesStructure instanceof List ? sentencesStructure.getValues() as Structure[] : [];
 
 </script>
 
