@@ -21,6 +21,7 @@ const patterns = [
     { pattern: /^`.*?`/, types: [ TokenType.DOCS ] },
     { pattern: "!", types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
     { pattern: "•", types: [ TokenType.TYPE ] },
+    { pattern: "*", types: [ TokenType.TYPE_VAR ] },
     { pattern: "∆", types: [ TokenType.STREAM ] },
     { pattern: "…", types: [ TokenType.ETC ] },
     // Roman numerals
@@ -33,7 +34,7 @@ const patterns = [
     { pattern: /^[_0-9]+([.,][_0-9]+)?/, types: [ TokenType.NUMBER, TokenType.DECIMAL ] },    
     { pattern: "π", types: [ TokenType.NUMBER, TokenType.PI ] },
     { pattern: "∞", types: [ TokenType.NUMBER, TokenType.INFINITY ] },
-    { pattern: /^[+×*·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
+    { pattern: /^[+×·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
     { pattern: "∧", types: [ TokenType.BINARY_OP ] },
     { pattern: "∨", types: [ TokenType.BINARY_OP, TokenType.UNION ] },
     // Both a unary and binary op.

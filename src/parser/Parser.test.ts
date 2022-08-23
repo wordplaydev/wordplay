@@ -284,7 +284,7 @@ test("Parse expressions", () => {
     expect(withMultipleDocs).toBeInstanceOf(FunctionDefinition);
     expect((withMultipleDocs as FunctionDefinition).docs).toHaveLength(2);
 
-    const withTypeVariables = parseExpression(tokens("ƒ •T (a: T b: T) a + b"));
+    const withTypeVariables = parseExpression(tokens("ƒ*T(a: T b: T) a + b"));
     expect(withTypeVariables).toBeInstanceOf(FunctionDefinition);
 
     const evaluate = parseExpression(tokens("a()"));
@@ -299,7 +299,7 @@ test("Parse expressions", () => {
     expect(evaluateWithNamedInputs).toBeInstanceOf(Evaluate);
     expect((evaluateWithNamedInputs as Evaluate).inputs).toHaveLength(2);
 
-    const evaluateWithTypeVars = parseExpression(tokens("a•Cat(b c)"));
+    const evaluateWithTypeVars = parseExpression(tokens("a*Cat(b c)"));
     expect(evaluateWithTypeVars).toBeInstanceOf(Evaluate);
     expect((evaluateWithTypeVars as Evaluate).typeVars).toHaveLength(1);
 
@@ -313,10 +313,23 @@ test("Parse expressions", () => {
     expect(conversionWithDocs).toBeInstanceOf(ConversionDefinition);
     expect((conversionWithDocs as ConversionDefinition).docs).toHaveLength(1);
 
-    const customType = parseExpression(tokens("•Cat(species•'') ( meow: ƒ() say(species) )"))
-    expect(customType).toBeInstanceOf(StructureDefinition);
-    expect((customType as StructureDefinition).inputs).toHaveLength(1);
-    expect(((customType as StructureDefinition).block as Block).statements).toHaveLength(1);
+    const structureDef = parseExpression(tokens("•Cat(species•'') ( meow: ƒ() say(species) )"))
+    expect(structureDef).toBeInstanceOf(StructureDefinition);
+    expect((structureDef as StructureDefinition).inputs).toHaveLength(1);
+    expect(((structureDef as StructureDefinition).block as Block).statements).toHaveLength(1);
+
+    const structureDefWithInterface = parseExpression(tokens("•Cat •Mammal(species•'') ( meow: ƒ() say(species) )"))
+    expect(structureDefWithInterface).toBeInstanceOf(StructureDefinition);
+    expect((structureDefWithInterface as StructureDefinition).interfaces).toHaveLength(1);
+
+    const structureDefWithTypeVariables = parseExpression(tokens("•Cat *S(species•'') ( meow: ƒ() say(species) )"))
+    expect(structureDefWithTypeVariables).toBeInstanceOf(StructureDefinition);
+    expect((structureDefWithTypeVariables as StructureDefinition).typeVars).toHaveLength(1);
+
+    const structureDefWithInterfaceAndTypeVariables = parseExpression(tokens("•Cat •Mammal *S(species•'') ( meow: ƒ() say(species) )"))
+    expect(structureDefWithInterfaceAndTypeVariables).toBeInstanceOf(StructureDefinition);
+    expect((structureDefWithInterfaceAndTypeVariables as StructureDefinition).interfaces).toHaveLength(1);
+    expect((structureDefWithInterfaceAndTypeVariables as StructureDefinition).typeVars).toHaveLength(1);
 
     const access = parseExpression(tokens("a.b.c()[d]{f}"));
     expect(access).toBeInstanceOf(SetOrMapAccess);

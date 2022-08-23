@@ -28,25 +28,28 @@ import type Alias from "./Alias";
 import type Token from "./Token";
 import UnknownType from "./UnknownType";
 import FunctionType from "./FunctionType";
+import type NameType from "./NameType";
 
 export default class StructureDefinition extends Expression implements StructureDefinitionInterface {
 
     readonly docs: Docs[];    
     readonly type?: Token;
     readonly aliases: Alias[];
+    readonly interfaces: NameType[];
     readonly typeVars: (TypeVariable|Unparsable)[];
     readonly open?: Token;
     readonly inputs: (Bind | Unparsable)[];
     readonly close?: Token;
     readonly block: Block | Unparsable;
 
-    constructor(docs: Docs[], aliases: Alias[], typeVars: (TypeVariable|Unparsable)[], inputs: (Bind|Unparsable)[], block?: Block | Unparsable, type?: Token, open?: Token, close?: Token) {
+    constructor(docs: Docs[], aliases: Alias[], interfaces: NameType[], typeVars: (TypeVariable|Unparsable)[], inputs: (Bind|Unparsable)[], block?: Block | Unparsable, type?: Token, open?: Token, close?: Token) {
 
         super();
 
         this.docs = docs;
         this.type = type;
         this.aliases = aliases;
+        this.interfaces = interfaces;
         this.typeVars = typeVars;
         this.open = open;
         this.inputs = inputs;
@@ -86,14 +89,19 @@ export default class StructureDefinition extends Expression implements Structure
     }
 
     isInterface(): boolean {
+        // It's an interface if it has one or more function definitions that have no body expression.
         if(this.block instanceof Unparsable || this.block === undefined) return false;
-        const binds = this.block.statements.filter(s => s instanceof Bind) as Bind[];
-        return !binds.every(b => !(b.value instanceof FunctionDefinition) || b.value.expression instanceof Expression);
+        const functions: FunctionDefinition[] = this.block.statements.map(s => 
+            s instanceof FunctionDefinition ? s :
+            (s instanceof Bind && s.value instanceof FunctionDefinition) ? s.value :
+            undefined
+        ).filter(s => s !== undefined) as FunctionDefinition[];
+        const abstractFunctions = functions.filter(s => s.isAbstract());
+        return functions.length > 0 && abstractFunctions.length > 0;
     }
 
     getChildren() {
-        let children: Node[] = [ ...this.docs, ...this.aliases ];
-        children = children.concat(this.typeVars);
+        let children: Node[] = [ ...this.docs, ...this.aliases, ...this.interfaces, ...this.typeVars ];
         if(this.open) children.push(this.open);
         children = children.concat(this.inputs);
         if(this.close) children.push(this.close);
@@ -127,7 +135,7 @@ export default class StructureDefinition extends Expression implements Structure
         if(rest !== undefined && this.inputs.indexOf(rest) !== this.inputs.length - 1)
             conflicts.push(new VariableLengthArgumentMustBeLast(this));
 
-        return conflicts; 
+        return conflicts;
     
     }
 

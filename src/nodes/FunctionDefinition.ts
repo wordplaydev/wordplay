@@ -1,7 +1,7 @@
 import type Node from "./Node";
 import Bind from "./Bind";
 import Expression from "./Expression";
-import Token from "./Token";
+import Token, { TokenType } from "./Token";
 import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
@@ -172,5 +172,7 @@ export default class FunctionDefinition extends Expression {
         return value;
 
     }
+
+    isAbstract() { return this.expression instanceof Token && this.expression.is(TokenType.ETC); }
 
 }

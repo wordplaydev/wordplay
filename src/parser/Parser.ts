@@ -327,7 +327,7 @@ export function parseBind(expectExpression: boolean, tokens: Tokens): Bind | Unp
 
 }
 
-/** ALIAS :: (NAME LANGUAGE?)+ */
+/** ALIAS :: (name LANGUAGE?)+ */
 export function parseAliases(tokens: Tokens): Alias[] {
 
     const aliases: Alias[] = [];
@@ -446,7 +446,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
             left = parseListAccess(left, tokens);
         else if(tokens.nextIs(TokenType.SET_OPEN) && tokens.nextLacksPrecedingSpace())
             left = parseSetOrMapAccess(left, tokens);
-        else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE) && tokens.nextLacksPrecedingSpace())
+        else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
         else if(tokens.nextIs(TokenType.CONVERT))
             left = parseConvert(left, tokens);
@@ -813,11 +813,11 @@ function parseConvert(expression: Expression, tokens: Tokens): Convert {
 
 }
 
-/** TYPE_VARS :: [•NAME]* */
+/** TYPE_VARS :: (\NAME)* */
 function parseTypeVariables(tokens: Tokens): (TypeVariable|Unparsable)[] {
 
     const vars = [];
-    while(tokens.nextIs(TokenType.TYPE)) {
+    while(tokens.nextIs(TokenType.TYPE_VAR)) {
         const type = tokens.read();
         if(tokens.nextIsnt(TokenType.NAME)) {
             vars.push(tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TYPE_VAR_NAME));
@@ -981,7 +981,7 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 
 }
 
-/** CUSTOM_TYPE :: DOCS? • ALIASES TYPE_VARS ( BIND* ) BLOCK? */
+/** CUSTOM_TYPE :: DOCS? • ALIASES (• name)* TYPE_VARS ( BIND* ) BLOCK? */
 function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     const docs = parseDocs(tokens);
@@ -991,6 +991,15 @@ function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
     const aliases = parseAliases(tokens);
     if(aliases.length === 0)
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_STRUCTURE_NAME)
+
+    const interfaces: NameType[] = [];
+    while(tokens.nextIs(TokenType.TYPE)) {
+        const dot = tokens.read();
+        if(tokens.nextIsnt(TokenType.NAME))
+            return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_STRUCTURE_NAME);
+        const name = tokens.read();
+        interfaces.push(new NameType(name, dot));
+    }
 
     const typeVars = parseTypeVariables(tokens);
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
@@ -1007,7 +1016,7 @@ function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     const block = tokens.nextIsOneOf(TokenType.DOCS, TokenType.EVAL_OPEN) ? parseBlock(tokens, false, true) : undefined;
 
-    return new StructureDefinition(docs, aliases, typeVars, inputs, block, type, open, close);
+    return new StructureDefinition(docs, aliases, interfaces, typeVars, inputs, block, type, open, close);
 
 }
 

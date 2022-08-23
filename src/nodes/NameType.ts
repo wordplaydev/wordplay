@@ -9,18 +9,23 @@ import type { ConflictContext } from "./Node";
 
 export default class NameType extends Type {
 
+    readonly dot?: Token;
     readonly type: Token | string;
 
-    constructor(type: Token | string) {
+    constructor(type: Token | string, dot?: Token) {
         super();
 
+        this.dot = dot;
         this.type = type;
     }
 
     getName() { return this.type instanceof Token ? this.type.text : this.type}
 
     getChildren() {
-        return this.type instanceof Token ? [ this.type ] : [];
+        const children = [];
+        if(this.dot) children.push(this.dot);
+        if(this.type instanceof Token) children.push(this.type);
+        return children;
     }
 
     getConflicts(context: ConflictContext): Conflict[] { 

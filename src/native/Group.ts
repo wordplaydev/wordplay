@@ -8,6 +8,7 @@ const Group = new StructureDefinition(
     [], // TODO Add documentation.
     [ new Alias("Group", new Language("eng")) ],
     [],
+    [],
     [
         // TODO Localize names, add documentation.
         // parseBind(false, tokens("layout•Layout")),

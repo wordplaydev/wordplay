@@ -6,7 +6,7 @@ import BinaryOperation from "./BinaryOperation";
 
 test("Test binary multiply, divide, exponent conflicts", () => {
 
-    testConflict('1 * 5', '1 * ""', BinaryOperation, IncompatibleOperand);
+    testConflict('1 · 5', '1 · ""', BinaryOperation, IncompatibleOperand);
 
 });
 

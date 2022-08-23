@@ -8,6 +8,7 @@ const Verse = new StructureDefinition(
     [], // TODO Localized documentation
     [ new Alias("Verse", new Language("eng")) ],
     [],
+    [],
     [
         // TODO Localize names, add documentation.
         parseBind(false, tokens("group•Group")),

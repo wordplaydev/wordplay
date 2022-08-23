@@ -5,7 +5,7 @@ WhatWord:
 
 •GameState(playing•? guesses•[""] secret•""∨!)
 (
-    guessesRemaining: ƒ() secret.length * 2 - guesses.length
+    guessesRemaining: ƒ() secret.length · 2 - guesses.length
     won: ƒ() secret→[].every(ƒ(letter) guesses.has(letter))
     lost: ƒ() guessesRemaining < 0
 )

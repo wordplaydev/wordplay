@@ -8,6 +8,7 @@ const Place = new StructureDefinition(
     [], // TODO Localized documentation
     [ new Alias("Place", new Language("eng")) ],
     [],
+    [],
     [
         // TODO Localize names, add documentation.
         parseBind(false, tokens("x•#px")),

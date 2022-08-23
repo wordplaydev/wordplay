@@ -16,7 +16,7 @@ export enum TokenType {
     DOCS,          // `
     NONE,          // ø
     TYPE,          // •
-    TYPE_VARS,     // /
+    TYPE_VAR,      // *
     ALIAS,         // ,
     LANGUAGE,      // /
     BOOLEAN_TYPE,  // ?
