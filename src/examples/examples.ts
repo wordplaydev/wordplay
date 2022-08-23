@@ -5,12 +5,12 @@ WhatWord:
 
 •GameState(playing•? guesses•[""] secret•"")
 (
-    ƒ guessesRemaining() (secret.length() · 2) - guesses.length()
+    ƒ guessesRemaining() (secret.length() · 3) - guesses.length()
     ƒ won() secret→[].all(ƒ(letter) guesses.has(letter))
     ƒ lost() guessesRemaining() ≤ 0
 )
 
-words: ['kitty' 'house' 'heat' 'fart' 'townhouse' 'heatwave']
+words: ['kitty' 'house' 'heat' 'farm' 'townhouse' 'heatwave']
 
 state: GameState(⊥ [] "")
     ∆ ⌨️ 
@@ -24,7 +24,7 @@ state: GameState(⊥ [] "")
             )
             (
                 ⌨️.key = " " ?
-                    GameState(⊤ [] 'kitty')
+                    GameState(⊤ [] words.random())
                     GameState(⊥ [] "") 
             )
 

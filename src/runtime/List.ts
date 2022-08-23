@@ -30,6 +30,10 @@ export default class List extends Primitive {
         return new Bool(this.values.find(v => value.isEqualTo(v)) !== undefined);
     }
 
+    random() { 
+        return this.values[Math.floor(Math.random() * this.values.length)];
+    }
+
     join(separator: Text) { 
         return new Text(this.values.map(v => v instanceof Text ? v.text : v.toString()).join(separator.text));
     }

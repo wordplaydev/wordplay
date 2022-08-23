@@ -136,6 +136,15 @@ Native.addNativeFunction("list", [], [ new Alias("length", "eng") ], [], [], new
 );
 
 // TODO Documentation
+Native.addNativeFunction("list", [], [ new Alias("random", "eng") ], [], [], new NameType("T"),
+    evaluation => {
+        const list = evaluation.getContext();
+        if(list instanceof List) return list.random();
+        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+    }
+);
+
+// TODO Documentation
 Native.addNativeFunction("list", [], [ new Alias("first", "eng") ], [], [], new NameType("T"),
     evaluation => {
         const list = evaluation.getContext();
