@@ -19,11 +19,6 @@ import type List from "../runtime/List";
 
 <style>
 
-    .layout-default {
-
-
-    }
-
     /* A horizontally centered vertical layout */
     .layout-Vertical {
         display: flex;
