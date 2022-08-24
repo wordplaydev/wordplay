@@ -6,7 +6,7 @@
     import Value from '../runtime/Value';
     import Text from '../runtime/Text';
     import Structure, { createStructure } from '../runtime/Structure';
-    import Sentence from '../native/Sentence';
+    import Letters from '../native/Letters';
     import VerseView from './VerseView.svelte';
     import Measurement from '../runtime/Measurement';
     import Verse from '../native/Verse';
@@ -29,14 +29,14 @@
             else if(contentType instanceof StructureType && contentType.definition === Group) {
                 view = createStructure(evaluator, Verse, { group: content });
             }
-            else if(contentType instanceof StructureType && contentType.definition === Sentence) {
-                view = createStructure(evaluator, Verse, { group: createStructure(evaluator, Group, { sentences: new List([content]) }) });
+            else if(contentType instanceof StructureType && contentType.definition === Letters) {
+                view = createStructure(evaluator, Verse, { group: createStructure(evaluator, Group, { letters: new List([content]) }) });
             }
             else if(contentType instanceof TextType) {
                 view = createStructure(evaluator, Verse, 
                     {
                         group: createStructure(evaluator, Group, {
-                            sentences: new List([createStructure(evaluator, Sentence, {
+                            letters: new List([createStructure(evaluator, Letters, {
                                 size: new Measurement(20),
                                 font: new Text("Noto Sans"),
                                 text: content
@@ -50,7 +50,7 @@
                 view = createStructure(evaluator, Verse, 
                     {
                         group: createStructure(evaluator, Group, {
-                            sentences: new List([createStructure(evaluator, Sentence, {
+                            letters: new List([createStructure(evaluator, Letters, {
                                 size: new Measurement(20),
                                 font: new Text("Noto Sans"),
                                 text: new Text(content.toString())

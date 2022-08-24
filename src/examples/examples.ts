@@ -25,11 +25,11 @@ state: Game([] "")
             Game(state.guesses state.secret)
 
 status: state.status()
-board: Sentence(state.secret→[].translate(ƒ(letter) ((status = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 24pt)
-content: status = "start"   ?   Group(Vertical() Sentence("Welcome to WhatWord!" 30pt) Sentence("Press space to begin") Sentence("Type letters to guess"))
-         status = "lost"    ?   Group(Vertical() board Sentence("You lost. Press space to play again."))
-         status = "won"     ?   Group(Vertical() board Sentence("You won, nice job! Press space to play again."))
-                                Group(Vertical() board Sentence("Guesses: \\state.guesses.join(' ')\\" 16pt) Sentence("\\state.guessesRemaining()→''\\ remaining" 12pt))
+board: Letters(state.secret→[].translate(ƒ(letter) ((status = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 24pt)
+content: status = "start"   ?   Group(Vertical() Letters("Welcome to WhatWord!" 30pt) Letters("Press space to begin") Letters("Type letters to guess"))
+         status = "lost"    ?   Group(Vertical() board Letters("You lost. Press space to play again."))
+         status = "won"     ?   Group(Vertical() board Letters("You won, nice job! Press space to play again."))
+                                Group(Vertical() board Letters("Guesses: \\state.guesses.join(' ')\\" 16pt) Letters("\\state.guessesRemaining()→''\\ remaining" 12pt))
 
 Verse(content)
 `,
@@ -38,6 +38,6 @@ AnimatedFace:
 ↓⏱
 🥹: {⊤: «😀» ⊥: «😂»}
 ∥: ⏱ % 2 = 0ms
-Sentence(🥹{∥} 32pt «Noto Sans»)
+Letters(🥹{∥} 32pt «Noto Sans»)
 `
 };
