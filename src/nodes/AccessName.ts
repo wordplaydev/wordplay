@@ -12,6 +12,7 @@ import Action from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import type { ConflictContext } from "./Node";
 import StructureType from "./StructureType";
+import StreamType from "./StreamType";
 
 export default class AccessName extends Expression {
 
@@ -50,9 +51,16 @@ export default class AccessName extends Expression {
     }
 
     getType(context: ConflictContext): Type {
-        const subjectType = this.getSubjectType(context);
+        let subjectType = this.getSubjectType(context);
         if(subjectType === undefined) return new UnknownType(this);
-        else if(subjectType instanceof StructureType) {
+
+        if(subjectType instanceof StreamType) {
+            if(subjectType.type instanceof Unparsable)
+                return new UnknownType(this);
+            subjectType = subjectType.type;
+        }
+
+        if(subjectType instanceof StructureType) {
             const bind = subjectType.getBind(this.name.text);
             if(bind === undefined) return new UnknownType(this);
             else return bind.getType(context);
