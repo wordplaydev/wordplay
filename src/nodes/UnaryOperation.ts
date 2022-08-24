@@ -54,7 +54,7 @@ export default class UnaryOperation extends Expression {
     }
 
     getType(context: ConflictContext): Type {
-        if(this.operator.text === "¬") return new BooleanType();
+        if(this.operator.text === "¬" || this.operator.text === "~") return new BooleanType();
         else if(this.operator.text === "√" && this.operand instanceof Expression) {
             const type = this.operand.getType(context);
             if(!(type instanceof MeasurementType)) return new UnknownType(this);

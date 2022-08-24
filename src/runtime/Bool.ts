@@ -23,6 +23,7 @@ export default class Bool extends Primitive {
     evaluatePrefix(op: UnaryOperation): Value {
 
         switch(op.getOperator()) {
+            case "~":
             case "¬": return new Bool(!this.bool)
             default: return new Exception(op, ExceptionKind.UNKNOWN_OPERATOR);
         }
