@@ -30,11 +30,11 @@ state: GameState(⊥ [] "")
 
 board: Sentence(state.secret→[].translate(ƒ(letter) (state.lost() ∨ state.guesses.has(letter)) ? letter "_").join(' ') 24pt)
 
-content: (¬state.playing)  ?  [Sentence("Welcome to WhatWord!") Sentence("Press space to begin...")]
-         state.lost()   ?  [board Sentence("You lost. Press escape to start over.")]
-         state.won()    ?  [board Sentence("You won, nice job! Press escape to start over.")]
-                           [
-                            board
+content: ¬ state.playing  ?  [Sentence("Welcome to WhatWord!") Sentence("Press space to begin...")]
+           state.lost()   ?  [board Sentence("You lost. Press escape to start over.")]
+           state.won()    ?  [board Sentence("You won, nice job! Press escape to start over.")]
+                             [
+                              board
                             Sentence("Guesses: \\state.guesses.join(' ')\\" 16pt)
                             Sentence("\\state.guessesRemaining()→''\\ remaining" 12pt)
                            ]

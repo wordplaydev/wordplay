@@ -433,7 +433,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
         // A conversion
         tokens.nextAreDocsThen(TokenType.CONVERT) ? parseConversion(tokens) :
         // Unary expressions!
-        tokens.nextIs(TokenType.UNARY_OP) ? new UnaryOperation(tokens.read(), parseExpression(tokens)) :
+        tokens.nextIs(TokenType.UNARY_OP) ? new UnaryOperation(tokens.read(), parseAtomicExpression(tokens)) :
         // Anything that doesn't is unparsable.
         tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EXPRESSION)
     );
