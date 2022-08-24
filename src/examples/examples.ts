@@ -20,22 +20,18 @@ state: Game([] "")
             Game([] "")
         (state.status() ≠ "playing") ∧ (⌨️.key = " ") ∧ ⌨️.down ? 
             Game([] words.random())
-        (state.status() = "playing") ∧ ⌨️.down ∧ (⌨️.key.length() = 1) ∧  ¬ state.guesses.has(⌨️.key) ? 
+        (state.status() = "playing") ∧ ⌨️.down ∧ (⌨️.key.length() = 1) ∧ ¬ state.guesses.has(⌨️.key) ? 
             Game(state.guesses.add(⌨️.key) state.secret)
             Game(state.guesses state.secret)
 
 status: state.status()
 board: Sentence(state.secret→[].translate(ƒ(letter) ((status = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 24pt)
-content: status = "start"   ?   [ Sentence("Welcome to WhatWord!" 30pt) Sentence("Press space to begin") Sentence("Type letters to guess") ]
-         status = "lost"    ?   [ board Sentence("You lost. Press space to play again.") ]
-         status = "won"     ?   [ board Sentence("You won, nice job! Press space to play again.") ]
-                                [
-                                    board
-                                    Sentence("Guesses: \\state.guesses.join(' ')\\" 16pt)
-                                    Sentence("\\state.guessesRemaining()→''\\ remaining" 12pt)
-                                ]
+content: status = "start"   ?   Group(Vertical() Sentence("Welcome to WhatWord!" 30pt) Sentence("Press space to begin") Sentence("Type letters to guess"))
+         status = "lost"    ?   Group(Vertical() board Sentence("You lost. Press space to play again."))
+         status = "won"     ?   Group(Vertical() board Sentence("You won, nice job! Press space to play again."))
+                                Group(Vertical() board Sentence("Guesses: \\state.guesses.join(' ')\\" 16pt) Sentence("\\state.guessesRemaining()→''\\ remaining" 12pt))
 
-Verse(Group(Vertical() content))
+Verse(content)
 `,
 AnimatedFace: 
 `
