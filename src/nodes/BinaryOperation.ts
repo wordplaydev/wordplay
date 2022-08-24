@@ -56,7 +56,6 @@ export default class BinaryOperation extends Expression {
         // Left and right must be compatible measurements.
         switch(this.operator.text) {
             case "×":
-            case "*":
             case "·":
             case "÷":
             case "%":
@@ -111,7 +110,6 @@ export default class BinaryOperation extends Expression {
                 else if(leftType.unit === undefined && rightType.unit !== undefined) return new UnknownType(this);
                 else return leftType.isCompatible(context, rightType) ? leftType : new UnknownType(this);
             case "×":
-            case "*":
             case "·":
                 // If one side is unitless, units don't change.
                 if(leftType.unit === undefined && rightType.unit !== undefined) return rightType;

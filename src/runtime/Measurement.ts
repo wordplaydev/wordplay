@@ -267,7 +267,6 @@ export default class Measurement extends Primitive {
                     this.subtract(right) :
                     new Exception(op, ExceptionKind.EXPECTED_TYPE)
             case "×":
-            case "*":
             case "·": return this.multiply(right);
             case "÷": return this.divide(right);
             case "%": return this.remainder(right);
