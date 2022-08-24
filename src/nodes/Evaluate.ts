@@ -142,7 +142,7 @@ export default class Evaluate extends Expression {
                         // If it's optional, go through each one to see if it's provided in the remaining inputs.
                         else {
                             // If it's variable length, check all of the remaining given inputs to see if they match this type.
-                            if(input.rest) {
+                            if(input.rest !== false) {
                                 while(givenInputs.length > 0) {
                                     const given = givenInputs.shift();
                                     if(given !== undefined && given instanceof Expression && input.type instanceof Type && !given.getType(context).isCompatible(context, input.type)) {
@@ -239,7 +239,7 @@ export default class Evaluate extends Expression {
             // If it's not required...
             else {
                 // and it's not a variable length input, first search for a named input, otherwise grab the next input.
-                if(!input.rest) {
+                if(input.rest === false) {
                     const bind = given.find(g => g instanceof Bind && input.aliases.find(a => a.getName() === g.names[0].getName()) !== undefined);
                     // If we found a bind with a matching name, compile it's value.
                     if(bind instanceof Bind && bind.value !== undefined)

@@ -1,6 +1,6 @@
 import type Node from "./Node";
 import type Conflict from "../conflicts/Conflict";
-import type Token from "./Token";
+import Token from "./Token";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
 import type { ConflictContext } from "./Node";
@@ -11,7 +11,7 @@ export type Input = {
     aliases: Alias[],
     type: Type | Unparsable,
     required: boolean,
-    rest: boolean,
+    rest: boolean | Token,
     default: Unparsable | Expression | undefined
 }
 
@@ -37,7 +37,10 @@ export default class FunctionType extends Type {
         let children: Node[] = [];
         if(this.fun) children.push(this.fun);
         if(this.open) children.push(this.open);
-        children = children.concat(this.inputs.map(i => i.type));
+        this.inputs.forEach(i => {
+            if(i.rest instanceof Token) children.push(i.rest);
+            children.push(i.type);
+        })
         if(this.close) children.push(this.close);
         children.push(this.output);
         return children;

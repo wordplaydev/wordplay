@@ -406,6 +406,8 @@ test("Type variables", () => {
     const fun = parseType(tokens("ƒ(# #) #"));
     expect(fun).toBeInstanceOf(FunctionType);
 
+    expect(parseType(tokens("ƒ(…#) #"))).toBeInstanceOf(FunctionType);
+
     const stream = parseType(tokens("∆#"));
     expect(stream).toBeInstanceOf(StreamType);
 

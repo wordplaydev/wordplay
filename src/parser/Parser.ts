@@ -959,7 +959,7 @@ function parseTableType(tokens: Tokens): TableType | Unparsable {
 
 }
 
-/** FUNCTION_TYPE :: ƒ(TYPE*) TYPE */
+/** FUNCTION_TYPE :: ƒ( …? TYPE*) TYPE */
 function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 
     const fun = tokens.read();
@@ -968,8 +968,10 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
     const open = tokens.read();
 
     const inputs = [];
-    while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        inputs.push({ aliases:[], type: parseType(tokens), required: true, rest: false, default: undefined });
+    while(tokens.nextIsnt(TokenType.EVAL_CLOSE)) {
+        const rest = tokens.nextIs(TokenType.ETC) ? tokens.read() : false;
+        inputs.push({ aliases:[], type: parseType(tokens), required: true, rest: rest, default: undefined });
+    }
 
     if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
