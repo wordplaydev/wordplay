@@ -57,6 +57,8 @@ import SetOrMapLiteral from "../nodes/SetOrMapLiteral";
 import Unit from "../nodes/Unit";
 import Language from "../nodes/Language";
 import Is from "../nodes/Is";
+import PlaceholderExpression from "../nodes/PlaceholderExpression";
+import PlaceholderType from "../nodes/PlaceholderType";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -413,6 +415,8 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
 
     // All expressions must start with one of the following
     let left: Expression | Unparsable = (
+        // Placeholder
+        tokens.nextIs(TokenType.ETC) ? new PlaceholderExpression(tokens.read()) :
         // Nones
         tokens.nextIs(TokenType.NONE) ? parseNone(tokens): 
         // Names or booleans are easy
@@ -864,6 +868,7 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
 /** TYPE :: (? | name | MEASUREMENT_TYPE | TEXT_TYPE | NONE_TYPE | LIST_TYPE | SET_TYPE | FUNCTION_TYPE | STREAM_TYPE) (∨ TYPE)* */
 export function parseType(tokens: Tokens): Type | Unparsable {
     let left: Type | Unparsable = (
+        tokens.nextIs(TokenType.ETC) ? new PlaceholderType(tokens.read()) :
         tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read()) :
         tokens.nextIs(TokenType.BOOLEAN_TYPE) ? new BooleanType(tokens.read()) :
         tokens.nextIs(TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :
