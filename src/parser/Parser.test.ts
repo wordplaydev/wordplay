@@ -45,6 +45,7 @@ import Convert from "../nodes/Convert";
 import Is from "../nodes/Is";
 import ExpressionPlaceholder from "../nodes/PlaceholderExpression";
 import PlaceholderType from "../nodes/PlaceholderType";
+import Previous from "../nodes/Previous";
 
 test("Parse programs", () => {
 
@@ -249,6 +250,10 @@ test("Parse expressions", () => {
     const stream = parseExpression(tokens("0 ∆ clicks a + 1"));
     expect(stream).toBeInstanceOf(Reaction);
     expect((stream as Reaction).next).toBeInstanceOf(BinaryOperation);
+
+    const previous = parseExpression(tokens("a@1"));
+    expect(previous).toBeInstanceOf(Previous);
+    expect((previous as Previous).index).toBeInstanceOf(MeasurementLiteral);
 
     const binary = parseExpression(tokens("1 + 2 + 3 + 4"));
     expect(binary).toBeInstanceOf(BinaryOperation);

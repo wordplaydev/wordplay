@@ -1,5 +1,4 @@
 import type Reaction from "../nodes/Reaction";
-import Bool from "./Bool";
 import type Evaluator from "./Evaluator";
 import Step from "./Step";
 import type Value from "./Value";

@@ -1,5 +1,7 @@
+import Alias from "../nodes/Alias";
 import type { LanguageCode } from "../nodes/LanguageCode";
 import type { Named } from "../nodes/Named";
+import None from "./None";
 import Primitive from "./Primitive";
 import type Value from "./Value";
 
@@ -35,6 +37,13 @@ export default abstract class Stream extends Primitive implements Named {
     getNativeTypeName(): string { return "stream" }
 
     latest() { return this.values[this.values.length - 1]; }
+
+    at(index: number): Value {
+
+        const position = this.values.length - index - 1;
+        return position >= 0 && position < this.values.length ? this.values[position] : new None([]);
+
+    }
 
     listen(listener: (stream: Stream)=>void) {
         this.listeners.push(listener);

@@ -59,6 +59,7 @@ import Language from "../nodes/Language";
 import Is from "../nodes/Is";
 import PlaceholderExpression from "../nodes/PlaceholderExpression";
 import PlaceholderType from "../nodes/PlaceholderType";
+import Previous from "../nodes/Previous";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -466,6 +467,8 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
             left = parseListAccess(left, tokens);
         else if(tokens.nextIs(TokenType.SET_OPEN) && tokens.nextLacksPrecedingSpace())
             left = parseSetOrMapAccess(left, tokens);
+        else if(tokens.nextIs(TokenType.PREVIOUS))
+            left = parsePrevious(left, tokens);
         else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
         else if(tokens.nextIs(TokenType.CONVERT))
@@ -666,6 +669,16 @@ function parseSetOrMapAccess(left: Expression | Unparsable, tokens: Tokens): Exp
 
     // Return the series of accesses and evaluations we created.
     return left;
+}
+
+/** PREVIOUS :: EXPRESSION @ EXPRESSION */
+function parsePrevious(stream: Expression, tokens: Tokens): Previous | Unparsable {
+
+    const previous = tokens.read();
+    const index = tokens.nextIs(TokenType.NUMBER) ? parseMeasurement(tokens) : parseBlock(tokens);
+
+    return new Previous(stream, previous, index);
+
 }
 
 function parseTable(tokens: Tokens): TableLiteral {

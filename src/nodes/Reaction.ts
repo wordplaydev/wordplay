@@ -22,7 +22,7 @@ import UnionType from "./UnionType";
 export default class Reaction extends Expression {
 
     readonly initial: Expression;
-    readonly dots: Token;
+    readonly delta: Token;
     readonly stream: Expression | Unparsable;
     readonly next: Expression | Unparsable;
 
@@ -30,14 +30,14 @@ export default class Reaction extends Expression {
         super();
 
         this.initial = initial;
-        this.dots = dots;
+        this.delta = dots;
         this.stream = stream;
         this.next = next;
 
     }
 
     getChildren() {
-        return [ this.initial, this.dots, this.stream, this.next ];
+        return [ this.initial, this.delta, this.stream, this.next ];
     }
 
     getConflicts(context: ConflictContext): Conflict[] { 

@@ -10,6 +10,7 @@ import Stream from "./Stream";
 import Value from "./Value";
 import type Evaluable from "./Evaluable";
 import type Program from "../nodes/Program";
+import KeepStream from "./KeepStream";
 
 export default class Evaluation {
 
@@ -81,8 +82,9 @@ export default class Evaluation {
         // If it's an exception, return it to the evaluator to halt the program.
         if(result instanceof Exception)
             return result;
-        // If it's a stream, resolve it to its latest value.
-        else if(result instanceof Stream) {
+        // If it's a stream, resolve it to its latest value, unless this will
+        // be used in a Previous expression, in which case we leave it alone.
+        else if(result instanceof Stream && !(this.nextStep() instanceof KeepStream)) {
             evaluator.rememberStreamAccess(result);
             this.#values.unshift(result.latest());
         }
@@ -95,6 +97,8 @@ export default class Evaluation {
         this.#step++;
 
     }
+
+    nextStep() { return this.#steps && this.#step + 1 < this.#steps.length ? this.#steps[this.#step + 1] : undefined; }
 
     jump(distance: number) {
         this.#step += distance;  
