@@ -42,6 +42,7 @@ import AccessName from "../nodes/AccessName";
 import Name from "../nodes/Name";
 import BooleanLiteral from "../nodes/BooleanLiteral";
 import Convert from "../nodes/Convert";
+import Is from "../nodes/Is";
 
 test("Parse programs", () => {
 
@@ -251,6 +252,9 @@ test("Parse expressions", () => {
     expect(((binary as BinaryOperation).left as BinaryOperation).left).toBeInstanceOf(BinaryOperation);
     expect((((binary as BinaryOperation).left as BinaryOperation).left as BinaryOperation).left).toBeInstanceOf(MeasurementLiteral);
 
+    const is = parseExpression(tokens("123 • #"));
+    expect(is).toBeInstanceOf(Is);
+
     const conditional = parseExpression(tokens("a ? b c ? d e"));
     expect(conditional).toBeInstanceOf(Conditional);
     expect((conditional as Conditional).condition).toBeInstanceOf(Name);
@@ -369,7 +373,7 @@ test("Blocks and binds", () => {
 
 });
 
-test("Type variables", () => {
+test("Types", () => {
 
     const name = parseType(tokens("Cat"));
     expect(name).toBeInstanceOf(NameType);

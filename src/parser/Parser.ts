@@ -56,6 +56,7 @@ import Convert from "../nodes/Convert";
 import SetOrMapLiteral from "../nodes/SetOrMapLiteral";
 import Unit from "../nodes/Unit";
 import Language from "../nodes/Language";
+import Is from "../nodes/Is";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -117,6 +118,11 @@ export class Tokens {
         return types.every((type, index) => index < this.#unread.length && this.#unread[index].is(type));
     }
 
+    /** Returns true if and only there was a previous token and it was of the given type. */
+    previousWas(type: TokenType): boolean {
+        return this.#read.length > 0 && this.#read[this.#read.length - 1].is(type);
+    }
+    
     beforeNextLineIs(type: TokenType) {
         // To detect this, we'll just peek ahead and see if there's a bind before the next line.
         let index = 0;
@@ -376,8 +382,9 @@ export function parseBinaryOperation(tokens: Tokens): Expression | Unparsable {
 
     while(tokens.nextIs(TokenType.BINARY_OP)) {
         const operator = tokens.read();
-        const right = parseAtomicExpression(tokens);
-        left = new BinaryOperation(operator, left, right);
+        left = operator.is(TokenType.TYPE) ? 
+            new Is(left, parseType(tokens), operator) :
+            new BinaryOperation(operator, left, parseAtomicExpression(tokens));
     }
     return left;
 

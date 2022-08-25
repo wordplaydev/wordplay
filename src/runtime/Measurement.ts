@@ -5,12 +5,11 @@ import Exception, { ExceptionKind } from "./Exception";
 import None from "./None";
 import type Value from "./Value";
 import Decimal from 'decimal.js';
-import MeasurementStructureType from "../native/MeasurementStructureType";
 import Alias from "../nodes/Alias";
 import type BinaryOperation from "../nodes/BinaryOperation";
 import type UnaryOperation from "../nodes/UnaryOperation";
-import StructureType from "../nodes/StructureType";
 import Primitive from "./Primitive";
+import MeasurementType from "../nodes/MeasurementType";
 
 const kanjiNumbers: Record<string, number> = {
     "一": 1,
@@ -348,7 +347,7 @@ export default class Measurement extends Primitive {
 
     }
 
-    getType() { return new StructureType(MeasurementStructureType); }
+    getType() { return new MeasurementType(undefined, this.unit); }
     getNativeTypeName(): string { return "measurement" }
 
     toString() { 
