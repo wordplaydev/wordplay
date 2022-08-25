@@ -110,7 +110,7 @@ export default class FunctionDefinition extends Expression {
     getDefinition(context: ConflictContext, node: Node, name: string): Definition {
 
         // Does an input delare the name?
-        const input = this.inputs.find(i => i instanceof Bind && i.names.find(n => n.getName() === name)) as Bind | undefined;
+        const input = this.inputs.find(i => i instanceof Bind && i.hasName(name)) as Bind | undefined;
         if(input !== undefined) return input;
 
         // Is it a type variable?

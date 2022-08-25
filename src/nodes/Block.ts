@@ -92,8 +92,8 @@ export default class Block extends Expression {
             // Note that we allow an bind to refer to itself, since bound reactions can refer to themselves.
             i <= index &&
             (
-                (s instanceof Bind && s.names.find(n => n.getName() == name) !== undefined) ||
-                (s instanceof Share && s.bind instanceof Bind && s.bind.names.find(n => n.getName() == name) !== undefined) ||
+                (s instanceof Bind && s.hasName(name)) ||
+                (s instanceof Share && s.bind instanceof Bind && s.bind.hasName(name)) ||
                 (s instanceof StructureDefinition && s.aliases.find(n => n.getName() === name) !== undefined) || 
                 (s instanceof FunctionDefinition && s.aliases.find(n => n.getName() === name) !== undefined)
             )
