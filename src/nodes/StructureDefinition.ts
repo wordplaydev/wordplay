@@ -69,7 +69,7 @@ export default class StructureDefinition extends Expression {
             i instanceof Bind ?
                {
                    aliases: i.names,
-                   type: i.getType(context),
+                   type: i.getTypeUnlessCycle(context),
                    required: !(i.hasDefault() || i.isVariableLength()),
                    rest: i.isVariableLength(),
                    default: i.value

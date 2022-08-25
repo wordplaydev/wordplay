@@ -55,7 +55,7 @@ export default class Evaluate extends Expression {
         const conflicts = [];
 
         if(this.func instanceof Expression) {
-            const functionType = this.func.getType(context);
+            const functionType = this.func.getTypeUnlessCycle(context);
 
             // The function must be a function or structure.
             if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
@@ -105,7 +105,7 @@ export default class Evaluate extends Expression {
                             }
                             // Otherwise, does the next given input match this required input?
                             else {
-                                const givenType = given instanceof Bind ? given.value?.getType(context) : given.getType(context);
+                                const givenType = given instanceof Bind ? given.value?.getTypeUnlessCycle(context) : given.getTypeUnlessCycle(context);
                                 // If the given input is a named input, 1) the given name should match the required input.
                                 // and 2) it shouldn't already be set.
                                 if(given instanceof Bind) {
@@ -121,7 +121,7 @@ export default class Evaluate extends Expression {
                                         break;
                                     }
                                     // The types have to match
-                                    else if(input.type instanceof Type && given.value !== undefined && !given.value.getType(context).isCompatible(context, input.type)) {
+                                    else if(input.type instanceof Type && given.value !== undefined && !given.value.getTypeUnlessCycle(context).isCompatible(context, input.type)) {
                                         conflicts.push(new IncompatibleInput(functionType, this, input));
                                         break;
                                     }
@@ -145,7 +145,7 @@ export default class Evaluate extends Expression {
                             if(input.rest !== false) {
                                 while(givenInputs.length > 0) {
                                     const given = givenInputs.shift();
-                                    if(given !== undefined && given instanceof Expression && input.type instanceof Type && !given.getType(context).isCompatible(context, input.type)) {
+                                    if(given !== undefined && given instanceof Expression && input.type instanceof Type && !given.getTypeUnlessCycle(context).isCompatible(context, input.type)) {
                                         conflicts.push(new IncompatibleInput(functionType, this, input));
                                         break;
                                     }
@@ -157,7 +157,7 @@ export default class Evaluate extends Expression {
                                 const matchingBind = givenInputs.find(i => i instanceof Bind && input.aliases.find(a => a.getName() === i.getNames()[0]) !== undefined);
                                 if(matchingBind instanceof Bind) {
                                     // If the types don't match, there's a conflict.
-                                    if(matchingBind.value !== undefined && input.type instanceof Type && !matchingBind.value.getType(context).isCompatible(context, input.type)) {
+                                    if(matchingBind.value !== undefined && input.type instanceof Type && !matchingBind.value.getTypeUnlessCycle(context).isCompatible(context, input.type)) {
                                         conflicts.push(new IncompatibleInput(functionType, this, input));
                                         break;
                                     }
@@ -168,7 +168,7 @@ export default class Evaluate extends Expression {
                                         givenInputs.splice(bindIndex, 1);
                                 }
                                 // Otherwise, see if the next input matches the type.
-                                else if(givenInputs.length > 0 && input.type instanceof Type && !givenInputs[0].getType(context).isCompatible(context, input.type)) {
+                                else if(givenInputs.length > 0 && input.type instanceof Type && !givenInputs[0].getTypeUnlessCycle(context).isCompatible(context, input.type)) {
                                     conflicts.push(new IncompatibleInput(functionType, this, input));
                                     break;
                                 }
@@ -202,7 +202,7 @@ export default class Evaluate extends Expression {
 
     getType(context: ConflictContext): Type {
         if(this.func instanceof Unparsable) return new UnknownType(this);
-        const funcType = this.func.getType(context);
+        const funcType = this.func.getTypeUnlessCycle(context);
         if(funcType instanceof FunctionType && funcType.output instanceof Type) return funcType.output;
         if(funcType instanceof StructureType) return funcType;
         else return new UnknownType(this);
@@ -213,7 +213,7 @@ export default class Evaluate extends Expression {
         // To compile an evaluate, we need to compile all of the given and default values in
         // order of the function's declaration. This requires getting the function/structure definition
         // and finding an expression to compile for each input.
-        const funcType = this.func.getType(context);
+        const funcType = this.func.getTypeUnlessCycle(context);
         const inputs = funcType instanceof FunctionType ? funcType.inputs :
             funcType instanceof StructureType ? funcType.definition.getFunctionType(context).inputs :
             undefined;

@@ -63,7 +63,7 @@ export default class Evaluator {
         return result;
     }
 
-    getContext(): ConflictContext { return { program: this.program, shares: this.shares, native: Native }; }
+    getContext(): ConflictContext { return { program: this.program, shares: this.shares, native: Native, stack: [] }; }
 
     getNative(): NativeInterface { return Native; }
 

@@ -39,7 +39,7 @@ export default class TableLiteral extends Expression {
 
         // Columns must all have types.
         this.columns.forEach(column => {
-            if(column.bind instanceof Bind && column.bind.getType(context) instanceof UnknownType)
+            if(column.bind instanceof Bind && column.bind.getTypeUnlessCycle(context) instanceof UnknownType)
                 conflicts.push(new ExpectedColumnType(column))
         });
 
@@ -51,7 +51,7 @@ export default class TableLiteral extends Expression {
                 if(cell.expression instanceof Expression || cell.expression instanceof Bind) {
                     if(index <= this.columns.length) {
                        const columnBind = this.columns[index].bind;
-                        if(columnBind instanceof Bind && !columnBind.getType(context).isCompatible(context, cell.expression.getType(context)))
+                        if(columnBind instanceof Bind && !columnBind.getTypeUnlessCycle(context).isCompatible(context, cell.expression.getTypeUnlessCycle(context)))
                             conflicts.push(new IncompatibleCellType(this.getType(context), cell));
                     }
                 }

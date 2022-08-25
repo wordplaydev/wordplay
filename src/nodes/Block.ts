@@ -108,7 +108,7 @@ export default class Block extends Expression {
     getType(context: ConflictContext): Type {
         // The type of the last expression.
         const lastExpression = this.statements.slice().reverse().find(s => s instanceof Expression) as Expression | undefined;
-        return lastExpression === undefined ? new UnknownType(this) : lastExpression.getType(context);
+        return lastExpression === undefined ? new UnknownType(this) : lastExpression.getTypeUnlessCycle(context);
     }
 
     compile(context: ConflictContext):Step[] {

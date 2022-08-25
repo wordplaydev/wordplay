@@ -28,6 +28,7 @@ import Finish from "../runtime/Finish";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type { Named } from "./Named";
 import FunctionDefinition from "./FunctionDefinition";
+import ListType from "./ListType";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -88,7 +89,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
         // If there's a type, the value must match.
         if(this.type instanceof Type && this.value && this.value instanceof Expression) {
-            const valueType = this.value.getType(context);
+            const valueType = this.value.getTypeUnlessCycle(context);
             if(!this.type.isCompatible(context, valueType))
                 conflicts.push(new IncompatibleBind(this.type, this.value));
         }
@@ -121,7 +122,7 @@ export default class Bind extends Node implements Evaluable, Named {
             // If the value is a structure definition, make a structure type.
             this.value instanceof StructureDefinition ? new StructureType(this.value) :
             // If it has an expression. ask the expression.
-            this.value instanceof Expression ? this.value.getType(context) :
+            this.value instanceof Expression ? this.value.getTypeUnlessCycle(context) :
             // Otherwise, we don't know.
             new UnknownType(this);
 
@@ -129,22 +130,31 @@ export default class Bind extends Node implements Evaluable, Named {
         if(type instanceof NameType)
             type = this.resolveTypeName(context, type.getName());
 
-        // // If the bind is a variable length argument, wrap it in a list.
-        // if(this.etc !== undefined)
-        //     type = new ListType(type);
-
         // Return the type.
         return type;
         
     }
 
+    getTypeUnlessCycle(context: ConflictContext): Type {
+
+        // If the context includes this node, we're in a cycle.
+        if(context.stack.includes(this)) return new UnknownType(this);
+
+        context.stack.push(this);
+        const type = this.getType(context);
+        context.stack.pop();
+        return type;        
+
+    }
+
     resolveTypeName(context: ConflictContext, name: string) {
 
         // Find the name.
-        const bindOrTypeVariable = context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, name);
-        if(bindOrTypeVariable === undefined) return new UnknownType(this);
-        else if(bindOrTypeVariable instanceof Bind) return bindOrTypeVariable.getType(context);
-        else if(bindOrTypeVariable instanceof TypeVariable) return new UnknownType(this);
+        const definition = context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, name);
+        if(definition === undefined) return new UnknownType(this);
+        else if(definition instanceof Bind) return definition.getTypeUnlessCycle(context);
+        else if(definition instanceof TypeVariable) return new UnknownType(this);
+        else if(definition instanceof StructureDefinition) return new StructureType(definition);
         else return new UnknownType(this);
 
     }

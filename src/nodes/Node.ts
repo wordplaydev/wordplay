@@ -7,7 +7,8 @@ import type NativeInterface from "../native/NativeInterface";
 export type ConflictContext = { 
     program: Program,
     shares?: Shares,
-    native?: NativeInterface
+    native?: NativeInterface,
+    stack: Node[]
 }
 
 export default abstract class Node {
@@ -55,7 +56,7 @@ export default abstract class Node {
     /** Returns all the conflicts in this tree. */
     getAllConflicts(program: Program, shares: Shares, native: NativeInterface): Conflict[] {
         let conflicts: Conflict[] = [];
-        this.traverse([], (ancestors, node) => conflicts = conflicts.concat(node.getConflicts({ program: program, shares: shares, native: native })));
+        this.traverse([], (ancestors, node) => conflicts = conflicts.concat(node.getConflicts({ program: program, shares: shares, native: native, stack: [] })));
         return conflicts;
     }
 

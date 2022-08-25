@@ -27,6 +27,7 @@ export default class Unparsable extends Node implements Evaluable {
     getChildren() { return this.lineAfter.slice() }
 
     getType() { return new UnknownType(this); }
+    getTypeUnlessCycle() { return new UnknownType(this); }
 
     toString(depth: number=0) {
         const s = super.toString(depth);

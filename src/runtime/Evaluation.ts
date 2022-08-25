@@ -137,7 +137,7 @@ export default class Evaluation {
 
         const program = this.getProgram();
         if(program === undefined) return undefined;
-        return this.#conversions.find(c => c.definition.output instanceof Type && c.definition.output.isCompatible({program: program }, type));
+        return this.#conversions.find(c => c.definition.output instanceof Type && c.definition.output.isCompatible({ program: program, stack: [] }, type));
 
     }
 

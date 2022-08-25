@@ -47,7 +47,7 @@ export default class Update extends Expression {
         
         const conflicts: Conflict[] = [];
 
-        const tableType = this.table.getType(context);
+        const tableType = this.table.getTypeUnlessCycle(context);
 
         // Table must be table typed.
         if(!(tableType instanceof TableType)) {
@@ -66,14 +66,14 @@ export default class Update extends Expression {
                     conflicts.push(new UnknownColumn(tableType, cell));
                 // The types of the bound values must match the column types.
                 else if(columnType.bind instanceof Bind) {
-                    if(!columnType.bind.getType(context).isCompatible(context, cell.expression.getType(context)))
+                    if(!columnType.bind.getTypeUnlessCycle(context).isCompatible(context, cell.expression.getTypeUnlessCycle(context)))
                         conflicts.push(new IncompatibleCellType(tableType, cell));
                 }
             }
         });
 
         // The query must be truthy.
-        if(this.query instanceof Expression && !(this.query.getType(context) instanceof BooleanType))
+        if(this.query instanceof Expression && !(this.query.getTypeUnlessCycle(context) instanceof BooleanType))
             conflicts.push(new NonBooleanQuery(this))
 
         return conflicts; 
@@ -82,13 +82,13 @@ export default class Update extends Expression {
 
     getType(context: ConflictContext): Type {
         // The type of an update is the type of its table
-        return this.table.getType(context);        
+        return this.table.getTypeUnlessCycle(context);        
     }
 
     // Check the table's column binds.
     getDefinition(context: ConflictContext, node: Node, name: string): Definition {
         
-        const type = this.table.getType(context);
+        const type = this.table.getTypeUnlessCycle(context);
         if(type instanceof TableType) {
             const column = type.getColumnNamed(name);
             if(column !== undefined && column.bind instanceof Bind) return column.bind;

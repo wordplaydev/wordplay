@@ -40,8 +40,8 @@ export default class SetOrMapAccess extends Expression {
     
         if(this.setOrMap instanceof Unparsable || this.key instanceof Unparsable) return [];
 
-        const setMapType = this.setOrMap.getType(context);
-        const keyType = this.key.getType(context);
+        const setMapType = this.setOrMap.getTypeUnlessCycle(context);
+        const keyType = this.key.getTypeUnlessCycle(context);
 
         if(setMapType instanceof SetOrMapType && setMapType.key instanceof Type && !setMapType.key.isCompatible(context, keyType))
             return [ new IncompatibleKey(this, setMapType.key, keyType) ];
@@ -53,7 +53,7 @@ export default class SetOrMapAccess extends Expression {
     getType(context: ConflictContext): Type {
         // Either a set or map type, and if so, the key or value's type.
         if(this.setOrMap instanceof Unparsable) return new UnknownType(this);
-        const setOrMapType = this.setOrMap.getType(context);
+        const setOrMapType = this.setOrMap.getTypeUnlessCycle(context);
         if(!(setOrMapType instanceof SetOrMapType)) return new UnknownType(this);
         if(setOrMapType.value !== undefined && setOrMapType.value instanceof Type) return setOrMapType.value;
         if(setOrMapType.key instanceof Type) return setOrMapType.key;

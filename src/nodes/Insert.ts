@@ -42,7 +42,7 @@ export default class Insert extends Expression {
      
         const conflicts = [];
 
-        const tableType = this.table.getType(context);
+        const tableType = this.table.getTypeUnlessCycle(context);
 
         // Table must be table typed.
         if(!(tableType instanceof TableType))
@@ -56,7 +56,7 @@ export default class Insert extends Expression {
                 const expr = cell.expression;
                 if(expr instanceof Expression && index < tableType.columns.length) {
                     const columnBind = tableType.columns[index].bind;
-                    if(columnBind instanceof Bind && !expr.getType(context).isCompatible(context, columnBind.getType(context)))
+                    if(columnBind instanceof Bind && !expr.getTypeUnlessCycle(context).isCompatible(context, columnBind.getTypeUnlessCycle(context)))
                         conflicts.push(new IncompatibleCellType(tableType, cell));
                 }
             });
@@ -68,13 +68,13 @@ export default class Insert extends Expression {
 
     getType(context: ConflictContext): Type {
         // The type is identical to the table's type.
-        return this.table.getType(context);
+        return this.table.getTypeUnlessCycle(context);
     }
 
     // Check the table's column binds.
     getDefinition(context: ConflictContext, node: Node, name: string): Definition {
     
-        const type = this.table.getType(context);
+        const type = this.table.getTypeUnlessCycle(context);
         if(type instanceof TableType) {
             const column = type.getColumnNamed(name);
             if(column !== undefined && column.bind instanceof Bind) return column.bind;

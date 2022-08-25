@@ -49,7 +49,7 @@ export default class Select extends Expression {
         
         const conflicts: Conflict[] = [];
 
-        const tableType = this.table.getType(context);
+        const tableType = this.table.getTypeUnlessCycle(context);
 
         // Table must be table typed.
         if(!(tableType instanceof TableType))
@@ -71,7 +71,7 @@ export default class Select extends Expression {
         }
 
         // The query must be truthy.
-        if(this.query instanceof Expression && !(this.query.getType(context) instanceof BooleanType))
+        if(this.query instanceof Expression && !(this.query.getTypeUnlessCycle(context) instanceof BooleanType))
             conflicts.push(new NonBooleanQuery(this))
     
         return conflicts;
@@ -81,7 +81,7 @@ export default class Select extends Expression {
     getType(context: ConflictContext): Type {
 
         // Get the table type and find the rows corresponding the selected columns.
-        const tableType = this.table.getType(context);
+        const tableType = this.table.getTypeUnlessCycle(context);
         if(!(tableType instanceof TableType)) return new UnknownType(this);
 
         // For each cell in the select row, find the corresponding column type in the table type.
@@ -99,7 +99,7 @@ export default class Select extends Expression {
     // Check the table's column binds.
     getDefinition(context: ConflictContext, node: Node, name: string): Definition {
         
-        const type = this.table.getType(context);
+        const type = this.table.getTypeUnlessCycle(context);
         if(type instanceof TableType) {
             const column = type.getColumnNamed(name);
             if(column !== undefined && column.bind instanceof Bind) return column.bind;

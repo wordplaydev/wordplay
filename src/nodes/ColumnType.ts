@@ -24,7 +24,7 @@ export default class ColumnType extends Type {
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 
     isCompatible(context: ConflictContext, type: Type): boolean {
-        return type instanceof ColumnType && type.bind instanceof Bind && this.bind instanceof Bind && this.bind.getType(context).isCompatible(context, type.bind.getType(context));
+        return type instanceof ColumnType && type.bind instanceof Bind && this.bind instanceof Bind && this.bind.getTypeUnlessCycle(context).isCompatible(context, type.bind.getTypeUnlessCycle(context));
     }
 
     getNativeTypeName(): string { return "column"; }

@@ -46,8 +46,8 @@ export default class BinaryOperation extends Expression {
 
         const conflicts = [];
 
-        const leftType = this.left instanceof Expression ? this.left.getType(context) : undefined;
-        const rightType = this.right instanceof Expression ? this.right.getType(context) : undefined;
+        const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
+        const rightType = this.right instanceof Expression ? this.right.getTypeUnlessCycle(context) : undefined;
 
         const operators = new Set(this.nodes().filter(n => n instanceof Token && n.is(TokenType.BINARY_OP)).map(n => (n as Token).text));
         if(operators.size > 1)
@@ -93,8 +93,8 @@ export default class BinaryOperation extends Expression {
     }
 
     getType(context: ConflictContext): Type {
-        const leftType = this.left instanceof Expression ? this.left.getType(context) : undefined;
-        const rightType = this.right instanceof Expression ? this.right.getType(context) : undefined;
+        const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
+        const rightType = this.right instanceof Expression ? this.right.getTypeUnlessCycle(context) : undefined;
 
         if(!(leftType instanceof MeasurementType)) return new UnknownType(this);
         if(!(rightType instanceof MeasurementType)) return new UnknownType(this);

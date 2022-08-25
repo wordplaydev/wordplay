@@ -41,14 +41,14 @@ export default class Delete extends Expression {
 
         const conflicts: Conflict[] = [];
         
-        const tableType = this.table.getType(context);
+        const tableType = this.table.getTypeUnlessCycle(context);
 
         // Table must be table typed.
         if(!(tableType instanceof TableType))
             conflicts.push(new NotATable(this));
 
         // The query must be truthy.
-        if(this.query instanceof Expression && !(this.query.getType(context) instanceof BooleanType))
+        if(this.query instanceof Expression && !(this.query.getTypeUnlessCycle(context) instanceof BooleanType))
             conflicts.push(new NonBooleanQuery(this))
 
         return conflicts; 
@@ -57,13 +57,13 @@ export default class Delete extends Expression {
 
     getType(context: ConflictContext): Type {
         // The type is identical to the table's type.
-        return this.table.getType(context);
+        return this.table.getTypeUnlessCycle(context);
     }
 
     // Check the table's column binds.
     getDefinition(context: ConflictContext, node: Node, name: string): Definition {
         
-        const type = this.table.getType(context);
+        const type = this.table.getTypeUnlessCycle(context);
         if(type instanceof TableType) {
             const column = type.getColumnNamed(name);
             if(column !== undefined && column.bind instanceof Bind) return column.bind;

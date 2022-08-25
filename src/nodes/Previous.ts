@@ -40,12 +40,12 @@ export default class Previous extends Expression {
     
         if(this.stream instanceof Unparsable || this.index instanceof Unparsable) return [];
 
-        const streamType = this.stream.getType(context);
+        const streamType = this.stream.getTypeUnlessCycle(context);
 
         if(!(streamType instanceof StreamType))
             return [ new NotAStream(this) ];
 
-        const indexType = this.index.getType(context);
+        const indexType = this.index.getTypeUnlessCycle(context);
 
         if(!(indexType instanceof MeasurementType) || indexType.unit !== undefined)
             return [ new NotAStreamIndex(this) ];
@@ -56,7 +56,7 @@ export default class Previous extends Expression {
 
     getType(context: ConflictContext): Type {
         // The type is the stream's type.
-        const streamType = this.stream.getType(context);
+        const streamType = this.stream instanceof Unparsable ? new UnknownType(this.stream) : this.stream.getTypeUnlessCycle(context);
         return streamType instanceof StreamType && !(streamType.type instanceof Unparsable)? streamType.type : new UnknownType(this);
     }
 

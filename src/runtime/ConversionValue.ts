@@ -20,7 +20,7 @@ export default class ConversionValue extends Primitive {
     getType() { 
         return this.context instanceof Value ? 
             this.context.getType() :
-            this.definition.getType({ program: this.context.getEvaluator().program, shares: this.context.getEvaluator().getShares()}); 
+            this.definition.getTypeUnlessCycle({ program: this.context.getEvaluator().program, shares: this.context.getEvaluator().getShares(), stack: []}); 
     }
 
     getNativeTypeName(): string { return "conversion"; }

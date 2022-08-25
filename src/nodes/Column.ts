@@ -23,6 +23,6 @@ export default class Column extends Node {
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    getType(context: ConflictContext) { return this.bind instanceof Unparsable ? new UnknownType(this) : this.bind.getType(context); }
+    getType(context: ConflictContext) { return this.bind instanceof Unparsable ? new UnknownType(this) : this.bind.getTypeUnlessCycle(context); }
 
 }

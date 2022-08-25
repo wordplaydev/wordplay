@@ -46,7 +46,7 @@ export default class AccessName extends Expression {
     getSubjectType(context: ConflictContext): Type | undefined {
 
         if(this.subject instanceof Unparsable) return;
-        return this.subject.getType(context);
+        return this.subject.getTypeUnlessCycle(context);
 
     }
 
@@ -63,12 +63,12 @@ export default class AccessName extends Expression {
         if(subjectType instanceof StructureType) {
             const bind = subjectType.getBind(this.name.text);
             if(bind === undefined) return new UnknownType(this);
-            else return bind.getType(context);
+            else return bind.getTypeUnlessCycle(context);
         }
         else {
             const fun = subjectType.getFunction(context, this.name.text);
             if(fun === undefined) return new UnknownType(this);
-            else return fun.getType(context);
+            else return fun.getTypeUnlessCycle(context);
         }
     }
 

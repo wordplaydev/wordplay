@@ -36,7 +36,7 @@ export default class Conditional extends Expression {
     
         const children = [];
 
-        if(!(this.condition.getType(context) instanceof BooleanType))
+        if(!(this.condition.getTypeUnlessCycle(context) instanceof BooleanType))
             children.push(new ExpectedBooleanCondition(this));
 
         return children; 
@@ -49,14 +49,14 @@ export default class Conditional extends Expression {
             if(this.no instanceof Unparsable)
                 return new UnknownType(this);
             else 
-                return this.no.getType(context);
+                return this.no.getTypeUnlessCycle(context);
         }
         else {
             if(this.no instanceof Unparsable)
-                return this.yes.getType(context);
+                return this.yes.getTypeUnlessCycle(context);
             else {
-                const yesType = this.yes.getType(context);
-                const noType = this.no.getType(context);
+                const yesType = this.yes.getTypeUnlessCycle(context);
+                const noType = this.no.getTypeUnlessCycle(context);
                 if(yesType.isCompatible(context, noType))
                     return yesType;
                 else 

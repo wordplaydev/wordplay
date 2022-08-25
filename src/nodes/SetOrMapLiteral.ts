@@ -66,12 +66,12 @@ export default class SetOrMapLiteral extends Expression {
 
         switch(this.kind) {
             case SetKind.Set: 
-                let type = getPossibleUnionType(context, this.values.map(v => (v as Expression | Unparsable).getType(context)));
+                let type = getPossibleUnionType(context, this.values.map(v => (v as Expression | Unparsable).getTypeUnlessCycle(context)));
                 if(type === undefined) type = new UnknownType(this);
                 else return new SetOrMapType(undefined, undefined, type);
             case SetKind.Map:
-                let keyType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.key.getType(context) : v.getType(context)));
-                let valueType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.value.getType(context) : v.getType(context)));
+                let keyType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.key.getTypeUnlessCycle(context) : v.getTypeUnlessCycle(context)));
+                let valueType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.value.getTypeUnlessCycle(context) : v.getTypeUnlessCycle(context)));
                 if(keyType === undefined) keyType = new UnknownType(this);
                 else if(valueType === undefined) valueType = new UnknownType(this);
                 else return new SetOrMapType(undefined, undefined, keyType, undefined, valueType);

@@ -128,7 +128,7 @@ export default class FunctionDefinition extends Expression {
              i instanceof Bind ?
                 {
                     aliases: i.names,
-                    type: i.getType(context),
+                    type: i.getTypeUnlessCycle(context),
                     required: !(i.hasDefault() || i.isVariableLength()),
                     rest: i.isVariableLength(),
                     default: i.value
@@ -145,7 +145,7 @@ export default class FunctionDefinition extends Expression {
         const outputType = 
             this.type instanceof Type ? this.type : 
             this.expression instanceof Token || this.expression instanceof Unparsable ? new UnknownType(this) : 
-            this.expression.getType(context);
+            this.expression.getTypeUnlessCycle(context);
         return new FunctionType(inputTypes, outputType);
     }
 

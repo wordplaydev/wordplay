@@ -34,7 +34,7 @@ export default class Convert extends Expression {
     getConversionDefinition(context: ConflictContext) {
 
         // The expression's type must have a conversion.
-        const exprType = this.expression.getType(context);
+        const exprType = this.expression.getTypeUnlessCycle(context);
         return this.type instanceof Type ? 
             exprType.getConversion(context, this.type) :
             undefined;

@@ -5,7 +5,7 @@ import Expression from "./Expression";
 import StreamType from "./StreamType";
 import type Token from "./Token";
 import type Type from "./Type";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
@@ -18,6 +18,7 @@ import Exception, { ExceptionKind } from "../runtime/Exception";
 import Bind from "./Bind";
 import type { ConflictContext } from "./Node";
 import UnionType from "./UnionType";
+import UnknownType from "./UnknownType";
 
 export default class Reaction extends Expression {
 
@@ -45,11 +46,11 @@ export default class Reaction extends Expression {
         const conflicts = [];
 
         // Streams have to be stream types!
-        if(this.stream instanceof Expression && !(this.stream.getType(context) instanceof StreamType))
+        if(this.stream instanceof Expression && !(this.stream.getTypeUnlessCycle(context) instanceof StreamType))
             conflicts.push(new NotAStream(this));
 
         // The initial and next must be compatible
-        if(this.next instanceof Expression && !this.initial.getType(context).isCompatible(context, this.next.getType(context)))
+        if(this.next instanceof Expression && !this.initial.getTypeUnlessCycle(context).isCompatible(context, this.next.getTypeUnlessCycle(context)))
             conflicts.push(new IncompatibleStreamValues(this));
 
         return conflicts; 
@@ -57,8 +58,8 @@ export default class Reaction extends Expression {
     }
 
     getType(context: ConflictContext): Type {
-        const initialType = this.initial.getType(context);
-        const nextType = this.next.getType(context);
+        const initialType = this.initial.getTypeUnlessCycle(context);
+        const nextType = this.next instanceof Unparsable ? new UnknownType(this.next) : this.next.getTypeUnlessCycle(context);
         if(initialType.isCompatible(context, nextType))
             return initialType;
         else

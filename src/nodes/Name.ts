@@ -8,7 +8,7 @@ import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
-import type Value from "../runtime/Value";
+import Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import type { ConflictContext } from "./Node";
@@ -46,7 +46,7 @@ export default class Name extends Expression {
         const bindOrTypeVar = this.getBind(context);
         if(bindOrTypeVar === undefined) return new UnknownType(this);
         if(bindOrTypeVar instanceof TypeVariable) return new UnknownType(this);
-        else return bindOrTypeVar.getType(context);
+        else return bindOrTypeVar instanceof Value ? bindOrTypeVar.getType() : bindOrTypeVar.getTypeUnlessCycle(context);
     }
 
     compile(context: ConflictContext):Step[] {

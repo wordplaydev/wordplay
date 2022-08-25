@@ -6,6 +6,7 @@ import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
 import type { ConflictContext } from "./Node";
+import Value from "../runtime/Value";
 
 export default class NameType extends Type {
 
@@ -52,7 +53,7 @@ export default class NameType extends Type {
         const definition = context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, this.getName());
         if(definition === undefined) return undefined;
         else if(definition instanceof TypeVariable) return new UnknownType(this);
-        else return definition.getType(context);
+        else return definition instanceof Value ? definition.getType() : definition.getTypeUnlessCycle(context);
 
     }
 

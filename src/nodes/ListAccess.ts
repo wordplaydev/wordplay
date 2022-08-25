@@ -44,7 +44,7 @@ export default class ListAccess extends Expression {
     
         if(this.list instanceof Unparsable || this.index instanceof Unparsable) return [];
 
-        const indexType = this.index.getType(context);
+        const indexType = this.index.getTypeUnlessCycle(context);
 
         if(!(indexType instanceof MeasurementType) || indexType.unit !== undefined)
             return [ new NotAListIndex(this) ];
@@ -56,7 +56,7 @@ export default class ListAccess extends Expression {
     getType(context: ConflictContext): Type {
         // The type is the list's value type, or unknown otherwise.
         if(this.list instanceof Unparsable) return new UnknownType(this);
-        const listType = this.list.getType(context);
+        const listType = this.list.getTypeUnlessCycle(context);
         if(listType instanceof ListType && listType.type instanceof Type) return new UnionType(listType.type, new NoneType(outOfBoundsAliases));
         else return new UnknownType(this);
     }

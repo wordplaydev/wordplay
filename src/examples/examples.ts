@@ -15,7 +15,7 @@ WhatWord:
 words: ['kitty' 'house' 'heat' 'farm' 'townhouse' 'heatwave']
 start: Game([] "")
 
-state: start
+state•Game: start
     ∆ ⌨️ 
         ⌨️.key = "Escape" ?
             start
@@ -23,7 +23,7 @@ state: start
             Game([] words.random())
         (state.status() = "playing") ∧ ⌨️.down ∧ (⌨️.key.length() = 1) ∧ ¬ state.guesses.has(⌨️.key) ? 
             Game(state.guesses.add(⌨️.key) state.secret)
-            Game(state.guesses state.secret)
+            state
 
 status: state.status()
 board: Letters(state.secret→[].translate(ƒ(letter) ((status = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 24pt)
