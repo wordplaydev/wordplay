@@ -94,7 +94,7 @@ export default class Block extends Expression {
             (
                 (s instanceof Bind && s.hasName(name)) ||
                 (s instanceof Share && s.bind instanceof Bind && s.bind.hasName(name)) ||
-                (s instanceof StructureDefinition && s.aliases.find(n => n.getName() === name) !== undefined) || 
+                (s instanceof StructureDefinition && s.hasName(name)) || 
                 (s instanceof FunctionDefinition && s.aliases.find(n => n.getName() === name) !== undefined)
             )
         ) as Bind | Share | StructureDefinition | FunctionDefinition;
