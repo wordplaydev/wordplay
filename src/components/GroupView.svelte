@@ -12,8 +12,8 @@
 </script>
 
 <div class={layout}>
-    {#each letters as sentence}
-        <LettersView sentence={sentence} />
+    {#each letters as lets}
+        <LettersView letters={lets} />
     {/each}
 </div>
 
