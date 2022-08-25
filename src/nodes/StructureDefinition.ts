@@ -20,7 +20,6 @@ import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
-import type StructureDefinitionInterface from "../native/StructureDefinitionInterface";
 import type { ConflictContext } from "./Node";
 import type Definition from "./Definition";
 import StructureType from "./StructureType";
@@ -30,7 +29,7 @@ import UnknownType from "./UnknownType";
 import FunctionType from "./FunctionType";
 import type NameType from "./NameType";
 
-export default class StructureDefinition extends Expression implements StructureDefinitionInterface {
+export default class StructureDefinition extends Expression {
 
     readonly docs: Docs[];    
     readonly type?: Token;

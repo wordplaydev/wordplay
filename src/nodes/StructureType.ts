@@ -3,14 +3,13 @@ import type Conflict from "../conflicts/Conflict";
 import Type from "./Type";
 import type ConversionDefinition from "./ConversionDefinition";
 import type { ConflictContext } from "./Node";
-import StructureDefinition from "./StructureDefinition";
-import type NativeStructureDefinition from "../native/NativeStructureDefinition";
+import type StructureDefinition from "./StructureDefinition";
 
 export default class StructureType extends Type {
 
-    readonly definition: StructureDefinition | NativeStructureDefinition;
+    readonly definition: StructureDefinition;
 
-    constructor(definition: StructureDefinition | NativeStructureDefinition) {
+    constructor(definition: StructureDefinition) {
 
         super();
 
@@ -24,7 +23,7 @@ export default class StructureType extends Type {
             return [];
     }
 
-    getBind(name: string) { return this.definition instanceof StructureDefinition ? this.definition.getBind(name) : undefined; }
+    getBind(name: string) { return this.definition.getBind(name); }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 
@@ -33,7 +32,7 @@ export default class StructureType extends Type {
     }
 
     getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
-        return this.definition instanceof StructureDefinition ? this.definition.getConversion(context, type) : undefined;
+        return this.definition.getConversion(context, type);
     }
 
     getNativeTypeName(): string { return "structure"; }
