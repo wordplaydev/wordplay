@@ -6,7 +6,7 @@ import Evaluation from "./Evaluation";
 import Exception, { ExceptionKind } from "./Exception";
 import ReactionStream from "./ReactionStream";
 import Shares, { DEFAULT_SHARES } from "./Shares";
-import type Stream from "./Stream";
+import Stream from "./Stream";
 import Value from "./Value";
 
 // Import this last, after everything else.
@@ -32,6 +32,9 @@ export default class Evaluator {
     /** The latest value computed. */
     result: Value | undefined;
 
+    /** The streams that have been imported */
+    borrowedStreams: Stream[] = [];
+
     /** The streams changes that triggered this evaluation */
     changedStreams: Stream[] = [];
 
@@ -47,12 +50,6 @@ export default class Evaluator {
         this.evaluations = [];
         this.shares = new Shares(this);
         this.listener = listener;
-
-        // Start and listen to all streams
-        this.shares.getStreams().forEach(stream => {
-            stream.listen(this.react.bind(this))
-            stream.start();
-        });
 
         // Evaluate the first time
         this.evaluate([]);
@@ -93,8 +90,8 @@ export default class Evaluator {
 
     /** Stops listening to listeners and halts execution. */
     stop() {
-        // Stop all streams and stop listening to them.
-        this.shares.getStreams().forEach(stream => {
+        // Stop all borrowed streams and stop listening to them.
+        this.borrowedStreams.forEach(stream => {
             stream.stop();
             stream.ignore(this.react);
         });
@@ -220,11 +217,24 @@ export default class Evaluator {
     /** Borrow the given name from the global namespace. */
     borrow(name: string, version?: number): Exception | undefined { 
 
+        // Find the shared thing
         const share = this.shares.resolve(name, version);
         if(share === undefined) return new Exception(this.program, ExceptionKind.UNKNOWN_SHARE);
 
+        // If we've already borrowed this, don't do it again.
+        if(this.resolve(name) === share)
+            return undefined;
+
         // Bind the shared value in this context.
         this.bind(name, share);
+
+        // If it's a stream we haven't started, start and listen to the stream.
+        if(share instanceof Stream && !this.borrowedStreams.includes(share)) {
+            this.borrowedStreams.push(share);
+            share.listen(this.react.bind(this));
+            share.start();
+        };
+
 
     }
     
