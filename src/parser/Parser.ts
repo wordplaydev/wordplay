@@ -63,6 +63,7 @@ import PlaceholderType from "../nodes/PlaceholderType";
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
     EXPECTED_BIND_NAME,
+    EXPECTED_BIND,
     EXPECTED_STRUCTURE_NAME,
     EXPECTED_ACCESS_NAME,
     EXPECTED_TYPE_VAR_NAME,
@@ -326,9 +327,12 @@ export function parseBind(expectExpression: boolean, tokens: Tokens): Bind | Unp
         type = parseType(tokens);
     }
 
-    if(expectExpression && tokens.nextIs(TokenType.BIND)) {
-        colon = tokens.read(); 
-        value = parseExpression(tokens);
+    if(expectExpression) {
+        if(tokens.nextIs(TokenType.BIND)) {
+            colon = tokens.read(); 
+            value = parseExpression(tokens);
+        }
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_BIND);
     }
 
     return new Bind(docs, etc, names, type, value, dot, colon);
