@@ -74,12 +74,14 @@ export default class Reaction extends Expression {
         // the stream. If it does exist, then evaluate the next value and then
         // append the value to the stream.
         return [
-            // Ask evaluator to remember streams that are accessed
             new Action(this, evaluator => {
+                // Ask evaluator to remember streams that are accessed
                 evaluator.startRememberingStreamAccesses();
+                // Get the latest value
                 const latest = evaluator.getReactionStreamLatest(this);
                 if(latest) {
-                    evaluator.bind("∂", latest);
+                    // If this reaction is bound, bind the latest value to the bind's names
+                    // so we can access the previous value.
                     const bind = evaluator.program.getNearestAncestor<Bind>(this, Bind);
                     if(bind !== undefined)
                         bind.names.forEach(name => evaluator.bind(name.getName(), latest));

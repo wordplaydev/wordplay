@@ -54,14 +54,7 @@ export default abstract class Stream extends Primitive implements Named {
     getNames() { return Object.values(this.names); }
 
     /** Should return named values on the stream. */
-    resolve(name: string): Value | undefined {
-
-        switch(name) {
-            case "∂": return this.values[this.values.length - 2];
-            default: return undefined;
-        }
-        
-    }
+    resolve(name: string): Value | undefined { return undefined; }
 
     /** Should start whatever is necessary to start listening to data stream. */
     abstract start(): void;

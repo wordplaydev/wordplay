@@ -13,11 +13,12 @@ WhatWord:
 )
 
 words: ['kitty' 'house' 'heat' 'farm' 'townhouse' 'heatwave']
+start: Game([] "")
 
-state: Game([] "")
+state: start
     ∆ ⌨️ 
         ⌨️.key = "Escape" ?
-            Game([] "")
+            start
         (state.status() ≠ "playing") ∧ (⌨️.key = " ") ∧ ⌨️.down ? 
             Game([] words.random())
         (state.status() = "playing") ∧ ⌨️.down ∧ (⌨️.key.length() = 1) ∧ ¬ state.guesses.has(⌨️.key) ? 
