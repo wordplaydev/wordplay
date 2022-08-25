@@ -11,8 +11,8 @@ const Key = new StructureDefinition(
     [],
     [
         // TODO Localize names, add documentation.
-        parseBind(false, tokens("key•''")),
-        parseBind(false, tokens("down•?"))
+        parseBind(tokens("key•''")),
+        parseBind(tokens("down•?"))
     ],
     new Block([], [], true)
 );

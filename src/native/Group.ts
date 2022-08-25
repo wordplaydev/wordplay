@@ -11,8 +11,8 @@ const Group = new StructureDefinition(
     [],
     [
         // TODO Localize names, add documentation.
-        parseBind(false, tokens("layout/eng•Layout")),
-        parseBind(false, tokens("…letters/eng•Letters"))
+        parseBind(tokens("layout/eng•Layout")),
+        parseBind(tokens("…letters/eng•Letters"))
     ],
     new Block([], [], true)
 );

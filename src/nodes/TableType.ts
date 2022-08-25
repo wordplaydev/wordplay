@@ -3,6 +3,7 @@ import type Conflict from "../conflicts/Conflict";
 import Type from "./Type";
 import Bind from "../nodes/Bind";
 import type { ConflictContext } from "./Node";
+import type Token from "./Token";
 
 export default class TableType extends Type {
     
@@ -18,7 +19,7 @@ export default class TableType extends Type {
         return this.columns.find(c => c.bind instanceof Bind && c.bind.hasName(name));
     }
 
-    getChildren() { return [ ...this.columns ]; }
+    getChildren() { return [ ...this.columns]; }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 

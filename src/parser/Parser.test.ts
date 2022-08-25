@@ -102,14 +102,14 @@ test("Parse block", () => {
 
 test("Parse binds", () => {
 
-    const validName = parseBind(true, tokens("a"));
+    const validName = parseBind(tokens("a"));
     expect(validName).toBeInstanceOf(Bind);
     expect((validName as Bind).names).toHaveLength(1);
     expect((validName as Bind).names[0]).toBeInstanceOf(Alias);
     expect((validName as Bind).names[0].getName()).toBe("a");
     expect((validName as Bind).names[0].lang).toBe(undefined);
 
-    const valuedName = parseBind(true, tokens("a: 1"));
+    const valuedName = parseBind(tokens("a: 1"));
     expect(valuedName).toBeInstanceOf(Bind);
     expect((valuedName as Bind).names).toHaveLength(1);
     expect((valuedName as Bind).names[0]).toBeInstanceOf(Alias);
@@ -117,12 +117,12 @@ test("Parse binds", () => {
     expect((valuedName as Bind).names[0].lang).toBe(undefined);
     expect((valuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
-    const typedValuedName = parseBind(true, tokens("a•#: 1"));
+    const typedValuedName = parseBind(tokens("a•#: 1"));
     expect(typedValuedName).toBeInstanceOf(Bind);
     expect((typedValuedName as Bind).type).toBeInstanceOf(MeasurementType);
     expect((typedValuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
-    const aliasedTypedValuedName = parseBind(true, tokens("a/eng; b/span•#: 1"));
+    const aliasedTypedValuedName = parseBind(tokens("a/eng; b/span•#: 1"));
     expect(aliasedTypedValuedName).toBeInstanceOf(Bind);
     expect((aliasedTypedValuedName as Bind).names).toHaveLength(2);
     expect((aliasedTypedValuedName as Bind).names[0]).toBeInstanceOf(Alias);
@@ -130,16 +130,16 @@ test("Parse binds", () => {
     expect((aliasedTypedValuedName as Bind).type).toBeInstanceOf(MeasurementType);
     expect((aliasedTypedValuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
-    const documentedName = parseBind(true, tokens("`Some letters`/eng a/eng; b/spa"));
+    const documentedName = parseBind(tokens("`Some letters`/eng a/eng; b/spa"));
     expect(documentedName).toBeInstanceOf(Bind);
     expect((documentedName as Bind).docs).toHaveLength(1);
     expect((documentedName as Bind).docs[0]).toBeInstanceOf(Docs);
     expect((documentedName as Bind).docs[0].getLanguage()).toBe("eng");
 
-    const missingName = parseBind(true, tokens(": 1"));
+    const missingName = parseBind(tokens(": 1"));
     expect(missingName).toBeInstanceOf(Unparsable);
 
-    const invalidName = parseBind(true, tokens("1•#: 1"));
+    const invalidName = parseBind(tokens("1•#: 1"));
     expect(invalidName).toBeInstanceOf(Unparsable);
 
 })
@@ -370,7 +370,7 @@ test("Blocks and binds", () => {
     expect((bindTable as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindTable as Block).statements[0] as Bind).value).toBeInstanceOf(TableLiteral);
 
-    const bindTypedTable = parseBlock(tokens("table•|a•#|b•#: |a•#|b•#\n|1|2"), true);
+    const bindTypedTable = parseBlock(tokens("table•|a•#|b•#: |a•#|b•#2"), true);
     expect(bindTypedTable).toBeInstanceOf(Block);
     expect((bindTypedTable as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindTypedTable as Block).statements[0] as Bind).type).toBeInstanceOf(TableType);

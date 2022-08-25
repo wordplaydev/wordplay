@@ -11,9 +11,9 @@ const Letters = new StructureDefinition(
     [],
     [
         // TODO Localize names, add documentation.
-        parseBind(false, tokens("text/eng•''")),
-        parseBind(true, tokens("size/eng•#pt:12pt")),
-        parseBind(true, tokens("font/eng•'':'Noto Sans'"))
+        parseBind(tokens("text/eng•''")),
+        parseBind(tokens("size/eng•#pt:12pt")),
+        parseBind(tokens("font/eng•'':'Noto Sans'"))
     ],
     new Block([], [], true)
 );

@@ -11,8 +11,8 @@ const Place = new StructureDefinition(
     [],
     [
         // TODO Localize names, add documentation.
-        parseBind(false, tokens("x•#px")),
-        parseBind(false, tokens("y•#px"))
+        parseBind(tokens("x•#px")),
+        parseBind(tokens("y•#px"))
     ],
     new Block([], [], true)
 );
