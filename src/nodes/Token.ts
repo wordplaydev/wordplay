@@ -61,6 +61,67 @@ export enum TokenType {
     END
 }
 
+const TokenCategoryDelimiter = "delimiter";
+const TokenCategoryRelation = "relation";
+const TokenCategoryShare = "share";
+const TokenCategoryEvaluation = "eval";
+const TokenCategoryDocs = "docs";
+const TokenCategoryLiteral = "literal";
+const TokenCategoryName = "name";
+const TokenTypeLiteral = "type";
+const TokenCategoryOperator = "operator";
+const TokenCategoryUnknown = "unknown";
+
+export const TokenKinds: Map<TokenType, string> = new Map();
+TokenKinds.set(TokenType.EVAL_OPEN, TokenCategoryDelimiter);
+TokenKinds.set(TokenType.EVAL_CLOSE, TokenCategoryDelimiter);
+TokenKinds.set(TokenType.SET_OPEN, TokenCategoryDelimiter);
+TokenKinds.set(TokenType.SET_CLOSE, TokenCategoryDelimiter);
+TokenKinds.set(TokenType.LIST_OPEN, TokenCategoryDelimiter);
+TokenKinds.set(TokenType.LIST_CLOSE, TokenCategoryDelimiter);
+TokenKinds.set(TokenType.BIND, TokenCategoryRelation);
+TokenKinds.set(TokenType.ACCESS, TokenCategoryRelation);
+TokenKinds.set(TokenType.FUNCTION, TokenCategoryEvaluation);
+TokenKinds.set(TokenType.BORROW, TokenCategoryEvaluation);
+TokenKinds.set(TokenType.SHARE, TokenCategoryShare);
+TokenKinds.set(TokenType.CONVERT, TokenCategoryShare);
+TokenKinds.set(TokenType.DOCS, TokenCategoryDocs);
+TokenKinds.set(TokenType.NONE, TokenCategoryLiteral);
+TokenKinds.set(TokenType.TYPE, TokenCategoryRelation);
+TokenKinds.set(TokenType.TYPE_VAR, TokenCategoryRelation);
+TokenKinds.set(TokenType.ALIAS, TokenCategoryDelimiter);
+TokenKinds.set(TokenType.LANGUAGE, TokenCategoryLiteral);
+TokenKinds.set(TokenType.BOOLEAN_TYPE, TokenCategoryLiteral);
+TokenKinds.set(TokenType.TEXT_TYPE, TokenTypeLiteral);
+TokenKinds.set(TokenType.NUMBER_TYPE, TokenTypeLiteral);
+TokenKinds.set(TokenType.JAPANESE, TokenCategoryLiteral);
+TokenKinds.set(TokenType.ROMAN, TokenCategoryLiteral);
+TokenKinds.set(TokenType.PI, TokenCategoryLiteral);
+TokenKinds.set(TokenType.INFINITY, TokenCategoryLiteral);
+TokenKinds.set(TokenType.NONE_TYPE, TokenTypeLiteral);
+TokenKinds.set(TokenType.TABLE, TokenCategoryOperator);
+TokenKinds.set(TokenType.SELECT, TokenCategoryOperator);
+TokenKinds.set(TokenType.INSERT, TokenCategoryOperator);
+TokenKinds.set(TokenType.UPDATE, TokenCategoryOperator);
+TokenKinds.set(TokenType.DELETE, TokenCategoryOperator);
+TokenKinds.set(TokenType.UNION, TokenCategoryOperator);
+TokenKinds.set(TokenType.STREAM, TokenCategoryOperator);
+TokenKinds.set(TokenType.PREVIOUS, TokenCategoryOperator);
+TokenKinds.set(TokenType.ETC, TokenCategoryRelation);
+TokenKinds.set(TokenType.UNARY_OP, TokenCategoryOperator);
+TokenKinds.set(TokenType.BINARY_OP, TokenCategoryOperator);
+TokenKinds.set(TokenType.CONDITIONAL, TokenCategoryOperator);
+TokenKinds.set(TokenType.TEXT, TokenCategoryLiteral);
+TokenKinds.set(TokenType.TEXT_OPEN, TokenCategoryLiteral);
+TokenKinds.set(TokenType.TEXT_BETWEEN, TokenCategoryLiteral);
+TokenKinds.set(TokenType.TEXT_CLOSE, TokenCategoryLiteral);
+TokenKinds.set(TokenType.NUMBER, TokenCategoryLiteral);
+TokenKinds.set(TokenType.DECIMAL, TokenCategoryLiteral);
+TokenKinds.set(TokenType.BASE, TokenCategoryLiteral);
+TokenKinds.set(TokenType.BOOLEAN, TokenCategoryLiteral);
+TokenKinds.set(TokenType.NAME, TokenCategoryName);
+TokenKinds.set(TokenType.UNKNOWN, TokenCategoryUnknown);
+
 export default class Token extends Node {
     /** The one or more types of token this might represent. */
     readonly types: TokenType[];
