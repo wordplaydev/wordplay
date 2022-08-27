@@ -6,7 +6,7 @@ import Type from "./Type";
 
 export default class Unit extends Type {
 
-    readonly tokens?: Token[];
+    readonly tokens: Token[];
     readonly numerator: string[];
     readonly denominator: string[];
 
@@ -43,7 +43,7 @@ export default class Unit extends Type {
 
     }
 
-    getChildren(): Node[] { return this.tokens === undefined ? [] : this.tokens.slice(); }
+    getChildren(): Node[] { return this.tokens.slice(); }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 

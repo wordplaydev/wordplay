@@ -1,6 +1,6 @@
 import type Node from "./Node";
 import type Conflict from "../conflicts/Conflict";
-import Token from "./Token";
+import Token, { TokenType } from "./Token";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
 import type { ConflictContext } from "./Node";
@@ -17,31 +17,29 @@ export type Input = {
 
 export default class FunctionType extends Type {
 
-    readonly fun?: Token;
-    readonly open?: Token;
+    readonly fun: Token;
+    readonly open: Token;
     readonly inputs: Input[];
-    readonly close?: Token;
+    readonly close: Token;
     readonly output: Type | Unparsable;
     
     constructor(inputs: Input[], output: Type | Unparsable, fun?: Token, open?: Token, close?: Token) {
         super();
 
-        this.fun = fun;
-        this.open = open;
+        this.fun = fun ?? new Token("ƒ", [ TokenType.FUNCTION ]);
+        this.open = open ?? new Token("(", [ TokenType.EVAL_OPEN ]);
         this.inputs = inputs;
-        this.close = close;
+        this.close = close ?? new Token(")", [ TokenType.EVAL_CLOSE ]);;
         this.output = output;
     }
 
     getChildren() {
-        let children: Node[] = [];
-        if(this.fun) children.push(this.fun);
-        if(this.open) children.push(this.open);
+        let children: Node[] = [ this.fun, this.open ];
         this.inputs.forEach(i => {
             if(i.rest instanceof Token) children.push(i.rest);
             children.push(i.type);
         })
-        if(this.close) children.push(this.close);
+        children.push(this.close);
         children.push(this.output);
         return children;
     }

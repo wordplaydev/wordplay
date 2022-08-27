@@ -1,6 +1,6 @@
 import type Node from "./Node";
 import Expression from "./Expression";
-import type Token from "./Token";
+import Token, { TokenType } from "./Token";
 import type Docs from "./Docs";
 import type Conflict from "../conflicts/Conflict";
 import { MisplacedConversion } from "../conflicts/MisplacedConversion";
@@ -23,7 +23,7 @@ import { parseType, tokens } from "../parser/Parser";
 export default class ConversionDefinition extends Expression {
 
     readonly docs: Docs[];
-    readonly convert?: Token;
+    readonly convert: Token;
     readonly output: Type | Unparsable;
     readonly expression: Expression | Unparsable;
 
@@ -31,7 +31,7 @@ export default class ConversionDefinition extends Expression {
         super();
 
         this.docs = docs;
-        this.convert = convert;
+        this.convert = convert ?? new Token("→", [ TokenType.CONVERT ]);
         this.output = typeof output === "string" ? parseType(tokens(output)) : output;
         this.expression = expression;
     }

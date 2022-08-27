@@ -1,25 +1,24 @@
 import type Conflict from "../conflicts/Conflict";
-import type ConversionDefinition from "./ConversionDefinition";
 import type { ConflictContext } from "./Node";
-import type Token from "./Token";
+import Token, { TokenType } from "./Token";
 import Type from "./Type";
 import Unit from "./Unit";
 import type Unparsable from "./Unparsable";
 
 export default class MeasurementType extends Type {
     
-    readonly number?: Token;
+    readonly number: Token;
     readonly unit?: Unit | Unparsable;
 
     constructor(number?: Token, unit?: Unit | Unparsable) {
         super();
-        this.number = number;
+        this.number = number ?? new Token("#", [ TokenType.NUMBER_TYPE ]);
         this.unit = unit;
     }
 
     getChildren() { 
         const children = [];
-        if(this.number) children.push(this.number);
+        children.push(this.number);
         if(this.unit) children.push(this.unit);
         return children;
         

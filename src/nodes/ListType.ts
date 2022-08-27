@@ -1,30 +1,28 @@
 import type Conflict from "../conflicts/Conflict";
-import type ConversionDefinition from "./ConversionDefinition";
-import type FunctionDefinition from "./FunctionDefinition";
 import type { ConflictContext } from "./Node";
-import type Token from "./Token";
+import Token, { TokenType } from "./Token";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
 
 export default class ListType extends Type {
 
-    readonly open?: Token;
+    readonly open: Token;
     readonly type?: Type | Unparsable;
-    readonly close?: Token;
+    readonly close: Token;
 
     constructor(type?: Type | Unparsable, open?: Token, close?: Token) {
         super();
 
-        this.open = open;
+        this.open = open ?? new Token("[", [ TokenType.LIST_OPEN ]);
         this.type = type;
-        this.close = close;
+        this.close = close ?? new Token("]", [ TokenType.LIST_CLOSE ]);
     }
 
     getChildren() { 
         const children = [];
-        if(this.open) children.push(this.open);
+        children.push(this.open);
         if(this.type) children.push(this.type);
-        if(this.close) children.push(this.close);
+        children.push(this.close);
         return children;    
     }
 

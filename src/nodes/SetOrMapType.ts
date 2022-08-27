@@ -1,25 +1,23 @@
 import type Conflict from "../conflicts/Conflict";
-import type ConversionDefinition from "./ConversionDefinition";
-import type FunctionDefinition from "./FunctionDefinition";
 import type { ConflictContext } from "./Node";
-import type Token from "./Token";
+import Token, { TokenType } from "./Token";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
 
 export default class SetOrMapType extends Type {
 
-    readonly open?: Token;
+    readonly open: Token;
     readonly key?: Type | Unparsable;
     readonly bind?: Token;
     readonly value?: Type | Unparsable;
-    readonly close?: Token;
+    readonly close: Token;
 
     constructor(open?: Token, close?: Token, key?: Type | Unparsable, bind?: Token, value?: Type | Unparsable) {
         super();
 
-        this.open = open;
+        this.open = open ?? new Token("{", [ TokenType.SET_OPEN ]);
         this.key = key;
-        this.close = close;
+        this.close = close ?? new Token("}", [ TokenType.SET_CLOSE ]);
         this.bind = bind;
         this.value = value;
     }
@@ -28,11 +26,11 @@ export default class SetOrMapType extends Type {
 
     getChildren() {
         const children = [];
-        if(this.open) children.push(this.open);
+        children.push(this.open);
         if(this.key) children.push(this.key);
-        if(this.close) children.push(this.close);
         if(this.bind) children.push(this.bind);
         if(this.value) children.push(this.value);
+        children.push(this.close);
         return children;
     }
 

@@ -1,23 +1,24 @@
 import type Conflict from "../conflicts/Conflict";
 import type { ConflictContext } from "./Node";
-import type Token from "./Token";
+import Token from "./Token";
+import { TokenType } from "./Token";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
 
 export default class StreamType extends Type {
 
-    readonly stream?: Token;
+    readonly stream: Token;
     readonly type: Type | Unparsable;
 
     constructor(type: Type | Unparsable, stream?: Token) {
         super();
 
-        this.stream = stream;
+        this.stream = stream ?? new Token("∆", [ TokenType.STREAM ]);
         this.type = type;
     }
 
     getChildren() {
-        return this.stream === undefined ? [ this.type ] : [ this.stream, this.type ];
+        return [ this.stream, this.type ];
     }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }

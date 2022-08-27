@@ -1,25 +1,20 @@
 import type Conflict from "../conflicts/Conflict";
 import Node, { type ConflictContext } from "./Node";
-import Token from "./Token";
+import Token, { TokenType } from "./Token";
 
 export default class Language extends Node {
     
-    readonly slash?: Token;
-    readonly lang: Token | string;
+    readonly slash: Token;
+    readonly lang: Token;
 
     constructor(lang: Token | string, slash?: Token) {
         super();
 
-        this.slash = slash;
-        this.lang = lang;
+        this.slash = slash ?? new Token("/", [ TokenType.LANGUAGE ]);
+        this.lang = typeof lang === "string" ? new Token(lang, [ TokenType.NAME ]) : lang;
     }
 
-    getChildren() { 
-        const children = [];
-        if(this.slash !== undefined) children.push(this.slash);
-        if(this.lang instanceof Token) children.push(this.lang);
-        return children;
-    }
+    getChildren() {  return [ this.slash, this.lang ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 

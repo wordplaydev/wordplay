@@ -2,21 +2,21 @@ import type Conflict from "../conflicts/Conflict";
 import type ConversionDefinition from "./ConversionDefinition";
 import type FunctionDefinition from "./FunctionDefinition";
 import type { ConflictContext } from "./Node";
-import type Token from "./Token";
+import Token, { TokenType } from "./Token";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
 
 export default class UnionType extends Type {
 
     readonly left: Type;
-    readonly or?: Token;
+    readonly or: Token;
     readonly right: Type | Unparsable;
 
     constructor(left: Type, right: Type | Unparsable, or?: Token) {
         super();
 
         this.left = left;
-        this.or = or;
+        this.or = or ?? new Token("∨", [ TokenType.UNION ]);
         this.right = right;
     }
 

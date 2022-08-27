@@ -1,7 +1,7 @@
 import type Conflict from "../conflicts/Conflict";
 import { UnknownTypeName } from "../conflicts/UnknownTypeName";
 import StructureType from "./StructureType";
-import Token from "./Token";
+import Token, { TokenType } from "./Token";
 import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
@@ -10,24 +10,17 @@ import Value from "../runtime/Value";
 
 export default class NameType extends Type {
 
-    readonly dot?: Token;
-    readonly type: Token | string;
+    readonly type: Token;
 
     constructor(type: Token | string, dot?: Token) {
         super();
 
-        this.dot = dot;
-        this.type = type;
+        this.type = typeof type === "string" ? new Token(type, [ TokenType.NAME ]) : type;
     }
 
     getName() { return this.type instanceof Token ? this.type.text : this.type}
 
-    getChildren() {
-        const children = [];
-        if(this.dot) children.push(this.dot);
-        if(this.type instanceof Token) children.push(this.type);
-        return children;
-    }
+    getChildren() { return [ this.type ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { 
         

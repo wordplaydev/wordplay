@@ -1,20 +1,21 @@
 import type Conflict from "../conflicts/Conflict";
-import type Token from "./Token";
+import Token from "./Token";
 import Type from "./Type";
 import type { ConflictContext } from "./Node";
+import { TokenType } from "./Token";
 
 export default class BooleanType extends Type {
 
-    readonly type?: Token;
+    readonly type: Token;
 
     constructor(type?: Token) {
         super();
 
-        this.type = type;
+        this.type = type ?? new Token("?", [ TokenType.BOOLEAN_TYPE ]);
     }
 
     getChildren() {
-        return this.type === undefined ? [] : [ this.type ];
+        return [ this.type ];
     }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }

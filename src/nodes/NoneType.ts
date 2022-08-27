@@ -1,18 +1,18 @@
 import type Conflict from "../conflicts/Conflict";
 import type Alias from "./Alias";
 import type { ConflictContext } from "./Node";
-import type Token from "./Token";
+import Token, { TokenType } from "./Token";
 import Type from "./Type";
 
 export default class NoneType extends Type {
 
-    readonly none?: Token;
+    readonly none: Token;
     readonly aliases: Alias[];
 
     constructor(aliases: Alias[], none?: Token) {
         super();
 
-        this.none = none;
+        this.none = none ?? new Token("!", [ TokenType.NONE_TYPE ]);
         this.aliases = aliases;
     }
 

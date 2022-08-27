@@ -27,12 +27,12 @@ import type Alias from "./Alias";
 export default class FunctionDefinition extends Expression {
 
     readonly docs: Docs[];
-    readonly fun?: Token;
+    readonly fun: Token;
     readonly aliases: Alias[];
     readonly typeVars: (TypeVariable|Unparsable)[];
-    readonly open?: Token;
+    readonly open: Token;
     readonly inputs: (Bind|Unparsable)[];
-    readonly close?: Token;
+    readonly close: Token;
     readonly dot?: Token;
     readonly type?: Type | Unparsable;
     readonly expression: Expression | Unparsable | Token;
@@ -48,12 +48,12 @@ export default class FunctionDefinition extends Expression {
         super();
 
         this.docs = docs;
-        this.fun = fun;
+        this.fun = fun ?? new Token("ƒ", [ TokenType.FUNCTION ]);
         this.aliases = aliases;
         this.typeVars = typeVars;
-        this.open = open;
+        this.open = open ?? new Token("(", [ TokenType.EVAL_OPEN ]);
         this.inputs = inputs;
-        this.close = close;
+        this.close = close ?? new Token(")", [ TokenType.EVAL_CLOSE ]);
         this.dot = dot;
         this.type = output;
         this.expression = expression;
@@ -64,12 +64,12 @@ export default class FunctionDefinition extends Expression {
     getChildren() {
         let children: Node[] = [];
         children = children.concat(this.docs);
-        if(this.fun) children.push(this.fun);
+        children.push(this.fun);
         children = children.concat(this.aliases);
         if(this.typeVars) children = children.concat(this.typeVars);
-        if(this.open) children.push(this.open);
+        children.push(this.open);
         children = children.concat(this.inputs);
-        if(this.close) children.push(this.close);
+        children.push(this.close);
         if(this.dot) children.push(this.dot);
         if(this.type) children.push(this.type);
         children.push(this.expression);

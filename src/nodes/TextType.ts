@@ -1,18 +1,18 @@
 import type Conflict from "../conflicts/Conflict";
 import type Language from "./Language";
 import type { ConflictContext } from "./Node";
-import type Token from "./Token";
+import Token, { TokenType } from "./Token";
 import Type from "./Type";
 
 export default class TextType extends Type {
 
-    readonly quote?: Token;
+    readonly quote: Token;
     readonly format?: Language;
 
     constructor(quote?: Token, format?: Language) {
         super();
 
-        this.quote = quote;
+        this.quote = quote ?? new Token("''", [ TokenType.TEXT_TYPE ]);
         this.format = format;
     }
 

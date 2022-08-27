@@ -1,5 +1,5 @@
 import type Conflict from "../conflicts/Conflict";
-import type Token from "./Token";
+import Token, { TokenType } from "./Token";
 import type Unparsable from "./Unparsable";
 import Bind from "../nodes/Bind";
 import Type from "./Type";
@@ -7,18 +7,18 @@ import type { ConflictContext } from "./Node";
 
 export default class ColumnType extends Type {
 
-    readonly bar?: Token;
+    readonly bar: Token;
     readonly bind: Bind | Unparsable;
 
     constructor(bind: Bind | Unparsable, bar?: Token) {
         super();
 
-        this.bar = bar;
+        this.bar = bar ?? new Token("|", [ TokenType.TABLE ]);
         this.bind = bind;
     }
 
     getChildren() {
-        return this.bar === undefined ? [ this.bind ] : [ this.bar, this.bind ];
+        return [ this.bar, this.bind ];
     }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
