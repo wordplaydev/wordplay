@@ -180,11 +180,16 @@ export class Tokens {
     }
     
     /** Returns a token list without the first token. */
-    read(): Token {
-        if(this.hasNext()) {
-            const token = this.#unread.shift() as Token;
-            this.#read.push(token);
-            return token;
+    read(expectedType: TokenType): Token {
+        const next = this.#unread.shift();
+        if(next !== undefined) {
+            if(!next.is(expectedType)) throw new Error("Internal parsing error; expected " + TokenType[expectedType] + ", received " + next.toString());
+            this.#read.push(next);
+            // Don't pass the original token; pass one with only the expected type.
+            // This is helpful for syntax highlighting, as many tokens can have multiple types during
+            // tokenization, but only one of those types in the AST.
+            // We don't do this for numbers though, since we keep the multiple annotations on those for conversions.
+            return next.is(TokenType.NUMBER) ? next : next.withTypeNarrowedTo(expectedType);
         }
         else
             return new Token("", [ TokenType.END ], this.#read.length === 0 ? 0 : this.#read[this.#read.length - 1].getIndex() + this.#read[this.#read.length - 1].getLength());
@@ -242,24 +247,24 @@ export function parseProgram(tokens: Tokens): Program {
 
 // BORROW :: ↓ name number?
 export function parseBorrow(tokens: Tokens): Borrow | Unparsable {
-    let borrow = tokens.read();
+    let borrow = tokens.read(TokenType.BORROW);
     let name;
     let version;
 
     if(tokens.nextIs(TokenType.NAME))
-        name = tokens.read();
+        name = tokens.read(TokenType.NAME);
     else
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_BORRW_NAME);
 
     if(tokens.nextIs(TokenType.NUMBER) && !tokens.nextHasPrecedingLineBreak())
-        version = tokens.read();
+        version = tokens.read(TokenType.NUMBER);
 
     return new Borrow(borrow, name, version);
 }
 
 function parseShare(tokens: Tokens): Share {
 
-    const share = tokens.read();
+    const share = tokens.read(TokenType.SHARE);
     const bind = parseBind(tokens);
     return new Share(share, bind);
 
@@ -274,7 +279,7 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
     const open = root ? 
         undefined :
         tokens.nextIs(TokenType.EVAL_OPEN) ? 
-            tokens.read() :
+            tokens.read(TokenType.EVAL_OPEN) :
             tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN);
 
     const statements = [];
@@ -288,7 +293,7 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
     const close = root ?
         undefined :
         tokens.nextIs(TokenType.EVAL_CLOSE) ? 
-            tokens.read() :
+            tokens.read(TokenType.EVAL_CLOSE) :
             tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
 
     return new Block(docs, statements, creator, open, close);
@@ -314,7 +319,7 @@ function nextIsBind(tokens: Tokens, expectValue?: boolean): boolean {
 export function parseBind(tokens: Tokens, expectValue?: boolean): Bind | Unparsable {
 
     let docs = parseDocs(tokens);
-    let etc = tokens.nextIs(TokenType.ETC) ? tokens.read() : undefined;
+    let etc = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : undefined;
     let names = [];
     let colon;
     let value;
@@ -327,13 +332,13 @@ export function parseBind(tokens: Tokens, expectValue?: boolean): Bind | Unparsa
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_BIND_NAME);
 
     if(tokens.nextIs(TokenType.TYPE)) {
-        dot = tokens.read();
+        dot = tokens.read(TokenType.TYPE);
         type = parseType(tokens);
     }
 
     if(tokens.nextIs(TokenType.BIND)) {
         if(expectValue !== false) {
-            colon = tokens.read(); 
+            colon = tokens.read(TokenType.BIND); 
             value = parseExpression(tokens);
         }
     }
@@ -351,9 +356,9 @@ export function parseAliases(tokens: Tokens): Alias[] {
     const aliases: Alias[] = [];
 
     while((aliases.length > 0 && tokens.nextIs(TokenType.ALIAS)) || (aliases.length === 0 && tokens.nextIs(TokenType.NAME))) {
-        const semicolon = tokens.nextIs(TokenType.ALIAS) ? tokens.read() : undefined;
+        const semicolon = tokens.nextIs(TokenType.ALIAS) ? tokens.read(TokenType.ALIAS) : undefined;
         if(aliases.length > 0 && semicolon === undefined) break;
-        const name = tokens.read();
+        const name = tokens.read(TokenType.NAME);
         let lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
         aliases.push(new Alias(name, lang, semicolon));
     }
@@ -365,8 +370,8 @@ export function parseAliases(tokens: Tokens): Alias[] {
 /** LANGUAGE :: / name */
 export function parseLanguage(tokens: Tokens): Language {
 
-    const slash = tokens.read();
-    const lang = tokens.read();
+    const slash = tokens.read(TokenType.LANGUAGE);
+    const lang = tokens.read(TokenType.NAME);
     return new Language(lang, slash);
 
 }
@@ -378,7 +383,7 @@ export function parseExpression(tokens: Tokens): Expression | Unparsable {
 
     // Is it conditional statement?
     if(!(left instanceof Unparsable) && tokens.nextIs(TokenType.CONDITIONAL)) {
-        const conditional = tokens.read();
+        const conditional = tokens.read(TokenType.CONDITIONAL);
         const yes = parseExpression(tokens);
         const no = parseExpression(tokens);
         return new Conditional(left, conditional, yes, no);    
@@ -392,11 +397,10 @@ export function parseBinaryOperation(tokens: Tokens): Expression | Unparsable {
 
     let left = parseAtomicExpression(tokens);
 
-    while(tokens.nextIs(TokenType.BINARY_OP)) {
-        const operator = tokens.read();
-        left = operator.is(TokenType.TYPE) ? 
-            new Is(left, parseType(tokens), operator) :
-            new BinaryOperation(operator, left, parseAtomicExpression(tokens));
+    while(tokens.nextIsOneOf(TokenType.BINARY_OP, TokenType.TYPE_OP)) {
+        left = tokens.nextIs(TokenType.TYPE_OP) ? 
+            new Is(left, tokens.read(TokenType.TYPE_OP), parseType(tokens)) :
+            new BinaryOperation(tokens.read(TokenType.BINARY_OP), left, parseAtomicExpression(tokens));
     }
     return left;
 
@@ -426,13 +430,13 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
     // All expressions must start with one of the following
     let left: Expression | Unparsable = (
         // Placeholder
-        tokens.nextIs(TokenType.ETC) ? new PlaceholderExpression(tokens.read()) :
+        tokens.nextIs(TokenType.ETC) ? new PlaceholderExpression(tokens.read(TokenType.ETC)) :
         // Nones
         tokens.nextIs(TokenType.NONE) ? parseNone(tokens): 
         // Names or booleans are easy
-        tokens.nextIs(TokenType.NAME) ? new Name(tokens.read()) :
+        tokens.nextIs(TokenType.NAME) ? new Name(tokens.read(TokenType.NAME)) :
         // Booleans
-        tokens.nextIs(TokenType.BOOLEAN) ? new BooleanLiteral(tokens.read()) :
+        tokens.nextIs(TokenType.BOOLEAN) ? new BooleanLiteral(tokens.read(TokenType.BOOLEAN)) :
         // Numbers with units
         tokens.nextIs(TokenType.NUMBER) ? parseMeasurement(tokens) :
         // Text with optional formats
@@ -454,7 +458,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
         // A conversion
         tokens.nextAreDocsThen(TokenType.CONVERT) ? parseConversion(tokens) :
         // Unary expressions!
-        tokens.nextIs(TokenType.UNARY_OP) ? new UnaryOperation(tokens.read(), parseAtomicExpression(tokens)) :
+        tokens.nextIs(TokenType.UNARY_OP) ? new UnaryOperation(tokens.read(TokenType.UNARY_OP), parseAtomicExpression(tokens)) :
         // Anything that doesn't is unparsable.
         tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EXPRESSION)
     );
@@ -492,7 +496,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
 /** NONE :: ! ALIASES */
 function parseNone(tokens: Tokens): NoneLiteral | Unparsable {
 
-    const error = tokens.read();
+    const error = tokens.read(TokenType.NONE);
     const names = parseAliases(tokens);
     return new NoneLiteral(error, names);
 
@@ -501,7 +505,7 @@ function parseNone(tokens: Tokens): NoneLiteral | Unparsable {
 /** NUMBER :: number name? */
 function parseMeasurement(tokens: Tokens): MeasurementLiteral | Unparsable {
 
-    const number = tokens.read();
+    const number = tokens.read(TokenType.NUMBER);
     const unit = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
     return new MeasurementLiteral(number, unit);
 
@@ -510,26 +514,26 @@ function parseMeasurement(tokens: Tokens): MeasurementLiteral | Unparsable {
 /** UNIT :: name (· NAME)* (/ name (· NAME)*)? */
 function parseUnit(tokens: Tokens): Unit | Unparsable {
     
-    const numeratorTokens = [ tokens.read() ];
+    const numeratorTokens = [ tokens.read(TokenType.NAME) ];
     // Keep reading · unit pairs until we run out or hit a /
     while(tokens.nextIs(TokenType.BINARY_OP) && tokens.peekText() === "·") {
-        numeratorTokens.push(tokens.read());
+        numeratorTokens.push(tokens.read(TokenType.BINARY_OP));
         if(!tokens.nextIs(TokenType.NAME))
             return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_UNIT_NAME);
-        numeratorTokens.push(tokens.read());
+        numeratorTokens.push(tokens.read(TokenType.NAME));
     }
     const denominatorTokens = [];
     // Is a ratio next? Read it then
     if(tokens.nextIs(TokenType.LANGUAGE)) {
-        denominatorTokens.push(tokens.read());
+        denominatorTokens.push(tokens.read(TokenType.LANGUAGE));
         if(!tokens.nextIs(TokenType.NAME))
             return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_UNIT_NAME);
-        denominatorTokens.push(tokens.read());
+        denominatorTokens.push(tokens.read(TokenType.NAME));
         while(tokens.nextIs(TokenType.BINARY_OP) && tokens.peekText() === "·") {
-            denominatorTokens.push(tokens.read());
+            denominatorTokens.push(tokens.read(TokenType.BINARY_OP));
             if(!tokens.nextIs(TokenType.NAME))
                 return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_UNIT_NAME);
-            denominatorTokens.push(tokens.read());
+            denominatorTokens.push(tokens.read(TokenType.NAME));
         }
     }
 
@@ -540,7 +544,7 @@ function parseUnit(tokens: Tokens): Unit | Unparsable {
 /** TEXT :: text name? */
 function parseText(tokens: Tokens): TextLiteral {
 
-    const text = tokens.read();
+    const text = tokens.read(TokenType.TEXT);
     const format = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
     return new TextLiteral(text, format);
 
@@ -553,19 +557,19 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
 
     if(!tokens.nextIs(TokenType.TEXT_OPEN))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TEXT_OPEN);
-    parts.push(tokens.read());
+    parts.push(tokens.read(TokenType.TEXT_OPEN));
 
     do {
         const expression = parseExpression(tokens);
         if(expression instanceof Unparsable) return expression;
         parts.push(expression);
         if(tokens.nextIs(TokenType.TEXT_BETWEEN))
-            parts.push(tokens.read());
+            parts.push(tokens.read(TokenType.TEXT_BETWEEN));
     } while(tokens.nextIsnt(TokenType.TEXT_CLOSE));
 
     if(!tokens.nextIs(TokenType.TEXT_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TEXT_CLOSE);
-    parts.push(tokens.read());
+    parts.push(tokens.read(TokenType.TEXT_CLOSE));
 
     // Read an optional format if there's no preceding space.
     const format = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
@@ -577,7 +581,7 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
 /** LIST :: [ EXPRESSION* ] */
 function parseList(tokens: Tokens): ListLiteral | Unparsable {
 
-    let open = tokens.read();
+    let open = tokens.read(TokenType.LIST_OPEN);
     let values: (Expression|Unparsable)[] = [];
     let close;
 
@@ -585,7 +589,7 @@ function parseList(tokens: Tokens): ListLiteral | Unparsable {
         values.push(parseExpression(tokens));
 
     if(tokens.nextIs(TokenType.LIST_CLOSE))
-        close = tokens.read();
+        close = tokens.read(TokenType.LIST_CLOSE);
     else
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_LIST_CLOSE);
 
@@ -597,11 +601,11 @@ function parseList(tokens: Tokens): ListLiteral | Unparsable {
 function parseListAccess(left: Expression | Unparsable, tokens: Tokens): Expression | Unparsable {
     do {
 
-        const open = tokens.read();
+        const open = tokens.read(TokenType.LIST_OPEN);
         const index = parseExpression(tokens);
         if(tokens.nextIsnt(TokenType.LIST_CLOSE))
             return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_LIST_CLOSE);
-        const close = tokens.read();
+        const close = tokens.read(TokenType.LIST_CLOSE);
 
         left = new ListAccess(left, open, index, close);
 
@@ -618,21 +622,21 @@ function parseListAccess(left: Expression | Unparsable, tokens: Tokens): Express
 /** SET :: { EXPRESSION* } | { (EXPRESSION:EXPRESSION)* } | {:} */
 function parseSetOrMap(tokens: Tokens): SetOrMapLiteral | Unparsable {
 
-    let open = tokens.read();
+    let open = tokens.read(TokenType.SET_OPEN);
     let values: (Expression|KeyValue|Unparsable)[] = [];
     let close;
 
     // Is this an empty map?
     if(tokens.nextAre(TokenType.BIND, TokenType.SET_CLOSE)) {
-        const bind = tokens.read();
-        close = tokens.read();
+        const bind = tokens.read(TokenType.BIND);
+        close = tokens.read(TokenType.SET_CLOSE);
         return new SetOrMapLiteral(open, values, close, bind);
     }
 
     while(tokens.nextIsnt(TokenType.SET_CLOSE)) {
         const key = parseExpression(tokens);
         if(tokens.nextIs(TokenType.BIND)) {
-            const bind = tokens.read();            
+            const bind = tokens.read(TokenType.BIND);
             const value = parseExpression(tokens);
             values.push(new KeyValue(key, bind, value))
         }
@@ -640,7 +644,7 @@ function parseSetOrMap(tokens: Tokens): SetOrMapLiteral | Unparsable {
     }
 
     if(tokens.nextIs(TokenType.SET_CLOSE))
-        close = tokens.read();
+        close = tokens.read(TokenType.SET_CLOSE);
     else
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE);
 
@@ -652,12 +656,12 @@ function parseSetOrMap(tokens: Tokens): SetOrMapLiteral | Unparsable {
 function parseSetOrMapAccess(left: Expression | Unparsable, tokens: Tokens): Expression | Unparsable {
     do {
 
-        const open = tokens.read();
+        const open = tokens.read(TokenType.SET_OPEN);
         const key = parseExpression(tokens);
 
         if(tokens.nextIsnt(TokenType.SET_CLOSE))
             return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE);
-        const close = tokens.read();
+        const close = tokens.read(TokenType.SET_CLOSE);
 
         left = new SetOrMapAccess(left, open, key, close);
 
@@ -674,7 +678,7 @@ function parseSetOrMapAccess(left: Expression | Unparsable, tokens: Tokens): Exp
 /** PREVIOUS :: EXPRESSION @ EXPRESSION */
 function parsePrevious(stream: Expression, tokens: Tokens): Previous | Unparsable {
 
-    const previous = tokens.read();
+    const previous = tokens.read(TokenType.PREVIOUS);
     const index = tokens.nextIs(TokenType.NUMBER) ? parseMeasurement(tokens) : parseBlock(tokens);
 
     return new Previous(stream, previous, index);
@@ -686,7 +690,7 @@ function parseTable(tokens: Tokens): TableLiteral {
     // Read the column definitions. Stop when we see a newline.
     const columns = [];
     while(tokens.nextIs(TokenType.TABLE)) {
-        const cell = tokens.read();
+        const cell = tokens.read(TokenType.TABLE);
         const bind = parseBind(tokens);
         columns.push(new Column(cell, bind));
         if(tokens.nextHasPrecedingLineBreak())
@@ -708,7 +712,7 @@ function parseRow(tokens: Tokens, expectValue?: boolean): Row {
     const cells = [];
     // Read the cells.
     while(tokens.nextIs(TokenType.TABLE)) {
-        const cell = tokens.read();
+        const cell = tokens.read(TokenType.TABLE);
         const value = nextIsBind(tokens, expectValue) ? parseBind(tokens, expectValue) : parseExpression(tokens);
         cells.push(new Cell(cell, value));
         if(tokens.nextHasPrecedingLineBreak())
@@ -721,7 +725,7 @@ function parseRow(tokens: Tokens, expectValue?: boolean): Row {
 /** SELECT :: EXPRESSION |? ROW EXPRESSION */
 function parseSelect(table: Expression, tokens: Tokens): Select {
 
-    const select = tokens.read();
+    const select = tokens.read(TokenType.SELECT);
     const row = parseRow(tokens, false);
     const query = parseExpression(tokens);
 
@@ -732,7 +736,7 @@ function parseSelect(table: Expression, tokens: Tokens): Select {
 /** INSERT :: EXPRESSION |+ ROW */
 function parseInsert(table: Expression, tokens: Tokens): Insert {
 
-    const insert = tokens.read();
+    const insert = tokens.read(TokenType.INSERT);
     const row = parseRow(tokens, true);
 
     return new Insert(table, insert, row);
@@ -742,7 +746,7 @@ function parseInsert(table: Expression, tokens: Tokens): Insert {
 /** UPDATE :: EXPRESSION |: ROW EXPRESSION */
 function parseUpdate(table: Expression, tokens: Tokens): Update {
 
-    const update = tokens.read();
+    const update = tokens.read(TokenType.UPDATE);
     const row = parseRow(tokens, true);
     const query = parseExpression(tokens);
 
@@ -753,7 +757,7 @@ function parseUpdate(table: Expression, tokens: Tokens): Update {
 /** DELETE :: EXPRESSION |- EXPRESSION */
 function parseDelete(table: Expression, tokens: Tokens): Delete {
 
-    const del = tokens.read();
+    const del = tokens.read(TokenType.DELETE);
     const query = parseExpression(tokens);
 
     return new Delete(table, del, query);
@@ -762,7 +766,7 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 
 /** STREAM :: EXPRESSION ∆ EXPRESSION EXPRESSION */
 function parseReaction(initial: Expression, tokens: Tokens): Reaction {
-    const delta = tokens.read();
+    const delta = tokens.read(TokenType.STREAM);
     const stream = parseExpression(tokens);
     const next = parseExpression(tokens);
     return new Reaction(initial, delta, stream, next); 
@@ -773,7 +777,7 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 
     const docs = parseDocs(tokens);
 
-    const fun = tokens.read();
+    const fun = tokens.read(TokenType.FUNCTION);
 
     const aliases = tokens.nextIs(TokenType.NAME) ? parseAliases(tokens) : [];
 
@@ -781,7 +785,7 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN);
-    const open = tokens.read();
+    const open = tokens.read(TokenType.EVAL_OPEN);
 
     const inputs: (Bind|Unparsable)[] = [];
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
@@ -789,16 +793,16 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 
     if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
-    const close = tokens.read();
+    const close = tokens.read(TokenType.EVAL_CLOSE);
 
     let dot;
     let output;
     if(tokens.nextIs(TokenType.TYPE)) {
-        dot = tokens.read();
+        dot = tokens.read(TokenType.TYPE);
         output = parseType(tokens);
     }
 
-    const expression = tokens.nextIs(TokenType.ETC) ? tokens.read() : parseExpression(tokens);
+    const expression = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : parseExpression(tokens);
 
     return new FunctionDefinition(docs, aliases, typeVars, inputs, expression, output, fun, dot, open, close);
 
@@ -808,7 +812,7 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate | Unparsable {
 
     const typeVars = parseTypeVariables(tokens);
-    const open = tokens.read();
+    const open = tokens.read(TokenType.EVAL_OPEN);
     const inputs: (Bind|Expression|Unparsable)[] = [];
     let close;
     
@@ -816,7 +820,7 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
         inputs.push(nextIsBind(tokens) ? parseBind(tokens) : parseExpression(tokens));
     
     if(tokens.nextIs(TokenType.EVAL_CLOSE))
-        close = tokens.read();
+        close = tokens.read(TokenType.EVAL_CLOSE);
     else
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
     
@@ -828,7 +832,7 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
 function parseConversion(tokens: Tokens): ConversionDefinition {
 
     const docs = parseDocs(tokens);
-    const convert = tokens.read();
+    const convert = tokens.read(TokenType.CONVERT);
     const output = parseType(tokens);
     const expression = parseExpression(tokens);
 
@@ -839,7 +843,7 @@ function parseConversion(tokens: Tokens): ConversionDefinition {
 /** CONVERT :: EXPRESSION → TYPE */
 function parseConvert(expression: Expression, tokens: Tokens): Convert {
 
-    const convert = tokens.read();
+    const convert = tokens.read(TokenType.CONVERT);
     const type = parseType(tokens);
         
     return new Convert(expression, convert, type);
@@ -851,12 +855,12 @@ function parseTypeVariables(tokens: Tokens): (TypeVariable|Unparsable)[] {
 
     const vars = [];
     while(tokens.nextIs(TokenType.TYPE_VAR)) {
-        const type = tokens.read();
+        const type = tokens.read(TokenType.TYPE_VAR);
         if(tokens.nextIsnt(TokenType.NAME)) {
             vars.push(tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TYPE_VAR_NAME));
             return vars;
         }
-        const name = tokens.read();
+        const name = tokens.read(TokenType.NAME);
         vars.push(new TypeVariable(type, name));
     }
     return vars;
@@ -869,10 +873,10 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
         return left;
     do {
 
-        const access = tokens.read();
+        const access = tokens.read(TokenType.ACCESS);
         let name;
         if(tokens.nextIs(TokenType.NAME))
-            name = tokens.read();
+            name = tokens.read(TokenType.NAME);
         else return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_ACCESS_NAME);
 
         left = new AccessName(left, access, name);
@@ -890,9 +894,9 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
 /** TYPE :: (? | name | MEASUREMENT_TYPE | TEXT_TYPE | NONE_TYPE | LIST_TYPE | SET_TYPE | FUNCTION_TYPE | STREAM_TYPE) (∨ TYPE)* */
 export function parseType(tokens: Tokens): Type | Unparsable {
     let left: Type | Unparsable = (
-        tokens.nextIs(TokenType.ETC) ? new PlaceholderType(tokens.read()) :
-        tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read()) :
-        tokens.nextIs(TokenType.BOOLEAN_TYPE) ? new BooleanType(tokens.read()) :
+        tokens.nextIs(TokenType.ETC) ? new PlaceholderType(tokens.read(TokenType.ETC)) :
+        tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read(TokenType.NAME)) :
+        tokens.nextIs(TokenType.BOOLEAN_TYPE) ? new BooleanType(tokens.read(TokenType.BOOLEAN_TYPE)) :
         tokens.nextIs(TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :
         tokens.nextIs(TokenType.TEXT_TYPE) ? parseTextType(tokens) :
         tokens.nextIs(TokenType.NONE) ? parseNoneType(tokens) :
@@ -905,7 +909,7 @@ export function parseType(tokens: Tokens): Type | Unparsable {
     );
 
     while(!(left instanceof Unparsable) && tokens.nextIs(TokenType.UNION)) {
-        const or = tokens.read();
+        const or = tokens.read(TokenType.UNION);
         left = new UnionType(left, parseType(tokens), or);
     }
     
@@ -916,7 +920,7 @@ export function parseType(tokens: Tokens): Type | Unparsable {
 /** TEXT_TYPE :: text_type NAME? */
 function parseTextType(tokens: Tokens): TextType {
 
-    const quote = tokens.read();
+    const quote = tokens.read(TokenType.TEXT_TYPE);
     const format = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
     return new TextType(quote, format);
 
@@ -925,7 +929,7 @@ function parseTextType(tokens: Tokens): TextType {
 /** NUMBER_TYPE :: #NAME? */
 function parseMeasurementType(tokens: Tokens): MeasurementType {
 
-    const number = tokens.read();
+    const number = tokens.read(TokenType.NUMBER_TYPE);
     const unit = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
     return new MeasurementType(number, unit);
 
@@ -934,7 +938,7 @@ function parseMeasurementType(tokens: Tokens): MeasurementType {
 /** NONE_TYPE :: !NAME? */
 function parseNoneType(tokens: Tokens): NoneType {
 
-    const oops = tokens.read();
+    const oops = tokens.read(TokenType.NONE_TYPE);
     const names = parseAliases(tokens);
     return new NoneType(names, oops);
 
@@ -943,7 +947,7 @@ function parseNoneType(tokens: Tokens): NoneType {
 /** STREAM_TYPE :: ∆ TYPE */
 function parseStreamType(tokens: Tokens): StreamType {
 
-    const stream = tokens.read();
+    const stream = tokens.read(TokenType.STREAM_TYPE);
     const type = parseType(tokens);
     return new StreamType(type, stream);
 
@@ -952,11 +956,11 @@ function parseStreamType(tokens: Tokens): StreamType {
 /** LIST_TYPE :: [ TYPE ] */
 function parseListType(tokens: Tokens): ListType | Unparsable {
 
-    const open = tokens.read();
+    const open = tokens.read(TokenType.LIST_OPEN);
     const type = tokens.nextIsnt(TokenType.LIST_CLOSE) ? parseType(tokens) : undefined;
     if(tokens.nextIsnt(TokenType.LIST_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_LIST_CLOSE);
-    const close = tokens.read();
+    const close = tokens.read(TokenType.LIST_CLOSE);
     return new ListType(type, open, close);    
 
 }
@@ -964,18 +968,18 @@ function parseListType(tokens: Tokens): ListType | Unparsable {
 /** SET_TYPE :: { TYPE } | { TYPE:TYPE } */
 function parseSetOrMapType(tokens: Tokens): SetOrMapType | Unparsable {
 
-    const open = tokens.read();
+    const open = tokens.read(TokenType.SET_OPEN);
     let key = undefined;
     let bind = undefined;
     let value = undefined;
     if(tokens.nextIsnt(TokenType.SET_CLOSE)) {
         key = parseType(tokens);
-        bind = tokens.nextIs(TokenType.BIND) ? tokens.read() : undefined;
+        bind = tokens.nextIs(TokenType.BIND) ? tokens.read(TokenType.BIND) : undefined;
         value = bind !== undefined ? parseType(tokens) : undefined;
     }
     if(tokens.nextIsnt(TokenType.SET_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE);
-    const close = tokens.read();
+    const close = tokens.read(TokenType.SET_CLOSE);
     return new SetOrMapType(open, close, key, bind, value);
 
 }
@@ -985,7 +989,7 @@ function parseTableType(tokens: Tokens): TableType | Unparsable {
 
     const columns = [];
     while(tokens.nextIs(TokenType.TABLE)) {
-        const bar = tokens.read();
+        const bar = tokens.read(TokenType.TABLE);
         const bind = parseBind(tokens, false);
         columns.push(new ColumnType(bind, bar))
     }
@@ -996,20 +1000,20 @@ function parseTableType(tokens: Tokens): TableType | Unparsable {
 /** FUNCTION_TYPE :: ƒ( …? TYPE*) TYPE */
 function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 
-    const fun = tokens.read();
+    const fun = tokens.read(TokenType.FUNCTION);
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN);
-    const open = tokens.read();
+    const open = tokens.read(TokenType.EVAL_OPEN);
 
     const inputs = [];
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE)) {
-        const rest = tokens.nextIs(TokenType.ETC) ? tokens.read() : false;
+        const rest = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : false;
         inputs.push({ aliases:[], type: parseType(tokens), required: true, rest: rest, default: undefined });
     }
 
     if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
-    const close = tokens.read();
+    const close = tokens.read(TokenType.EVAL_CLOSE);
 
     const output = parseType(tokens);
 
@@ -1022,7 +1026,7 @@ function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     const docs = parseDocs(tokens);
 
-    const type = tokens.read();
+    const type = tokens.read(TokenType.TYPE);
 
     const aliases = parseAliases(tokens);
     if(aliases.length === 0)
@@ -1030,17 +1034,17 @@ function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     const interfaces: NameType[] = [];
     while(tokens.nextIs(TokenType.TYPE)) {
-        const dot = tokens.read();
+        const dot = tokens.read(TokenType.TYPE);
         if(tokens.nextIsnt(TokenType.NAME))
             return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_STRUCTURE_NAME);
-        const name = tokens.read();
+        const name = tokens.read(TokenType.NAME);
         interfaces.push(new NameType(name, dot));
     }
 
     const typeVars = parseTypeVariables(tokens);
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN);
-    const open = tokens.read();
+    const open = tokens.read(TokenType.EVAL_OPEN);
 
     const inputs: (Bind|Unparsable)[] = [];
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
@@ -1048,7 +1052,7 @@ function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE);
-    const close = tokens.read();
+    const close = tokens.read(TokenType.EVAL_CLOSE);
 
     const block = tokens.nextIsOneOf(TokenType.DOCS, TokenType.EVAL_OPEN) ? parseBlock(tokens, false, true) : undefined;
 
@@ -1060,7 +1064,7 @@ function parseDocs(tokens: Tokens): Docs[]  {
 
     const docs = [];
     while(tokens.nextIs(TokenType.DOCS)) {
-        const doc = tokens.read();
+        const doc = tokens.read(TokenType.DOCS);
         const lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
         docs.push(new Docs(doc, lang));
     }

@@ -16,6 +16,7 @@ export enum TokenType {
     DOCS,          // `
     NONE,          // ø
     TYPE,          // •
+    TYPE_OP,       // •
     TYPE_VAR,      // *
     ALIAS,         // ,
     LANGUAGE,      // /
@@ -34,6 +35,7 @@ export enum TokenType {
     DELETE,        // |-
     UNION,         // |
     STREAM,        // ∆
+    STREAM_TYPE,   // ∆
     PREVIOUS,      // @
     ETC,           // …
     // These are the only operators eligible for unary, binary, or teriary notation.
@@ -68,7 +70,7 @@ const TokenCategoryEvaluation = "eval";
 const TokenCategoryDocs = "docs";
 const TokenCategoryLiteral = "literal";
 const TokenCategoryName = "name";
-const TokenTypeLiteral = "type";
+const TokenCategoryType = "type";
 const TokenCategoryOperator = "operator";
 const TokenCategoryUnknown = "unknown";
 
@@ -92,13 +94,13 @@ TokenKinds.set(TokenType.TYPE_VAR, TokenCategoryRelation);
 TokenKinds.set(TokenType.ALIAS, TokenCategoryDelimiter);
 TokenKinds.set(TokenType.LANGUAGE, TokenCategoryLiteral);
 TokenKinds.set(TokenType.BOOLEAN_TYPE, TokenCategoryLiteral);
-TokenKinds.set(TokenType.TEXT_TYPE, TokenTypeLiteral);
-TokenKinds.set(TokenType.NUMBER_TYPE, TokenTypeLiteral);
+TokenKinds.set(TokenType.TEXT_TYPE, TokenCategoryType);
+TokenKinds.set(TokenType.NUMBER_TYPE, TokenCategoryType);
 TokenKinds.set(TokenType.JAPANESE, TokenCategoryLiteral);
 TokenKinds.set(TokenType.ROMAN, TokenCategoryLiteral);
 TokenKinds.set(TokenType.PI, TokenCategoryLiteral);
 TokenKinds.set(TokenType.INFINITY, TokenCategoryLiteral);
-TokenKinds.set(TokenType.NONE_TYPE, TokenTypeLiteral);
+TokenKinds.set(TokenType.NONE_TYPE, TokenCategoryType);
 TokenKinds.set(TokenType.TABLE, TokenCategoryOperator);
 TokenKinds.set(TokenType.SELECT, TokenCategoryOperator);
 TokenKinds.set(TokenType.INSERT, TokenCategoryOperator);
@@ -106,6 +108,7 @@ TokenKinds.set(TokenType.UPDATE, TokenCategoryOperator);
 TokenKinds.set(TokenType.DELETE, TokenCategoryOperator);
 TokenKinds.set(TokenType.UNION, TokenCategoryOperator);
 TokenKinds.set(TokenType.STREAM, TokenCategoryOperator);
+TokenKinds.set(TokenType.STREAM_TYPE, TokenCategoryType);
 TokenKinds.set(TokenType.PREVIOUS, TokenCategoryOperator);
 TokenKinds.set(TokenType.ETC, TokenCategoryRelation);
 TokenKinds.set(TokenType.UNARY_OP, TokenCategoryOperator);
@@ -123,7 +126,7 @@ TokenKinds.set(TokenType.NAME, TokenCategoryName);
 TokenKinds.set(TokenType.UNKNOWN, TokenCategoryUnknown);
 
 export default class Token extends Node {
-    /** The one or more types of token this might represent. */
+    /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
     readonly types: TokenType[];
     /** The text of the token */
     readonly text: string;
@@ -134,7 +137,7 @@ export default class Token extends Node {
 
     constructor(text: string, types: TokenType[], index: number=0, space: string="") {
         super();
-        this.types = types.slice();
+        this.types = [ ... types ];
         this.text = text;
         this.space = space;
         this.index = index;
@@ -148,6 +151,12 @@ export default class Token extends Node {
     isnt(type: TokenType) { return !this.is(type); }
     is(type: TokenType) { return this.types.includes(type); }
     isName() { return this.is(TokenType.NAME); }
+    withTypeNarrowedTo(type: TokenType) {
+        if(this.is(type))
+            return new Token(this.text, [ type ], this.index, this.space);
+        else
+            throw Error(`Invalid narrowing of token from ${this.types} to ${type}`);
+    }
     toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}(${this.space.length},${this.index}): ${this.text.replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
     toWordplay() { return this.space + this.text; }
 

@@ -19,7 +19,7 @@ export default class Is extends Expression {
     readonly left: Expression;
     readonly right: Type | Unparsable;
 
-    constructor(left: Expression, right: Type | Unparsable, operator: Token) {
+    constructor(left: Expression, operator: Token, right: Type | Unparsable, ) {
         super();
 
         this.operator = operator;

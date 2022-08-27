@@ -20,9 +20,9 @@ const patterns = [
     { pattern: "→", types: [ TokenType.CONVERT ] },
     { pattern: /^`.*?`/, types: [ TokenType.DOCS ] },
     { pattern: "!", types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
-    { pattern: "•", types: [ TokenType.TYPE, TokenType.BINARY_OP ] },
+    { pattern: "•", types: [ TokenType.TYPE, TokenType.TYPE_OP ] },
     { pattern: "*", types: [ TokenType.TYPE_VAR ] },
-    { pattern: "∆", types: [ TokenType.STREAM ] },
+    { pattern: "∆", types: [ TokenType.STREAM, TokenType.STREAM_TYPE ] },
     { pattern: "@", types: [ TokenType.PREVIOUS ] },
     { pattern: "…", types: [ TokenType.ETC ] },
     // Roman numerals
