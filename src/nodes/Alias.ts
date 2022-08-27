@@ -1,19 +1,19 @@
 import Node, { type ConflictContext } from "./Node";
-import Token from "./Token";
+import Token, { TokenType } from "./Token";
 import type Conflict from "../conflicts/Conflict";
 import Language from "./Language";
 
 export default class Alias extends Node {
     
     readonly semicolon?: Token;
-    readonly name: Token | string;
+    readonly name: Token;
     readonly lang?: Language;
 
     constructor(name: Token | string, lang?: Language | string, semicolon?: Token) {
         super();
 
         this.semicolon = semicolon;
-        this.name = name;
+        this.name = typeof name === "string" ? new Token(name, [ TokenType.NAME ]) : name;
         this.lang = typeof lang === "string" ? new Language(lang) : lang;
     }
 

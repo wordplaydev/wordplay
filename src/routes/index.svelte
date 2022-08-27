@@ -13,6 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;700&family=Noto+Sans:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
 </svelte:head>
 
 <Manager/>
@@ -43,6 +44,8 @@
     :global(textarea) {
         border: none;
         resize: none;
+        font-family: "Noto Sans mono", monospace;
+        font-size: small;
     }
 
     :global(textarea:focus, .verse:focus) {

@@ -16,8 +16,8 @@
         padding: var(--wordplay-editor-padding);
         white-space: pre;
         display: inline-block;
-        font-family: "Noto Sans", sans-serif;
-        font-size: medium;
+        font-family: "Noto Sans Mono", monospace;
+        font-size: small;
 
         --token-category-delimiter: lightGrey;
         --token-category-relation: lightGrey;
@@ -29,6 +29,10 @@
         --token-category-type: blue;
         --token-category-operator: magenta;
         --token-category-unknown: red;
+    }
+
+    .token-view:hover {
+        cursor: text;
     }
 
 </style>

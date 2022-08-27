@@ -11,6 +11,6 @@
 
 <div class="node-view">
     <OptionalTokenView node={node.semicolon}/>
-    {#if node.name instanceof Token}<TokenView node={node.name} />{/if}
-    {#if node.lang } <LanguageView node={node.lang} /> {/if}
+    <TokenView node={node.name}/>
+    <LanguageView node={node.lang}/>
 </div>

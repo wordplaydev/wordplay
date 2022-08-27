@@ -10,5 +10,5 @@ import LanguageView from "./LanguageView.svelte";
 
 <div class="node-view">
     <TokenView node={node.text}/>
-    {#if node.format}<LanguageView node={node.format}/>{/if}
+    <LanguageView node={node.format}/>
 </div>

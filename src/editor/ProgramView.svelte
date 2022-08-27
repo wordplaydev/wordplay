@@ -15,15 +15,21 @@ import renderNode from "./renderNode";
 <style>
     :global(.node-view) {
         padding: var(--wordplay-editor-padding);
+        display: inline-block;
+        border: 1px solid white;
         border-top-left-radius: 3px;
         border-bottom-right-radius: 3px;
-        border: 1px solid lightGrey;
-        display: inline-block;
-        margin-bottom: 2px;
+        font-family: "Noto Sans Mono", monospace;
+        font-size: small;
+    }
+
+    :global(.node-view:hover) {
+        border-color: lightGrey;
+        cursor: pointer;
     }
 
     :root {
-        --wordplay-editor-padding: 2px;
+        --wordplay-editor-padding: 1px;
     }
 
 </style>

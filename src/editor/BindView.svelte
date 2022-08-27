@@ -1,6 +1,6 @@
 <script lang="ts">
     import type Bind from "../nodes/Bind";
-import AliasesView from "./AliasesView.svelte";
+    import AliasesView from "./AliasesView.svelte";
     import DocsView from "./DocsView.svelte";
     import OptionalTokenView from "./OptionalTokenView.svelte";
     import renderNode from "./renderNode";
