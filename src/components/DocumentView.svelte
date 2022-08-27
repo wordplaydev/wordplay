@@ -14,6 +14,8 @@
     import List from '../runtime/List';
     import TextType from '../nodes/TextType';
     import StructureType from '../nodes/StructureType';
+import ProgramView from '../editor/ProgramView.svelte';
+import Program from '../nodes/Program';
 
     export let doc: Document;
     $: content = doc.getContent();
@@ -80,6 +82,8 @@
     <div class="document-title">{doc.getName()}</div>
     {#if view instanceof Structure}
         <VerseView verse={view} evaluator={$project?.getEvaluator()}/>
+    {:else if content instanceof Program}
+        <ProgramView program={content} />
     {:else if typeof content === "string"}
         <textarea 
             on:input={handleEdit} 

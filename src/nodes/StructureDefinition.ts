@@ -24,7 +24,7 @@ import type { ConflictContext } from "./Node";
 import type Definition from "./Definition";
 import StructureType from "./StructureType";
 import type Alias from "./Alias";
-import type Token from "./Token";
+import Token, { TokenType } from "./Token";
 import UnknownType from "./UnknownType";
 import FunctionType from "./FunctionType";
 import type NameType from "./NameType";
@@ -32,13 +32,13 @@ import type NameType from "./NameType";
 export default class StructureDefinition extends Expression {
 
     readonly docs: Docs[];    
-    readonly type?: Token;
+    readonly type: Token;
     readonly aliases: Alias[];
     readonly interfaces: NameType[];
     readonly typeVars: (TypeVariable|Unparsable)[];
-    readonly open?: Token;
+    readonly open: Token;
     readonly inputs: (Bind | Unparsable)[];
-    readonly close?: Token;
+    readonly close: Token;
     readonly block: Block | Unparsable;
 
     constructor(docs: Docs[], aliases: Alias[], interfaces: NameType[], typeVars: (TypeVariable|Unparsable)[], inputs: (Bind|Unparsable)[], block?: Block | Unparsable, type?: Token, open?: Token, close?: Token) {
@@ -46,13 +46,13 @@ export default class StructureDefinition extends Expression {
         super();
 
         this.docs = docs;
-        this.type = type;
+        this.type = type ?? new Token("•", [ TokenType.TYPE ]);
         this.aliases = aliases;
         this.interfaces = interfaces;
         this.typeVars = typeVars;
-        this.open = open;
+        this.open = open ?? new Token("(", [ TokenType.EVAL_OPEN ]);
         this.inputs = inputs;
-        this.close = close;
+        this.close = close ?? new Token(")", [ TokenType.EVAL_CLOSE ]);
         this.block = block ?? new Block([], [], true);
     }
 

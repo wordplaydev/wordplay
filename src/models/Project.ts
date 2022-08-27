@@ -37,6 +37,7 @@ export default class Project {
         // Generate documents based on the code.
         this.docs = [
             new Document("code", this.code, true),
+            new Document("program", this.program),
             new Document("tokens", this.tokens.map(t => t.toString()).join("\n")),
             new Document("tree", this.program.toString()),
             new Document("conflicts", this.conflicts.join("\n")),
@@ -50,8 +51,8 @@ export default class Project {
     handleResult(result: Value | undefined) {
 
         if(this.docs) {
-            this.docs[5] = new Document("output", result?.toString() ?? "no result");
-            this.docs[6] = new Document("render", this.wrapResult(result));
+            this.docs[6] = new Document("output", result?.toString() ?? "no result");
+            this.docs[7] = new Document("render", this.wrapResult(result));
             this.updater.call(undefined);
         }
 
