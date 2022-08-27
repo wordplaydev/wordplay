@@ -100,7 +100,7 @@ import Program from '../nodes/Program';
 
 <style>
     .document {
-        min-width: 20em;
+        min-width: 40em;
         display: flex;
         flex-flow: column wrap;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);

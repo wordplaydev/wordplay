@@ -38,8 +38,6 @@ export default class Project {
         this.docs = [
             new Document("code", this.code, true),
             new Document("program", this.program),
-            new Document("tokens", this.tokens.map(t => t.toString()).join("\n")),
-            new Document("tree", this.program.toString()),
             new Document("conflicts", this.conflicts.join("\n")),
             new Document("steps", this.steps.map((s, index) => `${index}: ${s.toString()}`).join("\n")),
             new Document("output", this.evaluator.getResult()?.toString() ?? "no result"),
@@ -51,8 +49,8 @@ export default class Project {
     handleResult(result: Value | undefined) {
 
         if(this.docs) {
-            this.docs[6] = new Document("output", result?.toString() ?? "no result");
-            this.docs[7] = new Document("render", this.wrapResult(result));
+            this.docs[4] = new Document("output", result?.toString() ?? "no result");
+            this.docs[5] = new Document("render", this.wrapResult(result));
             this.updater.call(undefined);
         }
 
