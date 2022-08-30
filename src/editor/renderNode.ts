@@ -49,48 +49,64 @@ export default function renderNode(node: Node) {
     const view = {
         "Token": TokenView,
         "Unparsable": UnparsableView,
+
         "Borrow": BorrowView,
         "Share": ShareView,
+
         "Block": BlockView,
+
         "Bind": BindView,
         "Alias": AliasView,
         "Language": LanguageView,
+        "Name": NameView,
+
         "StructureDefinition": StructureDefinitionView,
         "AccessName": AccessNameView,
-        "TextLiteral": TextLiteralView,
-        "TextType": TextTypeView,
         "NameType": NameTypeView,
-        "Conditional": ConditionalView,
         "TypeVariable": TypeVariableView,
-        "Evaluate": EvaluateView,
-        "Name": NameView,
-        "BinaryOperation": BinaryOperationView,
-        "MeasurementLiteral": MeasurementLiteralView,
-        "Unit": UnitView,
+
+        "TextLiteral": TextLiteralView,
         "Template": TemplateView,
+        "TextType": TextTypeView,
+
+        "FunctionDefinition": FunctionDefinitionView,
+        "Evaluate": EvaluateView,
+        "ExpressionPlaceholder": ExpressionPlaceholderView,
+        "BinaryOperation": BinaryOperationView,
+        "UnaryOperation": UnaryOperationView,
+
         "Convert": ConvertView,
         "ConversionDefnition": ConversionDefinitionView,
-        "FunctionDefinition": FunctionDefinitionView,
-        "Reaction": ReactionView,
-        "Previous": PreviousView,
-        "StreamType": StreamTypeView,
-        "UnaryOperation": UnaryOperationView,
+
+        "Conditional": ConditionalView,
+
+        "MeasurementLiteral": MeasurementLiteralView,
+        "MeasurementType": MeasurementTypeView,
+        "Unit": UnitView,
+
         "BooleanLiteral": BooleanLiteralView,
         "BooleanType": BooleanTypeView,
-        "ExpressionPlaceholder": ExpressionPlaceholderView,
-        "TypePlaceholder": TypePlaceholderView,
+
         "NoneLiteral": NoneLiteralView,
         "NoneType": NoneTypeView,
-        "MeasurementType": MeasurementTypeView,
+
         "SetOrMapLiteral": SetOrMapLiteralView,
         "KeyValue": KeyValueView,
         "SetOrMapAccess": SetOrMapAccessView,
         "SetOrMapType": SetOrMapTypeView,
+
         "ListLiteral": ListLiteralView,
         "ListAccess": ListAccessView,
         "ListType": ListTypeView,
+
+        "Reaction": ReactionView,
+        "Previous": PreviousView,
+        "StreamType": StreamTypeView,
+
         "UnionType": UnionTypeView,
+        "TypePlaceholder": TypePlaceholderView,
         "Is": IsView
+ 
     }[node.constructor.name];
     return view === undefined ? UnknownNodeView : view;
 }
