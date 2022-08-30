@@ -3,11 +3,11 @@
     import type Measurement from "../runtime/Measurement";
     import type Text from "../runtime/Text";
 
-    export let letters: Structure;
+    export let phrase: Structure;
 
-    $: size = letters.resolve("size") as Measurement;
-    $: text = letters.resolve("text") as Text;
-    $: font = letters.resolve("font") as Text;
+    $: size = phrase.resolve("size") as Measurement;
+    $: text = phrase.resolve("text") as Text;
+    $: font = phrase.resolve("font") as Text;
 
 </script>
 

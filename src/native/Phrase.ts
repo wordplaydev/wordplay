@@ -4,9 +4,9 @@ import Language from "../nodes/Language";
 import StructureDefinition from "../nodes/StructureDefinition";
 import { parseBind, tokens } from "../parser/Parser";
 
-const Letters = new StructureDefinition(
+const Phrase = new StructureDefinition(
     [], // TODO Add documentation.
-    [ new Alias("Letters", new Language("eng")) ],
+    [ new Alias("Phrase", new Language("eng")) ],
     [],
     [],
     [
@@ -18,4 +18,4 @@ const Letters = new StructureDefinition(
     new Block([], [], true)
 );
 
-export default Letters;
+export default Phrase;

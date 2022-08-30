@@ -6,7 +6,7 @@
     import Value from '../runtime/Value';
     import Text from '../runtime/Text';
     import Structure, { createStructure } from '../runtime/Structure';
-    import Letters from '../native/Letters';
+    import Phrase from '../native/Phrase';
     import VerseView from './VerseView.svelte';
     import Measurement from '../runtime/Measurement';
     import Verse from '../native/Verse';
@@ -31,14 +31,14 @@ import Program from '../nodes/Program';
             else if(contentType instanceof StructureType && contentType.definition === Group) {
                 view = createStructure(evaluator, Verse, { group: content });
             }
-            else if(contentType instanceof StructureType && contentType.definition === Letters) {
-                view = createStructure(evaluator, Verse, { group: createStructure(evaluator, Group, { letters: new List([content]) }) });
+            else if(contentType instanceof StructureType && contentType.definition === Phrase) {
+                view = createStructure(evaluator, Verse, { group: createStructure(evaluator, Group, { phrase: new List([content]) }) });
             }
             else if(contentType instanceof TextType) {
                 view = createStructure(evaluator, Verse, 
                     {
                         group: createStructure(evaluator, Group, {
-                            letters: new List([createStructure(evaluator, Letters, {
+                            phrase: new List([createStructure(evaluator, Phrase, {
                                 size: new Measurement(20),
                                 font: new Text("Noto Sans"),
                                 text: content
@@ -52,7 +52,7 @@ import Program from '../nodes/Program';
                 view = createStructure(evaluator, Verse, 
                     {
                         group: createStructure(evaluator, Group, {
-                            letters: new List([createStructure(evaluator, Letters, {
+                            phrase: new List([createStructure(evaluator, Phrase, {
                                 size: new Measurement(20),
                                 font: new Text("Noto Sans"),
                                 text: new Text(content.toString())

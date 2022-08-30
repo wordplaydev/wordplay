@@ -12,7 +12,7 @@ const Group = new StructureDefinition(
     [
         // TODO Localize names, add documentation.
         parseBind(tokens("layout/eng•Layout")),
-        parseBind(tokens("…letters/eng•Letters"))
+        parseBind(tokens("…phrases/eng•Phrase"))
     ],
     new Block([], [], true)
 );

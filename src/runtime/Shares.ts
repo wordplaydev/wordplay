@@ -3,7 +3,7 @@ import type Value from "./Value";
 import Time from "../native/Time";
 import StructureDefinitionValue from "./StructureDefinitionValue";
 import Verse from "../native/Verse";
-import Letters from "../native/Letters";
+import Phrase from "../native/Phrase";
 import Group from "../native/Group";
 import MouseButton from "../native/MouseButton";
 import MousePosition from "../native/MousePosition";
@@ -20,7 +20,7 @@ function addDefaultShare(def: StructureDefinition) {
 }
 
 addDefaultShare(Verse);
-addDefaultShare(Letters);
+addDefaultShare(Phrase);
 addDefaultShare(Group);
 addDefaultShare(Vertical);
 

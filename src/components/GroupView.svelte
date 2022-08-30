@@ -1,19 +1,19 @@
 <script lang="ts">
     import List from "../runtime/List";
     import Structure from "../runtime/Structure";
-    import LettersView from "./LettersView.svelte";
+    import PhraseView from "./PhraseView.svelte";
 
     export let group: Structure;
     const layoutStructure = group.resolve("layout");
     const layout = layoutStructure instanceof Structure ? `layout-${layoutStructure.type.aliases[0].getName()}` : "layout-default";
-    $: lettersStructure = group.resolve("letters");
-    $: letters = lettersStructure instanceof List ? lettersStructure.getValues() as Structure[] : [];
+    $: phraseStructure = group.resolve("phrases");
+    $: phrase = phraseStructure instanceof List ? phraseStructure.getValues() as Structure[] : [];
 
 </script>
 
 <div class={layout}>
-    {#each letters as lets}
-        <LettersView letters={lets} />
+    {#each phrase as lets}
+        <PhraseView phrase={lets} />
     {/each}
 </div>
 
