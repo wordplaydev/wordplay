@@ -4,7 +4,7 @@ import type { ConflictContext } from "./Node";
 import type Token from "./Token";
 import Type from "./Type";
 
-export default class PlaceholderType extends Type {
+export default class TypePlaceholder extends Type {
 
     readonly etc: Token;
 

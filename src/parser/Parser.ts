@@ -1,9 +1,7 @@
 import { tokenize } from "./Tokenizer";
 import Token, { TokenType } from "../nodes/Token";
-
 import type Expression from "../nodes/Expression";
 import type Type from "../nodes/Type";
-
 import Program from "../nodes/Program";
 import Borrow from "../nodes/Borrow";
 import Unparsable from "../nodes/Unparsable";
@@ -58,7 +56,7 @@ import Unit from "../nodes/Unit";
 import Language from "../nodes/Language";
 import Is from "../nodes/Is";
 import PlaceholderExpression from "../nodes/PlaceholderExpression";
-import PlaceholderType from "../nodes/PlaceholderType";
+import TypePlaceholder from "../nodes/TypePlaceholder";
 import Previous from "../nodes/Previous";
 
 export enum SyntacticConflict {
@@ -894,7 +892,7 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
 /** TYPE :: (? | name | MEASUREMENT_TYPE | TEXT_TYPE | NONE_TYPE | LIST_TYPE | SET_TYPE | FUNCTION_TYPE | STREAM_TYPE) (∨ TYPE)* */
 export function parseType(tokens: Tokens): Type | Unparsable {
     let left: Type | Unparsable = (
-        tokens.nextIs(TokenType.ETC) ? new PlaceholderType(tokens.read(TokenType.ETC)) :
+        tokens.nextIs(TokenType.ETC) ? new TypePlaceholder(tokens.read(TokenType.ETC)) :
         tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read(TokenType.NAME)) :
         tokens.nextIs(TokenType.BOOLEAN_TYPE) ? new BooleanType(tokens.read(TokenType.BOOLEAN_TYPE)) :
         tokens.nextIs(TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :

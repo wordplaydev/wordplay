@@ -7,14 +7,13 @@
 </script>
 
 <div class="token-view" style="color: {`var(--token-category-${TokenKinds.get(node.types[0]) ?? "default"})`}">
-    { node.text.trim() }
+    { node.text }
 </div>
 
 <style>
 
     .token-view {
         padding: var(--wordplay-editor-padding);
-        white-space: pre;
         display: inline-block;
         font-family: "Noto Sans Mono", monospace;
         font-size: small;

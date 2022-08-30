@@ -29,7 +29,7 @@ import renderNode from "./renderNode";
     }
 
     :root {
-        --wordplay-editor-padding: 1px;
+        --wordplay-editor-padding: 0;
     }
 
 </style>

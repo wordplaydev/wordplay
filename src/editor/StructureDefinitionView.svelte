@@ -9,18 +9,6 @@ import TokenView from "./TokenView.svelte";
 
 </script>
 
-<!--     
-    readonly docs: Docs[];    
-    readonly type?: Token;
-    readonly aliases: Alias[];
-    readonly interfaces: NameType[];
-    readonly typeVars: (TypeVariable|Unparsable)[];
-    readonly open?: Token;
-    readonly inputs: (Bind | Unparsable)[];
-    readonly close?: Token;
-    readonly block: Block | Unparsable;
- -->
-
  <div class="node-view">
     <DocsView docs={node.docs}/>
     <TokenView node={node.type}/>

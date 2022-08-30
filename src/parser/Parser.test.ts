@@ -44,7 +44,7 @@ import BooleanLiteral from "../nodes/BooleanLiteral";
 import Convert from "../nodes/Convert";
 import Is from "../nodes/Is";
 import ExpressionPlaceholder from "../nodes/PlaceholderExpression";
-import PlaceholderType from "../nodes/PlaceholderType";
+import TypePlaceholder from "../nodes/TypePlaceholder";
 import Previous from "../nodes/Previous";
 
 test("Parse programs", () => {
@@ -386,7 +386,7 @@ test("Blocks and binds", () => {
 test("Types", () => {
 
     const placeholder = parseType(tokens("…"));
-    expect(placeholder).toBeInstanceOf(PlaceholderType);
+    expect(placeholder).toBeInstanceOf(TypePlaceholder);
 
     const name = parseType(tokens("Cat"));
     expect(name).toBeInstanceOf(NameType);

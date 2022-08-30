@@ -1,5 +1,4 @@
 import type Exception from "../runtime/Exception";
-import type ConversionDefinition from "./ConversionDefinition";
 import type { ConflictContext } from "./Node";
 import Type from "./Type";
 

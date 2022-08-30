@@ -1,11 +1,11 @@
 import type ExpressionPlaceholder from "../nodes/PlaceholderExpression";
-import type PlaceholderType from "../nodes/PlaceholderType";
+import type TypePlaceholder from "../nodes/TypePlaceholder";
 import Conflict from "./Conflict";
 
 
 export class Placeholder extends Conflict {
-    readonly placeholder: ExpressionPlaceholder | PlaceholderType;
-    constructor(placeholder: ExpressionPlaceholder | PlaceholderType) {
+    readonly placeholder: ExpressionPlaceholder | TypePlaceholder;
+    constructor(placeholder: ExpressionPlaceholder | TypePlaceholder) {
         super(true);
         this.placeholder = placeholder;
     }
