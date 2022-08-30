@@ -10,7 +10,5 @@
 </script>
 
 <div class="node-view">
-    <OptionalTokenView node={node.semicolon}/>
-    <TokenView node={node.name}/>
-    <LanguageView node={node.lang}/>
+    <OptionalTokenView node={node.semicolon}/><TokenView node={node.name}/><LanguageView node={node.lang}/>
 </div>

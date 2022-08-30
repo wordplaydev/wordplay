@@ -6,15 +6,15 @@
 
 </script>
 
-<div class="token-view" style="color: {`var(--token-category-${TokenKinds.get(node.types[0]) ?? "default"})`}">
-    { node.text }
-</div>
+<span class="token-view" style="color: {`var(--token-category-${TokenKinds.get(node.types[0]) ?? "default"})`}">
+    {#if node.space.length > 0}<span>&nbsp;</span>{/if}{ node.text }
+</span>
 
 <style>
 
     .token-view {
         padding: var(--wordplay-editor-padding);
-        display: inline-block;
+        display: inline;
         font-family: "Noto Sans Mono", monospace;
         font-size: small;
 

@@ -6,7 +6,6 @@
 
 </script>
 
-
-<div>
+<div class="node-view">
     {#each docs as doc }<svelte:component this={renderNode(doc)} node={doc} />{/each}
 </div>

@@ -8,7 +8,5 @@
 </script>
 
 <div class="node-view">
-    <TokenView node={node.open}/>
-    {#each node.values as value }<svelte:component this={renderNode(value)} node={value} />{/each}
-    <TokenView node={node.close}/>
+    <TokenView node={node.open}/>{#each node.values as value }<svelte:component this={renderNode(value)} node={value} />{/each}<TokenView node={node.close}/>
 </div>

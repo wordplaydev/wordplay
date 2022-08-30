@@ -6,7 +6,6 @@
 
 </script>
 
-
-<span>
+<div class="node-view">
     {#if node } <svelte:component this={renderNode(node)} node={node} /> {/if}
-</span>
+</div>

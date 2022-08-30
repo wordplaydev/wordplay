@@ -8,7 +8,5 @@
 </script>
 
 <div class="node-view">
-    <svelte:component this={renderNode(node.subject)} node={node.subject} />
-    <TokenView node={node.access}/>
-    <TokenView node={node.name}/>
+    <svelte:component this={renderNode(node.subject)} node={node.subject} /><TokenView node={node.access}/><TokenView node={node.name}/>
 </div>

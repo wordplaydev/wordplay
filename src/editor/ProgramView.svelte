@@ -14,9 +14,7 @@ import renderNode from "./renderNode";
 
 <style>
     :global(.node-view) {
-        padding: var(--wordplay-editor-padding);
-        display: inline-block;
-        border: 1px solid white;
+        display: inline;
         border-top-left-radius: 3px;
         border-bottom-right-radius: 3px;
         font-family: "Noto Sans Mono", monospace;
@@ -30,6 +28,7 @@ import renderNode from "./renderNode";
 
     :root {
         --wordplay-editor-padding: 0;
+        --wordplay-editor-indent: 3em;
     }
 
 </style>
