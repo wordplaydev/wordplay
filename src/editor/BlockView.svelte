@@ -18,6 +18,10 @@
 
 <style>
 
+    .multiple {
+        display: block;
+    }
+
     .multiple .statement:not(:last-child) {
         margin-bottom: var(--wordplay-editor-spacing);
     }
