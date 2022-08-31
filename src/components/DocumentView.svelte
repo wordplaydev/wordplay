@@ -1,7 +1,7 @@
 <script lang="ts">
 
     import Project from '../models/Project';
-    import { project } from '../models/stores';
+    import { caret, project } from '../models/stores';
     import type Document from "../models/Document";
     import Value from '../runtime/Value';
     import Text from '../runtime/Text';
@@ -14,8 +14,9 @@
     import List from '../runtime/List';
     import TextType from '../nodes/TextType';
     import StructureType from '../nodes/StructureType';
-import ProgramView from '../editor/ProgramView.svelte';
-import Program from '../nodes/Program';
+    import ProgramView from '../editor/ProgramView.svelte';
+    import Program from '../nodes/Program';
+    import Caret from '../models/Caret';
 
     export let doc: Document;
     $: content = doc.getContent();
@@ -72,7 +73,9 @@ import Program from '../nodes/Program';
             // Clean up the project before we create a new one.
             $project.cleanup();
             // Make a new one based on the new program
-            project.set(new Project("Play", newCode, () => project.set($project)));
+            const newProject = new Project("Play", newCode, () => project.set($project));
+            project.set(newProject);
+            caret.set(new Caret(newProject, 0));
         }
     }
 
@@ -84,7 +87,20 @@ import Program from '../nodes/Program';
         {#if view instanceof Structure}
             <VerseView verse={view} evaluator={$project?.getEvaluator()}/>
         {:else if content instanceof Program}
-            <ProgramView program={content} />
+            <div class="wordplay-code"
+                tabindex=0
+                on:mousedown={(event) => event.currentTarget.focus()}
+                on:keydown|preventDefault={(event) => {
+                    if($caret) {
+                        if(event.key === "ArrowLeft") caret.set($caret.left());
+                        else if(event.key === "ArrowRight") caret.set($caret.right());
+                        else if(event.key === "ArrowUp") caret.set($caret.up());
+                        else if(event.key === "ArrowDown") caret.set($caret.down());
+                    }
+                }}
+            >
+                <ProgramView program={content} />
+            </div>
         {:else if typeof content === "string"}
             <textarea 
                 on:input={handleEdit} 
@@ -119,17 +135,25 @@ import Program from '../nodes/Program';
     .document-content {
         min-height: 10rem;
         background: var(--wordplay-background);
-        padding: var(--wordplay-spacing);
         color: var(--wordplay-foreground);
+        box-sizing: border-box;;
+    }
+
+    .wordplay-code {
+        padding: var(--wordplay-spacing);
         white-space: nowrap;
         overflow: scroll;
+    }
+
+    .wordplay-code:focus {
+        outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
     }
 
     textarea[readonly] {
         background: var(--wordplay-chrome);
     }
     textarea {
-        width: auto;
+        width: 100%;
         tab-size : 2;
         white-space: pre;
         overflow-wrap: normal;

@@ -1,12 +1,15 @@
 <script lang="ts">
     import Project from '../models/Project';
     import { examples } from '../examples/examples';
-    import { project } from '../models/stores';
+    import { caret, project } from '../models/stores';
+    import Caret from '../models/Caret';
 
     let example: string;
 
     function handleChange() {
-        project.set(new Project("Play", examples[example], () => project.set($project)));
+        const newProject = new Project("Play", examples[example], () => project.set($project));
+        project.set(newProject);
+        caret.set(new Caret(newProject, 0));
     }
 
 </script>

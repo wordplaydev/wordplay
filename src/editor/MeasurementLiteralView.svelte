@@ -7,4 +7,4 @@
 
 </script>
 
-<div class="node-view"><TokenView node={node.number}/><NodeView node={node.unit}/></div>
+<div class="node-view"><TokenView node={node.number}/><small><NodeView node={node.unit}/></small></div>

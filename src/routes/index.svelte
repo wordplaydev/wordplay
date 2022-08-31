@@ -2,10 +2,13 @@
 
     import Project from '../models/Project';
     import Manager from '../components/Manager.svelte';
-    import { project } from '../models/stores';
+    import { caret, project } from '../models/stores';
     import { examples } from '../examples/examples';
+    import Caret from '../models/Caret';
 
-    project.set(new Project("Play", examples.WhatWord, () => project.set($project)));
+    const newProject = new Project("Play", examples.WhatWord, () => project.set($project));
+    project.set(newProject);
+    caret.set(new Caret(newProject, 0));
 
 </script>
 

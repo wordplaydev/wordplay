@@ -1,8 +1,7 @@
 <script lang="ts">
-
+    
     import type Program from "../nodes/Program";
-import NodeView from "./NodeView.svelte";
-import renderNode from "./renderNode";
+    import NodeView from "./NodeView.svelte";
 
     export let program: Program;
 
@@ -14,12 +13,16 @@ import renderNode from "./renderNode";
 </div>
 
 <style>
+
+    div {
+        font-size: medium;
+    }
+
     :global(.node-view) {
         display: inline;
         border-top-left-radius: 3px;
         border-bottom-right-radius: 3px;
         font-family: "Noto Sans Mono", monospace;
-        font-size: small;
     }
 
     :global(.node-view:hover) {
@@ -28,8 +31,18 @@ import renderNode from "./renderNode";
     }
 
     :root {
-        --wordplay-editor-padding: 0;
+        --wordplay-editor-padding: .5em;
         --wordplay-editor-indent: 3em;
+
+        --color-blue: #648FFF;
+        --color-purple: #785EF0;
+        --color-pink: #DC267F;
+        --color-orange: #FE6100;
+        --color-yellow: #FFB000;
+        --color-grey: #AAAAAA;
+        --color-white: #FFFFFF;
+        --color-black: #000000;
+
     }
 
 </style>

@@ -10,7 +10,7 @@
 </script>
 
 <div class="node-view">
-    <DocsView docs={node.docs}/><OptionalTokenView node={node.etc}/><strong><AliasesView aliases={node.names}/></strong><span class="type">{#if node.type}<OptionalTokenView node={node.dot}/><NodeView node={node.type}/>{/if}</span><OptionalTokenView node={node.colon}/>{#if node.value }<NodeView node={node.value}/>{/if}
+    <DocsView docs={node.docs}/><OptionalTokenView node={node.etc}/><strong><AliasesView aliases={node.names}/></strong><span class="type">{#if node.type}<OptionalTokenView node={node.dot}/><NodeView node={node.type}/>{/if}</span><strong><OptionalTokenView node={node.colon}/></strong>{#if node.value }<NodeView node={node.value}/>{/if}
 </div>
 
 <style>
