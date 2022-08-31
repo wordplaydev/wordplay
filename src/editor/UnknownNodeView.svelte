@@ -7,12 +7,12 @@
 </script>
 
 <NodeView node={node}>
-    {node.constructor.name}
+    <span class="name">{node.constructor.name}</span>
 </NodeView>
 
 <style>
 
-    div {
+    .name {
         background-color: rgb(255,240,240);
     }
 

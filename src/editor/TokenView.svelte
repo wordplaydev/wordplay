@@ -11,6 +11,7 @@
     const precedingSpace = node.space === " ";
 
     $: caretPosition = $caret !== undefined && typeof $caret.position === "number" && $caret.between(node.index, node.index + node.text.length) ? $caret.position - node.index + (precedingSpace ? 1 : 0) : undefined;
+    const idle = false;
 
     function handleClick(event: MouseEvent) {
         if($caret !== undefined && event.currentTarget instanceof Element)
@@ -23,7 +24,7 @@
     class="token-view token-{kind} {$caret?.position === node ? "selected" : ""}" 
     on:mousedown={handleClick} 
     style="color: {`var(--token-category-${kind})`}"
->{#if precedingSpace}<span class="whitespace">&nbsp;</span>{/if}<span class="text">{ node.text }</span>{#if caretPosition !== undefined}<span class="caret blink" style="left: {caretPosition}ch"></span>{/if}
+>{#if precedingSpace}<span class="whitespace">&nbsp;</span>{/if}<span class="text">{ node.text }</span>{#if caretPosition !== undefined}<span class="caret {idle ? "blink" : ""}" style="left: {caretPosition}ch"></span>{/if}
 </span>
 
 <style>
@@ -68,7 +69,7 @@
     }
 
     @keyframes blink-animation {
-        to { opacity: hidden; }       
+        to { visibility: hidden; }       
     }
 
     .selected .text {
