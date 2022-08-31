@@ -20,10 +20,10 @@
 </script>
 
 <span 
-    class="token-view token-{kind} token-{type}" 
+    class="token-view token-{kind} {$caret?.position === node ? "selected" : ""}" 
     on:mousedown={handleClick} 
     style="color: {`var(--token-category-${kind})`}"
->{#if precedingSpace}<span>&nbsp;</span>{/if}{ node.text }{#if caretPosition !== undefined}<span class="caret blink" style="left: {caretPosition}ch"></span>{/if}
+>{#if precedingSpace}<span class="whitespace">&nbsp;</span>{/if}<span class="text">{ node.text }</span>{#if caretPosition !== undefined}<span class="caret blink" style="left: {caretPosition}ch"></span>{/if}
 </span>
 
 <style>
@@ -63,13 +63,16 @@
         z-index: 1;
     }
 
-    .blink:not(.idle) {
+    .blink {
         animation: blink-animation 1s steps(2, start) infinite;
-        animation-delay: 1s;
     }
 
     @keyframes blink-animation {
-        to { visibility: hidden; }       
+        to { opacity: hidden; }       
+    }
+
+    .selected .text {
+        outline: 2px solid var(--color-yellow);
     }
 
 </style>

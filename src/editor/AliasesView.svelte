@@ -6,6 +6,6 @@
 
 </script>
 
-<div class="node-view">
+<span>
     {#each aliases as alias}<AliasView node={alias}/>{/each}
-</div>
+</span>

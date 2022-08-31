@@ -147,6 +147,7 @@ export default class Token extends Node {
     getChildren() { return []; }
     getPrecedingSpace() { return this.space; }
     hasPrecedingSpace() { return this.space.length > 0; }
+    containsPosition(position: number) { return position >= this.index - this.space.length && position <= this.index + this.text.length; }
     hasPrecedingLineBreak() { return this.space.includes("\n"); }
     isnt(type: TokenType) { return !this.is(type); }
     is(type: TokenType) { return this.types.includes(type); }

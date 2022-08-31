@@ -1,29 +1,25 @@
 <script lang="ts">
     import type Reaction from "../nodes/Reaction";
     import NodeView from "./NodeView.svelte";
+    import OptionalNodeView from "./OptionalNodeView.svelte";
     import TokenView from "./TokenView.svelte";
 
     export let node: Reaction;
 
 </script>
 
-<div class="node-view">
+<NodeView node={node}>
     <div class="group">
-        <NodeView node={node.initial}/>
+        <OptionalNodeView node={node.initial}/>
         <div>
             <TokenView node={node.delta}/>
-            <NodeView node={node.stream}/>
+            <OptionalNodeView node={node.stream}/>
         </div>
-        <NodeView node={node.next}/>
+        <OptionalNodeView node={node.next}/>
     </div>
-</div>
+</NodeView>
 
 <style>
-    .node-view {
-        display: flex;
-        flex-direction: column;
-    }
-
     .group {
         margin-left: var(--wordplay-editor-indent);
     }

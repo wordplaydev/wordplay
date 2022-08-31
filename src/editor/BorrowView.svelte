@@ -1,5 +1,6 @@
 <script lang="ts">
     import type Borrow from "../nodes/Borrow";
+    import NodeView from "./NodeView.svelte";
     import OptionalToken from "./OptionalTokenView.svelte";
     import TokenView from "./TokenView.svelte";
     
@@ -7,6 +8,6 @@
 
 </script>
 
-<div class="node-view">
+<NodeView node={node}>
     <TokenView node={node.borrow} /><TokenView node={node.name} /><OptionalToken node={node.version} />
-</div>
+</NodeView>

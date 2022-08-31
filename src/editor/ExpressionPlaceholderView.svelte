@@ -1,11 +1,12 @@
 <script lang="ts">
     import type ExpressionPlaceholder from "../nodes/PlaceholderExpression";
+    import NodeView from "./NodeView.svelte";
     import TokenView from "./TokenView.svelte";
     
     export let node: ExpressionPlaceholder;
 
 </script>
 
-<div class="node-view">
+<NodeView node={node}>
     <TokenView node={node.etc} />
-</div>
+</NodeView>

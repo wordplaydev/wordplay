@@ -1,8 +1,35 @@
 <script lang="ts">
-    import renderNode from "./renderNode";
+    import { caret } from "../models/stores";
     import type Node from "../nodes/Node";
 
-    export let node: Node | undefined;
+    export let node: Node;
+    export let block: boolean = false;
+
 </script>
 
-{#if node !== undefined}<svelte:component this={renderNode(node)} node={node} />{/if}
+{#if block}
+    <div class="node-view {$caret?.position === node ? "selected" : ""}">
+        <slot/>
+    </div>
+{:else}
+    <span class="node-view {$caret?.position === node ? "selected" : ""}">
+        <slot/>
+    </span>
+{/if}
+
+<style>
+
+    .node-view {
+        border-top-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        font-family: "Noto Sans Mono", monospace;
+    }
+
+    .node-view:hover {
+        cursor: pointer;
+    }
+
+    .selected {
+        border: 2px solid var(--color-yellow);
+    }
+</style>

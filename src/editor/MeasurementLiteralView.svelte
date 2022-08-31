@@ -1,10 +1,11 @@
 <script lang="ts">
     import type MeasurementLiteral from "../nodes/MeasurementLiteral";
     import NodeView from "./NodeView.svelte";
+    import OptionalNodeView from "./OptionalNodeView.svelte";
     import TokenView from "./TokenView.svelte";
 
     export let node: MeasurementLiteral;
 
 </script>
 
-<div class="node-view"><TokenView node={node.number}/><small><NodeView node={node.unit}/></small></div>
+<NodeView node={node}><TokenView node={node.number}/><small><OptionalNodeView node={node.unit}/></small></NodeView>

@@ -48,7 +48,7 @@ export default class Caret {
 
     moveHorizontal(direction: -1 | 1): Caret {
         if(this.position instanceof Node) {
-            return this;            
+            return this;
         }
         else {
             const stop = direction < 0 ? 0 : this.project.code.length;

@@ -7,8 +7,4 @@ import LanguageView from "./LanguageView.svelte";
 
 </script>
 
-{#if docs.length > 0}
-<div class="node-view">
-    {#each docs as doc }<TokenView node={doc.docs}/><LanguageView node={doc.lang}/>{/each}
-</div>
-{/if}
+{#each docs as doc }<TokenView node={doc.docs}/><LanguageView node={doc.lang}/>{/each}

@@ -1,34 +1,19 @@
 <script lang="ts">
     
     import type Program from "../nodes/Program";
-    import NodeView from "./NodeView.svelte";
+import NodeView from "./NodeView.svelte";
+    import OptionalNodeView from "./OptionalNodeView.svelte";
 
     export let program: Program;
 
 </script>
 
-<div class="node-view">
-    {#each program.borrows as borrow}<NodeView node={borrow}/>{/each}
-    <NodeView node={program.block}/>
-</div>
+<NodeView node={program}>
+    {#each program.borrows as borrow}<OptionalNodeView node={borrow}/>{/each}
+    <OptionalNodeView node={program.block}/>
+</NodeView>
 
 <style>
-
-    div {
-        font-size: medium;
-    }
-
-    :global(.node-view) {
-        display: inline;
-        border-top-left-radius: 3px;
-        border-bottom-right-radius: 3px;
-        font-family: "Noto Sans Mono", monospace;
-    }
-
-    :global(.node-view:hover) {
-        border-color: lightGrey;
-        cursor: pointer;
-    }
 
     :root {
         --wordplay-editor-padding: .5em;

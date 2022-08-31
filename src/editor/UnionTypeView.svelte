@@ -1,13 +1,13 @@
 <script lang="ts">
     import type UnionType from "../nodes/UnionType";
-import NodeView from "./NodeView.svelte";
-    import renderNode from "./renderNode";
+    import NodeView from "./NodeView.svelte";
+    import OptionalNodeView from "./OptionalNodeView.svelte";
     import TokenView from "./TokenView.svelte";
 
     export let node: UnionType;
 
 </script>
 
-<div class="node-view">
-    <NodeView node={node.left}/><TokenView node={node.or}/><NodeView node={node.right}/>
-</div>
+<NodeView node={node}>
+    <OptionalNodeView node={node.left}/><TokenView node={node.or}/><OptionalNodeView node={node.right}/>
+</NodeView>
