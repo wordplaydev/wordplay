@@ -29,9 +29,4 @@
         display:inline;
     }
 
-    .node-view.multiple {
-        display: flex;
-        flex-direction: column;
-    }
-
 </style>
