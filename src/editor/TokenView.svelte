@@ -2,6 +2,7 @@
     import type Token from "../nodes/Token";
     import { TokenKinds } from "../nodes/Token";
     import { caret } from "../models/stores";
+import Caret from "../models/Caret";
 
     export let node: Token;
 
@@ -11,9 +12,19 @@
 
     $: caretPosition = $caret !== undefined && typeof $caret.position === "number" && $caret.between(node.index, node.index + node.text.length) ? $caret.position - node.index + (precedingSpace ? 1 : 0) : undefined;
 
+    function handleClick(event: MouseEvent) {
+        if($caret !== undefined && event.currentTarget instanceof Element)
+            caret.set(new Caret($caret.project, node.index + Math.floor(((precedingSpace ? 1 : 0) + node.text.length) * (event.offsetX / event.currentTarget.getBoundingClientRect().width))));
+    }
+
 </script>
 
-<span class="token-view token-{kind} token-{type}" style="color: {`var(--token-category-${kind})`}">{#if precedingSpace}<span>&nbsp;</span>{/if}{ node.text }{#if caretPosition !== undefined}<span class="caret blink" style="left: {caretPosition}ch"></span>{/if}</span>
+<span 
+    class="token-view token-{kind} token-{type}" 
+    on:mousedown={handleClick} 
+    style="color: {`var(--token-category-${kind})`}"
+>{#if precedingSpace}<span>&nbsp;</span>{/if}{ node.text }{#if caretPosition !== undefined}<span class="caret blink" style="left: {caretPosition}ch"></span>{/if}
+</span>
 
 <style>
 
