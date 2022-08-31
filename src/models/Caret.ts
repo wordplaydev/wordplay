@@ -3,10 +3,12 @@ import type Project from "./Project";
 
 export default class Caret {
 
+    readonly time: number;
     readonly project: Project;
     readonly position: number | Node;
 
     constructor(project: Project, position: number | Node) {
+        this.time = Date.now();
         this.project = project;
         this.position = position;
     }

@@ -2,7 +2,7 @@
     import type Token from "../nodes/Token";
     import { TokenKinds } from "../nodes/Token";
     import { caret } from "../models/stores";
-import Caret from "../models/Caret";
+    import Caret from "../models/Caret";
 
     export let node: Token;
 
@@ -63,8 +63,9 @@ import Caret from "../models/Caret";
         z-index: 1;
     }
 
-    .blink {
+    .blink:not(.idle) {
         animation: blink-animation 1s steps(2, start) infinite;
+        animation-delay: 1s;
     }
 
     @keyframes blink-animation {
