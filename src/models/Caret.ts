@@ -1,4 +1,5 @@
 import Node from "../nodes/Node";
+import Token from "../nodes/Token";
 import type Project from "./Project";
 
 export default class Caret {
@@ -48,7 +49,10 @@ export default class Caret {
 
     moveHorizontal(direction: -1 | 1): Caret {
         if(this.position instanceof Node) {
-            return this;
+
+            // Get the first or last token of the given node.
+            const tokens = this.position.nodes().filter(n => n instanceof Token) as Token[];
+            return tokens.length === 0 ? this : this.withPosition(direction < 0 ? tokens[0].index : tokens[tokens.length - 1].index + tokens[tokens.length - 1].text.length )
         }
         else {
             const stop = direction < 0 ? 0 : this.project.code.length;
@@ -60,7 +64,7 @@ export default class Caret {
                 if(!this.isWhitespace(this.project.code.charAt(pos)) || lastIsntWhitespace) break;
                 pos += direction;
             }
-            return new Caret(this.project, pos);
+            return this.withPosition(pos);
         }
     }
 
@@ -81,15 +85,17 @@ export default class Caret {
             // If the next row isn't just whitespace, then return the position corresponding to the closest column on the next line
             const rowPosition = this.rowPosition(row);
             if(rowPosition !== undefined && lines[row].trim().length > 0) {
-                return new Caret(this.project, rowPosition + Math.min(column, lines[row].length));
+                return this.withPosition(rowPosition + Math.min(column, lines[row].length));
             }
             // Otherwise, go to the next row.
             row += direction;
         }
 
         // If we ran out of rows, return the first/last position.
-        return new Caret(this.project, direction < 0 ? 0 : this.project.code.length);
+        return this.withPosition(direction < 0 ? 0 : this.project.code.length);
 
     }
+
+    withPosition(position: number | Node): Caret { return new Caret(this.project, position); }
 
 }
