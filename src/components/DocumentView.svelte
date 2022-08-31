@@ -33,7 +33,7 @@
                 view = createStructure(evaluator, Verse, { group: content });
             }
             else if(contentType instanceof StructureType && contentType.definition === Phrase) {
-                view = createStructure(evaluator, Verse, { group: createStructure(evaluator, Group, { phrase: new List([content]) }) });
+                view = createStructure(evaluator, Verse, { group: createStructure(evaluator, Group, { phrases: new List([content]) }) });
             }
             else if(contentType instanceof TextType) {
                 view = createStructure(evaluator, Verse, 
