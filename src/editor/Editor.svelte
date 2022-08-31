@@ -16,7 +16,14 @@
     on:mousedown={(event) => event.currentTarget.focus()}
     on:keydown={(event) => {
         if($caret) {
-            if(!event.metaKey && !event.ctrlKey) {
+            const meta = event.metaKey || event.ctrlKey;
+            if(meta) {
+                if(event.key === "a" && $project) {
+                    event.preventDefault();
+                    caret.set($caret.withPosition($project.program));
+                }
+            }
+            else {
                 event.preventDefault();
                 if(event.key === "ArrowLeft") caret.set($caret.left());
                 else if(event.key === "ArrowRight") caret.set($caret.right());

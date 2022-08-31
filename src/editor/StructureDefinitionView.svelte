@@ -19,10 +19,3 @@
     <OptionalNodeView node={node.block}/>
     </div>
 </NodeView>
-
-<style>
-    .definition {
-        border-left: 2px solid var(--color-grey);
-        padding-left: var(--wordplay-editor-padding);
-    }
-</style>
