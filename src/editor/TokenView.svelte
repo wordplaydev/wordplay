@@ -13,7 +13,7 @@
 
 </script>
 
-<span class="token-view token-{kind} token-{type}" style="color: {`var(--token-category-${kind})`}">{#if precedingSpace}<span>&nbsp;</span>{/if}{ node.text }{#if caretPosition !== undefined}<span class="caret" style="left: {caretPosition}ch"></span>{/if}</span>
+<span class="token-view token-{kind} token-{type}" style="color: {`var(--token-category-${kind})`}">{#if precedingSpace}<span>&nbsp;</span>{/if}{ node.text }{#if caretPosition !== undefined}<span class="caret blink" style="left: {caretPosition}ch"></span>{/if}</span>
 
 <style>
 
@@ -50,6 +50,14 @@
         height: 1.4em;
         background-color: var(--color-black);
         z-index: 1;
+    }
+
+    .blink {
+        animation: blink-animation 1s steps(2, start) infinite;
+    }
+
+    @keyframes blink-animation {
+        to { visibility: hidden; }       
     }
 
 </style>
