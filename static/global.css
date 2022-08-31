@@ -2,11 +2,11 @@
     --wordplay-editor-padding: .5em;
     --wordplay-editor-indent: 3em;
     --wordplay-editor-radius: 3px;
-    --wordplay-foreground: black; 
-    --wordplay-background: white;
-    --wordplay-chrome: rgb(240,240,240);
-    --wordplay-border-color: rgb(230,230,230);
-    --wordplay-highlight: rgb(237, 206, 53);
+    --wordplay-foreground: var(--color-black); 
+    --wordplay-background: var(--color-white);
+    --wordplay-chrome: rgb(240, 240, 240);
+    --wordplay-border-color: rgb(230, 230, 230);
+    --wordplay-highlight: var(--color-yellow);
     --wordplay-spacing: 0.5em;
     --wordplay-font-face: "Noto Sans", sans-serif;
     --wordplay-font-weight: 500;

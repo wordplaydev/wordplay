@@ -6,11 +6,13 @@
 
     export let node: Block;
 
+    const singleton = node.statements.length === 1;
+
 </script>
 
-<NodeView node={node}>
-    <span class="{node.statements.length === 1 ? "single" : "multiple"} { node.open ? "not-root" : ""}">
-        <DocsView docs={node.docs}/><OptionalNodeView node={node.open}/><div class="statements">{#each node.statements as statement }<div class="{node.statements.length === 1 ? "expression" : "statement"}"><OptionalNodeView node={statement}/></div>{/each}</div><OptionalNodeView node={node.close}/>
+<NodeView node={node} block={!singleton}>
+    <span class="{singleton ? "single" : "multiple"} { node.open ? "not-root" : ""}">
+        <DocsView docs={node.docs}/><OptionalNodeView node={node.open}/><div class="statements">{#each node.statements as statement }<div class="{singleton ? "expression" : "statement"}"><OptionalNodeView node={statement}/></div>{/each}</div><OptionalNodeView node={node.close}/>
     </span>
 </NodeView>
 
@@ -24,7 +26,7 @@
         margin-left: var(--wordplay-editor-indent);
     }
 
-    .single .statements {
+    .single > .statements {
         display: inline;
     }
 

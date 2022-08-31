@@ -1,10 +1,11 @@
 <script lang="ts">
     import type Docs from "../nodes/Docs";
-import LanguageView from "./LanguageView.svelte";
+    import LanguageView from "./LanguageView.svelte";
+    import NodeView from "./NodeView.svelte";
     import TokenView from "./TokenView.svelte";
     
     export let docs: Docs[];
 
 </script>
 
-{#each docs as doc }<TokenView node={doc.docs}/><LanguageView node={doc.lang}/>{/each}
+{#each docs as doc }<NodeView node={doc} block><TokenView node={doc.docs}/><LanguageView node={doc.lang}/></NodeView>{/each}

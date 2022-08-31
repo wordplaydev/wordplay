@@ -30,6 +30,6 @@
     }
 
     .selected {
-        border: 2px solid var(--color-yellow);
+        outline: 4px solid var(--wordplay-highlight);
     }
 </style>

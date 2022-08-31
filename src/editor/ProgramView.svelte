@@ -8,7 +8,7 @@ import NodeView from "./NodeView.svelte";
 
 </script>
 
-<NodeView node={program}>
+<NodeView node={program} block>
     {#each program.borrows as borrow}<OptionalNodeView node={borrow}/>{/each}
     <OptionalNodeView node={program.block}/>
 </NodeView>
