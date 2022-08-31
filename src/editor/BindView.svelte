@@ -11,7 +11,7 @@
 
 <div class="node-view">
     <DocsView docs={node.docs}/>
-    <OptionalTokenView node={node.etc}/><AliasesView aliases={node.names}/><OptionalTokenView node={node.dot}/><span class="type">{#if node.type }<NodeView node={node.type}/>{/if}</span><OptionalTokenView node={node.colon}/>{#if node.value }<NodeView node={node.value}/>{/if}
+    <OptionalTokenView node={node.etc}/><strong><AliasesView aliases={node.names}/></strong><OptionalTokenView node={node.dot}/><span class="type">{#if node.type }<NodeView node={node.type}/>{/if}</span><OptionalTokenView node={node.colon}/>{#if node.value }<NodeView node={node.value}/>{/if}
 </div>
 
 <style>

@@ -2,35 +2,43 @@
     import type Token from "../nodes/Token";
     import { TokenKinds } from "../nodes/Token";
 
-    export let node: Token | undefined;
+    export let node: Token;
+
+    const type = node.types[0];
+    const kind = type !== undefined ? TokenKinds.get(type) : "default";
 
 </script>
 
 {#if node}
-<span class="token-view" style="color: {`var(--token-category-${TokenKinds.get(node.types[0]) ?? "default"})`}">{#if node.space.length > 0}<span>&nbsp;</span>{/if}{ node.text }</span>
+<span class="token-view token-{kind} token-{type}" style="color: {`var(--token-category-${kind})`}">{#if node.space.length > 0}<span>&nbsp;</span>{/if}{ node.text }</span>
 {/if}
 
 <style>
 
     .token-view {
         padding: var(--wordplay-editor-padding);
-        display: inline;
+        display: inline-block;
         font-family: "Noto Sans Mono", monospace;
 
-        --token-category-delimiter: lightGrey;
+        --token-category-delimiter: rgb(180,180,180);
         --token-category-relation: lightGrey;
-        --token-category-share: blue;
-        --token-category-eval: magenta;
+        --token-category-share: rgb(0,0,180);
+        --token-category-eval: rgb(0,0,180);
         --token-category-docs: grey;
         --token-category-literal: green;
         --token-category-name: black;
         --token-category-type: blue;
-        --token-category-operator: magenta;
+        --token-category-operator: rgb(0,0,180);
         --token-category-unknown: red;
     }
 
     .token-view:hover {
         cursor: text;
+    }
+
+    .token-delimiter, .token-relation {
+        transform-origin: center;
+        transform: scale(1.3, 1.3);
     }
 
 </style>
