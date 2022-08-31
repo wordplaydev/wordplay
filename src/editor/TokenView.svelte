@@ -37,7 +37,7 @@
     }
 
     .token-delimiter, .token-relation {
-        transform-origin: center;
+        transform-origin: left;
         transform: scale(1.3, 1.3);
     }
 

@@ -5,4 +5,4 @@
     export let node: Node | undefined;
 </script>
 
-{#if node}<svelte:component this={renderNode(node)} node={node} />{/if}
+{#if node !== undefined}<svelte:component this={renderNode(node)} node={node} />{/if}

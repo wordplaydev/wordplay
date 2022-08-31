@@ -20,6 +20,6 @@
 <style>
     .signature {
         display: inline-block;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid lightGrey;
     }
 </style>
