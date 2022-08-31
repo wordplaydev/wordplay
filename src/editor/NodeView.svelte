@@ -7,15 +7,9 @@
 
 </script>
 
-{#if block}
-    <div class="node-view {$caret?.position === node ? "selected" : ""}">
-        <slot/>
-    </div>
-{:else}
-    <span class="node-view {$caret?.position === node ? "selected" : ""}">
-        <slot/>
-    </span>
-{/if}
+<div class="node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"}">
+    <slot/>
+</div>
 
 <style>
 
@@ -23,6 +17,14 @@
         border-top-left-radius: var(--wordplay-editor-radius);
         border-bottom-right-radius: var(--wordplay-editor-radius);
         font-family: "Noto Sans Mono", monospace;
+    }
+    
+    .node-view.inline {
+        display: inline;
+    }
+
+    .node-view.block {
+        display: block;
     }
 
     .node-view:hover {

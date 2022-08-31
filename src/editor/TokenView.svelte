@@ -46,8 +46,9 @@
         --token-category-unknown: var(--color-pink);
     }
 
-    .token-view:hover {
+    .text:hover {
         cursor: text;
+        outline: 1px solid var(--color-grey);
     }
 
     .token-delimiter {

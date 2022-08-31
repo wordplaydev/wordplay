@@ -8,7 +8,7 @@
 
 </script>
 
-<NodeView node={node}>
+<NodeView node={node} block>
     <span class="condition"><OptionalNodeView node={node.condition}/><TokenView node={node.conditional}/></span>
     <div class="choices">
         <OptionalNodeView node={node.yes}/>
@@ -17,11 +17,6 @@
 </NodeView>
 
 <style>
-    div {
-        display: flex;
-        flex-direction: column;
-    }
-
     .choices {
         margin-left: var(--wordplay-editor-indent);
     }
