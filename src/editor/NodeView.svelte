@@ -20,8 +20,8 @@
 <style>
 
     .node-view {
-        border-top-left-radius: 3px;
-        border-bottom-right-radius: 3px;
+        border-top-left-radius: var(--wordplay-editor-radius);
+        border-bottom-right-radius: var(--wordplay-editor-radius);
         font-family: "Noto Sans Mono", monospace;
     }
 

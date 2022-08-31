@@ -31,19 +31,6 @@
         color: var(--wordplay-foreground);
     }
 
-    :global(:root){
-        --wordplay-foreground: black; 
-        --wordplay-background: white;
-        --wordplay-chrome: rgb(240,240,240);
-        --wordplay-border-color: rgb(230,230,230);
-        --wordplay-highlight: rgb(237, 206, 53);
-        --wordplay-spacing: 0.5em;
-        --wordplay-font-face: "Noto Sans", sans-serif;
-        --wordplay-font-weight: 500;
-        --wordplay-border-width: 4px;
-        --wordplay-border-radius: 6px;
-    }
-
     :global(textarea) {
         border: none;
         resize: none;

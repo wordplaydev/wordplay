@@ -17,7 +17,7 @@
 <style>
 
     .multiple .statement:not(:last-child) {
-        margin-bottom: 1em;
+        margin-bottom: var(--wordplay-editor-spacing);
     }
 
     .multiple.not-root > .statements {
@@ -29,7 +29,7 @@
     }
 
     .expression {
-        display:inline;
+        display: inline;
     }
 
 </style>
