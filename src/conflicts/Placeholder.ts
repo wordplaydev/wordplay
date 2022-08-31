@@ -1,4 +1,4 @@
-import type ExpressionPlaceholder from "../nodes/PlaceholderExpression";
+import type ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
 import type TypePlaceholder from "../nodes/TypePlaceholder";
 import Conflict from "./Conflict";
 

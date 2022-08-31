@@ -55,7 +55,7 @@ import SetOrMapLiteral from "../nodes/SetOrMapLiteral";
 import Unit from "../nodes/Unit";
 import Language from "../nodes/Language";
 import Is from "../nodes/Is";
-import PlaceholderExpression from "../nodes/PlaceholderExpression";
+import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
 import TypePlaceholder from "../nodes/TypePlaceholder";
 import Previous from "../nodes/Previous";
 
@@ -428,7 +428,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
     // All expressions must start with one of the following
     let left: Expression | Unparsable = (
         // Placeholder
-        tokens.nextIs(TokenType.ETC) ? new PlaceholderExpression(tokens.read(TokenType.ETC)) :
+        tokens.nextIs(TokenType.ETC) ? new ExpressionPlaceholder(tokens.read(TokenType.ETC)) :
         // Nones
         tokens.nextIs(TokenType.NONE) ? parseNone(tokens): 
         // Names or booleans are easy

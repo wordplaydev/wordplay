@@ -43,7 +43,7 @@ import Name from "../nodes/Name";
 import BooleanLiteral from "../nodes/BooleanLiteral";
 import Convert from "../nodes/Convert";
 import Is from "../nodes/Is";
-import ExpressionPlaceholder from "../nodes/PlaceholderExpression";
+import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
 import TypePlaceholder from "../nodes/TypePlaceholder";
 import Previous from "../nodes/Previous";
 

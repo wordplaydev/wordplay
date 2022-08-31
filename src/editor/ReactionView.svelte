@@ -8,7 +8,7 @@
 
 </script>
 
-<NodeView node={node}>
+<NodeView node={node} block>
     <div class="group">
         <OptionalNodeView node={node.initial}/>
         <div>

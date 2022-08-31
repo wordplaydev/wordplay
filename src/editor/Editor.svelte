@@ -15,10 +15,10 @@
     tabindex=0
     on:mousedown={(event) => event.currentTarget.focus()}
     on:keydown={(event) => {
-        if($caret) {
+        if($project && $caret) {
             const meta = event.metaKey || event.ctrlKey;
             if(meta) {
-                if(event.key === "a" && $project) {
+                if(event.key === "a") {
                     event.preventDefault();
                     caret.set($caret.withPosition($project.program));
                 }
@@ -30,10 +30,13 @@
                 else if(event.key === "ArrowUp") caret.set($caret.up());
                 else if(event.key === "ArrowDown") caret.set($caret.down());
                 else if(event.key === "Backspace") {
-                    if($project && $caret && typeof $caret.position === "number") {
+                    if(typeof $caret.position === "number") {
                         const newProject = new Project("Play", $project.code.substring(0, $caret.position - 1) + $project.code.substring($caret.position), () => project.set($project));
                         project.set(newProject);
                         caret.set(new Caret(newProject, $caret.position - 1));
+                    }
+                    else {
+                        // Delete the selected node and place the caret at the beginning of where it was.
                     }
                 }
                 // Select parent of current caret position.
