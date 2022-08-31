@@ -11,6 +11,7 @@ export default class Caret {
         this.position = position;
     }
 
+    isIndex() { return typeof this.position === "number"; }
     isWhitespace(c: string) { return /[\s\t\n]/.test(c); }
 
     row() { return typeof this.position === "number" ? this.project.code.substring(0, this.position).split("\n").length - 1 : undefined; }

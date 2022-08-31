@@ -17,6 +17,8 @@
     import ProgramView from '../editor/ProgramView.svelte';
     import Program from '../nodes/Program';
     import Caret from '../models/Caret';
+import ConversionDefinitionView from '../editor/ConversionDefinitionView.svelte';
+import Key from '../native/Key';
 
     export let doc: Document;
     $: content = doc.getContent();
@@ -96,6 +98,21 @@
                         else if(event.key === "ArrowRight") caret.set($caret.right());
                         else if(event.key === "ArrowUp") caret.set($caret.up());
                         else if(event.key === "ArrowDown") caret.set($caret.down());
+                        else if(event.key === "Backspace") {
+                            if($project && $caret && typeof $caret.position === "number") {
+                                const newProject = new Project("Play", $project.code.substring(0, $caret.position - 1) + $project.code.substring($caret.position), () => project.set($project));
+                                project.set(newProject);
+                                caret.set(new Caret(newProject, $caret.position - 1));
+                            }
+                        }
+                        else if(event.key.length <= 1 || event.key === "Enter") {
+                            const char = event.key === "Enter" ? "\n" : event.key;
+                            if($project && $caret && typeof $caret.position === "number") {
+                                const newProject = new Project("Play", $project.code.substring(0, $caret.position) + char + $project.code.substring($caret.position), () => project.set($project));
+                                project.set(newProject);
+                                caret.set(new Caret(newProject, $caret.position + 1));
+                            }
+                        }
                     }
                 }}
             >
