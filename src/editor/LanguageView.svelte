@@ -6,4 +6,4 @@
 
 </script>
 
-<div class="node-view">{#if node }<TokenView node={node.slash}/><TokenView node={node.lang}/>{/if}</div>
+{#if node }<small><TokenView node={node.slash}/><TokenView node={node.lang}/></small>{/if}

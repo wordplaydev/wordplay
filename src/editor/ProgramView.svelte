@@ -1,6 +1,7 @@
 <script lang="ts">
 
     import type Program from "../nodes/Program";
+import NodeView from "./NodeView.svelte";
 import renderNode from "./renderNode";
 
     export let program: Program;
@@ -8,8 +9,8 @@ import renderNode from "./renderNode";
 </script>
 
 <div class="node-view">
-    {#each program.borrows as borrow}<svelte:component this={renderNode(borrow)} node={borrow} /> {/each}
-    <svelte:component this={renderNode(program.block)} node={program.block} />
+    {#each program.borrows as borrow}<NodeView node={borrow}/>{/each}
+    <NodeView node={program.block}/>
 </div>
 
 <style>

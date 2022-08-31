@@ -8,6 +8,5 @@
 </script>
 
 <div class="node-view">
-    <TokenView node={node.none}/>
-    <AliasesView aliases={node.aliases}/>
+    <TokenView node={node.none}/><AliasesView aliases={node.aliases}/>
 </div>

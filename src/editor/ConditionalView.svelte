@@ -1,6 +1,6 @@
 <script lang="ts">
     import type Conditional from "../nodes/Conditional";
-    import renderNode from "./renderNode";
+    import NodeView from "./NodeView.svelte";
     import TokenView from "./TokenView.svelte";
 
     export let node: Conditional;
@@ -8,10 +8,10 @@
 </script>
 
 <div class="node-view">
-    <span><svelte:component this={renderNode(node.condition)} node={node.condition} /> <TokenView node={node.conditional}/></span>
+    <span><NodeView node={node.condition}/><TokenView node={node.conditional}/></span>
     <div class="choices">
-        <svelte:component this={renderNode(node.yes)} node={node.yes} />
-        <svelte:component this={renderNode(node.no)} node={node.no} />
+        <NodeView node={node.yes}/>
+        <NodeView node={node.no}/>
     </div>
 </div>
 

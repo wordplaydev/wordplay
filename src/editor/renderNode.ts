@@ -44,11 +44,13 @@ import PreviousView from "./PreviousView.svelte";
 import StreamTypeView from "./StreamTypeView.svelte";
 import IsView from "./IsView.svelte";
 import UnionTypeView from "./UnionTypeView.svelte";
+import DocsView from "./DocsView.svelte";
 
 export default function renderNode(node: Node) {
     const view = {
         "Token": TokenView,
         "Unparsable": UnparsableView,
+        "Docs": DocsView,
 
         "Borrow": BorrowView,
         "Share": ShareView,

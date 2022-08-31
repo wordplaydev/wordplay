@@ -11,3 +11,9 @@
         <TokenView node={token} />
     {/each}
 </div>
+
+<style>
+    div {
+        border-bottom: 2px solid red;
+    }
+</style>

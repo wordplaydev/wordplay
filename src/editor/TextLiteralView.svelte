@@ -9,6 +9,5 @@ import LanguageView from "./LanguageView.svelte";
 </script>
 
 <div class="node-view">
-    <TokenView node={node.text}/>
-    <LanguageView node={node.format}/>
+    <TokenView node={node.text}/><LanguageView node={node.format}/>
 </div>

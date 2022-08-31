@@ -6,6 +6,4 @@
 
 </script>
 
-<div class="node-view">
-    <TokenView node={node.type} />
-</div>
+<TokenView node={node.type} />

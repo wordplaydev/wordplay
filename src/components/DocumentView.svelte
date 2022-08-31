@@ -80,29 +80,30 @@ import Program from '../nodes/Program';
 
 <div class="document">
     <div class="document-title">{doc.getName()}</div>
-    {#if view instanceof Structure}
-        <VerseView verse={view} evaluator={$project?.getEvaluator()}/>
-    {:else if content instanceof Program}
-        <ProgramView program={content} />
-    {:else if typeof content === "string"}
-        <textarea 
-            on:input={handleEdit} 
-            class="document-content" 
-            bind:value={content} 
-            readonly={!doc.isEditable()}
-            style="height: {Math.max(20, content.split("\n").length)}em;"
-            tabIndex=0
-        />
-    {:else}
-        <p>No value</p>
-    {/if}
+    <div class="document-content">
+        {#if view instanceof Structure}
+            <VerseView verse={view} evaluator={$project?.getEvaluator()}/>
+        {:else if content instanceof Program}
+            <ProgramView program={content} />
+        {:else if typeof content === "string"}
+            <textarea 
+                on:input={handleEdit} 
+                bind:value={content} 
+                readonly={!doc.isEditable()}
+                style="width: 100%; height: {Math.max(20, content.split("\n").length)}em;"
+                tabIndex=0
+            />
+        {:else}
+            <p>No value</p>
+        {/if}
+    </div>
 </div>
 
 <style>
     .document {
         min-width: 40em;
         display: flex;
-        flex-flow: column wrap;
+        flex-flow: column;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         flex: 1; /* Have each document fill an equal amount of space in the window manager */
         border-radius: var(--wordplay-border-radius);
@@ -116,21 +117,21 @@ import Program from '../nodes/Program';
     }
 
     .document-content {
-        width: auto;
         min-height: 10rem;
         background: var(--wordplay-background);
         padding: var(--wordplay-spacing);
         color: var(--wordplay-foreground);
+        white-space: nowrap;
+        overflow: scroll;
     }
 
     textarea[readonly] {
         background: var(--wordplay-chrome);
     }
     textarea {
+        width: auto;
         tab-size : 2;
         white-space: pre;
         overflow-wrap: normal;
-        overflow-x: scroll;
-        max-height: 40em;
     }
 </style>

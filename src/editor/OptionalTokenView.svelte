@@ -7,5 +7,5 @@
 </script>
 
 <div class="node-view">
-    {#if node } <svelte:component this={renderNode(node)} node={node} /> {/if}
+    {#if node }<svelte:component this={renderNode(node)} node={node} />{/if}
 </div>

@@ -7,6 +7,5 @@
 </script>
 
 <div class="node-view">
-    <TokenView node={node.type}/>
-    <TokenView node={node.name}/>
+    <TokenView node={node.type}/><TokenView node={node.name}/>
 </div>

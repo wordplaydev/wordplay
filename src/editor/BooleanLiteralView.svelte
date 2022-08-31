@@ -6,6 +6,4 @@
 
 </script>
 
-<div class="node-view">
-    <TokenView node={node.value}/>
-</div>
+<TokenView node={node.value}/>

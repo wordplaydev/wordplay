@@ -2,13 +2,13 @@
     import type Token from "../nodes/Token";
     import { TokenKinds } from "../nodes/Token";
 
-    export let node: Token;
+    export let node: Token | undefined;
 
 </script>
 
-<span class="token-view" style="color: {`var(--token-category-${TokenKinds.get(node.types[0]) ?? "default"})`}">
-    {#if node.space.length > 0}<span>&nbsp;</span>{/if}{ node.text }
-</span>
+{#if node}
+<span class="token-view" style="color: {`var(--token-category-${TokenKinds.get(node.types[0]) ?? "default"})`}">{#if node.space.length > 0}<span>&nbsp;</span>{/if}{ node.text }</span>
+{/if}
 
 <style>
 
@@ -16,7 +16,6 @@
         padding: var(--wordplay-editor-padding);
         display: inline;
         font-family: "Noto Sans Mono", monospace;
-        font-size: small;
 
         --token-category-delimiter: lightGrey;
         --token-category-relation: lightGrey;

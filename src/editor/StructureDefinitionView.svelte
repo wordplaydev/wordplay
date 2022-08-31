@@ -1,9 +1,9 @@
 <script lang="ts">
     import type StructureDefinition from "../nodes/StructureDefinition";
-import AliasesView from "./AliasesView.svelte";
+    import AliasesView from "./AliasesView.svelte";
     import DocsView from "./DocsView.svelte";
-    import renderNode from "./renderNode";
-import TokenView from "./TokenView.svelte";
+    import NodeView from "./NodeView.svelte";
+    import TokenView from "./TokenView.svelte";
     
     export let node: StructureDefinition;
 
@@ -14,7 +14,7 @@ import TokenView from "./TokenView.svelte";
     <TokenView node={node.type}/>
     <AliasesView aliases={node.aliases}/>
     <TokenView node={node.open}/>
-    {#each node.inputs as input }<svelte:component this={renderNode(input)} node={input} />{/each}
+    {#each node.inputs as input }<NodeView node={input}/>{/each}
     <TokenView node={node.close}/>
-    <svelte:component this={renderNode(node.block)} node={node.block} />
+    <NodeView node={node.block}/>
 </div>

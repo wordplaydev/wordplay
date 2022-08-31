@@ -8,6 +8,5 @@
 </script>
 
 <div class="node-view">
-    <TokenView node={node.quote} />
-    <LanguageView node={node.format}/>
+    <TokenView node={node.quote} /><LanguageView node={node.format}/>
 </div>

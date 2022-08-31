@@ -1,11 +1,14 @@
 <script lang="ts">
     import type Docs from "../nodes/Docs";
-    import renderNode from "./renderNode";
-
+import LanguageView from "./LanguageView.svelte";
+    import TokenView from "./TokenView.svelte";
+    
     export let docs: Docs[];
 
 </script>
 
+{#if docs.length > 0}
 <div class="node-view">
-    {#each docs as doc }<svelte:component this={renderNode(doc)} node={doc} />{/each}
+    {#each docs as doc }<TokenView node={doc.docs}/><LanguageView node={doc.lang}/>{/each}
 </div>
+{/if}

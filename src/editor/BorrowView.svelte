@@ -8,7 +8,5 @@
 </script>
 
 <div class="node-view">
-    <TokenView node={node.borrow} />
-    <TokenView node={node.name} />
-    <OptionalToken node={node.version} />
+    <TokenView node={node.borrow} /><TokenView node={node.name} /><OptionalToken node={node.version} />
 </div>

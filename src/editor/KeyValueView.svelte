@@ -1,6 +1,6 @@
 <script lang="ts">
     import type KeyValue from "../nodes/KeyValue";
-    import renderNode from "./renderNode";
+    import NodeView from "./NodeView.svelte";
     import TokenView from "./TokenView.svelte";
 
     export let node: KeyValue;
@@ -8,7 +8,7 @@
 </script>
 
 <div class="node-view">
-    <svelte:component this={renderNode(node.key)} node={node.key} />
+    <NodeView node={node.key}/>
     <TokenView node={node.bind}/>
-    <svelte:component this={renderNode(node.value)} node={node.value} />
+    <NodeView node={node.value}/>
 </div>
