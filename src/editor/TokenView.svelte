@@ -10,7 +10,7 @@
 </script>
 
 {#if node}
-<span class="token-view token-{kind} token-{type}" style="color: {`var(--token-category-${kind})`}">{#if node.space.length > 0}<span>&nbsp;</span>{/if}{ node.text }</span>
+<span class="token-view token-{kind} token-{type}" style="color: {`var(--token-category-${kind})`}">{#if node.space === " "}<span>&nbsp;</span>{/if}{ node.text }</span>
 {/if}
 
 <style>

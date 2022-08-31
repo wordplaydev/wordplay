@@ -11,10 +11,15 @@
 
  <div class="node-view">
     <DocsView docs={node.docs}/>
-    <TokenView node={node.type}/>
-    <AliasesView aliases={node.aliases}/>
-    <TokenView node={node.open}/>
-    {#each node.inputs as input }<NodeView node={input}/>{/each}
-    <TokenView node={node.close}/>
+    <div class="signature">
+        <TokenView node={node.type}/><AliasesView aliases={node.aliases}/><TokenView node={node.open}/>{#each node.inputs as input }<NodeView node={input}/>{/each}<TokenView node={node.close}/>
+    </div>
     <NodeView node={node.block}/>
 </div>
+
+<style>
+    .signature {
+        display: inline-block;
+        border-bottom: 1px solid black;
+    }
+</style>

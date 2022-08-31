@@ -13,8 +13,6 @@
 
  <div class="node-view">
     <DocsView docs={node.docs}/>
-    <TokenView node={node.fun}/><AliasesView aliases={node.aliases}/><TypeVariablesView typeVars={node.typeVars}/><TokenView node={node.open}/>{#each node.inputs as input }<NodeView node={input}/>{/each}<TokenView node={node.close}/><OptionalTokenView node={node.dot}/><NodeView node={node.type}/><NodeView node={node.expression}/>
+    <TokenView node={node.fun}/><AliasesView aliases={node.aliases}/><TypeVariablesView typeVars={node.typeVars}/><TokenView node={node.open}/>{#each node.inputs as input }<NodeView node={input}/>{/each}<TokenView node={node.close}/><OptionalTokenView node={node.dot}/><NodeView node={node.type}/>
+    <NodeView node={node.expression}/>
 </div>
-
-<style>
-</style>
