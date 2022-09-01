@@ -9,8 +9,7 @@
 
     const type = node.types[0];
     const kind = type !== undefined ? TokenKinds.get(type) : "default";
-    const precedingSpace = node.space === " ";
-
+    $: precedingSpace = /[ ]+/.test(node.space);
     $: caretPosition = $caret !== undefined && typeof $caret.position === "number" && $caret.between(node.index, node.index + node.text.length) ? $caret.position - node.index + (precedingSpace ? 1 : 0) : undefined;
 
     function handleClick(event: MouseEvent) {
