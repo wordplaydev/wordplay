@@ -29,15 +29,4 @@
         font-weight: var(--wordplay-font-weight);
         color: var(--wordplay-foreground);
     }
-
-    :global(textarea) {
-        border: none;
-        resize: none;
-        font-family: "Noto Sans mono", monospace;
-        font-size: small;
-    }
-
-    :global(textarea:focus, .verse:focus) {
-        outline: var(--wordplay-border-width) solid var(--wordplay-highlight)
-    }
 </style>

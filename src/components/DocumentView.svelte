@@ -79,6 +79,8 @@
         }
     }
 
+    let focused = false;
+
 </script>
 
 <div class="document">
@@ -93,7 +95,6 @@
                 on:input={handleEdit} 
                 bind:value={content} 
                 readonly={!doc.isEditable()}
-                style="width: 100%; height: {Math.max(20, content.split("\n").length)}em;"
                 tabIndex=0
             />
         {:else}
@@ -120,23 +121,34 @@
     }
 
     .document-content {
+        height: 100%;
         min-height: 10rem;
         max-height: 40rem;
-        overflow: scroll;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
-        box-sizing: border-box;;
+        box-sizing: border-box;
+        overflow: scroll;
     }
 
-    textarea[readonly] {
-        background: var(--wordplay-chrome);
+    .document-content:focus-within {
+        outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
     }
-    
+
     textarea {
         width: 100%;
         height: 100%;
         tab-size : 2;
         white-space: pre;
         overflow-wrap: normal;
+        border: none;
+        resize: none;
+        font-family: "Noto Sans mono", monospace;
+        font-size: small;
+        outline: none;
     }
+
+    textarea[readonly] {
+        background: var(--wordplay-chrome);
+    }
+
 </style>

@@ -93,15 +93,9 @@
 
 <style>
 
-.wordplay-code {
+    .wordplay-code {
         padding: var(--wordplay-spacing);
         white-space: nowrap;
-        overflow: scroll;
     }
-
-    .wordplay-code:focus {
-        outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
-    }
-
 
 </style>
