@@ -9,6 +9,14 @@
 
     export let program: Program;
 
+    function insertChar(char: string) {
+        if($project && $caret && typeof $caret.position === "number") {
+            const newProject = $project.withCharacterAt(char, $caret.position);
+            project.set(newProject);
+            caret.set(new Caret(newProject, $caret.position + 1));
+        }
+    }
+
 </script>
 
 <div class="wordplay-code"
@@ -22,6 +30,20 @@
                     event.preventDefault();
                     caret.set($caret.withPosition($project.program));
                 }
+            }
+            else if(event.altKey) {
+                event.preventDefault();
+                if(event.code === "KeyJ") insertChar("∆");
+                else if(event.code === "Semicolon") insertChar("…");
+                else if(event.code === "ArrowDown") insertChar("↓");
+                else if(event.code === "ArrowRight") insertChar("→");
+                else if(event.code === "ArrowUp") insertChar("↑");
+                else if(event.code === "Digit8") insertChar("•");
+                else if(event.code === "KeyT") insertChar("⊤");
+                else if(event.code === "KeyF") insertChar("⊥");
+                else if(event.code === "KeyA") insertChar("∧");
+                else if(event.code === "KeyO") insertChar("∨");
+                else if(event.code === "KeyN") insertChar("¬");
             }
             else {
                 event.preventDefault();
@@ -59,11 +81,8 @@
                 }
                 else if(event.key.length <= 1 || event.key === "Enter") {
                     const char = event.key === "Enter" ? "\n" : event.key;
-                    if($project && $caret && typeof $caret.position === "number") {
-                        const newProject = new Project("Play", $project.code.substring(0, $caret.position) + char + $project.code.substring($caret.position), () => project.set($project));
-                        project.set(newProject);
-                        caret.set(new Caret(newProject, $caret.position + 1));
-                    }
+                    if($project && $caret && typeof $caret.position === "number")
+                        insertChar(char);
                 }
             }
         }

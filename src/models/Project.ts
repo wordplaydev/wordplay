@@ -69,4 +69,8 @@ export default class Project {
 
     getEvaluator() { return this.evaluator; }
 
+    withCharacterAt(char: string, index: number) {
+        return new Project("Play", this.code.substring(0, index) + char + this.code.substring(index), this.updater);
+    }
+    
 }
