@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Token from "../nodes/Token";
     import { TokenKinds } from "../nodes/Token";
-    import { caret } from "../models/stores";
+    import { caret, project } from "../models/stores";
     import keyboardIdle from "../models/KeyboardIdle";
     import Caret from "../models/Caret";
 
@@ -9,12 +9,12 @@
 
     const type = node.types[0];
     const kind = type !== undefined ? TokenKinds.get(type) : "default";
-    $: precedingSpace = /[ ]+/.test(node.space);
-    $: caretPosition = $caret !== undefined && typeof $caret.position === "number" && $caret.between(node.index, node.index + node.text.length) ? $caret.position - node.index + (precedingSpace ? 1 : 0) : undefined;
+    $: precedingSpaces = node.space.split(" ").length - 1;
+    $: caretPosition = $caret !== undefined && typeof $caret.position === "number" && $caret.between(node.index, node.index + node.text.length) ? $caret.position - node.index + precedingSpaces : undefined;
 
     function handleClick(event: MouseEvent) {
         if($caret !== undefined && event.currentTarget instanceof Element)
-            caret.set(new Caret($caret.project, node.index + Math.floor(((precedingSpace ? 1 : 0) + node.text.length) * (event.offsetX / event.currentTarget.getBoundingClientRect().width))));
+            caret.set(new Caret($caret.project, node.index + Math.floor((precedingSpaces + node.text.length) * (event.offsetX / event.currentTarget.getBoundingClientRect().width))));
     }
 
 </script>
@@ -23,7 +23,7 @@
     class="token-view token-{kind} {$caret?.position === node ? "selected" : ""}" 
     on:mousedown={handleClick} 
     style="color: {`var(--token-category-${kind})`}"
->{#if precedingSpace}<span class="whitespace">&nbsp;</span>{/if}<span class="text">{ node.text }</span>{#if caretPosition !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretPosition}ch"></span>{/if}
+>{#if precedingSpaces > 0}<span class="whitespace">{@html "&nbsp;".repeat(precedingSpaces)}</span>{/if}<span class="text">{ node.text }</span>{#if caretPosition !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretPosition}ch"></span>{/if}
 </span>
 
 <style>
