@@ -121,6 +121,8 @@
 
     .document-content {
         min-height: 10rem;
+        max-height: 40rem;
+        overflow: scroll;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
         box-sizing: border-box;;
@@ -132,6 +134,7 @@
     
     textarea {
         width: 100%;
+        height: 100%;
         tab-size : 2;
         white-space: pre;
         overflow-wrap: normal;
