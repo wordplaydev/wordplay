@@ -19,7 +19,7 @@
 
 </script>
 
-<div class="wordplay-code"
+<div class="editor"
     tabindex=0
     on:mousedown={(event) => event.currentTarget.focus()}
     on:keydown={(event) => {
@@ -93,9 +93,15 @@
 
 <style>
 
-    .wordplay-code {
+    .editor {
         padding: var(--wordplay-spacing);
         white-space: nowrap;
+        width: 100%;
+        height: 100%;
+    }
+
+    .editor:focus {
+        outline: none;
     }
 
 </style>
