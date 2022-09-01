@@ -12,9 +12,10 @@
     $: precedingSpaces = node.space.split(" ").length - 1;
     $: caretPosition = $caret !== undefined && typeof $caret.position === "number" && $caret.between(node.index - node.space.length, node.index + node.text.length) ? $caret.position - node.index + precedingSpaces : undefined;
 
+    // Place the caret when the token is clicked on.
     function handleClick(event: MouseEvent) {
         if($caret !== undefined && event.currentTarget instanceof Element)
-            caret.set(new Caret($caret.project, node.index + Math.floor((precedingSpaces + node.text.length) * (event.offsetX / event.currentTarget.getBoundingClientRect().width))));
+            caret.set($caret.withPosition((node.index - precedingSpaces) + Math.round((precedingSpaces + node.text.length) * (event.offsetX / event.currentTarget.getBoundingClientRect().width))));
     }
 
 </script>
