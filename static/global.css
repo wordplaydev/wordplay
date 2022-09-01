@@ -18,7 +18,8 @@
     --color-pink: #DC267F;
     --color-orange: #FE6100;
     --color-yellow: #FFB000;
-    --color-grey: #AAAAAA;
+    --color-grey: #999999;
+    --color-lightgrey: #CCCCCC;
     --color-white: #FFFFFF;
     --color-black: #000000;
 }

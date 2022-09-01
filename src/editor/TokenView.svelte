@@ -23,7 +23,7 @@
     class="token-view token-{kind} {$caret?.position === node ? "selected" : ""}" 
     on:mousedown={handleClick} 
     style="color: {`var(--token-category-${kind})`}"
->{#if precedingSpaces > 0}<span class="whitespace">{@html "&nbsp;".repeat(precedingSpaces)}</span>{/if}<span class="text">{ node.text }</span>{#if caretPosition !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretPosition}ch"></span>{/if}
+>{#if precedingSpaces > 0}<span class="space {caretPosition === undefined ? "" : "visible"}">{@html ".".repeat(precedingSpaces)}</span>{/if}<span class="text">{ node.text }</span>{#if caretPosition !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretPosition}ch"></span>{/if}
 </span>
 
 <style>
@@ -32,6 +32,7 @@
         display: inline-block;
         font-family: "Noto Sans Mono", "Noto Emoji", monospace;
         position: relative;
+        cursor: text;
 
         --token-category-delimiter: var(--color-grey);
         --token-category-relation: var(--color-yellow);
@@ -45,12 +46,20 @@
         --token-category-unknown: var(--color-pink);
     }
 
+    .space {
+        visibility: hidden;
+    }
+
+    .space.visible {
+        visibility: visible;
+        color: var(--color-lightgrey);
+    }
+
     .text {
         display: inline-block;
     }
 
     .text:hover {
-        cursor: text;
         outline: 1px solid var(--color-grey);
     }
 
