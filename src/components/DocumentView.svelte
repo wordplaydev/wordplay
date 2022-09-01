@@ -39,7 +39,7 @@
                 view = createStructure(evaluator, Verse, 
                     {
                         group: createStructure(evaluator, Group, {
-                            phrase: new List([createStructure(evaluator, Phrase, {
+                            phrases: new List([createStructure(evaluator, Phrase, {
                                 size: new Measurement(20),
                                 font: new Text("Noto Sans"),
                                 text: content
