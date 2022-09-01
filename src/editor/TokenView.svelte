@@ -45,12 +45,16 @@
         --token-category-unknown: var(--color-pink);
     }
 
+    .text {
+        display: inline-block;
+    }
+
     .text:hover {
         cursor: text;
         outline: 1px solid var(--color-grey);
     }
 
-    .token-delimiter {
+    .token-delimiter .text {
         transform-origin: center;
         transform: scale(1.3, 1.3);
     }
