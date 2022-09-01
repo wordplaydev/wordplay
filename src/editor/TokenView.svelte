@@ -13,16 +13,20 @@
 
     // Place the caret when the token is clicked on.
     function handleClick(event: MouseEvent) {
-        if($caret !== undefined && event.currentTarget instanceof Element)
+        if($caret !== undefined && event.currentTarget instanceof Element) {
             caret.set($caret.withPosition((node.getSpaceIndex()) + Math.round((precedingSpaces + node.getTextLength()) * (event.offsetX / event.currentTarget.getBoundingClientRect().width))));
+            event.stopPropagation();
+        }
     }
 
 </script>
 
 <span 
     class="token-view token-{kind} {$caret?.position === node ? "selected" : ""}" 
-    on:mousedown={handleClick} 
     style="color: {`var(--token-category-${kind})`}"
+    on:mousedown={handleClick} 
+    data-index={node.getTextIndex()}
+    data-length={node.getTextLength()}
 >{#if precedingSpaces > 0}<span class="space {caretPosition === undefined ? "" : "visible"}">{@html ".".repeat(precedingSpaces)}</span>{/if}<span class="text">{ node.text }</span>{#if caretPosition !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretPosition}ch"></span>{/if}
 </span>
 

@@ -15,6 +15,7 @@ export default class Caret {
     }
 
     isIndex() { return typeof this.position === "number"; }
+    isWhitespace(c: string) { return /[\t\n ]/.test(c); }
     isTab(c: string) { return /[\t]/.test(c); }
 
     row() { return typeof this.position === "number" ? this.project.code.substring(0, this.position).split("\n").length - 1 : undefined; }
@@ -39,7 +40,7 @@ export default class Caret {
     }
 
     between(start: number, end: number): boolean { 
-        return typeof this.position === "number" && this.position >= start && (this.position < end || (this.position === end && this.isTab(this.project.code.charAt(this.position)))); 
+        return typeof this.position === "number" && (this.position > start || (this.position === start && !this.isWhitespace(this.project.code.charAt(start)))) && (this.position < end || (this.position === end && this.isWhitespace(this.project.code.charAt(this.position)))); 
     }
 
     left(): Caret { return this.moveHorizontal(-1); }
