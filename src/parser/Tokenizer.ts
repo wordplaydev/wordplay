@@ -94,7 +94,7 @@ export function tokenize(source: string): Token[] {
     while(source.length > 0) {
         const nextToken = getNextToken(source, index, precedingTextOpen);
         if(nextToken === undefined) break;
-        const length = nextToken.getLength() + nextToken.getPrecedingSpace().length;
+        const length = nextToken.getTextLength() + nextToken.getPrecedingSpace().length;
         source = source.substring(length);
         tokens.push(nextToken);
         index += length;

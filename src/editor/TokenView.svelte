@@ -1,21 +1,20 @@
 <script lang="ts">
     import type Token from "../nodes/Token";
     import { TokenKinds } from "../nodes/Token";
-    import { caret, project } from "../models/stores";
+    import { caret } from "../models/stores";
     import keyboardIdle from "../models/KeyboardIdle";
-    import Caret from "../models/Caret";
 
     export let node: Token;
 
     const type = node.types[0];
     const kind = type !== undefined ? TokenKinds.get(type) : "default";
     $: precedingSpaces = node.space.split(" ").length - 1;
-    $: caretPosition = $caret !== undefined && typeof $caret.position === "number" && $caret.between(node.index - node.space.length, node.index + node.text.length) ? $caret.position - node.index + precedingSpaces : undefined;
+    $: caretPosition = $caret !== undefined && typeof $caret.position === "number" && $caret.between(node.getSpaceIndex(), node.getLastIndex()) ? $caret.position - node.index + precedingSpaces : undefined;
 
     // Place the caret when the token is clicked on.
     function handleClick(event: MouseEvent) {
         if($caret !== undefined && event.currentTarget instanceof Element)
-            caret.set($caret.withPosition((node.index - precedingSpaces) + Math.round((precedingSpaces + node.text.length) * (event.offsetX / event.currentTarget.getBoundingClientRect().width))));
+            caret.set($caret.withPosition((node.getSpaceIndex()) + Math.round((precedingSpaces + node.getTextLength()) * (event.offsetX / event.currentTarget.getBoundingClientRect().width))));
     }
 
 </script>

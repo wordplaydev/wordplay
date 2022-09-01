@@ -142,8 +142,10 @@ export default class Token extends Node {
         this.space = space;
         this.index = index;
     }
-    getIndex() { return this.index; }
-    getLength() { return this.text.length; }
+    getSpaceIndex() { return this.index - this.space.length; }
+    getTextIndex() { return this.index; }
+    getLastIndex() { return this.index + this.text.length; }
+    getTextLength() { return this.text.length; }
     getChildren() { return []; }
     getPrecedingSpace() { return this.space; }
     hasPrecedingSpace() { return this.space.length > 0; }

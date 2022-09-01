@@ -190,7 +190,7 @@ export class Tokens {
             return next.is(TokenType.NUMBER) ? next : next.withTypeNarrowedTo(expectedType);
         }
         else
-            return new Token("", [ TokenType.END ], this.#read.length === 0 ? 0 : this.#read[this.#read.length - 1].getIndex() + this.#read[this.#read.length - 1].getLength());
+            return new Token("", [ TokenType.END ], this.#read.length === 0 ? 0 : this.#read[this.#read.length - 1].getTextIndex() + this.#read[this.#read.length - 1].getTextLength());
     }
 
     /** Returns a node annotated with an error message, as well as all surrounding tokens. */
