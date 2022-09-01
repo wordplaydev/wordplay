@@ -30,7 +30,7 @@
 
     .token-view {
         display: inline-block;
-        font-family: "Noto Sans Mono", monospace;
+        font-family: "Noto Sans Mono", "Noto Emoji", monospace;
         position: relative;
 
         --token-category-delimiter: var(--color-grey);
