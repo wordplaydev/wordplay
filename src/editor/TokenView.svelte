@@ -10,7 +10,7 @@
     const type = node.types[0];
     const kind = type !== undefined ? TokenKinds.get(type) : "default";
     $: precedingSpaces = node.space.split(" ").length - 1;
-    $: caretPosition = $caret !== undefined && typeof $caret.position === "number" && $caret.between(node.index, node.index + node.text.length) ? $caret.position - node.index + precedingSpaces : undefined;
+    $: caretPosition = $caret !== undefined && typeof $caret.position === "number" && $caret.between(node.index - node.space.length, node.index + node.text.length) ? $caret.position - node.index + precedingSpaces : undefined;
 
     function handleClick(event: MouseEvent) {
         if($caret !== undefined && event.currentTarget instanceof Element)

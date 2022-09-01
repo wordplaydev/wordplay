@@ -15,7 +15,7 @@ export default class Caret {
     }
 
     isIndex() { return typeof this.position === "number"; }
-    isWhitespace(c: string) { return /[\s\t\n]/.test(c); }
+    isTab(c: string) { return /[\t]/.test(c); }
 
     row() { return typeof this.position === "number" ? this.project.code.substring(0, this.position).split("\n").length - 1 : undefined; }
     column() { 
@@ -39,7 +39,7 @@ export default class Caret {
     }
 
     between(start: number, end: number): boolean { 
-        return typeof this.position === "number" && this.position >= start && (this.position < end || (this.position === end && this.isWhitespace(this.project.code.charAt(this.position)))); 
+        return typeof this.position === "number" && this.position >= start && (this.position < end || (this.position === end && this.isTab(this.project.code.charAt(this.position)))); 
     }
 
     left(): Caret { return this.moveHorizontal(-1); }
@@ -58,10 +58,10 @@ export default class Caret {
             const stop = direction < 0 ? 0 : this.project.code.length;
             if(this.position === stop) return this;
             // Otherwise, find the first non-whitespace character in the next position.
-            let lastIsntWhitespace = !this.isWhitespace(this.project.code.charAt(this.position));
+            let lastIsntWhitespace = !this.isTab(this.project.code.charAt(this.position));
             let pos = this.position + direction;
             while(pos !== stop) {
-                if(!this.isWhitespace(this.project.code.charAt(pos)) || lastIsntWhitespace) break;
+                if(!this.isTab(this.project.code.charAt(pos)) || lastIsntWhitespace) break;
                 pos += direction;
             }
             return this.withPosition(pos);
