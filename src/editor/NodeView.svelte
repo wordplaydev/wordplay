@@ -4,10 +4,11 @@
 
     export let node: Node;
     export let block: boolean = false;
+    export let mousedown: undefined | ((event: MouseEvent) => void) = undefined;
 
 </script>
 
-<div class="node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"}">
+<div class="node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"}" on:mousedown={mousedown}>
     <slot/>
 </div>
 

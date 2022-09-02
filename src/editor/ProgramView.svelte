@@ -48,8 +48,6 @@
 
 </script>
 
-<NodeView node={program} block>
-    <span on:mousedown={handleClick}>
-        {#each program.borrows as borrow}<OptionalNodeView node={borrow}/>{/each}<OptionalNodeView node={program.block}/><TokenView node={program.end}/>
-    </span>
+<NodeView node={program} block mousedown={handleClick}>
+    {#each program.borrows as borrow}<OptionalNodeView node={borrow}/>{/each}<OptionalNodeView node={program.block}/><TokenView node={program.end}/>
 </NodeView>
