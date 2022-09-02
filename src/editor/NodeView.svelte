@@ -24,7 +24,7 @@
     }
 
     .node-view.block {
-        display: block;
+        display: inline-block;
     }
 
     .node-view:hover {

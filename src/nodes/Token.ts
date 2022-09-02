@@ -135,6 +135,12 @@ export default class Token extends Node {
     readonly space: string;
     /** The index in the source file at which this token starts. */
     readonly index: number;
+    /** The precomputed number of newlines in the whitespace */
+    readonly newlines: number;
+    /** The precomputed number of tabs after newlines in the whitespace */
+    readonly tabs: number;
+    /** The precomputed number of spaces after tabs in the whitespace */
+    readonly spaces: number;
 
     constructor(text: string, types: TokenType[], index: number=0, space: string="") {
         super();
@@ -142,6 +148,31 @@ export default class Token extends Node {
         this.text = text;
         this.space = space;
         this.index = index;
+
+        // If the whitespace has a newline, skip any preceding tabs or spaces, since they don't really affect layout
+        if(space.indexOf("\n") >= 0)
+            while(space.length > 0 && (space.charAt(0) === " " || space.charAt(0) === "\t"))
+                space = space.substring(1);
+
+        // Compute the newlines
+        this.newlines = 0;
+        while(space.length > 0 && space.charAt(0) === "\n") {
+            this.newlines++;
+            space = space.substring(1);
+        }
+        // Compute the tabs
+        this.tabs = 0;
+        while(space.length > 0 && space.charAt(0) === "\t") {
+            this.tabs++;
+            space = space.substring(1);
+        }
+        // Compute the spaces
+        this.spaces = 0;
+        while(space.length > 0 && space.charAt(0) === " ") {
+            this.spaces++;
+            space = space.substring(1);
+        }
+
     }
     getSpaceIndex() { return this.index - this.space.length; }
     getTextIndex() { return this.index; }

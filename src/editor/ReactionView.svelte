@@ -8,19 +8,6 @@
 
 </script>
 
-<NodeView node={node} block>
-    <div class="group">
-        <OptionalNodeView node={node.initial}/>
-        <div>
-            <TokenView node={node.delta}/>
-            <OptionalNodeView node={node.stream}/>
-        </div>
-        <OptionalNodeView node={node.next}/>
-    </div>
+<NodeView node={node}>
+    <OptionalNodeView node={node.initial}/><TokenView node={node.delta}/><OptionalNodeView node={node.stream}/><OptionalNodeView node={node.next}/>
 </NodeView>
-
-<style>
-    .group {
-        margin-left: var(--wordplay-editor-indent);
-    }
-</style>

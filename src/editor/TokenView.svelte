@@ -9,32 +9,32 @@
     const type = node.types[0];
     const end = type === TokenType.END;
     const kind = type !== undefined ? TokenKinds.get(type) : "default";
-    $: precedingSpaces = node.space.split(" ").length - 1;
     $: caretPosition = 
         $caret !== undefined && 
         typeof $caret.position === "number" && 
         $caret.between(node.getSpaceIndex(), node.getLastIndex()) &&
         (end && ($caret.project.code.length === 0 || node.space.length > 0) || !end) ? 
-            $caret.position - node.index + precedingSpaces : 
+            $caret.position - node.index + node.spaces : 
             undefined;
 
     // Place the caret when the token is clicked on.
     function handleClick(event: MouseEvent) {
         if($caret !== undefined && event.currentTarget instanceof Element) {
-            caret.set($caret.withPosition((node.getSpaceIndex()) + Math.round((precedingSpaces + node.getTextLength()) * (event.offsetX / event.currentTarget.getBoundingClientRect().width))));
+            caret.set($caret.withPosition((node.getSpaceIndex()) + Math.round((node.spaces + node.getTextLength()) * (event.offsetX / event.currentTarget.getBoundingClientRect().width))));
             event.stopPropagation();
         }
     }
 
 </script>
 
-<span 
+
+{#if node.newlines > 0 ? "newline" : ""}{@html "<br/>".repeat(node.newlines)}{/if}<span 
     class="token-view token-{kind} {$caret?.position === node ? "selected" : ""}" 
-    style="color: {`var(--token-category-${kind})`}"
+    style="color: {`var(--token-category-${kind})`}; margin-left: {node.tabs * 2}em"
     on:mousedown={handleClick} 
     data-index={node.getTextIndex()}
     data-length={node.getTextLength()}
->{#if precedingSpaces > 0}<span class="space {caretPosition === undefined ? "" : "visible"}">{@html "·".repeat(precedingSpaces)}</span>{/if}<span class="text">{ node.text }</span>{#if caretPosition !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretPosition}ch"></span>{/if}
+>{#if node.spaces > 0}<span class="space {caretPosition === undefined ? "" : "visible"}">·</span>{/if}<span class="text">{ node.text }</span>{#if caretPosition !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretPosition}ch"></span>{/if}
 </span>
 
 <style>
@@ -55,6 +55,10 @@
         --token-category-type: var(--color-orange);
         --token-category-operator: var(--color-yellow);
         --token-category-unknown: var(--color-pink);
+    }
+
+    .token-view.newline {
+        display: block;
     }
 
     .space {

@@ -8,4 +8,4 @@
 
 </script>
 
-{#each docs as doc }<NodeView node={doc} block><TokenView node={doc.docs}/><LanguageView node={doc.lang}/></NodeView>{/each}
+{#each docs as doc }<NodeView node={doc}><TokenView node={doc.docs}/><LanguageView node={doc.lang}/></NodeView>{/each}

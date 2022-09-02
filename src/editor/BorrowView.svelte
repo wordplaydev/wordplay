@@ -8,6 +8,6 @@
 
 </script>
 
-<NodeView node={node} block>
+<NodeView node={node}>
     <TokenView node={node.borrow} /><TokenView node={node.name} /><OptionalToken node={node.version} />
 </NodeView>

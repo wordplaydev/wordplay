@@ -8,16 +8,6 @@
 
 </script>
 
-<NodeView node={node} block>
-    <span class="condition"><OptionalNodeView node={node.condition}/><TokenView node={node.conditional}/></span>
-    <div class="choices">
-        <OptionalNodeView node={node.yes}/>
-        <OptionalNodeView node={node.no}/>
-    </div>
+<NodeView node={node}>
+    <span class="condition"><OptionalNodeView node={node.condition}/><TokenView node={node.conditional}/></span><OptionalNodeView node={node.yes}/><OptionalNodeView node={node.no}/>
 </NodeView>
-
-<style>
-    .choices {
-        margin-left: var(--wordplay-editor-indent);
-    }
-</style>

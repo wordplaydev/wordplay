@@ -8,4 +8,4 @@
 
 </script>
 
-<NodeView node={node} block><TokenView node={node.share} /><OptionalNodeView node={node.bind}/></NodeView>
+<NodeView node={node}><TokenView node={node.share} /><OptionalNodeView node={node.bind}/></NodeView>

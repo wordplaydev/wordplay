@@ -79,11 +79,12 @@
                         }
                     }
                 }
-                else if(event.key.length <= 1 || event.key === "Enter") {
-                    const char = event.key === "Enter" ? "\n" : event.key;
-                    if($project && $caret && typeof $caret.position === "number")
-                        insertChar(char);
-                }
+                else if(event.key.length === 1)
+                    insertChar(event.key);
+                else if(event.key === "Enter")
+                    insertChar("\n");
+                else if(event.key === "Tab")
+                    insertChar("\t");
             }
         }
     }}

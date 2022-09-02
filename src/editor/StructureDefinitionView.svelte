@@ -10,12 +10,12 @@
 
 </script>
 
-<NodeView node={node} block>
+<NodeView node={node}>
     <DocsView docs={node.docs}/>
-    <div class="definition">
-        <div class="signature">
+    <span class="definition">
+        <span class="signature">
             <TokenView node={node.type}/><AliasesView aliases={node.aliases}/><TokenView node={node.open}/>{#each node.inputs as input }<OptionalNodeView node={input}/>{/each}<TokenView node={node.close}/>
-        </div>
+        </span>
     <OptionalNodeView node={node.block}/>
-    </div>
+    </span>
 </NodeView>
