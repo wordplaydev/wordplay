@@ -41,8 +41,10 @@ export default class Caret {
 
     between(start: number, end: number): boolean { 
         return typeof this.position === "number" && 
+            // It must be after the start OR at the start and not whitespace
             (this.position > start || (this.position === start && !this.isWhitespace(this.project.code.charAt(start)))) && 
-            (this.position < end || (this.position === end && (this.position === this.project.code.length || this.isWhitespace(this.project.code.charAt(this.position))))); 
+            // ... and it must be before the end OR at the end and either the very end or at whitespace.
+            (this.position < end || (this.position === end && (this.position === this.project.code.length || this.isWhitespace(this.project.code.charAt(this.position)))));
     }
 
     left(): Caret { return this.moveHorizontal(-1); }

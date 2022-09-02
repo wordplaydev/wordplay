@@ -11,23 +11,26 @@ import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import Stream from "../runtime/Stream";
+import type Token from "./Token";
 
 export default class Program extends Node implements Evaluable {
     
     readonly borrows: (Borrow | Unparsable)[];
     readonly block: Block | Unparsable;
+    readonly end: Token;
 
-    constructor(borrows: (Borrow|Unparsable)[], block: Block | Unparsable) {
+    constructor(borrows: (Borrow|Unparsable)[], block: Block | Unparsable, end: Token) {
 
         super();
 
         this.borrows = borrows.slice();
         this.block = block;
+        this.end = end;
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }
 
-    getChildren() { return [ ...this.borrows, this.block ]; }
+    getChildren() { return [ ...this.borrows, this.block, this.end ]; }
     getConflicts(conflict: ConflictContext): Conflict[] { return []; }
 
     getDefinition(context: ConflictContext, node: Node, name: string): Definition {

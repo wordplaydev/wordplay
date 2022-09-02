@@ -123,6 +123,7 @@ TokenKinds.set(TokenType.DECIMAL, TokenCategoryLiteral);
 TokenKinds.set(TokenType.BASE, TokenCategoryLiteral);
 TokenKinds.set(TokenType.BOOLEAN, TokenCategoryLiteral);
 TokenKinds.set(TokenType.NAME, TokenCategoryName);
+TokenKinds.set(TokenType.END, TokenCategoryLiteral);
 TokenKinds.set(TokenType.UNKNOWN, TokenCategoryUnknown);
 
 export default class Token extends Node {

@@ -1,15 +1,22 @@
 <script lang="ts">
     import type Token from "../nodes/Token";
-    import { TokenKinds } from "../nodes/Token";
+    import { TokenKinds, TokenType } from "../nodes/Token";
     import { caret } from "../models/stores";
     import keyboardIdle from "../models/KeyboardIdle";
 
     export let node: Token;
 
     const type = node.types[0];
+    const end = type === TokenType.END;
     const kind = type !== undefined ? TokenKinds.get(type) : "default";
     $: precedingSpaces = node.space.split(" ").length - 1;
-    $: caretPosition = $caret !== undefined && typeof $caret.position === "number" && $caret.between(node.getSpaceIndex(), node.getLastIndex()) ? $caret.position - node.index + precedingSpaces : undefined;
+    $: caretPosition = 
+        $caret !== undefined && 
+        typeof $caret.position === "number" && 
+        $caret.between(node.getSpaceIndex(), node.getLastIndex()) &&
+        (end && ($caret.project.code.length === 0 || node.space.length > 0) || !end) ? 
+            $caret.position - node.index + precedingSpaces : 
+            undefined;
 
     // Place the caret when the token is clicked on.
     function handleClick(event: MouseEvent) {

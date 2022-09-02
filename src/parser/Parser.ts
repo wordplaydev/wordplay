@@ -239,7 +239,9 @@ export function parseProgram(tokens: Tokens): Program {
 
     const block = parseBlock(tokens, true, false);
 
-    return new Program(borrows, block);
+    const end = tokens.read(TokenType.END);
+
+    return new Program(borrows, block, end);
 
 }
 

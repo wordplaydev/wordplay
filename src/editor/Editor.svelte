@@ -96,8 +96,9 @@
     .editor {
         padding: var(--wordplay-spacing);
         white-space: nowrap;
-        width: 100%;
-        height: 100%;
+        width: auto;
+        height: auto;
+        min-height: calc(100% - var(--wordplay-spacing) * 2);
     }
 
     .editor:focus {
