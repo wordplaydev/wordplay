@@ -60,7 +60,7 @@
                     if(typeof $caret.position === "number") {
                         const newProject = new Project("Play", $project.code.substring(0, $caret.position - 1) + $project.code.substring($caret.position), () => project.set($project));
                         project.set(newProject);
-                        caret.set(new Caret(newProject, $caret.position - 1));
+                        caret.set(new Caret(newProject, Math.max(0, $caret.position - 1)));
                     }
                     else {
                         // Delete the selected node and place the caret at the beginning of where it was.
