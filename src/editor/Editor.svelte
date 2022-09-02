@@ -46,9 +46,11 @@
                 else if(event.code === "KeyD") insertChar("∆");
                 else if(event.code === "KeyA") insertChar("∧");
                 else if(event.code === "KeyO") insertChar("∨");
-                else if(event.code === "KeyN") insertChar("¬");
+                else if(event.code === "Backquote") insertChar("¬");
                 else if(event.code === "Comma") insertChar("≤");
                 else if(event.code === "Period") insertChar("≥");
+                else if(event.code === "Semicolon") insertChar("…");
+                else if(event.code === "Slash") insertChar("÷");
             }
             else {
                 event.preventDefault();
