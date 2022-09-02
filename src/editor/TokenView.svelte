@@ -19,8 +19,12 @@
 
     // Place the caret when the token is clicked on.
     function handleClick(event: MouseEvent) {
-        if($caret !== undefined && event.currentTarget instanceof Element) {
-            caret.set($caret.withPosition((node.getSpaceIndex()) + Math.round((node.spaces + node.getTextLength()) * (event.offsetX / event.currentTarget.getBoundingClientRect().width))));
+        if($caret !== undefined && event.target instanceof Element && event.currentTarget instanceof Element) {
+            // Compute the horizontal offset between the target's offset (which could be a child of the token view) and the current target
+            const targetRect = event.target.getBoundingClientRect();
+            const tokenRect = event.currentTarget.getBoundingClientRect();
+            const offset = event.offsetX + (targetRect.left - tokenRect.left);
+            caret.set($caret.withPosition(node.getSpaceIndex() + node.tabs + node.newlines + Math.round((node.spaces + node.getTextLength()) * (offset / tokenRect.width))));
             event.stopPropagation();
         }
     }
