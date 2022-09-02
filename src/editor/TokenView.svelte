@@ -34,7 +34,7 @@
     on:mousedown={handleClick} 
     data-index={node.getTextIndex()}
     data-length={node.getTextLength()}
->{#if precedingSpaces > 0}<span class="space {caretPosition === undefined ? "" : "visible"}">{@html ".".repeat(precedingSpaces)}</span>{/if}<span class="text">{ node.text }</span>{#if caretPosition !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretPosition}ch"></span>{/if}
+>{#if precedingSpaces > 0}<span class="space {caretPosition === undefined ? "" : "visible"}">{@html "·".repeat(precedingSpaces)}</span>{/if}<span class="text">{ node.text }</span>{#if caretPosition !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretPosition}ch"></span>{/if}
 </span>
 
 <style>
