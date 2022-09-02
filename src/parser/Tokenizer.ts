@@ -9,7 +9,7 @@ const patterns = [
     { pattern: "/", types: [ TokenType.LANGUAGE ] },
     { pattern: "|?", types: [ TokenType.SELECT] },
     { pattern: "|+", types: [ TokenType.INSERT] },
-    { pattern: "|-", types: [ TokenType.DELETE] },
+    { pattern: "|-", types: [ TokenType.DELETE] },  
     { pattern: "|:", types: [ TokenType.UPDATE] },
     { pattern: "|", types: [ TokenType.TABLE] },
     { pattern: ":", types: [ TokenType.BIND ] },

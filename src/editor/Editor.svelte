@@ -39,11 +39,16 @@
                 else if(event.code === "ArrowRight") insertChar("→");
                 else if(event.code === "ArrowUp") insertChar("↑");
                 else if(event.code === "Digit8") insertChar("•");
-                else if(event.code === "KeyT") insertChar("⊤");
-                else if(event.code === "KeyF") insertChar("⊥");
+                else if(event.code === "Digit9") insertChar("⊤");
+                else if(event.code === "Digit0") insertChar("⊥");
+                else if(event.code === "Equal") insertChar("≠");
+                else if(event.code === "KeyF") insertChar("ƒ");
+                else if(event.code === "KeyD") insertChar("∆");
                 else if(event.code === "KeyA") insertChar("∧");
                 else if(event.code === "KeyO") insertChar("∨");
                 else if(event.code === "KeyN") insertChar("¬");
+                else if(event.code === "Comma") insertChar("≤");
+                else if(event.code === "Period") insertChar("≥");
             }
             else {
                 event.preventDefault();
