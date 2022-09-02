@@ -114,6 +114,7 @@
         width: auto;
         height: auto;
         min-height: calc(100% - var(--wordplay-spacing) * 2);
+        line-height: 1.4;
     }
 
     .editor:focus {

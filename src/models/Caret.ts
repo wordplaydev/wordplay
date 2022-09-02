@@ -54,7 +54,6 @@ export default class Caret {
 
     moveHorizontal(direction: -1 | 1): Caret {
         if(this.position instanceof Node) {
-
             // Get the first or last token of the given node.
             const tokens = this.position.nodes().filter(n => n instanceof Token) as Token[];
             return tokens.length === 0 ? this : this.withPosition(direction < 0 ? tokens[0].index : tokens[tokens.length - 1].index + tokens[tokens.length - 1].text.length )
@@ -62,13 +61,7 @@ export default class Caret {
         else {
             const stop = direction < 0 ? 0 : this.project.code.length;
             if(this.position === stop) return this;
-            // Otherwise, find the first non-whitespace character in the next position.
-            let lastIsntWhitespace = !this.isTab(this.project.code.charAt(this.position));
             let pos = this.position + direction;
-            while(pos !== stop) {
-                if(!this.isTab(this.project.code.charAt(pos)) || lastIsntWhitespace) break;
-                pos += direction;
-            }
             return this.withPosition(pos);
         }
     }
