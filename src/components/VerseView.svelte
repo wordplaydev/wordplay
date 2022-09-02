@@ -39,3 +39,9 @@
 >
     <GroupView group={group} />
 </div>
+
+<style>
+    .verse:focus {
+        outline: hidden;
+    }
+</style>
