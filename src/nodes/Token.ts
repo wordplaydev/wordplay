@@ -132,7 +132,7 @@ export default class Token extends Node {
     /** The text of the token */
     readonly text: string;
     /** Spaces and tabs preceding this token. */
-    readonly space: string;
+    readonly whitespace: string;
     /** The index in the source file at which this token starts. */
     readonly index: number;
     /** The precomputed number of newlines in the whitespace */
@@ -146,7 +146,7 @@ export default class Token extends Node {
         super();
         this.types = [ ... types ];
         this.text = text;
-        this.space = space;
+        this.whitespace = space;
         this.index = index;
 
         // If the whitespace has a newline, skip any preceding tabs or spaces, since they don't really affect layout
@@ -174,26 +174,28 @@ export default class Token extends Node {
         }
 
     }
-    getSpaceIndex() { return this.index - this.space.length; }
+    getWhitespaceIndex() { return this.index - this.whitespace.length; }
+    getSpaceIndex() { return this.index - this.spaces; }
     getTextIndex() { return this.index; }
     getLastIndex() { return this.index + this.text.length; }
     getTextLength() { return this.text.length; }
+    getSpaceAndTextLength() { return this.spaces + this.text.length; }
     getChildren() { return []; }
-    getPrecedingSpace() { return this.space; }
-    hasPrecedingSpace() { return this.space.length > 0; }
-    containsPosition(position: number) { return position >= this.index - this.space.length && position <= this.index + this.text.length; }
-    hasPrecedingLineBreak() { return this.space.includes("\n"); }
+    getPrecedingSpace() { return this.whitespace; }
+    hasPrecedingSpace() { return this.whitespace.length > 0; }
+    containsPosition(position: number) { return position >= this.index - this.whitespace.length && position <= this.index + this.text.length; }
+    hasPrecedingLineBreak() { return this.whitespace.includes("\n"); }
     isnt(type: TokenType) { return !this.is(type); }
     is(type: TokenType) { return this.types.includes(type); }
     isName() { return this.is(TokenType.NAME); }
     withTypeNarrowedTo(type: TokenType) {
         if(this.is(type))
-            return new Token(this.text, [ type ], this.index, this.space);
+            return new Token(this.text, [ type ], this.index, this.whitespace);
         else
             throw Error(`Invalid narrowing of token from ${this.types} to ${type}`);
     }
-    toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}(${this.space.length},${this.index}): ${this.text.replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
-    toWordplay() { return this.space + this.text; }
+    toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}(${this.whitespace.length},${this.index}): ${this.text.replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
+    toWordplay() { return this.whitespace + this.text; }
 
     getConflicts() { return []; }
 

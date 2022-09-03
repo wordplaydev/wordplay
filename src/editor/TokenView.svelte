@@ -10,7 +10,6 @@
     const type = node.types[0];
     const end = type === TokenType.END;
     const kind = type !== undefined ? TokenKinds.get(type) : "default";
-    const spaceStart = node.index - node.spaces;
 
     // Compute where the caret should be placed. Place it if...
     $: caretIndex = 
@@ -19,12 +18,12 @@
         // The caret position is a number, not a node
         typeof $caret.position === "number" && 
         // This token contains the caret position
-        $caret.between(node.getSpaceIndex(), node.getLastIndex()) &&
+        $caret.between(node.getWhitespaceIndex(), node.getLastIndex()) &&
         // This isn't the end token, or it is, and it either has whitespace or the code is the empty string.
-        (end && ($caret.project.code.length === 0 || node.space.length > 0) || !end) ? 
+        (end && ($caret.project.code.length === 0 || node.whitespace.length > 0) || !end) ? 
             // Otherwise, the caretThe offset at which to render the token is the caret position, minus the start of the token's spaces.
             // If the caret position is on a newline or tab, then it will be negative.
-            $caret.position - spaceStart : 
+            $caret.position - node.getSpaceIndex() : 
             undefined;
 
     // Compute the left and top positions of the caret based on the caretPosition.
@@ -34,6 +33,7 @@
         caretLeft = undefined;
         caretTop = undefined;
         if(caretIndex !== undefined) {
+            console.log(`${$caret?.position} ${node.getSpaceIndex()}`);
             if(caretIndex >= 0) {
                 caretLeft = `${caretIndex}ch`;
                 caretTop = `auto`;
@@ -74,7 +74,7 @@
             const tokenRect = event.currentTarget.getBoundingClientRect();
             const offset = event.offsetX + (targetRect.left - tokenRect.left);
             // Place the caret at the space or text assuming fixed width, but after any tabs or new lines.
-            caret.set($caret.withPosition(node.getSpaceIndex() + node.tabs + node.newlines + Math.round((node.spaces + node.getTextLength()) * (offset / tokenRect.width))));
+            caret.set($caret.withPosition(node.getWhitespaceIndex() + node.tabs + node.newlines + Math.round(node.getSpaceAndTextLength() * (offset / tokenRect.width))));
             event.stopPropagation();
         }
     }
