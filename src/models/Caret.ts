@@ -82,7 +82,7 @@ export default class Caret {
         while((direction < 0 ? row >= 0 : row < lines.length)) {
             // If the next row isn't just whitespace, then return the position corresponding to the closest column on the next line
             const rowPosition = this.rowPosition(row);
-            if(rowPosition !== undefined && lines[row].trim().length > 0) {
+            if(rowPosition !== undefined) {
                 return this.withPosition(rowPosition + Math.min(column, lines[row].length));
             }
             // Otherwise, go to the next row.
