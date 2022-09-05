@@ -7,18 +7,18 @@ import type Unparsable from "./Unparsable";
 
 export default class Cell extends Node {
 
-    readonly cell: Token;
+    readonly bar: Token;
     readonly expression: Expression | Unparsable | Bind;
 
     constructor(bar: Token, expression: Expression | Unparsable | Bind) {
         super();
 
-        this.cell = bar;
+        this.bar = bar;
         this.expression = expression;
     }
 
     getChildren() {
-        return [ this.cell, this.expression ];
+        return [ this.bar, this.expression ];
     }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }

@@ -83,7 +83,7 @@ TokenKinds.set(TokenType.SET_CLOSE, TokenCategoryDelimiter);
 TokenKinds.set(TokenType.LIST_OPEN, TokenCategoryDelimiter);
 TokenKinds.set(TokenType.LIST_CLOSE, TokenCategoryDelimiter);
 TokenKinds.set(TokenType.TABLE_OPEN, TokenCategoryDelimiter);
-TokenKinds.set(TokenType.TABLE_OPEN, TokenCategoryDelimiter);
+TokenKinds.set(TokenType.TABLE_CLOSE, TokenCategoryDelimiter);
 TokenKinds.set(TokenType.BIND, TokenCategoryRelation);
 TokenKinds.set(TokenType.ACCESS, TokenCategoryRelation);
 TokenKinds.set(TokenType.FUNCTION, TokenCategoryEvaluation);

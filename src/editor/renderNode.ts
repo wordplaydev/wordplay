@@ -45,6 +45,12 @@ import StreamTypeView from "./StreamTypeView.svelte";
 import IsView from "./IsView.svelte";
 import UnionTypeView from "./UnionTypeView.svelte";
 import DocsView from "./DocsView.svelte";
+import TableTypeView from "./TableTypeView.svelte";
+import ColumnTypeView from "./ColumnTypeView.svelte";
+import TableLiteralView from "./TableLiteralView.svelte";
+import ColumnView from "./ColumnView.svelte";
+import RowView from "./RowView.svelte";
+import CellView from "./CellView.svelte";
 
 export default function renderNode(node: Node) {
     const view = {
@@ -100,6 +106,13 @@ export default function renderNode(node: Node) {
         "ListLiteral": ListLiteralView,
         "ListAccess": ListAccessView,
         "ListType": ListTypeView,
+
+        "TableLiteral": TableLiteralView,
+        "TableType": TableTypeView,
+        "Column": ColumnView,
+        "ColumnType": ColumnTypeView,
+        "Row": RowView,
+        "Cell": CellView,
 
         "Reaction": ReactionView,
         "Previous": PreviousView,
