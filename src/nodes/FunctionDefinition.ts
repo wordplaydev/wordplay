@@ -166,7 +166,11 @@ export default class FunctionDefinition extends Expression {
             new FunctionValue(this, context);
 
         // Bind the value and then return it.
-        this.aliases.forEach(alias => evaluator.bind(alias.getName(), value));
+        this.aliases.forEach(a => {
+            const name = a.getName();
+            if(name !== undefined)
+                evaluator.bind(name, value);
+        });
 
         // Return the value.
         return value;

@@ -3,6 +3,7 @@ import type Alias from "./Alias";
 import type { ConflictContext } from "./Node";
 import Token, { TokenType } from "./Token";
 import Type from "./Type";
+import Unparsable from "./Unparsable";
 
 export default class NoneType extends Type {
 

@@ -48,8 +48,8 @@ export default class NativeHOFMapTranslate extends Expression {
                             translator.definition.inputs[1] instanceof Bind) {
                             const bindings = new Map<string, Value>();
                             // Bind the map key and value
-                            (translator.definition.inputs[0] as Bind).names.forEach(n =>  bindings.set(n.getName(), mapKey));
-                            (translator.definition.inputs[1] as Bind).names.forEach(n =>  bindings.set(n.getName(), mapValue));
+                            (translator.definition.inputs[0] as Bind).getNames().forEach(n =>  bindings.set(n, mapKey));
+                            (translator.definition.inputs[1] as Bind).getNames().forEach(n =>  bindings.set(n, mapValue));
                             // Apply the translator function to the value
                             evaluator.startEvaluation(new Evaluation(
                                 evaluator, 

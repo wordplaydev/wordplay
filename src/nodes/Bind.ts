@@ -53,7 +53,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
     hasName(name: string) { return this.names.find(n => n.getName() === name) !== undefined; }
 
-    getNames() { return this.names.map(n => n.getName() ); }
+    getNames(): string[] { return this.names.map(n => n.getName()).filter(n => n !== undefined) as string[]; }
 
     isVariableLength() { return this.etc !== undefined; }
 
@@ -96,7 +96,10 @@ export default class Bind extends Node implements Evaluable, Named {
         const enclosure = context.program.getBindingEnclosureOf(this);
 
         // It can't already be defined.
-        const definitions = this.names.map(alias => enclosure?.getDefinition(context, this, alias.getName())).filter(def => def !== undefined) as (Expression | Bind | TypeVariable)[];
+        const definitions = this.names.map(alias => {
+            const name = alias.getName();
+            return name === undefined ? undefined : enclosure?.getDefinition(context, this, name);
+        }).filter(def => def !== undefined) as (Expression | Bind | TypeVariable)[];
         if(definitions.length > 0)
             conflicts.push(new DuplicateBinds(this, definitions));
 
@@ -167,7 +170,11 @@ export default class Bind extends Node implements Evaluable, Named {
     evaluate(evaluator: Evaluator) {
         
         // Bind the value on the stack to the names.
-        this.names.forEach(alias => evaluator.bind(alias.getName(), evaluator.popValue()));
+        this.names.forEach(alias => { 
+            const name = alias.getName(); 
+            if(name !== undefined) 
+                evaluator.bind(name, evaluator.popValue()); 
+        });
         return undefined;
 
     }

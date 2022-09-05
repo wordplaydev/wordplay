@@ -77,6 +77,7 @@ export enum SyntacticConflict {
     EXPECTED_TEXT_CLOSE,
     EXPECTED_TABLE_CLOSE,
     EXPECTED_EXPRESSION,
+    EXPECTED_LANGUAGE,
     EXPECTED_UNIT_NAME,
     EXPECTED_END,
     EXPECTED_TYPE,
@@ -334,7 +335,7 @@ export function parseBind(tokens: Tokens): Bind | Unparsable {
 
     let docs = parseDocs(tokens);
     let etc = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : undefined;
-    let names = [];
+    let names: Alias[] | Unparsable = [];
     let colon;
     let value;
     let dot;
@@ -367,7 +368,7 @@ export function parseAliases(tokens: Tokens): Alias[] {
     while((aliases.length > 0 && tokens.nextIs(TokenType.ALIAS)) || (aliases.length === 0 && tokens.nextIs(TokenType.NAME))) {
         const semicolon = tokens.nextIs(TokenType.ALIAS) ? tokens.read(TokenType.ALIAS) : undefined;
         if(aliases.length > 0 && semicolon === undefined) break;
-        const name = tokens.read(TokenType.NAME);
+        const name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : undefined;
         let lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
         aliases.push(new Alias(name, lang, semicolon));
     }
@@ -380,7 +381,7 @@ export function parseAliases(tokens: Tokens): Alias[] {
 export function parseLanguage(tokens: Tokens): Language {
 
     const slash = tokens.read(TokenType.LANGUAGE);
-    const lang = tokens.read(TokenType.NAME);
+    const lang = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : new Unparsable(SyntacticConflict.EXPECTED_LANGUAGE, [], []);
     return new Language(lang, slash);
 
 }

@@ -45,7 +45,7 @@ export default class NativeHOFListMap extends Expression {
                             translator.definition.inputs[0] instanceof Bind) {
                             const bindings = new Map<string, Value>();
                             // Bind the list value
-                            (translator.definition.inputs[0] as Bind).names.forEach(n =>  bindings.set(n.getName(), listValue));
+                            (translator.definition.inputs[0] as Bind).getNames().forEach(n =>  bindings.set(n, listValue));
                             // Apply the translator function to the value
                             evaluator.startEvaluation(new Evaluation(
                                 evaluator, 

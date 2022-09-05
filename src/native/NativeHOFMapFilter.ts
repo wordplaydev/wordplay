@@ -48,8 +48,8 @@ export default class NativeHOFListMap extends Expression {
                             checker.definition.inputs[1] instanceof Bind) {
                             const bindings = new Map<string, Value>();
                             // Bind the key
-                            (checker.definition.inputs[0] as Bind).names.forEach(n =>  bindings.set(n.getName(), mapKey));
-                            (checker.definition.inputs[1] as Bind).names.forEach(n =>  bindings.set(n.getName(), mapValue));
+                            (checker.definition.inputs[0] as Bind).getNames().forEach(n =>  bindings.set(n, mapKey));
+                            (checker.definition.inputs[1] as Bind).getNames().forEach(n =>  bindings.set(n, mapValue));
                             // Apply the translator function to the value
                             evaluator.startEvaluation(new Evaluation(
                                 evaluator, 

@@ -50,7 +50,11 @@ class NativeBindings implements NativeInterface {
         if(!(kind in this.functionsByType))
             this.functionsByType[kind] = {};
 
-        fun.aliases.forEach(a => this.functionsByType[kind][a.getName()] = fun);
+        fun.aliases.forEach(a => {
+            const name = a.getName();
+            if(name !== undefined)
+                this.functionsByType[kind][name] = fun
+        });
 
     }
 

@@ -6,10 +6,10 @@ import Language from "./Language";
 export default class Alias extends Node {
     
     readonly semicolon?: Token;
-    readonly name: Token;
+    readonly name?: Token;
     readonly lang?: Language;
 
-    constructor(name: Token | string, lang?: Language | string, semicolon?: Token) {
+    constructor(name: Token | string | undefined, lang?: Language | string, semicolon?: Token) {
         super();
 
         this.semicolon = semicolon;
@@ -27,7 +27,7 @@ export default class Alias extends Node {
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    getName() { return this.name instanceof Token ? this.name.text : this.name; }
+    getName(): string | undefined { return this.name instanceof Token ? this.name.text : this.name; }
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
 
     isCompatible(alias: Alias) { 

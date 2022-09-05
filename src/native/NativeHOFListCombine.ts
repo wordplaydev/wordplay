@@ -58,9 +58,9 @@ export default class NativeHOFListCombine extends Expression {
                         translator.definition.inputs[1] instanceof Bind) {
                         const bindings = new Map<string, Value>();
                         // Bind the current combo
-                        (translator.definition.inputs[0] as Bind).names.forEach(n => bindings.set(n.getName(), combination));
+                        (translator.definition.inputs[0] as Bind).getNames().forEach(n => bindings.set(n, combination));
                         // Bind the list value
-                        (translator.definition.inputs[1] as Bind).names.forEach(n =>  bindings.set(n.getName(), listValue));
+                        (translator.definition.inputs[1] as Bind).getNames().forEach(n =>  bindings.set(n, listValue));
                         // Apply the translator function to the value
                         evaluator.startEvaluation(new Evaluation(
                             evaluator, 

@@ -110,23 +110,29 @@ export default class Evaluate extends Expression {
                                 // and 2) it shouldn't already be set.
                                 if(given instanceof Bind) {
                                     const givenName = given.names[0].getName();
-                                    // If we've already given the name...
-                                    if(namesProvided.has(givenName)) {
-                                        conflicts.push(new RedundantNamedInput(functionType, this, input));
-                                        break;
+                                    if(givenName !== undefined) {
+                                        // If we've already given the name...
+                                        if(namesProvided.has(givenName)) {
+                                            conflicts.push(new RedundantNamedInput(functionType, this, input));
+                                            break;
+                                        }
+                                        // The given name has to match the required name.
+                                        else if(input.aliases.find(a => a.getName() === givenName) === undefined) {
+                                            conflicts.push(new InvalidInputName(functionType, this, input));
+                                            break;
+                                        }
+                                        // The types have to match
+                                        else if(input.type instanceof Type && given.value !== undefined && !given.value.getTypeUnlessCycle(context).isCompatible(context, input.type)) {
+                                            conflicts.push(new IncompatibleInput(functionType, this, input));
+                                            break;
+                                        }
+                                        // Remember that we named this input to catch redundancies.
+                                        else input.aliases.forEach(a => {
+                                            const name = a.getName();
+                                            if(name !== undefined)
+                                                namesProvided.add(name)
+                                        });
                                     }
-                                    // The given name has to match the required name.
-                                    else if(input.aliases.find(a => a.getName() === givenName) === undefined) {
-                                        conflicts.push(new InvalidInputName(functionType, this, input));
-                                        break;
-                                    }
-                                    // The types have to match
-                                    else if(input.type instanceof Type && given.value !== undefined && !given.value.getTypeUnlessCycle(context).isCompatible(context, input.type)) {
-                                        conflicts.push(new IncompatibleInput(functionType, this, input));
-                                        break;
-                                    }
-                                    // Remember that we named this input to catch redundancies.
-                                    else input.aliases.forEach(a => namesProvided.add(a.getName()));
                                 }
                                 // If it's not a bind, check the type of the next given input.
                                 else {
@@ -135,7 +141,11 @@ export default class Evaluate extends Expression {
                                         break;
                                     }
                                     // Remember that we got this named input.
-                                    input.aliases.forEach(a => namesProvided.add(a.getName()));
+                                    input.aliases.forEach(a => {
+                                        const name = a.getName();
+                                        if(name !== undefined)
+                                            namesProvided.add(name);
+                                    });
                                 }
                             }
                         }
@@ -162,7 +172,11 @@ export default class Evaluate extends Expression {
                                         break;
                                     }
                                     // Otherwise, remember that we matched on this and remove it from the given inputs list.
-                                    input.aliases.forEach(a => namesProvided.add(a.getName()));
+                                    input.aliases.forEach(a => {
+                                        const name = a.getName();
+                                        if(name !== undefined)
+                                            namesProvided.add(name);
+                                    });
                                     const bindIndex = givenInputs.indexOf(matchingBind);
                                     if(bindIndex >= 0)
                                         givenInputs.splice(bindIndex, 1);
@@ -179,7 +193,11 @@ export default class Evaluate extends Expression {
                                         conflicts.push(new RedundantNamedInput(functionType, this, input));
                                         break;
                                     } 
-                                    input.aliases.forEach(a => namesProvided.add(a.getName()));
+                                    input.aliases.forEach(a => {
+                                        const name = a.getName();
+                                        if(name !== undefined)
+                                            namesProvided.add(name)
+                                    });
                                 }
                             }
                         }
@@ -352,11 +370,16 @@ export default class Evaluate extends Expression {
             if(bind instanceof Unparsable) return new Exception(this, ExceptionKind.UNPARSABLE);
             else if(i >= values.length) 
                 return new Exception(this, ExceptionKind.EXPECTED_VALUE);
-            bind.names.forEach(name => bindings.set(name.getName(), 
-                bind.isVariableLength() ? 
-                    new List(values.slice(i)) :
-                    values[i]
-            ));
+            bind.names.forEach(name => {
+                const n = name.getName();
+                if(n !== undefined)
+                    bindings.set(
+                        n, 
+                        bind.isVariableLength() ? 
+                            new List(values.slice(i)) :
+                            values[i]
+                    )
+            });
         }
         return bindings;
 

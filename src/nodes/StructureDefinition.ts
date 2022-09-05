@@ -186,7 +186,11 @@ export default class StructureDefinition extends Expression {
         const context = evaluator.getEvaluationContext();
         if(context !== undefined) {
             const def = new StructureDefinitionValue(this, context);
-            this.aliases.forEach(a => context.bind(a.getName(), def));
+            this.aliases.forEach(a => {
+                const name = a.getName();
+                if(name !== undefined)
+                    context.bind(name, def);
+            });
             return undefined;
         }
         else

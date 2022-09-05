@@ -1,13 +1,14 @@
 import type Conflict from "../conflicts/Conflict";
 import Node, { type ConflictContext } from "./Node";
 import Token, { TokenType } from "./Token";
+import type Unparsable from "./Unparsable";
 
 export default class Language extends Node {
     
     readonly slash: Token;
-    readonly lang: Token;
+    readonly lang: Token | Unparsable;
 
-    constructor(lang: Token | string, slash?: Token) {
+    constructor(lang: Token | Unparsable | string, slash?: Token) {
         super();
 
         this.slash = slash ?? new Token("/", [ TokenType.LANGUAGE ]);
@@ -18,7 +19,7 @@ export default class Language extends Node {
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    getLanguage() { return this.lang instanceof Token ? this.lang.text : this.lang; }
+    getLanguage() { return this.lang instanceof Token ? this.lang.text : undefined; }
 
     isCompatible(lang: Language) {
         return this.getLanguage() === lang.getLanguage();

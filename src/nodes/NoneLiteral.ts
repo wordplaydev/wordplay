@@ -10,6 +10,7 @@ import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import type { ConflictContext } from "./Node";
 import type Alias from "./Alias";
+import type Unparsable from "./Unparsable";
 
 export default class NoneLiteral extends Expression {
     readonly none: Token;

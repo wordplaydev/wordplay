@@ -95,7 +95,7 @@ TokenKinds.set(TokenType.NONE, TokenCategoryLiteral);
 TokenKinds.set(TokenType.TYPE, TokenCategoryRelation);
 TokenKinds.set(TokenType.TYPE_VAR, TokenCategoryRelation);
 TokenKinds.set(TokenType.ALIAS, TokenCategoryDelimiter);
-TokenKinds.set(TokenType.LANGUAGE, TokenCategoryLiteral);
+TokenKinds.set(TokenType.LANGUAGE, TokenCategoryDelimiter);
 TokenKinds.set(TokenType.BOOLEAN_TYPE, TokenCategoryLiteral);
 TokenKinds.set(TokenType.TEXT_TYPE, TokenCategoryType);
 TokenKinds.set(TokenType.NUMBER_TYPE, TokenCategoryType);

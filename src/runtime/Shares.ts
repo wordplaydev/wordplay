@@ -16,7 +16,11 @@ export const DEFAULT_SHARES: Record<string, Value> = {}
 
 function addDefaultShare(def: StructureDefinition) {
     const val = new StructureDefinitionValue(def);
-    def.aliases.forEach(a => DEFAULT_SHARES[a.getName()] = val);
+    def.aliases.forEach(a => {
+        const name = a.getName();
+        if(name !== undefined)
+            DEFAULT_SHARES[name] = val;
+    });
 }
 
 addDefaultShare(Verse);
