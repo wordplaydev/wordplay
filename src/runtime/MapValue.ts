@@ -1,5 +1,5 @@
 import Alias from "../nodes/Alias";
-import SetOrMapType from "../nodes/SetOrMapType";
+import MapType from "../nodes/MapType";
 import Measurement from "./Measurement";
 import None from "./None";
 import Primitive from "./Primitive";
@@ -60,7 +60,7 @@ export default class MapValue extends Primitive {
         return this.values.map(kv => kv[1]);
     }
 
-    getType() { return new SetOrMapType(); }
+    getType() { return new MapType(); }
     getNativeTypeName(): string { return "map" }
 
     toString() { return `{${Array.from(this.values).sort().map(k => `${k[0].toString()}:${(this.has(k[0]) as Value).toString()}`).join(" ")}}`; }

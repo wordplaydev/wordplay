@@ -12,7 +12,6 @@ import NameType from "../nodes/NameType";
 import NoneType from "../nodes/NoneType";
 import { SyntacticConflict, parse, parseBind, parseBlock, parseExpression, parseType, tokens } from "./Parser";
 import Program from "../nodes/Program";
-import SetOrMapType from "../nodes/SetOrMapType";
 import Share from "../nodes/Share";
 import StreamType from "../nodes/StreamType";
 import TableType from "../nodes/TableType";
@@ -26,7 +25,6 @@ import Template from "../nodes/Template";
 import BinaryOperation from "../nodes/BinaryOperation";
 import ListLiteral from "../nodes/ListLiteral";
 import ListAccess from "../nodes/ListAccess";
-import SetOrMapLiteral from "../nodes/SetOrMapLiteral";
 import SetOrMapAccess from "../nodes/SetOrMapAccess";
 import Reaction from "../nodes/Reaction";
 import Conditional from "../nodes/Conditional";
@@ -46,6 +44,10 @@ import Is from "../nodes/Is";
 import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
 import TypePlaceholder from "../nodes/TypePlaceholder";
 import Previous from "../nodes/Previous";
+import SetLiteral from "../nodes/SetLiteral";
+import MapLiteral from "../nodes/MapLiteral";
+import SetType from "../nodes/SetType";
+import MapType from "../nodes/MapType";
 
 test("Parse programs", () => {
 
@@ -206,16 +208,16 @@ test("Parse expressions", () => {
     expect((nestedListAccess as ListAccess).list).toBeInstanceOf(ListAccess);
 
     const set = parseExpression(tokens("{1 2 3}"));
-    expect(set).toBeInstanceOf(SetOrMapLiteral);
-    expect((set as SetOrMapLiteral).values).toHaveLength(3);
+    expect(set).toBeInstanceOf(SetLiteral);
+    expect((set as SetLiteral).values).toHaveLength(3);
 
     const emptyMap = parseExpression(tokens("{:}"));
-    expect(emptyMap).toBeInstanceOf(SetOrMapLiteral);
-    expect((emptyMap as SetOrMapLiteral).values).toHaveLength(0);
+    expect(emptyMap).toBeInstanceOf(MapLiteral);
+    expect((emptyMap as MapLiteral).values).toHaveLength(0);
 
     const nonEmptyMap = parseExpression(tokens("{1:1 2:2 3:3}"));
-    expect(nonEmptyMap).toBeInstanceOf(SetOrMapLiteral);
-    expect((nonEmptyMap as SetOrMapLiteral).values).toHaveLength(3);
+    expect(nonEmptyMap).toBeInstanceOf(MapLiteral);
+    expect((nonEmptyMap as MapLiteral).values).toHaveLength(3);
 
     const setAccess = parseExpression(tokens("set{2}"));
     expect(setAccess).toBeInstanceOf(SetOrMapAccess);
@@ -225,8 +227,8 @@ test("Parse expressions", () => {
     expect((nestedSetAccess as SetOrMapAccess).setOrMap).toBeInstanceOf(SetOrMapAccess);
 
     const map = parseExpression(tokens("{1:2 3:4 5:6}"));
-    expect(map).toBeInstanceOf(SetOrMapLiteral);
-    expect((map as SetOrMapLiteral).values).toHaveLength(3);
+    expect(map).toBeInstanceOf(MapLiteral);
+    expect((map as MapLiteral).values).toHaveLength(3);
 
     const table = parseExpression(tokens("|a•#|b•#|c•#||\n|1|2|3||\n|4|5|6||"));
     expect(table).toBeInstanceOf(TableLiteral);
@@ -359,12 +361,12 @@ test("Blocks and binds", () => {
 
     const map = parseBlock(tokens("{1:1 2:2 3:3}"), true);
     expect(map).toBeInstanceOf(Block);
-    expect((map as Block).statements[0]).toBeInstanceOf(SetOrMapLiteral);
+    expect((map as Block).statements[0]).toBeInstanceOf(MapLiteral);
 
     const bindMap = parseBlock(tokens("map: {1:1 2:2 3:3}"), true);
     expect(bindMap).toBeInstanceOf(Block);
     expect((bindMap as Block).statements[0]).toBeInstanceOf(Bind);
-    expect(((bindMap as Block).statements[0] as Bind).value).toBeInstanceOf(SetOrMapLiteral);
+    expect(((bindMap as Block).statements[0] as Bind).value).toBeInstanceOf(MapLiteral);
 
     const table = parseBlock(tokens("|a•#|b•#\n|1|2"), true);
     expect(table).toBeInstanceOf(Block);
@@ -411,11 +413,11 @@ test("Types", () => {
     expect(list).toBeInstanceOf(ListType);
 
     const set = parseType(tokens("{#}"));
-    expect(set).toBeInstanceOf(SetOrMapType);
+    expect(set).toBeInstanceOf(SetType);
 
     const map = parseType(tokens("{'':#}"));
-    expect(map).toBeInstanceOf(SetOrMapType);
-    expect((map as SetOrMapType).value).toBeInstanceOf(MeasurementType);
+    expect(map).toBeInstanceOf(MapType);
+    expect((map as MapType).value).toBeInstanceOf(MeasurementType);
 
     const table = parseType(tokens("|#|''|Cat"));
     expect(table).toBeInstanceOf(TableType);

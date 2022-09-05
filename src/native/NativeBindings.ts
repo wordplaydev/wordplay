@@ -19,7 +19,6 @@ import Bind from "../nodes/Bind";
 import type Value from "../runtime/Value";
 import NameType from "../nodes/NameType";
 import ListType from "../nodes/ListType";
-import SetOrMapType from "../nodes/SetOrMapType";
 import type Evaluation from "../runtime/Evaluation";
 import FunctionType from "../nodes/FunctionType";
 import NativeHOFListTranslate from "./NativeHOFListTranslate";
@@ -36,6 +35,8 @@ import NativeHOFMapFilter from "./NativeHOFMapFilter";
 import NativeHOFMapTranslate from "./NativeHOFMapTranslate";
 import MeasurementType from "../nodes/MeasurementType";
 import TextType from "../nodes/TextType";
+import SetType from "../nodes/SetType";
+import MapType from "../nodes/MapType";
 
 class NativeBindings implements NativeInterface {
 
@@ -386,7 +387,7 @@ evaluation => {
 );
 
 // TODO Documentation
-Native.addNativeFunction("set", [], [ new Alias("remove", "eng") ], [], [ new Bind([], undefined, [ new Alias("value", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
+Native.addNativeFunction("set", [], [ new Alias("remove", "eng") ], [], [ new Bind([], undefined, [ new Alias("value", "eng") ] ) ], new SetType(undefined, undefined, new NameType("T")),
     evaluation => {
         const set = evaluation.getContext();
         const element = evaluation.resolve("value");
@@ -396,7 +397,7 @@ Native.addNativeFunction("set", [], [ new Alias("remove", "eng") ], [], [ new Bi
 );
 
 // TODO Documentation
-Native.addNativeFunction("set", [], [ new Alias("union", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
+Native.addNativeFunction("set", [], [ new Alias("union", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetType(undefined, undefined, new NameType("T")),
     evaluation => {
         const set = evaluation.getContext();
         const newSet = evaluation.resolve("set");
@@ -406,7 +407,7 @@ Native.addNativeFunction("set", [], [ new Alias("union", "eng") ], [], [ new Bin
 );
 
 // TODO Documentation
-Native.addNativeFunction("set", [], [ new Alias("intersection", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
+Native.addNativeFunction("set", [], [ new Alias("intersection", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetType(undefined, undefined, new NameType("T")),
     evaluation => {
         const set = evaluation.getContext();
         const newSet = evaluation.resolve("set");
@@ -416,7 +417,7 @@ Native.addNativeFunction("set", [], [ new Alias("intersection", "eng") ], [], [ 
 );
 
 // TODO Documentation
-Native.addNativeFunction("set", [], [ new Alias("difference", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetOrMapType(undefined, undefined, new NameType("T")),
+Native.addNativeFunction("set", [], [ new Alias("difference", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetType(undefined, undefined, new NameType("T")),
     evaluation => {
         const set = evaluation.getContext();
         const newSet = evaluation.resolve("set");
@@ -442,7 +443,7 @@ Native.addFunction("set", new FunctionDefinition(
         ], new NameType("T")))
     ],
     new NativeHOFSetFilter(),
-    new SetOrMapType(undefined, undefined, new NameType("T"))
+    new SetType(undefined, undefined, new NameType("T"))
 ));
 
 // TODO Documentation
@@ -451,7 +452,7 @@ Native.addNativeFunction("map", [], [ new Alias("set", "eng") ], [],
         new Bind([], undefined, [ new Alias("key", "eng") ], new NameType("K") ),
         new Bind([], undefined, [ new Alias("value", "eng") ], new NameType("V") )
     ],
-    new SetOrMapType(),
+    new MapType(),
     evaluation => {
         const map = evaluation.getContext();
         const key = evaluation.resolve("key");
@@ -466,7 +467,7 @@ Native.addNativeFunction("map", [], [ new Alias("unset", "eng") ], [],
     [ 
         new Bind([], undefined, [ new Alias("key", "eng") ], new NameType("K") )
     ],
-    new SetOrMapType(),
+    new MapType(),
     evaluation => {
         const map = evaluation.getContext();
         const key = evaluation.resolve("key");
@@ -480,7 +481,7 @@ Native.addNativeFunction("map", [], [ new Alias("remove", "eng") ], [],
     [ 
         new Bind([], undefined, [ new Alias("value", "eng") ], new NameType("V") )
     ],
-    new SetOrMapType(),
+    new MapType(),
     evaluation => {
         const map = evaluation.getContext();
         const value = evaluation.resolve("value");
@@ -513,7 +514,7 @@ Native.addFunction("map", new FunctionDefinition(
         ], new NameType("T")))
     ],
     new NativeHOFMapFilter(),
-    new SetOrMapType(undefined, undefined, new NameType("K"), undefined, new NameType("V"))
+    new MapType(undefined, undefined, new NameType("K"), undefined, new NameType("V"))
 ));
 
 // TODO Documentation
@@ -540,7 +541,7 @@ Native.addFunction("map", new FunctionDefinition(
         ], new NameType("T")))
     ],
     new NativeHOFMapTranslate(),
-    new SetOrMapType(undefined, undefined, new NameType("K"), undefined, new NameType("V"))
+    new MapType(undefined, undefined, new NameType("K"), undefined, new NameType("V"))
 ));
 
 // TODO Documentation

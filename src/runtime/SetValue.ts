@@ -1,4 +1,4 @@
-import SetOrMapType from "../nodes/SetOrMapType";
+import SetType from "../nodes/SetType";
 import Bool from "./Bool";
 import Measurement from "./Measurement";
 import Primitive from "./Primitive";
@@ -54,7 +54,7 @@ export default class SetValue extends Primitive {
         return new SetValue(this.values.filter(v1 => set.values.find(v2 => v1.isEqualTo(v2)) === undefined));
     }
 
-    getType() { return new SetOrMapType(); }
+    getType() { return new SetType(); }
     getNativeTypeName(): string { return "set" }
 
     toString() { return `{${Array.from(this.values).join(" ")}}`; }

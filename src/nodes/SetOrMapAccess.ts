@@ -1,7 +1,6 @@
 import type Conflict from "../conflicts/Conflict";
 import { IncompatibleKey } from "../conflicts/IncompatibleKey";
 import Expression from "./Expression";
-import SetOrMapType from "./SetOrMapType";
 import type Token from "./Token";
 import Type from "./Type";
 import UnknownType from "./UnknownType";
@@ -15,6 +14,9 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
+import MapType from "./MapType";
+import SetType from "./SetType";
+import BooleanType from "./BooleanType";
 
 export default class SetOrMapAccess extends Expression {
 
@@ -43,7 +45,7 @@ export default class SetOrMapAccess extends Expression {
         const setMapType = this.setOrMap.getTypeUnlessCycle(context);
         const keyType = this.key.getTypeUnlessCycle(context);
 
-        if(setMapType instanceof SetOrMapType && setMapType.key instanceof Type && !setMapType.key.isCompatible(context, keyType))
+        if((setMapType instanceof SetType || setMapType instanceof MapType) && setMapType.key instanceof Type && !setMapType.key.isCompatible(context, keyType))
             return [ new IncompatibleKey(this, setMapType.key, keyType) ];
 
         return [];
@@ -54,9 +56,9 @@ export default class SetOrMapAccess extends Expression {
         // Either a set or map type, and if so, the key or value's type.
         if(this.setOrMap instanceof Unparsable) return new UnknownType(this);
         const setOrMapType = this.setOrMap.getTypeUnlessCycle(context);
-        if(!(setOrMapType instanceof SetOrMapType)) return new UnknownType(this);
-        if(setOrMapType.value !== undefined && setOrMapType.value instanceof Type) return setOrMapType.value;
-        if(setOrMapType.key instanceof Type) return setOrMapType.key;
+        if(!(setOrMapType instanceof SetType || setOrMapType instanceof MapType)) return new UnknownType(this);
+        if(setOrMapType instanceof MapType && setOrMapType.value instanceof Type) return setOrMapType.value;
+        if(setOrMapType instanceof SetType) return new BooleanType();
         return new UnknownType(this);
     }
 

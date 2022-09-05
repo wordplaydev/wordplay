@@ -24,7 +24,6 @@ import NameType from "../nodes/NameType";
 import NoneType from "../nodes/NoneType";
 import TextType from "../nodes/TextType";
 import ListType from "../nodes/ListType";
-import SetOrMapType from "../nodes/SetOrMapType";
 import FunctionType from "../nodes/FunctionType";
 import TypeVariable from "../nodes/TypeVariable";
 import KeyValue from "../nodes/KeyValue";
@@ -52,13 +51,16 @@ import SetOrMapAccess from "../nodes/SetOrMapAccess";
 import Name from "../nodes/Name";
 import BooleanLiteral from "../nodes/BooleanLiteral";
 import Convert from "../nodes/Convert";
-import SetOrMapLiteral from "../nodes/SetOrMapLiteral";
 import Unit from "../nodes/Unit";
 import Language from "../nodes/Language";
 import Is from "../nodes/Is";
 import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
 import TypePlaceholder from "../nodes/TypePlaceholder";
 import Previous from "../nodes/Previous";
+import MapLiteral from "../nodes/MapLiteral";
+import SetLiteral from "../nodes/SetLiteral";
+import MapType from "../nodes/MapType";
+import SetType from "../nodes/SetType";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -630,17 +632,15 @@ function parseListAccess(left: Expression | Unparsable, tokens: Tokens): Express
 }
 
 /** SET :: { EXPRESSION* } | { (EXPRESSION:EXPRESSION)* } | {:} */
-function parseSetOrMap(tokens: Tokens): SetOrMapLiteral | Unparsable {
+function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral | Unparsable {
 
     let open = tokens.read(TokenType.SET_OPEN);
-    let values: (Expression|KeyValue|Unparsable)[] = [];
-    let close;
+    const values: (Expression|KeyValue|Unparsable)[] = [];
 
     // Is this an empty map?
     if(tokens.nextAre(TokenType.BIND, TokenType.SET_CLOSE)) {
         const bind = tokens.read(TokenType.BIND);
-        close = tokens.read(TokenType.SET_CLOSE);
-        return new SetOrMapLiteral(open, values, close, bind);
+        return new MapLiteral(open, [], tokens.read(TokenType.SET_CLOSE), bind);
     }
 
     while(tokens.nextIsnt(TokenType.SET_CLOSE)) {
@@ -653,12 +653,12 @@ function parseSetOrMap(tokens: Tokens): SetOrMapLiteral | Unparsable {
         else values.push(key);
     }
 
-    if(tokens.nextIs(TokenType.SET_CLOSE))
-        close = tokens.read(TokenType.SET_CLOSE);
-    else
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE, [ open, values ]);
+    const close = tokens.nextIs(TokenType.SET_CLOSE) ? tokens.read(TokenType.SET_CLOSE) : new Unparsable(SyntacticConflict.EXPECTED_SET_CLOSE, [], []);
 
-    return new SetOrMapLiteral(open, values, close);
+    // Make a map
+    return values.find(v => v instanceof KeyValue) !== undefined ? 
+        new MapLiteral(open, values, close) :
+        new SetLiteral(open, values as (Expression|Unparsable)[], close);
 
 }
 
@@ -981,7 +981,7 @@ function parseListType(tokens: Tokens): ListType | Unparsable {
 }
 
 /** SET_TYPE :: { TYPE } | { TYPE:TYPE } */
-function parseSetOrMapType(tokens: Tokens): SetOrMapType | Unparsable {
+function parseSetOrMapType(tokens: Tokens): SetType | MapType | Unparsable {
 
     const open = tokens.read(TokenType.SET_OPEN);
     let key = undefined;
@@ -995,7 +995,7 @@ function parseSetOrMapType(tokens: Tokens): SetOrMapType | Unparsable {
     if(tokens.nextIsnt(TokenType.SET_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE, [ open, key, bind, value ]);
     const close = tokens.read(TokenType.SET_CLOSE);
-    return new SetOrMapType(open, close, key, bind, value);
+    return bind === undefined ? new SetType(open, close, key) : new MapType(open, close, key, bind, value);
 
 }
 
