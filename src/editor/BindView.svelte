@@ -18,6 +18,6 @@
     .type {
         opacity: 0.5;
         font-style: italic;
-        font-variant: all-small-caps;
+        font-size: smaller;
     }
 </style>
