@@ -52,6 +52,10 @@ import ColumnView from "./ColumnView.svelte";
 import RowView from "./RowView.svelte";
 import CellView from "./CellView.svelte";
 import FunctionTypeView from "./FunctionTypeView.svelte";
+import InsertView from "./InsertView.svelte";
+import DeleteView from "./DeleteView.svelte";
+import UpdateView from "./UpdateView.svelte";
+import SelectView from "./SelectView.svelte";
 
 export default function renderNode(node: Node) {
     const view = {
@@ -116,6 +120,10 @@ export default function renderNode(node: Node) {
         "ColumnType": ColumnTypeView,
         "Row": RowView,
         "Cell": CellView,
+        "Insert": InsertView,
+        "Delete": DeleteView,
+        "Update": UpdateView,
+        "Select": SelectView,
 
         "Reaction": ReactionView,
         "Previous": PreviousView,
