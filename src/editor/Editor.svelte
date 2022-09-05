@@ -6,8 +6,31 @@
     import Project from '../models/Project';
     import Caret from '../models/Caret';
     import type Program from '../nodes/Program';
+    import { onDestroy } from 'svelte';
 
     export let program: Program;
+
+    let editor: HTMLElement;
+
+    // When the caret changes, make sure it's in view.
+    const caretUnsub = caret.subscribe(() => {
+        const caret = editor?.querySelector(".caret");
+        const viewport = editor?.parentElement;
+        if(caret && viewport) {
+            const caretRect = caret.getBoundingClientRect();
+            const editorRect = viewport.getBoundingClientRect();
+            const caretTop = caretRect.top - editorRect.top;
+            const caretLeft = caretRect.left - editorRect.left;
+            const visible = 
+                caretTop >= viewport.scrollTop && 
+                caretLeft >= viewport.scrollLeft &&
+                caretTop <= viewport.scrollTop + viewport.clientHeight &&
+                caretLeft <= viewport.scrollLeft + viewport.clientWidth;
+            if(!visible)
+                caret.scrollIntoView({ behavior: "auto", block: "nearest", inline: "nearest"});
+        }
+    });
+    onDestroy(caretUnsub);
 
     function insertChar(char: string) {
         if($project && $caret && typeof $caret.position === "number") {
@@ -66,6 +89,7 @@
 
 <div class="editor"
     tabindex=0
+    bind:this={editor}
     on:mousedown={handleClick}
     on:keydown={(event) => {
         if($project && $caret) {
