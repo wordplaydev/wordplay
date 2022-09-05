@@ -1,11 +1,11 @@
 <script lang="ts">
-    import type SetOrMapType from "../nodes/SetOrMapType";
-import NodeView from "./NodeView.svelte";
+    import type MapType from "../nodes/MapType";
+    import NodeView from "./NodeView.svelte";
     import OptionalNodeView from "./OptionalNodeView.svelte";
     import OptionalTokenView from "./OptionalTokenView.svelte";
     import TokenView from "./TokenView.svelte";
 
-    export let node: SetOrMapType;
+    export let node: MapType;
 
 </script>
 

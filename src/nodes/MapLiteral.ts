@@ -15,6 +15,8 @@ import type { ConflictContext } from "./Node";
 import { getPossibleUnionType } from "./UnionType";
 import { NotASetOrMap } from "../conflicts/NotAMap";
 import MapType from "./MapType";
+import Halt from "../runtime/Halt";
+import Exception, { ExceptionKind } from "../runtime/Exception";
 
 export default class MapLiteral extends Expression {
 
@@ -33,13 +35,15 @@ export default class MapLiteral extends Expression {
         
     }
 
+    notAMap() { return this.values.find(v => v instanceof Expression) !== undefined; }
+
     getChildren() {
         return [ this.open, ...this.values, this.close, ... (this.bind ? [ this.bind ] : []) ];
     }
 
     getConflicts(context: ConflictContext): Conflict[] { 
     
-        return this.values.find(v => v instanceof Expression) !== undefined ? [ new NotASetOrMap(this) ] : [];
+        return this.notAMap() ? [ new NotASetOrMap(this) ] : [];
     
     }
 
@@ -57,17 +61,19 @@ export default class MapLiteral extends Expression {
     }
 
     compile(context: ConflictContext):Step[] {
-        return [
-            new Action(this),
-            // Evaluate all of the item or key/value expressions
-            ...this.values.reduce(
-                (steps: Step[], item) => [
-                    ...steps, 
-                    ...[...(item as KeyValue).key.compile(context), ...(item as KeyValue).value.compile(context)]
-                ], []),
-            // Then build the set or map.
-            new Finish(this)
-        ];
+        return this.notAMap() ? 
+            [ new Halt(new Exception(this, ExceptionKind.EXPECTED_VALUE, "Missing values in map"), this)] :
+            [
+                new Action(this),
+                // Evaluate all of the item or key/value expressions
+                ...this.values.reduce(
+                    (steps: Step[], item) => [
+                        ...steps, 
+                        ...( item instanceof Unparsable ? item.compile(context) : [...(item as KeyValue).key.compile(context), ...(item as KeyValue).value.compile(context)])
+                    ], []),
+                // Then build the set or map.
+                new Finish(this)
+            ];
     }
 
     evaluate(evaluator: Evaluator): Value {

@@ -34,10 +34,12 @@ import NoneLiteralView from "./NoneLiteralView.svelte";
 import NoneTypeView from "./NoneTypeView.svelte";
 import MeasurementTypeView from "./MeasurementTypeView.svelte";
 import ShareView from "./ShareView.svelte";
-import SetOrMapLiteralView from "./SetOrMapLiteralView.svelte";
+import SetLiteralView from "./SetLiteralView.svelte";
+import MapLiteralView from "./MapLiteralView.svelte";
 import KeyValueView from "./KeyValueView.svelte";
 import SetOrMapAccessView from "./SetOrMapAccessView.svelte";
-import SetOrMapTypeView from "./SetOrMapTypeView.svelte";
+import SetTypeView from "./MapTypeView.svelte";
+import MapTypeView from "./SetTypeView.svelte";
 import ListAccessView from "./ListAccessView.svelte";
 import ConversionDefinitionView from "./ConversionDefinitionView.svelte";
 import PreviousView from "./PreviousView.svelte";
@@ -105,10 +107,12 @@ export default function renderNode(node: Node) {
         "NoneLiteral": NoneLiteralView,
         "NoneType": NoneTypeView,
 
-        "SetOrMapLiteral": SetOrMapLiteralView,
+        "SetLiteral": SetLiteralView,
+        "MapLiteral": MapLiteralView,
         "KeyValue": KeyValueView,
         "SetOrMapAccess": SetOrMapAccessView,
-        "SetOrMapType": SetOrMapTypeView,
+        "SetType": SetTypeView,
+        "MapType": MapTypeView,
 
         "ListLiteral": ListLiteralView,
         "ListAccess": ListAccessView,
