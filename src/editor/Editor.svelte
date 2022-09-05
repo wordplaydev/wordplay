@@ -6,14 +6,14 @@
     import Project from '../models/Project';
     import Caret from '../models/Caret';
     import type Program from '../nodes/Program';
-    import { onDestroy } from 'svelte';
+    import { afterUpdate } from 'svelte';
 
     export let program: Program;
 
     let editor: HTMLElement;
 
     // When the caret changes, make sure it's in view.
-    const caretUnsub = caret.subscribe(() => {
+    afterUpdate(() => {
         const caret = editor?.querySelector(".caret");
         const viewport = editor?.parentElement;
         if(caret && viewport) {
@@ -30,7 +30,6 @@
                 caret.scrollIntoView({ behavior: "auto", block: "nearest", inline: "nearest"});
         }
     });
-    onDestroy(caretUnsub);
 
     function insertChar(char: string) {
         if($project && $caret && typeof $caret.position === "number") {
