@@ -2,6 +2,7 @@ import Node, { type ConflictContext } from "./Node";
 import Token, { TokenType } from "./Token";
 import type Conflict from "../conflicts/Conflict";
 import Language from "./Language";
+import UnnamedAlias from "../conflicts/UnnamedAlias";
 
 export default class Alias extends Node {
     
@@ -25,7 +26,13 @@ export default class Alias extends Node {
         return children;
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
+    getConflicts(context: ConflictContext): Conflict[] { 
+    
+        if(this.name === undefined) return [ new UnnamedAlias(this) ];
+
+        return []; 
+    
+    }
 
     getName(): string | undefined { return this.name instanceof Token ? this.name.text : this.name; }
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
