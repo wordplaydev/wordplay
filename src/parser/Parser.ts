@@ -77,6 +77,7 @@ export enum SyntacticConflict {
     EXPECTED_TABLE_CLOSE,
     EXPECTED_EXPRESSION,
     EXPECTED_UNIT_NAME,
+    EXPECTED_END,
     EXPECTED_TYPE,
     BIND_VALUE_NOT_ALLOWED
 }
@@ -239,7 +240,9 @@ export function parseProgram(tokens: Tokens): Program {
 
     const block = parseBlock(tokens, true, false);
 
-    const end = tokens.read(TokenType.END);
+    const end = tokens.nextIs(TokenType.END) ? 
+        tokens.read(TokenType.END) :
+        tokens.readUnparsableLine(SyntacticConflict.EXPECTED_END);
 
     return new Program(borrows, block, end);
 

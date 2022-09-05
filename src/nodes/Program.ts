@@ -17,9 +17,9 @@ export default class Program extends Node implements Evaluable {
     
     readonly borrows: (Borrow | Unparsable)[];
     readonly block: Block | Unparsable;
-    readonly end: Token;
+    readonly end: Token | Unparsable;
 
-    constructor(borrows: (Borrow|Unparsable)[], block: Block | Unparsable, end: Token) {
+    constructor(borrows: (Borrow|Unparsable)[], block: Block | Unparsable, end: Token | Unparsable) {
 
         super();
 
