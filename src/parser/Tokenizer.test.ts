@@ -36,6 +36,9 @@ test("Tokenize text", () => {
 
     expect(tokenize("'hi'\"hi\"‘hi’«hi»‹hi›„hi“「hi」").map(t => t.toWordplay()).join("\n"))
         .toBe("'hi'\n\"hi\"\n‘hi’\n«hi»\n‹hi›\n„hi“\n「hi」\n");
+    // Check newline terminated text
+    expect(tokenize("'hi\n\"hi\n‘hi\n«hi\n‹hi\n„hi\n「hi\n").map(t => t.toWordplay()).join("\n"))
+        .toBe("'hi\n\n\"hi\n\n‘hi\n\n«hi\n\n‹hi\n\n„hi\n\n「hi\n\n");
     expect(tokenize("'hello \\1 + 2\\ number 3'").map(t => t.toWordplay()).join("\n"))
         .toBe("'hello \\\n1\n +\n 2\n\\ number 3'\n")
     expect(tokenize("'hello'eng\n'hola'spa").map(t => t.toWordplay()).join("\n"))
