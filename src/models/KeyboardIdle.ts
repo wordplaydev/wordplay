@@ -1,25 +1,30 @@
 import { readable } from "svelte/store";
 
 // A store that updates an idle state based on the last keydown event.
-const KeyboardIdle = readable<boolean>(false, 
-    function start(set) {
+const KeyboardIdle = readable<boolean>(false, set => {
 
-        let lastEvent: number | undefined = undefined;
+    let attached = false;
+    let lastEvent: number | undefined = undefined;
 
-        function handleKeyDown() { lastEvent = Date.now(); }
+    function handleKeyDown() { lastEvent = Date.now(); }
 
-        document.addEventListener("keydown", handleKeyDown);
-
-        const interval = setInterval(() => {
-            if(lastEvent !== undefined)
-                set(Date.now() - lastEvent > 500);
-        }, 500);
-
-        return function stop() {
-            clearInterval(interval);
-            document.removeEventListener("keydown", handleKeyDown);
+    const interval = setInterval(() => {
+        if(lastEvent !== undefined)
+            set(Date.now() - lastEvent > 500);
+        // This can run before the page is loaded, so we wait and attach once it is.
+        if(typeof document !== "undefined" && !attached) {
+            document.addEventListener("keydown", handleKeyDown);
+            attached = true;
         }
+
+    }, 500);
+
+    return function stop() {
+        clearInterval(interval);
+        if(typeof document !== "undefined")
+            document.removeEventListener("keydown", handleKeyDown);
     }
-);
+
+});
 
 export default KeyboardIdle;

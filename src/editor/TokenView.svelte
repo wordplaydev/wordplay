@@ -33,7 +33,6 @@
         caretLeft = undefined;
         caretTop = undefined;
         if(caretIndex !== undefined) {
-            console.log(`${$caret?.position} ${node.getSpaceIndex()}`);
             if(caretIndex >= 0) {
                 caretLeft = `${caretIndex}ch`;
                 caretTop = `auto`;

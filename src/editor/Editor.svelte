@@ -53,7 +53,6 @@
                     "Semicolon":    "…",
                     "Slash":        "÷"
                 }[event.code];
-                console.log(char);
                 if(char !== undefined) {
                     event.preventDefault();
                     insertChar(char);
