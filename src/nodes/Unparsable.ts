@@ -13,18 +13,22 @@ import UnknownType from "./UnknownType";
 export default class Unparsable extends Node implements Evaluable {
     
     readonly reason: SyntacticConflict;
-    readonly lineBefore: Token[];
-    readonly lineAfter: Token[];
+    
+    /* The nodes that were parsed before failing to parse the tokens that followed. */
+    readonly parsedNodes: Node[];
+    
+    /* The tokens that weren't parsable */
+    readonly unparsableTokens: Token[];
 
-    constructor(reason: SyntacticConflict, lineBefore: Token[], lineAfter: Token[]) {
+    constructor(reason: SyntacticConflict, parsedNodes: Node[], unparsableTokens: Token[]) {
         super();
 
         this.reason = reason;
-        this.lineBefore = lineBefore.slice();
-        this.lineAfter = lineAfter.slice();
+        this.parsedNodes = parsedNodes.slice();
+        this.unparsableTokens = unparsableTokens.slice();
     }
 
-    getChildren() { return this.lineAfter.slice() }
+    getChildren() { return this.unparsableTokens.slice() }
 
     getType() { return new UnknownType(this); }
     getTypeUnlessCycle() { return new UnknownType(this); }
