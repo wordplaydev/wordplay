@@ -2,7 +2,6 @@
     import type Program from "../nodes/Program";
     import NodeView from "./NodeView.svelte";
     import OptionalNodeView from "./OptionalNodeView.svelte";
-    import TokenView from "./TokenView.svelte";
 
     export let program: Program;
 

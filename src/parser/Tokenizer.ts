@@ -51,7 +51,6 @@ const patterns = [
     { pattern: /^„[^\\]*?(“|(?=\n))/u, types: [ TokenType.TEXT ] },
     { pattern: /^'[^\\]*?('|(?=\n))/u, types: [ TokenType.TEXT ] },
     { pattern: /^‘[^\\]*?(’|(?=\n))/u, types: [ TokenType.TEXT ] },
-    { pattern: /^‘[^\\]*?(’|(?=\n))/u, types: [ TokenType.TEXT ] },
     { pattern: /^‹[^\\]*?(›|(?=\n))/u, types: [ TokenType.TEXT ] },
     { pattern: /^«[^\\]*?(»|(?=\n))/u, types: [ TokenType.TEXT ] },
     { pattern: /^「[^\\]*?(」|(?=\n))/u, types: [ TokenType.TEXT ] },
@@ -67,16 +66,18 @@ const patterns = [
     { pattern: /^「.*?\\/u, types: [ TokenType.TEXT_OPEN ] },
     { pattern: /^『.*?\\/u, types: [ TokenType.TEXT_OPEN ] },
     // Lazily match closing strings that don't contain another opening string. This alllows betweens to match.
-    { pattern: /^[\\][^\\]*?(』|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^[\\][^\\]*?(」|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^[\\][^\\]*?(»|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^[\\][^\\]*?(›|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^[\\][^\\]*?('|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^[\\][^\\]*?(’|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^[\\][^\\]*?("|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^[\\][^\\]*?(”|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\\[^\\]*?"/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\\[^\\]*?”/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\\[^\\]*?'/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\\[^\\]*?’/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\\[^\\]*?›/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\\[^\\]*?»/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\\[^\\]*?」/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\\[^\\]*?』/u, types: [ TokenType.TEXT_CLOSE ] },
+    // If none of the closed patterns match above, allow a new line to close the text literal.
+    { pattern: /^\\[^\\]*?(?=\n)”/u, types: [ TokenType.TEXT_CLOSE ] },
     // Match this after the eval close to avoid capturing function evaluations in templates.
-    { pattern: /^[\\].*?[\\]/, types: [ TokenType.TEXT_BETWEEN ] },
+    { pattern: /^\\.*?\\/u, types: [ TokenType.TEXT_BETWEEN ] },
     // Finally, catch any leftover single open or close parentheses.
     { pattern: "(", types: [ TokenType.EVAL_OPEN ] },
     { pattern: ")", types: [ TokenType.EVAL_CLOSE ] },
@@ -90,18 +91,13 @@ const patterns = [
 export function tokenize(source: string): Token[] {
     const tokens: Token[] = [];
     let index = 0;
-    let precedingTextOpen = false;
     while(source.length > 0) {
-        const nextToken = getNextToken(source, index, precedingTextOpen);
+        const nextToken = getNextToken(source, index);
         if(nextToken === undefined) break;
         const length = nextToken.getTextLength() + nextToken.getPrecedingSpace().length;
         source = source.substring(length);
         tokens.push(nextToken);
         index += length;
-        if(nextToken.is(TokenType.TEXT_OPEN))
-            precedingTextOpen = true;
-        else if(nextToken.is(TokenType.TEXT_CLOSE))
-            precedingTextOpen = false;
     }
 
     // If there's nothing left and the last token isn't an end token, add one.
@@ -111,7 +107,7 @@ export function tokenize(source: string): Token[] {
     return tokens;
 }
 
-function getNextToken(source: string, index: number, precedingTextOpen: boolean): Token | undefined {
+function getNextToken(source: string, index: number): Token | undefined {
 
     // Is there a series of space or tabs?
     const spaceMatch = source.match(/^[ \t\n]+/);
@@ -130,9 +126,8 @@ function getNextToken(source: string, index: number, precedingTextOpen: boolean)
             return new Token(pattern.pattern, pattern.types, startIndex, space);
         else if(pattern.pattern instanceof RegExp) {
             const match = trimmedSource.match(pattern.pattern);
-            // If we found a match and it's either not a text close or it is and there's a corresponding text open
-            // that hasn't been closed, then return the match.
-            if(match !== null && (!(pattern.types.includes(TokenType.TEXT_BETWEEN) || pattern.types.includes(TokenType.TEXT_CLOSE)) || precedingTextOpen))
+            // If we found a match, then return it.
+            if(match !== null)
                 return new Token(match[0], pattern.types, startIndex, space);
         }
     }
