@@ -51,6 +51,7 @@ import TableLiteralView from "./TableLiteralView.svelte";
 import ColumnView from "./ColumnView.svelte";
 import RowView from "./RowView.svelte";
 import CellView from "./CellView.svelte";
+import FunctionTypeView from "./FunctionTypeView.svelte";
 
 export default function renderNode(node: Node) {
     const view = {
@@ -78,7 +79,9 @@ export default function renderNode(node: Node) {
         "TextType": TextTypeView,
 
         "FunctionDefinition": FunctionDefinitionView,
+        "FunctionType": FunctionTypeView,
         "Evaluate": EvaluateView,
+
         "ExpressionPlaceholder": ExpressionPlaceholderView,
         "BinaryOperation": BinaryOperationView,
         "UnaryOperation": UnaryOperationView,
