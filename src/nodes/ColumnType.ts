@@ -13,7 +13,7 @@ export default class ColumnType extends Type {
     constructor(bind: Bind | Unparsable, bar?: Token) {
         super();
 
-        this.bar = bar ?? new Token("|", [ TokenType.TABLE ]);
+        this.bar = bar ?? new Token("|", [ TokenType.TABLE_OPEN ]);
         this.bind = bind;
     }
 

@@ -28,7 +28,8 @@ export enum TokenType {
     PI,
     INFINITY,    
     NONE_TYPE,     // !
-    TABLE,         // |
+    TABLE_OPEN,    // |
+    TABLE_CLOSE,    // ||
     SELECT,        // |?
     INSERT,        // |+
     UPDATE,        // |:
@@ -81,6 +82,8 @@ TokenKinds.set(TokenType.SET_OPEN, TokenCategoryDelimiter);
 TokenKinds.set(TokenType.SET_CLOSE, TokenCategoryDelimiter);
 TokenKinds.set(TokenType.LIST_OPEN, TokenCategoryDelimiter);
 TokenKinds.set(TokenType.LIST_CLOSE, TokenCategoryDelimiter);
+TokenKinds.set(TokenType.TABLE_OPEN, TokenCategoryDelimiter);
+TokenKinds.set(TokenType.TABLE_OPEN, TokenCategoryDelimiter);
 TokenKinds.set(TokenType.BIND, TokenCategoryRelation);
 TokenKinds.set(TokenType.ACCESS, TokenCategoryRelation);
 TokenKinds.set(TokenType.FUNCTION, TokenCategoryEvaluation);
@@ -101,7 +104,6 @@ TokenKinds.set(TokenType.ROMAN, TokenCategoryLiteral);
 TokenKinds.set(TokenType.PI, TokenCategoryLiteral);
 TokenKinds.set(TokenType.INFINITY, TokenCategoryLiteral);
 TokenKinds.set(TokenType.NONE_TYPE, TokenCategoryType);
-TokenKinds.set(TokenType.TABLE, TokenCategoryOperator);
 TokenKinds.set(TokenType.SELECT, TokenCategoryOperator);
 TokenKinds.set(TokenType.INSERT, TokenCategoryOperator);
 TokenKinds.set(TokenType.UPDATE, TokenCategoryOperator);

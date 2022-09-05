@@ -228,7 +228,7 @@ test("Parse expressions", () => {
     expect(map).toBeInstanceOf(SetOrMapLiteral);
     expect((map as SetOrMapLiteral).values).toHaveLength(3);
 
-    const table = parseExpression(tokens("|a•#|b•#|c•#\n|1|2|3\n|4|5|6"));
+    const table = parseExpression(tokens("|a•#|b•#|c•#||\n|1|2|3||\n|4|5|6||"));
     expect(table).toBeInstanceOf(TableLiteral);
     expect((table as TableLiteral).columns).toHaveLength(3);
     expect((table as TableLiteral).rows).toHaveLength(2);
@@ -370,12 +370,12 @@ test("Blocks and binds", () => {
     expect(table).toBeInstanceOf(Block);
     expect((table as Block).statements[0]).toBeInstanceOf(TableLiteral);
 
-    const bindTable = parseBlock(tokens("table: |a•#|b•#\n|1|2"), true);
+    const bindTable = parseBlock(tokens("table: |a•#|b•#||\n|1|2||"), true);
     expect(bindTable).toBeInstanceOf(Block);
     expect((bindTable as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindTable as Block).statements[0] as Bind).value).toBeInstanceOf(TableLiteral);
 
-    const bindTypedTable = parseBlock(tokens("table•|a•#|b•#: |a•#|b•#2"), true);
+    const bindTypedTable = parseBlock(tokens("table•|a•#|b•#||: |a•#|b•#||"), true);
     expect(bindTypedTable).toBeInstanceOf(Block);
     expect((bindTypedTable as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindTypedTable as Block).statements[0] as Bind).type).toBeInstanceOf(TableType);

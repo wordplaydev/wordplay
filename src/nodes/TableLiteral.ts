@@ -17,21 +17,25 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
+import type Unparsable from "./Unparsable";
+import type Token from "./Token";
 
 export default class TableLiteral extends Expression {
     
     readonly columns: Column[];
+    readonly close: Token | Unparsable;
     readonly rows: Row[];
 
-    constructor(columns: Column[], rows: Row[]) {
+    constructor(columns: Column[], rows: Row[], close: Token | Unparsable) {
         super();
 
         this.columns = columns;
+        this.close = close;
         this.rows = rows;
     
     }
 
-    getChildren() { return [ ...this.columns, ...this.rows ]; }
+    getChildren() { return [ ...this.columns, this.close, ...this.rows ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { 
     
@@ -49,7 +53,7 @@ export default class TableLiteral extends Expression {
                 conflicts.push(new MissingCells(row));
             row.cells.forEach((cell, index) => {
                 if(cell.expression instanceof Expression || cell.expression instanceof Bind) {
-                    if(index <= this.columns.length) {
+                    if(index >= 0 && index < this.columns.length) {
                        const columnBind = this.columns[index].bind;
                         if(columnBind instanceof Bind && !columnBind.getTypeUnlessCycle(context).isCompatible(context, cell.expression.getTypeUnlessCycle(context)))
                             conflicts.push(new IncompatibleCellType(this.getType(context), cell));

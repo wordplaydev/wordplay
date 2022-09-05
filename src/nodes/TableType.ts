@@ -3,22 +3,27 @@ import type Conflict from "../conflicts/Conflict";
 import Type from "./Type";
 import Bind from "../nodes/Bind";
 import type { ConflictContext } from "./Node";
+import type Unparsable from "./Unparsable";
+import Token from "./Token";
+import { TokenType } from "./Token";
 
 export default class TableType extends Type {
     
     readonly columns: ColumnType[];
+    readonly close: Token | Unparsable;
 
-    constructor(columns: ColumnType[]) {
+    constructor(columns: ColumnType[], close?: Token | Unparsable) {
         super();
 
         this.columns = columns;
+        this.close = close ?? new Token("||", [ TokenType.TABLE_CLOSE ]);
     }
 
     getColumnNamed(name: string): ColumnType | undefined {
         return this.columns.find(c => c.bind instanceof Bind && c.bind.hasName(name));
     }
 
-    getChildren() { return [ ...this.columns]; }
+    getChildren() { return [ ...this.columns, this.close ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 
