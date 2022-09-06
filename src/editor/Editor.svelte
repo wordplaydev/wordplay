@@ -2,10 +2,11 @@
     import { caret, project } from '../models/stores';
     import Node from '../nodes/Node';
     import ProgramView from '../editor/ProgramView.svelte';
-    import Token from '../nodes/Token';
+    import Token, { TokenKinds } from '../nodes/Token';
     import Caret from '../models/Caret';
     import type Program from '../nodes/Program';
     import { afterUpdate } from 'svelte';
+import { text } from 'svelte/internal';
 
     export let program: Program;
 
@@ -82,6 +83,139 @@
 
     }
 
+    function caretUp() { caretVertical(-1); }
+    function caretDown() { caretVertical(1); }
+
+    function tokenMetadata(token: HTMLElement) {
+        return token instanceof HTMLElement &&
+            token.dataset.start !== undefined &&
+            token.dataset.index !== undefined &&
+            token.dataset.end !== undefined &&
+            token.dataset.whitespace !== undefined ?
+            { 
+                start: parseInt(token.dataset.start), 
+                index: parseInt(token.dataset.index), 
+                end: parseInt(token.dataset.end),
+                whitespace: token.dataset.whitespace
+            } :
+            undefined;        
+    }
+
+    function caretVertical(direction: 1 | -1) {
+
+        // Get the current caret position.
+        const position = $caret?.position;
+        if($caret === undefined || position === undefined || typeof position !== "number") return;
+
+        // Find all the tokens.
+        const tokens = editor.querySelectorAll(".token-view");
+
+        // Find the caret
+        const caretView = editor.querySelector(".caret");
+        if(!(caretView instanceof HTMLElement)) return;
+
+        // Split them into rows.
+        const rows: { newline: number, tokens: HTMLElement[]}[] = [{ newline: -1, tokens: [] }];
+        tokens.forEach(token => {
+            if(token instanceof HTMLElement && token.dataset.newlines) {
+                const newlines = parseInt(token.dataset.newlines);
+                // All lines except for the last are whitespace lines for the purposes of caret navigation.
+                for(let i = 0; i < newlines; i++) rows.push({ newline: i, tokens: [ token ]});
+                const row = rows[rows.length - 1];
+                // Change the last row to non-whitespace, since it 
+                row.newline = -1;
+                row.tokens.push(token);
+            }
+        });
+
+        // Find the caret's current row and this token.
+        let rowIndex = 0;
+        for(; rowIndex < rows.length; rowIndex++) {
+            const row = rows[rowIndex];
+            const candidate = row.tokens.find(token => {
+                const data = tokenMetadata(token);
+                if(data)
+                    // This token matches if it is whitespace and contains the caret, or if it's not whitespace and it's text contains the caret.
+                    if(row.newline >= 0) {
+                        if(position < data.start || position >= data.index) return false;
+                        // Which line is the caret on?
+                        let offset = position - data.start;
+                        let whitespacePrior = data.whitespace.substring(0, offset);
+                        let newline = whitespacePrior.split("\n").length - 2;
+                        return newline === row.newline;
+                    }
+                    else
+                        return position >= data.start && position <= data.end;
+                else
+                    return false;
+            });
+            if(candidate !== undefined)
+                break;
+        }
+
+        // Bail if we didn't find it. (This means something is horribly wrong with rendering or the code above).
+        if(rowIndex === rows.length) {
+            console.error("Hm, couldn't find the view of the caret position");
+            return;
+        }
+
+        // If there's no row in the direction we're moving, just go to the end of this row.
+        if(rowIndex === (direction < 0 ? 0 : rows.length - 1)) {
+            if(rows[rowIndex].tokens.length > 0) {
+                const row = rows[rowIndex];
+                const index = row.tokens[direction < 0 ? 0 : row.tokens.length - 1].dataset.index;
+                if(index !== undefined) caret.set($caret.withPosition(parseInt(index)));
+            }
+        }
+        // Otherwise, find the closest token horizontally in the row in the direction we're moving.
+        // Do this by calculating distances, then sorting.
+        else {
+            rowIndex += direction;
+
+            if(rows[rowIndex].newline >= 0) {
+                // If we're not on a newline, move to the next one.
+                let pos = position;
+                let foundFirst = false;
+                if($caret.project.code.at(pos) !== "\n") {
+                    foundFirst = true;
+                    while($caret.project.code.at(pos) !== "\n")
+                        pos += direction;
+                }
+                // Move past the next newline if we're moving down.
+                if(direction > 0 || !foundFirst) pos += direction;
+                // Set the caret
+                caret.set($caret.withPosition(pos));
+            } else {
+
+                const caretRect = caretView.getBoundingClientRect();
+                const distances = rows[rowIndex].tokens.map(candidate => {
+                    const candidateRect = candidate.getBoundingClientRect();
+                    return {
+                        token: candidate,
+                        rect: candidateRect,
+                        distance: Math.abs(caretRect.left - (candidateRect.left + candidateRect.width / 2))
+                    };
+                });
+                const sorted = distances.sort((a, b) => a.distance - b.distance);
+                // Now that we've found the closest token horizontally in the next row, choose the closest point in the token's whitespace or text.
+                if(sorted.length > 0) {
+                    const choice = sorted[0];
+                    const spaces = parseInt(choice.token.dataset.spaces ?? "");
+                    const length = parseInt(choice.token.dataset.length ?? "") + spaces;
+                    const startPosition = parseInt(choice.token.dataset.index ?? "") - spaces;
+                    if(!isNaN(startPosition) && !isNaN(length)) {
+                        // Choose the offset based on whether the caret is to the left, right, or in between the horizontal axis of the chosen token.
+                        const offset = 
+                            caretRect.left > choice.rect.right ? length :
+                            caretRect.left < choice.rect.left ? 0 :
+                            Math.round(length * ((caretRect.left - choice.rect.left) / choice.rect.width));
+                        caret.set($caret.withPosition(startPosition + offset));
+                    }
+                }
+            }
+        }
+
+    }
 
 </script>
 
@@ -129,8 +263,8 @@
                 event.preventDefault();
                 if(event.key === "ArrowLeft") caret.set($caret.left());
                 else if(event.key === "ArrowRight") caret.set($caret.right());
-                else if(event.key === "ArrowUp") caret.set($caret.up());
-                else if(event.key === "ArrowDown") caret.set($caret.down());
+                else if(event.key === "ArrowUp") caretUp();
+                else if(event.key === "ArrowDown") caretDown();
                 else if(event.key === "Backspace") {
                     if(typeof $caret.position === "number") {
                         const newProject = $project.withoutGraphemeAt($caret.position - 1);

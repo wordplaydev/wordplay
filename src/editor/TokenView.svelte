@@ -85,8 +85,13 @@
     class="token-view token-{kind} {$caret?.position === node ? "selected" : ""}" 
     style="color: {`var(--token-category-${kind})`}; margin-left: {node.tabs * TAB_WIDTH}ch"
     on:mousedown={handleClick} 
+    data-start={node.getWhitespaceIndex()}
+    data-end={node.getLastIndex()}
     data-index={node.getTextIndex()}
     data-length={node.getTextLength()}
+    data-whitespace={node.whitespace}
+    data-spaces={node.spaces}
+    data-newlines={node.newlines}
 >{#if node.spaces > 0}<span class="space {caretIndex === undefined ? "" : "visible"}">{"·".repeat(node.spaces)}</span>{/if}<span class="text">{ node.text.toString() }</span>{#if caretLeft !== undefined && caretTop !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretLeft}; top: {caretTop};"></span>{/if}
 </span>
 

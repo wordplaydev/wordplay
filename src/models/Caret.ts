@@ -18,21 +18,6 @@ export default class Caret {
     isWhitespace(c: string) { return /[\t\n ]/.test(c); }
     isTab(c: string) { return /[\t]/.test(c); }
 
-    row() { 
-        return typeof this.position === "number" ? 
-            this.project.code.substring(0, this.position).getLines().length - 1 : 
-            undefined; 
-    }
-    
-    column() { 
-        if(this.position instanceof Node) return undefined;
-        const row = this.row();
-        if(row === undefined) return undefined;
-        const lines = this.project.code.getLines();
-        const rowPosition = this.rowPosition(row);
-        return rowPosition === undefined ? undefined : this.position - rowPosition;
-    }
-
     // Get the code position corresponding to the beginning of the given row.
     rowPosition(row: number): number | undefined {
 
@@ -55,8 +40,17 @@ export default class Caret {
 
     left(): Caret { return this.moveHorizontal(-1); }
     right(): Caret { return this.moveHorizontal(1); }
-    up(): Caret { return this.moveVertical(-1); }
-    down(): Caret { return this.moveVertical(1); }
+
+    nextNewline(direction: -1 | 1): Caret | undefined {
+        if(typeof this.position !== "number") return undefined;
+        let pos = this.position;
+        while(pos >= 0 && pos < this.project.code.getLength()) {
+            pos += direction;
+            if(this.project.code.at(pos) === "\n")
+                break;
+        }
+        return this.withPosition(Math.min(Math.max(0, pos), this.project.code.getLength()));
+    }
 
     moveHorizontal(direction: -1 | 1): Caret {
         if(this.position instanceof Node) {
@@ -72,28 +66,6 @@ export default class Caret {
             let pos = this.position + direction;
             return this.withPosition(pos);
         }
-    }
-
-    moveVertical(direction: -1 | 1): Caret {
-
-        if(this.position instanceof Node) return this;
-
-        // Get the row and column of the current position.
-        let row = this.row();
-        const column = this.column();
-        if(row === undefined || column === undefined) return this;
-
-        // Get the row before/after the current row.
-        const lines = this.project.code.getLines();
-        
-        row += direction;
-        const rowPosition = this.rowPosition(row);
-        if(rowPosition !== undefined)
-            return this.withPosition(rowPosition + Math.min(column, lines[row].getLength()));
-
-        // If we ran out of rows, return the first/last position.
-        return this.withPosition(direction < 0 ? 0 : this.project.code.getLength());
-
     }
 
     withPosition(position: number | Node): Caret { return new Caret(this.project, position); }
