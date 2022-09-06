@@ -73,7 +73,7 @@
             // Clean up the project before we create a new one.
             $project.cleanup();
             // Make a new one based on the new program
-            const newProject = new Project("Play", newCode, () => project.set($project));
+            const newProject = $project.withCode(newCode);
             project.set(newProject);
             caret.set(new Caret(newProject, 0));
         }

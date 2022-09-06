@@ -34,7 +34,7 @@ export default class Alias extends Node {
     
     }
 
-    getName(): string | undefined { return this.name instanceof Token ? this.name.text : this.name; }
+    getName(): string | undefined { return this.name instanceof Token ? this.name.text.toString() : this.name; }
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
 
     isCompatible(alias: Alias) { 

@@ -95,10 +95,11 @@ export function tokenize(source: string): Token[] {
     while(source.length > 0) {
         const nextToken = getNextToken(source, index);
         if(nextToken === undefined) break;
-        const length = nextToken.getTextLength() + nextToken.getPrecedingSpace().length;
-        source = source.substring(length);
+        // Trim the token off the source.
+        source = source.substring(nextToken.text.toString().length + nextToken.getPrecedingSpace().length);
         tokens.push(nextToken);
-        index += length;
+        // Increment the grapheme index by the grapheme length.
+        index += nextToken.getTextLength() + nextToken.getPrecedingSpace().length;
     }
 
     // If there's nothing left and the last token isn't an end token, add one.

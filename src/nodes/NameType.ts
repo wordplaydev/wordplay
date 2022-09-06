@@ -18,7 +18,7 @@ export default class NameType extends Type {
         this.type = typeof type === "string" ? new Token(type, [ TokenType.NAME ]) : type;
     }
 
-    getName() { return this.type instanceof Token ? this.type.text : this.type}
+    getName() { return this.type instanceof Token ? this.type.text.toString() : this.type}
 
     getChildren() { return [ this.type ]; }
 

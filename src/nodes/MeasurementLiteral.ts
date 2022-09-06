@@ -25,7 +25,7 @@ export default class MeasurementLiteral extends Expression {
         this.unit = unit;
     }
 
-    isInteger() { return !isNaN(parseInt(this.number.text)); }
+    isInteger() { return !isNaN(parseInt(this.number.text.toString())); }
 
     getChildren() { return this.unit === undefined ? [ this.number ] : [ this.number, this.unit ]; }
 

@@ -10,13 +10,16 @@ export default class Text extends Primitive {
     constructor(text: string, format?: string) {
         super();
 
-        this.text = text;
+        // We normalize all strings to ensure they are comparable.
+        this.text = text.normalize();
         this.format = format;
     }
 
     getType() { return new TextType(); }
     getNativeTypeName(): string { return "text" }
-    length() { return new Measurement(this.text.length); }
+
+    /* The number of graphemes in the text (not the number of code points). */
+    length() { return new Measurement([...this.text].length); }
 
     toString() { return `"${this.text}"${this.format ? this.format : ""}`; }
 

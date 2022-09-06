@@ -37,7 +37,7 @@ export default class Name extends Expression {
     getBind(context: ConflictContext): Definition {
 
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
-        return context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, this.name.text);
+        return context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, this.name.text.toString());
 
     }
 
@@ -56,7 +56,7 @@ export default class Name extends Expression {
     evaluate(evaluator: Evaluator): Value {
 
         // Search for the name in the given evaluation context.
-        const value = evaluator.resolve(this.name.text);
+        const value = evaluator.resolve(this.name.text.toString());
         // Return it or an exception if we didn't find it.
         return value === undefined ? new Exception(this, ExceptionKind.UNKNOWN_NAME) : value;
 

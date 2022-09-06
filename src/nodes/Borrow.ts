@@ -31,7 +31,7 @@ export default class Borrow extends Node implements Evaluable {
     
         const conflicts = [];
 
-        const type = context.program.getDefinition(context, this, this.name.text);
+        const type = context.program.getDefinition(context, this, this.name.text.toString());
         if(type === undefined)
             conflicts.push(new UnknownBorrow(this));
 
@@ -53,7 +53,7 @@ export default class Borrow extends Node implements Evaluable {
 
     }
 
-    getName() { return this.name.text; }
+    getName() { return this.name.text.toString(); }
 
     getVersion() { return this.version === undefined ? undefined : (new Measurement(this.version, new Unit())).toNumber(); }
 

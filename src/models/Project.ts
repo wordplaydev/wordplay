@@ -9,11 +9,12 @@ import Value from '../runtime/Value';
 import Text from '../runtime/Text';
 import Document from './Document';
 import Native from '../native/NativeBindings';
+import UnicodeString from './UnicodeString';
 
 /** An immutable representation of a project with a name and some documents */
 export default class Project {
     readonly name: string;
-    readonly code: string;
+    readonly code: UnicodeString;
     readonly tokens: Token[];
     readonly program: Program;
     readonly conflicts: Conflict[];
@@ -22,13 +23,13 @@ export default class Project {
     readonly docs: Document[];
     readonly updater: ()=> void;
 
-    constructor(name: string, code: string, updater: () => void) {
+    constructor(name: string, code: string | UnicodeString, updater: () => void) {
         
         this.name = name;
-        this.code = code;
+        this.code = typeof code === "string" ? new UnicodeString(code) : code;
         this.updater = updater;
 
-        this.tokens = tokenize(this.code);
+        this.tokens = tokenize(this.code.getText());
         this.program = parseProgram(new Tokens(this.tokens));
         this.evaluator = new Evaluator(this.program, this.handleResult.bind(this) );
         this.conflicts = this.program.getAllConflicts(this.program, this.evaluator.getShares(), Native);
@@ -36,7 +37,7 @@ export default class Project {
 
         // Generate documents based on the code.
         this.docs = [
-            new Document("code", this.code, true),
+            new Document("code", this.code.getText(), true),
             new Document("program", this.program),
             new Document("conflicts", this.conflicts.join("\n")),
             new Document("steps", this.steps.map((s, index) => `${index}: ${s.toString()}`).join("\n")),
@@ -69,8 +70,16 @@ export default class Project {
 
     getEvaluator() { return this.evaluator; }
 
-    withCharacterAt(char: string, index: number) {
-        return new Project("Play", this.code.substring(0, index) + char + this.code.substring(index), this.updater);
+    withCode(code: string) {
+        return new Project(this.name, new UnicodeString(code), this.updater);
+    }
+
+    withCharacterAt(char: string, position: number) {
+        return new Project(this.name, this.code.withGraphemeAt(char, position), this.updater);
+    }
+
+    withoutGraphemeAt(position: number) {
+        return new Project(this.name, this.code.withoutGraphemeAt(position), this.updater);
     }
     
 }

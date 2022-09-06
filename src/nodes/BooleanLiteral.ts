@@ -31,6 +31,6 @@ export default class BooleanLiteral extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value {
-        return new Bool(this.value.text === "⊤");
+        return new Bool(this.value.text.toString() === "⊤");
     }
 }

@@ -7,9 +7,11 @@
     let example: string;
 
     function handleChange() {
-        const newProject = new Project("Play", examples[example], () => project.set($project));
-        project.set(newProject);
-        caret.set(new Caret(newProject, 0));
+        if($project) {
+            const newProject = $project.withCode(examples[example]);
+            project.set(newProject);
+            caret.set(new Caret(newProject, 0));
+        }
     }
 
 </script>

@@ -9,6 +9,6 @@ export class UnknownBorrow extends Conflict {
         this.borrow = borrow;
     }
     toString() {
-        return super.toString() + " " + this.borrow.name.text;
+        return super.toString() + " " + this.borrow.name.text.toString();
     }
 }

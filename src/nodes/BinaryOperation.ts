@@ -36,7 +36,7 @@ export default class BinaryOperation extends Expression {
         this.right = right;
     }
 
-    getOperator() { return this.operator.text; }
+    getOperator() { return this.operator.text.toString(); }
 
     getChildren() {
         return [ this.left, this.operator, this.right ];
@@ -49,12 +49,12 @@ export default class BinaryOperation extends Expression {
         const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
         const rightType = this.right instanceof Expression ? this.right.getTypeUnlessCycle(context) : undefined;
 
-        const operators = new Set(this.nodes().filter(n => n instanceof Token && n.is(TokenType.BINARY_OP)).map(n => (n as Token).text));
+        const operators = new Set(this.nodes().filter(n => n instanceof Token && n.is(TokenType.BINARY_OP)).map(n => (n as Token).text.toString()));
         if(operators.size > 1)
             conflicts.push(new LeftToRightOrderOfOperations(this));
 
         // Left and right must be compatible measurements.
-        switch(this.operator.text) {
+        switch(this.operator.text.toString()) {
             case "×":
             case "·":
             case "÷":
@@ -102,7 +102,7 @@ export default class BinaryOperation extends Expression {
         if(leftType.unit instanceof Unparsable || rightType.unit instanceof Unparsable) return new UnknownType(this);
 
         // The below assumes that units match.
-        switch(this.operator.text) {
+        switch(this.operator.text.toString()) {
             case "-":
             case "+":
                 if(leftType.unit === undefined && rightType.unit === undefined) return leftType;
@@ -129,7 +129,7 @@ export default class BinaryOperation extends Expression {
                 if(rightType.unit === undefined) return leftType;
                 // If the numerator is unitless, flip the right
                 else if(leftType.unit === undefined) {
-                    if(rightType.unit instanceof Token) return new MeasurementType(undefined, new Unit([ rightType.unit.text], []));
+                    if(rightType.unit instanceof Token) return new MeasurementType(undefined, new Unit([ rightType.unit.text.toString()], []));
                     else return new MeasurementType(undefined, new Unit(rightType.unit.denominator, rightType.unit.numerator)); 
                 }
                 // If neither are unitless, flip the right and combine it.
@@ -154,9 +154,9 @@ export default class BinaryOperation extends Expression {
                     // But we can special case literals and negated literals.
                     let exponent = undefined;
                     if(this.right instanceof MeasurementLiteral && this.right.isInteger())
-                        exponent = parseInt(this.right.number.text);
+                        exponent = parseInt(this.right.number.text.toString());
                     else if(this.right instanceof UnaryOperation && this.right.operand instanceof MeasurementLiteral && this.right.operand.isInteger())
-                        exponent = parseInt(this.right.operand.number.text);
+                        exponent = parseInt(this.right.operand.number.text.toString());
                     if(exponent === undefined) return new UnknownType(this);
                     // If the exponent is an integer, then we can compute it.
                     let newNumerator = leftType.unit.numerator;
@@ -208,9 +208,9 @@ export default class BinaryOperation extends Expression {
         if(left instanceof Measurement || left instanceof Bool)
             return left.evaluateInfix(this, right);
         // Process equality and inequality
-        else if(this.operator.text === "=")
+        else if(this.operator.text.toString() === "=")
             return new Bool(left.toString() === right.toString());
-        else if(this.operator.text === "≠")
+        else if(this.operator.text.toString() === "≠")
             return new Bool(left.toString() !== right.toString());
         else
             return new Exception(this, ExceptionKind.UNKNOWN_OPERATOR);

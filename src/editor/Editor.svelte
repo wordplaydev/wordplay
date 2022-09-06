@@ -134,7 +134,7 @@
                 else if(event.key === "ArrowDown") caret.set($caret.down());
                 else if(event.key === "Backspace") {
                     if(typeof $caret.position === "number") {
-                        const newProject = new Project("Play", $project.code.substring(0, $caret.position - 1) + $project.code.substring($caret.position), () => project.set($project));
+                        const newProject = $project.withoutGraphemeAt($caret.position - 1);
                         project.set(newProject);
                         caret.set(new Caret(newProject, Math.max(0, $caret.position - 1)));
                     }

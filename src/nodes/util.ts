@@ -15,7 +15,7 @@ export function inputsAreUnique(inputs: (Bind | Unparsable)[]): boolean {
 
 export function typeVarsAreUnique(vars: (TypeVariable|Unparsable)[]): boolean {
     const parsedVars = vars.filter(v => v instanceof TypeVariable) as TypeVariable[];
-    return parsedVars.every(v1 => parsedVars.find(v2 => v1 !== v2 && v1.name.text === v2.name.text) === undefined);
+    return parsedVars.every(v1 => parsedVars.find(v2 => v1 !== v2 && v1.name.text.toString() === v2.name.text.toString()) === undefined);
 }
 
 export function requiredBindAfterOptional(binds: Bind[]): Bind | undefined {

@@ -80,16 +80,16 @@ export default class Measurement extends Primitive {
             else if(number.is(TokenType.DECIMAL)) {
 
                 // Randomize any underscore digits.
-                let text = number.text;
+                let text = number.text.toString();
                 while(text.indexOf("_") >= 0)
-                    text = text.replace("_", Decimal.random().times(10).floor().toString());
+                    text = text.toString().replace("_", Decimal.random().times(10).floor().toString());
 
                 // Set the number.
                 this.num = new Decimal(text);
             }
             // If it matches a number with a different base, convert it to a Decimal.
             else if(number.is(TokenType.BASE)) {
-                const [ baseString, numString ] = number.text.split(";");
+                const [ baseString, numString ] = number.text.toString().split(";");
                 const base = parseInt(baseString);
                 if(isNaN(base))
                     this.num = new Decimal(NaN);
@@ -130,7 +130,7 @@ export default class Measurement extends Primitive {
             else if(number.is(TokenType.ROMAN)) {
 
                 // Sum these! Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ Ⅵ Ⅶ Ⅷ Ⅸ Ⅹ Ⅺ Ⅻ Ⅼ Ⅽ Ⅾ Ⅿ
-                let numerals = number.text;
+                let numerals = number.text.toString();
                 let sum = new Decimal(0);
                 let previous = undefined;
                 while(numerals.length > 0) {
@@ -153,7 +153,7 @@ export default class Measurement extends Primitive {
                 // Japanese numbers are  sum of products, read left to right.
                 // For example, 千二百八十九 is
                 // one 千 (1000's) + 二 (two) 百 (100's) + 八 (eight) 十 (10's) + 九 (nine) = 1289.
-                let kanji = number.text;
+                let kanji = number.text.toString();
                 let sum = new Decimal(0);
                 let previousOrder = undefined;
                 while(kanji.length > 0) {

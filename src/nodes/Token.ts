@@ -1,3 +1,4 @@
+import UnicodeString from "../models/UnicodeString";
 import Node from "./Node";
 
 export enum TokenType {
@@ -132,7 +133,7 @@ export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
     readonly types: TokenType[];
     /** The text of the token */
-    readonly text: string;
+    readonly text: UnicodeString;
     /** Spaces and tabs preceding this token. */
     readonly whitespace: string;
     /** The index in the source file at which this token starts. */
@@ -144,10 +145,11 @@ export default class Token extends Node {
     /** The precomputed number of spaces after tabs in the whitespace */
     readonly spaces: number;
 
-    constructor(text: string, types: TokenType[], index: number=0, space: string="") {
+    constructor(text: string | UnicodeString, types: TokenType[], index: number=0, space: string="") {
         super();
         this.types = [ ... types ];
-        this.text = text;
+        // Ensure tokens are canonically structred. from a unicode perspective.
+        this.text = text instanceof UnicodeString ? text : new UnicodeString(text);
         this.whitespace = space;
         this.index = index;
 
@@ -179,13 +181,14 @@ export default class Token extends Node {
     getWhitespaceIndex() { return this.index - this.whitespace.length; }
     getSpaceIndex() { return this.index - this.spaces; }
     getTextIndex() { return this.index; }
-    getLastIndex() { return this.index + this.text.length; }
-    getTextLength() { return this.text.length; }
-    getSpaceAndTextLength() { return this.spaces + this.text.length; }
+    getLastIndex() { return this.index + this.getTextLength(); }
+    /* Property accounts for unicode codepoints */
+    getTextLength() { return this.text.getLength(); }
+    getSpaceAndTextLength() { return this.spaces + this.getTextLength(); }
     getChildren() { return []; }
     getPrecedingSpace() { return this.whitespace; }
     hasPrecedingSpace() { return this.whitespace.length > 0; }
-    containsPosition(position: number) { return position >= this.index - this.whitespace.length && position <= this.index + this.text.length; }
+    containsPosition(position: number) { return position >= this.index - this.whitespace.length && position <= this.index + this.getTextLength(); }
     hasPrecedingLineBreak() { return this.whitespace.includes("\n"); }
     isnt(type: TokenType) { return !this.is(type); }
     is(type: TokenType) { return this.types.includes(type); }
@@ -196,8 +199,8 @@ export default class Token extends Node {
         else
             throw Error(`Invalid narrowing of token from ${this.types} to ${type}`);
     }
-    toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}(${this.whitespace.length},${this.index}): ${this.text.replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
-    toWordplay() { return this.whitespace + this.text; }
+    toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}(${this.whitespace.length},${this.index}): ${this.text.toString().replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
+    toWordplay() { return this.whitespace + this.text.toString(); }
 
     getConflicts() { return []; }
 

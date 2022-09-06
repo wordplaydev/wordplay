@@ -18,23 +18,29 @@ export default class Caret {
     isWhitespace(c: string) { return /[\t\n ]/.test(c); }
     isTab(c: string) { return /[\t]/.test(c); }
 
-    row() { return typeof this.position === "number" ? this.project.code.substring(0, this.position).split("\n").length - 1 : undefined; }
+    row() { 
+        return typeof this.position === "number" ? 
+            this.project.code.substring(0, this.position).getLines().length - 1 : 
+            undefined; 
+    }
+    
     column() { 
         if(this.position instanceof Node) return undefined;
         const row = this.row();
         if(row === undefined) return undefined;
-        const lines = this.project.code.split("\n");
+        const lines = this.project.code.getLines();
         const rowPosition = this.rowPosition(row);
         return rowPosition === undefined ? undefined : this.position - rowPosition;
     }
+
     // Get the code position corresponding to the beginning of the given row.
     rowPosition(row: number): number | undefined {
 
-        const lines = this.project.code.split("\n");
+        const lines = this.project.code.getLines();
         if(row < 0 || row >= lines.length) return undefined;
         let rowPosition = 0;
         for(let i = 0; i < row; i++)
-            rowPosition += lines[i].length + 1;
+            rowPosition += lines[i].getLength() + 1;
         return rowPosition;
 
     }
@@ -42,9 +48,9 @@ export default class Caret {
     between(start: number, end: number): boolean { 
         return typeof this.position === "number" && 
             // It must be after the start OR at the start and not whitespace
-            (this.position > start || (this.position === start && !this.isWhitespace(this.project.code.charAt(start)))) && 
+            (this.position > start || (this.position === start && !this.isWhitespace(this.project.code.at(start) ?? ''))) && 
             // ... and it must be before the end OR at the end and either the very end or at whitespace.
-            (this.position < end || (this.position === end && (this.position === this.project.code.length || this.isWhitespace(this.project.code.charAt(this.position)))));
+            (this.position < end || (this.position === end && (this.position === this.project.code.getLength() || this.isWhitespace(this.project.code.at(this.position) ?? ''))));
     }
 
     left(): Caret { return this.moveHorizontal(-1); }
@@ -56,11 +62,13 @@ export default class Caret {
         if(this.position instanceof Node) {
             // Get the first or last token of the given node.
             const tokens = this.position.nodes().filter(n => n instanceof Token) as Token[];
-            return tokens.length === 0 ? this : this.withPosition(direction < 0 ? tokens[0].index : tokens[tokens.length - 1].index + tokens[tokens.length - 1].text.length )
+            return tokens.length === 0 ? this : this.withPosition(direction < 0 ? tokens[0].index : tokens[tokens.length - 1].index + tokens[tokens.length - 1].getTextLength() )
         }
         else {
-            const stop = direction < 0 ? 0 : this.project.code.length;
+            const stop = direction < 0 ? 0 : this.project.code.getLength();
             if(this.position === stop) return this;
+            // This needs to be Unicode aware, as we don't want to navgiate to the next code point, but rather the
+            // next grapheme in the string. To find this, we have to find the position of the next grapheme in the program.
             let pos = this.position + direction;
             return this.withPosition(pos);
         }
@@ -76,21 +84,15 @@ export default class Caret {
         if(row === undefined || column === undefined) return this;
 
         // Get the row before/after the current row.
-        const lines = this.project.code.split("\n");
+        const lines = this.project.code.getLines();
         
         row += direction;
-        while((direction < 0 ? row >= 0 : row < lines.length)) {
-            // If the next row isn't just whitespace, then return the position corresponding to the closest column on the next line
-            const rowPosition = this.rowPosition(row);
-            if(rowPosition !== undefined) {
-                return this.withPosition(rowPosition + Math.min(column, lines[row].length));
-            }
-            // Otherwise, go to the next row.
-            row += direction;
-        }
+        const rowPosition = this.rowPosition(row);
+        if(rowPosition !== undefined)
+            return this.withPosition(rowPosition + Math.min(column, lines[row].getLength()));
 
         // If we ran out of rows, return the first/last position.
-        return this.withPosition(direction < 0 ? 0 : this.project.code.length);
+        return this.withPosition(direction < 0 ? 0 : this.project.code.getLength());
 
     }
 

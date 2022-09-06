@@ -20,7 +20,7 @@
         // This token contains the caret position
         $caret.between(node.getWhitespaceIndex(), node.getLastIndex()) &&
         // This isn't the end token, or it is, and it either has whitespace or the code is the empty string.
-        (end && ($caret.project.code.length === 0 || node.whitespace.length > 0) || !end) ? 
+        (end && ($caret.project.code.getLength() === 0 || node.whitespace.length > 0) || !end) ? 
             // Otherwise, the caretThe offset at which to render the token is the caret position, minus the start of the token's spaces.
             // If the caret position is on a newline or tab, then it will be negative.
             $caret.position - node.getSpaceIndex() : 
@@ -87,7 +87,7 @@
     on:mousedown={handleClick} 
     data-index={node.getTextIndex()}
     data-length={node.getTextLength()}
->{#if node.spaces > 0}<span class="space {caretIndex === undefined ? "" : "visible"}">·</span>{/if}<span class="text">{ node.text }</span>{#if caretLeft !== undefined && caretTop !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretLeft}; top: {caretTop};"></span>{/if}
+>{#if node.spaces > 0}<span class="space {caretIndex === undefined ? "" : "visible"}">·</span>{/if}<span class="text">{ node.text.toString() }</span>{#if caretLeft !== undefined && caretTop !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretLeft}; top: {caretTop};"></span>{/if}
 </span>
 
 <style>

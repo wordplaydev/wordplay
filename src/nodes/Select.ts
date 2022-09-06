@@ -65,7 +65,7 @@ export default class Select extends Expression {
         if(tableType instanceof TableType) {
             this.row.cells.forEach(cell => {
                 const cellName = cell.expression instanceof Name ? cell.expression : undefined; 
-                if(!(cellName !== undefined && tableType.getColumnNamed(cellName.name.text) !== undefined))
+                if(!(cellName !== undefined && tableType.getColumnNamed(cellName.name.text.toString()) !== undefined))
                     conflicts.push(new UnknownColumn(tableType, cell));
             });
         }
@@ -87,7 +87,7 @@ export default class Select extends Expression {
         // For each cell in the select row, find the corresponding column type in the table type.
         // If we can't find one, return unknown.
         const columnTypes = this.row.cells.map(cell => {
-            const column = cell.expression instanceof Name ? tableType.getColumnNamed(cell.expression.name.text) : undefined; 
+            const column = cell.expression instanceof Name ? tableType.getColumnNamed(cell.expression.name.text.toString()) : undefined; 
             return column === undefined ? undefined : column;
         });
         if(columnTypes.find(t => t === undefined)) return new UnknownType(this);

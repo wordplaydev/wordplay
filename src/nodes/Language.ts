@@ -19,7 +19,7 @@ export default class Language extends Node {
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 
-    getLanguage() { return this.lang instanceof Token ? this.lang.text : undefined; }
+    getLanguage() { return this.lang instanceof Token ? this.lang.text.toString() : undefined; }
 
     isCompatible(lang: Language) {
         return this.getLanguage() === lang.getLanguage();

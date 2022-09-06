@@ -37,7 +37,7 @@ export default class AccessName extends Expression {
         const conflicts = [];
 
         const subjectType = this.getSubjectType(context);
-        if(subjectType instanceof StructureType && subjectType.getBind(this.name.text) === undefined)
+        if(subjectType instanceof StructureType && subjectType.getBind(this.name.text.toString()) === undefined)
             conflicts.push(new UnknownProperty(this));
 
         return conflicts;
@@ -61,12 +61,12 @@ export default class AccessName extends Expression {
         }
 
         if(subjectType instanceof StructureType) {
-            const bind = subjectType.getBind(this.name.text);
+            const bind = subjectType.getBind(this.name.text.toString());
             if(bind === undefined) return new UnknownType(this);
             else return bind.getTypeUnlessCycle(context);
         }
         else {
-            const fun = subjectType.getFunction(context, this.name.text);
+            const fun = subjectType.getFunction(context, this.name.text.toString());
             if(fun === undefined) return new UnknownType(this);
             else return fun.getTypeUnlessCycle(context);
         }
@@ -81,7 +81,7 @@ export default class AccessName extends Expression {
     evaluate(evaluator: Evaluator) {
 
         const subject = evaluator.popValue();
-        const name = this.name.text;
+        const name = this.name.text.toString();
         return subject instanceof Exception ? 
             subject :
             subject.resolve(name, evaluator);

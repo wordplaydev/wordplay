@@ -104,7 +104,7 @@ export class Tokens {
     
     /** Returns the text of the next token */
     peekText(): string | undefined {
-        return this.hasNext() ? this.#unread[0].text : undefined
+        return this.hasNext() ? this.#unread[0].text.toString() : undefined
     }
 
     /** Returns true if the token list isn't empty. */

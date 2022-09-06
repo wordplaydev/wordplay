@@ -16,8 +16,8 @@ export default class Unit extends Type {
 
         // If we were given tokens, generate the arrays.
         if(numerator.length > 0 && numerator[0] instanceof Token) {
-            this.numerator = (numerator as Token[]).filter(n => n.is(TokenType.NAME)).map(n => n.text).sort();
-            this.denominator = (denominator as Token[]).filter(n => n.is(TokenType.NAME)).map(n => n.text).sort();            
+            this.numerator = (numerator as Token[]).filter(n => n.is(TokenType.NAME)).map(n => n.text.toString()).sort();
+            this.denominator = (denominator as Token[]).filter(n => n.is(TokenType.NAME)).map(n => n.text.toString()).sort();            
             this.tokens = (numerator as Token[]).concat(denominator as Token[]);
         }
         // If we were given strings, just assign them.

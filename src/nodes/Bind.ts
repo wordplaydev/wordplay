@@ -106,7 +106,7 @@ export default class Bind extends Node implements Evaluable, Named {
         // It should be used in some expression in its parent.
         const parent = this.getParent(context.program);
         if(enclosure && !(parent instanceof Column || parent instanceof ColumnType)) {
-            const uses = enclosure.nodes().filter(n => n instanceof Name && this.names.find(name => name.getName() === n.name.text) !== undefined);
+            const uses = enclosure.nodes().filter(n => n instanceof Name && this.names.find(name => name.getName() === n.name.text.toString()) !== undefined);
             if(uses.length === 0)
                 conflicts.push(new UnusedBind(this));
         }

@@ -30,7 +30,7 @@ export default class UnaryOperation extends Expression {
         this.operand = value;
     }
 
-    getOperator() { return this.operator.text; }
+    getOperator() { return this.operator.text.toString(); }
 
     getChildren() {
         return [ this.operator, this.operand ];
@@ -44,9 +44,9 @@ export default class UnaryOperation extends Expression {
         const type = this.operand instanceof Expression ? this.operand.getTypeUnlessCycle(context) : undefined;
 
         // If the type doesn't match the operator, that's bad.
-        if(this.operand instanceof Expression && (this.operator.text === "√" || this.operator.text === "-") && !(type instanceof MeasurementType))
+        if(this.operand instanceof Expression && (this.operator.text.toString() === "√" || this.operator.text.toString() === "-") && !(type instanceof MeasurementType))
             conflicts.push(new IncompatibleOperand(this, type, new MeasurementType()));
-        else if(this.operand instanceof Expression && this.operator.text === "¬" && !(type instanceof BooleanType))
+        else if(this.operand instanceof Expression && this.operator.text.toString() === "¬" && !(type instanceof BooleanType))
             conflicts.push(new IncompatibleOperand(this, type, new BooleanType()));
 
         return conflicts;
@@ -54,8 +54,8 @@ export default class UnaryOperation extends Expression {
     }
 
     getType(context: ConflictContext): Type {
-        if(this.operator.text === "¬" || this.operator.text === "~") return new BooleanType();
-        else if(this.operator.text === "√" && this.operand instanceof Expression) {
+        if(this.operator.text.toString() === "¬" || this.operator.text.toString() === "~") return new BooleanType();
+        else if(this.operator.text.toString() === "√" && this.operand instanceof Expression) {
             const type = this.operand.getTypeUnlessCycle(context);
             if(!(type instanceof MeasurementType)) return new UnknownType(this);
             if(type.unit ===  undefined || type.unit instanceof Unparsable) return type;
@@ -76,7 +76,7 @@ export default class UnaryOperation extends Expression {
             numeratorUnits.forEach(u => { if(newNumerator.indexOf(u) < 0) newDenominator.push(u); });
             return new MeasurementType(undefined, new Unit(newNumerator, newDenominator));
         } 
-        else if(this.operator.text === "-" && this.operand instanceof Expression)
+        else if(this.operator.text.toString() === "-" && this.operand instanceof Expression)
             return this.operand.getTypeUnlessCycle(context);
         else return new UnknownType(this);
     }

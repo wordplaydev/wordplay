@@ -114,7 +114,7 @@ export default class FunctionDefinition extends Expression {
         if(input !== undefined) return input;
 
         // Is it a type variable?
-        const typeVar = this.typeVars.find(t => t instanceof TypeVariable && t.name.text === name) as TypeVariable | undefined;
+        const typeVar = this.typeVars.find(t => t instanceof TypeVariable && t.name.text.toString() === name) as TypeVariable | undefined;
         if(typeVar !== undefined) return typeVar;
 
         // If not, does the function nearest function or block declare the name?
