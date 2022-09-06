@@ -11,7 +11,7 @@
 </script>
 
 <NodeView node={node}>
-    <DocsView docs={node.docs}/><OptionalTokenView node={node.etc}/><strong><AliasesView aliases={node.names}/></strong><span class="type">{#if node.type}<OptionalTokenView node={node.dot}/><OptionalNodeView node={node.type}/>{/if}</span><strong><OptionalTokenView node={node.colon}/></strong>{#if node.value }<OptionalNodeView node={node.value}/>{/if}
+    <DocsView docs={node.docs}/><OptionalTokenView node={node.etc}/><AliasesView aliases={node.names}/><span class="type">{#if node.type}<OptionalTokenView node={node.dot}/><OptionalNodeView node={node.type}/>{/if}</span><strong><OptionalTokenView node={node.colon}/></strong>{#if node.value }<OptionalNodeView node={node.value}/>{/if}
 </NodeView>
 
 <style>

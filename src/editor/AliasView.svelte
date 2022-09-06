@@ -9,5 +9,5 @@
 </script>
 
 <NodeView node={node}>
-    <OptionalTokenView node={node.semicolon}/><OptionalTokenView node={node.name}/><OptionalNodeView node={node.lang}/>
+    <OptionalTokenView node={node.semicolon}/><strong><OptionalTokenView node={node.name}/></strong><OptionalNodeView node={node.lang}/>
 </NodeView>
