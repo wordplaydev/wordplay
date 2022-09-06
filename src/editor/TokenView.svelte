@@ -6,6 +6,11 @@
 
     export let node: Token;
 
+    let element: HTMLElement;
+    
+    // A cache of view widths at different positions, since this is expensive to compute.
+    let caretPositions: Record<number, number> = {};
+
     const TAB_WIDTH = 2;
     const type = node.types[0];
     const end = type === TokenType.END;
@@ -33,10 +38,29 @@
         caretLeft = undefined;
         caretTop = undefined;
         if(caretIndex !== undefined) {
+            // If the caret is in the preceding spaces or text, compute the left position based on the index into the text.
             if(caretIndex >= 0) {
-                caretLeft = `${caretIndex}ch`;
+                // One strategy is to trim the text to only the text included, then measure the width in pixels, then restore it.
+                let widthAtCaret = caretIndex in caretPositions ? caretPositions[caretIndex] : undefined;
+                if(widthAtCaret === undefined) {
+                    const spaceElement = element?.querySelector(".space");
+                    const textElement = element?.querySelector(".text");
+                    if(spaceElement && textElement) {
+                        const trimmedSpace = "&nbsp;".repeat(Math.min(caretIndex, node.spaces));
+                        const trimmedText = caretIndex < node.spaces ? "" : node.text.substring(0, caretIndex - node.spaces).toString();
+                        spaceElement.innerHTML = trimmedSpace;
+                        textElement.innerHTML = trimmedText;
+                        widthAtCaret = element.getBoundingClientRect().width;
+                        spaceElement.innerHTML = getSpaces();
+                        textElement.innerHTML = node.text.toString();
+                        caretPositions[caretIndex] = widthAtCaret;
+                    }
+                }
+
+                caretLeft = widthAtCaret === undefined ? `${caretIndex}ch` : `${widthAtCaret}px`;
                 caretTop = `auto`;
             }
+            // If were in whitespace, compute the top/left based on the pattern of whitespace.
             else {
                 // Track an index starting at the start of the spaces.
                 let index = 0;
@@ -78,6 +102,8 @@
         }
     }
 
+    function getSpaces() { return "·".repeat(node.spaces); }
+
 </script>
 
 
@@ -92,7 +118,8 @@
     data-whitespace={node.whitespace}
     data-spaces={node.spaces}
     data-newlines={node.newlines}
->{#if node.spaces > 0}<span class="space {caretIndex === undefined ? "" : "visible"}">{"·".repeat(node.spaces)}</span>{/if}<span class="text">{ node.text.toString() }</span>{#if caretLeft !== undefined && caretTop !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretLeft}; top: {caretTop};"></span>{/if}
+    bind:this={element}
+>{#if node.spaces > 0}<span class="space {caretIndex === undefined ? "" : "visible"}">{getSpaces()}</span>{/if}<span class="text">{ node.text.toString() }</span>{#if caretLeft !== undefined && caretTop !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretLeft}; top: {caretTop};"></span>{/if}
 </span>
 
 <style>
