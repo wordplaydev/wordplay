@@ -3,7 +3,6 @@
     import Node from '../nodes/Node';
     import ProgramView from '../editor/ProgramView.svelte';
     import Token from '../nodes/Token';
-    import Project from '../models/Project';
     import Caret from '../models/Caret';
     import type Program from '../nodes/Program';
     import { afterUpdate } from 'svelte';

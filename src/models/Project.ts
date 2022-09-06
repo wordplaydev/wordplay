@@ -75,11 +75,11 @@ export default class Project {
     }
 
     withCharacterAt(char: string, position: number) {
-        return new Project(this.name, this.code.withGraphemeAt(char, position), this.updater);
+        return new Project(this.name, this.code.withGraphemeAt(char, position) ?? this.code, this.updater);
     }
 
     withoutGraphemeAt(position: number) {
-        return new Project(this.name, this.code.withoutGraphemeAt(position), this.updater);
+        return new Project(this.name, this.code.withoutGraphemeAt(position) ?? this.code, this.updater);
     }
     
 }

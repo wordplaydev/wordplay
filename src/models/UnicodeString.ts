@@ -18,11 +18,11 @@ export default class UnicodeString {
     getText() { return this.text; }
 
     withGraphemeAt(char: string, position: number) {
-        return new UnicodeString(this.text.substring(0, position) + char + this.text.substring(position));
+        return position < 0 || position > this.segments.length ? undefined : new UnicodeString([ ...this.segments.slice(0, position).join(""), char, ...this.segments.slice(position)].join(""));
     }
 
     withoutGraphemeAt(position: number) {
-        return new UnicodeString(this.text.substring(0, position) + this.text.substring(position + 1));
+        return position < 0 || position >= this.segments.length ? undefined : new UnicodeString([ ...this.segments.slice(0, position), ...this.segments.slice(position + 1)].join(""));
     }
 
     getLength() {

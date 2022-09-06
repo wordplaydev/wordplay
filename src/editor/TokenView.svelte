@@ -87,7 +87,7 @@
     on:mousedown={handleClick} 
     data-index={node.getTextIndex()}
     data-length={node.getTextLength()}
->{#if node.spaces > 0}<span class="space {caretIndex === undefined ? "" : "visible"}">·</span>{/if}<span class="text">{ node.text.toString() }</span>{#if caretLeft !== undefined && caretTop !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretLeft}; top: {caretTop};"></span>{/if}
+>{#if node.spaces > 0}<span class="space {caretIndex === undefined ? "" : "visible"}">{"·".repeat(node.spaces)}</span>{/if}<span class="text">{ node.text.toString() }</span>{#if caretLeft !== undefined && caretTop !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretLeft}; top: {caretTop};"></span>{/if}
 </span>
 
 <style>
