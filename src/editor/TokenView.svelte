@@ -64,7 +64,7 @@
                     let index = 0;
                     let row = 0;
                     let col = 0;
-                    while(index !== whitespaceIndex && index < node.whitespace.length) {
+                    while(index < whitespaceIndex && index < node.whitespace.length) {
                         const char = node.whitespace.charAt(index);
                         if(char === "\n") {
                             row++;
@@ -82,7 +82,7 @@
                     if(node.whitespace.charAt(0) !== "\n" && row === 0) {
                         let index = node.getWhitespaceIndex();
                         let count = 0;
-                        while(index >= 0 && $caret.project.code.at(index) !== "\n") { index--; count++; }
+                        while(index > 0 && $caret.project.code.at(index) !== "\n") { index--; count++; }
                         col += count;
                     }
 
