@@ -218,7 +218,6 @@ import { set_data } from 'svelte/internal';
                     // Find the closest column on this line.
                     let currentColumn = 0;
                     while(pos > 0 && pos < $caret.project.code.getLength() && $caret.project.code.at(pos) !== "\n") {
-                        console.log(`Searching for column ${column}, on ${currentColumn}`)
                         const char = $caret.project.code.at(pos);
                         const previousColumn = currentColumn;
                         currentColumn += char === " " ? 1 : char === "\t" ? TAB_WIDTH : 0;
