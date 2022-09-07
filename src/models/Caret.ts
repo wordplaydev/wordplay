@@ -41,7 +41,7 @@ export default class Caret {
                 index = index - 1; 
                 column = column + 1; 
             }
-            return column - 1;
+            return Math.max(column - 1, 0);
         }
         return undefined;
     }

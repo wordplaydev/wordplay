@@ -231,17 +231,27 @@ import UnicodeString from '../models/UnicodeString';
             // If the row we're moving to is a whitespace row...
             if(rows[rowIndex].newline >= 0) {
 
+                // If the next character is a newline too, just move to it.
+                if($caret.project.code.at(position + direction) === "\n") {
+                    caret.set($caret.withPosition(position + direction));
+                    return;
+                }
+    
                 // Find the column the caret is on.
                 let column = $caret.column();
                 if(column !== undefined) {
 
                     // ... move to the next row.
                     let pos = position;
+
+                    // Move past all of the non-newlines.
                     while(pos > 0 && pos < $caret.project.code.getLength() && $caret.project.code.at(pos) !== "\n")
                         pos += direction;
+                    // Move past the newline.
                     pos += direction;
 
-                    // If we're moving up, move to the beginning of this whitespace row.
+                    // If we're moving up and not already on a newline, move to the beginning of this whitespace row
+                    // so we can count coluns from the left edge instead of compute the column width of this line and count from the right.
                     if(direction < 0) {
                         while(pos > 0 && pos < $caret.project.code.getLength() && $caret.project.code.at(pos) !== "\n")
                             pos += direction;
