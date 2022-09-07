@@ -205,7 +205,7 @@ import { set_data } from 'svelte/internal';
                         pos += direction;
                 }
                 // Move past the next newline if we're moving down.
-                pos += direction;
+                if(direction > 0) pos += direction;
                 // Set the caret
                 caret.set($caret.withPosition(pos));
             } 
