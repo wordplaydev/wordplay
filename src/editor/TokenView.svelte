@@ -80,9 +80,13 @@
                     // If there's trailing whitespace at the end of a line, we need to account for it's width
                     // to ensure the caret appears properly offset from the end of the line.
                     if(node.whitespace.charAt(0) !== "\n" && row === 0) {
-                        let index = node.getWhitespaceIndex();
+                        let index = node.getWhitespaceIndex() - 1;
                         let count = 0;
-                        while(index > 0 && $caret.project.code.at(index) !== "\n") { index--; count++; }
+                        while(index > 0 && $caret.project.code.at(index) !== "\n") { 
+                            const char = $caret.project.code.at(index);
+                            count = count + (char === "\t" ? TAB_WIDTH : 1); 
+                            index--;
+                        }
                         col += count;
                     }
 
