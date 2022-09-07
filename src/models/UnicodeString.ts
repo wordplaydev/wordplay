@@ -1,3 +1,6 @@
+// TODO We probably need to include the list of all languages we support here.
+const segmenter = new Intl.Segmenter();
+
 export default class UnicodeString {
 
     readonly text: string;
@@ -8,9 +11,7 @@ export default class UnicodeString {
         // Ensure text is comparable.
         this.text = text.normalize();
 
-        // TODO We probably need to include the list of all languages we support here.
         // It segments by graphemes by default
-        const segmenter = new Intl.Segmenter();
         this.segments = [...segmenter.segment(this.text)].map(s => s.segment);
 
     }
