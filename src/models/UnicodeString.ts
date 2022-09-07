@@ -17,6 +17,10 @@ export default class UnicodeString {
 
     getText() { return this.text; }
 
+    withPreviousGraphemeReplaced(char: string, position: number) {
+        return position < 0 || position > this.segments.length ? undefined : new UnicodeString([ ...this.segments.slice(0, position - 1).join(""), char, ...this.segments.slice(position)].join(""));
+    }
+
     withGraphemeAt(char: string, position: number) {
         return position < 0 || position > this.segments.length ? undefined : new UnicodeString([ ...this.segments.slice(0, position).join(""), char, ...this.segments.slice(position)].join(""));
     }

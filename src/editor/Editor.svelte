@@ -6,12 +6,13 @@
     import Caret from '../models/Caret';
     import type Program from '../nodes/Program';
     import { afterUpdate } from 'svelte';
-import type Keyboard from '../native/Keyboard';
-import { set_data } from 'svelte/internal';
+import { prevent_default } from 'svelte/internal';
+import UnicodeString from '../models/UnicodeString';
 
     export let program: Program;
 
     let editor: HTMLElement;
+    let keyboard: HTMLInputElement;
 
     // When the caret changes, make sure it's in view.
     afterUpdate(() => {
@@ -29,14 +30,47 @@ import { set_data } from 'svelte/internal';
                 caretLeft <= viewport.scrollLeft + viewport.clientWidth;
             if(!visible)
                 caret.scrollIntoView({ behavior: "auto", block: "nearest", inline: "nearest"});
+
+            const keyboard = editor?.querySelector(".keyboard-input");
+            if(keyboard instanceof HTMLElement) {
+                keyboard.style.left = `${caretLeft + viewport.scrollLeft}px`;
+                keyboard.style.top = `${caretTop + viewport.scrollTop}px`;
+            }
+
         }
     });
+
+    function focusOnKeyboardInput() {
+
+        if(keyboard instanceof HTMLElement) {
+            keyboard.focus();
+            console.log("Focused on keyboard");
+            console.log(keyboard);
+        }
+        else console.log("Coudln't focus on keyboard");
+
+    }
+
+    function replacePreviousChar(char: string) {
+        if($project && $caret && typeof $caret.position === "number") {
+            const newProject = $project.withPreviousCharacterReplaced(char, $caret.position);
+            project.set(newProject);
+        }
+    }
 
     function insertChar(char: string) {
         if($project && $caret && typeof $caret.position === "number") {
             const newProject = $project.withCharacterAt(char, $caret.position);
             project.set(newProject);
             caret.set(new Caret(newProject, $caret.position + 1));
+        }
+    }
+
+    function backspace() {
+        if($project && $caret && typeof $caret.position === "number") {
+            const newProject = $project.withoutGraphemeAt($caret.position - 1);
+            project.set(newProject);
+            caret.set(new Caret(newProject, Math.max(0, $caret.position - 1)));
         }
     }
 
@@ -48,7 +82,10 @@ import { set_data } from 'svelte/internal';
         if($caret === undefined) return;
 
         // First, ask for focus.
-        el.focus();
+        focusOnKeyboardInput();
+
+        // Prevent the OS from giving the document body focus.
+        event.preventDefault();
 
         // Then, place the caret. Find the tokens that contain the vertical mouse position.
         const tokenViews = el.querySelectorAll(".token-view");
@@ -298,21 +335,12 @@ import { set_data } from 'svelte/internal';
                 }
             }
             else {
-                event.preventDefault();
-                if(event.key === "ArrowLeft") caret.set($caret.left());
-                else if(event.key === "ArrowRight") caret.set($caret.right());
-                else if(event.key === "ArrowUp") caretUp();
-                else if(event.key === "ArrowDown") caretDown();
-                else if(event.key === "Backspace") {
-                    if(typeof $caret.position === "number") {
-                        const newProject = $project.withoutGraphemeAt($caret.position - 1);
-                        project.set(newProject);
-                        caret.set(new Caret(newProject, Math.max(0, $caret.position - 1)));
-                    }
-                    else {
-                        // Delete the selected node and place the caret at the beginning of where it was.
-                    }
-                }
+                // event.preventDefault();
+                if(event.key === "ArrowLeft") { caret.set($caret.left()); event.preventDefault(); }
+                else if(event.key === "ArrowRight") { caret.set($caret.right());  event.preventDefault(); }
+                else if(event.key === "ArrowUp") { caretUp(); event.preventDefault(); }
+                else if(event.key === "ArrowDown") { caretDown(); event.preventDefault(); }
+                else if(event.key === "Backspace") { backspace(); event.preventDefault(); }
                 // Select parent of current caret position.
                 else if(event.key === "Escape") {
                     const position = $caret.position;
@@ -322,34 +350,67 @@ import { set_data } from 'svelte/internal';
                             const parent = position.getParent($project.program);
                             if(parent !== undefined)
                                 caret.set(new Caret($project, parent));
+                            event.preventDefault();
                         }
                         // Find the node corresponding to the position.
                         else if(typeof position === "number") {
                             const token = $project?.program.nodes().find(token => token instanceof Token && token.containsPosition(position));
                             if(token !== undefined)
                                 caret.set(new Caret($project, token));
+                            event.preventDefault();
                         }
                     }
                 }
-                else if(event.key.length === 1)
-                    insertChar(event.key);
-                else if(event.key === "Enter")
-                    insertChar("\n");
-                else if(event.key === "Tab")
-                    insertChar("\t");
+                else if(event.key === "Enter") { insertChar("\n"); event.preventDefault(); }
+                else if(event.key === "Tab") { insertChar("\t"); event.preventDefault(); }
             }
         }
+    }
+
+    let lastKeyboardInputValue: undefined | UnicodeString = undefined;
+
+    function handleKeyboardInput(event: Event) {
+        // Get the character that was typed into the text box.
+        // If it's a string, insert it at the caret position then reset the text input's contents.
+        if(keyboard !== null) {
+
+            // Wrap the string in a unicode wrapper so we can account for graphemes.
+            const value = new UnicodeString(keyboard.value);
+
+            // Get the last grapheme entered.
+            const lastChar = value.substring(value.getLength() - 1, value.getLength());
+
+            // If the last keyboard value length is equal to the new one, then it was a diacritic.
+            // Replace the last grapheme entered with this grapheme, then reset the input text field.
+            if(lastKeyboardInputValue !== undefined && lastKeyboardInputValue.getLength() === value.getLength()) {
+                replacePreviousChar(lastChar.toString());
+                keyboard.value = "";
+            }
+            // Otherwise, just insert the grapheme and limit the input field to the last character.
+            else {
+                insertChar(lastChar.toString());
+                if(value.getLength() > 1)
+                    keyboard.value = lastChar.toString();
+            }
+
+            // Remember the last value of the input field for comparison on the next keystroke.
+            lastKeyboardInputValue = new UnicodeString(keyboard.value);
+
+            // Prevent the OS from doing anything with this input.
+            event.preventDefault();
+        }
+
     }
 
 </script>
 
 <div class="editor"
-    tabindex=0
     bind:this={editor}
     on:mousedown={handleClick}
     on:keydown={handleKeyDown}
 >
     <ProgramView program={program} />
+    <input type="text" class="keyboard-input" bind:this={keyboard} on:input={handleKeyboardInput}/>
 </div>
 
 <style>
@@ -361,10 +422,15 @@ import { set_data } from 'svelte/internal';
         height: auto;
         min-height: calc(100% - var(--wordplay-spacing) * 2);
         line-height: 1.4;
+        position: relative;
     }
 
-    .editor:focus {
+    .keyboard-input {
+        position: absolute;
+        border: none;
         outline: none;
+        width: 1;
+        opacity: 0;
     }
 
 </style>

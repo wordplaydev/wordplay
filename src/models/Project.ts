@@ -74,6 +74,10 @@ export default class Project {
         return new Project(this.name, new UnicodeString(code), this.updater);
     }
 
+    withPreviousCharacterReplaced(char: string, position: number) {
+        return new Project(this.name, this.code.withPreviousGraphemeReplaced(char, position) ?? this.code, this.updater);
+    }
+
     withCharacterAt(char: string, position: number) {
         return new Project(this.name, this.code.withGraphemeAt(char, position) ?? this.code, this.updater);
     }

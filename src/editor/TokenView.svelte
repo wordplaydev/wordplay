@@ -108,9 +108,11 @@
             const tokenRect = event.currentTarget.getBoundingClientRect();
             const offset = event.offsetX + (targetRect.left - tokenRect.left);
             // Place the caret at the space or text assuming fixed width, but after any tabs or new lines.
-            caret.set($caret.withPosition(node.getWhitespaceIndex() + node.precedingSpaces + node.newlines + Math.round(node.getTextLength() * (offset / tokenRect.width))));
+            caret.set($caret.withPosition(node.getWhitespaceIndex() + node.precedingSpaces + node.newlines + (tokenRect.width === 0 ? 0 : Math.round(node.getTextLength() * (offset / tokenRect.width)))));
             event.stopPropagation();
         }
+        // Prevent the OS from giving the document body focus.
+        event.preventDefault();
     }
 
 </script>
@@ -119,7 +121,7 @@
 {#if node.newlines > 0 ? "newline" : ""}{@html "<br/>".repeat(node.newlines)}{/if}<span 
     class="token-view token-{kind} {$caret?.position === node ? "selected" : ""}" 
     style="color: {`var(--token-category-${kind})`}; margin-left: {node.precedingSpaces}ch"
-    on:mousedown={handleClick} 
+    on:mousedown={handleClick}
     data-start={node.getWhitespaceIndex()}
     data-end={node.getLastIndex()}
     data-index={node.getTextIndex()}
