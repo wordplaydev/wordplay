@@ -42,12 +42,8 @@ import UnicodeString from '../models/UnicodeString';
 
     function focusOnKeyboardInput() {
 
-        if(keyboard instanceof HTMLElement) {
+        if(keyboard instanceof HTMLElement)
             keyboard.focus();
-            console.log("Focused on keyboard");
-            console.log(keyboard);
-        }
-        else console.log("Coudln't focus on keyboard");
 
     }
 
