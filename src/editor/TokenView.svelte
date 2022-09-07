@@ -1,6 +1,6 @@
 <script lang="ts">
     import type Token from "../nodes/Token";
-    import { TokenKinds, TokenType } from "../nodes/Token";
+    import { TAB_WIDTH, TokenKinds, TokenType } from "../nodes/Token";
     import { caret } from "../models/stores";
     import keyboardIdle from "../models/KeyboardIdle";
 
@@ -11,24 +11,21 @@
     // A cache of view widths at different positions, since this is expensive to compute.
     let caretPositions: Record<number, number> = {};
 
-    const TAB_WIDTH = 2;
     const type = node.types[0];
     const end = type === TokenType.END;
     const kind = type !== undefined ? TokenKinds.get(type) : "default";
 
     // Compute where the caret should be placed. Place it if...
     $: caretIndex = 
-        // The caret store exists
-        $caret !== undefined && 
-        // The caret position is a number, not a node
-        typeof $caret.position === "number" && 
+        $caret !== undefined &&
+        typeof $caret.position === "number" &&
         // This token contains the caret position
         $caret.between(node.getWhitespaceIndex(), node.getLastIndex()) &&
         // This isn't the end token, or it is, and it either has whitespace or the code is the empty string.
         (end && ($caret.project.code.getLength() === 0 || node.whitespace.length > 0) || !end) ? 
-            // Otherwise, the caretThe offset at which to render the token is the caret position, minus the start of the token's spaces.
+            // The offset at which to render the token is the caret in it's text.
             // If the caret position is on a newline or tab, then it will be negative.
-            $caret.position - node.getSpaceIndex() : 
+            $caret.position - node.getTextIndex() : 
             undefined;
 
     // Compute the left and top positions of the caret based on the caretPosition.
@@ -43,16 +40,14 @@
                 // One strategy is to trim the text to only the text included, then measure the width in pixels, then restore it.
                 let widthAtCaret = caretIndex in caretPositions ? caretPositions[caretIndex] : undefined;
                 if(widthAtCaret === undefined) {
-                    const spaceElement = element?.querySelector(".space");
                     const textElement = element?.querySelector(".text");
-                    if(spaceElement && textElement) {
-                        const trimmedSpace = "&nbsp;".repeat(Math.min(caretIndex, node.spaces));
-                        const trimmedText = caretIndex < node.spaces ? "" : node.text.substring(0, caretIndex - node.spaces).toString();
-                        spaceElement.innerHTML = trimmedSpace;
-                        textElement.innerHTML = trimmedText;
+                    if(textElement) {
+                        const trimmedText = node.text.substring(0, caretIndex).toString();
+                        const textNode = textElement.childNodes[0];
+                        const tempNode = document.createTextNode(trimmedText);
+                        textNode.replaceWith(tempNode);
                         widthAtCaret = element.getBoundingClientRect().width;
-                        spaceElement.innerHTML = getSpaces();
-                        textElement.innerHTML = node.text.toString();
+                        tempNode.replaceWith(textNode);
                         caretPositions[caretIndex] = widthAtCaret;
                     }
                 }
@@ -60,31 +55,45 @@
                 caretLeft = widthAtCaret === undefined ? `${caretIndex}ch` : `${widthAtCaret}px`;
                 caretTop = `auto`;
             }
-            // If were in whitespace, compute the top/left based on the pattern of whitespace.
-            else {
-                // Track an index starting at the start of the spaces.
-                let index = 0;
-                let left = 0;
-                let top = 0;
+            // If the caret is in whitespace, compute the top/left based on the pattern whitespace sequence.
+            else if($caret?.isIndex()) {
+                // Track an index starting at wherever the caret is.
+                let caretIndex = $caret.getIndex();
+                if(caretIndex) {
 
-                // Subtract the width of the tab for each tab.
-                for(let i = node.tabs; i > 0 && index !== caretIndex; i--) {
-                    left -= TAB_WIDTH;
-                    index--;
-                }
-
-                // If there are newlines, reset the left to 0 and subtract the number of new lines.
-                if(node.newlines > 0 && index !== caretIndex) {
-                    left = 0;
-                    // Subtract the line height for every new line.
-                    for(let i = node.newlines; i > 0 && index !== caretIndex; i--) {
-                        top -= 1.4;
-                        index--;
+                    // Where in the whitespace is the caret?
+                    let whitespaceIndex = caretIndex - node.getWhitespaceIndex();
+                    let index = 0;
+                    let row = 0;
+                    let col = 0;
+                    while(index !== whitespaceIndex && index < node.whitespace.length) {
+                        const char = node.whitespace.charAt(index);
+                        if(char === "\n") {
+                            row++;
+                            col = 0;
+                        }
+                        else if(char === " ") 
+                            col++;
+                        else if(char === "\t")
+                            col += TAB_WIDTH;
+                        index++;
                     }
-                }
 
-                caretLeft = `${left}ch`;
-                caretTop = `${top}em`;
+                    // If there's trailing whitespace at the end of a line, we need to account for it's width
+                    // to ensure the caret appears properly offset from the end of the line.
+                    if(node.whitespace.charAt(0) !== "\n" && row === 0) {
+                        let index = node.getWhitespaceIndex();
+                        let count = 0;
+                        while(index >= 0 && $caret.project.code.at(index) !== "\n") { index--; count++; }
+                        col += count;
+                    }
+
+                    const top = -(node.newlines - row) * 1.4;
+                    const left = -(node.precedingSpaces - col);
+
+                    caretLeft = `${left}ch`;
+                    caretTop = `${top}em`;
+                }
             }
         }
     }
@@ -97,29 +106,26 @@
             const tokenRect = event.currentTarget.getBoundingClientRect();
             const offset = event.offsetX + (targetRect.left - tokenRect.left);
             // Place the caret at the space or text assuming fixed width, but after any tabs or new lines.
-            caret.set($caret.withPosition(node.getWhitespaceIndex() + node.tabs + node.newlines + Math.round(node.getSpaceAndTextLength() * (offset / tokenRect.width))));
+            caret.set($caret.withPosition(node.getWhitespaceIndex() + node.precedingSpaces + node.newlines + Math.round(node.getTextLength() * (offset / tokenRect.width))));
             event.stopPropagation();
         }
     }
-
-    function getSpaces() { return "·".repeat(node.spaces); }
 
 </script>
 
 
 {#if node.newlines > 0 ? "newline" : ""}{@html "<br/>".repeat(node.newlines)}{/if}<span 
     class="token-view token-{kind} {$caret?.position === node ? "selected" : ""}" 
-    style="color: {`var(--token-category-${kind})`}; margin-left: {node.tabs * TAB_WIDTH}ch"
+    style="color: {`var(--token-category-${kind})`}; margin-left: {node.precedingSpaces}ch"
     on:mousedown={handleClick} 
     data-start={node.getWhitespaceIndex()}
     data-end={node.getLastIndex()}
     data-index={node.getTextIndex()}
     data-length={node.getTextLength()}
     data-whitespace={node.whitespace}
-    data-spaces={node.spaces}
     data-newlines={node.newlines}
     bind:this={element}
->{#if node.spaces > 0}<span class="space {caretIndex === undefined ? "" : "visible"}">{getSpaces()}</span>{/if}<span class="text">{ node.text.toString() }</span>{#if caretLeft !== undefined && caretTop !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretLeft}; top: {caretTop};"></span>{/if}
+><span class="text">{ node.text.toString() }</span>{#if caretLeft !== undefined && caretTop !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretLeft}; top: {caretTop};"></span>{/if}
 </span>
 
 <style>

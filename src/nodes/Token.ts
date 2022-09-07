@@ -129,6 +129,8 @@ TokenKinds.set(TokenType.NAME, TokenCategoryName);
 TokenKinds.set(TokenType.END, TokenCategoryLiteral);
 TokenKinds.set(TokenType.UNKNOWN, TokenCategoryUnknown);
 
+export const TAB_WIDTH = 2;
+
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
     readonly types: TokenType[];
@@ -140,52 +142,35 @@ export default class Token extends Node {
     readonly index: number;
     /** The precomputed number of newlines in the whitespace */
     readonly newlines: number;
-    /** The precomputed number of tabs after newlines in the whitespace */
-    readonly tabs: number;
-    /** The precomputed number of spaces after tabs in the whitespace */
-    readonly spaces: number;
+    /** The precomputed number of spaces on the row containing the non-whitespace text */
+    readonly precedingSpaces: number;
 
     constructor(text: string | UnicodeString, types: TokenType[], index: number=0, space: string="") {
         super();
+
         this.types = [ ... types ];
+
         // Ensure tokens are canonically structred. from a unicode perspective.
         this.text = text instanceof UnicodeString ? text : new UnicodeString(text);
         this.whitespace = space;
         this.index = index;
 
-        // If the whitespace has a newline, skip any preceding tabs or spaces, since they don't really affect layout
-        if(space.indexOf("\n") >= 0)
-            while(space.length > 0 && (space.charAt(0) === " " || space.charAt(0) === "\t"))
-                space = space.substring(1);
-
-        // Compute the newlines
-        this.newlines = 0;
-        while(space.length > 0 && space.charAt(0) === "\n") {
-            this.newlines++;
-            space = space.substring(1);
-        }
-        // Compute the tabs
-        this.tabs = 0;
-        while(space.length > 0 && space.charAt(0) === "\t") {
-            this.tabs++;
-            space = space.substring(1);
-        }
-        // Compute the spaces
-        this.spaces = 0;
-        while(space.length > 0 && space.charAt(0) === " ") {
-            this.spaces++;
-            space = space.substring(1);
-        }
+        // Split the whitespace by lines, then tabs.
+        const lines = space.split("\n");
+        // Compute the number of newlines overall.
+        this.newlines = lines.length - 1;
+        // Compute the number of spaces on the last line.
+        this.precedingSpaces = lines[lines.length - 1].split("").reduce((sum, s) => sum + (s === "\t" ? TAB_WIDTH : s === " " ? 1 : 0), 0);
 
     }
+
+    getChildren() { return []; }
+
     getWhitespaceIndex() { return this.index - this.whitespace.length; }
-    getSpaceIndex() { return this.index - this.spaces; }
     getTextIndex() { return this.index; }
     getLastIndex() { return this.index + this.getTextLength(); }
     /* Property accounts for unicode codepoints */
     getTextLength() { return this.text.getLength(); }
-    getSpaceAndTextLength() { return this.spaces + this.getTextLength(); }
-    getChildren() { return []; }
     getPrecedingSpace() { return this.whitespace; }
     hasPrecedingSpace() { return this.whitespace.length > 0; }
     containsPosition(position: number) { return position >= this.index - this.whitespace.length && position <= this.index + this.getTextLength(); }

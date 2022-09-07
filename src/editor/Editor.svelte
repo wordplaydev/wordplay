@@ -2,11 +2,12 @@
     import { caret, project } from '../models/stores';
     import Node from '../nodes/Node';
     import ProgramView from '../editor/ProgramView.svelte';
-    import Token, { TokenKinds } from '../nodes/Token';
+    import Token from '../nodes/Token';
     import Caret from '../models/Caret';
     import type Program from '../nodes/Program';
     import { afterUpdate } from 'svelte';
-import { text } from 'svelte/internal';
+import type Keyboard from '../native/Keyboard';
+import { set_data } from 'svelte/internal';
 
     export let program: Program;
 
@@ -44,6 +45,7 @@ import { text } from 'svelte/internal';
         const el = event.currentTarget;
 
         if(!(el instanceof HTMLElement)) return;
+        if($caret === undefined) return;
 
         // First, ask for focus.
         el.focus();
@@ -54,11 +56,32 @@ import { text } from 'svelte/internal';
         const mouseY = event.clientY;
         const mouseX = event.clientX;
         tokenViews.forEach(token => {
-            const tokenBounds = token.getBoundingClientRect();
-            const tokenTop = tokenBounds.top;
-            const tokenBottom = tokenBounds.bottom;
-            if(token instanceof HTMLElement && tokenTop <= mouseY && tokenBottom >= mouseY)
-                line.push(token);
+            if($caret !== undefined && token instanceof HTMLElement && token.dataset.newlines && token.dataset.whitespace && token.dataset.index) {
+                const tokenIndex = parseInt(token.dataset.index);
+                const tokenNewlines = parseInt(token.dataset.newlines);
+                const tokenWhitespace = token.dataset.whitespace;
+                const tokenBounds = token.getBoundingClientRect();
+                const tokenTop = tokenBounds.top;
+                const tokenWhitespaceTop = tokenBounds.top - tokenNewlines * tokenBounds.height;
+                const tokenBottom = tokenBounds.bottom;
+                if(tokenTop <= mouseY && tokenBottom >= mouseY)
+                    line.push(token);
+                else if(tokenWhitespaceTop <= mouseY && tokenBottom >= mouseY) {
+                    // This token's whitespace contains the click.
+                    // Place it at the beginning of one of the whitespace lines.
+                    const mouseLine = Math.round((mouseY - tokenWhitespaceTop) / tokenBounds.height);
+                    let index = 0;
+                    let line = 0;
+                    while(index < tokenWhitespace.length) { 
+                        if(line === mouseLine) break;
+                        if(tokenWhitespace.charAt(index) === "\n")
+                            line++;
+                        index++;
+                    }
+                    caret.set($caret.withPosition(tokenIndex - tokenWhitespace.length + index));
+                    return;
+                }
+            }
         });
 
         // Of those aligned vertically, find the closest horizontally.
@@ -78,7 +101,7 @@ import { text } from 'svelte/internal';
         };
 
         if(closest !== undefined && closest.dataset.index !== undefined && closest.dataset.length !== undefined) {
-            caret.set($caret?.withPosition(parseInt(closest.dataset.index) + (left ? 0 : parseInt(closest.dataset.length))));
+            caret.set($caret.withPosition(parseInt(closest.dataset.index) + (left ? 0 : parseInt(closest.dataset.length))));
         }
 
     }
@@ -168,12 +191,12 @@ import { text } from 'svelte/internal';
             }
         }
         // Otherwise, find the closest token horizontally in the row in the direction we're moving.
-        // Do this by calculating distances, then sorting.
         else {
             rowIndex += direction;
 
+            // If the row we're moving to is a whitespace row...
             if(rows[rowIndex].newline >= 0) {
-                // If we're not on a newline, move to the next one.
+                // ... move to the next newline.
                 let pos = position;
                 let foundFirst = false;
                 if($caret.project.code.at(pos) !== "\n") {
@@ -182,10 +205,12 @@ import { text } from 'svelte/internal';
                         pos += direction;
                 }
                 // Move past the next newline if we're moving down.
-                if(direction > 0 || !foundFirst) pos += direction;
+                pos += direction;
                 // Set the caret
                 caret.set($caret.withPosition(pos));
-            } else {
+            } 
+            // Otherwise, find the nearest token on the next row.
+            else {
 
                 const caretRect = caretView.getBoundingClientRect();
                 const distances = rows[rowIndex].tokens.map(candidate => {
@@ -200,9 +225,8 @@ import { text } from 'svelte/internal';
                 // Now that we've found the closest token horizontally in the next row, choose the closest point in the token's whitespace or text.
                 if(sorted.length > 0) {
                     const choice = sorted[0];
-                    const spaces = parseInt(choice.token.dataset.spaces ?? "");
-                    const length = parseInt(choice.token.dataset.length ?? "") + spaces;
-                    const startPosition = parseInt(choice.token.dataset.index ?? "") - spaces;
+                    const length = parseInt(choice.token.dataset.length ?? "");
+                    const startPosition = parseInt(choice.token.dataset.index ?? "");
                     if(!isNaN(startPosition) && !isNaN(length)) {
                         // Choose the offset based on whether the caret is to the left, right, or in between the horizontal axis of the chosen token.
                         const offset = 
@@ -217,13 +241,7 @@ import { text } from 'svelte/internal';
 
     }
 
-</script>
-
-<div class="editor"
-    tabindex=0
-    bind:this={editor}
-    on:mousedown={handleClick}
-    on:keydown={(event) => {
+    function handleKeyDown(event: KeyboardEvent) {
         if($project && $caret) {
             const meta = event.metaKey || event.ctrlKey;
             if(meta) {
@@ -301,7 +319,15 @@ import { text } from 'svelte/internal';
                     insertChar("\t");
             }
         }
-    }}
+    }
+
+</script>
+
+<div class="editor"
+    tabindex=0
+    bind:this={editor}
+    on:mousedown={handleClick}
+    on:keydown={handleKeyDown}
 >
     <ProgramView program={program} />
 </div>

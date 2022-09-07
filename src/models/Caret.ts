@@ -15,6 +15,8 @@ export default class Caret {
     }
 
     isIndex() { return typeof this.position === "number"; }
+    getIndex() { return this.isIndex() ? this.position as number : undefined; }
+
     isWhitespace(c: string) { return /[\t\n ]/.test(c); }
     isTab(c: string) { return /[\t]/.test(c); }
 
