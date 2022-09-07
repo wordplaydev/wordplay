@@ -807,7 +807,7 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
         inputs.push(parseBind(tokens));
 
     if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ docs, fun, aliases, typeVars, inputs ]);
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ docs, fun, aliases, typeVars, open, inputs ]);
     const close = tokens.read(TokenType.EVAL_CLOSE);
 
     let dot;

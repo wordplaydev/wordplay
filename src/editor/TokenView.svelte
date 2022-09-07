@@ -11,9 +11,7 @@
     // A cache of view widths at different positions, since this is expensive to compute.
     let caretPositions: Record<number, number> = {};
 
-    const type = node.types[0];
-    const end = type === TokenType.END;
-    const kind = type !== undefined ? TokenKinds.get(type) : "default";
+    $: kind = node.types[0] !== undefined ? TokenKinds.get(node.types[0]) : "default";
 
     // Compute where the caret should be placed. Place it if...
     $: caretIndex = 
@@ -22,7 +20,7 @@
         // This token contains the caret position
         $caret.between(node.getWhitespaceIndex(), node.getLastIndex()) &&
         // This isn't the end token, or it is, and it either has whitespace or the code is the empty string.
-        (end && ($caret.project.code.getLength() === 0 || node.whitespace.length > 0) || !end) ? 
+        (!node.is(TokenType.END) || ($caret.project.code.getLength() === 0 || node.whitespace.length > 0)) ? 
             // The offset at which to render the token is the caret in it's text.
             // If the caret position is on a newline or tab, then it will be negative.
             $caret.position - node.getTextIndex() : 
