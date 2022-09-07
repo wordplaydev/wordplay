@@ -2,7 +2,7 @@
     import { caret, project } from '../models/stores';
     import Node from '../nodes/Node';
     import ProgramView from '../editor/ProgramView.svelte';
-    import Token from '../nodes/Token';
+    import Token, { TAB_WIDTH } from '../nodes/Token';
     import Caret from '../models/Caret';
     import type Program from '../nodes/Program';
     import { afterUpdate } from 'svelte';
@@ -151,7 +151,7 @@ import { set_data } from 'svelte/internal';
             }
         });
 
-        // Find the caret's current row and this token.
+        // Find the caret's current row.
         let rowIndex = 0;
         for(; rowIndex < rows.length; rowIndex++) {
             const row = rows[rowIndex];
@@ -167,6 +167,7 @@ import { set_data } from 'svelte/internal';
                         let newline = whitespacePrior.split("\n").length - 2;
                         return newline === row.newline;
                     }
+                    // If the token is more than whitespace, just check the start and end
                     else
                         return position >= data.start && position <= data.end;
                 else
@@ -196,18 +197,38 @@ import { set_data } from 'svelte/internal';
 
             // If the row we're moving to is a whitespace row...
             if(rows[rowIndex].newline >= 0) {
-                // ... move to the next newline.
-                let pos = position;
-                let foundFirst = false;
-                if($caret.project.code.at(pos) !== "\n") {
-                    foundFirst = true;
-                    while($caret.project.code.at(pos) !== "\n")
+
+                // Find the column the caret is on.
+                let column = $caret.column();
+                if(column !== undefined) {
+
+                    // ... move to the next row.
+                    let pos = position;
+                    while(pos > 0 && pos < $caret.project.code.getLength() && $caret.project.code.at(pos) !== "\n")
                         pos += direction;
+                    pos += direction;
+
+                    // If we're moving up, move to the beginning of this whitespace row.
+                    if(direction < 0) {
+                        while(pos > 0 && pos < $caret.project.code.getLength() && $caret.project.code.at(pos) !== "\n")
+                            pos += direction;
+                        pos -= direction;
+                    }
+
+                    // Find the closest column on this line.
+                    let currentColumn = 0;
+                    while(pos > 0 && pos < $caret.project.code.getLength() && $caret.project.code.at(pos) !== "\n") {
+                        console.log(`Searching for column ${column}, on ${currentColumn}`)
+                        const char = $caret.project.code.at(pos);
+                        const previousColumn = currentColumn;
+                        currentColumn += char === " " ? 1 : char === "\t" ? TAB_WIDTH : 0;
+                        if(previousColumn <= column && currentColumn >= column) break;
+                        pos += 1;
+                    }
+
+                    // Set the caret
+                    caret.set($caret.withPosition(pos));
                 }
-                // Move past the next newline if we're moving down.
-                if(direction > 0) pos += direction;
-                // Set the caret
-                caret.set($caret.withPosition(pos));
             } 
             // Otherwise, find the nearest token on the next row.
             else {

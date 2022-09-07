@@ -32,6 +32,20 @@ export default class Caret {
 
     }
 
+    /* Compute the column of text the caret is at, if a number. */
+    column() {
+        if(typeof this.position === "number") {
+            let column = 0;
+            let index = this.position;
+            while(index > 0 && this.project.code.at(index) !== "\n") { 
+                index = index - 1; 
+                column = column + 1; 
+            }
+            return column - 1;
+        }
+        return undefined;
+    }
+
     between(start: number, end: number): boolean { 
         return typeof this.position === "number" && 
             // It must be after the start OR at the start and not whitespace
