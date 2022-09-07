@@ -232,7 +232,7 @@ import { set_data } from 'svelte/internal';
                         const offset = 
                             caretRect.left > choice.rect.right ? length :
                             caretRect.left < choice.rect.left ? 0 :
-                            Math.round(length * ((caretRect.left - choice.rect.left) / choice.rect.width));
+                            (choice.rect.width === 0 ? 0 : Math.round(length * ((caretRect.left - choice.rect.left) / choice.rect.width)));
                         caret.set($caret.withPosition(startPosition + offset));
                     }
                 }

@@ -70,6 +70,9 @@ export default class Caret {
         }
     }
 
-    withPosition(position: number | Node): Caret { return new Caret(this.project, position); }
+    withPosition(position: number | Node): Caret { 
+        if(typeof position === "number" && isNaN(position)) throw Error("NaN on caret set!");
+        return new Caret(this.project, typeof position === "number" ? Math.max(0, Math.min(position, this.project.code.getLength())) : position); 
+    }
 
 }
