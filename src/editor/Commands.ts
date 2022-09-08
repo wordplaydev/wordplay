@@ -219,8 +219,21 @@ const commands: Command[] = [
         execute: (caret: Caret) => {        
             const position = caret.position;
             if(position instanceof Node) {
+                // What tokens are selected currently?
+                const selectedTokens = position.nodes(n => n instanceof Token) as Token[];
                 // Select the parent node
-                const parent = position.getParent();
+                let parent: Node | undefined | null = position.getParent();
+                let parentTokens = parent?.nodes(n => n instanceof Token) as Token[];
+                // While the parent's nodes are equivalent to the 
+                while(parent && parentTokens.length === selectedTokens.length && parentTokens.every((t, i) => t === selectedTokens[i])) {
+                    const newParent = parent.getParent();
+                    if(newParent) {
+                        parent = newParent;
+                        parentTokens = parent.nodes(n => n instanceof Token) as Token[];
+                    }
+                    else break;
+                }
+                // If we still have a parent, 
                 if(parent)
                     return caret.withPosition(parent);
             }
