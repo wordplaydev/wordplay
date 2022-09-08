@@ -57,7 +57,7 @@
             else if($caret?.isIndex()) {
                 // Track an index starting at wherever the caret is.
                 let caretIndex = $caret.getIndex();
-                if(caretIndex) {
+                if(caretIndex !== undefined) {
 
                     // Where in the whitespace is the caret?
                     let whitespaceIndex = caretIndex - node.getWhitespaceIndex();
