@@ -181,6 +181,16 @@ function backspace(caret: Caret): [ Project, Caret] | undefined  {
     if(typeof caret.position === "number") {
         const newProject = caret.project.withoutGraphemeAt(caret.position - 1);
         return newProject === undefined ? undefined : [ newProject , new Caret(newProject, Math.max(0, caret.position - 1)) ];
+    } 
+    // If it's a node, delete the text between the first and last token.
+    else {
+        const tokens = caret.position.nodes(n => n instanceof Token) as Token[];
+        if(tokens.length > 0) {
+            const start = tokens[0].getTextIndex();
+            const end = tokens[tokens.length - 1].getLastIndex();
+            const newProject = caret.project.withoutGraphemesBetween(start, end);
+            return newProject === undefined ? undefined : [ newProject , new Caret(newProject, start) ];
+        }
     }
 }
 

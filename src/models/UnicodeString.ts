@@ -35,6 +35,12 @@ export default class UnicodeString {
         return position < 0 || position >= this.getSegments().length ? undefined : new UnicodeString([ ...this.getSegments().slice(0, position), ...this.getSegments().slice(position + 1)].join(""));
     }
 
+    withoutGraphemesBetween(start: number, endExclusive: number) {
+        const segments = this.getSegments();
+        return (start < 0 || endExclusive < 0 || start > segments.length || endExclusive > segments.length) ? undefined :
+            new UnicodeString([ ...segments.slice(0, start), ...segments.slice(endExclusive)].join(""));
+    }
+
     getLength() {
         return this.getSegments().length;
     }

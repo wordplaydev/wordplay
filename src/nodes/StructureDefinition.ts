@@ -31,8 +31,8 @@ import type NameType from "./NameType";
 
 export default class StructureDefinition extends Expression {
 
-    readonly docs: Docs[];    
     readonly type: Token;
+    readonly docs: Docs[];
     readonly aliases: Alias[];
     readonly interfaces: NameType[];
     readonly typeVars: (TypeVariable|Unparsable)[];
@@ -100,7 +100,7 @@ export default class StructureDefinition extends Expression {
     }
 
     computeChildren() {
-        let children: Node[] = [ ...this.docs, ...this.aliases, ...this.interfaces, ...this.typeVars ];
+        let children: Node[] = [ this.type, ...this.docs, ...this.aliases, ...this.interfaces, ...this.typeVars ];
         if(this.open) children.push(this.open);
         children = children.concat(this.inputs);
         if(this.close) children.push(this.close);

@@ -88,5 +88,10 @@ export default class Project {
         const newCode = this.code.withoutGraphemeAt(position);
         return newCode == undefined ? undefined : new Project(this.name, newCode, this.updater);
     }
-    
+
+    withoutGraphemesBetween(start: number, endExclusive: number) {
+        const newCode = this.code.withoutGraphemesBetween(start, endExclusive);
+        return newCode == undefined ? undefined : new Project(this.name, newCode, this.updater);
+    }
+
 }
