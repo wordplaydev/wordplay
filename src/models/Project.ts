@@ -75,15 +75,18 @@ export default class Project {
     }
 
     withPreviousCharacterReplaced(char: string, position: number) {
-        return new Project(this.name, this.code.withPreviousGraphemeReplaced(char, position) ?? this.code, this.updater);
+        const newCode = this.code.withPreviousGraphemeReplaced(char, position);
+        return newCode === undefined ? undefined : new Project(this.name, newCode, this.updater);
     }
 
     withCharacterAt(char: string, position: number) {
-        return new Project(this.name, this.code.withGraphemeAt(char, position) ?? this.code, this.updater);
+        const newCode = this.code.withGraphemeAt(char, position);
+        return newCode == undefined ? undefined : new Project(this.name, newCode, this.updater);
     }
 
     withoutGraphemeAt(position: number) {
-        return new Project(this.name, this.code.withoutGraphemeAt(position) ?? this.code, this.updater);
+        const newCode = this.code.withoutGraphemeAt(position);
+        return newCode == undefined ? undefined : new Project(this.name, newCode, this.updater);
     }
     
 }

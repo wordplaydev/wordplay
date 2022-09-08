@@ -14,6 +14,13 @@ export default class Caret {
         this.position = position;
     }
 
+    getProgram() { return this.project.program; }
+    getToken(): Token | undefined {
+        return (typeof this.position === "number") ? 
+            this.getProgram().nodes().find(token => token instanceof Token && token.containsPosition(this.position as number)) as Token | undefined : 
+            undefined;
+    }
+
     isIndex() { return typeof this.position === "number"; }
     getIndex() { return this.isIndex() ? this.position as number : undefined; }
 
