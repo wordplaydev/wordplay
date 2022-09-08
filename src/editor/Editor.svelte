@@ -42,6 +42,7 @@
     function handleClick(event: MouseEvent) {
 
         if($caret === undefined) return;
+        if(event.target === null) return;
 
         // Prevent the OS from giving the document body focus.
         event.preventDefault();
@@ -102,8 +103,16 @@
 
         if(closest !== undefined) {
             const token = getTokenByView($caret.getProgram(), closest);
-            if(token instanceof Token)
-                caret.set($caret.withPosition(token.index + (left ? 0 : token.getTextLength())));
+            if(token instanceof Token && event.target instanceof Element) {
+
+                // The mouse event's offset is relative to what was clicked on, not the element handling the click, so we have to compute the real offset.
+                const targetRect = event.target.getBoundingClientRect();
+                const tokenRect = closest.getBoundingClientRect();
+                const offset = event.offsetX + (targetRect.left - tokenRect.left);
+                const newPosition = Math.max(token.getTextIndex(), Math.min(token.getLastIndex(), token.getTextIndex() + (tokenRect.width === 0 ? 0 : Math.round(token.getTextLength() * (offset / tokenRect.width)))));
+                caret.set($caret.withPosition(newPosition));
+
+            }
         }
         else if(whitespacePosition !== undefined) {
             caret.set($caret.withPosition(whitespacePosition));

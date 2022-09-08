@@ -100,27 +100,12 @@
         }
     }
 
-    // Place the caret when the token is clicked on.
-    function handleClick(event: MouseEvent) {
-        if($caret !== undefined && event.target instanceof Element && event.currentTarget instanceof Element) {
-            // The mouse event's offset is relative to what was clicked on, not the element handling the click, so we have to compute the real offset.
-            const targetRect = event.target.getBoundingClientRect();
-            const tokenRect = element.getBoundingClientRect();
-            const offset = event.offsetX + (targetRect.left - tokenRect.left);
-            caret.set($caret.withPosition(node.getTextIndex() + (tokenRect.width === 0 ? 0 : Math.round(node.getTextLength() * (offset / tokenRect.width)))));
-            event.stopPropagation();
-        }
-        // Prevent the OS from giving the document body focus.
-        event.preventDefault();
-    }
-
 </script>
 
 
 {#if node.newlines > 0 ? "newline" : ""}{@html "<br/>".repeat(node.newlines)}{/if}<span 
     class="token-view token-{kind} {$caret?.position === node ? "selected" : ""}" 
     style="color: {`var(--token-category-${kind})`}; margin-left: {node.precedingSpaces}ch"
-    on:mousedown={handleClick}
     data-id={node.id}
     bind:this={element}
 ><span class="text">{ node.text.toString() }</span>{#if caretLeft !== undefined && caretTop !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretLeft}; top: {caretTop};"></span>{/if}
