@@ -26,6 +26,11 @@ export default class Program extends Node implements Evaluable {
         this.borrows = borrows.slice();
         this.block = block;
         this.end = end;
+
+        // Assign all the parents in tree.
+        this.parent = null;
+        this.cacheParents();
+
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }

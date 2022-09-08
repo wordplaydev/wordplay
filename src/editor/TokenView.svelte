@@ -128,6 +128,7 @@
     data-length={node.getTextLength()}
     data-whitespace={node.whitespace}
     data-newlines={node.newlines}
+    data-id={node.id}
     bind:this={element}
 ><span class="text">{ node.text.toString() }</span>{#if caretLeft !== undefined && caretTop !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretLeft}; top: {caretTop};"></span>{/if}
 </span>

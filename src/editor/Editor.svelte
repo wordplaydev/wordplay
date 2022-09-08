@@ -353,8 +353,8 @@ import UnicodeString from '../models/UnicodeString';
                         if($project !== undefined) {
                         if(position instanceof Node) {
                             // Select the parent node
-                            const parent = position.getParent($project.program);
-                            if(parent !== undefined)
+                            const parent = position.getParent();
+                            if(parent)
                                 caret.set(new Caret($project, parent));
                             event.preventDefault();
                         }

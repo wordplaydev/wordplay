@@ -77,7 +77,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
         // Etc tokens can't appear in block bindings, just structure and function definitions.
         if(this.isVariableLength()) {
-            const parent = this.getParent(context.program);
+            const parent = this.getParent();
             if(!(parent instanceof StructureDefinition || parent instanceof FunctionDefinition))
                 conflicts.push(new UnexpectedEtc(this));
         }
@@ -104,9 +104,9 @@ export default class Bind extends Node implements Evaluable, Named {
             conflicts.push(new DuplicateBinds(this, definitions));
 
         // It should be used in some expression in its parent.
-        const parent = this.getParent(context.program);
+        const parent = this.getParent();
         if(enclosure && !(parent instanceof Column || parent instanceof ColumnType)) {
-            const uses = enclosure.nodes().filter(n => n instanceof Name && this.names.find(name => name.getName() === n.name.text.toString()) !== undefined);
+            const uses = enclosure.nodes(n => n instanceof Name && this.names.find(name => name.getName() === n.name.text.toString()) !== undefined);
             if(uses.length === 0)
                 conflicts.push(new UnusedBind(this));
         }

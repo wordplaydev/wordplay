@@ -325,8 +325,8 @@ function nextIsBind(tokens: Tokens): boolean {
     tokens.unreadTo(rollbackToken);
     const expression = parseExpression(tokens);
     tokens.unreadTo(rollbackToken);
-    const bindUnparsableCount = bind.nodes().reduce((previous, current) => previous + (current instanceof Unparsable ? 1 : 0), 0);
-    const expressionUnparsableCount = expression.nodes().reduce((previous, current) => previous + (current instanceof Unparsable ? 1 : 0), 0);
+    const bindUnparsableCount = bind.nodes(n => n instanceof Unparsable).length;
+    const expressionUnparsableCount = expression.nodes(n => n instanceof Unparsable).length;
     return bind instanceof Bind && (bind.dot !== undefined || bind.colon !== undefined) && bindUnparsableCount <= expressionUnparsableCount;
 
 }

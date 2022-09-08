@@ -71,7 +71,7 @@ export default class Caret {
     moveHorizontal(direction: -1 | 1): Caret {
         if(this.position instanceof Node) {
             // Get the first or last token of the given node.
-            const tokens = this.position.nodes().filter(n => n instanceof Token) as Token[];
+            const tokens = this.position.nodes(n => n instanceof Token) as Token[];
             return tokens.length === 0 ? this : this.withPosition(direction < 0 ? tokens[0].index : tokens[tokens.length - 1].index + tokens[tokens.length - 1].getTextLength() )
         }
         else {

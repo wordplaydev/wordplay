@@ -11,12 +11,34 @@ export type ConflictContext = {
     stack: Node[]
 }
 
+/* A global ID for nodes, for helping index them */
+let NODE_ID_COUNTER = 0;
+
 export default abstract class Node {
 
+    /* A unique ID to represent this node in memory. */
+    readonly id: number;
+
+    /* A cache of the children of this node, in parse order. */
     children: undefined | Node[] = undefined;
 
+    /* A cache of this node's parent. Undefined means no cache, null means no parent. */
+    parent: undefined | null | Node;
+
     constructor() {
-        
+        this.id = NODE_ID_COUNTER++;        
+    }
+
+    /* A recursive function that computes parents. Called by the root. Assumes the tree is immutable. */
+    cacheParents() {
+
+        const children = this.getChildren();
+        for(let i = 0; i < children.length; i++) {
+            const child = children[i];
+            child.parent = this;
+            child.cacheParents();
+        }
+
     }
 
     /** Returns the children in the node, in order. Needed for batch operations on trees. Cache children to avoid recomputation. */
@@ -48,50 +70,69 @@ export default abstract class Node {
 
     toWordplay(): string { return this.getChildren().map(t => t.toWordplay()).join(""); }
 
-    /** A depth first traversal of this node and its descendants. */
-    traverse(ancestors: Node[], inspector: (ancestors: Node[], node: Node) => void) {
-        const thisAncestors = [ this, ...ancestors ];
-        this.getChildren().some(c => { c.traverse(thisAncestors, inspector); });
-        inspector.call(undefined, ancestors, this);
+    /** A depth first traversal of this node and its descendants. Keeps traversing until the inspector returns false. */
+    traverse(inspector: (node: Node) => boolean): boolean {
+        const every = this.getChildren().every(c => c.traverse(inspector));
+        if(every)
+            inspector.call(undefined, this);
+        return every;
     }
 
-    /** Returns all this and all decedants in depth first order. */
-    nodes(): Node[] {
+    /** Returns all this and all decedants in depth first order. Optionally uses the given function to decide whether to include a node. */
+    nodes(include?: (node: Node) => boolean): Node[] {
         const nodes: Node[] = [];
-        this.traverse([], (ancestors, node) => nodes.push(node));
+        this.traverse(node => { 
+            if(include === undefined || include.call(undefined, node) === true)
+                nodes.push(node); 
+            return true; 
+        });
         return nodes;
     }
 
     /** Returns all the conflicts in this tree. */
     getAllConflicts(program: Program, shares: Shares, native: NativeInterface): Conflict[] {
         let conflicts: Conflict[] = [];
-        this.traverse([], (ancestors, node) => conflicts = conflicts.concat(node.getConflicts({ program: program, shares: shares, native: native, stack: [] })));
+        this.traverse(node => {
+            conflicts = conflicts.concat(node.getConflicts({ program: program, shares: shares, native: native, stack: [] }));
+            return true;
+        });
         return conflicts;
     }
 
+    /** Returns a list of ancestors, with the parent as the first item in the list and the root as the last. */
     getAncestorsOf(node: Node): Node[] | undefined {
-        let ancestors = undefined;
-        this.traverse([], (a, n) => { if(node === n) ancestors = a; });
+
+        const ancestors = [];
+        let parent = node.parent;
+        while(parent) {
+            ancestors.push(parent);
+            parent = parent.parent;
+        }
         return ancestors;
+
     }
 
     /** Finds the nearest ancestor of the given type. */
     getNearestAncestor<T extends Node>(node: Node, type: Function): T | undefined {
-
-        const match = this.getAncestorsOf(node)?.find(n => n instanceof type);
-        return match === undefined ? undefined : match as T;
-
+        return this.getAncestorsOf(node)?.find(n => n instanceof type) as T ?? undefined;
     }
 
-    /** Finds the parent of the given node. */
-    getParent(program: Program): Node | undefined {
-        const ancestors = program.getAncestorsOf(this);
-        return ancestors === undefined || ancestors.length === 0 ? undefined : ancestors.shift();
+    /** Returns the cached parent of the given node. Assumes the root of this node has called cacheParents(). */
+    getParent(): Node | null | undefined {
+        return this.parent;
     }
 
-    /** True if the given nodes appears in this tree */
+    /** True if the given nodes appears in this tree. */
     contains(node: Node) {
-        return this.nodes().indexOf(node) >= 0;
+
+        // Strategy: scan the given node's ancestors to see if this is one.
+        let parent: undefined | null | Node = node;
+        while(parent !== null && parent !== undefined) {
+            if(parent === this) return true;
+            parent = parent.parent;
+        }
+        return false;
+
     }
 
 }

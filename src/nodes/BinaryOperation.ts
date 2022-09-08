@@ -49,7 +49,7 @@ export default class BinaryOperation extends Expression {
         const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
         const rightType = this.right instanceof Expression ? this.right.getTypeUnlessCycle(context) : undefined;
 
-        const operators = new Set(this.nodes().filter(n => n instanceof Token && n.is(TokenType.BINARY_OP)).map(n => (n as Token).text.toString()));
+        const operators = new Set(this.nodes(n => n instanceof Token && n.is(TokenType.BINARY_OP)).map(n => (n as Token).text.toString()));
         if(operators.size > 1)
             conflicts.push(new LeftToRightOrderOfOperations(this));
 
