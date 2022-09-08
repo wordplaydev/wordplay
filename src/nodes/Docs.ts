@@ -15,7 +15,7 @@ export default class Docs extends Node {
         this.lang = lang;
     }
 
-    getChildren() { return this.lang === undefined ? [ this.docs ] : [ this.docs, this.lang ]}
+    computeChildren() { return this.lang === undefined ? [ this.docs ] : [ this.docs, this.lang ]}
 
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
     

@@ -35,7 +35,7 @@ export default class Delete extends Expression {
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query; }
 
-    getChildren() { return [ this.table, this.del, this.query ]; }
+    computeChildren() { return [ this.table, this.del, this.query ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { 
 

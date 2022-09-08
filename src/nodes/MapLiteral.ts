@@ -37,7 +37,7 @@ export default class MapLiteral extends Expression {
 
     notAMap() { return this.values.find(v => v instanceof Expression) !== undefined; }
 
-    getChildren() {
+    computeChildren() {
         return [ this.open, ...this.values, this.close, ... (this.bind ? [ this.bind ] : []) ];
     }
 

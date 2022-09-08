@@ -17,7 +17,7 @@ export default class StreamType extends Type {
         this.type = type;
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.stream, this.type ];
     }
 

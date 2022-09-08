@@ -14,7 +14,7 @@ export default class BooleanType extends Type {
         this.type = type ?? new Token("?", [ TokenType.BOOLEAN_TYPE ]);
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.type ];
     }
 

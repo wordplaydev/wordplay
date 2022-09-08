@@ -23,7 +23,7 @@ export default class TableType extends Type {
         return this.columns.find(c => c.bind instanceof Bind && c.bind.hasName(name));
     }
 
-    getChildren() { return [ ...this.columns, this.close ]; }
+    computeChildren() { return [ ...this.columns, this.close ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 

@@ -18,7 +18,7 @@ import type Value from "../runtime/Value";
 
 export default class NativeHOFListTranslate extends Expression {
 
-    getChildren() { return [] };
+    computeChildren() { return [] };
     getType(context: ConflictContext): Type { return new ListType(new NameType("T")); }
 
     compile(context: ConflictContext): Step[] { 

@@ -36,7 +36,7 @@ export default class Insert extends Expression {
     
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.row; }
 
-    getChildren() { return [ this.table, this.insert, this.row ]; }
+    computeChildren() { return [ this.table, this.insert, this.row ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { 
      

@@ -18,7 +18,7 @@ export default class SetType extends Type {
         this.close = close ?? new Token("}", [ TokenType.SET_CLOSE ]);
     }
 
-    getChildren() {
+    computeChildren() {
         const children = [];
         children.push(this.open);
         if(this.key) children.push(this.key);

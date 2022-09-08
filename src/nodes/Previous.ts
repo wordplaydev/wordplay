@@ -32,7 +32,7 @@ export default class Previous extends Expression {
         this.index = index;
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.stream, this.previous, this.index ];
     }
 

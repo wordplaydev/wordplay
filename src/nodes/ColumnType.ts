@@ -17,7 +17,7 @@ export default class ColumnType extends Type {
         this.bind = bind;
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.bar, this.bind ];
     }
 

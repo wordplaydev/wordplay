@@ -25,7 +25,7 @@ export default class Template extends Expression {
         this.format = format;
     }
 
-    getChildren() { return this.format ? [ ...this.parts, this.format ] : [ ...this.parts ]; }
+    computeChildren() { return this.format ? [ ...this.parts, this.format ] : [ ...this.parts ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { 
         

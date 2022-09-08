@@ -36,7 +36,7 @@ export default class ListAccess extends Expression {
         this.close = close;
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.list, this.open, this.index, this.close ];
     }
 

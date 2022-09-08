@@ -22,7 +22,7 @@ export default class TextLiteral extends Expression {
         this.format = format;
     }
 
-    getChildren() { return this.format !== undefined ? [ this.text, this.format ] : [ this.text ]; }
+    computeChildren() { return this.format !== undefined ? [ this.text, this.format ] : [ this.text ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 

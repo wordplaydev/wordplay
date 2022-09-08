@@ -20,7 +20,7 @@ export default class UnionType extends Type {
         this.right = right;
     }
 
-    getChildren() {
+    computeChildren() {
         return this.or === undefined ? [ this.left, this.right ] : [ this.left, this.or, this.right ];
     }
 

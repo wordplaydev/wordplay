@@ -14,7 +14,7 @@ export default class TypeVariable extends Node {
         this.name = name;
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.type, this.name ];
     }
 

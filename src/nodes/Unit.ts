@@ -43,7 +43,7 @@ export default class Unit extends Type {
 
     }
 
-    getChildren(): Node[] { return this.tokens.slice(); }
+    computeChildren(): Node[] { return this.tokens.slice(); }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 

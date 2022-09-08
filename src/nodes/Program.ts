@@ -30,7 +30,7 @@ export default class Program extends Node implements Evaluable {
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }
 
-    getChildren() { return [ ...this.borrows, this.block, this.end ]; }
+    computeChildren() { return [ ...this.borrows, this.block, this.end ]; }
     getConflicts(conflict: ConflictContext): Conflict[] { return []; }
 
     getDefinition(context: ConflictContext, node: Node, name: string): Definition {

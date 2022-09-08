@@ -41,7 +41,7 @@ export default class Update extends Expression {
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query; }
 
-    getChildren() { return [ this.table, this.update, this.row, this.query ]; }
+    computeChildren() { return [ this.table, this.update, this.row, this.query ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { 
         

@@ -27,7 +27,7 @@ export default class Is extends Expression {
         this.right = right;
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.left, this.operator, this.right ];
     }
 

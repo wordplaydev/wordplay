@@ -11,7 +11,7 @@ export default class ConversionType extends Type {
         this.output = output;
     }
 
-    getChildren() { return [ this.output ]; }
+    computeChildren() { return [ this.output ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 

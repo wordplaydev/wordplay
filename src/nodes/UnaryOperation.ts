@@ -32,7 +32,7 @@ export default class UnaryOperation extends Expression {
 
     getOperator() { return this.operator.text.toString(); }
 
-    getChildren() {
+    computeChildren() {
         return [ this.operator, this.operand ];
     }
 

@@ -28,7 +28,7 @@ export default class Unparsable extends Node implements Evaluable {
         this.unparsableTokens = unparsableTokens.slice();
     }
 
-    getChildren() { return this.unparsableTokens.slice() }
+    computeChildren() { return this.unparsableTokens.slice() }
 
     getType() { return new UnknownType(this); }
     getTypeUnlessCycle(context: ConflictContext) { return new UnknownType(this); }

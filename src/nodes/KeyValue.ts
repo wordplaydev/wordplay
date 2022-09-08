@@ -18,7 +18,7 @@ export default class KeyValue extends Node {
         this.value = value;
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.key, this.bind, this.value ];
     }
 

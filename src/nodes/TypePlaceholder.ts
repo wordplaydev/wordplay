@@ -14,7 +14,7 @@ export default class TypePlaceholder extends Type {
         this.etc = etc;
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.etc ];
     }
 

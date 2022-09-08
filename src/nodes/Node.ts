@@ -13,12 +13,21 @@ export type ConflictContext = {
 
 export default abstract class Node {
 
+    children: undefined | Node[] = undefined;
+
     constructor() {
         
     }
 
-    /** Returns the children in the node, in order. Needed for batch operations on trees. */
-    abstract getChildren() : Node[];
+    /** Returns the children in the node, in order. Needed for batch operations on trees. Cache children to avoid recomputation. */
+    getChildren(): Node[] {
+        if(this.children === undefined)
+            this.children = this.computeChildren();
+        return this.children;
+    }
+
+    /** Construct a list of nodes in the sequence they are parsed, used for traversal. */
+    abstract computeChildren(): Node[];
 
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
     abstract getConflicts(context: ConflictContext) : Conflict[];

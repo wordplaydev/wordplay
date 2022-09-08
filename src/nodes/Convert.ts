@@ -29,7 +29,7 @@ export default class Convert extends Expression {
         this.type = type;
     }
 
-    getChildren() { return [ this.expression, this.convert, this.type ]; }
+    computeChildren() { return [ this.expression, this.convert, this.type ]; }
 
     getConversionDefinition(context: ConflictContext) {
 

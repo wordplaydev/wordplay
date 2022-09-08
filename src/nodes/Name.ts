@@ -23,7 +23,7 @@ export default class Name extends Expression {
         this.name = name;
     }
 
-    getChildren() { return [ this.name ]; }
+    computeChildren() { return [ this.name ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { 
 

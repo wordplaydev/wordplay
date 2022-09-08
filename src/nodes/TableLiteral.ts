@@ -35,7 +35,7 @@ export default class TableLiteral extends Expression {
     
     }
 
-    getChildren() { return [ ...this.columns, this.close, ...this.rows ]; }
+    computeChildren() { return [ ...this.columns, this.close, ...this.rows ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { 
     

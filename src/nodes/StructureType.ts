@@ -16,7 +16,7 @@ export default class StructureType extends Type {
         this.definition = definition;
     }
 
-    getChildren() {
+    computeChildren() {
         if(this.definition instanceof Node)
             return [ this.definition ];
         else 

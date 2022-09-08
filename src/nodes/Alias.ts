@@ -18,7 +18,7 @@ export default class Alias extends Node {
         this.lang = typeof lang === "string" ? new Language(lang) : lang;
     }
 
-    getChildren() { 
+    computeChildren() { 
         const children = [];
         if(this.semicolon instanceof Token) children.push(this.semicolon);
         if(this.name instanceof Token) children.push(this.name);

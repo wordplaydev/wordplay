@@ -23,7 +23,7 @@ export default class NoneLiteral extends Expression {
         this.aliases = aliases;
     }
 
-    getChildren() { return [ this.none, ...this.aliases ]; }
+    computeChildren() { return [ this.none, ...this.aliases ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 

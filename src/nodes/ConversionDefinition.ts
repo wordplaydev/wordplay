@@ -36,7 +36,7 @@ export default class ConversionDefinition extends Expression {
         this.expression = expression;
     }
 
-    getChildren() {
+    computeChildren() {
         let children: Node[] = [];
         children = children.concat(this.docs);
         if(this.convert) children.push(this.convert);

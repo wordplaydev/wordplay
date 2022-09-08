@@ -20,7 +20,7 @@ export default class ExpressionPlaceholder extends Expression {
         this.etc = etc;
     }
 
-    getChildren() { return [ this.etc ]; }
+    computeChildren() { return [ this.etc ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { 
         return [ new Placeholder(this) ];

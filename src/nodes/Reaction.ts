@@ -37,7 +37,7 @@ export default class Reaction extends Expression {
 
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.initial, this.delta, this.stream, this.next ];
     }
 

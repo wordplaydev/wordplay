@@ -15,7 +15,7 @@ export default class Language extends Node {
         this.lang = typeof lang === "string" ? new Token(lang, [ TokenType.NAME ]) : lang;
     }
 
-    getChildren() {  return [ this.slash, this.lang ]; }
+    computeChildren() {  return [ this.slash, this.lang ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { return []; }
 

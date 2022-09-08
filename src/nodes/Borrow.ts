@@ -25,7 +25,7 @@ export default class Borrow extends Node implements Evaluable {
         this.version = version;
     }
 
-    getChildren() { return this.version === undefined ? [ this.borrow, this.name ] : [ this.borrow, this.name, this.version ]}
+    computeChildren() { return this.version === undefined ? [ this.borrow, this.name ] : [ this.borrow, this.name, this.version ]}
 
     getConflicts(context: ConflictContext): Conflict[] { 
     

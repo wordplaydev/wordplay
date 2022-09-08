@@ -43,7 +43,7 @@ export default class Select extends Expression {
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query || child === this.row; }
     
-    getChildren() { return [ this.table, this.select, this.row, this.query ]; }
+    computeChildren() { return [ this.table, this.select, this.row, this.query ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { 
         

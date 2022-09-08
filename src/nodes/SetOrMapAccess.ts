@@ -34,7 +34,7 @@ export default class SetOrMapAccess extends Expression {
         this.close = close;
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.setOrMap, this.open, this.key, this.close ];
     }
 

@@ -31,7 +31,7 @@ export default class NativeExpression extends Expression {
 
     }
 
-    getChildren() { return [] };
+    computeChildren() { return [] };
     getType(context: ConflictContext): Type { return this.type; }
     compile(context: ConflictContext): Step[] { return [ new Finish(this) ]; }
     getConflicts(context: ConflictContext): Conflict[] { return []; }

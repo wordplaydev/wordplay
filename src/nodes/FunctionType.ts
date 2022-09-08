@@ -33,7 +33,7 @@ export default class FunctionType extends Type {
         this.output = output;
     }
 
-    getChildren() {
+    computeChildren() {
         let children: Node[] = [ this.fun, this.open ];
         this.inputs.forEach(i => {
             if(i.rest instanceof Token) children.push(i.rest);

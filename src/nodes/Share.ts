@@ -24,7 +24,7 @@ export default class Share extends Node implements Evaluable {
         this.bind = bind;
     }
 
-    getChildren() { return [ this.share, this.bind ]; }
+    computeChildren() { return [ this.share, this.bind ]; }
 
     getConflicts(context: ConflictContext): Conflict[] {
 

@@ -28,7 +28,7 @@ export default class AccessName extends Expression {
         this.name = name;
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.subject, this.access, this.name ];
     }
 

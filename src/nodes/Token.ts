@@ -164,7 +164,7 @@ export default class Token extends Node {
 
     }
 
-    getChildren() { return []; }
+    computeChildren() { return []; }
 
     getWhitespaceIndex() { return this.index - this.whitespace.length; }
     getTextIndex() { return this.index; }

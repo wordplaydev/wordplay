@@ -17,7 +17,7 @@ export default class NoneType extends Type {
         this.aliases = aliases;
     }
 
-    getChildren() {
+    computeChildren() {
         return this.none === undefined ? [ ...this.aliases ] : [ this.none, ...this.aliases ];
     }
 

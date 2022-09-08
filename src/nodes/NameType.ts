@@ -20,7 +20,7 @@ export default class NameType extends Type {
 
     getName() { return this.type instanceof Token ? this.type.text.toString() : this.type}
 
-    getChildren() { return [ this.type ]; }
+    computeChildren() { return [ this.type ]; }
 
     getConflicts(context: ConflictContext): Conflict[] { 
         

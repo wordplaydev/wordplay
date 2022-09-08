@@ -61,7 +61,7 @@ export default class FunctionDefinition extends Expression {
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression; }
 
-    getChildren() {
+    computeChildren() {
         let children: Node[] = [];
         children = children.concat(this.docs);
         children.push(this.fun);

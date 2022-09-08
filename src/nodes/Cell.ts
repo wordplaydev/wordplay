@@ -17,7 +17,7 @@ export default class Cell extends Node {
         this.expression = expression;
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.bar, this.expression ];
     }
 

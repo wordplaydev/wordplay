@@ -17,7 +17,7 @@ export default class Column extends Node {
         this.bind = bind;
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.bar, this.bind ];
     }
 

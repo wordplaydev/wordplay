@@ -38,7 +38,7 @@ export default class BinaryOperation extends Expression {
 
     getOperator() { return this.operator.text.toString(); }
 
-    getChildren() {
+    computeChildren() {
         return [ this.left, this.operator, this.right ];
     }
 

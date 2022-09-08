@@ -22,7 +22,7 @@ export default class MapType extends Type {
         this.value = value;
     }
 
-    getChildren() {
+    computeChildren() {
         const children = [];
         children.push(this.open);
         if(this.key) children.push(this.key);

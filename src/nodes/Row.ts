@@ -18,7 +18,7 @@ export default class Row extends Node {
         
     }
 
-    getChildren() {
+    computeChildren() {
         return [ ...this.cells, this.close ];
     }
 

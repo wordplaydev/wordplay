@@ -16,7 +16,7 @@ export default class TextType extends Type {
         this.format = format;
     }
 
-    getChildren() {
+    computeChildren() {
         const children = [];
         if(this.quote) children.push(this.quote);
         if(this.format) children.push(this.format);

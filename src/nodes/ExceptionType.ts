@@ -13,7 +13,7 @@ export default class ExceptionType extends Type {
 
     }
 
-    getChildren() { return []; }
+    computeChildren() { return []; }
 
     getConflicts() { return []; }
 

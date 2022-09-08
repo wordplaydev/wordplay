@@ -16,7 +16,7 @@ export default class MeasurementType extends Type {
         this.unit = unit;
     }
 
-    getChildren() { 
+    computeChildren() { 
         const children = [];
         children.push(this.number);
         if(this.unit) children.push(this.unit);

@@ -28,7 +28,7 @@ export default class ListLiteral extends Expression {
         this.close = close;
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.open, ...this.values, this.close ];
     }
 

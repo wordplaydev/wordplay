@@ -29,7 +29,7 @@ export default class SetLiteral extends Expression {
         
     }
 
-    getChildren() {
+    computeChildren() {
         return [ this.open, ...this.values, this.close ];
     }
 

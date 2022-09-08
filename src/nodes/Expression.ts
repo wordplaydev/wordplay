@@ -12,7 +12,7 @@ export default abstract class Expression extends Node implements Evaluable {
         super();
     }
 
-    abstract getChildren(): Node[];
+    abstract computeChildren(): Node[];
     abstract getType(context: ConflictContext): Type;
 
     getTypeUnlessCycle(context: ConflictContext): Type {

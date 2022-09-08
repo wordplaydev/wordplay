@@ -18,7 +18,7 @@ export default class ListType extends Type {
         this.close = close ?? new Token("]", [ TokenType.LIST_CLOSE ]);
     }
 
-    getChildren() { 
+    computeChildren() { 
         const children = [];
         children.push(this.open);
         if(this.type) children.push(this.type);

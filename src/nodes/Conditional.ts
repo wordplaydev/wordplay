@@ -30,7 +30,7 @@ export default class Conditional extends Expression {
 
     }
 
-    getChildren() { return [ this.condition, this.conditional, this.yes, this.no ]; }
+    computeChildren() { return [ this.condition, this.conditional, this.yes, this.no ]; }
 
     getConflicts(context: ConflictContext): Conflict[] {
     

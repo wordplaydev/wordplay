@@ -46,7 +46,7 @@ export default class Evaluate extends Expression {
         this.close = close;
     }
 
-    getChildren() {
+    computeChildren() {
         return [ ...this.typeVars, this.func, this.open, ...this.inputs, this.close ];
     }
 
