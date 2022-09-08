@@ -126,13 +126,13 @@
         if($caret === undefined) return;
 
         // Map meta to control on Mac OS/iOS.
-        const meta = event.metaKey || event.ctrlKey;
+        const control = event.metaKey || event.ctrlKey;
 
         // Loop through the commands and see if there's a match to this event.
         for(let i = 0; i < commands.length; i++) {
             const command = commands[i];
             // Does this command match the event?
-            if( (command.meta === undefined || command.meta === meta) &&
+            if( (command.control === undefined || command.control === control) &&
                 (command.alt === undefined || command.alt === event.altKey) &&
                 (command.key === undefined || command.key === event.code)) {
 

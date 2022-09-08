@@ -8,7 +8,7 @@ export type Command = {
     description: string,
     key?: string,
     alt?: boolean,
-    meta?: boolean,
+    control?: boolean,
     execute: (caret: Caret, editor: HTMLElement, key: string) => Caret | [ Project, Caret] | undefined
 }
 
@@ -209,8 +209,8 @@ const commands: Command[] = [
     },
     {
         description: "Select the entire program",
-        meta: true,
-        key: "a",
+        control: true,
+        key: "KeyA",
         execute: (caret: Caret) => caret.withPosition(caret.getProgram())
     },
     {
