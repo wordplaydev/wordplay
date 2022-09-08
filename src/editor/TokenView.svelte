@@ -105,10 +105,9 @@
         if($caret !== undefined && event.target instanceof Element && event.currentTarget instanceof Element) {
             // The mouse event's offset is relative to what was clicked on, not the element handling the click, so we have to compute the real offset.
             const targetRect = event.target.getBoundingClientRect();
-            const tokenRect = event.currentTarget.getBoundingClientRect();
+            const tokenRect = element.getBoundingClientRect();
             const offset = event.offsetX + (targetRect.left - tokenRect.left);
-            // Place the caret at the space or text assuming fixed width, but after any tabs or new lines.
-            caret.set($caret.withPosition(node.getWhitespaceIndex() + node.precedingSpaces + node.newlines + (tokenRect.width === 0 ? 0 : Math.round(node.getTextLength() * (offset / tokenRect.width)))));
+            caret.set($caret.withPosition(node.getTextIndex() + (tokenRect.width === 0 ? 0 : Math.round(node.getTextLength() * (offset / tokenRect.width)))));
             event.stopPropagation();
         }
         // Prevent the OS from giving the document body focus.

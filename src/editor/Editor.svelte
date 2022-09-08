@@ -76,11 +76,15 @@
         // Prevent the OS from giving the document body focus.
         event.preventDefault();
 
+        // After we place the caret, focus on keyboard input.
+        focusOnKeyboardInput();
+
         // Then, place the caret. Find the tokens that contain the vertical mouse position.
         const tokenViews = editor.querySelectorAll(".token-view");
         const line: HTMLElement[] = [];
         const mouseY = event.clientY;
         const mouseX = event.clientX;
+        let whitespacePosition: undefined | number = undefined;
         tokenViews.forEach(token => {
             if($caret !== undefined && token instanceof HTMLElement && token.dataset.newlines !== undefined && token.dataset.whitespace !== undefined && token.dataset.index !== undefined) {
                 
@@ -94,7 +98,7 @@
                 // // If the mouse's vertical is within the top and bottom of this token view, include the token in the line.
                 if(tokenTop <= mouseY && tokenBottom >= mouseY)
                     line.push(token);
-                else if(tokenWhitespaceTop <= mouseY && tokenBottom >= mouseY) {
+                else if(tokenWhitespaceTop <= mouseY && tokenBottom >= mouseY && whitespacePosition === undefined) {
                     // This token's whitespace contains the click.
                     // Place it at the beginning of one of the whitespace lines.
                     const mouseLine = Math.round((mouseY - tokenWhitespaceTop) / tokenBounds.height);
@@ -106,7 +110,7 @@
                             line++;
                         index++;
                     }
-                    caret.set($caret.withPosition(tokenIndex - tokenWhitespace.length + index));
+                    whitespacePosition = tokenIndex - tokenWhitespace.length + index;
                 }
             }
         });
@@ -130,9 +134,10 @@
         if(closest !== undefined && closest.dataset.index !== undefined && closest.dataset.length !== undefined) {
             caret.set($caret.withPosition(parseInt(closest.dataset.index) + (left ? 0 : parseInt(closest.dataset.length))));
         }
-
-        // After we place the caret, focus on keyboard input.
-        focusOnKeyboardInput();
+        else if(whitespacePosition !== undefined) {
+            caret.set($caret.withPosition(whitespacePosition));
+            return;
+        }
 
     }
 
@@ -434,6 +439,7 @@
         outline: none;
         width: 1;
         opacity: 0;
+        pointer-events: none;
     }
 
 </style>
