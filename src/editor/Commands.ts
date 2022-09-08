@@ -12,7 +12,7 @@ export type Command = {
     execute: (caret: Caret, editor: HTMLElement, key: string) => Caret | [ Project, Caret] | undefined
 }
 
-function getTokenByView(program: Program, tokenView: Element) {
+export function getTokenByView(program: Program, tokenView: Element) {
     if(tokenView instanceof HTMLElement && tokenView.dataset.id !== undefined) {
         const node = program.getNodeByID(parseInt(tokenView.dataset.id));
         return node instanceof Token ? node : undefined;

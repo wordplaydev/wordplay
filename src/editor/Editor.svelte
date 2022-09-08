@@ -7,7 +7,7 @@
     import type Program from '../nodes/Program';
     import { afterUpdate } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
-    import commands from './Commands';
+    import commands, { getTokenByView } from './Commands';
 
     export let program: Program;
 
@@ -36,22 +36,8 @@
                 keyboard.style.left = `${caretLeft + viewport.scrollLeft}px`;
                 keyboard.style.top = `${caretTop + viewport.scrollTop}px`;
             }
-
         }
     });
-
-    function getTokenByView(tokenView: Element) {
-        if(tokenView instanceof HTMLElement && tokenView.dataset.id !== undefined) {
-            const node = program.getNodeByID(parseInt(tokenView.dataset.id));
-            return node instanceof Token ? node : undefined;
-        }
-        return undefined;
-    }
-
-    function focusOnKeyboardInput() {
-        if(keyboard instanceof HTMLElement)
-            keyboard.focus();
-    }
 
     function handleClick(event: MouseEvent) {
 
@@ -61,7 +47,8 @@
         event.preventDefault();
 
         // After we place the caret, focus on keyboard input.
-        focusOnKeyboardInput();
+        if(keyboard instanceof HTMLElement)
+            keyboard.focus();
 
         // Then, place the caret. Find the tokens that contain the vertical mouse position.
         const tokenViews = editor.querySelectorAll(".token-view");
@@ -70,8 +57,9 @@
         const mouseX = event.clientX;
         let whitespacePosition: undefined | number = undefined;
         tokenViews.forEach(view => {
-            const token = getTokenByView(view);
-            if($caret !== undefined && token instanceof Token) {
+            if($caret === undefined) return;
+            const token = getTokenByView($caret.getProgram(), view);
+            if(token instanceof Token) {
                 const tokenBounds = view.getBoundingClientRect();
                 const tokenTop = tokenBounds.top;
                 const tokenWhitespaceTop = tokenBounds.top - token.newlines * tokenBounds.height;
@@ -113,7 +101,7 @@
         };
 
         if(closest !== undefined) {
-            const token = getTokenByView(closest);
+            const token = getTokenByView($caret.getProgram(), closest);
             if(token instanceof Token)
                 caret.set($caret.withPosition(token.index + (left ? 0 : token.getTextLength())));
         }
