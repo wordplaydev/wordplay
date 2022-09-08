@@ -6,8 +6,7 @@
     import Caret from '../models/Caret';
     import type Program from '../nodes/Program';
     import { afterUpdate } from 'svelte';
-import { prevent_default } from 'svelte/internal';
-import UnicodeString from '../models/UnicodeString';
+    import UnicodeString from '../models/UnicodeString';
 
     export let program: Program;
 
@@ -72,24 +71,19 @@ import UnicodeString from '../models/UnicodeString';
 
     function handleClick(event: MouseEvent) {
 
-        const el = event.currentTarget;
-
-        if(!(el instanceof HTMLElement)) return;
         if($caret === undefined) return;
-
-        // First, ask for focus.
-        focusOnKeyboardInput();
 
         // Prevent the OS from giving the document body focus.
         event.preventDefault();
 
         // Then, place the caret. Find the tokens that contain the vertical mouse position.
-        const tokenViews = el.querySelectorAll(".token-view");
+        const tokenViews = editor.querySelectorAll(".token-view");
         const line: HTMLElement[] = [];
         const mouseY = event.clientY;
         const mouseX = event.clientX;
         tokenViews.forEach(token => {
-            if($caret !== undefined && token instanceof HTMLElement && token.dataset.newlines && token.dataset.whitespace && token.dataset.index) {
+            if($caret !== undefined && token instanceof HTMLElement && token.dataset.newlines !== undefined && token.dataset.whitespace !== undefined && token.dataset.index !== undefined) {
+                
                 const tokenIndex = parseInt(token.dataset.index);
                 const tokenNewlines = parseInt(token.dataset.newlines);
                 const tokenWhitespace = token.dataset.whitespace;
@@ -97,6 +91,7 @@ import UnicodeString from '../models/UnicodeString';
                 const tokenTop = tokenBounds.top;
                 const tokenWhitespaceTop = tokenBounds.top - tokenNewlines * tokenBounds.height;
                 const tokenBottom = tokenBounds.bottom;
+                // // If the mouse's vertical is within the top and bottom of this token view, include the token in the line.
                 if(tokenTop <= mouseY && tokenBottom >= mouseY)
                     line.push(token);
                 else if(tokenWhitespaceTop <= mouseY && tokenBottom >= mouseY) {
@@ -112,7 +107,6 @@ import UnicodeString from '../models/UnicodeString';
                         index++;
                     }
                     caret.set($caret.withPosition(tokenIndex - tokenWhitespace.length + index));
-                    return;
                 }
             }
         });
@@ -136,6 +130,9 @@ import UnicodeString from '../models/UnicodeString';
         if(closest !== undefined && closest.dataset.index !== undefined && closest.dataset.length !== undefined) {
             caret.set($caret.withPosition(parseInt(closest.dataset.index) + (left ? 0 : parseInt(closest.dataset.length))));
         }
+
+        // After we place the caret, focus on keyboard input.
+        focusOnKeyboardInput();
 
     }
 
