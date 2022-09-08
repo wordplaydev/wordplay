@@ -4,34 +4,39 @@ const segmenter = new Intl.Segmenter();
 export default class UnicodeString {
 
     readonly text: string;
-    readonly segments: string[];
+
+    /* A cache of grapheme segments in the given string, crucial for reasoning about visible characters. */
+    _segments: string[] | undefined = undefined;
 
     constructor(text: string) {
 
         // Ensure text is comparable.
         this.text = text.normalize();
 
-        // It segments by graphemes by default
-        this.segments = [...segmenter.segment(this.text)].map(s => s.segment);
+    }
 
+    getSegments() {
+        if(this._segments === undefined)
+            this._segments = [...segmenter.segment(this.text)].map(s => s.segment);
+        return this._segments;
     }
 
     getText() { return this.text; }
 
     withPreviousGraphemeReplaced(char: string, position: number) {
-        return position < 0 || position > this.segments.length ? undefined : new UnicodeString([ ...this.segments.slice(0, position - 1).join(""), char, ...this.segments.slice(position)].join(""));
+        return position < 0 || position > this.getSegments().length ? undefined : new UnicodeString([ ...this.getSegments().slice(0, position - 1).join(""), char, ...this.getSegments().slice(position)].join(""));
     }
 
     withGraphemeAt(char: string, position: number) {
-        return position < 0 || position > this.segments.length ? undefined : new UnicodeString([ ...this.segments.slice(0, position).join(""), char, ...this.segments.slice(position)].join(""));
+        return position < 0 || position > this.getSegments().length ? undefined : new UnicodeString([ ...this.getSegments().slice(0, position).join(""), char, ...this.getSegments().slice(position)].join(""));
     }
 
     withoutGraphemeAt(position: number) {
-        return position < 0 || position >= this.segments.length ? undefined : new UnicodeString([ ...this.segments.slice(0, position), ...this.segments.slice(position + 1)].join(""));
+        return position < 0 || position >= this.getSegments().length ? undefined : new UnicodeString([ ...this.getSegments().slice(0, position), ...this.getSegments().slice(position + 1)].join(""));
     }
 
     getLength() {
-        return this.segments.length;
+        return this.getSegments().length;
     }
 
     getLines() { 
@@ -39,11 +44,11 @@ export default class UnicodeString {
     }
 
     substring(start: number, end: number) {
-        return new UnicodeString(this.segments.slice(start, end).join(""));
+        return new UnicodeString(this.getSegments().slice(start, end).join(""));
     }
 
     at(position: number) {
-        return this.segments[position];
+        return this.getSegments()[position];
     }
 
     is(text: string) {
