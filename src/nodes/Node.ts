@@ -89,6 +89,19 @@ export default abstract class Node {
         return nodes;
     }
 
+    /** Finds the descendant of this node (or this node) that has the given ID. */
+    getNodeByID(id: number): Node | undefined {
+
+        if(this.id === id) return this;
+        const children = this.getChildren();
+        for(let i = 0; i < children.length; i++) {
+            const match = children[i].getNodeByID(id);
+            if(match) return match;
+        }
+        return undefined;
+
+    }
+
     /** Returns all the conflicts in this tree. */
     getAllConflicts(program: Program, shares: Shares, native: NativeInterface): Conflict[] {
         let conflicts: Conflict[] = [];

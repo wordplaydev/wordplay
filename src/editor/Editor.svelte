@@ -39,6 +39,14 @@
         }
     });
 
+    function getTokenByView(tokenView: Element) {
+        if(tokenView instanceof HTMLElement && tokenView.dataset.id !== undefined) {
+            const node = program.getNodeByID(parseInt(tokenView.dataset.id));
+            return node instanceof Token ? node : undefined;
+        }
+        return undefined;
+    }
+
     function focusOnKeyboardInput() {
 
         if(keyboard instanceof HTMLElement)
@@ -81,43 +89,40 @@
 
         // Then, place the caret. Find the tokens that contain the vertical mouse position.
         const tokenViews = editor.querySelectorAll(".token-view");
-        const line: HTMLElement[] = [];
+        const line: Element[] = [];
         const mouseY = event.clientY;
         const mouseX = event.clientX;
         let whitespacePosition: undefined | number = undefined;
-        tokenViews.forEach(token => {
-            if($caret !== undefined && token instanceof HTMLElement && token.dataset.newlines !== undefined && token.dataset.whitespace !== undefined && token.dataset.index !== undefined) {
-                
-                const tokenIndex = parseInt(token.dataset.index);
-                const tokenNewlines = parseInt(token.dataset.newlines);
-                const tokenWhitespace = token.dataset.whitespace;
-                const tokenBounds = token.getBoundingClientRect();
+        tokenViews.forEach(view => {
+            const token = getTokenByView(view);
+            if($caret !== undefined && token instanceof Token) {
+                const tokenBounds = view.getBoundingClientRect();
                 const tokenTop = tokenBounds.top;
-                const tokenWhitespaceTop = tokenBounds.top - tokenNewlines * tokenBounds.height;
+                const tokenWhitespaceTop = tokenBounds.top - token.newlines * tokenBounds.height;
                 const tokenBottom = tokenBounds.bottom;
                 // // If the mouse's vertical is within the top and bottom of this token view, include the token in the line.
                 if(tokenTop <= mouseY && tokenBottom >= mouseY)
-                    line.push(token);
+                    line.push(view);
                 else if(tokenWhitespaceTop <= mouseY && tokenBottom >= mouseY && whitespacePosition === undefined) {
                     // This token's whitespace contains the click.
                     // Place it at the beginning of one of the whitespace lines.
                     const mouseLine = Math.round((mouseY - tokenWhitespaceTop) / tokenBounds.height);
                     let index = 0;
                     let line = 0;
-                    while(index < tokenWhitespace.length) { 
+                    while(index < token.whitespace.length) { 
                         if(line === mouseLine) break;
-                        if(tokenWhitespace.charAt(index) === "\n")
+                        if(token.whitespace.charAt(index) === "\n")
                             line++;
                         index++;
                     }
-                    whitespacePosition = tokenIndex - tokenWhitespace.length + index;
+                    whitespacePosition = token.index - token.whitespace.length + index;
                 }
             }
         });
 
         // Of those aligned vertically, find the closest horizontally.
         let closestDistance: number | undefined = undefined;
-        let closest: HTMLElement | undefined = undefined;
+        let closest: Element | undefined = undefined;
         let left = false;
         for(let i = 0; i < line.length; i++) {
             const tokenBounds = line[i].getBoundingClientRect();
@@ -131,8 +136,10 @@
             }
         };
 
-        if(closest !== undefined && closest.dataset.index !== undefined && closest.dataset.length !== undefined) {
-            caret.set($caret.withPosition(parseInt(closest.dataset.index) + (left ? 0 : parseInt(closest.dataset.length))));
+        if(closest !== undefined) {
+            const token = getTokenByView(closest);
+            if(token instanceof Token)
+                caret.set($caret.withPosition(token.index + (left ? 0 : token.getTextLength())));
         }
         else if(whitespacePosition !== undefined) {
             caret.set($caret.withPosition(whitespacePosition));
@@ -144,21 +151,6 @@
     function caretUp() { caretVertical(-1); }
     function caretDown() { caretVertical(1); }
 
-    function tokenMetadata(token: HTMLElement) {
-        return token instanceof HTMLElement &&
-            token.dataset.start !== undefined &&
-            token.dataset.index !== undefined &&
-            token.dataset.end !== undefined &&
-            token.dataset.whitespace !== undefined ?
-            { 
-                start: parseInt(token.dataset.start), 
-                index: parseInt(token.dataset.index), 
-                end: parseInt(token.dataset.end),
-                whitespace: token.dataset.whitespace
-            } :
-            undefined;        
-    }
-
     function caretVertical(direction: 1 | -1) {
 
         // Get the current caret position.
@@ -166,23 +158,24 @@
         if($caret === undefined || position === undefined || typeof position !== "number") return;
 
         // Find all the tokens.
-        const tokens = editor.querySelectorAll(".token-view");
+        const tokenViews = editor.querySelectorAll(".token-view");
 
         // Find the caret
         const caretView = editor.querySelector(".caret");
         if(!(caretView instanceof HTMLElement)) return;
 
         // Split them into rows.
-        const rows: { newline: number, tokens: HTMLElement[]}[] = [{ newline: -1, tokens: [] }];
-        tokens.forEach(token => {
-            if(token instanceof HTMLElement && token.dataset.newlines) {
-                const newlines = parseInt(token.dataset.newlines);
+        const rows: { newline: number, tokens: Element[]}[] = [{ newline: -1, tokens: [] }];
+        tokenViews.forEach(view => {
+            const token = getTokenByView(view);
+            if(token) {
+
                 // All lines except for the last are whitespace lines for the purposes of caret navigation.
-                for(let i = 0; i < newlines; i++) rows.push({ newline: i, tokens: [ token ]});
+                for(let i = 0; i < token.newlines; i++) rows.push({ newline: i, tokens: [ view ]});
                 const row = rows[rows.length - 1];
                 // Change the last row to non-whitespace, since it 
                 row.newline = -1;
-                row.tokens.push(token);
+                row.tokens.push(view);
             }
         });
 
@@ -190,21 +183,21 @@
         let rowIndex = 0;
         for(; rowIndex < rows.length; rowIndex++) {
             const row = rows[rowIndex];
-            const candidate = row.tokens.find(token => {
-                const data = tokenMetadata(token);
-                if(data)
+            const candidate = row.tokens.find(view => {
+                const token = getTokenByView(view);
+                if(token instanceof Token)
                     // This token matches if it is whitespace and contains the caret, or if it's not whitespace and it's text contains the caret.
                     if(row.newline >= 0) {
-                        if(position < data.start || position >= data.index) return false;
+                        if(position < token.getWhitespaceIndex() || position >= token.getTextIndex()) return false;
                         // Which line is the caret on?
-                        let offset = position - data.start;
-                        let whitespacePrior = data.whitespace.substring(0, offset);
+                        let offset = position - token.getWhitespaceIndex();
+                        let whitespacePrior = token.whitespace.substring(0, offset);
                         let newline = whitespacePrior.split("\n").length - 2;
                         return newline === row.newline;
                     }
                     // If the token is more than whitespace, just check the start and end
                     else
-                        return position >= data.start && position <= data.end;
+                        return position >= token.getWhitespaceIndex() && position <= token.getLastIndex();
                 else
                     return false;
             });
@@ -222,8 +215,9 @@
         if(rowIndex === (direction < 0 ? 0 : rows.length - 1)) {
             if(rows[rowIndex].tokens.length > 0) {
                 const row = rows[rowIndex];
-                const index = row.tokens[direction < 0 ? 0 : row.tokens.length - 1].dataset.index;
-                if(index !== undefined) caret.set($caret.withPosition(parseInt(index)));
+                const token = getTokenByView(row.tokens[direction < 0 ? 0 : row.tokens.length - 1]);
+                const index = token === undefined ? undefined : token.getTextIndex();
+                if(index !== undefined) caret.set($caret.withPosition(index));
             }
         }
         // Otherwise, find the closest token horizontally in the row in the direction we're moving.
@@ -290,9 +284,10 @@
                 // Now that we've found the closest token horizontally in the next row, choose the closest point in the token's whitespace or text.
                 if(sorted.length > 0) {
                     const choice = sorted[0];
-                    const length = parseInt(choice.token.dataset.length ?? "");
-                    const startPosition = parseInt(choice.token.dataset.index ?? "");
-                    if(!isNaN(startPosition) && !isNaN(length)) {
+                    const token = getTokenByView(choice.token);
+                    const length = token?.getTextLength();
+                    const startPosition = token?.getTextIndex();
+                    if(startPosition !== undefined && length !== undefined) {
                         // Choose the offset based on whether the caret is to the left, right, or in between the horizontal axis of the chosen token.
                         const offset = 
                             caretRect.left > choice.rect.right ? length :
