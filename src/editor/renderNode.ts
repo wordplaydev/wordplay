@@ -1,6 +1,5 @@
 import type Node from "../nodes/Node";
 import UnparsableView from "./UnparsableView.svelte";
-import TokenView from "./TokenView.svelte";
 import UnknownNodeView from "./UnknownNodeView.svelte";
 import BlockView from "./BlockView.svelte";
 import BorrowView from "./BorrowView.svelte";
@@ -61,7 +60,6 @@ import SelectView from "./SelectView.svelte";
 
 export default function renderNode(node: Node) {
     const view = {
-        "Token": TokenView,
         "Unparsable": UnparsableView,
         "Docs": DocsView,
 

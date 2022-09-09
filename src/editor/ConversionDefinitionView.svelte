@@ -10,6 +10,5 @@
 </script>
 
 <NodeView node={node}>
-    <DocsView docs={node.docs}/>
-    <TokenView node={node.convert}/><OptionalNodeView node={node.output}/><OptionalNodeView node={node.expression}/>
+    <DocsView docs={node.docs}/><TokenView node={node.convert}/><OptionalNodeView node={node.output}/><OptionalNodeView node={node.expression}/>
 </NodeView>
