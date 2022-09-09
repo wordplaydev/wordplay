@@ -184,7 +184,7 @@
     }
 
     .conflicts {
-        border-bottom: 2px solid red;
+        border-bottom: 2px solid var(--wordplay-error);
     }
 
 </style>

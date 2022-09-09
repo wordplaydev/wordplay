@@ -205,7 +205,7 @@ export default class Evaluate extends Expression {
 
                     // If there are remaining given inputs, something's wrong.
                     if(givenInputs.length > 0) {
-                        conflicts.push(new UnexpectedInputs(functionType, this));
+                        conflicts.push(new UnexpectedInputs(functionType, this, givenInputs));
                     }
 
                 }

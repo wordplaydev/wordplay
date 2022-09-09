@@ -1,17 +1,4 @@
 :root {
-    --wordplay-editor-padding: .5em;
-    --wordplay-editor-indent: 3em;
-    --wordplay-editor-radius: 3px;
-    --wordplay-foreground: var(--color-black); 
-    --wordplay-background: var(--color-white);
-    --wordplay-chrome: rgb(240, 240, 240);
-    --wordplay-border-color: rgb(230, 230, 230);
-    --wordplay-highlight: var(--color-yellow);
-    --wordplay-spacing: 0.5em;
-    --wordplay-font-face: "Noto Sans", sans-serif;
-    --wordplay-font-weight: 500;
-    --wordplay-border-width: 4px;
-    --wordplay-border-radius: 6px;
 
     --color-blue: #648FFF;
     --color-purple: #785EF0;
@@ -22,4 +9,20 @@
     --color-lightgrey: #CCCCCC;
     --color-white: #FFFFFF;
     --color-black: #000000;
+
+    --wordplay-editor-padding: .5em;
+    --wordplay-editor-indent: 3em;
+    --wordplay-editor-radius: 3px;
+    --wordplay-foreground: var(--color-black); 
+    --wordplay-background: var(--color-white);
+    --wordplay-chrome: rgb(240, 240, 240);
+    --wordplay-border-color: rgb(230, 230, 230);
+    --wordplay-highlight: var(--color-yellow);
+    --wordplay-error: var(--color-pink);
+    --wordplay-spacing: 0.5em;
+    --wordplay-font-face: "Noto Sans", sans-serif;
+    --wordplay-font-weight: 500;
+    --wordplay-border-width: 4px;
+    --wordplay-border-radius: 6px;
+
 }
