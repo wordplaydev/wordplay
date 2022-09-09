@@ -8,7 +8,9 @@
 
 </script>
 
-<div class="node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"}" on:mousedown={mousedown}>
+<div 
+    class="node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"} {node._conflicts && node._conflicts.length > 0 ? "conflicts" : ""}"
+    on:mousedown={mousedown}>
     <slot/>
 </div>
 
@@ -35,4 +37,9 @@
     .selected {
         outline: 4px solid var(--wordplay-highlight);
     }
+
+    .node-view.conflicts {
+        border-bottom: 2px solid red;
+    }
+
 </style>

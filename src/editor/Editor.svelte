@@ -155,6 +155,10 @@
                         project.set(newProject);
 
                 }
+
+                // Stop looking for commands, we found one and tried it!
+                break;
+                
             }
         }
 
