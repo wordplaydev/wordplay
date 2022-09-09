@@ -1,5 +1,5 @@
 import type Program from '../nodes/Program';
-import type Token from '../nodes/Token';
+import Token from '../nodes/Token';
 import type Conflict from '../conflicts/Conflict';
 import { parseProgram, Tokens } from '../parser/Parser';
 import { tokenize } from '../parser/Tokenizer';
@@ -92,6 +92,16 @@ export default class Project {
     withoutGraphemesBetween(start: number, endExclusive: number) {
         const newCode = this.code.withoutGraphemesBetween(start, endExclusive);
         return newCode == undefined ? undefined : new Project(this.name, newCode, this.updater);
+    }
+
+    getNextToken(token: Token, direction: -1 | 1): Token | undefined {
+
+        const tokens = this.program.nodes(n => n instanceof Token) as Token[];
+        const index = tokens.indexOf(token);
+        return (direction < 0 && index <= 0) ? undefined : 
+            (direction > 0 && index >= tokens.length - 1) ? undefined :
+            tokens[index + direction];
+
     }
 
 }

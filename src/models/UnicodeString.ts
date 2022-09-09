@@ -54,7 +54,8 @@ export default class UnicodeString {
     }
 
     at(position: number) {
-        return this.getSegments()[position];
+        const segments = this.getSegments();
+        return position < 0 || position >= segments.length ? undefined : this.getSegments()[position];
     }
 
     is(text: string) {
