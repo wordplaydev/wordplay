@@ -33,7 +33,7 @@ export default class ListLiteral extends Expression {
 
     computeType(context: ConflictContext): Type {
         const expressions = this.values.filter(e => e instanceof Expression) as Expression[];
-        if(expressions.length === 0) return new UnknownType(this);
+        if(expressions.length === 0) return new ListType(new UnknownType(this));
         let itemType = getPossibleUnionType(context, expressions.map(v => v.getTypeUnlessCycle(context)));
         if(itemType === undefined) itemType = new UnknownType(this);
         return new ListType(itemType);

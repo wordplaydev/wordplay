@@ -21,6 +21,4 @@ export default class BooleanType extends Type {
 
     getNativeTypeName(): string { return "boolean"; }
 
-    toWordplay() { return "•?"; }
-
 }

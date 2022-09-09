@@ -13,7 +13,7 @@
 <div 
     class="{node.constructor.name} node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"} {conflicts.length > 0 ? "conflicted" : ""}"
     on:mousedown={mousedown}>
-    <slot/>{#if conflicts.length > 0}<div class="conflicts">{conflicts.toString()}</div>{/if}
+    <slot/>{#if conflicts.length > 0}<div class="conflicts">{#each conflicts as conflict}<div class="conflict">{conflict.getExplanation("eng")}</div>{/each}</div>{/if}
 </div>
 <style>
 
@@ -41,16 +41,18 @@
     }
 
     .conflicted {
-        border-bottom: 1px solid var(--wordplay-error);
+        border-bottom: 2px solid var(--wordplay-error);
     }
 
     .conflicts {
         position: absolute;
         top: 100%;
         left: 0;
-        border: 2px solid var(--wordplay-error);
+        border: 2px solid var(--wordplay-black);
         font-size: x-small;
-        background-color: var(--wordplay-background);
+        background-color: var(--wordplay-error);
+        color: var(--color-white);
+        padding: var(--wordplay-spacing);
         z-index: 2;
         visibility: hidden;
     }

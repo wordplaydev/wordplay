@@ -122,7 +122,7 @@ Native.addNativeFunction("list", [], [ new Alias("add", "eng") ], [],
     [
         new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType("T"))
     ], 
-    new NameType("T"),
+    new ListType(new NameType("T")),
     evaluation => {
         const list = evaluation.getContext();
         const value = evaluation.resolve('value');

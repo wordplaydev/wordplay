@@ -51,11 +51,10 @@ export default class Project {
 
         // Generate documents based on the code.
         this.docs = [
-            new Document("code", this.code.getText(), true),
+            // new Document("code", this.code.getText(), true),
             new Document("program", this.program),
-            new Document("conflicts", this.conflicts.join("\n")),
-            new Document("steps", this.steps.map((s, index) => `${index}: ${s.toString()}`).join("\n")),
-            new Document("output", this.evaluator.getResult()?.toString() ?? "no result"),
+            // new Document("steps", this.steps.map((s, index) => `${index}: ${s.toString()}`).join("\n")),
+            // new Document("output", this.evaluator.getResult()?.toString() ?? "no result"),
             new Document("render", this.wrapResult(this.evaluator.getResult()))
         ];
 
@@ -64,8 +63,8 @@ export default class Project {
     handleResult(result: Value | undefined) {
 
         if(this.docs) {
-            this.docs[4] = new Document("output", result?.toString() ?? "no result");
-            this.docs[5] = new Document("render", this.wrapResult(result));
+            // this.docs[1] = new Document("output", result?.toString() ?? "no result");
+            this.docs[1] = new Document("render", this.wrapResult(result));
             this.updater.call(undefined);
         }
 

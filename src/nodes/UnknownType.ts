@@ -17,6 +17,6 @@ export default class UnknownType extends Type {
     isCompatible(context: ConflictContext, type: Type) { return false; }
     getNativeTypeName(): string { return "unknown"; }
 
-    toWordplay() { return "•_"; }
+    toWordplay() { return "□"; }
 
 }
