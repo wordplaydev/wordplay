@@ -5,6 +5,7 @@
     import { TokenCategories } from "./TokenCategories";
     import { caret } from "../models/stores";
     import keyboardIdle from "../models/KeyboardIdle";
+import NodeView from "./NodeView.svelte";
 
     export let node: Token;
 

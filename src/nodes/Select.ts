@@ -45,7 +45,7 @@ export default class Select extends Expression {
     
     computeChildren() { return [ this.table, this.select, this.row, this.query ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
         
         const conflicts: Conflict[] = [];
 

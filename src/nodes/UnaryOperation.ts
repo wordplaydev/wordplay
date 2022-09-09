@@ -36,7 +36,7 @@ export default class UnaryOperation extends Expression {
         return [ this.operator, this.operand ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
     
         const conflicts = [];
 

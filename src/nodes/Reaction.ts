@@ -41,7 +41,7 @@ export default class Reaction extends Expression {
         return [ this.initial, this.delta, this.stream, this.next ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
     
         const conflicts = [];
 

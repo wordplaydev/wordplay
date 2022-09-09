@@ -38,7 +38,7 @@ export default class Insert extends Expression {
 
     computeChildren() { return [ this.table, this.insert, this.row ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
      
         const conflicts = [];
 

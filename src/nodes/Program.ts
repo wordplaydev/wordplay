@@ -28,7 +28,7 @@ export default class Program extends Node implements Evaluable {
         this.end = end;
 
         // Assign all the parents in tree.
-        this.parent = null;
+        this._parent = null;
         this.cacheParents();
 
     }

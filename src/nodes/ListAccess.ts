@@ -40,7 +40,7 @@ export default class ListAccess extends Expression {
         return [ this.list, this.open, this.index, this.close ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
     
         if(this.list instanceof Unparsable || this.index instanceof Unparsable) return [];
 

@@ -43,7 +43,7 @@ export default class BinaryOperation extends Expression {
         return [ this.left, this.operator, this.right ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
 
         const conflicts = [];
 

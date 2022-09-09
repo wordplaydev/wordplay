@@ -23,7 +23,7 @@ export default class NameType extends Type {
 
     computeChildren() { return [ this.type ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
         
         const conflicts = [];
 

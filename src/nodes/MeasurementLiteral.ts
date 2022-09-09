@@ -29,7 +29,7 @@ export default class MeasurementLiteral extends Expression {
 
     computeChildren() { return this.unit === undefined ? [ this.number ] : [ this.number, this.unit ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
     
         if(new Measurement(this.number).num.isNaN())
             return [ new NotANumber(this) ];

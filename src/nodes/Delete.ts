@@ -37,7 +37,7 @@ export default class Delete extends Expression {
 
     computeChildren() { return [ this.table, this.del, this.query ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
 
         const conflicts: Conflict[] = [];
         

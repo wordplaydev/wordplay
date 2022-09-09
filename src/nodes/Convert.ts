@@ -41,7 +41,7 @@ export default class Convert extends Expression {
         
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
         
         // The expression's type must have a conversion.
         const conversion = this.getConversionDefinition(context);

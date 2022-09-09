@@ -41,7 +41,7 @@ export default class MapLiteral extends Expression {
         return [ this.open, ...this.values, this.close, ... (this.bind ? [ this.bind ] : []) ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
     
         return this.notAMap() ? [ new NotASetOrMap(this) ] : [];
     

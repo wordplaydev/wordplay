@@ -36,7 +36,7 @@ export default class Previous extends Expression {
         return [ this.stream, this.previous, this.index ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
     
         if(this.stream instanceof Unparsable || this.index instanceof Unparsable) return [];
 

@@ -27,7 +27,7 @@ export default class Alias extends Node {
         return children;
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
     
         if(this.name === undefined) return [ new UnnamedAlias(this) ];
 

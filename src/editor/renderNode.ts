@@ -57,9 +57,11 @@ import InsertView from "./InsertView.svelte";
 import DeleteView from "./DeleteView.svelte";
 import UpdateView from "./UpdateView.svelte";
 import SelectView from "./SelectView.svelte";
+import TokenViewSvelte from "./TokenView.svelte";
 
 export default function renderNode(node: Node) {
     const view = {
+        "Token": TokenViewSvelte,
         "Unparsable": UnparsableView,
         "Docs": DocsView,
 

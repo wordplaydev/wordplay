@@ -43,7 +43,7 @@ export default class Update extends Expression {
 
     computeChildren() { return [ this.table, this.update, this.row, this.query ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
         
         const conflicts: Conflict[] = [];
 

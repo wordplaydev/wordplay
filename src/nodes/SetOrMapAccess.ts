@@ -38,7 +38,7 @@ export default class SetOrMapAccess extends Expression {
         return [ this.setOrMap, this.open, this.key, this.close ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
     
         if(this.setOrMap instanceof Unparsable || this.key instanceof Unparsable) return [];
 

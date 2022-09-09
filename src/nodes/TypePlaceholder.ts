@@ -18,7 +18,7 @@ export default class TypePlaceholder extends Type {
         return [ this.etc ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return [ new Placeholder(this) ]; }
+    computeConflicts(context: ConflictContext): Conflict[] { return [ new Placeholder(this) ]; }
 
     isCompatible(context: ConflictContext, type: Type): boolean { return false; }
 

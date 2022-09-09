@@ -20,13 +20,13 @@ export default abstract class Node {
     readonly id: number;
 
     /* A cache of the children of this node, in parse order. */
-    children: undefined | Node[] = undefined;
+    _children: undefined | Node[] = undefined;
 
     /* A cache of this node's parent. Undefined means no cache, null means no parent. */
-    parent: undefined | null | Node = undefined;
+    _parent: undefined | null | Node = undefined;
 
     /** A cache of conflicts on this node. Undefined means no cache. */
-    conflicts: undefined | Conflict[] = undefined;
+    _conflicts: undefined | Conflict[] = undefined;
 
     constructor() {
         this.id = NODE_ID_COUNTER++;        
@@ -38,7 +38,7 @@ export default abstract class Node {
         const children = this.getChildren();
         for(let i = 0; i < children.length; i++) {
             const child = children[i];
-            child.parent = this;
+            child._parent = this;
             child.cacheParents();
         }
 
@@ -46,22 +46,33 @@ export default abstract class Node {
 
     /** Returns the children in the node, in order. Needed for batch operations on trees. Cache children to avoid recomputation. */
     getChildren(): Node[] {
-        if(this.children === undefined)
-            this.children = this.computeChildren();
-        return this.children;
+        if(this._children === undefined)
+            this._children = this.computeChildren();
+        return this._children;
     }
 
     /** Construct a list of nodes in the sequence they are parsed, used for traversal. */
     abstract computeChildren(): Node[];
 
-    /** Compute and store the conflicts. */
-    cacheConflicts(context: ConflictContext) { 
-        this.conflicts = this.getConflicts(context); 
-        return this.conflicts; 
-    }
-
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
-    getConflicts(context: ConflictContext): Conflict[] { return [] };
+    computeConflicts(context: ConflictContext): Conflict[] { return [] };
+
+    /** Compute and store the conflicts. */
+    getConflicts(context: ConflictContext) { 
+        if(this._conflicts === undefined)
+            this._conflicts = this.computeConflicts(context); 
+        return this._conflicts;
+    }
+    
+    /** Returns all the conflicts in this tree. */
+    getAllConflicts(program: Program, shares: Shares, native: NativeInterface): Conflict[] {
+        let conflicts: Conflict[] = [];
+        this.traverse(node => {
+            conflicts = conflicts.concat(node.getConflicts({ program: program, shares: shares, native: native, stack: [] }));
+            return true;
+        });
+        return conflicts;
+    }
     
     /** True if the given node is a child of this node and this node should act as a binding enclosure of it. */
     isBindingEnclosureOfChild(child: Node): boolean { return false; }
@@ -111,24 +122,14 @@ export default abstract class Node {
 
     }
 
-    /** Returns all the conflicts in this tree. */
-    getAndCacheAllConflicts(program: Program, shares: Shares, native: NativeInterface): Conflict[] {
-        let conflicts: Conflict[] = [];
-        this.traverse(node => {
-            conflicts = conflicts.concat(node.cacheConflicts({ program: program, shares: shares, native: native, stack: [] }));
-            return true;
-        });
-        return conflicts;
-    }
-
     /** Returns a list of ancestors, with the parent as the first item in the list and the root as the last. */
     getAncestorsOf(node: Node): Node[] | undefined {
 
         const ancestors = [];
-        let parent = node.parent;
+        let parent = node._parent;
         while(parent) {
             ancestors.push(parent);
-            parent = parent.parent;
+            parent = parent._parent;
         }
         return ancestors;
 
@@ -141,7 +142,7 @@ export default abstract class Node {
 
     /** Returns the cached parent of the given node. Assumes the root of this node has called cacheParents(). */
     getParent(): Node | null | undefined {
-        return this.parent;
+        return this._parent;
     }
 
     /** True if the given nodes appears in this tree. */
@@ -151,7 +152,7 @@ export default abstract class Node {
         let parent: undefined | null | Node = node;
         while(parent !== null && parent !== undefined) {
             if(parent === this) return true;
-            parent = parent.parent;
+            parent = parent._parent;
         }
         return false;
 

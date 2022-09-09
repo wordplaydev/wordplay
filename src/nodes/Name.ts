@@ -25,7 +25,7 @@ export default class Name extends Expression {
 
     computeChildren() { return [ this.name ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
 
         const bindOrTypeVar = this.getBind(context);
         return bindOrTypeVar === undefined ? [ new UnknownName(this )] :

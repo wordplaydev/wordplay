@@ -50,7 +50,7 @@ export default class Evaluate extends Expression {
         return [ ...this.typeVars, this.func, this.open, ...this.inputs, this.close ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
     
         const conflicts = [];
 

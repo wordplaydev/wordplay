@@ -50,7 +50,7 @@ export default class ConversionDefinition extends Expression {
         return this.output instanceof Type && this.output.isCompatible(context, type);
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
         
         const conflicts: Conflict[] = [];
     

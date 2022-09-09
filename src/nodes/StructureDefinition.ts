@@ -109,7 +109,7 @@ export default class StructureDefinition extends Expression {
         return children;
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: ConflictContext): Conflict[] { 
         
         const conflicts: Conflict[] = [];
     

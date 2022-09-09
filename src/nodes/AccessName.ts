@@ -32,7 +32,7 @@ export default class AccessName extends Expression {
         return [ this.subject, this.access, this.name ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] {
+    computeConflicts(context: ConflictContext): Conflict[] {
 
         const conflicts = [];
 

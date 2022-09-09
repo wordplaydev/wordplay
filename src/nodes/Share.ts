@@ -26,7 +26,7 @@ export default class Share extends Node implements Evaluable {
 
     computeChildren() { return [ this.share, this.bind ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] {
+    computeConflicts(context: ConflictContext): Conflict[] {
 
         const conflicts = [];
 

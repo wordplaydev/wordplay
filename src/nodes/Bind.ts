@@ -71,7 +71,7 @@ export default class Bind extends Node implements Evaluable, Named {
         return children;
     }
 
-    getConflicts(context: ConflictContext): Conflict[] {
+    computeConflicts(context: ConflictContext): Conflict[] {
 
         const conflicts = [];
 

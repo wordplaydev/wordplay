@@ -51,7 +51,7 @@ export default class Block extends Expression {
         return [ ...this.docs, ...(this.open ? [ this.open ] : []), ...this.statements, ...(this.close ? [ this.close ] : [])];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] {
+    computeConflicts(context: ConflictContext): Conflict[] {
 
         const conflicts = [];
 
