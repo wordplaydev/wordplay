@@ -12,7 +12,7 @@ import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
-import { docsAreUnique } from "./util";
+import { getDuplicateDocs } from "./util";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import Action from "../runtime/Start";
@@ -66,8 +66,9 @@ export default class Block extends Expression {
             .forEach(s => conflicts.push(new IgnoredExpression(s as Expression)));
 
         // Docs must be unique.
-        if(!docsAreUnique(this.docs))
-            conflicts.push(new DuplicateLanguages(this.docs));
+        const duplicateDocs = getDuplicateDocs(this.docs);
+        if(duplicateDocs.size > 0)
+            conflicts.push(new DuplicateLanguages(this.docs, duplicateDocs));
 
         // All binds must have values.
         this.statements.forEach(s => {

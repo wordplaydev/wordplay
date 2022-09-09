@@ -28,6 +28,7 @@ import Finish from "../runtime/Finish";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type { Named } from "./Named";
 import FunctionDefinition from "./FunctionDefinition";
+import { getDuplicateAliases } from "./util";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -54,6 +55,7 @@ export default class Bind extends Node implements Evaluable, Named {
     hasName(name: string) { return this.names.find(n => n.getName() === name) !== undefined; }
 
     getNames(): string[] { return this.names.map(n => n.getName()).filter(n => n !== undefined) as string[]; }
+    getNameTokens(): Token[] { return this.names.map(n => n.name).filter(n => n !== undefined) as Token[]; }
 
     isVariableLength() { return this.etc !== undefined; }
 
@@ -83,8 +85,9 @@ export default class Bind extends Node implements Evaluable, Named {
         }
 
         // Bind aliases have to be unique
-        if(!this.names.every(n => this.names.find(n2 => n !== n2 && n.getName() === n2.getName()) === undefined))
-            conflicts.push(new DuplicateAliases(this))
+        const duplicates = getDuplicateAliases(this.names);
+        if(duplicates.length > 0)
+            conflicts.push(new DuplicateAliases(this, duplicates));
 
         // If there's a type, the value must match.
         if(this.type instanceof Type && this.value && this.value instanceof Expression) {

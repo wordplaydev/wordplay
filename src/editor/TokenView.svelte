@@ -5,6 +5,7 @@
     import { TokenCategories } from "./TokenCategories";
     import { caret, project } from "../models/stores";
     import keyboardIdle from "../models/KeyboardIdle";
+import NodeView from "./NodeView.svelte";
 
     export let node: Token;
 
@@ -106,14 +107,14 @@
 
 </script>
 
-
-{#if node.newlines > 0 ? "newline" : ""}{@html "<br/>".repeat(node.newlines)}{/if}<span 
+<NodeView node={node}>{#if node.newlines > 0 ? "newline" : ""}{@html "<br/>".repeat(node.newlines)}{/if}<span 
     class="token-view token-{kind} {$caret?.position === node ? "selected" : ""} {conflicts.length > 0 ? "conflicts" : ""}" 
     style="color: {`var(--token-category-${kind})`}; margin-left: {node.precedingSpaces}ch"
     data-id={node.id}
     bind:this={element}
 ><span class="text">{ node.text.toString() }</span>{#if caretLeft !== undefined && caretTop !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretLeft}; top: {caretTop};"></span>{/if}
 </span>
+</NodeView>
 
 <style>
 

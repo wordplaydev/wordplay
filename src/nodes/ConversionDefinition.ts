@@ -8,7 +8,7 @@ import { MisplacedConversion } from "../conflicts/MisplacedConversion";
 import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
-import { docsAreUnique } from "./util";
+import { getDuplicateDocs } from "./util";
 import StructureDefinition from "./StructureDefinition";
 import Block from "./Block";
 import ConversionType from "./ConversionType";
@@ -55,8 +55,9 @@ export default class ConversionDefinition extends Expression {
         const conflicts: Conflict[] = [];
     
         // Docs must be unique.
-        if(!docsAreUnique(this.docs))
-            conflicts.push(new DuplicateLanguages(this.docs))
+        const duplicateDocs = getDuplicateDocs(this.docs);
+        if(duplicateDocs.size > 0)
+            conflicts.push(new DuplicateLanguages(this.docs, duplicateDocs));
 
         // Can only appear in custom types.
         const enclosure = context.program.getBindingEnclosureOf(this);

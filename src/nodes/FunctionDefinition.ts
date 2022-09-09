@@ -15,7 +15,7 @@ import { DuplicateTypeVariables } from "../conflicts/DuplicateTypeVariables";
 import { DuplicateInputNames } from "../conflicts/DuplicateInputNames";
 import FunctionType from "./FunctionType";
 import UnknownType from "./UnknownType";
-import { docsAreUnique, inputsAreUnique, requiredBindAfterOptional, typeVarsAreUnique } from "./util";
+import { getDuplicateDocs, getDuplicateAliases, requiredBindAfterOptional, typeVarsAreUnique } from "./util";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import FunctionValue from "../runtime/FunctionValue";
@@ -82,16 +82,19 @@ export default class FunctionDefinition extends Expression {
         const conflicts: Conflict[] = [];
     
         // Docs must be unique.
-        if(!docsAreUnique(this.docs))
-            conflicts.push(new DuplicateLanguages(this.docs));
+        const duplicateDocs = getDuplicateDocs(this.docs);
+        if(duplicateDocs.size > 0)
+            conflicts.push(new DuplicateLanguages(this.docs, duplicateDocs));
     
         // Inputs must have unique names
-        if(!inputsAreUnique(this.inputs))
-            conflicts.push(new DuplicateInputNames(this));
+        const duplicateInputs = getDuplicateAliases(this.inputs.map(i => i instanceof Bind ? i.names : []).flat());
+        if(duplicateInputs.size > 0)
+            conflicts.push(new DuplicateInputNames(this, duplicateInputs));
 
         // Type variables must have unique names.
-        if(!typeVarsAreUnique(this.typeVars))
-            conflicts.push(new DuplicateTypeVariables(this));
+        const duplicateTypeVars = typeVarsAreUnique(this.typeVars);
+        if(duplicateTypeVars.size > 0)
+            conflicts.push(new DuplicateTypeVariables(this, duplicateTypeVars));
 
         // Required inputs can never follow an optional one.
         const binds = this.inputs.filter(i => i instanceof Bind) as Bind[];
