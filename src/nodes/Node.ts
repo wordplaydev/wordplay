@@ -23,7 +23,10 @@ export default abstract class Node {
     children: undefined | Node[] = undefined;
 
     /* A cache of this node's parent. Undefined means no cache, null means no parent. */
-    parent: undefined | null | Node;
+    parent: undefined | null | Node = undefined;
+
+    /** A cache of conflicts on this node. Undefined means no cache. */
+    conflicts: undefined | Conflict[] = undefined;
 
     constructor() {
         this.id = NODE_ID_COUNTER++;        
@@ -51,8 +54,11 @@ export default abstract class Node {
     /** Construct a list of nodes in the sequence they are parsed, used for traversal. */
     abstract computeChildren(): Node[];
 
+    /** Compute and store the conflicts. */
+    cacheConflicts(context: ConflictContext) { this.conflicts = this.getConflicts(context); return this.conflicts; }
+
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
-    abstract getConflicts(context: ConflictContext) : Conflict[];
+    getConflicts(context: ConflictContext): Conflict[] { return [] };
     
     /** True if the given node is a child of this node and this node should act as a binding enclosure of it. */
     isBindingEnclosureOfChild(child: Node): boolean { return false; }
@@ -103,10 +109,10 @@ export default abstract class Node {
     }
 
     /** Returns all the conflicts in this tree. */
-    getAllConflicts(program: Program, shares: Shares, native: NativeInterface): Conflict[] {
+    getAndCacheAllConflicts(program: Program, shares: Shares, native: NativeInterface): Conflict[] {
         let conflicts: Conflict[] = [];
         this.traverse(node => {
-            conflicts = conflicts.concat(node.getConflicts({ program: program, shares: shares, native: native, stack: [] }));
+            conflicts = conflicts.concat(node.cacheConflicts({ program: program, shares: shares, native: native, stack: [] }));
             return true;
         });
         return conflicts;

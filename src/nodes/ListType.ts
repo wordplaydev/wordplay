@@ -26,8 +26,6 @@ export default class ListType extends Type {
         return children;    
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     isCompatible(context: ConflictContext, type: Type): boolean {
         return type instanceof ListType && (type.type === undefined || (this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(context, type.type)));
     }

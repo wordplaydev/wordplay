@@ -45,8 +45,6 @@ export default class Unit extends Type {
 
     computeChildren(): Node[] { return this.tokens.slice(); }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     isCompatible(context: ConflictContext, unit: Unit): boolean {
         return this.numerator.join("·") === unit.numerator.join("·") && 
                this.denominator.join("·") === unit.denominator.join("·");

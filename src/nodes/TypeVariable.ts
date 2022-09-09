@@ -18,6 +18,4 @@ export default class TypeVariable extends Node {
         return [ this.type, this.name ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
 }

@@ -25,8 +25,6 @@ export default class TableType extends Type {
 
     computeChildren() { return [ ...this.columns, this.close ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     isCompatible(context: ConflictContext, type: Type) {
 
         if(!(type instanceof TableType)) return false;

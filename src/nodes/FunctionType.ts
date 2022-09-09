@@ -44,8 +44,6 @@ export default class FunctionType extends Type {
         return children;
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     isCompatible(context: ConflictContext, type: Type): boolean {
         if(!(type instanceof FunctionType)) return false;
         if(!(this.output instanceof Type)) return false;

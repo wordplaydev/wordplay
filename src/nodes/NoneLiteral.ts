@@ -25,8 +25,6 @@ export default class NoneLiteral extends Expression {
 
     computeChildren() { return [ this.none, ...this.aliases ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     getType(context: ConflictContext): Type {
         // Always of type none, with the optional name.
         return new NoneType(this.aliases, this.none);

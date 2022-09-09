@@ -21,8 +21,6 @@ export default class Column extends Node {
         return [ this.bar, this.bind ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     getType(context: ConflictContext) { return this.bind instanceof Unparsable ? new UnknownType(this) : this.bind.getTypeUnlessCycle(context); }
 
 }

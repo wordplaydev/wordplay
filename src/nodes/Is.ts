@@ -31,8 +31,6 @@ export default class Is extends Expression {
         return [ this.left, this.operator, this.right ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     getType(context: ConflictContext): Type { return new BooleanType(); }
     
     compile(context: ConflictContext): Step[] {

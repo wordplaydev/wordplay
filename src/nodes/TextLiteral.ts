@@ -24,8 +24,6 @@ export default class TextLiteral extends Expression {
 
     computeChildren() { return this.format !== undefined ? [ this.text, this.format ] : [ this.text ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     getType(context: ConflictContext): Type {
         return new TextType(undefined, this.format);
     }

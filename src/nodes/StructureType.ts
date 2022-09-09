@@ -25,8 +25,6 @@ export default class StructureType extends Type {
 
     getBind(name: string) { return this.definition.getBind(name); }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     isCompatible(context: ConflictContext, type: Type): boolean {
         return type instanceof StructureType && this.definition === type.definition;
     }

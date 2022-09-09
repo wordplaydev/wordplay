@@ -22,6 +22,4 @@ export default class Row extends Node {
         return [ ...this.cells, this.close ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
 }

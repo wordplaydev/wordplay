@@ -21,8 +21,6 @@ export default class ColumnType extends Type {
         return [ this.bar, this.bind ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     isCompatible(context: ConflictContext, type: Type): boolean {
         return type instanceof ColumnType && type.bind instanceof Bind && this.bind instanceof Bind && this.bind.getTypeUnlessCycle(context).isCompatible(context, type.bind.getTypeUnlessCycle(context));
     }

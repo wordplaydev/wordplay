@@ -97,8 +97,6 @@ export default class NativeHOFListCombine extends Expression {
         ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     evaluate(evaluator: Evaluator): Value | undefined {
 
         // Return the combo.

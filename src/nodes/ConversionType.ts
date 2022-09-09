@@ -13,8 +13,6 @@ export default class ConversionType extends Type {
 
     computeChildren() { return [ this.output ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     isCompatible(context: ConflictContext, type: Type): boolean {
         return type instanceof ConversionType && type.output.isCompatible(context, this.output);
     }

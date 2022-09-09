@@ -24,8 +24,6 @@ export default class MeasurementType extends Type {
         
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     isCompatible(context: ConflictContext, type: Type): boolean {
         // Not a measurement? Not compatible.
         if(!(type instanceof MeasurementType)) return false;

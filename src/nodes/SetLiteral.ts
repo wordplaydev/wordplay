@@ -33,8 +33,6 @@ export default class SetLiteral extends Expression {
         return [ this.open, ...this.values, this.close ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     getType(context: ConflictContext): Type {
 
         const values = this.values.filter(v => !(v instanceof Unparsable)) as Expression[];

@@ -98,8 +98,6 @@ export default class NativeHOFMapTranslate extends Expression {
         ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     evaluate(evaluator: Evaluator): Value | undefined {
         // Evaluate to the new list.
         return evaluator.resolve("map");

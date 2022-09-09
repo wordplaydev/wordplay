@@ -19,6 +19,4 @@ export default class Docs extends Node {
 
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
     
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
 }

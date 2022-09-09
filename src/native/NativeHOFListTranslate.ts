@@ -88,8 +88,6 @@ export default class NativeHOFListTranslate extends Expression {
         ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     evaluate(evaluator: Evaluator): Value | undefined {
         // Evaluate to the new list.
         return evaluator.resolve("list");

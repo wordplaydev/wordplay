@@ -18,8 +18,6 @@ export default class BooleanType extends Type {
         return [ this.type ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     isCompatible(context: ConflictContext, type: Type) { return type instanceof BooleanType; }
 
     getNativeTypeName(): string { return "boolean"; }

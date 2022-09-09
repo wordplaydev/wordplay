@@ -32,8 +32,6 @@ export default class ListLiteral extends Expression {
         return [ this.open, ...this.values, this.close ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] {  return []; }
-
     getType(context: ConflictContext): Type {
         const expressions = this.values.filter(e => e instanceof Expression) as Expression[];
         if(expressions.length === 0) return new UnknownType(this);

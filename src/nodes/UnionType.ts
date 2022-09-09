@@ -24,8 +24,6 @@ export default class UnionType extends Type {
         return this.or === undefined ? [ this.left, this.right ] : [ this.left, this.or, this.right ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     isCompatible(context: ConflictContext, type: Type): boolean {
         return this.left.isCompatible(context, type) && (!(this.right instanceof Type) || this.right.isCompatible(context, type));
     }

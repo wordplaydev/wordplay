@@ -22,6 +22,4 @@ export default class KeyValue extends Node {
         return [ this.key, this.bind, this.value ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
 }

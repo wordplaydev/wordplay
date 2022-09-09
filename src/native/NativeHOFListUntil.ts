@@ -106,8 +106,6 @@ export default class NativeHOFListMap extends Expression {
         ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     evaluate(evaluator: Evaluator): Value | undefined {
         // Evaluate to the filtered list.
         return evaluator.resolve("list");

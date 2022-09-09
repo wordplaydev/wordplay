@@ -20,8 +20,6 @@ export default class BooleanLiteral extends Expression {
 
     computeChildren() { return [ this.value ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     getType(context: ConflictContext): Type {
         return new BooleanType();
     }

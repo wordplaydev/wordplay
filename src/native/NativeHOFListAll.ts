@@ -87,8 +87,6 @@ export default class NativeHOFListMap extends Expression {
         ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     evaluate(evaluator: Evaluator): Value | undefined {
 
         // Get the index and list.

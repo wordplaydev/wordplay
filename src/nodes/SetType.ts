@@ -26,8 +26,6 @@ export default class SetType extends Type {
         return children;
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     isCompatible(context: ConflictContext, type: Type): boolean { 
         return  type instanceof SetType &&
             (

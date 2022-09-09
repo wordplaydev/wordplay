@@ -17,8 +17,6 @@ export default class Language extends Node {
 
     computeChildren() {  return [ this.slash, this.lang ]; }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     getLanguage() { return this.lang instanceof Token ? this.lang.text.toString() : undefined; }
 
     isCompatible(lang: Language) {

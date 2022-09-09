@@ -90,8 +90,6 @@ export default class NativeHOFListMap extends Expression {
         ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     evaluate(evaluator: Evaluator): Value | undefined {
         // Get the current index.
         const index = evaluator.resolve("index");

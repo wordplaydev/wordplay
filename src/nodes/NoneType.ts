@@ -21,8 +21,6 @@ export default class NoneType extends Type {
         return this.none === undefined ? [ ...this.aliases ] : [ this.none, ...this.aliases ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
     isCompatible(context: ConflictContext, type: Type): boolean { 
         // No if it's not a none type.
         if(!(type instanceof NoneType)) return false;

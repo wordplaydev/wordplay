@@ -21,6 +21,4 @@ export default class Cell extends Node {
         return [ this.bar, this.expression ];
     }
 
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
-
 }

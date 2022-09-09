@@ -34,7 +34,6 @@ export default class NativeExpression extends Expression {
     computeChildren() { return [] };
     getType(context: ConflictContext): Type { return this.type; }
     compile(context: ConflictContext): Step[] { return [ new Finish(this) ]; }
-    getConflicts(context: ConflictContext): Conflict[] { return []; }
     evaluate(evaluator: Evaluator): Value | undefined {
         const evaluation = evaluator.getEvaluationContext();
         return evaluation === undefined ? undefined : this.evaluator.call(undefined, evaluation);
