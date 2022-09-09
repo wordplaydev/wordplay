@@ -1,9 +1,7 @@
 import Bind from "../nodes/Bind";
+import BooleanType from "../nodes/BooleanType";
 import Expression from "../nodes/Expression";
-import ListType from "../nodes/ListType";
-import NameType from "../nodes/NameType";
 import type { ConflictContext } from "../nodes/Node";
-import type Type from "../nodes/Type";
 import Bool from "../runtime/Bool";
 import Evaluation from "../runtime/Evaluation";
 import type Evaluator from "../runtime/Evaluator";
@@ -16,10 +14,10 @@ import Action from "../runtime/Start";
 import type Step from "../runtime/Step";
 import type Value from "../runtime/Value";
 
-export default class NativeHOFListMap extends Expression {
+export default class NativeHOFListAll extends Expression {
 
     computeChildren() { return [] };
-    computeType(context: ConflictContext): Type { return new ListType(new NameType("T")); }
+    computeType(context: ConflictContext) { return new BooleanType(); }
 
     compile(context: ConflictContext): Step[] { 
         return [

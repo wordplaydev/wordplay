@@ -1,15 +1,17 @@
 <script lang="ts">
-    import { caret } from "../models/stores";
+    import { caret, project } from "../models/stores";
     import type Node from "../nodes/Node";
 
     export let node: Node;
     export let block: boolean = false;
     export let mousedown: undefined | ((event: MouseEvent) => void) = undefined;
 
+    $: conflicts = $project?.getConflictsInvolvingNode(node) ?? [];
+
 </script>
 
 <div 
-    class="node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"} {node._conflicts && node._conflicts.length > 0 ? "conflicts" : ""}"
+    class="{node.constructor.name} node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"} {conflicts.length > 0 ? "conflicts" : ""}"
     on:mousedown={mousedown}>
     <slot/>
 </div>
@@ -38,8 +40,8 @@
         outline: 4px solid var(--wordplay-highlight);
     }
 
-    .node-view.conflicts {
-        border-bottom: 2px solid red;
+    .conflicts {
+        outline: solid 2px red;
     }
 
 </style>

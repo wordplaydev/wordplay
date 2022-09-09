@@ -1,13 +1,11 @@
 import BooleanType from "./BooleanType";
 import type Conflict from "../conflicts/Conflict";
-import { LeftToRightOrderOfOperations } from "../conflicts/LeftToRightOrderOfOperations";
 import { IncompatibleUnits } from "../conflicts/IncompatibleUnits";
 import { IncompatibleOperand } from "../conflicts/IncompatibleOperand";
 import Expression from "./Expression";
 import MeasurementLiteral from "./MeasurementLiteral";
 import MeasurementType from "./MeasurementType";
 import Token from "./Token";
-import TokenType from "./TokenType";
 import type Type from "./Type";
 import UnaryOperation from "./UnaryOperation";
 import Unit from "./Unit";
@@ -50,10 +48,6 @@ export default class BinaryOperation extends Expression {
         const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
         const rightType = this.right instanceof Expression ? this.right.getTypeUnlessCycle(context) : undefined;
 
-        const operators = new Set(this.nodes(n => n instanceof Token && n.is(TokenType.BINARY_OP)).map(n => (n as Token).text.toString()));
-        if(operators.size > 1)
-            conflicts.push(new LeftToRightOrderOfOperations(this));
-
         // Left and right must be compatible measurements.
         switch(this.operator.text.toString()) {
             case "×":
@@ -71,16 +65,18 @@ export default class BinaryOperation extends Expression {
             case ">":
             case "≤":
             case "≥":
-            case "≠":
                 // Both operands must be measurement types.
                 if(this.left instanceof Expression && !(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this, leftType, new MeasurementType()));
                 if(this.right instanceof Expression && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this, rightType, new MeasurementType()));
-                // Both operands must have compatible types.
-                if(leftType !== undefined && rightType !== undefined && !leftType.isCompatible(context, rightType))
+                // Both operands must have compatible units.
+                if(leftType instanceof MeasurementType && rightType instanceof MeasurementType && !leftType.isCompatible(context, rightType))
                     conflicts.push(new IncompatibleUnits(this, leftType, rightType));
                 break;
+            case "≠":
             case "=":
-                // Equals works for all types.
+                // Must be compatible types
+                if(leftType !== undefined && rightType !== undefined && !leftType.isCompatible(context, rightType)) 
+                    conflicts.push(new IncompatibleOperand(this, leftType, rightType));
                 break;
             case "∧":
             case "∨":
@@ -97,21 +93,23 @@ export default class BinaryOperation extends Expression {
         const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
         const rightType = this.right instanceof Expression ? this.right.getTypeUnlessCycle(context) : undefined;
 
-        if(!(leftType instanceof MeasurementType)) return new UnknownType(this);
-        if(!(rightType instanceof MeasurementType)) return new UnknownType(this);
-
-        if(leftType.unit instanceof Unparsable || rightType.unit instanceof Unparsable) return new UnknownType(this);
-
-        // The below assumes that units match.
         switch(this.operator.text.toString()) {
             case "-":
             case "+":
+                if(!(leftType instanceof MeasurementType)) return new UnknownType(this);
+                if(!(rightType instanceof MeasurementType)) return new UnknownType(this);
+                if(leftType.unit instanceof Unparsable || rightType.unit instanceof Unparsable) return new UnknownType(this);
+
                 if(leftType.unit === undefined && rightType.unit === undefined) return leftType;
                 else if(leftType.unit !== undefined && rightType.unit === undefined) return new UnknownType(this);
                 else if(leftType.unit === undefined && rightType.unit !== undefined) return new UnknownType(this);
                 else return leftType.isCompatible(context, rightType) ? leftType : new UnknownType(this);
             case "×":
             case "·":
+                if(!(leftType instanceof MeasurementType)) return new UnknownType(this);
+                if(!(rightType instanceof MeasurementType)) return new UnknownType(this);
+                if(leftType.unit instanceof Unparsable || rightType.unit instanceof Unparsable) return new UnknownType(this);
+
                 // If one side is unitless, units don't change.
                 if(leftType.unit === undefined && rightType.unit !== undefined) return rightType;
                 else if(leftType.unit === undefined || rightType.unit === undefined) return leftType;
@@ -126,6 +124,10 @@ export default class BinaryOperation extends Expression {
                     );
                 }
             case "÷":
+                if(!(leftType instanceof MeasurementType)) return new UnknownType(this);
+                if(!(rightType instanceof MeasurementType)) return new UnknownType(this);
+                if(leftType.unit instanceof Unparsable || rightType.unit instanceof Unparsable) return new UnknownType(this);
+
                 // If the denominator is unitless, the type is the numerator.
                 if(rightType.unit === undefined) return leftType;
                 // If the numerator is unitless, flip the right
@@ -144,9 +146,14 @@ export default class BinaryOperation extends Expression {
                     );
                 }
             case "%":
+                if(!(leftType instanceof MeasurementType)) return new UnknownType(this);
                 // Modulo preserves the left's type.
                 return leftType;
             case "^":
+                if(!(leftType instanceof MeasurementType)) return new UnknownType(this);
+                if(!(rightType instanceof MeasurementType)) return new UnknownType(this);
+                if(leftType.unit instanceof Unparsable || rightType.unit instanceof Unparsable) return new UnknownType(this);
+
                 // If both sides or unitless, just propagate the left.
                 if(leftType.unit === undefined && rightType.unit === undefined) return leftType;
                 // If left has a unit and the right does not, duplicate the units the number of times of the power

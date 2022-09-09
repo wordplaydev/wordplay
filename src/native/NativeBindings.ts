@@ -305,7 +305,7 @@ Native.addFunction("list", new FunctionDefinition(
         ], new NameType("T")))
     ],
     new NativeHOFListAll(),
-    new ListType(new NameType("T"))
+    new BooleanType()
 ));
 
 // TODO Documentation

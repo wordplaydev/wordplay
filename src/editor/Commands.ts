@@ -239,7 +239,7 @@ const commands: Command[] = [
     },
     {
         description: "Insert false symbol (⊥)",
-        alt: true, key: "Digit9",
+        alt: true, key: "Digit0",
         execute: (caret: Caret) => insertChar(caret, "⊥")
     },
     {

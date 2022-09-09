@@ -122,9 +122,8 @@ export default class Evaluate extends Expression {
                                             break;
                                         }
                                         // The types have to match
-                                        else if(input.type instanceof Type && given.value !== undefined && !given.value.getTypeUnlessCycle(context).isCompatible(context, input.type)) {
-                                            conflicts.push(new IncompatibleInput(functionType, this, input));
-                                            break;
+                                        else if(input.type instanceof Type && given.value !== undefined && !given.value.getTypeUnlessCycle(context).isCompatible(context, input.type) && !(given.value instanceof Unparsable)) {
+                                            conflicts.push(new IncompatibleInput(functionType, this, given.value, input));
                                         }
                                         // Remember that we named this input to catch redundancies.
                                         else input.aliases.forEach(a => {
@@ -136,9 +135,8 @@ export default class Evaluate extends Expression {
                                 }
                                 // If it's not a bind, check the type of the next given input.
                                 else {
-                                    if(givenType !== undefined && input.type instanceof Type && !givenType.isCompatible(context, input.type)) {
-                                        conflicts.push(new IncompatibleInput(functionType, this, input));
-                                        break;
+                                    if(!(given instanceof Unparsable) && givenType !== undefined && input.type instanceof Type && !givenType.isCompatible(context, input.type)) {
+                                        conflicts.push(new IncompatibleInput(functionType, this, given, input));
                                     }
                                     // Remember that we got this named input.
                                     input.aliases.forEach(a => {
@@ -156,7 +154,7 @@ export default class Evaluate extends Expression {
                                 while(givenInputs.length > 0) {
                                     const given = givenInputs.shift();
                                     if(given !== undefined && given instanceof Expression && input.type instanceof Type && !given.getTypeUnlessCycle(context).isCompatible(context, input.type)) {
-                                        conflicts.push(new IncompatibleInput(functionType, this, input));
+                                        conflicts.push(new IncompatibleInput(functionType, this, given, input));
                                         break;
                                     }
                                 }
@@ -167,8 +165,8 @@ export default class Evaluate extends Expression {
                                 const matchingBind = givenInputs.find(i => i instanceof Bind && input.aliases.find(a => a.getName() === i.getNames()[0]) !== undefined);
                                 if(matchingBind instanceof Bind) {
                                     // If the types don't match, there's a conflict.
-                                    if(matchingBind.value !== undefined && input.type instanceof Type && !matchingBind.value.getTypeUnlessCycle(context).isCompatible(context, input.type)) {
-                                        conflicts.push(new IncompatibleInput(functionType, this, input));
+                                    if(matchingBind.value !== undefined && !(matchingBind.value instanceof Unparsable) && input.type instanceof Type && !matchingBind.value.getTypeUnlessCycle(context).isCompatible(context, input.type)) {
+                                        conflicts.push(new IncompatibleInput(functionType, this, matchingBind.value, input));
                                         break;
                                     }
                                     // Otherwise, remember that we matched on this and remove it from the given inputs list.
@@ -182,8 +180,8 @@ export default class Evaluate extends Expression {
                                         givenInputs.splice(bindIndex, 1);
                                 }
                                 // Otherwise, see if the next input matches the type.
-                                else if(givenInputs.length > 0 && input.type instanceof Type && !givenInputs[0].getTypeUnlessCycle(context).isCompatible(context, input.type)) {
-                                    conflicts.push(new IncompatibleInput(functionType, this, input));
+                                else if(givenInputs.length > 0 && input.type instanceof Type && (givenInputs[0] instanceof Expression) && !givenInputs[0].getTypeUnlessCycle(context).isCompatible(context, input.type)) {
+                                    conflicts.push(new IncompatibleInput(functionType, this, givenInputs[0] as Expression, input));
                                     break;
                                 }
                                 // Otherwise, remove the given input and remember we matched this input's names.

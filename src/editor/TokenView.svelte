@@ -3,9 +3,8 @@
     import { TAB_WIDTH } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { TokenCategories } from "./TokenCategories";
-    import { caret } from "../models/stores";
+    import { caret, project } from "../models/stores";
     import keyboardIdle from "../models/KeyboardIdle";
-import NodeView from "./NodeView.svelte";
 
     export let node: Token;
 
@@ -103,11 +102,13 @@ import NodeView from "./NodeView.svelte";
         }
     }
 
+    $: conflicts = $project?.getConflictsInvolvingNode(node) ?? [];
+
 </script>
 
 
 {#if node.newlines > 0 ? "newline" : ""}{@html "<br/>".repeat(node.newlines)}{/if}<span 
-    class="token-view token-{kind} {$caret?.position === node ? "selected" : ""}" 
+    class="token-view token-{kind} {$caret?.position === node ? "selected" : ""} {conflicts.length > 0 ? "conflicts" : ""}" 
     style="color: {`var(--token-category-${kind})`}; margin-left: {node.precedingSpaces}ch"
     data-id={node.id}
     bind:this={element}
@@ -180,6 +181,10 @@ import NodeView from "./NodeView.svelte";
 
     .selected .text {
         outline: 2px solid var(--color-yellow);
+    }
+
+    .conflicts {
+        border-bottom: 2px solid red;
     }
 
 </style>

@@ -13,7 +13,4 @@ import OptionalNodeView from "./OptionalNodeView.svelte";
 </NodeView>
 
 <style>
-    .tokens {
-        border-bottom: 2px solid red;
-    }
 </style>

@@ -63,6 +63,8 @@ export default abstract class Node {
             this._conflicts = this.computeConflicts(context); 
         return this._conflicts;
     }
+
+    getConflictCache() { return this._conflicts === undefined ? [] : this._conflicts; }
     
     /** Returns all the conflicts in this tree. */
     getAllConflicts(program: Program, shares: Shares, native: NativeInterface): Conflict[] {

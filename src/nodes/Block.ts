@@ -62,7 +62,7 @@ export default class Block extends Expression {
         // The only expression allowed is the last one.
         this.statements
             .slice(0, this.statements.length - 1)
-            .filter(s => s instanceof Expression)
+            .filter(s => (s instanceof Expression && !(s instanceof StructureDefinition) && !(s instanceof FunctionDefinition)))
             .forEach(s => conflicts.push(new IgnoredExpression(s as Expression)));
 
         // Docs must be unique.

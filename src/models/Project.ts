@@ -1,5 +1,6 @@
 import type Program from '../nodes/Program';
 import Token from '../nodes/Token';
+import type Node from '../nodes/Node';
 import type Conflict from '../conflicts/Conflict';
 import { parseProgram, Tokens } from '../parser/Parser';
 import { tokenize } from '../parser/Tokenizer';
@@ -23,6 +24,9 @@ export default class Project {
     readonly docs: Document[];
     readonly updater: ()=> void;
 
+    /** An index of conflicts for each node. */
+    readonly _nodeConflicts: Map<Node, Conflict[]> = new Map();
+
     constructor(name: string, code: string | UnicodeString, updater: () => void) {
         
         this.name = name;
@@ -34,6 +38,16 @@ export default class Project {
         this.evaluator = new Evaluator(this.program, this.handleResult.bind(this) );
         this.conflicts = this.program.getAllConflicts(this.program, this.evaluator.getShares(), Native);
         this.steps = this.program.compile(this.evaluator.getContext());
+
+        // Build the conflict index by going through each conflict, asking for the conflicting nodes
+        // and adding to the conflict to each node's list of conflicts.
+        this.conflicts.forEach(conflict => {
+            const complicitNodes = conflict.getConflictingNodes();
+            complicitNodes.forEach(node => {
+                let nodeConflicts = this._nodeConflicts.get(node) ?? [];
+                this._nodeConflicts.set(node, [ ... nodeConflicts, conflict ]);
+            });
+        })
 
         // Generate documents based on the code.
         this.docs = [
@@ -102,6 +116,11 @@ export default class Project {
             (direction > 0 && index >= tokens.length - 1) ? undefined :
             tokens[index + direction];
 
+    }
+
+    /** Given a node N, and the set of conflicts C in the program, determines the subset of C in which the given N is complicit. */
+    getConflictsInvolvingNode(node: Node) {
+        return this._nodeConflicts.get(node);
     }
 
 }

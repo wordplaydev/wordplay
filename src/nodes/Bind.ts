@@ -99,7 +99,7 @@ export default class Bind extends Node implements Evaluable, Named {
         const definitions = this.names.map(alias => {
             const name = alias.getName();
             return name === undefined ? undefined : enclosure?.getDefinition(context, this, name);
-        }).filter(def => def !== undefined) as (Expression | Bind | TypeVariable)[];
+        }).filter(def => def !== undefined && def !== this) as (Expression | Bind | TypeVariable)[];
         if(definitions.length > 0)
             conflicts.push(new DuplicateBinds(this, definitions));
 
