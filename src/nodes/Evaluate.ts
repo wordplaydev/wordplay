@@ -218,7 +218,7 @@ export default class Evaluate extends Expression {
     
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         if(this.func instanceof Unparsable) return new UnknownType(this);
         const funcType = this.func.getTypeUnlessCycle(context);
         if(funcType instanceof FunctionType && funcType.output instanceof Type) return funcType.output;

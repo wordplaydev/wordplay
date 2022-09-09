@@ -41,7 +41,7 @@ export default class Name extends Expression {
 
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         // The type is the type of the bind.
         const bindOrTypeVar = this.getBind(context);
         if(bindOrTypeVar === undefined) return new UnknownType(this);

@@ -12,7 +12,6 @@ import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 import { getPossibleUnionType } from "./UnionType";
-import type Conflict from "../conflicts/Conflict";
 
 export default class ListLiteral extends Expression {
 
@@ -32,7 +31,7 @@ export default class ListLiteral extends Expression {
         return [ this.open, ...this.values, this.close ];
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         const expressions = this.values.filter(e => e instanceof Expression) as Expression[];
         if(expressions.length === 0) return new UnknownType(this);
         let itemType = getPossibleUnionType(context, expressions.map(v => v.getTypeUnlessCycle(context)));

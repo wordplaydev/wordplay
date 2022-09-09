@@ -122,7 +122,7 @@ export default class FunctionDefinition extends Expression {
 
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         // The type is equivalent to the signature.
         const inputTypes = this.inputs.map(i =>
              i instanceof Bind ?

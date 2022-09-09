@@ -1,6 +1,5 @@
 import type Token from "./Token";
 import Expression from "./Expression";
-import type Conflict from "../conflicts/Conflict";
 import NoneType from "./NoneType";
 import type Type from "./Type";
 import None from "../runtime/None";
@@ -25,7 +24,7 @@ export default class NoneLiteral extends Expression {
 
     computeChildren() { return [ this.none, ...this.aliases ]; }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         // Always of type none, with the optional name.
         return new NoneType(this.aliases, this.none);
     }

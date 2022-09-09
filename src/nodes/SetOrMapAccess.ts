@@ -52,7 +52,7 @@ export default class SetOrMapAccess extends Expression {
     
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         // Either a set or map type, and if so, the key or value's type.
         if(this.setOrMap instanceof Unparsable) return new UnknownType(this);
         const setOrMapType = this.setOrMap.getTypeUnlessCycle(context);

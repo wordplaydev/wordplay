@@ -78,7 +78,7 @@ export default class Select extends Expression {
     
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
 
         // Get the table type and find the rows corresponding the selected columns.
         const tableType = this.table.getTypeUnlessCycle(context);

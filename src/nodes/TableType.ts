@@ -1,5 +1,4 @@
 import type ColumnType from "./ColumnType";
-import type Conflict from "../conflicts/Conflict";
 import Type from "./Type";
 import Bind from "../nodes/Bind";
 import type { ConflictContext } from "./Node";

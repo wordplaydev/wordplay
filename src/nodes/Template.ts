@@ -42,7 +42,7 @@ export default class Template extends Expression {
     
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         return new TextType(undefined, this.format);
     }
 

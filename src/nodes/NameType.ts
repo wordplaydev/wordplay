@@ -38,7 +38,7 @@ export default class NameType extends Type {
     isCompatible(context: ConflictContext, type: Type): boolean {    
         const thisType = this.getType(context);
         return thisType instanceof StructureType && type instanceof StructureType && thisType.definition === type.definition;
-    } 
+    }
 
     getType(context: ConflictContext): Type | undefined {
 

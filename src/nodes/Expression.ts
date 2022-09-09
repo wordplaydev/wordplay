@@ -7,13 +7,23 @@ import type Step from "src/runtime/Step";
 import UnknownType from "./UnknownType";
 
 export default abstract class Expression extends Node implements Evaluable {
+
+    /** A cache of the type computed for this epxression. Undefined means its not computed. */
+    _type: Type | undefined = undefined;
     
     constructor() {
         super();
     }
 
     abstract computeChildren(): Node[];
-    abstract getType(context: ConflictContext): Type;
+    abstract computeType(context: ConflictContext): Type;
+
+    getType(context: ConflictContext) {
+        if(this._type === undefined)
+            this._type = this.computeType(context);
+        return this._type;
+    }
+
 
     getTypeUnlessCycle(context: ConflictContext): Type {
 

@@ -11,7 +11,7 @@ import Share from "./Share";
 import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 import { docsAreUnique } from "./util";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
@@ -98,14 +98,20 @@ export default class Block extends Expression {
                 (s instanceof FunctionDefinition && s.aliases.find(n => n.getName() === name) !== undefined)
             )
         ) as Bind | Share | StructureDefinition | FunctionDefinition;
-        if(localBind !== undefined) return localBind instanceof Share ? localBind.bind : localBind;
+
+        // If we found a local bind, return it.
+        if(localBind instanceof Share) {
+            if(!(localBind.bind instanceof Unparsable)) 
+                return localBind.bind;
+        }
+        else if(localBind !== undefined) return localBind;
 
         // Is there an enclosing function or block?
         return context.program.getBindingEnclosureOf(this)?.getDefinition(context, node, name);
         
     }
  
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         // The type of the last expression.
         const lastExpression = this.statements.slice().reverse().find(s => s instanceof Expression) as Expression | undefined;
         return lastExpression === undefined ? new UnknownType(this) : lastExpression.getTypeUnlessCycle(context);

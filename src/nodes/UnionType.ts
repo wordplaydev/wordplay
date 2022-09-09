@@ -1,4 +1,3 @@
-import type Conflict from "../conflicts/Conflict";
 import type ConversionDefinition from "./ConversionDefinition";
 import type FunctionDefinition from "./FunctionDefinition";
 import type { ConflictContext } from "./Node";

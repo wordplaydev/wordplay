@@ -1,11 +1,9 @@
-import type Conflict from "../conflicts/Conflict";
 import Bind from "../nodes/Bind";
 import Expression from "../nodes/Expression";
 import ListType from "../nodes/ListType";
 import NameType from "../nodes/NameType";
 import type { ConflictContext } from "../nodes/Node";
 import type Type from "../nodes/Type";
-import Bool from "../runtime/Bool";
 import Evaluation from "../runtime/Evaluation";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
@@ -20,7 +18,7 @@ import type Value from "../runtime/Value";
 export default class NativeHOFListCombine extends Expression {
 
     computeChildren() { return [] };
-    getType(context: ConflictContext): Type { return new ListType(new NameType("V")); }
+    computeType(context: ConflictContext): Type { return new ListType(new NameType("V")); }
 
     compile(context: ConflictContext): Step[] { 
         return [

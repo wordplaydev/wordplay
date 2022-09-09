@@ -3,7 +3,6 @@ import type Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
-import type Conflict from "../conflicts/Conflict";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import SetValue from "../runtime/SetValue";
@@ -33,7 +32,7 @@ export default class SetLiteral extends Expression {
         return [ this.open, ...this.values, this.close ];
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
 
         const values = this.values.filter(v => !(v instanceof Unparsable)) as Expression[];
         if(values.length === 0) return new UnknownType(this);

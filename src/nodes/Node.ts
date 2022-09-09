@@ -55,7 +55,10 @@ export default abstract class Node {
     abstract computeChildren(): Node[];
 
     /** Compute and store the conflicts. */
-    cacheConflicts(context: ConflictContext) { this.conflicts = this.getConflicts(context); return this.conflicts; }
+    cacheConflicts(context: ConflictContext) { 
+        this.conflicts = this.getConflicts(context); 
+        return this.conflicts; 
+    }
 
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
     getConflicts(context: ConflictContext): Conflict[] { return [] };

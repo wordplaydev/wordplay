@@ -92,7 +92,7 @@ export default class BinaryOperation extends Expression {
     
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
         const rightType = this.right instanceof Expression ? this.right.getTypeUnlessCycle(context) : undefined;
 

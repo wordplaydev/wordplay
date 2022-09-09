@@ -50,7 +50,7 @@ export default class AccessName extends Expression {
 
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         let subjectType = this.getSubjectType(context);
         if(subjectType === undefined) return new UnknownType(this);
 

@@ -52,7 +52,7 @@ export default class Convert extends Expression {
     
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         // Whatever this converts to.
         return this.type instanceof Type ? this.type : new UnknownType(this);
     }

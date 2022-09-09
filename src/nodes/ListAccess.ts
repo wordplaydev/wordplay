@@ -53,7 +53,7 @@ export default class ListAccess extends Expression {
     
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         // The type is the list's value type, or unknown otherwise.
         if(this.list instanceof Unparsable) return new UnknownType(this);
         const listType = this.list.getTypeUnlessCycle(context);

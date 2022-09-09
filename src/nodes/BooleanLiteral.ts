@@ -1,5 +1,4 @@
 import BooleanType from "./BooleanType";
-import type Conflict from "../conflicts/Conflict";
 import Expression from "./Expression";
 import type Token from "./Token";
 import type Type from "./Type";
@@ -20,7 +19,7 @@ export default class BooleanLiteral extends Expression {
 
     computeChildren() { return [ this.value ]; }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         return new BooleanType();
     }
 

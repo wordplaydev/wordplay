@@ -66,7 +66,7 @@ export default class ConversionDefinition extends Expression {
     
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         return this.output instanceof Unparsable ? new UnknownType(this) : new ConversionType(this.output);
     }
 

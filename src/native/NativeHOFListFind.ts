@@ -1,4 +1,3 @@
-import type Conflict from "../conflicts/Conflict";
 import Alias from "../nodes/Alias";
 import Bind from "../nodes/Bind";
 import Expression from "../nodes/Expression";
@@ -22,7 +21,7 @@ import type Value from "../runtime/Value";
 export default class NativeHOFListMap extends Expression {
 
     computeChildren() { return [] };
-    getType(context: ConflictContext): Type { return new ListType(new NameType("T")); }
+    computeType(context: ConflictContext): Type { return new ListType(new NameType("T")); }
 
     compile(context: ConflictContext): Step[] { 
         return [

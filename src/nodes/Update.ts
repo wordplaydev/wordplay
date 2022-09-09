@@ -82,7 +82,7 @@ export default class Update extends Expression {
     
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         // The type of an update is the type of its table
         return this.table.getTypeUnlessCycle(context);        
     }

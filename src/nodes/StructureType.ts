@@ -1,5 +1,4 @@
 import Node from "./Node";
-import type Conflict from "../conflicts/Conflict";
 import Type from "./Type";
 import type ConversionDefinition from "./ConversionDefinition";
 import type { ConflictContext } from "./Node";

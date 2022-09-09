@@ -1,5 +1,4 @@
 import type Node from "./Node";
-import type Conflict from "../conflicts/Conflict";
 import Token, { TokenType } from "./Token";
 import Type from "./Type";
 import Unparsable from "./Unparsable";

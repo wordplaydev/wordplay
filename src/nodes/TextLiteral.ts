@@ -1,4 +1,3 @@
-import type Conflict from "../conflicts/Conflict";
 import Expression from "./Expression";
 import TextType from "./TextType";
 import type Token from "./Token";
@@ -24,7 +23,7 @@ export default class TextLiteral extends Expression {
 
     computeChildren() { return this.format !== undefined ? [ this.text, this.format ] : [ this.text ]; }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         return new TextType(undefined, this.format);
     }
 

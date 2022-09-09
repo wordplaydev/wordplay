@@ -55,7 +55,7 @@ export default class Delete extends Expression {
         
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         // The type is identical to the table's type.
         return this.table.getTypeUnlessCycle(context);
     }

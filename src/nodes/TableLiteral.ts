@@ -66,12 +66,12 @@ export default class TableLiteral extends Expression {
     
     }
 
-    getType(context: ConflictContext): TableType {
+    computeType(context: ConflictContext): TableType {
         const columnTypes = this.columns.map(c => new ColumnType(c.bind));
         return new TableType(columnTypes);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: ConflictContext): Step[] {
         return [
             new Action(this),
             // Compile all of the row's 's cells expressions.

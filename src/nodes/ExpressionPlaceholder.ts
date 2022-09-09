@@ -26,7 +26,7 @@ export default class ExpressionPlaceholder extends Expression {
         return [ new Placeholder(this) ];
     }
 
-    getType(context: ConflictContext): Type { return new UnknownType(this); }
+    computeType(context: ConflictContext): Type { return new UnknownType(this); }
 
     compile(context: ConflictContext):Step[] {
         return [ new Halt(new Exception(this, ExceptionKind.PLACEHOLDER), this) ];

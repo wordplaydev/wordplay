@@ -1,6 +1,5 @@
-import Node, { type ConflictContext } from "./Node";
+import Node from "./Node";
 import type Cell from "./Cell";
-import type Conflict from "../conflicts/Conflict";
 import type Unparsable from "./Unparsable";
 import type Token from "./Token";
 

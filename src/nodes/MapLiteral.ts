@@ -47,7 +47,7 @@ export default class MapLiteral extends Expression {
     
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         const values = this.values.filter(v => !(v instanceof Unparsable)) as (KeyValue)[];
         if(values.length === 0) return new UnknownType(this);
 

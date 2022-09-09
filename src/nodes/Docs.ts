@@ -1,6 +1,5 @@
-import type Conflict from "../conflicts/Conflict";
 import type Language from "./Language";
-import Node, { type ConflictContext } from "./Node";
+import Node from "./Node";
 import type Token from "./Token";
 
 export default class Docs extends Node {

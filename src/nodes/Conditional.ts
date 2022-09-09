@@ -43,7 +43,7 @@ export default class Conditional extends Expression {
     
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         // Whatever type the yes/no returns.
         if(this.yes instanceof Unparsable) {
             if(this.no instanceof Unparsable)

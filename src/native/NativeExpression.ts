@@ -4,7 +4,6 @@ import type Type from "../nodes/Type";
 import type Step from "src/runtime/Step";
 import Finish from "../runtime/Finish";
 import Expression from "../nodes/Expression";
-import type Conflict from "../conflicts/Conflict";
 import type { ConflictContext } from "../nodes/Node";
 import { parseType, tokens } from "../parser/Parser";
 import Unparsable from "../nodes/Unparsable";
@@ -32,7 +31,7 @@ export default class NativeExpression extends Expression {
     }
 
     computeChildren() { return [] };
-    getType(context: ConflictContext): Type { return this.type; }
+    computeType(context: ConflictContext): Type { return this.type; }
     compile(context: ConflictContext): Step[] { return [ new Finish(this) ]; }
     evaluate(evaluator: Evaluator): Value | undefined {
         const evaluation = evaluator.getEvaluationContext();

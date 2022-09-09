@@ -1,4 +1,3 @@
-import type Conflict from "../conflicts/Conflict";
 import Bool from "../runtime/Bool";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
@@ -16,10 +15,10 @@ import Unparsable from "./Unparsable";
 export default class Is extends Expression {
 
     readonly operator: Token;
-    readonly left: Expression;
+    readonly left: Expression | Unparsable;
     readonly right: Type | Unparsable;
 
-    constructor(left: Expression, operator: Token, right: Type | Unparsable, ) {
+    constructor(left: Expression | Unparsable, operator: Token, right: Type | Unparsable, ) {
         super();
 
         this.operator = operator;
@@ -31,7 +30,7 @@ export default class Is extends Expression {
         return [ this.left, this.operator, this.right ];
     }
 
-    getType(context: ConflictContext): Type { return new BooleanType(); }
+    computeType(context: ConflictContext): Type { return new BooleanType(); }
     
     compile(context: ConflictContext): Step[] {
         return this.right instanceof Unparsable ? [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ] : [ ...this.left.compile(context), new Finish(this) ];

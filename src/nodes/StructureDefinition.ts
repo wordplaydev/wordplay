@@ -172,7 +172,7 @@ export default class StructureDefinition extends Expression {
         return this.block instanceof Block ? this.block.statements.find(i => i instanceof FunctionDefinition && i.aliases.find(a => a.getName() === name)) as FunctionDefinition: undefined;
     }
 
-    getType(context: ConflictContext): Type { return new StructureType(this); }
+    computeType(context: ConflictContext): Type { return new StructureType(this); }
 
     isCompatible(context: ConflictContext, type: Type): boolean { return type instanceof StructureType && type.definition === this; }
 

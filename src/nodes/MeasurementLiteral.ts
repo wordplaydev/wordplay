@@ -38,7 +38,7 @@ export default class MeasurementLiteral extends Expression {
     
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         return new MeasurementType(undefined, this.unit instanceof Unparsable ? undefined : this.unit);
     }
 

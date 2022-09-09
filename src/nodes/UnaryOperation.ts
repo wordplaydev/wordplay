@@ -53,7 +53,7 @@ export default class UnaryOperation extends Expression {
     
     }
 
-    getType(context: ConflictContext): Type {
+    computeType(context: ConflictContext): Type {
         if(this.operator.text.toString() === "¬" || this.operator.text.toString() === "~") return new BooleanType();
         else if(this.operator.text.toString() === "√" && this.operand instanceof Expression) {
             const type = this.operand.getTypeUnlessCycle(context);

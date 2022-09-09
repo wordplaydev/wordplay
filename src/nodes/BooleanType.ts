@@ -1,4 +1,3 @@
-import type Conflict from "../conflicts/Conflict";
 import Token from "./Token";
 import Type from "./Type";
 import type { ConflictContext } from "./Node";
