@@ -165,7 +165,6 @@ export default class Token extends Node {
     }
 
     computeChildren() { return []; }
-
     getWhitespaceIndex() { return this.index - this.whitespace.length; }
     getTextIndex() { return this.index; }
     getLastIndex() { return this.index + this.getTextLength(); }
@@ -186,7 +185,5 @@ export default class Token extends Node {
     }
     toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}(${this.whitespace.length},${this.index}): ${this.text.toString().replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
     toWordplay() { return this.whitespace + this.text.toString(); }
-
-    getConflicts() { return []; }
 
 }
