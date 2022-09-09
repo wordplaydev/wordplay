@@ -1,4 +1,5 @@
-import Token, { TokenType } from "../nodes/Token";
+import Token from "../nodes/Token";
+import TokenType from "../nodes/TokenType";
 import Unit from "../nodes/Unit";
 import Bool from "./Bool";
 import Exception, { ExceptionKind } from "./Exception";

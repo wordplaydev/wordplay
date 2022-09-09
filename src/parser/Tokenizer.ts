@@ -1,4 +1,5 @@
-import Token, { TokenType } from "../nodes/Token";
+import Token from "../nodes/Token";
+import TokenType from "../nodes/TokenType";
 
 const patterns = [
     { pattern: "[", types: [ TokenType.LIST_OPEN ] },

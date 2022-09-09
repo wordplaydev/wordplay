@@ -1,7 +1,8 @@
 import type ConversionDefinition from "./ConversionDefinition";
 import type FunctionDefinition from "./FunctionDefinition";
 import type { ConflictContext } from "./Node";
-import Token, { TokenType } from "./Token";
+import Token from "./Token";
+import TokenType from "./TokenType";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
 

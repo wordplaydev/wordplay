@@ -1,6 +1,7 @@
 import { tokenize } from "./Tokenizer";
 import Node from "../nodes/Node";
-import Token, { TokenType } from "../nodes/Token";
+import Token from "../nodes/Token";
+import TokenType from "../nodes/TokenType";
 import type Expression from "../nodes/Expression";
 import type Type from "../nodes/Type";
 import Program from "../nodes/Program";

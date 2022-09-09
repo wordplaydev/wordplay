@@ -1,7 +1,8 @@
 import type Conflict from "../conflicts/Conflict";
 import { UnknownTypeName } from "../conflicts/UnknownTypeName";
 import StructureType from "./StructureType";
-import Token, { TokenType } from "./Token";
+import Token from "./Token";
+import TokenType from "./TokenType";
 import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";

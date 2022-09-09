@@ -4,7 +4,7 @@ import Bind from "../nodes/Bind";
 import type { ConflictContext } from "./Node";
 import type Unparsable from "./Unparsable";
 import Token from "./Token";
-import { TokenType } from "./Token";
+import TokenType from "./TokenType";
 
 export default class TableType extends Type {
     

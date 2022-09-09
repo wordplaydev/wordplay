@@ -1,7 +1,8 @@
 import type Node from "./Node";
 import Bind from "./Bind";
 import Expression from "./Expression";
-import Token, { TokenType } from "./Token";
+import Token from "./Token";
+import TokenType from "./TokenType";
 import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";

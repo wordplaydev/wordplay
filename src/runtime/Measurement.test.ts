@@ -1,4 +1,5 @@
-import Token, { TokenType } from "../nodes/Token";
+import Token from "../nodes/Token";
+import TokenType from "../nodes/TokenType";
 import Measurement from "./Measurement";
 
 test("Test number translation", () => {

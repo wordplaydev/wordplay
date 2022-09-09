@@ -7,7 +7,7 @@ import type Evaluator from "../runtime/Evaluator";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Exception, { ExceptionKind } from "../runtime/Exception";
-import { TokenType } from "./Token";
+import TokenType from "./TokenType";
 import Measurement from "../runtime/Measurement";
 import Unit from "./Unit";
 

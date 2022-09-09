@@ -1,6 +1,7 @@
 import type Node from "./Node";
 import Expression from "./Expression";
-import Token, { TokenType } from "./Token";
+import Token from "./Token";
+import TokenType from "./TokenType";
 import type Docs from "./Docs";
 import type Conflict from "../conflicts/Conflict";
 import { MisplacedConversion } from "../conflicts/MisplacedConversion";

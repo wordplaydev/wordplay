@@ -1,5 +1,6 @@
 import Node from "./Node";
-import Token, { TokenType } from "./Token";
+import Token from "./Token";
+import TokenType from "./TokenType";
 import type Unparsable from "./Unparsable";
 
 export default class Language extends Node {

@@ -1,6 +1,8 @@
 <script lang="ts">
     import type Token from "../nodes/Token";
-    import { TAB_WIDTH, TokenKinds, TokenType } from "../nodes/Token";
+    import { TAB_WIDTH } from "../nodes/Token";
+    import TokenType from "../nodes/TokenType";
+    import { TokenCategories } from "./TokenCategories";
     import { caret } from "../models/stores";
     import keyboardIdle from "../models/KeyboardIdle";
 
@@ -11,7 +13,7 @@
     // A cache of view widths at different positions, since this is expensive to compute.
     let caretPositions: Record<number, number> = {};
 
-    $: kind = node.types[0] !== undefined ? TokenKinds.get(node.types[0]) : "default";
+    $: kind = node.types[0] !== undefined ? TokenCategories.get(node.types[0]) : "default";
 
     // Compute where the caret should be placed. Place it if...
     $: caretIndex = 
