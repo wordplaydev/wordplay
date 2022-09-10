@@ -22,7 +22,7 @@ export class DuplicateTypeVariables extends Conflict {
         return Array.from(this.duplicates.values()).flat();
     }
 
-    getExplanations(): ConflictExplanations { 
+    getExplanations() { 
         return {
             eng: `Duplicate type variables ${Array.from(this.duplicates.values()).flat().map(lang => lang.toWordplay())}.`
         }
