@@ -50,6 +50,7 @@
         left: 0;
         border: 2px solid var(--wordplay-black);
         font-size: x-small;
+        font-weight: normal;
         background-color: var(--wordplay-error);
         color: var(--color-white);
         padding: var(--wordplay-spacing);
