@@ -62,4 +62,8 @@
         visibility: visible;
     }
 
+    .conflict {
+        opacity: 1.0;
+    }
+
 </style>

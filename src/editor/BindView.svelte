@@ -16,7 +16,6 @@
 
 <style>
     .type {
-        opacity: 0.5;
         font-style: italic;
         font-size: smaller;
     }
