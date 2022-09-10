@@ -36,8 +36,9 @@ export default class Conditional extends Expression {
     
         const children = [];
 
-        if(!(this.condition.getTypeUnlessCycle(context) instanceof BooleanType))
-            children.push(new ExpectedBooleanCondition(this));
+        const conditionType = this.condition.getTypeUnlessCycle(context);
+        if(!(conditionType instanceof BooleanType))
+            children.push(new ExpectedBooleanCondition(this, conditionType));
 
         return children; 
     
