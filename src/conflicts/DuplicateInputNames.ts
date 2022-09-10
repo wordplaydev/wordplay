@@ -23,7 +23,7 @@ export class DuplicateInputNames extends Conflict {
 
     getExplanations(): ConflictExplanations { 
         return {
-            eng: `Duplicate names ${Array.from(this.duplicates.values()).flat().map(lang => lang.getName())}.`
+            eng: `Duplicate input names ${[... new Set(Array.from(this.duplicates.values()).flat().map(lang => lang.getName()))]}.`
         }
     }
 

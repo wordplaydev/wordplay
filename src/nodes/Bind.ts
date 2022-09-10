@@ -86,7 +86,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
         // Bind aliases have to be unique
         const duplicates = getDuplicateAliases(this.names);
-        if(duplicates.length > 0)
+        if(duplicates.size > 0)
             conflicts.push(new DuplicateAliases(this, duplicates));
 
         // If there's a type, the value must match.

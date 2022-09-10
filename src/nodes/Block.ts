@@ -70,12 +70,6 @@ export default class Block extends Expression {
         if(duplicateDocs.size > 0)
             conflicts.push(new DuplicateLanguages(this.docs, duplicateDocs));
 
-        // All binds must have values.
-        this.statements.forEach(s => {
-            if(s instanceof Bind && s.value === undefined)
-                conflicts.push(new ExpectedBindValue(s));
-        });
-
         return conflicts;
         
     }

@@ -1,4 +1,3 @@
-import type Node from "../nodes/Node";
 import type Bind from "../nodes/Bind";
 import Conflict, { type ConflictExplanations } from "./Conflict";
 import type Alias from "../nodes/Alias";
@@ -6,9 +5,9 @@ import type Alias from "../nodes/Alias";
 export default class DuplicateAliases extends Conflict {
 
     readonly bind: Bind;
-    readonly duplicates: Alias[][];
+    readonly duplicates: Map<string, Alias[]>;
 
-    constructor(bind: Bind, duplicates: Alias[][]) {
+    constructor(bind: Bind, duplicates: Map<string, Alias[]>) {
 
         super(true);
 
@@ -17,13 +16,13 @@ export default class DuplicateAliases extends Conflict {
 
     }
 
-    getConflictingNodes(): Node[] { 
-        return this.duplicates.flat();
-    
+    getConflictingNodes() {
+        return Array.from(this.duplicates.values()).flat();
     }
+
     getExplanations(): ConflictExplanations { 
         return {
-            eng: `Can't have duplicate names ${this.duplicates.flat().map(a => a.getName())}`
+            eng: `Duplicate aliases ${[... new Set(Array.from(this.duplicates.values()).flat().map(lang => lang.getName()))]}.`
         }
     }
 
