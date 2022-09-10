@@ -872,7 +872,7 @@ function parseTypeVariables(tokens: Tokens): (TypeVariable|Unparsable)[] {
     while(tokens.nextIs(TokenType.TYPE_VAR)) {
         const type = tokens.read(TokenType.TYPE_VAR);
         if(tokens.nextIsnt(TokenType.NAME)) {
-            vars.push(tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TYPE_VAR_NAME, [ vars ]));
+            vars.push(tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TYPE_VAR_NAME, [ type ] ));
             return vars;
         }
         const name = tokens.read(TokenType.NAME);
