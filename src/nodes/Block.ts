@@ -55,7 +55,7 @@ export default class Block extends Expression {
         const conflicts = [];
 
         // Blocks can't be empty. And if they aren't empty, the last statement must be an expression.
-        if(!this.creator && (this.statements.length === 0 || !(this.statements[this.statements.length  - 1] instanceof Expression)))
+        if((this.statements.length === 0 || !(this.statements[this.statements.length  - 1] instanceof Expression)))
             conflicts.push(new ExpectedEndingExpression(this));
 
         // The only expression allowed is the last one.
