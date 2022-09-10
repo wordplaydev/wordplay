@@ -2,7 +2,6 @@ import type Node from "./Node";
 import Bind from "./Bind";
 import type Conflict from "../conflicts/Conflict";
 import { ExpectedEndingExpression } from "../conflicts/ExpectedEndingExpression";
-import { ExpectedBindValue } from "../conflicts/ExpectedBindValue";
 import { IgnoredExpression } from "../conflicts/IgnoredExpression";
 import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
 import type Docs from "./Docs";
