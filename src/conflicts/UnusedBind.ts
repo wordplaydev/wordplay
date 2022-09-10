@@ -9,6 +9,7 @@ export class UnusedBind extends Conflict {
 
     constructor(bind: Bind) {
         super(true);
+        
         this.bind = bind;
     }
 
