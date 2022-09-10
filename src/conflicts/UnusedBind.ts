@@ -16,4 +16,10 @@ export class UnusedBind extends Conflict {
         return this.bind.names.map(a => a.name).filter(n => n !== undefined) as Token[];
     }
 
+    getExplanations() { 
+        return {
+            eng: `No one use using ${this.bind.getNames().length === 1 ? "me" : "us"} :(`
+        }
+    }
+
 }

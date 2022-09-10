@@ -11,4 +11,10 @@ export class UnknownProperty extends Conflict {
 
     getConflictingNodes() { return [ this.access.name ]; }
 
+    getExplanations() { 
+        return {
+            eng: `I don't know who I am!`
+        }
+    }
+
 }

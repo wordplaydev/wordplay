@@ -4,8 +4,18 @@ import Conflict from "./Conflict";
 
 export class UnknownTypeName extends Conflict {
     readonly name: NameType;
+
     constructor(name: NameType) {
         super(false);
         this.name = name;
     }
+
+    getConflictingNodes() { return [ this.name ]; }
+
+    getExplanations() { 
+        return {
+            eng: `I don't know who I am!`
+        }
+    }
+
 }

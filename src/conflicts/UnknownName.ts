@@ -16,4 +16,10 @@ export class UnknownName extends Conflict {
         return [ this.name.name ]
     }
 
+    getExplanations() { 
+        return {
+            eng: `I don't know who I am!`
+        }
+    }
+
 }
