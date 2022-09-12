@@ -98,8 +98,9 @@ export default class FunctionDefinition extends Expression {
 
         // Required inputs can never follow an optional one.
         const binds = this.inputs.filter(i => i instanceof Bind) as Bind[];
-        if(this.inputs.length === binds.length && requiredBindAfterOptional(binds) !== undefined)
-            conflicts.push(new RequiredAfterOptional(this));
+        const requiredAfterOptional = requiredBindAfterOptional(binds);
+        if(this.inputs.length === binds.length && requiredAfterOptional !== undefined)
+            conflicts.push(new RequiredAfterOptional(this, requiredAfterOptional));
 
         // Rest arguments must be list
         const rest = this.inputs.find(i => i instanceof Bind && i.isVariableLength());
