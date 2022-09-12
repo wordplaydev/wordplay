@@ -8,4 +8,16 @@ export class MisplacedShare extends Conflict {
         super(false);
         this.share = share;
     }
+
+    getConflictingNodes() {
+        return [ this.share.share ];
+    }
+
+    getExplanations() { 
+        return {
+            eng: `Can only share things in the main block.`
+        }
+    }
+
 }
+
