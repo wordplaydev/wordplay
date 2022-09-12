@@ -12,7 +12,14 @@ export class NotAFunction extends Conflict {
         this.received = received;
     }
 
-    toString() {
-        return `${super.toString()}: ${this.evaluate.func.toWordplay().trim()} was ${this.received.toWordplay()}`;
+    getConflictingNodes() {
+        return [ this.evaluate.func ];
     }
+
+    getExplanations() { 
+        return {
+            eng: `This isn't a function, it's a ${this.received.toWordplay()}`
+        }
+    }
+
 }
