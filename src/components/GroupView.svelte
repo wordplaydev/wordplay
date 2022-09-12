@@ -7,13 +7,17 @@
     const layoutStructure = group.resolve("layout");
     const layout = layoutStructure instanceof Structure ? `layout-${layoutStructure.type.aliases[0].getName()}` : "layout-default";
     $: phraseStructure = group.resolve("phrases");
-    $: phrase = phraseStructure instanceof List ? phraseStructure.getValues() as Structure[] : [];
+    $: phrases = phraseStructure instanceof List ? phraseStructure.getValues() : [];
 
 </script>
 
 <div class={layout}>
-    {#each phrase as lets}
-        <PhraseView phrase={lets} />
+    {#each phrases as phrase}
+        {#if phrase instanceof Structure }
+            <PhraseView phrase={phrase} />
+        {:else}
+            {phrase.constructor.name}
+        {/if}
     {/each}
 </div>
 

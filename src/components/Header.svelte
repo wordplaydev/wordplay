@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Project from '../models/Project';
     import { examples } from '../examples/examples';
     import { caret, project } from '../models/stores';
     import Caret from '../models/Caret';
