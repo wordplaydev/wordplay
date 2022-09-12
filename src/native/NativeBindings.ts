@@ -297,12 +297,12 @@ Native.addFunction("list", new FunctionDefinition(
         new Bind([], undefined, [ new Alias("matcher", "eng")], new FunctionType([ 
             {
                 aliases: [ new Alias("value", "eng") ],
-                type: new BooleanType(),
+                type: new NameType("T"),
                 required: true,
                 rest: false,
                 default: undefined
             }
-        ], new NameType("T")))
+        ], new BooleanType()))
     ],
     new NativeHOFListAll(),
     new BooleanType()
