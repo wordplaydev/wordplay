@@ -13,7 +13,7 @@ export class UnusedBind extends Conflict {
         this.bind = bind;
     }
 
-    getConflictingNodes(): Node[] {
+    getConflictingNodes() {
         return this.bind.names.map(a => a.name).filter(n => n !== undefined) as Token[];
     }
 

@@ -12,7 +12,7 @@ export class UnknownName extends Conflict {
         this.name = name;
     }
 
-    getConflictingNodes(): Node[] {
+    getConflictingNodes() {
         return [ this.name.name ]
     }
 
