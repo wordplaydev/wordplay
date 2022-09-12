@@ -235,7 +235,7 @@
         position: absolute;
         border: none;
         outline: none;
-        width: 1;
+        width: 1px;
         opacity: 0;
         pointer-events: none;
     }

@@ -152,6 +152,7 @@ const commands: Command[] = [
     },
     {
         description: "Move the caret one position right",
+        alt: false,
         key: "ArrowRight",
         execute: (caret: Caret) => caret.right()
     },
