@@ -93,7 +93,7 @@ export default function renderNode(node: Node) {
         "UnaryOperation": UnaryOperationView,
 
         "Convert": ConvertView,
-        "ConversionDefnition": ConversionDefinitionView,
+        "ConversionDefinition": ConversionDefinitionView,
 
         "Conditional": ConditionalView,
 
