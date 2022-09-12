@@ -1,20 +1,34 @@
 import type Expression from "../nodes/Expression";
+import type Token from "../nodes/Token";
 import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
 
 
 export class IncompatibleOperand extends Conflict {
     readonly expr: Expression;
-    readonly receivedType: Type | undefined;
+    readonly operator: Token;
+    readonly operand: Expression;
+    readonly receivedType: Type;
     readonly expectedType: Type;
-    constructor(expr: Expression, receivedType: Type | undefined, expectedType: Type) {
+    
+    constructor(expr: Expression, operator: Token, operand: Expression, receivedType: Type, expectedType: Type) {
         super(false);
+
         this.expr = expr;
+        this.operator = operator;
+        this.operand = operand;
         this.receivedType = receivedType;
         this.expectedType = expectedType;
     }
 
-    toString() {
-        return `${super.toString()} ${this.expr.toWordplay().trim()}: received ${this.receivedType?.toWordplay()}, expected ${this.expectedType.toWordplay()}`;
+    getConflictingNodes() {
+        return [ this.operand ];
     }
+
+    getExplanations() { 
+        return {
+            eng: `${this.operator.toWordplay()} needs a ${this.expectedType.toWordplay()}, but this is a ${this.receivedType?.toWordplay()}`
+        }
+    }
+
 }
