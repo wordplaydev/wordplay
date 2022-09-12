@@ -3,7 +3,7 @@ import type MapLiteral from "../nodes/MapLiteral";
 import Conflict from "./Conflict";
 
 
-export class NotASetOrMap extends Conflict {
+export class NotAMap extends Conflict {
     readonly map: MapLiteral;
 
     constructor(set: MapLiteral) {

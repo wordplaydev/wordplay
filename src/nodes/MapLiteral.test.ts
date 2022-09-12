@@ -1,5 +1,5 @@
 import { testConflict } from "../conflicts/testConflict";
-import { NotASetOrMap as NotAMap } from "../conflicts/NotAMap";
+import { NotAMap as NotAMap } from "../conflicts/NotAMap";
 import MapLiteral from "./MapLiteral";
 
 test("Test set or map conflicts", () => {

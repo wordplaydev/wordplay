@@ -13,7 +13,7 @@ import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 import { getPossibleUnionType } from "./UnionType";
-import { NotASetOrMap } from "../conflicts/NotAMap";
+import { NotAMap } from "../conflicts/NotAMap";
 import MapType from "./MapType";
 import Halt from "../runtime/Halt";
 import Exception, { ExceptionKind } from "../runtime/Exception";
@@ -43,7 +43,7 @@ export default class MapLiteral extends Expression {
 
     computeConflicts(context: ConflictContext): Conflict[] { 
     
-        return this.notAMap() ? [ new NotASetOrMap(this) ] : [];
+        return this.notAMap() ? [ new NotAMap(this) ] : [];
     
     }
 
