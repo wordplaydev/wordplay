@@ -46,9 +46,8 @@ export default class Previous extends Expression {
             return [ new NotAStream(this, streamType) ];
 
         const indexType = this.index.getTypeUnlessCycle(context);
-
         if(!(indexType instanceof MeasurementType) || indexType.unit !== undefined)
-            return [ new NotAStreamIndex(this) ];
+            return [ new NotAStreamIndex(this, indexType) ];
 
         return [];
     
