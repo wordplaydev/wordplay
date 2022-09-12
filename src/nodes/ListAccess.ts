@@ -47,7 +47,7 @@ export default class ListAccess extends Expression {
         const indexType = this.index.getTypeUnlessCycle(context);
 
         if(!(indexType instanceof MeasurementType) || indexType.unit !== undefined)
-            return [ new NotAListIndex(this) ];
+            return [ new NotAListIndex(this, indexType) ];
 
         return []; 
     
