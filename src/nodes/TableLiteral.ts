@@ -50,13 +50,15 @@ export default class TableLiteral extends Expression {
         // All cells in all rows must match their types.
         this.rows.forEach(row => {
             if(row.cells.length !== this.columns.length)
-                conflicts.push(new MissingCells(row));
+                conflicts.push(new MissingCells(this.computeType(context), row));
             row.cells.forEach((cell, index) => {
                 if(cell.expression instanceof Expression || cell.expression instanceof Bind) {
                     if(index >= 0 && index < this.columns.length) {
                        const columnBind = this.columns[index].bind;
-                        if(columnBind instanceof Bind && !columnBind.getTypeUnlessCycle(context).isCompatible(context, cell.expression.getTypeUnlessCycle(context)))
-                            conflicts.push(new IncompatibleCellType(this.getType(context), cell));
+                       const bindType = columnBind.getTypeUnlessCycle(context);
+                       const cellType = cell.expression.getTypeUnlessCycle(context);
+                        if(columnBind instanceof Bind && !cellType.isCompatible(context, bindType))
+                            conflicts.push(new IncompatibleCellType(this.computeType(context), cell, bindType, cellType));
                     }
                 }
             });

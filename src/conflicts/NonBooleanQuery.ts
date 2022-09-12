@@ -1,13 +1,30 @@
 import type Delete from "../nodes/Delete";
 import type Select from "../nodes/Select";
+import type Type from "../nodes/Type";
 import type Update from "../nodes/Update";
 import Conflict from "./Conflict";
 
 
 export class NonBooleanQuery extends Conflict {
     readonly op: Select | Delete | Update;
-    constructor(op: Select | Delete | Update) {
+    readonly type: Type;
+
+    constructor(op: Select | Delete | Update, type: Type) {
         super(false);
+
         this.op = op;
+        this.type = type;
+
     }
+
+    getConflictingNodes() {
+        return [ this.op.query ];
+    }
+
+    getExplanations() { 
+        return {
+            eng: `Table queries have to be Boolean-typed; this is ${this.type.toWordplay()}`
+        }
+    }
+
 }

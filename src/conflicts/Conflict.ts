@@ -8,8 +8,8 @@ export default abstract class Conflict {
     
     constructor(minor: boolean) { this.#minor = minor; }
 
-    getConflictingNodes(): Node[] { return [] };
-    getExplanations(): ConflictExplanations { return { eng: this.constructor.name} };
+    abstract getConflictingNodes(): Node[];
+    abstract getExplanations(): ConflictExplanations;
 
     isMinor() { return this.#minor; }
     getExplanation(lang: LanguageCode): string { return this.getExplanations()[lang]; }

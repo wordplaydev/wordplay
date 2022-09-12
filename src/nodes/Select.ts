@@ -53,7 +53,7 @@ export default class Select extends Expression {
 
         // Table must be table typed.
         if(!(tableType instanceof TableType))
-            conflicts.push(new NotATable(this));
+            conflicts.push(new NotATable(this, tableType));
 
         // The columns in a select must be names.
         this.row.cells.forEach(cell => {
@@ -71,8 +71,9 @@ export default class Select extends Expression {
         }
 
         // The query must be truthy.
-        if(this.query instanceof Expression && !(this.query.getTypeUnlessCycle(context) instanceof BooleanType))
-            conflicts.push(new NonBooleanQuery(this))
+        const queryType = this.query.getTypeUnlessCycle(context);
+        if(this.query instanceof Expression && !(queryType instanceof BooleanType))
+            conflicts.push(new NonBooleanQuery(this, queryType))
     
         return conflicts;
     

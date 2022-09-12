@@ -45,11 +45,12 @@ export default class Delete extends Expression {
 
         // Table must be table typed.
         if(!(tableType instanceof TableType))
-            conflicts.push(new NotATable(this));
+            conflicts.push(new NotATable(this, tableType));
 
         // The query must be truthy.
-        if(this.query instanceof Expression && !(this.query.getTypeUnlessCycle(context) instanceof BooleanType))
-            conflicts.push(new NonBooleanQuery(this))
+        const queryType = this.query.getTypeUnlessCycle(context);
+        if(this.query instanceof Expression && !(queryType instanceof BooleanType))
+            conflicts.push(new NonBooleanQuery(this, queryType))
 
         return conflicts; 
         

@@ -51,7 +51,7 @@ export default class Update extends Expression {
 
         // Table must be table typed.
         if(!(tableType instanceof TableType)) {
-            conflicts.push(new NotATable(this));
+            conflicts.push(new NotATable(this, tableType));
             return conflicts;
         }
 
@@ -68,15 +68,18 @@ export default class Update extends Expression {
                     conflicts.push(new UnknownColumn(tableType, cell));
                 // The types of the bound values must match the column types.
                 else if(columnType.bind instanceof Bind) {
-                    if(!columnType.bind.getTypeUnlessCycle(context).isCompatible(context, cell.expression.getTypeUnlessCycle(context)))
-                        conflicts.push(new IncompatibleCellType(tableType, cell));
+                    const bindType = columnType.bind.getTypeUnlessCycle(context);
+                    const cellType = cell.expression.getTypeUnlessCycle(context);
+                    if(!bindType.isCompatible(context, cellType))
+                        conflicts.push(new IncompatibleCellType(tableType, cell, bindType, cellType));
                 }
             }
         });
 
         // The query must be truthy.
-        if(this.query instanceof Expression && !(this.query.getTypeUnlessCycle(context) instanceof BooleanType))
-            conflicts.push(new NonBooleanQuery(this))
+        const queryType = this.query.getTypeUnlessCycle(context);
+        if(this.query instanceof Expression && !(queryType instanceof BooleanType))
+            conflicts.push(new NonBooleanQuery(this, queryType))
 
         return conflicts; 
     
