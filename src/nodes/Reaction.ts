@@ -1,5 +1,5 @@
 import type Conflict from "../conflicts/Conflict";
-import { IncompatibleStreamValues } from "../conflicts/IncompatibleStreamValues";
+import { IncompatibleReactionTypes } from "../conflicts/IncompatibleReactionTypes";
 import { NotAStream } from "../conflicts/NotAStream";
 import Expression from "./Expression";
 import StreamType from "./StreamType";
@@ -53,7 +53,7 @@ export default class Reaction extends Expression {
         const initialType = this.initial.getTypeUnlessCycle(context);
         const nextType = this.next.getTypeUnlessCycle(context);
         if(this.next instanceof Expression && !initialType.isCompatible(context, nextType))
-            conflicts.push(new IncompatibleStreamValues(this, initialType, nextType));
+            conflicts.push(new IncompatibleReactionTypes(this, initialType, nextType));
 
         return conflicts; 
     

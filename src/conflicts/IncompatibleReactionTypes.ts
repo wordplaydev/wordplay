@@ -3,7 +3,7 @@ import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
 
 
-export class IncompatibleStreamValues extends Conflict {
+export class IncompatibleReactionTypes extends Conflict {
 
     readonly reaction: Reaction;
     readonly initialType: Type;
