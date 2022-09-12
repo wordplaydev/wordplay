@@ -89,15 +89,20 @@ export default class StructureDefinition extends Expression {
     }
 
     isInterface(): boolean {
-        // It's an interface if it has one or more function definitions that have no body expression.
-        if(this.block instanceof Unparsable || this.block === undefined) return false;
+        const abstractFunctions = this.getAbstractFunctions();
+        return abstractFunctions !== undefined && abstractFunctions.length > 0;
+    }
+
+    getAbstractFunctions(): FunctionDefinition[] | undefined {
+
+        if(this.block instanceof Unparsable || this.block === undefined) return undefined;
         const functions: FunctionDefinition[] = this.block.statements.map(s => 
             s instanceof FunctionDefinition ? s :
             (s instanceof Bind && s.value instanceof FunctionDefinition) ? s.value :
             undefined
         ).filter(s => s !== undefined) as FunctionDefinition[];
-        const abstractFunctions = functions.filter(s => s.isAbstract());
-        return functions.length > 0 && abstractFunctions.length > 0;
+        return functions.filter(s => s.isAbstract());
+
     }
 
     computeChildren() {

@@ -66,8 +66,9 @@ export default class Evaluate extends Expression {
                     targetInputs = functionType.inputs;
                 else if(functionType instanceof StructureType) {
                     // Can't create interfaces that don't have missing function definitions.
-                    if(functionType.definition.isInterface())
-                        conflicts.push(new NotInstantiable(this, functionType.definition));
+                    const abstractFunctions = functionType.definition.getAbstractFunctions();
+                    if(abstractFunctions !== undefined && abstractFunctions.length > 0)
+                        conflicts.push(new NotInstantiable(this, functionType.definition, abstractFunctions));
 
                     // Get the types of all of the inputs.
                     targetInputs = functionType.definition.getFunctionType(context).inputs;
