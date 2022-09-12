@@ -27,20 +27,7 @@ export default class Template extends Expression {
 
     computeChildren() { return this.format ? [ ...this.parts, this.format ] : [ ...this.parts ]; }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
-        
-        const conflicts: Conflict[] = [];
-
-        // Expressions must be convertable to text.
-        (this.parts.filter(p => p instanceof Expression) as Expression[]).forEach(expr => {
-            const type = expr.getTypeUnlessCycle(context);
-            if(!(type instanceof TextType) && type.getConversion(context, new TextType()) === undefined)
-                conflicts.push(new UnknownConversion(expr, new TextType()));
-        });
-
-        return conflicts; 
-    
-    }
+    computeConflicts(context: ConflictContext) { return []; }
 
     computeType(context: ConflictContext): Type {
         return new TextType(undefined, this.format);
