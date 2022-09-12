@@ -236,7 +236,7 @@ test("Parse expressions", () => {
     expect((table as TableLiteral).columns).toHaveLength(3);
     expect((table as TableLiteral).rows).toHaveLength(2);
 
-    const select = parseExpression(tokens("table|?|a|b c > 3"));
+    const select = parseExpression(tokens("table |? |a|b|| c > 3"));
     expect(select).toBeInstanceOf(Select);
     expect((select as Select).row.cells).toHaveLength(2);
     expect((select as Select).query).toBeInstanceOf(BinaryOperation);

@@ -383,7 +383,7 @@ export function parseAliases(tokens: Tokens): Alias[] {
 export function parseLanguage(tokens: Tokens): Language {
 
     const slash = tokens.read(TokenType.LANGUAGE);
-    const lang = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : new Unparsable(SyntacticConflict.EXPECTED_LANGUAGE, [], []);
+    const lang = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : new Unparsable(SyntacticConflict.EXPECTED_LANGUAGE, [ slash ], []);
     return new Language(lang, slash);
 
 }
@@ -653,7 +653,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral | Unparsable {
         else values.push(key);
     }
 
-    const close = tokens.nextIs(TokenType.SET_CLOSE) ? tokens.read(TokenType.SET_CLOSE) : new Unparsable(SyntacticConflict.EXPECTED_SET_CLOSE, [], []);
+    const close = tokens.nextIs(TokenType.SET_CLOSE) ? tokens.read(TokenType.SET_CLOSE) : tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE, [ open, ...values ]);
 
     // Make a map
     return values.find(v => v instanceof KeyValue) !== undefined ? 
@@ -670,7 +670,7 @@ function parseSetOrMapAccess(left: Expression | Unparsable, tokens: Tokens): Exp
         const key = parseExpression(tokens);
 
         if(tokens.nextIsnt(TokenType.SET_CLOSE))
-            return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE, [ open, key]);
+            return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE, [ left, open, key ]);
         const close = tokens.read(TokenType.SET_CLOSE);
 
         left = new SetOrMapAccess(left, open, key, close);
@@ -706,7 +706,8 @@ function parseTable(tokens: Tokens): TableLiteral {
     }
 
     // Read the table close.
-    const close = tokens.nextIs(TokenType.TABLE_CLOSE) ? tokens.read(TokenType.TABLE_CLOSE) : new Unparsable(SyntacticConflict.EXPECTED_TABLE_CLOSE, [], []);    
+    const close = tokens.nextIs(TokenType.TABLE_CLOSE) ? 
+        tokens.read(TokenType.TABLE_CLOSE) : tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TABLE_CLOSE, [ ... columns ]);    
 
     // Read the rows.
     const rows = [];
@@ -731,7 +732,9 @@ function parseRow(tokens: Tokens): Row {
     }
 
     // Read the closing row marker.
-    const close = tokens.nextIs(TokenType.TABLE_CLOSE) ? tokens.read(TokenType.TABLE_CLOSE) : new Unparsable(SyntacticConflict.EXPECTED_TABLE_CLOSE, [], []);
+    const close = tokens.nextIs(TokenType.TABLE_CLOSE) ?
+        tokens.read(TokenType.TABLE_CLOSE) : 
+        new Unparsable(SyntacticConflict.EXPECTED_TABLE_CLOSE, [], []);
     
     return new Row(cells, close);
 
@@ -1009,7 +1012,9 @@ function parseTableType(tokens: Tokens): TableType | Unparsable {
         columns.push(new ColumnType(bind, bar))
     }
 
-    const close = tokens.nextIs(TokenType.TABLE_CLOSE) ? tokens.read(TokenType.TABLE_CLOSE) : new Unparsable(SyntacticConflict.EXPECTED_TABLE_CLOSE, [], []);
+    const close = tokens.nextIs(TokenType.TABLE_CLOSE) ? 
+        tokens.read(TokenType.TABLE_CLOSE) : 
+        tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TABLE_CLOSE, [ ... columns ]);
 
     return new TableType(columns, close);
 
