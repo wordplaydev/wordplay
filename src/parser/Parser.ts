@@ -616,7 +616,7 @@ function parseListAccess(left: Expression | Unparsable, tokens: Tokens): Express
         const open = tokens.read(TokenType.LIST_OPEN);
         const index = parseExpression(tokens);
         if(tokens.nextIsnt(TokenType.LIST_CLOSE))
-            return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_LIST_CLOSE, [ open, index ]);
+            return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_LIST_CLOSE, [ left, open, index ]);
         const close = tokens.read(TokenType.LIST_CLOSE);
 
         left = new ListAccess(left, open, index, close);

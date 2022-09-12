@@ -55,8 +55,20 @@ export default class Unparsable extends Node implements Evaluable {
 
 export class UnparsableConflict extends Conflict {
     readonly unparsable: Unparsable;
+
     constructor(unparsable: Unparsable) {
         super(false);
         this.unparsable = unparsable;
     }
+
+    getConflictingNodes() {
+        return [ this.unparsable ];
+    }
+
+    getExplanations() { 
+        return {
+            eng: `I couldn't parse this.`
+        }
+    }
+
 }
