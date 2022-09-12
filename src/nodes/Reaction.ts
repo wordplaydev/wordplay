@@ -50,8 +50,10 @@ export default class Reaction extends Expression {
             conflicts.push(new NotAStream(this));
 
         // The initial and next must be compatible
-        if(this.next instanceof Expression && !this.initial.getTypeUnlessCycle(context).isCompatible(context, this.next.getTypeUnlessCycle(context)))
-            conflicts.push(new IncompatibleStreamValues(this));
+        const initialType = this.initial.getTypeUnlessCycle(context);
+        const nextType = this.next.getTypeUnlessCycle(context);
+        if(this.next instanceof Expression && !initialType.isCompatible(context, nextType))
+            conflicts.push(new IncompatibleStreamValues(this, initialType, nextType));
 
         return conflicts; 
     
