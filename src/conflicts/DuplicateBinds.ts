@@ -20,7 +20,7 @@ export class DuplicateBinds extends Conflict {
         return this.bind.names;
     }
 
-    getExplanations(): ConflictExplanations { 
+    getExplanations() { 
         return {
             eng: `${this.bind.names[0].getName()} is declared multiple times.`
         }

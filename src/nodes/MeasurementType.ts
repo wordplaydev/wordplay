@@ -38,6 +38,4 @@ export default class MeasurementType extends Type {
 
     getNativeTypeName(): string { return "measurement"; }
 
-    toWordplay() { return "•#" + (this.unit === undefined ? "" : this.unit.toString()); }
-
 }

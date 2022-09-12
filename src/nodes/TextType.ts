@@ -32,8 +32,4 @@ export default class TextType extends Type {
 
     getNativeTypeName(): string { return "text"; }
 
-    toWordplay(): string {
-        return this.quote === undefined ? "•''" : super.toWordplay();
-    }
-
 }
