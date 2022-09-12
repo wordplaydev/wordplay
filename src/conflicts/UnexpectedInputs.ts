@@ -24,4 +24,10 @@ export class UnexpectedInputs extends Conflict {
         return this.inputs;
     }
 
+    getExplanations() { 
+        return {
+            eng: `This evaluation has too many inputs.`
+        }
+    }
+
 }
