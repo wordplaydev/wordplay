@@ -46,8 +46,9 @@ export default class Reaction extends Expression {
         const conflicts = [];
 
         // Streams have to be stream types!
-        if(this.stream instanceof Expression && !(this.stream.getTypeUnlessCycle(context) instanceof StreamType))
-            conflicts.push(new NotAStream(this));
+        const streamType = this.stream.getTypeUnlessCycle(context);
+        if(this.stream instanceof Expression && !(streamType instanceof StreamType))
+            conflicts.push(new NotAStream(this, streamType));
 
         // The initial and next must be compatible
         const initialType = this.initial.getTypeUnlessCycle(context);

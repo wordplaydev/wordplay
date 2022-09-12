@@ -43,7 +43,7 @@ export default class Previous extends Expression {
         const streamType = this.stream.getTypeUnlessCycle(context);
 
         if(!(streamType instanceof StreamType))
-            return [ new NotAStream(this) ];
+            return [ new NotAStream(this, streamType) ];
 
         const indexType = this.index.getTypeUnlessCycle(context);
 
