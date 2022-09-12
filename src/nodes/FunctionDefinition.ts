@@ -105,7 +105,7 @@ export default class FunctionDefinition extends Expression {
         // Rest arguments must be list
         const rest = this.inputs.find(i => i instanceof Bind && i.isVariableLength());
         if(rest !== undefined && this.inputs.indexOf(rest) !== this.inputs.length - 1)
-            conflicts.push(new VariableLengthArgumentMustBeLast(this));
+            conflicts.push(new VariableLengthArgumentMustBeLast(this, rest));
 
         return conflicts; 
     
