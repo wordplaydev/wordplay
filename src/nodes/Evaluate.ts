@@ -1,7 +1,7 @@
 import Bind from "../nodes/Bind";
 import type Conflict from "../conflicts/Conflict";
 import { RedundantNamedInput } from "../conflicts/RedundantNamedInput";
-import { InvalidInputName } from "../conflicts/InvalidInputName";
+import { UnknownInputName } from "../conflicts/UnknownInputName";
 import { MissingInput } from "../conflicts/MissingInput";
 import { UnexpectedInputs } from "../conflicts/UnexpectedInputs";
 import { IncompatibleInput } from "../conflicts/IncompatibleInput";
@@ -118,7 +118,7 @@ export default class Evaluate extends Expression {
                                         }
                                         // The given name has to match the required name.
                                         else if(input.aliases.find(a => a.getName() === givenName) === undefined) {
-                                            conflicts.push(new InvalidInputName(functionType, this, input));
+                                            conflicts.push(new UnknownInputName(functionType, this, input, given));
                                             break;
                                         }
                                         // The types have to match
