@@ -114,7 +114,7 @@ export default class Evaluate extends Expression {
                                     if(givenName !== undefined) {
                                         // If we've already given the name...
                                         if(namesProvided.has(givenName)) {
-                                            conflicts.push(new RedundantNamedInput(functionType, this, input));
+                                            conflicts.push(new RedundantNamedInput(functionType, given, this, input));
                                             break;
                                         }
                                         // The given name has to match the required name.
@@ -189,7 +189,7 @@ export default class Evaluate extends Expression {
                                 else {
                                     const given = givenInputs.shift();
                                     if(given !== undefined && given instanceof Bind && namesProvided.has(given.getNames()[0])) {
-                                        conflicts.push(new RedundantNamedInput(functionType, this, input));
+                                        conflicts.push(new RedundantNamedInput(functionType, given, this, input));
                                         break;
                                     } 
                                     input.aliases.forEach(a => {
