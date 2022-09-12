@@ -8,4 +8,15 @@ export class UnexpectedEtc extends Conflict {
         super(false);
         this.bind = bind;
     }
+
+    getConflictingNodes() {
+        return this.bind.etc === undefined ? [] : [ this.bind.etc ];
+    }
+
+    getExplanations() { 
+        return {
+            eng: `Variable length only applies to evaluations, they can't go here.`
+        }
+    }
+
 }
