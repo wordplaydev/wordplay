@@ -103,12 +103,10 @@
         }
     }
 
-    $: conflicts = $project?.getConflictsInvolvingNode(node) ?? [];
-
 </script>
 
 {#if node.newlines > 0 ? "newline" : ""}{@html "<br/>".repeat(node.newlines)}{/if}<span 
-    class="token-view token-{kind} {$caret?.position === node ? "selected" : ""} {conflicts.length > 0 ? "conflicts" : ""}" 
+    class="token-view token-{kind} {$caret?.position === node ? "selected" : ""}" 
     style="color: {`var(--token-category-${kind})`}; margin-left: {node.precedingSpaces}ch"
     data-id={node.id}
     bind:this={element}
@@ -184,10 +182,6 @@
 
     .selected .text {
         outline: 2px solid var(--color-yellow);
-    }
-
-    .conflicts {
-        border-bottom: 2px solid var(--wordplay-error);
     }
 
 </style>
