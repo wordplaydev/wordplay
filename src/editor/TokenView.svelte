@@ -5,7 +5,7 @@
     import { TokenCategories } from "./TokenCategories";
     import { caret, project } from "../models/stores";
     import keyboardIdle from "../models/KeyboardIdle";
-import NodeView from "./NodeView.svelte";
+    import NodeView from "./NodeView.svelte";
 
     export let node: Token;
 
@@ -20,10 +20,11 @@ import NodeView from "./NodeView.svelte";
     $: caretIndex = 
         $caret !== undefined &&
         typeof $caret.position === "number" &&
-        // This token contains the caret position
-        $caret.between(node.getWhitespaceIndex(), node.getLastIndex()) &&
-        // This isn't the end token, or it is, and it either has whitespace or the code is the empty string.
-        (!node.is(TokenType.END) || ($caret.project.code.getLength() === 0 || node.whitespace.length > 0)) ? 
+        // If this is the end and the caret is on it
+        (
+            (node.is(TokenType.END) && $caret.isEnd()) ||
+            $caret.between(node.getWhitespaceIndex(), node.getLastIndex())
+        ) ?
             // The offset at which to render the token is the caret in it's text.
             // If the caret position is on a newline or tab, then it will be negative.
             $caret.position - node.getTextIndex() : 

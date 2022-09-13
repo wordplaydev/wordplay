@@ -138,12 +138,15 @@
 
                 // If so, execute it.
                 const result = command.execute($caret, editor, event.code);
-                
+
+                // Prevent the OS from executing the default behavior for this keystroke.
+                // This is key to preventing the hidden text field intercepting backspaces and arrow key navigation,
+                // which messages with input interception.
+                event.preventDefault();
+                event.stopPropagation();
+
                 // If it produced a new caret and optionally a new project, update the stores.
                 if(result !== undefined) {
-
-                    // Prevent the OS from executing the default behavior for this keystroke.
-                    event.preventDefault();
 
                     // Get the new caret and project to display.
                     const newCaret = result instanceof Caret ? result : result[1];

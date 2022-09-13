@@ -10,6 +10,7 @@ const TokenCategoryName = "name";
 const TokenCategoryType = "type";
 const TokenCategoryOperator = "operator";
 const TokenCategoryUnknown = "unknown";
+const TokenCategoryEnd = "end";
 
 export const TokenCategories: Map<TokenType, string> = new Map();
 TokenCategories.set(TokenType.EVAL_OPEN, TokenCategoryDelimiter);
@@ -61,5 +62,5 @@ TokenCategories.set(TokenType.DECIMAL, TokenCategoryLiteral);
 TokenCategories.set(TokenType.BASE, TokenCategoryLiteral);
 TokenCategories.set(TokenType.BOOLEAN, TokenCategoryLiteral);
 TokenCategories.set(TokenType.NAME, TokenCategoryName);
-TokenCategories.set(TokenType.END, TokenCategoryLiteral);
+TokenCategories.set(TokenType.END, TokenCategoryEnd);
 TokenCategories.set(TokenType.UNKNOWN, TokenCategoryUnknown);

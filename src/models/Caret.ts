@@ -21,6 +21,7 @@ export default class Caret {
             undefined;
     }
 
+    isEnd() { return this.isIndex() && this.position === this.project.code.getLength() }
     isIndex() { return typeof this.position === "number"; }
     getIndex() { return this.isIndex() ? this.position as number : undefined; }
 
