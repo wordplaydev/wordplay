@@ -5,7 +5,6 @@
     import { TokenCategories } from "./TokenCategories";
     import { caret, project } from "../models/stores";
     import keyboardIdle from "../models/KeyboardIdle";
-    import NodeView from "./NodeView.svelte";
 
     export let node: Token;
 
@@ -164,16 +163,19 @@
     }
 
     .caret {
-        width: 2px;
         position: absolute;
         top: 0;
-        height: 1.4em;
+        width: 3px;
+        transform: translate(-1px, 0);
+        height: var(--wordplay-code-line-height);
         background-color: var(--color-black);
         z-index: 1;
     }
 
-    .blink {
+    .caret.blink {
         animation: blink-animation 1s steps(2, start) infinite;
+        transform: none;
+        width: 2px;
     }
 
     @keyframes blink-animation {

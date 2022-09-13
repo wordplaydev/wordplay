@@ -142,7 +142,6 @@
                 // This is key to preventing the hidden text field intercepting backspaces and arrow key navigation,
                 // which messages with input interception.
                 event.preventDefault();
-                event.stopPropagation();
 
                 // If it produced a new caret and optionally a new project, update the stores.
                 if(result !== undefined) {
@@ -229,7 +228,7 @@
         width: auto;
         height: auto;
         min-height: calc(100% - var(--wordplay-spacing) * 2);
-        line-height: 1.4;
+        line-height: var(--wordplay-code-line-height);
         position: relative;
     }
 
