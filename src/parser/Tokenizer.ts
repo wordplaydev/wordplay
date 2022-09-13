@@ -136,6 +136,6 @@ function getNextToken(source: string, index: number): Token | undefined {
     }
     
     // Otherwise, we fail and return an error token that contains the remainder of the text.
-    return new Token(source, [ TokenType.UNKNOWN ], startIndex, space);
+    return new Token(trimmedSource, [ TokenType.UNKNOWN ], startIndex, space);
 
 }
