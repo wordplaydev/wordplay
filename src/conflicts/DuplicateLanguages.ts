@@ -1,13 +1,13 @@
-import type Docs from "../nodes/Docs";
+import type Documentation from "../nodes/Documentation";
 import type Language from "../nodes/Language";
 import Conflict, { type ConflictExplanations } from "./Conflict";
 
 export class DuplicateLanguages extends Conflict {
 
-    readonly docs: Docs[];
+    readonly docs: Documentation[];
     readonly duplicates: Map<string, Language[]>;
 
-    constructor(docs: Docs[], duplicates: Map<string, Language[]>) {
+    constructor(docs: Documentation[], duplicates: Map<string, Language[]>) {
 
         super(false);
 

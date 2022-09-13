@@ -3,7 +3,7 @@ import Bind from "./Bind";
 import Expression from "./Expression";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
-import type Docs from "./Docs";
+import type Documentation from "./Documentation";
 import type Conflict from "../conflicts/Conflict";
 import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
 import { VariableLengthArgumentMustBeLast } from "../conflicts/VariableLengthArgumentMustBeLast";
@@ -33,7 +33,7 @@ import type NameType from "./NameType";
 export default class StructureDefinition extends Expression {
 
     readonly type: Token;
-    readonly docs: Docs[];
+    readonly docs: Documentation[];
     readonly aliases: Alias[];
     readonly interfaces: NameType[];
     readonly typeVars: (TypeVariable|Unparsable)[];
@@ -42,7 +42,7 @@ export default class StructureDefinition extends Expression {
     readonly close: Token;
     readonly block: Block | Unparsable;
 
-    constructor(docs: Docs[], aliases: Alias[], interfaces: NameType[], typeVars: (TypeVariable|Unparsable)[], inputs: (Bind|Unparsable)[], block?: Block | Unparsable, type?: Token, open?: Token, close?: Token) {
+    constructor(docs: Documentation[], aliases: Alias[], interfaces: NameType[], typeVars: (TypeVariable|Unparsable)[], inputs: (Bind|Unparsable)[], block?: Block | Unparsable, type?: Token, open?: Token, close?: Token) {
 
         super();
 

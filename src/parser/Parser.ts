@@ -33,7 +33,7 @@ import Conditional from "../nodes/Conditional";
 import Share from "../nodes/Share";
 import StructureDefinition from "../nodes/StructureDefinition";
 import Alias from "../nodes/Alias";
-import Docs from "../nodes/Docs";
+import Documentation from "../nodes/Documentation";
 import Column from "../nodes/Column";
 import Cell from "../nodes/Cell";
 import Row from "../nodes/Row";
@@ -292,7 +292,7 @@ function parseShare(tokens: Tokens): Share {
 export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean=false): Block | Unparsable {
 
     // Grab any documentation
-    let docs = parseDocs(tokens);
+    let docs = parseDocumentation(tokens);
 
     const open = root ? 
         undefined :
@@ -335,7 +335,7 @@ function nextIsBind(tokens: Tokens): boolean {
 /** BIND :: ALIAS TYPE? (: EXPRESSION)? */
 export function parseBind(tokens: Tokens): Bind | Unparsable {
 
-    let docs = parseDocs(tokens);
+    let docs = parseDocumentation(tokens);
     let etc = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : undefined;
     let names: Alias[] | Unparsable = [];
     let colon;
@@ -383,7 +383,7 @@ export function parseAliases(tokens: Tokens): Alias[] {
 export function parseLanguage(tokens: Tokens): Language {
 
     const slash = tokens.read(TokenType.LANGUAGE);
-    const lang = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : new Unparsable(SyntacticConflict.EXPECTED_LANGUAGE, [ slash ], []);
+    const lang = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : new Unparsable(SyntacticConflict.EXPECTED_LANGUAGE, [], []);
     return new Language(lang, slash);
 
 }
@@ -793,7 +793,7 @@ function parseReaction(initial: Expression, tokens: Tokens): Reaction {
 /** FUNCTION :: DOCS? (ƒ | ALIASES) TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
 function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 
-    const docs = parseDocs(tokens);
+    const docs = parseDocumentation(tokens);
 
     const fun = tokens.read(TokenType.FUNCTION);
 
@@ -849,7 +849,7 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
 /** CONVERSION :: DOCS? → TYPE EXPRESSION */
 function parseConversion(tokens: Tokens): ConversionDefinition {
 
-    const docs = parseDocs(tokens);
+    const docs = parseDocumentation(tokens);
     const convert = tokens.read(TokenType.CONVERT);
     const output = parseType(tokens);
     const expression = parseExpression(tokens);
@@ -1053,7 +1053,7 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 /** CUSTOM_TYPE :: DOCS? • ALIASES (• name)* TYPE_VARS ( BIND* ) BLOCK? */
 function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
-    const docs = parseDocs(tokens);
+    const docs = parseDocumentation(tokens);
 
     const type = tokens.read(TokenType.TYPE);
 
@@ -1089,13 +1089,13 @@ function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
 }
 
-function parseDocs(tokens: Tokens): Docs[]  {
+function parseDocumentation(tokens: Tokens): Documentation[]  {
 
     const docs = [];
     while(tokens.nextIs(TokenType.DOCS)) {
         const doc = tokens.read(TokenType.DOCS);
         const lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
-        docs.push(new Docs(doc, lang));
+        docs.push(new Documentation(doc, lang));
     }
     return docs;
 

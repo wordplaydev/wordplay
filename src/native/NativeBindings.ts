@@ -13,7 +13,7 @@ import SetValue from "../runtime/SetValue";
 import Bool from "../runtime/Bool";
 import None from "../runtime/None";
 import Measurement from "../runtime/Measurement";
-import type Docs from "../nodes/Docs";
+import type Documentation from "../nodes/Documentation";
 import type TypeVariable from "../nodes/TypeVariable";
 import Bind from "../nodes/Bind";
 import type Value from "../runtime/Value";
@@ -61,7 +61,7 @@ class NativeBindings implements NativeInterface {
 
     addNativeFunction(
         kind: string, 
-        docs: Docs[], 
+        docs: Documentation[], 
         aliases: Alias[], 
         typeVars: TypeVariable[], 
         inputs: Bind[], 
@@ -76,7 +76,7 @@ class NativeBindings implements NativeInterface {
 
     }
 
-    addConversion(kind: string, docs: Docs[], type: string, expected: Function, fun: Function) {
+    addConversion(kind: string, docs: Documentation[], type: string, expected: Function, fun: Function) {
 
         if(!(kind in this.conversionsByType))
             this.conversionsByType[kind] = [];

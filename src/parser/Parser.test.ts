@@ -3,7 +3,7 @@ import Bind from "../nodes/Bind";
 import Block from "../nodes/Block";
 import BooleanType from "../nodes/BooleanType";
 import Borrow from "../nodes/Borrow";
-import Docs from "../nodes/Docs";
+import Documentation from "../nodes/Documentation";
 import FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
 import MeasurementLiteral from "../nodes/MeasurementLiteral";
@@ -137,7 +137,7 @@ test("Parse binds", () => {
     const documentedName = parseBind(tokens("`Some letters`/eng a/eng; b/spa"));
     expect(documentedName).toBeInstanceOf(Bind);
     expect((documentedName as Bind).docs).toHaveLength(1);
-    expect((documentedName as Bind).docs[0]).toBeInstanceOf(Docs);
+    expect((documentedName as Bind).docs[0]).toBeInstanceOf(Documentation);
     expect((documentedName as Bind).docs[0].getLanguage()).toBe("eng");
 
     const missingName = parseBind(tokens(": 1"));

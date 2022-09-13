@@ -2,7 +2,7 @@ import type Node from "./Node";
 import Expression from "./Expression";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import type Docs from "./Docs";
+import type Documentation from "./Documentation";
 import type Conflict from "../conflicts/Conflict";
 import { MisplacedConversion } from "../conflicts/MisplacedConversion";
 import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
@@ -23,12 +23,12 @@ import { parseType, tokens } from "../parser/Parser";
 
 export default class ConversionDefinition extends Expression {
 
-    readonly docs: Docs[];
+    readonly docs: Documentation[];
     readonly convert: Token;
     readonly output: Type | Unparsable;
     readonly expression: Expression | Unparsable;
 
-    constructor(docs: Docs[], output: Type | Unparsable | string, expression: Expression | Unparsable, convert?: Token) {
+    constructor(docs: Documentation[], output: Type | Unparsable | string, expression: Expression | Unparsable, convert?: Token) {
         super();
 
         this.docs = docs;

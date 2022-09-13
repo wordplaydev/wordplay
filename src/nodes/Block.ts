@@ -4,7 +4,7 @@ import type Conflict from "../conflicts/Conflict";
 import { ExpectedEndingExpression } from "../conflicts/ExpectedEndingExpression";
 import { IgnoredExpression } from "../conflicts/IgnoredExpression";
 import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
-import type Docs from "./Docs";
+import type Documentation from "./Documentation";
 import Expression from "./Expression";
 import Share from "./Share";
 import type Token from "./Token";
@@ -29,10 +29,10 @@ export default class Block extends Expression {
     readonly open?: Token | Unparsable;
     readonly statements: (Expression | Unparsable | Share | Bind)[];
     readonly close?: Token | Unparsable;
-    readonly docs: Docs[];
+    readonly docs: Documentation[];
     readonly creator: boolean;
 
-    constructor(docs: Docs[], statements: (Expression | Unparsable | Share | Bind)[], creator: boolean, open?: Token | Unparsable, close?: Token | Unparsable) {
+    constructor(docs: Documentation[], statements: (Expression | Unparsable | Share | Bind)[], creator: boolean, open?: Token | Unparsable, close?: Token | Unparsable) {
         super();
 
         this.open = open;

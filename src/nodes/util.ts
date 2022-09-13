@@ -1,11 +1,11 @@
 import type Alias from "./Alias";
 import type Bind from "./Bind";
-import type Docs from "./Docs";
+import type Documentation from "./Documentation";
 import type Language from "./Language";
 import TypeVariable from "./TypeVariable";
 import type Unparsable from "./Unparsable";
 
-export function getDuplicateDocs(docs: Docs[]): Map<string, Language[]> {
+export function getDuplicateDocs(docs: Documentation[]): Map<string, Language[]> {
     const duplicatesByLanguage = new Map<string, Language[]>();
     docs.forEach(doc => { 
         const language = doc.getLanguage();

@@ -6,7 +6,7 @@ import TokenType from "./TokenType";
 import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
-import type Docs from "./Docs";
+import type Documentation from "./Documentation";
 import type Conflict from "../conflicts/Conflict";
 import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
 import { VariableLengthArgumentMustBeLast } from "../conflicts/VariableLengthArgumentMustBeLast";
@@ -27,7 +27,7 @@ import type Alias from "./Alias";
 
 export default class FunctionDefinition extends Expression {
 
-    readonly docs: Docs[];
+    readonly docs: Documentation[];
     readonly fun: Token;
     readonly aliases: Alias[];
     readonly typeVars: (TypeVariable|Unparsable)[];
@@ -39,7 +39,7 @@ export default class FunctionDefinition extends Expression {
     readonly expression: Expression | Unparsable | Token;
 
     constructor(
-        docs: Docs[], 
+        docs: Documentation[], 
         aliases: Alias[], 
         typeVars: (TypeVariable|Unparsable)[], 
         inputs: (Bind|Unparsable)[], 

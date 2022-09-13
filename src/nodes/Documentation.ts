@@ -2,7 +2,7 @@ import type Language from "./Language";
 import Node from "./Node";
 import type Token from "./Token";
 
-export default class Docs extends Node {
+export default class Documentation extends Node {
     
     readonly docs: Token;
     readonly lang?: Language;

@@ -4,7 +4,7 @@ import type Alias from "./Alias";
 import type Token from "./Token";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
-import type Docs from "./Docs";
+import type Documentation from "./Documentation";
 import type Conflict from "../conflicts/Conflict";
 import { UnusedBind } from "../conflicts/UnusedBind";
 import { DuplicateBinds } from "../conflicts/DuplicateBinds";
@@ -32,7 +32,7 @@ import { getDuplicateAliases } from "./util";
 
 export default class Bind extends Node implements Evaluable, Named {
     
-    readonly docs: Docs[];
+    readonly docs: Documentation[];
     readonly etc: Token | undefined;
     readonly names: Alias[];
     readonly dot?: Token;
@@ -40,7 +40,7 @@ export default class Bind extends Node implements Evaluable, Named {
     readonly colon?: Token;
     readonly value?: Expression | Unparsable;
 
-    constructor(docs: Docs[], etc: Token | undefined, names: Alias[], type?: Type | Unparsable, value?: Expression | Unparsable, dot?: Token, colon?: Token) {
+    constructor(docs: Documentation[], etc: Token | undefined, names: Alias[], type?: Type | Unparsable, value?: Expression | Unparsable, dot?: Token, colon?: Token) {
         super();
 
         this.docs = docs;

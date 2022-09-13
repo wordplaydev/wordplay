@@ -45,7 +45,7 @@ import PreviousView from "./PreviousView.svelte";
 import StreamTypeView from "./StreamTypeView.svelte";
 import IsView from "./IsView.svelte";
 import UnionTypeView from "./UnionTypeView.svelte";
-import DocsView from "./DocView.svelte";
+import DocumentationView from "./DocumentationView.svelte";
 import TableTypeView from "./TableTypeView.svelte";
 import ColumnTypeView from "./ColumnTypeView.svelte";
 import TableLiteralView from "./TableLiteralView.svelte";
@@ -65,7 +65,7 @@ export default function renderNode(node: Node) {
         "Program": ProgramView,
         "Token": TokenView,
         "Unparsable": UnparsableView,
-        "Docs": DocsView,
+        "Documentation": DocumentationView,
 
         "Borrow": BorrowView,
         "Share": ShareView,
