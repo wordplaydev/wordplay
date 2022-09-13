@@ -59,7 +59,7 @@ export default class Caret {
             // It must be after the start OR at the start and not whitespace
             (this.position > start || (this.position === start && (start === 0 || !this.isWhitespace(this.project.code.at(start) ?? '')))) && 
             // ... and it must be before the end OR at the end and either the very end or at whitespace.
-            (this.position < end || (this.position === end && (this.position === this.project.code.getLength() || this.isWhitespace(this.project.code.at(this.position) ?? ''))));
+            (this.position < end || (this.position === end && (this.isWhitespace(this.project.code.at(this.position) ?? ''))));
     }
 
     left(): Caret { return this.moveHorizontal(-1); }
