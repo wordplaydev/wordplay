@@ -6,11 +6,4 @@
 
 </script>
 
-<div><NodeView node={node.slash}/><NodeView node={node.lang}/></div>
-
-<style>
-    div {
-        display: inline-block;
-        font-style: italic;
-    }
-</style>
+<em><NodeView node={node.slash}/><NodeView node={node.lang}/></em>
