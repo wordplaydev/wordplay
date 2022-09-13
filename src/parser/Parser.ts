@@ -368,11 +368,11 @@ export function parseAliases(tokens: Tokens): Alias[] {
     const aliases: Alias[] = [];
 
     while((aliases.length > 0 && tokens.nextIs(TokenType.ALIAS)) || (aliases.length === 0 && tokens.nextIs(TokenType.NAME))) {
-        const semicolon = tokens.nextIs(TokenType.ALIAS) ? tokens.read(TokenType.ALIAS) : undefined;
-        if(aliases.length > 0 && semicolon === undefined) break;
+        const comma = tokens.nextIs(TokenType.ALIAS) ? tokens.read(TokenType.ALIAS) : undefined;
+        if(aliases.length > 0 && comma === undefined) break;
         const name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : undefined;
         const lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
-        aliases.push(new Alias(name, lang, semicolon));
+        aliases.push(new Alias(name, lang, undefined/*semicolon*/));
     }
 
     return aliases;

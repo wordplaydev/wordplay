@@ -126,7 +126,7 @@ test("Parse binds", () => {
     expect((typedValuedName as Bind).type).toBeInstanceOf(MeasurementType);
     expect((typedValuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
-    const aliasedTypedValuedName = parseBind(tokens("a/eng; b/span•#: 1"));
+    const aliasedTypedValuedName = parseBind(tokens("a/eng, b/span•#: 1"));
     expect(aliasedTypedValuedName).toBeInstanceOf(Bind);
     expect((aliasedTypedValuedName as Bind).names).toHaveLength(2);
     expect((aliasedTypedValuedName as Bind).names[0]).toBeInstanceOf(Alias);
@@ -134,7 +134,7 @@ test("Parse binds", () => {
     expect((aliasedTypedValuedName as Bind).type).toBeInstanceOf(MeasurementType);
     expect((aliasedTypedValuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
-    const documentedName = parseBind(tokens("`Some letters`/eng a/eng; b/spa"));
+    const documentedName = parseBind(tokens("`Some letters`/eng a/eng, b/spa"));
     expect(documentedName).toBeInstanceOf(Bind);
     expect((documentedName as Bind).docs).toHaveLength(1);
     expect((documentedName as Bind).docs[0]).toBeInstanceOf(Documentation);

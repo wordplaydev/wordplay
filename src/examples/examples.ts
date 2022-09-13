@@ -1,7 +1,7 @@
 export const examples: Record<string, string> = {
 WhatWord:
 `↓ ⌨️
-
+\`This represents the game state\`/eng
 •Game(guesses•[""] secret•"")
 (
 \tƒ guessesRemaining() (secret.length() · 2) - guesses.length()
@@ -12,6 +12,7 @@ WhatWord:
 \t\t"playing"
 )
 
+\`These are the secret words. Don't tell anyone\`/eng
 words: ['kitty' 'house' 'heat' 'farm' 'townhouse' 'heatwave']
 start: Game([] "")
 
