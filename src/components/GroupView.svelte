@@ -7,18 +7,22 @@
     const layoutStructure = group.resolve("layout");
     const layout = layoutStructure instanceof Structure ? `layout-${layoutStructure.type.aliases[0].getName()}` : "layout-default";
     $: phraseStructure = group.resolve("phrases");
-    $: phrases = phraseStructure instanceof List ? phraseStructure.getValues() : [];
+    $: phrases = phraseStructure instanceof List ? phraseStructure.getValues() : undefined;
 
 </script>
 
 <div class={layout}>
-    {#each phrases as phrase}
-        {#if phrase instanceof Structure }
-            <PhraseView phrase={phrase} />
-        {:else}
-            {phrase.constructor.name}
-        {/if}
-    {/each}
+    {#if phrases === undefined}
+        Group doesn't have phrases
+    {:else}
+        {#each phrases as phrase}
+            {#if phrase instanceof Structure }
+                <PhraseView phrase={phrase} />
+            {:else}
+                {phrase.constructor.name}
+            {/if}
+        {/each}
+    {/if}
 </div>
 
 <style>
