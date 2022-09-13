@@ -44,7 +44,8 @@ export default class NameType extends Type {
     getType(context: ConflictContext): Type | undefined {
 
         // The name should be defined.
-        const definition = context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, this.getName());
+        const enclosure = context.program.getBindingEnclosureOf(this) ?? context.program;
+        const definition = enclosure.getDefinition(context, this, this.getName());
         if(definition === undefined) return undefined;
         else if(definition instanceof TypeVariable) return new UnknownType(this);
         else return definition instanceof Value ? definition.getType() : definition.getTypeUnlessCycle(context);

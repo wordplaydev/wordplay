@@ -24,8 +24,13 @@ export default class StructureType extends Type {
 
     getBind(name: string) { return this.definition.getBind(name); }
 
+    /** Compatible if it's the same structure definition, or the given type is a refinement of the given structure.*/
     isCompatible(context: ConflictContext, type: Type): boolean {
-        return type instanceof StructureType && this.definition === type.definition;
+        if(!(type instanceof StructureType)) return false;
+        if(this.definition === type.definition) return true;
+        // Are any of this definition's interfaces compatible with the given type?
+        return this.definition.interfaces.find(int => int.getType(context)?.isCompatible(context, type)) !== undefined;
+
     }
 
     getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
