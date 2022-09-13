@@ -132,8 +132,9 @@ export default class Bind extends Node implements Evaluable, Named {
             new UnknownType(this);
 
         // If the type is a name, resolve the name.
-        if(type instanceof NameType)
+        if(type instanceof NameType) {
             type = this.resolveTypeName(context, type.getName());
+        }
 
         // Return the type.
         return type;
@@ -154,8 +155,9 @@ export default class Bind extends Node implements Evaluable, Named {
 
     resolveTypeName(context: ConflictContext, name: string) {
 
-        // Find the name.
-        const definition = context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, name);
+        // Find the name, using the binding enclosure, or the program.
+        const enclosure = context.program.getBindingEnclosureOf(this);
+        const definition = enclosure !== undefined ? enclosure.getDefinition(context, this, name) : context.program.getDefinition(context, this, name);
         if(definition === undefined) return new UnknownType(this);
         else if(definition instanceof Bind) return definition.getTypeUnlessCycle(context);
         else if(definition instanceof TypeVariable) return new UnknownType(this);

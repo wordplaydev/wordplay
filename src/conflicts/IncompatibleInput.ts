@@ -30,7 +30,7 @@ export class IncompatibleInput extends Conflict {
 
     getExplanations(): ConflictExplanations {
         return {
-            "eng": `Expected ${this.expected.type.toWordplay()}, received ${this.givenType.toWordplay()}`
+            "eng": `Expected input of type ${this.expected.type.toWordplay()}, received ${this.givenType.toWordplay()}`
         }
     }
 

@@ -3,7 +3,6 @@ import Type from "./Type";
 import type ConversionDefinition from "./ConversionDefinition";
 import type { ConflictContext } from "./Node";
 import type StructureDefinition from "./StructureDefinition";
-import AnyType from "./AnyType";
 
 export default class StructureType extends Type {
 

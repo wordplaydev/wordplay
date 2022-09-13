@@ -43,7 +43,7 @@ export default class Program extends Node implements Evaluable {
         if(context.shares !== undefined) {
             const share = context.shares.resolve(name);
             if(share instanceof StructureDefinitionValue)
-                return new StructureDefinitionValue(share.definition);
+                return share.definition;
             else if(share instanceof Stream)
                 return share;
         }
