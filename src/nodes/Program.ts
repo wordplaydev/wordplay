@@ -50,28 +50,6 @@ export default class Program extends Node implements Evaluable {
         return undefined;
     }
     
-    getBindingEnclosureOf(node: Node): Node | undefined {
-        const ancestors = this.getAncestorsOf(node);
-        
-        // Keep searching for an ancestor that's a binding 
-        // If the parent is not a binding enclosure of the specific child, then skip the parent.
-        if(ancestors && ancestors.length > 0) {
-            let child = node;
-            let parent = ancestors.shift();
-            do {
-                if(parent !== undefined) {
-                    // Is this parent a binding enclosure if it's child? Return it!
-                    if(parent.isBindingEnclosureOfChild(child))
-                        return parent;
-                    // If not, the child becomes the parent and we get the parent's parent.
-                    child = parent;
-                    parent = ancestors.shift();
-                }
-            } while(parent !== undefined && ancestors.length > 0);
-        }
-
-    }
-
     compile(context: ConflictContext):Step[] {
         // Execute the borrows, then the block, then this.
         return [ 

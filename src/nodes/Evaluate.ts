@@ -27,6 +27,7 @@ import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import type { ConflictContext } from "./Node";
 import Halt from "../runtime/Halt";
 import List from "../runtime/List";
+import NameType from "./NameType";
 
 export default class Evaluate extends Expression {
 
@@ -218,11 +219,17 @@ export default class Evaluate extends Expression {
     }
 
     computeType(context: ConflictContext): Type {
-        if(this.func instanceof Unparsable) return new UnknownType(this);
+        
         const funcType = this.func.getTypeUnlessCycle(context);
+
+        // If it's a funciton type with an output type, then return the output type.
         if(funcType instanceof FunctionType && funcType.output instanceof Type) return funcType.output;
-        if(funcType instanceof StructureType) return funcType;
+        // If it's a structure, then this is an instantiation of the structure, so this evaluate resolves
+        // to a value of the structure's type.
+        else if(funcType instanceof StructureType) return funcType;
+        // Otherwise, who knows.
         else return new UnknownType(this);
+
     }
 
     compile(context: ConflictContext): Step[] {

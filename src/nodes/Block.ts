@@ -101,7 +101,7 @@ export default class Block extends Expression {
         else if(localBind !== undefined) return localBind;
 
         // Is there an enclosing function or block?
-        return context.program.getBindingEnclosureOf(this)?.getDefinition(context, node, name);
+        return this.getBindingEnclosureOf()?.getDefinition(context, node, name);
         
     }
  

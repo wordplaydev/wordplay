@@ -38,16 +38,19 @@ export default class NameType extends Type {
 
     isCompatible(context: ConflictContext, type: Type): boolean {    
         const thisType = this.getType(context);
-        return thisType instanceof StructureType && type instanceof StructureType && thisType.definition === type.definition;
+        return thisType === undefined ? false : thisType.isCompatible(context, type);
     }
 
     getType(context: ConflictContext): Type | undefined {
 
         // The name should be defined.
-        const enclosure = context.program.getBindingEnclosureOf(this) ?? context.program;
+        const enclosure = this.getBindingEnclosureOf() ?? context.program;
         const definition = enclosure.getDefinition(context, this, this.getName());
         if(definition === undefined) return undefined;
-        else if(definition instanceof TypeVariable) return new UnknownType(this);
+        else if(definition instanceof TypeVariable) {
+            // TODO Need to resolve the type of this name.
+            return new UnknownType(this);
+        }
         else return definition instanceof Value ? definition.getType() : definition.getTypeUnlessCycle(context);
 
     }

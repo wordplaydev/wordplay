@@ -60,8 +60,8 @@ export default class ConversionDefinition extends Expression {
             conflicts.push(new DuplicateLanguages(this.docs, duplicateDocs));
 
         // Can only appear in custom types.
-        const enclosure = context.program.getBindingEnclosureOf(this);
-        if(!(enclosure instanceof Block) ||  !(context.program.getBindingEnclosureOf(enclosure) instanceof StructureDefinition))
+        const enclosure = this.getBindingEnclosureOf();
+        if(!(enclosure instanceof Block) ||  !(enclosure.getBindingEnclosureOf() instanceof StructureDefinition))
             conflicts.push(new MisplacedConversion(this));
     
         return conflicts; 

@@ -1,6 +1,7 @@
 import AnyType from "./AnyType";
 import type Language from "./Language";
 import type { ConflictContext } from "./Node";
+import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
@@ -32,5 +33,9 @@ export default class TextType extends Type {
     }
 
     getNativeTypeName(): string { return "text"; }
+
+    getDefinition(context: ConflictContext, node: Node, name: string) {
+        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
+    }
 
 }

@@ -1,4 +1,5 @@
 import type { ConflictContext } from "./Node";
+import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
@@ -31,5 +32,9 @@ export default class ListType extends Type {
     }
 
     getNativeTypeName(): string { return "list"; }
+
+    getDefinition(context: ConflictContext, node: Node, name: string) {
+        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
+    }
 
 }

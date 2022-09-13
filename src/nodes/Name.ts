@@ -37,7 +37,7 @@ export default class Name extends Expression {
     getBind(context: ConflictContext): Definition {
 
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
-        return context.program.getBindingEnclosureOf(this)?.getDefinition(context, this, this.name.text.toString());
+        return this.getBindingEnclosureOf()?.getDefinition(context, this, this.name.text.toString());
 
     }
 

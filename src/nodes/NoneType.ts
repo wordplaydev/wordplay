@@ -1,11 +1,10 @@
-import type Conflict from "../conflicts/Conflict";
 import type Alias from "./Alias";
 import AnyType from "./AnyType";
 import type { ConflictContext } from "./Node";
+import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import Unparsable from "./Unparsable";
 
 export default class NoneType extends Type {
 
@@ -37,6 +36,10 @@ export default class NoneType extends Type {
 
     toWordplay(): string {
         return "•!" + this.aliases.map(a => a.getName());
+    }
+
+    getDefinition(context: ConflictContext, node: Node, name: string) {
+        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
     }
 
 }

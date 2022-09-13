@@ -70,7 +70,7 @@ export default class Delete extends Expression {
             if(column !== undefined && column.bind instanceof Bind) return column.bind;
         }
 
-        return context.program.getBindingEnclosureOf(this)?.getDefinition(context, node, name);
+        return this.getBindingEnclosureOf()?.getDefinition(context, node, name);
 
     }
 

@@ -882,7 +882,7 @@ function parseTypeVariables(tokens: Tokens): (TypeVariable|Unparsable)[] {
             return vars;
         }
         const name = tokens.read(TokenType.NAME);
-        vars.push(new TypeVariable(type, name));
+        vars.push(new TypeVariable(name, type));
     }
     return vars;
 

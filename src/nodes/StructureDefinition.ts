@@ -163,7 +163,7 @@ export default class StructureDefinition extends Expression {
         if(typeVar !== undefined) return typeVar;
 
         // If not, does the function nearest function or block declare the name?
-        return context.program.getBindingEnclosureOf(this)?.getDefinition(context, node, name);
+        return this.getBindingEnclosureOf()?.getDefinition(context, node, name);
 
     }
 

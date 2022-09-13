@@ -75,7 +75,14 @@ export default abstract class Node {
         });
         return conflicts;
     }
-    
+
+    /** Get the binding enclosure of this node by recursively asking ancestors if they are binding enclosures of the given node. */
+    getBindingEnclosureOf(): Node | undefined {
+        return this._parent instanceof Node ?
+            (this._parent.isBindingEnclosureOfChild(this) ? this._parent : this._parent.getBindingEnclosureOf()) :
+            undefined;
+    }
+
     /** True if the given node is a child of this node and this node should act as a binding enclosure of it. */
     isBindingEnclosureOfChild(child: Node): boolean { return false; }
 

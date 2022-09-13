@@ -14,7 +14,7 @@ import Bool from "../runtime/Bool";
 import None from "../runtime/None";
 import Measurement from "../runtime/Measurement";
 import type Documentation from "../nodes/Documentation";
-import type TypeVariable from "../nodes/TypeVariable";
+import TypeVariable from "../nodes/TypeVariable";
 import Bind from "../nodes/Bind";
 import type Value from "../runtime/Value";
 import NameType from "../nodes/NameType";
@@ -37,11 +37,14 @@ import MeasurementType from "../nodes/MeasurementType";
 import TextType from "../nodes/TextType";
 import SetType from "../nodes/SetType";
 import MapType from "../nodes/MapType";
+import StructureDefinition from "../nodes/StructureDefinition";
+import Block from "../nodes/Block";
 
 class NativeBindings implements NativeInterface {
 
     readonly functionsByType: Record<string, Record<string, FunctionDefinition>> = {};
     readonly conversionsByType: Record<string, ConversionDefinition[]> = {};
+    readonly structureDefinitionsByName: Record<string, StructureDefinition> = {};
 
     addFunction(
         kind: string,
@@ -95,15 +98,29 @@ class NativeBindings implements NativeInterface {
             )
         );
     }
+
+    addStructure(kind: string, structure: StructureDefinition) {
+
+        // Cache the parents of the nodes, "crystalizing" it.
+        // This means there should be no future changes to the native structure definition.
+        structure.cacheParents();
+        this.structureDefinitionsByName[kind] = structure;
+    }
     
     getConversion(kind: string, context: ConflictContext, type: Type): ConversionDefinition | undefined {
         if(!(kind in this.conversionsByType)) return undefined;
         return this.conversionsByType[kind].find(c => c.convertsType(type, context));
     }
+    
     getFunction(kind: string, name: string): FunctionDefinition | undefined {
         if(!(kind in this.functionsByType)) return undefined;
         return this.functionsByType[kind][name];
     }
+
+    getStructureDefinition(kind: string): StructureDefinition | undefined {
+        return this.structureDefinitionsByName[kind];
+    }
+
 }
 
 const Native = new NativeBindings();
@@ -572,5 +589,71 @@ Native.addConversion("text", [], "[]", Text, (val: Text) => new List(val.text.sp
 
 // TODO Documentation
 Native.addConversion("measurement", [], "''", Measurement, (val: Measurement) => new Text(val.toString()));
+
+Native.addStructure("list", new StructureDefinition(
+    // TODO Localized documentation
+    [],
+    [],
+    // No interfaces
+    [],
+    // One type variable
+    [ new TypeVariable("T")],
+    // No inputs
+    [],
+    // Include all of the functions defined above.
+    new Block([], [ ...Object.values(Native.functionsByType["list"] ?? {}), ...Native.conversionsByType["list"]], true)
+));
+
+Native.addStructure("set", new StructureDefinition(
+    // TODO Localized documentation
+    [],
+    [],
+    // No interfaces
+    [],
+    // One type variable
+    [ new TypeVariable("T")],
+    // No inputs
+    [],
+    // Include all of the functions defined above.
+    new Block([], [ ...Object.values(Native.functionsByType["set"] ?? {}), ...Native.conversionsByType["set"]], true)
+));
+
+Native.addStructure("map", new StructureDefinition(
+    // TODO Localized documentation
+    [],
+    [],
+    // No interfaces
+    [],
+    // One type variable
+    [ new TypeVariable("K"), new TypeVariable("V")],
+    // No inputs
+    [],
+    // Include all of the functions defined above.
+    new Block([], [ ...Object.values(Native.functionsByType["map"] ?? {}), ...Native.conversionsByType["map"]], true)
+));
+
+Native.addStructure("boolean", new StructureDefinition(
+    // TODO Localized documentation
+    [],[], [], [], [],
+    new Block([], [ ...Object.values(Native.functionsByType["boolean"] ?? {}), ...Native.conversionsByType["boolean"]], true)
+));
+
+Native.addStructure("measurement", new StructureDefinition(
+    // TODO Localized documentation
+    [],[], [], [], [],
+    new Block([], [ ...Object.values(Native.functionsByType["measurement"] ?? {}), ...Native.conversionsByType["measurement"]], true)
+));
+
+Native.addStructure("text", new StructureDefinition(
+    // TODO Localized documentation
+    [],[], [], [], [],
+    new Block([], [ ...Object.values(Native.functionsByType["text"] ?? {}), ...Native.conversionsByType["text"]], true)
+));
+
+Native.addStructure("none", new StructureDefinition(
+    // TODO Localized documentation
+    [],[], [], [], [],
+    new Block([], [ ...Object.values(Native.functionsByType["none"] ?? {}), ...Native.conversionsByType["none"]], true)
+));
 
 export default Native;

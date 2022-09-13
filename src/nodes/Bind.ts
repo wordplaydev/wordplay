@@ -96,7 +96,7 @@ export default class Bind extends Node implements Evaluable, Named {
                 conflicts.push(new IncompatibleBind(this.type, this.value, valueType));
         }
 
-        const enclosure = context.program.getBindingEnclosureOf(this);
+        const enclosure = this.getBindingEnclosureOf();
 
         // It can't already be defined.
         const definitions = this.names.map(alias => {
@@ -156,7 +156,7 @@ export default class Bind extends Node implements Evaluable, Named {
     resolveTypeName(context: ConflictContext, name: string) {
 
         // Find the name, using the binding enclosure, or the program.
-        const enclosure = context.program.getBindingEnclosureOf(this);
+        const enclosure = this.getBindingEnclosureOf();
         const definition = enclosure !== undefined ? enclosure.getDefinition(context, this, name) : context.program.getDefinition(context, this, name);
         if(definition === undefined) return new UnknownType(this);
         else if(definition instanceof Bind) return definition.getTypeUnlessCycle(context);
