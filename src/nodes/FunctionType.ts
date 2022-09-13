@@ -6,6 +6,7 @@ import Unparsable from "./Unparsable";
 import type { ConflictContext } from "./Node";
 import type Alias from "./Alias";
 import type Expression from "./Expression";
+import AnyType from "./AnyType";
 
 export type Input = {
     aliases: Alias[],
@@ -45,6 +46,7 @@ export default class FunctionType extends Type {
     }
 
     isCompatible(context: ConflictContext, type: Type): boolean {
+        if(type instanceof AnyType) return true;
         if(!(type instanceof FunctionType)) return false;
         if(!(this.output instanceof Type)) return false;
         if(!(type.output instanceof Type)) return false;

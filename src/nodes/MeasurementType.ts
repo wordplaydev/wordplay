@@ -1,3 +1,4 @@
+import AnyType from "./AnyType";
 import type { ConflictContext } from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
@@ -25,6 +26,7 @@ export default class MeasurementType extends Type {
     }
 
     isCompatible(context: ConflictContext, type: Type): boolean {
+        if(type instanceof AnyType) return true;
         // Not a measurement? Not compatible.
         if(!(type instanceof MeasurementType)) return false;
         // One measurement without a unit? Compatible. Just inherit the other unit.

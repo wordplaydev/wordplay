@@ -2,6 +2,7 @@ import Token from "./Token";
 import Type from "./Type";
 import type { ConflictContext } from "./Node";
 import TokenType from "./TokenType";
+import AnyType from "./AnyType";
 
 export default class BooleanType extends Type {
 
@@ -17,7 +18,7 @@ export default class BooleanType extends Type {
         return [ this.type ];
     }
 
-    isCompatible(context: ConflictContext, type: Type) { return type instanceof BooleanType; }
+    isCompatible(context: ConflictContext, type: Type) { return type instanceof AnyType || type instanceof BooleanType; }
 
     getNativeTypeName(): string { return "boolean"; }
 

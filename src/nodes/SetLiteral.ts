@@ -1,7 +1,6 @@
 import Expression from "./Expression";
 import type Token from "./Token";
 import type Type from "./Type";
-import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
@@ -12,6 +11,7 @@ import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 import { getPossibleUnionType } from "./UnionType";
 import SetType from "./SetType";
+import AnyType from "./AnyType";
 
 export default class SetLiteral extends Expression {
 
@@ -35,10 +35,8 @@ export default class SetLiteral extends Expression {
     computeType(context: ConflictContext): Type {
 
         const values = this.values.filter(v => !(v instanceof Unparsable)) as Expression[];
-        if(values.length === 0) return new SetType(undefined, undefined, new UnknownType(this));
-
         let type = getPossibleUnionType(context, this.values.map(v => (v as Expression | Unparsable).getTypeUnlessCycle(context)));
-        if(type === undefined) type = new UnknownType(this);
+        if(type === undefined) type = new AnyType(this);
         
         return new SetType(undefined, undefined, type);
 

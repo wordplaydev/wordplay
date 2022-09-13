@@ -12,6 +12,7 @@ import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 import { getPossibleUnionType } from "./UnionType";
+import AnyType from "./AnyType";
 
 export default class ListLiteral extends Expression {
 
@@ -33,9 +34,8 @@ export default class ListLiteral extends Expression {
 
     computeType(context: ConflictContext): Type {
         const expressions = this.values.filter(e => e instanceof Expression) as Expression[];
-        if(expressions.length === 0) return new ListType(new UnknownType(this));
         let itemType = getPossibleUnionType(context, expressions.map(v => v.getTypeUnlessCycle(context)));
-        if(itemType === undefined) itemType = new UnknownType(this);
+        if(itemType === undefined) itemType = new AnyType(this);
         return new ListType(itemType);
     }
 

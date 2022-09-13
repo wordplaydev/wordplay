@@ -1,5 +1,6 @@
 import type Conflict from "../conflicts/Conflict";
 import type Alias from "./Alias";
+import AnyType from "./AnyType";
 import type { ConflictContext } from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
@@ -23,6 +24,7 @@ export default class NoneType extends Type {
     }
 
     isCompatible(context: ConflictContext, type: Type): boolean { 
+        if(type instanceof AnyType) return true;
         // No if it's not a none type.
         if(!(type instanceof NoneType)) return false;
         // Yes if there are no aliases for either.

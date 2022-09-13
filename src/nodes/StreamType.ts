@@ -1,3 +1,4 @@
+import AnyType from "./AnyType";
 import type { ConflictContext } from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
@@ -21,6 +22,7 @@ export default class StreamType extends Type {
     }
 
     isCompatible(context: ConflictContext, type: Type): boolean {
+        if(type instanceof AnyType) return true;
         return type instanceof StreamType && this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(context, type.type);
     }
 

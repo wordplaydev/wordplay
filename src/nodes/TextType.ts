@@ -1,4 +1,4 @@
-import type Conflict from "../conflicts/Conflict";
+import AnyType from "./AnyType";
 import type Language from "./Language";
 import type { ConflictContext } from "./Node";
 import Token from "./Token";
@@ -25,9 +25,10 @@ export default class TextType extends Type {
     }
 
     isCompatible(context: ConflictContext, type: Type): boolean { 
-        return  type instanceof TextType && 
+        return type instanceof AnyType ||  
+                (type instanceof TextType && 
                 ((this.format === undefined && type.format === undefined) || 
-                 (this.format !== undefined && type.format !== undefined && this.format.isCompatible(type.format))); 
+                 (this.format !== undefined && type.format !== undefined && this.format.isCompatible(type.format)))); 
     }
 
     getNativeTypeName(): string { return "text"; }

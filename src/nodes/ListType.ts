@@ -23,7 +23,7 @@ export default class ListType extends Type {
         children.push(this.open);
         if(this.type) children.push(this.type);
         children.push(this.close);
-        return children;    
+        return children;
     }
 
     isCompatible(context: ConflictContext, type: Type): boolean {

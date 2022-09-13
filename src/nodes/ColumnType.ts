@@ -5,6 +5,7 @@ import type Unparsable from "./Unparsable";
 import Bind from "../nodes/Bind";
 import Type from "./Type";
 import type { ConflictContext } from "./Node";
+import AnyType from "./AnyType";
 
 export default class ColumnType extends Type {
 
@@ -23,6 +24,7 @@ export default class ColumnType extends Type {
     }
 
     isCompatible(context: ConflictContext, type: Type): boolean {
+        if(type instanceof AnyType) return true;
         return type instanceof ColumnType && type.bind instanceof Bind && this.bind instanceof Bind && this.bind.getTypeUnlessCycle(context).isCompatible(context, type.bind.getTypeUnlessCycle(context));
     }
 

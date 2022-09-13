@@ -17,6 +17,7 @@ import { NotAMap } from "../conflicts/NotAMap";
 import MapType from "./MapType";
 import Halt from "../runtime/Halt";
 import Exception, { ExceptionKind } from "../runtime/Exception";
+import AnyType from "./AnyType";
 
 export default class MapLiteral extends Expression {
 
@@ -49,12 +50,10 @@ export default class MapLiteral extends Expression {
 
     computeType(context: ConflictContext): Type {
         const values = this.values.filter(v => !(v instanceof Unparsable)) as (KeyValue)[];
-        if(values.length === 0) return new UnknownType(this);
-
         let keyType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.key.getTypeUnlessCycle(context) : new UnknownType(v)));
         let valueType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.value.getTypeUnlessCycle(context) : v.getTypeUnlessCycle(context)));
-        if(keyType === undefined) keyType = new UnknownType(this);
-        else if(valueType === undefined) valueType = new UnknownType(this);
+        if(keyType === undefined) keyType = new AnyType(this);
+        else if(valueType === undefined) valueType = new AnyType(this);
         
         return new MapType(undefined, undefined, keyType, undefined, valueType);
 
