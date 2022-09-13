@@ -16,14 +16,20 @@ WhatWord:
 words: ['kitty' 'house' 'heat' 'farm' 'townhouse' 'heatwave']
 start: Game([] "")
 
+\`The game depends on the keyboard state; each time it changes, the game state changes\`/eng
 state•Game: start ∆ ⌨️
 \t\t⌨️.key = "Escape" ? start
 \t\t(state.status() ≠ "playing") ∧ (⌨️.key = " ") ∧ ⌨️.down ? Game([] words.random())
 \t\t(state.status() = "playing") ∧ ⌨️.down ∧ (⌨️.key.length() = 1) ∧ ¬ state.guesses.has(⌨️.key) ? Game(state.guesses.add(⌨️.key) state.secret)
 \t\tstate
 
+\`We use this a lot below, so we just get it once\`/eng
 status: state.status()
+
+\`The board is a translation of the secret, accounting for guesses\`/eng
 board: Phrase(state.secret→[].translate(ƒ(letter) ((status = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 24pt)
+
+\`The rest of the game screen depends on the game status\`/eng
 content:
 \tstatus = "start" ? Group(Vertical() Phrase("Welcome to WhatWord!" 30pt) Phrase("Press space to begin") Phrase("Type letters to guess"))
 \tstatus = "lost" ? Group(Vertical() board Phrase("You lost. Press space to play again."))

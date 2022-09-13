@@ -84,6 +84,7 @@ export enum SyntacticConflict {
     EXPECTED_UNIT_NAME,
     EXPECTED_END,
     EXPECTED_TYPE,
+    EXPECTED_FUNCTION,
     BIND_VALUE_NOT_ALLOWED
 }
 
@@ -795,6 +796,8 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 
     const docs = parseDocumentation(tokens);
 
+    if(tokens.nextIsnt(TokenType.FUNCTION)) return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_FUNCTION, [ docs ]);
+
     const fun = tokens.read(TokenType.FUNCTION);
 
     const aliases = tokens.nextIs(TokenType.NAME) ? parseAliases(tokens) : [];
@@ -1054,6 +1057,8 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     const docs = parseDocumentation(tokens);
+
+    if(tokens.nextIsnt(TokenType.TYPE)) return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TYPE, [ docs ]);
 
     const type = tokens.read(TokenType.TYPE);
 
