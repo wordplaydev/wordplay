@@ -1,13 +1,12 @@
 <script lang="ts">
     import { caret, project } from '../models/stores';
-    import Node from '../nodes/Node';
-    import ProgramView from '../editor/ProgramView.svelte';
-    import Token, { TAB_WIDTH } from '../nodes/Token';
+    import Token from '../nodes/Token';
     import Caret from '../models/Caret';
     import type Program from '../nodes/Program';
     import { afterUpdate } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
     import commands, { getTokenByView } from './Commands';
+    import NodeView from './NodeView.svelte';
 
     export let program: Program;
 
@@ -218,7 +217,7 @@
     on:mousedown={handleClick}
     on:keydown={handleKeyDown}
 >
-    <ProgramView program={program} />
+    <NodeView node={program} />
     <input type="text" class="keyboard-input" bind:this={keyboard} on:input={handleKeyboardInput}/>
 </div>
 

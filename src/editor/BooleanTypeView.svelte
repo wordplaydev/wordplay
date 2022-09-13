@@ -1,9 +1,9 @@
 <script lang="ts">
     import type BooleanType from "../nodes/BooleanType";
-    import TokenView from "./TokenView.svelte";
+    import NodeView from "./NodeView.svelte";
     
     export let node: BooleanType;
 
 </script>
 
-<TokenView node={node.type} />
+<NodeView node={node.type} />

@@ -1,11 +1,9 @@
 <script lang="ts">
     import type Language from "../nodes/Language";
     import NodeView from "./NodeView.svelte";
-    import OptionalNodeView from "./OptionalNodeView.svelte";
-    import TokenView from "./TokenView.svelte";
     
-    export let node: Language | undefined;
+    export let node: Language;
 
 </script>
 
-{#if node }<NodeView node={node}><small><em><TokenView node={node.slash}/><OptionalNodeView node={node.lang}/></em></small></NodeView>{/if}
+<small><em><NodeView node={node.slash}/><NodeView node={node.lang}/></em></small>

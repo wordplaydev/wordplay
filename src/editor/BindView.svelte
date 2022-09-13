@@ -1,18 +1,13 @@
 <script lang="ts">
     import type Bind from "../nodes/Bind";
-    import AliasesView from "./AliasesView.svelte";
-    import DocsView from "./DocsView.svelte";
+    import NodeSequenceView from "./NodeSequenceView.svelte";
     import NodeView from "./NodeView.svelte";
-    import OptionalNodeView from "./OptionalNodeView.svelte";
-    import OptionalTokenView from "./OptionalTokenView.svelte";
 
     export let node: Bind;
 
 </script>
 
-<NodeView node={node}>
-    <DocsView docs={node.docs}/><OptionalTokenView node={node.etc}/><AliasesView aliases={node.names}/><span class="type">{#if node.type}<OptionalTokenView node={node.dot}/><OptionalNodeView node={node.type}/>{/if}</span><strong><OptionalTokenView node={node.colon}/></strong>{#if node.value }<OptionalNodeView node={node.value}/>{/if}
-</NodeView>
+<NodeSequenceView nodes={node.docs}/><NodeView node={node.etc}/><NodeSequenceView nodes={node.names}/><span class="type">{#if node.type}<NodeView node={node.dot}/><NodeView node={node.type}/>{/if}</span><strong><NodeView node={node.colon}/></strong>{#if node.value }<NodeView node={node.value}/>{/if}
 
 <style>
     .type {

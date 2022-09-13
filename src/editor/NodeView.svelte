@@ -1,20 +1,24 @@
 <script lang="ts">
     import { caret, project } from "../models/stores";
     import type Node from "../nodes/Node";
+    import renderNode from "./renderNode";
 
-    export let node: Node;
+    export let node: Node | undefined;
     export let block: boolean = false;
     export let mousedown: undefined | ((event: MouseEvent) => void) = undefined;
 
-    $: conflicts = $project?.getConflictsInvolvingNode(node) ?? [];
+    $: conflicts = node === undefined || $project === undefined ? [] : $project.getConflictsInvolvingNode(node) ?? [];
 
 </script>
 
+<!-- Don't render anything if we weren't given a node. TODO Interface for replacing with a slot. -->
+{#if node !== undefined}
 <div 
     class="{node.constructor.name} node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"} {conflicts.length > 0 ? "conflicted" : ""}"
-    on:mousedown={mousedown}>
-    <slot/>{#if conflicts.length > 0}<div class="conflicts">{#each conflicts as conflict}<div class="conflict">{conflict.getExplanation("eng")}</div>{/each}</div>{/if}
-</div>
+    on:mousedown={mousedown}
+><svelte:component this={renderNode(node)} node={node} />{#if conflicts.length > 0}<div class="conflicts">{#each conflicts as conflict}<div class="conflict">{conflict.getExplanation("eng")}</div>{/each}</div>{/if}</div>
+{/if}
+
 <style>
 
     .node-view {

@@ -1,13 +1,9 @@
 <script lang="ts">
     import type Cell from "../nodes/Cell";
-import NodeView from "./NodeView.svelte";
-    import OptionalNodeView from "./OptionalNodeView.svelte";
-    import TokenView from "./TokenView.svelte";
-
+    import NodeView from "./NodeView.svelte";
+ 
     export let node: Cell;
 
 </script>
 
-<NodeView node={node}>
-    <TokenView node={node.bar}/><OptionalNodeView node={node.expression}/>
-</NodeView>
+<NodeView node={node.bar}/><NodeView node={node.expression}/>

@@ -1,12 +1,10 @@
 <script lang="ts">
     import type Row from "../nodes/Row";
+    import NodeSequenceView from "./NodeSequenceView.svelte";
     import NodeView from "./NodeView.svelte";
-    import OptionalNodeView from "./OptionalNodeView.svelte";
 
     export let node: Row;
 
 </script>
 
-<NodeView node={node}>
-    {#each node.cells as cell}<OptionalNodeView node={cell}/>{/each}<OptionalNodeView node={node.close}/>
-</NodeView>
+<NodeSequenceView nodes={node.cells}/><NodeView node={node.close}/>

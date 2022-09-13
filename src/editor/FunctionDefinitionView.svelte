@@ -1,17 +1,10 @@
 <script lang="ts">
     import type FunctionDefinition from "../nodes/FunctionDefinition";
-    import AliasesView from "./AliasesView.svelte";
-    import DocsView from "./DocsView.svelte";
+    import NodeSequenceView from "./NodeSequenceView.svelte";
     import NodeView from "./NodeView.svelte";
-    import OptionalNodeView from "./OptionalNodeView.svelte";
-    import OptionalTokenView from "./OptionalTokenView.svelte";
-    import TokenView from "./TokenView.svelte";
-    import TypeVariablesView from "./TypeVariablesView.svelte";
     
     export let node: FunctionDefinition;
 
 </script>
 
-<NodeView node={node}>
-    <DocsView docs={node.docs}/><TokenView node={node.fun}/><AliasesView aliases={node.aliases}/><TypeVariablesView typeVars={node.typeVars}/><TokenView node={node.open}/>{#each node.inputs as input }<OptionalNodeView node={input}/>{/each}<TokenView node={node.close}/><OptionalTokenView node={node.dot}/><OptionalNodeView node={node.type}/><OptionalNodeView node={node.expression}/>
-</NodeView>
+<NodeSequenceView nodes={node.docs}/><NodeView node={node.fun}/><NodeSequenceView nodes={node.aliases}/><NodeSequenceView nodes={node.typeVars}/><NodeView node={node.open}/><NodeSequenceView nodes={node.inputs}/><NodeView node={node.close}/><NodeView node={node.dot}/><NodeView node={node.type}/><NodeView node={node.expression}/>

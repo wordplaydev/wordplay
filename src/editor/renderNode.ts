@@ -45,7 +45,7 @@ import PreviousView from "./PreviousView.svelte";
 import StreamTypeView from "./StreamTypeView.svelte";
 import IsView from "./IsView.svelte";
 import UnionTypeView from "./UnionTypeView.svelte";
-import DocsView from "./DocsView.svelte";
+import DocsView from "./DocView.svelte";
 import TableTypeView from "./TableTypeView.svelte";
 import ColumnTypeView from "./ColumnTypeView.svelte";
 import TableLiteralView from "./TableLiteralView.svelte";
@@ -57,11 +57,13 @@ import InsertView from "./InsertView.svelte";
 import DeleteView from "./DeleteView.svelte";
 import UpdateView from "./UpdateView.svelte";
 import SelectView from "./SelectView.svelte";
-import TokenViewSvelte from "./TokenView.svelte";
+import TokenView from "./TokenView.svelte";
+import ProgramView from "./ProgramView.svelte";
 
 export default function renderNode(node: Node) {
     const view = {
-        "Token": TokenViewSvelte,
+        "Program": ProgramView,
+        "Token": TokenView,
         "Unparsable": UnparsableView,
         "Docs": DocsView,
 

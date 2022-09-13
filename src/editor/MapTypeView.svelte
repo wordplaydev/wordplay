@@ -1,12 +1,9 @@
 <script lang="ts">
     import type MapType from "../nodes/MapType";
     import NodeView from "./NodeView.svelte";
-    import OptionalNodeView from "./OptionalNodeView.svelte";
-    import OptionalTokenView from "./OptionalTokenView.svelte";
-    import TokenView from "./TokenView.svelte";
 
     export let node: MapType;
 
 </script>
 
-<NodeView node={node}><TokenView node={node.open}/><OptionalNodeView node={node.key}/><OptionalTokenView node={node.bind}/><OptionalNodeView node={node.value}/><TokenView node={node.close}/></NodeView>
+<NodeView node={node.open}/><NodeView node={node.key}/><NodeView node={node.bind}/><NodeView node={node.value}/><NodeView node={node.close}/>

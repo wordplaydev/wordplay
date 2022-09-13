@@ -1,13 +1,10 @@
 <script lang="ts">
     import type ListLiteral from "../nodes/ListLiteral";
+    import NodeSequenceView from "./NodeSequenceView.svelte";
     import NodeView from "./NodeView.svelte";
-    import OptionalNodeView from "./OptionalNodeView.svelte";
-    import TokenView from "./TokenView.svelte";
 
     export let node: ListLiteral;
 
 </script>
 
-<NodeView node={node}>
-    <TokenView node={node.open}/>{#each node.values as value }<OptionalNodeView node={value}/>{/each}<TokenView node={node.close}/>
-</NodeView>
+<NodeView node={node.open}/><NodeSequenceView nodes={node.values}/><NodeView node={node.close}/>
