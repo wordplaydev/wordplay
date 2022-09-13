@@ -43,9 +43,10 @@ export default class Convert extends Expression {
 
     computeConflicts(context: ConflictContext): Conflict[] { 
         
-        // The expression's type must have a conversion.
+        // If we know the expression's type, there must be a corresponding conversion on that type.
+        const exprType = this.expression.getTypeUnlessCycle(context);
         const conversion = this.getConversionDefinition(context);
-        if(this.type instanceof Type && conversion === undefined)
+        if(!(exprType instanceof UnknownType) && this.type instanceof Type && conversion === undefined)
             return [ new UnknownConversion(this, this.type) ];
         
         return []; 
