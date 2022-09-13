@@ -384,7 +384,7 @@ export function parseAliases(tokens: Tokens): Alias[] {
 export function parseLanguage(tokens: Tokens): Language {
 
     const slash = tokens.read(TokenType.LANGUAGE);
-    const lang = tokens.nextIs(TokenType.NAME) && !tokens.nextHasPrecedingLineBreak() ? tokens.read(TokenType.NAME) : new Unparsable(SyntacticConflict.EXPECTED_LANGUAGE, [], []);
+    const lang = tokens.nextIs(TokenType.NAME) && !tokens.nextHasPrecedingLineBreak() ? tokens.read(TokenType.NAME) : undefined;
     return new Language(lang, slash);
 
 }
