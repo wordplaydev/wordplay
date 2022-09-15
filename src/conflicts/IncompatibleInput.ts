@@ -13,15 +13,15 @@ export class IncompatibleInput extends Conflict {
     readonly evaluate: Evaluate;
     readonly givenNode: Expression | Bind;
     readonly givenType: Type;
-    readonly expected: Input;
+    readonly expectedType: Type;
     
-    constructor(func: FunctionType | StructureType, evaluate: Evaluate, givenInput: Expression | Bind, givenType: Type, expectedInput: Input) {
+    constructor(func: FunctionType | StructureType, evaluate: Evaluate, givenInput: Expression | Bind, givenType: Type, expectedType: Type) {
         super(false);
         this.func = func;
         this.evaluate = evaluate;
         this.givenNode = givenInput;
         this.givenType = givenType;
-        this.expected = expectedInput;
+        this.expectedType = expectedType;
     }
 
     getConflictingNodes() {
@@ -30,7 +30,7 @@ export class IncompatibleInput extends Conflict {
 
     getExplanations(): ConflictExplanations {
         return {
-            "eng": `Expected input of type ${this.expected.type.toWordplay()}, received ${this.givenType.toWordplay()}`
+            "eng": `Expected input of type ${this.expectedType.toWordplay()}, received ${this.givenType.toWordplay()}`
         }
     }
 

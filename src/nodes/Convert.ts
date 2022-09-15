@@ -50,13 +50,16 @@ export default class Convert extends Expression {
         if(!(exprType instanceof UnknownType) && this.type instanceof Type && conversion === undefined)
             return [ new UnknownConversion(this, this.type) ];
         
-        return []; 
+        return [];
     
     }
 
     computeType(context: ConflictContext): Type {
-        // Whatever this converts to.
-        return this.type instanceof Type ? this.type : new UnknownType(this);
+        
+        // Get the conversion definition.
+        const definition = this.getConversionDefinition(context);
+        return definition === undefined || !(definition.output instanceof Type) ? new UnknownType(this) : definition.output; 
+
     }
 
     compile(context: ConflictContext):Step[] {
