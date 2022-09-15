@@ -2,9 +2,10 @@ import type ConversionDefinition from "./ConversionDefinition";
 import type FunctionDefinition from "./FunctionDefinition";
 import type { ConflictContext } from "./Node";
 import Token from "./Token";
+import type Node from "./Node";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 
 export default class UnionType extends Type {
 
@@ -21,7 +22,7 @@ export default class UnionType extends Type {
     }
 
     computeChildren() {
-        return this.or === undefined ? [ this.left, this.right ] : [ this.left, this.or, this.right ];
+        return [ this.left, this.or, this.right ];
     }
 
     isCompatible(context: ConflictContext, type: Type): boolean {
@@ -42,10 +43,14 @@ export default class UnionType extends Type {
 
     getNativeTypeName(): string { return "union"; }
 
-    toWordplay(): string {
-        return this.left.toWordplay() + " | " + this.right.toWordplay();
+    clone(original?: Node, replacement?: Node) { 
+        return new UnionType(
+            this.left.cloneOrReplace([ Type ], original, replacement), 
+            this.right.cloneOrReplace([ Type, Unparsable ], original, replacement), 
+            this.or.cloneOrReplace([ Token ], original, replacement)
+        ) as this; 
     }
-    
+
 }
 
 /** Given a list of types, remove all duplicates, and if only one remains, return it.
@@ -69,7 +74,8 @@ export function getPossibleUnionType(context: ConflictContext, types: Type[]): T
     let union = uniqueTypes[0];
     do {
         uniqueTypes.shift();
-        union = new UnionType(union, uniqueTypes[0]);
+        if(uniqueTypes.length > 0)
+            union = new UnionType(union, uniqueTypes[0]);
     } while(uniqueTypes.length > 0);
     return union;
     

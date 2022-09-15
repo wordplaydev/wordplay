@@ -1,7 +1,7 @@
 import type Conflict from "../conflicts/Conflict";
 import { UnknownProperty } from "../conflicts/UnknownProperty";
 import Expression from "./Expression";
-import type Token from "./Token";
+import Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
@@ -11,6 +11,7 @@ import type Step from "../runtime/Step";
 import Action from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import type { ConflictContext } from "./Node";
+import type Node from "./Node";
 import StructureType from "./StructureType";
 import StreamType from "./StreamType";
 
@@ -86,6 +87,14 @@ export default class AccessName extends Expression {
             subject :
             subject.resolve(name, evaluator);
 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new AccessName(
+            this.subject.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.access.cloneOrReplace([ Token ], original, replacement), 
+            this.name.cloneOrReplace([ Token ], original, replacement)
+        ) as this; 
     }
 
 }

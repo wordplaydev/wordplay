@@ -3,7 +3,7 @@ import type Conflict from "../conflicts/Conflict";
 import { MissingShareLanguages } from "../conflicts/MissingShareLanguages";
 import { MisplacedShare } from "../conflicts/MisplacedShare";
 import Node, { type ConflictContext } from "./Node";
-import type Token from "./Token";
+import Token from "./Token";
 import Unparsable from "./Unparsable";
 import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
@@ -58,4 +58,12 @@ export default class Share extends Node implements Evaluable {
             return evaluator.share(name, value);
         
     }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Share(
+            this.share.cloneOrReplace([ Token ], original, replacement), 
+            this.bind.cloneOrReplace([ Bind, Unparsable ], original, replacement)
+        ) as this; 
+    }
+
 }

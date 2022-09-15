@@ -1,5 +1,5 @@
-import type Column from "./Column";
-import type Row from "./Row";
+import Column from "./Column";
+import Row from "./Row";
 import type Conflict from "../conflicts/Conflict";
 import { MissingCells } from "../conflicts/MissingCells";
 import { ExpectedColumnType } from "../conflicts/ExpectedColumnType";
@@ -9,6 +9,7 @@ import TableType from "./TableType";
 import UnknownType from "./UnknownType";
 import ColumnType from "./ColumnType";
 import Bind from "./Bind";
+import type Node from "./Node";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Table from "../runtime/Table";
@@ -18,7 +19,7 @@ import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
 import type Unparsable from "./Unparsable";
-import type Token from "./Token";
+import Token from "./Token";
 
 export default class TableLiteral extends Expression {
     
@@ -99,6 +100,14 @@ export default class TableLiteral extends Expression {
         }
         return new Table(this, rows);
 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new TableLiteral(
+            this.columns.map(c => c.cloneOrReplace([ Column ], original, replacement)), 
+            this.rows.map(r => r.cloneOrReplace([ Row ], original, replacement)), 
+            this.close.cloneOrReplace([ Token ], original, replacement)
+        ) as this; 
     }
 
 }

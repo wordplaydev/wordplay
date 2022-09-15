@@ -486,7 +486,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
             left = parseSetOrMapAccess(left, tokens);
         else if(tokens.nextIs(TokenType.PREVIOUS))
             left = parsePrevious(left, tokens);
-        else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
+        else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
         else if(tokens.nextIs(TokenType.CONVERT))
             left = parseConvert(left, tokens);
@@ -623,7 +623,7 @@ function parseListAccess(left: Expression | Unparsable, tokens: Tokens): Express
         left = new ListAccess(left, open, index, close);
 
         // But wait, is it a function evaluation?
-        if(tokens.nextIs(TokenType.EVAL_OPEN) && tokens.nextLacksPrecedingSpace())
+        if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
 
     } while(tokens.nextIs(TokenType.LIST_OPEN));
@@ -677,7 +677,7 @@ function parseSetOrMapAccess(left: Expression | Unparsable, tokens: Tokens): Exp
         left = new SetOrMapAccess(left, open, key, close);
 
         // But wait, is it a function evaluation?
-        if(tokens.nextIs(TokenType.EVAL_OPEN) && tokens.nextLacksPrecedingSpace())
+        if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
 
     } while(tokens.nextIs(TokenType.SET_OPEN));
@@ -829,10 +829,24 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 
 }
 
-/** EVAL :: EXPRESSION TYPE_VARS? (EXPRESSION*) */
+/** EVAL :: EXPRESSION (•TYPE)* (EXPRESSION*) */
 function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate | Unparsable {
 
-    const typeVars = parseTypeVariables(tokens);
+    const typeInputs: (Type | Unparsable)[] = [];
+
+    let typeOpen, typeClose;
+    if(tokens.nextIs(TokenType.LANGUAGE)) {
+        typeOpen = tokens.read(TokenType.LANGUAGE);
+        while(tokens.hasNext() && tokens.nextIsnt(TokenType.LANGUAGE)) {
+            const type = parseType(tokens);
+            typeInputs.push(type);
+        }
+        typeClose = tokens.read(TokenType.LANGUAGE);
+    }
+    
+    if(tokens.nextIsnt(TokenType.EVAL_OPEN))
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN, [ left, typeOpen, typeInputs, typeClose ]);
+
     const open = tokens.read(TokenType.EVAL_OPEN);
     const inputs: (Bind|Expression|Unparsable)[] = [];
     let close;
@@ -843,9 +857,9 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
     if(tokens.nextIs(TokenType.EVAL_CLOSE))
         close = tokens.read(TokenType.EVAL_CLOSE);
     else
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ left, typeVars, open, inputs ]);
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ left, typeOpen, typeInputs, typeClose, open, inputs ]);
     
-    return new Evaluate(typeVars, open, left, inputs, close);
+    return new Evaluate(typeInputs, open, left, inputs, close, typeOpen, typeClose);
 
 }
 
@@ -878,7 +892,7 @@ function parseTypeVariables(tokens: Tokens): (TypeVariable|Unparsable)[] {
     while(tokens.nextIs(TokenType.TYPE_VAR)) {
         const type = tokens.read(TokenType.TYPE_VAR);
         if(tokens.nextIsnt(TokenType.NAME)) {
-            vars.push(tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TYPE_VAR_NAME, [ type ] ));
+            vars.push(tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TYPE_VAR_NAME, [ ...vars, type ] ));
             return vars;
         }
         const name = tokens.read(TokenType.NAME);
@@ -903,7 +917,7 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
         left = new AccessName(left, access, name);
 
         // But wait, is it a function evaluation?
-        if(tokens.nextIs(TokenType.EVAL_OPEN) && tokens.nextLacksPrecedingSpace())
+        if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
 
     } while(tokens.nextIs(TokenType.ACCESS));
@@ -1077,7 +1091,7 @@ function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     const typeVars = parseTypeVariables(tokens);
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN, [ docs, type, aliases, interfaces ]);
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN, [ docs, type, aliases, interfaces, typeVars ]);
     const open = tokens.read(TokenType.EVAL_OPEN);
 
     const inputs: (Bind|Unparsable)[] = [];
@@ -1085,7 +1099,7 @@ function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
         inputs.push(parseBind(tokens));
 
     if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ docs, type, aliases, interfaces, inputs ]);
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ docs, type, aliases, interfaces, typeVars, inputs ]);
     const close = tokens.read(TokenType.EVAL_CLOSE);
 
     const block = tokens.nextIsOneOf(TokenType.DOCS, TokenType.EVAL_OPEN) ? parseBlock(tokens, false, true) : undefined;

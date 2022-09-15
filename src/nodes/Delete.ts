@@ -1,11 +1,11 @@
 import type Node from "./Node";
-import type Token from "./Token";
+import Token from "./Token";
 import Expression from "./Expression";
 import type Conflict from "../conflicts/Conflict";
 import { NonBooleanQuery } from "../conflicts/NonBooleanQuery";
 import { NotATable } from "../conflicts/NotATable";
 import type Type from "./Type";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 import BooleanType from "./BooleanType";
 import TableType from "./TableType";
 import Bind from "../nodes/Bind";
@@ -80,6 +80,14 @@ export default class Delete extends Expression {
 
     evaluate(evaluator: Evaluator): Value {
         return new Exception(this, ExceptionKind.NOT_IMPLEMENTED);
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Delete(
+            this.table.cloneOrReplace([ Expression ], original, replacement), 
+            this.del.cloneOrReplace([ Token ], original, replacement), 
+            this.query.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+        ) as this; 
     }
 
 }

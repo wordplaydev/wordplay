@@ -19,4 +19,6 @@ export default class AnyType extends Type {
 
     toWordplay() { return "*"; }
 
+    clone(original?: Node, replacement?: Node) { return new AnyType(this.node) as this; }
+
 }

@@ -1,7 +1,7 @@
 import type Node from "./Node";
-import type Token from "./Token";
+import Token from "./Token";
 import Expression from "./Expression";
-import type Row from "./Row";
+import Row from "./Row";
 import type Conflict from "../conflicts/Conflict";
 import { UnknownColumn } from "../conflicts/UnknownColumn";
 import { IncompatibleCellType } from "../conflicts/IncompatibleCellType";
@@ -9,7 +9,7 @@ import { ExpectedUpdateBind } from "../conflicts/ExpectedUpdateBind";
 import { NonBooleanQuery } from "../conflicts/NonBooleanQuery";
 import { NotATable } from "../conflicts/NotATable";
 import type Type from "./Type";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 import Bind from "../nodes/Bind";
 import TableType from "./TableType";
 import BooleanType from "./BooleanType";
@@ -114,4 +114,14 @@ export default class Update extends Expression {
     evaluate(evaluator: Evaluator): Value {
         return new Exception(this, ExceptionKind.NOT_IMPLEMENTED);
     }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Update(
+            this.table.cloneOrReplace([ Expression ], original, replacement), 
+            this.update.cloneOrReplace([ Token ], original, replacement), 
+            this.row.cloneOrReplace([ Row ], original, replacement), 
+            this.query.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+        ) as this; 
+    }
+
 }

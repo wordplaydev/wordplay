@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import { MisplacedConversion } from "../conflicts/MisplacedConversion";
 import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
 import ConversionDefinition from "./ConversionDefinition";

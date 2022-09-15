@@ -1,4 +1,4 @@
-import type Alias from "./Alias";
+import Alias from "./Alias";
 import AnyType from "./AnyType";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
@@ -41,5 +41,10 @@ export default class NoneType extends Type {
     getDefinition(context: ConflictContext, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
     }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new NoneType(
+            this.aliases.map(a => a.cloneOrReplace([ Alias ], original, replacement))) as this; 
+        }
 
 }

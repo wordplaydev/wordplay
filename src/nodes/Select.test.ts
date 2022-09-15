@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import { UnknownColumn } from "../conflicts/UnknownColumn";
 import { ExpectedSelectName } from "../conflicts/ExpectedSelectName";
 import { NonBooleanQuery } from "../conflicts/NonBooleanQuery";

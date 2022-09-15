@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict, testTypes } from "../conflicts/TestUtilities";
 import { IncompatibleInput } from "../conflicts/IncompatibleInput";
 import { NotInstantiable } from "../conflicts/NotInstantiable";
 import { NotAFunction } from "../conflicts/NotAFunction";
@@ -7,6 +7,8 @@ import Evaluate from "./Evaluate";
 import { MissingInput } from "../conflicts/MissingInput";
 import { UnknownInputName } from "../conflicts/UnknownInputName";
 import { RedundantNamedInput as RedundantInputName } from "../conflicts/RedundantNamedInput";
+import TextType from "./TextType";
+import MeasurementType from "./MeasurementType";
 
 test("Test evaluate conflicts", () => {
 
@@ -30,5 +32,14 @@ test("Test evaluate evaluation", () => {
     expect(Evaluator.evaluateCode("x: ƒ(a•#:1 b•#:1) a - b\nx(b:1 a:5)")?.toString()).toBe('4');
     expect(Evaluator.evaluateCode("x: ƒ(a•#:1 …b•#:1) [ a b ]\nx(1 5)")?.toString()).toBe('[1 [5]]');
     expect(Evaluator.evaluateCode("x: ƒ(a•#:1 …b•#:1) [ a b ]\nx(5 1)")?.toString()).toBe('[5 [1]]');
+
+})
+
+test("Test generics", () => {
+
+    testTypes("•Container *T (x•T) ( ƒ get() x ) Container('hi').get()", TextType);
+    testTypes("•Container *A *B (x•A y•B) ( ƒ get() y ) Container('hi' 1).get()", MeasurementType);
+    testTypes("•Container *A *B (x•A y•B) ( ƒ get() x ) Container('hi' 1).get()", TextType);
+    testTypes("•Container *A *B (x•A y•B) ( ƒ get() x ) Container/# ''/(1 '').get()", MeasurementType);
 
 })

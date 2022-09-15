@@ -1,8 +1,9 @@
 import type Conflict from "../conflicts/Conflict";
 import { IncompatibleKey } from "../conflicts/IncompatibleKey";
 import Expression from "./Expression";
-import type Token from "./Token";
+import Token from "./Token";
 import Type from "./Type";
+import type Node from "./Node";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
@@ -80,6 +81,15 @@ export default class SetOrMapAccess extends Expression {
         if(!(setOrMap instanceof SetValue || setOrMap instanceof MapValue)) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
         else return setOrMap.has(key);
     
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new SetOrMapAccess(
+            this.setOrMap.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.open.cloneOrReplace([ Token ], original, replacement), 
+            this.key.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.close.cloneOrReplace([ Token ], original, replacement)
+        ) as this; 
     }
 
 }

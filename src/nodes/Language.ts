@@ -29,4 +29,11 @@ export default class Language extends Node {
     isCompatible(lang: Language) {
         return this.getLanguage() === lang.getLanguage();
     }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Language(
+            this.lang?.cloneOrReplace([ Token, undefined ], original, replacement), 
+            this.slash.cloneOrReplace([ Token ], original, replacement)
+        ) as this; 
+    }
 }

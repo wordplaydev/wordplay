@@ -1,7 +1,7 @@
 import Node from "./Node";
-import type Cell from "./Cell";
+import Cell from "./Cell";
 import type Unparsable from "./Unparsable";
-import type Token from "./Token";
+import Token from "./Token";
 
 export default class Row extends Node {
 
@@ -19,6 +19,13 @@ export default class Row extends Node {
 
     computeChildren() {
         return [ ...this.cells, this.close ];
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Row(
+            this.cells.map(c => c.cloneOrReplace([ Cell ], original, replacement)), 
+            this.close.cloneOrReplace([ Token ], original, replacement)
+        ) as this; 
     }
 
 }

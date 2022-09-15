@@ -8,8 +8,9 @@ import type Value from "../runtime/Value";
 import BooleanType from "./BooleanType";
 import Expression from "./Expression";
 import type { ConflictContext } from "./Node";
-import type Token from "./Token";
-import type Type from "./Type";
+import Token from "./Token";
+import Type from "./Type";
+import type Node from "./Node";
 import Unparsable from "./Unparsable";
 
 export default class Is extends Expression {
@@ -44,6 +45,14 @@ export default class Is extends Expression {
             new Exception(this, ExceptionKind.UNPARSABLE) : 
             new Bool(left.getType().isCompatible(evaluator.getContext(), this.right));
 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Is(
+            this.left.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.operator.cloneOrReplace([ Token ], original, replacement),
+            this.right.cloneOrReplace([ Unparsable, Type ], original, replacement)
+        ) as this; 
     }
 
 }

@@ -10,9 +10,10 @@ import { NotAFunction } from "../conflicts/NotAFunction";
 import StructureType from "./StructureType";
 import Expression from "./Expression";
 import FunctionType, { type Input } from "./FunctionType";
-import type Token from "./Token";
+import Token from "./Token";
+import type Node from "./Node";
 import Type from "./Type";
-import type TypeVariable from "./TypeVariable";
+import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
@@ -28,27 +29,38 @@ import type { ConflictContext } from "./Node";
 import Halt from "../runtime/Halt";
 import List from "../runtime/List";
 import NameType from "./NameType";
+import StructureDefinition from "./StructureDefinition";
+import FunctionDefinition from "./FunctionDefinition";
+import AccessName from "./AccessName";
+import ListType from "./ListType";
 
 export default class Evaluate extends Expression {
 
-    readonly typeVars: (TypeVariable|Unparsable)[];
+    readonly typeOpen?: Token;
+    readonly typeInputs: (Type | Unparsable)[];
+    readonly typeClose?: Token;
     readonly open: Token;
     readonly func: Expression | Unparsable;
     readonly inputs: (Unparsable|Bind|Expression)[];
     readonly close: Token;
 
-    constructor(typeVars: (TypeVariable|Unparsable)[], open: Token, subject: Expression | Unparsable, values: (Unparsable|Bind|Expression)[], close: Token) {
+    constructor(typeInputs: (Type | Unparsable)[], open: Token, func: Expression | Unparsable, inputs: (Unparsable|Bind|Expression)[], close: Token, typeOpen?: Token, typeClose?: Token) {
         super();
 
-        this.typeVars = typeVars;
+        this.typeOpen = typeOpen;
+        this.typeInputs = typeInputs;
+        this.typeClose = typeClose;
         this.open = open;
-        this.func = subject;
-        this.inputs = values.slice();
+        this.func = func;
+        this.inputs = inputs.slice();
         this.close = close;
     }
 
     computeChildren() {
-        return [ ...this.typeVars, this.func, this.open, ...this.inputs, this.close ];
+        let children: Node[] = [];
+        if(this.typeOpen !== undefined) children.push(this.typeOpen);
+        children = children.concat([ ...this.typeInputs, this.func, this.open, ...this.inputs, this.close ]);
+        return children;
     }
 
     computeConflicts(context: ConflictContext): Conflict[] { 
@@ -58,10 +70,11 @@ export default class Evaluate extends Expression {
         if(this.func instanceof Expression) {
             const functionType = this.func.getTypeUnlessCycle(context);
 
-            // The function must be a function or structure.
+            // The function must be a function or structure. If it's not, that's a conflict.
             if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
                 conflicts.push(new NotAFunction(this, functionType));
-            else { 
+            // Otherwise, let's verify that all of the inputs provided are valid.
+            else {
                 let targetInputs: Input[] | undefined = undefined;
                 if(functionType instanceof FunctionType)
                     targetInputs = functionType.inputs;
@@ -98,6 +111,9 @@ export default class Evaluate extends Expression {
                     // Loop through each of the expected types and see if the given types match
                     for(let i = 0; i < targetInputs.length; i++) {
                         const input = targetInputs[i];
+
+                        const concreteInputType = input.type instanceof Type ? this.resolveTypeVariables(input.type, context) : undefined;
+
                         if(input.required) {
                             const given = givenInputs.shift();
                             // No more inputs? Mark one missing and stop.
@@ -124,7 +140,7 @@ export default class Evaluate extends Expression {
                                             break;
                                         }
                                         // The types have to match
-                                        else if(input.type instanceof Type && given.value !== undefined && !given.value.getTypeUnlessCycle(context).isCompatible(context, input.type) && !(given.value instanceof Unparsable)) {
+                                        else if(concreteInputType !== undefined && given.value !== undefined && !given.value.getTypeUnlessCycle(context).isCompatible(context, concreteInputType) && !(given.value instanceof Unparsable)) {
                                             conflicts.push(new IncompatibleInput(functionType, this, given.value, given.value.getTypeUnlessCycle(context), input));
                                         }
                                         // Remember that we named this input to catch redundancies.
@@ -137,7 +153,7 @@ export default class Evaluate extends Expression {
                                 }
                                 // If it's not a bind, check the type of the next given input.
                                 else {
-                                    if(!(given instanceof Unparsable) && givenType !== undefined && input.type instanceof Type && !givenType.isCompatible(context, input.type)) {
+                                    if(!(given instanceof Unparsable) && givenType !== undefined && concreteInputType !== undefined && !givenType.isCompatible(context, concreteInputType)) {
                                         conflicts.push(new IncompatibleInput(functionType, this, given, givenType, input));
                                     }
                                     // Remember that we got this named input.
@@ -155,7 +171,7 @@ export default class Evaluate extends Expression {
                             if(input.rest !== false) {
                                 while(givenInputs.length > 0) {
                                     const given = givenInputs.shift();
-                                    if(given !== undefined && given instanceof Expression && input.type instanceof Type && !given.getTypeUnlessCycle(context).isCompatible(context, input.type)) {
+                                    if(given !== undefined && given instanceof Expression && concreteInputType !== undefined && !given.getTypeUnlessCycle(context).isCompatible(context, concreteInputType)) {
                                         conflicts.push(new IncompatibleInput(functionType, this, given, given.getTypeUnlessCycle(context), input));
                                         break;
                                     }
@@ -167,7 +183,7 @@ export default class Evaluate extends Expression {
                                 const matchingBind = givenInputs.find(i => i instanceof Bind && input.aliases.find(a => a.getName() === i.getNames()[0]) !== undefined);
                                 if(matchingBind instanceof Bind) {
                                     // If the types don't match, there's a conflict.
-                                    if(matchingBind.value !== undefined && !(matchingBind.value instanceof Unparsable) && input.type instanceof Type && !matchingBind.value.getTypeUnlessCycle(context).isCompatible(context, input.type)) {
+                                    if(matchingBind.value !== undefined && !(matchingBind.value instanceof Unparsable) && concreteInputType !== undefined && !matchingBind.value.getTypeUnlessCycle(context).isCompatible(context, concreteInputType)) {
                                         conflicts.push(new IncompatibleInput(functionType, this, matchingBind.value, matchingBind.value.getTypeUnlessCycle(context), input));
                                         break;
                                     }
@@ -182,7 +198,7 @@ export default class Evaluate extends Expression {
                                         givenInputs.splice(bindIndex, 1);
                                 }
                                 // Otherwise, see if the next input matches the type.
-                                else if(givenInputs.length > 0 && input.type instanceof Type && (givenInputs[0] instanceof Expression) && !givenInputs[0].getTypeUnlessCycle(context).isCompatible(context, input.type)) {
+                                else if(givenInputs.length > 0 && concreteInputType !== undefined && (givenInputs[0] instanceof Expression) && !givenInputs[0].getTypeUnlessCycle(context).isCompatible(context, concreteInputType)) {
                                     conflicts.push(new IncompatibleInput(functionType, this, givenInputs[0] as Expression, givenInputs[0].getTypeUnlessCycle(context), input));
                                     break;
                                 }
@@ -222,14 +238,71 @@ export default class Evaluate extends Expression {
         
         const funcType = this.func.getTypeUnlessCycle(context);
 
-        // If it's a funciton type with an output type, then return the output type.
-        if(funcType instanceof FunctionType && funcType.output instanceof Type) return funcType.output;
+        // If it's a function type with an output type, then return the output type.
+        if(funcType instanceof FunctionType && funcType.output instanceof Type) return this.resolveTypeVariables(funcType.output, context);
         // If it's a structure, then this is an instantiation of the structure, so this evaluate resolves
         // to a value of the structure's type.
         else if(funcType instanceof StructureType) return funcType;
         // Otherwise, who knows.
         else return new UnknownType(this);
 
+    }
+
+    resolveTypeVariables(type: Type, context: ConflictContext) {
+
+        // Find any type variables or name types that refer to type variables in the given type.
+        const variableTypes = type.nodes(n => n instanceof NameType && n.isTypeVariable(context)) as NameType[];
+
+        // Keep track of a revised type as we concretize each type variable reference with a concrete type.
+        let revisedType = type;
+        variableTypes.forEach(nameType => {
+
+            // This will store whatever concrete type we find for the type variable.
+            let concreteType: Type | undefined = undefined;
+            // Find the definition of the type variable.
+            const typeVarDeclaration = nameType.getDefinition(context);
+            if(typeVarDeclaration instanceof TypeVariable) {
+                const def = typeVarDeclaration.getParent();
+                // If the type variable is declared in a structure or function definition (the only places where they are declared,
+                // then infer the type of the type variable from the structure on which this function is being called.
+                if(def instanceof StructureDefinition || def instanceof FunctionDefinition) {
+                    // Determine the index of the type variable.
+                    // If we found it (which we always should), is it provided as an type input on this Evaluate?
+                    const typeVarIndex = def.typeVars.findIndex(v => v === typeVarDeclaration);
+                    if(typeVarIndex >= 0 && typeVarIndex < this.typeInputs.length) {
+                        const typeInput = this.typeInputs[typeVarIndex];
+                        if(typeInput instanceof Type)
+                            concreteType = typeInput;
+                    }
+                    
+                    // Can we infer it from the structure on which this function is being called?
+                    if(concreteType === undefined && this.func instanceof AccessName) {
+                        const subjectType = this.func.subject.getType(context);
+                        if(subjectType instanceof ListType && subjectType.type instanceof Type)
+                            concreteType = subjectType.type;
+                    }
+                    
+                    // Can we infer it from any of the inputs?
+                    // See if any of the function or structure's inputs have a type variable type corresponding to the name.
+                    if(concreteType === undefined) {
+                        const inputWithVariableType = def.inputs.find(i => i instanceof Bind && i.type instanceof NameType && i.type.isTypeVariable(context) && i.type.getName() === typeVarDeclaration.name.getText());
+                        // If we found an input that has this type, then see if we can find the corresponding input in this evaluate.
+                        if(inputWithVariableType !== undefined) {
+                            // TODO THIS IS WRONG>>>> NEED TO FIND THE CORRECT INPUT FROM WHICH TO INFER TYPE.
+                            // concreteType = this.inputs[0].getType(context);
+                        }
+                    }
+                }
+            }
+            // If we found a concrete type, refine the given type with the concrete type, then move on to the next type variable reference if there is one.
+            if(concreteType !== undefined) {
+                revisedType = revisedType.cloneOrReplace([ Type ], nameType, concreteType);
+            }
+        });
+
+        // Return the concretized type.
+        return revisedType;
+        
     }
 
     compile(context: ConflictContext): Step[] {
@@ -390,5 +463,17 @@ export default class Evaluate extends Expression {
         return bindings;
 
     }
-    
+ 
+    clone(original?: Node, replacement?: Node) { 
+        return new Evaluate(
+            this.typeInputs.map(t => t.cloneOrReplace([ TypeVariable, Unparsable ], original, replacement)), 
+            this.open.cloneOrReplace([ Token ], original, replacement), 
+            this.func.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.inputs.map(i => i.cloneOrReplace([ Expression, Unparsable, Bind ], original, replacement)), 
+            this.close.cloneOrReplace([ Token ], original, replacement),
+            this.typeOpen?.cloneOrReplace([ Token ], original, replacement),
+            this.typeClose?.cloneOrReplace([ Token ], original, replacement),
+        ) as this; 
+    }
+
 }

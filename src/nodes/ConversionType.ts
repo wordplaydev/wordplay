@@ -1,5 +1,6 @@
 import AnyType from "./AnyType";
 import type { ConflictContext } from "./Node";
+import type Node from "./Node";
 import Type from "./Type";
 
 export default class ConversionType extends Type {
@@ -19,5 +20,7 @@ export default class ConversionType extends Type {
     }
 
     getNativeTypeName(): string { return "conversion"; }
+
+    clone(original?: Node, replacement?: Node) { return new ConversionType(this.output.cloneOrReplace([ Type ], original, replacement)) as this; }
 
 }

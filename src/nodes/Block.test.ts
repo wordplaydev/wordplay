@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import { ExpectedEndingExpression } from "../conflicts/ExpectedEndingExpression";
 import { IgnoredExpression } from "../conflicts/IgnoredExpression";
 import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";

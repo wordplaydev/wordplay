@@ -1,4 +1,3 @@
-import type { ConflictContext } from "../nodes/Node";
 import type Program from "../nodes/Program";
 import type Reaction from "../nodes/Reaction";
 import { parse } from "../parser/Parser";
@@ -12,6 +11,7 @@ import Value from "./Value";
 // Import this last, after everything else.
 import Native from "../native/NativeBindings";
 import type NativeInterface from "../native/NativeInterface";
+import { ConflictContext } from "../nodes/Node";
 
 export default class Evaluator {
 
@@ -63,7 +63,7 @@ export default class Evaluator {
         return result;
     }
 
-    getContext(): ConflictContext { return { program: this.program, shares: this.shares, native: Native, stack: [] }; }
+    getContext(): ConflictContext { return new ConflictContext(this.program, this.shares, Native); }
 
     getNative(): NativeInterface { return Native; }
 

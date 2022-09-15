@@ -3,7 +3,7 @@ import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 
 export default class SetType extends Type {
 
@@ -45,6 +45,14 @@ export default class SetType extends Type {
 
     getDefinition(context: ConflictContext, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new SetType(
+            this.open.cloneOrReplace([ Token ], original, replacement), 
+            this.close.cloneOrReplace([ Token ], original, replacement), 
+            this.key?.cloneOrReplace([ Type, Unparsable, undefined ], original, replacement)
+        ) as this; 
     }
 
 }

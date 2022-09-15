@@ -1,9 +1,10 @@
 import AnyType from "./AnyType";
 import type { ConflictContext } from "./Node";
+import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 
 export default class StreamType extends Type {
 
@@ -27,5 +28,12 @@ export default class StreamType extends Type {
     }
 
     getNativeTypeName(): string { return "stream"; }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new StreamType(
+            this.type.cloneOrReplace([ Type, Unparsable ], original, replacement), 
+            this.stream.cloneOrReplace([ Token ], original, replacement)
+        ) as this; 
+    }
 
 }

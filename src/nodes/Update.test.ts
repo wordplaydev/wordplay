@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import { UnknownColumn } from "../conflicts/UnknownColumn";
 import { IncompatibleCellType } from "../conflicts/IncompatibleCellType";
 import { ExpectedUpdateBind } from "../conflicts/ExpectedUpdateBind";

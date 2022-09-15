@@ -3,13 +3,13 @@ import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 
 export default class MapType extends Type {
 
     readonly open: Token;
     readonly key?: Type | Unparsable;
-    readonly bind?: Token;
+    readonly bind: Token;
     readonly value?: Type | Unparsable;
     readonly close: Token;
 
@@ -19,7 +19,7 @@ export default class MapType extends Type {
         this.open = open ?? new Token("{", [ TokenType.SET_OPEN ]);
         this.key = key;
         this.close = close ?? new Token("}", [ TokenType.SET_CLOSE ]);
-        this.bind = bind;
+        this.bind = bind ?? new Token(":", [ TokenType.SET_CLOSE ]);
         this.value = value;
     }
 
@@ -27,7 +27,7 @@ export default class MapType extends Type {
         const children = [];
         children.push(this.open);
         if(this.key) children.push(this.key);
-        if(this.bind) children.push(this.bind);
+        children.push(this.bind);
         if(this.value) children.push(this.value);
         children.push(this.close);
         return children;
@@ -55,6 +55,16 @@ export default class MapType extends Type {
 
     getDefinition(context: ConflictContext, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new MapType(
+            this.open.cloneOrReplace([ Token ], original, replacement), 
+            this.close.cloneOrReplace([ Token], original, replacement), 
+            this.key?.cloneOrReplace([ Type, Unparsable, undefined ], original, replacement), 
+            this.bind.cloneOrReplace([ Token ], original, replacement), 
+            this.value?.cloneOrReplace([ Type, Unparsable ], original, replacement)
+        ) as this; 
     }
 
 }

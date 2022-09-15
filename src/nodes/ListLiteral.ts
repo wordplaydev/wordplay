@@ -1,9 +1,9 @@
 import Expression from "./Expression";
 import ListType from "./ListType";
-import type Token from "./Token";
+import Token from "./Token";
 import type Type from "./Type";
-import UnknownType from "./UnknownType";
-import type Unparsable from "./Unparsable";
+import type Node from "./Node";
+import Unparsable from "./Unparsable";
 import List from "../runtime/List";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
@@ -57,6 +57,14 @@ export default class ListLiteral extends Expression {
         // Construct the new list.
         return new List(values);
         
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new ListLiteral(
+            this.open.cloneOrReplace([ Token ], original, replacement), 
+            this.values.map(v => v.cloneOrReplace([ Expression, Unparsable ], original, replacement)), 
+            this.close.cloneOrReplace([ Token ], original, replacement)
+         ) as this; 
     }
 
 }

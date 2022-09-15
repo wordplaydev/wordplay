@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import Borrow from "./Borrow";
 
 test("Test borrow conflicts", () => {

@@ -1,8 +1,8 @@
-import type Bind from "../nodes/Bind";
-import type Expression from "./Expression";
+import Bind from "../nodes/Bind";
+import Expression from "./Expression";
 import Node, { type ConflictContext } from "./Node";
-import type Token from "./Token";
-import type Unparsable from "./Unparsable";
+import Token from "./Token";
+import Unparsable from "./Unparsable";
 
 export default class Cell extends Node {
 
@@ -18,6 +18,13 @@ export default class Cell extends Node {
 
     computeChildren() {
         return [ this.bar, this.expression ];
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Cell(
+            this.bar.cloneOrReplace([ Token ], original, replacement), 
+            this.expression.cloneOrReplace([ Expression, Unparsable, Bind], original, replacement)
+        ) as this; 
     }
 
 }

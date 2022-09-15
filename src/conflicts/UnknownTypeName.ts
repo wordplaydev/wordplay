@@ -14,7 +14,7 @@ export class UnknownTypeName extends Conflict {
 
     getExplanations() { 
         return {
-            eng: `I don't know who I am!`
+            eng: `I don't know what type I am!`
         }
     }
 

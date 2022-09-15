@@ -2,7 +2,8 @@ import BooleanType from "./BooleanType";
 import type Conflict from "../conflicts/Conflict";
 import { ExpectedBooleanCondition } from "../conflicts/ExpectedBooleanCondition";
 import Expression from "./Expression";
-import type Token from "./Token";
+import Token from "./Token";
+import type Node from "./Node";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
@@ -84,5 +85,14 @@ export default class Conditional extends Expression {
 
     /** We never actually evaluate this node below because the jump logic handles things. */
     evaluate(evaluator: Evaluator) { return undefined; }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Conditional(
+            this.condition.cloneOrReplace([ Expression ], original, replacement), 
+            this.conditional.cloneOrReplace([ Token ], original, replacement), 
+            this.yes.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.no.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+        ) as this; 
+    }
 
 }

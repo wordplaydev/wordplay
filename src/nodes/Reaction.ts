@@ -3,8 +3,9 @@ import { IncompatibleReactionTypes } from "../conflicts/IncompatibleReactionType
 import { NotAStream } from "../conflicts/NotAStream";
 import Expression from "./Expression";
 import StreamType from "./StreamType";
-import type Token from "./Token";
+import Token from "./Token";
 import type Type from "./Type";
+import type Node from "./Node";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
@@ -27,11 +28,11 @@ export default class Reaction extends Expression {
     readonly stream: Expression | Unparsable;
     readonly next: Expression | Unparsable;
 
-    constructor(initial: Expression, dots: Token, stream: Expression | Unparsable, next: Expression | Unparsable) {
+    constructor(initial: Expression, delta: Token, stream: Expression | Unparsable, next: Expression | Unparsable) {
         super();
 
         this.initial = initial;
-        this.delta = dots;
+        this.delta = delta;
         this.stream = stream;
         this.next = next;
 
@@ -127,6 +128,15 @@ export default class Reaction extends Expression {
         // Then push the stream's latest value back onto the value stack.
         evaluator.pushValue(streamValue);
 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Reaction(
+            this.initial.cloneOrReplace([ Expression ], original, replacement), 
+            this.delta.cloneOrReplace([ Token ], original, replacement), 
+            this.stream.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.next.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+        ) as this; 
     }
 
 }

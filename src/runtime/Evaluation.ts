@@ -11,6 +11,7 @@ import Value from "./Value";
 import type Evaluable from "./Evaluable";
 import type Program from "../nodes/Program";
 import KeepStream from "./KeepStream";
+import { ConflictContext } from "../nodes/Node";
 
 export default class Evaluation {
 
@@ -137,7 +138,7 @@ export default class Evaluation {
 
         const program = this.getProgram();
         if(program === undefined) return undefined;
-        return this.#conversions.find(c => c.definition.output instanceof Type && c.definition.output.isCompatible({ program: program, stack: [] }, type));
+        return this.#conversions.find(c => c.definition.output instanceof Type && c.definition.output.isCompatible(new ConflictContext(program), type));
 
     }
 

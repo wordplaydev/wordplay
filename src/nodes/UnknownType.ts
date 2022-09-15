@@ -19,4 +19,6 @@ export default class UnknownType extends Type {
 
     toWordplay() { return "□"; }
 
+    clone(original?: Node, replacement?: Node) { return new UnknownType(this.node) as this; }
+
 }

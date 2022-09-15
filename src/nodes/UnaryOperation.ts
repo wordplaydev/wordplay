@@ -3,8 +3,9 @@ import type Conflict from "../conflicts/Conflict";
 import { IncompatibleOperand } from "../conflicts/IncompatibleOperand";
 import Expression from "./Expression";
 import MeasurementType from "./MeasurementType";
-import type Token from "./Token";
+import Token from "./Token";
 import type Type from "./Type";
+import type Node from "./Node";
 import Unit from "./Unit";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
@@ -23,11 +24,11 @@ export default class UnaryOperation extends Expression {
     readonly operator: Token;
     readonly operand: Expression | Unparsable;
 
-    constructor(operator: Token, value: Expression|Unparsable) {
+    constructor(operator: Token, operand: Expression|Unparsable) {
         super();
 
         this.operator = operator;
-        this.operand = value;
+        this.operand = operand;
     }
 
     getOperator() { return this.operator.text.toString(); }
@@ -99,6 +100,13 @@ export default class UnaryOperation extends Expression {
             value.evaluatePrefix(this) :
             new Exception(this, ExceptionKind.UNKNOWN_OPERATOR);
 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new UnaryOperation(
+            this.operator.cloneOrReplace([ Token ], original, replacement), 
+            this.operand.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+        ) as this; 
     }
 
 }

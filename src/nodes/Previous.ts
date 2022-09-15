@@ -1,8 +1,9 @@
 import type Conflict from "../conflicts/Conflict";
 import Expression from "./Expression";
 import MeasurementType from "./MeasurementType";
-import type Token from "./Token";
+import Token from "./Token";
 import type Type from "./Type";
+import type Node from "./Node";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
@@ -74,4 +75,11 @@ export default class Previous extends Expression {
 
     }
 
+    clone(original?: Node, replacement?: Node) { 
+        return new Previous(
+            this.stream.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.previous.cloneOrReplace([ Token ], original, replacement), 
+            this.index.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+        ) as this; 
+    }
 }

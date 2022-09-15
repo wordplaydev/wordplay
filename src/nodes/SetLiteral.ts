@@ -1,6 +1,7 @@
 import Expression from "./Expression";
-import type Token from "./Token";
+import Token from "./Token";
 import type Type from "./Type";
+import type Node from "./Node";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
@@ -64,6 +65,14 @@ export default class SetLiteral extends Expression {
             values.unshift(evaluator.popValue());
         return new SetValue(values);
             
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new SetLiteral(
+            this.open.cloneOrReplace([ Token ], original, replacement), 
+            this.values.map(v => v.cloneOrReplace([ Expression, Unparsable ], original, replacement)), 
+            this.close.cloneOrReplace([ Token ], original, replacement)
+        ) as this; 
     }
 
 }

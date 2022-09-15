@@ -11,7 +11,7 @@
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "eslint .",
 		"test": "jest",
-		"test:watch": "npm run test -- --watchAll",
+		"test:watch": "npm run test -- --silent=false --watchAll ",
 		"test:coverage": "jest --coverage"
 	},
 	"devDependencies": {

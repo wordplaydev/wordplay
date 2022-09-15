@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import { UnexpectedTypeVariable } from "../conflicts/UnexpectedTypeVariable";
 import { UnknownName } from "../conflicts/UnknownName";
 import Name from "./Name";

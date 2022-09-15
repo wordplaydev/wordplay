@@ -1,7 +1,7 @@
 import type Node from "./Node";
-import type Token from "./Token";
+import Token from "./Token";
 import Expression from "./Expression";
-import type Row from "./Row";
+import Row from "./Row";
 import type Conflict from "../conflicts/Conflict";
 import { IncompatibleCellType } from "../conflicts/IncompatibleCellType";
 import { NotATable } from "../conflicts/NotATable";
@@ -112,6 +112,14 @@ export default class Insert extends Expression {
         // Return a new table with the values.
         return table.insert(values);
 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Insert(
+            this.table.cloneOrReplace([ Expression ], original, replacement),
+            this.insert.cloneOrReplace([ Token ], original, replacement),
+            this.row.cloneOrReplace([ Row ], original, replacement)
+        ) as this; 
     }
 
 }

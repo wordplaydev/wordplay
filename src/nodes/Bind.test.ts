@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import { UnusedBind } from "../conflicts/UnusedBind";
 import { IncompatibleBind } from "../conflicts/IncompatibleBind";
 import DuplicateAliases from "../conflicts/DuplicateAliases";

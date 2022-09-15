@@ -3,13 +3,7 @@ import type Shares from "../runtime/Shares";
 import type Program from "./Program";
 import type Definition from "./Definition";
 import type NativeInterface from "../native/NativeInterface";
-
-export type ConflictContext = { 
-    program: Program,
-    shares?: Shares,
-    native?: NativeInterface,
-    stack: Node[]
-}
+import type Type from "./Type";
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -70,7 +64,7 @@ export default abstract class Node {
     getAllConflicts(program: Program, shares: Shares, native: NativeInterface): Conflict[] {
         let conflicts: Conflict[] = [];
         this.traverse(node => {
-            conflicts = conflicts.concat(node.getConflicts({ program: program, shares: shares, native: native, stack: [] }));
+            conflicts = conflicts.concat(node.getConflicts(new ConflictContext(program, shares, native)));
             return true;
         });
         return conflicts;
@@ -165,6 +159,67 @@ export default abstract class Node {
         }
         return false;
 
+    }
+
+    /** Creates a deep clone of this node and it's descendants. If it encounters replacement along the way, it uses that instead of the existing node. */
+    abstract clone(original?: Node, replacement?: Node): this;
+
+    /** A utility method that encapsulates an optional replacement during recursive cloning. */
+    cloneOrReplace(types: (Function | undefined)[], original: Node | undefined, replacement: Node | undefined): this {
+        if(this === original && replacement !== undefined) {
+            // See if the replacement is one of the expected types.
+            let valid = false;
+            for(const type of types) {
+                if(type === undefined) {
+                    if(replacement === undefined) { 
+                        valid = true; 
+                        break; 
+                    }
+                }
+                else {
+                    if(replacement instanceof type) {
+                        valid = true;
+                        break;
+                    }
+                }
+            }
+            if(valid) return replacement as this;
+            else throw Error("Replacement isn't of a valid type.");
+        }
+        else
+            return this.clone(original, replacement) as this;
+    }
+
+}
+
+export class ConflictContext {
+
+    readonly program: Program;
+    readonly shares?: Shares;
+    readonly native?: NativeInterface;
+    readonly stack: Node[] = [];
+    readonly types: Record<string,Type>[] = [];
+    
+    constructor(program: Program, shares?: Shares, native?: NativeInterface) {
+
+        this.program = program;
+        this.shares = shares;
+        this.native = native;
+        
+    }
+
+    visit(node: Node) { this.stack.push(node); }
+    unvisit() { this.stack.pop();}
+    visited(node: Node) { return  this.stack.includes(node); }
+
+    defineTypeVariables(definitions: Record<string,Type>) { this.types.unshift(definitions); }
+    undefinedTypeVariables() { this.types.shift(); }
+    resolveTypeVariable(name: string) {
+        for(let i = 0; i < this.types.length; i++) {
+            if(name in this.types[i]) return this.types[i][name];
+
+        }
+        return undefined;
     }
 
 }

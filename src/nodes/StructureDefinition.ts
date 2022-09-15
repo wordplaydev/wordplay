@@ -3,7 +3,7 @@ import Bind from "./Bind";
 import Expression from "./Expression";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
-import type Documentation from "./Documentation";
+import Documentation from "./Documentation";
 import type Conflict from "../conflicts/Conflict";
 import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
 import { VariableLengthArgumentMustBeLast } from "../conflicts/VariableLengthArgumentMustBeLast";
@@ -23,12 +23,12 @@ import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import type { ConflictContext } from "./Node";
 import type Definition from "./Definition";
 import StructureType from "./StructureType";
-import type Alias from "./Alias";
+import Alias from "./Alias";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import UnknownType from "./UnknownType";
 import FunctionType from "./FunctionType";
-import type NameType from "./NameType";
+import NameType from "./NameType";
 
 export default class StructureDefinition extends Expression {
 
@@ -57,7 +57,7 @@ export default class StructureDefinition extends Expression {
         this.block = block ?? new Block([], [], true);
     }
 
-    isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }
+    isBindingEnclosureOfChild(child: Node): boolean { return child === this.block || (child instanceof Bind && this.inputs.includes(child)); }
 
     isBindingEnclosure() { return true; }
 
@@ -206,6 +206,20 @@ export default class StructureDefinition extends Expression {
         else
             return new Exception(this, ExceptionKind.EXPECTED_CONTEXT);
             
+    }
+
+    clone(original?: Node, replacement?: Node) {
+        return new StructureDefinition(
+            this.docs.map(d => d.cloneOrReplace([ Documentation ], original, replacement)),
+            this.aliases.map(a => a.cloneOrReplace([ Alias ], original, replacement)),
+            this.interfaces.map(i => i.cloneOrReplace([ NameType ], original, replacement)), 
+            this.typeVars.map(t => t.cloneOrReplace([ TypeVariable, Unparsable ], original, replacement)),
+            this.inputs.map(i => i.cloneOrReplace([ Bind, Unparsable ], original, replacement)),
+            this.block.cloneOrReplace([ Block ], original, replacement),
+            this.type.cloneOrReplace([ Token ], original, replacement),
+            this.open.cloneOrReplace([ Token ], original, replacement),
+            this.close.cloneOrReplace([ Token ], original, replacement)
+        ) as this;
     }
 
 }

@@ -4,8 +4,8 @@ import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
 import type { ConflictContext } from "./Node";
-import type Alias from "./Alias";
-import type Expression from "./Expression";
+import Alias from "./Alias";
+import Expression from "./Expression";
 import AnyType from "./AnyType";
 
 export type Input = {
@@ -65,4 +65,19 @@ export default class FunctionType extends Type {
 
     getNativeTypeName(): string { return "function"; }
     
+    clone(original?: Node, replacement?: Node) { 
+        return new FunctionType(
+            this.inputs.map(i => { 
+                return {
+                    aliases: i.aliases.map(a => a.cloneOrReplace([ Alias ], original, replacement)),
+                    type: i.type.cloneOrReplace([ Type, Unparsable ], original, replacement),
+                    required: i.required,
+                    rest: typeof i.rest === "boolean" ? i.rest : i.rest.cloneOrReplace([ Token ], original, replacement),
+                    default: i.default?.cloneOrReplace([ Unparsable, Expression ], original, replacement)
+                }
+            }), 
+            this.output.cloneOrReplace([ Type, Unparsable ], original, replacement)
+        ) as this; 
+    }
+
 }

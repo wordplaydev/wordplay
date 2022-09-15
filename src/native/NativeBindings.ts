@@ -177,9 +177,8 @@ Native.addNativeFunction("list", [], [ new Alias("first", "eng") ], [], [], new 
 
 // TODO Documentation
 Native.addNativeFunction("list", [], [ new Alias("has", "eng") ], [], 
-    [
-        new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType("T"))
-    ], new BooleanType(),
+    [ new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType("T")) ], 
+    new BooleanType(),
     evaluation => {
         const list = evaluation.getContext();
         const value = evaluation.resolve("value");
@@ -585,7 +584,7 @@ Native.addConversion("boolean", [], "''", Bool, (val: Bool) => new Text(val.toSt
 Native.addConversion("none", [], "''", None, (val: None) => new Text(val.toString()));
 
 // TODO Documentation
-Native.addConversion("text", [], "[]", Text, (val: Text) => new List(val.text.split("").map(c => new Text(c))));
+Native.addConversion("text", [], '[""]', Text, (val: Text) => new List(val.text.split("").map(c => new Text(c))));
 
 // TODO Documentation
 Native.addConversion("measurement", [], "''", Measurement, (val: Measurement) => new Text(val.toString()));

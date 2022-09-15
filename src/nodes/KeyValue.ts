@@ -1,8 +1,7 @@
-import type Conflict from "../conflicts/Conflict";
-import type Expression from "./Expression";
-import Node, { type ConflictContext } from "./Node";
-import type Token from "./Token";
-import type Unparsable from "./Unparsable";
+import Expression from "./Expression";
+import Node from "./Node";
+import Token from "./Token";
+import Unparsable from "./Unparsable";
 
 export default class KeyValue extends Node {
 
@@ -20,6 +19,14 @@ export default class KeyValue extends Node {
 
     computeChildren() {
         return [ this.key, this.bind, this.value ];
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new KeyValue(
+            this.key.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.bind.cloneOrReplace([ Token ], original, replacement), 
+            this.value.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+        ) as this; 
     }
 
 }

@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import { NotAStream } from "../conflicts/NotAStream";
 import Stream from "../runtime/Stream";
 

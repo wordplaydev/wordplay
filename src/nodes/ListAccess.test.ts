@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import { NotAListIndex } from "../conflicts/NotAListIndex";
 import Evaluator from "../runtime/Evaluator";
 import ListAccess from "./ListAccess";

@@ -1,4 +1,3 @@
-import type Conflict from "../conflicts/Conflict";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
 import Token from "./Token";
@@ -7,7 +6,8 @@ import Type from "./Type";
 
 export default class Unit extends Type {
 
-    readonly tokens: Token[];
+    readonly numeratorTokens: Token[];
+    readonly denominatorTokens: Token[];
     readonly numerator: string[];
     readonly denominator: string[];
 
@@ -15,17 +15,21 @@ export default class Unit extends Type {
 
         super();
 
+        numerator
+
         // If we were given tokens, generate the arrays.
         if(numerator.length > 0 && numerator[0] instanceof Token) {
             this.numerator = (numerator as Token[]).filter(n => n.is(TokenType.NAME)).map(n => n.text.toString()).sort();
             this.denominator = (denominator as Token[]).filter(n => n.is(TokenType.NAME)).map(n => n.text.toString()).sort();            
-            this.tokens = (numerator as Token[]).concat(denominator as Token[]);
+            this.numeratorTokens = numerator as Token[];
+            this.denominatorTokens = denominator as Token[];
         }
         // If we were given strings, just assign them.
         else {
             this.numerator = numerator as string[];
             this.denominator = denominator as string[];
-            this.tokens = [];
+            this.numeratorTokens = [];
+            this.denominatorTokens = [];
         }
 
         // Simply the unit for later comparison.
@@ -44,7 +48,9 @@ export default class Unit extends Type {
 
     }
 
-    computeChildren(): Node[] { return this.tokens.slice(); }
+    isEmpty() { return this.numerator.length === 0 && this.denominator.length === 0; }
+
+    computeChildren(): Node[] { return this.numeratorTokens.concat(this.denominatorTokens); }
 
     isCompatible(context: ConflictContext, unit: Unit): boolean {
         return this.numerator.join("·") === unit.numerator.join("·") && 
@@ -58,6 +64,13 @@ export default class Unit extends Type {
             (this.numerator.length === 0 && this.denominator.length === 0 ? "" :
             (this.numerator.length === 0 ? "1" : this.numerator.join("·")) + 
             (this.denominator.length === 0 ? "" : "/" + this.denominator.join("·")));
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Unit(
+            this.numerator.length > 0 && this.numeratorTokens.length === 0 ? this.numerator : this.numeratorTokens.map(t => t.cloneOrReplace([ Token ], original, replacement)), 
+            this.denominator.length > 0 && this.denominatorTokens.length === 0 ? this.denominator : this.denominatorTokens.map(t => t.cloneOrReplace([ Token ], original, replacement))
+        ) as this; 
     }
 
 }

@@ -1,6 +1,6 @@
-import type Token from "./Token";
+import Token from "./Token";
 import Expression from "./Expression";
-import type Row from "./Row";
+import Row from "./Row";
 import type Conflict from "../conflicts/Conflict";
 import { UnknownColumn } from "../conflicts/UnknownColumn";
 import { ExpectedSelectName } from "../conflicts/ExpectedSelectName";
@@ -8,7 +8,7 @@ import { NonBooleanQuery } from "../conflicts/NonBooleanQuery";
 import { NotATable } from "../conflicts/NotATable";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 import Name from "./Name";
 import TableType from "./TableType";
 import type ColumnType from "./ColumnType";
@@ -123,6 +123,15 @@ export default class Select extends Expression {
 
         return new Exception(this, ExceptionKind.NOT_IMPLEMENTED);
 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Select(
+            this.table.cloneOrReplace([ Expression ], original, replacement), 
+            this.select.cloneOrReplace([ Token ], original, replacement), 
+            this.row.cloneOrReplace([ Row ], original, replacement), 
+            this.query.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+        ) as this; 
     }
 
 }

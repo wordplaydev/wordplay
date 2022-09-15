@@ -167,10 +167,6 @@ test("Parse expressions", () => {
     expect(bool).toBeInstanceOf(BooleanLiteral);
     expect((bool as BooleanLiteral).value.is(TokenType.BOOLEAN)).toBe(true);
 
-    const number = parseExpression(tokens("1"));
-    expect(number).toBeInstanceOf(MeasurementLiteral);
-    expect((number as MeasurementLiteral).unit).toBe(undefined);
-
     const sec = parseExpression(tokens("1s"));
     expect(sec).toBeInstanceOf(MeasurementLiteral);
     expect((sec as MeasurementLiteral).unit?.toWordplay()).toBe("s");
@@ -178,10 +174,6 @@ test("Parse expressions", () => {
     const speed = parseExpression(tokens("1m/s"));
     expect(speed).toBeInstanceOf(MeasurementLiteral);
     expect((speed as MeasurementLiteral).unit?.toWordplay()).toBe("m/s");
-
-    const badSpeed = parseExpression(tokens("1 m/s"));
-    expect(badSpeed).toBeInstanceOf(MeasurementLiteral);
-    expect((badSpeed as MeasurementLiteral).unit).toBe(undefined);
 
     const text = parseExpression(tokens("«hola»"));
     expect(text).toBeInstanceOf(TextLiteral);
@@ -316,9 +308,13 @@ test("Parse expressions", () => {
     expect(evaluateWithNamedInputs).toBeInstanceOf(Evaluate);
     expect((evaluateWithNamedInputs as Evaluate).inputs).toHaveLength(2);
 
-    const evaluateWithTypeVars = parseExpression(tokens("a*Cat(b c)"));
+    const evaluateWithTypeVars = parseExpression(tokens("a/Cat/(b c)"));
     expect(evaluateWithTypeVars).toBeInstanceOf(Evaluate);
-    expect((evaluateWithTypeVars as Evaluate).typeVars).toHaveLength(1);
+    expect((evaluateWithTypeVars as Evaluate).typeInputs).toHaveLength(1);
+
+    const evaluateWithMultipleTypeVars = parseExpression(tokens("a/Cat #/(b c)"));
+    expect(evaluateWithMultipleTypeVars).toBeInstanceOf(Evaluate);
+    expect((evaluateWithMultipleTypeVars as Evaluate).typeInputs).toHaveLength(2);
 
     const conversion = parseExpression(tokens("→ '' meow()"));
     expect(conversion).toBeInstanceOf(ConversionDefinition);

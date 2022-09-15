@@ -2,6 +2,7 @@ import Bind from "../nodes/Bind";
 import BooleanType from "../nodes/BooleanType";
 import Expression from "../nodes/Expression";
 import type { ConflictContext } from "../nodes/Node";
+import type Node from "../nodes/Node";
 import Bool from "../runtime/Bool";
 import Evaluation from "../runtime/Evaluation";
 import type Evaluator from "../runtime/Evaluator";
@@ -13,8 +14,9 @@ import Measurement from "../runtime/Measurement";
 import Action from "../runtime/Start";
 import type Step from "../runtime/Step";
 import type Value from "../runtime/Value";
+import HOF from "./HOF";
 
-export default class NativeHOFListAll extends Expression {
+export default class NativeHOFListAll extends HOF {
 
     computeChildren() { return [] };
     computeType(context: ConflictContext) { return new BooleanType(); }

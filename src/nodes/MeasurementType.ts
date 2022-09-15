@@ -5,17 +5,17 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import Unit from "./Unit";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 
 export default class MeasurementType extends Type {
     
     readonly number: Token;
-    readonly unit?: Unit | Unparsable;
+    readonly unit: Unit | Unparsable;
 
     constructor(number?: Token, unit?: Unit | Unparsable) {
         super();
         this.number = number ?? new Token("#", [ TokenType.NUMBER_TYPE ]);
-        this.unit = unit;
+        this.unit = unit ?? new Unit();
     }
 
     computeChildren() { 
@@ -43,6 +43,13 @@ export default class MeasurementType extends Type {
 
     getDefinition(context: ConflictContext, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new MeasurementType(
+            this.number.cloneOrReplace([ Token ], original, replacement), 
+            this.unit?.cloneOrReplace([ Unit, Unparsable ], original, replacement)
+        ) as this; 
     }
 
 }

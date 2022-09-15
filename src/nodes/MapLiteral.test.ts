@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import { NotAMap as NotAMap } from "../conflicts/NotAMap";
 import MapLiteral from "./MapLiteral";
 

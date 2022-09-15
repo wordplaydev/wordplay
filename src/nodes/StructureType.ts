@@ -39,4 +39,6 @@ export default class StructureType extends Type {
 
     getNativeTypeName(): string { return "structure"; }
 
+    clone(original?: Node, replacement?: Node) { return new StructureType(this.definition) as this; }
+    
 }

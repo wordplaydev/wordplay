@@ -5,8 +5,9 @@ import type Value from "../runtime/Value";
 import type Conflict from "../conflicts/Conflict";
 import Expression from "./Expression";
 import MeasurementType from "./MeasurementType";
-import type Token from "./Token";
+import Token from "./Token";
 import type Type from "./Type";
+import type Node from "./Node";
 import Unit from "./Unit";
 import Unparsable from "./Unparsable";
 import type Step from "../runtime/Step";
@@ -17,12 +18,12 @@ import { NotANumber } from "../conflicts/NotANumber";
 export default class MeasurementLiteral extends Expression {
     
     readonly number: Token;
-    readonly unit?: Unit | Unparsable;
+    readonly unit: Unit | Unparsable;
 
     constructor(number: Token, unit?: Unit | Unparsable) {
         super();
         this.number = number;
-        this.unit = unit;
+        this.unit = unit ?? new Unit();
     }
 
     isInteger() { return !isNaN(parseInt(this.number.text.toString())); }
@@ -49,7 +50,14 @@ export default class MeasurementLiteral extends Expression {
     evaluate(evaluator: Evaluator): Value {
         if(this.unit instanceof Unparsable) return new Exception(this, ExceptionKind.UNPARSABLE);
         // This needs to translate between different number formats.
-        else return new Measurement(this.number, this.unit === undefined ? new Unit([], []) : this.unit);
+        else return new Measurement(this.number, this.unit);
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new MeasurementLiteral(
+            this.number.cloneOrReplace([ Token ], original, replacement), 
+            this.unit?.cloneOrReplace([ Unit, Unparsable ], original, replacement)
+        ) as this; 
     }
 
 }

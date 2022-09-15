@@ -1,15 +1,15 @@
-import type Token from "./Token";
+import Token from "./Token";
 import Expression from "./Expression";
 import NoneType from "./NoneType";
 import type Type from "./Type";
+import type Node from "./Node";
 import None from "../runtime/None";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import type { ConflictContext } from "./Node";
-import type Alias from "./Alias";
-import type Unparsable from "./Unparsable";
+import Alias from "./Alias";
 
 export default class NoneLiteral extends Expression {
     readonly none: Token;
@@ -35,6 +35,13 @@ export default class NoneLiteral extends Expression {
 
     evaluate(evaluator: Evaluator): Value {
         return new None(this.aliases);
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new NoneLiteral(
+            this.none.cloneOrReplace([ Token ], original, replacement), 
+            this.aliases.map(a => a.cloneOrReplace([ Alias ], original, replacement))
+        ) as this; 
     }
 
 }

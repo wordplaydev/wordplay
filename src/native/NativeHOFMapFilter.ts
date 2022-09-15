@@ -15,8 +15,9 @@ import Measurement from "../runtime/Measurement";
 import Action from "../runtime/Start";
 import type Step from "../runtime/Step";
 import type Value from "../runtime/Value";
+import HOF from "./HOF";
 
-export default class NativeHOFListMap extends Expression {
+export default class NativeHOFListMap extends HOF {
 
     computeChildren() { return [] };
     computeType(context: ConflictContext): Type { return new ListType(new NameType("T")); }

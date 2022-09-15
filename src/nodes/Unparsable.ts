@@ -1,5 +1,5 @@
 import Node, { type ConflictContext } from "./Node";
-import type Token from "./Token";
+import Token from "./Token";
 import { SyntacticConflict } from "../parser/Parser"
 import Conflict from "../conflicts/Conflict";
 import type Evaluable from "../runtime/Evaluable";
@@ -49,6 +49,14 @@ export default class Unparsable extends Node implements Evaluable {
 
     evaluate(evaluator: Evaluator): Value {
         return new Exception(this, ExceptionKind.UNPARSABLE);
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Unparsable(
+            this.reason, 
+            this.parsedNodes.map(n => n.cloneOrReplace([ Node ], original, replacement)), 
+            this.unparsableTokens.map(t => t.cloneOrReplace([ Token ], original, replacement))
+        ) as this; 
     }
 
 }

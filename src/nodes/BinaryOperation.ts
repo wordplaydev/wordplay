@@ -20,6 +20,7 @@ import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type Value from "../runtime/Value";
 import type { ConflictContext } from "./Node";
+import type Node from "./Node";
 
 export default class BinaryOperation extends Expression {
 
@@ -221,6 +222,14 @@ export default class BinaryOperation extends Expression {
         else
             return new Exception(this, ExceptionKind.UNKNOWN_OPERATOR);
 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new BinaryOperation(
+            this.operator.cloneOrReplace([ Token ], original, replacement), 
+            this.left.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.right.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+        ) as this; 
     }
 
 }

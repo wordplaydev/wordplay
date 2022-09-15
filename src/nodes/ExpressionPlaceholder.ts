@@ -1,7 +1,8 @@
 import type Conflict from "../conflicts/Conflict";
 import Expression from "./Expression";
-import type Token from "./Token";
+import Token from "./Token";
 import type Type from "./Type";
+import type Node from "./Node";
 import UnknownType from "./UnknownType";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
@@ -34,6 +35,10 @@ export default class ExpressionPlaceholder extends Expression {
 
     evaluate(evaluator: Evaluator): Value {
         return new Exception(this, ExceptionKind.PLACEHOLDER);
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new ExpressionPlaceholder(this.etc.cloneOrReplace([ Token ], original, replacement)) as this; 
     }
 
 }

@@ -1,8 +1,9 @@
 import type Conflict from "../conflicts/Conflict";
 import { Placeholder } from "../conflicts/Placeholder";
 import type { ConflictContext } from "./Node";
-import type Token from "./Token";
+import Token from "./Token";
 import Type from "./Type";
+import type Node from "./Node";
 
 export default class TypePlaceholder extends Type {
 
@@ -23,5 +24,10 @@ export default class TypePlaceholder extends Type {
     isCompatible(context: ConflictContext, type: Type): boolean { return false; }
 
     getNativeTypeName(): string { return ""; }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new TypePlaceholder(
+            this.etc.cloneOrReplace([ Token ], original, replacement)
+        ) as this; }
 
 }

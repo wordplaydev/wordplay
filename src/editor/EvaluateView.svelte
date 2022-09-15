@@ -7,4 +7,4 @@
 
 </script>
 
-<NodeView node={node.func}/><NodeSequenceView nodes={node.typeVars}/><NodeView node={node.open}/><NodeSequenceView nodes={node.inputs}/><NodeView node={node.close}/>
+<NodeView node={node.func}/><NodeView node={node.typeOpen}/><NodeSequenceView nodes={node.typeInputs} /><NodeView node={node.typeClose}/><NodeView node={node.open}/><NodeSequenceView nodes={node.inputs}/><NodeView node={node.close}/>

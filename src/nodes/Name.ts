@@ -2,7 +2,8 @@ import type Conflict from "../conflicts/Conflict";
 import { UnexpectedTypeVariable } from "../conflicts/UnexpectedTypeVariable";
 import { UnknownName } from "../conflicts/UnknownName";
 import Expression from "./Expression";
-import type Token from "./Token";
+import Token from "./Token";
+import type Node from "./Node";
 import type Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
@@ -62,4 +63,6 @@ export default class Name extends Expression {
 
     }
 
+    clone(original?: Node, replacement?: Node) { return new Name(this.name.cloneOrReplace([ Token ], original, replacement)) as this; }
+    
 }

@@ -18,4 +18,11 @@ export default class TypeVariable extends Node {
         return [ this.type, this.name ];
     }
 
+    clone(original?: Node, replacement?: Node) { 
+        return new TypeVariable(
+            this.name.cloneOrReplace([ Token ], original, replacement), 
+            this.type.cloneOrReplace([ Token ], original, replacement)
+        ) as this; 
+    }
+
 }

@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
 import { RequiredAfterOptional } from "../conflicts/RequiredAfterOptional";
 import { DuplicateTypeVariables } from "../conflicts/DuplicateTypeVariables";

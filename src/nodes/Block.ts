@@ -4,10 +4,10 @@ import type Conflict from "../conflicts/Conflict";
 import { ExpectedEndingExpression } from "../conflicts/ExpectedEndingExpression";
 import { IgnoredExpression } from "../conflicts/IgnoredExpression";
 import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
-import type Documentation from "./Documentation";
+import Documentation from "./Documentation";
 import Expression from "./Expression";
 import Share from "./Share";
-import type Token from "./Token";
+import Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
@@ -41,6 +41,8 @@ export default class Block extends Expression {
         this.docs = docs;
         this.creator = creator;
     }
+
+    getLast() { return this.statements.length === 0 ? undefined : this.statements[this.statements.length - 1]; }
 
     isBindingEnclosureOfChild(child: Node): boolean { return true; }
 
@@ -136,6 +138,16 @@ export default class Block extends Expression {
         // If this block is just an expression, return the (last) value on the value stack of the current evaluation context.
         else return evaluator.popValue();            
 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Block(
+            this.docs.map(d => d.cloneOrReplace([ Documentation ], original, replacement)), 
+            this.statements.map(s => s.cloneOrReplace([ Expression, Unparsable, Share, Bind ], original, replacement)), 
+            this.creator, 
+            this.open?.cloneOrReplace([ Token, undefined ], original, replacement), 
+            this.close?.cloneOrReplace([ Token, undefined], original, replacement)
+        ) as this; 
     }
 
 }

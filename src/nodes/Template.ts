@@ -1,9 +1,8 @@
-import type Conflict from "../conflicts/Conflict";
-import { UnknownConversion } from "../conflicts/UnknownConversion";
 import Expression from "./Expression";
 import TextType from "./TextType";
 import Token from "./Token";
 import type Type from "./Type";
+import type Node from "./Node";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Text from "../runtime/Text";
@@ -11,7 +10,7 @@ import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import type { ConflictContext } from "./Node";
-import type Language from "./Language";
+import Language from "./Language";
 
 export default class Template extends Expression {
     
@@ -55,6 +54,13 @@ export default class Template extends Expression {
         }
         return new Text(text, this.format?.getLanguage());
 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Template(
+            this.parts.map(p => p.cloneOrReplace([ Token, Expression ], original, replacement)), 
+            this.format?.cloneOrReplace([ Language, undefined ], original, replacement)
+        ) as this; 
     }
 
 }

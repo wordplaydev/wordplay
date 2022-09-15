@@ -1,9 +1,8 @@
-import Node, { type ConflictContext } from "./Node";
 import type Definition from "./Definition";
-import type Borrow from "./Borrow";
-import type Unparsable from "./Unparsable";
+import Borrow from "./Borrow";
+import Unparsable from "./Unparsable";
 import type Conflict from "../conflicts/Conflict";
-import type Block from "../nodes/Block";
+import Block from "../nodes/Block";
 import type Evaluator from "../runtime/Evaluator";
 import type Evaluable from "../runtime/Evaluable";
 import type Step from "../runtime/Step";
@@ -11,7 +10,9 @@ import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import Stream from "../runtime/Stream";
-import type Token from "./Token";
+import Token from "./Token";
+import type { ConflictContext } from "./Node";
+import Node from "./Node";
 
 export default class Program extends Node implements Evaluable {
     
@@ -65,6 +66,14 @@ export default class Program extends Node implements Evaluable {
         // Return whatever the block computed.
         return evaluator.popValue();
 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Program(
+            this.borrows.map(b => b.cloneOrReplace([ Borrow, Unparsable ], original, replacement)), 
+            this.block.cloneOrReplace([ Block, Unparsable ], original, replacement), 
+            this.end.cloneOrReplace([ Token ], original, replacement)
+        ) as this; 
     }
 
 }

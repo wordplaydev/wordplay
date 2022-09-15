@@ -1,7 +1,8 @@
 import Expression from "./Expression";
 import KeyValue from "./KeyValue";
-import type Token from "./Token";
+import Token from "./Token";
 import type Type from "./Type";
+import type Node from "./Node";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Conflict from "../conflicts/Conflict";
@@ -86,6 +87,15 @@ export default class MapLiteral extends Expression {
         }
         return new MapValue(values);
             
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new MapLiteral(
+            this.open.cloneOrReplace([ Token ], original, replacement), 
+            this.values.map(v => v.cloneOrReplace([ Unparsable, Expression, KeyValue ], original, replacement)), 
+            this.close.cloneOrReplace([ Token ], original, replacement), 
+            this.bind?.cloneOrReplace([ Token, undefined ], original, replacement)
+        ) as this; 
     }
 
 }

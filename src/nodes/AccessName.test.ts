@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import { UnknownProperty } from "../conflicts/UnknownProperty";
 import Evaluator from "../runtime/Evaluator";
 import AccessName from "./AccessName";

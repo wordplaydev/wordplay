@@ -1,5 +1,6 @@
 import type Exception from "../runtime/Exception";
 import type { ConflictContext } from "./Node";
+import type Node from "./Node";
 import Type from "./Type";
 
 export default class ExceptionType extends Type {
@@ -30,5 +31,7 @@ export default class ExceptionType extends Type {
     toWordplay(): string {
         return this.exception.toString();
     }
+
+    clone(original?: Node, replacement?: Node) { return new ExceptionType(this.exception) as this; }
 
 }

@@ -45,4 +45,12 @@ export default class Alias extends Node {
         );
     }
 
+    clone(original?: Node, replacement?: Node) { 
+        return new Alias(
+            this.name?.cloneOrReplace([ Token, undefined], original, replacement), 
+            this.lang?.cloneOrReplace([ Language, undefined], original, replacement),
+            this.semicolon?.cloneOrReplace([ Token, undefined], original, replacement)
+        ) as this; 
+    }
+
 }

@@ -1,5 +1,5 @@
 import AnyType from "./AnyType";
-import type Language from "./Language";
+import Language from "./Language";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
 import Token from "./Token";
@@ -36,6 +36,13 @@ export default class TextType extends Type {
 
     getDefinition(context: ConflictContext, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new TextType(
+            this.quote.cloneOrReplace([ Token ], original, replacement), 
+            this.format?.cloneOrReplace([ Language, undefined ], original, replacement)
+        ) as this; 
     }
 
 }

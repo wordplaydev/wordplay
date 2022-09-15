@@ -1,7 +1,7 @@
 import type Conflict from "../conflicts/Conflict";
 import { UnknownBorrow } from "../conflicts/UnknownBorrow";
 import Node, { type ConflictContext } from "./Node";
-import type Token from "./Token";
+import Token from "./Token";
 import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
 import type Step from "../runtime/Step";
@@ -56,5 +56,13 @@ export default class Borrow extends Node implements Evaluable {
     getName() { return this.name.text.toString(); }
 
     getVersion() { return this.version === undefined ? undefined : (new Measurement(this.version, new Unit())).toNumber(); }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Borrow(
+            this.borrow.cloneOrReplace([ Token ], original, replacement), 
+            this.name.cloneOrReplace([ Token ], original, replacement),
+            this.version?.cloneOrReplace([ Token, undefined ], original, replacement)
+        ) as this; 
+    }
 
 }

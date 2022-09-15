@@ -1,13 +1,16 @@
 import type Conflict from "../conflicts/Conflict";
 import { UnknownTypeName } from "../conflicts/UnknownTypeName";
-import StructureType from "./StructureType";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
+import type Node from "./Node";
 import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
 import type { ConflictContext } from "./Node";
 import Value from "../runtime/Value";
+import type Definition from "./Definition";
+import StructureDefinition from "./StructureDefinition";
+import VariableType from "./VariableType";
 
 export default class NameType extends Type {
 
@@ -27,9 +30,9 @@ export default class NameType extends Type {
         
         const conflicts = [];
 
-        const type = this.getType(context);
-        // The name should be a custom type.
-        if(!(type instanceof StructureType))
+        const def = this.getDefinition(context);
+        // The name should be a structure type or a type variable on a structure that contains this name type.
+        if(!(def instanceof StructureDefinition || def instanceof TypeVariable))
             conflicts.push(new UnknownTypeName(this));
 
         return conflicts; 
@@ -41,20 +44,27 @@ export default class NameType extends Type {
         return thisType === undefined ? false : thisType.isCompatible(context, type);
     }
 
-    getType(context: ConflictContext): Type | undefined {
+    getDefinition(context: ConflictContext): Definition {
+
+        const enclosure = this.getBindingEnclosureOf() ?? context.program;
+        return enclosure.getDefinition(context, this, this.getName());
+
+    }
+
+    isTypeVariable(context: ConflictContext) { return this.getDefinition(context) instanceof TypeVariable; }
+
+    getType(context: ConflictContext): Type {
 
         // The name should be defined.
-        const enclosure = this.getBindingEnclosureOf() ?? context.program;
-        const definition = enclosure.getDefinition(context, this, this.getName());
-        if(definition === undefined) return undefined;
-        else if(definition instanceof TypeVariable) {
-            // TODO Need to resolve the type of this name.
-            return new UnknownType(this);
-        }
+        const definition = this.getDefinition(context);
+        if(definition === undefined) return new UnknownType(this);
+        else if(definition instanceof TypeVariable) return new VariableType(definition);
         else return definition instanceof Value ? definition.getType() : definition.getTypeUnlessCycle(context);
 
     }
 
     getNativeTypeName(): string { return "structure"; }
+
+    clone(original?: Node, replacement?: Node) { return new NameType(this.type.cloneOrReplace([ Token ], original, replacement)) as this; }
 
 }

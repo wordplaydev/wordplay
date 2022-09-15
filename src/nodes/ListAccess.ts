@@ -3,7 +3,7 @@ import { NotAListIndex } from "../conflicts/NotAListIndex";
 import Expression from "./Expression";
 import ListType from "./ListType";
 import MeasurementType from "./MeasurementType";
-import type Token from "./Token";
+import Token from "./Token";
 import Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
@@ -16,9 +16,11 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type { ConflictContext } from "./Node";
+import type Node from "./Node";
 import NoneType from "./NoneType";
 import UnionType from "./UnionType";
 import { outOfBoundsAliases } from "../runtime/Constants";
+import Unit from "./Unit";
 
 export default class ListAccess extends Expression {
 
@@ -46,7 +48,7 @@ export default class ListAccess extends Expression {
 
         const indexType = this.index.getTypeUnlessCycle(context);
 
-        if(!(indexType instanceof MeasurementType) || indexType.unit !== undefined)
+        if(!(indexType instanceof MeasurementType) || (indexType.unit instanceof Unit && !indexType.unit.isEmpty()))
             return [ new NotAListIndex(this, indexType) ];
 
         return []; 
@@ -74,6 +76,15 @@ export default class ListAccess extends Expression {
         else if(!(index instanceof Measurement) || !index.isInteger()) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
         else return list.get(index);
 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new ListAccess(
+            this.list.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.open.cloneOrReplace([ Token ], original, replacement), 
+            this.index.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.close.cloneOrReplace([ Token ], original, replacement)
+        ) as this; 
     }
 
 }

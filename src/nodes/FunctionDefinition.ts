@@ -6,7 +6,7 @@ import TokenType from "./TokenType";
 import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
-import type Documentation from "./Documentation";
+import Documentation from "./Documentation";
 import type Conflict from "../conflicts/Conflict";
 import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
 import { VariableLengthArgumentMustBeLast } from "../conflicts/VariableLengthArgumentMustBeLast";
@@ -23,7 +23,7 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import type { ConflictContext } from "./Node";
 import type Definition from "./Definition";
-import type Alias from "./Alias";
+import Alias from "./Alias";
 
 export default class FunctionDefinition extends Expression {
 
@@ -44,7 +44,7 @@ export default class FunctionDefinition extends Expression {
         typeVars: (TypeVariable|Unparsable)[], 
         inputs: (Bind|Unparsable)[], 
         expression: Expression | Unparsable | Token, 
-        output?: Type | Unparsable, 
+        type?: Type | Unparsable, 
         fun?: Token, dot?: Token, open?: Token, close?: Token) {
         super();
 
@@ -56,7 +56,7 @@ export default class FunctionDefinition extends Expression {
         this.inputs = inputs;
         this.close = close ?? new Token(")", [ TokenType.EVAL_CLOSE ]);
         this.dot = dot;
-        this.type = output;
+        this.type = type;
         this.expression = expression;
     }
 
@@ -183,5 +183,19 @@ export default class FunctionDefinition extends Expression {
     }
 
     isAbstract() { return this.expression instanceof Token && this.expression.is(TokenType.ETC); }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new FunctionDefinition(
+            this.docs.map(d => d.cloneOrReplace([ Documentation ], original, replacement)), 
+            this.aliases.map(a => a.cloneOrReplace([ Alias ], original, replacement)), 
+            this.typeVars.map(t => t.cloneOrReplace([ TypeVariable, Unparsable ], original, replacement)), 
+            this.inputs.map(i => i.cloneOrReplace([ Bind, Unparsable ], original, replacement)), 
+            this.expression.cloneOrReplace([ Expression, Unparsable, Token ], original, replacement), 
+            this.type?.cloneOrReplace([ Unparsable, Type, undefined ], original, replacement), 
+            this.fun.cloneOrReplace([ Token ], original, replacement), 
+            this.open.cloneOrReplace([ Token ], original, replacement), 
+            this.close.cloneOrReplace([ Token ], original, replacement)
+             ) as this; 
+    }
 
 }

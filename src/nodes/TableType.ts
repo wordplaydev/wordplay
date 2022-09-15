@@ -1,10 +1,12 @@
 import type ColumnType from "./ColumnType";
 import Type from "./Type";
+import type Node from "./Node";
 import Bind from "../nodes/Bind";
 import type { ConflictContext } from "./Node";
 import type Unparsable from "./Unparsable";
 import Token from "./Token";
 import TokenType from "./TokenType";
+import Column from "./Column";
 
 export default class TableType extends Type {
     
@@ -36,5 +38,12 @@ export default class TableType extends Type {
     }
      
     getNativeTypeName(): string { return "table"; }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new TableType(
+            this.columns.map(c => c.cloneOrReplace([ Column ], original, replacement)), 
+            this.close.cloneOrReplace([ Token ], original, replacement)
+        ) as this; 
+    }
 
 }

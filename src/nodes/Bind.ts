@@ -1,10 +1,10 @@
 import Expression from "./Expression";
 import Node, { type ConflictContext } from "./Node";
-import type Alias from "./Alias";
-import type Token from "./Token";
+import Alias from "./Alias";
+import Token from "./Token";
 import Type from "./Type";
-import type Unparsable from "./Unparsable";
-import type Documentation from "./Documentation";
+import Unparsable from "./Unparsable";
+import Documentation from "./Documentation";
 import type Conflict from "../conflicts/Conflict";
 import { UnusedBind } from "../conflicts/UnusedBind";
 import { DuplicateBinds } from "../conflicts/DuplicateBinds";
@@ -131,12 +131,12 @@ export default class Bind extends Node implements Evaluable, Named {
             // Otherwise, we don't know.
             new UnknownType(this);
 
-        // If the type is a name, resolve the name.
+        // If the type is a name, and it refers to a structure, resolve it.
+        // Leave names that refer to type variables to be resolved in Evaluate.
         if(type instanceof NameType) {
-            type = this.resolveTypeName(context, type.getName());
+            const nameType = type.getType(context);
+            if(nameType instanceof StructureType) return nameType;
         }
-
-        // Return the type.
         return type;
         
     }
@@ -144,12 +144,12 @@ export default class Bind extends Node implements Evaluable, Named {
     getTypeUnlessCycle(context: ConflictContext): Type {
 
         // If the context includes this node, we're in a cycle.
-        if(context.stack.includes(this)) return new UnknownType(this);
+        if(context.visited(this)) return new UnknownType(this);
 
-        context.stack.push(this);
+        context.visit(this);
         const type = this.getType(context);
-        context.stack.pop();
-        return type;        
+        context.unvisit();
+        return type;   
 
     }
 
@@ -184,4 +184,16 @@ export default class Bind extends Node implements Evaluable, Named {
 
     }
 
+    clone(original?: Node, replacement?: Node) { 
+        return new Bind(
+            this.docs.map(d => d.cloneOrReplace([ Documentation ], original, replacement)), 
+            this.etc?.cloneOrReplace([ Token, undefined], original, replacement), 
+            this.names.map(n => n.cloneOrReplace([ Alias ], original, replacement)), 
+            this.type?.cloneOrReplace([ Type, Unparsable, undefined ], original, replacement), 
+            this.value?.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.dot?.cloneOrReplace([ Token, undefined ], original, replacement),
+            this.colon?.cloneOrReplace([ Token, undefined ], original, replacement)
+        ) as this; 
+    }
+    
 }

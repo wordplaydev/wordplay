@@ -2,7 +2,7 @@ import type Node from "./Node";
 import Expression from "./Expression";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import type Documentation from "./Documentation";
+import Documentation from "./Documentation";
 import type Conflict from "../conflicts/Conflict";
 import { MisplacedConversion } from "../conflicts/MisplacedConversion";
 import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
@@ -83,6 +83,15 @@ export default class ConversionDefinition extends Expression {
 
         context.addConversion(new ConversionValue(this, context));
         
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new ConversionDefinition(
+            this.docs.map(d => d.cloneOrReplace([ Documentation ], original, replacement)), 
+            this.output.cloneOrReplace([ Type, Unparsable ], original, replacement), 
+            this.expression.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.convert.cloneOrReplace([ Token ], original, replacement)
+        ) as this; 
     }
 
 }

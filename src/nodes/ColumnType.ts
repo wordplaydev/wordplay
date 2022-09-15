@@ -1,8 +1,8 @@
-import type Conflict from "../conflicts/Conflict";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 import Bind from "../nodes/Bind";
+import type Node from "../nodes/Node";
 import Type from "./Type";
 import type { ConflictContext } from "./Node";
 import AnyType from "./AnyType";
@@ -29,5 +29,12 @@ export default class ColumnType extends Type {
     }
 
     getNativeTypeName(): string { return "column"; }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new ColumnType(
+            this.bind.cloneOrReplace([ Bind, Unparsable ], original, replacement),
+            this.bar.cloneOrReplace([ Token ], original, replacement)
+        ) as this; 
+    }
 
 }

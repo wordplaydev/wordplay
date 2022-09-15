@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import { IncompatibleKey } from "../conflicts/IncompatibleKey";
 import Evaluator from "../runtime/Evaluator";
 import SetOrMapAccess from "./SetOrMapAccess";

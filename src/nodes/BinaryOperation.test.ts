@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import { IncompatibleUnits } from "../conflicts/IncompatibleUnits";
 import { IncompatibleOperand } from "../conflicts/IncompatibleOperand";
 import Evaluator from "../runtime/Evaluator";

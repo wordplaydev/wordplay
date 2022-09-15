@@ -2,9 +2,10 @@ import type Conflict from "../conflicts/Conflict";
 import { UnknownConversion } from "../conflicts/UnknownConversion";
 import Expression from "./Expression";
 import Type from "./Type";
+import type Node from "./Node";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
-import type Token from "./Token";
+import Token from "./Token";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
@@ -99,6 +100,14 @@ export default class Convert extends Expression {
             )
         );
 
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new Convert(
+            this.expression.cloneOrReplace([ Expression ], original, replacement), 
+            this.convert.cloneOrReplace([ Token ], original, replacement), 
+            this.type.cloneOrReplace([ Type, Unparsable ], original, replacement)
+        ) as this; 
     }
 
 }

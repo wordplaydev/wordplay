@@ -1,14 +1,15 @@
 import Expression from "./Expression";
 import TextType from "./TextType";
-import type Token from "./Token";
+import Token from "./Token";
 import type Type from "./Type";
+import type Node from "./Node";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Text from "../runtime/Text";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import type { ConflictContext } from "./Node";
-import type Language from "./Language";
+import Language from "./Language";
 
 export default class TextLiteral extends Expression {
     
@@ -36,6 +37,13 @@ export default class TextLiteral extends Expression {
         const lastChar = this.text.text.toString().length === 0 ? undefined : this.text.text.toString().charAt(this.text.text.toString().length - 1);
         const lastCharIsQuote = lastChar === undefined ? false : ["』", "」", "»", "›", "'", "’", "”", '"'].includes(lastChar);    
         return new Text(this.text.text.toString().substring(1, this.text.text.toString().length - (lastCharIsQuote ? 1 : 0)), this.format === undefined ? undefined : this.format.getLanguage());
+    }
+
+    clone(original?: Node, replacement?: Node) { 
+        return new TextLiteral(
+            this.text.cloneOrReplace([ Token ], original, replacement), 
+            this.format?.cloneOrReplace([ Language, undefined ], original, replacement)
+        ) as this; 
     }
 
 }

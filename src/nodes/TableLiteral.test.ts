@@ -1,4 +1,4 @@
-import { testConflict } from "../conflicts/testConflict";
+import { testConflict } from "../conflicts/TestUtilities";
 import { MissingCells } from "../conflicts/MissingCells";
 import { ExpectedColumnType } from "../conflicts/ExpectedColumnType";
 import { IncompatibleCellType } from "../conflicts/IncompatibleCellType";
