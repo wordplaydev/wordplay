@@ -1,7 +1,6 @@
 import type StructureType from "../nodes/StructureType";
 import type Evaluate from "../nodes/Evaluate";
 import type FunctionType from "../nodes/FunctionType";
-import type { Input } from "../nodes/FunctionType";
 import Conflict, { type ConflictExplanations } from "./Conflict";
 import type Expression from "../nodes/Expression";
 import type Bind from "../nodes/Bind";
