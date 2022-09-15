@@ -251,11 +251,17 @@ export default class Evaluate extends Expression {
     resolveTypeVariables(type: Type, context: ConflictContext) {
 
         // Find any type variables or name types that refer to type variables in the given type.
-        const variableTypes = type.nodes(n => n instanceof NameType && n.isTypeVariable(context)) as NameType[];
-
-        // Keep track of a revised type as we concretize each type variable reference with a concrete type.
-        let revisedType = type;
-        variableTypes.forEach(nameType => {
+        // We do this in a loop because each time we revise the type, we clone everything in the
+        // type, and so the initial name types we're trying to resolve no longer exist.
+        let typeVariables = type.nodes(n => n instanceof NameType && n.isTypeVariable(context)) as NameType[];
+        let count = typeVariables.length;
+        let originalParents = typeVariables.map(n => n._parent);
+        let index = 0;
+        while(index < count) {
+        
+            const variableTypes = type.nodes(n => n instanceof NameType && n.isTypeVariable(context)) as NameType[];
+            if(variableTypes.length === 0) break;
+            const nameType = variableTypes[0];
 
             // This will store whatever concrete type we find for the type variable.
             let concreteType: Type | undefined = undefined;
@@ -296,14 +302,21 @@ export default class Evaluate extends Expression {
                     }
                 }
             }
-            // If we found a concrete type, refine the given type with the concrete type, then move on to the next type variable reference if there is one.
+            // If we found a concrete type, refine the given type with the concrete type, then move on to the next type variable to resolve.
+            // Note: we have to do a somewhat kludgey thing here of caching the new type's parents and then 
+            // manually assigning the parent.
             if(concreteType !== undefined) {
-                revisedType = revisedType.cloneOrReplace([ Type ], nameType, concreteType);
+                type = type.cloneOrReplace([ Type ], nameType, concreteType);
+                type.cacheParents();
+                type._parent = originalParents[index];
             }
-        });
+
+            index++;
+
+        }
 
         // Return the concretized type.
-        return revisedType;
+        return type;
         
     }
 

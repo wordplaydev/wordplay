@@ -60,7 +60,7 @@ export default class FunctionDefinition extends Expression {
         this.expression = expression;
     }
 
-    isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression; }
+    isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression || child === this.type; }
 
     computeChildren() {
         let children: Node[] = [];
