@@ -7,6 +7,7 @@ import Type from "./Type";
 import type { ConflictContext } from "./Node";
 import AnyType from "./AnyType";
 import { COLUMN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import { TABLE_OPEN_SYMBOL } from "../parser/Tokenizer";
 
 export default class ColumnType extends Type {
 
@@ -16,7 +17,7 @@ export default class ColumnType extends Type {
     constructor(bind: Bind | Unparsable, bar?: Token) {
         super();
 
-        this.bar = bar ?? new Token("|", [ TokenType.TABLE_OPEN ]);
+        this.bar = bar ?? new Token(TABLE_OPEN_SYMBOL, [ TokenType.TABLE_OPEN ]);
         this.bind = bind;
     }
 

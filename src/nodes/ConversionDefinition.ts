@@ -20,6 +20,7 @@ import Finish from "../runtime/Finish";
 import ConversionValue from "../runtime/ConversionValue";
 import type { ConflictContext } from "./Node";
 import { parseType, tokens } from "../parser/Parser";
+import { CONVERT_SYMBOL } from "../parser/Tokenizer";
 
 export default class ConversionDefinition extends Expression {
 
@@ -32,7 +33,7 @@ export default class ConversionDefinition extends Expression {
         super();
 
         this.docs = docs;
-        this.convert = convert ?? new Token("→", [ TokenType.CONVERT ]);
+        this.convert = convert ?? new Token(CONVERT_SYMBOL, [ TokenType.CONVERT ]);
         this.output = typeof output === "string" ? parseType(tokens(output)) : output;
         this.expression = expression;
     }

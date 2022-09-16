@@ -1,4 +1,5 @@
 import { LIST_NATIVE_TYPE_NAME, LIST_TYPE_VAR_NAME } from "../native/NativeConstants";
+import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
 import Token from "./Token";
@@ -15,9 +16,9 @@ export default class ListType extends Type {
     constructor(type?: Type | Unparsable, open?: Token, close?: Token) {
         super();
 
-        this.open = open ?? new Token("[", [ TokenType.LIST_OPEN ]);
+        this.open = open ?? new Token(LIST_OPEN_SYMBOL, [ TokenType.LIST_OPEN ]);
         this.type = type;
-        this.close = close ?? new Token("]", [ TokenType.LIST_CLOSE ]);
+        this.close = close ?? new Token(LIST_CLOSE_SYMBOL, [ TokenType.LIST_CLOSE ]);
     }
 
     computeChildren() { 

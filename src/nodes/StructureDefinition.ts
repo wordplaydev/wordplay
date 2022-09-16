@@ -29,6 +29,7 @@ import TokenType from "./TokenType";
 import UnknownType from "./UnknownType";
 import FunctionType from "./FunctionType";
 import NameType from "./NameType";
+import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 
 export default class StructureDefinition extends Expression {
 
@@ -47,13 +48,13 @@ export default class StructureDefinition extends Expression {
         super();
 
         this.docs = docs;
-        this.type = type ?? new Token("•", [ TokenType.TYPE ]);
+        this.type = type ?? new Token(TYPE_SYMBOL, [ TokenType.TYPE ]);
         this.aliases = aliases;
         this.interfaces = interfaces;
         this.typeVars = typeVars;
-        this.open = open ?? new Token("(", [ TokenType.EVAL_OPEN ]);
+        this.open = open ?? new Token(EVAL_OPEN_SYMBOL, [ TokenType.EVAL_OPEN ]);
         this.inputs = inputs;
-        this.close = close ?? new Token(")", [ TokenType.EVAL_CLOSE ]);
+        this.close = close ?? new Token(EVAL_CLOSE_SYMBOL, [ TokenType.EVAL_CLOSE ]);
         this.block = block ?? new Block([], [], true);
     }
 

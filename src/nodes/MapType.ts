@@ -1,4 +1,5 @@
 import { MAP_KEY_TYPE_VAR_NAME, MAP_NATIVE_TYPE_NAME, MAP_VALUE_TYPE_VAR_NAME } from "../native/NativeConstants";
+import { BIND_SYMBOL, SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
 import Token from "./Token";
@@ -17,10 +18,10 @@ export default class MapType extends Type {
     constructor(open?: Token, close?: Token, key?: Type | Unparsable, bind?: Token, value?: Type | Unparsable) {
         super();
 
-        this.open = open ?? new Token("{", [ TokenType.SET_OPEN ]);
+        this.open = open ?? new Token(SET_OPEN_SYMBOL, [ TokenType.SET_OPEN ]);
         this.key = key;
-        this.close = close ?? new Token("}", [ TokenType.SET_CLOSE ]);
-        this.bind = bind ?? new Token(":", [ TokenType.SET_CLOSE ]);
+        this.close = close ?? new Token(SET_CLOSE_SYMBOL, [ TokenType.SET_CLOSE ]);
+        this.bind = bind ?? new Token(BIND_SYMBOL, [ TokenType.SET_CLOSE ]);
         this.value = value;
     }
 

@@ -1,4 +1,5 @@
 import MissingLanguage from "../conflicts/MissingLanguage";
+import { LANGUAGE_SYMBOL } from "../parser/Tokenizer";
 import Node, { type ConflictContext } from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
@@ -11,7 +12,7 @@ export default class Language extends Node {
     constructor(lang?: Token | string, slash?: Token) {
         super();
 
-        this.slash = slash ?? new Token("/", [ TokenType.LANGUAGE ]);
+        this.slash = slash ?? new Token(LANGUAGE_SYMBOL, [ TokenType.LANGUAGE ]);
         this.lang = typeof lang === "string" ? new Token(lang, [ TokenType.NAME ]) : lang;
     }
 

@@ -8,6 +8,7 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import Column from "./Column";
 import { TABLE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import { TABLE_CLOSE_SYMBOL } from "../parser/Tokenizer";
 
 export default class TableType extends Type {
     
@@ -18,7 +19,7 @@ export default class TableType extends Type {
         super();
 
         this.columns = columns;
-        this.close = close ?? new Token("||", [ TokenType.TABLE_CLOSE ]);
+        this.close = close ?? new Token(TABLE_CLOSE_SYMBOL, [ TokenType.TABLE_CLOSE ]);
     }
 
     getColumnNamed(name: string): ColumnType | undefined {

@@ -1,3 +1,4 @@
+import { STREAM_SYMBOL } from "../parser/Tokenizer";
 import AnyType from "./AnyType";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
@@ -16,7 +17,7 @@ export default class StreamType extends Type {
     constructor(type: Type | Unparsable, stream?: Token) {
         super();
 
-        this.stream = stream ?? new Token("∆", [ TokenType.STREAM ]);
+        this.stream = stream ?? new Token(STREAM_SYMBOL, [ TokenType.STREAM ]);
         this.type = type;
     }
 

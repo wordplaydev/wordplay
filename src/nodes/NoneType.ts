@@ -1,4 +1,5 @@
 import { NONE_NATIVE_TYPE_NME } from "../native/NativeConstants";
+import { NONE_SYMBOL } from "../parser/Tokenizer";
 import Alias from "./Alias";
 import AnyType from "./AnyType";
 import type { ConflictContext } from "./Node";
@@ -15,7 +16,7 @@ export default class NoneType extends Type {
     constructor(aliases: Alias[], none?: Token) {
         super();
 
-        this.none = none ?? new Token("!", [ TokenType.NONE_TYPE ]);
+        this.none = none ?? new Token(NONE_SYMBOL, [ TokenType.NONE_TYPE ]);
         this.aliases = aliases;
     }
 

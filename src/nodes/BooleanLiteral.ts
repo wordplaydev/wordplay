@@ -9,6 +9,7 @@ import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
+import { TRUE_SYMBOL } from "../parser/Tokenizer";
 
 export default class BooleanLiteral extends Expression {
     readonly value: Token;
@@ -29,7 +30,7 @@ export default class BooleanLiteral extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value {
-        return new Bool(this.value.text.toString() === "⊤");
+        return new Bool(this.value.text.toString() === TRUE_SYMBOL);
     }
 
     clone(original?: Node, replacement?: Node) { return new BooleanLiteral(this.value.cloneOrReplace([ Token ], original, replacement)) as this; }

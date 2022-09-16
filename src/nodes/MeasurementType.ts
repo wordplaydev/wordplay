@@ -1,4 +1,5 @@
 import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import { MEASUREMENT_SYMBOL } from "../parser/Tokenizer";
 import AnyType from "./AnyType";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
@@ -15,7 +16,7 @@ export default class MeasurementType extends Type {
 
     constructor(number?: Token, unit?: Unit | Unparsable) {
         super();
-        this.number = number ?? new Token("#", [ TokenType.NUMBER_TYPE ]);
+        this.number = number ?? new Token(MEASUREMENT_SYMBOL, [ TokenType.NUMBER_TYPE ]);
         this.unit = unit ?? new Unit();
     }
 

@@ -21,6 +21,7 @@ import Action from "../runtime/Start";
 import type Value from "../runtime/Value";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
+import { AND_SYMBOL, FALSE_SYMBOL, OR_SYMBOL } from "../parser/Tokenizer";
 
 export default class BinaryOperation extends Expression {
 
@@ -77,8 +78,8 @@ export default class BinaryOperation extends Expression {
             case "=":
                 // Must be compatible types?
                 break;
-            case "∧":
-            case "∨":
+            case AND_SYMBOL:
+            case OR_SYMBOL:
                 if(this.left instanceof Expression && leftType !== undefined && !(leftType instanceof BooleanType)) conflicts.push(new IncompatibleOperand(this, this.operator, this.left, leftType, new BooleanType()));
                 if(this.right instanceof Expression && rightType !== undefined && !(rightType instanceof BooleanType)) conflicts.push(new IncompatibleOperand(this, this.operator, this.right, rightType, new BooleanType()));
                 break;

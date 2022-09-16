@@ -3,33 +3,62 @@ import TokenType from "../nodes/TokenType";
 
 export const TYPE_SYMBOL = "•";
 export const TYPE_VAR_SYMBOL = "∘";
+export const BOOLEAN_TYPE_SYMBOL = "?";
+export const TABLE_OPEN_SYMBOL = "|";
+export const TABLE_CLOSE_SYMBOL = "||";
+export const CONVERT_SYMBOL = "→";
+export const FUNCTION_SYMBOL = "ƒ";
+export const EVAL_OPEN_SYMBOL = "(";
+export const EVAL_CLOSE_SYMBOL = ")";
+export const LANGUAGE_SYMBOL = "/";
+export const LIST_OPEN_SYMBOL = "[";
+export const LIST_CLOSE_SYMBOL = "]";
+export const SET_OPEN_SYMBOL = "{";
+export const SET_CLOSE_SYMBOL = "}";
+export const BIND_SYMBOL = ":";
+export const MEASUREMENT_SYMBOL = "#";
+export const NONE_SYMBOL = "!";
+export const STREAM_SYMBOL = "∆";
+export const PREVIOUS_SYMBOL = "@";
+export const TEXT_SYMBOL = "''";
+export const AND_SYMBOL = "∧";
+export const OR_SYMBOL = "∨";
+export const NOT_SYMBOL = "¬";
+export const TRUE_SYMBOL = "⊤";
+export const FALSE_SYMBOL = "⊥";
+export const ACCESS_SYMBOL = ".";
+export const BORROW_SYMBOL = "↓";
+export const SHARE_SYMBOL = "↑";
+export const DOCS_SYMBOL = "`";
+export const PLACEHOLDER_SYMBOL = "…";
+export const TEMPLATE_SYMBOL = "\\";
 
 const patterns = [
-    { pattern: "[", types: [ TokenType.LIST_OPEN ] },
-    { pattern: "]", types: [ TokenType.LIST_CLOSE ] },
-    { pattern: "{", types: [ TokenType.SET_OPEN ] },
-    { pattern: "}", types: [ TokenType.SET_CLOSE ] },
+    { pattern: LIST_OPEN_SYMBOL, types: [ TokenType.LIST_OPEN ] },
+    { pattern: LIST_CLOSE_SYMBOL, types: [ TokenType.LIST_CLOSE ] },
+    { pattern: SET_OPEN_SYMBOL, types: [ TokenType.SET_OPEN ] },
+    { pattern: SET_CLOSE_SYMBOL, types: [ TokenType.SET_CLOSE ] },
     { pattern: ",", types: [ TokenType.ALIAS ] },
-    { pattern: "/", types: [ TokenType.LANGUAGE ] },
+    { pattern: LANGUAGE_SYMBOL, types: [ TokenType.LANGUAGE ] },
     { pattern: "|?", types: [ TokenType.SELECT] },
     { pattern: "|+", types: [ TokenType.INSERT] },
     { pattern: "|-", types: [ TokenType.DELETE] },  
     { pattern: "|:", types: [ TokenType.UPDATE] },
-    { pattern: "||", types: [ TokenType.TABLE_CLOSE] },
-    { pattern: "|", types: [ TokenType.TABLE_OPEN] },
-    { pattern: ":", types: [ TokenType.BIND ] },
-    { pattern: ".", types: [ TokenType.ACCESS ] },
-    { pattern: "ƒ", types: [ TokenType.FUNCTION ] },
-    { pattern: "↓", types: [ TokenType.BORROW ] },
-    { pattern: "↑", types: [ TokenType.SHARE ] },
-    { pattern: "→", types: [ TokenType.CONVERT ] },
-    { pattern: /^`.*?`/, types: [ TokenType.DOCS ] },
-    { pattern: "!", types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
+    { pattern: TABLE_CLOSE_SYMBOL, types: [ TokenType.TABLE_CLOSE] },
+    { pattern: TABLE_OPEN_SYMBOL, types: [ TokenType.TABLE_OPEN] },
+    { pattern: BIND_SYMBOL, types: [ TokenType.BIND ] },
+    { pattern: ACCESS_SYMBOL, types: [ TokenType.ACCESS ] },
+    { pattern: FUNCTION_SYMBOL, types: [ TokenType.FUNCTION ] },
+    { pattern: BORROW_SYMBOL, types: [ TokenType.BORROW ] },
+    { pattern: SHARE_SYMBOL, types: [ TokenType.SHARE ] },
+    { pattern: CONVERT_SYMBOL, types: [ TokenType.CONVERT ] },
+    { pattern: new RegExp(`^${DOCS_SYMBOL}.*?${DOCS_SYMBOL}`), types: [ TokenType.DOCS ] },
+    { pattern: NONE_SYMBOL, types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
     { pattern: TYPE_SYMBOL, types: [ TokenType.TYPE, TokenType.TYPE_OP ] },
     { pattern: TYPE_VAR_SYMBOL, types: [ TokenType.TYPE_VAR ] },
-    { pattern: "∆", types: [ TokenType.STREAM, TokenType.STREAM_TYPE ] },
-    { pattern: "@", types: [ TokenType.PREVIOUS ] },
-    { pattern: "…", types: [ TokenType.ETC ] },
+    { pattern: STREAM_SYMBOL, types: [ TokenType.STREAM, TokenType.STREAM_TYPE ] },
+    { pattern: PREVIOUS_SYMBOL, types: [ TokenType.PREVIOUS ] },
+    { pattern: PLACEHOLDER_SYMBOL, types: [ TokenType.ETC ] },
     // Roman numerals
     { pattern: /^[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/, types: [ TokenType.NUMBER, TokenType.ROMAN ] },
     // Japanese numbers
@@ -41,13 +70,15 @@ const patterns = [
     { pattern: "π", types: [ TokenType.NUMBER, TokenType.PI ] },
     { pattern: "∞", types: [ TokenType.NUMBER, TokenType.INFINITY ] },
     { pattern: /^[+*×·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
-    { pattern: "∧", types: [ TokenType.BINARY_OP ] },
-    { pattern: "∨", types: [ TokenType.BINARY_OP, TokenType.UNION ] },
+    { pattern: AND_SYMBOL, types: [ TokenType.BINARY_OP ] },
+    { pattern: OR_SYMBOL, types: [ TokenType.BINARY_OP, TokenType.UNION ] },
     // Both a unary and binary op.
     { pattern: "-", types: [ TokenType.BINARY_OP, TokenType.UNARY_OP ] },
-    { pattern: /^[~¬√]/, types: [ TokenType.UNARY_OP ] },
-    { pattern: "⊤", types: [ TokenType.BOOLEAN ] },
-    { pattern: "⊥", types: [ TokenType.BOOLEAN ] },
+    { pattern: "~", types: [ TokenType.UNARY_OP ] },
+    { pattern: NOT_SYMBOL, types: [ TokenType.UNARY_OP ] },
+    { pattern: "√", types: [ TokenType.UNARY_OP ] },
+    { pattern: TRUE_SYMBOL, types: [ TokenType.BOOLEAN ] },
+    { pattern: FALSE_SYMBOL, types: [ TokenType.BOOLEAN ] },
     // Match empty strings as both text and text types.
     { pattern: /^(""|''|“”|„“|‘’|«»|「」|『』)/u, types: [ TokenType.TEXT, TokenType.TEXT_TYPE ] },
     // Lazily match non-template strings that lack open parentheses and aren't closed with a preceding escape.
@@ -84,13 +115,18 @@ const patterns = [
     // Match this after the eval close to avoid capturing function evaluations in templates.
     { pattern: /^\\.*?\\/u, types: [ TokenType.TEXT_BETWEEN ] },
     // Finally, catch any leftover single open or close parentheses.
-    { pattern: "(", types: [ TokenType.EVAL_OPEN ] },
-    { pattern: ")", types: [ TokenType.EVAL_CLOSE ] },
+    { pattern: EVAL_OPEN_SYMBOL, types: [ TokenType.EVAL_OPEN ] },
+    { pattern: EVAL_CLOSE_SYMBOL, types: [ TokenType.EVAL_CLOSE ] },
     // Match primtive types after strings since one is a standalone quote symbol.
-    { pattern: "#", types: [ TokenType.NUMBER_TYPE ] },
-    { pattern: /^[?¿]/, types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
+    { pattern: MEASUREMENT_SYMBOL, types: [ TokenType.NUMBER_TYPE ] },
+    { pattern: BOOLEAN_TYPE_SYMBOL, types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
+    { pattern: "¿", types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
     // One or more unicode characters that are not one of the reserved symbols above.
-    { pattern: /^[^\\\(\)\[\]\{\}|:.,;ƒ↓↑`!•∘∆@→… \t\n+\-×*·^√÷%<≤=≠≥>⊥⊤~¬∧∨'‘’"“”„«»‹›「」『』\/]+/u, types: [ TokenType.NAME ] }
+    // We should really use all of the symbol constants above but it would just be so ugly...
+    { 
+        pattern: /^[^\\\(\)\[\]\{\}|:.,;ƒ↓↑`!•∘∆@→… \t\n+\-×*·^√÷%<≤=≠≥>⊥⊤~¬∧∨'‘’"“”„«»‹›「」『』\/]+/u, 
+        types: [ TokenType.NAME ] 
+    }
 ];
 
 export function tokenize(source: string): Token[] {

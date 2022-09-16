@@ -1,4 +1,5 @@
 import { TEXT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import { TEXT_SYMBOL } from "../parser/Tokenizer";
 import AnyType from "./AnyType";
 import Language from "./Language";
 import type { ConflictContext } from "./Node";
@@ -15,7 +16,7 @@ export default class TextType extends Type {
     constructor(quote?: Token, format?: Language) {
         super();
 
-        this.quote = quote ?? new Token("''", [ TokenType.TEXT_TYPE ]);
+        this.quote = quote ?? new Token(TEXT_SYMBOL, [ TokenType.TEXT_TYPE ]);
         this.format = format;
     }
 

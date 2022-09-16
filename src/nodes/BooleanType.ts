@@ -5,6 +5,7 @@ import type Node from "./Node";
 import TokenType from "./TokenType";
 import AnyType from "./AnyType";
 import { BOOLEAN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 
 export default class BooleanType extends Type {
 
@@ -13,7 +14,7 @@ export default class BooleanType extends Type {
     constructor(type?: Token) {
         super();
 
-        this.type = type ?? new Token("?", [ TokenType.BOOLEAN_TYPE ]);
+        this.type = type ?? new Token(BOOLEAN_TYPE_SYMBOL, [ TokenType.BOOLEAN_TYPE ]);
     }
 
     computeChildren() {

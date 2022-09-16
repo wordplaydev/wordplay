@@ -3,6 +3,7 @@ import type Program from "../nodes/Program";
 import Node from "../nodes/Node";
 import Token from "../nodes/Token";
 import type Project from "../models/Project";
+import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBOL, NOT_SYMBOL, OR_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL, STREAM_SYMBOL, TRUE_SYMBOL, TYPE_SYMBOL, TYPE_VAR_SYMBOL } from "../parser/Tokenizer";
 
 export type Command = {
     description: string,
@@ -190,27 +191,27 @@ const commands: Command[] = [
         }        
     },
     {
-        description: "Insert reaction symbol (∆)",
+        description: `Insert reaction symbol (${STREAM_SYMBOL})`,
         alt: true, key: "KeyD",
-        execute: (caret: Caret) => insertChar(caret, "∆")
+        execute: (caret: Caret) => insertChar(caret, STREAM_SYMBOL)
     },
     {
-        description: "Insert borrow symbol (↓)",
+        description: `Insert borrow symbol (${BORROW_SYMBOL})`,
         alt: true, key: "ArrowDown",
-        execute: (caret: Caret) => insertChar(caret, "↓")
+        execute: (caret: Caret) => insertChar(caret, BORROW_SYMBOL)
     },
     {
-        description: "Insert convert symbol (→)",
+        description: `Insert convert symbol (${CONVERT_SYMBOL})`,
         alt: true, key: "ArrowRight",
-        execute: (caret: Caret) => insertChar(caret, "→")
+        execute: (caret: Caret) => insertChar(caret, CONVERT_SYMBOL)
     },
     {
-        description: "Insert share symbol (↑)",
+        description: `Insert share symbol (${SHARE_SYMBOL})`,
         alt: true, key: "ArrowUp",
-        execute: (caret: Caret) => insertChar(caret, "↑")
+        execute: (caret: Caret) => insertChar(caret, SHARE_SYMBOL)
     },
     {
-        description: "Insert infinity symbol (∞)",
+        description: `Insert infinity symbol (∞)`,
         alt: true, key: "Digit5",
         execute: (caret: Caret) => insertChar(caret, "∞")
     },
@@ -220,34 +221,34 @@ const commands: Command[] = [
         execute: (caret: Caret) => insertChar(caret, "π")
     },
     {
-        description: "Insert Boolean AND symbol (∧)",
+        description: `Insert Boolean AND symbol (${AND_SYMBOL})`,
         alt: true, key: "Digit6",
-        execute: (caret: Caret) => insertChar(caret, "∧")
+        execute: (caret: Caret) => insertChar(caret, AND_SYMBOL)
     },
     {
-        description: "Insert Boolean OR symbol (∨)",
+        description: `Insert Boolean OR symbol (${OR_SYMBOL})`,
         alt: true, key: "Digit7",
-        execute: (caret: Caret) => insertChar(caret, "∨")
+        execute: (caret: Caret) => insertChar(caret, OR_SYMBOL)
     },
     {
-        description: "Insert type symbol (•)",
+        description: `Insert type symbol (${TYPE_SYMBOL})`,
         shift: false, alt: true, key: "Digit8",
-        execute: (caret: Caret) => insertChar(caret, "•")
+        execute: (caret: Caret) => insertChar(caret, TYPE_SYMBOL)
     },
     {
-        description: "Insert type symbol (∘)",
+        description: `Insert type symbol (${TYPE_VAR_SYMBOL})`,
         shift: true, alt: true, key: "Digit8",
-        execute: (caret: Caret) => insertChar(caret, "∘")
+        execute: (caret: Caret) => insertChar(caret, TYPE_VAR_SYMBOL)
     },
     {
-        description: "Insert true symbol (⊤)",
+        description: `Insert true symbol (${TRUE_SYMBOL})`,
         alt: true, key: "Digit9",
-        execute: (caret: Caret) => insertChar(caret, "⊤")
+        execute: (caret: Caret) => insertChar(caret, TRUE_SYMBOL)
     },
     {
-        description: "Insert false symbol (⊥)",
+        description: `Insert false symbol (${FALSE_SYMBOL})`,
         alt: true, key: "Digit0",
-        execute: (caret: Caret) => insertChar(caret, "⊥")
+        execute: (caret: Caret) => insertChar(caret, FALSE_SYMBOL)
     },
     {
         description: "Insert not equal symbol (≠)",
@@ -255,14 +256,14 @@ const commands: Command[] = [
         execute: (caret: Caret) => insertChar(caret, "≠")
     },
     {
-        description: "Insert function symbol (ƒ)",
+        description: `Insert function symbol (${FUNCTION_SYMBOL})`,
         alt: true, key: "KeyF",
-        execute: (caret: Caret) => insertChar(caret, "ƒ")
+        execute: (caret: Caret) => insertChar(caret, FUNCTION_SYMBOL)
     },
     {
-        description: "Insert Boolean NOT symbol (¬)",
+        description: `Insert Boolean NOT symbol (${NOT_SYMBOL})`,
         alt: true, key: "Backquote",
-        execute: (caret: Caret) => insertChar(caret, "¬")
+        execute: (caret: Caret) => insertChar(caret, NOT_SYMBOL)
     },
     {
         description: "Insert less than or equal to symbol (≤)",
@@ -275,9 +276,9 @@ const commands: Command[] = [
         execute: (caret: Caret) => insertChar(caret, "≥")
     },
     {
-        description: "Insert placeholder symbol (…)",
+        description: `Insert placeholder symbol (${PLACEHOLDER_SYMBOL})`,
         alt: true, key: "Semicolon",
-        execute: (caret: Caret) => insertChar(caret, "…")
+        execute: (caret: Caret) => insertChar(caret, PLACEHOLDER_SYMBOL)
     },
     {
         description: "Insert divide symbol (÷)",

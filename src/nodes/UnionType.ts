@@ -6,6 +6,7 @@ import type Node from "./Node";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
+import { OR_SYMBOL } from "../parser/Tokenizer";
 
 export default class UnionType extends Type {
 
@@ -17,7 +18,7 @@ export default class UnionType extends Type {
         super();
 
         this.left = left;
-        this.or = or ?? new Token("∨", [ TokenType.UNION ]);
+        this.or = or ?? new Token(OR_SYMBOL, [ TokenType.UNION ]);
         this.right = right;
     }
 
