@@ -32,10 +32,7 @@ import NameType from "./NameType";
 import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
 import AccessName from "./AccessName";
-import ListType from "./ListType";
 import TypeInput from "./TypeInput";
-import SetType from "./SetType";
-import MapType from "./MapType";
 
 export default class Evaluate extends Expression {
 
