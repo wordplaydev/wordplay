@@ -1,6 +1,9 @@
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
 
+export const TYPE_SYMBOL = "•";
+export const TYPE_VAR_SYMBOL = "∘";
+
 const patterns = [
     { pattern: "[", types: [ TokenType.LIST_OPEN ] },
     { pattern: "]", types: [ TokenType.LIST_CLOSE ] },
@@ -22,8 +25,8 @@ const patterns = [
     { pattern: "→", types: [ TokenType.CONVERT ] },
     { pattern: /^`.*?`/, types: [ TokenType.DOCS ] },
     { pattern: "!", types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
-    { pattern: "•", types: [ TokenType.TYPE, TokenType.TYPE_OP ] },
-    { pattern: "*", types: [ TokenType.TYPE_VAR ] },
+    { pattern: TYPE_SYMBOL, types: [ TokenType.TYPE, TokenType.TYPE_OP ] },
+    { pattern: TYPE_VAR_SYMBOL, types: [ TokenType.TYPE_VAR ] },
     { pattern: "∆", types: [ TokenType.STREAM, TokenType.STREAM_TYPE ] },
     { pattern: "@", types: [ TokenType.PREVIOUS ] },
     { pattern: "…", types: [ TokenType.ETC ] },
@@ -37,7 +40,7 @@ const patterns = [
     { pattern: /^[_0-9]+([.,][_0-9]+)?/, types: [ TokenType.NUMBER, TokenType.DECIMAL ] },    
     { pattern: "π", types: [ TokenType.NUMBER, TokenType.PI ] },
     { pattern: "∞", types: [ TokenType.NUMBER, TokenType.INFINITY ] },
-    { pattern: /^[+×·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
+    { pattern: /^[+*×·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
     { pattern: "∧", types: [ TokenType.BINARY_OP ] },
     { pattern: "∨", types: [ TokenType.BINARY_OP, TokenType.UNION ] },
     // Both a unary and binary op.
@@ -87,7 +90,7 @@ const patterns = [
     { pattern: "#", types: [ TokenType.NUMBER_TYPE ] },
     { pattern: /^[?¿]/, types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
     // One or more unicode characters that are not one of the reserved symbols above.
-    { pattern: /^[^\\\(\)\[\]\{\}|:.,;ƒ↓↑`!•∆@→… \t\n+\-×*·^√÷%<≤=≠≥>⊥⊤~¬∧∨'‘’"“”„«»‹›「」『』\/]+/u, types: [ TokenType.NAME ] }
+    { pattern: /^[^\\\(\)\[\]\{\}|:.,;ƒ↓↑`!•∘∆@→… \t\n+\-×*·^√÷%<≤=≠≥>⊥⊤~¬∧∨'‘’"“”„«»‹›「」『』\/]+/u, types: [ TokenType.NAME ] }
 ];
 
 export function tokenize(source: string): Token[] {

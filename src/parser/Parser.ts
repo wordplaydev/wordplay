@@ -62,6 +62,7 @@ import MapLiteral from "../nodes/MapLiteral";
 import SetLiteral from "../nodes/SetLiteral";
 import MapType from "../nodes/MapType";
 import SetType from "../nodes/SetType";
+import TypeInput from "../nodes/TypeInput";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -486,7 +487,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
             left = parseSetOrMapAccess(left, tokens);
         else if(tokens.nextIs(TokenType.PREVIOUS))
             left = parsePrevious(left, tokens);
-        else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace())
+        else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
         else if(tokens.nextIs(TokenType.CONVERT))
             left = parseConvert(left, tokens);
@@ -623,7 +624,7 @@ function parseListAccess(left: Expression | Unparsable, tokens: Tokens): Express
         left = new ListAccess(left, open, index, close);
 
         // But wait, is it a function evaluation?
-        if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace())
+        if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
 
     } while(tokens.nextIs(TokenType.LIST_OPEN));
@@ -677,7 +678,7 @@ function parseSetOrMapAccess(left: Expression | Unparsable, tokens: Tokens): Exp
         left = new SetOrMapAccess(left, open, key, close);
 
         // But wait, is it a function evaluation?
-        if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace())
+        if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
 
     } while(tokens.nextIs(TokenType.SET_OPEN));
@@ -829,23 +830,17 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 
 }
 
-/** EVAL :: EXPRESSION (•TYPE)* (EXPRESSION*) */
+/** EVAL :: EXPRESSION (∘TYPE)* (EXPRESSION*) */
 function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate | Unparsable {
 
-    const typeInputs: (Type | Unparsable)[] = [];
+    const typeInputs: TypeInput[] = [];
 
-    let typeOpen, typeClose;
-    if(tokens.nextIs(TokenType.LANGUAGE)) {
-        typeOpen = tokens.read(TokenType.LANGUAGE);
-        while(tokens.hasNext() && tokens.nextIsnt(TokenType.LANGUAGE)) {
-            const type = parseType(tokens);
-            typeInputs.push(type);
-        }
-        typeClose = tokens.read(TokenType.LANGUAGE);
+    while(tokens.nextIs(TokenType.TYPE_VAR)) {
+        typeInputs.push(new TypeInput(tokens.read(TokenType.TYPE_VAR), parseType(tokens)));
     }
     
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN, [ left, typeOpen, typeInputs, typeClose ]);
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN, [ left, typeInputs ]);
 
     const open = tokens.read(TokenType.EVAL_OPEN);
     const inputs: (Bind|Expression|Unparsable)[] = [];
@@ -857,9 +852,9 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
     if(tokens.nextIs(TokenType.EVAL_CLOSE))
         close = tokens.read(TokenType.EVAL_CLOSE);
     else
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ left, typeOpen, typeInputs, typeClose, open, inputs ]);
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ left, typeInputs, open, inputs ]);
     
-    return new Evaluate(typeInputs, open, left, inputs, close, typeOpen, typeClose);
+    return new Evaluate(typeInputs, open, left, inputs, close);
 
 }
 
@@ -885,7 +880,7 @@ function parseConvert(expression: Expression, tokens: Tokens): Convert {
 
 }
 
-/** TYPE_VARS :: (\NAME)* */
+/** TYPE_VARS :: (∘NAME)* */
 function parseTypeVariables(tokens: Tokens): (TypeVariable|Unparsable)[] {
 
     const vars = [];
@@ -917,7 +912,7 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
         left = new AccessName(left, access, name);
 
         // But wait, is it a function evaluation?
-        if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace())
+        if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
 
     } while(tokens.nextIs(TokenType.ACCESS));
@@ -1067,7 +1062,7 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 
 }
 
-/** CUSTOM_TYPE :: DOCS? • ALIASES (• name)* TYPE_VARS ( BIND* ) BLOCK? */
+/** CUSTOM_TYPE :: DOCS? • ALIASES (•NAME)* TYPE_VARS ( BIND* ) BLOCK? */
 function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     const docs = parseDocumentation(tokens);

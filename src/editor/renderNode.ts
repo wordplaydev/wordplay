@@ -59,6 +59,7 @@ import UpdateView from "./UpdateView.svelte";
 import SelectView from "./SelectView.svelte";
 import TokenView from "./TokenView.svelte";
 import ProgramView from "./ProgramView.svelte";
+import TypeInputView from "./TypeInputView.svelte";
 
 export default function renderNode(node: Node) {
     const view = {
@@ -80,7 +81,9 @@ export default function renderNode(node: Node) {
         "StructureDefinition": StructureDefinitionView,
         "AccessName": AccessNameView,
         "NameType": NameTypeView,
+
         "TypeVariable": TypeVariableView,
+        "TypeInput": TypeInputView,
 
         "TextLiteral": TextLiteralView,
         "Template": TemplateView,

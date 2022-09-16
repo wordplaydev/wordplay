@@ -1,12 +1,13 @@
 import Caret from "../models/Caret";
 import type Program from "../nodes/Program";
 import Node from "../nodes/Node";
-import Token, { TAB_WIDTH } from "../nodes/Token";
+import Token from "../nodes/Token";
 import type Project from "../models/Project";
 
 export type Command = {
     description: string,
     key?: string,
+    shift?: boolean,
     alt?: boolean,
     control?: boolean,
     execute: (caret: Caret, editor: HTMLElement, key: string) => Caret | [ Project, Caret] | undefined
@@ -230,8 +231,13 @@ const commands: Command[] = [
     },
     {
         description: "Insert type symbol (•)",
-        alt: true, key: "Digit8",
+        shift: false, alt: true, key: "Digit8",
         execute: (caret: Caret) => insertChar(caret, "•")
+    },
+    {
+        description: "Insert type symbol (∘)",
+        shift: true, alt: true, key: "Digit8",
+        execute: (caret: Caret) => insertChar(caret, "∘")
     },
     {
         description: "Insert true symbol (⊤)",

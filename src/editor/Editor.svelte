@@ -132,6 +132,7 @@
             const command = commands[i];
             // Does this command match the event?
             if( (command.control === undefined || command.control === control) &&
+                (command.shift === undefined || command.shift === event.shiftKey) &&
                 (command.alt === undefined || command.alt === event.altKey) &&
                 (command.key === undefined || command.key === event.code)) {
 

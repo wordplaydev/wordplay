@@ -33,23 +33,20 @@ import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
 import AccessName from "./AccessName";
 import ListType from "./ListType";
+import TypeInput from "./TypeInput";
 
 export default class Evaluate extends Expression {
 
-    readonly typeOpen?: Token;
-    readonly typeInputs: (Type | Unparsable)[];
-    readonly typeClose?: Token;
+    readonly typeInputs: TypeInput[];
     readonly open: Token;
     readonly func: Expression | Unparsable;
     readonly inputs: (Unparsable|Bind|Expression)[];
     readonly close: Token;
 
-    constructor(typeInputs: (Type | Unparsable)[], open: Token, func: Expression | Unparsable, inputs: (Unparsable|Bind|Expression)[], close: Token, typeOpen?: Token, typeClose?: Token) {
+    constructor(typeInputs: TypeInput[], open: Token, func: Expression | Unparsable, inputs: (Unparsable|Bind|Expression)[], close: Token) {
         super();
 
-        this.typeOpen = typeOpen;
         this.typeInputs = typeInputs;
-        this.typeClose = typeClose;
         this.open = open;
         this.func = func;
         this.inputs = inputs.slice();
@@ -58,7 +55,6 @@ export default class Evaluate extends Expression {
 
     computeChildren() {
         let children: Node[] = [];
-        if(this.typeOpen !== undefined) children.push(this.typeOpen);
         children = children.concat([ ...this.typeInputs, this.func, this.open, ...this.inputs, this.close ]);
         return children;
     }
@@ -481,13 +477,11 @@ export default class Evaluate extends Expression {
  
     clone(original?: Node, replacement?: Node) { 
         return new Evaluate(
-            this.typeInputs.map(t => t.cloneOrReplace([ TypeVariable, Unparsable ], original, replacement)), 
+            this.typeInputs.map(t => t.cloneOrReplace([ TypeInput ], original, replacement)), 
             this.open.cloneOrReplace([ Token ], original, replacement), 
             this.func.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
             this.inputs.map(i => i.cloneOrReplace([ Expression, Unparsable, Bind ], original, replacement)), 
-            this.close.cloneOrReplace([ Token ], original, replacement),
-            this.typeOpen?.cloneOrReplace([ Token ], original, replacement),
-            this.typeClose?.cloneOrReplace([ Token ], original, replacement),
+            this.close.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
     }
 

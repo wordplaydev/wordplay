@@ -37,9 +37,5 @@ test("Test evaluate evaluation", () => {
 
 test("Test generics", () => {
 
-    testTypes("•Container *T (x•T) ( ƒ get() x ) Container('hi').get()", TextType);
-    testTypes("•Container *A *B (x•A y•B) ( ƒ get() y ) Container('hi' 1).get()", MeasurementType);
-    testTypes("•Container *A *B (x•A y•B) ( ƒ get() x ) Container('hi' 1).get()", TextType);
-    testTypes("•Container *A *B (x•A y•B) ( ƒ get() x ) Container/# ''/(1 '').get()", MeasurementType);
-
+  
 })
