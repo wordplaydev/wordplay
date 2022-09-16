@@ -37,7 +37,11 @@ test("Test evaluate evaluation", () => {
 
 test("Test generics", () => {
 
+    // Get the type from the evaluation's type input.
     testTypes("ƒ test∘T(a•T) a\ntest∘#(1)", MeasurementType);
+    // Make sure it works for multiple inputs.
+    testTypes("ƒ test∘T∘U∘V(a•V) a\ntest∘#∘''∘#(1)", MeasurementType);
+    // Infer the type from an input.
     testTypes("ƒ test∘T(a•T) a\ntest(1)", MeasurementType);
-  
+
 })

@@ -273,8 +273,8 @@ export default class Evaluate extends Expression {
                     const typeVarIndex = def.typeVars.findIndex(v => v === typeVarDeclaration);
                     if(typeVarIndex >= 0 && typeVarIndex < this.typeInputs.length) {
                         const typeInput = this.typeInputs[typeVarIndex];
-                        if(typeInput instanceof Type)
-                            concreteType = typeInput;
+                        if(typeInput.type instanceof Type)
+                            concreteType = typeInput.type;
                     }
                     
                     // Can we infer it from the structure on which this function is being called?
@@ -289,11 +289,24 @@ export default class Evaluate extends Expression {
                     // Can we infer it from any of the inputs?
                     // See if any of the function or structure's inputs have a type variable type corresponding to the name.
                     if(concreteType === undefined) {
-                        const inputWithVariableType = def.inputs.find(i => i instanceof Bind && i.type instanceof NameType && i.type.isTypeVariable(context) && i.type.getName() === typeVarDeclaration.name.getText());
+                        const indexOfInputWithVariableType = def.inputs.findIndex(i => i instanceof Bind && i.type instanceof NameType && i.type.isTypeVariable(context) && i.type.getName() === typeVarDeclaration.name.getText());
                         // If we found an input that has this type, then see if we can find the corresponding input in this evaluate.
-                        if(inputWithVariableType !== undefined) {
-                            // TODO THIS IS WRONG>>>> NEED TO FIND THE CORRECT INPUT FROM WHICH TO INFER TYPE.
-                            // concreteType = this.inputs[0].getType(context);
+                        if(indexOfInputWithVariableType >= 0) {
+                            const inputWithVariableType = def.inputs[indexOfInputWithVariableType];
+                            if(inputWithVariableType instanceof Bind && indexOfInputWithVariableType < this.inputs.length) {
+                                // Is this input specified by name?
+                                const namedInput = this.inputs.find(i => i instanceof Bind && inputWithVariableType.getNames().find(n => i.hasName(n)) !== undefined) as Bind | undefined;
+                                if(namedInput !== undefined) {
+                                    if(namedInput.value !== undefined)
+                                        concreteType = namedInput.value.getType(context);
+                                }
+                                // If it's not, get the input input at the corresponding index.
+                                else {
+                                    const inputByIndex = this.inputs[indexOfInputWithVariableType];
+                                    if(inputByIndex instanceof Expression)
+                                        concreteType = inputByIndex.getType(context);
+                                }
+                            }
                         }
                     }
                 }
