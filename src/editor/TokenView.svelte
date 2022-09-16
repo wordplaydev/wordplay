@@ -3,7 +3,7 @@
     import { TAB_WIDTH } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { TokenCategories } from "./TokenCategories";
-    import { caret, project } from "../models/stores";
+    import { caret } from "../models/stores";
     import keyboardIdle from "../models/KeyboardIdle";
 
     export let node: Token;
@@ -15,18 +15,25 @@
 
     $: kind = node.types[0] !== undefined ? TokenCategories.get(node.types[0]) : "default";
 
+    $: whitespaceIndex = node.getWhitespaceIndex();
+    $: lastIndex = node.getLastIndex();
+    $: textIndex = node.getTextIndex();
+
     // Compute where the caret should be placed. Place it if...
     $: caretIndex = 
         $caret !== undefined &&
         typeof $caret.position === "number" &&
+        whitespaceIndex !== undefined &&
+        lastIndex !== undefined &&
+        textIndex !== undefined &&
         // If this is the end and the caret is on it
         (
             (node.is(TokenType.END) && $caret.isEnd()) ||
-            $caret.between(node.getWhitespaceIndex(), node.getLastIndex())
+            $caret.between(whitespaceIndex, lastIndex)
         ) ?
             // The offset at which to render the token is the caret in it's text.
             // If the caret position is on a newline or tab, then it will be negative.
-            $caret.position - node.getTextIndex() : 
+            $caret.position - textIndex : 
             undefined;
 
     // Compute the left and top positions of the caret based on the caretPosition.
@@ -60,15 +67,15 @@
             else if($caret?.isIndex()) {
                 // Track an index starting at wherever the caret is.
                 let caretIndex = $caret.getIndex();
-                if(caretIndex !== undefined) {
+                if(caretIndex !== undefined && whitespaceIndex !== undefined) {
 
                     // Where in the whitespace is the caret?
-                    let whitespaceIndex = caretIndex - node.getWhitespaceIndex();
+                    let whitespaceOffset = caretIndex - whitespaceIndex;
                     let index = 0;
                     let row = 0;
                     let col = 0;
-                    while(index < whitespaceIndex && index < node.whitespace.length) {
-                        const char = node.whitespace.charAt(index);
+                    while(index < whitespaceOffset && index < node.getWhitespace().length) {
+                        const char = node.getWhitespace().charAt(index);
                         if(char === "\n") {
                             row++;
                             col = 0;
@@ -82,8 +89,8 @@
 
                     // If there's trailing whitespace at the end of a line, we need to account for it's width
                     // to ensure the caret appears properly offset from the end of the line.
-                    if(node.whitespace.charAt(0) !== "\n" && row === 0) {
-                        let index = node.getWhitespaceIndex() - 1;
+                    if(node.getWhitespace().charAt(0) !== "\n" && row === 0) {
+                        let index = whitespaceIndex - 1;
                         let count = 0;
                         while(index > 0 && $caret.project.code.at(index) !== "\n") { 
                             const char = $caret.project.code.at(index);

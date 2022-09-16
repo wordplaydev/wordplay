@@ -144,7 +144,7 @@ export function tokenize(source: string): Token[] {
 
     // If there's nothing left and the last token isn't an end token, add one.
     if(tokens.length === 0 || !tokens[tokens.length - 1].is(TokenType.END))
-        tokens.push(new Token("", [ TokenType.END ], index));
+        tokens.push(new Token("", [ TokenType.END ], index, ""));
 
     return tokens;
 }

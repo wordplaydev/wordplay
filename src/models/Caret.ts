@@ -80,7 +80,12 @@ export default class Caret {
         if(this.position instanceof Node) {
             // Get the first or last token of the given node.
             const tokens = this.position.nodes(n => n instanceof Token) as Token[];
-            return tokens.length === 0 ? this : this.withPosition(direction < 0 ? tokens[0].index : tokens[tokens.length - 1].index + tokens[tokens.length - 1].getTextLength() )
+            const last = tokens[tokens.length - 1];
+            const index = direction < 0 ? tokens[0].index : last.index === undefined ? undefined : last.index + tokens[tokens.length - 1].getTextLength();
+            if(index !== undefined)
+                return tokens.length === 0 ? this : this.withPosition(index);
+            else
+                return this;
         }
         else {
             const stop = direction < 0 ? 0 : this.project.code.getLength();
