@@ -7,6 +7,7 @@
     import UnicodeString from '../models/UnicodeString';
     import commands, { getTokenByView } from './Commands';
     import NodeView from './NodeView.svelte';
+    import { text } from 'svelte/internal';
 
     export let program: Program;
 
@@ -64,22 +65,26 @@
                 const tokenTop = tokenBounds.top;
                 const tokenWhitespaceTop = tokenBounds.top - token.newlines * tokenBounds.height;
                 const tokenBottom = tokenBounds.bottom;
-                // // If the mouse's vertical is within the top and bottom of this token view, include the token in the line.
-                if(tokenTop <= mouseY && tokenBottom >= mouseY)
-                    line.push(view);
-                else if(tokenWhitespaceTop <= mouseY && tokenBottom >= mouseY && whitespacePosition === undefined) {
-                    // This token's whitespace contains the click.
-                    // Place it at the beginning of one of the whitespace lines.
-                    const mouseLine = Math.round((mouseY - tokenWhitespaceTop) / tokenBounds.height);
-                    let index = 0;
-                    let line = 0;
-                    while(index < token.whitespace.length) { 
-                        if(line === mouseLine) break;
-                        if(token.whitespace.charAt(index) === "\n")
-                            line++;
-                        index++;
+                const whitespace = token.getWhitespace();
+                const tokenIndex = token.getTextIndex();
+                if(tokenIndex !== undefined) {
+                    // // If the mouse's vertical is within the top and bottom of this token view, include the token in the line.
+                    if(tokenTop <= mouseY && tokenBottom >= mouseY)
+                        line.push(view);
+                    else if(tokenWhitespaceTop <= mouseY && tokenBottom >= mouseY && whitespacePosition === undefined) {
+                        // This token's whitespace contains the click.
+                        // Place it at the beginning of one of the whitespace lines.
+                        const mouseLine = Math.round((mouseY - tokenWhitespaceTop) / tokenBounds.height);
+                        let index = 0;
+                        let line = 0;
+                        while(index < whitespace.length) { 
+                            if(line === mouseLine) break;
+                            if(whitespace.charAt(index) === "\n")
+                                line++;
+                            index++;
+                        }
+                        whitespacePosition = tokenIndex - whitespace.length + index;
                     }
-                    whitespacePosition = token.index - token.whitespace.length + index;
                 }
             }
         });
@@ -103,13 +108,16 @@
         if(closest !== undefined) {
             const token = getTokenByView($caret.getProgram(), closest);
             if(token instanceof Token && event.target instanceof Element) {
-
-                // The mouse event's offset is relative to what was clicked on, not the element handling the click, so we have to compute the real offset.
-                const targetRect = event.target.getBoundingClientRect();
-                const tokenRect = closest.getBoundingClientRect();
-                const offset = event.offsetX + (targetRect.left - tokenRect.left);
-                const newPosition = Math.max(token.getTextIndex(), Math.min(token.getLastIndex(), token.getTextIndex() + (tokenRect.width === 0 ? 0 : Math.round(token.getTextLength() * (offset / tokenRect.width)))));
-                caret.set($caret.withPosition(newPosition));
+                const textIndex = token.getTextIndex();
+                const lastIndex = token.getLastIndex();
+                if(textIndex !== undefined && lastIndex !== undefined) {
+                    // The mouse event's offset is relative to what was clicked on, not the element handling the click, so we have to compute the real offset.
+                    const targetRect = event.target.getBoundingClientRect();
+                    const tokenRect = closest.getBoundingClientRect();
+                    const offset = event.offsetX + (targetRect.left - tokenRect.left);
+                    const newPosition = Math.max(textIndex, Math.min(lastIndex, textIndex + (tokenRect.width === 0 ? 0 : Math.round(token.getTextLength() * (offset / tokenRect.width)))));
+                    caret.set($caret.withPosition(newPosition));
+                }
 
             }
         }
