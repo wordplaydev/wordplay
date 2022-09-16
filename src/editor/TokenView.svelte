@@ -43,9 +43,9 @@
         caretLeft = undefined;
         caretTop = undefined;
         if(caretIndex !== undefined) {
-            // If the caret is in the preceding spaces or text, compute the left position based on the index into the text.
+            // Is the caret in the text?
             if(caretIndex >= 0) {
-                // One strategy is to trim the text to only the text included, then measure the width in pixels, then restore it.
+                // Measure the width of the text at this index, if we haven't already.
                 let widthAtCaret = caretIndex in caretPositions ? caretPositions[caretIndex] : undefined;
                 if(widthAtCaret === undefined) {
                     const textElement = element?.querySelector(".text");
@@ -60,6 +60,7 @@
                     }
                 }
 
+                // Set the left of the caret at the measured width.
                 caretLeft = widthAtCaret === undefined ? `${caretIndex}ch` : `${widthAtCaret}px`;
                 caretTop = `auto`;
             }
@@ -67,6 +68,7 @@
             else if($caret?.isIndex()) {
                 // Track an index starting at wherever the caret is.
                 let caretIndex = $caret.getIndex();
+                const whitespace = node.getWhitespace();
                 if(caretIndex !== undefined && whitespaceIndex !== undefined) {
 
                     // Where in the whitespace is the caret?
@@ -74,8 +76,8 @@
                     let index = 0;
                     let row = 0;
                     let col = 0;
-                    while(index < whitespaceOffset && index < node.getWhitespace().length) {
-                        const char = node.getWhitespace().charAt(index);
+                    while(index < whitespaceOffset && index < whitespace.length) {
+                        const char = whitespace.charAt(index);
                         if(char === "\n") {
                             row++;
                             col = 0;
@@ -87,11 +89,12 @@
                         index++;
                     }
 
-                    // If there's trailing whitespace at the end of a line, we need to account for it's width
-                    // to ensure the caret appears properly offset from the end of the line.
-                    if(node.getWhitespace().charAt(0) !== "\n" && row === 0) {
+                    // If there's trailing whitespace at the end of a line (i.e. this whitespace ends with a newline), 
+                    // we need to account for it's width to ensure the caret appears properly offset from the end of the line.
+                    if(whitespace.charAt(0) !== "\n" && whitespace.length > 0 && whitespace.charAt(whitespace.length - 1) === "\n" && row === 0) {
                         let index = whitespaceIndex - 1;
                         let count = 0;
+                        // Keep looping until we find a non-space, non-tab character.
                         while(index > 0 && $caret.project.code.at(index) !== "\n") { 
                             const char = $caret.project.code.at(index);
                             count = count + (char === "\t" ? TAB_WIDTH : 1); 
