@@ -1,3 +1,4 @@
+import { CONVERSION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import AnyType from "./AnyType";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
@@ -19,7 +20,7 @@ export default class ConversionType extends Type {
         return type instanceof ConversionType && type.output.isCompatible(context, this.output);
     }
 
-    getNativeTypeName(): string { return "conversion"; }
+    getNativeTypeName(): string { return CONVERSION_NATIVE_TYPE_NAME; }
 
     clone(original?: Node, replacement?: Node) { return new ConversionType(this.output.cloneOrReplace([ Type ], original, replacement)) as this; }
 

@@ -1,3 +1,4 @@
+import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import AnyType from "./AnyType";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
@@ -39,7 +40,7 @@ export default class MeasurementType extends Type {
         return thisUnit.isCompatible(context, thatUnit);
     }
 
-    getNativeTypeName(): string { return "measurement"; }
+    getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }
 
     getDefinition(context: ConflictContext, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 

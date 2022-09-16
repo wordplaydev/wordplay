@@ -23,7 +23,7 @@ export default class TypePlaceholder extends Type {
 
     isCompatible(context: ConflictContext, type: Type): boolean { return false; }
 
-    getNativeTypeName(): string { return ""; }
+    getNativeTypeName(): string { return "type_placeholder"; }
 
     clone(original?: Node, replacement?: Node) { 
         return new TypePlaceholder(

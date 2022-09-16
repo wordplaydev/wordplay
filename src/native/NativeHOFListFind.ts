@@ -1,7 +1,6 @@
 import Alias from "../nodes/Alias";
 import Bind from "../nodes/Bind";
 import Expression from "../nodes/Expression";
-import ListType from "../nodes/ListType";
 import NameType from "../nodes/NameType";
 import type { ConflictContext } from "../nodes/Node";
 import type Type from "../nodes/Type";
@@ -18,10 +17,11 @@ import Action from "../runtime/Start";
 import type Step from "../runtime/Step";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
+import { LIST_TYPE_VAR_NAME } from "./NativeConstants";
 
-export default class NativeHOFListMap extends HOF {
+export default class NativeHOFListFind extends HOF {
 
-    computeType(context: ConflictContext): Type { return new ListType(new NameType("T")); }
+    computeType(context: ConflictContext): Type { return new NameType(LIST_TYPE_VAR_NAME); }
 
     compile(context: ConflictContext): Step[] { 
         return [

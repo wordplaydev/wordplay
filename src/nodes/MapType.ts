@@ -1,3 +1,4 @@
+import { MAP_KEY_TYPE_VAR_NAME, MAP_NATIVE_TYPE_NAME, MAP_VALUE_TYPE_VAR_NAME } from "../native/NativeConstants";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
 import Token from "./Token";
@@ -51,7 +52,7 @@ export default class MapType extends Type {
             ); 
     }
 
-    getNativeTypeName(): string { return "map"; }
+    getNativeTypeName(): string { return MAP_NATIVE_TYPE_NAME; }
 
     getDefinition(context: ConflictContext, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
@@ -66,5 +67,11 @@ export default class MapType extends Type {
             this.value?.cloneOrReplace([ Type, Unparsable ], original, replacement)
         ) as this; 
     }
+
+    resolveTypeVariable(name: string): Type | undefined { 
+        return name === MAP_KEY_TYPE_VAR_NAME && this.key instanceof Type ? this.key : 
+            name === MAP_VALUE_TYPE_VAR_NAME && this.value instanceof Type ? this.value :
+            undefined;
+    };
 
 }

@@ -1,3 +1,4 @@
+import { SET_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import SetType from "../nodes/SetType";
 import Bool from "./Bool";
 import Measurement from "./Measurement";
@@ -55,7 +56,7 @@ export default class SetValue extends Primitive {
     }
 
     getType() { return new SetType(); }
-    getNativeTypeName(): string { return "set" }
+    getNativeTypeName(): string { return SET_NATIVE_TYPE_NAME; }
 
     toString() { return `{${Array.from(this.values).join(" ")}}`; }
 

@@ -34,6 +34,8 @@ import FunctionDefinition from "./FunctionDefinition";
 import AccessName from "./AccessName";
 import ListType from "./ListType";
 import TypeInput from "./TypeInput";
+import SetType from "./SetType";
+import MapType from "./MapType";
 
 export default class Evaluate extends Expression {
 
@@ -280,10 +282,7 @@ export default class Evaluate extends Expression {
                     // Can we infer it from the structure on which this function is being called?
                     if(concreteType === undefined && this.func instanceof AccessName) {
                         const subjectType = this.func.subject.getType(context);
-                        if(subjectType instanceof ListType) {
-                            if(subjectType.type instanceof Type)
-                                concreteType = subjectType.type;
-                        }
+                        concreteType = subjectType.resolveTypeVariable(nameType.getName());
                     }
                     
                     // Can we infer it from any of the inputs?

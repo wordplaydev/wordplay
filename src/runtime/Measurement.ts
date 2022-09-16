@@ -11,6 +11,7 @@ import type BinaryOperation from "../nodes/BinaryOperation";
 import type UnaryOperation from "../nodes/UnaryOperation";
 import Primitive from "./Primitive";
 import MeasurementType from "../nodes/MeasurementType";
+import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 
 const kanjiNumbers: Record<string, number> = {
     "一": 1,
@@ -349,7 +350,8 @@ export default class Measurement extends Primitive {
     }
 
     getType() { return new MeasurementType(undefined, this.unit); }
-    getNativeTypeName(): string { return "measurement" }
+    
+    getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }
 
     toString() { 
         return `${this.num.toString()}${this.unit.toString()}`;

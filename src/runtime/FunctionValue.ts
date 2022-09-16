@@ -1,3 +1,4 @@
+import { FUNCTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type FunctionDefinition from "../nodes/FunctionDefinition";
 import type Evaluation from "./Evaluation";
 import Value from "./Value";
@@ -19,7 +20,8 @@ export default class FunctionValue extends Value {
     }
 
     getType() { return this.context instanceof Value ? this.context.getType() : this.definition.getTypeUnlessCycle(this.context.getEvaluator().getContext()); }
-    getNativeTypeName() { return "function"; }
+    
+    getNativeTypeName() { return FUNCTION_NATIVE_TYPE_NAME; }
 
     toString() { return this.definition.toWordplay(); }
 

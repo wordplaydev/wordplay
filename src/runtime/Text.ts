@@ -1,3 +1,4 @@
+import { TEXT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import TextType from "../nodes/TextType";
 import Measurement from "./Measurement";
 import Primitive from "./Primitive";
@@ -16,7 +17,8 @@ export default class Text extends Primitive {
     }
 
     getType() { return new TextType(); }
-    getNativeTypeName(): string { return "text" }
+    
+    getNativeTypeName(): string { return TEXT_NATIVE_TYPE_NAME; }
 
     /* The number of graphemes in the text (not the number of code points). */
     length() { return new Measurement([...this.text].length); }

@@ -1,5 +1,5 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
-import StructureType from "../nodes/StructureType";
+import StructureType, { STRUCTURE_NATIVE_TYPE_NAME } from "../nodes/StructureType";
 import type Evaluation from "./Evaluation";
 import Primitive from "./Primitive";
 
@@ -19,7 +19,8 @@ export default class StructureDefinitionValue extends Primitive {
     }
 
     getType() { return new StructureType(this.definition); }
-    getNativeTypeName() { return "structuredefinition"; }
+    
+    getNativeTypeName() { return STRUCTURE_NATIVE_TYPE_NAME; }
 
     toString() { return this.definition.toWordplay(); }
 

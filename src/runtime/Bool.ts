@@ -1,3 +1,4 @@
+import { BOOLEAN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type BinaryOperation from "../nodes/BinaryOperation";
 import BooleanType from "../nodes/BooleanType";
 import type UnaryOperation from "../nodes/UnaryOperation";
@@ -18,7 +19,8 @@ export default class Bool extends Primitive {
     toString() { return this.bool ? "⊤" : "⊥"; }
 
     getType() { return new BooleanType(); }
-    getNativeTypeName(): string { return "boolean" }
+    
+    getNativeTypeName(): string { return BOOLEAN_NATIVE_TYPE_NAME }
 
     evaluatePrefix(op: UnaryOperation): Value {
 

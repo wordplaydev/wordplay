@@ -1,3 +1,4 @@
+import { TEXT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import AnyType from "./AnyType";
 import Language from "./Language";
 import type { ConflictContext } from "./Node";
@@ -32,7 +33,7 @@ export default class TextType extends Type {
                  (this.format !== undefined && type.format !== undefined && this.format.isCompatible(type.format)))); 
     }
 
-    getNativeTypeName(): string { return "text"; }
+    getNativeTypeName(): string { return TEXT_NATIVE_TYPE_NAME; }
 
     getDefinition(context: ConflictContext, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 

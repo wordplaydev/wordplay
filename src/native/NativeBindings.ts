@@ -39,6 +39,7 @@ import SetType from "../nodes/SetType";
 import MapType from "../nodes/MapType";
 import StructureDefinition from "../nodes/StructureDefinition";
 import Block from "../nodes/Block";
+import { BOOLEAN_NATIVE_TYPE_NAME, LIST_NATIVE_TYPE_NAME, LIST_TYPE_VAR_NAME, MAP_KEY_TYPE_VAR_NAME, MAP_NATIVE_TYPE_NAME, MAP_VALUE_TYPE_VAR_NAME, MEASUREMENT_NATIVE_TYPE_NAME, NONE_NATIVE_TYPE_NME, SET_NATIVE_TYPE_NAME, SET_TYPE_VAR_NAME, TEXT_NATIVE_TYPE_NAME } from "./NativeConstants";
 
 class NativeBindings implements NativeInterface {
 
@@ -126,7 +127,7 @@ class NativeBindings implements NativeInterface {
 const Native = new NativeBindings();
 
 // TODO Documentation
-Native.addNativeFunction("text", [], [ new Alias("length", "eng") ], [], [], new MeasurementType(),
+Native.addNativeFunction(TEXT_NATIVE_TYPE_NAME, [], [ new Alias("length", "eng") ], [], [], new MeasurementType(),
     evaluation => {
         const text = evaluation.getContext();
         if(text instanceof Text) return text.length();
@@ -135,11 +136,11 @@ Native.addNativeFunction("text", [], [ new Alias("length", "eng") ], [], [], new
 );
 
 // TODO Documentation
-Native.addNativeFunction("list", [], [ new Alias("add", "eng") ], [], 
+Native.addNativeFunction(LIST_NATIVE_TYPE_NAME, [], [ new Alias("add", "eng") ], [], 
     [
-        new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType("T"))
+        new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType(LIST_TYPE_VAR_NAME))
     ], 
-    new ListType(new NameType("T")),
+    new ListType(new NameType(LIST_TYPE_VAR_NAME)),
     evaluation => {
         const list = evaluation.getContext();
         const value = evaluation.resolve('value');
@@ -149,7 +150,7 @@ Native.addNativeFunction("list", [], [ new Alias("add", "eng") ], [],
 );
 
 // TODO Documentation
-Native.addNativeFunction("list", [], [ new Alias("length", "eng") ], [], [], new MeasurementType(),
+Native.addNativeFunction(LIST_NATIVE_TYPE_NAME, [], [ new Alias("length", "eng") ], [], [], new MeasurementType(),
     evaluation => {
         const list = evaluation.getContext();
         if(list instanceof List) return list.length();
@@ -158,7 +159,7 @@ Native.addNativeFunction("list", [], [ new Alias("length", "eng") ], [], [], new
 );
 
 // TODO Documentation
-Native.addNativeFunction("list", [], [ new Alias("random", "eng") ], [], [], new NameType("T"),
+Native.addNativeFunction(LIST_NATIVE_TYPE_NAME, [], [ new Alias("random", "eng") ], [], [], new NameType(LIST_TYPE_VAR_NAME),
     evaluation => {
         const list = evaluation.getContext();
         if(list instanceof List) return list.random();
@@ -167,7 +168,7 @@ Native.addNativeFunction("list", [], [ new Alias("random", "eng") ], [], [], new
 );
 
 // TODO Documentation
-Native.addNativeFunction("list", [], [ new Alias("first", "eng") ], [], [], new NameType("T"),
+Native.addNativeFunction(LIST_NATIVE_TYPE_NAME, [], [ new Alias("first", "eng") ], [], [], new NameType(LIST_TYPE_VAR_NAME),
     evaluation => {
         const list = evaluation.getContext();
         if(list instanceof List) return list.first();
@@ -176,8 +177,8 @@ Native.addNativeFunction("list", [], [ new Alias("first", "eng") ], [], [], new 
 );
 
 // TODO Documentation
-Native.addNativeFunction("list", [], [ new Alias("has", "eng") ], [], 
-    [ new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType("T")) ], 
+Native.addNativeFunction(LIST_NATIVE_TYPE_NAME, [], [ new Alias("has", "eng") ], [], 
+    [ new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType(LIST_TYPE_VAR_NAME)) ], 
     new BooleanType(),
     evaluation => {
         const list = evaluation.getContext();
@@ -188,7 +189,7 @@ Native.addNativeFunction("list", [], [ new Alias("has", "eng") ], [],
 );
 
 // TODO Documentation
-Native.addNativeFunction("list", [], [ new Alias("join", "eng") ], [], 
+Native.addNativeFunction(LIST_NATIVE_TYPE_NAME, [], [ new Alias("join", "eng") ], [], 
     [
         new Bind([], undefined, [ new Alias("separator", "eng"), ], new TextType())
     ], new TextType(),
@@ -201,7 +202,7 @@ Native.addNativeFunction("list", [], [ new Alias("join", "eng") ], [],
 );
 
 // TODO Documentation
-Native.addNativeFunction("list", [], [ new Alias("last", "eng") ], [], [], new NameType("T"),
+Native.addNativeFunction(LIST_NATIVE_TYPE_NAME, [], [ new Alias("last", "eng") ], [], [], new NameType(LIST_TYPE_VAR_NAME),
     evaluation => {
         const list = evaluation.getContext();
         if(list instanceof List) return list.last();
@@ -210,7 +211,7 @@ Native.addNativeFunction("list", [], [ new Alias("last", "eng") ], [], [], new N
 );
 
 // TODO Documentation
-Native.addNativeFunction("list", [], [ new Alias("sansFirst", "eng") ], [], [], new ListType(new NameType("T")),
+Native.addNativeFunction(LIST_NATIVE_TYPE_NAME, [], [ new Alias("sansFirst", "eng") ], [], [], new ListType(new NameType(LIST_TYPE_VAR_NAME)),
     evaluation => {
         const list = evaluation.getContext();
         if(list instanceof List) return list.sansFirst();
@@ -219,7 +220,7 @@ Native.addNativeFunction("list", [], [ new Alias("sansFirst", "eng") ], [], [], 
 );
 
 // TODO Documentation
-Native.addNativeFunction("list", [], [ new Alias("sansLast", "eng") ], [], [], new ListType(new NameType("T")),
+Native.addNativeFunction(LIST_NATIVE_TYPE_NAME, [], [ new Alias("sansLast", "eng") ], [], [], new ListType(new NameType(LIST_TYPE_VAR_NAME)),
     evaluation => {
         const list = evaluation.getContext();
         if(list instanceof List) return list.sansLast();
@@ -228,11 +229,11 @@ Native.addNativeFunction("list", [], [ new Alias("sansLast", "eng") ], [], [], n
 );
 
 // TODO Documentation
-Native.addNativeFunction("list", [], [ new Alias("sans", "eng") ], [], 
+Native.addNativeFunction(LIST_NATIVE_TYPE_NAME, [], [ new Alias("sans", "eng") ], [], 
     [
-        new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType("T"))
+        new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType(LIST_TYPE_VAR_NAME))
     ], 
-    new ListType(new NameType("T")),
+    new ListType(new NameType(LIST_TYPE_VAR_NAME)),
     evaluation => {
         const list = evaluation.getContext();
         const value = evaluation.resolve("value");
@@ -242,11 +243,11 @@ Native.addNativeFunction("list", [], [ new Alias("sans", "eng") ], [],
 );
 
 // TODO Documentation
-Native.addNativeFunction("list", [], [ new Alias("sansAll", "eng") ], [], 
+Native.addNativeFunction(LIST_NATIVE_TYPE_NAME, [], [ new Alias("sansAll", "eng") ], [], 
     [
-        new Bind([], undefined, [ new Alias("value", "eng") ], new NameType("T"))
+        new Bind([], undefined, [ new Alias("value", "eng") ], new NameType(LIST_TYPE_VAR_NAME))
     ], 
-    new ListType(new NameType("T")),
+    new ListType(new NameType(LIST_TYPE_VAR_NAME)),
     evaluation => {
         const list = evaluation.getContext();
         const value = evaluation.resolve("value");
@@ -256,7 +257,7 @@ Native.addNativeFunction("list", [], [ new Alias("sansAll", "eng") ], [],
 );
 
 // TODO Documentation
-Native.addNativeFunction("list", [], [ new Alias("reverse", "eng") ], [], [], new ListType(new NameType("T")),
+Native.addNativeFunction(LIST_NATIVE_TYPE_NAME, [], [ new Alias("reverse", "eng") ], [], [], new ListType(new NameType(LIST_TYPE_VAR_NAME)),
     evaluation => {
         const list = evaluation.getContext();
         if(list instanceof List) return list.reverse();
@@ -265,7 +266,7 @@ Native.addNativeFunction("list", [], [ new Alias("reverse", "eng") ], [], [], ne
 );
 
 // TODO Documentation
-Native.addFunction("list", new FunctionDefinition(
+Native.addFunction(LIST_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [ new Alias("translate", "eng") ], 
     [], 
@@ -273,19 +274,19 @@ Native.addFunction("list", new FunctionDefinition(
         new Bind([], undefined, [ new Alias("translator", "eng")], new FunctionType([ 
             {
                 aliases: [ new Alias("value", "eng") ],
-                type: new NameType("T"),
+                type: new NameType(LIST_TYPE_VAR_NAME),
                 required: true,
                 rest: false,
                 default: undefined
             }
-        ], new NameType("T")))
+        ], new NameType(LIST_TYPE_VAR_NAME)))
     ],
     new NativeHOFListTranslate(),
-    new ListType(new NameType("T"))
+    new ListType(new NameType(LIST_TYPE_VAR_NAME))
 ));
 
 // TODO Documentation
-Native.addFunction("list", new FunctionDefinition(
+Native.addFunction(LIST_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [ new Alias("filter", "eng") ], 
     [], 
@@ -298,14 +299,14 @@ Native.addFunction("list", new FunctionDefinition(
                 rest: false,
                 default: undefined
             }
-        ], new NameType("T")))
+        ], new NameType(LIST_TYPE_VAR_NAME)))
     ],
     new NativeHOFListFilter(),
-    new ListType(new NameType("T"))
+    new ListType(new NameType(LIST_TYPE_VAR_NAME))
 ));
 
 // TODO Documentation
-Native.addFunction("list", new FunctionDefinition(
+Native.addFunction(LIST_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [ new Alias("all", "eng") ], 
     [], 
@@ -313,7 +314,7 @@ Native.addFunction("list", new FunctionDefinition(
         new Bind([], undefined, [ new Alias("matcher", "eng")], new FunctionType([ 
             {
                 aliases: [ new Alias("value", "eng") ],
-                type: new NameType("T"),
+                type: new NameType(LIST_TYPE_VAR_NAME),
                 required: true,
                 rest: false,
                 default: undefined
@@ -325,7 +326,7 @@ Native.addFunction("list", new FunctionDefinition(
 ));
 
 // TODO Documentation
-Native.addFunction("list", new FunctionDefinition(
+Native.addFunction(LIST_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [ new Alias("until", "eng") ], 
     [], 
@@ -338,14 +339,14 @@ Native.addFunction("list", new FunctionDefinition(
                 rest: false,
                 default: undefined
             }
-        ], new NameType("T")))
+        ], new NameType(LIST_TYPE_VAR_NAME)))
     ],
     new NativeHOFListUntil(),
-    new ListType(new NameType("T"))
+    new ListType(new NameType(LIST_TYPE_VAR_NAME))
 ));
 
 // TODO Documentation
-Native.addFunction("list", new FunctionDefinition(
+Native.addFunction(LIST_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [ new Alias("find", "eng") ], 
     [], 
@@ -358,14 +359,14 @@ Native.addFunction("list", new FunctionDefinition(
                 rest: false,
                 default: undefined
             }
-        ], new NameType("T")))
+        ], new NameType(LIST_TYPE_VAR_NAME)))
     ],
     new NativeHOFListFind(),
-    new UnionType(new NameType("T"), new NoneType([ new Alias("notfound", "eng")]))
+    new UnionType(new NameType(LIST_TYPE_VAR_NAME), new NoneType([ new Alias("notfound", "eng")]))
 ));
 
 // TODO Documentation
-Native.addFunction("list", new FunctionDefinition(
+Native.addFunction(LIST_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [ new Alias("combine", "eng") ], 
     [], 
@@ -374,36 +375,48 @@ Native.addFunction("list", new FunctionDefinition(
         new Bind([], undefined, [ new Alias("combiner", "eng")], new FunctionType([ 
             {
                 aliases: [ new Alias("combination", "eng") ],
-                type: new NameType("V"),
+                type: new NameType(LIST_TYPE_VAR_NAME),
                 required: true,
                 rest: false,
                 default: undefined
             },
             {
                 aliases: [ new Alias("next", "eng") ],
-                type: new NameType("T"),
+                type: new NameType(LIST_TYPE_VAR_NAME),
                 required: true,
                 rest: false,
                 default: undefined
             }
-        ], new NameType("V")))
+        ], new NameType(LIST_TYPE_VAR_NAME)))
     ],
     new NativeHOFListCombine(),
-    new ListType(new NameType("T"))
+    new ListType(new NameType(LIST_TYPE_VAR_NAME))
 ));
 
 // TODO Documentation
-Native.addNativeFunction("set", [], [ new Alias("add", "eng") ], [], [ new Bind([], undefined, [ new Alias("value", "eng") ] ) ], new NameType("T"),
-evaluation => {
-        const set = evaluation?.getContext();
-        const element = evaluation.resolve("value");
-        if(set instanceof SetValue && element !== undefined) return set.add(element);
-        else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
-    }
+Native.addNativeFunction(
+    SET_NATIVE_TYPE_NAME, 
+    [], 
+    [ new Alias("add", "eng") ], 
+    [], 
+    [ new Bind([], undefined, [ new Alias("value", "eng") ], new NameType(SET_TYPE_VAR_NAME) ) ], 
+    new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME)),
+    evaluation => {
+            const set = evaluation?.getContext();
+            const element = evaluation.resolve("value");
+            if(set instanceof SetValue && element !== undefined) return set.add(element);
+            else return new Exception(undefined, ExceptionKind.EXPECTED_TYPE);
+        }
 );
 
 // TODO Documentation
-Native.addNativeFunction("set", [], [ new Alias("remove", "eng") ], [], [ new Bind([], undefined, [ new Alias("value", "eng") ] ) ], new SetType(undefined, undefined, new NameType("T")),
+Native.addNativeFunction(
+    SET_NATIVE_TYPE_NAME, 
+    [], 
+    [ new Alias("remove", "eng") ],
+    [], 
+    [ new Bind([], undefined, [ new Alias("value", "eng") ], new NameType(SET_TYPE_VAR_NAME) ) ], 
+    new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME)),
     evaluation => {
         const set = evaluation.getContext();
         const element = evaluation.resolve("value");
@@ -413,7 +426,13 @@ Native.addNativeFunction("set", [], [ new Alias("remove", "eng") ], [], [ new Bi
 );
 
 // TODO Documentation
-Native.addNativeFunction("set", [], [ new Alias("union", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetType(undefined, undefined, new NameType("T")),
+Native.addNativeFunction(
+    SET_NATIVE_TYPE_NAME, 
+    [], 
+    [ new Alias("union", "eng") ],
+    [], 
+    [ new Bind([], undefined, [ new Alias("set", "eng") ], new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME)) ) ],
+    new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME)),
     evaluation => {
         const set = evaluation.getContext();
         const newSet = evaluation.resolve("set");
@@ -423,7 +442,7 @@ Native.addNativeFunction("set", [], [ new Alias("union", "eng") ], [], [ new Bin
 );
 
 // TODO Documentation
-Native.addNativeFunction("set", [], [ new Alias("intersection", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetType(undefined, undefined, new NameType("T")),
+Native.addNativeFunction(SET_NATIVE_TYPE_NAME, [], [ new Alias("intersection", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME)),
     evaluation => {
         const set = evaluation.getContext();
         const newSet = evaluation.resolve("set");
@@ -433,7 +452,7 @@ Native.addNativeFunction("set", [], [ new Alias("intersection", "eng") ], [], [ 
 );
 
 // TODO Documentation
-Native.addNativeFunction("set", [], [ new Alias("difference", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetType(undefined, undefined, new NameType("T")),
+Native.addNativeFunction(SET_NATIVE_TYPE_NAME, [], [ new Alias("difference", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME)),
     evaluation => {
         const set = evaluation.getContext();
         const newSet = evaluation.resolve("set");
@@ -443,7 +462,7 @@ Native.addNativeFunction("set", [], [ new Alias("difference", "eng") ], [], [ ne
 );
 
 // TODO Documentation
-Native.addFunction("set", new FunctionDefinition(
+Native.addFunction(SET_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [ new Alias("filter", "eng") ], 
     [], 
@@ -456,14 +475,14 @@ Native.addFunction("set", new FunctionDefinition(
                 rest: false,
                 default: undefined
             }
-        ], new NameType("T")))
+        ], new NameType(SET_TYPE_VAR_NAME)))
     ],
     new NativeHOFSetFilter(),
-    new SetType(undefined, undefined, new NameType("T"))
+    new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME))
 ));
 
 // TODO Documentation
-Native.addNativeFunction("map", [], [ new Alias("set", "eng") ], [], 
+Native.addNativeFunction(MAP_NATIVE_TYPE_NAME, [], [ new Alias("set", "eng") ], [], 
     [ 
         new Bind([], undefined, [ new Alias("key", "eng") ], new NameType("K") ),
         new Bind([], undefined, [ new Alias("value", "eng") ], new NameType("V") )
@@ -479,7 +498,7 @@ Native.addNativeFunction("map", [], [ new Alias("set", "eng") ], [],
 );
 
 // TODO Documentation
-Native.addNativeFunction("map", [], [ new Alias("unset", "eng") ], [], 
+Native.addNativeFunction(MAP_NATIVE_TYPE_NAME, [], [ new Alias("unset", "eng") ], [], 
     [ 
         new Bind([], undefined, [ new Alias("key", "eng") ], new NameType("K") )
     ],
@@ -493,7 +512,7 @@ Native.addNativeFunction("map", [], [ new Alias("unset", "eng") ], [],
 );
 
 // TODO Documentation
-Native.addNativeFunction("map", [], [ new Alias("remove", "eng") ], [], 
+Native.addNativeFunction(MAP_NATIVE_TYPE_NAME, [], [ new Alias("remove", "eng") ], [], 
     [ 
         new Bind([], undefined, [ new Alias("value", "eng") ], new NameType("V") )
     ],
@@ -507,7 +526,7 @@ Native.addNativeFunction("map", [], [ new Alias("remove", "eng") ], [],
 );
 
 // TODO Documentation
-Native.addFunction("map", new FunctionDefinition(
+Native.addFunction(MAP_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [ new Alias("filter", "eng") ], 
     [], 
@@ -515,26 +534,26 @@ Native.addFunction("map", new FunctionDefinition(
         new Bind([], undefined, [ new Alias("checker", "eng")], new FunctionType([ 
             {
                 aliases: [ new Alias("key", "eng") ],
-                type: new BooleanType(),
+                type: new NameType(MAP_KEY_TYPE_VAR_NAME),
                 required: true,
                 rest: false,
                 default: undefined
             },
             {
                 aliases: [ new Alias("value", "eng") ],
-                type: new BooleanType(),
+                type: new NameType(MAP_VALUE_TYPE_VAR_NAME),
                 required: true,
                 rest: false,
                 default: undefined
             }
-        ], new NameType("T")))
+        ], new BooleanType()))
     ],
     new NativeHOFMapFilter(),
-    new MapType(undefined, undefined, new NameType("K"), undefined, new NameType("V"))
+    new MapType(undefined, undefined, new NameType(MAP_KEY_TYPE_VAR_NAME), undefined, new NameType(MAP_VALUE_TYPE_VAR_NAME))
 ));
 
 // TODO Documentation
-Native.addFunction("map", new FunctionDefinition(
+Native.addFunction(MAP_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [ new Alias("translate", "eng") ], 
     [], 
@@ -542,117 +561,117 @@ Native.addFunction("map", new FunctionDefinition(
         new Bind([], undefined, [ new Alias("translator", "eng")], new FunctionType([ 
             {
                 aliases: [ new Alias("key", "eng") ],
-                type: new BooleanType(),
+                type: new NameType(MAP_KEY_TYPE_VAR_NAME),
                 required: true,
                 rest: false,
                 default: undefined
             },
             {
                 aliases: [ new Alias("value", "eng") ],
-                type: new BooleanType(),
+                type: new NameType(MAP_VALUE_TYPE_VAR_NAME),
                 required: true,
                 rest: false,
                 default: undefined
             }
-        ], new NameType("T")))
+        ], new NameType(MAP_VALUE_TYPE_VAR_NAME)))
     ],
     new NativeHOFMapTranslate(),
-    new MapType(undefined, undefined, new NameType("K"), undefined, new NameType("V"))
+    new MapType(undefined, undefined, new NameType(MAP_KEY_TYPE_VAR_NAME), undefined, new NameType(MAP_VALUE_TYPE_VAR_NAME))
 ));
 
 // TODO Documentation
-Native.addConversion("list", [],  "''", List, (val: List) => new Text(val.toString())),
+Native.addConversion(LIST_NATIVE_TYPE_NAME, [],  "''", List, (val: List) => new Text(val.toString())),
 // TODO Documentation
-Native.addConversion("list", [],  "{}", List, (val: List) => new SetValue(val.getValues())),
+Native.addConversion(LIST_NATIVE_TYPE_NAME, [],  "{}", List, (val: List) => new SetValue(val.getValues())),
 
 // TODO Documentation
-Native.addConversion("set", [], "''", SetValue, (val: SetValue) => new Text(val.toString()));
+Native.addConversion(SET_NATIVE_TYPE_NAME, [], "''", SetValue, (val: SetValue) => new Text(val.toString()));
 // TODO Documentation
-Native.addConversion("set", [], "[]", SetValue, (val: SetValue) => new List(val.values));
+Native.addConversion(SET_NATIVE_TYPE_NAME, [], "[]", SetValue, (val: SetValue) => new List(val.values));
 
 // TODO Documentation
-Native.addConversion("map", [], "''", MapValue, (val: MapValue) => new Text(val.toString()));
+Native.addConversion(MAP_NATIVE_TYPE_NAME, [], "''", MapValue, (val: MapValue) => new Text(val.toString()));
 // TODO Documentation
-Native.addConversion("map", [], "{}", MapValue, (val: MapValue) => new SetValue(val.getKeys()));
+Native.addConversion(MAP_NATIVE_TYPE_NAME, [], "{}", MapValue, (val: MapValue) => new SetValue(val.getKeys()));
 // TODO Documentation
-Native.addConversion("map", [], "[]", MapValue, (val: MapValue) => new List(val.getValues()));
+Native.addConversion(MAP_NATIVE_TYPE_NAME, [], "[]", MapValue, (val: MapValue) => new List(val.getValues()));
 
 // TODO Documentation
-Native.addConversion("boolean", [], "''", Bool, (val: Bool) => new Text(val.toString()));
+Native.addConversion(BOOLEAN_NATIVE_TYPE_NAME, [], "''", Bool, (val: Bool) => new Text(val.toString()));
 
 // TODO Documentation
-Native.addConversion("none", [], "''", None, (val: None) => new Text(val.toString()));
+Native.addConversion(NONE_NATIVE_TYPE_NME, [], "''", None, (val: None) => new Text(val.toString()));
 
 // TODO Documentation
-Native.addConversion("text", [], '[""]', Text, (val: Text) => new List(val.text.split("").map(c => new Text(c))));
+Native.addConversion(TEXT_NATIVE_TYPE_NAME, [], '[""]', Text, (val: Text) => new List(val.text.split("").map(c => new Text(c))));
 
 // TODO Documentation
-Native.addConversion("measurement", [], "''", Measurement, (val: Measurement) => new Text(val.toString()));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], "''", Measurement, (val: Measurement) => new Text(val.toString()));
 
-Native.addStructure("list", new StructureDefinition(
+Native.addStructure(LIST_NATIVE_TYPE_NAME, new StructureDefinition(
     // TODO Localized documentation
     [],
     [],
     // No interfaces
     [],
     // One type variable
-    [ new TypeVariable("T")],
+    [ new TypeVariable(LIST_TYPE_VAR_NAME)],
     // No inputs
     [],
     // Include all of the functions defined above.
-    new Block([], [ ...Object.values(Native.functionsByType["list"] ?? {}), ...Native.conversionsByType["list"]], true)
+    new Block([], [ ...Object.values(Native.functionsByType[LIST_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[LIST_NATIVE_TYPE_NAME]], true)
 ));
 
-Native.addStructure("set", new StructureDefinition(
+Native.addStructure(SET_NATIVE_TYPE_NAME, new StructureDefinition(
     // TODO Localized documentation
     [],
     [],
     // No interfaces
     [],
     // One type variable
-    [ new TypeVariable("T")],
+    [ new TypeVariable(SET_TYPE_VAR_NAME)],
     // No inputs
     [],
     // Include all of the functions defined above.
-    new Block([], [ ...Object.values(Native.functionsByType["set"] ?? {}), ...Native.conversionsByType["set"]], true)
+    new Block([], [ ...Object.values(Native.functionsByType[SET_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[SET_NATIVE_TYPE_NAME]], true)
 ));
 
-Native.addStructure("map", new StructureDefinition(
+Native.addStructure(MAP_NATIVE_TYPE_NAME, new StructureDefinition(
     // TODO Localized documentation
     [],
     [],
     // No interfaces
     [],
     // One type variable
-    [ new TypeVariable("K"), new TypeVariable("V")],
+    [ new TypeVariable(MAP_KEY_TYPE_VAR_NAME), new TypeVariable(MAP_VALUE_TYPE_VAR_NAME)],
     // No inputs
     [],
     // Include all of the functions defined above.
-    new Block([], [ ...Object.values(Native.functionsByType["map"] ?? {}), ...Native.conversionsByType["map"]], true)
+    new Block([], [ ...Object.values(Native.functionsByType[MAP_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[MAP_NATIVE_TYPE_NAME]], true)
 ));
 
-Native.addStructure("boolean", new StructureDefinition(
+Native.addStructure(BOOLEAN_NATIVE_TYPE_NAME, new StructureDefinition(
     // TODO Localized documentation
     [],[], [], [], [],
-    new Block([], [ ...Object.values(Native.functionsByType["boolean"] ?? {}), ...Native.conversionsByType["boolean"]], true)
+    new Block([], [ ...Object.values(Native.functionsByType[BOOLEAN_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[BOOLEAN_NATIVE_TYPE_NAME]], true)
 ));
 
-Native.addStructure("measurement", new StructureDefinition(
+Native.addStructure(MEASUREMENT_NATIVE_TYPE_NAME, new StructureDefinition(
     // TODO Localized documentation
     [],[], [], [], [],
-    new Block([], [ ...Object.values(Native.functionsByType["measurement"] ?? {}), ...Native.conversionsByType["measurement"]], true)
+    new Block([], [ ...Object.values(Native.functionsByType[MEASUREMENT_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[MEASUREMENT_NATIVE_TYPE_NAME]], true)
 ));
 
-Native.addStructure("text", new StructureDefinition(
+Native.addStructure(TEXT_NATIVE_TYPE_NAME, new StructureDefinition(
     // TODO Localized documentation
     [],[], [], [], [],
-    new Block([], [ ...Object.values(Native.functionsByType["text"] ?? {}), ...Native.conversionsByType["text"]], true)
+    new Block([], [ ...Object.values(Native.functionsByType[TEXT_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[TEXT_NATIVE_TYPE_NAME]], true)
 ));
 
-Native.addStructure("none", new StructureDefinition(
+Native.addStructure(NONE_NATIVE_TYPE_NME, new StructureDefinition(
     // TODO Localized documentation
     [],[], [], [], [],
-    new Block([], [ ...Object.values(Native.functionsByType["none"] ?? {}), ...Native.conversionsByType["none"]], true)
+    new Block([], [ ...Object.values(Native.functionsByType[NONE_NATIVE_TYPE_NME] ?? {}), ...Native.conversionsByType[NONE_NATIVE_TYPE_NME]], true)
 ));
 
 export default Native;

@@ -1,3 +1,4 @@
+import { SET_NATIVE_TYPE_NAME, SET_TYPE_VAR_NAME } from "../native/NativeConstants";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
 import Token from "./Token";
@@ -41,7 +42,7 @@ export default class SetType extends Type {
             ); 
     }
 
-    getNativeTypeName(): string { return "set"; }
+    getNativeTypeName(): string { return SET_NATIVE_TYPE_NAME; }
 
     getDefinition(context: ConflictContext, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
@@ -54,5 +55,9 @@ export default class SetType extends Type {
             this.key?.cloneOrReplace([ Type, Unparsable, undefined ], original, replacement)
         ) as this; 
     }
+
+    resolveTypeVariable(name: string): Type | undefined { 
+        return name === SET_TYPE_VAR_NAME && this.key instanceof Type ? this.key : undefined;
+    };
 
 }

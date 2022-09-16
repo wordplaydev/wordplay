@@ -15,11 +15,12 @@ import Action from "../runtime/Start";
 import type Step from "../runtime/Step";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
+import { LIST_TYPE_VAR_NAME } from "./NativeConstants";
 
 export default class NativeHOFListCombine extends HOF {
 
     computeChildren() { return [] };
-    computeType(context: ConflictContext): Type { return new ListType(new NameType("V")); }
+    computeType(context: ConflictContext): Type { return new ListType(new NameType(LIST_TYPE_VAR_NAME)); }
 
     compile(context: ConflictContext): Step[] { 
         return [

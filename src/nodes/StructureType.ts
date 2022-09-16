@@ -4,6 +4,8 @@ import type ConversionDefinition from "./ConversionDefinition";
 import type { ConflictContext } from "./Node";
 import type StructureDefinition from "./StructureDefinition";
 
+export const STRUCTURE_NATIVE_TYPE_NAME = "structure";
+
 export default class StructureType extends Type {
 
     readonly definition: StructureDefinition;
@@ -37,7 +39,7 @@ export default class StructureType extends Type {
         return this.definition.getConversion(context, type);
     }
 
-    getNativeTypeName(): string { return "structure"; }
+    getNativeTypeName(): string { return STRUCTURE_NATIVE_TYPE_NAME; }
 
     clone(original?: Node, replacement?: Node) { return new StructureType(this.definition) as this; }
     

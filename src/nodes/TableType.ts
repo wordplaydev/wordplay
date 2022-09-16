@@ -7,6 +7,7 @@ import type Unparsable from "./Unparsable";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Column from "./Column";
+import { TABLE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 
 export default class TableType extends Type {
     
@@ -37,7 +38,7 @@ export default class TableType extends Type {
 
     }
      
-    getNativeTypeName(): string { return "table"; }
+    getNativeTypeName(): string { return TABLE_NATIVE_TYPE_NAME; }
 
     clone(original?: Node, replacement?: Node) { 
         return new TableType(

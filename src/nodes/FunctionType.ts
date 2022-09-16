@@ -7,6 +7,7 @@ import type { ConflictContext } from "./Node";
 import Alias from "./Alias";
 import Expression from "./Expression";
 import AnyType from "./AnyType";
+import { FUNCTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 
 export type Input = {
     aliases: Alias[],
@@ -63,7 +64,7 @@ export default class FunctionType extends Type {
         return true;
     }
 
-    getNativeTypeName(): string { return "function"; }
+    getNativeTypeName(): string { return FUNCTION_NATIVE_TYPE_NAME; }
     
     clone(original?: Node, replacement?: Node) { 
         return new FunctionType(

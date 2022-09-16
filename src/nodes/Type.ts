@@ -19,4 +19,6 @@ export default abstract class Type extends Node {
         return context.native?.getFunction(this.getNativeTypeName(), name);
     }
 
+    resolveTypeVariable(name: string): Type | undefined { return undefined };
+
 }

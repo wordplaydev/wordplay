@@ -1,3 +1,4 @@
+import { MAP_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import Alias from "../nodes/Alias";
 import MapType from "../nodes/MapType";
 import Measurement from "./Measurement";
@@ -61,7 +62,8 @@ export default class MapValue extends Primitive {
     }
 
     getType() { return new MapType(); }
-    getNativeTypeName(): string { return "map" }
+    
+    getNativeTypeName(): string { return MAP_NATIVE_TYPE_NAME; }
 
     toString() { return `{${Array.from(this.values).sort().map(k => `${k[0].toString()}:${(this.has(k[0]) as Value).toString()}`).join(" ")}}`; }
 

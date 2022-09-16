@@ -655,7 +655,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral | Unparsable {
         else values.push(key);
     }
 
-    const close = tokens.nextIs(TokenType.SET_CLOSE) ? tokens.read(TokenType.SET_CLOSE) : tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE, [ open, ...values ]);
+    const close = tokens.nextIs(TokenType.SET_CLOSE) ? tokens.read(TokenType.SET_CLOSE) : tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE, []);
 
     // Make a map
     return values.find(v => v instanceof KeyValue) !== undefined ? 

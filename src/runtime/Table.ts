@@ -1,4 +1,4 @@
-import ColumnType from "../nodes/ColumnType";
+import { TABLE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type TableLiteral from "../nodes/TableLiteral";
 import TableType from "../nodes/TableType";
 import type Exception from "./Exception";
@@ -23,7 +23,8 @@ export default class Table extends Value {
     }
 
     getType() { return new TableType([]); }
-    getNativeTypeName(): string { return "table"; }
+    
+    getNativeTypeName(): string { return TABLE_NATIVE_TYPE_NAME; }
 
     toString(): string {
         return this.rows.map(r => r.map(c => `|${c.toString()}`).join("")).join("\n");

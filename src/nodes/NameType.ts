@@ -11,6 +11,7 @@ import Value from "../runtime/Value";
 import type Definition from "./Definition";
 import StructureDefinition from "./StructureDefinition";
 import VariableType from "./VariableType";
+import { NAME_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 
 export default class NameType extends Type {
 
@@ -63,7 +64,7 @@ export default class NameType extends Type {
 
     }
 
-    getNativeTypeName(): string { return "structure"; }
+    getNativeTypeName(): string { return NAME_NATIVE_TYPE_NAME; }
 
     clone(original?: Node, replacement?: Node) { return new NameType(this.type.cloneOrReplace([ Token ], original, replacement)) as this; }
 

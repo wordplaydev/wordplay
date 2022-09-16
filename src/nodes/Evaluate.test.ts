@@ -9,6 +9,9 @@ import { UnknownInputName } from "../conflicts/UnknownInputName";
 import { RedundantNamedInput as RedundantInputName } from "../conflicts/RedundantNamedInput";
 import TextType from "./TextType";
 import MeasurementType from "./MeasurementType";
+import SetType from "./SetType";
+import MapType from "./MapType";
+import ListType from "./ListType";
 
 test("Test evaluate conflicts", () => {
 
@@ -43,5 +46,17 @@ test("Test generics", () => {
     testTypes("ƒ test∘T∘U∘V(a•V) a\ntest∘#∘''∘#(1)", MeasurementType);
     // Infer the type from an input.
     testTypes("ƒ test∘T(a•T) a\ntest(1)", MeasurementType);
+    // Infer from lists
+    testTypes("[ 1 2 3 ].random()", MeasurementType);
+    // Infer from sets
+    testTypes("{ 1 2 3 }.remove(1)", SetType);
+    // Infer from map higher order function
+    testTypes("{ 1:2 2:3 3:4 }.remove(1)", MapType);
+    // Infer from map keys
+    // testTypes("{ 1:'a' 2:'b' 3:'c' }→{}", SetType);
+    // testTypes("{ 1:'a' 2:'b' 3:'c' }→{}→[]", ListType);
+    // testTypes("{ 1:'a' 2:'b' 3:'c' }→{}→[][1]", MeasurementType);
+    // Infer from map values
+    // testTypes("{ 1:'a' 2:'b' 3:'c' }→[][1]", TextType);
 
 })

@@ -6,6 +6,8 @@ import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
 
+export const STREAM_NATIVE_TYPE_NAME = "stream";
+
 export default class StreamType extends Type {
 
     readonly stream: Token;
@@ -27,7 +29,7 @@ export default class StreamType extends Type {
         return type instanceof StreamType && this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(context, type.type);
     }
 
-    getNativeTypeName(): string { return "stream"; }
+    getNativeTypeName(): string { return STREAM_NATIVE_TYPE_NAME; }
 
     clone(original?: Node, replacement?: Node) { 
         return new StreamType(

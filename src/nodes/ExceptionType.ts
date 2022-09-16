@@ -1,3 +1,4 @@
+import { EXCEPTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Exception from "../runtime/Exception";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
@@ -26,7 +27,7 @@ export default class ExceptionType extends Type {
         return undefined;
     }
 
-    getNativeTypeName(): string { return "exception"; }
+    getNativeTypeName(): string { return EXCEPTION_NATIVE_TYPE_NAME; }
 
     toWordplay(): string {
         return this.exception.toString();

@@ -1,3 +1,4 @@
+import { NONE_NATIVE_TYPE_NME } from "../native/NativeConstants";
 import Alias from "./Alias";
 import AnyType from "./AnyType";
 import type { ConflictContext } from "./Node";
@@ -32,7 +33,7 @@ export default class NoneType extends Type {
         return this.aliases.find(a => type.aliases.find(b => a.isCompatible(b)) !== undefined) !== undefined;
     }
 
-    getNativeTypeName(): string { return "none"; }
+    getNativeTypeName(): string { return NONE_NATIVE_TYPE_NME; }
 
     toWordplay(): string {
         return "•!" + this.aliases.map(a => a.getName());

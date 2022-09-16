@@ -6,6 +6,7 @@ import type Node from "../nodes/Node";
 import Type from "./Type";
 import type { ConflictContext } from "./Node";
 import AnyType from "./AnyType";
+import { COLUMN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 
 export default class ColumnType extends Type {
 
@@ -28,7 +29,7 @@ export default class ColumnType extends Type {
         return type instanceof ColumnType && type.bind instanceof Bind && this.bind instanceof Bind && this.bind.getTypeUnlessCycle(context).isCompatible(context, type.bind.getTypeUnlessCycle(context));
     }
 
-    getNativeTypeName(): string { return "column"; }
+    getNativeTypeName(): string { return COLUMN_NATIVE_TYPE_NAME; }
 
     clone(original?: Node, replacement?: Node) { 
         return new ColumnType(

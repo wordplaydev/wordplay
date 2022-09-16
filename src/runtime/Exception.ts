@@ -1,3 +1,4 @@
+import { EXCEPTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import ExceptionType from "../nodes/ExceptionType";
 import type Node from "../nodes/Node";
 import Primitive from "./Primitive";
@@ -35,7 +36,7 @@ export default class Exception extends Primitive {
     }
 
     getType() { return new ExceptionType(this); }
-    getNativeTypeName(): string { return "exception" }
+    getNativeTypeName(): string { return EXCEPTION_NATIVE_TYPE_NAME; }
 
     toString() { return `${ExceptionKind[this.exception]}: ${this.message} ${this.node === undefined ? "" : this.node.toWordplay().trim()}`; }
 

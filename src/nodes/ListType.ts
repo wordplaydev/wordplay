@@ -1,3 +1,4 @@
+import { LIST_NATIVE_TYPE_NAME, LIST_TYPE_VAR_NAME } from "../native/NativeConstants";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
 import Token from "./Token";
@@ -31,7 +32,7 @@ export default class ListType extends Type {
         return type instanceof ListType && (type.type === undefined || (this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(context, type.type)));
     }
 
-    getNativeTypeName(): string { return "list"; }
+    getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }
 
     getDefinition(context: ConflictContext, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
@@ -44,5 +45,9 @@ export default class ListType extends Type {
             this.close.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
     }
+
+    resolveTypeVariable(name: string): Type | undefined { 
+        return name === LIST_TYPE_VAR_NAME && this.type instanceof Type ? this.type : undefined;
+    };
 
 }

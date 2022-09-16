@@ -1,3 +1,4 @@
+import Native from "../native/NativeBindings";
 import Block from "../nodes/Block";
 import Expression from "../nodes/Expression";
 import { ConflictContext } from "../nodes/Node";
@@ -24,7 +25,7 @@ export function testTypes(code: string, typeExpected: Function) {
     const last = program.block instanceof Block ? program.block.getLast() : undefined;
     const lastIsExpression = last instanceof Expression;
     if(last instanceof Expression) {
-        const type = last.getType(new ConflictContext(program))
+        const type = last.getType(new ConflictContext(program, undefined, Native))
         const match = type instanceof typeExpected;
         if(!match)
             console.log(`Expression's type is ${type.constructor.name}`);

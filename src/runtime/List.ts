@@ -6,6 +6,7 @@ import Measurement from "./Measurement";
 import None from "./None";
 import Primitive from "./Primitive";
 import type Value from "./Value";
+import { LIST_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 
 export default class List extends Primitive {
 
@@ -55,7 +56,7 @@ export default class List extends Primitive {
 
     getType() { return new ListType(); }
 
-    getNativeTypeName(): string { return "list" }
+    getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }
 
     toString() {
         return `[${this.values.map(v => v.toString()).join(" ")}]`
