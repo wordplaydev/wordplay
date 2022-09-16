@@ -37,5 +37,7 @@ test("Test evaluate evaluation", () => {
 
 test("Test generics", () => {
 
+    testTypes("ƒ test∘T(a•T) a\ntest∘#(1)", MeasurementType);
+    testTypes("ƒ test∘T(a•T) a\ntest(1)", MeasurementType);
   
 })
