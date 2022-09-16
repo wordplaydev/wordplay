@@ -55,8 +55,9 @@ function caretVertical(editor: HTMLElement, caret: Caret, direction: 1 | -1): Ca
     let currentToken: Token | undefined = caret.getProgram().nodes().find(token => token instanceof Token && token.containsPosition(position as number)) as Token | undefined;
     if(currentToken === undefined) return;
 
+    const index = currentToken.getTextIndex();
     // If the position is on a different line from the current token, just move to the line.
-    if(position < currentToken.getTextIndex() - currentToken.precedingSpaces) {
+    if(index !== undefined && position < index - currentToken.precedingSpaces) {
         return caret.withPosition(position);
     }
     // Find the tokens on the row in the direction we're moving.
@@ -122,8 +123,10 @@ function backspace(caret: Caret): [ Project, Caret] | undefined  {
         if(tokens.length > 0) {
             const start = tokens[0].getTextIndex();
             const end = tokens[tokens.length - 1].getLastIndex();
-            const newProject = caret.project.withoutGraphemesBetween(start, end);
-            return newProject === undefined ? undefined : [ newProject , new Caret(newProject, start) ];
+            if(start !== undefined && end !== undefined) {
+                const newProject = caret.project.withoutGraphemesBetween(start, end);
+                return newProject === undefined ? undefined : [ newProject , new Caret(newProject, start) ];
+            }
         }
     }
 }

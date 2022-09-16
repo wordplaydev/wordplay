@@ -167,7 +167,7 @@ export class Tokens {
 
     /** Returns true if and only if the next token is the specified type. */
     nextLacksPrecedingSpace(): boolean {
-        return this.hasNext() && !this.#unread[0].hasPrecedingSpace();
+        return this.hasNext() && !this.#unread[0].hasWhitespace();
     }
 
     /** Returns true if and only if the next token has a preceding line break. */
@@ -198,7 +198,7 @@ export class Tokens {
             return next.is(TokenType.NUMBER) ? next : next.withTypeNarrowedTo(expectedType);
         }
         else
-            return new Token("", [ TokenType.END ], this.#read.length === 0 ? 0 : this.#read[this.#read.length - 1].getTextIndex() + this.#read[this.#read.length - 1].getTextLength());
+            return new Token("", [ TokenType.END ], this.#read.length === 0 ? 0 : (this.#read[this.#read.length - 1].getTextIndex() ?? 0) + this.#read[this.#read.length - 1].getTextLength());
     }
 
     /** Returns a node annotated with an error message, as well as all surrounding tokens. */

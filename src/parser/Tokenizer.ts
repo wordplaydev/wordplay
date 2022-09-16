@@ -136,10 +136,10 @@ export function tokenize(source: string): Token[] {
         const nextToken = getNextToken(source, index);
         if(nextToken === undefined) break;
         // Trim the token off the source.
-        source = source.substring(nextToken.text.toString().length + nextToken.getPrecedingSpace().length);
+        source = source.substring(nextToken.text.toString().length + nextToken.getWhitespace().length);
         tokens.push(nextToken);
         // Increment the grapheme index by the grapheme length.
-        index += nextToken.getTextLength() + nextToken.getPrecedingSpace().length;
+        index += nextToken.getTextLength() + nextToken.getWhitespace().length;
     }
 
     // If there's nothing left and the last token isn't an end token, add one.

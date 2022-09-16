@@ -11,15 +11,15 @@ export default class Token extends Node {
     /** The text of the token */
     readonly text: UnicodeString;
     /** Spaces and tabs preceding this token. */
-    readonly whitespace: string;
+    readonly whitespace: string | undefined;
     /** The index in the source file at which this token starts. */
-    readonly index: number;
+    readonly index: number | undefined;
     /** The precomputed number of newlines in the whitespace */
     readonly newlines: number;
     /** The precomputed number of spaces on the row containing the non-whitespace text */
     readonly precedingSpaces: number;
 
-    constructor(text: string | UnicodeString, types: TokenType[], index: number=0, space: string="") {
+    constructor(text: string | UnicodeString, types: TokenType[], index?: number | undefined, space?: string) {
         super();
 
         this.types = [ ... types ];
@@ -30,25 +30,25 @@ export default class Token extends Node {
         this.index = index;
 
         // Split the whitespace by lines, then tabs.
-        const lines = space.split("\n");
+        const lines = this.whitespace?.split("\n");
         // Compute the number of newlines overall.
-        this.newlines = lines.length - 1;
+        this.newlines = lines === undefined ? 0 : lines.length - 1;
         // Compute the number of spaces on the last line.
-        this.precedingSpaces = lines[lines.length - 1].split("").reduce((sum, s) => sum + (s === "\t" ? TAB_WIDTH : s === " " ? 1 : 0), 0);
+        this.precedingSpaces = lines === undefined ? 0 : lines[lines.length - 1].split("").reduce((sum, s) => sum + (s === "\t" ? TAB_WIDTH : s === " " ? 1 : 0), 0);
 
     }
 
     getText() { return this.text.toString(); }
     computeChildren() { return []; }
-    getWhitespaceIndex() { return this.index - this.whitespace.length; }
+    getWhitespaceIndex() { return this.index === undefined || this.whitespace === undefined ? undefined : this.index - this.whitespace.length; }
     getTextIndex() { return this.index; }
-    getLastIndex() { return this.index + this.getTextLength(); }
+    getLastIndex() { return this.index === undefined ? undefined : this.index + this.getTextLength(); }
     /* Property accounts for unicode codepoints */
     getTextLength() { return this.text.getLength(); }
-    getPrecedingSpace() { return this.whitespace; }
-    hasPrecedingSpace() { return this.whitespace.length > 0; }
-    containsPosition(position: number) { return position >= this.index - this.whitespace.length && position <= this.index + this.getTextLength(); }
-    hasPrecedingLineBreak() { return this.whitespace.includes("\n"); }
+    getWhitespace() { return this.whitespace === undefined ? "" : this.whitespace; }
+    hasWhitespace() { return this.whitespace === undefined ? false : this.whitespace.length > 0; }
+    containsPosition(position: number) { return this.whitespace == undefined || this.index === undefined ? false : position >= this.index - this.whitespace.length && position <= this.index + this.getTextLength(); }
+    hasPrecedingLineBreak() { return this.whitespace === undefined ? false : this.whitespace.includes("\n"); }
     isnt(type: TokenType) { return !this.is(type); }
     is(type: TokenType) { return this.types.includes(type); }
     isName() { return this.is(TokenType.NAME); }
@@ -58,8 +58,8 @@ export default class Token extends Node {
         else
             throw Error(`Invalid narrowing of token from ${this.types} to ${type}`);
     }
-    toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}(${this.whitespace.length},${this.index}): ${this.text.toString().replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
-    toWordplay() { return this.whitespace + this.text.toString(); }
+    toString(depth: number=0){ return `${"\t".repeat(depth)}${this.types.map(t => TokenType[t]).join('/')}(${this.whitespace === undefined ? 0 : this.whitespace.length},${this.index}): ${this.text.toString().replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
+    toWordplay() { return this.getWhitespace() + this.text.toString(); }
 
-    clone(original?: Node, replacement?: Node) { return new Token(this.text, this.types, 0, this.whitespace) as this; }
+    clone(original?: Node, replacement?: Node) { return new Token(this.text, this.types, this.index, this.whitespace) as this; }
 }
