@@ -49,7 +49,6 @@ export default class FunctionType extends Type {
             if(thisBind.type instanceof Type && thatBind.type instanceof Type && !thisBind.type.isCompatible(thatBind.type, context)) return false;
             if(thisBind.isVariableLength() !== thatBind.isVariableLength()) return false;
             if(thisBind.hasDefault() !== thatBind.hasDefault()) return false;
-            if(!thisBind.sharesName(thatBind)) return false;
         }
         return true;
     }
