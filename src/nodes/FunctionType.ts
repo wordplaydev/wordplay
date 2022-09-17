@@ -4,29 +4,20 @@ import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
 import type Context from "./Context";
-import Alias from "./Alias";
-import Expression from "./Expression";
 import AnyType from "./AnyType";
 import { FUNCTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, FUNCTION_SYMBOL } from "../parser/Tokenizer";
-
-export type Input = {
-    aliases: Alias[],
-    type: Type | Unparsable,
-    required: boolean,
-    rest: boolean | Token,
-    default: Unparsable | Expression | undefined
-}
+import Bind from "./Bind";
 
 export default class FunctionType extends Type {
 
     readonly fun: Token;
     readonly open: Token;
-    readonly inputs: Input[];
+    readonly inputs: (Bind|Unparsable)[];
     readonly close: Token;
     readonly output: Type | Unparsable;
     
-    constructor(inputs: Input[], output: Type | Unparsable, fun?: Token, open?: Token, close?: Token) {
+    constructor(inputs: (Bind|Unparsable)[], output: Type | Unparsable, fun?: Token, open?: Token, close?: Token) {
         super();
 
         this.fun = fun ?? new Token(FUNCTION_SYMBOL, [ TokenType.FUNCTION ]);
@@ -37,11 +28,7 @@ export default class FunctionType extends Type {
     }
 
     computeChildren() {
-        let children: Node[] = [ this.fun, this.open ];
-        this.inputs.forEach(i => {
-            if(i.rest instanceof Token) children.push(i.rest);
-            children.push(i.type);
-        })
+        let children: Node[] = [ this.fun, this.open, ...this.inputs ];
         children.push(this.close);
         children.push(this.output);
         return children;
@@ -55,12 +42,14 @@ export default class FunctionType extends Type {
         if(!this.output.isCompatible(type.output, context)) return false;
         if(this.inputs.length != type.inputs.length) return false;
         for(let i = 0; i < this.inputs.length; i++) {
-            const thisType = this.inputs[i];
-            const thatType = type.inputs[i];
-            if( thisType.type instanceof Unparsable || 
-                thatType.type instanceof Unparsable || 
-                !thisType.type.isCompatible(thatType.type, context))
-                return false;
+            const thisBind = this.inputs[i];
+            const thatBind = type.inputs[i];
+            if(thisBind instanceof Unparsable) return false;
+            if(thatBind instanceof Unparsable) return false;
+            if(thisBind.type instanceof Type && thatBind.type instanceof Type && !thisBind.type.isCompatible(thatBind.type, context)) return false;
+            if(thisBind.isVariableLength() !== thatBind.isVariableLength()) return false;
+            if(thisBind.hasDefault() !== thatBind.hasDefault()) return false;
+            if(!thisBind.sharesName(thatBind)) return false;
         }
         return true;
     }
@@ -69,17 +58,9 @@ export default class FunctionType extends Type {
     
     clone(original?: Node, replacement?: Node) { 
         return new FunctionType(
-            this.inputs.map(i => { 
-                return {
-                    aliases: i.aliases.map(a => a.cloneOrReplace([ Alias ], original, replacement)),
-                    type: i.type.cloneOrReplace([ Type, Unparsable ], original, replacement),
-                    required: i.required,
-                    rest: typeof i.rest === "boolean" ? i.rest : i.rest.cloneOrReplace([ Token ], original, replacement),
-                    default: i.default?.cloneOrReplace([ Unparsable, Expression ], original, replacement)
-                }
-            }), 
+            this.inputs.map(i => i.cloneOrReplace([ Bind, Unparsable ], original, replacement)),
             this.output.cloneOrReplace([ Type, Unparsable ], original, replacement)
-        ) as this; 
+        ) as this;
     }
 
 }

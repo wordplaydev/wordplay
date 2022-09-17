@@ -52,8 +52,8 @@ export default class MapLiteral extends Expression {
     computeType(context: Context): Type {
         let keyType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.key.getTypeUnlessCycle(context) : new UnknownType(v)));
         let valueType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.value.getTypeUnlessCycle(context) : v.getTypeUnlessCycle(context)));
-        if(keyType === undefined) keyType = new AnyType(this);
-        else if(valueType === undefined) valueType = new AnyType(this);
+        if(keyType === undefined) keyType = new AnyType();
+        else if(valueType === undefined) valueType = new AnyType();
         
         return new MapType(undefined, undefined, keyType, undefined, valueType);
 

@@ -31,6 +31,7 @@ import type { Named } from "./Named";
 import FunctionDefinition from "./FunctionDefinition";
 import { getDuplicateAliases } from "./util";
 import Evaluate from "./Evaluate";
+import Block from "./Block";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -55,6 +56,7 @@ export default class Bind extends Node implements Evaluable, Named {
     }
 
     hasName(name: string) { return this.names.find(n => n.getName() === name) !== undefined; }
+    sharesName(bind: Bind) { return this.getNames().find(name => bind.hasName(name)) !== undefined; }
 
     getNames(): string[] { return this.names.map(n => n.getName()).filter(n => n !== undefined) as string[]; }
     getNameTokens(): Token[] { return this.names.map(n => n.name).filter(n => n !== undefined) as Token[]; }
@@ -80,11 +82,8 @@ export default class Bind extends Node implements Evaluable, Named {
         const conflicts = [];
 
         // Etc tokens can't appear in block bindings, just structure and function definitions.
-        if(this.isVariableLength()) {
-            const parent = this.getParent();
-            if(!(parent instanceof StructureDefinition || parent instanceof FunctionDefinition))
-                conflicts.push(new UnexpectedEtc(this));
-        }
+        if(this.isVariableLength() && this.getParent() instanceof Block)
+            conflicts.push(new UnexpectedEtc(this));
 
         // Bind aliases have to be unique
         const duplicates = getDuplicateAliases(this.names);

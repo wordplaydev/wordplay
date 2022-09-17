@@ -1,16 +1,16 @@
 import type StructureType from "../nodes/StructureType";
 import type Evaluate from "../nodes/Evaluate";
 import type FunctionType from "../nodes/FunctionType";
-import type { Input } from "../nodes/FunctionType";
 import Conflict from "./Conflict";
+import type Bind from "../nodes/Bind";
 
 
 export class MissingInput extends Conflict {
     readonly func: FunctionType | StructureType;
     readonly evaluate: Evaluate;
-    readonly input: Input;
+    readonly input: Bind;
 
-    constructor(func: FunctionType | StructureType, evaluate: Evaluate, input: Input) {
+    constructor(func: FunctionType | StructureType, evaluate: Evaluate, input: Bind) {
         super(false);
         this.func = func;
         this.evaluate = evaluate;
@@ -18,12 +18,12 @@ export class MissingInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ ...this.input.aliases, this.evaluate ];
+        return [ ...this.input.names, this.evaluate ];
     }
 
     getExplanations() { 
         return {
-            eng: `Expected an input ${this.input.aliases.map(a => a.getName()).join(", ")}, but it wasn't provided.`
+            eng: `Expected an input ${this.input.names.map(a => a.getName()).join(", ")}, but it wasn't provided.`
         }
     }
 

@@ -26,7 +26,6 @@ import StructureType from "./StructureType";
 import Alias from "./Alias";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import UnknownType from "./UnknownType";
 import FunctionType from "./FunctionType";
 import NameType from "./NameType";
 import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
@@ -74,29 +73,8 @@ export default class StructureDefinition extends Expression {
 
     getInputs() { return this.inputs.filter(i => i instanceof Bind) as Bind[]; }
 
-    getFunctionType(context: Context): FunctionType {
-
-        // The type is equivalent to the signature.
-        const inputTypes = this.inputs.map(i =>
-            i instanceof Bind ?
-               {
-                   aliases: i.names,
-                   type: i.getTypeUnlessCycle(context),
-                   required: !(i.hasDefault() || i.isVariableLength()),
-                   rest: i.isVariableLength(),
-                   default: i.value
-               }
-               :
-               {
-                   aliases: [],
-                   type: new UnknownType(context.program),
-                   required: true,
-                   rest: false,
-                   default: undefined
-               }            
-       );
-       return new FunctionType(inputTypes, new StructureType(this));
-
+    getFunctionType(): FunctionType {
+       return new FunctionType(this.inputs, new StructureType(this));
     }
 
     isInterface(): boolean {

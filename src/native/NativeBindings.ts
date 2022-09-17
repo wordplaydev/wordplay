@@ -40,6 +40,7 @@ import MapType from "../nodes/MapType";
 import StructureDefinition from "../nodes/StructureDefinition";
 import Block from "../nodes/Block";
 import { BOOLEAN_NATIVE_TYPE_NAME, LIST_NATIVE_TYPE_NAME, LIST_TYPE_VAR_NAME, MAP_KEY_TYPE_VAR_NAME, MAP_NATIVE_TYPE_NAME, MAP_VALUE_TYPE_VAR_NAME, MEASUREMENT_NATIVE_TYPE_NAME, NONE_NATIVE_TYPE_NME, SET_NATIVE_TYPE_NAME, SET_TYPE_VAR_NAME, TEXT_NATIVE_TYPE_NAME } from "./NativeConstants";
+import AnyType from "../nodes/AnyType";
 
 class NativeBindings implements NativeInterface {
 
@@ -272,14 +273,13 @@ Native.addFunction(LIST_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [
         new Bind([], undefined, [ new Alias("translator", "eng")], new FunctionType([ 
-            {
-                aliases: [ new Alias("value", "eng") ],
-                type: new NameType(LIST_TYPE_VAR_NAME),
-                required: true,
-                rest: false,
-                default: undefined
-            }
-        ], new NameType(LIST_TYPE_VAR_NAME)))
+            new Bind(
+                [],
+                undefined,
+                [ new Alias("value", "eng") ],
+                new NameType(LIST_TYPE_VAR_NAME)
+            )
+        ], new AnyType()))
     ],
     new NativeHOFListTranslate(),
     new ListType(new NameType(LIST_TYPE_VAR_NAME))
@@ -292,14 +292,13 @@ Native.addFunction(LIST_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [
         new Bind([], undefined, [ new Alias("include", "eng")], new FunctionType([ 
-            {
-                aliases: [ new Alias("value", "eng") ],
-                type: new BooleanType(),
-                required: true,
-                rest: false,
-                default: undefined
-            }
-        ], new NameType(LIST_TYPE_VAR_NAME)))
+            new Bind(
+                [], 
+                undefined, 
+                [ new Alias("value", "eng") ],
+                new NameType(LIST_TYPE_VAR_NAME)
+            )
+        ], new BooleanType()))
     ],
     new NativeHOFListFilter(),
     new ListType(new NameType(LIST_TYPE_VAR_NAME))
@@ -312,13 +311,12 @@ Native.addFunction(LIST_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [
         new Bind([], undefined, [ new Alias("matcher", "eng")], new FunctionType([ 
-            {
-                aliases: [ new Alias("value", "eng") ],
-                type: new NameType(LIST_TYPE_VAR_NAME),
-                required: true,
-                rest: false,
-                default: undefined
-            }
+            new Bind(
+                [],
+                undefined,
+                [ new Alias("value", "eng") ],
+                new NameType(LIST_TYPE_VAR_NAME)
+            )
         ], new BooleanType()))
     ],
     new NativeHOFListAll(),
@@ -332,13 +330,12 @@ Native.addFunction(LIST_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [
         new Bind([], undefined, [ new Alias("checker", "eng")], new FunctionType([ 
-            {
-                aliases: [ new Alias("value", "eng") ],
-                type: new BooleanType(),
-                required: true,
-                rest: false,
-                default: undefined
-            }
+            new Bind(
+                [],
+                undefined,
+                [ new Alias("value", "eng") ],
+                new BooleanType(),
+            )
         ], new NameType(LIST_TYPE_VAR_NAME)))
     ],
     new NativeHOFListUntil(),
@@ -352,13 +349,12 @@ Native.addFunction(LIST_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [
         new Bind([], undefined, [ new Alias("checker", "eng")], new FunctionType([ 
-            {
-                aliases: [ new Alias("value", "eng") ],
-                type: new BooleanType(),
-                required: true,
-                rest: false,
-                default: undefined
-            }
+            new Bind(
+                [],
+                undefined,
+                [ new Alias("value", "eng") ],
+                new BooleanType()
+            )
         ], new NameType(LIST_TYPE_VAR_NAME)))
     ],
     new NativeHOFListFind(),
@@ -373,20 +369,18 @@ Native.addFunction(LIST_NATIVE_TYPE_NAME, new FunctionDefinition(
     [
         new Bind([], undefined, [ new Alias("initial", "eng")]),
         new Bind([], undefined, [ new Alias("combiner", "eng")], new FunctionType([ 
-            {
-                aliases: [ new Alias("combination", "eng") ],
-                type: new NameType(LIST_TYPE_VAR_NAME),
-                required: true,
-                rest: false,
-                default: undefined
-            },
-            {
-                aliases: [ new Alias("next", "eng") ],
-                type: new NameType(LIST_TYPE_VAR_NAME),
-                required: true,
-                rest: false,
-                default: undefined
-            }
+            new Bind(
+                [],
+                undefined,
+                [ new Alias("combination", "eng") ],
+                new NameType(LIST_TYPE_VAR_NAME)
+            ),
+            new Bind(
+                [],
+                undefined,
+                [ new Alias("next", "eng") ],
+                new NameType(LIST_TYPE_VAR_NAME)
+            )
         ], new NameType(LIST_TYPE_VAR_NAME)))
     ],
     new NativeHOFListCombine(),
@@ -468,13 +462,12 @@ Native.addFunction(SET_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [
         new Bind([], undefined, [ new Alias("checker", "eng")], new FunctionType([ 
-            {
-                aliases: [ new Alias("value", "eng") ],
-                type: new BooleanType(),
-                required: true,
-                rest: false,
-                default: undefined
-            }
+            new Bind(
+                [],
+                undefined,
+                [ new Alias("value", "eng") ],
+                new BooleanType()
+            )
         ], new NameType(SET_TYPE_VAR_NAME)))
     ],
     new NativeHOFSetFilter(),
@@ -532,20 +525,18 @@ Native.addFunction(MAP_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [
         new Bind([], undefined, [ new Alias("checker", "eng")], new FunctionType([ 
-            {
-                aliases: [ new Alias("key", "eng") ],
-                type: new NameType(MAP_KEY_TYPE_VAR_NAME),
-                required: true,
-                rest: false,
-                default: undefined
-            },
-            {
-                aliases: [ new Alias("value", "eng") ],
-                type: new NameType(MAP_VALUE_TYPE_VAR_NAME),
-                required: true,
-                rest: false,
-                default: undefined
-            }
+            new Bind(
+                [],
+                undefined,
+                [ new Alias("key", "eng") ],
+                new NameType(MAP_KEY_TYPE_VAR_NAME)
+            ),
+            new Bind(
+                [],
+                undefined,
+                [ new Alias("value", "eng") ],
+                new NameType(MAP_VALUE_TYPE_VAR_NAME)
+            )
         ], new BooleanType()))
     ],
     new NativeHOFMapFilter(),
@@ -559,20 +550,18 @@ Native.addFunction(MAP_NATIVE_TYPE_NAME, new FunctionDefinition(
     [], 
     [
         new Bind([], undefined, [ new Alias("translator", "eng")], new FunctionType([ 
-            {
-                aliases: [ new Alias("key", "eng") ],
-                type: new NameType(MAP_KEY_TYPE_VAR_NAME),
-                required: true,
-                rest: false,
-                default: undefined
-            },
-            {
-                aliases: [ new Alias("value", "eng") ],
-                type: new NameType(MAP_VALUE_TYPE_VAR_NAME),
-                required: true,
-                rest: false,
-                default: undefined
-            }
+            new Bind(
+                [],
+                undefined,
+                [ new Alias("key", "eng") ],
+                new NameType(MAP_KEY_TYPE_VAR_NAME)
+            ),
+            new Bind(
+                [],
+                undefined,
+                [ new Alias("value", "eng") ],
+                new NameType(MAP_VALUE_TYPE_VAR_NAME)
+            )
         ], new NameType(MAP_VALUE_TYPE_VAR_NAME)))
     ],
     new NativeHOFMapTranslate(),

@@ -9,7 +9,7 @@ import { NotInstantiable } from "../conflicts/NotInstantiable";
 import { NotAFunction } from "../conflicts/NotAFunction";
 import StructureType from "./StructureType";
 import Expression from "./Expression";
-import FunctionType, { type Input } from "./FunctionType";
+import FunctionType from "./FunctionType";
 import Token from "./Token";
 import type Node from "./Node";
 import Type from "./Type";
@@ -70,7 +70,7 @@ export default class Evaluate extends Expression {
                 conflicts.push(new NotAFunction(this, functionType));
             // Otherwise, let's verify that all of the inputs provided are valid.
             else {
-                let targetInputs: Input[] | undefined = undefined;
+                let targetInputs: (Bind|Unparsable)[] | undefined = undefined;
                 if(functionType instanceof FunctionType)
                     targetInputs = functionType.inputs;
                 else if(functionType instanceof StructureType) {
@@ -80,7 +80,7 @@ export default class Evaluate extends Expression {
                         conflicts.push(new NotInstantiable(this, functionType.definition, abstractFunctions));
 
                     // Get the types of all of the inputs.
-                    targetInputs = functionType.definition.getFunctionType(context).inputs;
+                    targetInputs = functionType.definition.inputs;
                 }
 
                 // Did we successfully get types for all of the inputs of this function?
@@ -107,9 +107,9 @@ export default class Evaluate extends Expression {
                     for(let i = 0; i < targetInputs.length; i++) {
                         const input = targetInputs[i];
 
-                        const concreteInputType = input.type instanceof Type ? this.resolveTypeVariables(input.type, context) : undefined;
+                        const concreteInputType = input instanceof Bind && input.type instanceof Type ? this.resolveTypeVariables(input.type, context) : undefined;
 
-                        if(input.required) {
+                        if(input instanceof Bind && !input.hasDefault()) {
                             const given = givenInputs.shift();
                             // No more inputs? Mark one missing and stop.
                             if(given === undefined) {
@@ -130,7 +130,7 @@ export default class Evaluate extends Expression {
                                             break;
                                         }
                                         // The given name has to match the required name.
-                                        else if(input.aliases.find(a => a.getName() === givenName) === undefined) {
+                                        else if(!input.hasName(givenName)) {
                                             conflicts.push(new UnknownInputName(functionType, this, input, given));
                                             break;
                                         }
@@ -139,11 +139,7 @@ export default class Evaluate extends Expression {
                                             conflicts.push(new IncompatibleInput(functionType, this, given.value, given.value.getTypeUnlessCycle(context), concreteInputType));
                                         }
                                         // Remember that we named this input to catch redundancies.
-                                        else input.aliases.forEach(a => {
-                                            const name = a.getName();
-                                            if(name !== undefined)
-                                                namesProvided.add(name)
-                                        });
+                                        else input.getNames().forEach(name => namesProvided.add(name));
                                     }
                                 }
                                 // If it's not a bind, check the type of the next given input.
@@ -152,18 +148,14 @@ export default class Evaluate extends Expression {
                                         conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType));
                                     }
                                     // Remember that we got this named input.
-                                    input.aliases.forEach(a => {
-                                        const name = a.getName();
-                                        if(name !== undefined)
-                                            namesProvided.add(name);
-                                    });
+                                    input.getNames().forEach(name => namesProvided.add(name));
                                 }
                             }
                         }
                         // If it's optional, go through each one to see if it's provided in the remaining inputs.
-                        else {
+                        else if(input instanceof Bind) {
                             // If it's variable length, check all of the remaining given inputs to see if they match this type.
-                            if(input.rest !== false) {
+                            if(input.isVariableLength()) {
                                 while(givenInputs.length > 0) {
                                     const given = givenInputs.shift();
                                     if(given !== undefined && given instanceof Expression && concreteInputType !== undefined && !given.getTypeUnlessCycle(context).isCompatible(concreteInputType, context)) {
@@ -175,7 +167,7 @@ export default class Evaluate extends Expression {
                             // If it's just an optional input, see if any of the inputs provide it.
                             else {
                                 // Is there a named input that matches?
-                                const matchingBind = givenInputs.find(i => i instanceof Bind && input.aliases.find(a => a.getName() === i.getNames()[0]) !== undefined);
+                                const matchingBind = givenInputs.find(i => i instanceof Bind && input.names.find(a => a.getName() === i.getNames()[0]) !== undefined);
                                 if(matchingBind instanceof Bind) {
                                     // If the types don't match, there's a conflict.
                                     if(matchingBind.value !== undefined && !(matchingBind.value instanceof Unparsable) && concreteInputType !== undefined && !matchingBind.value.getTypeUnlessCycle(context).isCompatible(concreteInputType, context)) {
@@ -183,11 +175,7 @@ export default class Evaluate extends Expression {
                                         break;
                                     }
                                     // Otherwise, remember that we matched on this and remove it from the given inputs list.
-                                    input.aliases.forEach(a => {
-                                        const name = a.getName();
-                                        if(name !== undefined)
-                                            namesProvided.add(name);
-                                    });
+                                    input.getNames().forEach(name => namesProvided.add(name));
                                     const bindIndex = givenInputs.indexOf(matchingBind);
                                     if(bindIndex >= 0)
                                         givenInputs.splice(bindIndex, 1);
@@ -204,11 +192,7 @@ export default class Evaluate extends Expression {
                                         conflicts.push(new RedundantNamedInput(functionType, given, this, input));
                                         break;
                                     } 
-                                    input.aliases.forEach(a => {
-                                        const name = a.getName();
-                                        if(name !== undefined)
-                                            namesProvided.add(name)
-                                    });
+                                    input.getNames().forEach(name => namesProvided.add(name));
                                 }
                             }
                         }
@@ -332,7 +316,7 @@ export default class Evaluate extends Expression {
         // and finding an expression to compile for each input.
         const funcType = this.func.getTypeUnlessCycle(context);
         const inputs = funcType instanceof FunctionType ? funcType.inputs :
-            funcType instanceof StructureType ? funcType.definition.getFunctionType(context).inputs :
+            funcType instanceof StructureType ? funcType.definition.inputs :
             undefined;
 
         // Compile a halt if we couldn't find the function.
@@ -344,9 +328,11 @@ export default class Evaluate extends Expression {
         const given = this.inputs.slice();
         const inputSteps = inputs.map(input => {
             
+            if(input instanceof Unparsable) return [];
+
             // Find the given input that corresponds to the next desired input.
             // If this input is required, grab the next given input.
-            if(input.required) {
+            if(!input.hasDefault()) {
                 const requiredInput = given.shift();
                 if(requiredInput === undefined)
                     return [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ];
@@ -356,8 +342,8 @@ export default class Evaluate extends Expression {
             // If it's not required...
             else {
                 // and it's not a variable length input, first search for a named input, otherwise grab the next input.
-                if(input.rest === false) {
-                    const bind = given.find(g => g instanceof Bind && input.aliases.find(a => a.getName() === g.names[0].getName()) !== undefined);
+                if(!input.isVariableLength()) {
+                    const bind = given.find(g => g instanceof Bind && input.names.find(a => a.getName() === g.names[0].getName()) !== undefined);
                     // If we found a bind with a matching name, compile it's value.
                     if(bind instanceof Bind && bind.value !== undefined)
                         return bind.value.compile(context);
@@ -366,9 +352,9 @@ export default class Evaluate extends Expression {
                     if(optionalInput !== undefined)
                         return optionalInput.compile(context);
                     // If there wasn't one, use the default value.
-                    return input.default === undefined ? 
+                    return input.value === undefined ? 
                         [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ] :
-                        input.default.compile(context);
+                        input.value.compile(context);
                 }
                 // If it is a variable length input, reduce the remaining given input expressions.
                 else {

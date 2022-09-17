@@ -1,7 +1,6 @@
 import type StructureType from "../nodes/StructureType";
 import type Evaluate from "../nodes/Evaluate";
 import type FunctionType from "../nodes/FunctionType";
-import type { Input } from "../nodes/FunctionType";
 import Conflict from "./Conflict";
 import type Bind from "../nodes/Bind";
 
@@ -9,10 +8,10 @@ import type Bind from "../nodes/Bind";
 export class UnknownInputName extends Conflict {
     readonly func: FunctionType | StructureType;
     readonly evaluate: Evaluate;
-    readonly input: Input;
+    readonly input: Bind;
     readonly bind: Bind;
     
-    constructor(func: FunctionType | StructureType, evaluate: Evaluate, input: Input, bind: Bind) {
+    constructor(func: FunctionType | StructureType, evaluate: Evaluate, input: Bind, bind: Bind) {
         super(false);
 
         this.func = func;

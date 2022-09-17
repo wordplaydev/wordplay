@@ -344,7 +344,7 @@ export function parseBind(tokens: Tokens): Bind | Unparsable {
     let value;
     let dot;
     let type;
-
+    
     names = parseAliases(tokens);
 
     if(names.length === 0)
@@ -1034,7 +1034,7 @@ function parseTableType(tokens: Tokens): TableType | Unparsable {
 
 }
 
-/** FUNCTION_TYPE :: ƒ( …? TYPE*) TYPE */
+/** FUNCTION_TYPE :: ƒ( BIND* ) TYPE */
 function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
 
     const fun = tokens.read(TokenType.FUNCTION);
@@ -1042,20 +1042,10 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN, [ fun ]);
     const open = tokens.read(TokenType.EVAL_OPEN);
 
-    const inputs = [];
-    while(tokens.nextIsnt(TokenType.EVAL_CLOSE)) {
-        const rest = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : false;
-        inputs.push({ aliases:[], type: parseType(tokens), required: true, rest: rest, default: undefined });
-    }
+    const inputs: (Bind|Unparsable)[] = [];
+    while(tokens.hasNext() && tokens.nextIsnt(TokenType.EVAL_CLOSE))
+        inputs.push(parseBind(tokens));
 
-    if(tokens.nextIsnt(TokenType.EVAL_CLOSE)) {
-        const inputNodes: Node[] = [];
-        inputs.forEach(i => {
-            if(i.rest instanceof Token) inputNodes.push(i.rest);
-            inputNodes.push(i.type);
-        });
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ fun, open, inputNodes ]);
-    }
     const close = tokens.read(TokenType.EVAL_CLOSE);
 
     const output = parseType(tokens);

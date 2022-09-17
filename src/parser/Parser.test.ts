@@ -419,10 +419,10 @@ test("Types", () => {
     const table = parseType(tokens("|#|''|Cat"));
     expect(table).toBeInstanceOf(TableType);
 
-    const fun = parseType(tokens("ƒ(# #) #"));
-    expect(fun).toBeInstanceOf(FunctionType);
-
-    expect(parseType(tokens("ƒ(…#) #"))).toBeInstanceOf(FunctionType);
+    // Parse function types
+    expect(parseType(tokens("ƒ(# #) #"))).toBeInstanceOf(FunctionType);
+    expect(parseType(tokens("ƒ(a•# b•#) #"))).toBeInstanceOf(FunctionType);
+    expect(parseType(tokens("ƒ(…a•#) #"))).toBeInstanceOf(FunctionType);
 
     const stream = parseType(tokens("∆#"));
     expect(stream).toBeInstanceOf(StreamType);

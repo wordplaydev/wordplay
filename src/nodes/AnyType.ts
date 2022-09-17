@@ -4,12 +4,8 @@ import Type from "./Type";
 
 export default class AnyType extends Type {
 
-    readonly node: Node;
-
-    constructor(node: Node) {
+    constructor() {
         super();
-
-        this.node = node;
 
     }
 
@@ -19,6 +15,6 @@ export default class AnyType extends Type {
 
     toWordplay() { return "*"; }
 
-    clone() { return new AnyType(this.node) as this; }
+    clone() { return new AnyType() as this; }
 
 }

@@ -130,29 +130,11 @@ export default class FunctionDefinition extends Expression {
 
     computeType(context: Context): Type {
         // The type is equivalent to the signature.
-        const inputTypes = this.inputs.map(i =>
-             i instanceof Bind ?
-                {
-                    aliases: i.names,
-                    type: i.getTypeUnlessCycle(context),
-                    required: !(i.hasDefault() || i.isVariableLength()),
-                    rest: i.isVariableLength(),
-                    default: i.value
-                }
-                :
-                {
-                    aliases: [],
-                    type: new UnknownType(context.program),
-                    required: true,
-                    rest: false,
-                    default: undefined
-                }            
-        );
         const outputType = 
             this.type instanceof Type ? this.type : 
             this.expression instanceof Token || this.expression instanceof Unparsable ? new UnknownType(this) : 
             this.expression.getTypeUnlessCycle(context);
-        return new FunctionType(inputTypes, outputType);
+        return new FunctionType(this.inputs, outputType);
     }
 
     hasName(name: string) {
