@@ -1,7 +1,7 @@
 import { readable } from "svelte/store";
 
 // A store that updates an idle state based on the last keydown event.
-const KeyboardIdle = readable<boolean>(false, set => {
+const KeyboardIdle = readable<boolean>(true, set => {
 
     let attached = false;
     let lastEvent: number | undefined = undefined;

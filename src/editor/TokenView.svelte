@@ -128,7 +128,14 @@
     style="color: {`var(--token-category-${kind})`}; margin-left: {node.precedingSpaces}ch"
     data-id={node.id}
     bind:this={element}
-><span class="text">{ node.text.toString() }</span>{#if caretLeft !== undefined && caretTop !== undefined}<span class="caret {$keyboardIdle ? "blink" : ""}" style="left: {caretLeft}; top: {caretTop};"></span>{/if}
+>
+    <span class="text">{ node.text.toString() }</span>
+    {#if caretLeft !== undefined && caretTop !== undefined}
+        <span 
+            class="caret {$keyboardIdle ? "blink" : ""}"
+            style="left: {caretLeft}; top: {caretTop};"
+        />
+    {/if}
 </span>
 
 <style>
@@ -181,8 +188,7 @@
     .caret {
         position: absolute;
         top: 0;
-        width: 3px;
-        transform: translate(-1px, 0);
+        width: 2px;
         height: 100%;
         background-color: var(--color-black);
         z-index: 1;
@@ -190,8 +196,6 @@
 
     .caret.blink {
         animation: blink-animation 1s steps(2, start) infinite;
-        transform: none;
-        width: 2px;
     }
 
     @keyframes blink-animation {

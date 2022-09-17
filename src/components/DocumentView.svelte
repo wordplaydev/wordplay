@@ -79,8 +79,6 @@
         }
     }
 
-    let focused = false;
-
 </script>
 
 <div class="document">

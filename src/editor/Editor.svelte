@@ -12,7 +12,7 @@
 
     let editor: HTMLElement;
     let keyboard: HTMLInputElement;
-
+    
     // When the caret changes, make sure it's in view.
     afterUpdate(() => {
         const caret = editor?.querySelector(".caret");
@@ -225,7 +225,12 @@
     on:keydown={handleKeyDown}
 >
     <NodeView node={program} />
-    <input type="text" class="keyboard-input" bind:this={keyboard} on:input={handleKeyboardInput}/>
+    <input 
+        type="text" 
+        class="keyboard-input" 
+        bind:this={keyboard} 
+        on:input={handleKeyboardInput} 
+    />
 </div>
 
 <style>
