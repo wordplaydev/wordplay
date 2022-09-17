@@ -106,8 +106,7 @@ export default class Evaluate extends Expression {
                     // Loop through each of the expected types and see if the given types match
                     for(let i = 0; i < targetInputs.length; i++) {
                         const input = targetInputs[i];
-
-                        const concreteInputType = input instanceof Bind && input.type instanceof Type ? this.resolveTypeVariables(input.type, context) : undefined;
+                        const concreteInputType = input instanceof Bind && input.type instanceof Type ? this.resolveTypeNames(input.type, context) : undefined;
 
                         if(input instanceof Bind && !input.hasDefault()) {
                             const given = givenInputs.shift();
@@ -218,7 +217,7 @@ export default class Evaluate extends Expression {
         const funcType = this.func.getTypeUnlessCycle(context);
 
         // If it's a function type with an output type, then return the output type.
-        if(funcType instanceof FunctionType && funcType.output instanceof Type) return this.resolveTypeVariables(funcType.output, context);
+        if(funcType instanceof FunctionType && funcType.output instanceof Type) return this.resolveTypeNames(funcType.output, context);
         // If it's a structure, then this is an instantiation of the structure, so this evaluate resolves
         // to a value of the structure's type.
         else if(funcType instanceof StructureType) return funcType;
@@ -227,7 +226,11 @@ export default class Evaluate extends Expression {
 
     }
 
-    resolveTypeVariables(type: Type, context: Context) {
+    resolveTypeNames(type: Type, context: Context) {
+
+        // Resolve name type if it isn't a type variable.
+        if(type instanceof NameType && !type.isTypeVariable(context))
+            return type.getType(context);
 
         // Find any type variables or name types that refer to type variables in the given type.
         // We do this in a loop because each time we revise the type, we clone everything in the
