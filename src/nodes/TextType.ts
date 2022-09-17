@@ -27,7 +27,7 @@ export default class TextType extends Type {
         return children;
     }
 
-    isCompatible(context: ConflictContext, type: Type): boolean { 
+    isCompatible(type: Type): boolean { 
         return type instanceof AnyType ||  
                 (type instanceof TextType && 
                 ((this.format === undefined && type.format === undefined) || 

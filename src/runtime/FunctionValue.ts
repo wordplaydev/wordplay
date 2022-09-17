@@ -23,6 +23,8 @@ export default class FunctionValue extends Value {
     
     getNativeTypeName() { return FUNCTION_NATIVE_TYPE_NAME; }
 
+    resolve() { return undefined; }
+
     toString() { return this.definition.toWordplay(); }
 
 }

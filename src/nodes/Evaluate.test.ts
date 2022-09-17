@@ -7,11 +7,9 @@ import Evaluate from "./Evaluate";
 import { MissingInput } from "../conflicts/MissingInput";
 import { UnknownInputName } from "../conflicts/UnknownInputName";
 import { RedundantNamedInput as RedundantInputName } from "../conflicts/RedundantNamedInput";
-import TextType from "./TextType";
 import MeasurementType from "./MeasurementType";
 import SetType from "./SetType";
 import MapType from "./MapType";
-import ListType from "./ListType";
 
 test("Test evaluate conflicts", () => {
 

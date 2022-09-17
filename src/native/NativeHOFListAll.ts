@@ -1,8 +1,6 @@
 import Bind from "../nodes/Bind";
 import BooleanType from "../nodes/BooleanType";
 import Expression from "../nodes/Expression";
-import type { ConflictContext } from "../nodes/Node";
-import type Node from "../nodes/Node";
 import Bool from "../runtime/Bool";
 import Evaluation from "../runtime/Evaluation";
 import type Evaluator from "../runtime/Evaluator";
@@ -19,9 +17,9 @@ import HOF from "./HOF";
 export default class NativeHOFListAll extends HOF {
 
     computeChildren() { return [] };
-    computeType(context: ConflictContext) { return new BooleanType(); }
+    computeType() { return new BooleanType(); }
 
-    compile(context: ConflictContext): Step[] { 
+    compile(): Step[] { 
         return [
             // Initialize an iterator and an empty list in this scope.
             new Action(this, evaluator => {

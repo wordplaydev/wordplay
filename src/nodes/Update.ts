@@ -13,7 +13,6 @@ import Unparsable from "./Unparsable";
 import Bind from "../nodes/Bind";
 import TableType from "./TableType";
 import BooleanType from "./BooleanType";
-import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
@@ -70,7 +69,7 @@ export default class Update extends Expression {
                 else if(columnType.bind instanceof Bind) {
                     const bindType = columnType.bind.getTypeUnlessCycle(context);
                     const cellType = cell.expression.getTypeUnlessCycle(context);
-                    if(!bindType.isCompatible(context, cellType))
+                    if(!bindType.isCompatible(cellType, context))
                         conflicts.push(new IncompatibleCellType(tableType, cell, bindType, cellType));
                 }
             }
@@ -103,7 +102,7 @@ export default class Update extends Expression {
 
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: ConflictContext): Step[] {
         return [
             new Action(this),
             ...this.table.compile(context),
@@ -111,11 +110,11 @@ export default class Update extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(): Value {
         return new Exception(this, ExceptionKind.NOT_IMPLEMENTED);
     }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) {
         return new Update(
             this.table.cloneOrReplace([ Expression ], original, replacement), 
             this.update.cloneOrReplace([ Token ], original, replacement), 

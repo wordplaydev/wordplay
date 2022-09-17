@@ -29,7 +29,7 @@ export default class SetType extends Type {
         return children;
     }
 
-    isCompatible(context: ConflictContext, type: Type): boolean { 
+    isCompatible(type: Type, context: ConflictContext): boolean { 
         return  type instanceof SetType &&
             (
                 // If there is no key type, then must both have no key type.
@@ -38,7 +38,7 @@ export default class SetType extends Type {
                 (
                     this.key instanceof Type &&
                     type.key instanceof Type &&
-                    this.key.isCompatible(context, type.key)
+                    this.key.isCompatible(type.key, context)
                 )
             ); 
     }

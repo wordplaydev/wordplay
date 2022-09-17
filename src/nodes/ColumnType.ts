@@ -25,9 +25,12 @@ export default class ColumnType extends Type {
         return [ this.bar, this.bind ];
     }
 
-    isCompatible(context: ConflictContext, type: Type): boolean {
+    isCompatible(type: Type, context: ConflictContext): boolean {
         if(type instanceof AnyType) return true;
-        return type instanceof ColumnType && type.bind instanceof Bind && this.bind instanceof Bind && this.bind.getTypeUnlessCycle(context).isCompatible(context, type.bind.getTypeUnlessCycle(context));
+        return type instanceof ColumnType && 
+            type.bind instanceof Bind && 
+            this.bind instanceof Bind && 
+            this.bind.getTypeUnlessCycle(context).isCompatible(type.bind.getTypeUnlessCycle(context), context);
     }
 
     getNativeTypeName(): string { return COLUMN_NATIVE_TYPE_NAME; }

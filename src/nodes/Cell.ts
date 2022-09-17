@@ -1,6 +1,6 @@
 import Bind from "../nodes/Bind";
 import Expression from "./Expression";
-import Node, { type ConflictContext } from "./Node";
+import Node from "./Node";
 import Token from "./Token";
 import Unparsable from "./Unparsable";
 

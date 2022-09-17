@@ -138,7 +138,7 @@ export default class Evaluation {
 
         const program = this.getProgram();
         if(program === undefined) return undefined;
-        return this.#conversions.find(c => c.definition.output instanceof Type && c.definition.output.isCompatible(new ConflictContext(program), type));
+        return this.#conversions.find(c => c.definition.output instanceof Type && c.definition.output.isCompatible(type, new ConflictContext(program)));
 
     }
 
@@ -148,7 +148,7 @@ export default class Evaluation {
     }
 
     /** Allow the given aliases to be borrowed. */
-    share(name: string) {
+    share() {
 
     }
 

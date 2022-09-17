@@ -1,5 +1,4 @@
 import type Evaluable from "./Evaluable";
-import type Evaluator from "./Evaluator";
 import Step from "./Step";
 import type Value from "./Value";
 
@@ -9,7 +8,7 @@ export default class KeepStream extends Step {
         super(node);
     }
     
-    evaluate(evaluator: Evaluator): Value | undefined {
+    evaluate(): Value | undefined {
         return undefined;
     }
 

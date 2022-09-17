@@ -8,7 +8,7 @@ export default abstract class Type extends Node {
         super();
     }
 
-    abstract isCompatible(context: ConflictContext, type: Type): boolean;
+    abstract isCompatible(type: Type, context: ConflictContext): boolean;
     abstract getNativeTypeName(): string;
 
     getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {

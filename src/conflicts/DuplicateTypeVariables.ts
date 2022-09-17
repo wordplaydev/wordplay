@@ -1,6 +1,6 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
 import type { default as Func } from "../nodes/FunctionDefinition";
-import Conflict, { type ConflictExplanations } from "./Conflict";
+import Conflict from "./Conflict";
 import type TypeVariable from "../nodes/TypeVariable";
 
 

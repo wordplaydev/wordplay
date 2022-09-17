@@ -58,7 +58,7 @@ export default class Insert extends Expression {
                     const columnBind = tableType.columns[index].bind;
                     const cellType = expr.getTypeUnlessCycle(context);
                     const bindType = columnBind.getTypeUnlessCycle(context);
-                    if(columnBind instanceof Bind && !cellType.isCompatible(context, bindType))
+                    if(columnBind instanceof Bind && !cellType.isCompatible(bindType, context))
                         conflicts.push(new IncompatibleCellType(tableType, cell, bindType, cellType));
                 }
             });

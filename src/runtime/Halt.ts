@@ -1,5 +1,4 @@
 import type Evaluable from "./Evaluable";
-import type Evaluator from "./Evaluator";
 import type Exception from "./Exception";
 import Step from "./Step";
 import type Value from "./Value";
@@ -14,7 +13,7 @@ export default class Halt extends Step {
         this.exception = exception;
     }
     
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(): Value {
         return this.exception;
     }
 

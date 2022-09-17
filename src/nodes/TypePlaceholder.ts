@@ -1,6 +1,5 @@
 import type Conflict from "../conflicts/Conflict";
-import { Placeholder } from "../conflicts/Placeholder";
-import type { ConflictContext } from "./Node";
+import Placeholder from "../conflicts/Placeholder";
 import Token from "./Token";
 import Type from "./Type";
 import type Node from "./Node";
@@ -19,9 +18,9 @@ export default class TypePlaceholder extends Type {
         return [ this.etc ];
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] { return [ new Placeholder(this) ]; }
+    computeConflicts(): Conflict[] { return [ new Placeholder(this) ]; }
 
-    isCompatible(context: ConflictContext, type: Type): boolean { return false; }
+    isCompatible(): boolean { return false; }
 
     getNativeTypeName(): string { return "type_placeholder"; }
 

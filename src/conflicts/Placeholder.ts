@@ -2,8 +2,7 @@ import type ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
 import type TypePlaceholder from "../nodes/TypePlaceholder";
 import Conflict from "./Conflict";
 
-
-export class Placeholder extends Conflict {
+export default class Placeholder extends Conflict {
 
     readonly placeholder: ExpressionPlaceholder | TypePlaceholder;
 

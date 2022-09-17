@@ -1,4 +1,4 @@
-import Node, { type ConflictContext } from "./Node";
+import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import type Conflict from "../conflicts/Conflict";
@@ -27,7 +27,7 @@ export default class Alias extends Node {
         return children;
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(): Conflict[] { 
     
         if(this.name === undefined) return [ new UnnamedAlias(this) ];
 

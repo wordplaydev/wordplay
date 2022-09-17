@@ -1,7 +1,5 @@
 import type Name from "../nodes/Name";
-import type Node from "../nodes/Node";
 import Conflict from "./Conflict";
-
 
 export class UnknownName extends Conflict {
     

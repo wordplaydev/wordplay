@@ -25,9 +25,12 @@ export default class StreamType extends Type {
         return [ this.stream, this.type ];
     }
 
-    isCompatible(context: ConflictContext, type: Type): boolean {
+    isCompatible(type: Type, context: ConflictContext): boolean {
         if(type instanceof AnyType) return true;
-        return type instanceof StreamType && this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(context, type.type);
+        return type instanceof StreamType && 
+            this.type instanceof Type && 
+            type.type instanceof Type && 
+            this.type.isCompatible(type.type, context);
     }
 
     getNativeTypeName(): string { return STREAM_NATIVE_TYPE_NAME; }

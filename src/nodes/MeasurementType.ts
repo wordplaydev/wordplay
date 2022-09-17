@@ -24,11 +24,10 @@ export default class MeasurementType extends Type {
         const children = [];
         children.push(this.number);
         if(this.unit) children.push(this.unit);
-        return children;
-        
+        return children;   
     }
 
-    isCompatible(context: ConflictContext, type: Type): boolean {
+    isCompatible(type: Type): boolean {
         if(type instanceof AnyType) return true;
         // Not a measurement? Not compatible.
         if(!(type instanceof MeasurementType)) return false;
@@ -38,7 +37,7 @@ export default class MeasurementType extends Type {
         // Both with a unit? Convert to units and ask them.
         const thisUnit = this.unit instanceof Unit ? this.unit : new Unit([], []);
         const thatUnit = type.unit instanceof Unit ? type.unit : new Unit([], []);
-        return thisUnit.isCompatible(context, thatUnit);
+        return thisUnit.isCompatible(thatUnit);
     }
 
     getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }

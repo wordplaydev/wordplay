@@ -26,6 +26,8 @@ export default class Table extends Value {
     
     getNativeTypeName(): string { return TABLE_NATIVE_TYPE_NAME; }
 
+    resolve() { return undefined; }
+
     toString(): string {
         return this.rows.map(r => r.map(c => `|${c.toString()}`).join("")).join("\n");
     }

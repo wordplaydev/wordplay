@@ -1,4 +1,3 @@
-import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import Measurement from "../runtime/Measurement";
 import type Value from "../runtime/Value";
@@ -12,7 +11,6 @@ import Unit from "./Unit";
 import Unparsable from "./Unparsable";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import type { ConflictContext } from "./Node";
 import { NotANumber } from "../conflicts/NotANumber";
 
 export default class MeasurementLiteral extends Expression {
@@ -30,7 +28,7 @@ export default class MeasurementLiteral extends Expression {
 
     computeChildren() { return this.unit === undefined ? [ this.number ] : [ this.number, this.unit ]; }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(): Conflict[] { 
     
         if(new Measurement(this.number).num.isNaN())
             return [ new NotANumber(this) ];
@@ -39,15 +37,15 @@ export default class MeasurementLiteral extends Expression {
     
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(): Type {
         return new MeasurementType(undefined, this.unit instanceof Unparsable ? undefined : this.unit);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile():Step[] {
         return [ new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(): Value {
         if(this.unit instanceof Unparsable) return new Exception(this, ExceptionKind.UNPARSABLE);
         // This needs to translate between different number formats.
         else return new Measurement(this.number, this.unit);

@@ -1,8 +1,6 @@
 import type Convert from "../nodes/Convert";
-import type Expression from "../nodes/Expression";
 import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
-
 
 export class UnknownConversion extends Conflict {
     readonly convert: Convert;

@@ -26,8 +26,8 @@ export default class UnionType extends Type {
         return [ this.left, this.or, this.right ];
     }
 
-    isCompatible(context: ConflictContext, type: Type): boolean {
-        return this.left.isCompatible(context, type) && (!(this.right instanceof Type) || this.right.isCompatible(context, type));
+    isCompatible(type: Type, context: ConflictContext): boolean {
+        return this.left.isCompatible(type, context) && (!(this.right instanceof Type) || this.right.isCompatible(type, context));
     }
 
     getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
@@ -63,7 +63,7 @@ export function getPossibleUnionType(context: ConflictContext, types: Type[]): T
 
     const uniqueTypes: Type[] = [];
     types.forEach(type => {
-        if(uniqueTypes.length === 0 || uniqueTypes.every(t => !t.isCompatible(context, type)))
+        if(uniqueTypes.length === 0 || uniqueTypes.every(t => !t.isCompatible(type, context)))
             uniqueTypes.push(type);
     })
 

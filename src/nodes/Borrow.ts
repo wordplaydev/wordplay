@@ -39,7 +39,7 @@ export default class Borrow extends Node implements Evaluable {
     
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(): Step[] {
         return [ new Finish(this) ];
     }
 
@@ -49,7 +49,7 @@ export default class Borrow extends Node implements Evaluable {
             return new Exception(this, ExceptionKind.EXPECTED_TYPE);
         if(this.version !== undefined && !(this.version.is(TokenType.NUMBER))) 
             return new Exception(this, ExceptionKind.EXPECTED_TYPE);
-        return evaluator.borrow(this.getName(), this.getVersion());
+        return evaluator.borrow(this.getName());
 
     }
 

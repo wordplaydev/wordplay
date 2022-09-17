@@ -1081,7 +1081,7 @@ function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
         if(tokens.nextIsnt(TokenType.NAME))
             return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_STRUCTURE_NAME, [ docs, type, aliases, dot ]);
         const name = tokens.read(TokenType.NAME);
-        interfaces.push(new NameType(name, dot));
+        interfaces.push(new NameType(name));
     }
 
     const typeVars = parseTypeVariables(tokens);

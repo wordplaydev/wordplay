@@ -57,13 +57,13 @@ export default class Reaction extends Expression {
     computeType(context: ConflictContext): Type {
         const initialType = this.initial.getTypeUnlessCycle(context);
         const nextType = this.next instanceof Unparsable ? new UnknownType(this.next) : this.next.getTypeUnlessCycle(context);
-        if(initialType.isCompatible(context, nextType))
+        if(initialType.isCompatible(nextType, context))
             return initialType;
         else
             return new UnionType(initialType, nextType);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: ConflictContext): Step[] {
 
         const initialSteps = this.initial.compile(context);
         const nextSteps = this.next.compile(context);

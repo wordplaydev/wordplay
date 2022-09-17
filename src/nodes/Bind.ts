@@ -93,7 +93,7 @@ export default class Bind extends Node implements Evaluable, Named {
         // If there's a type, the value must match.
         if(this.type instanceof Type && this.value && this.value instanceof Expression) {
             const valueType = this.value.getTypeUnlessCycle(context);
-            if(!this.type.isCompatible(context, valueType))
+            if(!this.type.isCompatible(valueType, context))
                 conflicts.push(new IncompatibleBind(this.type, this.value, valueType));
         }
 

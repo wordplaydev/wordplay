@@ -78,7 +78,7 @@ export default class FunctionDefinition extends Expression {
         return children;
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(): Conflict[] { 
 
         const conflicts: Conflict[] = [];
     
@@ -159,7 +159,7 @@ export default class FunctionDefinition extends Expression {
         return !(this.aliases instanceof Token) && this.aliases.find(a => a.getName() === name) !== undefined;
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(): Step[] {
         return [ new Finish(this) ];
     }
 

@@ -17,7 +17,7 @@ export default class NameType extends Type {
 
     readonly type: Token;
 
-    constructor(type: Token | string, dot?: Token) {
+    constructor(type: Token | string) {
         super();
 
         this.type = typeof type === "string" ? new Token(type, [ TokenType.NAME ]) : type;
@@ -40,9 +40,9 @@ export default class NameType extends Type {
     
     }
 
-    isCompatible(context: ConflictContext, type: Type): boolean {    
+    isCompatible(type: Type, context: ConflictContext): boolean {    
         const thisType = this.getType(context);
-        return thisType === undefined ? false : thisType.isCompatible(context, type);
+        return thisType === undefined ? false : thisType.isCompatible(type, context);
     }
 
     getDefinition(context: ConflictContext): Definition {

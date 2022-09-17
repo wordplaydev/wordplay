@@ -37,7 +37,7 @@ export default class Program extends Node implements Evaluable {
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }
 
     computeChildren() { return [ ...this.borrows, this.block, this.end ]; }
-    getConflicts(conflict: ConflictContext): Conflict[] { return []; }
+    getConflicts(): Conflict[] { return []; }
 
     getDefinition(context: ConflictContext, node: Node, name: string): Definition {
 
@@ -51,11 +51,11 @@ export default class Program extends Node implements Evaluable {
         return undefined;
     }
     
-    compile(context: ConflictContext):Step[] {
+    compile(context: ConflictContext): Step[] {
         // Execute the borrows, then the block, then this.
         return [ 
             new Action(this),
-            ...this.borrows.reduce((steps: Step[], borrow) => [...steps, ...borrow.compile(context)], []),
+            ...this.borrows.reduce((steps: Step[], borrow) => [...steps, ...borrow.compile()], []),
             ...this.block.compile(context),
             new Finish(this)            
         ];

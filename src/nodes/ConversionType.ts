@@ -15,9 +15,9 @@ export default class ConversionType extends Type {
 
     computeChildren() { return [ this.output ]; }
 
-    isCompatible(context: ConflictContext, type: Type): boolean {
+    isCompatible(type: Type, context: ConflictContext): boolean {
         if(type instanceof AnyType) return true;
-        return type instanceof ConversionType && type.output.isCompatible(context, this.output);
+        return type instanceof ConversionType && type.output.isCompatible(this.output, context);
     }
 
     getNativeTypeName(): string { return CONVERSION_NATIVE_TYPE_NAME; }

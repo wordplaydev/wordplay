@@ -35,7 +35,7 @@ export default class MapType extends Type {
         return children;
     }
 
-    isCompatible(context: ConflictContext, type: Type): boolean { 
+    isCompatible(type: Type, context: ConflictContext): boolean { 
         return  type instanceof MapType &&
             (
                 // If there is no key type, then must both have no key type.
@@ -44,10 +44,10 @@ export default class MapType extends Type {
                 (
                     this.key instanceof Type &&
                     type.key instanceof Type &&
-                    this.key.isCompatible(context, type.key) &&
+                    this.key.isCompatible(type.key, context) &&
                     (
                         (this.value === undefined && type.value === undefined) ||
-                        (this.value !== undefined && type.value !== undefined && this.value instanceof Type && type.value instanceof Type && this.value.isCompatible(context, type.value))
+                        (this.value !== undefined && type.value !== undefined && this.value instanceof Type && type.value instanceof Type && this.value.isCompatible(type.value, context))
                     )
                 )
             ); 

@@ -21,7 +21,7 @@ export default class BooleanType extends Type {
         return [ this.type ];
     }
 
-    isCompatible(context: ConflictContext, type: Type) { return type instanceof AnyType || type instanceof BooleanType; }
+    isCompatible(type: Type) { return type instanceof AnyType || type instanceof BooleanType; }
 
     getNativeTypeName(): string { return BOOLEAN_NATIVE_TYPE_NAME; }
 

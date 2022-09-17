@@ -44,7 +44,7 @@ export default class Block extends Expression {
 
     getLast() { return this.statements.length === 0 ? undefined : this.statements[this.statements.length - 1]; }
 
-    isBindingEnclosureOfChild(child: Node): boolean { return true; }
+    isBindingEnclosureOfChild(): boolean { return true; }
 
     isBindingEnclosure() { return true; }
 
@@ -52,7 +52,7 @@ export default class Block extends Expression {
         return [ ...this.docs, ...(this.open ? [ this.open ] : []), ...this.statements, ...(this.close ? [ this.close ] : [])];
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] {
+    computeConflicts(): Conflict[] {
 
         const conflicts = [];
 

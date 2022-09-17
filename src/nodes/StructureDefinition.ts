@@ -43,7 +43,16 @@ export default class StructureDefinition extends Expression {
     readonly close: Token;
     readonly block: Block | Unparsable;
 
-    constructor(docs: Documentation[], aliases: Alias[], interfaces: NameType[], typeVars: (TypeVariable|Unparsable)[], inputs: (Bind|Unparsable)[], block?: Block | Unparsable, type?: Token, open?: Token, close?: Token) {
+    constructor(
+        docs: Documentation[], 
+        aliases: Alias[], 
+        interfaces: NameType[], 
+        typeVars: (TypeVariable|Unparsable)[], 
+        inputs: (Bind|Unparsable)[], 
+        block?: Block | Unparsable, 
+        type?: Token, 
+        open?: Token, 
+        close?: Token) {
 
         super();
 
@@ -115,7 +124,7 @@ export default class StructureDefinition extends Expression {
         return children;
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(): Conflict[] { 
         
         const conflicts: Conflict[] = [];
     
@@ -172,7 +181,7 @@ export default class StructureDefinition extends Expression {
 
         // Find the conversion in this type's block that produces a compatible type. 
         return this.block instanceof Block ? 
-            this.block.statements.find(s => s instanceof ConversionDefinition && s.output instanceof Type && s.output.isCompatible(context, type)) as ConversionDefinition | undefined :
+            this.block.statements.find(s => s instanceof ConversionDefinition && s.output instanceof Type && s.output.isCompatible(type, context)) as ConversionDefinition | undefined :
             undefined;
         
     }
@@ -183,13 +192,13 @@ export default class StructureDefinition extends Expression {
         return this.block instanceof Block ? this.block.statements.find(i => i instanceof FunctionDefinition && i.aliases.find(a => a.getName() === name)) as FunctionDefinition: undefined;
     }
 
-    computeType(context: ConflictContext): Type { return new StructureType(this); }
+    computeType(): Type { return new StructureType(this); }
 
-    isCompatible(context: ConflictContext, type: Type): boolean { return type instanceof StructureType && type.definition === this; }
+    isCompatible(type: Type): boolean { return type instanceof StructureType && type.definition === this; }
 
     hasName(name: string) { return this.aliases.find(a => a.getName() === name) !== undefined; }
 
-    compile(context: ConflictContext):Step[] {
+    compile():Step[] {
         return [ new Finish(this) ];
     }
 

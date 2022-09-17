@@ -2,7 +2,6 @@ import Bind from "../nodes/Bind";
 import Expression from "../nodes/Expression";
 import ListType from "../nodes/ListType";
 import NameType from "../nodes/NameType";
-import type { ConflictContext } from "../nodes/Node";
 import type Type from "../nodes/Type";
 import Evaluation from "../runtime/Evaluation";
 import type Evaluator from "../runtime/Evaluator";
@@ -20,9 +19,9 @@ import { LIST_TYPE_VAR_NAME } from "./NativeConstants";
 export default class NativeHOFMapTranslate extends HOF {
 
     computeChildren() { return [] };
-    computeType(context: ConflictContext): Type { return new ListType(new NameType(LIST_TYPE_VAR_NAME)); }
+    computeType(): Type { return new ListType(new NameType(LIST_TYPE_VAR_NAME)); }
 
-    compile(context: ConflictContext): Step[] { 
+    compile(): Step[] { 
         return [
             // Initialize an iterator and an empty list in this scope.
             new Action(this, evaluator => {

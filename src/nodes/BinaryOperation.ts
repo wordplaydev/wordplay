@@ -21,7 +21,7 @@ import Action from "../runtime/Start";
 import type Value from "../runtime/Value";
 import type { ConflictContext } from "./Node";
 import type Node from "./Node";
-import { AND_SYMBOL, FALSE_SYMBOL, OR_SYMBOL } from "../parser/Tokenizer";
+import { AND_SYMBOL, OR_SYMBOL } from "../parser/Tokenizer";
 
 export default class BinaryOperation extends Expression {
 
@@ -71,7 +71,7 @@ export default class BinaryOperation extends Expression {
                 if(this.left instanceof Expression && leftType !== undefined && !(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this, this.operator, this.left, leftType, new MeasurementType()));
                 if(this.right instanceof Expression && rightType !== undefined && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this, this.operator, this.right, rightType, new MeasurementType()));
                 // Both operands must have compatible units.
-                if(leftType instanceof MeasurementType && rightType instanceof MeasurementType && !leftType.isCompatible(context, rightType))
+                if(leftType instanceof MeasurementType && rightType instanceof MeasurementType && !leftType.isCompatible(rightType))
                     conflicts.push(new IncompatibleUnits(this, leftType, rightType));
                 break;
             case "≠":
@@ -103,7 +103,7 @@ export default class BinaryOperation extends Expression {
                 if(leftType.unit === undefined && rightType.unit === undefined) return leftType;
                 else if(leftType.unit !== undefined && rightType.unit === undefined) return new UnknownType(this);
                 else if(leftType.unit === undefined && rightType.unit !== undefined) return new UnknownType(this);
-                else return leftType.isCompatible(context, rightType) ? leftType : new UnknownType(this);
+                else return leftType.isCompatible(rightType) ? leftType : new UnknownType(this);
             case "×":
             case "·":
                 if(!(leftType instanceof MeasurementType)) return new UnknownType(this);

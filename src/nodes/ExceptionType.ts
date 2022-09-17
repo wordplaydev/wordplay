@@ -1,7 +1,5 @@
 import { EXCEPTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Exception from "../runtime/Exception";
-import type { ConflictContext } from "./Node";
-import type Node from "./Node";
 import Type from "./Type";
 
 export default class ExceptionType extends Type {
@@ -19,7 +17,7 @@ export default class ExceptionType extends Type {
 
     getConflicts() { return []; }
 
-    isCompatible(context: ConflictContext, type: Type): boolean {
+    isCompatible(type: Type): boolean {
         return type instanceof ExceptionType && this.exception.constructor === type.exception.constructor;
     }
 
@@ -33,6 +31,6 @@ export default class ExceptionType extends Type {
         return this.exception.toString();
     }
 
-    clone(original?: Node, replacement?: Node) { return new ExceptionType(this.exception) as this; }
+    clone() { return new ExceptionType(this.exception) as this; }
 
 }

@@ -43,14 +43,13 @@ export default class MapLiteral extends Expression {
         return [ this.open, ...this.values, this.close, ... (this.bind ? [ this.bind ] : []) ];
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(): Conflict[] { 
     
         return this.notAMap() ? [ new NotAMap(this) ] : [];
     
     }
 
     computeType(context: ConflictContext): Type {
-        const values = this.values.filter(v => !(v instanceof Unparsable)) as (KeyValue)[];
         let keyType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.key.getTypeUnlessCycle(context) : new UnknownType(v)));
         let valueType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.value.getTypeUnlessCycle(context) : v.getTypeUnlessCycle(context)));
         if(keyType === undefined) keyType = new AnyType(this);
@@ -69,7 +68,7 @@ export default class MapLiteral extends Expression {
                 ...this.values.reduce(
                     (steps: Step[], item) => [
                         ...steps, 
-                        ...( item instanceof Unparsable ? item.compile(context) : [...(item as KeyValue).key.compile(context), ...(item as KeyValue).value.compile(context)])
+                        ...( item instanceof Unparsable ? item.compile() : [...(item as KeyValue).key.compile(context), ...(item as KeyValue).value.compile(context)])
                     ], []),
                 // Then build the set or map.
                 new Finish(this)

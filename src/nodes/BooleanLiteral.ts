@@ -2,12 +2,10 @@ import BooleanType from "./BooleanType";
 import Expression from "./Expression";
 import Token from "./Token";
 import type Type from "./Type";
-import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Bool from "../runtime/Bool";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
-import type { ConflictContext } from "./Node";
 import type Node from "./Node";
 import { TRUE_SYMBOL } from "../parser/Tokenizer";
 
@@ -21,15 +19,15 @@ export default class BooleanLiteral extends Expression {
 
     computeChildren() { return [ this.value ]; }
 
-    computeType(context: ConflictContext): Type {
+    computeType(): Type {
         return new BooleanType();
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(): Step[] {
         return [ new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(): Value {
         return new Bool(this.value.text.toString() === TRUE_SYMBOL);
     }
 

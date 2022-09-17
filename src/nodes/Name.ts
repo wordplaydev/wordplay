@@ -50,7 +50,7 @@ export default class Name extends Expression {
         else return bindOrTypeVar instanceof Value ? bindOrTypeVar.getType() : bindOrTypeVar.getTypeUnlessCycle(context);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(): Step[] {
         return [ new Finish(this) ];
     }
 

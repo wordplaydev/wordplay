@@ -1,7 +1,7 @@
 import type Bind from "../nodes/Bind";
 import type Expression from "../nodes/Expression";
 import type TypeVariable from "../nodes/TypeVariable";
-import Conflict, { type ConflictExplanations } from "./Conflict";
+import Conflict from "./Conflict";
 
 export class DuplicateBinds extends Conflict {
     readonly bind: Bind;

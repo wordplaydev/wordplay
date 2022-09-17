@@ -80,7 +80,7 @@ export default class Shares {
     }
 
     /** Handle version. */
-    resolve(name: string, version?: number): Value | undefined {
+    resolve(name: string): Value | undefined {
         return this.values.has(name) ? this.values.get(name) as Value : undefined;
     }
 

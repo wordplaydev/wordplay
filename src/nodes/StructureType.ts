@@ -27,11 +27,11 @@ export default class StructureType extends Type {
     getBind(name: string) { return this.definition.getBind(name); }
 
     /** Compatible if it's the same structure definition, or the given type is a refinement of the given structure.*/
-    isCompatible(context: ConflictContext, type: Type): boolean {
+    isCompatible(type: Type, context: ConflictContext): boolean {
         if(!(type instanceof StructureType)) return false;
         if(this.definition === type.definition) return true;
         // Are any of this definition's interfaces compatible with the given type?
-        return this.definition.interfaces.find(int => int.getType(context)?.isCompatible(context, type)) !== undefined;
+        return this.definition.interfaces.find(int => int.getType(context)?.isCompatible(type, context)) !== undefined;
 
     }
 
@@ -41,6 +41,6 @@ export default class StructureType extends Type {
 
     getNativeTypeName(): string { return STRUCTURE_NATIVE_TYPE_NAME; }
 
-    clone(original?: Node, replacement?: Node) { return new StructureType(this.definition) as this; }
+    clone() { return new StructureType(this.definition) as this; }
     
 }

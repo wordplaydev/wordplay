@@ -51,15 +51,15 @@ export default class TableLiteral extends Expression {
         // All cells in all rows must match their types.
         this.rows.forEach(row => {
             if(row.cells.length !== this.columns.length)
-                conflicts.push(new MissingCells(this.computeType(context), row));
+                conflicts.push(new MissingCells(this.computeType(), row));
             row.cells.forEach((cell, index) => {
                 if(cell.expression instanceof Expression || cell.expression instanceof Bind) {
                     if(index >= 0 && index < this.columns.length) {
                        const columnBind = this.columns[index].bind;
                        const bindType = columnBind.getTypeUnlessCycle(context);
                        const cellType = cell.expression.getTypeUnlessCycle(context);
-                        if(columnBind instanceof Bind && !cellType.isCompatible(context, bindType))
-                            conflicts.push(new IncompatibleCellType(this.computeType(context), cell, bindType, cellType));
+                        if(columnBind instanceof Bind && !cellType.isCompatible(bindType, context))
+                            conflicts.push(new IncompatibleCellType(this.computeType(), cell, bindType, cellType));
                     }
                 }
             });
@@ -69,7 +69,7 @@ export default class TableLiteral extends Expression {
     
     }
 
-    computeType(context: ConflictContext): TableType {
+    computeType(): TableType {
         const columnTypes = this.columns.map(c => new ColumnType(c.bind));
         return new TableType(columnTypes);
     }

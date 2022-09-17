@@ -1,6 +1,5 @@
 import type Conditional from "../nodes/Conditional";
 import Bool from "./Bool";
-import type Evaluable from "./Evaluable";
 import type Evaluator from "./Evaluator";
 import Exception, { ExceptionKind } from "./Exception";
 import Step from "./Step";

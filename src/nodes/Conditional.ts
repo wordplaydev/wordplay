@@ -7,7 +7,6 @@ import type Node from "./Node";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
-import type Evaluator from "../runtime/Evaluator";
 import type Step from "../runtime/Step";
 import JumpIfFalse from "../runtime/JumpIfFalse";
 import Jump from "../runtime/Jump";
@@ -59,7 +58,7 @@ export default class Conditional extends Expression {
             else {
                 const yesType = this.yes.getTypeUnlessCycle(context);
                 const noType = this.no.getTypeUnlessCycle(context);
-                if(yesType.isCompatible(context, noType))
+                if(yesType.isCompatible(noType, context))
                     return yesType;
                 else 
                 return new UnionType(yesType, noType);
@@ -84,7 +83,7 @@ export default class Conditional extends Expression {
     }
 
     /** We never actually evaluate this node below because the jump logic handles things. */
-    evaluate(evaluator: Evaluator) { return undefined; }
+    evaluate() { return undefined; }
 
     clone(original?: Node, replacement?: Node) { 
         return new Conditional(

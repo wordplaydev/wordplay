@@ -26,9 +26,9 @@ export default class Template extends Expression {
 
     computeChildren() { return this.format ? [ ...this.parts, this.format ] : [ ...this.parts ]; }
 
-    computeConflicts(context: ConflictContext) { return []; }
+    computeConflicts() { return []; }
 
-    computeType(context: ConflictContext): Type {
+    computeType(): Type {
         return new TextType(undefined, this.format);
     }
 

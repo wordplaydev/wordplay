@@ -48,10 +48,10 @@ export default class ConversionDefinition extends Expression {
     }
 
     convertsType(type: Type, context: ConflictContext) {
-        return this.output instanceof Type && this.output.isCompatible(context, type);
+        return this.output instanceof Type && this.output.isCompatible(type, context);
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(): Conflict[] { 
         
         const conflicts: Conflict[] = [];
     
@@ -69,11 +69,11 @@ export default class ConversionDefinition extends Expression {
     
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(): Type {
         return this.output instanceof Unparsable ? new UnknownType(this) : new ConversionType(this.output);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(): Step[] {
         return [ new Finish(this) ];
     }
 

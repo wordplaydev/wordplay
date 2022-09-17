@@ -47,19 +47,19 @@ export default class FunctionType extends Type {
         return children;
     }
 
-    isCompatible(context: ConflictContext, type: Type): boolean {
+    isCompatible(type: Type, context: ConflictContext): boolean {
         if(type instanceof AnyType) return true;
         if(!(type instanceof FunctionType)) return false;
         if(!(this.output instanceof Type)) return false;
         if(!(type.output instanceof Type)) return false;
-        if(!this.output.isCompatible(context, type.output)) return false;
+        if(!this.output.isCompatible(type.output, context)) return false;
         if(this.inputs.length != type.inputs.length) return false;
         for(let i = 0; i < this.inputs.length; i++) {
             const thisType = this.inputs[i];
             const thatType = type.inputs[i];
             if( thisType.type instanceof Unparsable || 
                 thatType.type instanceof Unparsable || 
-                !thisType.type.isCompatible(context, thatType.type))
+                !thisType.type.isCompatible(thatType.type, context))
                 return false;
         }
         return true;

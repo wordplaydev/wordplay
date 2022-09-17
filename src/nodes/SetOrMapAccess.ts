@@ -46,7 +46,7 @@ export default class SetOrMapAccess extends Expression {
         const setMapType = this.setOrMap.getTypeUnlessCycle(context);
         const keyType = this.key.getTypeUnlessCycle(context);
 
-        if((setMapType instanceof SetType || setMapType instanceof MapType) && setMapType.key instanceof Type && !setMapType.key.isCompatible(context, keyType))
+        if((setMapType instanceof SetType || setMapType instanceof MapType) && setMapType.key instanceof Type && !setMapType.key.isCompatible(keyType, context))
             return [ new IncompatibleKey(this, setMapType.key, keyType) ];
 
         return [];

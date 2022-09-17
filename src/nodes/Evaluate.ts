@@ -135,7 +135,7 @@ export default class Evaluate extends Expression {
                                             break;
                                         }
                                         // The types have to match
-                                        else if(concreteInputType !== undefined && given.value !== undefined && !given.value.getTypeUnlessCycle(context).isCompatible(context, concreteInputType) && !(given.value instanceof Unparsable)) {
+                                        else if(concreteInputType !== undefined && given.value !== undefined && !given.value.getTypeUnlessCycle(context).isCompatible(concreteInputType, context) && !(given.value instanceof Unparsable)) {
                                             conflicts.push(new IncompatibleInput(functionType, this, given.value, given.value.getTypeUnlessCycle(context), concreteInputType));
                                         }
                                         // Remember that we named this input to catch redundancies.
@@ -148,7 +148,7 @@ export default class Evaluate extends Expression {
                                 }
                                 // If it's not a bind, check the type of the next given input.
                                 else {
-                                    if(!(given instanceof Unparsable) && givenType !== undefined && concreteInputType !== undefined && !givenType.isCompatible(context, concreteInputType)) {
+                                    if(!(given instanceof Unparsable) && givenType !== undefined && concreteInputType !== undefined && !givenType.isCompatible(concreteInputType, context)) {
                                         conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType));
                                     }
                                     // Remember that we got this named input.
@@ -166,7 +166,7 @@ export default class Evaluate extends Expression {
                             if(input.rest !== false) {
                                 while(givenInputs.length > 0) {
                                     const given = givenInputs.shift();
-                                    if(given !== undefined && given instanceof Expression && concreteInputType !== undefined && !given.getTypeUnlessCycle(context).isCompatible(context, concreteInputType)) {
+                                    if(given !== undefined && given instanceof Expression && concreteInputType !== undefined && !given.getTypeUnlessCycle(context).isCompatible(concreteInputType, context)) {
                                         conflicts.push(new IncompatibleInput(functionType, this, given, given.getTypeUnlessCycle(context), concreteInputType));
                                         break;
                                     }
@@ -178,7 +178,7 @@ export default class Evaluate extends Expression {
                                 const matchingBind = givenInputs.find(i => i instanceof Bind && input.aliases.find(a => a.getName() === i.getNames()[0]) !== undefined);
                                 if(matchingBind instanceof Bind) {
                                     // If the types don't match, there's a conflict.
-                                    if(matchingBind.value !== undefined && !(matchingBind.value instanceof Unparsable) && concreteInputType !== undefined && !matchingBind.value.getTypeUnlessCycle(context).isCompatible(context, concreteInputType)) {
+                                    if(matchingBind.value !== undefined && !(matchingBind.value instanceof Unparsable) && concreteInputType !== undefined && !matchingBind.value.getTypeUnlessCycle(context).isCompatible(concreteInputType, context)) {
                                         conflicts.push(new IncompatibleInput(functionType, this, matchingBind.value, matchingBind.value.getTypeUnlessCycle(context), concreteInputType));
                                         break;
                                     }
@@ -193,7 +193,7 @@ export default class Evaluate extends Expression {
                                         givenInputs.splice(bindIndex, 1);
                                 }
                                 // Otherwise, see if the next input matches the type.
-                                else if(givenInputs.length > 0 && concreteInputType !== undefined && (givenInputs[0] instanceof Expression) && !givenInputs[0].getTypeUnlessCycle(context).isCompatible(context, concreteInputType)) {
+                                else if(givenInputs.length > 0 && concreteInputType !== undefined && (givenInputs[0] instanceof Expression) && !givenInputs[0].getTypeUnlessCycle(context).isCompatible(concreteInputType, context)) {
                                     conflicts.push(new IncompatibleInput(functionType, this, givenInputs[0] as Expression, givenInputs[0].getTypeUnlessCycle(context), concreteInputType));
                                     break;
                                 }

@@ -4,11 +4,9 @@ import NoneType from "./NoneType";
 import type Type from "./Type";
 import type Node from "./Node";
 import None from "../runtime/None";
-import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
-import type { ConflictContext } from "./Node";
 import Alias from "./Alias";
 
 export default class NoneLiteral extends Expression {
@@ -24,16 +22,16 @@ export default class NoneLiteral extends Expression {
 
     computeChildren() { return [ this.none, ...this.aliases ]; }
 
-    computeType(context: ConflictContext): Type {
+    computeType(): Type {
         // Always of type none, with the optional name.
         return new NoneType(this.aliases, this.none);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(): Step[] {
         return [ new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(): Value {
         return new None(this.aliases);
     }
 

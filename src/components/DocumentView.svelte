@@ -1,6 +1,4 @@
 <script lang="ts">
-
-    import Project from '../models/Project';
     import { caret, project } from '../models/stores';
     import type Document from "../models/Document";
     import Value from '../runtime/Value';

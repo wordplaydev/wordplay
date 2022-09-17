@@ -1,4 +1,3 @@
-import type { ConflictContext } from "./Node";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
@@ -52,7 +51,7 @@ export default class Unit extends Type {
 
     computeChildren(): Node[] { return this.numeratorTokens.concat(this.denominatorTokens); }
 
-    isCompatible(context: ConflictContext, unit: Unit): boolean {
+    isCompatible(unit: Unit): boolean {
         return this.numerator.join("·") === unit.numerator.join("·") && 
                this.denominator.join("·") === unit.denominator.join("·");
     }

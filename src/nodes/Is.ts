@@ -31,7 +31,7 @@ export default class Is extends Expression {
         return [ this.left, this.operator, this.right ];
     }
 
-    computeType(context: ConflictContext): Type { return new BooleanType(); }
+    computeType(): Type { return new BooleanType(); }
     
     compile(context: ConflictContext): Step[] {
         return this.right instanceof Unparsable ? [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ] : [ ...this.left.compile(context), new Finish(this) ];
@@ -43,7 +43,7 @@ export default class Is extends Expression {
 
         return this.right instanceof Unparsable ? 
             new Exception(this, ExceptionKind.UNPARSABLE) : 
-            new Bool(left.getType().isCompatible(evaluator.getContext(), this.right));
+            new Bool(left.getType().isCompatible(this.right, evaluator.getContext()));
 
     }
 

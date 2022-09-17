@@ -10,7 +10,6 @@ import BooleanType from "./BooleanType";
 import TableType from "./TableType";
 import Bind from "../nodes/Bind";
 import Exception, { ExceptionKind } from "../runtime/Exception";
-import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
@@ -78,7 +77,7 @@ export default class Delete extends Expression {
         return [ new Action(this), ...this.table.compile(context), new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(): Value {
         return new Exception(this, ExceptionKind.NOT_IMPLEMENTED);
     }
 

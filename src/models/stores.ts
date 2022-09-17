@@ -1,4 +1,4 @@
-import { readable, writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 import type Caret from './Caret';
 import type Project from './Project';
 

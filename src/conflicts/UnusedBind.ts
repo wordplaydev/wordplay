@@ -1,6 +1,5 @@
 import type Bind from "../nodes/Bind";
 import Conflict from "./Conflict";
-import type Node from "../nodes/Node";
 import type Token from "../nodes/Token";
 
 export class UnusedBind extends Conflict {

@@ -34,13 +34,9 @@ export default class SetLiteral extends Expression {
     }
 
     computeType(context: ConflictContext): Type {
-
-        const values = this.values.filter(v => !(v instanceof Unparsable)) as Expression[];
         let type = getPossibleUnionType(context, this.values.map(v => (v as Expression | Unparsable).getTypeUnlessCycle(context)));
-        if(type === undefined) type = new AnyType(this);
-        
+        if(type === undefined) type = new AnyType(this);        
         return new SetType(undefined, undefined, type);
-
     }
 
     compile(context: ConflictContext):Step[] {

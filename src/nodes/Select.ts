@@ -15,7 +15,6 @@ import type ColumnType from "./ColumnType";
 import BooleanType from "./BooleanType";
 import Bind from "../nodes/Bind";
 import type Node from "./Node";
-import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
@@ -119,10 +118,8 @@ export default class Select extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
-
+    evaluate(): Value {
         return new Exception(this, ExceptionKind.NOT_IMPLEMENTED);
-
     }
 
     clone(original?: Node, replacement?: Node) { 

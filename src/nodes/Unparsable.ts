@@ -1,9 +1,8 @@
-import Node, { type ConflictContext } from "./Node";
+import Node from "./Node";
 import Token from "./Token";
 import { SyntacticConflict } from "../parser/Parser"
 import type Conflict from "../conflicts/Conflict";
 import type Evaluable from "../runtime/Evaluable";
-import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
@@ -32,7 +31,7 @@ export default class Unparsable extends Node implements Evaluable {
     computeChildren() { return this.unparsableTokens.slice() }
 
     getType() { return new UnknownType(this); }
-    getTypeUnlessCycle(context: ConflictContext) { return new UnknownType(this); }
+    getTypeUnlessCycle() { return new UnknownType(this); }
 
     toString(depth: number=0) {
         const s = super.toString(depth);
@@ -44,11 +43,11 @@ export default class Unparsable extends Node implements Evaluable {
         return [ new UnparsableConflict(this) ];
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(): Step[] {
         return [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(): Value {
         return new Exception(this, ExceptionKind.UNPARSABLE);
     }
 

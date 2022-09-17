@@ -13,8 +13,8 @@ export default abstract class Value {
    
     abstract getNativeTypeName(): string;
 
-    /** Returns the value with the given name in the structure. By default, check's native functions. */
-    resolve(name: string, evaluator: Evaluator): Value | undefined { return undefined; }
+    /** Returns the value with the given name in the structure. */
+    abstract resolve(name: string, evaluator: Evaluator): Value | undefined;
 
     isEqualTo(value: Value): boolean {
         return this.toString() === value.toString();

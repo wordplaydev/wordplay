@@ -3,12 +3,10 @@ import TextType from "./TextType";
 import Token from "./Token";
 import type Type from "./Type";
 import type Node from "./Node";
-import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Text from "../runtime/Text";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import type { ConflictContext } from "./Node";
 import Language from "./Language";
 
 export default class TextLiteral extends Expression {
@@ -24,15 +22,15 @@ export default class TextLiteral extends Expression {
 
     computeChildren() { return this.format !== undefined ? [ this.text, this.format ] : [ this.text ]; }
 
-    computeType(context: ConflictContext): Type {
+    computeType(): Type {
         return new TextType(undefined, this.format);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(): Step[] {
         return [ new Finish(this) ];
     }
     
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(): Value {
         // Remove the opening and optional closing quote symbols.
         const lastChar = this.text.text.toString().length === 0 ? undefined : this.text.text.toString().charAt(this.text.text.toString().length - 1);
         const lastCharIsQuote = lastChar === undefined ? false : ["』", "」", "»", "›", "'", "’", "”", '"'].includes(lastChar);    

@@ -215,10 +215,10 @@ export default class Evaluator {
     }
     
     /** Borrow the given name from the global namespace. */
-    borrow(name: string, version?: number): Exception | undefined { 
+    borrow(name: string): Exception | undefined { 
 
         // Find the shared thing
-        const share = this.shares.resolve(name, version);
+        const share = this.shares.resolve(name);
         if(share === undefined) return new Exception(this.program, ExceptionKind.UNKNOWN_SHARE);
 
         // If we've already borrowed this, don't do it again.

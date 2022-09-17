@@ -1,6 +1,6 @@
 import MissingLanguage from "../conflicts/MissingLanguage";
 import { LANGUAGE_SYMBOL } from "../parser/Tokenizer";
-import Node, { type ConflictContext } from "./Node";
+import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 
@@ -18,7 +18,7 @@ export default class Language extends Node {
 
     computeChildren() {  return this.lang === undefined ? [ this.slash ] : [ this.slash, this.lang ]; }
 
-    computeConflicts(context: ConflictContext) {
+    computeConflicts() {
         if(this.lang === undefined)
             return [ new MissingLanguage(this) ];
         

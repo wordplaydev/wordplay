@@ -16,6 +16,8 @@ export default class None extends Value {
     
     getNativeTypeName(): string { return NONE_NATIVE_TYPE_NME; }
 
+    resolve() { return undefined; }
+
     toString() { return `!${this.aliases.map(a => `${a.getName()}${a.lang === undefined ? "" : "/" + a.getLanguage()}`).join(";")}`; }
 
 }

@@ -4,13 +4,11 @@ import type Type from "../nodes/Type";
 import type Step from "src/runtime/Step";
 import Finish from "../runtime/Finish";
 import Expression from "../nodes/Expression";
-import type { ConflictContext } from "../nodes/Node";
 import type Node from "../nodes/Node";
 import { parseType, tokens } from "../parser/Parser";
 import Unparsable from "../nodes/Unparsable";
 import UnknownType from "../nodes/UnknownType";
 import type Evaluation from "../runtime/Evaluation";
-import HOF from "./HOF";
 
 export default class NativeExpression extends Expression {
     
@@ -33,14 +31,14 @@ export default class NativeExpression extends Expression {
     }
 
     computeChildren(): Node[] { return []; }
-    computeType(context: ConflictContext): Type { return this.type; }
-    compile(context: ConflictContext): Step[] { return [ new Finish(this) ]; }
+    computeType(): Type { return this.type; }
+    compile(): Step[] { return [ new Finish(this) ]; }
     evaluate(evaluator: Evaluator): Value | undefined {
         const evaluation = evaluator.getEvaluationContext();
         return evaluation === undefined ? undefined : this.evaluator.call(undefined, evaluation);
     }
 
     /** Can't clone native expressions, there's only one of them! */
-    clone(original?: Node, replacement?: Node) { return this; }
+    clone() { return this; }
 
 }

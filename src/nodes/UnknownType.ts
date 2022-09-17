@@ -1,4 +1,3 @@
-import type { ConflictContext } from "./Node";
 import type Node from "./Node";
 import Type from "./Type";
 
@@ -14,11 +13,11 @@ export default class UnknownType extends Type {
     }
 
     computeChildren(): Node[] { return []; }
-    isCompatible(context: ConflictContext, type: Type) { return false; }
+    isCompatible() { return false; }
     getNativeTypeName(): string { return "unknown"; }
 
     toWordplay() { return "□"; }
 
-    clone(original?: Node, replacement?: Node) { return new UnknownType(this.node) as this; }
+    clone() { return new UnknownType(this.node) as this; }
 
 }

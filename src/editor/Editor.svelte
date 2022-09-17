@@ -91,7 +91,6 @@
         // Of those aligned vertically, find the closest horizontally.
         let closestDistance: number | undefined = undefined;
         let closest: Element | undefined = undefined;
-        let left = false;
         for(let i = 0; i < line.length; i++) {
             const tokenBounds = line[i].getBoundingClientRect();
             const tokenLeftDistance = Math.abs(tokenBounds.left - mouseX);
@@ -100,7 +99,6 @@
             if(closestDistance === undefined || tokenDistance < closestDistance) {
                 closest = line[i];
                 closestDistance = tokenDistance;
-                left = tokenLeftDistance < tokenRightDistance;
             }
         };
 

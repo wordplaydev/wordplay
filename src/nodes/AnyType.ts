@@ -1,5 +1,4 @@
 import { ANY_NATIVE_TYPE_NAME } from "../native/NativeConstants";
-import type { ConflictContext } from "./Node";
 import type Node from "./Node";
 import Type from "./Type";
 
@@ -15,11 +14,11 @@ export default class AnyType extends Type {
     }
 
     computeChildren(): Node[] { return []; }
-    isCompatible(context: ConflictContext, type: Type) { return true; }
+    isCompatible() { return true; }
     getNativeTypeName(): string { return ANY_NATIVE_TYPE_NAME; }
 
     toWordplay() { return "*"; }
 
-    clone(original?: Node, replacement?: Node) { return new AnyType(this.node) as this; }
+    clone() { return new AnyType(this.node) as this; }
 
 }
