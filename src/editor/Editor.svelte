@@ -7,7 +7,6 @@
     import UnicodeString from '../models/UnicodeString';
     import commands, { getTokenByView } from './Commands';
     import NodeView from './NodeView.svelte';
-    import { text } from 'svelte/internal';
 
     export let program: Program;
 

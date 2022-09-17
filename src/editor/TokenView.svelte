@@ -66,6 +66,7 @@
             }
             // If the caret is in whitespace, compute the top/left based on the pattern whitespace sequence.
             else if($caret?.isIndex()) {
+
                 // Track an index starting at wherever the caret is.
                 let caretIndex = $caret.getIndex();
                 const whitespace = node.getWhitespace();
@@ -89,9 +90,16 @@
                         index++;
                     }
 
+                    // Get the height of the element so we know how many lines to adjust.
+                    // We measure the height of a 
+                    let tokenHeight = element?.getBoundingClientRect().height;
+                    const lineBreak = element?.closest(".editor")?.querySelector("br");
+                    if(lineBreak !== null && lineBreak !== undefined) tokenHeight = lineBreak.getBoundingClientRect().height;
+
                     // If there's trailing whitespace at the end of a line (i.e. this whitespace ends with a newline), 
                     // we need to account for it's width to ensure the caret appears properly offset from the end of the line.
-                    if(whitespace.charAt(0) !== "\n" && whitespace.length > 0 && whitespace.charAt(whitespace.length - 1) === "\n" && row === 0) {
+                    if(tokenHeight !== undefined && whitespace.charAt(0) !== "\n" && whitespace.length > 0 && whitespace.charAt(whitespace.length - 1) === "\n" && row === 0) {
+
                         let index = whitespaceIndex - 1;
                         let count = 0;
                         // Keep looping until we find a non-space, non-tab character.
@@ -103,11 +111,11 @@
                         col += count;
                     }
 
-                    const top = -(node.newlines - row) * 1.4;
+                    const top = -(node.newlines - row) * (tokenHeight ?? 16) - 1;
                     const left = -(node.precedingSpaces - col);
 
                     caretLeft = `${left}ch`;
-                    caretTop = `${top}em`;
+                    caretTop = `${top}px`;
                 }
             }
         }
@@ -175,7 +183,7 @@
         top: 0;
         width: 3px;
         transform: translate(-1px, 0);
-        height: var(--wordplay-code-line-height);
+        height: 100%;
         background-color: var(--color-black);
         z-index: 1;
     }
