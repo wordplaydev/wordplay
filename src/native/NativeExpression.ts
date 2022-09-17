@@ -29,7 +29,8 @@ export default class NativeExpression extends Expression {
         this.evaluator = evaluator;
 
     }
-
+    
+    computeConflicts() {}
     computeChildren(): Node[] { return []; }
     computeType(): Type { return this.type; }
     compile(): Step[] { return [ new Finish(this) ]; }

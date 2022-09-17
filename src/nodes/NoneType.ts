@@ -20,6 +20,8 @@ export default class NoneType extends Type {
         this.aliases = aliases;
     }
 
+    computeConflicts() {}
+
     computeChildren() {
         return this.none === undefined ? [ ...this.aliases ] : [ this.none, ...this.aliases ];
     }

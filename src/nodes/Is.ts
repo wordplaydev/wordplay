@@ -27,11 +27,9 @@ export default class Is extends Expression {
         this.right = right;
     }
 
-    computeChildren() {
-        return [ this.left, this.operator, this.right ];
-    }
-
+    computeChildren() { return [ this.left, this.operator, this.right ]; }
     computeType(): Type { return new BooleanType(); }
+    computeConflicts() {}
     
     compile(context: Context): Step[] {
         return this.right instanceof Unparsable ? [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ] : [ ...this.left.compile(context), new Finish(this) ];

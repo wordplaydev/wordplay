@@ -22,11 +22,12 @@ export default class TableType extends Type {
         this.close = close ?? new Token(TABLE_CLOSE_SYMBOL, [ TokenType.TABLE_CLOSE ]);
     }
 
+    computeChildren() { return [ ...this.columns, this.close ]; }
+    computeConflicts() {}
+
     getColumnNamed(name: string): ColumnType | undefined {
         return this.columns.find(c => c.bind instanceof Bind && c.bind.hasName(name));
     }
-
-    computeChildren() { return [ ...this.columns, this.close ]; }
 
     isCompatible(type: Type, context: Context) {
 

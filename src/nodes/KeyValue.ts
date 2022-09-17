@@ -21,6 +21,8 @@ export default class KeyValue extends Node {
         return [ this.key, this.bind, this.value ];
     }
 
+    computeConflicts() {}
+
     clone(original?: Node, replacement?: Node) { 
         return new KeyValue(
             this.key.cloneOrReplace([ Expression, Unparsable ], original, replacement), 

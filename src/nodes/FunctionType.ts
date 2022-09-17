@@ -62,4 +62,5 @@ export default class FunctionType extends Type {
         ) as this;
     }
 
+    computeConflicts() {}
 }

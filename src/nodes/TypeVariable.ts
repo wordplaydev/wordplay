@@ -15,6 +15,8 @@ export default class TypeVariable extends Node {
         this.name = name instanceof Token ? name : new Token(name, [ TokenType.NAME ]);
     }
 
+    computeConflicts() {}
+
     computeChildren() {
         return [ this.type, this.name ];
     }

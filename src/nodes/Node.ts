@@ -49,12 +49,12 @@ export default abstract class Node {
     abstract computeChildren(): Node[];
 
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
-    computeConflicts(context: Context): Conflict[] { return [] };
+    abstract computeConflicts(context: Context): Conflict[] | void;
 
     /** Compute and store the conflicts. */
     getConflicts(context: Context) { 
         if(this._conflicts === undefined)
-            this._conflicts = this.computeConflicts(context); 
+            this._conflicts = this.computeConflicts(context) ?? [];
         return this._conflicts;
     }
 
@@ -64,7 +64,9 @@ export default abstract class Node {
     getAllConflicts(program: Program, shares: Shares, native: NativeInterface): Conflict[] {
         let conflicts: Conflict[] = [];
         this.traverse(node => {
-            conflicts = conflicts.concat(node.getConflicts(new Context(program, shares, native)));
+            const nodeConflicts = node.getConflicts(new Context(program, shares, native));
+            if(nodeConflicts !== undefined)
+                conflicts = conflicts.concat(nodeConflicts);
             return true;
         });
         return conflicts;

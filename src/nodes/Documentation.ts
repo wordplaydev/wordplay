@@ -18,6 +18,8 @@ export default class Documentation extends Node {
 
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
     
+    computeConflicts() {}
+
     clone(original?: Node, replacement?: Node) { 
         return new Documentation(
             this.docs.cloneOrReplace([ Token ], original, replacement), 

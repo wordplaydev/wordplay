@@ -39,6 +39,8 @@ export default class ListLiteral extends Expression {
         return new ListType(itemType);
     }
 
+    computeConflicts() {}
+
     compile(context: Context):Step[] {
         return [ 
             new Action(this),

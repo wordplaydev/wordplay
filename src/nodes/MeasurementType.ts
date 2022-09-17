@@ -40,6 +40,8 @@ export default class MeasurementType extends Type {
         return thisUnit.isCompatible(thatUnit);
     }
 
+    computeConflicts() {}
+
     getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }
 
     getDefinition(context: Context, node: Node, name: string) {

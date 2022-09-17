@@ -14,9 +14,7 @@ export default class ExceptionType extends Type {
     }
 
     computeChildren() { return []; }
-
-    getConflicts() { return []; }
-
+    computeConflicts() {}
     isCompatible(type: Type): boolean {
         return type instanceof ExceptionType && this.exception.constructor === type.exception.constructor;
     }

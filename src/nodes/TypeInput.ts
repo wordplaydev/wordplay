@@ -28,4 +28,6 @@ export default class TypeInput extends Node {
         ) as this; 
     }
 
+    computeConflicts() {}
+    
 }

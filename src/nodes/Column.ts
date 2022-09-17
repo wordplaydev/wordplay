@@ -20,6 +20,7 @@ export default class Column extends Node {
     computeChildren() {
         return [ this.bar, this.bind ];
     }
+    computeConflicts() {}
 
     computeType(context: Context) { return this.bind instanceof Unparsable ? new UnknownType(this) : this.bind.getTypeUnlessCycle(context); }
 

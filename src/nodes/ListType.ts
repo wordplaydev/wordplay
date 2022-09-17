@@ -21,6 +21,8 @@ export default class ListType extends Type {
         this.close = close ?? new Token(LIST_CLOSE_SYMBOL, [ TokenType.LIST_CLOSE ]);
     }
 
+    computeConflicts() {}
+
     computeChildren() { 
         const children = [];
         children.push(this.open);

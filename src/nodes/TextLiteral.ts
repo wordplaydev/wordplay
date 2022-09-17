@@ -21,6 +21,7 @@ export default class TextLiteral extends Expression {
     }
 
     computeChildren() { return this.format !== undefined ? [ this.text, this.format ] : [ this.text ]; }
+    computeConflicts() {}
 
     computeType(): Type {
         return new TextType(undefined, this.format);

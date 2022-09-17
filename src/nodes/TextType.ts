@@ -27,6 +27,8 @@ export default class TextType extends Type {
         return children;
     }
 
+    computeConflicts() {}
+
     isCompatible(type: Type): boolean { 
         return type instanceof AnyType ||  
                 (type instanceof TextType && 

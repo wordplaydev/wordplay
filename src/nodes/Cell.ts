@@ -19,6 +19,7 @@ export default class Cell extends Node {
     computeChildren() {
         return [ this.bar, this.expression ];
     }
+    computeConflicts() {}
 
     clone(original?: Node, replacement?: Node) { 
         return new Cell(

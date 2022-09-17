@@ -26,6 +26,8 @@ export default class StructureType extends Type {
             return [];
     }
 
+    computeConflicts() {}
+
     getBind(name: string) { return this.definition.getBind(name); }
 
     /** Compatible if it's the same structure definition, or the given type is a refinement of the given structure.*/

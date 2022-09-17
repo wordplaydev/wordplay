@@ -32,6 +32,7 @@ export default class SetLiteral extends Expression {
     computeChildren() {
         return [ this.open, ...this.values, this.close ];
     }
+    computeConflicts() {}
 
     computeType(context: Context): Type {
         let type = getPossibleUnionType(context, this.values.map(v => (v as Expression | Unparsable).getTypeUnlessCycle(context)));

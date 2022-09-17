@@ -17,9 +17,8 @@ export default class BooleanType extends Type {
         this.type = type ?? new Token(BOOLEAN_TYPE_SYMBOL, [ TokenType.BOOLEAN_TYPE ]);
     }
 
-    computeChildren() {
-        return [ this.type ];
-    }
+    computeChildren() { return [ this.type ]; }
+    computeConflicts() {}
 
     isCompatible(type: Type) { return type instanceof AnyType || type instanceof BooleanType; }
 

@@ -21,9 +21,8 @@ export default class ColumnType extends Type {
         this.bind = bind;
     }
 
-    computeChildren() {
-        return [ this.bar, this.bind ];
-    }
+    computeChildren() { return [ this.bar, this.bind ]; }
+    computeConflicts() {}
 
     isCompatible(type: Type, context: Context): boolean {
         if(type instanceof AnyType) return true;

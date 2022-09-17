@@ -1,7 +1,6 @@
 import type Definition from "./Definition";
 import Borrow from "./Borrow";
 import Unparsable from "./Unparsable";
-import type Conflict from "../conflicts/Conflict";
 import Block from "../nodes/Block";
 import type Evaluator from "../runtime/Evaluator";
 import type Evaluable from "../runtime/Evaluable";
@@ -37,7 +36,7 @@ export default class Program extends Node implements Evaluable {
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }
 
     computeChildren() { return [ ...this.borrows, this.block, this.end ]; }
-    getConflicts(): Conflict[] { return []; }
+    computeConflicts() {}
 
     getDefinition(context: Context, node: Node, name: string): Definition {
 

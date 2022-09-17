@@ -24,6 +24,7 @@ export default class StreamType extends Type {
     computeChildren() {
         return [ this.stream, this.type ];
     }
+    computeConflicts() {}
 
     isCompatible(type: Type, context: Context): boolean {
         if(type instanceof AnyType) return true;

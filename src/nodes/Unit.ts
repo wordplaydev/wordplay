@@ -50,6 +50,7 @@ export default class Unit extends Type {
     isEmpty() { return this.numerator.length === 0 && this.denominator.length === 0; }
 
     computeChildren(): Node[] { return this.numeratorTokens.concat(this.denominatorTokens); }
+    computeConflicts() {}
 
     isCompatible(unit: Unit): boolean {
         return this.numerator.join("·") === unit.numerator.join("·") && 

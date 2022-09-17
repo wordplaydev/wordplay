@@ -28,6 +28,7 @@ export default class SetType extends Type {
         children.push(this.close);
         return children;
     }
+    computeConflicts() {}
 
     isCompatible(type: Type, context: Context): boolean { 
         return  type instanceof SetType &&

@@ -17,9 +17,8 @@ export default class Row extends Node {
         
     }
 
-    computeChildren() {
-        return [ ...this.cells, this.close ];
-    }
+    computeChildren() { return [ ...this.cells, this.close ]; }
+    computeConflicts() {}
 
     clone(original?: Node, replacement?: Node) { 
         return new Row(
