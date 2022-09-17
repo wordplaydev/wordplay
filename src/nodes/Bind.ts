@@ -28,7 +28,6 @@ import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type { Named } from "./Named";
-import FunctionDefinition from "./FunctionDefinition";
 import { getDuplicateAliases } from "./util";
 import Evaluate from "./Evaluate";
 import Block from "./Block";
