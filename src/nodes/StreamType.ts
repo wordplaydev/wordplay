@@ -1,6 +1,6 @@
 import { STREAM_SYMBOL } from "../parser/Tokenizer";
 import AnyType from "./AnyType";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
@@ -25,7 +25,7 @@ export default class StreamType extends Type {
         return [ this.stream, this.type ];
     }
 
-    isCompatible(type: Type, context: ConflictContext): boolean {
+    isCompatible(type: Type, context: Context): boolean {
         if(type instanceof AnyType) return true;
         return type instanceof StreamType && 
             this.type instanceof Type && 

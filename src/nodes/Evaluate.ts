@@ -25,7 +25,7 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import Halt from "../runtime/Halt";
 import List from "../runtime/List";
 import NameType from "./NameType";
@@ -58,7 +58,7 @@ export default class Evaluate extends Expression {
         return children;
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
     
         const conflicts = [];
 
@@ -229,7 +229,7 @@ export default class Evaluate extends Expression {
     
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         
         const funcType = this.func.getTypeUnlessCycle(context);
 
@@ -243,7 +243,7 @@ export default class Evaluate extends Expression {
 
     }
 
-    resolveTypeVariables(type: Type, context: ConflictContext) {
+    resolveTypeVariables(type: Type, context: Context) {
 
         // Find any type variables or name types that refer to type variables in the given type.
         // We do this in a loop because each time we revise the type, we clone everything in the
@@ -325,7 +325,7 @@ export default class Evaluate extends Expression {
         
     }
 
-    compile(context: ConflictContext): Step[] {
+    compile(context: Context): Step[] {
 
         // To compile an evaluate, we need to compile all of the given and default values in
         // order of the function's declaration. This requires getting the function/structure definition

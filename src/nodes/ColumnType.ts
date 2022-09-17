@@ -4,7 +4,7 @@ import Unparsable from "./Unparsable";
 import Bind from "../nodes/Bind";
 import type Node from "../nodes/Node";
 import Type from "./Type";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import AnyType from "./AnyType";
 import { COLUMN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { TABLE_OPEN_SYMBOL } from "../parser/Tokenizer";
@@ -25,7 +25,7 @@ export default class ColumnType extends Type {
         return [ this.bar, this.bind ];
     }
 
-    isCompatible(type: Type, context: ConflictContext): boolean {
+    isCompatible(type: Type, context: Context): boolean {
         if(type instanceof AnyType) return true;
         return type instanceof ColumnType && 
             type.bind instanceof Bind && 

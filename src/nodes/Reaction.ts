@@ -16,7 +16,7 @@ import Action from "../runtime/Start";
 import JumpIfStreamExists from "../runtime/JumpIfStreamExists";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import Bind from "./Bind";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import UnionType from "./UnionType";
 import UnknownType from "./UnknownType";
 
@@ -41,7 +41,7 @@ export default class Reaction extends Expression {
         return [ this.initial, this.delta, this.stream, this.next ];
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
     
         const conflicts = [];
 
@@ -54,7 +54,7 @@ export default class Reaction extends Expression {
     
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         const initialType = this.initial.getTypeUnlessCycle(context);
         const nextType = this.next instanceof Unparsable ? new UnknownType(this.next) : this.next.getTypeUnlessCycle(context);
         if(initialType.isCompatible(nextType, context))
@@ -63,7 +63,7 @@ export default class Reaction extends Expression {
             return new UnionType(initialType, nextType);
     }
 
-    compile(context: ConflictContext): Step[] {
+    compile(context: Context): Step[] {
 
         const initialSteps = this.initial.compile(context);
         const nextSteps = this.next.compile(context);

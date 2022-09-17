@@ -1,6 +1,7 @@
 import type Conflict from "../conflicts/Conflict";
 import { UnknownBorrow } from "../conflicts/UnknownBorrow";
-import Node, { type ConflictContext } from "./Node";
+import Node from "./Node";
+import type Context from "./Context";
 import Token from "./Token";
 import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
@@ -27,7 +28,7 @@ export default class Borrow extends Node implements Evaluable {
 
     computeChildren() { return this.version === undefined ? [ this.borrow, this.name ] : [ this.borrow, this.name, this.version ]}
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
     
         const conflicts = [];
 

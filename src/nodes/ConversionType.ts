@@ -1,6 +1,6 @@
 import { CONVERSION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import AnyType from "./AnyType";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Node from "./Node";
 import Type from "./Type";
 
@@ -15,7 +15,7 @@ export default class ConversionType extends Type {
 
     computeChildren() { return [ this.output ]; }
 
-    isCompatible(type: Type, context: ConflictContext): boolean {
+    isCompatible(type: Type, context: Context): boolean {
         if(type instanceof AnyType) return true;
         return type instanceof ConversionType && type.output.isCompatible(this.output, context);
     }

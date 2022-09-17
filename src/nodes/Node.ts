@@ -3,7 +3,7 @@ import type Shares from "../runtime/Shares";
 import type Program from "./Program";
 import type Definition from "./Definition";
 import type NativeInterface from "../native/NativeInterface";
-import type Type from "./Type";
+import Context from "./Context";
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -49,10 +49,10 @@ export default abstract class Node {
     abstract computeChildren(): Node[];
 
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
-    computeConflicts(context: ConflictContext): Conflict[] { return [] };
+    computeConflicts(context: Context): Conflict[] { return [] };
 
     /** Compute and store the conflicts. */
-    getConflicts(context: ConflictContext) { 
+    getConflicts(context: Context) { 
         if(this._conflicts === undefined)
             this._conflicts = this.computeConflicts(context); 
         return this._conflicts;
@@ -64,7 +64,7 @@ export default abstract class Node {
     getAllConflicts(program: Program, shares: Shares, native: NativeInterface): Conflict[] {
         let conflicts: Conflict[] = [];
         this.traverse(node => {
-            conflicts = conflicts.concat(node.getConflicts(new ConflictContext(program, shares, native)));
+            conflicts = conflicts.concat(node.getConflicts(new Context(program, shares, native)));
             return true;
         });
         return conflicts;
@@ -81,7 +81,7 @@ export default abstract class Node {
     isBindingEnclosureOfChild(child: Node): boolean { return false; }
 
     /** Given a program, a node that triggered a search, and a name, get the thing that defined the name. */
-    getDefinition(context: ConflictContext, node: Node, name: string): Definition { return undefined; }
+    getDefinition(context: Context, node: Node, name: string): Definition { return undefined; }
     
     /** True if the node contains bindings that should be searched. */
     isBindingEnclosure() { return false; }
@@ -188,38 +188,6 @@ export default abstract class Node {
         }
         else
             return this.clone(original, replacement) as this;
-    }
-
-}
-
-export class ConflictContext {
-
-    readonly program: Program;
-    readonly shares?: Shares;
-    readonly native?: NativeInterface;
-    readonly stack: Node[] = [];
-    readonly types: Record<string,Type>[] = [];
-    
-    constructor(program: Program, shares?: Shares, native?: NativeInterface) {
-
-        this.program = program;
-        this.shares = shares;
-        this.native = native;
-        
-    }
-
-    visit(node: Node) { this.stack.push(node); }
-    unvisit() { this.stack.pop();}
-    visited(node: Node) { return  this.stack.includes(node); }
-
-    defineTypeVariables(definitions: Record<string,Type>) { this.types.unshift(definitions); }
-    undefinedTypeVariables() { this.types.shift(); }
-    resolveTypeVariable(name: string) {
-        for(let i = 0; i < this.types.length; i++) {
-            if(name in this.types[i]) return this.types[i][name];
-
-        }
-        return undefined;
     }
 
 }

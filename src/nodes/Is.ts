@@ -7,7 +7,7 @@ import type Step from "../runtime/Step";
 import type Value from "../runtime/Value";
 import BooleanType from "./BooleanType";
 import Expression from "./Expression";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import Token from "./Token";
 import Type from "./Type";
 import type Node from "./Node";
@@ -33,7 +33,7 @@ export default class Is extends Expression {
 
     computeType(): Type { return new BooleanType(); }
     
-    compile(context: ConflictContext): Step[] {
+    compile(context: Context): Step[] {
         return this.right instanceof Unparsable ? [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ] : [ ...this.left.compile(context), new Finish(this) ];
     }
 

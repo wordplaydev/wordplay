@@ -1,5 +1,6 @@
 import Expression from "./Expression";
-import Node, { type ConflictContext } from "./Node";
+import Node from "./Node";
+import type Context from "./Context";
 import Alias from "./Alias";
 import Token from "./Token";
 import Type from "./Type";
@@ -74,7 +75,7 @@ export default class Bind extends Node implements Evaluable, Named {
         return children;
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] {
+    computeConflicts(context: Context): Conflict[] {
 
         const conflicts = [];
 
@@ -119,7 +120,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
     }
 
-    getType(context: ConflictContext): Type {
+    getType(context: Context): Type {
 
         // What type is this binding?
         let type = 
@@ -142,7 +143,7 @@ export default class Bind extends Node implements Evaluable, Named {
         
     }
 
-    getTypeUnlessCycle(context: ConflictContext): Type {
+    getTypeUnlessCycle(context: Context): Type {
 
         // If the context includes this node, we're in a cycle.
         if(context.visited(this)) return new UnknownType(this);
@@ -154,7 +155,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
     }
 
-    resolveTypeName(context: ConflictContext, name: string) {
+    resolveTypeName(context: Context, name: string) {
 
         // Find the name, using the binding enclosure, or the program.
         const enclosure = this.getBindingEnclosureOf();
@@ -167,7 +168,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
         return this.value === undefined ?
             [ new Halt(new Exception(this, ExceptionKind.EXPECTED_VALUE), this) ] :
             [ new Action(this), ...this.value.compile(context), new Finish(this) ];

@@ -18,7 +18,7 @@ import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Definition from "./Definition";
 
 export default class Update extends Expression {
@@ -42,7 +42,7 @@ export default class Update extends Expression {
 
     computeChildren() { return [ this.table, this.update, this.row, this.query ]; }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
         
         const conflicts: Conflict[] = [];
 
@@ -84,13 +84,13 @@ export default class Update extends Expression {
     
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         // The type of an update is the type of its table
         return this.table.getTypeUnlessCycle(context);        
     }
 
     // Check the table's column binds.
-    getDefinition(context: ConflictContext, node: Node, name: string): Definition {
+    getDefinition(context: Context, node: Node, name: string): Definition {
         
         const type = this.table.getTypeUnlessCycle(context);
         if(type instanceof TableType) {
@@ -102,7 +102,7 @@ export default class Update extends Expression {
 
     }
 
-    compile(context: ConflictContext): Step[] {
+    compile(context: Context): Step[] {
         return [
             new Action(this),
             ...this.table.compile(context),

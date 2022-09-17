@@ -15,7 +15,7 @@ import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Node from "./Node";
 import NoneType from "./NoneType";
 import UnionType from "./UnionType";
@@ -42,7 +42,7 @@ export default class ListAccess extends Expression {
         return [ this.list, this.open, this.index, this.close ];
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
     
         if(this.list instanceof Unparsable || this.index instanceof Unparsable) return [];
 
@@ -55,7 +55,7 @@ export default class ListAccess extends Expression {
     
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         // The type is the list's value type, or unknown otherwise.
         if(this.list instanceof Unparsable) return new UnknownType(this);
         const listType = this.list.getTypeUnlessCycle(context);
@@ -63,7 +63,7 @@ export default class ListAccess extends Expression {
         else return new UnknownType(this);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
         return [ new Action(this), ...this.list.compile(context), ...this.index.compile(context), new Finish(this) ];
     }
 

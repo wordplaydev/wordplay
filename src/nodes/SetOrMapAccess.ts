@@ -14,7 +14,7 @@ import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import MapType from "./MapType";
 import SetType from "./SetType";
 import BooleanType from "./BooleanType";
@@ -39,7 +39,7 @@ export default class SetOrMapAccess extends Expression {
         return [ this.setOrMap, this.open, this.key, this.close ];
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
     
         if(this.setOrMap instanceof Unparsable || this.key instanceof Unparsable) return [];
 
@@ -53,7 +53,7 @@ export default class SetOrMapAccess extends Expression {
     
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         // Either a set or map type, and if so, the key or value's type.
         if(this.setOrMap instanceof Unparsable) return new UnknownType(this);
         const setOrMapType = this.setOrMap.getTypeUnlessCycle(context);
@@ -63,7 +63,7 @@ export default class SetOrMapAccess extends Expression {
         return new UnknownType(this);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
         // Evaluate the set expression, then the key expression, then this.
         return [ 
             new Action(this),

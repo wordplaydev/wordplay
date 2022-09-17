@@ -1,4 +1,5 @@
-import Node, { type ConflictContext } from "./Node";
+import Node from "./Node";
+import type Context from "./Context";
 import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "src/runtime/Value";
@@ -16,16 +17,16 @@ export default abstract class Expression extends Node implements Evaluable {
     }
 
     abstract computeChildren(): Node[];
-    abstract computeType(context: ConflictContext): Type;
+    abstract computeType(context: Context): Type;
 
-    getType(context: ConflictContext) {
+    getType(context: Context) {
         if(this._type === undefined)
             this._type = this.computeType(context);
         return this._type;
     }
 
 
-    getTypeUnlessCycle(context: ConflictContext): Type {
+    getTypeUnlessCycle(context: Context): Type {
 
         // If the context includes this node, we're in a cycle.
         if(context.visited(this)) return new UnknownType(this);
@@ -37,7 +38,7 @@ export default abstract class Expression extends Node implements Evaluable {
 
     }
 
-    abstract compile(context: ConflictContext): Step[];
+    abstract compile(context: Context): Step[];
     abstract evaluate(evaluator: Evaluator): Value | undefined;
 
 }

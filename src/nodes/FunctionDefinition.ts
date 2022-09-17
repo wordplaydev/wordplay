@@ -21,7 +21,7 @@ import Exception, { ExceptionKind } from "../runtime/Exception";
 import FunctionValue from "../runtime/FunctionValue";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Definition from "./Definition";
 import Alias from "./Alias";
 import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, FUNCTION_SYMBOL } from "../parser/Tokenizer";
@@ -113,7 +113,7 @@ export default class FunctionDefinition extends Expression {
     }
 
     /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
-    getDefinition(context: ConflictContext, node: Node, name: string): Definition {
+    getDefinition(context: Context, node: Node, name: string): Definition {
 
         // Does an input delare the name?
         const input = this.inputs.find(i => i instanceof Bind && i.hasName(name)) as Bind | undefined;
@@ -128,7 +128,7 @@ export default class FunctionDefinition extends Expression {
 
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         // The type is equivalent to the signature.
         const inputTypes = this.inputs.map(i =>
              i instanceof Bind ?

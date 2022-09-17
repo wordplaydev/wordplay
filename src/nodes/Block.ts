@@ -19,7 +19,7 @@ import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
 import Structure from "../runtime/Structure";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Definition from "./Definition";
 import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
@@ -76,7 +76,7 @@ export default class Block extends Expression {
     }
 
     /** Given the index in this block and the given name, binds the bind that declares it, if there is one. */
-    getDefinition(context: ConflictContext, node: Node, name: string): Definition {
+    getDefinition(context: Context, node: Node, name: string): Definition {
 
         const containingStatement = this.statements.find(s => s.contains(node));
         if(containingStatement === undefined) return;
@@ -107,13 +107,13 @@ export default class Block extends Expression {
         
     }
  
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         // The type of the last expression.
         const lastExpression = this.statements.slice().reverse().find(s => s instanceof Expression) as Expression | undefined;
         return lastExpression === undefined ? new UnknownType(this) : lastExpression.getTypeUnlessCycle(context);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
 
         // If there are no statements, halt on exception.
         return !this.creator && this.statements.length === 0 ? 

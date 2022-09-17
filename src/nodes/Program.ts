@@ -11,7 +11,7 @@ import Action from "../runtime/Start";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import Stream from "../runtime/Stream";
 import Token from "./Token";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import Node from "./Node";
 
 export default class Program extends Node implements Evaluable {
@@ -39,7 +39,7 @@ export default class Program extends Node implements Evaluable {
     computeChildren() { return [ ...this.borrows, this.block, this.end ]; }
     getConflicts(): Conflict[] { return []; }
 
-    getDefinition(context: ConflictContext, node: Node, name: string): Definition {
+    getDefinition(context: Context, node: Node, name: string): Definition {
 
         if(context.shares !== undefined) {
             const share = context.shares.resolve(name);
@@ -51,7 +51,7 @@ export default class Program extends Node implements Evaluable {
         return undefined;
     }
     
-    compile(context: ConflictContext): Step[] {
+    compile(context: Context): Step[] {
         // Execute the borrows, then the block, then this.
         return [ 
             new Action(this),

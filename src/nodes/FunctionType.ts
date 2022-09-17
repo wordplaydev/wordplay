@@ -3,7 +3,7 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import Alias from "./Alias";
 import Expression from "./Expression";
 import AnyType from "./AnyType";
@@ -47,7 +47,7 @@ export default class FunctionType extends Type {
         return children;
     }
 
-    isCompatible(type: Type, context: ConflictContext): boolean {
+    isCompatible(type: Type, context: Context): boolean {
         if(type instanceof AnyType) return true;
         if(!(type instanceof FunctionType)) return false;
         if(!(this.output instanceof Type)) return false;

@@ -20,7 +20,7 @@ import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Definition from "./Definition";
 
 export default class Select extends Expression {
@@ -44,7 +44,7 @@ export default class Select extends Expression {
     
     computeChildren() { return [ this.table, this.select, this.row, this.query ]; }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
         
         const conflicts: Conflict[] = [];
 
@@ -78,7 +78,7 @@ export default class Select extends Expression {
     
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
 
         // Get the table type and find the rows corresponding the selected columns.
         const tableType = this.table.getTypeUnlessCycle(context);
@@ -97,7 +97,7 @@ export default class Select extends Expression {
     }
 
     // Check the table's column binds.
-    getDefinition(context: ConflictContext, node: Node, name: string): Definition {
+    getDefinition(context: Context, node: Node, name: string): Definition {
         
         const type = this.table.getTypeUnlessCycle(context);
         if(type instanceof TableType) {
@@ -109,7 +109,7 @@ export default class Select extends Expression {
 
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
         // Evaluate the table expression then this.
         return [ 
             new Action(this),

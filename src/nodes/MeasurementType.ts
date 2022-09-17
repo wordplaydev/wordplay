@@ -1,7 +1,7 @@
 import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { MEASUREMENT_SYMBOL } from "../parser/Tokenizer";
 import AnyType from "./AnyType";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
@@ -42,7 +42,7 @@ export default class MeasurementType extends Type {
 
     getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }
 
-    getDefinition(context: ConflictContext, node: Node, name: string) {
+    getDefinition(context: Context, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
     }
 

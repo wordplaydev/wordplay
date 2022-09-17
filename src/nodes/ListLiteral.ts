@@ -10,7 +10,7 @@ import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import { getPossibleUnionType } from "./UnionType";
 import AnyType from "./AnyType";
 
@@ -32,14 +32,14 @@ export default class ListLiteral extends Expression {
         return [ this.open, ...this.values, this.close ];
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         const expressions = this.values.filter(e => e instanceof Expression) as Expression[];
         let itemType = getPossibleUnionType(context, expressions.map(v => v.getTypeUnlessCycle(context)));
         if(itemType === undefined) itemType = new AnyType(this);
         return new ListType(itemType);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
         return [ 
             new Action(this),
             ...this.values.reduce((steps: Step[], item) => [...steps, ...item.compile(context)], []),

@@ -2,7 +2,8 @@ import Bind from "../nodes/Bind";
 import type Conflict from "../conflicts/Conflict";
 import { MissingShareLanguages } from "../conflicts/MissingShareLanguages";
 import { MisplacedShare } from "../conflicts/MisplacedShare";
-import Node, { type ConflictContext } from "./Node";
+import Node from "./Node";
+import type Context from "./Context";
 import Token from "./Token";
 import Unparsable from "./Unparsable";
 import type Evaluable from "../runtime/Evaluable";
@@ -26,7 +27,7 @@ export default class Share extends Node implements Evaluable {
 
     computeChildren() { return [ this.share, this.bind ]; }
 
-    computeConflicts(context: ConflictContext): Conflict[] {
+    computeConflicts(context: Context): Conflict[] {
 
         const conflicts = [];
 
@@ -42,7 +43,7 @@ export default class Share extends Node implements Evaluable {
 
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
         return [ new Action(this), ...this.bind.compile(context), new Finish(this) ];
     }
 

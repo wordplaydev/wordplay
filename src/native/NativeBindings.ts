@@ -2,7 +2,7 @@ import Alias from "../nodes/Alias";
 import type NativeInterface from "./NativeInterface";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import NativeExpression from "./NativeExpression";
-import type { ConflictContext } from "../nodes/Node";
+import type Context from "../nodes/Context";
 import type Type from "../nodes/Type";
 import ConversionDefinition from "../nodes/ConversionDefinition";
 import Exception, { ExceptionKind } from "../runtime/Exception";
@@ -108,7 +108,7 @@ class NativeBindings implements NativeInterface {
         this.structureDefinitionsByName[kind] = structure;
     }
     
-    getConversion(kind: string, context: ConflictContext, type: Type): ConversionDefinition | undefined {
+    getConversion(kind: string, context: Context, type: Type): ConversionDefinition | undefined {
         if(!(kind in this.conversionsByType)) return undefined;
         return this.conversionsByType[kind].find(c => c.convertsType(type, context));
     }

@@ -2,7 +2,7 @@ import { TEXT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { TEXT_SYMBOL } from "../parser/Tokenizer";
 import AnyType from "./AnyType";
 import Language from "./Language";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
@@ -36,7 +36,7 @@ export default class TextType extends Type {
 
     getNativeTypeName(): string { return TEXT_NATIVE_TYPE_NAME; }
 
-    getDefinition(context: ConflictContext, node: Node, name: string) {
+    getDefinition(context: Context, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
     }
 

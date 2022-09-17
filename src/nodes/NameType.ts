@@ -6,7 +6,7 @@ import Type from "./Type";
 import type Node from "./Node";
 import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import Value from "../runtime/Value";
 import type Definition from "./Definition";
 import StructureDefinition from "./StructureDefinition";
@@ -27,7 +27,7 @@ export default class NameType extends Type {
 
     computeChildren() { return [ this.type ]; }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
         
         const conflicts = [];
 
@@ -40,21 +40,21 @@ export default class NameType extends Type {
     
     }
 
-    isCompatible(type: Type, context: ConflictContext): boolean {    
+    isCompatible(type: Type, context: Context): boolean {    
         const thisType = this.getType(context);
         return thisType === undefined ? false : thisType.isCompatible(type, context);
     }
 
-    getDefinition(context: ConflictContext): Definition {
+    getDefinition(context: Context): Definition {
 
         const enclosure = this.getBindingEnclosureOf() ?? context.program;
         return enclosure.getDefinition(context, this, this.getName());
 
     }
 
-    isTypeVariable(context: ConflictContext) { return this.getDefinition(context) instanceof TypeVariable; }
+    isTypeVariable(context: Context) { return this.getDefinition(context) instanceof TypeVariable; }
 
-    getType(context: ConflictContext): Type {
+    getType(context: Context): Type {
 
         // The name should be defined.
         const definition = this.getDefinition(context);

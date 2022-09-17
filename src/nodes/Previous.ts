@@ -12,7 +12,7 @@ import Exception, { ExceptionKind } from "../runtime/Exception";
 import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import { NotAStream } from "../conflicts/NotAStream";
 import StreamType from "./StreamType";
 import { NotAStreamIndex } from "../conflicts/NotAStreamIndex";
@@ -37,7 +37,7 @@ export default class Previous extends Expression {
         return [ this.stream, this.previous, this.index ];
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
     
         if(this.stream instanceof Unparsable || this.index instanceof Unparsable) return [];
 
@@ -54,13 +54,13 @@ export default class Previous extends Expression {
     
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         // The type is the stream's type.
         const streamType = this.stream instanceof Unparsable ? new UnknownType(this.stream) : this.stream.getTypeUnlessCycle(context);
         return streamType instanceof StreamType && !(streamType.type instanceof Unparsable)? streamType.type : new UnknownType(this);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
         return [ ...this.stream.compile(context), new KeepStream(this), ...this.index.compile(context), new Finish(this) ];
     }
 

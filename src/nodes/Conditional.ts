@@ -10,7 +10,7 @@ import Unparsable from "./Unparsable";
 import type Step from "../runtime/Step";
 import JumpIfFalse from "../runtime/JumpIfFalse";
 import Jump from "../runtime/Jump";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import UnionType from "./UnionType";
 
 export default class Conditional extends Expression {
@@ -32,7 +32,7 @@ export default class Conditional extends Expression {
 
     computeChildren() { return [ this.condition, this.conditional, this.yes, this.no ]; }
 
-    computeConflicts(context: ConflictContext): Conflict[] {
+    computeConflicts(context: Context): Conflict[] {
     
         const children = [];
 
@@ -44,7 +44,7 @@ export default class Conditional extends Expression {
     
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         // Whatever type the yes/no returns.
         if(this.yes instanceof Unparsable) {
             if(this.no instanceof Unparsable)
@@ -66,7 +66,7 @@ export default class Conditional extends Expression {
         }
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
 
         const yes = this.yes.compile(context);
         const no = this.no.compile(context);

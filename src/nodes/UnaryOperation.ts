@@ -17,7 +17,7 @@ import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 
 export default class UnaryOperation extends Expression {
 
@@ -37,7 +37,7 @@ export default class UnaryOperation extends Expression {
         return [ this.operator, this.operand ];
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
     
         const conflicts = [];
 
@@ -54,7 +54,7 @@ export default class UnaryOperation extends Expression {
     
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         if(this.operator.text.toString() === "¬" || this.operator.text.toString() === "~") return new BooleanType();
         else if(this.operator.text.toString() === "√" && this.operand instanceof Expression) {
             const type = this.operand.getTypeUnlessCycle(context);
@@ -82,7 +82,7 @@ export default class UnaryOperation extends Expression {
         else return new UnknownType(this);
     }
     
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
         return [
             new Action(this),
             ...this.operand.compile(context),

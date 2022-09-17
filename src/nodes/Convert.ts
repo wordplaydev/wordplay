@@ -12,7 +12,7 @@ import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Action from "../runtime/Start";
 import Evaluation from "../runtime/Evaluation";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import Halt from "../runtime/Halt";
 import ConversionValue from "../runtime/ConversionValue";
 
@@ -32,7 +32,7 @@ export default class Convert extends Expression {
 
     computeChildren() { return [ this.expression, this.convert, this.type ]; }
 
-    getConversionDefinition(context: ConflictContext) {
+    getConversionDefinition(context: Context) {
 
         // The expression's type must have a conversion.
         const exprType = this.expression.getTypeUnlessCycle(context);
@@ -42,7 +42,7 @@ export default class Convert extends Expression {
         
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
         
         // If we know the expression's type, there must be a corresponding conversion on that type.
         const exprType = this.expression.getTypeUnlessCycle(context);
@@ -54,7 +54,7 @@ export default class Convert extends Expression {
     
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         
         // Get the conversion definition.
         const definition = this.getConversionDefinition(context);
@@ -62,7 +62,7 @@ export default class Convert extends Expression {
 
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
 
         const conversion = this.getConversionDefinition(context);
         if(conversion === undefined)

@@ -17,7 +17,7 @@ import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Unparsable from "./Unparsable";
 import Token from "./Token";
 
@@ -38,7 +38,7 @@ export default class TableLiteral extends Expression {
 
     computeChildren() { return [ ...this.columns, this.close, ...this.rows ]; }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
     
         const conflicts: Conflict[] = [];
 
@@ -74,7 +74,7 @@ export default class TableLiteral extends Expression {
         return new TableType(columnTypes);
     }
 
-    compile(context: ConflictContext): Step[] {
+    compile(context: Context): Step[] {
         return [
             new Action(this),
             // Compile all of the row's 's cells expressions.

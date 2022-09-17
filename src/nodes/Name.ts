@@ -12,7 +12,7 @@ import Exception, { ExceptionKind } from "../runtime/Exception";
 import Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Definition from "./Definition";
 
 export default class Name extends Expression {
@@ -26,7 +26,7 @@ export default class Name extends Expression {
 
     computeChildren() { return [ this.name ]; }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
 
         const bindOrTypeVar = this.getBind(context);
         return bindOrTypeVar === undefined ? [ new UnknownName(this )] :
@@ -35,14 +35,14 @@ export default class Name extends Expression {
         
     }
 
-    getBind(context: ConflictContext): Definition {
+    getBind(context: Context): Definition {
 
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
         return this.getBindingEnclosureOf()?.getDefinition(context, this, this.name.text.toString());
 
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         // The type is the type of the bind.
         const bindOrTypeVar = this.getBind(context);
         if(bindOrTypeVar === undefined) return new UnknownType(this);

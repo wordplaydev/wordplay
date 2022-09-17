@@ -1,6 +1,6 @@
 import Token from "./Token";
 import Type from "./Type";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Node from "./Node";
 import TokenType from "./TokenType";
 import AnyType from "./AnyType";
@@ -25,7 +25,7 @@ export default class BooleanType extends Type {
 
     getNativeTypeName(): string { return BOOLEAN_NATIVE_TYPE_NAME; }
 
-    getDefinition(context: ConflictContext, node: Node, name: string) {
+    getDefinition(context: Context, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
     }
 

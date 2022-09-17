@@ -19,7 +19,7 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type Value from "../runtime/Value";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Node from "./Node";
 import { AND_SYMBOL, OR_SYMBOL } from "../parser/Tokenizer";
 
@@ -43,7 +43,7 @@ export default class BinaryOperation extends Expression {
         return [ this.left, this.operator, this.right ];
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
 
         const conflicts = [];
 
@@ -89,7 +89,7 @@ export default class BinaryOperation extends Expression {
     
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
         const rightType = this.right instanceof Expression ? this.right.getTypeUnlessCycle(context) : undefined;
 
@@ -202,7 +202,7 @@ export default class BinaryOperation extends Expression {
         }
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
         return [ new Action(this), ...this.left.compile(context), ...this.right.compile(context), new Finish(this) ];
     }
 

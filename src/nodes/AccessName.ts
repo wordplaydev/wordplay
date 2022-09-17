@@ -10,7 +10,7 @@ import Exception from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Action from "../runtime/Start";
 import Finish from "../runtime/Finish";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Node from "./Node";
 import StructureType from "./StructureType";
 import StreamType from "./StreamType";
@@ -33,7 +33,7 @@ export default class AccessName extends Expression {
         return [ this.subject, this.access, this.name ];
     }
 
-    computeConflicts(context: ConflictContext): Conflict[] {
+    computeConflicts(context: Context): Conflict[] {
 
         const conflicts = [];
 
@@ -44,14 +44,14 @@ export default class AccessName extends Expression {
         return conflicts;
     }
 
-    getSubjectType(context: ConflictContext): Type | undefined {
+    getSubjectType(context: Context): Type | undefined {
 
         if(this.subject instanceof Unparsable) return;
         return this.subject.getTypeUnlessCycle(context);
 
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         let subjectType = this.getSubjectType(context);
         if(subjectType === undefined) return new UnknownType(this);
 
@@ -73,7 +73,7 @@ export default class AccessName extends Expression {
         }
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
         
         return [ new Action(this), ...this.subject.compile(context), new Finish(this) ]
 

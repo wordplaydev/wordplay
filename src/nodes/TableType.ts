@@ -2,7 +2,7 @@ import type ColumnType from "./ColumnType";
 import Type from "./Type";
 import type Node from "./Node";
 import Bind from "../nodes/Bind";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Unparsable from "./Unparsable";
 import Token from "./Token";
 import TokenType from "./TokenType";
@@ -28,7 +28,7 @@ export default class TableType extends Type {
 
     computeChildren() { return [ ...this.columns, this.close ]; }
 
-    isCompatible(type: Type, context: ConflictContext) {
+    isCompatible(type: Type, context: Context) {
 
         if(!(type instanceof TableType)) return false;
         if(this.columns.length !== type.columns.length) return false;    

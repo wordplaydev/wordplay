@@ -11,7 +11,7 @@ import Value from "./Value";
 // Import this last, after everything else.
 import Native from "../native/NativeBindings";
 import type NativeInterface from "../native/NativeInterface";
-import { ConflictContext } from "../nodes/Node";
+import Context from "../nodes/Context";
 
 export default class Evaluator {
 
@@ -63,7 +63,7 @@ export default class Evaluator {
         return result;
     }
 
-    getContext(): ConflictContext { return new ConflictContext(this.program, this.shares, Native); }
+    getContext(): Context { return new Context(this.program, this.shares, Native); }
 
     getNative(): NativeInterface { return Native; }
 

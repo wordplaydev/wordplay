@@ -18,7 +18,7 @@ import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import ConversionValue from "../runtime/ConversionValue";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import { parseType, tokens } from "../parser/Parser";
 import { CONVERT_SYMBOL } from "../parser/Tokenizer";
 
@@ -47,7 +47,7 @@ export default class ConversionDefinition extends Expression {
         return children;
     }
 
-    convertsType(type: Type, context: ConflictContext) {
+    convertsType(type: Type, context: Context) {
         return this.output instanceof Type && this.output.isCompatible(type, context);
     }
 

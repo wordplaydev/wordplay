@@ -12,7 +12,7 @@ import MapValue from "../runtime/MapValue";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import { getPossibleUnionType } from "./UnionType";
 import { NotAMap } from "../conflicts/NotAMap";
 import MapType from "./MapType";
@@ -49,7 +49,7 @@ export default class MapLiteral extends Expression {
     
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         let keyType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.key.getTypeUnlessCycle(context) : new UnknownType(v)));
         let valueType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.value.getTypeUnlessCycle(context) : v.getTypeUnlessCycle(context)));
         if(keyType === undefined) keyType = new AnyType(this);
@@ -59,7 +59,7 @@ export default class MapLiteral extends Expression {
 
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
         return this.notAMap() ? 
             [ new Halt(new Exception(this, ExceptionKind.EXPECTED_VALUE, "Missing values in map"), this)] :
             [

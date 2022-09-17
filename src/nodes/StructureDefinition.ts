@@ -20,7 +20,7 @@ import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Definition from "./Definition";
 import StructureType from "./StructureType";
 import Alias from "./Alias";
@@ -73,7 +73,7 @@ export default class StructureDefinition extends Expression {
 
     getInputs() { return this.inputs.filter(i => i instanceof Bind) as Bind[]; }
 
-    getFunctionType(context: ConflictContext): FunctionType {
+    getFunctionType(context: Context): FunctionType {
 
         // The type is equivalent to the signature.
         const inputTypes = this.inputs.map(i =>
@@ -159,7 +159,7 @@ export default class StructureDefinition extends Expression {
     }
 
     /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
-    getDefinition(context: ConflictContext, node: Node, name: string): Definition {
+    getDefinition(context: Context, node: Node, name: string): Definition {
 
         // Is this it? Return it.
         if(this.aliases.find(a => a.getName() === name)) return this;
@@ -177,7 +177,7 @@ export default class StructureDefinition extends Expression {
 
     }
 
-    getConversion(context: ConflictContext, type: Type): ConversionDefinition | undefined {
+    getConversion(context: Context, type: Type): ConversionDefinition | undefined {
 
         // Find the conversion in this type's block that produces a compatible type. 
         return this.block instanceof Block ? 

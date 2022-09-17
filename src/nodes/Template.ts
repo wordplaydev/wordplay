@@ -9,7 +9,7 @@ import Text from "../runtime/Text";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import Language from "./Language";
 
 export default class Template extends Expression {
@@ -32,7 +32,7 @@ export default class Template extends Expression {
         return new TextType(undefined, this.format);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
         return [
             ...this.parts.filter(p => p instanceof Expression).reduce(
                 (parts: Step[], part) => [...parts, ...(part as Expression).compile(context)], []

@@ -9,7 +9,7 @@ import SetValue from "../runtime/SetValue";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import { getPossibleUnionType } from "./UnionType";
 import SetType from "./SetType";
 import AnyType from "./AnyType";
@@ -33,13 +33,13 @@ export default class SetLiteral extends Expression {
         return [ this.open, ...this.values, this.close ];
     }
 
-    computeType(context: ConflictContext): Type {
+    computeType(context: Context): Type {
         let type = getPossibleUnionType(context, this.values.map(v => (v as Expression | Unparsable).getTypeUnlessCycle(context)));
         if(type === undefined) type = new AnyType(this);        
         return new SetType(undefined, undefined, type);
     }
 
-    compile(context: ConflictContext):Step[] {
+    compile(context: Context):Step[] {
         return [
             new Action(this),
             // Evaluate all of the item or key/value expressions

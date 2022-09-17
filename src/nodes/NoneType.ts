@@ -2,7 +2,7 @@ import { NONE_NATIVE_TYPE_NME } from "../native/NativeConstants";
 import { NONE_SYMBOL } from "../parser/Tokenizer";
 import Alias from "./Alias";
 import AnyType from "./AnyType";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
@@ -40,7 +40,7 @@ export default class NoneType extends Type {
         return "•!" + this.aliases.map(a => a.getName());
     }
 
-    getDefinition(context: ConflictContext, node: Node, name: string) {
+    getDefinition(context: Context, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
     }
 

@@ -1,6 +1,6 @@
 import { MAP_KEY_TYPE_VAR_NAME, MAP_NATIVE_TYPE_NAME, MAP_VALUE_TYPE_VAR_NAME } from "../native/NativeConstants";
 import { BIND_SYMBOL, SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
-import type { ConflictContext } from "./Node";
+import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
@@ -35,7 +35,7 @@ export default class MapType extends Type {
         return children;
     }
 
-    isCompatible(type: Type, context: ConflictContext): boolean { 
+    isCompatible(type: Type, context: Context): boolean { 
         return  type instanceof MapType &&
             (
                 // If there is no key type, then must both have no key type.
@@ -55,7 +55,7 @@ export default class MapType extends Type {
 
     getNativeTypeName(): string { return MAP_NATIVE_TYPE_NAME; }
 
-    getDefinition(context: ConflictContext, node: Node, name: string) {
+    getDefinition(context: Context, node: Node, name: string) {
         return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
     }
 
