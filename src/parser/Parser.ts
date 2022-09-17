@@ -836,7 +836,9 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
     const typeInputs: TypeInput[] = [];
 
     while(tokens.nextIs(TokenType.TYPE_VAR)) {
-        typeInputs.push(new TypeInput(tokens.read(TokenType.TYPE_VAR), parseType(tokens)));
+        const dot = tokens.read(TokenType.TYPE_VAR);
+        const type = parseType(tokens);
+        typeInputs.push(new TypeInput(type, dot));
     }
     
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
@@ -1075,13 +1077,13 @@ function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
     if(aliases.length === 0)
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_STRUCTURE_NAME, [ docs, type ])
 
-    const interfaces: NameType[] = [];
+    const interfaces: TypeInput[] = [];
     while(tokens.nextIs(TokenType.TYPE)) {
         const dot = tokens.read(TokenType.TYPE);
         if(tokens.nextIsnt(TokenType.NAME))
             return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_STRUCTURE_NAME, [ docs, type, aliases, dot ]);
         const name = tokens.read(TokenType.NAME);
-        interfaces.push(new NameType(name));
+        interfaces.push(new TypeInput(new NameType(name), dot));
     }
 
     const typeVars = parseTypeVariables(tokens);

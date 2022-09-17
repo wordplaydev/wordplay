@@ -30,13 +30,14 @@ import UnknownType from "./UnknownType";
 import FunctionType from "./FunctionType";
 import NameType from "./NameType";
 import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
+import type TypeInput from "./TypeInput";
 
 export default class StructureDefinition extends Expression {
 
     readonly type: Token;
     readonly docs: Documentation[];
     readonly aliases: Alias[];
-    readonly interfaces: NameType[];
+    readonly interfaces: TypeInput[];
     readonly typeVars: (TypeVariable|Unparsable)[];
     readonly open: Token;
     readonly inputs: (Bind | Unparsable)[];
@@ -46,7 +47,7 @@ export default class StructureDefinition extends Expression {
     constructor(
         docs: Documentation[], 
         aliases: Alias[], 
-        interfaces: NameType[], 
+        interfaces: TypeInput[], 
         typeVars: (TypeVariable|Unparsable)[], 
         inputs: (Bind|Unparsable)[], 
         block?: Block | Unparsable, 

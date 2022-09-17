@@ -3,6 +3,7 @@ import Block from "../nodes/Block";
 import Language from "../nodes/Language";
 import NameType from "../nodes/NameType";
 import StructureDefinition from "../nodes/StructureDefinition";
+import TypeInput from "../nodes/TypeInput";
 
 export const Layout = new StructureDefinition(
     [], // TODO Localized documentation
@@ -17,7 +18,7 @@ export default Layout;
 export const Vertical = new StructureDefinition(
     [], // TODO Localized documentation
     [ new Alias("Vertical", new Language("eng")) ],
-    [ new NameType("Layout") ],
+    [ new TypeInput(new NameType("Layout")) ],
     [],
     [],
     new Block([], [], true)

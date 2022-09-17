@@ -3,6 +3,8 @@ import Type from "./Type";
 import type ConversionDefinition from "./ConversionDefinition";
 import type Context from "./Context";
 import type StructureDefinition from "./StructureDefinition";
+import NameType from "./NameType";
+import Unparsable from "./Unparsable";
 
 export const STRUCTURE_NATIVE_TYPE_NAME = "structure";
 
@@ -31,8 +33,12 @@ export default class StructureType extends Type {
         if(!(type instanceof StructureType)) return false;
         if(this.definition === type.definition) return true;
         // Are any of this definition's interfaces compatible with the given type?
-        return this.definition.interfaces.find(int => int.getType(context)?.isCompatible(type, context)) !== undefined;
-
+        return this.definition.interfaces.find(int => {
+            let type = int.type;
+            if(type instanceof Unparsable) return false;
+            if(type instanceof NameType) type = type.getType(context);
+            return type.isCompatible(type, context);
+        }) !== undefined;
     }
 
     getConversion(context: Context, type: Type): ConversionDefinition | undefined {
