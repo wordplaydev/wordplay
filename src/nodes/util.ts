@@ -90,3 +90,23 @@ export function restIsNotLast(inputs: (Bind|Unparsable)[]) {
         new VariableLengthArgumentMustBeLast(rest) : undefined;
 
 }
+
+export function getEvaluationInputConflicts(inputs: (Bind|Unparsable)[]) {
+
+    const conflicts = [];
+
+    // Structure input names must be unique
+    const duplicateInputs = getDuplicateAliases(inputs.map(i => i instanceof Bind ? i.names : []).flat());
+    if(duplicateInputs) conflicts.push(duplicateInputs);
+    
+    // Required inputs can never follow an optional one.
+    const requiredAfterOptional = requiredBindAfterOptional(inputs);
+    if(requiredAfterOptional) conflicts.push(requiredAfterOptional);
+
+    // Rest arguments must be last
+    const restIsntLast = restIsNotLast(inputs);
+    if(restIsntLast) conflicts.push(restIsntLast);
+    
+    return conflicts;
+
+}

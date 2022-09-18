@@ -374,7 +374,7 @@ export function parseAliases(tokens: Tokens): Alias[] {
         if(aliases.length > 0 && comma === undefined) break;
         const name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : undefined;
         const lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
-        aliases.push(new Alias(name, lang, undefined/*semicolon*/));
+        aliases.push(new Alias(name, lang, comma));
     }
 
     return aliases;

@@ -1,7 +1,6 @@
 import Bind from "../nodes/Bind";
 import type Conflict from "../conflicts/Conflict";
-import { RedundantNamedInput } from "../conflicts/RedundantNamedInput";
-import { UnknownInputName } from "../conflicts/UnknownInputName";
+import { UnexpectedInput as UnexpectedInput } from "../conflicts/UnexpectedInput";
 import { MissingInput } from "../conflicts/MissingInput";
 import { UnexpectedInputs } from "../conflicts/UnexpectedInputs";
 import { IncompatibleInput } from "../conflicts/IncompatibleInput";
@@ -33,6 +32,7 @@ import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
 import AccessName from "./AccessName";
 import TypeInput from "./TypeInput";
+import { getEvaluationInputConflicts } from "./util";
 
 export default class Evaluate extends Expression {
 
@@ -62,150 +62,141 @@ export default class Evaluate extends Expression {
     
         const conflicts = [];
 
-        if(this.func instanceof Expression) {
-            const functionType = this.func.getTypeUnlessCycle(context);
+        if(this.func instanceof Unparsable) return [];
 
-            // The function must be a function or structure. If it's not, that's a conflict.
-            if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
-                conflicts.push(new NotAFunction(this, functionType));
-            // Otherwise, let's verify that all of the inputs provided are valid.
-            else {
-                let targetInputs: (Bind|Unparsable)[] | undefined = undefined;
-                if(functionType instanceof FunctionType)
-                    targetInputs = functionType.inputs;
-                else if(functionType instanceof StructureType) {
-                    // Can't create interfaces that don't have missing function definitions.
-                    const abstractFunctions = functionType.definition.getAbstractFunctions();
-                    if(abstractFunctions !== undefined && abstractFunctions.length > 0)
-                        conflicts.push(new NotInstantiable(this, functionType.definition, abstractFunctions));
+        const functionType = this.func.getTypeUnlessCycle(context);
 
-                    // Get the types of all of the inputs.
-                    targetInputs = functionType.definition.inputs;
+        // The function must be a function or structure. If it's not, that's a conflict.
+        // Then stop checking because we can't analyze anything.
+        if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
+            return [ new NotAFunction(this, functionType) ];
+
+        // Verify that all of the inputs provided are valid.
+        let candidateTargetInputs;
+        if(functionType instanceof FunctionType)
+            candidateTargetInputs = functionType.inputs;
+        else if(functionType instanceof StructureType) {
+            // Can't create interfaces that don't have missing function definitions.
+            const abstractFunctions = functionType.definition.getAbstractFunctions();
+            if(abstractFunctions !== undefined && abstractFunctions.length > 0)
+                return [ new NotInstantiable(this, functionType.definition, abstractFunctions) ];
+            // Get the types of all of the inputs.
+            candidateTargetInputs = functionType.definition.inputs;
+        }
+
+        // If we somehow didn't get inputs, return nothing.
+        if(candidateTargetInputs === undefined) return [];
+
+        // If any of the expected inputs is unparsable, return nothing.
+        if(!candidateTargetInputs.every(i => i instanceof Bind)) return [];
+
+        // If any of the given inputs are unparsable, return nothing.
+        if(!this.inputs.every(i => !(i instanceof Unparsable))) return [];
+
+        // We made it! Let's analyze the given and expected inputs and see if there are any problems.
+        const expectedInputs = candidateTargetInputs as Bind[];
+
+        // If the target inputs has conflicts with its names, defaults, or variable length inputs,
+        // then we don't analyze this.
+        if(getEvaluationInputConflicts(expectedInputs).length > 0) return [];
+
+        // To verify that this evaluation's given inputs match the target inputs, 
+        // the algorithm needs to check that all required inputs are provided and a compatible type, 
+        // that optional arguments have valid names and are the compatible type
+        // and that all variable length inputs have compatible types.
+        // To do this, we loop through target inputs and consume the given inputs according to matching rules.
+
+        const givenInputs = this.inputs.slice() as (Expression|Bind)[];
+        const bindsGiven = new Set<Bind>();
+
+        // Loop through each of the expected types and see if the given types match.
+        for(const expectedInput of expectedInputs) {
+
+            // Figure out what type this expected input is. Resolve any type variables to concrete values.
+            const expectedType = expectedInput.getType(context);
+            const concreteInputType = this.resolveTypeNames(expectedType, context);
+
+            if(expectedInput.isRequired()) {
+                const given = givenInputs.shift();
+
+                // No more inputs? Mark one missing and stop.
+                if(given === undefined) return [ new MissingInput(functionType, this, expectedInput) ];
+                
+                // If the given input is a named input, 
+                // 1) the given name should match the required input.
+                // 2) it shouldn't already be set.
+                if(given instanceof Bind) {
+                    // If we've already given the name...
+                    // The given name has to match the required name.
+                    if(!expectedInput.sharesName(given))
+                        return [ new UnexpectedInput(functionType, this, expectedInput, given) ];
+                    // The types have to match
+                    if(concreteInputType !== undefined && given.value instanceof Expression) {
+                        const givenType = given.value.getTypeUnlessCycle(context);
+                        if(!givenType.isCompatible(concreteInputType, context))
+                            conflicts.push(new IncompatibleInput(functionType, this, given.value, givenType, concreteInputType));
+                    }
+                }
+                // If the given value input isn't a bind, check the type of the next given input.
+                else {
+                    const givenType = given.getType(context);
+                    if(concreteInputType !== undefined && !givenType.isCompatible(concreteInputType, context))
+                        conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType));
                 }
 
-                // Did we successfully get types for all of the inputs of this function?
-                // If so, see if the inputs provided match the types expected.
-                if(targetInputs !== undefined) {
+                // Remember that we matched this bind.
+                bindsGiven.add(expectedInput);
 
-                    // To do this, we have to account for three types of input patterns:
-                    //  1) Unnamed sequences (e.g., (a b c) => (1 2 3)
-                    //  2) Variable length trailing sequences (e.g., (a b …c) => (1 2 3 4 5 6))
-                    //  3) Named arguments (e.g., (a b:1 c:2) => (1 c:3))
-                    // These can be mixed and matched in the following order
-                    //  (required* optional* rest?)
-                    // To verify that it's a match, the algorithm needs to check that
-                    // all required inputs are provided and a compatible type, 
-                    // that optional arguments have valid names and are the compatible type
-                    // and that all variable length inputs have compatible types.
-                    // To do this, we loop through function/structure's input pattern, and
-                    // essentially parse the inputs given in this evaluate, halting on a type error.
-
-                    // Get all of the expressions in this Evaluate
-                    const givenInputs = this.inputs.slice();
-                    const namesProvided = new Set<string>();
-                    // Loop through each of the expected types and see if the given types match
-                    for(let i = 0; i < targetInputs.length; i++) {
-                        const input = targetInputs[i];
-                        const concreteInputType = input instanceof Bind && input.type instanceof Type ? this.resolveTypeNames(input.type, context) : undefined;
-
-                        if(input instanceof Bind && !input.hasDefault()) {
-                            const given = givenInputs.shift();
-                            // No more inputs? Mark one missing and stop.
-                            if(given === undefined) {
-                                conflicts.push(new MissingInput(functionType, this, input));
-                                break;
-                            }
-                            // Otherwise, does the next given input match this required input?
-                            else {
-                                const givenType = given instanceof Bind ? given.value?.getTypeUnlessCycle(context) : given.getTypeUnlessCycle(context);
-                                // If the given input is a named input, 1) the given name should match the required input.
-                                // and 2) it shouldn't already be set.
-                                if(given instanceof Bind) {
-                                    const givenName = given.names[0].getName();
-                                    if(givenName !== undefined) {
-                                        // If we've already given the name...
-                                        if(namesProvided.has(givenName)) {
-                                            conflicts.push(new RedundantNamedInput(functionType, given, this, input));
-                                            break;
-                                        }
-                                        // The given name has to match the required name.
-                                        else if(!input.hasName(givenName)) {
-                                            conflicts.push(new UnknownInputName(functionType, this, input, given));
-                                            break;
-                                        }
-                                        // The types have to match
-                                        else if(concreteInputType !== undefined && given.value !== undefined && !given.value.getTypeUnlessCycle(context).isCompatible(concreteInputType, context) && !(given.value instanceof Unparsable)) {
-                                            conflicts.push(new IncompatibleInput(functionType, this, given.value, given.value.getTypeUnlessCycle(context), concreteInputType));
-                                        }
-                                        // Remember that we named this input to catch redundancies.
-                                        else input.getNames().forEach(name => namesProvided.add(name));
-                                    }
-                                }
-                                // If it's not a bind, check the type of the next given input.
-                                else {
-                                    if(!(given instanceof Unparsable) && givenType !== undefined && concreteInputType !== undefined && !givenType.isCompatible(concreteInputType, context)) {
-                                        conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType));
-                                    }
-                                    // Remember that we got this named input.
-                                    input.getNames().forEach(name => namesProvided.add(name));
-                                }
-                            }
-                        }
-                        // If it's optional, go through each one to see if it's provided in the remaining inputs.
-                        else if(input instanceof Bind) {
-                            // If it's variable length, check all of the remaining given inputs to see if they match this type.
-                            if(input.isVariableLength()) {
-                                while(givenInputs.length > 0) {
-                                    const given = givenInputs.shift();
-                                    if(given !== undefined && given instanceof Expression && concreteInputType !== undefined && !given.getTypeUnlessCycle(context).isCompatible(concreteInputType, context)) {
-                                        conflicts.push(new IncompatibleInput(functionType, this, given, given.getTypeUnlessCycle(context), concreteInputType));
-                                        break;
-                                    }
-                                }
-                            }
-                            // If it's just an optional input, see if any of the inputs provide it.
-                            else {
-                                // Is there a named input that matches?
-                                const matchingBind = givenInputs.find(i => i instanceof Bind && input.names.find(a => a.getName() === i.getNames()[0]) !== undefined);
-                                if(matchingBind instanceof Bind) {
-                                    // If the types don't match, there's a conflict.
-                                    if(matchingBind.value !== undefined && !(matchingBind.value instanceof Unparsable) && concreteInputType !== undefined && !matchingBind.value.getTypeUnlessCycle(context).isCompatible(concreteInputType, context)) {
-                                        conflicts.push(new IncompatibleInput(functionType, this, matchingBind.value, matchingBind.value.getTypeUnlessCycle(context), concreteInputType));
-                                        break;
-                                    }
-                                    // Otherwise, remember that we matched on this and remove it from the given inputs list.
-                                    input.getNames().forEach(name => namesProvided.add(name));
-                                    const bindIndex = givenInputs.indexOf(matchingBind);
-                                    if(bindIndex >= 0)
-                                        givenInputs.splice(bindIndex, 1);
-                                }
-                                // Otherwise, see if the next input matches the type.
-                                else if(givenInputs.length > 0 && concreteInputType !== undefined && (givenInputs[0] instanceof Expression) && !givenInputs[0].getTypeUnlessCycle(context).isCompatible(concreteInputType, context)) {
-                                    conflicts.push(new IncompatibleInput(functionType, this, givenInputs[0] as Expression, givenInputs[0].getTypeUnlessCycle(context), concreteInputType));
-                                    break;
-                                }
-                                // Otherwise, remove the given input and remember we matched this input's names.
-                                else {
-                                    const given = givenInputs.shift();
-                                    if(given !== undefined && given instanceof Bind && namesProvided.has(given.getNames()[0])) {
-                                        conflicts.push(new RedundantNamedInput(functionType, given, this, input));
-                                        break;
-                                    } 
-                                    input.getNames().forEach(name => namesProvided.add(name));
-                                }
-                            }
-                        }
-                        // Optional
-                        // Rest
-                    }
-
-                    // If there are remaining given inputs, something's wrong.
-                    if(givenInputs.length > 0) {
-                        conflicts.push(new UnexpectedInputs(functionType, this, givenInputs));
-                    }
-
-                }
             }
+            // If it's optional, go through each one to see if it's provided in the remaining inputs.
+            else {
+                // If it's variable length, check all of the remaining given inputs to see if they match this type.
+                if(expectedInput.isVariableLength()) {
+                    while(givenInputs.length > 0) {
+                        const given = givenInputs.shift();
+                        if(given !== undefined && given instanceof Expression) {
+                            const givenType = given.getTypeUnlessCycle(context);
+                            if(!givenType.isCompatible(concreteInputType, context))
+                                conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType));
+                        }
+                    }
+                }
+                // If it's just an optional input, see if any of the given inputs provide it by name.
+                else {
+                    // Is there a named input that matches?
+                    const matchingBind = givenInputs.find(i => i instanceof Bind && i.sharesName(expectedInput));
+                    if(matchingBind instanceof Bind) {
+                        // If the types don't match, there's a conflict.
+                        if(matchingBind.value !== undefined && matchingBind.value instanceof Expression) {
+                            const givenType = matchingBind.value.getTypeUnlessCycle(context);
+                            if(!givenType.isCompatible(concreteInputType, context))
+                                conflicts.push(new IncompatibleInput(functionType, this, matchingBind.value, givenType, concreteInputType));
+                        }
+                        // Remember that we matched on this and remove it from the given inputs list.
+                        givenInputs.splice(givenInputs.indexOf(matchingBind), 1);
+                    }
+                    // If there wasn't a named input matching, see if the next input matches the type.
+                    else if(givenInputs.length > 0) {
+                        const given = givenInputs[0];
+                        // If the given input is unnamed, consume it as the expected input.
+                        if(given instanceof Expression) {
+                            const givenType = given.getTypeUnlessCycle(context);
+                            if(!givenType.isCompatible(concreteInputType, context))
+                                conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType));
+                            givenInputs.shift();
+                        }
+                    }
+                }
+
+                // Remember that we processed this input.
+                bindsGiven.add(expectedInput);
+
+            }
+
+            // If there are remaining given inputs that didn't match anything, something's wrong.
+            if(givenInputs.length > 0)
+                conflicts.push(new UnexpectedInputs(functionType, this, givenInputs));
+
         }
 
         return conflicts;

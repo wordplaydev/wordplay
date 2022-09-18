@@ -8,6 +8,7 @@ import AnyType from "./AnyType";
 import { FUNCTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, FUNCTION_SYMBOL } from "../parser/Tokenizer";
 import Bind from "./Bind";
+import { getEvaluationInputConflicts } from "./util";
 
 export default class FunctionType extends Type {
 
@@ -62,5 +63,10 @@ export default class FunctionType extends Type {
         ) as this;
     }
 
-    computeConflicts() {}
+    computeConflicts() {
+
+        // Make sure the inputs are valid.
+        return getEvaluationInputConflicts(this.inputs);
+        
+    }
 }

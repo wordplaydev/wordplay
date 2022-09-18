@@ -61,7 +61,8 @@ export default class Bind extends Node implements Evaluable, Named {
 
     isVariableLength() { return this.etc !== undefined; }
 
-    hasDefault() { return this.value !== undefined; }
+    hasDefault() { return !this.isRequired(); }
+    isRequired() { return this.value === undefined && !this.isVariableLength(); }
 
     computeChildren() { 
         let children: Node[] = [];

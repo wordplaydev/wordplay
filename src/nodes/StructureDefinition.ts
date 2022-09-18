@@ -8,7 +8,7 @@ import type Conflict from "../conflicts/Conflict";
 import Type from "./Type";
 import Block from "./Block";
 import FunctionDefinition from "./FunctionDefinition";
-import { getDuplicateDocs, getDuplicateAliases, requiredBindAfterOptional, typeVarsAreUnique, restIsNotLast } from "./util";
+import { getDuplicateDocs, getDuplicateAliases, typeVarsAreUnique, getEvaluationInputConflicts } from "./util";
 import ConversionDefinition from "./ConversionDefinition";
 import type Evaluator from "../runtime/Evaluator";
 import Finish from "../runtime/Finish";
@@ -100,7 +100,7 @@ export default class StructureDefinition extends Expression {
 
     computeConflicts(): Conflict[] { 
         
-        const conflicts: Conflict[] = [];
+        let conflicts: Conflict[] = [];
     
         // Docs must be unique.
         const duplicateDocs = getDuplicateDocs(this.docs);
@@ -110,21 +110,12 @@ export default class StructureDefinition extends Expression {
         const duplicateNames = getDuplicateAliases(this.aliases);
         if(duplicateNames) conflicts.push(duplicateNames);
 
-        // Structure input names must be unique
-        const duplicateInputs = getDuplicateAliases(this.inputs.map(i => i instanceof Bind ? i.names : []).flat());
-        if(duplicateInputs) conflicts.push(duplicateInputs);
-
         // Type variables must have unique names
         const duplicateTypeVars = typeVarsAreUnique(this.typeVars);
         if(duplicateTypeVars) conflicts.push(duplicateTypeVars);
 
-        // No required binds after optionals.
-        const requiredAfterOptional = requiredBindAfterOptional(this.inputs);
-        if(requiredAfterOptional) conflicts.push(requiredAfterOptional);
-    
-        // Rest arguments must be list
-        const restIsntLast = restIsNotLast(this.inputs);
-        if(restIsntLast) conflicts.push(restIsntLast);
+        // Make sure the inputs are valid.
+        conflicts = conflicts.concat(getEvaluationInputConflicts(this.inputs));
 
         return conflicts;
     

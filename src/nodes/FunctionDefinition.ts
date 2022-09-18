@@ -10,7 +10,7 @@ import Documentation from "./Documentation";
 import type Conflict from "../conflicts/Conflict";
 import FunctionType from "./FunctionType";
 import UnknownType from "./UnknownType";
-import { getDuplicateDocs, getDuplicateAliases, requiredBindAfterOptional, typeVarsAreUnique, restIsNotLast } from "./util";
+import { getDuplicateDocs, getDuplicateAliases, typeVarsAreUnique, getEvaluationInputConflicts } from "./util";
 import type Evaluator from "../runtime/Evaluator";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import FunctionValue from "../runtime/FunctionValue";
@@ -75,7 +75,7 @@ export default class FunctionDefinition extends Expression {
 
     computeConflicts(): Conflict[] { 
 
-        const conflicts: Conflict[] = [];
+        let conflicts: Conflict[] = [];
     
         // Docs must be unique.
         const duplicateDocs = getDuplicateDocs(this.docs);
@@ -85,21 +85,12 @@ export default class FunctionDefinition extends Expression {
         const duplicateNames = getDuplicateAliases(this.aliases);
         if(duplicateNames) conflicts.push(duplicateNames);
 
-        // Structure input names must be unique
-        const duplicateInputs = getDuplicateAliases(this.inputs.map(i => i instanceof Bind ? i.names : []).flat());
-        if(duplicateInputs) conflicts.push(duplicateInputs);
-        
         // Type variables must have unique names.
         const duplicateTypeVars = typeVarsAreUnique(this.typeVars);
         if(duplicateTypeVars) conflicts.push(duplicateTypeVars);
 
-        // Required inputs can never follow an optional one.
-        const requiredAfterOptional = requiredBindAfterOptional(this.inputs);
-        if(requiredAfterOptional) conflicts.push(requiredAfterOptional);
-
-        // Rest arguments must be last
-        const restIsntLast = restIsNotLast(this.inputs);
-        if(restIsntLast) conflicts.push(restIsntLast);
+        // Make sure the inputs are valid.
+        conflicts = conflicts.concat(getEvaluationInputConflicts(this.inputs));
 
         return conflicts; 
     

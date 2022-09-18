@@ -4,29 +4,29 @@ import type FunctionType from "../nodes/FunctionType";
 import Conflict from "./Conflict";
 import type Bind from "../nodes/Bind";
 
-
-export class RedundantNamedInput extends Conflict {
-
+export class UnexpectedInput extends Conflict {
     readonly func: FunctionType | StructureType;
-    readonly bind: Bind;
     readonly evaluate: Evaluate;
-    readonly input: Bind;
-
-    constructor(func: FunctionType | StructureType, bind: Bind, evaluate: Evaluate, input: Bind) {
+    readonly expected: Bind;
+    readonly given: Bind;
+    
+    constructor(func: FunctionType | StructureType, evaluate: Evaluate, expected: Bind, given: Bind) {
         super(false);
+
         this.func = func;
-        this.bind = bind;
         this.evaluate = evaluate;
-        this.input = input;
+        this.expected = expected;
+        this.given = given;
+
     }
 
     getConflictingNodes() {
-        return this.bind.names;
+        return this.given.names;
     }
 
     getExplanations() { 
         return {
-            eng: `This name was already given.`
+            eng: `We expected ${this.expected.getNames().join(",")} here.`
         }
     }
 

@@ -5,8 +5,7 @@ import { NotAFunction } from "../conflicts/NotAFunction";
 import Evaluator from "../runtime/Evaluator";
 import Evaluate from "./Evaluate";
 import { MissingInput } from "../conflicts/MissingInput";
-import { UnknownInputName } from "../conflicts/UnknownInputName";
-import { RedundantNamedInput as RedundantInputName } from "../conflicts/RedundantNamedInput";
+import { UnexpectedInput } from "../conflicts/UnexpectedInput";
 import MeasurementType from "./MeasurementType";
 import SetType from "./SetType";
 import MapType from "./MapType";
@@ -16,9 +15,9 @@ test("Test evaluate conflicts", () => {
     testConflict('add: ƒ(a•# b•#) a + b\nadd(1 2)', 'add: ƒ(a•# b•#) a + b\nsum(1 2)', Evaluate, NotAFunction);
     testConflict('•Cat() (add: ƒ(a•# b•#) a)\nCat()', '•Cat() (add: ƒ(a•# b•#) …)\nCat()', Evaluate, NotInstantiable);
     testConflict('•Cat(a•#) ()\nCat(1)', '•Cat(a•#) ()\nCat("hi")', Evaluate, IncompatibleInput);
-    testConflict('x: ƒ(a•# b•#) a - b\nx(1 2)', 'x: ƒ(a•# b•#) a - b\nx(1)', Evaluate, MissingInput);
-    testConflict('x: ƒ(a•# b•#) a - b\nx(1 2)', 'x: ƒ(a•# b•#) a - b\nx(a:1 c:2)', Evaluate, UnknownInputName);
-    testConflict('x: ƒ(a•# b•#) a - b\nx(1 2)', 'x: ƒ(a•# b•#) a - b\nx(a:1 a:2)', Evaluate, RedundantInputName);
+    testConflict('x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(1)', Evaluate, MissingInput);
+    testConflict('x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(a:1 c:2)', Evaluate, UnexpectedInput);
+    testConflict('x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(a:1 a:2)', Evaluate, UnexpectedInput);
     testConflict('x: ƒ(…num•#) a - b\nx(1 2 3)', 'x: ƒ(…num•"") a - b\nx(1 2 3)', Evaluate, IncompatibleInput);
 
 });
