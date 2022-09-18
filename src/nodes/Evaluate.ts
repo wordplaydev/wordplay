@@ -309,50 +309,68 @@ export default class Evaluate extends Expression {
         // order of the function's declaration. This requires getting the function/structure definition
         // and finding an expression to compile for each input.
         const funcType = this.func.getTypeUnlessCycle(context);
-        const inputs = funcType instanceof FunctionType ? funcType.inputs :
+        const candidateExpectedInputs = funcType instanceof FunctionType ? funcType.inputs :
             funcType instanceof StructureType ? funcType.definition.inputs :
             undefined;
 
         // Compile a halt if we couldn't find the function.
-        if(inputs === undefined)
+        if(candidateExpectedInputs === undefined)
             return [ new Halt(new Exception(this, ExceptionKind.EXPECTED_FUNCTION), this) ];
 
-        // Iterate through the inputs, compiling appropriate expressions.
-        // Make a copy of this evaluate's inputs and process them as we go.
-        const given = this.inputs.slice();
-        const inputSteps = inputs.map(input => {
-            
-            if(input instanceof Unparsable) return [];
+        // Compile a halt if any of the function's inputs are unparsable.
+        if(candidateExpectedInputs.find(i => i instanceof Unparsable) !== undefined)
+            return [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ];
+
+
+        // Compile a halt if any of the function's inputs are unparsable.
+        if(this.inputs.find(i => i instanceof Unparsable) !== undefined)
+            return [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ];
+
+        // Make typescript happy now that we've guarded against unparsables.
+        const expectedInputs = candidateExpectedInputs as Bind[];
+        const givenInputs = this.inputs.slice() as (Expression | Unparsable)[];
+
+        // Iterate through the inputs, compiling given or default expressions.
+        const inputSteps = expectedInputs.map(expectedInput => {
 
             // Find the given input that corresponds to the next desired input.
             // If this input is required, grab the next given input.
-            if(!input.hasDefault()) {
-                const requiredInput = given.shift();
+            if(expectedInput.isRequired()) {
+                const requiredInput = givenInputs.shift();
+                // If there isn't one, exception!
                 if(requiredInput === undefined)
                     return [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ];
+                // If it's a bind, compile the bind's expression
+                else if(requiredInput instanceof Bind) {
+                    if(requiredInput.value === undefined) 
+                        return [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ];
+                    else
+                        return requiredInput.value.compile(context);
+                }
+                // Otherwise, compile the expression.
                 else
                     return requiredInput.compile(context);
             }
             // If it's not required...
             else {
                 // and it's not a variable length input, first search for a named input, otherwise grab the next input.
-                if(!input.isVariableLength()) {
-                    const bind = given.find(g => g instanceof Bind && input.names.find(a => a.getName() === g.names[0].getName()) !== undefined);
+                if(!expectedInput.isVariableLength()) {
+                    const bind = givenInputs.find(g => g instanceof Bind && expectedInput.names.find(a => a.getName() === g.names[0].getName()) !== undefined);
                     // If we found a bind with a matching name, compile it's value.
                     if(bind instanceof Bind && bind.value !== undefined)
                         return bind.value.compile(context);
                     // If we didn't, then compile the next value.
-                    const optionalInput = given.shift();
+                    const optionalInput = givenInputs.shift();
                     if(optionalInput !== undefined)
                         return optionalInput.compile(context);
                     // If there wasn't one, use the default value.
-                    return input.value === undefined ? 
+                    return expectedInput.value === undefined ? 
                         [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ] :
-                        input.value.compile(context);
+                        expectedInput.value.compile(context);
                 }
                 // If it is a variable length input, reduce the remaining given input expressions.
                 else {
-                    return given.reduce((prev: Step[], next) =>
+                    return givenInputs.reduce((prev: Step[], next) =>
                         [
                             ...prev, 
                             ...(

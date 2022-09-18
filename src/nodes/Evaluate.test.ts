@@ -25,6 +25,7 @@ test("Test evaluate conflicts", () => {
 test("Test evaluate evaluation", () => {
 
     expect(Evaluator.evaluateCode("x: ƒ(a•# b•#) a - b\nx(10 3)")?.toString()).toBe('7');
+    expect(Evaluator.evaluateCode("x: ƒ(a•# b•#) a - b\nx(a:10 b:3)")?.toString()).toBe('7');
     expect(Evaluator.evaluateCode("x: ƒ(a•# b•#:1) a - b\nx(5)")?.toString()).toBe('4');
     expect(Evaluator.evaluateCode("x: ƒ(a•#:1 b•#:1) a - b\nx()")?.toString()).toBe('0');
     expect(Evaluator.evaluateCode("x: ƒ(a•#:1 b•#:1) a - b\nx(5)")?.toString()).toBe('4');
