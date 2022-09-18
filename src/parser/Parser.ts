@@ -575,7 +575,6 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
 
     do {
         const expression = parseExpression(tokens);
-        if(expression instanceof Unparsable) return expression;
         parts.push(expression);
         if(tokens.nextIs(TokenType.TEXT_BETWEEN))
             parts.push(tokens.read(TokenType.TEXT_BETWEEN));

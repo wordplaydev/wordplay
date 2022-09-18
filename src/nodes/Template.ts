@@ -11,13 +11,14 @@ import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import type Context from "./Context";
 import Language from "./Language";
+import Unparsable from "./Unparsable";
 
 export default class Template extends Expression {
     
-    readonly parts: (Token|Expression)[];
+    readonly parts: (Token|Expression|Unparsable)[];
     readonly format?: Language;
 
-    constructor(parts: (Token|Expression)[], format?: Language) {
+    constructor(parts: (Token|Expression|Unparsable)[], format?: Language) {
         super();
 
         this.parts = parts;
@@ -58,7 +59,7 @@ export default class Template extends Expression {
 
     clone(original?: Node, replacement?: Node) { 
         return new Template(
-            this.parts.map(p => p.cloneOrReplace([ Token, Expression ], original, replacement)), 
+            this.parts.map(p => p.cloneOrReplace([ Token, Expression, Unparsable ], original, replacement)), 
             this.format?.cloneOrReplace([ Language, undefined ], original, replacement)
         ) as this; 
     }
