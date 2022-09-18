@@ -99,8 +99,8 @@ export default class FunctionDefinition extends Expression {
     /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
     getDefinition(name: string, context: Context, node: Node): Definition {
 
-        // Does an input delare the name?
-        const input = this.inputs.find(i => i instanceof Bind && i.hasName(name)) as Bind | undefined;
+        // Does an input delare the name that isn't the one asking?
+        const input = this.inputs.find(i => i instanceof Bind && i.hasName(name) && i !== node) as Bind | undefined;
         if(input !== undefined) return input;
 
         // Is it a type variable?

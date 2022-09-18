@@ -1,13 +1,13 @@
 import type Bind from "../nodes/Bind";
-import type Expression from "../nodes/Expression";
 import type TypeVariable from "../nodes/TypeVariable";
 import Conflict from "./Conflict";
 
 export class DuplicateBinds extends Conflict {
+
     readonly bind: Bind;
-    readonly duplicates: (Expression | Bind | TypeVariable)[];
+    readonly duplicates: (Bind | TypeVariable)[];
     
-    constructor(bind: Bind, duplicates: (Expression | Bind | TypeVariable)[]) {
+    constructor(bind: Bind, duplicates: (Bind | TypeVariable)[]) {
 
         super(false);
 
@@ -17,12 +17,12 @@ export class DuplicateBinds extends Conflict {
     }
 
     getConflictingNodes() {
-        return this.bind.names;
+        return [ ... this.bind.names, ... this.duplicates ];
     }
 
     getExplanations() { 
         return {
-            eng: `${this.bind.names[0].getName()} is declared multiple times.`
+            eng: `${this.bind.names[0].getName()} is already defined; use unique names to avoid confusion.`
         }
     }
 
