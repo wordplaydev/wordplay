@@ -1,3 +1,4 @@
+import CaseSensitive from "../conflicts/CaseSensitive";
 import DuplicateAliases from "../conflicts/DuplicateAliases";
 import DuplicateLanguages from "../conflicts/DuplicateLanguages";
 import DuplicateTypeVariables from "../conflicts/DuplicateTypeVariables";
@@ -5,10 +6,13 @@ import RequiredAfterOptional from "../conflicts/RequiredAfterOptional";
 import VariableLengthArgumentMustBeLast from "../conflicts/VariableLengthArgumentMustBeLast";
 import type Alias from "./Alias";
 import Bind from "./Bind";
+import type Context from "./Context";
 import type Documentation from "./Documentation";
 import type Language from "./Language";
 import TypeVariable from "./TypeVariable";
 import type Unparsable from "./Unparsable";
+import type Node from "./Node";
+import type Name from "./Name";
 
 export function getDuplicateDocs(docs: Documentation[]): DuplicateLanguages | undefined {
     const duplicatesByLanguage = new Map<string, Language[]>();
@@ -108,5 +112,24 @@ export function getEvaluationInputConflicts(inputs: (Bind|Unparsable)[]) {
     if(restIsntLast) conflicts.push(restIsntLast);
     
     return conflicts;
+
+}
+
+export function getCaseCollision(name: string, enclosure: Node | undefined, context: Context, node: Name | Alias): CaseSensitive | undefined {
+
+    if(enclosure === undefined) return;
+
+    const upper = name.toLocaleUpperCase();
+    const lower = name.toLocaleLowerCase();
+    const otherCase = upper === lower ? undefined : name === upper ? lower : upper;
+
+    if(otherCase === undefined) return;
+
+    const otherBind = enclosure.getDefinition(otherCase, context, node);
+    if(otherBind instanceof Bind) {
+        const alias = otherBind.names.find(n => n.getName() === otherCase);
+        if(alias !== undefined)
+            return new CaseSensitive(node, alias);
+    }
 
 }

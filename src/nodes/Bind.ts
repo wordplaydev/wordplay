@@ -27,7 +27,7 @@ import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import type { Named } from "./Named";
-import { getDuplicateAliases } from "./util";
+import { getCaseCollision, getDuplicateAliases } from "./util";
 import Evaluate from "./Evaluate";
 import Block from "./Block";
 import ListType from "./ListType";
@@ -105,6 +105,19 @@ export default class Bind extends Node implements Evaluable, Named {
         }).filter(def => def !== undefined && def !== this) as (Expression | Bind | TypeVariable)[];
         if(definitions.length > 0)
             conflicts.push(new DuplicateBinds(this, definitions));
+
+        // Warn if there are similarly cased definitions.
+        // Is there match with the other case?
+        if(enclosure !== undefined) {
+            this.names.forEach(alias => {
+                // Is there match with the other case?
+                const name = alias.getName();
+                if(name !== undefined) {
+                    const caseCollision = getCaseCollision(name, enclosure, context, alias);
+                    if(caseCollision) conflicts.push(caseCollision);
+                }
+            });
+        }
 
         // If this bind isn't part of an Evaluate, it should be used in some expression in its parent.
         const parent = this.getParent();

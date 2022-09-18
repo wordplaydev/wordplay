@@ -14,6 +14,7 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Definition from "./Definition";
+import { getCaseCollision } from "./util";
 
 export default class Name extends Expression {
     
@@ -24,21 +25,33 @@ export default class Name extends Expression {
         this.name = name;
     }
 
+    getName() { return this.name.getText(); }
     computeChildren() { return [ this.name ]; }
 
     computeConflicts(context: Context): Conflict[] { 
 
+        const name = this.getName();
         const bindOrTypeVar = this.getBind(context);
-        return bindOrTypeVar === undefined ? [ new UnknownName(this )] :
-            bindOrTypeVar instanceof TypeVariable ? [ new UnexpectedTypeVariable(this)] : 
-            [];
+
+        const conflicts = [];
+
+        if(bindOrTypeVar === undefined)
+            conflicts.push(new UnknownName(this ));
+        else if(bindOrTypeVar instanceof TypeVariable)
+            conflicts.push(new UnexpectedTypeVariable(this));
+            
+        // Is there match with the other case?
+        const caseCollision = getCaseCollision(name, this.getBindingEnclosureOf(), context, this);
+        if(caseCollision) conflicts.push(caseCollision);
+
+        return conflicts;
         
     }
 
     getBind(context: Context): Definition {
 
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
-        return this.getBindingEnclosureOf()?.getDefinition(this.name.getText(), context, this);
+        return this.getBindingEnclosureOf()?.getDefinition(this.getName(), context, this);
 
     }
 
