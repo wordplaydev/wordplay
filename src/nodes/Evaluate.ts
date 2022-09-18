@@ -1,6 +1,6 @@
 import Bind from "../nodes/Bind";
 import type Conflict from "../conflicts/Conflict";
-import { UnexpectedInput as UnexpectedInput } from "../conflicts/UnexpectedInput";
+import { UnexpectedInput } from "../conflicts/UnexpectedInput";
 import { MissingInput } from "../conflicts/MissingInput";
 import { UnexpectedInputs } from "../conflicts/UnexpectedInputs";
 import { IncompatibleInput } from "../conflicts/IncompatibleInput";
@@ -242,7 +242,7 @@ export default class Evaluate extends Expression {
             // This will store whatever concrete type we find for the type variable.
             let concreteType: Type | undefined = undefined;
             // Find the definition of the type variable.
-            const typeVarDeclaration = nameType.getDefinition(context);
+            const typeVarDeclaration = nameType.resolve(context);
             if(typeVarDeclaration instanceof TypeVariable) {
                 const def = typeVarDeclaration.getParent();
                 // If the type variable is declared in a structure or function definition (the only places where they are declared,

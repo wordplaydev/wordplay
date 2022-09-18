@@ -25,7 +25,6 @@ export default abstract class Expression extends Node implements Evaluable {
         return this._type;
     }
 
-
     getTypeUnlessCycle(context: Context): Type {
 
         // If the context includes this node, we're in a cycle.

@@ -24,8 +24,8 @@ export default class BooleanType extends Type {
 
     getNativeTypeName(): string { return BOOLEAN_NATIVE_TYPE_NAME; }
 
-    getDefinition(context: Context, node: Node, name: string) {
-        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
+    getDefinition(name: string, context: Context, node: Node) {
+        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(name, context, node); 
     }
 
     clone(original?: Node, replacement?: Node) { return new BooleanType(this.type.cloneOrReplace([ Token ], original, replacement)) as this; }

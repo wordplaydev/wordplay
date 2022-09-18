@@ -122,7 +122,7 @@ export default class StructureDefinition extends Expression {
     }
 
     /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
-    getDefinition(context: Context, node: Node, name: string): Definition {
+    getDefinition(name: string, context: Context, node: Node): Definition {
 
         // Is this it? Return it.
         if(this.aliases.find(a => a.getName() === name)) return this;
@@ -136,7 +136,7 @@ export default class StructureDefinition extends Expression {
         if(typeVar !== undefined) return typeVar;
 
         // If not, does the function nearest function or block declare the name?
-        return this.getBindingEnclosureOf()?.getDefinition(context, node, name);
+        return this.getBindingEnclosureOf()?.getDefinition(name, context, node);
 
     }
 

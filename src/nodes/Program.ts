@@ -38,7 +38,7 @@ export default class Program extends Node implements Evaluable {
     computeChildren() { return [ ...this.borrows, this.block, this.end ]; }
     computeConflicts() {}
 
-    getDefinition(context: Context, node: Node, name: string): Definition {
+    getDefinition(name: string, context: Context): Definition {
 
         if(context.shares !== undefined) {
             const share = context.shares.resolve(name);

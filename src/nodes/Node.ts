@@ -51,6 +51,13 @@ export default abstract class Node {
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
     abstract computeConflicts(context: Context): Conflict[] | void;
 
+    /** Given a program, a node that triggered a search, and a name, get the thing that defined the name. */
+    getDefinition(name: string, context: Context, node: Node): Definition {
+        // Silliness to avoid warnings on unused arguments.
+        name !== undefined; context !== undefined; node !== undefined;
+        return undefined;
+    };
+
     /** Compute and store the conflicts. */
     getConflicts(context: Context) { 
         if(this._conflicts === undefined)
@@ -80,10 +87,7 @@ export default abstract class Node {
     }
 
     /** True if the given node is a child of this node and this node should act as a binding enclosure of it. */
-    isBindingEnclosureOfChild(child: Node): boolean { return false; }
-
-    /** Given a program, a node that triggered a search, and a name, get the thing that defined the name. */
-    getDefinition(context: Context, node: Node, name: string): Definition { return undefined; }
+    isBindingEnclosureOfChild(child: Node): boolean { child; return false; }
     
     /** True if the node contains bindings that should be searched. */
     isBindingEnclosure() { return false; }

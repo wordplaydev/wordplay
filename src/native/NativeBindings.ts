@@ -140,7 +140,7 @@ Native.addNativeFunction(TEXT_NATIVE_TYPE_NAME, [], [ new Alias("length", "eng")
 Native.addNativeFunction(LIST_NATIVE_TYPE_NAME, [], [ new Alias("add", "eng") ], [], 
     [
         new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType(LIST_TYPE_VAR_NAME))
-    ], 
+    ],
     new ListType(new NameType(LIST_TYPE_VAR_NAME)),
     evaluation => {
         const list = evaluation.getContext();

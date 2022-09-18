@@ -74,7 +74,7 @@ export default class Block extends Expression {
     }
 
     /** Given the index in this block and the given name, binds the bind that declares it, if there is one. */
-    getDefinition(context: Context, node: Node, name: string): Definition {
+    getDefinition(name: string, context: Context, node: Node): Definition {
 
         const containingStatement = this.statements.find(s => s.contains(node));
         if(containingStatement === undefined) return;
@@ -101,7 +101,7 @@ export default class Block extends Expression {
         else if(localBind !== undefined) return localBind;
 
         // Is there an enclosing function or block?
-        return this.getBindingEnclosureOf()?.getDefinition(context, node, name);
+        return this.getBindingEnclosureOf()?.getDefinition(name, context, node);
         
     }
  

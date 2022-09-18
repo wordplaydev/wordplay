@@ -77,9 +77,10 @@ export default class TableLiteral extends Expression {
     compile(context: Context): Step[] {
         return [
             new Action(this),
-            // Compile all of the row's 's cells expressions.
-            ...this.rows.reduce((rows: Step[], row) =>
-                row.cells.reduce((cells: Step[], cell) => [...cells, ...cell.expression.compile(context)], []), 
+            // Compile all of the rows' cell expressions.
+            ...this.rows.reduce(
+                (steps: Step[], row) =>
+                    [ ...steps, ...row.cells.reduce((cells: Step[], cell) => [ ...cells, ...cell.expression.compile(context)], []) ], 
                 []
             ),
             new Finish(this)

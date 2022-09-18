@@ -31,7 +31,7 @@ export default class NameType extends Type {
         
         const conflicts = [];
 
-        const def = this.getDefinition(context);
+        const def = this.resolve(context);
         // The name should be a structure type or a type variable on a structure that contains this name type.
         if(!(def instanceof StructureDefinition || def instanceof TypeVariable))
             conflicts.push(new UnknownTypeName(this));
@@ -45,19 +45,19 @@ export default class NameType extends Type {
         return thisType === undefined ? false : thisType.isCompatible(type, context);
     }
 
-    getDefinition(context: Context): Definition {
+    resolve(context: Context): Definition {
 
         const enclosure = this.getBindingEnclosureOf() ?? context.program;
-        return enclosure.getDefinition(context, this, this.getName());
+        return enclosure.getDefinition(this.getName(), context, this);
 
     }
 
-    isTypeVariable(context: Context) { return this.getDefinition(context) instanceof TypeVariable; }
+    isTypeVariable(context: Context) { return this.resolve(context) instanceof TypeVariable; }
 
     getType(context: Context): Type {
 
         // The name should be defined.
-        const definition = this.getDefinition(context);
+        const definition = this.resolve(context);
         if(definition === undefined) return new UnknownType(this);
         else if(definition instanceof TypeVariable) return new VariableType(definition);
         else return definition instanceof Value ? definition.getType() : definition.getTypeUnlessCycle(context);

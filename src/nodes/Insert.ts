@@ -74,7 +74,7 @@ export default class Insert extends Expression {
     }
 
     // Check the table's column binds.
-    getDefinition(context: Context, node: Node, name: string): Definition {
+    getDefinition(name: string, context: Context, node: Node): Definition {
     
         const type = this.table.getTypeUnlessCycle(context);
         if(type instanceof TableType) {
@@ -82,7 +82,7 @@ export default class Insert extends Expression {
             if(column !== undefined && column.bind instanceof Bind) return column.bind;
         }
 
-        return this.getBindingEnclosureOf()?.getDefinition(context, node, name);
+        return this.getBindingEnclosureOf()?.getDefinition(name, context, node);
 
     }
 

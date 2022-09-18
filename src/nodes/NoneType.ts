@@ -42,8 +42,8 @@ export default class NoneType extends Type {
         return "•!" + this.aliases.map(a => a.getName());
     }
 
-    getDefinition(context: Context, node: Node, name: string) {
-        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
+    getDefinition(name: string, context: Context, node: Node) {
+        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(name, context, node); 
     }
 
     clone(original?: Node, replacement?: Node) { 

@@ -101,7 +101,7 @@ export default class Bind extends Node implements Evaluable, Named {
         // It can't already be defined.
         const definitions = this.names.map(alias => {
             const name = alias.getName();
-            return name === undefined ? undefined : enclosure?.getDefinition(context, this, name);
+            return name === undefined ? undefined : enclosure?.getDefinition(name, context, this);
         }).filter(def => def !== undefined && def !== this) as (Expression | Bind | TypeVariable)[];
         if(definitions.length > 0)
             conflicts.push(new DuplicateBinds(this, definitions));
@@ -163,7 +163,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
         // Find the name, using the binding enclosure, or the program.
         const enclosure = this.getBindingEnclosureOf();
-        const definition = enclosure !== undefined ? enclosure.getDefinition(context, this, name) : context.program.getDefinition(context, this, name);
+        const definition = enclosure !== undefined ? enclosure.getDefinition(name, context, this) : context.program.getDefinition(name, context);
         if(definition === undefined) return new UnknownType(this);
         else if(definition instanceof Bind) return definition.getTypeUnlessCycle(context);
         else if(definition instanceof TypeVariable) return new UnknownType(this);
@@ -171,6 +171,8 @@ export default class Bind extends Node implements Evaluable, Named {
         else return new UnknownType(this);
 
     }
+
+    getDefinition() { return undefined; }
 
     compile(context: Context):Step[] {
         return this.value === undefined ?

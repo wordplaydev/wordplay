@@ -46,8 +46,8 @@ export default class SetType extends Type {
 
     getNativeTypeName(): string { return SET_NATIVE_TYPE_NAME; }
 
-    getDefinition(context: Context, node: Node, name: string) {
-        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(context, node, name); 
+    getDefinition(name: string, context: Context, node: Node) {
+        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(name, context, node); 
     }
 
     clone(original?: Node, replacement?: Node) { 
