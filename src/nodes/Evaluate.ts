@@ -33,6 +33,7 @@ import FunctionDefinition from "./FunctionDefinition";
 import AccessName from "./AccessName";
 import TypeInput from "./TypeInput";
 import { getEvaluationInputConflicts } from "./util";
+import ListType from "./ListType";
 
 export default class Evaluate extends Expression {
 
@@ -156,7 +157,9 @@ export default class Evaluate extends Expression {
                         const given = givenInputs.shift();
                         if(given !== undefined && given instanceof Expression) {
                             const givenType = given.getTypeUnlessCycle(context);
-                            if(!givenType.isCompatible(concreteInputType, context))
+                            if(!(concreteInputType instanceof ListType))
+                                console.error("Uh oh... why isn't a variable length input a list type?");
+                            else if(concreteInputType.type instanceof Type && !givenType.isCompatible(concreteInputType.type, context))
                                 conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType));
                         }
                     }

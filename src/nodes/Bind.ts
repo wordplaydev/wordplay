@@ -30,6 +30,7 @@ import type { Named } from "./Named";
 import { getDuplicateAliases } from "./util";
 import Evaluate from "./Evaluate";
 import Block from "./Block";
+import ListType from "./ListType";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -122,7 +123,13 @@ export default class Bind extends Node implements Evaluable, Named {
         // What type is this binding?
         let type = 
             // If it's declared, use the declaration.
-            this.type instanceof Type ? this.type :
+            this.type instanceof Type ? 
+                // Account for variable length arguments
+                (
+                    this.isVariableLength() ? 
+                    new ListType(this.type) : 
+                    this.type
+                ) :
             // If the value is a structure definition, make a structure type.
             this.value instanceof StructureDefinition ? new StructureType(this.value) :
             // If it has an expression. ask the expression.
