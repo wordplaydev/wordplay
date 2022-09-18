@@ -142,7 +142,7 @@ export function tokenize(source: string): Token[] {
         index += nextToken.getTextLength() + nextToken.getWhitespace().length;
     }
 
-    // If there's nothing left and the last token isn't an end token, add one.
+    // If there's nothing left -- or nothing but whitespace -- and the last token isn't a already end token, add one.
     if(tokens.length === 0 || !tokens[tokens.length - 1].is(TokenType.END))
         tokens.push(new Token("", [ TokenType.END ], index, ""));
 
@@ -174,7 +174,12 @@ function getNextToken(source: string, index: number): Token | undefined {
         }
     }
     
-    // Otherwise, we fail and return an error token that contains the remainder of the text.
-    return new Token(trimmedSource, [ TokenType.UNKNOWN ], startIndex, space);
+    // Otherwise, we fail and return an error token that contains all of the text until the next whitespace.
+    let nextSpace = 0;
+    for(; nextSpace < trimmedSource.length; nextSpace++) {
+        const char = trimmedSource.charAt(nextSpace);
+        if(char === " " || char === "\t" || char === "\n") break;
+    }
+    return new Token(trimmedSource.substring(0, nextSpace), [ TokenType.UNKNOWN ], startIndex, space);
 
 }
