@@ -1,7 +1,7 @@
 import { testConflict } from "../conflicts/TestUtilities";
 import { ExpectedEndingExpression } from "../conflicts/ExpectedEndingExpression";
 import { IgnoredExpression } from "../conflicts/IgnoredExpression";
-import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
+import DuplicateLanguages from "../conflicts/DuplicateLanguages";
 import Evaluator from "../runtime/Evaluator";
 import Block from "./Block";
 

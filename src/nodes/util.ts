@@ -1,11 +1,16 @@
+import DuplicateAliases from "../conflicts/DuplicateAliases";
+import DuplicateLanguages from "../conflicts/DuplicateLanguages";
+import DuplicateTypeVariables from "../conflicts/DuplicateTypeVariables";
+import RequiredAfterOptional from "../conflicts/RequiredAfterOptional";
+import VariableLengthArgumentMustBeLast from "../conflicts/VariableLengthArgumentMustBeLast";
 import type Alias from "./Alias";
-import type Bind from "./Bind";
+import Bind from "./Bind";
 import type Documentation from "./Documentation";
 import type Language from "./Language";
 import TypeVariable from "./TypeVariable";
 import type Unparsable from "./Unparsable";
 
-export function getDuplicateDocs(docs: Documentation[]): Map<string, Language[]> {
+export function getDuplicateDocs(docs: Documentation[]): DuplicateLanguages | undefined {
     const duplicatesByLanguage = new Map<string, Language[]>();
     docs.forEach(doc => { 
         const language = doc.getLanguage();
@@ -19,10 +24,12 @@ export function getDuplicateDocs(docs: Documentation[]): Map<string, Language[]>
         if(dupes.length === 1)
             duplicatesByLanguage.delete(language);
     });
-    return duplicatesByLanguage;
+
+    return duplicatesByLanguage.size > 0 ? new DuplicateLanguages(docs, duplicatesByLanguage) : undefined;
+
 }
 
-export function getDuplicateAliases(aliases: Alias[]): Map<string,Alias[]> {
+export function getDuplicateAliases(aliases: Alias[]): DuplicateAliases | undefined {
     const duplicatesByName = new Map<string, Alias[]>();
     aliases.forEach(alias => { 
         const name = alias.getName();
@@ -36,10 +43,10 @@ export function getDuplicateAliases(aliases: Alias[]): Map<string,Alias[]> {
         if(dupes.length === 1)
             duplicatesByName.delete(language);
     });
-    return duplicatesByName;
+    return duplicatesByName.size > 0 ? new DuplicateAliases(duplicatesByName) : undefined;
 }
 
-export function typeVarsAreUnique(vars: (TypeVariable|Unparsable)[]): Map<string, TypeVariable[]> {
+export function typeVarsAreUnique(vars: (TypeVariable|Unparsable)[]): DuplicateTypeVariables | undefined {
     const typeVars = vars.filter(v => v instanceof TypeVariable) as TypeVariable[];
     const duplicatesByName = new Map<string, TypeVariable[]>();
     typeVars.forEach(variable => { 
@@ -54,11 +61,14 @@ export function typeVarsAreUnique(vars: (TypeVariable|Unparsable)[]): Map<string
         if(dupes.length === 1)
             duplicatesByName.delete(language);
     });
-    return duplicatesByName;
+
+    return duplicatesByName.size > 0 ? new DuplicateTypeVariables(duplicatesByName) : undefined;
+
 }
 
-export function requiredBindAfterOptional(binds: Bind[]): Bind | undefined {
+export function requiredBindAfterOptional(inputs: (Bind|Unparsable)[]): RequiredAfterOptional | undefined {
 
+    const binds = inputs.filter(i => i instanceof Bind) as Bind[];
     let foundOptional = false;
     let requiredAfterOptional: Bind | undefined = undefined;
     binds.forEach(bind => {
@@ -66,6 +76,17 @@ export function requiredBindAfterOptional(binds: Bind[]): Bind | undefined {
         else if(bind.value === undefined && foundOptional && requiredAfterOptional === undefined)
             requiredAfterOptional = bind;
     })
-    return requiredAfterOptional;
+
+    return inputs.length === binds.length && requiredAfterOptional !== undefined ?
+        new RequiredAfterOptional(requiredAfterOptional) :
+        undefined;
+
+}
+
+export function restIsNotLast(inputs: (Bind|Unparsable)[]) {
+
+    const rest = inputs.find(i => i instanceof Bind && i.isVariableLength()) as Bind | undefined;
+    return rest !== undefined && inputs.indexOf(rest) !== inputs.length - 1 ?
+        new VariableLengthArgumentMustBeLast(rest) : undefined;
 
 }

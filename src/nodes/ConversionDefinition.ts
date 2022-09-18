@@ -5,7 +5,6 @@ import TokenType from "./TokenType";
 import Documentation from "./Documentation";
 import type Conflict from "../conflicts/Conflict";
 import { MisplacedConversion } from "../conflicts/MisplacedConversion";
-import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import { getDuplicateDocs } from "./util";
@@ -57,8 +56,7 @@ export default class ConversionDefinition extends Expression {
     
         // Docs must be unique.
         const duplicateDocs = getDuplicateDocs(this.docs);
-        if(duplicateDocs.size > 0)
-            conflicts.push(new DuplicateLanguages(this.docs, duplicateDocs));
+        if(duplicateDocs) conflicts.push(duplicateDocs);
 
         // Can only appear in custom types.
         const enclosure = this.getBindingEnclosureOf();

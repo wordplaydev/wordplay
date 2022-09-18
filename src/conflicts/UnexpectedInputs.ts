@@ -26,7 +26,7 @@ export class UnexpectedInputs extends Conflict {
 
     getExplanations() { 
         return {
-            eng: `This evaluation has too many inputs.`
+            eng: `This evaluation of ${this.evaluate.func.toWordplay()} has too many inputs.`
         }
     }
 

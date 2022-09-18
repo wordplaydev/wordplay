@@ -1,17 +1,13 @@
-import type StructureDefinition from "../nodes/StructureDefinition";
-import type { default as Func } from "../nodes/FunctionDefinition";
 import Conflict from "./Conflict";
 import type Bind from "../nodes/Bind";
 
 
-export class RequiredAfterOptional extends Conflict {
-    readonly func: Func | StructureDefinition;
+export default class RequiredAfterOptional extends Conflict {
     readonly bind: Bind;
 
-    constructor(func: Func | StructureDefinition, bind: Bind) {
+    constructor(bind: Bind) {
         super(false);
         
-        this.func = func;
         this.bind = bind;
     }
 

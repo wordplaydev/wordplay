@@ -2,7 +2,7 @@ import type Documentation from "../nodes/Documentation";
 import type Language from "../nodes/Language";
 import Conflict, { type ConflictExplanations } from "./Conflict";
 
-export class DuplicateLanguages extends Conflict {
+export default class DuplicateLanguages extends Conflict {
 
     readonly docs: Documentation[];
     readonly duplicates: Map<string, Language[]>;

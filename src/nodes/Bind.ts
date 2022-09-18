@@ -10,7 +10,6 @@ import type Conflict from "../conflicts/Conflict";
 import { UnusedBind } from "../conflicts/UnusedBind";
 import { DuplicateBinds } from "../conflicts/DuplicateBinds";
 import { IncompatibleBind } from "../conflicts/IncompatibleBind";
-import DuplicateAliases from "../conflicts/DuplicateAliases";
 import { UnexpectedEtc } from "../conflicts/UnexpectedEtc";
 import UnknownType from "./UnknownType";
 import NameType from "./NameType";
@@ -86,8 +85,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
         // Bind aliases have to be unique
         const duplicates = getDuplicateAliases(this.names);
-        if(duplicates.size > 0)
-            conflicts.push(new DuplicateAliases(this, duplicates));
+        if(duplicates) conflicts.push(duplicates);
 
         // If there's a type, the value must match.
         if(this.type instanceof Type && this.value && this.value instanceof Expression) {

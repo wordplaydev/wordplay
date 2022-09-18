@@ -1,19 +1,15 @@
-import type StructureDefinition from "../nodes/StructureDefinition";
-import type { default as Func } from "../nodes/FunctionDefinition";
 import Conflict from "./Conflict";
 import type TypeVariable from "../nodes/TypeVariable";
 
 
-export class DuplicateTypeVariables extends Conflict {
+export default class DuplicateTypeVariables extends Conflict {
 
-    readonly func: StructureDefinition | Func;
     readonly duplicates: Map<string, TypeVariable[]>;
 
-    constructor(func: StructureDefinition | Func, duplicates: Map<string, TypeVariable[]>) {
+    constructor(duplicates: Map<string, TypeVariable[]>) {
 
         super(false);
 
-        this.func = func;
         this.duplicates = duplicates;
 
     }

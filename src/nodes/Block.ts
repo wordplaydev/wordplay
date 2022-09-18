@@ -3,7 +3,6 @@ import Bind from "./Bind";
 import type Conflict from "../conflicts/Conflict";
 import { ExpectedEndingExpression } from "../conflicts/ExpectedEndingExpression";
 import { IgnoredExpression } from "../conflicts/IgnoredExpression";
-import { DuplicateLanguages } from "../conflicts/DuplicateLanguages";
 import Documentation from "./Documentation";
 import Expression from "./Expression";
 import Share from "./Share";
@@ -68,8 +67,7 @@ export default class Block extends Expression {
 
         // Docs must be unique.
         const duplicateDocs = getDuplicateDocs(this.docs);
-        if(duplicateDocs.size > 0)
-            conflicts.push(new DuplicateLanguages(this.docs, duplicateDocs));
+        if(duplicateDocs) conflicts.push(duplicateDocs);
 
         return conflicts;
         
