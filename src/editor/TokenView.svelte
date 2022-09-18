@@ -56,7 +56,10 @@
                         textNode.replaceWith(tempNode);
                         widthAtCaret = element.getBoundingClientRect().width;
                         tempNode.replaceWith(textNode);
-                        caretPositions[caretIndex] = widthAtCaret;
+                        // We only cache this if it's not zero, or it's supposed to be zero.
+                        // This accounts for some cases where the browser reports zero width.
+                        if(widthAtCaret > 0 || caretIndex === 0)
+                            caretPositions[caretIndex] = widthAtCaret;
                     }
                 }
 
