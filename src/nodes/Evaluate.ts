@@ -158,7 +158,7 @@ export default class Evaluate extends Expression {
                         if(given !== undefined && given instanceof Expression) {
                             const givenType = given.getTypeUnlessCycle(context);
                             if(!(concreteInputType instanceof ListType))
-                                console.error("Uh oh... why isn't a variable length input a list type?");
+                                throw Error(`Expected list type on variable length input, but received ${concreteInputType.constructor.name}`);
                             else if(concreteInputType.type instanceof Type && !givenType.isCompatible(concreteInputType.type, context))
                                 conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType));
                         }
