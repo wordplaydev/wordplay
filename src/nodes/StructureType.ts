@@ -32,6 +32,11 @@ export default class StructureType extends Type {
 
     /** Compatible if it's the same structure definition, or the given type is a refinement of the given structure.*/
     isCompatible(type: Type, context: Context): boolean {
+
+        // If the given type is a name type, is does it refer to this type's structure definition?
+        if(type instanceof NameType)
+            type = type.getType(context);
+
         if(!(type instanceof StructureType)) return false;
         if(this.definition === type.definition) return true;
         // Are any of this definition's interfaces compatible with the given type?
