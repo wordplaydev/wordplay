@@ -80,7 +80,7 @@ export default class Reaction extends Expression {
                 if(latest) {
                     // If this reaction is bound, bind the latest value to the bind's names
                     // so we can access the previous value.
-                    const bind = evaluator.program.getNearestAncestor<Bind>(this, Bind);
+                    const bind = this.getNearestAncestor<Bind>(Bind);
                     if(bind !== undefined)
                         bind.getNames().forEach(name => evaluator.bind(name, latest))
                 }

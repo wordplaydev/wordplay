@@ -15,6 +15,9 @@ import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import { getCaseCollision } from "./util";
+import Bind from "./Bind";
+import CircularReference from "../conflicts/CircularReference";
+import Reaction from "./Reaction";
 
 export default class Name extends Expression {
     
@@ -35,12 +38,23 @@ export default class Name extends Expression {
 
         const conflicts = [];
 
+        // Is this name undefined in scope?
         if(bindOrTypeVar === undefined)
-            conflicts.push(new UnknownName(this ));
+            conflicts.push(new UnknownName(this));
+        // Type variables aren't alowed in names.
         else if(bindOrTypeVar instanceof TypeVariable)
             conflicts.push(new UnexpectedTypeVariable(this));
-            
-        // Is there match with the other case?
+        
+        // Is this name referred to in its bind?
+        if(bindOrTypeVar instanceof Bind && bindOrTypeVar.contains(this)) {
+            // Does this name have a parent that's a reaction, and is the bind a parent of that reaction?
+            const reaction = this.getAncestors()?.find(n => n instanceof Reaction);
+            const validCircularReference = reaction !== undefined && reaction.getAncestors()?.includes(bindOrTypeVar);
+            if(!validCircularReference)
+                conflicts.push(new CircularReference(this));
+        }
+
+        // Is there match with the other case? Warn about it.
         const caseCollision = getCaseCollision(name, this.getBindingEnclosureOf(), context, this);
         if(caseCollision) conflicts.push(caseCollision);
 

@@ -132,10 +132,10 @@ export default abstract class Node {
     }
 
     /** Returns a list of ancestors, with the parent as the first item in the list and the root as the last. */
-    getAncestorsOf(node: Node): Node[] | undefined {
+    getAncestors(): Node[] | undefined {
 
         const ancestors = [];
-        let parent = node._parent;
+        let parent = this._parent;
         while(parent) {
             ancestors.push(parent);
             parent = parent._parent;
@@ -145,8 +145,8 @@ export default abstract class Node {
     }
 
     /** Finds the nearest ancestor of the given type. */
-    getNearestAncestor<T extends Node>(node: Node, type: Function): T | undefined {
-        return this.getAncestorsOf(node)?.find(n => n instanceof type) as T ?? undefined;
+    getNearestAncestor<T extends Node>(type: Function): T | undefined {
+        return this.getAncestors()?.find(n => n instanceof type) as T ?? undefined;
     }
 
     /** Returns the cached parent of the given node. Assumes the root of this node has called cacheParents(). */
