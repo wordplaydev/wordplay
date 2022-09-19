@@ -160,7 +160,7 @@ export default class Evaluate extends Expression {
                             if(!(concreteInputType instanceof ListType))
                                 throw Error(`Expected list type on variable length input, but received ${concreteInputType.constructor.name}`);
                             else if(concreteInputType.type instanceof Type && !givenType.isCompatible(concreteInputType.type, context))
-                                conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType));
+                                conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType.type));
                         }
                     }
                 }
