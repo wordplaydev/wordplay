@@ -17,7 +17,7 @@ export class ExpectedBooleanCondition extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.conditional.condition ];
+        return { primary: [ this.conditional.condition ] };
     }
 
     getExplanations() { 

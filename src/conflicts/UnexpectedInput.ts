@@ -21,7 +21,7 @@ export class UnexpectedInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return this.given.names;
+        return { primary: this.given.names };
     }
 
     getExplanations() { 

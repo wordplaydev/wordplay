@@ -12,7 +12,7 @@ export class IgnoredExpression extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.expr ];        
+        return { primary: [ this.expr ] }
     }
 
     getExplanations(): ConflictExplanations { 

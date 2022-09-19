@@ -19,6 +19,7 @@
     --wordplay-border-color: rgb(230, 230, 230);
     --wordplay-highlight: var(--color-yellow);
     --wordplay-error: var(--color-pink);
+    --wordplay-warning: var(--color-yellow);
     --wordplay-spacing: 0.5em;
     --wordplay-font-face: "Noto Sans", sans-serif;
     --wordplay-font-weight: 500;

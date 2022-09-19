@@ -24,7 +24,7 @@ export class IncompatibleInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.givenNode ];
+        return { primary: [ this.givenNode ], secondary: [ this.expectedType ] };
     }
 
     getExplanations(): ConflictExplanations {

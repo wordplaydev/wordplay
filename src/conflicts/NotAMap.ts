@@ -12,7 +12,7 @@ export class NotAMap extends Conflict {
     }
 
     getConflictingNodes() {
-        return this.map.values.filter(n => n instanceof Expression);
+        return { primary: this.map.values.filter(n => n instanceof Expression) };
     }
 
     getExplanations() { 

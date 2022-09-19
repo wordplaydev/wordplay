@@ -1,7 +1,6 @@
 import type Alias from "../nodes/Alias";
 import Conflict from "./Conflict";
 
-
 export default class UnnamedAlias extends Conflict {
     readonly alias: Alias;
     constructor(alias: Alias) {
@@ -10,7 +9,7 @@ export default class UnnamedAlias extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.alias ];
+        return { primary: [ this.alias ] };
     }
 
     getExplanations() { 

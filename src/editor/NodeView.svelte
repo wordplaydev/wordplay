@@ -7,16 +7,17 @@
     export let block: boolean = false;
     export let mousedown: undefined | ((event: MouseEvent) => void) = undefined;
 
-    $: conflicts = node === undefined || $project === undefined ? [] : $project.getConflictsInvolvingNode(node) ?? [];
+    $: primaryConflicts = node === undefined || $project === undefined ? [] : $project.getPrimaryConflictsInvolvingNode(node) ?? [];
+    $: secondaryConflicts = node === undefined || $project === undefined ? [] : $project.getSecondaryConflictsInvolvingNode(node) ?? [];
 
 </script>
 
 <!-- Don't render anything if we weren't given a node. TODO Interface for replacing with a slot. -->
 {#if node !== undefined}
 <div 
-    class="{node.constructor.name} node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"} {conflicts.length > 0 ? "conflicted" : ""}"
+    class="{node.constructor.name} node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"} {primaryConflicts.length > 0 ? "primary-conflict" : ""} {secondaryConflicts.length > 0 ? "secondary-conflict" : ""}"
     on:mousedown={mousedown}
-><svelte:component this={renderNode(node)} node={node} />{#if conflicts.length > 0}<div class="conflicts">{#each conflicts as conflict}<div class="conflict">{conflict.getExplanation("eng")}</div>{/each}</div>{/if}</div>
+><svelte:component this={renderNode(node)} node={node} />{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation("eng")}</div>{/each}</div>{/if}</div>
 {/if}
 
 <style>
@@ -44,7 +45,7 @@
         outline: 4px solid var(--wordplay-highlight);
     }
 
-    .conflicted {
+    .primary-conflict {
         border-bottom: 2px solid var(--wordplay-error);
     }
 

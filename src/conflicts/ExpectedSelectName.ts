@@ -12,7 +12,7 @@ export class ExpectedSelectName extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.cell ];
+        return { primary: [ this.cell ] };
     }
 
     getExplanations() { 

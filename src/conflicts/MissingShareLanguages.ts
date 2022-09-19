@@ -11,7 +11,7 @@ export class MissingShareLanguages extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.share ];
+        return { primary: [ this.share ] };
     }
 
     getExplanations() { 

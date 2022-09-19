@@ -13,7 +13,7 @@ export class NotAFunction extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.evaluate.func ];
+        return { primary: [ this.evaluate.func ] };
     }
 
     getExplanations() { 

@@ -25,7 +25,8 @@ export default class Project {
     readonly updater: ()=> void;
 
     /** An index of conflicts for each node. */
-    readonly _nodeConflicts: Map<Node, Conflict[]> = new Map();
+    readonly _primaryNodeConflicts: Map<Node, Conflict[]> = new Map();
+    readonly _secondaryNodeConflicts: Map<Node, Conflict[]> = new Map();
 
     constructor(name: string, code: string | UnicodeString, updater: () => void) {
         
@@ -43,9 +44,13 @@ export default class Project {
         // and adding to the conflict to each node's list of conflicts.
         this.conflicts.forEach(conflict => {
             const complicitNodes = conflict.getConflictingNodes();
-            complicitNodes.forEach(node => {
-                let nodeConflicts = this._nodeConflicts.get(node) ?? [];
-                this._nodeConflicts.set(node, [ ... nodeConflicts, conflict ]);
+            complicitNodes.primary.forEach(node => {
+                let nodeConflicts = this._primaryNodeConflicts.get(node) ?? [];
+                this._primaryNodeConflicts.set(node, [ ... nodeConflicts, conflict ]);
+            });
+            complicitNodes.secondary?.forEach(node => {
+                let nodeConflicts = this._primaryNodeConflicts.get(node) ?? [];
+                this._secondaryNodeConflicts.set(node, [ ... nodeConflicts, conflict ]);
             });
         })
 
@@ -118,8 +123,11 @@ export default class Project {
     }
 
     /** Given a node N, and the set of conflicts C in the program, determines the subset of C in which the given N is complicit. */
-    getConflictsInvolvingNode(node: Node) {
-        return this._nodeConflicts.get(node);
+    getPrimaryConflictsInvolvingNode(node: Node) {
+        return this._primaryNodeConflicts.get(node);
+    }
+    getSecondaryConflictsInvolvingNode(node: Node) {
+        return this._secondaryNodeConflicts.get(node);
     }
 
 }

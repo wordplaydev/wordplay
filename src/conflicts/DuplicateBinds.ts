@@ -17,12 +17,12 @@ export class DuplicateBinds extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ ... this.bind.names, ... this.duplicates ];
+        return { primary: this.bind.names , secondary: this.duplicates };
     }
 
     getExplanations() { 
         return {
-            eng: `${this.bind.names[0].getName()} is already defined; use unique names to avoid confusion.`
+            eng: `${this.bind.names[0].getName()} is already defined.`
         }
     }
 

@@ -16,7 +16,7 @@ export class NotAStreamIndex extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.previous.index ];
+        return { primary: [ this.previous.index ] };
     }
 
     getExplanations() { 

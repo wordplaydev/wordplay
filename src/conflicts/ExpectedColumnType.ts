@@ -11,7 +11,7 @@ export class ExpectedColumnType extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.column.bind ];
+        return { primary: [ this.column.bind ] };
     }
 
     getExplanations() { 

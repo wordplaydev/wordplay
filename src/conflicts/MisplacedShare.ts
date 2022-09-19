@@ -10,7 +10,7 @@ export class MisplacedShare extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.share.share ];
+        return { primary: [ this.share.share ] };
     }
 
     getExplanations() { 

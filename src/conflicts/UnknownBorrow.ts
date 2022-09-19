@@ -14,7 +14,7 @@ export class UnknownBorrow extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.borrow.name ];
+        return { primary: [ this.borrow.name ] };
     }
 
     getExplanations() { 

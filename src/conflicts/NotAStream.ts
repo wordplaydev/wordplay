@@ -18,7 +18,7 @@ export class NotAStream extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.stream.stream ];
+        return { primary: [ this.stream.stream ] };
     }
 
     getExplanations() { 

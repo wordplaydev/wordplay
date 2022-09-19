@@ -14,7 +14,7 @@ export class UnknownColumn extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.cell ];
+        return { primary: [ this.cell ] };
     }
 
     getExplanations() { 

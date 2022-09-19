@@ -16,7 +16,7 @@ export default class CaseSensitive extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.name, this.alias ];
+        return { primary: [ this.name ], secondarty: [ this.alias ] };
     }
 
     getExplanations(): ConflictExplanations { 

@@ -12,7 +12,7 @@ export class ExpectedEndingExpression extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.block.statements.length === 0 ? this.block : this.block.statements[this.block.statements.length - 1] ];
+        return { primary: [ this.block.statements.length === 0 ? this.block : this.block.statements[this.block.statements.length - 1] ] };
     }
 
     getExplanations() { 

@@ -12,7 +12,7 @@ export class UnknownConversion extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.convert.type ];
+        return { primary: [ this.convert.type ] };
     }
 
     getExplanations() { 

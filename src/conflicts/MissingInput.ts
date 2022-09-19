@@ -18,7 +18,7 @@ export class MissingInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ ...this.input.names, this.evaluate ];
+        return { primary: this.input.names };
     }
 
     getExplanations() { 

@@ -22,7 +22,7 @@ export class IncompatibleOperand extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.operand ];
+        return { primary: [ this.operand ], secondary: [ this.expectedType ] };
     }
 
     getExplanations() { 

@@ -18,7 +18,7 @@ export class NonBooleanQuery extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.op.query ];
+        return { primary: [ this.op.query ] };
     }
 
     getExplanations() { 

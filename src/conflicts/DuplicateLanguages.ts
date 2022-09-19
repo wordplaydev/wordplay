@@ -17,7 +17,7 @@ export default class DuplicateLanguages extends Conflict {
     }
 
     getConflictingNodes() {
-        return Array.from(this.duplicates.values()).flat();
+        return { primary: Array.from(this.duplicates.values()).flat() };
     }
 
     getExplanations(): ConflictExplanations { 

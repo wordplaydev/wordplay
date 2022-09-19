@@ -12,7 +12,7 @@ export default class RequiredAfterOptional extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.bind ]
+        return { primary: [ this.bind ] }
     }
 
     getExplanations() { 

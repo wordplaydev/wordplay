@@ -10,7 +10,9 @@ export class UnknownTypeName extends Conflict {
         this.name = name;
     }
 
-    getConflictingNodes() { return [ this.name ]; }
+    getConflictingNodes() { 
+        return { primary: [ this.name ] }; 
+    }
 
     getExplanations() { 
         return {

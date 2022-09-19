@@ -19,7 +19,7 @@ export class NotATable extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.op.table ];
+        return { primary: [ this.op.table ] };
     }
 
     getExplanations() { 

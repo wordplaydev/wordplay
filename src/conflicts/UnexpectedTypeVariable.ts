@@ -11,7 +11,7 @@ export class UnexpectedTypeVariable extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.name ];
+        return { primary: [ this.name ] };
     }
 
     getExplanations() { 

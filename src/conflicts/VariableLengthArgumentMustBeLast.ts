@@ -13,7 +13,7 @@ export default class VariableLengthArgumentMustBeLast extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.bind ];
+        return { primary: [ this.bind ] };
     }
 
     getExplanations() { 

@@ -8,7 +8,12 @@ export default abstract class Conflict {
     
     constructor(minor: boolean) { this.#minor = minor; }
 
-    abstract getConflictingNodes(): Node[];
+    /** 
+     * There are two types of conflicting nodes: "primary" ones, which ostensibly caused the conflict, 
+     * and "secondary" ones, which are involved. We use this distiction in the editor to decide what to highlight, 
+     * but also how to position the various parties involved in the visual portrayal of the conflict.
+     */
+    abstract getConflictingNodes(): { primary: Node[], secondary?: Node[] };
     abstract getExplanations(): ConflictExplanations;
 
     isMinor() { return this.#minor; }

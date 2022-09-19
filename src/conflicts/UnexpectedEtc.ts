@@ -10,7 +10,7 @@ export class UnexpectedEtc extends Conflict {
     }
 
     getConflictingNodes() {
-        return this.bind.etc === undefined ? [] : [ this.bind.etc ];
+        return { primary: this.bind.etc === undefined ? [] : [ this.bind.etc ] };
     }
 
     getExplanations() { 

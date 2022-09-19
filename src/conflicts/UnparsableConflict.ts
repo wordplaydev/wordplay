@@ -10,7 +10,7 @@ export class UnparsableConflict extends Conflict {
     }
 
     getConflictingNodes() {
-        return [this.unparsable];
+        return { primary: [ this.unparsable ] };
     }
 
     getExplanations() {

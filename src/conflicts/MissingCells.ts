@@ -15,7 +15,7 @@ export class MissingCells extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.type, this.row ];
+        return { primary: [ this.row ] };
     }
 
     getExplanations() { 

@@ -12,7 +12,7 @@ export default class Placeholder extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.placeholder ];
+        return { primary: [ this.placeholder ] };
     }
 
     getExplanations() { 

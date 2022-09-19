@@ -16,7 +16,7 @@ export class NotAListIndex extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.access.index ];
+        return { primary: [ this.access.index ] };
     }
 
     getExplanations() { 

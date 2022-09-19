@@ -21,7 +21,7 @@ export class IncompatibleUnits extends Conflict {
     }
 
     getConflictingNodes() {
-        return [ this.binary.left, this.binary.right ];
+        return { primary: [ this.binary.left, this.binary.right ] };
     }
 
     getExplanations() { 
