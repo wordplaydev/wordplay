@@ -22,6 +22,7 @@ import type Value from "../runtime/Value";
 import type Context from "./Context";
 import type Node from "./Node";
 import { AND_SYMBOL, OR_SYMBOL } from "../parser/Tokenizer";
+import OrderOfOperations from "../conflicts/OrderOfOperations";
 
 export default class BinaryOperation extends Expression {
 
@@ -46,6 +47,9 @@ export default class BinaryOperation extends Expression {
     computeConflicts(context: Context): Conflict[] { 
 
         const conflicts = [];
+
+        if(this.left instanceof BinaryOperation && this.operator.getText() !== this.left.operator.getText())
+            conflicts.push(new OrderOfOperations(this.left, this));
 
         const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
         const rightType = this.right instanceof Expression ? this.right.getTypeUnlessCycle(context) : undefined;
