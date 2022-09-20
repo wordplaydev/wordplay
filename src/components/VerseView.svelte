@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Evaluator from "../runtime/Evaluator";
     import Structure from "../runtime/Structure";
-import ExceptionView from "./ExceptionView.svelte";
+    import ExceptionView from "./ExceptionView.svelte";
     import GroupView from "./GroupView.svelte";
 
     export let verse: Structure;

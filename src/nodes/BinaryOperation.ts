@@ -77,6 +77,8 @@ export default class BinaryOperation extends Expression {
             case "≠":
             case "=":
                 // Must be compatible types?
+                if(leftType !== undefined && rightType !== undefined && !(this.right instanceof Unparsable) && !leftType.isCompatible(rightType, context))
+                    return [ new IncompatibleOperand(this, this.operator, this.right, rightType, leftType) ];
                 break;
             case AND_SYMBOL:
             case OR_SYMBOL:

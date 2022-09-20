@@ -27,7 +27,7 @@ export class IncompatibleOperand extends Conflict {
 
     getExplanations() { 
         return {
-            eng: `${this.operator.toWordplay()} needs a ${this.expectedType.toWordplay()}, but this is a ${this.receivedType?.toWordplay()}`
+            eng: `${this.operator.toWordplay()} expected a ${this.expectedType.toWordplay()}, but this is a ${this.receivedType?.toWordplay()}`
         }
     }
 
