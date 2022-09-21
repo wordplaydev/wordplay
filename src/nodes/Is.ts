@@ -28,7 +28,7 @@ export default class Is extends Expression {
     }
 
     computeChildren() { return [ this.left, this.operator, this.right ]; }
-    computeType(): Type { return new BooleanType(); }
+    computeType() { return new BooleanType(); }
     computeConflicts() {}
     
     compile(context: Context): Step[] {

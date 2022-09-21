@@ -306,7 +306,7 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
     while(tokens.nextIsnt(TokenType.END) && (root || tokens.nextIsnt(TokenType.EVAL_CLOSE)))
         statements.push(
             tokens.nextIs(TokenType.SHARE) ? parseShare(tokens) :
-            nextIsBind(tokens) ? parseBind(tokens) :
+            nextIsBind(tokens, true) ? parseBind(tokens) :
             parseExpression(tokens)
         );
 
@@ -320,7 +320,7 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
 
 }
 
-function nextIsBind(tokens: Tokens): boolean {
+function nextIsBind(tokens: Tokens, requireValue=false): boolean {
 
     const rollbackToken = tokens.peek();
     if(rollbackToken === undefined) return false;
@@ -330,7 +330,7 @@ function nextIsBind(tokens: Tokens): boolean {
     tokens.unreadTo(rollbackToken);
     const bindUnparsableCount = bind.nodes(n => n instanceof Unparsable).length;
     const expressionUnparsableCount = expression.nodes(n => n instanceof Unparsable).length;
-    return bind instanceof Bind && (bind.dot !== undefined || bind.colon !== undefined) && bindUnparsableCount <= expressionUnparsableCount;
+    return bind instanceof Bind && (bind.dot !== undefined || bind.colon !== undefined) && bindUnparsableCount <= expressionUnparsableCount && (requireValue === false || bind.value !== undefined);
 
 }
 
@@ -848,7 +848,7 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
     let close;
     
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        inputs.push(nextIsBind(tokens) ? parseBind(tokens) : parseExpression(tokens));
+        inputs.push(nextIsBind(tokens, true) ? parseBind(tokens) : parseExpression(tokens));
     
     if(tokens.nextIs(TokenType.EVAL_CLOSE))
         close = tokens.read(TokenType.EVAL_CLOSE);
