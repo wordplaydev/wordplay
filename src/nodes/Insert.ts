@@ -18,6 +18,8 @@ import type Context from "./Context";
 import type Definition from "./Definition";
 import type { TypeSet } from "./UnionType";
 import { analyzeRow } from "./util";
+import Halt from "../runtime/Halt";
+import type Cell from "./Cell";
 
 export default class Insert extends Expression {
     
@@ -74,11 +76,26 @@ export default class Insert extends Expression {
     }
 
     compile(context: Context):Step[] {
+
+        const tableType = this.table.getTypeUnlessCycle(context);
+
+        if(!(tableType instanceof TableType)) return [ new Halt(new Exception(this, ExceptionKind.EXPECTED_TYPE), this) ];
+
         return [ 
             new Action(this),
             ...this.table.compile(context), 
-            ...this.row.cells.reduce((steps: Step[], cell) => [ ...steps, ...cell.value.compile(context) ], []),
-            new Finish(this) 
+            ...(
+                this.row.allExpressions() ? 
+                    // It's all expresssions, compile all of them in order.
+                    this.row.cells.reduce((steps: Step[], cell) => [ ...steps, ...cell.value.compile(context) ], []) :
+                    // Otherwise, loop through the required columns, finding the corresponding bind, and compiling it's expression, or the default if not found.
+                    tableType.columns.reduce((steps: Step[], column) => {
+                        const matchingCell: Cell | undefined = this.row.cells.find(cell => column.bind instanceof Bind && cell.value instanceof Bind && column.bind.sharesName(cell.value)) as Cell | undefined;
+                        if(matchingCell === undefined || !(matchingCell.value instanceof Bind) || matchingCell.value.value === undefined) return [ ... steps, new Halt(new Exception(this, ExceptionKind.EXPECTED_TYPE), this) ];
+                        return [ ... steps, ...matchingCell.value.value.compile(context) ];
+                    }, [])
+            ),
+            new Finish(this)
         ];
     }
 
