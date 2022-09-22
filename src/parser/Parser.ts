@@ -708,7 +708,7 @@ function parseTable(tokens: Tokens): TableLiteral {
 
     // Read the table close.
     const close = tokens.nextIs(TokenType.TABLE_CLOSE) ? 
-        tokens.read(TokenType.TABLE_CLOSE) : tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TABLE_CLOSE, [ ... columns ]);    
+        tokens.read(TokenType.TABLE_CLOSE) : tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TABLE_CLOSE, []);    
 
     // Read the rows.
     const rows = [];
