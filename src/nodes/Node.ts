@@ -54,7 +54,7 @@ export default abstract class Node {
     /** Given a program, a node that triggered a search, and a name, get the thing that defined the name. */
     getDefinition(name: string, context: Context, node: Node): Definition {
         // Silliness to avoid warnings on unused arguments.
-        name !== undefined; context !== undefined; node !== undefined;
+        name; context; node;
         return undefined;
     };
 
@@ -88,9 +88,6 @@ export default abstract class Node {
 
     /** True if the given node is a child of this node and this node should act as a binding enclosure of it. */
     isBindingEnclosureOfChild(child: Node): boolean { child; return false; }
-    
-    /** True if the node contains bindings that should be searched. */
-    isBindingEnclosure() { return false; }
 
     toString(depth: number=0): string {
         const tabs = "\t".repeat(depth);

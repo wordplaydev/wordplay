@@ -29,7 +29,7 @@ export default class Table extends Value {
     resolve() { return undefined; }
 
     toString(): string {
-        return this.rows.map(r => r.map(c => `|${c.toString()}`).join("")).join("\n");
+        return this.rows.map(r => r.map(c => `|${c.toString()}`).join("") + "||").join("\n");
     }
 
 }

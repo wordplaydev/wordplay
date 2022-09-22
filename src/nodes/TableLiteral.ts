@@ -112,6 +112,11 @@ export default class TableLiteral extends Expression {
         ) as this; 
     }
 
+    /**
+     * Is a binding enclosure of its columns and rows, because it defines columns.
+     * */ 
+    isBindingEnclosureOfChild(child: Node): boolean { return this.columns.includes(child as Column) || this.rows.includes(child as Row); }
+
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         this.rows.forEach(row => { if(row instanceof Expression) row.evaluateTypeSet(bind, original, current, context); });
         return current;

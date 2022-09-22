@@ -70,8 +70,6 @@ export default class StructureDefinition extends Expression {
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block || (child instanceof Bind && this.inputs.includes(child)); }
 
-    isBindingEnclosure() { return true; }
-
     getInputs() { return this.inputs.filter(i => i instanceof Bind) as Bind[]; }
 
     getFunctionType(): FunctionType {
