@@ -6,4 +6,4 @@
 
 </script>
 
-<NodeView node={node.bar}/><NodeView node={node.expression}/>
+<NodeView node={node.bar}/><NodeView node={node.value}/>

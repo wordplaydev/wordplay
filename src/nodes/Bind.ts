@@ -31,6 +31,7 @@ import { getCaseCollision, getDuplicateAliases } from "./util";
 import Evaluate from "./Evaluate";
 import Block from "./Block";
 import ListType from "./ListType";
+import Cell from "./Cell";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -121,7 +122,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
         // If this bind isn't part of an Evaluate, it should be used in some expression in its parent.
         const parent = this.getParent();
-        if(enclosure && !(parent instanceof Column || parent instanceof ColumnType || parent instanceof Evaluate)) {
+        if(enclosure && !(parent instanceof Column || parent instanceof ColumnType || parent instanceof Cell || parent instanceof Evaluate)) {
             const uses = enclosure.nodes(n => n instanceof Name && this.names.find(name => name.getName() === n.name.text.toString()) !== undefined);
             if(uses.length === 0)
                 conflicts.push(new UnusedBind(this));

@@ -3,8 +3,7 @@ import Token from "./Token";
 import Expression from "./Expression";
 import Row from "./Row";
 import type Conflict from "../conflicts/Conflict";
-import { IncompatibleCellType } from "../conflicts/IncompatibleCellType";
-import { NotATable } from "../conflicts/NotATable";
+import NotATable from "../conflicts/NotATable";
 import TableType from "./TableType";
 import Bind from "../nodes/Bind";
 import type Type from "./Type";
@@ -17,8 +16,8 @@ import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type Context from "./Context";
 import type Definition from "./Definition";
-import { MissingCells } from "../conflicts/MissingCells";
 import type { TypeSet } from "./UnionType";
+import { analyzeRow } from "./util";
 
 export default class Insert extends Expression {
     
@@ -41,29 +40,16 @@ export default class Insert extends Expression {
 
     computeConflicts(context: Context): Conflict[] { 
      
-        const conflicts = [];
+        let conflicts: Conflict[] = [];
 
         const tableType = this.table.getTypeUnlessCycle(context);
 
         // Table must be table typed.
         if(!(tableType instanceof TableType))
-            conflicts.push(new NotATable(this, tableType));
-        // The row must have all of the table type's columns.
-        else if(tableType.columns.length !== this.row.cells.length)
-            conflicts.push(new MissingCells(tableType, this.row));
-        // The row types must match the column types
-        else {
-            this.row.cells.forEach((cell, index) => {
-                const expr = cell.expression;
-                if(expr instanceof Expression && index < tableType.columns.length) {
-                    const columnBind = tableType.columns[index].bind;
-                    const cellType = expr.getTypeUnlessCycle(context);
-                    const bindType = columnBind.getTypeUnlessCycle(context);
-                    if(columnBind instanceof Bind && !cellType.isCompatible(bindType, context))
-                        conflicts.push(new IncompatibleCellType(tableType, cell, bindType, cellType));
-                }
-            });
-        }
+            return [ new NotATable(this, tableType) ];
+
+        // Check the row for conflicts.
+        conflicts = conflicts.concat(analyzeRow(tableType, this.row, context));
 
         return conflicts; 
     
@@ -91,7 +77,7 @@ export default class Insert extends Expression {
         return [ 
             new Action(this),
             ...this.table.compile(context), 
-            ...this.row.cells.reduce((steps: Step[], cell) => [ ...steps, ...cell.expression.compile(context) ], []),
+            ...this.row.cells.reduce((steps: Step[], cell) => [ ...steps, ...cell.value.compile(context) ], []),
             new Finish(this) 
         ];
     }

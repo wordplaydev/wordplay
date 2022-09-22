@@ -2,7 +2,7 @@ import type Cell from "../nodes/Cell";
 import Conflict from "./Conflict";
 
 
-export class ExpectedSelectName extends Conflict {
+export default class ExpectedSelectName extends Conflict {
     readonly cell: Cell;
     
     constructor(cell: Cell) {

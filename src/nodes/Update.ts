@@ -3,11 +3,11 @@ import Token from "./Token";
 import Expression from "./Expression";
 import Row from "./Row";
 import type Conflict from "../conflicts/Conflict";
-import { UnknownColumn } from "../conflicts/UnknownColumn";
-import { IncompatibleCellType } from "../conflicts/IncompatibleCellType";
-import { ExpectedUpdateBind } from "../conflicts/ExpectedUpdateBind";
-import { NonBooleanQuery } from "../conflicts/NonBooleanQuery";
-import { NotATable } from "../conflicts/NotATable";
+import UnknownColumn from "../conflicts/UnknownColumn";
+import IncompatibleCellType from "../conflicts/IncompatibleCellType";
+import ExpectedUpdateBind from "../conflicts/ExpectedUpdateBind";
+import NonBooleanQuery from "../conflicts/NonBooleanQuery";
+import NotATable from "../conflicts/NotATable";
 import type Type from "./Type";
 import Unparsable from "./Unparsable";
 import Bind from "../nodes/Bind";
@@ -57,10 +57,10 @@ export default class Update extends Expression {
 
         this.row.cells.forEach(cell => {
             // The columns in an update must be binds with expressions.
-            if(!(cell.expression instanceof Bind && cell.expression.value !== undefined && cell.expression.names.length === 1))
+            if(!(cell.value instanceof Bind && cell.value.value !== undefined && cell.value.names.length === 1))
                 conflicts.push(new ExpectedUpdateBind(cell))
             else if(tableType instanceof TableType) {
-                const alias = cell.expression instanceof Bind && cell.expression.names.length > 0 ? cell.expression.names[0] : undefined;
+                const alias = cell.value instanceof Bind && cell.value.names.length > 0 ? cell.value.names[0] : undefined;
                 const name = alias === undefined ? undefined : alias.getName();
                 const columnType = name === undefined ? undefined : tableType.getColumnNamed(name);
                 // The named table column must exist.
@@ -69,7 +69,7 @@ export default class Update extends Expression {
                 // The types of the bound values must match the column types.
                 else if(columnType.bind instanceof Bind) {
                     const bindType = columnType.bind.getTypeUnlessCycle(context);
-                    const cellType = cell.expression.getTypeUnlessCycle(context);
+                    const cellType = cell.value.getTypeUnlessCycle(context);
                     if(!bindType.isCompatible(cellType, context))
                         conflicts.push(new IncompatibleCellType(tableType, cell, bindType, cellType));
                 }

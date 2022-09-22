@@ -1,8 +1,8 @@
 import { testConflict } from "../conflicts/TestUtilities";
-import { UnknownColumn } from "../conflicts/UnknownColumn";
-import { IncompatibleCellType } from "../conflicts/IncompatibleCellType";
-import { ExpectedUpdateBind } from "../conflicts/ExpectedUpdateBind";
-import { NotATable } from "../conflicts/NotATable";
+import UnknownColumn from "../conflicts/UnknownColumn";
+import IncompatibleCellType from "../conflicts/IncompatibleCellType";
+import ExpectedUpdateBind from "../conflicts/ExpectedUpdateBind";
+import NotATable from "../conflicts/NotATable";
 import Update from "./Update";
 
 test("Test select conflicts", () => {

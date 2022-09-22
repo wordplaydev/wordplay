@@ -1,16 +1,11 @@
 import type Row from "../nodes/Row";
-import type TableType from "../nodes/TableType";
 import Conflict from "./Conflict";
 
-
-export class MissingCells extends Conflict {
-    
-    readonly type: TableType;
+export default class InvalidRow extends Conflict {
     readonly row: Row;
-    constructor(type: TableType, row: Row) {
+    
+    constructor(row: Row) {
         super(false);
-
-        this.type = type;
         this.row = row;
     }
 
@@ -20,7 +15,7 @@ export class MissingCells extends Conflict {
 
     getExplanations() { 
         return {
-            eng: `Missing cells in this row based on ${this.type.toWordplay()}`
+            eng: `Inserted rows have to either include every column or every cell has to be named.`
         }
     }
 

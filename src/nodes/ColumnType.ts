@@ -21,6 +21,7 @@ export default class ColumnType extends Type {
         this.bind = bind;
     }
 
+    hasDefault() { return this.bind instanceof Bind && this.bind.hasDefault(); }
     computeChildren() { return [ this.bar, this.bind ]; }
     computeConflicts() {}
 
@@ -31,6 +32,8 @@ export default class ColumnType extends Type {
             this.bind instanceof Bind && 
             this.bind.getTypeUnlessCycle(context).isCompatible(type.bind.getTypeUnlessCycle(context), context);
     }
+
+    getValueType(context: Context) { return this.bind.getType(context); }
 
     getNativeTypeName(): string { return COLUMN_NATIVE_TYPE_NAME; }
 

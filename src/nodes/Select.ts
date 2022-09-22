@@ -2,10 +2,10 @@ import Token from "./Token";
 import Expression from "./Expression";
 import Row from "./Row";
 import type Conflict from "../conflicts/Conflict";
-import { UnknownColumn } from "../conflicts/UnknownColumn";
-import { ExpectedSelectName } from "../conflicts/ExpectedSelectName";
-import { NonBooleanQuery } from "../conflicts/NonBooleanQuery";
-import { NotATable } from "../conflicts/NotATable";
+import UnknownColumn from "../conflicts/UnknownColumn";
+import ExpectedSelectName from "../conflicts/ExpectedSelectName";
+import NonBooleanQuery from "../conflicts/NonBooleanQuery";
+import NotATable from "../conflicts/NotATable";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
@@ -57,20 +57,20 @@ export default class Select extends Expression {
 
         // The columns in a select must be names.
         this.row.cells.forEach(cell => {
-            if(!(cell.expression instanceof Name))
+            if(!(cell.value instanceof Name))
                 conflicts.push(new ExpectedSelectName(cell))
         });
 
         // The columns named must be names in the table's type.
         if(tableType instanceof TableType) {
             this.row.cells.forEach(cell => {
-                const cellName = cell.expression instanceof Name ? cell.expression : undefined; 
-                if(!(cellName !== undefined && tableType.getColumnNamed(cellName.name.text.toString()) !== undefined))
+                const cellName = cell.value instanceof Name ? cell.value : undefined; 
+                if(!(cellName !== undefined && tableType.getColumnNamed(cellName.name.getText()) !== undefined))
                     conflicts.push(new UnknownColumn(tableType, cell));
             });
         }
 
-        // The query must be truthy.
+        // The query must be boolean typed.
         const queryType = this.query.getTypeUnlessCycle(context);
         if(this.query instanceof Expression && !(queryType instanceof BooleanType))
             conflicts.push(new NonBooleanQuery(this, queryType))
@@ -88,7 +88,7 @@ export default class Select extends Expression {
         // For each cell in the select row, find the corresponding column type in the table type.
         // If we can't find one, return unknown.
         const columnTypes = this.row.cells.map(cell => {
-            const column = cell.expression instanceof Name ? tableType.getColumnNamed(cell.expression.name.text.toString()) : undefined; 
+            const column = cell.value instanceof Name ? tableType.getColumnNamed(cell.value.name.text.toString()) : undefined; 
             return column === undefined ? undefined : column;
         });
         if(columnTypes.find(t => t === undefined)) return new UnknownType(this);

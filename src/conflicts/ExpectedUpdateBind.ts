@@ -1,8 +1,7 @@
 import type Cell from "../nodes/Cell";
 import Conflict from "./Conflict";
 
-
-export class ExpectedUpdateBind extends Conflict {
+export default class ExpectedUpdateBind extends Conflict {
 
     readonly cell: Cell;
 

@@ -1,9 +1,7 @@
 import Column from "./Column";
 import Row from "./Row";
 import type Conflict from "../conflicts/Conflict";
-import { MissingCells } from "../conflicts/MissingCells";
-import { ExpectedColumnType } from "../conflicts/ExpectedColumnType";
-import { IncompatibleCellType } from "../conflicts/IncompatibleCellType";
+import ExpectedColumnType from "../conflicts/ExpectedColumnType";
 import Expression from "./Expression";
 import TableType from "./TableType";
 import UnknownType from "./UnknownType";
@@ -21,6 +19,7 @@ import type Context from "./Context";
 import type Unparsable from "./Unparsable";
 import Token from "./Token";
 import type { TypeSet } from "./UnionType";
+import { analyzeRow } from "./util";
 
 export default class TableLiteral extends Expression {
     
@@ -41,7 +40,7 @@ export default class TableLiteral extends Expression {
 
     computeConflicts(context: Context): Conflict[] { 
     
-        const conflicts: Conflict[] = [];
+        let conflicts: Conflict[] = [];
 
         // Columns must all have types.
         this.columns.forEach(column => {
@@ -49,22 +48,12 @@ export default class TableLiteral extends Expression {
                 conflicts.push(new ExpectedColumnType(column))
         });
 
-        // All cells in all rows must match their types.
-        this.rows.forEach(row => {
-            if(row.cells.length !== this.columns.length)
-                conflicts.push(new MissingCells(this.computeType(), row));
-            row.cells.forEach((cell, index) => {
-                if(cell.expression instanceof Expression || cell.expression instanceof Bind) {
-                    if(index >= 0 && index < this.columns.length) {
-                       const columnBind = this.columns[index].bind;
-                       const bindType = columnBind.getTypeUnlessCycle(context);
-                       const cellType = cell.expression.getTypeUnlessCycle(context);
-                        if(columnBind instanceof Bind && !cellType.isCompatible(bindType, context))
-                            conflicts.push(new IncompatibleCellType(this.computeType(), cell, bindType, cellType));
-                    }
-                }
-            });
-        })
+        // Validate each row.
+        const type = this.getType(context);
+        if(type instanceof TableType) {
+            for(const row of this.rows)
+                conflicts = conflicts.concat(analyzeRow(type, row, context));
+        }
 
         return conflicts; 
     
@@ -81,7 +70,7 @@ export default class TableLiteral extends Expression {
             // Compile all of the rows' cell expressions.
             ...this.rows.reduce(
                 (steps: Step[], row) =>
-                    [ ...steps, ...row.cells.reduce((cells: Step[], cell) => [ ...cells, ...cell.expression.compile(context)], []) ], 
+                    [ ...steps, ...row.cells.reduce((cells: Step[], cell) => [ ...cells, ...cell.value.compile(context)], []) ], 
                 []
             ),
             new Finish(this)

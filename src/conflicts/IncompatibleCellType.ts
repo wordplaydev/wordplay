@@ -3,7 +3,7 @@ import type TableType from "../nodes/TableType";
 import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
 
-export class IncompatibleCellType extends Conflict {
+export default class IncompatibleCellType extends Conflict {
 
     readonly type: TableType;
     readonly cell: Cell;

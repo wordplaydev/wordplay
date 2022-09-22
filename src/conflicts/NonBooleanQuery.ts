@@ -5,7 +5,7 @@ import type Update from "../nodes/Update";
 import Conflict from "./Conflict";
 
 
-export class NonBooleanQuery extends Conflict {
+export default class NonBooleanQuery extends Conflict {
     readonly op: Select | Delete | Update;
     readonly type: Type;
 

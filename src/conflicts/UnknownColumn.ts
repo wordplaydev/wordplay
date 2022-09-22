@@ -3,7 +3,7 @@ import type TableType from "../nodes/TableType";
 import Conflict from "./Conflict";
 
 
-export class UnknownColumn extends Conflict {
+export default class UnknownColumn extends Conflict {
     readonly type: TableType;
     readonly cell: Cell;
     

@@ -5,8 +5,7 @@ import type Type from "../nodes/Type";
 import type Update from "../nodes/Update";
 import Conflict from "./Conflict";
 
-
-export class NotATable extends Conflict {
+export default class NotATable extends Conflict {
     readonly op: Insert | Select | Delete | Update;
     readonly received: Type;
  

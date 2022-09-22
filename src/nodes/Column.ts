@@ -22,7 +22,8 @@ export default class Column extends Node {
     }
     computeConflicts() {}
 
-    computeType(context: Context) { return this.bind instanceof Unparsable ? new UnknownType(this) : this.bind.getTypeUnlessCycle(context); }
+    hasDefault() { return this.bind instanceof Bind && this.bind.hasDefault(); }
+    getType(context: Context) { return this.bind instanceof Unparsable ? new UnknownType(this) : this.bind.getTypeUnlessCycle(context); }
 
     clone(original?: Node, replacement?: Node) { 
         return new Column(
