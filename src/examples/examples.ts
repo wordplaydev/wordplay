@@ -57,5 +57,9 @@ AccessGuards:
 •Cat(name•""•#)
 a: Cat(1)
 a.name•# ? a.name + 1 a
+`,
+Interfaces:
+`•Animal() ( ƒ sound()•"" … )
+•Cat •Animal() ( ƒ speak() "meow" )
 `
 };

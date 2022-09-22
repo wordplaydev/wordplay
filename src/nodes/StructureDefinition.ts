@@ -26,6 +26,7 @@ import NameType from "./NameType";
 import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 import type TypeInput from "./TypeInput";
 import type { TypeSet } from "./UnionType";
+import { Unimplemented } from "../conflicts/Unimplemented";
 
 export default class StructureDefinition extends Expression {
 
@@ -63,6 +64,8 @@ export default class StructureDefinition extends Expression {
         this.block = block ?? new Block([], [], true);
     }
 
+    getNames() { return this.aliases.map(a => a.getName()); }
+
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block || (child instanceof Bind && this.inputs.includes(child)); }
 
     isBindingEnclosure() { return true; }
@@ -99,7 +102,7 @@ export default class StructureDefinition extends Expression {
         return children;
     }
 
-    computeConflicts(): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
         
         let conflicts: Conflict[] = [];
     
@@ -115,8 +118,26 @@ export default class StructureDefinition extends Expression {
         const duplicateTypeVars = typeVarsAreUnique(this.typeVars);
         if(duplicateTypeVars) conflicts.push(duplicateTypeVars);
 
-        // Make sure the inputs are valid.
+        // Inputs must be valid.
         conflicts = conflicts.concat(getEvaluationInputConflicts(this.inputs));
+
+        // If the structure specifies one or more interfaces, it must implement them.
+        if(this.interfaces.length > 0 && this.block instanceof Block) {
+            for(const iface of this.interfaces) {
+                if(iface.type instanceof NameType) {
+                    const definition = iface.type.resolve(context);
+                    if(definition instanceof StructureDefinition) {
+                        const abstractFunctions = definition.getAbstractFunctions();
+                        if(abstractFunctions !== undefined)
+                            for(const abFun of abstractFunctions) {
+                                // Does this structure implement the given abstract function on the interface?
+                                if(this.block.statements.find(statement => statement instanceof FunctionDefinition && statement.matches(abFun, context)) === undefined)
+                                    conflicts.push(new Unimplemented(this, definition, abFun));
+                            }
+                    }
+                }
+            }
+        }
 
         return conflicts;
     

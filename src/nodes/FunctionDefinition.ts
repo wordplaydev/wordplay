@@ -57,6 +57,27 @@ export default class FunctionDefinition extends Expression {
         this.expression = expression;
     }
 
+    getNames() { return this.aliases.map(a => a.getName()); }
+
+    sharesName(fun: FunctionDefinition) {
+        const funNames = fun.getNames();
+        return this.getNames().find(n => funNames.includes(n)) !== undefined;
+    }
+
+    /**
+     * Name, inputs, and outputs must match.
+     */
+    matches(fun: FunctionDefinition, context: Context) {
+
+        if(!this.sharesName(fun)) return false;
+        for(let i = 0; i < this.inputs.length; i++) {
+            if(i >= fun.inputs.length) return false;
+            if(!this.inputs[i].getTypeUnlessCycle(context).isCompatible(fun.inputs[i].getTypeUnlessCycle(context), context)) return false;
+        }
+        return this.getTypeUnlessCycle(context).isCompatible(fun.getTypeUnlessCycle(context), context);
+
+    }
+
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression || child === this.type || this.inputs.includes(child as Bind | Unparsable); }
 
     computeChildren() {

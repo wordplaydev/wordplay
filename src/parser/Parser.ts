@@ -411,7 +411,7 @@ export function parseBinaryOperation(tokens: Tokens): Expression | Unparsable {
 
     let left = parseAtomicExpression(tokens);
 
-    while(tokens.nextIsOneOf(TokenType.BINARY_OP, TokenType.TYPE_OP)) {
+    while(tokens.nextIs(TokenType.BINARY_OP) || (tokens.nextIs(TokenType.TYPE_OP) && tokens.nextLacksPrecedingLineBreak())) {
         left = tokens.nextIs(TokenType.TYPE_OP) ? 
             new Is(left, tokens.read(TokenType.TYPE_OP), parseType(tokens)) :
             new BinaryOperation(tokens.read(TokenType.BINARY_OP), left, parseAtomicExpression(tokens));
