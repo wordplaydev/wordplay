@@ -4,11 +4,12 @@ import { SyntacticConflict } from "../parser/Parser"
 import type Conflict from "../conflicts/Conflict";
 import type Evaluable from "../runtime/Evaluable";
 import type Value from "../runtime/Value";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
 import UnknownType from "./UnknownType";
 import { UnparsableConflict } from "../conflicts/UnparsableConflict";
+import UnparasableException from "../runtime/SemanticException";
+import type Evaluator from "../runtime/Evaluator";
 
 export default class Unparsable extends Node implements Evaluable {
     
@@ -44,11 +45,11 @@ export default class Unparsable extends Node implements Evaluable {
     }
 
     compile(): Step[] {
-        return [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ];
+        return [ new Halt(evaluator => new UnparasableException(evaluator, this), this) ];
     }
 
-    evaluate(): Value {
-        return new Exception(this, ExceptionKind.UNPARSABLE);
+    evaluate(evaluator: Evaluator): Value {
+        return new UnparasableException(evaluator, this);
     }
 
     clone(original?: Node, replacement?: Node) { 

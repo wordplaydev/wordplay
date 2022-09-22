@@ -16,13 +16,14 @@ import BooleanType from "./BooleanType";
 import Bind from "../nodes/Bind";
 import type Node from "./Node";
 import type Value from "../runtime/Value";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import type { TypeSet } from "./UnionType";
+import UnimplementedException from "../runtime/UnimplementedException";
+import type Evaluator from "../runtime/Evaluator";
 
 export default class Select extends Expression {
     
@@ -119,8 +120,8 @@ export default class Select extends Expression {
         ];
     }
 
-    evaluate(): Value {
-        return new Exception(this, ExceptionKind.NOT_IMPLEMENTED);
+    evaluate(evaluator: Evaluator): Value {
+        return new UnimplementedException(evaluator);
     }
 
     clone(original?: Node, replacement?: Node) { 

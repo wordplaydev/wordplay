@@ -1,5 +1,5 @@
 import type Node from "../nodes/Node";
-import type { LanguageCode } from "../nodes/LanguageCode";
+import type LanguageCode from "../nodes/LanguageCode";
 
 export type ConflictExplanations = Record<LanguageCode, string>;
 

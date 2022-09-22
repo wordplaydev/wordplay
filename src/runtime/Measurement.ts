@@ -2,7 +2,6 @@ import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
 import Unit from "../nodes/Unit";
 import Bool from "./Bool";
-import Exception, { ExceptionKind } from "./Exception";
 import None from "./None";
 import type Value from "./Value";
 import Decimal from 'decimal.js';
@@ -12,6 +11,10 @@ import type UnaryOperation from "../nodes/UnaryOperation";
 import Primitive from "./Primitive";
 import MeasurementType from "../nodes/MeasurementType";
 import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import TypeException from "./TypeException";
+import type Evaluator from "./Evaluator";
+import FunctionException from "./FunctionException";
+import type Exception from "./Exception";
 
 const kanjiNumbers: Record<string, number> = {
     "一": 1,
@@ -238,7 +241,7 @@ export default class Measurement extends Primitive {
         return this.num.toNumber();
     }
 
-    evaluatePrefix(op: UnaryOperation): Measurement | Exception {
+    evaluatePrefix(evaluator: Evaluator, op: UnaryOperation): Measurement | Exception {
 
         switch(op.getOperator()) {
             case "-": 
@@ -249,24 +252,25 @@ export default class Measurement extends Primitive {
                 return new Measurement(this.num.sqrt(), this.unit);
                 // return new Measurement(Math.sqrt(this.toNumber()), this.unit);
             default: 
-                return new Exception(op, ExceptionKind.UNKNOWN_OPERATOR);
+                return new FunctionException(evaluator, this, op.getOperator());
         }
 
     }
 
-    evaluateInfix(op: BinaryOperation, right: Value): Measurement | Bool | Exception | None {
+    evaluateInfix(evaluator: Evaluator, op: BinaryOperation, right: Value): Measurement | Bool | Exception | None {
+
         if(!(right instanceof Measurement)) 
-            return new Exception(op, ExceptionKind.EXPECTED_TYPE);
+            return new TypeException(evaluator, new MeasurementType(), right);
     
         switch(op.getOperator()) {
             case "+":
                 return this.unit.toString() === right.unit.toString() ?
                     this.add(right) :
-                    new Exception(op, ExceptionKind.EXPECTED_TYPE)
+                    new TypeException(evaluator, new MeasurementType(undefined, right.unit), right)
             case "-":
                 return this.unit.toString() === right.unit.toString() ?
                     this.subtract(right) :
-                    new Exception(op, ExceptionKind.EXPECTED_TYPE)
+                    new TypeException(evaluator, new MeasurementType(undefined, right.unit), right)
             case "×":
             case "·": return this.multiply(right);
             case "÷": return this.divide(right);
@@ -278,7 +282,7 @@ export default class Measurement extends Primitive {
             case "≥": return new Bool(this.greaterThan(right).bool || this.equals(right).bool);
             case "=": return this.equals(right);
             case "≠": return new Bool(!this.equals(right).bool);
-            default: return new Exception(op, ExceptionKind.UNKNOWN_OPERATOR);
+            default: return new FunctionException(evaluator, this, op.getOperator());
         }
     }
 

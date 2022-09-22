@@ -1,4 +1,3 @@
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Measurement from "../runtime/Measurement";
 import type Value from "../runtime/Value";
 import type Conflict from "../conflicts/Conflict";
@@ -15,6 +14,8 @@ import { NotANumber } from "../conflicts/NotANumber";
 import type Bind from "./Bind";
 import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
+import type Evaluator from "../runtime/Evaluator";
+import UnparsableException from "../runtime/SemanticException";
 
 export default class MeasurementLiteral extends Expression {
     
@@ -48,8 +49,8 @@ export default class MeasurementLiteral extends Expression {
         return [ new Finish(this) ];
     }
 
-    evaluate(): Value {
-        if(this.unit instanceof Unparsable) return new Exception(this, ExceptionKind.UNPARSABLE);
+    evaluate(evaluator: Evaluator): Value {
+        if(this.unit instanceof Unparsable) return new UnparsableException(evaluator, this.unit);
         // This needs to translate between different number formats.
         else return new Measurement(this.number, this.unit);
     }

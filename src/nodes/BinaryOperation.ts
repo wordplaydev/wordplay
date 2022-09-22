@@ -13,7 +13,6 @@ import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "src/runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Bool from "../runtime/Bool";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
@@ -25,6 +24,7 @@ import { AND_SYMBOL, OR_SYMBOL } from "../parser/Tokenizer";
 import OrderOfOperations from "../conflicts/OrderOfOperations";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
+import FunctionException from "../runtime/FunctionException";
 
 export default class BinaryOperation extends Expression {
 
@@ -216,20 +216,20 @@ export default class BinaryOperation extends Expression {
 
     evaluate(evaluator: Evaluator): Value {
 
-        const right = evaluator.popValue();
-        const left = evaluator.popValue();
+        const right = evaluator.popValue(undefined);
+        const left = evaluator.popValue(undefined);
 
         // Ask the value to evaluate it. We could do this here, but it's
         // just cleaner to delegate it to specific types.
         if(left instanceof Measurement || left instanceof Bool)
-            return left.evaluateInfix(this, right);
+            return left.evaluateInfix(evaluator, this, right);
         // Process equality and inequality
-        else if(this.operator.text.toString() === "=")
+        else if(this.operator.getText() === "=")
             return new Bool(left.toString() === right.toString());
-        else if(this.operator.text.toString() === "≠")
+        else if(this.operator.getText() === "≠")
             return new Bool(left.toString() !== right.toString());
         else
-            return new Exception(this, ExceptionKind.UNKNOWN_OPERATOR);
+            return new FunctionException(evaluator, left, this.operator.getText());
 
     }
 

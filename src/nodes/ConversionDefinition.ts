@@ -13,7 +13,6 @@ import Block from "./Block";
 import ConversionType from "./ConversionType";
 import Type from "./Type";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import ConversionValue from "../runtime/ConversionValue";
@@ -22,6 +21,7 @@ import { parseType, tokens } from "../parser/Parser";
 import { CONVERT_SYMBOL } from "../parser/Tokenizer";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
+import ContextException, { StackSize } from "../runtime/ContextException";
 
 export default class ConversionDefinition extends Expression {
 
@@ -80,7 +80,7 @@ export default class ConversionDefinition extends Expression {
     evaluate(evaluator: Evaluator) {
 
         const context = evaluator.getEvaluationContext();
-        if(context === undefined) return new Exception(this, ExceptionKind.EXPECTED_CONTEXT);
+        if(context === undefined) return new ContextException(evaluator, StackSize.EMPTY);
 
         context.addConversion(new ConversionValue(this, context));
         

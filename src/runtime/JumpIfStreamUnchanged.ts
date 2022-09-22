@@ -22,7 +22,7 @@ export default class JumpIfStreamUnchanged extends Step {
 
         // If there were no streams accessed or none of the one's accessed changed or
         // the query evaluated to false, push the stream's current value and skip over the initial/next value expressions.
-        const value = evaluator.popValue();
+        const value = evaluator.popValue(undefined);
         if(streamsAccessed === undefined ||
             streamsAccessed.find(stream => evaluator.streamChanged(stream)) === undefined ||
             (value instanceof Bool && !value.bool)) {

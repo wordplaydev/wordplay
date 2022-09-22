@@ -12,7 +12,6 @@ import FunctionType from "./FunctionType";
 import UnknownType from "./UnknownType";
 import { getDuplicateDocs, getDuplicateAliases, typeVarsAreUnique, getEvaluationInputConflicts } from "./util";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import FunctionValue from "../runtime/FunctionValue";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
@@ -21,6 +20,7 @@ import type Definition from "./Definition";
 import Alias from "./Alias";
 import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, FUNCTION_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
+import ContextException, { StackSize } from "../runtime/ContextException";
 
 export default class FunctionDefinition extends Expression {
 
@@ -156,7 +156,7 @@ export default class FunctionDefinition extends Expression {
         // Get the function value.
         const context = evaluator.getEvaluationContext();
         const value = context === undefined ? 
-            new Exception(this, ExceptionKind.EXPECTED_CONTEXT) : 
+            new ContextException(evaluator, StackSize.EMPTY) : 
             new FunctionValue(this, context);
 
         // Bind the value and then return it.

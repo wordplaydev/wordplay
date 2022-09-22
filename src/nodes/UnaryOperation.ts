@@ -11,7 +11,6 @@ import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Bool from "../runtime/Bool";
 import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
@@ -21,6 +20,7 @@ import type Context from "./Context";
 import type Bind from "./Bind";
 import { NOT_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
+import FunctionException from "../runtime/FunctionException";
 
 export default class UnaryOperation extends Expression {
 
@@ -96,12 +96,12 @@ export default class UnaryOperation extends Expression {
     evaluate(evaluator: Evaluator): Value {
 
         // Get the value of the operand.
-        const value = evaluator.popValue();
+        const value = evaluator.popValue(undefined);
 
         // Evaluate the function on the value.
         return value instanceof Measurement || value instanceof Bool ?
-            value.evaluatePrefix(this) :
-            new Exception(this, ExceptionKind.UNKNOWN_OPERATOR);
+            value.evaluatePrefix(evaluator, this) :
+            new FunctionException(evaluator, value, this.operator.getText());
 
     }
 

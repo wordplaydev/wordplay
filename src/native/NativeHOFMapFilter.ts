@@ -1,23 +1,33 @@
 import Bind from "../nodes/Bind";
+import BooleanType from "../nodes/BooleanType";
 import Expression from "../nodes/Expression";
+import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
+import MapType from "../nodes/MapType";
+import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
 import type Type from "../nodes/Type";
 import Bool from "../runtime/Bool";
 import Evaluation from "../runtime/Evaluation";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import FunctionValue from "../runtime/FunctionValue";
 import MapValue from "../runtime/MapValue";
 import Measurement from "../runtime/Measurement";
 import Action from "../runtime/Start";
 import type Step from "../runtime/Step";
+import TypeException from "../runtime/TypeException";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
 import { LIST_TYPE_VAR_NAME } from "./NativeConstants";
 
 export default class NativeHOFListMap extends HOF {
+
+    readonly hofType: FunctionType;
+    constructor(hofType: FunctionType) {
+        super();        
+        this.hofType = hofType;
+    }
 
     computeChildren() { return [] };
     computeType(): Type { return new ListType(new NameType(LIST_TYPE_VAR_NAME)); }
@@ -34,7 +44,9 @@ export default class NativeHOFListMap extends HOF {
                 const index = evaluator.resolve("index");
                 const map = evaluator.getEvaluationContext()?.getContext();
                 // If the index is past the last index of the list, jump to the end.
-                if(index instanceof Measurement && map instanceof MapValue) {
+                if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
+                else if(!(map instanceof MapValue)) return new TypeException(evaluator, new MapType(), map);
+                else {
                     if(index.greaterThan(map.size()).bool)
                         evaluator.jump(1);
                     // Otherwise, apply the given translator function to the current list value.
@@ -59,39 +71,37 @@ export default class NativeHOFListMap extends HOF {
                                 bindings
                             ));
                         }
-                        else return new Exception(this, ExceptionKind.EXPECTED_TYPE)
+                        else return new TypeException(evaluator, this.hofType, checker);
                     }
                 }
-                else return new Exception(this, ExceptionKind.EXPECTED_TYPE);
-                return undefined;
             }),
             // Save the translated value and then jump to the conditional.
             new Action(this, evaluator => {
 
                 // Get the boolean from the function evaluation.
-                const include = evaluator.popValue();
-                if(!(include instanceof Bool))
-                    return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+                const include = evaluator.popValue(new BooleanType());
+                if(!(include instanceof Bool)) return include;
 
                 // Get the current index.
                 const index = evaluator.resolve("index");
                 if(!(index instanceof Measurement))
-                    return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+                    return new TypeException(evaluator, new MeasurementType(), index);
 
                 const map = evaluator.getEvaluationContext()?.getContext();
                 if(!(map instanceof MapValue))
-                    return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+                    return new TypeException(evaluator, new MapType(), map);
 
                 // If the include decided yes, append the value.
-                const newSet = evaluator.resolve("map");
-                if(newSet instanceof MapValue && include instanceof Bool) {
+                const newMap = evaluator.resolve("map");
+                if(!(include instanceof Bool)) return new TypeException(evaluator, new BooleanType(), include);
+                else if(!(newMap instanceof MapValue)) return new TypeException(evaluator, new MapType(), newMap);
+                if(newMap instanceof MapValue && include instanceof Bool) {
                     if(include.bool) {
                         const mapKey = map.values[index.num.toNumber() - 1][0];
                         const mapValue = map.values[index.num.toNumber() - 1][1];
-                        evaluator.bind("map", newSet.set(mapKey, mapValue));
+                        evaluator.bind("map", newMap.set(mapKey, mapValue));
                     }
                 }
-                else return new Exception(this, ExceptionKind.EXPECTED_TYPE);
 
                 // Increment the counter
                 evaluator.bind("index", index.add(new Measurement(1)));

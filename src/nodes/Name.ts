@@ -8,7 +8,6 @@ import type Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
@@ -21,6 +20,7 @@ import Reaction from "./Reaction";
 import Conditional from "./Conditional";
 import UnionType, { TypeSet } from "./UnionType";
 import Is from "./Is";
+import NameException from "../runtime/NameException";
 
 export default class Name extends Expression {
     
@@ -129,9 +129,9 @@ export default class Name extends Expression {
     evaluate(evaluator: Evaluator): Value {
 
         // Search for the name in the given evaluation context.
-        const value = evaluator.resolve(this.name.text.toString());
+        const value = evaluator.resolve(this.name.getText());
         // Return it or an exception if we didn't find it.
-        return value === undefined ? new Exception(this, ExceptionKind.UNKNOWN_NAME) : value;
+        return value === undefined ? new NameException(evaluator, this.name.getText()) : value;
 
     }
 

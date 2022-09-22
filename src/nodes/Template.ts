@@ -6,7 +6,6 @@ import type Node from "./Node";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Text from "../runtime/Text";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import type Context from "./Context";
@@ -50,9 +49,8 @@ export default class Template extends Expression {
         let text = "";
         for(let i = this.parts.length - 1; i >= 0; i--) {
             const p = this.parts[i];
-            const part = p instanceof Token ? new Text(p.text.toString().substring(1, p.text.toString().length - 1)) : evaluator.popValue();
-            if(!(part instanceof Text))
-                return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+            const part = p instanceof Token ? new Text(p.text.toString().substring(1, p.text.toString().length - 1)) : evaluator.popValue(new TextType());
+            if(!(part instanceof Text)) return part;
             text = part.text + text;
         }
         return new Text(text, this.format?.getLanguage());

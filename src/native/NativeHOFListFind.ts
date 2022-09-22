@@ -1,12 +1,15 @@
 import Alias from "../nodes/Alias";
 import Bind from "../nodes/Bind";
+import BooleanType from "../nodes/BooleanType";
 import Expression from "../nodes/Expression";
+import type FunctionType from "../nodes/FunctionType";
+import ListType from "../nodes/ListType";
+import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
 import type Type from "../nodes/Type";
 import Bool from "../runtime/Bool";
 import Evaluation from "../runtime/Evaluation";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import FunctionValue from "../runtime/FunctionValue";
 import List from "../runtime/List";
@@ -14,11 +17,18 @@ import Measurement from "../runtime/Measurement";
 import None from "../runtime/None";
 import Action from "../runtime/Start";
 import type Step from "../runtime/Step";
+import TypeException from "../runtime/TypeException";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
 import { LIST_TYPE_VAR_NAME } from "./NativeConstants";
 
 export default class NativeHOFListFind extends HOF {
+
+    readonly hofType: FunctionType;
+    constructor(hofType: FunctionType) {
+        super();        
+        this.hofType = hofType;
+    }
 
     computeType(): Type { return new NameType(LIST_TYPE_VAR_NAME); }
 
@@ -33,7 +43,9 @@ export default class NativeHOFListFind extends HOF {
                 const index = evaluator.resolve("index");
                 const list = evaluator.getEvaluationContext()?.getContext();
                 // If the index is past the last index of the list, jump to the end.
-                if(index instanceof Measurement && list instanceof List) {
+                if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
+                else if(!(list instanceof List)) return new TypeException(evaluator, new ListType(), list);
+                else {
                     if(index.greaterThan(list.length()).bool)
                         evaluator.jump(1);
                     // Otherwise, apply the given translator function to the current list value.
@@ -55,19 +67,16 @@ export default class NativeHOFListFind extends HOF {
                                 bindings
                             ));
                         }
-                        else return new Exception(this, ExceptionKind.EXPECTED_TYPE)
+                        else return new TypeException(evaluator, this.hofType, include);
                     }
                 }
-                else return new Exception(this, ExceptionKind.EXPECTED_TYPE);
-                return undefined;
             }),
             // Save the translated value and then jump to the conditional.
             new Action(this, evaluator => {
 
                 // Get the boolean from the function evaluation.
-                const matched = evaluator.popValue();
-                if(!(matched instanceof Bool))
-                    return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+                const matched = evaluator.popValue(new BooleanType());
+                if(!(matched instanceof Bool)) return matched;
 
                 // If this matches, skip the loop.
                 if(matched.bool)
@@ -76,7 +85,7 @@ export default class NativeHOFListFind extends HOF {
                 // Get the current index.
                 const index = evaluator.resolve("index");
                 if(!(index instanceof Measurement))
-                    return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+                    return new TypeException(evaluator, new MeasurementType(), index);
 
                 // If it doesn't match, increment the counter and jump back to the conditional.
                 evaluator.bind("index", index.add(new Measurement(1)));
@@ -92,12 +101,12 @@ export default class NativeHOFListFind extends HOF {
         // Get the current index.
         const index = evaluator.resolve("index");
         if(!(index instanceof Measurement))
-            return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+            return new TypeException(evaluator, new MeasurementType(), index);
 
         // Get the list.
         const list = evaluator.getEvaluationContext()?.getContext();
         if(!(list instanceof List))
-            return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+            return new TypeException(evaluator, new ListType(), list);
 
         // If we're past the end of the list, return nothing. Otherwise return the value at the index.
         return index.greaterThan(list.length()).bool ? new None([ new Alias("notfound", "eng")]) : list.get(index);

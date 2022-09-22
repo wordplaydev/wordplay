@@ -9,7 +9,6 @@ import Unparsable from "./Unparsable";
 import BooleanType from "./BooleanType";
 import TableType from "./TableType";
 import Bind from "../nodes/Bind";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
@@ -17,6 +16,8 @@ import Action from "../runtime/Start";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import type { TypeSet } from "./UnionType";
+import UnimplementedException from "../runtime/UnimplementedException";
+import type Evaluator from "../runtime/Evaluator";
 
 export default class Delete extends Expression {
     
@@ -78,8 +79,8 @@ export default class Delete extends Expression {
         return [ new Action(this), ...this.table.compile(context), new Finish(this) ];
     }
 
-    evaluate(): Value {
-        return new Exception(this, ExceptionKind.NOT_IMPLEMENTED);
+    evaluate(evaluator: Evaluator): Value {
+        return new UnimplementedException(evaluator);
     }
 
     clone(original?: Node, replacement?: Node) { 

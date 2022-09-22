@@ -2,7 +2,6 @@ import type Program from "../nodes/Program";
 import type Reaction from "../nodes/Reaction";
 import { parse } from "../parser/Parser";
 import Evaluation from "./Evaluation";
-import Exception, { ExceptionKind } from "./Exception";
 import ReactionStream from "./ReactionStream";
 import Shares, { DEFAULT_SHARES } from "./Shares";
 import Stream from "./Stream";
@@ -12,6 +11,11 @@ import Value from "./Value";
 import Native from "../native/NativeBindings";
 import type NativeInterface from "../native/NativeInterface";
 import Context from "../nodes/Context";
+import EvaluationException, { StackSize } from "./ContextException";
+import Exception from "./Exception";
+import NameException from "./NameException";
+import ValueException from "./ValueException";
+import type Type from "../nodes/Type";
 
 export default class Evaluator {
 
@@ -103,11 +107,11 @@ export default class Evaluator {
 
         // If it seems like we're stuck in an infinite (recursive) loop, halt.
         if(this.evaluations.length > 100000)
-            return new Exception(this.program, ExceptionKind.POSSIBLE_INFINITE_RECURSION);
+            return new EvaluationException(this, StackSize.FULL);
 
         // If there's no node evaluating, we're done.
         if(this.evaluations.length === 0)
-            return new Exception(this.program, ExceptionKind.EXPECTED_CONTEXT);
+            return new EvaluationException(this, StackSize.EMPTY);
 
         const evaluation = this.evaluations[0];
 
@@ -164,11 +168,18 @@ export default class Evaluator {
             this.evaluations[0].pushValue(value);
     }
     
-    /** Get the value on the top of the stack. */
-    popValue(): Value { 
+    /** See the value on top. */
+    peekValue(): Value { 
         return this.evaluations.length > 0 ? 
-            this.evaluations[0].popValue() : 
-            new Exception(this.program, ExceptionKind.EXPECTED_VALUE);
+            this.evaluations[0].peekValue() : 
+            new ValueException(this);
+    }
+
+    /** Get the value on the top of the stack. */
+    popValue(expected: Type | undefined): Value { 
+        return this.evaluations.length > 0 ? 
+            this.evaluations[0].popValue(expected) : 
+            new ValueException(this);
     }
 
     /** Tell the current evaluation to jump to a new instruction. */
@@ -219,7 +230,7 @@ export default class Evaluator {
 
         // Find the shared thing
         const share = this.shares.resolve(name);
-        if(share === undefined) return new Exception(this.program, ExceptionKind.UNKNOWN_SHARE);
+        if(share === undefined) return new NameException(this, name);
 
         // If we've already borrowed this, don't do it again.
         if(this.resolve(name) === share)

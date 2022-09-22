@@ -14,11 +14,11 @@ import Finish from "../runtime/Finish";
 import JumpIfStreamUnchanged from "../runtime/JumpIfStreamUnchanged";
 import Action from "../runtime/Start";
 import JumpIfStreamExists from "../runtime/JumpIfStreamExists";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Bind from "./Bind";
 import type Context from "./Context";
 import UnionType, { TypeSet } from "./UnionType";
 import UnknownType from "./UnknownType";
+import Exception from "../runtime/Exception";
 
 export default class Reaction extends Expression {
 
@@ -109,14 +109,13 @@ export default class Reaction extends Expression {
     evaluate(evaluator: Evaluator): Value | undefined {
 
         // Get the value.
-        const streamValue = evaluator.popValue();
+        const streamValue = evaluator.popValue(undefined);
 
         // At this point in the compiled steps above, we should have a value on the stack
         // that is either the initial value for this reaction's stream or a new value.
-        if(streamValue === undefined)
-            return new Exception(this, ExceptionKind.EXPECTED_VALUE);
-        else
-            evaluator.addToReactionStream(this, streamValue);
+        if(streamValue instanceof Exception) return streamValue;
+
+        evaluator.addToReactionStream(this, streamValue);
 
         // Then push the stream's latest value back onto the value stack.
         evaluator.pushValue(streamValue);

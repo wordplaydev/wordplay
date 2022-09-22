@@ -1,7 +1,7 @@
+import BooleanType from "../nodes/BooleanType";
 import type Conditional from "../nodes/Conditional";
 import Bool from "./Bool";
 import type Evaluator from "./Evaluator";
-import Exception, { ExceptionKind } from "./Exception";
 import Step from "./Step";
 import type Value from "./Value";
 
@@ -18,9 +18,8 @@ export default class JumpIfFalse extends Step {
     }
     
     evaluate(evaluator: Evaluator): Value | undefined {
-        const value = evaluator.popValue();
-        if(!(value instanceof Bool)) 
-            return new Exception(this.conditional, ExceptionKind.EXPECTED_TYPE);
+        const value = evaluator.popValue(new BooleanType());
+        if(!(value instanceof Bool)) return value;
         if(!value.bool) evaluator.jump(this.count);
         return undefined;
     }

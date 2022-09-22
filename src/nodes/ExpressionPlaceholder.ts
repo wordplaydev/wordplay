@@ -4,7 +4,6 @@ import Token from "./Token";
 import type Type from "./Type";
 import type Node from "./Node";
 import UnknownType from "./UnknownType";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Placeholder from "../conflicts/Placeholder";
@@ -12,6 +11,9 @@ import Halt from "../runtime/Halt";
 import type Bind from "./Bind";
 import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
+import UnparsableException from "../runtime/SemanticException";
+import type Evaluator from "../runtime/Evaluator";
+import UnimplementedException from "../runtime/UnimplementedException";
 
 export default class ExpressionPlaceholder extends Expression {
     
@@ -31,11 +33,11 @@ export default class ExpressionPlaceholder extends Expression {
     computeType(): Type { return new UnknownType(this); }
 
     compile():Step[] {
-        return [ new Halt(new Exception(this, ExceptionKind.PLACEHOLDER), this) ];
+        return [ new Halt(evaluator => new UnimplementedException(evaluator), this) ];
     }
 
-    evaluate(): Value {
-        return new Exception(this, ExceptionKind.PLACEHOLDER);
+    evaluate(evaluator: Evaluator): Value {
+        return new UnparsableException(evaluator, this);
     }
 
     clone(original?: Node, replacement?: Node) { 

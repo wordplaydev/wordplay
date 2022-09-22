@@ -9,7 +9,6 @@ import Bind from "../nodes/Bind";
 import type Type from "./Type";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Table from "../runtime/Table";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
@@ -20,6 +19,9 @@ import type { TypeSet } from "./UnionType";
 import { analyzeRow } from "./util";
 import Halt from "../runtime/Halt";
 import type Cell from "./Cell";
+import TypeException from "../runtime/TypeException";
+import UnparsableException from "../runtime/SemanticException";
+import Exception from "../runtime/Exception";
 
 export default class Insert extends Expression {
     
@@ -79,7 +81,7 @@ export default class Insert extends Expression {
 
         const tableType = this.table.getTypeUnlessCycle(context);
 
-        if(!(tableType instanceof TableType)) return [ new Halt(new Exception(this, ExceptionKind.EXPECTED_TYPE), this) ];
+        if(!(tableType instanceof TableType)) return [ new Halt(evaluator => new TypeException(evaluator, new TableType([]), undefined), this) ];
 
         return [ 
             new Action(this),
@@ -91,7 +93,7 @@ export default class Insert extends Expression {
                     // Otherwise, loop through the required columns, finding the corresponding bind, and compiling it's expression, or the default if not found.
                     tableType.columns.reduce((steps: Step[], column) => {
                         const matchingCell: Cell | undefined = this.row.cells.find(cell => column.bind instanceof Bind && cell.value instanceof Bind && column.bind.sharesName(cell.value)) as Cell | undefined;
-                        if(matchingCell === undefined || !(matchingCell.value instanceof Bind) || matchingCell.value.value === undefined) return [ ... steps, new Halt(new Exception(this, ExceptionKind.EXPECTED_TYPE), this) ];
+                        if(matchingCell === undefined || !(matchingCell.value instanceof Bind) || matchingCell.value.value === undefined) return [ ... steps, new Halt(evaluator => new UnparsableException(evaluator, this), this) ];
                         return [ ... steps, ...matchingCell.value.value.compile(context) ];
                     }, [])
             ),
@@ -104,14 +106,13 @@ export default class Insert extends Expression {
         // We've got a table and some cells, insert the row!
         const values: Value[] = [];
         for(let i = 0; i < this.row.cells.length; i++) {
-            const value = evaluator.popValue();
-            if(value === undefined) return new Exception(this, ExceptionKind.EXPECTED_VALUE);
+            const value = evaluator.popValue(undefined);
+            if(value instanceof Exception) return value;
             else values.unshift(value);
         }
 
-        const table = evaluator.popValue();
-        if(table === undefined) return new Exception(this, ExceptionKind.EXPECTED_VALUE);
-        else if(!(table instanceof Table)) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+        const table = evaluator.popValue(new TableType([]));
+        if(!(table instanceof Table)) return table;
 
         // Return a new table with the values.
         return table.insert(values);

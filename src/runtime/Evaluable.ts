@@ -11,4 +11,6 @@ export default interface Evaluable {
     /** Compiles the evaluable into an executable list of Steps. */
     compile(context: Context): Step[];
 
+    toWordplay(): string;
+
 }

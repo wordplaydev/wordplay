@@ -12,7 +12,6 @@ import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import { getDuplicateDocs } from "./util";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Action from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
@@ -23,6 +22,8 @@ import type Definition from "./Definition";
 import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
 import type { TypeSet } from "./UnionType";
+import ValueException from "../runtime/ValueException";
+import ContextException, { StackSize } from "../runtime/ContextException";
 
 export default class Block extends Expression {
 
@@ -114,7 +115,7 @@ export default class Block extends Expression {
 
         // If there are no statements, halt on exception.
         return !this.creator && this.statements.length === 0 ? 
-            [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ] :
+            [ new Halt(evaluator => new ValueException(evaluator), this) ] :
             [ 
                 new Action(this), 
                 ...this.statements.reduce((prev: Step[], current) => [ ...prev, ...current.compile(context) ], []),
@@ -129,11 +130,11 @@ export default class Block extends Expression {
         // and convert it into a structure.
         if(this.creator) {
             const context = evaluator.getEvaluationContext();
-            if(context === undefined) return new Exception(this, ExceptionKind.EXPECTED_CONTEXT);
+            if(context === undefined) return new ContextException(evaluator, StackSize.EMPTY);
             return new Structure(context);
         }
         // If this block is just an expression, return the (last) value on the value stack of the current evaluation context.
-        else return evaluator.popValue();            
+        else return evaluator.popValue(undefined);            
 
     }
 

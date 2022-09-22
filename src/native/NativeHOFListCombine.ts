@@ -1,22 +1,31 @@
 import Bind from "../nodes/Bind";
 import Expression from "../nodes/Expression";
+import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
+import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
 import type Type from "../nodes/Type";
 import Evaluation from "../runtime/Evaluation";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import FunctionValue from "../runtime/FunctionValue";
 import List from "../runtime/List";
 import Measurement from "../runtime/Measurement";
+import NameException from "../runtime/NameException";
 import Action from "../runtime/Start";
 import type Step from "../runtime/Step";
+import TypeException from "../runtime/TypeException";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
 import { LIST_TYPE_VAR_NAME } from "./NativeConstants";
 
 export default class NativeHOFListCombine extends HOF {
+
+    readonly hofType: FunctionType;
+    constructor(hofType: FunctionType) {
+        super();        
+        this.hofType = hofType;
+    }
 
     computeChildren() { return [] };
     computeType(): Type { return new ListType(new NameType(LIST_TYPE_VAR_NAME)); }
@@ -32,17 +41,17 @@ export default class NativeHOFListCombine extends HOF {
                 // Get the index.
                 const index = evaluator.resolve("index");
                 if(!(index instanceof Measurement))
-                    return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+                    return new TypeException(evaluator, new MeasurementType(), index);
 
                 // Get the list we're processing.
                 const list = evaluator.getEvaluationContext()?.getContext();
                 if(!(list instanceof List))
-                    return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+                    return new TypeException(evaluator, new ListType(), list);
 
                 // Get the list we're processing.
                 const combination = evaluator.resolve("initial");
                 if(combination === undefined)
-                    return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+                    return new NameException(evaluator, "initial");
 
                 // If we're past the end of the list, jump past the loop.
                 if(index.greaterThan(list.length()).bool)
@@ -69,7 +78,7 @@ export default class NativeHOFListCombine extends HOF {
                             bindings
                         ));
                     }
-                    else return new Exception(this, ExceptionKind.EXPECTED_TYPE)
+                    else return new TypeException(evaluator, this.hofType, list);
                 }
                 return undefined;
             }),
@@ -77,12 +86,12 @@ export default class NativeHOFListCombine extends HOF {
             new Action(this, evaluator => {
 
                 // Update the combo.
-                evaluator.bind("initial", evaluator.popValue());
+                evaluator.bind("initial", evaluator.popValue(undefined));
 
                 // Get the current index.
                 const index = evaluator.resolve("index");
                 if(!(index instanceof Measurement))
-                    return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+                    return new TypeException(evaluator, new MeasurementType(), index);
                 
                 // Increment the index.
                 evaluator.bind("index", index.add(new Measurement(1)));

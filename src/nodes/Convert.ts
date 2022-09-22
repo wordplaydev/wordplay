@@ -7,16 +7,19 @@ import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import Token from "./Token";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Action from "../runtime/Start";
 import Evaluation from "../runtime/Evaluation";
 import type Context from "./Context";
-import Halt from "../runtime/Halt";
 import ConversionValue from "../runtime/ConversionValue";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
+import UnparsableException from "../runtime/SemanticException";
+import ConversionType from "./ConversionType";
+import AnyType from "./AnyType";
+import FunctionException from "../runtime/FunctionException";
+import Exception from "../runtime/Exception";
 
 export default class Convert extends Expression {
     
@@ -66,35 +69,32 @@ export default class Convert extends Expression {
 
     compile(context: Context):Step[] {
 
-        const conversion = this.getConversionDefinition(context);
-        if(conversion === undefined)
-            return [ new Halt(new Exception(this, ExceptionKind.UNKNOWN_CONVERSION), this) ];
-
         // Evaluate the expression to convert, then push the conversion function on the stack.
         return [ 
+            ...this.expression.compile(context),
             new Action(this, evaluator => {
                 const evaluation = evaluator.getEvaluationContext();
-                return evaluation === undefined ? 
-                    new Exception(this, ExceptionKind.EXPECTED_CONTEXT) : 
+                const conversion = this.getConversionDefinition(context);
+                return evaluation === undefined || conversion === undefined ? 
+                    new FunctionException(evaluator, evaluator.peekValue(), this.type.toWordplay()) : 
                     new ConversionValue(conversion, evaluation);
             }), 
-            ...this.expression.compile(context),
             new Finish(this)
         ];
     }
 
     evaluate(evaluator: Evaluator) {
         
-        if(this.type instanceof Unparsable) return new Exception(this, ExceptionKind.UNPARSABLE);
-
-        // Get the value to convert
-        const value = evaluator.popValue();
-        if(value instanceof Exception) return value;
+        if(this.type instanceof Unparsable) return new UnparsableException(evaluator, this.type);
         
         // Find the conversion function on the structure from compiling.
-        const conversion = evaluator.popValue();
-        if(!(conversion instanceof ConversionValue)) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+        const conversion = evaluator.popValue(new ConversionType(new AnyType()));
+        if(!(conversion instanceof ConversionValue)) return conversion;
 
+        // Get the value to convert
+        const value = evaluator.popValue(undefined);
+        if(value instanceof Exception) return value;
+        
         // Execute the function.
         evaluator.startEvaluation(
             new Evaluation(

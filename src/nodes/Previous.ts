@@ -8,7 +8,6 @@ import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
@@ -20,6 +19,8 @@ import Stream from "../runtime/Stream";
 import KeepStream from "../runtime/KeepStream";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
+import TypeException from "../runtime/TypeException";
+import AnyType from "./AnyType";
 
 export default class Previous extends Expression {
 
@@ -68,12 +69,13 @@ export default class Previous extends Expression {
 
     evaluate(evaluator: Evaluator): Value {
 
-        const index = evaluator.popValue();
-        const stream = evaluator.popValue();
+        const index = evaluator.popValue(new MeasurementType());
+        if(!(index instanceof Measurement) || !index.isInteger()) return index;
 
-        if(!(stream instanceof Stream)) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
-        else if(!(index instanceof Measurement) || !index.isInteger()) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
-        else return stream.at(index.toNumber());
+        const stream = evaluator.popValue(new StreamType(new AnyType()));
+        if(!(stream instanceof Stream)) return stream;new TypeException(evaluator, new StreamType(new AnyType()), stream);
+
+        return stream.at(index.toNumber());
 
     }
 

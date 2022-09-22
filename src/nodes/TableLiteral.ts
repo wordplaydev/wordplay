@@ -11,7 +11,6 @@ import type Node from "./Node";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Table from "../runtime/Table";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
@@ -20,6 +19,7 @@ import type Unparsable from "./Unparsable";
 import Token from "./Token";
 import type { TypeSet } from "./UnionType";
 import { analyzeRow } from "./util";
+import Exception from "../runtime/Exception";
 
 export default class TableLiteral extends Expression {
     
@@ -83,8 +83,8 @@ export default class TableLiteral extends Expression {
         for(let r = 0; r < this.rows.length; r++) {
             const row: Value[] = [];
             for(let c = 0; c < this.columns.length; c++) {
-                const cell = evaluator.popValue();
-                if(cell === undefined) return new Exception(this, ExceptionKind.EXPECTED_VALUE);
+                const cell = evaluator.popValue(undefined);
+                if(cell instanceof Exception) return cell;
                 else row.unshift(cell);
             }
             rows.unshift(row);

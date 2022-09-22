@@ -17,9 +17,9 @@ import { getPossibleUnionType, TypeSet } from "./UnionType";
 import { NotAMap } from "../conflicts/NotAMap";
 import MapType from "./MapType";
 import Halt from "../runtime/Halt";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import AnyType from "./AnyType";
 import type Bind from "./Bind";
+import UnparsableException from "../runtime/SemanticException";
 
 export default class MapLiteral extends Expression {
 
@@ -62,7 +62,7 @@ export default class MapLiteral extends Expression {
 
     compile(context: Context):Step[] {
         return this.notAMap() ? 
-            [ new Halt(new Exception(this, ExceptionKind.EXPECTED_VALUE, "Missing values in map"), this)] :
+            [ new Halt(evaluator => new UnparsableException(evaluator, this), this) ] :
             [
                 new Action(this),
                 // Evaluate all of the item or key/value expressions
@@ -81,8 +81,8 @@ export default class MapLiteral extends Expression {
         // Pop all of the values. Order doesn't matter.
         const values: [Value, Value][] = [];
         for(let i = 0; i < this.values.length; i++) {
-            const value = evaluator.popValue();
-            const key = evaluator.popValue();
+            const value = evaluator.popValue(undefined);
+            const key = evaluator.popValue(undefined);
             values.unshift([ key, value ]);
         }
         return new MapValue(values);

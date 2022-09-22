@@ -1,6 +1,5 @@
 import Bool from "../runtime/Bool";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import Halt from "../runtime/Halt";
 import type Step from "../runtime/Step";
@@ -18,6 +17,7 @@ import AccessName from "./AccessName";
 import StructureType from "./StructureType";
 import { IncompatibleType } from "../conflicts/IncompatibleType";
 import { TypeSet } from "./UnionType";
+import UnparsableException from "../runtime/SemanticException";
 
 export default class Is extends Expression {
 
@@ -47,15 +47,15 @@ export default class Is extends Expression {
     }
     
     compile(context: Context): Step[] {
-        return this.type instanceof Unparsable ? [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ] : [ ...this.expression.compile(context), new Finish(this) ];
+        return this.type instanceof Unparsable ? [ new Halt(evaluator => new UnparsableException(evaluator, this.type), this) ] : [ ...this.expression.compile(context), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value {
 
-        const left = evaluator.popValue();
+        const left = evaluator.popValue(undefined);
 
         return this.type instanceof Unparsable ? 
-            new Exception(this, ExceptionKind.UNPARSABLE) : 
+            new UnparsableException(evaluator, this.type) : 
             new Bool(left.getType().isCompatible(this.type, evaluator.getContext()));
 
     }

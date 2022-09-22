@@ -114,7 +114,7 @@ export default class AccessName extends Expression {
 
     evaluate(evaluator: Evaluator) {
 
-        const subject = evaluator.popValue();
+        const subject = evaluator.popValue(undefined);
         const name = this.name.text.toString();
         return subject instanceof Exception ? 
             subject :

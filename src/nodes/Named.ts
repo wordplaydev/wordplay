@@ -1,3 +1,3 @@
-export interface Named {
+export default interface Named {
     getNames(): string[];
 }

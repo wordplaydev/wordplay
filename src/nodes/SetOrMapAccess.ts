@@ -10,7 +10,6 @@ import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import SetValue from "../runtime/SetValue";
 import MapValue from "../runtime/MapValue";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
@@ -20,6 +19,8 @@ import SetType from "./SetType";
 import BooleanType from "./BooleanType";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
+import TypeException from "../runtime/TypeException";
+import UnionType from "./UnionType";
 
 export default class SetOrMapAccess extends Expression {
 
@@ -77,10 +78,11 @@ export default class SetOrMapAccess extends Expression {
 
     evaluate(evaluator: Evaluator): Value {
         
-        const key = evaluator.popValue();
-        const setOrMap = evaluator.popValue();
+        const key = evaluator.popValue(undefined);
+        const setOrMap = evaluator.popValue(undefined);
 
-        if(!(setOrMap instanceof SetValue || setOrMap instanceof MapValue)) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+        if(!(setOrMap instanceof SetValue || setOrMap instanceof MapValue)) 
+            return new TypeException(evaluator, new UnionType(new SetType(), new MapType()), setOrMap);
         else return setOrMap.has(key);
     
     }

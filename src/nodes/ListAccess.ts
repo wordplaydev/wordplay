@@ -10,7 +10,6 @@ import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import List from "../runtime/List";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
@@ -70,12 +69,13 @@ export default class ListAccess extends Expression {
 
     evaluate(evaluator: Evaluator): Value {
 
-        const index = evaluator.popValue();
-        const list = evaluator.popValue();
+        const index = evaluator.popValue(new MeasurementType());
+        if(!(index instanceof Measurement) || !index.isInteger()) return index;
 
-        if(!(list instanceof List)) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
-        else if(!(index instanceof Measurement) || !index.isInteger()) return new Exception(this, ExceptionKind.EXPECTED_TYPE);
-        else return list.get(index);
+        const list = evaluator.popValue(new ListType());
+        if(!(list instanceof List)) return list;
+
+        return list.get(index);
 
     }
 

@@ -4,7 +4,7 @@ import type StructureDefinition from "../nodes/StructureDefinition";
 import Type from "../nodes/Type";
 import type ConversionValue from "./ConversionValue";
 import type Evaluator from "./Evaluator";
-import Exception, { ExceptionKind } from "./Exception";
+import Exception from "./Exception";
 import type Step from "./Step";
 import Stream from "./Stream";
 import Value from "./Value";
@@ -12,6 +12,8 @@ import type Evaluable from "./Evaluable";
 import type Program from "../nodes/Program";
 import KeepStream from "./KeepStream";
 import Context from "../nodes/Context";
+import ValueException from "./ValueException";
+import TypeException from "./TypeException";
 
 export default class Evaluation {
 
@@ -75,7 +77,7 @@ export default class Evaluation {
 
         // If there are no more steps, return the value on the top of the stack.
         if(this.#step >= this.#steps.length) 
-            return this.popValue();
+            return this.popValue(undefined);
 
         // Evaluate the next step.
         const result = this.#steps[this.#step].evaluate(evaluator);
@@ -99,6 +101,8 @@ export default class Evaluation {
 
     }
 
+    currentStep() { return this.#steps === undefined ? undefined : this.#steps[this.#step]; }
+
     nextStep() { return this.#steps && this.#step + 1 < this.#steps.length ? this.#steps[this.#step + 1] : undefined; }
 
     jump(distance: number) {
@@ -109,11 +113,18 @@ export default class Evaluation {
         this.#values.unshift(value); 
     }
 
-    popValue(): Value { 
-        const value = this.#values.shift(); 
+    peekValue(): Value { 
+        const value = this.#values[0];
         return value === undefined ? 
-            new Exception(this.#definition, ExceptionKind.EXPECTED_VALUE) : 
+            new ValueException(this.#evaluator) : 
             value;
+    }
+
+    popValue(expected: Type | undefined): Value { 
+        const value = this.#values.shift(); 
+        if(value === undefined) return new ValueException(this.#evaluator);
+        else if(expected !== undefined && value.getType().constructor !== expected.constructor) return new TypeException(this.#evaluator, expected, value);
+        else return value;
     }
 
     /** Binds a value to a name in this evaluation. */

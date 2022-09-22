@@ -25,13 +25,13 @@ import type Step from "../runtime/Step";
 import Action from "../runtime/Start";
 import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
-import Exception, { ExceptionKind } from "../runtime/Exception";
-import type { Named } from "./Named";
+import type Named from "./Named";
 import { getCaseCollision, getDuplicateAliases } from "./util";
 import Evaluate from "./Evaluate";
 import Block from "./Block";
 import ListType from "./ListType";
 import Cell from "./Cell";
+import ValueException from "../runtime/ValueException";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -190,7 +190,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
     compile(context: Context):Step[] {
         return this.value === undefined ?
-            [ new Halt(new Exception(this, ExceptionKind.EXPECTED_VALUE), this) ] :
+            [ new Halt(evaluator => new ValueException(evaluator), this) ] :
             [ new Action(this), ...this.value.compile(context), new Finish(this) ];
     }
 
@@ -200,7 +200,7 @@ export default class Bind extends Node implements Evaluable, Named {
         this.names.forEach(alias => { 
             const name = alias.getName(); 
             if(name !== undefined) 
-                evaluator.bind(name, evaluator.popValue()); 
+                evaluator.bind(name, evaluator.popValue(undefined)); 
         });
         return undefined;
 

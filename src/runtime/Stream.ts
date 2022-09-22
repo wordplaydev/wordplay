@@ -1,5 +1,5 @@
-import type { LanguageCode } from "../nodes/LanguageCode";
-import type { Named } from "../nodes/Named";
+import type LanguageCode from "../nodes/LanguageCode";
+import type Named from "../nodes/Named";
 import { STREAM_NATIVE_TYPE_NAME } from "../nodes/StreamType";
 import None from "./None";
 import Primitive from "./Primitive";

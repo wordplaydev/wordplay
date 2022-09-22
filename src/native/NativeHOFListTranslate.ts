@@ -1,22 +1,30 @@
 import Bind from "../nodes/Bind";
 import Expression from "../nodes/Expression";
+import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
+import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
 import type Type from "../nodes/Type";
 import Evaluation from "../runtime/Evaluation";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import FunctionValue from "../runtime/FunctionValue";
 import List from "../runtime/List";
 import Measurement from "../runtime/Measurement";
 import Action from "../runtime/Start";
 import type Step from "../runtime/Step";
+import TypeException from "../runtime/TypeException";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
 import { LIST_TYPE_VAR_NAME } from "./NativeConstants";
 
 export default class NativeHOFListTranslate extends HOF {
+
+    readonly hofType: FunctionType;
+    constructor(hofType: FunctionType) {
+        super();        
+        this.hofType = hofType;
+    }
 
     computeChildren() { return [] };
     computeType(): Type { return new ListType(new NameType(LIST_TYPE_VAR_NAME)); }
@@ -33,7 +41,9 @@ export default class NativeHOFListTranslate extends HOF {
                 const index = evaluator.resolve("index");
                 const list = evaluator.getEvaluationContext()?.getContext();
                 // If the index is past the last index of the list, jump to the end.
-                if(index instanceof Measurement && list instanceof List) {
+                if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
+                else if(!(list instanceof List)) return new TypeException(evaluator, new ListType(), index);
+                else {
                     if(index.greaterThan(list.length()).bool)
                         evaluator.jump(1);
                     // Otherwise, apply the given translator function to the current list value.
@@ -55,29 +65,28 @@ export default class NativeHOFListTranslate extends HOF {
                                 bindings
                             ));
                         }
-                        else return new Exception(this, ExceptionKind.EXPECTED_TYPE)
+                        else return new TypeException(evaluator, this.hofType, translator);
                     }
                 }
-                else return new Exception(this, ExceptionKind.EXPECTED_TYPE);
                 return undefined;
             }),
             // Save the translated value and then jump to the conditional.
             new Action(this, evaluator => {
 
                 // Get the translated value.
-                const translatedValue = evaluator.popValue();
+                const translatedValue = evaluator.popValue(undefined);
 
                 // Append the translated value to the list.
                 const list = evaluator.resolve("list");
                 if(list instanceof List)
                     evaluator.bind("list", list.append(translatedValue));
-                else return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+                else return new TypeException(evaluator, new ListType(), list);
 
                 // Increment the counter
                 const index = evaluator.resolve("index");
                 if(index instanceof Measurement)
                     evaluator.bind("index", index.add(new Measurement(1)));
-                else return new Exception(this, ExceptionKind.EXPECTED_TYPE);
+                else return new TypeException(evaluator, new MeasurementType(), index);
 
                 // Jump to the conditional
                 evaluator.jump(-2);

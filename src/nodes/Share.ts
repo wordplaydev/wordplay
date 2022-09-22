@@ -8,10 +8,11 @@ import Token from "./Token";
 import Unparsable from "./Unparsable";
 import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type Step from "../runtime/Step";
+import UnparsableException from "../runtime/SemanticException";
+import NameException from "../runtime/NameException";
 
 export default class Share extends Node implements Evaluable {
     
@@ -50,11 +51,11 @@ export default class Share extends Node implements Evaluable {
     evaluate(evaluator: Evaluator) {
 
         if(this.bind instanceof Unparsable) 
-            return new Exception(this, ExceptionKind.UNPARSABLE);
+            return new UnparsableException(evaluator, this.bind);
         const name = this.bind.names[0].getName();
         const value = name === undefined ? undefined : evaluator.resolve(name);
         if(value === undefined || name == undefined) 
-            return new Exception(this, ExceptionKind.UNKNOWN_SHARE);
+            return new NameException(evaluator, this.bind.names[0].getName() ?? "");
         else
             return evaluator.share(name, value);
         

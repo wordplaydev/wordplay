@@ -19,7 +19,6 @@ import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Evaluation from "../runtime/Evaluation";
 import FunctionValue from "../runtime/FunctionValue";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
@@ -35,6 +34,10 @@ import TypeInput from "./TypeInput";
 import { getEvaluationInputConflicts } from "./util";
 import ListType from "./ListType";
 import type { TypeSet } from "./UnionType";
+import SemanticException from "../runtime/SemanticException";
+import FunctionException from "../runtime/FunctionException";
+import ValueException from "../runtime/ValueException";
+import Exception from "../runtime/Exception";
 
 export default class Evaluate extends Expression {
 
@@ -319,16 +322,18 @@ export default class Evaluate extends Expression {
 
         // Compile a halt if we couldn't find the function.
         if(candidateExpectedInputs === undefined)
-            return [ new Halt(new Exception(this, ExceptionKind.EXPECTED_FUNCTION), this) ];
+            return [ new Halt(evaluator => new FunctionException(evaluator, undefined, this.func.toWordplay()), this) ];
 
         // Compile a halt if any of the function's inputs are unparsable.
-        if(candidateExpectedInputs.find(i => i instanceof Unparsable) !== undefined)
-            return [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ];
+        const unparsableExpected = candidateExpectedInputs.find(i => i instanceof Unparsable);
+        if(unparsableExpected !== undefined)
+            return [ new Halt(evaluator => new SemanticException(evaluator, unparsableExpected), this) ];
 
 
         // Compile a halt if any of the function's inputs are unparsable.
-        if(this.inputs.find(i => i instanceof Unparsable) !== undefined)
-            return [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ];
+        const unparsableGiven = this.inputs.find(i => i instanceof Unparsable);
+        if(unparsableGiven !== undefined)
+            return [ new Halt(evaluator => new SemanticException(evaluator, unparsableGiven), this) ];
 
         // Make typescript happy now that we've guarded against unparsables.
         const expectedInputs = candidateExpectedInputs as Bind[];
@@ -343,11 +348,11 @@ export default class Evaluate extends Expression {
                 const requiredInput = givenInputs.shift();
                 // If there isn't one, exception!
                 if(requiredInput === undefined)
-                    return [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ];
+                    return [ new Halt(evaluator => new ValueException(evaluator), this) ];
                 // If it's a bind, compile the bind's expression
                 else if(requiredInput instanceof Bind) {
                     if(requiredInput.value === undefined) 
-                        return [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ];
+                        return [ new Halt(evaluator => new SemanticException(evaluator, requiredInput), this) ];
                     else
                         return requiredInput.value.compile(context);
                 }
@@ -369,7 +374,7 @@ export default class Evaluate extends Expression {
                         return optionalInput.compile(context);
                     // If there wasn't one, use the default value.
                     return expectedInput.value === undefined ? 
-                        [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ] :
+                        [ new Halt(evaluator => new SemanticException(evaluator, expectedInput), this) ] :
                         expectedInput.value.compile(context);
                 }
                 // If it is a variable length input, reduce the remaining given input expressions.
@@ -378,11 +383,11 @@ export default class Evaluate extends Expression {
                         [
                             ...prev, 
                             ...(
-                                next instanceof Unparsable ? [ new Halt(new Exception(this, ExceptionKind.UNPARSABLE), this) ] :
+                                next instanceof Unparsable ? [ new Halt(evaluator => new SemanticException(evaluator, next), this) ] :
                                 next instanceof Bind ? 
                                     (
                                         next.value === undefined ? 
-                                            [ new Halt(new Exception(this, ExceptionKind.EXPECTED_EXPRESSION), this) ] : 
+                                            [ new Halt(evaluator => new SemanticException(evaluator, next), this) ] : 
                                             next.value.compile(context)
                                     ) :
                                 next.compile(context)
@@ -406,7 +411,8 @@ export default class Evaluate extends Expression {
     evaluate(evaluator: Evaluator): Value | undefined {
 
         // Get the function off the stack and bail if it's not a function.
-        const functionOrStructure = evaluator.popValue();
+        const functionOrStructure = evaluator.popValue(undefined);
+        if(!(functionOrStructure instanceof FunctionValue || functionOrStructure instanceof StructureDefinitionValue)) return functionOrStructure;
 
         // Pop as many values as the definition requires, or the number of inputs provided, whichever is larger.
         // This accounts for variable length arguments.
@@ -420,7 +426,7 @@ export default class Evaluate extends Expression {
         // Get all the values off the stack, getting as many as is defined.
         const values = [];
         for(let i = 0; i < count; i++) {
-            const value = evaluator.popValue();
+            const value = evaluator.popValue(undefined);
             if(value instanceof Exception) return value;
             else values.unshift(value);
         }
@@ -432,10 +438,10 @@ export default class Evaluate extends Expression {
 
             // Bail if the function's body isn't an expression.
             if(!(body instanceof Expression))
-                return new Exception(this, ExceptionKind.PLACEHOLDER);
+                return new SemanticException(evaluator, body);
 
             // Build the bindings.
-            const bindings = this.buildBindings(definition.inputs, values);
+            const bindings = this.buildBindings(evaluator, definition.inputs, values);
             if(bindings instanceof Exception) return bindings;
 
             evaluator.startEvaluation(new Evaluation(
@@ -450,7 +456,7 @@ export default class Evaluate extends Expression {
         else if(functionOrStructure instanceof StructureDefinitionValue) {
 
             // Build the custom type's bindings.
-            const bindings = this.buildBindings(functionOrStructure.definition.inputs, values);
+            const bindings = this.buildBindings(evaluator, functionOrStructure.definition.inputs, values);
             if(bindings instanceof Exception) return bindings;
 
             // Evaluate the structure's block with the bindings, generating an evaluation context with the
@@ -458,19 +464,18 @@ export default class Evaluate extends Expression {
             evaluator.startEvaluation(new Evaluation(evaluator, functionOrStructure.definition, functionOrStructure.definition.block, evaluator.getEvaluationContext(), bindings));
 
         }
-        else return new Exception(this, ExceptionKind.EXPECTED_TYPE);
 
     }
 
-    buildBindings(inputs: (Bind | Unparsable)[], values: Value[], ): Map<string, Value> | Exception {
+    buildBindings(evaluator: Evaluator, inputs: (Bind | Unparsable)[], values: Value[], ): Map<string, Value> | Exception {
 
         // Build the bindings, backwards because they are in reverse on the stack.
         const bindings = new Map<string, Value>();
         for(let i = 0; i < inputs.length; i++) {
             const bind = inputs[i];
-            if(bind instanceof Unparsable) return new Exception(this, ExceptionKind.UNPARSABLE);
+            if(bind instanceof Unparsable) return new SemanticException(evaluator, bind);
             else if(i >= values.length) 
-                return new Exception(this, ExceptionKind.EXPECTED_VALUE);
+                return new ValueException(evaluator);
             bind.names.forEach(name => {
                 const n = name.getName();
                 if(n !== undefined)

@@ -13,7 +13,6 @@ import ConversionDefinition from "./ConversionDefinition";
 import type Evaluator from "../runtime/Evaluator";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
-import Exception, { ExceptionKind } from "../runtime/Exception";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import type Context from "./Context";
 import type Definition from "./Definition";
@@ -29,6 +28,7 @@ import type { TypeSet } from "./UnionType";
 import { Unimplemented } from "../conflicts/Unimplemented";
 import { Implemented } from "../conflicts/Implemented";
 import { DisallowedInputs } from "../conflicts/DisallowedInputs";
+import ContextException, { StackSize } from "../runtime/ContextException";
 
 export default class StructureDefinition extends Expression {
 
@@ -206,7 +206,7 @@ export default class StructureDefinition extends Expression {
             return undefined;
         }
         else
-            return new Exception(this, ExceptionKind.EXPECTED_CONTEXT);
+            return new ContextException(evaluator, StackSize.EMPTY);
             
     }
 
