@@ -1,4 +1,5 @@
 export const ANY_NATIVE_TYPE_NAME = "any";
+export const NEVER_NATIVE_TYPE_NAME = "never";
 export const NONE_NATIVE_TYPE_NME = "none";
 
 export const EXCEPTION_NATIVE_TYPE_NAME = "exception";

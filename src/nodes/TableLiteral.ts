@@ -20,6 +20,7 @@ import Action from "../runtime/Start";
 import type Context from "./Context";
 import type Unparsable from "./Unparsable";
 import Token from "./Token";
+import type { TypeSet } from "./UnionType";
 
 export default class TableLiteral extends Expression {
     
@@ -109,6 +110,11 @@ export default class TableLiteral extends Expression {
             this.rows.map(r => r.cloneOrReplace([ Row ], original, replacement)), 
             this.close.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        this.rows.forEach(row => { if(row instanceof Expression) row.evaluateTypeSet(bind, original, current, context); });
+        return current;
     }
 
 }

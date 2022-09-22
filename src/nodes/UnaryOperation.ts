@@ -18,6 +18,9 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type Context from "./Context";
+import type Bind from "./Bind";
+import { NOT_SYMBOL } from "../parser/Tokenizer";
+import type { TypeSet } from "./UnionType";
 
 export default class UnaryOperation extends Expression {
 
@@ -109,4 +112,20 @@ export default class UnaryOperation extends Expression {
         ) as this; 
     }
 
+    /** 
+     * Logical negations take the set complement of the current set from the original.
+     * */
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+
+        // We only manipulate possible types for logical negation operators.
+        if(this.operator.getText() !== NOT_SYMBOL || this.operand instanceof Unparsable) return current;
+
+        // Get the possible types of the operand.
+        const possible = this.operand.evaluateTypeSet(bind, original, current, context);
+
+        // Return the difference between the original types and the possible types, 
+        return original.difference(possible, context);
+
+    }
+    
 }

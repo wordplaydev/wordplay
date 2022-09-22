@@ -9,6 +9,9 @@ import { parseType, tokens } from "../parser/Parser";
 import Unparsable from "../nodes/Unparsable";
 import UnknownType from "../nodes/UnknownType";
 import type Evaluation from "../runtime/Evaluation";
+import type Bind from "../nodes/Bind";
+import type Context from "../nodes/Context";
+import type { TypeSet } from "../nodes/UnionType";
 
 export default class NativeExpression extends Expression {
     
@@ -41,5 +44,7 @@ export default class NativeExpression extends Expression {
 
     /** Can't clone native expressions, there's only one of them! */
     clone() { return this; }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { context; bind; original; return current; }
 
 }

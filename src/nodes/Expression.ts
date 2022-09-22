@@ -6,6 +6,8 @@ import type Value from "src/runtime/Value";
 import type Type from "./Type";
 import type Step from "src/runtime/Step";
 import UnknownType from "./UnknownType";
+import type Bind from "./Bind";
+import type { TypeSet } from "./UnionType";
 
 export default abstract class Expression extends Node implements Evaluable {
 
@@ -36,6 +38,12 @@ export default abstract class Expression extends Node implements Evaluable {
         return type;
 
     }
+
+    /** 
+     * Used to determine what types are possible for a given after evalutaing this expression/ 
+     * Most expressions do not manipulate possible types at all; primarily is just logical operators and type checks.
+     * */
+    abstract evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context): TypeSet;
 
     abstract compile(context: Context): Step[];
     abstract evaluate(evaluator: Evaluator): Value | undefined;

@@ -46,5 +46,16 @@ AnimatedFace:
 🥹: {⊤: «😀» ⊥: «😂»}
 ∥: ⏱ % 2 = 0ms
 Phrase(🥹{∥} 32pt «Noto Sans»)
+`,
+Guards:
+`
+a: 1 > 0 ? 1 "hi"
+¬((a•#)∧(a > 1)) ? a + 1 a
+`,
+AccessGuards:
+`
+•Cat(name•""•#)
+a: Cat(1)
+a.name•# ? a.name + 1 a
 `
 };

@@ -8,6 +8,9 @@ import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Alias from "./Alias";
+import type Bind from "./Bind";
+import type Context from "./Context";
+import type { TypeSet } from "./UnionType";
 
 export default class NoneLiteral extends Expression {
     readonly none: Token;
@@ -42,5 +45,7 @@ export default class NoneLiteral extends Expression {
             this.aliases.map(a => a.cloneOrReplace([ Alias ], original, replacement))
         ) as this; 
     }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
 }

@@ -18,9 +18,10 @@ import Action from "../runtime/Start";
 import type Context from "./Context";
 import type Node from "./Node";
 import NoneType from "./NoneType";
-import UnionType from "./UnionType";
+import UnionType, { TypeSet } from "./UnionType";
 import { outOfBoundsAliases } from "../runtime/Constants";
 import Unit from "./Unit";
+import type Bind from "./Bind";
 
 export default class ListAccess extends Expression {
 
@@ -85,6 +86,12 @@ export default class ListAccess extends Expression {
             this.index.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
             this.close.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        if(this.list instanceof Expression) this.list.evaluateTypeSet(bind, original, current, context);
+        if(this.index instanceof Expression) this.index.evaluateTypeSet(bind, original, current, context);
+        return current;
     }
 
 }

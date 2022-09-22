@@ -8,6 +8,9 @@ import Text from "../runtime/Text";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Language from "./Language";
+import type Bind from "./Bind";
+import type Context from "./Context";
+import type { TypeSet } from "./UnionType";
 
 export default class TextLiteral extends Expression {
     
@@ -44,5 +47,7 @@ export default class TextLiteral extends Expression {
             this.format?.cloneOrReplace([ Language, undefined ], original, replacement)
         ) as this; 
     }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
 }

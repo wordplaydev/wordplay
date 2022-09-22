@@ -25,6 +25,7 @@ import FunctionType from "./FunctionType";
 import NameType from "./NameType";
 import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 import type TypeInput from "./TypeInput";
+import type { TypeSet } from "./UnionType";
 
 export default class StructureDefinition extends Expression {
 
@@ -193,6 +194,11 @@ export default class StructureDefinition extends Expression {
             this.open.cloneOrReplace([ Token ], original, replacement),
             this.close.cloneOrReplace([ Token ], original, replacement)
         ) as this;
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        if(this.block instanceof Expression) this.block.evaluateTypeSet(bind, original, current, context);
+        return current;
     }
 
 }

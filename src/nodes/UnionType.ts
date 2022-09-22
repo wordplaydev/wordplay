@@ -6,7 +6,8 @@ import type Node from "./Node";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
-import { OR_SYMBOL } from "../parser/Tokenizer";
+import { TYPE_SYMBOL } from "../parser/Tokenizer";
+import NeverType from "./NeverType";
 
 export default class UnionType extends Type {
 
@@ -18,7 +19,7 @@ export default class UnionType extends Type {
         super();
 
         this.left = left;
-        this.or = or ?? new Token(OR_SYMBOL, [ TokenType.UNION ]);
+        this.or = or ?? new Token(TYPE_SYMBOL, [ TokenType.UNION ]);
         this.right = right;
     }
 
@@ -27,7 +28,7 @@ export default class UnionType extends Type {
     }
 
     isCompatible(type: Type, context: Context): boolean {
-        return this.left.isCompatible(type, context) && (!(this.right instanceof Type) || this.right.isCompatible(type, context));
+        return this.left.isCompatible(type, context) || (!(this.right instanceof Type) || this.right.isCompatible(type, context));
     }
 
     getConversion(context: Context, type: Type): ConversionDefinition | undefined {
@@ -53,6 +54,15 @@ export default class UnionType extends Type {
     }
 
     computeConflicts() {}
+
+    getTypes(context: Context): TypeSet {
+        // Return the union of the left and right type sets.
+        return (this.left instanceof UnionType ? this.left.getTypes(context) : new TypeSet([ this.left ], context))
+            .union(
+                this.right instanceof UnionType ? this.right.getTypes(context) : new TypeSet(this.right instanceof Unparsable ? [] : [ this.right ], context),
+                context
+            );
+    }
     
 }
 
@@ -82,4 +92,66 @@ export function getPossibleUnionType(context: Context, types: Type[]): Type | un
     } while(uniqueTypes.length > 0);
     return union;
     
+}
+
+/**
+ * Utility class for reasoning about sets of types. Guarantees that any given pair of types in the set
+ * are not compatible.
+ */
+export class TypeSet {
+
+    readonly set = new Set<Type>();
+
+    constructor(types: Type[], context: Context) {
+
+        // Remove any duplicates.
+        for(const type of types)
+            if(Array.from(this.set).find(t => t.isCompatible(type, context)) === undefined)
+                this.set.add(type);
+
+    }
+
+    list() { return Array.from(this.set); }
+
+    contains(type: Type, context: Context): boolean {
+        return this.list().find(t => t.isCompatible(type, context)) !== undefined;
+    }
+
+    union(set: TypeSet, context: Context) {
+        return new TypeSet([ ...this.list(), ...set.list() ], context);
+    }
+
+    difference(set: TypeSet, context: Context) {
+        return new TypeSet(
+            this.list().filter(thisType => set.list().find(thatType => thatType.isCompatible(thisType, context)) === undefined),
+            context
+        );
+    }
+
+    intersection(set: TypeSet, context: Context) {
+        return new TypeSet(this.list().filter(thisType => set.list().find(thatType => thatType.isCompatible(thisType, context)) !== undefined), context);
+    }
+
+    /**
+     * Converts type set into a single Type, UnionType, or NeverType (if set is empty).,
+     */
+    type() {
+        if(this.set.size === 1)
+            return this.list()[0];
+
+        let types = this.list();
+        let cur = types.shift();
+        let next = types.shift();
+        let union = undefined;
+        if(cur !== undefined && next !== undefined)
+            union = new UnionType(cur, next);
+        while(types.length > 0 && union !== undefined) {
+            let next = types.shift();
+            if(next !== undefined)
+                union = new UnionType(union, next);
+        }
+        return union === undefined ? new NeverType() : union;
+
+    }
+
 }

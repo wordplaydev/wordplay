@@ -23,6 +23,8 @@ import type Context from "./Context";
 import type Node from "./Node";
 import { AND_SYMBOL, OR_SYMBOL } from "../parser/Tokenizer";
 import OrderOfOperations from "../conflicts/OrderOfOperations";
+import type Bind from "./Bind";
+import type { TypeSet } from "./UnionType";
 
 export default class BinaryOperation extends Expression {
 
@@ -237,6 +239,34 @@ export default class BinaryOperation extends Expression {
             this.left.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
             this.right.cloneOrReplace([ Expression, Unparsable ], original, replacement)
         ) as this; 
+    }
+
+    /** 
+     * Type checks narrow the set to the specified type, if contained in the set and if the check is on the same bind.
+     * */
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+
+        // If conjunction, then we compute the intersection of the left and right's possible types.
+        // Note that we pass the left's possible types because we don't evaluate the right if the left isn't true.
+        if(this.operator.getText() === AND_SYMBOL) {
+            const left = this.left instanceof Unparsable ? current : this.left.evaluateTypeSet(bind, original, current, context);
+            const right = this.right instanceof Unparsable ? current : this.right.evaluateTypeSet(bind, original, left, context);
+            return left.intersection(right, context);
+        }
+        // If disjunction of type checks, then we return the union.
+        // Note that we pass the left's possible types because we don't evaluate the right if the left is true.
+        else if(this.operator.getText() === OR_SYMBOL) {
+            const left = this.left instanceof Unparsable ? current : this.left.evaluateTypeSet(bind, original, current, context);
+            const right = this.right instanceof Unparsable ? current : this.right.evaluateTypeSet(bind, original, left, context);
+            return left.union(right, context);
+        }
+        // Otherwise, just pass the types down and return the original types.
+        else {
+            if(!(this.left instanceof Unparsable)) this.left.evaluateTypeSet(bind, original, current, context);
+            if(!(this.right instanceof Unparsable)) this.right.evaluateTypeSet(bind, original, current, context);
+            return current;
+        }
+    
     }
 
 }

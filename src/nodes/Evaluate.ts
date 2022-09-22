@@ -34,6 +34,7 @@ import AccessName from "./AccessName";
 import TypeInput from "./TypeInput";
 import { getEvaluationInputConflicts } from "./util";
 import ListType from "./ListType";
+import type { TypeSet } from "./UnionType";
 
 export default class Evaluate extends Expression {
 
@@ -134,14 +135,14 @@ export default class Evaluate extends Expression {
                     // The types have to match
                     if(concreteInputType !== undefined && given.value instanceof Expression) {
                         const givenType = given.value.getTypeUnlessCycle(context);
-                        if(!givenType.isCompatible(concreteInputType, context))
+                        if(!concreteInputType.isCompatible(givenType, context))
                             conflicts.push(new IncompatibleInput(functionType, this, given.value, givenType, concreteInputType));
                     }
                 }
                 // If the given value input isn't a bind, check the type of the next given input.
                 else {
                     const givenType = given.getType(context);
-                    if(concreteInputType !== undefined && !givenType.isCompatible(concreteInputType, context))
+                    if(concreteInputType !== undefined && !concreteInputType.isCompatible(givenType, context))
                         conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType));
                 }
 
@@ -159,7 +160,7 @@ export default class Evaluate extends Expression {
                             const givenType = given.getTypeUnlessCycle(context);
                             if(!(concreteInputType instanceof ListType))
                                 throw Error(`Expected list type on variable length input, but received ${concreteInputType.constructor.name}`);
-                            else if(concreteInputType.type instanceof Type && !givenType.isCompatible(concreteInputType.type, context))
+                            else if(concreteInputType.type instanceof Type && !concreteInputType.type.isCompatible(givenType, context))
                                 conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType.type));
                         }
                     }
@@ -172,7 +173,7 @@ export default class Evaluate extends Expression {
                         // If the types don't match, there's a conflict.
                         if(matchingBind.value !== undefined && matchingBind.value instanceof Expression) {
                             const givenType = matchingBind.value.getTypeUnlessCycle(context);
-                            if(!givenType.isCompatible(concreteInputType, context))
+                            if(!concreteInputType.isCompatible(givenType, context))
                                 conflicts.push(new IncompatibleInput(functionType, this, matchingBind.value, givenType, concreteInputType));
                         }
                         // Remember that we matched on this and remove it from the given inputs list.
@@ -184,7 +185,7 @@ export default class Evaluate extends Expression {
                         // If the given input is unnamed, consume it as the expected input.
                         if(given instanceof Expression) {
                             const givenType = given.getTypeUnlessCycle(context);
-                            if(!givenType.isCompatible(concreteInputType, context))
+                            if(!concreteInputType.isCompatible(givenType, context))
                                 conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType));
                             givenInputs.shift();
                         }
@@ -493,6 +494,12 @@ export default class Evaluate extends Expression {
             this.inputs.map(i => i.cloneOrReplace([ Expression, Unparsable, Bind ], original, replacement)), 
             this.close.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        if(this.func instanceof Expression) this.func.evaluateTypeSet(bind, original, current, context);
+        this.inputs.forEach(input => { if(input instanceof Expression) input.evaluateTypeSet(bind, original, current, context); });
+        return current;
     }
 
 }

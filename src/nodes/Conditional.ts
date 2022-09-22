@@ -11,7 +11,8 @@ import type Step from "../runtime/Step";
 import JumpIfFalse from "../runtime/JumpIfFalse";
 import Jump from "../runtime/Jump";
 import type Context from "./Context";
-import UnionType from "./UnionType";
+import UnionType, { TypeSet } from "./UnionType";
+import type Bind from "./Bind";
 
 export default class Conditional extends Expression {
     
@@ -94,4 +95,25 @@ export default class Conditional extends Expression {
         ) as this; 
     }
 
+    /** 
+     * Type checks narrow the set to the specified type, if contained in the set and if the check is on the same bind.
+     * */
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+
+        // Evaluate the condition with the current types.
+        const revisedTypes = this.condition.evaluateTypeSet(bind, original, current, context);
+
+        // Evaluate the yes branch with the revised types.
+        if(this.yes instanceof Expression)
+            this.yes.evaluateTypeSet(bind, original, revisedTypes, context);
+
+        // Evaluate the no branch with the complement of the revised types.
+        if(this.no instanceof Expression) {
+            this.no.evaluateTypeSet(bind, original, current.difference(revisedTypes, context), context);
+        }
+
+        return current;
+    
+    }
+    
 }

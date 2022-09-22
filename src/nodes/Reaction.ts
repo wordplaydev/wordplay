@@ -17,7 +17,7 @@ import JumpIfStreamExists from "../runtime/JumpIfStreamExists";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import Bind from "./Bind";
 import type Context from "./Context";
-import UnionType from "./UnionType";
+import UnionType, { TypeSet } from "./UnionType";
 import UnknownType from "./UnknownType";
 
 export default class Reaction extends Expression {
@@ -130,6 +130,13 @@ export default class Reaction extends Expression {
             this.stream.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
             this.next.cloneOrReplace([ Expression, Unparsable ], original, replacement)
         ) as this; 
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        if(this.initial instanceof Expression) this.initial.evaluateTypeSet(bind, original, current, context);
+        if(this.stream instanceof Expression) this.stream.evaluateTypeSet(bind, original, current, context);
+        if(this.next instanceof Expression) this.next.evaluateTypeSet(bind, original, current, context);
+        return current;
     }
 
 }

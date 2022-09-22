@@ -20,6 +20,8 @@ import ConversionValue from "../runtime/ConversionValue";
 import type Context from "./Context";
 import { parseType, tokens } from "../parser/Parser";
 import { CONVERT_SYMBOL } from "../parser/Tokenizer";
+import type Bind from "./Bind";
+import type { TypeSet } from "./UnionType";
 
 export default class ConversionDefinition extends Expression {
 
@@ -91,6 +93,12 @@ export default class ConversionDefinition extends Expression {
             this.expression.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
             this.convert.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        if(this.expression instanceof Expression)
+            this.expression.evaluateTypeSet(bind, original, current, context);
+        return current;
     }
 
 }

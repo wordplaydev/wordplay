@@ -22,6 +22,7 @@ import type Context from "./Context";
 import type Definition from "./Definition";
 import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
+import type { TypeSet } from "./UnionType";
 
 export default class Block extends Expression {
 
@@ -148,4 +149,16 @@ export default class Block extends Expression {
         ) as this; 
     }
 
+    /** 
+     * Blocks don't do any type checks, but we do have them delegate type checks to their final expression.
+     * since we use them for parentheticals in boolean logic.
+     * */
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+
+        if(this.statements.length === 0) return current;
+        const last = this.statements[this.statements.length - 1];
+        return last instanceof Expression ? last.evaluateTypeSet(bind, original, current, context) : current;
+
+    }
+    
 }

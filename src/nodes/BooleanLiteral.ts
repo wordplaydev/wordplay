@@ -8,6 +8,9 @@ import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import type Node from "./Node";
 import { TRUE_SYMBOL } from "../parser/Tokenizer";
+import type Bind from "./Bind";
+import type Context from "./Context";
+import type { TypeSet } from "./UnionType";
 
 export default class BooleanLiteral extends Expression {
     readonly value: Token;
@@ -33,5 +36,7 @@ export default class BooleanLiteral extends Expression {
     }
 
     clone(original?: Node, replacement?: Node) { return new BooleanLiteral(this.value.cloneOrReplace([ Token ], original, replacement)) as this; }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
 }

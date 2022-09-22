@@ -54,7 +54,7 @@ const patterns = [
     { pattern: CONVERT_SYMBOL, types: [ TokenType.CONVERT ] },
     { pattern: new RegExp(`^${DOCS_SYMBOL}.*?${DOCS_SYMBOL}`), types: [ TokenType.DOCS ] },
     { pattern: NONE_SYMBOL, types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
-    { pattern: TYPE_SYMBOL, types: [ TokenType.TYPE, TokenType.TYPE_OP ] },
+    { pattern: TYPE_SYMBOL, types: [ TokenType.TYPE, TokenType.TYPE_OP, TokenType.UNION ] },
     { pattern: TYPE_VAR_SYMBOL, types: [ TokenType.TYPE_VAR ] },
     { pattern: STREAM_SYMBOL, types: [ TokenType.STREAM, TokenType.STREAM_TYPE ] },
     { pattern: PREVIOUS_SYMBOL, types: [ TokenType.PREVIOUS ] },
@@ -71,7 +71,7 @@ const patterns = [
     { pattern: "∞", types: [ TokenType.NUMBER, TokenType.INFINITY ] },
     { pattern: /^[+*×·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
     { pattern: AND_SYMBOL, types: [ TokenType.BINARY_OP ] },
-    { pattern: OR_SYMBOL, types: [ TokenType.BINARY_OP, TokenType.UNION ] },
+    { pattern: OR_SYMBOL, types: [ TokenType.BINARY_OP ] },
     // Both a unary and binary op.
     { pattern: "-", types: [ TokenType.BINARY_OP, TokenType.UNARY_OP ] },
     { pattern: "~", types: [ TokenType.UNARY_OP ] },

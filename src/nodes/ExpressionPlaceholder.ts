@@ -9,6 +9,9 @@ import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Placeholder from "../conflicts/Placeholder";
 import Halt from "../runtime/Halt";
+import type Bind from "./Bind";
+import type Context from "./Context";
+import type { TypeSet } from "./UnionType";
 
 export default class ExpressionPlaceholder extends Expression {
     
@@ -38,5 +41,7 @@ export default class ExpressionPlaceholder extends Expression {
     clone(original?: Node, replacement?: Node) { 
         return new ExpressionPlaceholder(this.etc.cloneOrReplace([ Token ], original, replacement)) as this; 
     }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
 }

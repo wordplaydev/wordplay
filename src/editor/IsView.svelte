@@ -6,4 +6,4 @@
 
 </script>
 
-<NodeView node={node.left}/><NodeView node={node.operator}/><NodeView node={node.right}/>
+<NodeView node={node.expression}/><NodeView node={node.operator}/><NodeView node={node.type}/>

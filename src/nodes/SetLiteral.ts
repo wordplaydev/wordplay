@@ -10,9 +10,10 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type Context from "./Context";
-import { getPossibleUnionType } from "./UnionType";
+import { getPossibleUnionType, TypeSet } from "./UnionType";
 import SetType from "./SetType";
 import AnyType from "./AnyType";
+import type Bind from "./Bind";
 
 export default class SetLiteral extends Expression {
 
@@ -70,6 +71,11 @@ export default class SetLiteral extends Expression {
             this.values.map(v => v.cloneOrReplace([ Expression, Unparsable ], original, replacement)), 
             this.close.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        this.values.forEach(val => { if(val instanceof Expression) val.evaluateTypeSet(bind, original, current, context); });
+        return current;
     }
 
 }

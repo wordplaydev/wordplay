@@ -13,12 +13,13 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type Context from "./Context";
-import { getPossibleUnionType } from "./UnionType";
+import { getPossibleUnionType, TypeSet } from "./UnionType";
 import { NotAMap } from "../conflicts/NotAMap";
 import MapType from "./MapType";
 import Halt from "../runtime/Halt";
 import Exception, { ExceptionKind } from "../runtime/Exception";
 import AnyType from "./AnyType";
+import type Bind from "./Bind";
 
 export default class MapLiteral extends Expression {
 
@@ -95,6 +96,11 @@ export default class MapLiteral extends Expression {
             this.close.cloneOrReplace([ Token ], original, replacement), 
             this.bind?.cloneOrReplace([ Token, undefined ], original, replacement)
         ) as this; 
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        this.values.forEach(val => { if(val instanceof Expression) val.evaluateTypeSet(bind, original, current, context); });
+        return current;
     }
 
 }

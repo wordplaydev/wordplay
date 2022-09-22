@@ -20,6 +20,7 @@ import type Context from "./Context";
 import type Definition from "./Definition";
 import Alias from "./Alias";
 import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, FUNCTION_SYMBOL } from "../parser/Tokenizer";
+import type { TypeSet } from "./UnionType";
 
 export default class FunctionDefinition extends Expression {
 
@@ -163,6 +164,11 @@ export default class FunctionDefinition extends Expression {
             this.open.cloneOrReplace([ Token ], original, replacement), 
             this.close.cloneOrReplace([ Token ], original, replacement)
              ) as this; 
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        if(this.expression instanceof Expression) this.expression.evaluateTypeSet(bind, original, current, context);
+        return current;
     }
 
 }

@@ -18,6 +18,8 @@ import type Context from "./Context";
 import MapType from "./MapType";
 import SetType from "./SetType";
 import BooleanType from "./BooleanType";
+import type Bind from "./Bind";
+import type { TypeSet } from "./UnionType";
 
 export default class SetOrMapAccess extends Expression {
 
@@ -90,6 +92,12 @@ export default class SetOrMapAccess extends Expression {
             this.key.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
             this.close.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        if(this.setOrMap instanceof Expression) this.setOrMap.evaluateTypeSet(bind, original, current, context);
+        if(this.key instanceof Expression) this.key.evaluateTypeSet(bind, original, current, context);
+        return current;
     }
 
 }

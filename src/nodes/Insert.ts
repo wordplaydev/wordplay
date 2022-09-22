@@ -18,6 +18,7 @@ import Action from "../runtime/Start";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import { MissingCells } from "../conflicts/MissingCells";
+import type { TypeSet } from "./UnionType";
 
 export default class Insert extends Expression {
     
@@ -120,6 +121,12 @@ export default class Insert extends Expression {
             this.insert.cloneOrReplace([ Token ], original, replacement),
             this.row.cloneOrReplace([ Row ], original, replacement)
         ) as this; 
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        if(this.table instanceof Expression) this.table.evaluateTypeSet(bind, original, current, context);
+        if(this.row instanceof Expression) this.row.evaluateTypeSet(bind, original, current, context);
+        return current;
     }
 
 }

@@ -18,6 +18,8 @@ import StreamType from "./StreamType";
 import { NotAStreamIndex } from "../conflicts/NotAStreamIndex";
 import Stream from "../runtime/Stream";
 import KeepStream from "../runtime/KeepStream";
+import type Bind from "./Bind";
+import type { TypeSet } from "./UnionType";
 
 export default class Previous extends Expression {
 
@@ -82,4 +84,11 @@ export default class Previous extends Expression {
             this.index.cloneOrReplace([ Expression, Unparsable ], original, replacement)
         ) as this; 
     }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        if(this.stream instanceof Expression) this.stream.evaluateTypeSet(bind, original, current, context);
+        if(this.index instanceof Expression) this.index.evaluateTypeSet(bind, original, current, context);
+        return current;
+    }
+
 }

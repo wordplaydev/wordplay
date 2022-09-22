@@ -12,6 +12,8 @@ import type Step from "../runtime/Step";
 import type Context from "./Context";
 import Language from "./Language";
 import Unparsable from "./Unparsable";
+import type Bind from "./Bind";
+import type { TypeSet } from "./UnionType";
 
 export default class Template extends Expression {
     
@@ -62,6 +64,11 @@ export default class Template extends Expression {
             this.parts.map(p => p.cloneOrReplace([ Token, Expression, Unparsable ], original, replacement)), 
             this.format?.cloneOrReplace([ Language, undefined ], original, replacement)
         ) as this; 
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        this.parts.forEach(part => { if(part instanceof Expression) part.evaluateTypeSet(bind, original, current, context); });
+        return current;
     }
 
 }

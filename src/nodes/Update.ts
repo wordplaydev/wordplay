@@ -20,6 +20,7 @@ import Finish from "../runtime/Finish";
 import Action from "../runtime/Start";
 import type Context from "./Context";
 import type Definition from "./Definition";
+import type { TypeSet } from "./UnionType";
 
 export default class Update extends Expression {
     
@@ -121,6 +122,14 @@ export default class Update extends Expression {
             this.row.cloneOrReplace([ Row ], original, replacement), 
             this.query.cloneOrReplace([ Expression, Unparsable ], original, replacement)
         ) as this; 
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        if(this.table instanceof Expression) this.table.evaluateTypeSet(bind, original, current, context);
+        if(this.update instanceof Expression) this.update.evaluateTypeSet(bind, original, current, context);
+        if(this.row instanceof Expression) this.row.evaluateTypeSet(bind, original, current, context);
+        if(this.query instanceof Expression) this.query.evaluateTypeSet(bind, original, current, context);
+        return current;
     }
 
 }

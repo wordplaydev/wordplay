@@ -18,10 +18,18 @@ import { getCaseCollision } from "./util";
 import Bind from "./Bind";
 import CircularReference from "../conflicts/CircularReference";
 import Reaction from "./Reaction";
+import Conditional from "./Conditional";
+import UnionType, { TypeSet } from "./UnionType";
+import Is from "./Is";
 
 export default class Name extends Expression {
     
     readonly name: Token;
+
+    /**
+     * A cache of the possible types this name might have at this point in the program.
+     */
+    _unionTypes: Type | undefined;
 
     constructor(name: Token) {
         super();
@@ -71,10 +79,47 @@ export default class Name extends Expression {
 
     computeType(context: Context): Type {
         // The type is the type of the bind.
-        const bindOrTypeVar = this.getBind(context);
-        if(bindOrTypeVar === undefined) return new UnknownType(this);
-        if(bindOrTypeVar instanceof TypeVariable) return new UnknownType(this);
-        else return bindOrTypeVar instanceof Value ? bindOrTypeVar.getType() : bindOrTypeVar.getTypeUnlessCycle(context);
+        const definition = this.getBind(context);
+
+        // If we couldn't find a definition or the definition is a type variable, return unknown.
+        if(definition === undefined || definition instanceof TypeVariable) return new UnknownType(this);
+
+        // Get the type of the value, bind, or expression.
+        const type = definition instanceof Value ? definition.getType() : definition.getTypeUnlessCycle(context);
+
+        // Is the type a union? Find the subset of types that are feasible, given any type checks in conditionals.
+        if(definition instanceof Bind && type instanceof UnionType && this._unionTypes === undefined) {
+
+            // Find any conditionals with type checks that refer to the value bound to this name.
+            // Reverse them so they are in furthest to nearest ancestor, so we narrow types in execution order.
+            const guards = this.getAncestors()?.filter(a => 
+                    a instanceof Conditional &&
+                    a.condition.nodes(
+                        n =>    n.getParent() instanceof Is && 
+                                n instanceof Name && definition === n.getBind(context)
+                    )
+                ).reverse() as Conditional[];
+
+            // Grab the furthest ancestor and evaluate possible types from there.
+            const root = guards[0];
+            if(root !== undefined) {
+                let possibleTypes = type.getTypes(context);
+                root.evaluateTypeSet(definition, possibleTypes, possibleTypes, context);
+            }
+        }
+
+        return this._unionTypes !== undefined ? this._unionTypes : type;
+
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        bind; original; context;
+
+        // Cache the type of this name at this point in execution.
+        if(this.getBind(context) === bind)
+            this._unionTypes = current.type();
+
+        return current;
     }
 
     compile(): Step[] {

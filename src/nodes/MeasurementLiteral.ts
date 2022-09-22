@@ -12,6 +12,9 @@ import Unparsable from "./Unparsable";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import { NotANumber } from "../conflicts/NotANumber";
+import type Bind from "./Bind";
+import type Context from "./Context";
+import type { TypeSet } from "./UnionType";
 
 export default class MeasurementLiteral extends Expression {
     
@@ -57,5 +60,7 @@ export default class MeasurementLiteral extends Expression {
             this.unit?.cloneOrReplace([ Unit, Unparsable ], original, replacement)
         ) as this; 
     }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
 }

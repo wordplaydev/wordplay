@@ -15,6 +15,8 @@ import Evaluation from "../runtime/Evaluation";
 import type Context from "./Context";
 import Halt from "../runtime/Halt";
 import ConversionValue from "../runtime/ConversionValue";
+import type Bind from "./Bind";
+import type { TypeSet } from "./UnionType";
 
 export default class Convert extends Expression {
     
@@ -111,6 +113,12 @@ export default class Convert extends Expression {
             this.convert.cloneOrReplace([ Token ], original, replacement), 
             this.type.cloneOrReplace([ Type, Unparsable ], original, replacement)
         ) as this; 
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
+        if(this.expression instanceof Expression)
+            this.expression.evaluateTypeSet(bind, original, current, context);
+        return current;
     }
 
 }
