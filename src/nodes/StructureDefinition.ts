@@ -27,6 +27,8 @@ import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, TYPE_SYMBOL } from "../parser/Toke
 import type TypeInput from "./TypeInput";
 import type { TypeSet } from "./UnionType";
 import { Unimplemented } from "../conflicts/Unimplemented";
+import { Implemented } from "../conflicts/Implemented";
+import { DisallowedInputs } from "../conflicts/DisallowedInputs";
 
 export default class StructureDefinition extends Expression {
 
@@ -76,20 +78,18 @@ export default class StructureDefinition extends Expression {
        return new FunctionType(this.inputs, new StructureType(this));
     }
 
-    isInterface(): boolean {
-        const abstractFunctions = this.getAbstractFunctions();
-        return abstractFunctions !== undefined && abstractFunctions.length > 0;
-    }
+    isInterface(): boolean { return this.getAbstractFunctions().length > 0; }
+    getAbstractFunctions(): FunctionDefinition[] { return this.getFunctions(false); }
+    getImplementedFunctions(): FunctionDefinition[] { return this.getFunctions(true); }
 
-    getAbstractFunctions(): FunctionDefinition[] | undefined {
+    getFunctions(implemented?: boolean): FunctionDefinition[] {
 
-        if(this.block instanceof Unparsable || this.block === undefined) return undefined;
-        const functions: FunctionDefinition[] = this.block.statements.map(s => 
+        if(this.block instanceof Unparsable || this.block === undefined) return [];
+        return this.block.statements.map(s => 
             s instanceof FunctionDefinition ? s :
             (s instanceof Bind && s.value instanceof FunctionDefinition) ? s.value :
             undefined
-        ).filter(s => s !== undefined) as FunctionDefinition[];
-        return functions.filter(s => s.isAbstract());
+        ).filter(s => s !== undefined && (implemented === undefined || (implemented === true && !s.isAbstract()) || (implemented === false && s.isAbstract()))) as FunctionDefinition[];
 
     }
 
@@ -120,6 +120,15 @@ export default class StructureDefinition extends Expression {
 
         // Inputs must be valid.
         conflicts = conflicts.concat(getEvaluationInputConflicts(this.inputs));
+
+        // If the structure has unimplemented functions, it can't have any implemented functions.
+        if(this.isInterface()) {
+            const implemented = this.getImplementedFunctions();
+            if(implemented.length > 0)
+                conflicts.push(new Implemented(this, implemented));
+            if(this.inputs.length > 0)
+                conflicts.push(new DisallowedInputs(this));
+        }
 
         // If the structure specifies one or more interfaces, it must implement them.
         if(this.interfaces.length > 0 && this.block instanceof Block) {
