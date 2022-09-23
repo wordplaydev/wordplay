@@ -25,6 +25,7 @@ import OrderOfOperations from "../conflicts/OrderOfOperations";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import FunctionException from "../runtime/FunctionException";
+import JumpIf from "../runtime/JumpIf";
 
 export default class BinaryOperation extends Expression {
 
@@ -210,8 +211,35 @@ export default class BinaryOperation extends Expression {
         }
     }
 
-    compile(context: Context):Step[] {
-        return [ new Action(this), ...this.left.compile(context), ...this.right.compile(context), new Finish(this) ];
+    compile(context: Context): Step[] {
+
+        const left = this.left.compile(context);
+        const right = this.right.compile(context);
+
+        // Logical and is short circuited: if the left is false, we do not evaluate the right.
+        if(this.operator.getText() === AND_SYMBOL) {
+            return [ 
+                new Action(this), 
+                ...left,
+                // Jump past the right's instructions if false and just push a false on the stack.
+                new JumpIf(right.length + 2, true, false, this),
+                ...right, 
+                new Finish(this)
+            ];
+        }
+        // Logical OR is short circuited: if the left is true, we do not evaluate the right.
+        else if(this.operator.getText() === OR_SYMBOL) {
+            return [ 
+                new Action(this), 
+                ...left,
+                // Jump past the right's instructions if true and just push a true on the stack.
+                new JumpIf(right.length + 2, true, true, this),
+                ...right, 
+                new Finish(this)
+            ];
+        }
+        else
+            return [ new Action(this), ...left, ...right, new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value {

@@ -8,7 +8,7 @@ import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Step from "../runtime/Step";
-import JumpIfFalse from "../runtime/JumpIfFalse";
+import JumpIf from "../runtime/JumpIf";
 import Jump from "../runtime/Jump";
 import type Context from "./Context";
 import UnionType, { TypeSet } from "./UnionType";
@@ -75,7 +75,7 @@ export default class Conditional extends Expression {
         // Evaluate the condition, jump past the yes if false, otherwise evaluate the yes then jump past the no.
         return [ 
             ...this.condition.compile(context), 
-            new JumpIfFalse(yes.length + 1, this), 
+            new JumpIf(yes.length + 1, false, false, this), 
             ...yes, 
             new Jump(no.length, this),
             ...no 

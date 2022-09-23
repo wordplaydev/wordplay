@@ -15,7 +15,7 @@ import type Context from "./Context";
 import ConversionValue from "../runtime/ConversionValue";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
-import UnparsableException from "../runtime/SemanticException";
+import SemanticException from "../runtime/SemanticException";
 import ConversionType from "./ConversionType";
 import AnyType from "./AnyType";
 import FunctionException from "../runtime/FunctionException";
@@ -85,7 +85,7 @@ export default class Convert extends Expression {
 
     evaluate(evaluator: Evaluator) {
         
-        if(this.type instanceof Unparsable) return new UnparsableException(evaluator, this.type);
+        if(this.type instanceof Unparsable) return new SemanticException(evaluator, this.type);
         
         // Find the conversion function on the structure from compiling.
         const conversion = evaluator.popValue(new ConversionType(new AnyType()));

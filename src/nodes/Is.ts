@@ -17,7 +17,7 @@ import AccessName from "./AccessName";
 import StructureType from "./StructureType";
 import { IncompatibleType } from "../conflicts/IncompatibleType";
 import { TypeSet } from "./UnionType";
-import UnparsableException from "../runtime/SemanticException";
+import SemanticException from "../runtime/SemanticException";
 
 export default class Is extends Expression {
 
@@ -47,7 +47,7 @@ export default class Is extends Expression {
     }
     
     compile(context: Context): Step[] {
-        return this.type instanceof Unparsable ? [ new Halt(evaluator => new UnparsableException(evaluator, this.type), this) ] : [ ...this.expression.compile(context), new Finish(this) ];
+        return this.type instanceof Unparsable ? [ new Halt(evaluator => new SemanticException(evaluator, this.type), this) ] : [ ...this.expression.compile(context), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value {
@@ -55,7 +55,7 @@ export default class Is extends Expression {
         const left = evaluator.popValue(undefined);
 
         return this.type instanceof Unparsable ? 
-            new UnparsableException(evaluator, this.type) : 
+            new SemanticException(evaluator, this.type) : 
             new Bool(left.getType().isCompatible(this.type, evaluator.getContext()));
 
     }

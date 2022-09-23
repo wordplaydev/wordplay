@@ -19,7 +19,7 @@ import MapType from "./MapType";
 import Halt from "../runtime/Halt";
 import AnyType from "./AnyType";
 import type Bind from "./Bind";
-import UnparsableException from "../runtime/SemanticException";
+import SemanticException from "../runtime/SemanticException";
 
 export default class MapLiteral extends Expression {
 
@@ -62,7 +62,7 @@ export default class MapLiteral extends Expression {
 
     compile(context: Context):Step[] {
         return this.notAMap() ? 
-            [ new Halt(evaluator => new UnparsableException(evaluator, this), this) ] :
+            [ new Halt(evaluator => new SemanticException(evaluator, this), this) ] :
             [
                 new Action(this),
                 // Evaluate all of the item or key/value expressions

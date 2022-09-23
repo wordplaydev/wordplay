@@ -20,7 +20,7 @@ import { analyzeRow } from "./util";
 import Halt from "../runtime/Halt";
 import type Cell from "./Cell";
 import TypeException from "../runtime/TypeException";
-import UnparsableException from "../runtime/SemanticException";
+import SemanticException from "../runtime/SemanticException";
 import Exception from "../runtime/Exception";
 
 export default class Insert extends Expression {
@@ -93,7 +93,7 @@ export default class Insert extends Expression {
                     // Otherwise, loop through the required columns, finding the corresponding bind, and compiling it's expression, or the default if not found.
                     tableType.columns.reduce((steps: Step[], column) => {
                         const matchingCell: Cell | undefined = this.row.cells.find(cell => column.bind instanceof Bind && cell.value instanceof Bind && column.bind.sharesName(cell.value)) as Cell | undefined;
-                        if(matchingCell === undefined || !(matchingCell.value instanceof Bind) || matchingCell.value.value === undefined) return [ ... steps, new Halt(evaluator => new UnparsableException(evaluator, this), this) ];
+                        if(matchingCell === undefined || !(matchingCell.value instanceof Bind) || matchingCell.value.value === undefined) return [ ... steps, new Halt(evaluator => new SemanticException(evaluator, this), this) ];
                         return [ ... steps, ...matchingCell.value.value.compile(context) ];
                     }, [])
             ),

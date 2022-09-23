@@ -15,7 +15,7 @@ import type Bind from "./Bind";
 import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
 import type Evaluator from "../runtime/Evaluator";
-import UnparsableException from "../runtime/SemanticException";
+import SemanticException from "../runtime/SemanticException";
 
 export default class MeasurementLiteral extends Expression {
     
@@ -50,7 +50,7 @@ export default class MeasurementLiteral extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value {
-        if(this.unit instanceof Unparsable) return new UnparsableException(evaluator, this.unit);
+        if(this.unit instanceof Unparsable) return new SemanticException(evaluator, this.unit);
         // This needs to translate between different number formats.
         else return new Measurement(this.number, this.unit);
     }

@@ -11,7 +11,7 @@ import Halt from "../runtime/Halt";
 import type Bind from "./Bind";
 import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
-import UnparsableException from "../runtime/SemanticException";
+import SemanticException from "../runtime/SemanticException";
 import type Evaluator from "../runtime/Evaluator";
 import UnimplementedException from "../runtime/UnimplementedException";
 
@@ -37,7 +37,7 @@ export default class ExpressionPlaceholder extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value {
-        return new UnparsableException(evaluator, this);
+        return new SemanticException(evaluator, this);
     }
 
     clone(original?: Node, replacement?: Node) { 
