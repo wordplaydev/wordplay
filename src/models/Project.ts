@@ -56,11 +56,8 @@ export default class Project {
 
         // Generate documents based on the code.
         this.docs = [
-            // new Document("code", this.code.getText(), true),
             new Document("program", this.program),
-            // new Document("steps", this.steps.map((s, index) => `${index}: ${s.toString()}`).join("\n")),
-            // new Document("output", this.evaluator.getResult()?.toString() ?? "no result"),
-            new Document("render", this.wrapResult(this.evaluator.getResult()))
+            new Document("output", this.wrapResult(this.evaluator.getResult()))
         ];
 
     }
