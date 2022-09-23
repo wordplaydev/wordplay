@@ -15,7 +15,7 @@ export default class SemanticException extends Exception {
 
     getExplanations() {
         return {
-            "eng": `This code has a semantic error`
+            "eng": `${this.unparsable.toWordplay()} has a problem. Check for errors.`
         }
     };
 
