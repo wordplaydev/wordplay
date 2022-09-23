@@ -151,7 +151,6 @@
 
                 // If it produced a new caret and optionally a new project, update the stores.
                 if(result !== undefined) {
-
                     // Get the new caret and project to display.
                     const newCaret = result instanceof Caret ? result : result[1];
                     const newProject = result instanceof Caret ? undefined : result[0];
@@ -196,7 +195,9 @@
             }
             // Otherwise, just insert the grapheme and limit the input field to the last character.
             else {
+
                 const char = lastChar.toString();
+
                 const newProject = $project.withCharacterAt(char, $caret.position);
                 if(newProject) {
                     project.set(newProject);
@@ -220,14 +221,14 @@
 <div class="editor"
     bind:this={editor}
     on:mousedown={handleClick}
-    on:keydown={handleKeyDown}
 >
     <NodeView node={program} />
     <input 
         type="text" 
         class="keyboard-input" 
         bind:this={keyboard} 
-        on:input={handleKeyboardInput} 
+        on:input={handleKeyboardInput}
+        on:keydown={handleKeyDown}
     />
 </div>
 

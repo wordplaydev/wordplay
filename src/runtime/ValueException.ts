@@ -10,7 +10,7 @@ export default class UnparasableException extends Exception {
 
     getExplanations() {
         return {
-            "eng": `Expected a value on the stack while implementing ${this.step?.node.toWordplay()}, but there wasn't one.`
+            "eng": `Expected a value on the stack after executing ${this.step?.node.toWordplay()}, but there wasn't one.`
         }
     };
 

@@ -17,7 +17,7 @@ export default class FunctionException extends Exception {
 
     getExplanations() {
         return {
-            "eng": `Couldn't find ${this.verb.toString()} on ${this.subject ===  undefined ? "this" : this.subject.toString()}.`
+            "eng": `Couldn't find function named ${this.verb.toString()} on ${this.subject ===  undefined ? "this" : this.subject.toString()}.`
         }
     };
 
