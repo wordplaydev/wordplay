@@ -1,11 +1,11 @@
 import { testConflict, testTypes } from "../conflicts/TestUtilities";
-import { IncompatibleInput } from "../conflicts/IncompatibleInput";
-import { NotInstantiable } from "../conflicts/NotInstantiable";
-import { NotAFunction } from "../conflicts/NotAFunction";
+import IncompatibleInput from "../conflicts/IncompatibleInput";
+import NotInstantiable from "../conflicts/NotInstantiable";
+import NotAFunction from "../conflicts/NotAFunction";
 import Evaluator from "../runtime/Evaluator";
 import Evaluate from "./Evaluate";
-import { MissingInput } from "../conflicts/MissingInput";
-import { UnexpectedInput } from "../conflicts/UnexpectedInput";
+import MissingInput from "../conflicts/MissingInput";
+import UnexpectedInput from "../conflicts/UnexpectedInput";
 import MeasurementType from "./MeasurementType";
 import SetType from "./SetType";
 import MapType from "./MapType";

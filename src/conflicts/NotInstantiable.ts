@@ -3,8 +3,7 @@ import type FunctionDefinition from "../nodes/FunctionDefinition";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import Conflict from "./Conflict";
 
-
-export class NotInstantiable extends Conflict {
+export default class NotInstantiable extends Conflict {
     readonly evaluate: Evaluate;
     readonly definition: StructureDefinition;
     readonly abstractFunctions: FunctionDefinition[];

@@ -6,7 +6,7 @@ import type Expression from "../nodes/Expression";
 import type Bind from "../nodes/Bind";
 import type Type from "../nodes/Type";
 
-export class IncompatibleInput extends Conflict {
+export default class IncompatibleInput extends Conflict {
     
     readonly func: FunctionType | StructureType;
     readonly evaluate: Evaluate;

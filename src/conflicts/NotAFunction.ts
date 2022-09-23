@@ -3,7 +3,7 @@ import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
 
 
-export class NotAFunction extends Conflict {
+export default class NotAFunction extends Conflict {
     readonly evaluate: Evaluate;
     readonly received: Type;
     constructor(evaluate: Evaluate, received: Type) {

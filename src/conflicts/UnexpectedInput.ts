@@ -4,7 +4,7 @@ import type FunctionType from "../nodes/FunctionType";
 import Conflict from "./Conflict";
 import type Bind from "../nodes/Bind";
 
-export class UnexpectedInput extends Conflict {
+export default class UnexpectedInput extends Conflict {
     readonly func: FunctionType | StructureType;
     readonly evaluate: Evaluate;
     readonly expected: Bind;

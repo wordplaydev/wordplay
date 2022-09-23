@@ -5,7 +5,7 @@ import Conflict from "./Conflict";
 import type Bind from "../nodes/Bind";
 
 
-export class MissingInput extends Conflict {
+export default class MissingInput extends Conflict {
     readonly func: FunctionType | StructureType;
     readonly evaluate: Evaluate;
     readonly input: Bind;

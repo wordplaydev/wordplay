@@ -1,11 +1,11 @@
 import Bind from "../nodes/Bind";
 import type Conflict from "../conflicts/Conflict";
-import { UnexpectedInput } from "../conflicts/UnexpectedInput";
-import { MissingInput } from "../conflicts/MissingInput";
-import { UnexpectedInputs } from "../conflicts/UnexpectedInputs";
-import { IncompatibleInput } from "../conflicts/IncompatibleInput";
-import { NotInstantiable } from "../conflicts/NotInstantiable";
-import { NotAFunction } from "../conflicts/NotAFunction";
+import UnexpectedInput from "../conflicts/UnexpectedInput";
+import MissingInput from "../conflicts/MissingInput";
+import UnexpectedInputs from "../conflicts/UnexpectedInputs";
+import IncompatibleInput from "../conflicts/IncompatibleInput";
+import NotInstantiable from "../conflicts/NotInstantiable";
+import NotAFunction from "../conflicts/NotAFunction";
 import StructureType from "./StructureType";
 import Expression from "./Expression";
 import FunctionType from "./FunctionType";

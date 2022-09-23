@@ -7,7 +7,7 @@ import type Expression from "../nodes/Expression";
 import type Bind from "../nodes/Bind";
 
 
-export class UnexpectedInputs extends Conflict {
+export default class UnexpectedInputs extends Conflict {
 
     readonly func: FunctionType | StructureType;
     readonly evaluate: Evaluate;
