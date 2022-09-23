@@ -284,6 +284,11 @@ const commands: Command[] = [
         execute: (caret: Caret) => insertChar(caret, PLACEHOLDER_SYMBOL)
     },
     {
+        description: "Insert multiply symbol (×)",
+        alt: true, key: "KeyX",
+        execute: (caret: Caret) => insertChar(caret, "×")
+    },
+    {
         description: "Insert divide symbol (÷)",
         alt: true, key: "Slash",
         execute: (caret: Caret) => insertChar(caret, "÷")
