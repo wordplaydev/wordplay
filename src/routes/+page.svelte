@@ -6,7 +6,7 @@
     import { examples } from '../examples/examples';
     import Caret from '../models/Caret';
 
-    const newProject = new Project("Play", examples.WhatWord, () => project.set($project));
+    const newProject = new Project("Play", examples.WhatWord, () => project.set($project) );
     project.set(newProject);
     caret.set(new Caret(newProject, 0));
 

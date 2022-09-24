@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import type Caret from './Caret';
 import type Project from './Project';
 
@@ -7,3 +7,10 @@ export const project = writable<Project|undefined>(undefined);
 
 // A store that contains the current editor's curosr.
 export const caret = writable<Caret|undefined>(undefined);
+
+export function updateProject(newProject: Project) {
+
+    get(project)?.cleanup();
+    project.set(newProject);
+
+}

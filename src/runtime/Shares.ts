@@ -11,6 +11,7 @@ import Keyboard from "../native/Keyboard";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import type Evaluator from "./Evaluator";
 import Layout, { Vertical } from "../native/Layout";
+import Microphone from "../native/Microphone";
 
 export const DEFAULT_SHARES: Record<string, Value> = {}
 
@@ -37,6 +38,7 @@ export default class Shares {
     readonly mouseButton: MouseButton;
     readonly mousePosition: MousePosition;
     readonly keyboard: Keyboard;
+    readonly microphone: Microphone;
 
     constructor(evaluator: Evaluator, bindings?: Record<string, Value>) {
 
@@ -64,6 +66,10 @@ export default class Shares {
         this.keyboard = new Keyboard(evaluator);
         Object.values(this.keyboard.getNames()).forEach(name => this.bind(name, this.keyboard));
 
+        // Share the microphone.
+        this.microphone = new Microphone();
+        Object.values(this.microphone.getNames()).forEach(name => this.bind(name, this.microphone));
+        
     }
 
     getStreams(): Stream[] {

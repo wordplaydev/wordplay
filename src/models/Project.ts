@@ -65,8 +65,7 @@ export default class Project {
     handleResult(result: Value | undefined) {
 
         if(this.docs) {
-            // this.docs[1] = new Document("output", result?.toString() ?? "no result");
-            this.docs[1] = new Document("render", this.wrapResult(result));
+            this.docs[1] = new Document("output", this.wrapResult(result));
             this.updater.call(undefined);
         }
 

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { examples } from '../examples/examples';
-    import { caret, project } from '../models/stores';
+    import { caret, project, updateProject } from '../models/stores';
     import Caret from '../models/Caret';
 
     let example: string;
@@ -8,7 +8,7 @@
     function handleChange() {
         if($project) {
             const newProject = $project.withCode(examples[example]);
-            project.set(newProject);
+            updateProject(newProject);
             caret.set(new Caret(newProject, 0));
         }
     }

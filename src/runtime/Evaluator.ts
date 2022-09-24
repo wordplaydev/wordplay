@@ -94,6 +94,7 @@ export default class Evaluator {
 
     /** Stops listening to listeners and halts execution. */
     stop() {
+
         // Stop all borrowed streams and stop listening to them.
         this.borrowedStreams.forEach(stream => {
             stream.stop();

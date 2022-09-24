@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { caret, project } from '../models/stores';
+    import { caret, project, updateProject } from '../models/stores';
     import Token from '../nodes/Token';
     import Caret from '../models/Caret';
     import type Program from '../nodes/Program';
@@ -158,7 +158,7 @@
                     // Update the caret and project.
                     caret.set(newCaret);
                     if(newProject)
-                        project.set(newProject);
+                        updateProject(newProject);
 
                 }
 
@@ -189,7 +189,7 @@
                 const char = lastChar.toString();
                 const newProject = $project.withPreviousCharacterReplaced(char, $caret.position);
                 if(newProject) {
-                    project.set(newProject);
+                    updateProject(newProject);
                     keyboard.value = "";
                 }
             }
@@ -200,7 +200,7 @@
 
                 const newProject = $project.withCharacterAt(char, $caret.position);
                 if(newProject) {
-                    project.set(newProject);
+                    updateProject(newProject);
                     caret.set(new Caret(newProject, $caret.position + 1));
                 }
                 if(value.getLength() > 1)

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { caret, project } from '../models/stores';
+    import { caret, project, updateProject } from '../models/stores';
     import type Document from "../models/Document";
     import Value from '../runtime/Value';
     import Text from '../runtime/Text';
@@ -68,11 +68,9 @@
         // triggering a rerender.
         if($project !== undefined) {
             const newCode = (event.target as HTMLTextAreaElement).value;
-            // Clean up the project before we create a new one.
-            $project.cleanup();
             // Make a new one based on the new program
             const newProject = $project.withCode(newCode);
-            project.set(newProject);
+            updateProject(newProject);
             caret.set(new Caret(newProject, 0));
         }
     }

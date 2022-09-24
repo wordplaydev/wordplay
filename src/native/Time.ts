@@ -3,6 +3,8 @@ import Unit from "../nodes/Unit";
 import Measurement from "../runtime/Measurement";
 import Stream from "../runtime/Stream";
 
+export const FREQUENCY = 33;
+
 export default class Time extends Stream {
 
     timerID: NodeJS.Timer | undefined;
@@ -22,7 +24,7 @@ export default class Time extends Stream {
         this.startTime = Date.now();
 
         // Tick every 33 milliseconds, trying to achieve a 30 fps frame rate.
-        this.timerID = setInterval(() => this.tick(), 33);
+        this.timerID = setInterval(() => this.tick(), FREQUENCY);
 
     }
 
