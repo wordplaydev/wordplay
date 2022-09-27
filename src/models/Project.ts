@@ -74,7 +74,12 @@ export default class Project {
     }
 
     handleStep() {
-        this.updater.call(undefined);
+        if(this.docs) {
+            // Otherwise, show the current step's description.
+            const explanation = this.evaluator.currentStep()?.getExplanations(this.evaluator)["eng"];
+            this.docs[1] = new Document("output", new Text(explanation !== undefined ? explanation : "No step"));
+            this.updater.call(undefined);
+        }
     }
 
     handleEvaluation(result: Value | undefined) {
@@ -88,8 +93,10 @@ export default class Project {
 
     wrapResult(value: Value | undefined): Value {
 
-        if(value instanceof Value) return value;
-        else return new Text("No result");
+        // If there's a value, show it.
+        return value instanceof Value ?
+            value :
+            new Text("No value :(");
         
     }
 
