@@ -37,7 +37,7 @@ export default class Source {
     
     readonly observers: Set<() => void> = new Set();
 
-    constructor(name: string, code: string | UnicodeString, mode: EvaluationMode, observers?: Set<() => void>) {
+    constructor(name: string, code: string | UnicodeString, mode: EvaluationMode="play", observers?: Set<() => void>) {
 
         this.name = name;
         this.code = typeof code === "string" ? new UnicodeString(code) : code;

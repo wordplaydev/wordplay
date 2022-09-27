@@ -1,5 +1,9 @@
-export const examples: Record<string, string> = {
-WhatWord:
+import Project from "../models/Project";
+import Source from "../models/Source";
+
+export const examples = [
+    new Project("WhatWord", new Source("main", 
+
 `↓ ⌨️
 \`The game state is a list of guesses and a secret word.\`/eng
 \`El estado del juego es una lista de conjeturas y una palabra secreta.\`/spa
@@ -38,36 +42,29 @@ screen:
 \tstate.status() = "won" ?   Group(Vertical() board Phrase("You won, nice job! Press space to play again."))
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t Group(Vertical() board Phrase("Guesses: \\state.guesses.join(' ')\\" 16pt) Phrase("\\state.guessesRemaining()→''\\ remaining" 12pt))
 
-Verse(screen)
-`,
-Listen:
+Verse(screen)`
+
+), []),
+
+    new Project("Listen", new Source("main",
+
 `↓🎤
-Phrase(🎤 > 50 ? "🔈🔈" "🔈" 1pt × 🎤)
-`,
-Talk:
+Phrase(🎤 > 50 ? "🔈🔈" "🔈" 1pt × 🎤)`), []),
+
+    new Project("Talk", new Source("main",
+
 `↓🎤
-Phrase(🎤 > 50 ? "😮" "😐" 60pt + (1pt × ((🎤 > 50 ? 🎤 - 50 50) ÷ 5)))
-`,
-AnimatedFace: 
+Phrase(🎤 > 50 ? "😮" "😐" 60pt + (1pt × ((🎤 > 50 ? 🎤 - 50 50) ÷ 5)))`
+
+    ), []),
+    
+    new Project("AnimatedFace", new Source("main",
 `
 ↓⏱
 🥹: {⊤: «😀» ⊥: «😂»}
-∥: ⏱ % 2 = 0ms
+∥: (⏱ % 2) = 0ms
 Phrase(🥹{∥} 32pt «Noto Sans»)
-`,
-Guards:
 `
-a: 1 > 0 ? 1 "hi"
-¬((a•#)∧(a > 1)) ? a + 1 a
-`,
-AccessGuards:
-`
-•Cat(name•""•#)
-a: Cat(1)
-a.name•# ? a.name + 1 a
-`,
-Interfaces:
-`•Animal() ( ƒ sound()•"" … )
-•Cat •Animal() ( ƒ speak() "meow" )
-`
-};
+    ), [])
+
+];

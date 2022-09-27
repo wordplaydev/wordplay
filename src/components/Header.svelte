@@ -1,13 +1,12 @@
 <script lang="ts">
     import { examples } from '../examples/examples';
     import { updateProject } from '../models/stores';
-    import Project from '../models/Project';
-    import Source from '../models/Source';
+    import type Project from '../models/Project';
 
-    let example: string;
+    let example: Project;
 
     function handleChange() {
-        updateProject(new Project(example, new Source("start", examples[example], "play"), []));
+        updateProject(example);
     }
 
 </script>
@@ -15,8 +14,8 @@
 <div>
     Wordplay
     <select bind:value={example} on:change={handleChange}>
-        {#each Object.keys(examples) as example }
-            <option>{example}</option>
+        {#each examples as example }
+            <option value={example}>{example.getName()}</option>
         {/each}
     </select>
 </div>

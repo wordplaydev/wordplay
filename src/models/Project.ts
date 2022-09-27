@@ -17,6 +17,8 @@ export default class Project {
 
     }
 
+    getName() { return this.name; }
+
     cleanup() { 
         this.main.cleanup();
         this.supplements.forEach(supp => supp.cleanup());
