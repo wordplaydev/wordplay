@@ -1,24 +1,35 @@
 <script lang="ts">
-    import { caret, project, updateProject } from '../models/stores';
+    import { project, updateProject } from '../models/stores';
     import Node from '../nodes/Node';
     import Token from '../nodes/Token';
     import Caret from '../models/Caret';
-    import type Program from '../nodes/Program';
-    import { afterUpdate } from 'svelte';
+    import { afterUpdate, setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
     import commands, { getTokenByView } from './Commands';
     import NodeView from './NodeView.svelte';
+    import type Source from '../models/Source';
+    import { writable } from 'svelte/store';
 
-    export let program: Program;
+    export let source: Source;
 
     let editor: HTMLElement;
     let keyboard: HTMLInputElement;
+    $: program = source.program;
+
+    // A per-editor store that contains the current editor's cursor. We expose it as context to children.
+    let caret = writable<Caret>(new Caret(source, 0));
     
+    // When the source changes, update the caret with the source.
+    $: {
+        caret.set($caret.withSource(source));
+        setContext("caret", caret);
+    }
+
     // When the caret changes, make sure it's in view.
     afterUpdate(() => {
         const caretView = editor?.querySelector(".caret");
         const viewport = editor?.parentElement;
-        if(caretView && viewport && $project?.getEvaluator().getLatestResult() !== undefined) {
+        if(caretView && viewport && source.evaluator.getLatestResult() !== undefined) {
 
             // Move the scroll bars as necessary.
             ensureElementIsVisible(caretView);
@@ -38,9 +49,9 @@
 
     // When project updates, make executing node visible.
     $: {
-        let executingNode = $project?.getEvaluator().currentStep()?.node;
+        let executingNode = source.getEvaluator().currentStep()?.node;
         // If the program contains this node, scroll to it's view.
-        if(executingNode instanceof Node && program.contains(executingNode)) {
+        if(executingNode instanceof Node && source.program.contains(executingNode)) {
             const element = document.querySelector(`[data-id="${executingNode.id}"]`);
             if(element !== null)
                 ensureElementIsVisible(element, true);
@@ -157,8 +168,6 @@
 
     function handleKeyDown(event: KeyboardEvent) {
 
-        if($caret === undefined) return;
-
         // Map meta to control on Mac OS/iOS.
         const control = event.metaKey || event.ctrlKey;
 
@@ -183,12 +192,15 @@
                 if(result !== undefined) {
                     // Get the new caret and project to display.
                     const newCaret = result instanceof Caret ? result : result[1];
-                    const newProject = result instanceof Caret ? undefined : result[0];
+                    const newSource = result instanceof Caret ? undefined : result[0];
 
                     // Update the caret and project.
-                    caret.set(newCaret);
-                    if(newProject)
-                        updateProject(newProject);
+                    if(newSource) {
+                        updateProject($project.withSource(source, newSource));
+                        caret.set(newCaret.withSource(newSource));
+                    } else {
+                        caret.set(newCaret);
+                    }
 
                 }
 
@@ -205,7 +217,7 @@
     function handleKeyboardInput(event: Event) {
         // Get the character that was typed into the text box.
         // If it's a string, insert it at the caret position then reset the text input's contents.
-        if($project && $caret && typeof $caret.position === "number" && keyboard !== null) {
+        if(typeof $caret.position === "number" && keyboard !== null) {
 
             // Wrap the string in a unicode wrapper so we can account for graphemes.
             const value = new UnicodeString(keyboard.value);
@@ -217,9 +229,9 @@
             // Replace the last grapheme entered with this grapheme, then reset the input text field.
             if(lastKeyboardInputValue !== undefined && lastKeyboardInputValue.getLength() === value.getLength()) {
                 const char = lastChar.toString();
-                const newProject = $project.withPreviousCharacterReplaced(char, $caret.position);
-                if(newProject) {
-                    updateProject(newProject);
+                const newSource = source.withPreviousCharacterReplaced(char, $caret.position);
+                if(newSource) {
+                    updateProject($project.withSource(source, newSource));
                     keyboard.value = "";
                 }
             }
@@ -228,10 +240,10 @@
 
                 const char = lastChar.toString();
 
-                const newProject = $project.withCharacterAt(char, $caret.position);
-                if(newProject) {
-                    updateProject(newProject);
-                    caret.set(new Caret(newProject, $caret.position + 1));
+                const newSource = source.withCharacterAt(char, $caret.position);
+                if(newSource) {
+                    updateProject($project.withSource(source, newSource));
+                    caret.set(new Caret(newSource, $caret.position + 1));
                 }
                 if(value.getLength() > 1)
                     keyboard.value = lastChar.toString();

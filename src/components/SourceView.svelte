@@ -1,0 +1,99 @@
+<script lang="ts">
+    import { project, updateProject } from '../models/stores';
+    import VerseView from './VerseView.svelte';
+    import Editor from '../editor/Editor.svelte';
+    import type Source from '../models/Source';
+    import { onDestroy } from 'svelte';
+
+    export let source: Source;
+    let previousSource: Source;
+
+    $: {
+        previousSource?.ignore(handleEvaluation);
+        source.observe(handleEvaluation);
+    }
+
+    $: verse = source.getVerse();
+
+
+    let evaluator = source.evaluator;
+    let autoplay = true;
+
+    function handleEvaluation() {
+        source = source;
+        verse = source.getVerse();
+    }
+
+    function handleStep() {
+        source.evaluator.stepWithinProgram();
+    }
+
+    function playPause() {
+        autoplay = !autoplay;
+        updateProject($project.withSource(source, source.withMode(autoplay ? "play" : "step")));
+    }
+
+    onDestroy(() => source.ignore(handleEvaluation));
+
+</script>
+
+<div class="source">
+    <div class="source-title">
+        {source.getName()}
+        <small>
+            <!-- If it's output, show controls -->
+            <span on:click={playPause}>{autoplay ? "⏸" : "▶️"}</span>
+            <button on:click={handleStep} disabled={autoplay || source.getEvaluator().isDone()}>step</button>
+        </small>
+    </div>
+    <div class="split">
+        <div class="source-content">
+            <Editor source={source} />
+        </div>
+        <div class="source-content">
+            <VerseView verse={verse} evaluator={evaluator}/>
+        </div>
+    </div>
+</div>
+
+<style>
+    .source {
+        min-width: 40em;
+        display: flex;
+        flex-flow: column;
+        flex: 1; /* Have each document fill an equal amount of space in the window manager */
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+    }
+
+    .source-title {
+        height: auto;
+        background: var(--wordplay-chrome);
+        padding: var(--wordplay-spacing);
+        border-bottom: var(--wordplay-border-width) solid var(--wordplay-border-color);
+    }
+
+    .split {
+        display: flex;
+    }
+
+    .source-content {
+        flex: 1; /* 50/50 split */
+        height: 100%;
+        min-height: 10rem;
+        max-height: 40rem;
+        background: var(--wordplay-background);
+        color: var(--wordplay-foreground);
+        box-sizing: border-box;
+        overflow: scroll;
+    }
+
+    .source-content:first-child {
+        border-right: var(--wordplay-border-width) solid var(--wordplay-border-color);;
+    }
+
+    .source-content:focus-within {
+        outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
+    }
+
+</style>

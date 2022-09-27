@@ -3,8 +3,10 @@
     import { TAB_WIDTH } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { TokenCategories } from "./TokenCategories";
-    import { caret } from "../models/stores";
     import keyboardIdle from "../models/KeyboardIdle";
+    import type Caret from "../models/Caret";
+    import { getContext } from "svelte";
+    import type { Writable } from "svelte/store";
 
     export let node: Token;
 
@@ -12,6 +14,8 @@
     
     // A cache of view widths at different positions, since this is expensive to compute.
     let caretPositions: Record<number, number> = {};
+
+    let caret = getContext<Writable<Caret>>("caret");
 
     $: kind = node.types[0] !== undefined ? TokenCategories.get(node.types[0]) : "default";
 
@@ -106,8 +110,8 @@
                         let index = whitespaceIndex - 1;
                         let count = 0;
                         // Keep looping until we find a non-space, non-tab character.
-                        while(index > 0 && $caret.project.code.at(index) !== "\n") { 
-                            const char = $caret.project.code.at(index);
+                        while(index > 0 && $caret.getCode().at(index) !== "\n") { 
+                            const char = $caret.getCode().at(index);
                             count = count + (char === "\t" ? TAB_WIDTH : 1); 
                             index--;
                         }

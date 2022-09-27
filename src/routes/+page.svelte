@@ -1,14 +1,6 @@
 <script>
 
-    import Project from '../models/Project';
     import Manager from '../components/Manager.svelte';
-    import { caret, project } from '../models/stores';
-    import { examples } from '../examples/examples';
-    import Caret from '../models/Caret';
-
-    const newProject = new Project("Play", examples.WhatWord, "play", () => project.set($project) );
-    project.set(newProject);
-    caret.set(new Caret(newProject, 0));
 
 </script>
 

@@ -1,27 +1,28 @@
 import Node from "../nodes/Node";
 import Token from "../nodes/Token";
-import type Project from "./Project";
+import type Source from "./Source";
 
 export default class Caret {
 
     readonly time: number;
-    readonly project: Project;
+    readonly source: Source;
     readonly position: number | Node;
 
-    constructor(project: Project, position: number | Node) {
+    constructor(source: Source, position: number | Node) {
         this.time = Date.now();
-        this.project = project;
+        this.source = source;
         this.position = position;
     }
 
-    getProgram() { return this.project.program; }
+    getCode() { return this.source.getCode(); }
+    getProgram() { return this.source.program; }
     getToken(): Token | undefined {
         return (typeof this.position === "number") ? 
             this.getProgram().nodes().find(token => token instanceof Token && token.containsPosition(this.position as number)) as Token | undefined : 
             undefined;
     }
 
-    isEnd() { return this.isIndex() && this.position === this.project.code.getLength() }
+    isEnd() { return this.isIndex() && this.position === this.source.getCode().getLength() }
     isIndex() { return typeof this.position === "number"; }
     getIndex() { return this.isIndex() ? this.position as number : undefined; }
 
@@ -31,7 +32,7 @@ export default class Caret {
     // Get the code position corresponding to the beginning of the given row.
     rowPosition(row: number): number | undefined {
 
-        const lines = this.project.code.getLines();
+        const lines = this.source.getCode().getLines();
         if(row < 0 || row >= lines.length) return undefined;
         let rowPosition = 0;
         for(let i = 0; i < row; i++)
@@ -45,7 +46,7 @@ export default class Caret {
         if(typeof this.position === "number") {
             let column = 0;
             let index = this.position;
-            while(index > 0 && this.project.code.at(index) !== "\n") { 
+            while(index > 0 && this.source.getCode().at(index) !== "\n") { 
                 index = index - 1; 
                 column = column + 1; 
             }
@@ -57,9 +58,9 @@ export default class Caret {
     between(start: number, end: number): boolean { 
         return typeof this.position === "number" && 
             // It must be after the start OR at the start and not whitespace
-            (this.position > start || (this.position === start && (start === 0 || !this.isWhitespace(this.project.code.at(start) ?? '')))) && 
+            (this.position > start || (this.position === start && (start === 0 || !this.isWhitespace(this.source.getCode().at(start) ?? '')))) && 
             // ... and it must be before the end OR at the end and either the very end or at whitespace.
-            (this.position < end || (this.position === end && (this.isWhitespace(this.project.code.at(this.position) ?? ''))));
+            (this.position < end || (this.position === end && (this.isWhitespace(this.source.getCode().at(this.position) ?? ''))));
     }
 
     left(): Caret { return this.moveHorizontal(-1); }
@@ -68,12 +69,12 @@ export default class Caret {
     nextNewline(direction: -1 | 1): Caret | undefined {
         if(typeof this.position !== "number") return undefined;
         let pos = this.position;
-        while(pos >= 0 && pos < this.project.code.getLength()) {
+        while(pos >= 0 && pos < this.source.getCode().getLength()) {
             pos += direction;
-            if(this.project.code.at(pos) === "\n")
+            if(this.source.getCode().at(pos) === "\n")
                 break;
         }
-        return this.withPosition(Math.min(Math.max(0, pos), this.project.code.getLength()));
+        return this.withPosition(Math.min(Math.max(0, pos), this.source.getCode().getLength()));
     }
 
     moveHorizontal(direction: -1 | 1): Caret {
@@ -88,7 +89,7 @@ export default class Caret {
                 return this;
         }
         else {
-            const stop = direction < 0 ? 0 : this.project.code.getLength();
+            const stop = direction < 0 ? 0 : this.source.getCode().getLength();
             if(this.position === stop) return this;
             // This needs to be Unicode aware, as we don't want to navgiate to the next code point, but rather the
             // next grapheme in the string. To find this, we have to find the position of the next grapheme in the program.
@@ -99,7 +100,9 @@ export default class Caret {
 
     withPosition(position: number | Node): Caret { 
         if(typeof position === "number" && isNaN(position)) throw Error("NaN on caret set!");
-        return new Caret(this.project, typeof position === "number" ? Math.max(0, Math.min(position, this.project.code.getLength())) : position); 
+        return new Caret(this.source, typeof position === "number" ? Math.max(0, Math.min(position, this.source.getCode().getLength())) : position); 
     }
+
+    withSource(source: Source) { return new Caret(source, this.position); }
 
 }

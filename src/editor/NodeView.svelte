@@ -1,5 +1,7 @@
 <script lang="ts">
-    import { caret, project } from "../models/stores";
+    import { getContext } from "svelte";
+    import type { Writable } from "svelte/types/runtime/store";
+    import type Caret from "../models/Caret";
     import Node from "../nodes/Node";
     import Exception from "../runtime/Exception";
     import renderNode from "./renderNode";
@@ -8,12 +10,13 @@
     export let block: boolean = false;
     export let mousedown: undefined | ((event: MouseEvent) => void) = undefined;
 
-    $: primaryConflicts = node === undefined || $project === undefined ? [] : $project.getPrimaryConflictsInvolvingNode(node) ?? [];
-    $: secondaryConflicts = node === undefined || $project === undefined ? [] : $project.getSecondaryConflictsInvolvingNode(node) ?? [];
-    $: value = $project?.getEvaluator().getLatestResult();
+    $: caret = getContext<Writable<Caret>>("caret");
+
+    $: primaryConflicts = node === undefined ? [] : $caret.source.getPrimaryConflictsInvolvingNode(node) ?? [];
+    $: secondaryConflicts = node === undefined ? [] : $caret.source.getSecondaryConflictsInvolvingNode(node) ?? [];
+    $: value = $caret.source.getEvaluator().getLatestResult();
     $: executing = 
-        $project !== undefined &&
-        (($project.getEvaluator().currentStep()?.node === node) || 
+        (($caret.source.getEvaluator().currentStep()?.node === node) || 
          (value instanceof Exception && value.step?.node instanceof Node && value.step.node === node));
 
 </script>
@@ -21,7 +24,7 @@
 <!-- Don't render anything if we weren't given a node. TODO Interface for replacing with a slot. -->
 {#if node !== undefined}
 <div 
-    class="{node.constructor.name} node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"} {primaryConflicts.length > 0 ? "primary-conflict" : ""} {secondaryConflicts.length > 0 ? "secondary-conflict" : ""} {executing ? "executing" : ""}"
+    class="{node.constructor.name} node-view {$caret.position === node ? "selected" : ""} {block ? "block" : "inline"} {primaryConflicts.length > 0 ? "primary-conflict" : ""} {secondaryConflicts.length > 0 ? "secondary-conflict" : ""} {executing ? "executing" : ""}"
     data-id={node.id}
     on:mousedown={mousedown}
 ><svelte:component this={renderNode(node)} node={node} />{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation("eng")}</div>{/each}</div>{/if}</div>

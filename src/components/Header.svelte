@@ -1,16 +1,13 @@
 <script lang="ts">
     import { examples } from '../examples/examples';
-    import { caret, project, updateProject } from '../models/stores';
-    import Caret from '../models/Caret';
+    import { updateProject } from '../models/stores';
+    import Project from '../models/Project';
+    import Source from '../models/Source';
 
     let example: string;
 
     function handleChange() {
-        if($project) {
-            const newProject = $project.withCode(examples[example]);
-            updateProject(newProject);
-            caret.set(new Caret(newProject, 0));
-        }
+        updateProject(new Project(example, new Source("start", examples[example], "play"), []));
     }
 
 </script>

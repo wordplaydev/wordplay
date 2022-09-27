@@ -2,8 +2,8 @@ import Caret from "../models/Caret";
 import type Program from "../nodes/Program";
 import Node from "../nodes/Node";
 import Token from "../nodes/Token";
-import type Project from "../models/Project";
 import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBOL, NOT_SYMBOL, OR_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL, STREAM_SYMBOL, TRUE_SYMBOL, TYPE_SYMBOL, TYPE_VAR_SYMBOL } from "../parser/Tokenizer";
+import type Source from "../models/Source";
 
 export type Command = {
     description: string,
@@ -11,7 +11,7 @@ export type Command = {
     shift?: boolean,
     alt?: boolean,
     control?: boolean,
-    execute: (caret: Caret, editor: HTMLElement, key: string) => Caret | [ Project, Caret] | undefined
+    execute: (caret: Caret, editor: HTMLElement, key: string) => Caret | [ Source, Caret] | undefined
 }
 
 export function getTokenByView(program: Program, tokenView: Element) {
@@ -30,18 +30,18 @@ function caretVertical(editor: HTMLElement, caret: Caret, direction: 1 | -1): Ca
     let position = caret.position;
     if(direction < 0) {
         // Keep moving previous while the symbol before isn't a newline.
-        while(caret.project.code.at(position - 1) !== undefined && caret.project.code.at(position - 1) !== "\n") position--;
+        while(caret.getCode().at(position - 1) !== undefined && caret.getCode().at(position - 1) !== "\n") position--;
         // Move the before the newline to the line above.
         position--;
         // Move to the beginning of this line.
-        while(caret.project.code.at(position - 1) !== undefined && caret.project.code.at(position - 1) !== "\n") position--;
+        while(caret.getCode().at(position - 1) !== undefined && caret.getCode().at(position - 1) !== "\n") position--;
     }
     else {
         // If we're at a newline, just move forward past it to the beginning of the next line.
-        if(caret.project.code.at(position) === "\n") position++;
+        if(caret.getCode().at(position) === "\n") position++;
         // Otherwise, move forward until we find a newline, then move past it.
         else {
-            while(caret.project.code.at(position) !== undefined && caret.project.code.at(position) !== "\n") position++;
+            while(caret.getCode().at(position) !== undefined && caret.getCode().at(position) !== "\n") position++;
             position++;
         }
     }
@@ -49,7 +49,7 @@ function caretVertical(editor: HTMLElement, caret: Caret, direction: 1 | -1): Ca
     // If we hit the beginning, set the position to the beginning.
     if(position < 0) return caret.withPosition(0);
     // If we hit the end, set the position to the end.
-    if(position >= caret.project.code.getLength()) return caret.withPosition(caret.project.code.getLength());
+    if(position >= caret.getCode().getLength()) return caret.withPosition(caret.getCode().getLength());
     
     // Get the starting token on this line.
     let currentToken: Token | undefined = caret.getProgram().nodes().find(token => token instanceof Token && token.containsPosition(position as number)) as Token | undefined;
@@ -81,7 +81,7 @@ function caretVertical(editor: HTMLElement, caret: Caret, direction: 1 | -1): Ca
                     distance: Math.min(Math.abs(caretX - rect.left), Math.abs(caretX - rect.right))
                 });
             }
-            currentToken = caret.project.getNextToken(currentToken, 1);
+            currentToken = caret.source.getNextToken(currentToken, 1);
             // If we reached a token with newlines, then we're done adding tokens for consideration.
             if(currentToken && currentToken.newlines > 0) break;
         }
@@ -105,16 +105,16 @@ function caretVertical(editor: HTMLElement, caret: Caret, direction: 1 | -1): Ca
 
 }
 
-function insertChar(caret: Caret, char: string): [ Project, Caret] | undefined {
+function insertChar(caret: Caret, char: string): [ Source, Caret] | undefined {
     if(typeof caret.position === "number") {
-        const newProject = caret.project.withCharacterAt(char, caret.position);
+        const newProject = caret.source.withCharacterAt(char, caret.position);
         return newProject === undefined ? undefined : [ newProject, new Caret(newProject, caret.position + 1) ];
     }
 }
 
-function backspace(caret: Caret): [ Project, Caret] | undefined  {
+function backspace(caret: Caret): [ Source, Caret] | undefined  {
     if(typeof caret.position === "number") {
-        const newProject = caret.project.withoutGraphemeAt(caret.position - 1);
+        const newProject = caret.source.withoutGraphemeAt(caret.position - 1);
         return newProject === undefined ? undefined : [ newProject , new Caret(newProject, Math.max(0, caret.position - 1)) ];
     } 
     // If it's a node, delete the text between the first and last token.
@@ -124,7 +124,7 @@ function backspace(caret: Caret): [ Project, Caret] | undefined  {
             const start = tokens[0].getTextIndex();
             const end = tokens[tokens.length - 1].getLastIndex();
             if(start !== undefined && end !== undefined) {
-                const newProject = caret.project.withoutGraphemesBetween(start, end);
+                const newProject = caret.source.withoutGraphemesBetween(start, end);
                 return newProject === undefined ? undefined : [ newProject , new Caret(newProject, start) ];
             }
         }

@@ -44,7 +44,7 @@ export default class Evaluator {
     readonly context: Context;
 
     /** The callback to notify if the evaluation's value changes. */
-    readonly observer?: EvaluationObserver;
+    readonly observers: EvaluationObserver[] = [];
 
     /** True if stop() was called */
     stopped = false;
@@ -67,13 +67,12 @@ export default class Evaluator {
     /** A queue of streams that have been modified. */
     reactionQueue: Stream[] = [];
 
-    constructor(program: Program, mode: EvaluationMode, observer?: EvaluationObserver) {
+    constructor(program: Program, mode: EvaluationMode) {
 
         this.program = program;
         this.evaluations = [];
         this.shares = new Shares(this);
         this.context = new Context(this.program, this.shares, Native);
-        this.observer = observer;
         this.mode = mode;
 
         // Prepare for evaluation.
@@ -108,6 +107,13 @@ export default class Evaluator {
 
     }
 
+    observe(observer: EvaluationObserver) { this.observers.push(observer); }
+    ignore(observer: EvaluationObserver) { 
+        const index = this.observers.indexOf(observer);
+        if(index >= 0)
+            this.observers.splice(index, 1);
+    }
+
     /** True if the evaluation stack is empty. */
     isDone() { return this.evaluations.length === 0; }
 
@@ -120,6 +126,9 @@ export default class Evaluator {
             stream.ignore(this.react);
         });
         this.stopped = true;
+
+        this.observers.length = 0;
+        
     }
 
     /** 
@@ -141,7 +150,7 @@ export default class Evaluator {
         // Tell observers that we're stepping
         const step = this.currentStep();
         if(step !== undefined) 
-            this.observer?.stepped(step);
+            this.observers.forEach(observer => observer.stepped(step));
 
         // If it's an exception, halt execution by returning the exception value.
         if(value instanceof Exception)
@@ -231,7 +240,7 @@ export default class Evaluator {
         this.latestValue = value;
 
         // Notify the observer of the evaluation result.
-        this.observer?.evaluated(this.latestValue);
+        this.observers.forEach(observer => observer.evaluated(this.latestValue));
     
     }
 
