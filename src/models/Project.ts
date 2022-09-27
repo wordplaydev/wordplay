@@ -73,7 +73,7 @@ export default class Project {
 
     }
 
-    handleStep(step: Step) {
+    handleStep() {
         this.updater.call(undefined);
     }
 
