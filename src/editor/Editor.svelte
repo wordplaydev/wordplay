@@ -1,5 +1,6 @@
 <script lang="ts">
     import { caret, project, updateProject } from '../models/stores';
+    import Node from '../nodes/Node';
     import Token from '../nodes/Token';
     import Caret from '../models/Caret';
     import type Program from '../nodes/Program';
@@ -15,21 +16,18 @@
     
     // When the caret changes, make sure it's in view.
     afterUpdate(() => {
-        const caret = editor?.querySelector(".caret");
+        const caretView = editor?.querySelector(".caret");
         const viewport = editor?.parentElement;
-        if(caret && viewport) {
-            const caretRect = caret.getBoundingClientRect();
+        if(caretView && viewport && $project?.getEvaluator().getLatestResult() !== undefined) {
+
+            // Move the scroll bars as necessary.
+            ensureElementIsVisible(caretView);
+
+            // Position the keyboard input.
+            const caretRect = caretView.getBoundingClientRect();
             const editorRect = viewport.getBoundingClientRect();
             const caretTop = caretRect.top - editorRect.top;
             const caretLeft = caretRect.left - editorRect.left;
-            const visible = 
-                caretTop >= viewport.scrollTop && 
-                caretLeft >= viewport.scrollLeft &&
-                caretTop <= viewport.scrollTop + viewport.clientHeight &&
-                caretLeft <= viewport.scrollLeft + viewport.clientWidth;
-            if(!visible)
-                caret.scrollIntoView({ behavior: "auto", block: "nearest", inline: "nearest"});
-
             const keyboard = editor?.querySelector(".keyboard-input");
             if(keyboard instanceof HTMLElement) {
                 keyboard.style.left = `${caretLeft + viewport.scrollLeft}px`;
@@ -37,6 +35,38 @@
             }
         }
     });
+
+    // When project updates, make executing node visible.
+    $: {
+        let executingNode = $project?.getEvaluator().currentStep()?.node;
+        // If the program contains this node, scroll to it's view.
+        if(executingNode instanceof Node && program.contains(executingNode)) {
+            const element = document.querySelector(`[data-id="${executingNode.id}"]`);
+            if(element !== null)
+                ensureElementIsVisible(element, true);
+        }
+    }
+
+    function ensureElementIsVisible(element: Element, center: boolean=false) {
+
+        const viewport = editor?.parentElement;
+        if(viewport === null) return;
+
+        // const elementRect = element.getBoundingClientRect();
+        // const editorRect = viewport.getBoundingClientRect();
+        // const elementTop = elementRect.top - editorRect.top;
+        // const elementBottom = elementTop + elementRect.height;
+        // const elementLeft = elementRect.left - editorRect.left;
+        // const visible = 
+        //     elementTop >= viewport.scrollTop && 
+        //     elementLeft >= viewport.scrollLeft &&
+        //     elementBottom <= viewport.scrollTop + viewport.clientHeight &&
+        //     elementLeft <= viewport.scrollLeft + viewport.clientWidth;
+        element.scrollIntoView(center ? 
+            { behavior: "smooth", block: "center", inline: "center"} :
+            { behavior: "auto", block: "nearest", inline: "nearest"});
+
+    }
 
     function handleClick(event: MouseEvent) {
 

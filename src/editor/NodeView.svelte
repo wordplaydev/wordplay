@@ -22,6 +22,7 @@
 {#if node !== undefined}
 <div 
     class="{node.constructor.name} node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"} {primaryConflicts.length > 0 ? "primary-conflict" : ""} {secondaryConflicts.length > 0 ? "secondary-conflict" : ""} {executing ? "executing" : ""}"
+    data-id={node.id}
     on:mousedown={mousedown}
 ><svelte:component this={renderNode(node)} node={node} />{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation("eng")}</div>{/each}</div>{/if}</div>
 {/if}
