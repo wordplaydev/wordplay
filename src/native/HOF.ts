@@ -10,5 +10,6 @@ export default abstract class HOF extends Expression {
     clone(): this { return this; }
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { context; bind; original; return current; }
 
+    
 }
 

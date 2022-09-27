@@ -4,19 +4,21 @@ import type Evaluable from "./Evaluable";
 import type Value from "./Value";
 import type Explanations from "../nodes/Explanations";
 
-export default class Start extends Step {
+export default class Action extends Step {
 
     action?: (evaluator: Evaluator) => Value | undefined;
+    explanations: Explanations;
 
-    constructor(node: Evaluable, action?: (evaluator: Evaluator) => Value | undefined) {
+    constructor(node: Evaluable, explanations: Explanations, action?: (evaluator: Evaluator) => Value | undefined) {
         super(node);
         this.action = action;
+        this.explanations = explanations;
     }
     
     evaluate(evaluator: Evaluator): Value | undefined {
         return this.action?.call(undefined, evaluator);
     }
 
-    getExplanations(evaluator: Evaluator): Explanations { return this.node.getStartExplanations(evaluator); }
+    getExplanations(): Explanations { return this.explanations; }
     
 }

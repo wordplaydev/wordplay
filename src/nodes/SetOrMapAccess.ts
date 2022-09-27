@@ -12,7 +12,7 @@ import SetValue from "../runtime/SetValue";
 import MapValue from "../runtime/MapValue";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import type Context from "./Context";
 import MapType from "./MapType";
 import SetType from "./SetType";
@@ -69,7 +69,7 @@ export default class SetOrMapAccess extends Expression {
     compile(context: Context):Step[] {
         // Evaluate the set expression, then the key expression, then this.
         return [ 
-            new Action(this),
+            new Start(this),
             ...this.setOrMap.compile(context),
             ...this.key.compile(context),
             new Finish(this)
@@ -85,6 +85,18 @@ export default class SetOrMapAccess extends Expression {
             return new TypeException(evaluator, new UnionType(new SetType(), new MapType()), setOrMap);
         else return setOrMap.has(key);
     
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "First evaluate the set/map, then the key."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Then find the matching key in the set/map."
+        }
     }
 
     clone(original?: Node, replacement?: Node) { 

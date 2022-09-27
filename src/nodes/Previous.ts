@@ -63,8 +63,16 @@ export default class Previous extends Expression {
         return streamType instanceof StreamType && !(streamType.type instanceof Unparsable)? streamType.type : new UnknownType(this);
     }
 
-    compile(context: Context):Step[] {
+    compile(context: Context): Step[] {
         return [ ...this.stream.compile(context), new KeepStream(this), ...this.index.compile(context), new Finish(this) ];
+    }
+
+    getStartExplanations() { return this.getFinishExplanations(); }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Let's get the stream value at this index."
+        }
     }
 
     evaluate(evaluator: Evaluator): Value {

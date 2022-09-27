@@ -1,6 +1,6 @@
 import type Alias from "../nodes/Alias";
 import type Name from "../nodes/Name";
-import type { ConflictExplanations } from "./Conflict";
+import type Explanations from "../nodes/Explanations";
 import Conflict from "./Conflict";
 
 export default class CaseSensitive extends Conflict {
@@ -19,7 +19,7 @@ export default class CaseSensitive extends Conflict {
         return { primary: [ this.name ], secondarty: [ this.alias ] };
     }
 
-    getExplanations(): ConflictExplanations { 
+    getExplanations(): Explanations { 
         return {
             eng: `This name ${this.name.getName()} looks a lot like ${this.alias.getName()}, but they're different.`
         }

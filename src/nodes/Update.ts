@@ -16,7 +16,7 @@ import BooleanType from "./BooleanType";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import type { TypeSet } from "./UnionType";
@@ -106,10 +106,22 @@ export default class Update extends Expression {
 
     compile(context: Context): Step[] {
         return [
-            new Action(this),
+            new Start(this),
             ...this.table.compile(context),
             new Finish(this)
         ];
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "First we get the table, then we select values from it."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Now that we have the table, let's create a new table with the updated values."
+        }
     }
 
     evaluate(evaluator: Evaluator): Value {

@@ -13,7 +13,7 @@ import type Value from "../runtime/Value";
 import Table from "../runtime/Table";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import type Context from "./Context";
 import type Unparsable from "./Unparsable";
 import Token from "./Token";
@@ -66,7 +66,7 @@ export default class TableLiteral extends Expression {
 
     compile(context: Context): Step[] {
         return [
-            new Action(this),
+            new Start(this),
             // Compile all of the rows' cell expressions.
             ...this.rows.reduce(
                 (steps: Step[], row) =>
@@ -75,6 +75,18 @@ export default class TableLiteral extends Expression {
             ),
             new Finish(this)
         ];
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "First we evaluate all of the rows and cells."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Now that we have all of the values, let's make the table."
+        }
     }
 
     evaluate(evaluator: Evaluator): Value {

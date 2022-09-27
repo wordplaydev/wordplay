@@ -1,3 +1,4 @@
+import type Explanations from "../nodes/Explanations";
 import type Evaluable from "./Evaluable";
 import type Evaluator from "./Evaluator";
 import type Exception from "./Exception";
@@ -16,6 +17,12 @@ export default class Halt extends Step {
     
     evaluate(evaluator: Evaluator): Value {
         return this.exception(evaluator);
+    }
+
+    getExplanations(): Explanations {
+        return {
+            "eng": `There was an exception, so the program had to stop.`
+        }
     }
 
 }

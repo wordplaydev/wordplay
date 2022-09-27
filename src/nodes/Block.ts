@@ -12,7 +12,7 @@ import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import { getDuplicateDocs } from "./util";
 import type Evaluator from "../runtime/Evaluator";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
@@ -117,11 +117,23 @@ export default class Block extends Expression {
         return !this.creator && this.statements.length === 0 ? 
             [ new Halt(evaluator => new ValueException(evaluator), this) ] :
             [ 
-                new Action(this), 
+                new Start(this), 
                 ...this.statements.reduce((prev: Step[], current) => [ ...prev, ...current.compile(context) ], []),
                 new Finish(this) 
             ];
 
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "We'll evaluate all of the expressions first."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Now that we're done, we'll evaluate to the last expression's value."
+        }
     }
 
     evaluate(evaluator: Evaluator) {

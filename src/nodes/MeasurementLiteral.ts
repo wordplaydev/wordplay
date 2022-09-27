@@ -55,6 +55,14 @@ export default class MeasurementLiteral extends Expression {
         else return new Measurement(this.number, this.unit);
     }
 
+    getStartExplanations() { return this.getFinishExplanations(); }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Evaluate to a measurement!"
+        }
+    }
+
     clone(original?: Node, replacement?: Node) { 
         return new MeasurementLiteral(
             this.number.cloneOrReplace([ Token ], original, replacement), 

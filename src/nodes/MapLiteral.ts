@@ -11,7 +11,7 @@ import type Value from "../runtime/Value";
 import MapValue from "../runtime/MapValue";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import type Context from "./Context";
 import { getPossibleUnionType, TypeSet } from "./UnionType";
 import { NotAMap } from "../conflicts/NotAMap";
@@ -64,7 +64,7 @@ export default class MapLiteral extends Expression {
         return this.notAMap() ? 
             [ new Halt(evaluator => new SemanticException(evaluator, this), this) ] :
             [
-                new Action(this),
+                new Start(this),
                 // Evaluate all of the item or key/value expressions
                 ...this.values.reduce(
                     (steps: Step[], item) => [
@@ -74,6 +74,18 @@ export default class MapLiteral extends Expression {
                 // Then build the set or map.
                 new Finish(this)
             ];
+    }
+
+    getStartExplanations(){
+        return {
+            "eng": "Let's make a map!"
+        }
+    }
+
+    getFinishExplanations() { 
+        return {
+            "eng": "Now that we have all of the keys and values, create the map."
+        }
     }
 
     evaluate(evaluator: Evaluator): Value {

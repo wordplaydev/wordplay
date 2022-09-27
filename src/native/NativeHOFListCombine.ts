@@ -5,6 +5,7 @@ import ListType from "../nodes/ListType";
 import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
 import type Type from "../nodes/Type";
+import Action from "../runtime/Action";
 import Evaluation from "../runtime/Evaluation";
 import type Evaluator from "../runtime/Evaluator";
 import Finish from "../runtime/Finish";
@@ -12,7 +13,7 @@ import FunctionValue from "../runtime/FunctionValue";
 import List from "../runtime/List";
 import Measurement from "../runtime/Measurement";
 import NameException from "../runtime/NameException";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import type Step from "../runtime/Step";
 import TypeException from "../runtime/TypeException";
 import type Value from "../runtime/Value";
@@ -32,77 +33,104 @@ export default class NativeHOFListCombine extends HOF {
 
     compile(): Step[] { 
         return [
+            new Start(this),
             // Initialize an iterator and the current combination.
-            new Action(this, evaluator => {
-                evaluator.bind("index", new Measurement(1));
-                return undefined;
-            }),
-            new Action(this, evaluator => {
-                // Get the index.
-                const index = evaluator.resolve("index");
-                if(!(index instanceof Measurement))
-                    return new TypeException(evaluator, new MeasurementType(), index);
-
-                // Get the list we're processing.
-                const list = evaluator.getEvaluationContext()?.getContext();
-                if(!(list instanceof List))
-                    return new TypeException(evaluator, new ListType(), list);
-
-                // Get the list we're processing.
-                const combination = evaluator.resolve("initial");
-                if(combination === undefined)
-                    return new NameException(evaluator, "initial");
-
-                // If we're past the end of the list, jump past the loop.
-                if(index.greaterThan(list.length()).bool)
-                    evaluator.jump(1);
-                // Otherwise, apply the given translator function to the current list value.
-                else {
-                    const translator = evaluator.resolve("combiner");
-                    const listValue = list.get(index);
-                    if(translator instanceof FunctionValue && 
-                        translator.definition.expression instanceof Expression && 
-                        translator.definition.inputs[0] instanceof Bind &&
-                        translator.definition.inputs[1] instanceof Bind) {
-                        const bindings = new Map<string, Value>();
-                        // Bind the current combo
-                        (translator.definition.inputs[0] as Bind).getNames().forEach(n => bindings.set(n, combination));
-                        // Bind the list value
-                        (translator.definition.inputs[1] as Bind).getNames().forEach(n =>  bindings.set(n, listValue));
-                        // Apply the translator function to the value
-                        evaluator.startEvaluation(new Evaluation(
-                            evaluator, 
-                            translator.definition, 
-                            translator.definition.expression, 
-                            translator.context, 
-                            bindings
-                        ));
-                    }
-                    else return new TypeException(evaluator, this.hofType, list);
+            new Action(this, 
+                {
+                    "eng": "Start at the first item."
+                },
+                evaluator => {
+                    evaluator.bind("index", new Measurement(1));
+                    return undefined;
                 }
-                return undefined;
-            }),
+            ),
+            new Action(this, 
+                {
+                    "eng": "Apply the function to the current item."
+                },
+                evaluator => {
+                    // Get the index.
+                    const index = evaluator.resolve("index");
+                    if(!(index instanceof Measurement))
+                        return new TypeException(evaluator, new MeasurementType(), index);
+
+                    // Get the list we're processing.
+                    const list = evaluator.getEvaluationContext()?.getContext();
+                    if(!(list instanceof List))
+                        return new TypeException(evaluator, new ListType(), list);
+
+                    // Get the list we're processing.
+                    const combination = evaluator.resolve("initial");
+                    if(combination === undefined)
+                        return new NameException(evaluator, "initial");
+
+                    // If we're past the end of the list, jump past the loop.
+                    if(index.greaterThan(list.length()).bool)
+                        evaluator.jump(1);
+                    // Otherwise, apply the given translator function to the current list value.
+                    else {
+                        const translator = evaluator.resolve("combiner");
+                        const listValue = list.get(index);
+                        if(translator instanceof FunctionValue && 
+                            translator.definition.expression instanceof Expression && 
+                            translator.definition.inputs[0] instanceof Bind &&
+                            translator.definition.inputs[1] instanceof Bind) {
+                            const bindings = new Map<string, Value>();
+                            // Bind the current combo
+                            (translator.definition.inputs[0] as Bind).getNames().forEach(n => bindings.set(n, combination));
+                            // Bind the list value
+                            (translator.definition.inputs[1] as Bind).getNames().forEach(n =>  bindings.set(n, listValue));
+                            // Apply the translator function to the value
+                            evaluator.startEvaluation(new Evaluation(
+                                evaluator, 
+                                translator.definition, 
+                                translator.definition.expression, 
+                                translator.context, 
+                                bindings
+                            ));
+                        }
+                        else return new TypeException(evaluator, this.hofType, list);
+                    }
+                    return undefined;
+                }
+            ),
             // Save the translated value and then jump to the conditional.
-            new Action(this, evaluator => {
+            new Action(this, 
+                {
+                    "eng": "Update the combined value."
+                },
+                evaluator => {
 
-                // Update the combo.
-                evaluator.bind("initial", evaluator.popValue(undefined));
+                    // Update the combo.
+                    evaluator.bind("initial", evaluator.popValue(undefined));
 
-                // Get the current index.
-                const index = evaluator.resolve("index");
-                if(!(index instanceof Measurement))
-                    return new TypeException(evaluator, new MeasurementType(), index);
-                
-                // Increment the index.
-                evaluator.bind("index", index.add(new Measurement(1)));
+                    // Get the current index.
+                    const index = evaluator.resolve("index");
+                    if(!(index instanceof Measurement))
+                        return new TypeException(evaluator, new MeasurementType(), index);
+                    
+                    // Increment the index.
+                    evaluator.bind("index", index.add(new Measurement(1)));
 
-                // Jump back to the loop.
-                evaluator.jump(-2);
+                    // Jump back to the loop.
+                    evaluator.jump(-2);
 
                 return undefined;
             }),
             new Finish(this)
         ];
+    }
+
+    getStartExplanations() {
+        return {
+            "eng": "Go through each list item and create something larger from each part."
+        }
+    }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Evaluate to the thing we made."
+        }
     }
 
     evaluate(evaluator: Evaluator): Value | undefined {

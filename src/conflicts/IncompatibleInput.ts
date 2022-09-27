@@ -1,7 +1,8 @@
 import type StructureType from "../nodes/StructureType";
 import type Evaluate from "../nodes/Evaluate";
 import type FunctionType from "../nodes/FunctionType";
-import Conflict, { type ConflictExplanations } from "./Conflict";
+import Conflict from "./Conflict";
+import type Explanations from "../nodes/Explanations";
 import type Expression from "../nodes/Expression";
 import type Bind from "../nodes/Bind";
 import type Type from "../nodes/Type";
@@ -27,7 +28,7 @@ export default class IncompatibleInput extends Conflict {
         return { primary: [ this.givenNode ], secondary: [ this.expectedType ] };
     }
 
-    getExplanations(): ConflictExplanations {
+    getExplanations(): Explanations {
         return {
             "eng": `Expected input of type ${this.expectedType.toWordplay()}, received ${this.givenType.toWordplay()}`
         }

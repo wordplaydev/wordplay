@@ -21,7 +21,7 @@ import Evaluation from "../runtime/Evaluation";
 import FunctionValue from "../runtime/FunctionValue";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import type Context from "./Context";
 import Halt from "../runtime/Halt";
@@ -401,11 +401,23 @@ export default class Evaluate extends Expression {
     
         // Evaluate the function expression, then the inputs, then evaluate this using the resulting values.
         return [ 
-            new Action(this),
+            new Start(this),
             ...inputSteps.reduce((steps: Step[], s) => [ ...steps, ...s], []), 
             ...this.func.compile(context),
             new Finish(this)
         ];
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "We first have to evaluate all of the inputs, then the function to evaluate."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Now that we have the inputs and the function, we can start evaluating the function."
+        }
     }
 
     evaluate(evaluator: Evaluator): Value | undefined {

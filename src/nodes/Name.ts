@@ -126,6 +126,14 @@ export default class Name extends Expression {
         return [ new Finish(this) ];
     }
 
+    getStartExplanations() { return this.getFinishExplanations(); }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Find the name get evaluate to it's value."
+        }
+    }
+
     evaluate(evaluator: Evaluator): Value {
 
         // Search for the name in the given evaluation context.

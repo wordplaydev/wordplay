@@ -8,7 +8,7 @@ import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import Exception from "../runtime/Exception";
 import type Step from "../runtime/Step";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Node from "./Node";
@@ -108,8 +108,20 @@ export default class AccessName extends Expression {
 
     compile(context: Context):Step[] {
         
-        return [ new Action(this), ...this.subject.compile(context), new Finish(this) ]
+        return [ new Start(this), ...this.subject.compile(context), new Finish(this) ]
 
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "First evaluate the structure."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Now find the name in this structure."
+        }
     }
 
     evaluate(evaluator: Evaluator) {

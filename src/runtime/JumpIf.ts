@@ -1,6 +1,8 @@
 import type BinaryOperation from "../nodes/BinaryOperation";
 import BooleanType from "../nodes/BooleanType";
 import type Conditional from "../nodes/Conditional";
+import type Explanations from "../nodes/Explanations";
+import { FALSE_SYMBOL, TRUE_SYMBOL } from "../parser/Tokenizer";
 import Bool from "./Bool";
 import type Evaluator from "./Evaluator";
 import Step from "./Step";
@@ -27,6 +29,12 @@ export default class JumpIf extends Step {
         if(!(value instanceof Bool)) return value;
         if(value.bool === this.yes) evaluator.jump(this.count);
         return undefined;
+    }
+
+    getExplanations(): Explanations {
+        return {
+            "eng": `Jumping ahead if the value on the stack is ${this.yes ? TRUE_SYMBOL : FALSE_SYMBOL }.`
+        }
     }
 
 }

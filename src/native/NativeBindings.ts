@@ -72,12 +72,18 @@ class NativeBindings implements NativeInterface {
         inputs: Bind[], 
         output: Type,
         evaluator: (evaluator: Evaluation) => Value) {
-        
-        this.addFunction(kind, new FunctionDefinition(
-            docs, aliases, typeVars, inputs,
-            new NativeExpression(output, evaluator),
-            output
-        ));
+
+            this.addFunction(kind, new FunctionDefinition(
+                docs, aliases, typeVars, inputs,
+                new NativeExpression(
+                    output, 
+                    evaluator, 
+                    {
+                        "eng": docs.find(doc => doc.lang?.getLanguage() === "eng")?.docs.getText() ?? "No documentatinon"
+                    }
+                ),
+                output
+            ));
 
     }
 
@@ -95,6 +101,9 @@ class NativeBindings implements NativeInterface {
                         const val = evaluation.getContext();
                         if(val instanceof Value && val.getType().constructor === expected.constructor) return fun.call(undefined, val);
                         else return new TypeException(evaluation.getEvaluator(), expected, val); 
+                    },
+                    {
+                        "eng": docs.find(doc => doc.lang?.getLanguage() === "eng")?.docs.getText() ?? "No documentatinon"
                     }
                 )
             )

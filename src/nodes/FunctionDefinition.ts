@@ -21,6 +21,7 @@ import Alias from "./Alias";
 import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, FUNCTION_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
+import type Explanations from "./Explanations";
 
 export default class FunctionDefinition extends Expression {
 
@@ -149,6 +150,14 @@ export default class FunctionDefinition extends Expression {
 
     compile(): Step[] {
         return [ new Finish(this) ];
+    }
+
+    getStartExplanations(): Explanations { return this.getFinishExplanations(); }
+
+    getFinishExplanations(): Explanations {
+        return {
+            "eng": "Let's define this function and bind it to this name."
+        }
     }
 
     evaluate(evaluator: Evaluator) {

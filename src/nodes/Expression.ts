@@ -8,6 +8,7 @@ import type Step from "src/runtime/Step";
 import UnknownType from "./UnknownType";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
+import type Explanations from "./Explanations";
 
 export default abstract class Expression extends Node implements Evaluable {
 
@@ -47,5 +48,8 @@ export default abstract class Expression extends Node implements Evaluable {
 
     abstract compile(context: Context): Step[];
     abstract evaluate(evaluator: Evaluator): Value | undefined;
+
+    abstract getStartExplanations(evaluator: Evaluator): Explanations;
+    abstract getFinishExplanations(evaluator: Evaluator): Explanations;
 
 }

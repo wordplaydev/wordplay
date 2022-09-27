@@ -1,5 +1,6 @@
 import type Expression from "../nodes/Expression";
-import Conflict, { type ConflictExplanations } from "./Conflict";
+import Conflict from "./Conflict";
+import type Explanations from "../nodes/Explanations";
 
 
 export class IgnoredExpression extends Conflict {
@@ -15,7 +16,7 @@ export class IgnoredExpression extends Conflict {
         return { primary: [ this.expr ] }
     }
 
-    getExplanations(): ConflictExplanations { 
+    getExplanations(): Explanations { 
         return {
             eng: `I feel useless. I am useless! Someone use me!`
         }

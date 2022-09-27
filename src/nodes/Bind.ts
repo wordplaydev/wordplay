@@ -22,7 +22,7 @@ import ColumnType from "./ColumnType";
 import type Evaluator from "../runtime/Evaluator";
 import type Evaluable from "../runtime/Evaluable";
 import type Step from "../runtime/Step";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
 import type Named from "./Named";
@@ -32,6 +32,7 @@ import Block from "./Block";
 import ListType from "./ListType";
 import Cell from "./Cell";
 import ValueException from "../runtime/ValueException";
+import type Explanations from "./Explanations";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -191,7 +192,23 @@ export default class Bind extends Node implements Evaluable, Named {
     compile(context: Context):Step[] {
         return this.value === undefined ?
             [ new Halt(evaluator => new ValueException(evaluator), this) ] :
-            [ new Action(this), ...this.value.compile(context), new Finish(this) ];
+            [ 
+                new Start(this), 
+                ...this.value.compile(context), 
+                new Finish(this) 
+            ];
+    }
+
+    getStartExplanations(): Explanations {
+        return {
+            "eng": "Evaluate the value first"
+        }
+    }
+
+    getFinishExplanations(): Explanations {
+        return {
+            "eng": "Bind the value to this name."
+        }
     }
 
     evaluate(evaluator: Evaluator) {

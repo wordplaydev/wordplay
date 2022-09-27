@@ -1,3 +1,4 @@
+import type Explanations from "../nodes/Explanations";
 import type Reaction from "../nodes/Reaction";
 import type Evaluator from "./Evaluator";
 import Step from "./Step";
@@ -24,6 +25,12 @@ export default class JumpIfStreamExists extends Step {
 
     toString() { 
         return super.toString() + " " + this.count;
+    }
+
+    getExplanations(): Explanations {
+        return {
+            "eng": `Have we already initialized this stream?`
+        }
     }
 
 }

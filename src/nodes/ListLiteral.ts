@@ -9,7 +9,7 @@ import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import type Context from "./Context";
 import { getPossibleUnionType, TypeSet } from "./UnionType";
 import AnyType from "./AnyType";
@@ -44,7 +44,7 @@ export default class ListLiteral extends Expression {
 
     compile(context: Context):Step[] {
         return [ 
-            new Action(this),
+            new Start(this),
             ...this.values.reduce((steps: Step[], item) => [...steps, ...item.compile(context)], []),
             new Finish(this)
         ];
@@ -60,6 +60,18 @@ export default class ListLiteral extends Expression {
         // Construct the new list.
         return new List(values);
         
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "First evaluate all of the values for this list."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Now make the list!"
+        }
     }
 
     clone(original?: Node, replacement?: Node) { 

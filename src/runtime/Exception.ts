@@ -1,4 +1,4 @@
-import type { ConflictExplanations } from "../conflicts/Conflict";
+import type Explanations from "../nodes/Explanations";
 import { EXCEPTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import ExceptionType from "../nodes/ExceptionType";
 import type Evaluator from "./Evaluator";
@@ -18,7 +18,7 @@ export default abstract class Exception extends Primitive {
 
     }
 
-    abstract getExplanations(): ConflictExplanations;
+    abstract getExplanations(): Explanations;
 
     getType() { return new ExceptionType(this); }
     getNativeTypeName(): string { return EXCEPTION_NATIVE_TYPE_NAME; }

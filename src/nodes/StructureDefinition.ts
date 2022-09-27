@@ -209,6 +209,13 @@ export default class StructureDefinition extends Expression {
             return new ContextException(evaluator, StackSize.EMPTY);
             
     }
+    
+    getStartExplanations() { return this.getFinishExplanations(); }
+    getFinishExplanations() {
+        return {
+            "eng": "Evaluate to this structure definition!"
+        }
+    }
 
     clone(original?: Node, replacement?: Node) {
         return new StructureDefinition(

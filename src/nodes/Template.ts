@@ -13,6 +13,7 @@ import Language from "./Language";
 import Unparsable from "./Unparsable";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
+import Start from "../runtime/Start";
 
 export default class Template extends Expression {
     
@@ -36,6 +37,7 @@ export default class Template extends Expression {
 
     compile(context: Context):Step[] {
         return [
+            new Start(this),
             ...this.parts.filter(p => p instanceof Expression).reduce(
                 (parts: Step[], part) => [...parts, ...(part as Expression).compile(context)], []
             ),
@@ -55,6 +57,18 @@ export default class Template extends Expression {
         }
         return new Text(text, this.format?.getLanguage());
 
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "Start by evaluating all of the parts in this template."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Now make some text out of the parts!"
+        }
     }
 
     clone(original?: Node, replacement?: Node) { 

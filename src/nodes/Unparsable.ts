@@ -10,6 +10,7 @@ import UnknownType from "./UnknownType";
 import { UnparsableConflict } from "../conflicts/UnparsableConflict";
 import UnparasableException from "../runtime/SemanticException";
 import type Evaluator from "../runtime/Evaluator";
+import type Explanations from "./Explanations";
 
 export default class Unparsable extends Node implements Evaluable {
     
@@ -46,6 +47,14 @@ export default class Unparsable extends Node implements Evaluable {
 
     compile(): Step[] {
         return [ new Halt(evaluator => new UnparasableException(evaluator, this), this) ];
+    }
+
+    getStartExplanations(): Explanations { return this.getFinishExplanations(); }
+
+    getFinishExplanations(): Explanations {
+        return {
+            "eng": "We couldn't make sense of this, so we're stopping the program."
+        }
     }
 
     evaluate(evaluator: Evaluator): Value {

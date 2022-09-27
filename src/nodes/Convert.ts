@@ -9,15 +9,12 @@ import Token from "./Token";
 import type Evaluator from "../runtime/Evaluator";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import Evaluation from "../runtime/Evaluation";
 import type Context from "./Context";
-import ConversionValue from "../runtime/ConversionValue";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import SemanticException from "../runtime/SemanticException";
-import ConversionType from "./ConversionType";
-import AnyType from "./AnyType";
 import FunctionException from "../runtime/FunctionException";
 import Exception from "../runtime/Exception";
 
@@ -71,25 +68,32 @@ export default class Convert extends Expression {
 
         // Evaluate the expression to convert, then push the conversion function on the stack.
         return [ 
+            new Start(this),
             ...this.expression.compile(context),
-            new Action(this, evaluator => {
-                const evaluation = evaluator.getEvaluationContext();
-                const conversion = this.getConversionDefinition(context);
-                return evaluation === undefined || conversion === undefined ? 
-                    new FunctionException(evaluator, evaluator.peekValue(), this.type.toWordplay()) : 
-                    new ConversionValue(conversion, evaluation);
-            }), 
             new Finish(this)
         ];
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "We start by evaluating the value to convert."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "We end by finding the conversion function and then evaluating it on the value."
+        }
     }
 
     evaluate(evaluator: Evaluator) {
         
         if(this.type instanceof Unparsable) return new SemanticException(evaluator, this.type);
-        
-        // Find the conversion function on the structure from compiling.
-        const conversion = evaluator.popValue(new ConversionType(new AnyType()));
-        if(!(conversion instanceof ConversionValue)) return conversion;
+
+        const evaluation = evaluator.getEvaluationContext();
+        const conversion = this.getConversionDefinition(evaluator.getContext());
+        if(evaluation === undefined || conversion === undefined)
+            return new FunctionException(evaluator, evaluator.peekValue(), this.type.toWordplay());
 
         // Get the value to convert
         const value = evaluator.popValue(undefined);
@@ -99,8 +103,8 @@ export default class Convert extends Expression {
         evaluator.startEvaluation(
             new Evaluation(
                 evaluator,
-                conversion.definition, 
-                conversion.definition.expression, 
+                conversion, 
+                conversion.expression, 
                 value
             )
         );

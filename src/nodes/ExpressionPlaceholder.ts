@@ -36,6 +36,18 @@ export default class ExpressionPlaceholder extends Expression {
         return [ new Halt(evaluator => new UnimplementedException(evaluator), this) ];
     }
 
+    getStartExplanations() { 
+        return {
+            "eng": "Can't evaluate a placeholder."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Can't evaluate a placeholder."
+        }
+    }
+
     evaluate(evaluator: Evaluator): Value {
         return new SemanticException(evaluator, this);
     }

@@ -12,7 +12,7 @@ import Bind from "../nodes/Bind";
 import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import type { TypeSet } from "./UnionType";
@@ -76,11 +76,23 @@ export default class Delete extends Expression {
     }
 
     compile(context: Context):Step[] {
-        return [ new Action(this), ...this.table.compile(context), new Finish(this) ];
+        return [ new Start(this), ...this.table.compile(context), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value {
         return new UnimplementedException(evaluator);
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "First evaluate the table."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Now make a table without the matching rows."
+        }
     }
 
     clone(original?: Node, replacement?: Node) { 

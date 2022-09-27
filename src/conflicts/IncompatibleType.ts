@@ -1,4 +1,5 @@
-import Conflict, { type ConflictExplanations } from "./Conflict";
+import Conflict from "./Conflict";
+import type Explanations from "../nodes/Explanations";
 import type Type from "../nodes/Type";
 import type Is from "../nodes/Is";
 
@@ -17,7 +18,7 @@ export class IncompatibleType extends Conflict {
         return { primary: [ this.is.expression ], secondary: [ this.is.type ] };
     }
 
-    getExplanations(): ConflictExplanations {
+    getExplanations(): Explanations {
         return {
             "eng": `This can never be a ${this.is.type.toWordplay()}, it's a ${this.givenType.toWordplay()}`
         }

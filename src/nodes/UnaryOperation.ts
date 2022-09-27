@@ -15,7 +15,7 @@ import Bool from "../runtime/Bool";
 import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import type Context from "./Context";
 import type Bind from "./Bind";
 import { NOT_SYMBOL } from "../parser/Tokenizer";
@@ -87,10 +87,22 @@ export default class UnaryOperation extends Expression {
     
     compile(context: Context):Step[] {
         return [
-            new Action(this),
+            new Start(this),
             ...this.operand.compile(context),
             new Finish(this)
         ];
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "First we evsluate the operand."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Now that we have the operand, we operate on it."
+        }
     }
 
     evaluate(evaluator: Evaluator): Value {

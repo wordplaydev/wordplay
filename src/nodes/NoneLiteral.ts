@@ -39,6 +39,14 @@ export default class NoneLiteral extends Expression {
         return new None(this.aliases);
     }
 
+    getStartExplanations() { return this.getFinishExplanations(); }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Evaluate to this none value!"
+        }
+    }
+
     clone(original?: Node, replacement?: Node) { 
         return new NoneLiteral(
             this.none.cloneOrReplace([ Token ], original, replacement), 

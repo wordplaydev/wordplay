@@ -77,6 +77,14 @@ export default class ConversionDefinition extends Expression {
         return [ new Finish(this) ];
     }
 
+    getStartExplanations() { return this.getFinishExplanations(); }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Let's define this conversion!"
+        }
+    }
+
     evaluate(evaluator: Evaluator) {
 
         const context = evaluator.getEvaluationContext();

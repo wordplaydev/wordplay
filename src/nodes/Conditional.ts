@@ -13,6 +13,7 @@ import Jump from "../runtime/Jump";
 import type Context from "./Context";
 import UnionType, { TypeSet } from "./UnionType";
 import type Bind from "./Bind";
+import Start from "../runtime/Start";
 
 export default class Conditional extends Expression {
     
@@ -74,6 +75,7 @@ export default class Conditional extends Expression {
 
         // Evaluate the condition, jump past the yes if false, otherwise evaluate the yes then jump past the no.
         return [ 
+            new Start(this),
             ...this.condition.compile(context), 
             new JumpIf(yes.length + 1, false, false, this), 
             ...yes, 
@@ -81,6 +83,18 @@ export default class Conditional extends Expression {
             ...no 
         ];
         
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "First check if the condition is true."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "All done."
+        }
     }
 
     /** We never actually evaluate this node below because the jump logic handles things. */

@@ -12,13 +12,15 @@ import type Evaluation from "../runtime/Evaluation";
 import type Bind from "../nodes/Bind";
 import type Context from "../nodes/Context";
 import type { TypeSet } from "../nodes/UnionType";
+import type Explanations from "../nodes/Explanations";
 
 export default class NativeExpression extends Expression {
     
     readonly type: Type;
     readonly evaluator: (evaluator: Evaluation) => Value;
+    readonly explanations: Explanations;
 
-    constructor(type: Type | string, evaluator: (evaluator: Evaluation) => Value) {
+    constructor(type: Type | string, evaluator: (evaluator: Evaluation) => Value, explanations: Explanations) {
         super();
 
         if(typeof type === "string") {
@@ -30,6 +32,7 @@ export default class NativeExpression extends Expression {
         else this.type = type;
         
         this.evaluator = evaluator;
+        this.explanations = explanations;
 
     }
     
@@ -41,6 +44,10 @@ export default class NativeExpression extends Expression {
         const evaluation = evaluator.getEvaluationContext();
         return evaluation === undefined ? undefined : this.evaluator.call(undefined, evaluation);
     }
+
+    getStartExplanations() { return this.getFinishExplanations(); }
+
+    getFinishExplanations() { return this.explanations; }
 
     /** Can't clone native expressions, there's only one of them! */
     clone() { return this; }

@@ -18,6 +18,7 @@ import StructureType from "./StructureType";
 import { IncompatibleType } from "../conflicts/IncompatibleType";
 import { TypeSet } from "./UnionType";
 import SemanticException from "../runtime/SemanticException";
+import Start from "../runtime/Start";
 
 export default class Is extends Expression {
 
@@ -47,7 +48,15 @@ export default class Is extends Expression {
     }
     
     compile(context: Context): Step[] {
-        return this.type instanceof Unparsable ? [ new Halt(evaluator => new SemanticException(evaluator, this.type), this) ] : [ ...this.expression.compile(context), new Finish(this) ];
+        return this.type instanceof Unparsable ? 
+            [ 
+                new Halt(evaluator => new SemanticException(evaluator, this.type), this) 
+            ] : 
+            [ 
+                new Start(this),
+                ...this.expression.compile(context), 
+                new Finish(this) 
+            ];
     }
 
     evaluate(evaluator: Evaluator): Value {
@@ -58,6 +67,18 @@ export default class Is extends Expression {
             new SemanticException(evaluator, this.type) : 
             new Bool(left.getType().isCompatible(this.type, evaluator.getContext()));
 
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "Start by getting the value of the expression."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Check if this value is of this type."
+        }
     }
 
     clone(original?: Node, replacement?: Node) { 

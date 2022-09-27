@@ -41,6 +41,14 @@ export default class TextLiteral extends Expression {
         return new Text(this.text.text.toString().substring(1, this.text.text.toString().length - (lastCharIsQuote ? 1 : 0)), this.format === undefined ? undefined : this.format.getLanguage());
     }
 
+    getStartExplanations() { return this.getFinishExplanations(); }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Evaluate to this text!"
+        }
+    }
+
     clone(original?: Node, replacement?: Node) { 
         return new TextLiteral(
             this.text.cloneOrReplace([ Token ], original, replacement), 

@@ -18,7 +18,7 @@ import type Node from "./Node";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import type { TypeSet } from "./UnionType";
@@ -114,10 +114,22 @@ export default class Select extends Expression {
     compile(context: Context):Step[] {
         // Evaluate the table expression then this.
         return [ 
-            new Action(this),
+            new Start(this),
             ...this.table.compile(context),
             new Finish(this)
         ];
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "First we get the table, then we select values from it."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Now that we have the table, let's get the matching values."
+        }
     }
 
     evaluate(evaluator: Evaluator): Value {

@@ -31,6 +31,14 @@ export default class BooleanLiteral extends Expression {
         return [ new Finish(this) ];
     }
 
+    getStartExplanations() { return this.getFinishExplanations(); }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Evaluate to a bool"
+        }
+    }
+
     evaluate(): Value {
         return new Bool(this.value.text.toString() === TRUE_SYMBOL);
     }

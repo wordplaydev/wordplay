@@ -16,7 +16,7 @@ import Measurement from "../runtime/Measurement";
 import Bool from "../runtime/Bool";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import type Value from "../runtime/Value";
 import type Context from "./Context";
 import type Node from "./Node";
@@ -219,7 +219,7 @@ export default class BinaryOperation extends Expression {
         // Logical and is short circuited: if the left is false, we do not evaluate the right.
         if(this.operator.getText() === AND_SYMBOL) {
             return [ 
-                new Action(this), 
+                new Start(this), 
                 ...left,
                 // Jump past the right's instructions if false and just push a false on the stack.
                 new JumpIf(right.length + 2, true, false, this),
@@ -230,7 +230,7 @@ export default class BinaryOperation extends Expression {
         // Logical OR is short circuited: if the left is true, we do not evaluate the right.
         else if(this.operator.getText() === OR_SYMBOL) {
             return [ 
-                new Action(this), 
+                new Start(this), 
                 ...left,
                 // Jump past the right's instructions if true and just push a true on the stack.
                 new JumpIf(right.length + 2, true, true, this),
@@ -239,7 +239,19 @@ export default class BinaryOperation extends Expression {
             ];
         }
         else
-            return [ new Action(this), ...left, ...right, new Finish(this) ];
+            return [ new Start(this), ...left, ...right, new Finish(this) ];
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "We first evaluate the left and right."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "We end by performing the operation on the left and right."
+        }
     }
 
     evaluate(evaluator: Evaluator): Value {

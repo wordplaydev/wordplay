@@ -1,7 +1,6 @@
 import type Node from "../nodes/Node";
 import type LanguageCode from "../nodes/LanguageCode";
-
-export type ConflictExplanations = Record<LanguageCode, string>;
+import type Explanations from "../nodes/Explanations";
 
 export default abstract class Conflict {
     readonly #minor: boolean;
@@ -14,7 +13,7 @@ export default abstract class Conflict {
      * but also how to position the various parties involved in the visual portrayal of the conflict.
      */
     abstract getConflictingNodes(): { primary: Node[], secondary?: Node[] };
-    abstract getExplanations(): ConflictExplanations;
+    abstract getExplanations(): Explanations;
 
     isMinor() { return this.#minor; }
     getExplanation(lang: LanguageCode): string { return this.getExplanations()[lang]; }

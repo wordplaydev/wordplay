@@ -9,7 +9,7 @@ import Unparsable from "./Unparsable";
 import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
 import Finish from "../runtime/Finish";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import type Step from "../runtime/Step";
 import SemanticException from "../runtime/SemanticException";
 import NameException from "../runtime/NameException";
@@ -45,7 +45,19 @@ export default class Share extends Node implements Evaluable {
     }
 
     compile(context: Context):Step[] {
-        return [ new Action(this), ...this.bind.compile(context), new Finish(this) ];
+        return [ new Start(this), ...this.bind.compile(context), new Finish(this) ];
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "Let's evaluate first, then share."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Now that we have the value, let's share it!"
+        }
     }
 
     evaluate(evaluator: Evaluator) {

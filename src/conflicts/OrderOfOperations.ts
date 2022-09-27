@@ -1,5 +1,5 @@
 import type BinaryOperation from "../nodes/BinaryOperation";
-import type { ConflictExplanations } from "./Conflict";
+import type Explanations from "../nodes/Explanations";
 import Conflict from "./Conflict";
 
 export default class OrderOfOperations extends Conflict {
@@ -18,7 +18,7 @@ export default class OrderOfOperations extends Conflict {
         return { primary: [ this.operation.operator, this.after.operator ] };
     }
 
-    getExplanations(): ConflictExplanations { 
+    getExplanations(): Explanations { 
         return {
             eng: `All operators evalute left to right, unlike math. Use parentheses to specify which order to evaluate these.`
         }

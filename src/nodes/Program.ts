@@ -6,7 +6,7 @@ import type Evaluator from "../runtime/Evaluator";
 import type Evaluable from "../runtime/Evaluable";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import Stream from "../runtime/Stream";
 import Token from "./Token";
@@ -53,11 +53,23 @@ export default class Program extends Node implements Evaluable {
     compile(context: Context): Step[] {
         // Execute the borrows, then the block, then this.
         return [ 
-            new Action(this),
+            new Start(this),
             ...this.borrows.reduce((steps: Step[], borrow) => [...steps, ...borrow.compile()], []),
             ...this.block.compile(context),
             new Finish(this)            
         ];
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "Yay, we get to evaluate a program!"
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "We finished evaluating the program, here's what we got!"
+        }
     }
 
     evaluate(evaluator: Evaluator) {

@@ -12,7 +12,7 @@ import type Step from "../runtime/Step";
 import Jump from "../runtime/Jump";
 import Finish from "../runtime/Finish";
 import JumpIfStreamUnchanged from "../runtime/JumpIfStreamUnchanged";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import JumpIfStreamExists from "../runtime/JumpIfStreamExists";
 import Bind from "./Bind";
 import type Context from "./Context";
@@ -72,7 +72,7 @@ export default class Reaction extends Expression {
         // the stream. If it does exist, then evaluate the next value and then
         // append the value to the stream.
         return [
-            new Action(this, evaluator => {
+            new Start(this, evaluator => {
                 // Ask evaluator to remember streams that are accessed
                 evaluator.startRememberingStreamAccesses();
                 // Get the latest value
@@ -105,7 +105,19 @@ export default class Reaction extends Expression {
 
         ];
     }
-    
+
+    getStartExplanations() { 
+        return {
+            "eng": "We start by getting the latest value of the stream."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "We end by evaluating to the new value."
+        }
+    }
+
     evaluate(evaluator: Evaluator): Value | undefined {
 
         // Get the value.

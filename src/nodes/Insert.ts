@@ -12,7 +12,7 @@ import type Value from "../runtime/Value";
 import Table from "../runtime/Table";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import type { TypeSet } from "./UnionType";
@@ -84,7 +84,7 @@ export default class Insert extends Expression {
         if(!(tableType instanceof TableType)) return [ new Halt(evaluator => new TypeException(evaluator, new TableType([]), undefined), this) ];
 
         return [ 
-            new Action(this),
+            new Start(this),
             ...this.table.compile(context), 
             ...(
                 this.row.allExpressions() ? 
@@ -99,6 +99,18 @@ export default class Insert extends Expression {
             ),
             new Finish(this)
         ];
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "First we evaluate the table, then all the rows to insert."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Make a new table with the inserted rows."
+        }
     }
 
     evaluate(evaluator: Evaluator): Value {

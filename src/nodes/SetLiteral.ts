@@ -8,7 +8,7 @@ import type Value from "../runtime/Value";
 import SetValue from "../runtime/SetValue";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import Action from "../runtime/Start";
+import Start from "../runtime/Start";
 import type Context from "./Context";
 import { getPossibleUnionType, TypeSet } from "./UnionType";
 import SetType from "./SetType";
@@ -43,7 +43,7 @@ export default class SetLiteral extends Expression {
 
     compile(context: Context):Step[] {
         return [
-            new Action(this),
+            new Start(this),
             // Evaluate all of the item or key/value expressions
             ...this.values.reduce(
                 (steps: Step[], item) => [
@@ -53,6 +53,18 @@ export default class SetLiteral extends Expression {
             // Then build the set or map.
             new Finish(this)
         ];
+    }
+
+    getStartExplanations() { 
+        return {
+            "eng": "Start evaluating all the set items."
+        }
+     }
+
+    getFinishExplanations() {
+        return {
+            "eng": "Now that we have all the set items, make the set."
+        }
     }
 
     evaluate(evaluator: Evaluator): Value {
