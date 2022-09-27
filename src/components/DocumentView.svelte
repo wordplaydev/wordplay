@@ -64,15 +64,18 @@
 
     let autoplay = true;
 
-    function handleAutoplayChange() {
-        if($project)
-            updateProject($project?.withMode(autoplay ? "play" : "step"));
-    }
-
     function handleStep() {
         if($project)
             $project.getEvaluator().stepWithinProgram();
     }
+
+    function playPause() {
+        if($project) {
+            autoplay = !autoplay;
+            updateProject($project.withMode(autoplay ? "play" : "step"));
+        }
+    }
+
 
 </script>
 
@@ -82,7 +85,7 @@
         <small>
             <!-- If it's output, show controls -->
             {#if content instanceof Value }
-                <label>autoplay <input type="checkbox" bind:checked={autoplay} on:change={handleAutoplayChange}/></label>
+                <span on:click={playPause}>{autoplay ? "⏸" : "▶️"}</span>
                 <button on:click={handleStep} disabled={autoplay || $project?.getEvaluator().isDone()}>step</button>
             {/if}
         </small>
