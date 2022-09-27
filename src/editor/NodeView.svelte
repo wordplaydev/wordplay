@@ -1,6 +1,7 @@
 <script lang="ts">
     import { caret, project } from "../models/stores";
-    import type Node from "../nodes/Node";
+    import Node from "../nodes/Node";
+    import Exception from "../runtime/Exception";
     import renderNode from "./renderNode";
 
     export let node: Node | undefined;
@@ -9,13 +10,18 @@
 
     $: primaryConflicts = node === undefined || $project === undefined ? [] : $project.getPrimaryConflictsInvolvingNode(node) ?? [];
     $: secondaryConflicts = node === undefined || $project === undefined ? [] : $project.getSecondaryConflictsInvolvingNode(node) ?? [];
+    $: value = $project?.getEvaluator().getLatestResult();
+    $: executing = 
+        $project !== undefined &&
+        (($project.getEvaluator().currentStep()?.node === node) || 
+         (value instanceof Exception && value.step?.node instanceof Node && value.step.node === node));
 
 </script>
 
 <!-- Don't render anything if we weren't given a node. TODO Interface for replacing with a slot. -->
 {#if node !== undefined}
 <div 
-    class="{node.constructor.name} node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"} {primaryConflicts.length > 0 ? "primary-conflict" : ""} {secondaryConflicts.length > 0 ? "secondary-conflict" : ""}"
+    class="{node.constructor.name} node-view {$caret?.position === node ? "selected" : ""} {block ? "block" : "inline"} {primaryConflicts.length > 0 ? "primary-conflict" : ""} {secondaryConflicts.length > 0 ? "secondary-conflict" : ""} {executing ? "executing" : ""}"
     on:mousedown={mousedown}
 ><svelte:component this={renderNode(node)} node={node} />{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation("eng")}</div>{/each}</div>{/if}</div>
 {/if}
@@ -69,6 +75,10 @@
 
     .conflict {
         opacity: 1.0;
+    }
+
+    .executing {
+        outline: 4px solid red;
     }
 
 </style>

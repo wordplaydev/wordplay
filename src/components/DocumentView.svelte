@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { caret, project, updateProject } from '../models/stores';
+    import { project, updateProject } from '../models/stores';
     import type Document from "../models/Document";
     import Value from '../runtime/Value';
     import Text from '../runtime/Text';
@@ -13,7 +13,6 @@
     import TextType from '../nodes/TextType';
     import StructureType from '../nodes/StructureType';
     import Program from '../nodes/Program';
-    import Caret from '../models/Caret';
     import Editor from '../editor/Editor.svelte';
 
     export let doc: Document;
@@ -63,34 +62,36 @@
         }
     }
 
-    function handleEdit(event: Event) {
-        // When the document changes, create a new document with the new value and update the project,
-        // triggering a rerender.
-        if($project !== undefined) {
-            const newCode = (event.target as HTMLTextAreaElement).value;
-            // Make a new one based on the new program
-            const newProject = $project.withCode(newCode);
-            updateProject(newProject);
-            caret.set(new Caret(newProject, 0));
-        }
+    let autoplay = true;
+
+    function handleAutoplayChange() {
+        if($project)
+            updateProject($project?.withMode(autoplay ? "play" : "step"));
+    }
+
+    function handleStep() {
+        if($project)
+            $project.getEvaluator().stepWithinProgram();
     }
 
 </script>
 
 <div class="document">
-    <div class="document-title">{doc.getName()}</div>
+    <div class="document-title">
+        {doc.getName()}
+        <small>
+            <!-- If it's output, show controls -->
+            {#if content instanceof Value }
+                <label>autoplay <input type="checkbox" bind:checked={autoplay} on:change={handleAutoplayChange}/></label>
+                <button on:click={handleStep} disabled={autoplay || $project?.getEvaluator().isDone()}>step</button>
+            {/if}
+        </small>
+    </div>
     <div class="document-content">
         {#if view instanceof Structure}
             <VerseView verse={view} evaluator={$project?.getEvaluator()}/>
         {:else if content instanceof Program}
             <Editor program={content} />
-        {:else if typeof content === "string"}
-            <textarea 
-                on:input={handleEdit} 
-                bind:value={content} 
-                readonly={!doc.isEditable()}
-                tabIndex=0
-            />
         {:else}
             <p>No value</p>
         {/if}
@@ -126,23 +127,6 @@
 
     .document-content:focus-within {
         outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
-    }
-
-    textarea {
-        width: 100%;
-        height: 100%;
-        tab-size : 2;
-        white-space: pre;
-        overflow-wrap: normal;
-        border: none;
-        resize: none;
-        font-family: "Noto Sans mono", monospace;
-        font-size: small;
-        outline: none;
-    }
-
-    textarea[readonly] {
-        background: var(--wordplay-chrome);
     }
 
 </style>

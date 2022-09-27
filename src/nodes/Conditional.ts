@@ -92,7 +92,7 @@ export default class Conditional extends Expression {
             this.conditional.cloneOrReplace([ Token ], original, replacement), 
             this.yes.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
             this.no.cloneOrReplace([ Expression, Unparsable ], original, replacement)
-        ) as this; 
+        ) as this;
     }
 
     /** 

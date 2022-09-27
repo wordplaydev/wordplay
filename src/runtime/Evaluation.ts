@@ -69,8 +69,12 @@ export default class Evaluation {
     getContext() { return this.#context; }
     getNode() { return this.#node; }
 
-    /** Given an Evaluator, evaluate this node, and return true if it's done. 
-     *  Undefined means that this will continue evaluating. A Value means it's done. */
+    /** 
+     * Given an Evaluator, evaluate the current step.
+     * If it returns a value of any kind, return the value.
+     * Otherwise just keep stepping.
+     *  Undefined means that this will continue evaluating. A Value means it's done. 
+     **/
     step(evaluator: Evaluator): Value | undefined {
 
         if(this.#steps === undefined) return;
@@ -106,7 +110,7 @@ export default class Evaluation {
     nextStep() { return this.#steps && this.#step + 1 < this.#steps.length ? this.#steps[this.#step + 1] : undefined; }
 
     jump(distance: number) {
-        this.#step += distance;  
+        this.#step += distance;
     }
 
     pushValue(value: Value): void { 

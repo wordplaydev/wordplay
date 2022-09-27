@@ -10,7 +10,7 @@ export default abstract class Stream extends Primitive implements Named {
     /** The stream of values */
     values: Value[] = [];
 
-    listeners: ((stream: Stream)=>void)[] = [];
+    reactors: ((stream: Stream)=>void)[] = [];
 
     readonly names: Record<LanguageCode,string>;
 
@@ -46,15 +46,16 @@ export default abstract class Stream extends Primitive implements Named {
     }
 
     listen(listener: (stream: Stream)=>void) {
-        this.listeners.push(listener);
+        this.reactors.push(listener);
     }
 
     ignore(listener: (stream: Stream)=> void) {
-        this.listeners = this.listeners.filter(l => l !== listener);
+        this.reactors = this.reactors.filter(l => l !== listener);
     }
 
     notify() {
-        this.listeners.forEach(listener => listener.call(undefined, this));
+        // Tell each reactor that this stream changed.
+        this.reactors.forEach(reactor => reactor(this));
     }
 
     /** Should produce valid Wordplay code string representing the stream's name */
