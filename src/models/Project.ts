@@ -29,6 +29,7 @@ export default class Project {
     }
 
     getSources() { return [ this.main, ...this.supplements]; }
+    getSourcesExcept(source: Source) { return [ this.main, ...this.supplements].filter(s => s !== source); }
     getName() { return this.name; }
 
     cleanup() { 
@@ -50,7 +51,7 @@ export default class Project {
 
     getDefinition(borrower: Source, name: string): Definition {
 
-        const sources = this.getSources().filter(s => s !== borrower);
+        const sources = this.getSourcesExcept(borrower);
         for(const source of sources) {
             const lastExpression = source.program.block instanceof Block ? source.program.block.statements[0] : undefined;
             const definition = lastExpression === undefined ? undefined : source.program.block.getDefinition(name, source.evaluator.context, lastExpression);

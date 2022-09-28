@@ -13,6 +13,8 @@ import Start from "../runtime/Start";
 import type Step from "../runtime/Step";
 import SemanticException from "../runtime/SemanticException";
 import NameException from "../runtime/NameException";
+import Block from "./Block";
+import { DuplicateShare } from "../conflicts/DuplicateShare";
 
 export default class Share extends Node implements Evaluable {
     
@@ -39,6 +41,19 @@ export default class Share extends Node implements Evaluable {
         // Bindings must have language tags on all names to clarify what langauge they're written in.
         if(this.bind instanceof Bind && !this.bind.names.every(n => n.lang !== undefined))
             conflicts.push(new MissingShareLanguages(this));
+
+        // Other shares in this project can't have the same name
+        const sources = context.source.getProject()?.getSourcesExcept(context.source);
+        if(sources !== undefined && this.bind instanceof Bind) {
+            for(const source of sources) {
+                if(source.program.block instanceof Block) {
+                    for(const share of source.program.block.statements.filter(s => s instanceof Share) as Share[]) {
+                        if(share.bind instanceof Bind && this.bind.sharesName(share.bind))
+                            conflicts.push(new DuplicateShare(this, share));
+                    }
+                }
+            }
+        }
 
         return conflicts;
 
