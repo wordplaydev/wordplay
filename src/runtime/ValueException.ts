@@ -1,7 +1,7 @@
 import type Evaluator from "./Evaluator";
 import Exception from "./Exception";
 
-export default class UnparasableException extends Exception {
+export default class UnparseableException extends Exception {
 
     constructor(evaluator: Evaluator) {
         super(evaluator);

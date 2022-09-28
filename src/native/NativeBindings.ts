@@ -635,7 +635,7 @@ Native.addStructure(LIST_NATIVE_TYPE_NAME, new StructureDefinition(
     // No inputs
     [],
     // Include all of the functions defined above.
-    new Block([], [ ...Object.values(Native.functionsByType[LIST_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[LIST_NATIVE_TYPE_NAME]], true)
+    new Block([], [ ...Object.values(Native.functionsByType[LIST_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[LIST_NATIVE_TYPE_NAME]], false, true)
 ));
 
 Native.addStructure(SET_NATIVE_TYPE_NAME, new StructureDefinition(
@@ -649,7 +649,7 @@ Native.addStructure(SET_NATIVE_TYPE_NAME, new StructureDefinition(
     // No inputs
     [],
     // Include all of the functions defined above.
-    new Block([], [ ...Object.values(Native.functionsByType[SET_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[SET_NATIVE_TYPE_NAME]], true)
+    new Block([], [ ...Object.values(Native.functionsByType[SET_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[SET_NATIVE_TYPE_NAME]], false, true)
 ));
 
 Native.addStructure(MAP_NATIVE_TYPE_NAME, new StructureDefinition(
@@ -663,31 +663,31 @@ Native.addStructure(MAP_NATIVE_TYPE_NAME, new StructureDefinition(
     // No inputs
     [],
     // Include all of the functions defined above.
-    new Block([], [ ...Object.values(Native.functionsByType[MAP_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[MAP_NATIVE_TYPE_NAME]], true)
+    new Block([], [ ...Object.values(Native.functionsByType[MAP_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[MAP_NATIVE_TYPE_NAME]], false, true)
 ));
 
 Native.addStructure(BOOLEAN_NATIVE_TYPE_NAME, new StructureDefinition(
     // TODO Localized documentation
     [],[], [], [], [],
-    new Block([], [ ...Object.values(Native.functionsByType[BOOLEAN_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[BOOLEAN_NATIVE_TYPE_NAME]], true)
+    new Block([], [ ...Object.values(Native.functionsByType[BOOLEAN_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[BOOLEAN_NATIVE_TYPE_NAME]], false, true)
 ));
 
 Native.addStructure(MEASUREMENT_NATIVE_TYPE_NAME, new StructureDefinition(
     // TODO Localized documentation
     [],[], [], [], [],
-    new Block([], [ ...Object.values(Native.functionsByType[MEASUREMENT_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[MEASUREMENT_NATIVE_TYPE_NAME]], true)
+    new Block([], [ ...Object.values(Native.functionsByType[MEASUREMENT_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[MEASUREMENT_NATIVE_TYPE_NAME]], false, true)
 ));
 
 Native.addStructure(TEXT_NATIVE_TYPE_NAME, new StructureDefinition(
     // TODO Localized documentation
     [],[], [], [], [],
-    new Block([], [ ...Object.values(Native.functionsByType[TEXT_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[TEXT_NATIVE_TYPE_NAME]], true)
+    new Block([], [ ...Object.values(Native.functionsByType[TEXT_NATIVE_TYPE_NAME] ?? {}), ...Native.conversionsByType[TEXT_NATIVE_TYPE_NAME]], false, true)
 ));
 
 Native.addStructure(NONE_NATIVE_TYPE_NME, new StructureDefinition(
     // TODO Localized documentation
     [],[], [], [], [],
-    new Block([], [ ...Object.values(Native.functionsByType[NONE_NATIVE_TYPE_NME] ?? {}), ...Native.conversionsByType[NONE_NATIVE_TYPE_NME]], true)
+    new Block([], [ ...Object.values(Native.functionsByType[NONE_NATIVE_TYPE_NME] ?? {}), ...Native.conversionsByType[NONE_NATIVE_TYPE_NME]], false, true)
 ));
 
 export default Native;

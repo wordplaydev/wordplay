@@ -14,9 +14,8 @@
     }
 
     $: verse = source.getVerse();
-
-
-    let evaluator = source.evaluator;
+    $: evaluator = source.evaluator;
+    
     let autoplay = true;
 
     function handleEvaluation() {
@@ -58,7 +57,7 @@
 
 <style>
     .source {
-        min-width: 40em;
+        width: 100%;
         display: flex;
         flex-flow: column;
         flex: 1; /* Have each document fill an equal amount of space in the window manager */

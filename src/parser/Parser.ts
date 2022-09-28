@@ -316,7 +316,7 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
             tokens.read(TokenType.EVAL_CLOSE) :
             tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, []);
 
-    return new Block(docs, statements, creator, open, close);
+    return new Block(docs, statements, root, creator, open, close);
 
 }
 

@@ -18,6 +18,7 @@ import TextType from "../nodes/TextType";
 import List from "../runtime/List";
 import Text from "../runtime/Text";
 import Measurement from "../runtime/Measurement";
+import type Project from "./Project";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source {
@@ -28,12 +29,15 @@ export default class Source {
 
     // Derived fields
     readonly program: Program;
-    readonly conflicts: Conflict[];
+    conflicts: Conflict[];
     readonly evaluator: Evaluator;
 
     /** An index of conflicts for each node. */
     readonly _primaryNodeConflicts: Map<Node, Conflict[]> = new Map();
     readonly _secondaryNodeConflicts: Map<Node, Conflict[]> = new Map();
+
+    /** The Project sets this once it's added. */
+    _project: Project | undefined;
     
     readonly observers: Set<() => void> = new Set();
 
@@ -42,12 +46,25 @@ export default class Source {
         this.name = name;
         this.code = typeof code === "string" ? new UnicodeString(code) : code;
         this.mode = mode;
-
+        
         // Compute derived fields.
         this.program = parseProgram(new Tokens(tokenize(this.code.getText())));
-        this.evaluator = new Evaluator(this.program, mode);
+        this.evaluator = new Evaluator(this);
         this.evaluator.observe(this);
-        this.conflicts = this.program.getAllConflicts(this.program, this.evaluator.getShares(), Native);
+        this.conflicts = [];
+
+        if(observers !== undefined) this.observers = observers;
+
+    }
+
+    getProject() { return this._project; }
+    setProject(project: Project) { 
+        
+        this._project = project; 
+
+        // Now that we have a project, we can get conflicts (to enable cross-Source borrows).
+
+        this.conflicts = this.program.getAllConflicts(this, this.evaluator.getShares(), Native);
 
         // Build the conflict index by going through each conflict, asking for the conflicting nodes
         // and adding to the conflict to each node's list of conflicts.
@@ -62,9 +79,7 @@ export default class Source {
                 this._secondaryNodeConflicts.set(node, [ ... nodeConflicts, conflict ]);
             });
         });
-
-        if(observers !== undefined) this.observers = observers;
-
+    
     }
 
     getName() { return this.name; }
@@ -75,6 +90,7 @@ export default class Source {
     observe(observer: () => void) { 
         this.observers.add(observer);
     }
+
     ignore(observer: () => void) { 
         this.observers.delete(observer);
     }

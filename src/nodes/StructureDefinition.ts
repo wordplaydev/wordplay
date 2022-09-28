@@ -63,7 +63,7 @@ export default class StructureDefinition extends Expression {
         this.open = open ?? new Token(EVAL_OPEN_SYMBOL, [ TokenType.EVAL_OPEN ]);
         this.inputs = inputs;
         this.close = close ?? new Token(EVAL_CLOSE_SYMBOL, [ TokenType.EVAL_CLOSE ]);
-        this.block = block ?? new Block([], [], true);
+        this.block = block ?? new Block([], [], false, true);
     }
 
     getNames() { return this.aliases.map(a => a.getName()); }

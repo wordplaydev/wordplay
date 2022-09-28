@@ -1,9 +1,9 @@
 import type Conflict from "../conflicts/Conflict";
 import type Shares from "../runtime/Shares";
-import type Program from "./Program";
 import type Definition from "./Definition";
 import type NativeInterface from "../native/NativeInterface";
 import Context from "./Context";
+import type Source from "../models/Source";
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -68,10 +68,10 @@ export default abstract class Node {
     getConflictCache() { return this._conflicts === undefined ? [] : this._conflicts; }
     
     /** Returns all the conflicts in this tree. */
-    getAllConflicts(program: Program, shares: Shares, native: NativeInterface): Conflict[] {
+    getAllConflicts(source: Source, shares: Shares, native: NativeInterface): Conflict[] {
         let conflicts: Conflict[] = [];
         this.traverse(node => {
-            const nodeConflicts = node.getConflicts(new Context(program, shares, native));
+            const nodeConflicts = node.getConflicts(new Context(source, source.program, shares, native));
             if(nodeConflicts !== undefined)
                 conflicts = conflicts.concat(nodeConflicts);
             return true;

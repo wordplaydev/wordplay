@@ -1,7 +1,5 @@
 import Node from "../nodes/Node";
-import type Program from "../nodes/Program";
 import type Reaction from "../nodes/Reaction";
-import { parse } from "../parser/Parser";
 import Evaluation from "./Evaluation";
 import ReactionStream from "./ReactionStream";
 import Shares, { DEFAULT_SHARES } from "./Shares";
@@ -18,6 +16,8 @@ import type Type from "../nodes/Type";
 import Native from "../native/NativeBindings";
 import type NativeInterface from "../native/NativeInterface";
 import type Step from "./Step";
+import Source from "../models/Source";
+import type Program from "../nodes/Program";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = {
@@ -29,10 +29,7 @@ export type EvaluationMode = "play" | "step";
 
 export default class Evaluator {
 
-    readonly program: Program;
-
-    /** This represents the execution mode, either play or step */
-    readonly mode: EvaluationMode;
+    readonly source: Source;
 
     /** This represents a stack of node evaluations. The first element of the stack is the currently executing node. */
     readonly evaluations: Evaluation[] = [];
@@ -67,16 +64,12 @@ export default class Evaluator {
     /** A queue of streams that have been modified. */
     reactionQueue: Stream[] = [];
 
-    constructor(program: Program, mode: EvaluationMode) {
+    constructor(source: Source) {
 
-        this.program = program;
+        this.source = source;
         this.evaluations = [];
         this.shares = new Shares(this);
-        this.context = new Context(this.program, this.shares, Native);
-        this.mode = mode;
-
-        // Prepare for evaluation.
-        this.start([]);
+        this.context = new Context(this.source, this.source.program, this.shares, Native);
 
     }
 
@@ -86,12 +79,18 @@ export default class Evaluator {
      */
     static evaluateCode(code: string): Value | undefined {
         // Evaluate the program.
-        const evaluator = new Evaluator(parse(code), "play");
+        const evaluator = new Evaluator(new Source("test", code));
+        // Start the evaluation
+        evaluator.start([]);
         // Stop the streams.
         evaluator.stop();
         // Return the result.
         return evaluator.getLatestResult();
     }
+
+    getSource(): Source { return this.source; }
+
+    getProgram(): Program { return this.source.program; }
 
     getContext(): Context { return this.context; }
 
@@ -176,7 +175,7 @@ export default class Evaluator {
         do {
             this.step();
             nextStepNode = this.currentStep()?.node;
-        } while(nextStepNode instanceof Node && !this.program.contains(nextStepNode));
+        } while(nextStepNode instanceof Node && !this.source.program.contains(nextStepNode));
 
     }
 
@@ -187,7 +186,7 @@ export default class Evaluator {
 
         // Reset the evluation stack and start evaluating the the program.
         this.evaluations.length = 0;
-        this.evaluations.push(new Evaluation(this, this.program, this.program));
+        this.evaluations.push(new Evaluation(this, this.source.program, this.source.program));
 
         // Borrow all of the implicit borrows.
         Object.keys(DEFAULT_SHARES).forEach(name => this.borrow(name));
@@ -196,7 +195,7 @@ export default class Evaluator {
         this.stopRememberingStreamAccesses();
 
         // If in play mode, we finish.
-        if(this.mode === "play")
+        if(this.source.mode === "play")
             this.finish();
 
     }
@@ -251,6 +250,11 @@ export default class Evaluator {
     pushValue(value: Value): void { 
         if(this.evaluations.length > 0)
             this.evaluations[0].pushValue(value);
+    }
+
+    /** See the value on top. */
+    hasValue(): boolean { 
+        return this.evaluations.length > 0 && this.evaluations[0].hasValue();
     }
     
     /** See the value on top. */
@@ -309,12 +313,17 @@ export default class Evaluator {
     share(name: string, value: Value) { 
         return this.shares.bind(name, value);
     }
-    
-    /** Borrow the given name from the global namespace. */
-    borrow(name: string): Exception | undefined { 
 
-        // Find the shared thing
-        const share = this.shares.resolve(name);
+    resolveShare(name: string): Value | undefined {
+        return this.shares.resolve(name);
+    }
+
+    /** Borrow the given name from the other source in this project or from the global namespace. */
+    borrow(name: string): Value | undefined { 
+
+        // First look in this source's shares (for global things) then look in other source.
+        // (Otherwise we'll find the other source's streams, which are separate).
+        const share = this.shares.resolve(name) ?? this.getSource().getProject()?.resolveShare(this.getSource(), name);
         if(share === undefined) return new NameException(this, name);
 
         // If we've already borrowed this, don't do it again.
@@ -330,7 +339,6 @@ export default class Evaluator {
             share.listen(this.react.bind(this));
             share.start();
         };
-
 
     }
     

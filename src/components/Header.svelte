@@ -1,12 +1,11 @@
 <script lang="ts">
-    import { examples } from '../examples/examples';
+    import { examples, makeProject, type Stuff } from '../examples/examples';
     import { updateProject } from '../models/stores';
-    import type Project from '../models/Project';
 
-    let example: Project;
+    let example: Stuff;
 
     function handleChange() {
-        updateProject(example);
+        updateProject(makeProject(example));
     }
 
 </script>
@@ -15,7 +14,7 @@
     Wordplay
     <select bind:value={example} on:change={handleChange}>
         {#each examples as example }
-            <option value={example}>{example.getName()}</option>
+            <option value={example}>{example.name}</option>
         {/each}
     </select>
 </div>

@@ -33,6 +33,8 @@ import ListType from "./ListType";
 import Cell from "./Cell";
 import ValueException from "../runtime/ValueException";
 import type Explanations from "./Explanations";
+import Exception from "../runtime/Exception";
+import Share from "./Share";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -121,9 +123,9 @@ export default class Bind extends Node implements Evaluable, Named {
             });
         }
 
-        // If this bind isn't part of an Evaluate, it should be used in some expression in its parent.
+        // If this bind isn't part of an Evaluate or a Share, it should be used in some expression in its parent.
         const parent = this.getParent();
-        if(enclosure && !(parent instanceof Column || parent instanceof ColumnType || parent instanceof Cell || parent instanceof Evaluate)) {
+        if(enclosure && !(parent instanceof Share || parent instanceof Column || parent instanceof ColumnType || parent instanceof Cell || parent instanceof Evaluate)) {
             const uses = enclosure.nodes(n => n instanceof Name && this.names.find(name => name.getName() === n.name.text.toString()) !== undefined);
             if(uses.length === 0)
                 conflicts.push(new UnusedBind(this));
@@ -213,12 +215,19 @@ export default class Bind extends Node implements Evaluable, Named {
 
     evaluate(evaluator: Evaluator) {
         
+        // Get the value we computed.
+        const value = evaluator.popValue(undefined);
+
+        // If it's an exception, return it instead of binding.
+        if(value instanceof Exception) return value;
+
         // Bind the value on the stack to the names.
         this.names.forEach(alias => { 
             const name = alias.getName(); 
             if(name !== undefined) 
-                evaluator.bind(name, evaluator.popValue(undefined)); 
+                evaluator.bind(name, value);
         });
+
         return undefined;
 
     }

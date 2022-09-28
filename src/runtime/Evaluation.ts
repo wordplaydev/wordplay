@@ -113,6 +113,8 @@ export default class Evaluation {
         this.#step += distance;
     }
 
+    hasValue(): boolean { return this.#values.length > 0; }
+
     pushValue(value: Value): void { 
         this.#values.unshift(value); 
     }
@@ -153,13 +155,13 @@ export default class Evaluation {
 
         const program = this.getProgram();
         if(program === undefined) return undefined;
-        return this.#conversions.find(c => c.definition.output instanceof Type && c.definition.output.isCompatible(type, new Context(program)));
+        return this.#conversions.find(c => c.definition.output instanceof Type && c.definition.output.isCompatible(type, new Context(this.getEvaluator().getSource(), program)));
 
     }
 
     /** Finds the program that executed all of this in the evaluation context stack. */
     getProgram(): Program {
-        return this.#evaluator.program;
+        return this.#evaluator.getProgram();
     }
 
     /** Allow the given aliases to be borrowed. */

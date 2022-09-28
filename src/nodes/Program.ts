@@ -47,6 +47,13 @@ export default class Program extends Node implements Evaluable {
             else if(share instanceof Stream)
                 return share;
         }
+        // Is it one of the borrows?
+        const borrow = this.borrows.find(borrow => borrow instanceof Borrow && borrow.name.getText() === name);
+        if(borrow !== undefined) {
+            const bind = context.source.getProject()?.getDefinition(context.source, name);
+            if(bind !== undefined) return bind;
+        }
+        
         return undefined;
     }
     
@@ -56,7 +63,7 @@ export default class Program extends Node implements Evaluable {
             new Start(this),
             ...this.borrows.reduce((steps: Step[], borrow) => [...steps, ...borrow.compile()], []),
             ...this.block.compile(context),
-            new Finish(this)            
+            new Finish(this)
         ];
     }
 
@@ -74,7 +81,7 @@ export default class Program extends Node implements Evaluable {
 
     evaluate(evaluator: Evaluator) {
 
-        // Return whatever the block computed.
+        // Return whatever the block computed, if there is anything.
         return evaluator.popValue(undefined);
 
     }

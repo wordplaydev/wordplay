@@ -64,6 +64,7 @@ export default class Share extends Node implements Evaluable {
 
         if(this.bind instanceof Unparsable) 
             return new SemanticException(evaluator, this.bind);
+            
         const name = this.bind.names[0].getName();
         const value = name === undefined ? undefined : evaluator.resolve(name);
         if(value === undefined || name == undefined) 

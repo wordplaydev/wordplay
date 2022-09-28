@@ -46,12 +46,13 @@ export default class Borrow extends Node implements Evaluable {
 
     getFinishExplanations() {
         return {
-            "eng": "Find the name to borrow."
+            "eng": "Find the shared name in other programs to borrow."
         }
     }
 
     evaluate(evaluator: Evaluator) {
-        return evaluator.borrow(this.getName());
+        evaluator.borrow(this.getName());
+        return undefined;
     }    
 
     getName() { return this.name.getText(); }

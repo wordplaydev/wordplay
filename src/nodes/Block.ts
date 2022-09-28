@@ -24,6 +24,7 @@ import FunctionDefinition from "./FunctionDefinition";
 import type { TypeSet } from "./UnionType";
 import ValueException from "../runtime/ValueException";
 import ContextException, { StackSize } from "../runtime/ContextException";
+import None from "../runtime/None";
 
 export default class Block extends Expression {
 
@@ -31,15 +32,17 @@ export default class Block extends Expression {
     readonly statements: (Expression | Unparsable | Share | Bind)[];
     readonly close?: Token | Unparsable;
     readonly docs: Documentation[];
+    readonly root: boolean;
     readonly creator: boolean;
 
-    constructor(docs: Documentation[], statements: (Expression | Unparsable | Share | Bind)[], creator: boolean, open?: Token | Unparsable, close?: Token | Unparsable) {
+    constructor(docs: Documentation[], statements: (Expression | Unparsable | Share | Bind)[], root: boolean, creator: boolean, open?: Token | Unparsable, close?: Token | Unparsable) {
         super();
 
         this.open = open;
         this.statements = statements.slice();
         this.close = close;
         this.docs = docs;
+        this.root = root;
         this.creator = creator;
     }
 
@@ -56,7 +59,7 @@ export default class Block extends Expression {
         const conflicts = [];
 
         // Blocks can't be empty. And if they aren't empty, the last statement must be an expression.
-        if((this.statements.length === 0 || !(this.statements[this.statements.length  - 1] instanceof Expression)))
+        if(!this.root && !this.creator && (this.statements.length === 0 || !(this.statements[this.statements.length  - 1] instanceof Expression)))
             conflicts.push(new ExpectedEndingExpression(this));
 
         // The only expression allowed is the last one.
@@ -145,8 +148,8 @@ export default class Block extends Expression {
             if(context === undefined) return new ContextException(evaluator, StackSize.EMPTY);
             return new Structure(context);
         }
-        // If this block is just an expression, return the (last) value on the value stack of the current evaluation context.
-        else return evaluator.popValue(undefined);            
+        // Root blocks are allowed to have no value, but all others must have one.
+        else return this.root && !evaluator.hasValue() ? new None() : evaluator.popValue(undefined);
 
     }
 
@@ -154,6 +157,7 @@ export default class Block extends Expression {
         return new Block(
             this.docs.map(d => d.cloneOrReplace([ Documentation ], original, replacement)), 
             this.statements.map(s => s.cloneOrReplace([ Expression, Unparsable, Share, Bind ], original, replacement)), 
+            this.root,
             this.creator, 
             this.open?.cloneOrReplace([ Token, undefined ], original, replacement), 
             this.close?.cloneOrReplace([ Token, undefined], original, replacement)

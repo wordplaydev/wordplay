@@ -7,7 +7,7 @@ export default class None extends Value {
 
     readonly aliases: Alias[];
 
-    constructor(aliases: Alias[]) {
+    constructor(aliases: Alias[]=[]) {
         super();
         this.aliases = aliases;
     }
