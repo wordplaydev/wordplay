@@ -27,6 +27,10 @@
         source.evaluator.stepWithinProgram();
     }
 
+    function handleStepOut() {
+        source.evaluator.stepOut();
+    }
+
     function playPause() {
         autoplay = !autoplay;
         updateProject($project.withSource(source, source.withMode(autoplay ? "play" : "step")));
@@ -43,6 +47,7 @@
             <!-- If it's output, show controls -->
             <span on:click={playPause}>{autoplay ? "⏸" : "▶️"}</span>
             <button on:click={handleStep} disabled={autoplay || source.getEvaluator().isDone()}>step</button>
+            <button on:click={handleStepOut} disabled={autoplay || source.getEvaluator().isDone()}>step out</button>
         </small>
     </div>
     <div class="split">

@@ -179,6 +179,14 @@ export default class Evaluator {
 
     }
 
+    /** Keep evaluating steps in this project until out of the current evaluation. */
+    stepOut(): void {
+        const currentEvaluation = this.evaluations[0];
+        if(currentEvaluation === undefined) return;
+        while(this.evaluations.length > 0 && currentEvaluation === this.evaluations[0])
+            this.stepWithinProgram();
+    }
+
     /** Evaluate until we're done */
     start(changedStreams: Stream[]): void {
 
