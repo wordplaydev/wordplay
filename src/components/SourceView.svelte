@@ -82,17 +82,19 @@
         min-height: 20rem;
         max-height: 40rem;
         background: var(--wordplay-background);
+        padding: var(--wordplay-spacing);
         color: var(--wordplay-foreground);
-        box-sizing: border-box;
+        box-sizing: content-box;
         overflow: scroll;
     }
 
-    .source-content:first-child {
-        border-right: var(--wordplay-border-width) solid var(--wordplay-border-color);;
+    .source-content:last-child {
+        border-left: var(--wordplay-border-width) solid var(--wordplay-border-color);;
     }
 
     .source-content:focus-within {
         outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
+        outline-offset: calc(-1 * var(--wordplay-border-width));
     }
 
 </style>

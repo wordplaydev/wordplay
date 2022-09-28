@@ -277,7 +277,6 @@
 <style>
 
     .editor {
-        padding: var(--wordplay-spacing);
         white-space: nowrap;
         width: auto;
         height: auto;
