@@ -51,12 +51,31 @@ export default abstract class Node {
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
     abstract computeConflicts(context: Context): Conflict[] | void;
 
-    /** Given a program, a node that triggered a search, and a name, get the thing that defined the name. */
+    /** 
+     * Each node has the option of exposing bindings. By default, nodes expose no bindings.
+     **/
     getDefinition(name: string, context: Context, node: Node): Definition {
         // Silliness to avoid warnings on unused arguments.
         name; context; node;
         return undefined;
     };
+
+    /**
+     * Gathers all matching definitions in scope, useful for checking for duplicate bindings.
+     */
+    getAllDefinitions(name: string, context: Context, node: Node): Definition[] {
+
+        const definitions = [];
+        let current: Node | undefined = this;
+        while(current !== undefined) {
+            const definition = current.getDefinition(name, context, node);
+            if(definition !== undefined)
+                definitions.unshift(definition);
+            current = current.getBindingEnclosureOf();
+        }
+        return definitions;
+
+    }
 
     /** Compute and store the conflicts. */
     getConflicts(context: Context) { 

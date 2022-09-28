@@ -35,6 +35,7 @@ import ValueException from "../runtime/ValueException";
 import type Explanations from "./Explanations";
 import Exception from "../runtime/Exception";
 import Share from "./Share";
+import type Definition from "./Definition";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -103,12 +104,14 @@ export default class Bind extends Node implements Evaluable, Named {
         const enclosure = this.getBindingEnclosureOf();
 
         // It can't already be defined.
-        const definitions = this.names.map(alias => {
-            const name = alias.getName();
-            return name === undefined ? undefined : enclosure?.getDefinition(name, context, this);
-        }).filter(def => def !== undefined && def !== this && (def instanceof Bind || def instanceof TypeVariable)) as (Bind | TypeVariable)[];
-        if(definitions.length > 0)
-            conflicts.push(new DuplicateBinds(this, definitions));
+        if(enclosure !== undefined) {
+            const definitions = this.names.reduce((definitions: Definition[], alias) => {
+                const name: string | undefined = alias.getName();
+                return name === undefined ? definitions : definitions.concat(enclosure.getAllDefinitions(name, context, this));
+            }, []).filter(def => def !== undefined && def !== this && (def instanceof Bind || def instanceof TypeVariable)) as (Bind | TypeVariable)[];
+            if(definitions.length > 0)
+                conflicts.push(new DuplicateBinds(this, definitions));
+        }
 
         // Warn if there are similarly cased definitions.
         // Is there match with the other case?

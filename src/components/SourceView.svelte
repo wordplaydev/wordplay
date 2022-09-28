@@ -79,7 +79,7 @@
     .source-content {
         flex: 1; /* 50/50 split */
         height: 100%;
-        min-height: 10rem;
+        min-height: 20rem;
         max-height: 40rem;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
