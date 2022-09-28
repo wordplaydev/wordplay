@@ -195,6 +195,10 @@ export default class Source {
         return new Source(this.name, new UnicodeString(code), this.mode, this.observers);
     }
 
+    clone() {
+        return new Source(this.name, this.code, this.mode, this.observers);
+    }
+
     getNextToken(token: Token, direction: -1 | 1): Token | undefined {
 
         const tokens = this.program.nodes(n => n instanceof Token) as Token[];
