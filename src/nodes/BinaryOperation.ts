@@ -222,7 +222,7 @@ export default class BinaryOperation extends Expression {
                 new Start(this), 
                 ...left,
                 // Jump past the right's instructions if false and just push a false on the stack.
-                new JumpIf(right.length + 2, true, false, this),
+                new JumpIf(right.length + 1, true, false, this),
                 ...right, 
                 new Finish(this)
             ];
@@ -233,7 +233,7 @@ export default class BinaryOperation extends Expression {
                 new Start(this), 
                 ...left,
                 // Jump past the right's instructions if true and just push a true on the stack.
-                new JumpIf(right.length + 2, true, true, this),
+                new JumpIf(right.length + 1, true, true, this),
                 ...right, 
                 new Finish(this)
             ];

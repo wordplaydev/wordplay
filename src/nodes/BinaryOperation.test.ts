@@ -32,6 +32,7 @@ test("Test boolean logic", () => {
     expect(Evaluator.evaluateCode("⊥ ∧ ⊥")?.toString()).toBe("⊥");
     expect(Evaluator.evaluateCode("⊥ ∧ ⊤")?.toString()).toBe("⊥");
     expect(Evaluator.evaluateCode("⊤ ∧ ⊤")?.toString()).toBe("⊤");
+    expect(Evaluator.evaluateCode("⊥ ∧ ⊤ ? 1 2")?.toString()).toBe("2");
     expect(Evaluator.evaluateCode("⊤ ∧ ¬⊤")?.toString()).toBe("⊥");
     expect(Evaluator.evaluateCode("¬(⊤ ∧ ⊤)")?.toString()).toBe("⊥");
 
