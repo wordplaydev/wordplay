@@ -10,7 +10,7 @@
     import type Source from '../models/Source';
     import { writable } from 'svelte/store';
     import Exception from '../runtime/Exception';
-    import createOutlineOf from './outline';
+    import createRowOutlineOf from './outline';
 
     export let source: Source;
 
@@ -79,7 +79,8 @@
         if(selection !== undefined && editor !== undefined) {
             const nodeView = editor.querySelector(`.node-view[data-id="${selection.id}"]`);
             if(nodeView !== null) {
-                selectionPath = createOutlineOf(nodeView, -viewportRect.left + viewport.scrollLeft, -viewportRect.top + viewport.scrollTop);
+                selectionPath = createRowOutlineOf(nodeView, -viewportRect.left + viewport.scrollLeft, -viewportRect.top + viewport.scrollTop);
+                // createRowOutlineOf(nodeView, -viewportRect.left + viewport.scrollLeft, -viewportRect.top + viewport.scrollTop);
             }
         }
 
