@@ -35,7 +35,7 @@
 
     // When the caret changes, make sure it's in view.
     afterUpdate(() => {
-        if(editor === undefined) return;
+        if(editor === undefined || editor === null) return;
 
         const viewport = editor.parentElement;
         if(viewport === null) return;
