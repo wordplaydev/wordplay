@@ -52,7 +52,7 @@
         }
 
         // Scroll to the caret if we're not executing.
-        if(caretView !== null && !source.evaluator.isDone()) {
+        if(caretView !== null && source.evaluator.isDone()) {
 
             // Move the scroll bars as necessary.
             ensureElementIsVisible(caretView);
