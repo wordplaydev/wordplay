@@ -9,6 +9,8 @@
     import NodeView from './NodeView.svelte';
     import type Source from '../models/Source';
     import { writable } from 'svelte/store';
+    import Exception from '../runtime/Exception';
+    import createOutlineOf from './outline';
 
     export let source: Source;
 
@@ -25,26 +27,63 @@
         setContext("caret", caret);
     }
 
+    let selection: Node | undefined = undefined;
+    let selectionKind: "step" | "exception" | "selected" | "none";
+    let selectionPath: string | undefined = undefined;
+    let rootWidth = 0;
+    let rootHeight = 0;
+
     // When the caret changes, make sure it's in view.
     afterUpdate(() => {
-        const caretView = editor?.querySelector(".caret");
-        const viewport = editor?.parentElement;
-        if(caretView && viewport && source.evaluator.getLatestResult() !== undefined) {
+        if(editor === undefined) return;
+
+        const viewport = editor.parentElement;
+        if(viewport === null) return;
+
+        const viewportRect = viewport.getBoundingClientRect();
+        const caretView = editor.querySelector(".caret");
+        const rootView = editor.querySelector(".node-view");
+
+        if(rootView instanceof HTMLElement) {
+            // Add a generous amount of space to account for browser differences.
+            rootWidth = rootView.offsetWidth + 20;
+            rootHeight = rootView.offsetHeight + 20;
+            console.log(rootWidth);
+        }
+
+        // Scroll to the caret if we're not executing.
+        if(caretView !== null && !source.evaluator.isDone()) {
 
             // Move the scroll bars as necessary.
             ensureElementIsVisible(caretView);
 
             // Position the keyboard input.
             const caretRect = caretView.getBoundingClientRect();
-            const editorRect = viewport.getBoundingClientRect();
-            const caretTop = caretRect.top - editorRect.top;
-            const caretLeft = caretRect.left - editorRect.left;
+            const caretTop = caretRect.top - viewportRect.top;
+            const caretLeft = caretRect.left - viewportRect.left;
             const keyboard = editor?.querySelector(".keyboard-input");
             if(keyboard instanceof HTMLElement) {
                 keyboard.style.left = `${caretLeft + viewport.scrollLeft}px`;
                 keyboard.style.top = `${caretTop + viewport.scrollTop}px`;
             }
         }
+
+        const currentStep = $caret.source.getEvaluator().currentStep();
+        const latestValue = $caret.source.getEvaluator().getLatestResult();
+        [ selection, selectionKind ] = 
+            currentStep?.node instanceof Node ? [ currentStep.node, "step" ] :
+            latestValue instanceof Exception && latestValue.step !== undefined && latestValue.step.node instanceof Node ? [ latestValue.step.node, "exception" ] :
+            $caret.position instanceof Node ? [ $caret.position, "selected" ] :
+            [ undefined, "none" ];
+
+        // If there's a selected node, construct a list of rectangles to render in an SVG.
+        if(selection !== undefined && editor !== undefined) {
+            const nodeView = editor.querySelector(`.node-view[data-id="${selection.id}"]`);
+            if(nodeView !== null) {
+                selectionPath = createOutlineOf(nodeView, -viewportRect.left + viewport.scrollLeft, -viewportRect.top + viewport.scrollTop);
+            }
+        }
+
     });
 
     // When project updates, make executing node visible.
@@ -264,7 +303,12 @@
     bind:this={editor}
     on:mousedown={handleClick}
 >
-    <NodeView node={program} />
+    <NodeView node={program}/>
+    {#if selection !== undefined }
+        <svg class={`selection ${selectionKind}`} width={rootWidth} height={rootHeight}>
+            <path d={selectionPath}/>
+        </svg>
+    {/if}
     <input 
         type="text" 
         class="keyboard-input" 
@@ -282,6 +326,7 @@
         height: auto;
         min-height: calc(100% - var(--wordplay-spacing) * 2);
         line-height: var(--wordplay-code-line-height);
+        padding: var(--wordplay-spacing);
         position: relative;
     }
 
@@ -292,6 +337,32 @@
         width: 1px;
         opacity: 0;
         pointer-events: none;
+    }
+
+    .selection {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+    }
+    
+    .selection path {
+        fill: var(--wordplay-chrome);
+        stroke: var(--wordplay-border-color);
+        stroke-width: var(--wordplay-border-width);
+        stroke-linejoin: round;
+    }
+
+    .selection.step path {
+        stroke: var(--wordplay-highlight);
+    }
+
+    .selection.exception path {
+        stroke: var(--wordplay-error);
+    }
+
+    .selection.selected path {
+        stroke: var(--color-blue);
     }
 
 </style>

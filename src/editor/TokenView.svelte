@@ -131,7 +131,7 @@
 </script>
 
 {#if node.newlines > 0 ? "newline" : ""}{@html "<br/>".repeat(node.newlines)}{/if}<span 
-    class="token-view token-{kind} {$caret?.position === node ? "selected" : ""}" 
+    class="token-view token-{kind}" 
     style="color: {`var(--token-category-${kind})`}; margin-left: {node.precedingSpaces}ch"
     data-id={node.id}
     bind:this={element}
@@ -153,6 +153,7 @@
         font-size: 10pt;
         position: relative;
         cursor: text;
+        z-index: 1;
 
         --token-category-delimiter: var(--color-grey);
         --token-category-relation: var(--color-yellow);
@@ -198,7 +199,7 @@
         width: 2px;
         height: 100%;
         background-color: var(--color-black);
-        z-index: 1;
+        z-index: 2;
     }
 
     .caret.blink {

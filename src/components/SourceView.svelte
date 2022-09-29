@@ -87,7 +87,6 @@
         min-height: 20rem;
         max-height: 40rem;
         background: var(--wordplay-background);
-        padding: var(--wordplay-spacing);
         color: var(--wordplay-foreground);
         box-sizing: content-box;
         overflow: scroll;
