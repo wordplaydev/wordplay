@@ -15,7 +15,6 @@ const WhatWord = {
 \t\t"playing"
 )
 
-\`Estas son las palabras secretas. ¡No se lo digas a nadie!\`/spa
 start: Game([] "")
 
 \`When the keyboard state changes, the game state changes.\`/eng
@@ -41,6 +40,7 @@ screen:
 Verse(screen)`,
 
 `\`These are the secret words. Don't tell anyone!\`/eng
+\`Estas son las palabras secretas. ¡No se lo digas a nadie!\`/spa
 ↑ words/eng: [
 \t'kitty'
 \t'house'
