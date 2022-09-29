@@ -48,7 +48,6 @@
             // Add a generous amount of space to account for browser differences.
             rootWidth = rootView.offsetWidth + 20;
             rootHeight = rootView.offsetHeight + 20;
-            console.log(rootWidth);
         }
 
         // Scroll to the caret if we're not executing.
