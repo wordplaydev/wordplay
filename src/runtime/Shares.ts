@@ -51,11 +51,11 @@ export default class Shares {
         Object.keys(DEFAULT_SHARES).forEach(name => this.bind(name, DEFAULT_SHARES[name]));
 
         // Share a timer stream for programs to listen to.
-        this.time = new Time();
+        this.time = new Time(evaluator);
         Object.values(this.time.getNames()).forEach(name => this.bind(name, this.time));
 
         // Share a mouse button stream for programs to listen to.
-        this.mouseButton = new MouseButton();
+        this.mouseButton = new MouseButton(evaluator);
         Object.values(this.mouseButton.getNames()).forEach(name => this.bind(name, this.mouseButton));
 
         // Share a mouse position stream for programs to listen to.
@@ -67,7 +67,7 @@ export default class Shares {
         Object.values(this.keyboard.getNames()).forEach(name => this.bind(name, this.keyboard));
 
         // Share the microphone.
-        this.microphone = new Microphone();
+        this.microphone = new Microphone(evaluator);
         Object.values(this.microphone.getNames()).forEach(name => this.bind(name, this.microphone));
         
     }

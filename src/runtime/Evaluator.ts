@@ -22,7 +22,7 @@ import type Program from "../nodes/Program";
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = {
     stepped: (step: Step) => void,
-    evaluated: (value: Value | undefined) => void
+    ended: (value: Value | undefined) => void
 };
 
 export type EvaluationMode = "play" | "step";
@@ -64,6 +64,9 @@ export default class Evaluator {
     /** A queue of streams that have been modified. */
     reactionQueue: Stream[] = [];
 
+    /** A set of the streams ignored while stepping. Reset once played. */
+    streamsIgnoredDuringStepping: Set<Stream> = new Set();
+
     constructor(source: Source) {
 
         this.source = source;
@@ -88,6 +91,8 @@ export default class Evaluator {
         return evaluator.getLatestResult();
     }
 
+    isPlaying(): boolean { return this.source.mode === "play"; }
+
     getSource(): Source { return this.source; }
 
     getProgram(): Program { return this.source.program; }
@@ -95,6 +100,14 @@ export default class Evaluator {
     getContext(): Context { return this.context; }
 
     getNative(): NativeInterface { return Native; }
+
+    ignoredStream(stream: Stream) {
+        // Does the root evaluation bind this stream? If so, note that we ignored it.
+        if(this.evaluations[this.evaluations.length - 1]?.binds(stream)) {
+            this.streamsIgnoredDuringStepping.add(stream);
+            this.broadcastStep();    
+        }
+    }
 
     react(stream: Stream) {
 
@@ -111,6 +124,17 @@ export default class Evaluator {
         const index = this.observers.indexOf(observer);
         if(index >= 0)
             this.observers.splice(index, 1);
+    }
+
+    broadcastStep() {
+        const step = this.currentStep();
+        if(step !== undefined) 
+            this.observers.forEach(observer => observer.stepped(step));
+    }
+
+    broadcastEnd() {
+        // Notify the observers of the final evaluation value.
+        this.observers.forEach(observer => observer.ended(this.latestValue));
     }
 
     /** True if the evaluation stack is empty. */
@@ -147,9 +171,7 @@ export default class Evaluator {
             this.evaluations[0]?.step(this);
 
         // Tell observers that we're stepping
-        const step = this.currentStep();
-        if(step !== undefined) 
-            this.observers.forEach(observer => observer.stepped(step));
+        this.broadcastStep();
 
         // If it's an exception, halt execution by returning the exception value.
         if(value instanceof Exception)
@@ -165,6 +187,9 @@ export default class Evaluator {
             else
                 this.end(value);
         }
+
+        // Clear the ignored reactions after this step, assuming the creator was notified.
+        this.streamsIgnoredDuringStepping.clear();
 
     }
 
@@ -203,7 +228,7 @@ export default class Evaluator {
         this.stopRememberingStreamAccesses();
 
         // If in play mode, we finish.
-        if(this.source.mode === "play")
+        if(this.isPlaying())
             this.finish();
 
     }
@@ -213,7 +238,7 @@ export default class Evaluator {
         // Run all of the steps until we get a value or we're stopped.
         while(!this.stopped && !this.isDone())
             this.step();
-
+            
     }
 
     end(value: Value) {
@@ -246,8 +271,7 @@ export default class Evaluator {
 
         this.latestValue = value;
 
-        // Notify the observer of the evaluation result.
-        this.observers.forEach(observer => observer.evaluated(this.latestValue));
+        this.broadcastEnd();
     
     }
 
@@ -380,7 +404,7 @@ export default class Evaluator {
         if(this.hasReactionStream(reaction))
             this.reactionStreams.get(reaction)?.add(value);
         else {
-            const newStream = new ReactionStream(reaction, value);
+            const newStream = new ReactionStream(this, reaction, value);
             this.reactionStreams.set(reaction, newStream);
         }
     }

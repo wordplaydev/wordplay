@@ -1,4 +1,5 @@
 import MeasurementType from "../nodes/MeasurementType";
+import type Evaluator from "../runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
 import Stream from "../runtime/Stream";
 import { FREQUENCY } from "./Time";
@@ -19,9 +20,15 @@ export default class Microphone extends Stream {
     analyzer: AnalyserNode | undefined;
     frequencies: Uint8Array = new Uint8Array(FFT_SIZE);
 
-    constructor() {
-        super({"eng": "🎤"}, percent([0]));
+    constructor(evaluator: Evaluator) {
+        super(evaluator, percent([0]));
 
+    }
+
+    getNames() { 
+        return {
+            "eng": "🎤"
+        }; 
     }
 
     sample() {

@@ -2,7 +2,7 @@ import Step from "./Step";
 import type Evaluator from "./Evaluator";
 import type Evaluable from "./Evaluable";
 import type Value from "./Value";
-import type Explanations from "../nodes/Explanations";
+import type Translations from "../nodes/Translations";
 
 export default class Start extends Step {
 
@@ -17,6 +17,6 @@ export default class Start extends Step {
         return this.action?.call(undefined, evaluator);
     }
 
-    getExplanations(evaluator: Evaluator): Explanations { return this.node.getStartExplanations(evaluator); }
+    getExplanations(evaluator: Evaluator): Translations { return this.node.getStartExplanations(evaluator); }
     
 }

@@ -1,4 +1,5 @@
 import type Reaction from "../nodes/Reaction";
+import type Evaluator from "./Evaluator";
 import Stream from "./Stream";
 import type Value from "./Value";
 
@@ -6,10 +7,16 @@ export default class ReactionStream extends Stream {
 
     readonly reaction: Reaction;
 
-    constructor(reaction: Reaction, initialValue: Value) {
-        super({"eng": "reaction"}, initialValue);
+    constructor(evaluator: Evaluator, reaction: Reaction, initialValue: Value) {
+        super(evaluator, initialValue);
 
         this.reaction = reaction;
+    }
+
+    getNames() { 
+        return {
+            "eng": "reaction"
+        };
     }
 
     start(): void {}

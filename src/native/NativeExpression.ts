@@ -12,15 +12,15 @@ import type Evaluation from "../runtime/Evaluation";
 import type Bind from "../nodes/Bind";
 import type Context from "../nodes/Context";
 import type { TypeSet } from "../nodes/UnionType";
-import type Explanations from "../nodes/Explanations";
+import type Translations from "../nodes/Translations";
 
 export default class NativeExpression extends Expression {
     
     readonly type: Type;
     readonly evaluator: (evaluator: Evaluation) => Value;
-    readonly explanations: Explanations;
+    readonly explanations: Translations;
 
-    constructor(type: Type | string, evaluator: (evaluator: Evaluation) => Value, explanations: Explanations) {
+    constructor(type: Type | string, evaluator: (evaluator: Evaluation) => Value, explanations: Translations) {
         super();
 
         if(typeof type === "string") {

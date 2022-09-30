@@ -13,11 +13,14 @@ function position(evaluator: Evaluator, x: number, y: number) {
 
 export default class MousePosition extends Stream {
 
-    readonly evaluator: Evaluator;
-
     constructor(evaluator: Evaluator) {
-        super({"eng": "🖱⌖"}, position(evaluator, 0, 0));
-        this.evaluator = evaluator;
+        super(evaluator, position(evaluator, 0, 0));
+    }
+
+    getNames() {
+        return {
+            "eng": "🖱⌖"
+        }
     }
 
     record(x: number, y: number) {

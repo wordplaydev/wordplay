@@ -1,27 +1,38 @@
-import type LanguageCode from "../nodes/LanguageCode";
-import type Named from "../nodes/Named";
+import type Translations from "../nodes/Translations";
 import { STREAM_NATIVE_TYPE_NAME } from "../nodes/StreamType";
 import None from "./None";
 import Primitive from "./Primitive";
 import type Value from "./Value";
+import type Evaluator from "./Evaluator";
 
-export default abstract class Stream extends Primitive implements Named {
+export default abstract class Stream extends Primitive {
+
+    /** The evaluator listening to this stream. */
+    evaluator: Evaluator;
 
     /** The stream of values */
     values: Value[] = [];
 
+    /** Listeners watching this stream */
     reactors: ((stream: Stream)=>void)[] = [];
 
-    readonly names: Record<LanguageCode,string>;
-
-    constructor(names: Record<LanguageCode, string>, initalValue: Value) {
+    constructor(evaluator: Evaluator, initalValue: Value) {
         super();
 
-        this.names = names;
+        this.evaluator = evaluator;
         this.add(initalValue);
     }
 
+    abstract getNames(): Translations;
+
     add(value: Value) {
+
+        // If we're stepping, then we don't add anything to the stream; time is frozen, and the outside world is ignored.
+        // Notify the evaluator so the front end can communicate the ignored feedback.
+        if(!this.evaluator.isPlaying()) {
+            this.evaluator.ignoredStream(this);
+            return;
+        }
 
         // Update the time.
         this.values.push(value);
@@ -59,9 +70,7 @@ export default abstract class Stream extends Primitive implements Named {
     }
 
     /** Should produce valid Wordplay code string representing the stream's name */
-    toString() { return this.names["eng"]; };
-
-    getNames() { return Object.values(this.names); }
+    toString() { return this.getNames()["eng"]; };
 
     /** Should return named values on the stream. */
     resolve(): Value | undefined { return undefined; }

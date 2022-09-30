@@ -1,6 +1,6 @@
 import Bind from "../nodes/Bind";
 import BooleanType from "../nodes/BooleanType";
-import type Explanations from "../nodes/Explanations";
+import type Translations from "../nodes/Translations";
 import Expression from "../nodes/Expression";
 import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
@@ -107,13 +107,13 @@ export default class NativeHOFListAll extends HOF {
         ];
     }
 
-    getStartExplanations(): Explanations {
+    getStartExplanations(): Translations {
         return {
             "eng": "We'll go through each item, seeing if the matcher function evaluates to true."
         }
     }
 
-    getFinishExplanations(): Explanations {
+    getFinishExplanations(): Translations {
         return {
             "eng": "If we made it to the end of the list, then evaluate to true, otherwise false."
         }

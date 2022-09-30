@@ -1,4 +1,4 @@
-import type Explanations from "../nodes/Explanations";
+import type Translations from "../nodes/Translations";
 import type Evaluable from "./Evaluable";
 import Step from "./Step";
 import type Value from "./Value";
@@ -13,7 +13,7 @@ export default class KeepStream extends Step {
         return undefined;
     }
 
-    getExplanations(): Explanations {
+    getExplanations(): Translations {
         return {
             "eng": `Keeping the stream.`
         }

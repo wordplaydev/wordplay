@@ -17,10 +17,12 @@ export default class Keyboard extends Stream {
     readonly evaluator: Evaluator;
 
     constructor(evaluator: Evaluator) {
-        super({"eng": "⌨️"}, new None([]));
+        super(evaluator, new None([]));
         
         this.evaluator = evaluator;
     }
+
+    getNames() { return {"eng": "⌨️"}; }
 
     record(key: string, down: boolean) {
         this.add(createKey(this.evaluator, key, down));

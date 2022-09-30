@@ -1,5 +1,5 @@
 import type Name from "../nodes/Name";
-import type Explanations from "../nodes/Explanations";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 export default class CircularReference extends Conflict {
@@ -16,7 +16,7 @@ export default class CircularReference extends Conflict {
         return { primary: [ this.name ] };
     }
 
-    getExplanations(): Explanations { 
+    getExplanations(): Translations { 
         return {
             eng: `I can't compute ${this.name.getName()} using itself!`
         }

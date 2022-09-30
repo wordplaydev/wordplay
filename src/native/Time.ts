@@ -1,5 +1,6 @@
 import MeasurementType from "../nodes/MeasurementType";
 import Unit from "../nodes/Unit";
+import type Evaluator from "../runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
 import Stream from "../runtime/Stream";
 
@@ -10,8 +11,14 @@ export default class Time extends Stream {
     timerID: NodeJS.Timer | undefined;
     startTime: number | undefined;
 
-    constructor() {
-        super({"eng": "⏱"}, new Measurement(0, new Unit(["ms"])));
+    constructor(evaluator: Evaluator) {
+        super(evaluator, new Measurement(0, new Unit(["ms"])));
+    }
+
+    getNames() {
+        return {
+            "eng": "⏱"
+        };
     }
 
     tick() {

@@ -115,6 +115,8 @@ export default class Evaluation {
 
     hasValue(): boolean { return this.#values.length > 0; }
 
+    binds(value: Value) { return Array.from(this.#bindings.values()).includes(value); }
+
     pushValue(value: Value): void { 
         this.#values.unshift(value); 
     }

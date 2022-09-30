@@ -1,5 +1,5 @@
 import Bind from "../nodes/Bind";
-import type Explanations from "../nodes/Explanations";
+import type Translations from "../nodes/Translations";
 import Expression from "../nodes/Expression";
 import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
@@ -124,13 +124,13 @@ export default class NativeHOFMapTranslate extends HOF {
         ];
     }
 
-    getStartExplanations(): Explanations {
+    getStartExplanations(): Translations {
         return {
             "eng": "Translate each value in the map, making a new map."
         }
     }
 
-    getFinishExplanations(): Explanations {
+    getFinishExplanations(): Translations {
         return {
             "eng": "Evaluate to the new map!"
         }

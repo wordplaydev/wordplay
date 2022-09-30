@@ -1,4 +1,4 @@
-import type Explanations from "../nodes/Explanations";
+import type Translations from "../nodes/Translations";
 import Node from "../nodes/Node";
 import type Evaluable from "./Evaluable";
 import type Evaluator from "./Evaluator";
@@ -16,7 +16,7 @@ export default abstract class Step {
 
     abstract evaluate(evaluator: Evaluator): Value | undefined;
 
-    abstract getExplanations(evaluator: Evaluator): Explanations;
+    abstract getExplanations(evaluator: Evaluator): Translations;
 
     toString() { return `${this.constructor.name} (${this.node.constructor.name}) ${this.node instanceof Node ? this.node.toWordplay().replaceAll(/^\s{2,}/g, " ").trim().substring(0, 20) : ""}...`; }
 

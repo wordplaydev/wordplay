@@ -1,4 +1,4 @@
-import type Explanations from "../nodes/Explanations";
+import type Translations from "../nodes/Translations";
 import type Reaction from "../nodes/Reaction";
 import Bool from "./Bool";
 import type Evaluable from "./Evaluable";
@@ -39,7 +39,7 @@ export default class JumpIfStreamUnchanged extends Step {
         return super.toString() + " " + this.count;
     }
 
-    getExplanations(): Explanations {
+    getExplanations(): Translations {
         return {
             "eng": `Has this stream changed at all?`
         }

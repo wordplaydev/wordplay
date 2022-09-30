@@ -2,7 +2,7 @@ import type Evaluator from "./Evaluator";
 import type Value from "./Value";
 import type Step from "./Step";
 import type Context from "../nodes/Context";
-import type Explanations from "../nodes/Explanations";
+import type Translations from "../nodes/Translations";
 
 export default interface Evaluable {
     /** Evaluates one step of the node in the context of the given Evaluator.
@@ -12,8 +12,8 @@ export default interface Evaluable {
     /** Compiles the evaluable into an executable list of Steps. */
     compile(context: Context): Step[];
 
-    getStartExplanations(evaluator: Evaluator): Explanations;
-    getFinishExplanations(evaluator: Evaluator): Explanations;
+    getStartExplanations(evaluator: Evaluator): Translations;
+    getFinishExplanations(evaluator: Evaluator): Translations;
 
     toWordplay(): string;
 

@@ -1,7 +1,7 @@
 import type Documentation from "../nodes/Documentation";
 import type Language from "../nodes/Language";
 import Conflict from "./Conflict";
-import type Explanations from "../nodes/Explanations";
+import type Translations from "../nodes/Translations";
 
 export default class DuplicateLanguages extends Conflict {
 
@@ -21,7 +21,7 @@ export default class DuplicateLanguages extends Conflict {
         return { primary: Array.from(this.duplicates.values()).flat() };
     }
 
-    getExplanations(): Explanations { 
+    getExplanations(): Translations { 
         return {
             eng: `Duplicate languages ${Array.from(this.duplicates.values()).flat().map(lang => lang.getLanguage())}.`
         }

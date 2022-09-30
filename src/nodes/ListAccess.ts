@@ -21,7 +21,7 @@ import UnionType, { TypeSet } from "./UnionType";
 import { outOfBoundsAliases } from "../runtime/Constants";
 import Unit from "./Unit";
 import type Bind from "./Bind";
-import type Explanations from "./Explanations";
+import type Translations from "./Translations";
 
 export default class ListAccess extends Expression {
     readonly list: Expression | Unparsable;
@@ -67,13 +67,13 @@ export default class ListAccess extends Expression {
         return [ new Start(this), ...this.list.compile(context), ...this.index.compile(context), new Finish(this) ];
     }
 
-    getStartExplanations(): Explanations {
+    getStartExplanations(): Translations {
         return {
             "eng": "Let's get a value from the list!"
         }
     }
 
-    getFinishExplanations(): Explanations {
+    getFinishExplanations(): Translations {
         return {
             "eng": "Now that we have list and the index, get the value in the list at this index."
         }

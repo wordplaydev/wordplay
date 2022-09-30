@@ -99,12 +99,40 @@ export default class Source {
         this.observers.forEach(observer => observer());
     }
 
-    evaluated() {
+    ended() {
         this.observers.forEach(observer => observer());
     }
 
     getVerse() {         
-        return this.valueToVerse(this.evaluator.getLatestResult() ?? new Text(this.evaluator.currentStep()?.getExplanations(this.evaluator)["eng"] ?? "No step"));
+
+        const value = this.evaluator.getLatestResult();
+        if(value !== undefined) return this.valueToVerse(value);
+
+        // If there is no value yet, provide an explanation of the step and other info.
+
+        return createStructure(this.evaluator, Verse, 
+            {
+                group: createStructure(this.evaluator, Group, {
+                    phrases: new List([
+                        createStructure(this.evaluator, Phrase, {
+                            size: new Measurement(20),
+                            font: new Text("Noto Sans"),
+                            text: new Text(this.evaluator.currentStep()?.getExplanations(this.evaluator)["eng"] ?? "No step")
+                        }),
+                        createStructure(this.evaluator, Phrase, {
+                            size: new Measurement(12),
+                            font: new Text("Noto Sans"),
+                            text: new Text(
+                                this.evaluator.streamsIgnoredDuringStepping.size > 0 ?
+                                    `You're stepping, so we ignored ${Array.from(this.evaluator.streamsIgnoredDuringStepping).map(stream => stream.getNames()["eng"]).join(", ")}` :
+                                    ""
+                            )
+                        }),                        
+                    ])
+                })
+            }
+        )
+
     }
 
     valueToVerse(value: Value | undefined): Structure {

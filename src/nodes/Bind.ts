@@ -32,7 +32,7 @@ import Block from "./Block";
 import ListType from "./ListType";
 import Cell from "./Cell";
 import ValueException from "../runtime/ValueException";
-import type Explanations from "./Explanations";
+import type Translations from "./Translations";
 import Exception from "../runtime/Exception";
 import Share from "./Share";
 import type Definition from "./Definition";
@@ -204,13 +204,13 @@ export default class Bind extends Node implements Evaluable, Named {
             ];
     }
 
-    getStartExplanations(): Explanations {
+    getStartExplanations(): Translations {
         return {
             "eng": "Evaluate the value first"
         }
     }
 
-    getFinishExplanations(): Explanations {
+    getFinishExplanations(): Translations {
         return {
             "eng": "Bind the value to this name."
         }

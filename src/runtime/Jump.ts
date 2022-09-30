@@ -1,4 +1,4 @@
-import type Explanations from "../nodes/Explanations";
+import type Translations from "../nodes/Translations";
 import type Evaluable from "./Evaluable";
 import type Evaluator from "./Evaluator";
 import Step from "./Step";
@@ -23,7 +23,7 @@ export default class Jump extends Step {
         return super.toString() + " " + this.count;
     }
 
-    getExplanations(): Explanations {
+    getExplanations(): Translations {
         return {
             "eng": `Jumping ahead.`
         }

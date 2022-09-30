@@ -1,4 +1,4 @@
-import type Explanations from "../nodes/Explanations";
+import type Translations from "../nodes/Translations";
 import type Evaluable from "./Evaluable";
 import type Evaluator from "./Evaluator";
 import Step from "./Step";
@@ -14,7 +14,7 @@ export default class Finish extends Step {
         return this.node.evaluate(evaluator);
     }
 
-    getExplanations(evaluator: Evaluator): Explanations { 
+    getExplanations(evaluator: Evaluator): Translations { 
         return this.node.getFinishExplanations(evaluator);
     }
 
