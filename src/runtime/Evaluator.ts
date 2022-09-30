@@ -67,6 +67,9 @@ export default class Evaluator {
     /** A set of the streams ignored while stepping. Reset once played. */
     streamsIgnoredDuringStepping: Set<Stream> = new Set();
 
+    /** A set of possible execution modes, defaulting to play. */
+    mode: EvaluationMode = "play";
+
     constructor(source: Source) {
 
         this.source = source;
@@ -91,7 +94,18 @@ export default class Evaluator {
         return evaluator.getLatestResult();
     }
 
-    isPlaying(): boolean { return this.source.mode === "play"; }
+    play() {
+        this.mode = "play";
+        this.finish();
+    }
+
+    pause() {
+        this.mode = "step";
+        this.finish();
+        this.start([]);
+    }
+
+    isPlaying(): boolean { return this.mode === "play"; }
 
     getSource(): Source { return this.source; }
 
@@ -215,6 +229,10 @@ export default class Evaluator {
     /** Evaluate until we're done */
     start(changedStreams: Stream[]): void {
 
+        // Reset the latest value.
+        this.latestValue = undefined;
+
+        // Remember what streams changed.
         this.changedStreams = changedStreams;
 
         // Reset the evluation stack and start evaluating the the program.
@@ -226,6 +244,9 @@ export default class Evaluator {
 
         // Stop remembering in case the last execution ended abruptly.
         this.stopRememberingStreamAccesses();
+
+        // Tell listeners that we started.
+        this.broadcastStep();
 
         // If in play mode, we finish.
         if(this.isPlaying())

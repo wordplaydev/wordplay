@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { project, updateProject } from '../models/stores';
     import VerseView from './VerseView.svelte';
     import Editor from '../editor/Editor.svelte';
     import type Source from '../models/Source';
@@ -33,7 +32,8 @@
 
     function playPause() {
         autoplay = !autoplay;
-        updateProject($project.withSource(source, source.withMode(autoplay ? "play" : "step")));
+        if(autoplay) source.evaluator.play();
+        else source.evaluator.pause();
     }
 
     onDestroy(() => source.ignore(handleEvaluation));

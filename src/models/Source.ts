@@ -5,7 +5,7 @@ import Native from "../native/NativeBindings";
 import type Conflict from "../conflicts/Conflict";
 import { parseProgram, Tokens } from "../parser/Parser";
 import { tokenize } from "../parser/Tokenizer";
-import Evaluator, { type EvaluationMode } from "../runtime/Evaluator";
+import Evaluator from "../runtime/Evaluator";
 import UnicodeString from "./UnicodeString";
 import type Value from "../runtime/Value";
 import StructureType from "../nodes/StructureType";
@@ -25,7 +25,6 @@ export default class Source {
 
     readonly name: string;
     readonly code: UnicodeString;
-    readonly mode: EvaluationMode;
 
     // Derived fields
     readonly program: Program;
@@ -41,11 +40,10 @@ export default class Source {
     
     readonly observers: Set<() => void> = new Set();
 
-    constructor(name: string, code: string | UnicodeString, mode: EvaluationMode="play", observers?: Set<() => void>) {
+    constructor(name: string, code: string | UnicodeString, observers?: Set<() => void>) {
 
         this.name = name;
         this.code = typeof code === "string" ? new UnicodeString(code) : code;
-        this.mode = mode;
         
         // Compute derived fields.
         this.program = parseProgram(new Tokens(tokenize(this.code.getText())));
@@ -109,7 +107,6 @@ export default class Source {
         if(value !== undefined) return this.valueToVerse(value);
 
         // If there is no value yet, provide an explanation of the step and other info.
-
         return createStructure(this.evaluator, Verse, 
             {
                 group: createStructure(this.evaluator, Group, {
@@ -127,7 +124,7 @@ export default class Source {
                                     `You're stepping, so we ignored ${Array.from(this.evaluator.streamsIgnoredDuringStepping).map(stream => stream.getNames()["eng"]).join(", ")}` :
                                     ""
                             )
-                        }),                        
+                        }),
                     ])
                 })
             }
@@ -197,34 +194,30 @@ export default class Source {
     
     withPreviousCharacterReplaced(char: string, position: number) {
         const newCode = this.code.withPreviousGraphemeReplaced(char, position);
-        return newCode === undefined ? undefined : new Source(this.name, newCode, this.mode, this.observers);
+        return newCode === undefined ? undefined : new Source(this.name, newCode, this.observers);
     }
 
     withCharacterAt(char: string, position: number) {
         const newCode = this.code.withGraphemeAt(char, position);
-        return newCode == undefined ? undefined : new Source(this.name, newCode, this.mode, this.observers);
+        return newCode == undefined ? undefined : new Source(this.name, newCode, this.observers);
     }
 
     withoutGraphemeAt(position: number) {
         const newCode = this.code.withoutGraphemeAt(position);
-        return newCode == undefined ? undefined : new Source(this.name, newCode, this.mode, this.observers);
+        return newCode == undefined ? undefined : new Source(this.name, newCode, this.observers);
     }
 
     withoutGraphemesBetween(start: number, endExclusive: number) {
         const newCode = this.code.withoutGraphemesBetween(start, endExclusive);
-        return newCode == undefined ? undefined : new Source(this.name, newCode, this.mode, this.observers);
-    }
-
-    withMode(mode: EvaluationMode) {
-        return new Source(this.name, this.code, mode, this.observers);
+        return newCode == undefined ? undefined : new Source(this.name, newCode, this.observers);
     }
 
     withCode(code: string) {
-        return new Source(this.name, new UnicodeString(code), this.mode, this.observers);
+        return new Source(this.name, new UnicodeString(code), this.observers);
     }
 
     clone() {
-        return new Source(this.name, this.code, this.mode, this.observers);
+        return new Source(this.name, this.code, this.observers);
     }
 
     getNextToken(token: Token, direction: -1 | 1): Token | undefined {
