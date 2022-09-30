@@ -132,59 +132,41 @@ export default class Source {
 
     }
 
+    phrase(text: string | Text, size: number=12, font: string="Noto Sans", ): Structure {
+        return createStructure(this.evaluator, Phrase, {
+            size: new Measurement(size),
+            font: new Text(font),
+            text: text instanceof Text ? text : new Text(text)
+        })
+    }
+
+    group(...phrases: Structure[]) {
+        return createStructure(this.evaluator, Group, {
+            phrases: new List(phrases)
+        })
+    }
+
+    verse(group: Structure) {
+        return createStructure(this.evaluator, Verse, { group: group });
+    }
+
     valueToVerse(value: Value | undefined): Structure {
 
         // If the content is a Verse, just show it as is.
         if(value === undefined)
-            return createStructure(this.evaluator, Verse, 
-                {
-                    group: createStructure(this.evaluator, Group, {
-                        phrases: new List([createStructure(this.evaluator, Phrase, {
-                            size: new Measurement(20),
-                            font: new Text("Noto Sans"),
-                            text: new Text("No value")
-                        })])
-                    })
-                }
-            );
-        else {
-            const contentType = value.getType();
-            if(contentType instanceof StructureType && contentType.definition === Verse)
-                return value as Structure;
-            else if(contentType instanceof StructureType && contentType.definition === Group) {
-                return createStructure(this.evaluator, Verse, { group: value });
-            }
-            else if(contentType instanceof StructureType && contentType.definition === Phrase) {
-                return createStructure(this.evaluator, Verse, { group: createStructure(this.evaluator, Group, { phrases: new List([value]) }) });
-            }
-            else if(contentType instanceof TextType) {
-                return createStructure(this.evaluator, Verse, 
-                    {
-                        group: createStructure(this.evaluator, Group, {
-                            phrases: new List([createStructure(this.evaluator, Phrase, {
-                                size: new Measurement(20),
-                                font: new Text("Noto Sans"),
-                                text: value
-                            })])
-                        })
-                    }
-                );
-            }
-            // Otherise, just wrap in a sentence with the content's toString() text.
-            else {
-                return createStructure(this.evaluator, Verse, 
-                    {
-                        group: createStructure(this.evaluator, Group, {
-                            phrases: new List([createStructure(this.evaluator, Phrase, {
-                                size: new Measurement(20),
-                                font: new Text("Noto Sans"),
-                                text: new Text(value.toString())
-                            })])
-                        })
-                    }
-                );
-            }
-        }
+            return this.verse(this.group(this.phrase("No value", 20)))
+
+        const contentType = value.getType();
+        if(contentType instanceof StructureType && contentType.definition === Verse)
+            return value as Structure;
+        else if(contentType instanceof StructureType && contentType.definition === Group)
+            return this.verse(value as Structure);
+        else if(contentType instanceof StructureType && contentType.definition === Phrase)
+            return this.verse(this.group( value as Structure ));
+        else if(contentType instanceof TextType)
+            return this.verse(this.group(this.phrase(value as Text, 20)));
+        else
+            return this.verse(this.group(this.phrase(value.toString(), 20)));
 
     }
 
