@@ -61,6 +61,9 @@ export default function createRowOutlineOf(nodeView: Element, offsetX: number, o
 
     const rects: Rect[] = getTokenRects(nodeView, offsetX, offsetY);
 
+    // The official way to render nothing...
+    if(rects.length === 0) return "";
+
     // Segment the rectangles into rows. We rely on document order to segment.
     const rows: Rect[][] = [[]];
     for(const rect of rects) {
