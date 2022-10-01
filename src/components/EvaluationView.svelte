@@ -1,15 +1,25 @@
 <script lang="ts">
+    import FunctionDefinition from "../nodes/FunctionDefinition";
+    import Program from "../nodes/Program";
+    import StructureDefinition from "../nodes/StructureDefinition";
     import type Evaluation from "../runtime/Evaluation";
     import ValueView from "./ValueView.svelte";
 
     export let evaluation: Evaluation;
 
     $: bindings = evaluation.getBindings();
+    $: definition = evaluation.getDefinition();
 
 </script>
 
 <div>
-    <h2>{evaluation.getNode().constructor.name}</h2>
+    <h2>{
+        definition instanceof Program ? "Program" : 
+        definition instanceof FunctionDefinition ? definition.getNames() :
+        definition instanceof StructureDefinition ? definition.getNames() :
+        definition.output.toWordplay()
+        }
+    </h2>
     
     <table>
     {#each [ ...bindings ] as [ key, value ] }
