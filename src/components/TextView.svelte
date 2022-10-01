@@ -6,4 +6,4 @@
 
 </script>
 
-{ TEXT_SYMBOL }{ value.format === undefined ? "" : value.format }
+'{value.text}'{ value.format === undefined ? "" : value.format }

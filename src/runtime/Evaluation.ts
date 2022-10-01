@@ -116,6 +116,7 @@ export default class Evaluation {
     hasValue(): boolean { return this.#values.length > 0; }
 
     getBindings() { return new Map(this.#bindings); }
+    getValues() { return Array.from(this.#values); }
     binds(value: Value) { return Array.from(this.#bindings.values()).includes(value); }
 
     pushValue(value: Value): void { 

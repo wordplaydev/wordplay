@@ -13,19 +13,25 @@
 </script>
 
 <div>
-    <h2>{
+    <h3>{
         definition instanceof Program ? "Program" : 
         definition instanceof FunctionDefinition ? definition.getNames() :
         definition instanceof StructureDefinition ? definition.getNames() :
         definition.output.toWordplay()
         }
-    </h2>
+    </h3>
     
     <table>
     {#each [ ...bindings ] as [ key, value ] }
         <tr><td><strong>{ key }</strong></td><td><ValueView value={value}/></td></tr>
     {/each}
     </table>
+
+    <ul>
+        {#each evaluation.getValues() as value }
+            <li><ValueView value={value}/></li>
+        {/each}
+    </ul>
 
 </div>
 

@@ -1,8 +1,9 @@
 <script lang="ts">
     import type Structure from "../runtime/Structure";
+    import EvaluationView from "./EvaluationView.svelte";
 
     export let value: Structure;
 
 </script>
 
-{value.type.getNames().join(", ")}
+<EvaluationView evaluation={value.context}/>
