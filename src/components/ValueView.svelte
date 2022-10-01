@@ -1,6 +1,6 @@
 <script lang="ts">
     import type Value from "../runtime/Value";
-    import renderValue from "./renderValue";
+    import renderValue from "./valueToView";
 
     export let value: Value;
 

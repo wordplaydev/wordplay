@@ -45,7 +45,7 @@ mapping.set(SetValue, SetView);
 mapping.set(Stream, StreamView);
 mapping.set(Text, TextView);
 
-export default function renderValue(type: Function) {
+export default function valueToView(type: Function) {
     let prototype = type;
     do {
         let view = mapping.get(prototype);
