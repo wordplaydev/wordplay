@@ -80,7 +80,6 @@
             const nodeView = editor.querySelector(`.node-view[data-id="${selection.id}"]`);
             if(nodeView !== null) {
                 selectionPath = createRowOutlineOf(nodeView, -viewportRect.left + viewport.scrollLeft, -viewportRect.top + viewport.scrollTop);
-                // createRowOutlineOf(nodeView, -viewportRect.left + viewport.scrollLeft, -viewportRect.top + viewport.scrollTop);
             }
         }
 

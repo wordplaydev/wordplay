@@ -25,8 +25,11 @@
 
     // Compute where the caret should be placed. Place it if...
     $: caretIndex = 
-        $caret !== undefined &&
+        // Don't show the caret if the program is evaluating.
+        $caret.source.evaluator.isDone() &&
+        // Only show the caret if it's pointing to a number
         typeof $caret.position === "number" &&
+        // All of these have to be numbers
         whitespaceIndex !== undefined &&
         lastIndex !== undefined &&
         textIndex !== undefined &&
