@@ -10,7 +10,7 @@
 <style>
 
     .name {
-        background-color: rgb(255,240,240);
+        background-color: var(--wordplay-error);
     }
 
 </style>

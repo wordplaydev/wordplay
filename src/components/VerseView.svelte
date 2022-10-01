@@ -2,11 +2,12 @@
     import type Evaluator from "../runtime/Evaluator";
     import Structure from "../runtime/Structure";
     import ExceptionView from "./ExceptionView.svelte";
+    import EvaluatorView from "./EvaluatorView.svelte";
     import GroupView from "./GroupView.svelte";
 
-    export let verse: Structure;
-    export let evaluator: Evaluator | undefined;
-    $: group = verse.resolve("group");
+    export let verse: Structure | undefined;
+    export let evaluator: Evaluator;
+    $: group = verse?.resolve("group");
 
     function handleMouseDown() {
         if(evaluator)
@@ -38,7 +39,10 @@
     on:keydown={handleKeyDown}
     on:keyup={handleKeyUp}
 >
-    {#if !(group instanceof Structure)}
+
+    {#if verse === undefined}
+        <EvaluatorView evaluator={evaluator} />
+    {:else if !(group instanceof Structure)}
         <ExceptionView>Group wasn't a structure</ExceptionView>
     {:else}
         <GroupView group={group} />
