@@ -9,7 +9,7 @@ test("Test none conversions", () => {
 });
 
 test("Test text conversions", () => {
-    expect(Evaluator.evaluateCode("'boomy'→[]")?.toString()).toBe('["b" "o" "o" "m" "y"]');
+    expect(Evaluator.evaluateCode("'boomy'→['']")?.toString()).toBe('["b" "o" "o" "m" "y"]');
 });
 
 test("Test measurement conversion", () => {
