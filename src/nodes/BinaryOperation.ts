@@ -269,7 +269,7 @@ export default class BinaryOperation extends Expression {
         else if(this.operator.getText() === "≠")
             return new Bool(left.toString() !== right.toString());
         else
-            return new FunctionException(evaluator, left, this.operator.getText());
+            return new FunctionException(evaluator, this, left, this.operator.getText());
 
     }
 

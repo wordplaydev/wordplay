@@ -82,6 +82,7 @@ export enum SyntacticConflict {
     EXPECTED_TABLE_CLOSE,
     EXPECTED_EXPRESSION,
     EXPECTED_LANGUAGE,
+    EXPECTED_CONVERT,
     EXPECTED_UNIT_NAME,
     EXPECTED_END,
     EXPECTED_TYPE,
@@ -334,6 +335,16 @@ function nextIsBind(tokens: Tokens, requireValue=false): boolean {
 
 }
 
+function nextIsConversion(tokens: Tokens): boolean {
+
+    const rollbackToken = tokens.peek();
+    if(rollbackToken === undefined) return false;
+    const conversion = parseConversion(tokens);
+    tokens.unreadTo(rollbackToken);
+    return conversion instanceof ConversionDefinition && conversion.nodes().find(n => n instanceof Unparsable) === undefined;
+
+}
+
 /** BIND :: ALIAS TYPE? (: EXPRESSION)? */
 export function parseBind(tokens: Tokens): Bind | Unparsable {
 
@@ -447,6 +458,8 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
         tokens.nextIs(TokenType.ETC) ? new ExpressionPlaceholder(tokens.read(TokenType.ETC)) :
         // Nones
         tokens.nextIs(TokenType.NONE) ? parseNone(tokens): 
+        // A conversion. Need to parse before names, otherwise we might slurp up a type alone instead of a conversion.
+        nextIsConversion(tokens) ? parseConversion(tokens) :
         // Names or booleans are easy
         tokens.nextIs(TokenType.NAME) ? new Name(tokens.read(TokenType.NAME)) :
         // Booleans
@@ -469,8 +482,6 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
         tokens.nextAreDocsThen(TokenType.TYPE) ? parseStructure(tokens) :
         // A function function
         tokens.nextAreDocsThen(TokenType.FUNCTION) ? parseFunction(tokens) :
-        // A conversion
-        tokens.nextAreDocsThen(TokenType.CONVERT) ? parseConversion(tokens) :
         // Unary expressions!
         tokens.nextIs(TokenType.UNARY_OP) ? new UnaryOperation(tokens.read(TokenType.UNARY_OP), parseAtomicExpression(tokens)) :
         // Anything that doesn't is unparsable.
@@ -859,15 +870,18 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
 
 }
 
-/** CONVERSION :: DOCS? → TYPE EXPRESSION */
-function parseConversion(tokens: Tokens): ConversionDefinition {
+/** CONVERSION :: DOCS? TYPE → TYPE EXPRESSION */
+function parseConversion(tokens: Tokens): ConversionDefinition | Unparsable {
 
     const docs = parseDocumentation(tokens);
+    const input = parseType(tokens);
+    if(!tokens.nextIs(TokenType.CONVERT))
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_CONVERT, [ docs, input ]);
     const convert = tokens.read(TokenType.CONVERT);
     const output = parseType(tokens);
     const expression = parseExpression(tokens);
 
-    return new ConversionDefinition(docs, output, expression, convert);
+    return new ConversionDefinition(docs, input, output, expression, convert);
 
 }
 
@@ -1004,9 +1018,10 @@ function parseSetOrMapType(tokens: Tokens): SetType | MapType | Unparsable {
     let bind = undefined;
     let value = undefined;
     if(tokens.nextIsnt(TokenType.SET_CLOSE)) {
-        key = parseType(tokens);
+        if(!tokens.nextIs(TokenType.BIND))
+            key = parseType(tokens);
         bind = tokens.nextIs(TokenType.BIND) ? tokens.read(TokenType.BIND) : undefined;
-        value = bind !== undefined ? parseType(tokens) : undefined;
+        value = bind !== undefined && !tokens.nextIs(TokenType.SET_CLOSE) ? parseType(tokens) : undefined;
     }
     if(tokens.nextIsnt(TokenType.SET_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE, [ open, key, bind, value ]);

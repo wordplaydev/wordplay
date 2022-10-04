@@ -322,13 +322,12 @@ export default class Evaluate extends Expression {
 
         // Compile a halt if we couldn't find the function.
         if(candidateExpectedInputs === undefined)
-            return [ new Halt(evaluator => new FunctionException(evaluator, undefined, this.func.toWordplay()), this) ];
+            return [ new Halt(evaluator => new FunctionException(evaluator, this, undefined, this.func.toWordplay()), this) ];
 
         // Compile a halt if any of the function's inputs are unparsable.
         const unparsableExpected = candidateExpectedInputs.find(i => i instanceof Unparsable);
         if(unparsableExpected !== undefined)
             return [ new Halt(evaluator => new SemanticException(evaluator, unparsableExpected), this) ];
-
 
         // Compile a halt if any of the function's inputs are unparsable.
         const unparsableGiven = this.inputs.find(i => i instanceof Unparsable);

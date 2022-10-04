@@ -59,7 +59,7 @@ export default abstract class Node {
         name; context; node;
         return undefined;
     };
-
+    
     /**
      * Gathers all matching definitions in scope, useful for checking for duplicate bindings.
      */

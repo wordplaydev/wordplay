@@ -1,3 +1,7 @@
+import type BinaryOperation from "../nodes/BinaryOperation";
+import Convert from "../nodes/Convert";
+import Evaluate from "../nodes/Evaluate";
+import type UnaryOperation from "../nodes/UnaryOperation";
 import type Evaluator from "./Evaluator";
 import Exception from "./Exception";
 import type Value from "./Value";
@@ -5,11 +9,13 @@ import type Value from "./Value";
 export default class FunctionException extends Exception {
 
     readonly subject: Value | undefined;
+    readonly node: Evaluate | BinaryOperation | UnaryOperation | Convert
     readonly verb: string;
 
-    constructor(evaluator: Evaluator, subject: Value | undefined, verb: string) {
+    constructor(evaluator: Evaluator, node: Evaluate | BinaryOperation | UnaryOperation | Convert, subject: Value | undefined, verb: string) {
         super(evaluator);
 
+        this.node = node;
         this.subject = subject;
         this.verb = verb;
 
@@ -17,7 +23,7 @@ export default class FunctionException extends Exception {
 
     getExplanations() {
         return {
-            "eng": `Couldn't find function named ${this.verb.toString()} on ${this.subject ===  undefined ? "this" : this.subject.toString()}.`
+            "eng": `Couldn't find ${this.node instanceof Evaluate ? "function" : this.node instanceof Convert ? "conversion" : "operation"} ${this.verb.toString()} on ${this.subject ===  undefined ? "this" : this.subject.toString()}.`
         }
     };
 

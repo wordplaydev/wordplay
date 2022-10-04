@@ -113,7 +113,7 @@ export default class UnaryOperation extends Expression {
         // Evaluate the function on the value.
         return value instanceof Measurement || value instanceof Bool ?
             value.evaluatePrefix(evaluator, this) :
-            new FunctionException(evaluator, value, this.operator.getText());
+            new FunctionException(evaluator, this, value, this.operator.getText());
 
     }
 

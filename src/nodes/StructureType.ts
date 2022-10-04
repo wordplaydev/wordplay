@@ -48,8 +48,8 @@ export default class StructureType extends Type {
         }) !== undefined;
     }
 
-    getConversion(context: Context, type: Type): ConversionDefinition | undefined {
-        return this.definition.getConversion(context, type);
+    getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {
+        return this.definition.getConversion(context, input, output);
     }
 
     getNativeTypeName(): string { return STRUCTURE_NATIVE_TYPE_NAME; }

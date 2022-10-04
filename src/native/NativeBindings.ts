@@ -40,7 +40,10 @@ import AnyType from "../nodes/AnyType";
 import TypeException from "../runtime/TypeException";
 import type Bool from "../runtime/Bool";
 import type None from "../runtime/None";
-import type Measurement from "../runtime/Measurement";
+import Measurement from "../runtime/Measurement";
+import { parseType, tokens } from "../parser/Parser";
+import Unparsable from "../nodes/Unparsable";
+import Unit from "../nodes/Unit";
 
 class NativeBindings implements NativeInterface {
 
@@ -87,20 +90,25 @@ class NativeBindings implements NativeInterface {
 
     }
 
-    addConversion(kind: string, docs: Documentation[], type: string, expected: Type, fun: Function) {
+    addConversion(kind: string, docs: Documentation[], inputTypeString: string, outputTypeString: string, fun: Function) {
 
         if(!(kind in this.conversionsByType))
             this.conversionsByType[kind] = [];
 
+        // Parse the expected type.
+        const inputType = parseType(tokens(inputTypeString));
+        if(inputType instanceof Unparsable)
+            throw new Error(`Native conversion has unparsable output type: ${inputTypeString}`);
+
         this.conversionsByType[kind].push(
             new ConversionDefinition(
-                docs, type,
+                docs, inputType, outputTypeString,
                 new NativeExpression(
-                    type,
+                    outputTypeString,
                     evaluation => {
                         const val = evaluation.getContext();
-                        if(val instanceof Value && val.getType().constructor === expected.constructor) return fun.call(undefined, val);
-                        else return new TypeException(evaluation.getEvaluator(), expected, val); 
+                        if(val instanceof Value && val.getType().isCompatible(inputType, evaluation.getEvaluator().getContext())) return fun.call(undefined, val);
+                        else return new TypeException(evaluation.getEvaluator(), inputType, val); 
                     },
                     {
                         "eng": docs.find(doc => doc.lang?.getLanguage() === "eng")?.docs.getText() ?? "No documentatinon"
@@ -118,9 +126,10 @@ class NativeBindings implements NativeInterface {
         this.structureDefinitionsByName[kind] = structure;
     }
     
-    getConversion(kind: string, context: Context, type: Type): ConversionDefinition | undefined {
+    getConversion(kind: string, context: Context, input: Type, output: Type): ConversionDefinition | undefined {
         if(!(kind in this.conversionsByType)) return undefined;
-        return this.conversionsByType[kind].find(c => c.convertsType(type, context));
+        return this.conversionsByType[kind].find(c => 
+            c.convertsType(input, output, context));
     }
     
     getFunction(kind: string, name: string): FunctionDefinition | undefined {
@@ -595,34 +604,67 @@ Native.addFunction(MAP_NATIVE_TYPE_NAME, new FunctionDefinition(
     new MapType(undefined, undefined, new NameType(MAP_KEY_TYPE_VAR_NAME), undefined, new NameType(MAP_VALUE_TYPE_VAR_NAME))
 ));
 
-// TODO Documentation
-Native.addConversion(LIST_NATIVE_TYPE_NAME, [],  "''", new ListType(), (val: List) => new Text(val.toString())),
-// TODO Documentation
-Native.addConversion(LIST_NATIVE_TYPE_NAME, [],  "{}", new ListType(), (val: List) => new SetValue(val.getValues())),
+// LIST conversions
+Native.addConversion(LIST_NATIVE_TYPE_NAME, [],  "[]", "''", (val: List) => new Text(val.toString())),
+Native.addConversion(LIST_NATIVE_TYPE_NAME, [],  "[]", "{}", (val: List) => new SetValue(val.getValues())),
 
-// TODO Documentation
-Native.addConversion(SET_NATIVE_TYPE_NAME, [], "''", new SetType(), (val: SetValue) => new Text(val.toString()));
-// TODO Documentation
-Native.addConversion(SET_NATIVE_TYPE_NAME, [], "[]", new SetType(), (val: SetValue) => new List(val.values));
+// SET conversions
+Native.addConversion(SET_NATIVE_TYPE_NAME, [], "{}", "''", (val: SetValue) => new Text(val.toString()));
+Native.addConversion(SET_NATIVE_TYPE_NAME, [], "{}", "[]", (val: SetValue) => new List(val.values));
 
-// TODO Documentation
-Native.addConversion(MAP_NATIVE_TYPE_NAME, [], "''", new MapType(), (val: MapValue) => new Text(val.toString()));
-// TODO Documentation
-Native.addConversion(MAP_NATIVE_TYPE_NAME, [], "{}", new MapType(), (val: MapValue) => new SetValue(val.getKeys()));
-// TODO Documentation
-Native.addConversion(MAP_NATIVE_TYPE_NAME, [], "[]", new MapType(), (val: MapValue) => new List(val.getValues()));
+// MAP conversions
+Native.addConversion(MAP_NATIVE_TYPE_NAME, [], "{:}", "''", (val: MapValue) => new Text(val.toString()));
+Native.addConversion(MAP_NATIVE_TYPE_NAME, [], "{:}", "{}", (val: MapValue) => new SetValue(val.getKeys()));
+Native.addConversion(MAP_NATIVE_TYPE_NAME, [], "{:}", "[]", (val: MapValue) => new List(val.getValues()));
 
-// TODO Documentation
-Native.addConversion(BOOLEAN_NATIVE_TYPE_NAME, [], "''", new BooleanType(), (val: Bool) => new Text(val.toString()));
+// BOOLEAN conversions
+Native.addConversion(BOOLEAN_NATIVE_TYPE_NAME, [], "?", "''", (val: Bool) => new Text(val.toString()));
 
-// TODO Documentation
-Native.addConversion(NONE_NATIVE_TYPE_NME, [], "''", new NoneType([]), (val: None) => new Text(val.toString()));
+// NONE conversions
+Native.addConversion(NONE_NATIVE_TYPE_NME, [], "!", "''", (val: None) => new Text(val.toString()));
 
-// TODO Documentation
-Native.addConversion(TEXT_NATIVE_TYPE_NAME, [], '[""]', new TextType(), (val: Text) => new List(val.text.split("").map(c => new Text(c))));
+// TEXT conversions
+Native.addConversion(TEXT_NATIVE_TYPE_NAME, [], '""', '[""]', (val: Text) => new List(val.text.split("").map(c => new Text(c))));
+Native.addConversion(TEXT_NATIVE_TYPE_NAME, [], '""', "#", (val: Text) => new Measurement(val.text));
 
-// TODO Documentation
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], "''", new MeasurementType(), (val: Measurement) => new Text(val.toString()));
+// MEASUREMENT conversions
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#', "''", (val: Measurement) => new Text(val.toString()));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#s', "#", (val: Measurement) => val.unitless() );
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#s', "#min", (val: Measurement) => val.divide(new Measurement(60, new Unit(["s"], ["min"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#s', "#h", (val: Measurement) => val.divide(new Measurement(3600, new Unit(["s"], ["h"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#s', "#day", (val: Measurement) => val.divide(new Measurement(86400, new Unit(["s"], ["day"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#s', "#wk", (val: Measurement) => val.divide(new Measurement(604800, new Unit(["s"], ["wk"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#s', "#yr", (val: Measurement) => val.divide(new Measurement(31449600, new Unit(["s"], ["yr"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#min', "#", (val: Measurement) => val.unitless() );
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#min', "#s", (val: Measurement) => val.multiply(new Measurement(60, new Unit(["s"], ["min"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#min', "#h", (val: Measurement) => val.divide(new Measurement(60, new Unit(["min"], ["h"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#min', "#day", (val: Measurement) => val.divide(new Measurement(1440, new Unit(["min"], ["day"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#min', "#wk", (val: Measurement) => val.divide(new Measurement(10080, new Unit(["min"], ["wk"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#min', "#yr", (val: Measurement) => val.divide(new Measurement(524160, new Unit(["min"], ["yr"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#h', "#", (val: Measurement) => val.unitless() );
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#h', "#s", (val: Measurement) => val.multiply(new Measurement(3600, new Unit(["s"], ["h"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#h', "#min", (val: Measurement) => val.multiply(new Measurement(60, new Unit(["min"], ["h"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#h', "#day", (val: Measurement) => val.divide(new Measurement(24, new Unit(["h"], ["day"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#h', "#wk", (val: Measurement) => val.divide(new Measurement(168, new Unit(["h"], ["wk"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#h', "#yr", (val: Measurement) => val.divide(new Measurement(8760, new Unit(["h"], ["yr"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#day', "#", (val: Measurement) => val.unitless() );
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#day', "#s", (val: Measurement) => val.multiply(new Measurement(86400, new Unit(["s"], ["day"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#day', "#min", (val: Measurement) => val.multiply(new Measurement(1440, new Unit(["min"], ["day"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#day', "#h", (val: Measurement) => val.multiply(new Measurement(24, new Unit(["h"], ["day"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#day', "#wk", (val: Measurement) => val.divide(new Measurement(7, new Unit(["day"], ["wk"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#day', "#yr", (val: Measurement) => val.divide(new Measurement(365, new Unit(["day"], ["yr"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#wk', "#", (val: Measurement) => val.unitless() );
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#wk', "#s", (val: Measurement) => val.multiply(new Measurement(604800, new Unit(["s"], ["wk"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#wk', "#min", (val: Measurement) => val.multiply(new Measurement(10800, new Unit(["min"], ["wk"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#wk', "#h", (val: Measurement) => val.multiply(new Measurement(168, new Unit(["h"], ["wk"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#wk', "#day", (val: Measurement) => val.multiply(new Measurement(7, new Unit(["day"], ["wk"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#wk', "#yr", (val: Measurement) => val.divide(new Measurement(52, new Unit(["wk"], ["yr"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#yr', "#", (val: Measurement) => val.unitless() );
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#yr', "#s", (val: Measurement) => val.multiply(new Measurement(31449600, new Unit(["s"], ["yr"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#yr', "#min", (val: Measurement) => val.multiply(new Measurement(524160, new Unit(["min"], ["yr"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#yr', "#h", (val: Measurement) => val.multiply(new Measurement(21840, new Unit(["h"], ["yr"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#yr', "#day", (val: Measurement) => val.multiply(new Measurement(365, new Unit(["day"], ["yr"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#yr', "#wk", (val: Measurement) => val.divide(new Measurement(52, new Unit(["wk"], ["yr"]))));
 
 Native.addStructure(LIST_NATIVE_TYPE_NAME, new StructureDefinition(
     // TODO Localized documentation

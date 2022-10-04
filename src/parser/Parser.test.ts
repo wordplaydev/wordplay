@@ -316,13 +316,13 @@ test("Parse expressions", () => {
     expect(evaluateWithMultipleTypeVars).toBeInstanceOf(Evaluate);
     expect((evaluateWithMultipleTypeVars as Evaluate).typeInputs).toHaveLength(2);
 
-    const conversion = parseExpression(tokens("→ '' meow()"));
+    const conversion = parseExpression(tokens("# → '' meow()"));
     expect(conversion).toBeInstanceOf(ConversionDefinition);
 
     const convert = parseExpression(tokens("(1 + 2) → ''"));
     expect(convert).toBeInstanceOf(Convert);
 
-    const conversionWithDocs = parseExpression(tokens("`To meows`/eng → '' meow()"));
+    const conversionWithDocs = parseExpression(tokens("`numtotext`/eng # → '' meow()"));
     expect(conversionWithDocs).toBeInstanceOf(ConversionDefinition);
     expect((conversionWithDocs as ConversionDefinition).docs).toHaveLength(1);
 

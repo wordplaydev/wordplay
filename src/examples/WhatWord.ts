@@ -11,7 +11,7 @@ const WhatWord = {
 \tƒ status()
 \t\tsecret = "" ? "start"
 \t\tguessesRemaining() ≤ 0 ? "lost"
-\t\tsecret→[].all(ƒ(letter•"") guesses.has(letter)) ? "won"
+\t\tsecret→[""].all(ƒ(letter•"") guesses.has(letter)) ? "won"
 \t\t"playing"
 )
 
@@ -27,7 +27,7 @@ state•Game: start ∆ ⌨️
 
 \`The board is a translation of the secret, accounting for guesses\`/eng
 \`El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.\`/spa
-board: Phrase(state.secret→[].translate(ƒ(letter•"") ((state.status() = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 24pt)
+board: Phrase(state.secret→[""].translate(ƒ(letter•"") ((state.status() = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 24pt)
 
 \`The rest of the game screen depends on the game status\`/eng
 \`El resto de la pantalla del juego depende del estado del juego.\`/spa

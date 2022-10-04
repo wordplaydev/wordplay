@@ -28,9 +28,9 @@ export default class MapType extends Type {
     computeChildren() {
         const children = [];
         children.push(this.open);
-        if(this.key) children.push(this.key);
+        if(this.key !== undefined) children.push(this.key);
         children.push(this.bind);
-        if(this.value) children.push(this.value);
+        if(this.value !== undefined) children.push(this.value);
         children.push(this.close);
         return children;
     }
@@ -38,20 +38,23 @@ export default class MapType extends Type {
 
     isCompatible(type: Type, context: Context): boolean { 
         return  type instanceof MapType &&
-            (
-                // If there is no key type, then must both have no key type.
-                (this.key === undefined && type.key === undefined) ||
                 // If they have one, then they must be compable, and if there is a value type, they must be compatible.
                 (
-                    this.key instanceof Type &&
-                    type.key instanceof Type &&
-                    this.key.isCompatible(type.key, context) &&
-                    (
-                        (this.value === undefined && type.value === undefined) ||
-                        (this.value !== undefined && type.value !== undefined && this.value instanceof Type && type.value instanceof Type && this.value.isCompatible(type.value, context))
+                    (type.key === undefined ||
+                        (
+                            this.key instanceof Type &&
+                            type.key instanceof Type &&
+                            this.key.isCompatible(type.key, context)
+                         )
+                    ) &&
+                    (type.value === undefined ||
+                        (
+                            this.value instanceof Type &&
+                            type.value instanceof Type &&
+                            this.value.isCompatible(type.value, context)
+                        )
                     )
                 )
-            ); 
     }
 
     getNativeTypeName(): string { return MAP_NATIVE_TYPE_NAME; }

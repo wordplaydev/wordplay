@@ -12,8 +12,8 @@ export default abstract class Type extends Node {
     abstract isCompatible(type: Type, context: Context): boolean;
     abstract getNativeTypeName(): string;
 
-    getConversion(context: Context, type: Type): ConversionDefinition | undefined {
-        return context.native?.getConversion(this.getNativeTypeName(), context, type);
+    getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {
+        return context.native?.getConversion(this.getNativeTypeName(), context, input, output);
     }
 
     getFunction(context: Context, name: string): FunctionDefinition | undefined {

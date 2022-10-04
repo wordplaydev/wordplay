@@ -1,7 +1,7 @@
 import type ConversionDefinition from "../nodes/ConversionDefinition";
 import type FunctionDefinition from "../nodes/FunctionDefinition";
 import type StructureDefinition from "../nodes/StructureDefinition";
-import Type from "../nodes/Type";
+import type Type from "../nodes/Type";
 import type ConversionValue from "./ConversionValue";
 import type Evaluator from "./Evaluator";
 import Exception from "./Exception";
@@ -11,7 +11,6 @@ import Value from "./Value";
 import type Evaluable from "./Evaluable";
 import type Program from "../nodes/Program";
 import KeepStream from "./KeepStream";
-import Context from "../nodes/Context";
 import ValueException from "./ValueException";
 import TypeException from "./TypeException";
 
@@ -155,11 +154,13 @@ export default class Evaluation {
     }
 
     /** Find a conversion that matches the given type */
-    getConversion(type: Type) {
+    getConversion(input: Type, output: Type) {
 
         const program = this.getProgram();
         if(program === undefined) return undefined;
-        return this.#conversions.find(c => c.definition.output instanceof Type && c.definition.output.isCompatible(type, new Context(this.getEvaluator().getSource(), program)));
+        // Do any of the conversions in scope do the requested conversion?
+        return this.#conversions.find(c => 
+            c.definition.convertsType(input, output, this.getEvaluator().getContext()));
 
     }
 

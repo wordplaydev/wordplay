@@ -30,7 +30,7 @@ export default class Bool extends Primitive {
         switch(op.getOperator()) {
             case "~":
             case NOT_SYMBOL: return new Bool(!this.bool)
-            default: return new FunctionException(evaluator, this, op.getOperator());
+            default: return new FunctionException(evaluator, op, this, op.getOperator());
         }
 
     }
@@ -43,7 +43,7 @@ export default class Bool extends Primitive {
         switch(op.getOperator()) {
             case AND_SYMBOL: return new Bool(this.bool && operand.bool);
             case OR_SYMBOL: return new Bool(this.bool || operand.bool);
-            default: return new FunctionException(evaluator, this, op.getOperator());
+            default: return new FunctionException(evaluator, op, this, op.getOperator());
         }
 
     }

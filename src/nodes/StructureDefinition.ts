@@ -169,11 +169,15 @@ export default class StructureDefinition extends Expression {
 
     }
 
-    getConversion(context: Context, type: Type): ConversionDefinition | undefined {
+    getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {
 
         // Find the conversion in this type's block that produces a compatible type. 
         return this.block instanceof Block ? 
-            this.block.statements.find(s => s instanceof ConversionDefinition && s.output instanceof Type && s.output.isCompatible(type, context)) as ConversionDefinition | undefined :
+            this.block.statements.find(s => 
+                s instanceof ConversionDefinition &&
+                s.input instanceof Type && 
+                s.output instanceof Type && 
+                s.convertsType(input, output, context)) as ConversionDefinition | undefined :
             undefined;
         
     }

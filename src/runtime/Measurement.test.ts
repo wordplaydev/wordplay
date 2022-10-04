@@ -1,5 +1,6 @@
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
+import Evaluator from "./Evaluator";
 import Measurement from "./Measurement";
 
 test("Test number translation", () => {
@@ -98,5 +99,53 @@ test("Test division", () => {
     expect((new Measurement(2.1)).divide(new Measurement(.1)).toString()).toBe("21");
     expect((new Measurement(-2.1)).divide(new Measurement(.1)).toString()).toBe("-21");
     expect((new Measurement(2.1)).divide(new Measurement(-.1)).toString()).toBe("-21");
+
+})
+
+test("Test conversions", () => {
+
+    // TEXT
+    expect(Evaluator.evaluateCode("1→''")?.toString()).toBe('"1"');
+    // Numbers to text should be arabic by default
+    expect(Evaluator.evaluateCode("1→''")?.toString()).toBe('"1"');
+    // Text to numbers assume arabic by default
+    expect(Evaluator.evaluateCode("'1'→#")?.toString()).toBe('1');
+    // Non-numbers should be !nan
+    expect(Evaluator.evaluateCode("'1.1.1'→#")?.toString()).toBe('NaN');
+
+    // // Numbers to percent text
+    // expect(Evaluator.evaluateCode("1→''%")?.toString()).toBe('"100%"');
+    // // Percen text to numbers
+    // expect(Evaluator.evaluateCode("'10%'→#")?.toString()).toBe('0.1');
+
+    // TIME
+    // No change if matching type.
+    expect(Evaluator.evaluateCode("1s→#")?.toString()).toBe('1');
+    // Seconds/minutes
+    expect(Evaluator.evaluateCode("60s→#min")?.toString()).toBe('1min');
+    expect(Evaluator.evaluateCode("1min→#s")?.toString()).toBe('60s');
+    // Seconds/hours
+    expect(Evaluator.evaluateCode("3600s→#h")?.toString()).toBe('1h');
+    expect(Evaluator.evaluateCode("1h→#s")?.toString()).toBe('3600s');
+    // Seconds/days
+    expect(Evaluator.evaluateCode("86400s→#day")?.toString()).toBe('1day');
+    expect(Evaluator.evaluateCode("1day→#s")?.toString()).toBe('86400s');
+    // Minutes/hours
+    expect(Evaluator.evaluateCode("60min→#h")?.toString()).toBe('1h');
+    expect(Evaluator.evaluateCode("1h→#min")?.toString()).toBe('60min');
+    // Minutes/days
+    expect(Evaluator.evaluateCode("1440min→#day")?.toString()).toBe('1day');
+    expect(Evaluator.evaluateCode("1day→#min")?.toString()).toBe('1440min');
+    // Hours/days
+    expect(Evaluator.evaluateCode("24h→#day")?.toString()).toBe('1day');
+    expect(Evaluator.evaluateCode("1day→#h")?.toString()).toBe('24h');
+    // Days/weeks
+    expect(Evaluator.evaluateCode("1wk→#day")?.toString()).toBe('7day');
+    expect(Evaluator.evaluateCode("14day→#wk")?.toString()).toBe('2wk');
+
+    // DISTANCE
+
+    // WEIGHT
+
 
 })

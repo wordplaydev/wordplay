@@ -31,10 +31,10 @@ export default class UnionType extends Type {
         return this.left.isCompatible(type, context) || (!(this.right instanceof Type) || this.right.isCompatible(type, context));
     }
 
-    getConversion(context: Context, type: Type): ConversionDefinition | undefined {
-        const left = context.native?.getConversion(this.left.getNativeTypeName(), context, type);
+    getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {
+        const left = context.native?.getConversion(this.left.getNativeTypeName(), context, input, output);
         if(left !== undefined) return left;
-        return this.right instanceof Type ? context.native?.getConversion(this.right.getNativeTypeName(), context, type) : undefined;
+        return this.right instanceof Type ? context.native?.getConversion(this.right.getNativeTypeName(), context, input, output) : undefined;
     }
 
     getFunction(context: Context, name: string): FunctionDefinition | undefined {

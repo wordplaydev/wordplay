@@ -7,4 +7,4 @@
 
 </script>
 
-<NodeSequenceView nodes={node.docs}/><NodeView node={node.convert}/><NodeView node={node.output}/><NodeView node={node.expression}/>
+<NodeSequenceView nodes={node.docs}/><NodeView node={node.input}/><NodeView node={node.convert}/><NodeView node={node.output}/><NodeView node={node.expression}/>

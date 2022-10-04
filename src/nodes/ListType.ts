@@ -26,7 +26,7 @@ export default class ListType extends Type {
     computeChildren() { 
         const children = [];
         children.push(this.open);
-        if(this.type) children.push(this.type);
+        if(this.type !== undefined) children.push(this.type);
         children.push(this.close);
         return children;
     }

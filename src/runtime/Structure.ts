@@ -28,8 +28,8 @@ export default class Structure extends Value {
         return this.context.resolve(name);
     }
 
-    getConversion(type: Type): ConversionValue | undefined {
-        return this.context.getConversion(type);
+    getConversion(input: Type, output: Type): ConversionValue | undefined {
+        return this.context.getConversion(input, output);
     }
 
     toString(): string {

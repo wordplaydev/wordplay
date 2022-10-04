@@ -39,7 +39,7 @@ export default class Convert extends Expression {
         // The expression's type must have a conversion.
         const exprType = this.expression.getTypeUnlessCycle(context);
         return this.type instanceof Type ? 
-            exprType.getConversion(context, this.type) :
+            exprType.getConversion(context, exprType, this.type) :
             undefined;
         
     }
@@ -49,7 +49,7 @@ export default class Convert extends Expression {
         // If we know the expression's type, there must be a corresponding conversion on that type.
         const exprType = this.expression.getTypeUnlessCycle(context);
         const conversion = this.getConversionDefinition(context);
-        if(!(exprType instanceof UnknownType) && this.type instanceof Type && conversion === undefined)
+        if(!(exprType instanceof UnknownType) && this.type instanceof Type && !exprType.isCompatible(this.type, context) && conversion === undefined)
             return [ new UnknownConversion(this, this.type) ];
         
         return [];
@@ -90,10 +90,14 @@ export default class Convert extends Expression {
         
         if(this.type instanceof Unparsable) return new SemanticException(evaluator, this.type);
 
+        // If the type of value is already the type of the requested conversion, then just leave the value on the stack and do nothing.
+        if(evaluator.peekValue().getType().isCompatible(this.type, evaluator.getContext()))
+            return;
+
         const evaluation = evaluator.getEvaluationContext();
         const conversion = this.getConversionDefinition(evaluator.getContext());
         if(evaluation === undefined || conversion === undefined)
-            return new FunctionException(evaluator, evaluator.peekValue(), this.type.toWordplay());
+            return new FunctionException(evaluator, this, evaluator.peekValue(), this.type.toWordplay());
 
         // Get the value to convert
         const value = evaluator.popValue(undefined);

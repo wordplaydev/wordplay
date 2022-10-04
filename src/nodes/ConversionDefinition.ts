@@ -27,14 +27,16 @@ export default class ConversionDefinition extends Expression {
 
     readonly docs: Documentation[];
     readonly convert: Token;
+    readonly input: Type | Unparsable;
     readonly output: Type | Unparsable;
     readonly expression: Expression | Unparsable;
 
-    constructor(docs: Documentation[], output: Type | Unparsable | string, expression: Expression | Unparsable, convert?: Token) {
+    constructor(docs: Documentation[], input: Type | Unparsable | string, output: Type | Unparsable | string, expression: Expression | Unparsable, convert?: Token) {
         super();
 
         this.docs = docs;
         this.convert = convert ?? new Token(CONVERT_SYMBOL, [ TokenType.CONVERT ]);
+        this.input = typeof input === "string" ? parseType(tokens(input)) : input;
         this.output = typeof output === "string" ? parseType(tokens(output)) : output;
         this.expression = expression;
     }
@@ -42,14 +44,16 @@ export default class ConversionDefinition extends Expression {
     computeChildren() {
         let children: Node[] = [];
         children = children.concat(this.docs);
+        children.push(this.input);
         if(this.convert) children.push(this.convert);
         children.push(this.output);
         children.push(this.expression);
         return children;
     }
 
-    convertsType(type: Type, context: Context) {
-        return this.output instanceof Type && this.output.isCompatible(type, context);
+    convertsType(input: Type, output: Type, context: Context) {
+        return !(this.input instanceof Unparsable) && input.isCompatible(this.input, context) &&
+            !(this.output instanceof Unparsable) && output.isCompatible(this.output, context);
     }
 
     computeConflicts(): Conflict[] { 
@@ -97,6 +101,7 @@ export default class ConversionDefinition extends Expression {
     clone(original?: Node, replacement?: Node) { 
         return new ConversionDefinition(
             this.docs.map(d => d.cloneOrReplace([ Documentation ], original, replacement)), 
+            this.input.cloneOrReplace([ Type, Unparsable ], original, replacement), 
             this.output.cloneOrReplace([ Type, Unparsable ], original, replacement), 
             this.expression.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
             this.convert.cloneOrReplace([ Token ], original, replacement)
