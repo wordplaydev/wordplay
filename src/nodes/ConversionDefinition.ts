@@ -51,9 +51,13 @@ export default class ConversionDefinition extends Expression {
         return children;
     }
 
-    convertsType(input: Type, output: Type, context: Context) {
+    convertsTypeTo(input: Type, output: Type, context: Context) {
         return !(this.input instanceof Unparsable) && input.isCompatible(this.input, context) &&
             !(this.output instanceof Unparsable) && output.isCompatible(this.output, context);
+    }
+
+    convertsType(input: Type, context: Context) {
+        return !(this.input instanceof Unparsable) && input.isCompatible(this.input, context);
     }
 
     computeConflicts(): Conflict[] { 

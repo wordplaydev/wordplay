@@ -160,7 +160,7 @@ export default class Evaluation {
         if(program === undefined) return undefined;
         // Do any of the conversions in scope do the requested conversion?
         return this.#conversions.find(c => 
-            c.definition.convertsType(input, output, this.getEvaluator().getContext()));
+            c.definition.convertsTypeTo(input, output, this.getEvaluator().getContext()));
 
     }
 

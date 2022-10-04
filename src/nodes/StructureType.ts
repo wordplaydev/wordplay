@@ -52,6 +52,10 @@ export default class StructureType extends Type {
         return this.definition.getConversion(context, input, output);
     }
 
+    getAllConversions() {
+        return this.definition.getAllConversions();
+    }
+  
     getNativeTypeName(): string { return STRUCTURE_NATIVE_TYPE_NAME; }
 
     clone() { return new StructureType(this.definition) as this; }

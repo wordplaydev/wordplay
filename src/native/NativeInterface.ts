@@ -6,6 +6,7 @@ import type Type from "../nodes/Type";
 
 export default interface NativeInterface {
     getConversion(kind: string, context: Context, input: Type, output: Type): ConversionDefinition | undefined;
+    getAllConversions(kind: string): ConversionDefinition[];
     getFunction(kind: string, name: string): FunctionDefinition | undefined;
     getStructureDefinition(kind: string): StructureDefinition | undefined;
 }

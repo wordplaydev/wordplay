@@ -169,6 +169,9 @@ export default class StructureDefinition extends Expression {
 
     }
 
+    /**
+     * Given an execution context and input and output types, find a conversion function defined on this structure that converts between the two.
+     */
     getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {
 
         // Find the conversion in this type's block that produces a compatible type. 
@@ -177,9 +180,15 @@ export default class StructureDefinition extends Expression {
                 s instanceof ConversionDefinition &&
                 s.input instanceof Type && 
                 s.output instanceof Type && 
-                s.convertsType(input, output, context)) as ConversionDefinition | undefined :
+                s.convertsTypeTo(input, output, context)) as ConversionDefinition | undefined :
             undefined;
         
+    }
+
+    getAllConversions() {
+        return this.block instanceof Block ? 
+            this.block.statements.filter(s => s instanceof ConversionDefinition) as ConversionDefinition[] :
+            [];
     }
 
     getBind(name: string): Bind | FunctionDefinition | undefined {

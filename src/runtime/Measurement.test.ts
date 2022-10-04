@@ -144,6 +144,21 @@ test("Test conversions", () => {
     expect(Evaluator.evaluateCode("14day→#wk")?.toString()).toBe('2wk');
 
     // DISTANCE
+    // Direct conversions
+    expect(Evaluator.evaluateCode("1m→#")?.toString()).toBe('1');
+    expect(Evaluator.evaluateCode("1m→#pm")?.toString()).toBe('1000000000000pm');
+    expect(Evaluator.evaluateCode("1m→#nm")?.toString()).toBe('1000000000nm');
+    expect(Evaluator.evaluateCode("1m→#µm")?.toString()).toBe('1000000µm');
+    expect(Evaluator.evaluateCode("1m→#mm")?.toString()).toBe('1000mm');
+    expect(Evaluator.evaluateCode("1m→#cm")?.toString()).toBe('100cm');
+    expect(Evaluator.evaluateCode("1m→#dm")?.toString()).toBe('10dm');
+    expect(Evaluator.evaluateCode("1m→#km")?.toString()).toBe('0.001km');
+    expect(Evaluator.evaluateCode("1m→#Mm")?.toString()).toBe('0.000001Mm');
+    expect(Evaluator.evaluateCode("1m→#Gm")?.toString()).toBe('1e-9Gm');
+    expect(Evaluator.evaluateCode("1m→#Tm")?.toString()).toBe('1e-12Tm');
+
+    // Transitive conversions
+    expect(Evaluator.evaluateCode("1km→#cm")?.toString()).toBe('100000cm');
 
     // WEIGHT
 

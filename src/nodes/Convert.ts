@@ -6,7 +6,6 @@ import type Node from "./Node";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import Token from "./Token";
-import type Evaluator from "../runtime/Evaluator";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
@@ -17,6 +16,9 @@ import type { TypeSet } from "./UnionType";
 import SemanticException from "../runtime/SemanticException";
 import FunctionException from "../runtime/FunctionException";
 import Exception from "../runtime/Exception";
+import type ConversionDefinition from "./ConversionDefinition";
+import Halt from "../runtime/Halt";
+import Action from "../runtime/Action";
 
 export default class Convert extends Expression {
     
@@ -34,22 +36,24 @@ export default class Convert extends Expression {
 
     computeChildren() { return [ this.expression, this.convert, this.type ]; }
 
-    getConversionDefinition(context: Context) {
+    getConversionSequence(context: Context): ConversionDefinition[] | undefined {
 
-        // The expression's type must have a conversion.
-        const exprType = this.expression.getTypeUnlessCycle(context);
-        return this.type instanceof Type ? 
-            exprType.getConversion(context, exprType, this.type) :
-            undefined;
-        
+        // What's the input type?
+        const inputType = this.expression.getTypeUnlessCycle(context);
+
+        if(this.type instanceof Unparsable) return undefined;
+
+        // Find a path between the input type and the desired type,
+        return getConversionPath(inputType, this.type, inputType.getAllConversions(context), context);
+
     }
 
     computeConflicts(context: Context): Conflict[] { 
         
         // If we know the expression's type, there must be a corresponding conversion on that type.
         const exprType = this.expression.getTypeUnlessCycle(context);
-        const conversion = this.getConversionDefinition(context);
-        if(!(exprType instanceof UnknownType) && this.type instanceof Type && !exprType.isCompatible(this.type, context) && conversion === undefined)
+        const conversionPath = this.getConversionSequence(context);
+        if(!(exprType instanceof UnknownType) && this.type instanceof Type && !exprType.isCompatible(this.type, context) && (conversionPath === undefined || conversionPath.length === 0))
             return [ new UnknownConversion(this, this.type) ];
         
         return [];
@@ -58,61 +62,76 @@ export default class Convert extends Expression {
 
     computeType(context: Context): Type {
         
+        // Technically we have a type given, but such a conversion doesn't necessarily exist.
+        // Find the conversion to see.
         // Get the conversion definition.
-        const definition = this.getConversionDefinition(context);
-        return definition === undefined || !(definition.output instanceof Type) ? new UnknownType(this) : definition.output; 
+        const conversions = this.getConversionSequence(context);
+        if(conversions === undefined || conversions.length === 0) return new UnknownType(this);
+        const lastConversion = conversions[conversions.length - 1];
+        return !(lastConversion.output instanceof Type) ? new UnknownType(this) : lastConversion.output; 
 
     }
 
-    compile(context: Context):Step[] {
+    compile(context: Context): Step[] {
 
+        // If there's no type, then halt.
+        if(this.type instanceof Unparsable) return [ new Halt(evaluator => new SemanticException(evaluator, this.type), this) ];
+
+        // If the type of value is already the type of the requested conversion, then just leave the value on the stack and do nothing.
+        if(this.expression.getType(context).isCompatible(this.type, context)) return [];
+
+        // Otherwise, identify the series of conversions that will achieve the right output type.
+        const conversions = this.getConversionSequence(context);
+
+        // If there is no path to conversion, halt.
+        if(conversions === undefined || conversions.length === 0) 
+            return [ new Halt(evaluator => new FunctionException(evaluator, this, evaluator.peekValue(), this.type.toWordplay()), this) ];
+        
         // Evaluate the expression to convert, then push the conversion function on the stack.
         return [ 
             new Start(this),
             ...this.expression.compile(context),
+            ...conversions.map(conversion => new Action(
+                this, 
+                {
+                    "eng": `Translate to ${conversion.output.toWordplay()}`
+                },
+                evaluator =>  {
+                    // Get the value to convert
+                    const value = evaluator.popValue(undefined);
+                    if(value instanceof Exception) return value;
+                    
+                    // Execute the conversion.
+                    evaluator.startEvaluation(
+                        new Evaluation(
+                            evaluator,
+                            conversion, 
+                            conversion.expression, 
+                            value
+                        )
+                    );
+
+                    return undefined;
+                }
+            )),
             new Finish(this)
         ];
     }
 
     getStartExplanations() { 
         return {
-            "eng": "We start by evaluating the value to convert."
+            "eng": "We start by evaluating the value to convert, then do one or more conversions to get to the desired type."
         }
      }
 
     getFinishExplanations() {
         return {
-            "eng": "We end by finding the conversion function and then evaluating it on the value."
+            "eng": "Yay, we have our converted value!"
         }
     }
 
-    evaluate(evaluator: Evaluator) {
-        
-        if(this.type instanceof Unparsable) return new SemanticException(evaluator, this.type);
-
-        // If the type of value is already the type of the requested conversion, then just leave the value on the stack and do nothing.
-        if(evaluator.peekValue().getType().isCompatible(this.type, evaluator.getContext()))
-            return;
-
-        const evaluation = evaluator.getEvaluationContext();
-        const conversion = this.getConversionDefinition(evaluator.getContext());
-        if(evaluation === undefined || conversion === undefined)
-            return new FunctionException(evaluator, this, evaluator.peekValue(), this.type.toWordplay());
-
-        // Get the value to convert
-        const value = evaluator.popValue(undefined);
-        if(value instanceof Exception) return value;
-        
-        // Execute the function.
-        evaluator.startEvaluation(
-            new Evaluation(
-                evaluator,
-                conversion, 
-                conversion.expression, 
-                value
-            )
-        );
-
+    evaluate() {
+        return undefined;
     }
 
     clone(original?: Node, replacement?: Node) { 
@@ -128,5 +147,59 @@ export default class Convert extends Expression {
             this.expression.evaluateTypeSet(bind, original, current, context);
         return current;
     }
+
+}
+
+function getConversionPath(input: Type, output: Type, conversions: ConversionDefinition[], context: Context): ConversionDefinition[] {
+
+    // Breadth first search through the conversion graph for a path from input type to output type.
+    const edges: Map<Type, Type> = new Map();
+    const queue: Type[] = [];
+    const visited: Set<Type> = new Set();
+
+    queue.push(input);
+    visited.add(input);
+  
+    while (queue.length > 0) {
+        const currentInput = queue.shift() as Type;
+        // Is the type a match for the desired output? Return the path!
+        if(currentInput.isCompatible(output, context)) {
+
+            const path: ConversionDefinition[] = [];
+            // Start from the output
+            let to = output;
+
+            // Find the path, tracing backwards from output to input.
+            while(true) {
+                // Find the type that goes to this type
+                const fromKey = Array.from(edges.keys()).find(t => t.isCompatible(to, context));
+                const from = fromKey === undefined ? undefined : edges.get(fromKey);
+                // There should always be one; bail if there's not.
+                if(from === undefined) return [];
+                // Find the conversion that maps from -> to
+                const conversion = conversions.find(c => c.convertsTypeTo(from, to, context));
+                // If we didn't find one, bail; something's wrong.
+                if(conversion === undefined) return [];
+                // Add to the path.
+                path.unshift(conversion);
+                // If from is compatible with the input, we're done!
+                if(from.isCompatible(input, context)) return path;
+                // Otherwise, set the "to" to "from" and find the next transition.
+                to = from;
+            }
+        }
+
+        // Find all of the output types reachable through conversions
+        for (let out of conversions.filter(c => c.convertsType(currentInput, context)).map(c => c.output).filter(c => c instanceof Type) as Type[]) {
+            // If we haven't already visited this one, visit it.
+            if(Array.from(visited).find(type => out.isCompatible(type, context)) === undefined) {
+                // We remember the edges in reverse so we can trace backwards from it.
+                edges.set(out, currentInput);
+                queue.push(out);
+                visited.add(out);
+            }
+        }
+    }
+    return [];
 
 }

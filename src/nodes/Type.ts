@@ -16,6 +16,10 @@ export default abstract class Type extends Node {
         return context.native?.getConversion(this.getNativeTypeName(), context, input, output);
     }
 
+    getAllConversions(context: Context) {
+       return context.native === undefined ? [] : context.native.getAllConversions(this.getNativeTypeName());
+    }
+
     getFunction(context: Context, name: string): FunctionDefinition | undefined {
         return context.native?.getFunction(this.getNativeTypeName(), name);
     }

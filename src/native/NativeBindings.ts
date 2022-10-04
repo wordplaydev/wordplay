@@ -129,7 +129,12 @@ class NativeBindings implements NativeInterface {
     getConversion(kind: string, context: Context, input: Type, output: Type): ConversionDefinition | undefined {
         if(!(kind in this.conversionsByType)) return undefined;
         return this.conversionsByType[kind].find(c => 
-            c.convertsType(input, output, context));
+            c.convertsTypeTo(input, output, context));
+    }
+
+    getAllConversions() {
+        // Copy it so that callers can't modify it.
+        return Object.values(this.conversionsByType).reduce((all: ConversionDefinition[], next: ConversionDefinition[]) => [ ...all, ...next ], []);
     }
     
     getFunction(kind: string, name: string): FunctionDefinition | undefined {
@@ -628,6 +633,8 @@ Native.addConversion(TEXT_NATIVE_TYPE_NAME, [], '""', '[""]', (val: Text) => new
 Native.addConversion(TEXT_NATIVE_TYPE_NAME, [], '""', "#", (val: Text) => new Measurement(val.text));
 
 // MEASUREMENT conversions
+
+// Time
 Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#', "''", (val: Measurement) => new Text(val.toString()));
 Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#s', "#", (val: Measurement) => val.unitless() );
 Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#s', "#min", (val: Measurement) => val.divide(new Measurement(60, new Unit(["s"], ["min"]))));
@@ -635,36 +642,42 @@ Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#s', "#h", (val: Measure
 Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#s', "#day", (val: Measurement) => val.divide(new Measurement(86400, new Unit(["s"], ["day"]))));
 Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#s', "#wk", (val: Measurement) => val.divide(new Measurement(604800, new Unit(["s"], ["wk"]))));
 Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#s', "#yr", (val: Measurement) => val.divide(new Measurement(31449600, new Unit(["s"], ["yr"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#min', "#", (val: Measurement) => val.unitless() );
 Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#min', "#s", (val: Measurement) => val.multiply(new Measurement(60, new Unit(["s"], ["min"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#min', "#h", (val: Measurement) => val.divide(new Measurement(60, new Unit(["min"], ["h"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#min', "#day", (val: Measurement) => val.divide(new Measurement(1440, new Unit(["min"], ["day"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#min', "#wk", (val: Measurement) => val.divide(new Measurement(10080, new Unit(["min"], ["wk"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#min', "#yr", (val: Measurement) => val.divide(new Measurement(524160, new Unit(["min"], ["yr"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#h', "#", (val: Measurement) => val.unitless() );
 Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#h', "#s", (val: Measurement) => val.multiply(new Measurement(3600, new Unit(["s"], ["h"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#h', "#min", (val: Measurement) => val.multiply(new Measurement(60, new Unit(["min"], ["h"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#h', "#day", (val: Measurement) => val.divide(new Measurement(24, new Unit(["h"], ["day"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#h', "#wk", (val: Measurement) => val.divide(new Measurement(168, new Unit(["h"], ["wk"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#h', "#yr", (val: Measurement) => val.divide(new Measurement(8760, new Unit(["h"], ["yr"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#day', "#", (val: Measurement) => val.unitless() );
 Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#day', "#s", (val: Measurement) => val.multiply(new Measurement(86400, new Unit(["s"], ["day"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#day', "#min", (val: Measurement) => val.multiply(new Measurement(1440, new Unit(["min"], ["day"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#day', "#h", (val: Measurement) => val.multiply(new Measurement(24, new Unit(["h"], ["day"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#day', "#wk", (val: Measurement) => val.divide(new Measurement(7, new Unit(["day"], ["wk"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#day', "#yr", (val: Measurement) => val.divide(new Measurement(365, new Unit(["day"], ["yr"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#wk', "#", (val: Measurement) => val.unitless() );
 Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#wk', "#s", (val: Measurement) => val.multiply(new Measurement(604800, new Unit(["s"], ["wk"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#wk', "#min", (val: Measurement) => val.multiply(new Measurement(10800, new Unit(["min"], ["wk"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#wk', "#h", (val: Measurement) => val.multiply(new Measurement(168, new Unit(["h"], ["wk"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#wk', "#day", (val: Measurement) => val.multiply(new Measurement(7, new Unit(["day"], ["wk"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#wk', "#yr", (val: Measurement) => val.divide(new Measurement(52, new Unit(["wk"], ["yr"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#yr', "#", (val: Measurement) => val.unitless() );
 Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#yr', "#s", (val: Measurement) => val.multiply(new Measurement(31449600, new Unit(["s"], ["yr"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#yr', "#min", (val: Measurement) => val.multiply(new Measurement(524160, new Unit(["min"], ["yr"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#yr', "#h", (val: Measurement) => val.multiply(new Measurement(21840, new Unit(["h"], ["yr"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#yr', "#day", (val: Measurement) => val.multiply(new Measurement(365, new Unit(["day"], ["yr"]))));
-Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#yr', "#wk", (val: Measurement) => val.divide(new Measurement(52, new Unit(["wk"], ["yr"]))));
+
+// Distance
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#m', "#", (val: Measurement) => val.unitless());
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#m', "#pm", (val: Measurement) => val.multiply(new Measurement(1000000000000, new Unit(["pm"], ["m"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#m', "#nm", (val: Measurement) => val.multiply(new Measurement(1000000000, new Unit(["nm"], ["m"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#m', "#µm", (val: Measurement) => val.multiply(new Measurement(1000000, new Unit(["µm"], ["m"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#m', "#mm", (val: Measurement) => val.multiply(new Measurement(1000, new Unit(["mm"], ["m"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#m', "#cm", (val: Measurement) => val.multiply(new Measurement(100, new Unit(["cm"], ["m"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#m', "#dm", (val: Measurement) => val.multiply(new Measurement(10, new Unit(["dm"], ["m"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#m', "#km", (val: Measurement) => val.divide(new Measurement(1000, new Unit(["m"], ["km"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#m', "#Mm", (val: Measurement) => val.divide(new Measurement(1000000, new Unit(["m"], ["Mm"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#m', "#Gm", (val: Measurement) => val.divide(new Measurement(1000000000, new Unit(["m"], ["Gm"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#m', "#Tm", (val: Measurement) => val.divide(new Measurement(1000000000000, new Unit(["m"], ["Tm"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#pm', "#m", (val: Measurement) => val.divide(new Measurement(1000000000000, new Unit(["pm"], ["m"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#nm', "#m", (val: Measurement) => val.divide(new Measurement(1000000000, new Unit(["nm"], ["m"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#µm', "#m", (val: Measurement) => val.divide(new Measurement(1000000, new Unit(["µm"], ["m"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#mm', "#m", (val: Measurement) => val.divide(new Measurement(1000, new Unit(["mm"], ["m"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#cm', "#m", (val: Measurement) => val.divide(new Measurement(100, new Unit(["cm"], ["m"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#dm', "#m", (val: Measurement) => val.divide(new Measurement(10, new Unit(["dm"], ["m"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#km', "#m", (val: Measurement) => val.multiply(new Measurement(1000, new Unit(["m"], ["km"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#Mm', "#m", (val: Measurement) => val.multiply(new Measurement(1000000, new Unit(["m"], ["Mm"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#Gm', "#m", (val: Measurement) => val.multiply(new Measurement(1000000000, new Unit(["m"], ["Gm"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#Tm', "#mT", (val: Measurement) => val.divide(new Measurement(1000000000000, new Unit(["m"], ["Tm"]))));
+
+// Imperial conversions
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#km', "#mi", (val: Measurement) => val.multiply(new Measurement(0.621371, new Unit(["mi"], ["km"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#mi', "#km", (val: Measurement) => val.divide(new Measurement(0.621371, new Unit(["mi"], ["km"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#cm', "#in", (val: Measurement) => val.multiply(new Measurement(0.393701, new Unit(["in"], ["cm"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#in', "#cm", (val: Measurement) => val.divide(new Measurement(0.393701, new Unit(["in"], ["cm"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#m', "#ft", (val: Measurement) => val.multiply(new Measurement(0.3048, new Unit(["ft"], ["km"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#ft', "#m", (val: Measurement) => val.divide(new Measurement(0.3048, new Unit(["ft"], ["km"]))));
 
 Native.addStructure(LIST_NATIVE_TYPE_NAME, new StructureDefinition(
     // TODO Localized documentation
