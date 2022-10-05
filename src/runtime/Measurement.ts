@@ -132,7 +132,7 @@ export default class Measurement extends Primitive {
             case "·": return this.multiply(right);
             case "÷": return this.divide(right);
             case "%": return this.remainder(right);
-            case "^": return this.power(right);
+            case "^": return new Measurement(this.num.pow(right.num), this.unit.power(right.num.toNumber()));
             case "<": return this.lessThan(right);
             case ">": return this.greaterThan(right);
             case "≤": return new Bool(this.lessThan(right).bool || this.equals(right).bool);

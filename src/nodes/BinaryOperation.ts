@@ -175,25 +175,7 @@ export default class BinaryOperation extends Expression {
                     else if(this.right instanceof UnaryOperation && this.right.operand instanceof MeasurementLiteral && this.right.operand.isInteger())
                         exponent = parseInt(this.right.operand.number.text.toString());
                     if(exponent === undefined) return new UnknownType(this);
-                    // If the exponent is an integer, then we can compute it.
-                    let newNumerator = leftType.unit.numerator;
-                    let newDenominator = leftType.unit.denominator;
-                    if(exponent > 1) {
-                        for(let i = 0; i < exponent - 1; i++) {
-                            newNumerator = newNumerator.concat(leftType.unit.numerator);
-                            newDenominator = newDenominator.concat(leftType.unit.denominator);
-                        }
-                    }
-                    else if(exponent === 0) {
-                        return new MeasurementType(undefined, new Unit([], []));
-                    }
-                    else if(exponent < -1) {
-                        for(let i = 0; i < -exponent + 1; i++) {
-                            newNumerator = newNumerator.concat(leftType.unit.denominator);
-                            newDenominator = newDenominator.concat(leftType.unit.numerator);
-                        }
-                    }
-                    return new MeasurementType(undefined, new Unit(newNumerator, newDenominator));
+                    return new MeasurementType(undefined, leftType.unit.power(exponent))
                 } 
                 // Otherwise, undefined: exponents can't have units.
                 else return new UnknownType(this);

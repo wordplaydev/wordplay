@@ -102,6 +102,20 @@ test("Test division", () => {
 
 })
 
+test("Test roots and powers", () => {
+
+    expect(Evaluator.evaluateCode("√1")?.toString()).toBe("1");
+    expect(Evaluator.evaluateCode("√4")?.toString()).toBe("2");
+    expect(Evaluator.evaluateCode("√4m")?.toString()).toBe("21/m");
+    expect(Evaluator.evaluateCode("√4m·m")?.toString()).toBe("2m");
+    expect(Evaluator.evaluateCode("√4m·m/s")?.toString()).toBe("2m/s·s");
+
+    expect(Evaluator.evaluateCode("2^8")?.toString()).toBe("256");
+    expect(Evaluator.evaluateCode("2m^2")?.toString()).toBe("4m·m");
+    expect(Evaluator.evaluateCode("2m/s^2")?.toString()).toBe("4m·m/s·s");
+ 
+});
+
 test("Test conversions", () => {
 
     // TEXT

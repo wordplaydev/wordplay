@@ -96,4 +96,29 @@ export default class Unit extends Type {
     
     }
 
+    power(exponent: number) {
+        
+        // If the exponent is an integer, then we can compute it.
+        let newNumerator = this.numerator;
+        let newDenominator = this.denominator;
+        if(exponent > 1) {
+            for(let i = 0; i < exponent - 1; i++) {
+                newNumerator = newNumerator.concat(this.numerator);
+                newDenominator = newDenominator.concat(this.denominator);
+            }
+        }
+        else if(exponent === 0) {
+            return new Unit([], []);
+        }
+        else if(exponent < -1) {
+            for(let i = 0; i < -exponent + 1; i++) {
+                newNumerator = newNumerator.concat(this.denominator);
+                newDenominator = newDenominator.concat(this.numerator);
+            }
+        }
+
+        return new Unit(newNumerator, newDenominator);
+        
+    }
+
 }
