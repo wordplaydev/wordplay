@@ -52,7 +52,7 @@ export default class Measurement extends Primitive {
 
                 // Set the number, accounting for percent.
                 this.num = isPercent ? (new Decimal(text)).mul(0.01) : new Decimal(text);
-                
+
             }
             // If it matches a number with a different base, convert it to a Decimal.
             else if(number.is(TokenType.BASE)) {
@@ -105,11 +105,9 @@ export default class Measurement extends Primitive {
         switch(op.getOperator()) {
             case "-": 
                 return this.negate();
-                // return new Measurement([ !this.positive, this.digits, this.exponent, this.numerator, this.denominator ] , this.unit);
             case "√":  
-                // TODO Fix the unit on square roots.
-                return new Measurement(this.num.sqrt(), this.unit);
-                // return new Measurement(Math.sqrt(this.toNumber()), this.unit);
+                return new Measurement(this.num.sqrt(), this.unit.sqrt());
+
             default: 
                 return new FunctionException(evaluator, op, this, op.getOperator());
         }

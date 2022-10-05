@@ -73,4 +73,27 @@ export default class Unit extends Type {
         ) as this; 
     }
 
+    sqrt() {
+
+        // When we root, we root units too. This involves removing one of each unique unit from the numerator, 
+        // and when it's the last one, moving it to the denominator, and duplicating the units on the denominator.
+        // We then let Unit simplify it.
+        // For example, √(m/s·s) would be s/m·s, which simplifies to 1/m.
+        const uniqueNumeratorUnits = [...new Set(this.numerator)];
+        const uniqueDenominatorUnits = [...new Set(this.denominator)];
+        const newNumerator = this.numerator.slice();
+        const newDenominator = this.denominator.slice();
+        for(const unit of uniqueNumeratorUnits) {
+            newNumerator.splice(newNumerator.indexOf(unit), 1);
+            // If that was the last one, push the unit to the denominator.
+            if(newNumerator.indexOf(unit) < 0)
+                newDenominator.push(unit);
+        }
+        for(const unit of uniqueDenominatorUnits)
+            newDenominator.push(unit);
+    
+        return new Unit(newNumerator, newDenominator);
+    
+    }
+
 }

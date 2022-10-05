@@ -6,7 +6,6 @@ import MeasurementType from "./MeasurementType";
 import Token from "./Token";
 import type Type from "./Type";
 import type Node from "./Node";
-import Unit from "./Unit";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
@@ -63,22 +62,7 @@ export default class UnaryOperation extends Expression {
             const type = this.operand.getTypeUnlessCycle(context);
             if(!(type instanceof MeasurementType)) return new UnknownType(this);
             if(type.unit ===  undefined || type.unit instanceof Unparsable) return type;
-            const newNumerator = type.unit.numerator.slice();
-            const newDenominator = type.unit.denominator.slice();
-            // If it has a unit, remove one of each unique unit on the numerator, and if it's the last one, move it to the denominator.
-            // For example:
-            //   m·m·m => m·m
-            //   m => 1/m
-            //   1/m => 1/m·m
-            const numeratorUnits = [ ... new Set(type.unit.numerator) ];
-            const denominatorUnits = [ ... new Set(type.unit.denominator) ];
-            // Remove one of each numerator unit from the numerator.
-            numeratorUnits.forEach(u => newNumerator.splice(newNumerator.indexOf(u), 1));
-            // Add an extra of each denominator unit to the denominator.
-            denominatorUnits.forEach(u => newDenominator.push(u));
-            // For each numerator unit no longer in the numerator, add one unit to the denominator.
-            numeratorUnits.forEach(u => { if(newNumerator.indexOf(u) < 0) newDenominator.push(u); });
-            return new MeasurementType(undefined, new Unit(newNumerator, newDenominator));
+            return new MeasurementType(undefined, type.unit.sqrt());
         } 
         else if(this.operator.text.toString() === "-" && this.operand instanceof Expression)
             return this.operand.getTypeUnlessCycle(context);
