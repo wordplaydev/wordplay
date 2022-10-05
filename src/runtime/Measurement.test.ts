@@ -113,10 +113,8 @@ test("Test conversions", () => {
     // Non-numbers should be !nan
     expect(Evaluator.evaluateCode("'1.1.1'→#")?.toString()).toBe('NaN');
 
-    // // Numbers to percent text
-    // expect(Evaluator.evaluateCode("1→''%")?.toString()).toBe('"100%"');
-    // // Percen text to numbers
-    // expect(Evaluator.evaluateCode("'10%'→#")?.toString()).toBe('0.1');
+    // PERCENT
+    expect(Evaluator.evaluateCode("1%")?.toString()).toBe('0.01');
 
     // TIME
     // No change if matching type.

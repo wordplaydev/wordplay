@@ -66,7 +66,7 @@ const patterns = [
     // Numbers with bases between base 2 and 16
     { pattern: /^([2-9]|1[0-6]);[_0-9A-F]+([.,][_0-9A-F]+)?/, types: [ TokenType.NUMBER, TokenType.BASE ] },    
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
-    { pattern: /^[_0-9]+([.,][_0-9]+)?/, types: [ TokenType.NUMBER, TokenType.DECIMAL ] },    
+    { pattern: /^[_0-9]+([.,][_0-9]+)?%?/, types: [ TokenType.NUMBER, TokenType.DECIMAL ] },    
     { pattern: "π", types: [ TokenType.NUMBER, TokenType.PI ] },
     { pattern: "∞", types: [ TokenType.NUMBER, TokenType.INFINITY ] },
     { pattern: /^[+*×·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },

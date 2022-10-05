@@ -46,8 +46,13 @@ export default class Measurement extends Primitive {
                 while(text.indexOf("_") >= 0)
                     text = text.toString().replace("_", Decimal.random().times(10).floor().toString());
 
-                // Set the number.
-                this.num = new Decimal(text);
+                // Is there a trailing %? Strip it.
+                const isPercent = text.charAt(text.length - 1) === "%";
+                if(isPercent) text = text.substring(0, text.length - 1);
+
+                // Set the number, accounting for percent.
+                this.num = isPercent ? (new Decimal(text)).mul(0.01) : new Decimal(text);
+                
             }
             // If it matches a number with a different base, convert it to a Decimal.
             else if(number.is(TokenType.BASE)) {
