@@ -175,6 +175,10 @@ test("Parse expressions", () => {
     expect(speed).toBeInstanceOf(MeasurementLiteral);
     expect((speed as MeasurementLiteral).unit?.toWordplay()).toBe("m/s");
 
+    const denom = parseExpression(tokens("1/s"));
+    expect(denom).toBeInstanceOf(MeasurementLiteral);
+    expect((denom as MeasurementLiteral).unit?.toWordplay()).toBe("/s");
+
     const text = parseExpression(tokens("«hola»"));
     expect(text).toBeInstanceOf(TextLiteral);
 

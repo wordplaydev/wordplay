@@ -1,3 +1,4 @@
+import { LANGUAGE_SYMBOL } from "../parser/Tokenizer";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
@@ -14,10 +15,8 @@ export default class Unit extends Type {
 
         super();
 
-        numerator
-
         // If we were given tokens, generate the arrays.
-        if(numerator.length > 0 && numerator[0] instanceof Token) {
+        if((numerator.length > 0 && numerator[0] instanceof Token) || (denominator.length > 0 && denominator[0] instanceof Token)) {
             this.numerator = (numerator as Token[]).filter(n => n.is(TokenType.NAME)).map(n => n.text.toString()).sort();
             this.denominator = (denominator as Token[]).filter(n => n.is(TokenType.NAME)).map(n => n.text.toString()).sort();            
             this.numeratorTokens = numerator as Token[];
@@ -62,8 +61,8 @@ export default class Unit extends Type {
     toString(depth?: number) {
         return (depth === undefined ? "" : "\t".repeat(depth)) + 
             (this.numerator.length === 0 && this.denominator.length === 0 ? "" :
-            (this.numerator.length === 0 ? "1" : this.numerator.join("·")) + 
-            (this.denominator.length === 0 ? "" : "/" + this.denominator.join("·")));
+            (this.numerator.length === 0 ? "" : this.numerator.join("·")) + 
+            (this.denominator.length === 0 ? "" : LANGUAGE_SYMBOL + this.denominator.join("·")));
     }
 
     clone(original?: Node, replacement?: Node) { 

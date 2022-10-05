@@ -531,7 +531,7 @@ function parseNone(tokens: Tokens): NoneLiteral | Unparsable {
 function parseMeasurement(tokens: Tokens): MeasurementLiteral | Unparsable {
 
     const number = tokens.read(TokenType.NUMBER);
-    const unit = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
+    const unit = tokens.nextIsOneOf(TokenType.NAME, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
     return new MeasurementLiteral(number, unit);
 
 }
@@ -539,7 +539,7 @@ function parseMeasurement(tokens: Tokens): MeasurementLiteral | Unparsable {
 /** UNIT :: name (· NAME)* (/ name (· NAME)*)? */
 function parseUnit(tokens: Tokens): Unit | Unparsable {
     
-    const numeratorTokens = [ tokens.read(TokenType.NAME) ];
+    const numeratorTokens = tokens.nextIs(TokenType.NAME) ? [ tokens.read(TokenType.NAME) ] : [];
     // Keep reading · unit pairs until we run out or hit a /
     while(tokens.nextIs(TokenType.BINARY_OP) && tokens.peekText() === "·") {
         numeratorTokens.push(tokens.read(TokenType.BINARY_OP));
@@ -975,7 +975,7 @@ function parseTextType(tokens: Tokens): TextType {
 function parseMeasurementType(tokens: Tokens): MeasurementType {
 
     const number = tokens.read(TokenType.NUMBER_TYPE);
-    const unit = tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
+    const unit = tokens.nextIsOneOf(TokenType.NAME, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
     return new MeasurementType(number, unit);
 
 }
