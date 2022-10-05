@@ -161,6 +161,10 @@ test("Test conversions", () => {
     expect(Evaluator.evaluateCode("1km→#cm")?.toString()).toBe('100000cm');
 
     // WEIGHT
+    expect(Evaluator.evaluateCode("1kg→#oz")?.toString()).toBe('35.274oz');
+    expect(Evaluator.evaluateCode("1000mg→#lb")?.toString()).toBe('0.002204625lb');
+
+    // WEIGHT
 
 
 })

@@ -679,6 +679,15 @@ Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#in', "#cm", (val: Measu
 Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#m', "#ft", (val: Measurement) => val.multiply(new Measurement(0.3048, new Unit(["ft"], ["km"]))));
 Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#ft', "#m", (val: Measurement) => val.divide(new Measurement(0.3048, new Unit(["ft"], ["km"]))));
 
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#g', "#mg", (val: Measurement) => val.multiply(new Measurement(1000, new Unit(["mg"], ["g"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#mg', "#g", (val: Measurement) => val.divide(new Measurement(1000, new Unit(["mg"], ["g"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#g', "#kg", (val: Measurement) => val.divide(new Measurement(1000, new Unit(["g"], ["kg"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#kg', "#g", (val: Measurement) => val.multiply(new Measurement(1000, new Unit(["g"], ["kg"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#g', "#oz", (val: Measurement) => val.multiply(new Measurement(0.035274, new Unit(["oz"], ["g"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#oz', "#g", (val: Measurement) => val.divide(new Measurement(0.035274, new Unit(["oz"], ["g"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#oz', "#lb", (val: Measurement) => val.multiply(new Measurement(0.0625, new Unit(["lb"], ["oz"]))));
+Native.addConversion(MEASUREMENT_NATIVE_TYPE_NAME, [], '#lb', "#oz", (val: Measurement) => val.divide(new Measurement(0.0625, new Unit(["lb"], ["oz"]))));
+
 Native.addStructure(LIST_NATIVE_TYPE_NAME, new StructureDefinition(
     // TODO Localized documentation
     [],
