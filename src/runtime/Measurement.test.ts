@@ -132,7 +132,7 @@ test("Test conversions", () => {
 
     // TIME
     // No change if matching type.
-    expect(Evaluator.evaluateCode("1s→#")?.toString()).toBe('1');
+    expect(Evaluator.evaluateCode("1s→#s")?.toString()).toBe('1s');
     // Seconds/minutes
     expect(Evaluator.evaluateCode("60s→#min")?.toString()).toBe('1min');
     expect(Evaluator.evaluateCode("1min→#s")?.toString()).toBe('60s');
@@ -157,7 +157,6 @@ test("Test conversions", () => {
 
     // DISTANCE
     // Direct conversions
-    expect(Evaluator.evaluateCode("1m→#")?.toString()).toBe('1');
     expect(Evaluator.evaluateCode("1m→#pm")?.toString()).toBe('1000000000000pm');
     expect(Evaluator.evaluateCode("1m→#nm")?.toString()).toBe('1000000000nm');
     expect(Evaluator.evaluateCode("1m→#µm")?.toString()).toBe('1000000µm');
@@ -173,6 +172,7 @@ test("Test conversions", () => {
     expect(Evaluator.evaluateCode("1km→#cm")?.toString()).toBe('100000cm');
 
     // WEIGHT
+    expect(Evaluator.evaluateCode("1kg→#oz")?.toString()).toBe('35.274oz');
     expect(Evaluator.evaluateCode("1kg→#oz")?.toString()).toBe('35.274oz');
     expect(Evaluator.evaluateCode("1000mg→#lb")?.toString()).toBe('0.002204625lb');
 
