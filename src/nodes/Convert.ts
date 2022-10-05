@@ -78,13 +78,13 @@ export default class Convert extends Expression {
         if(this.type instanceof Unparsable) return [ new Halt(evaluator => new SemanticException(evaluator, this.type), this) ];
 
         // If the type of value is already the type of the requested conversion, then just leave the value on the stack and do nothing.
-        if(this.expression.getType(context).isCompatible(this.type, context)) return [];
-
         // Otherwise, identify the series of conversions that will achieve the right output type.
-        const conversions = this.getConversionSequence(context);
+        const conversions = 
+            this.expression.getType(context).isCompatible(this.type, context) ? [] :
+            this.getConversionSequence(context);
 
         // If there is no path to conversion, halt.
-        if(conversions === undefined || conversions.length === 0) 
+        if(conversions === undefined)
             return [ new Halt(evaluator => new FunctionException(evaluator, this, evaluator.peekValue(), this.type.toWordplay()), this) ];
         
         // Evaluate the expression to convert, then push the conversion function on the stack.
@@ -120,7 +120,7 @@ export default class Convert extends Expression {
 
     getStartExplanations() { 
         return {
-            "eng": "We start by evaluating the value to convert, then do one or more conversions to get to the desired type."
+            "eng": "We start by evaluating the value to convert, then do zero or more conversions to get to the desired type."
         }
      }
 
