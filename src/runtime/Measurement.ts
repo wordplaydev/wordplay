@@ -216,6 +216,8 @@ export default class Measurement extends Primitive {
 
     unitless(): Measurement { return new Measurement(this.num); }
 
+    withUnit(unit: Unit): Measurement { return new Measurement(this.num, unit); }
+    
     toString() { 
         return `${this.num.toString()}${this.unit.toString()}`;
     }
