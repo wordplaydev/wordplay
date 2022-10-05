@@ -26,6 +26,7 @@ import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import FunctionException from "../runtime/FunctionException";
 import JumpIf from "../runtime/JumpIf";
+import Decimal from "decimal.js";
 
 export default class BinaryOperation extends Expression {
 
@@ -167,15 +168,14 @@ export default class BinaryOperation extends Expression {
                 if(leftType.unit === undefined && rightType.unit === undefined) return leftType;
                 // If left has a unit and the right does not, duplicate the units the number of times of the power
                 else if(leftType.unit !== undefined && rightType.unit === undefined) {
-                    // If the exponent is computed, we can't know the resulting type.
-                    // But we can special case literals and negated literals.
+                    // Can we extract the exponent?
                     let exponent = undefined;
                     if(this.right instanceof MeasurementLiteral && this.right.isInteger())
                         exponent = parseInt(this.right.number.text.toString());
                     else if(this.right instanceof UnaryOperation && this.right.operand instanceof MeasurementLiteral && this.right.operand.isInteger())
                         exponent = parseInt(this.right.operand.number.text.toString());
-                    if(exponent === undefined) return new UnknownType(this);
-                    return new MeasurementType(undefined, leftType.unit.power(exponent))
+                    // If the exponent is computed, and we don't know it's an integer, drop the unit.
+                    return new MeasurementType(undefined, exponent === undefined ? new Unit() : leftType.unit.power(new Decimal(exponent)));
                 } 
                 // Otherwise, undefined: exponents can't have units.
                 else return new UnknownType(this);

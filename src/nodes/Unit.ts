@@ -1,3 +1,4 @@
+import type Decimal from "decimal.js";
 import { LANGUAGE_SYMBOL } from "../parser/Tokenizer";
 import type Node from "./Node";
 import Token from "./Token";
@@ -95,21 +96,25 @@ export default class Unit extends Type {
     
     }
 
-    power(exponent: number) {
-        
+    power(exponent: Decimal) {
+    
+        if(!exponent.isInteger()) return new Unit();
+
+        const exp = exponent.toNumber();
+
         // If the exponent is an integer, then we can compute it.
         let newNumerator = this.numerator;
         let newDenominator = this.denominator;
-        if(exponent > 1) {
-            for(let i = 0; i < exponent - 1; i++) {
+        if(exp > 1) {
+            for(let i = 0; i < exp - 1; i++) {
                 newNumerator = newNumerator.concat(this.numerator);
                 newDenominator = newDenominator.concat(this.denominator);
             }
         }
-        else if(exponent === 0) {
+        else if(exp === 0) {
             return new Unit([], []);
         }
-        else if(exponent < -1) {
+        else if(exp < -1) {
             for(let i = 0; i < -exponent + 1; i++) {
                 newNumerator = newNumerator.concat(this.denominator);
                 newDenominator = newDenominator.concat(this.numerator);
