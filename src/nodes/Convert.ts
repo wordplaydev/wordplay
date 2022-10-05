@@ -83,37 +83,37 @@ export default class Convert extends Expression {
             this.expression.getType(context).isCompatible(this.type, context) ? [] :
             this.getConversionSequence(context);
 
-        // If there is no path to conversion, halt.
-        if(conversions === undefined)
-            return [ new Halt(evaluator => new FunctionException(evaluator, this, evaluator.peekValue(), this.type.toWordplay()), this) ];
-        
         // Evaluate the expression to convert, then push the conversion function on the stack.
         return [ 
             new Start(this),
             ...this.expression.compile(context),
-            ...conversions.map(conversion => new Action(
-                this, 
-                {
-                    "eng": `Translate to ${conversion.output.toWordplay()}`
-                },
-                evaluator =>  {
-                    // Get the value to convert
-                    const value = evaluator.popValue(undefined);
-                    if(value instanceof Exception) return value;
-                    
-                    // Execute the conversion.
-                    evaluator.startEvaluation(
-                        new Evaluation(
-                            evaluator,
-                            conversion, 
-                            conversion.expression, 
-                            value
-                        )
-                    );
+            ...(
+                conversions === undefined || (conversions.length === 0 && !this.expression.getType(context).isCompatible(this.type, context)) ?
+                    [ new Halt(evaluator => new FunctionException(evaluator, this, evaluator.peekValue(), this.type.toWordplay()), this) ] :
+                    conversions.map(conversion => new Action(
+                        this, 
+                        {
+                            "eng": `Translate to ${conversion.output.toWordplay()}`
+                        },
+                        evaluator =>  {
+                            // Get the value to convert
+                            const value = evaluator.popValue(undefined);
+                            if(value instanceof Exception) return value;
+                            
+                            // Execute the conversion.
+                            evaluator.startEvaluation(
+                                new Evaluation(
+                                    evaluator,
+                                    conversion, 
+                                    conversion.expression, 
+                                    value
+                                )
+                            );
 
-                    return undefined;
-                }
-            )),
+                            return undefined;
+                        }
+                    ))
+            ),
             new Finish(this)
         ];
     }
