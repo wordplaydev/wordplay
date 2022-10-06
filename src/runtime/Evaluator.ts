@@ -115,6 +115,8 @@ export default class Evaluator {
 
     getNative(): NativeInterface { return Native; }
 
+    getThis(): Value | undefined { return this.getEvaluationContext()?.getThis(); }
+
     ignoredStream(stream: Stream) {
         // Does the root evaluation bind this stream? If so, note that we ignored it.
         if(this.evaluations[this.evaluations.length - 1]?.binds(stream)) {

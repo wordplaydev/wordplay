@@ -16,9 +16,11 @@ import type { TypeSet } from "./UnionType";
 import SemanticException from "../runtime/SemanticException";
 import FunctionException from "../runtime/FunctionException";
 import Exception from "../runtime/Exception";
-import type ConversionDefinition from "./ConversionDefinition";
+import ConversionDefinition from "./ConversionDefinition";
 import Halt from "../runtime/Halt";
 import Action from "../runtime/Action";
+import Block from "./Block";
+import { THIS_SYMBOL } from "../parser/Tokenizer";
 
 export default class Convert extends Expression {
     
@@ -43,8 +45,18 @@ export default class Convert extends Expression {
 
         if(this.type instanceof Unparsable) return undefined;
 
+        // Find all the type's conversions
+        const typeConversions = inputType.getAllConversions(context);
+
+        // Find all the conversions in enclosing blocks.
+        const scopeConversions = 
+            (this.getAncestors()?.filter(a => a instanceof Block) as Block[])
+                .reduce((list: ConversionDefinition[], block) => 
+                    [...list, ...(block.statements.filter(s => s instanceof ConversionDefinition) as ConversionDefinition[])], [])
+             ?? [];
+
         // Find a path between the input type and the desired type,
-        return getConversionPath(inputType, this.type, inputType.getAllConversions(context), context);
+        return getConversionPath(inputType, this.type, [ ... typeConversions, ... scopeConversions ], context);
 
     }
 
@@ -106,7 +118,8 @@ export default class Convert extends Expression {
                                     evaluator,
                                     conversion, 
                                     conversion.expression, 
-                                    value
+                                    value,
+                                    new Map().set(THIS_SYMBOL, value)
                                 )
                             );
 

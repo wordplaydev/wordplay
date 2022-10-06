@@ -123,11 +123,11 @@ export default class Measurement extends Primitive {
             case "+":
                 return this.unit.toString() === right.unit.toString() ?
                     this.add(right) :
-                    new TypeException(evaluator, new MeasurementType(undefined, right.unit), right)
+                    new TypeException(evaluator, this.getType(), right)
             case "-":
                 return this.unit.toString() === right.unit.toString() ?
                     this.subtract(right) :
-                    new TypeException(evaluator, new MeasurementType(undefined, right.unit), right)
+                    new TypeException(evaluator, this.getType(), right)
             case "×":
             case "·": return this.multiply(right);
             case "÷": return this.divide(right);

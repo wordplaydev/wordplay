@@ -32,6 +32,7 @@ export const SHARE_SYMBOL = "↑";
 export const DOCS_SYMBOL = "`";
 export const PLACEHOLDER_SYMBOL = "…";
 export const TEMPLATE_SYMBOL = "\\";
+export const THIS_SYMBOL = "*";
 
 const patterns = [
     { pattern: LIST_OPEN_SYMBOL, types: [ TokenType.LIST_OPEN ] },
@@ -52,6 +53,7 @@ const patterns = [
     { pattern: BORROW_SYMBOL, types: [ TokenType.BORROW ] },
     { pattern: SHARE_SYMBOL, types: [ TokenType.SHARE ] },
     { pattern: CONVERT_SYMBOL, types: [ TokenType.CONVERT ] },
+    { pattern: THIS_SYMBOL, types: [ TokenType.THIS ] },
     { pattern: new RegExp(`^${DOCS_SYMBOL}.*?${DOCS_SYMBOL}`), types: [ TokenType.DOCS ] },
     { pattern: NONE_SYMBOL, types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
     { pattern: TYPE_SYMBOL, types: [ TokenType.TYPE, TokenType.TYPE_OP, TokenType.UNION ] },
@@ -69,7 +71,7 @@ const patterns = [
     { pattern: /^[_0-9]+([.,][_0-9]+)?%?/, types: [ TokenType.NUMBER, TokenType.DECIMAL ] },    
     { pattern: "π", types: [ TokenType.NUMBER, TokenType.PI ] },
     { pattern: "∞", types: [ TokenType.NUMBER, TokenType.INFINITY ] },
-    { pattern: /^[+*×·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
+    { pattern: /^[+×·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
     { pattern: AND_SYMBOL, types: [ TokenType.BINARY_OP ] },
     { pattern: OR_SYMBOL, types: [ TokenType.BINARY_OP ] },
     // Both a unary and binary op.

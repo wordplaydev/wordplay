@@ -31,3 +31,9 @@ test("Test map conversions", () => {
     expect(Evaluator.evaluateCode("{1:'cat' 2:'dog' 3:'rat'}→{}")?.toString()).toBe('{1 2 3}');
     expect(Evaluator.evaluateCode("{1:'cat' 2:'dog' 3:'rat'}→[]")?.toString()).toBe('["cat" "dog" "rat"]');
 });
+
+test("Test primitive extensions", () => {
+    expect(Evaluator.evaluateCode("#s→#kitty * × 1kitty + 1kitty\n5s→#kitty")?.toString()).toBe('6kitty');
+
+
+});

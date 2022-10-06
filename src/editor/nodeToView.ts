@@ -51,6 +51,8 @@ import ColumnView from "./ColumnView.svelte";
 import RowView from "./RowView.svelte";
 import CellView from "./CellView.svelte";
 import FunctionTypeView from "./FunctionTypeView.svelte";
+import ThisView from "./ThisView.svelte";
+
 import InsertView from "./InsertView.svelte";
 import DeleteView from "./DeleteView.svelte";
 import UpdateView from "./UpdateView.svelte";
@@ -118,6 +120,7 @@ import StreamType from "../nodes/StreamType";
 import UnionType from "../nodes/UnionType";
 import TypePlaceholder from "../nodes/TypePlaceholder";
 import Is from "../nodes/Is";
+import This from "../nodes/This";
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Program, ProgramView);
@@ -198,5 +201,7 @@ nodeToView.set(StreamType, StreamTypeView);
 nodeToView.set(UnionType, UnionTypeView);
 nodeToView.set(TypePlaceholder, TypePlaceholderView);
 nodeToView.set(Is, IsView);
+
+nodeToView.set(This, ThisView);
 
 export default nodeToView;

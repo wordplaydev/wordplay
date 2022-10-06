@@ -25,6 +25,7 @@ import type { TypeSet } from "./UnionType";
 import ValueException from "../runtime/ValueException";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import None from "../runtime/None";
+import ConversionDefinition from "./ConversionDefinition";
 
 export default class Block extends Expression {
 
@@ -65,7 +66,7 @@ export default class Block extends Expression {
         // The only expression allowed is the last one.
         this.statements
             .slice(0, this.statements.length - 1)
-            .filter(s => (s instanceof Expression && !(s instanceof StructureDefinition) && !(s instanceof FunctionDefinition)))
+            .filter(s => (s instanceof Expression && !(s instanceof StructureDefinition || s instanceof FunctionDefinition || s instanceof ConversionDefinition)))
             .forEach(s => conflicts.push(new IgnoredExpression(s as Expression)));
 
         // Docs must be unique.

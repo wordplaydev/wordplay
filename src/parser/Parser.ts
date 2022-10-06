@@ -63,6 +63,7 @@ import SetLiteral from "../nodes/SetLiteral";
 import MapType from "../nodes/MapType";
 import SetType from "../nodes/SetType";
 import TypeInput from "../nodes/TypeInput";
+import This from "../nodes/This";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -454,6 +455,8 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
 
     // All expressions must start with one of the following
     let left: Expression | Unparsable = (
+        // This
+        tokens.nextIs(TokenType.THIS) ? new This(tokens.read(TokenType.THIS)) :
         // Placeholder
         tokens.nextIs(TokenType.ETC) ? new ExpressionPlaceholder(tokens.read(TokenType.ETC)) :
         // Nones

@@ -8,7 +8,6 @@ import { MisplacedConversion } from "../conflicts/MisplacedConversion";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import { getDuplicateDocs } from "./util";
-import StructureDefinition from "./StructureDefinition";
 import Block from "./Block";
 import ConversionType from "./ConversionType";
 import Type from "./Type";
@@ -70,7 +69,7 @@ export default class ConversionDefinition extends Expression {
 
         // Can only appear in custom types.
         const enclosure = this.getBindingEnclosureOf();
-        if(!(enclosure instanceof Block) ||  !(enclosure.getBindingEnclosureOf() instanceof StructureDefinition))
+        if(!(enclosure instanceof Block))
             conflicts.push(new MisplacedConversion(this));
     
         return conflicts; 

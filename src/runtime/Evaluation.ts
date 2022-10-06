@@ -13,6 +13,9 @@ import type Program from "../nodes/Program";
 import KeepStream from "./KeepStream";
 import ValueException from "./ValueException";
 import TypeException from "./TypeException";
+import Structure from "./Structure";
+import Primitive from "./Primitive";
+import Measurement from "./Measurement";
 
 export default class Evaluation {
 
@@ -167,6 +170,18 @@ export default class Evaluation {
     /** Finds the program that executed all of this in the evaluation context stack. */
     getProgram(): Program {
         return this.#evaluator.getProgram();
+    }
+
+    /** Finds the enclosuring structure closure, possibly this. */
+    getThis(): Value | undefined {
+
+        const context = this.#context;
+        return context instanceof Structure ? context :
+            context instanceof Measurement ? context.unitless() :
+            context instanceof Primitive ? context :
+            context instanceof Evaluation ? context.getThis() :
+            undefined;
+
     }
 
     /** Allow the given aliases to be borrowed. */
