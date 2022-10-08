@@ -1,4 +1,4 @@
-import type Decimal from "decimal.js";
+import Decimal from "decimal.js";
 import { LANGUAGE_SYMBOL } from "../parser/Tokenizer";
 import type Node from "./Node";
 import Token from "./Token";
@@ -49,6 +49,10 @@ export default class Unit extends Type {
 
     isEmpty() { return this.numerator.length === 0 && this.denominator.length === 0; }
 
+    isEqualTo(unit: Unit) {
+        return this.toString() === unit.toString();
+    }
+
     computeChildren(): Node[] { return this.numeratorTokens.concat(this.denominatorTokens); }
     computeConflicts() {}
 
@@ -96,25 +100,37 @@ export default class Unit extends Type {
     
     }
 
-    power(exponent: Decimal) {
-    
-        if(!exponent.isInteger()) return new Unit();
+    product(operand: Unit) {
+        return new Unit(
+            this.numerator.concat(operand.numerator),
+            this.denominator.concat(operand.denominator)
+        )
+    }
 
-        const exp = exponent.toNumber();
+    quotient(operand: Unit) {
+        return new Unit(
+            this.numerator.concat(operand.denominator),
+            this.denominator.concat(operand.numerator)
+        )
+    }
+
+    power(exponent: number) {
+    
+        if(!new Decimal(exponent).isInteger()) return new Unit();
 
         // If the exponent is an integer, then we can compute it.
         let newNumerator = this.numerator;
         let newDenominator = this.denominator;
-        if(exp > 1) {
-            for(let i = 0; i < exp - 1; i++) {
+        if(exponent > 1) {
+            for(let i = 0; i < exponent - 1; i++) {
                 newNumerator = newNumerator.concat(this.numerator);
                 newDenominator = newDenominator.concat(this.denominator);
             }
         }
-        else if(exp === 0) {
+        else if(exponent === 0) {
             return new Unit([], []);
         }
-        else if(exp < -1) {
+        else if(exponent < -1) {
             for(let i = 0; i < -exponent + 1; i++) {
                 newNumerator = newNumerator.concat(this.denominator);
                 newDenominator = newDenominator.concat(this.numerator);

@@ -1,7 +1,9 @@
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
+import { FALSE_SYMBOL, TRUE_SYMBOL } from "../parser/Tokenizer";
 import Evaluator from "./Evaluator";
 import Measurement from "./Measurement";
+import TypeException from "./TypeException";
 
 test("Test number translation", () => {
 
@@ -39,7 +41,13 @@ test("Test number translation", () => {
 
 })
 
-test("Test inequalities", () => {
+test("Test equalities and inequalities", () => {
+
+    expect(Evaluator.evaluateCode(`1 = 1`)?.toString()).toBe(TRUE_SYMBOL);
+    expect(Evaluator.evaluateCode(`1 = 2`)?.toString()).toBe(FALSE_SYMBOL);
+    expect(Evaluator.evaluateCode(`1m = 1m`)?.toString()).toBe(TRUE_SYMBOL);
+    expect(Evaluator.evaluateCode(`1m = 1`)).toBeInstanceOf(TypeException);
+    expect(Evaluator.evaluateCode(`1 = !`)).toBeInstanceOf(TypeException);
 
     expect((new Measurement(5)).lessThan(new Measurement(3)).bool).toBe(false);
     expect((new Measurement(5)).lessThan(new Measurement(10)).bool).toBe(true);

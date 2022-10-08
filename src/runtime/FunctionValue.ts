@@ -5,7 +5,6 @@ import Value from "./Value";
 
 // We could have just called this Function, but Javascript claims that globally.
 export default class FunctionValue extends Value {
-
     /** The definition from the AST. */
     readonly definition: FunctionDefinition;
     
@@ -26,5 +25,9 @@ export default class FunctionValue extends Value {
     resolve() { return undefined; }
 
     toString() { return this.definition.toWordplay(); }
+
+    isEqualTo(value: Value): boolean {
+        return value instanceof FunctionValue && this.definition === value.definition && this.context === value.context;
+    }
 
 }

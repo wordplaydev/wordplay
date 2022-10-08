@@ -55,6 +55,10 @@ export default class SetValue extends Primitive {
         return new SetValue(this.values.filter(v1 => set.values.find(v2 => v1.isEqualTo(v2)) === undefined));
     }
 
+    isEqualTo(set: Value): boolean {
+        return set instanceof SetValue && set.values.length === this.values.length && this.values.every(val => set.has(val));
+    }
+
     getType() { return new SetType(); }
     getNativeTypeName(): string { return SET_NATIVE_TYPE_NAME; }
 

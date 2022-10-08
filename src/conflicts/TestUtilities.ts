@@ -10,13 +10,14 @@ export function testConflict(goodCode: string, badCode: string, nodeType: Functi
     const goodProgram = goodSource.program;
     const goodOp = goodProgram.nodes().filter(n => n instanceof nodeType)[nodeIndex];
     expect(goodOp).toBeInstanceOf(nodeType);
-    expect(goodOp?.getConflicts(new Context(goodSource, goodProgram)).filter(n => n instanceof conflictType)).toHaveLength(0);
+    expect(goodOp?.getConflicts(new Context(goodSource, goodProgram, undefined, Native)).filter(n => n instanceof conflictType)).toHaveLength(0);
 
     const badSource = new Source("test", badCode);
     const badProgram = badSource.program;
     const badOp = badProgram.nodes().filter(n => n instanceof nodeType)[nodeIndex];
     expect(badOp).toBeInstanceOf(nodeType);
-    expect(badOp?.getConflicts(new Context(goodSource, badProgram)).find(c => c instanceof conflictType)).toBeInstanceOf(conflictType);
+    const conflicts = badOp?.getConflicts(new Context(badSource, badProgram, undefined, Native));
+    expect(conflicts?.find(c => c instanceof conflictType)).toBeInstanceOf(conflictType);
 
 }
 

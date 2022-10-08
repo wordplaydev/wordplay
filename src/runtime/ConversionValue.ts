@@ -29,4 +29,8 @@ export default class ConversionValue extends Primitive {
 
     toString() { return this.definition.toWordplay(); }
 
+    isEqualTo(value: Value): boolean {
+        return value instanceof ConversionValue && this.definition === value.definition && this.context === value.context;
+    }
+
 }

@@ -1,17 +1,17 @@
-import type Name from "../nodes/Name";
+import type Token from "../nodes/Token";
 import Conflict from "./Conflict";
 
 export class UnknownName extends Conflict {
     
-    readonly name: Name;
+    readonly name: Token;
     
-    constructor(name: Name) {
+    constructor(name: Token) {
         super(false);
         this.name = name;
     }
 
     getConflictingNodes() {
-        return { primary: [ this.name.name ] };
+        return { primary: [ this.name ] };
     }
 
     getExplanations() { 

@@ -48,7 +48,7 @@ export default class Name extends Expression {
 
         // Is this name undefined in scope?
         if(bindOrTypeVar === undefined)
-            conflicts.push(new UnknownName(this));
+            conflicts.push(new UnknownName(this.name));
         // Type variables aren't alowed in names.
         else if(bindOrTypeVar instanceof TypeVariable)
             conflicts.push(new UnexpectedTypeVariable(this));

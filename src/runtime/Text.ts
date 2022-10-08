@@ -2,6 +2,7 @@ import { TEXT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import TextType from "../nodes/TextType";
 import Measurement from "./Measurement";
 import Primitive from "./Primitive";
+import type Value from "./Value";
 
 export default class Text extends Primitive {
 
@@ -24,5 +25,7 @@ export default class Text extends Primitive {
     length() { return new Measurement([...this.text].length); }
 
     toString() { return `"${this.text}"${this.format ? this.format : ""}`; }
+
+    isEqualTo(text: Value) { return text instanceof Text && this.text === text.text && this.format === text.format; }
 
 }

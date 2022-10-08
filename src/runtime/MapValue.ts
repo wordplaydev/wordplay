@@ -31,6 +31,17 @@ export default class MapValue extends Primitive {
         return kv === undefined ? new None([new Alias("unknownkey")]) : kv[1];
     }
 
+    isEqualTo(value: Value): boolean {
+        if(!(value instanceof MapValue) || this.values.length !== value.values.length) return false;
+        // For each pair, see if a corresponding pair exists in the given map.
+        for(const keyValue of this.values) {
+            if(value.values.find(otherKeyValue => keyValue[0].isEqualTo(otherKeyValue[0]) && keyValue[1].isEqualTo(otherKeyValue[1])) === undefined)
+                return false;
+        }
+        // We made it! Return true.
+        return true;
+    }
+
     set(key: Value, value: Value) {
         let hasKey = false;
         const values: [Value, Value][] = this.values.map(kv => {

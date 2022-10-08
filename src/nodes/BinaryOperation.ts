@@ -1,32 +1,30 @@
-import BooleanType from "./BooleanType";
 import type Conflict from "../conflicts/Conflict";
-import { IncompatibleUnits } from "../conflicts/IncompatibleUnits";
-import { IncompatibleOperand } from "../conflicts/IncompatibleOperand";
 import Expression from "./Expression";
-import MeasurementLiteral from "./MeasurementLiteral";
-import MeasurementType from "./MeasurementType";
 import Token from "./Token";
-import type Type from "./Type";
-import UnaryOperation from "./UnaryOperation";
-import Unit from "./Unit";
+import Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "src/runtime/Evaluator";
-import Measurement from "../runtime/Measurement";
-import Bool from "../runtime/Bool";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
-import type Value from "../runtime/Value";
 import type Context from "./Context";
 import type Node from "./Node";
 import { AND_SYMBOL, OR_SYMBOL } from "../parser/Tokenizer";
 import OrderOfOperations from "../conflicts/OrderOfOperations";
-import type Bind from "./Bind";
+import Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import FunctionException from "../runtime/FunctionException";
 import JumpIf from "../runtime/JumpIf";
-import Decimal from "decimal.js";
+import FunctionDefinition from "./FunctionDefinition";
+import FunctionType from "./FunctionType";
+import UnexpectedInputs from "../conflicts/UnexpectedInputs";
+import MissingInput from "../conflicts/MissingInput";
+import IncompatibleInput from "../conflicts/IncompatibleInput";
+import Evaluation from "../runtime/Evaluation";
+import SemanticException from "../runtime/SemanticException";
+import NotAFunction from "../conflicts/NotAFunction";
+import MeasurementType from "./MeasurementType";
 
 export default class BinaryOperation extends Expression {
 
@@ -48,51 +46,55 @@ export default class BinaryOperation extends Expression {
         return [ this.left, this.operator, this.right ];
     }
 
+    getFunctionDefinition(context: Context) {
+
+        // Find the function on the left's type.
+        const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
+        const fun = leftType?.getDefinition(this.getOperator(), context, this);
+        return fun instanceof FunctionDefinition ? fun : undefined;
+
+    }
+
     computeConflicts(context: Context): Conflict[] { 
 
         const conflicts = [];
 
+        // Warn on sequences of different operators about evaluation order.
         if(this.left instanceof BinaryOperation && this.operator.getText() !== this.left.operator.getText())
             conflicts.push(new OrderOfOperations(this.left, this));
 
-        const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
+        // Get the types
         const rightType = this.right instanceof Expression ? this.right.getTypeUnlessCycle(context) : undefined;
 
-        // Left and right must be compatible measurements.
-        switch(this.operator.text.toString()) {
-            case "×":
-            case "·":
-            case "÷":
-            case "%":
-            case "^":
-                // Both operands must be measurement types.
-                if(this.left instanceof Expression && leftType !== undefined && !(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this, this.operator, this.left, leftType, new MeasurementType()));
-                if(this.right instanceof Expression && rightType !== undefined && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this, this.operator, this.right, rightType, new MeasurementType()));
-                break;
-            case "-":
-            case "+":
-            case "<":
-            case ">":
-            case "≤":
-            case "≥":
-                // Both operands must be measurement types.
-                if(this.left instanceof Expression && leftType !== undefined && !(leftType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this, this.operator, this.left, leftType, new MeasurementType()));
-                if(this.right instanceof Expression && rightType !== undefined && !(rightType instanceof MeasurementType)) conflicts.push(new IncompatibleOperand(this, this.operator, this.right, rightType, new MeasurementType()));
-                // Both operands must have compatible units.
-                if(leftType instanceof MeasurementType && rightType instanceof MeasurementType && !leftType.isCompatible(rightType))
-                    conflicts.push(new IncompatibleUnits(this, leftType, rightType));
-                break;
-            case "≠":
-            case "=":
-                // Must be compatible types?
-                if(leftType !== undefined && rightType !== undefined && !(this.right instanceof Unparsable) && !leftType.isCompatible(rightType, context))
-                    return [ new IncompatibleOperand(this, this.operator, this.right, rightType, leftType) ];
-                break;
-            case AND_SYMBOL:
-            case OR_SYMBOL:
-                if(this.left instanceof Expression && leftType !== undefined && !(leftType instanceof BooleanType)) conflicts.push(new IncompatibleOperand(this, this.operator, this.left, leftType, new BooleanType()));
-                if(this.right instanceof Expression && rightType !== undefined && !(rightType instanceof BooleanType)) conflicts.push(new IncompatibleOperand(this, this.operator, this.right, rightType, new BooleanType()));
-                break;
+        // Find the function on the left's type.
+        const fun = this.getFunctionDefinition(context);
+
+        // Did we find nothing?
+        if(fun === undefined) {
+            conflicts.push(new NotAFunction(this, this.left.getTypeUnlessCycle(context), undefined));
+        }
+        // If it is a function, does the right match the expected input?
+        else {
+            const funType = fun.getType(context);
+            if(funType instanceof FunctionType) {
+                // Are there too many inputs?
+                if(fun.inputs.length === 0)
+                    conflicts.push(new UnexpectedInputs(funType, this, [ this.right ])); 
+                // Are there too few inputs?
+                else if(fun.inputs.length > 1) {
+                    const secondInput = fun.inputs[1];
+                    if(secondInput instanceof Bind)
+                        conflicts.push(new MissingInput(funType, this, secondInput));
+                }
+                // Is the right operand the correct type?
+                else {
+                    const firstInput = fun.inputs[0];
+                    const expectedType = firstInput.getType(context);
+                    // Pass this binary operation to the measurement type so it can reason about units correctly.
+                    if(this.right instanceof Expression && rightType !== undefined && !(rightType instanceof MeasurementType ? rightType.isCompatible(expectedType, context, this) : rightType.isCompatible(expectedType, context)))
+                        conflicts.push(new IncompatibleInput(funType, this, this.right, rightType, expectedType));
+                }
+            }
         }
 
         return conflicts;
@@ -100,97 +102,11 @@ export default class BinaryOperation extends Expression {
     }
 
     computeType(context: Context): Type {
-        const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
-        const rightType = this.right instanceof Expression ? this.right.getTypeUnlessCycle(context) : undefined;
 
-        switch(this.operator.text.toString()) {
-            case "-":
-            case "+":
-                if(!(leftType instanceof MeasurementType)) return new UnknownType(this);
-                if(!(rightType instanceof MeasurementType)) return new UnknownType(this);
-                if(leftType.unit instanceof Unparsable || rightType.unit instanceof Unparsable) return new UnknownType(this);
+        // The type of the expression is whatever the function definition says it is.
+        const functionType = this.getFunctionDefinition(context)?.getTypeUnlessCycle(context);
+        return functionType instanceof FunctionType && functionType.output instanceof Type ? functionType.output : new UnknownType(this);
 
-                if(leftType.unit === undefined && rightType.unit === undefined) return leftType;
-                else if(leftType.unit !== undefined && rightType.unit === undefined) return new UnknownType(this);
-                else if(leftType.unit === undefined && rightType.unit !== undefined) return new UnknownType(this);
-                else return leftType.isCompatible(rightType) ? leftType : new UnknownType(this);
-            case "×":
-            case "·":
-                if(!(leftType instanceof MeasurementType)) return new UnknownType(this);
-                if(!(rightType instanceof MeasurementType)) return new UnknownType(this);
-                if(leftType.unit instanceof Unparsable || rightType.unit instanceof Unparsable) return new UnknownType(this);
-
-                // If one side is unitless, units don't change.
-                if(leftType.unit === undefined && rightType.unit !== undefined) return rightType;
-                else if(leftType.unit === undefined || rightType.unit === undefined) return leftType;
-                // Otherwise, we combine the numerators and denominators.
-                else {
-                    return new MeasurementType(
-                        undefined, 
-                        new Unit(
-                            leftType.unit.numerator.concat(rightType.unit.numerator), 
-                            leftType.unit.denominator.concat(rightType.unit.denominator)
-                        )
-                    );
-                }
-            case "÷":
-                if(!(leftType instanceof MeasurementType)) return new UnknownType(this);
-                if(!(rightType instanceof MeasurementType)) return new UnknownType(this);
-                if(leftType.unit instanceof Unparsable || rightType.unit instanceof Unparsable) return new UnknownType(this);
-
-                // If the denominator is unitless, the type is the numerator.
-                if(rightType.unit === undefined) return leftType;
-                // If the numerator is unitless, flip the right
-                else if(leftType.unit === undefined) {
-                    if(rightType.unit instanceof Token) return new MeasurementType(undefined, new Unit([ rightType.unit.text.toString()], []));
-                    else return new MeasurementType(undefined, new Unit(rightType.unit.denominator, rightType.unit.numerator)); 
-                }
-                // If neither are unitless, flip the right and combine it.
-                else {
-                    return new MeasurementType(
-                        undefined, 
-                        new Unit(
-                            leftType.unit.numerator.concat(rightType.unit.denominator), 
-                            leftType.unit.denominator.concat(rightType.unit.numerator)
-                        )
-                    );
-                }
-            case "%":
-                if(!(leftType instanceof MeasurementType)) return new UnknownType(this);
-                // Modulo preserves the left's type.
-                return leftType;
-            case "^":
-                if(!(leftType instanceof MeasurementType)) return new UnknownType(this);
-                if(!(rightType instanceof MeasurementType)) return new UnknownType(this);
-                if(leftType.unit instanceof Unparsable || rightType.unit instanceof Unparsable) return new UnknownType(this);
-
-                // If both sides or unitless, just propagate the left.
-                if(leftType.unit === undefined && rightType.unit === undefined) return leftType;
-                // If left has a unit and the right does not, duplicate the units the number of times of the power
-                else if(leftType.unit !== undefined && rightType.unit === undefined) {
-                    // Can we extract the exponent?
-                    let exponent = undefined;
-                    if(this.right instanceof MeasurementLiteral && this.right.isInteger())
-                        exponent = parseInt(this.right.number.text.toString());
-                    else if(this.right instanceof UnaryOperation && this.right.operand instanceof MeasurementLiteral && this.right.operand.isInteger())
-                        exponent = parseInt(this.right.operand.number.text.toString());
-                    // If the exponent is computed, and we don't know it's an integer, drop the unit.
-                    return new MeasurementType(undefined, exponent === undefined ? new Unit() : leftType.unit.power(new Decimal(exponent)));
-                } 
-                // Otherwise, undefined: exponents can't have units.
-                else return new UnknownType(this);
-            case "<":
-            case ">":
-            case "≤":
-            case "≥":
-            case "=":
-            case "≠":
-            case "∧":
-            case "∨":
-                return new BooleanType();
-            default:
-                return new UnknownType(this);
-        }
     }
 
     compile(context: Context): Step[] {
@@ -220,8 +136,9 @@ export default class BinaryOperation extends Expression {
                 new Finish(this)
             ];
         }
-        else
+        else {
             return [ new Start(this), ...left, ...right, new Finish(this) ];
+        }
     }
 
     getStartExplanations() { 
@@ -236,22 +153,24 @@ export default class BinaryOperation extends Expression {
         }
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(evaluator: Evaluator) {
 
         const right = evaluator.popValue(undefined);
         const left = evaluator.popValue(undefined);
 
-        // Ask the value to evaluate it. We could do this here, but it's
-        // just cleaner to delegate it to specific types.
-        if(left instanceof Measurement || left instanceof Bool)
-            return left.evaluateInfix(evaluator, this, right);
-        // Process equality and inequality
-        else if(this.operator.getText() === "=")
-            return new Bool(left.toString() === right.toString());
-        else if(this.operator.getText() === "≠")
-            return new Bool(left.toString() !== right.toString());
-        else
-            return new FunctionException(evaluator, this, left, this.operator.getText());
+        const fun = left.getType().getDefinition(this.getOperator(), evaluator.getContext(), this);
+        if(!(fun instanceof FunctionDefinition) || !(fun.expression instanceof Expression))
+            return new FunctionException(evaluator, this, left, this.getOperator());
+
+        const operand = fun.inputs[0];
+        if(!(operand instanceof Bind))
+            return new SemanticException(evaluator, operand);
+
+        // Start the function's expression.
+        evaluator.startEvaluation(new Evaluation(evaluator, fun, fun.expression, left, new Map().set(operand.names[0].getName(), right)));
+
+        // No values to return, the evaluation will compute it.
+        return undefined;
 
     }
 

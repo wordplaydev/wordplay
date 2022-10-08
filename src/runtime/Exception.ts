@@ -18,6 +18,8 @@ export default abstract class Exception extends Primitive {
 
     }
 
+    isEqualTo(): boolean { return false; }
+
     abstract getExplanations(): Translations;
 
     getType() { return new ExceptionType(this); }

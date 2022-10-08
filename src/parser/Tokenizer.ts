@@ -16,6 +16,7 @@ export const LIST_CLOSE_SYMBOL = "]";
 export const SET_OPEN_SYMBOL = "{";
 export const SET_CLOSE_SYMBOL = "}";
 export const BIND_SYMBOL = ":";
+export const ALIAS_SYMBOL = ",";
 export const MEASUREMENT_SYMBOL = "#";
 export const NONE_SYMBOL = "!";
 export const STREAM_SYMBOL = "∆";
@@ -33,13 +34,50 @@ export const DOCS_SYMBOL = "`";
 export const PLACEHOLDER_SYMBOL = "…";
 export const TEMPLATE_SYMBOL = "\\";
 export const THIS_SYMBOL = "*";
+export const BASE_SYMBOL = ";";
+
+const RESERVED_SYMBOLS = [
+    TEMPLATE_SYMBOL,
+    EVAL_OPEN_SYMBOL,
+    EVAL_CLOSE_SYMBOL,
+    LIST_OPEN_SYMBOL,
+    LIST_CLOSE_SYMBOL,
+    SET_OPEN_SYMBOL,
+    SET_CLOSE_SYMBOL,
+    TABLE_OPEN_SYMBOL,
+    BIND_SYMBOL,
+    ACCESS_SYMBOL,
+    BASE_SYMBOL,
+    FUNCTION_SYMBOL,
+    BORROW_SYMBOL,
+    SHARE_SYMBOL,
+    DOCS_SYMBOL,
+    NONE_SYMBOL,
+    TYPE_SYMBOL,
+    TYPE_VAR_SYMBOL,
+    STREAM_SYMBOL,
+    PREVIOUS_SYMBOL,
+    CONVERT_SYMBOL,
+    PLACEHOLDER_SYMBOL,
+    TRUE_SYMBOL,
+    FALSE_SYMBOL,
+    NOT_SYMBOL,
+    LANGUAGE_SYMBOL,
+    THIS_SYMBOL,
+    ALIAS_SYMBOL
+];
+
+const TEXT_SEPARATORS = "'‘’\"“”„«»‹›「」『』";
+const OPERATORS = '+\\-×·÷%^<≤=≠≥>∧∨\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F';
+
+function escapeRegexCharacter(c: string) { return /[\\\/\(\)\[\]\{\}]/.test(c) ? "\\" + c : c }
 
 const patterns = [
     { pattern: LIST_OPEN_SYMBOL, types: [ TokenType.LIST_OPEN ] },
     { pattern: LIST_CLOSE_SYMBOL, types: [ TokenType.LIST_CLOSE ] },
     { pattern: SET_OPEN_SYMBOL, types: [ TokenType.SET_OPEN ] },
     { pattern: SET_CLOSE_SYMBOL, types: [ TokenType.SET_CLOSE ] },
-    { pattern: ",", types: [ TokenType.ALIAS ] },
+    { pattern: ALIAS_SYMBOL, types: [ TokenType.ALIAS ] },
     { pattern: LANGUAGE_SYMBOL, types: [ TokenType.LANGUAGE ] },
     { pattern: "|?", types: [ TokenType.SELECT] },
     { pattern: "|+", types: [ TokenType.INSERT] },
@@ -71,14 +109,11 @@ const patterns = [
     { pattern: /^[_0-9]+([.,][_0-9]+)?%?/, types: [ TokenType.NUMBER, TokenType.DECIMAL ] },    
     { pattern: "π", types: [ TokenType.NUMBER, TokenType.PI ] },
     { pattern: "∞", types: [ TokenType.NUMBER, TokenType.INFINITY ] },
-    { pattern: /^[+×·^÷%<>≤≥=≠]/u, types: [ TokenType.BINARY_OP ] },
-    { pattern: AND_SYMBOL, types: [ TokenType.BINARY_OP ] },
-    { pattern: OR_SYMBOL, types: [ TokenType.BINARY_OP ] },
-    // Both a unary and binary op.
-    { pattern: "-", types: [ TokenType.BINARY_OP, TokenType.UNARY_OP ] },
-    { pattern: "~", types: [ TokenType.UNARY_OP ] },
-    { pattern: NOT_SYMBOL, types: [ TokenType.UNARY_OP ] },
-    { pattern: "√", types: [ TokenType.UNARY_OP ] },
+    // Unary are single glyphs with no space after.
+    { pattern: /^-(?!\s)/, types: [ TokenType.UNARY_OP ] },
+    { pattern: /^~(?!\s)/, types: [ TokenType.UNARY_OP ] },
+    { pattern: /^¬(?!\s)/, types: [ TokenType.UNARY_OP ] },
+    { pattern: /^√(?!\s)/, types: [ TokenType.UNARY_OP ] },
     { pattern: TRUE_SYMBOL, types: [ TokenType.BOOLEAN ] },
     { pattern: FALSE_SYMBOL, types: [ TokenType.BOOLEAN ] },
     // Match empty strings as both text and text types.
@@ -123,10 +158,19 @@ const patterns = [
     { pattern: MEASUREMENT_SYMBOL, types: [ TokenType.NUMBER_TYPE ] },
     { pattern: BOOLEAN_TYPE_SYMBOL, types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
     { pattern: "¿", types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
-    // One or more unicode characters that are not one of the reserved symbols above.
-    // We should really use all of the symbol constants above but it would just be so ugly...
+    // Infix operators are single Unicode glyphs that are surrounded by whitespace that are not one of the above
+    // and one of the following:
+    // - Mathematical operators: U+2200..U+22FF
+    // - Supplementary operators: U+2A00–U+2AFF
+    // - Arrows: U+2190–U+21FF, U+27F0–U+27FF, U+2900–U+297F
+    // - Basic latin operators: +-×·÷%^<≤=≠≥>∧∨
     { 
-        pattern: /^[^\\\(\)\[\]\{\}|:.,;ƒ↓↑`!•∘∆@→… \t\n+\-×*·^√÷%<≤=≠≥>⊥⊤~¬∧∨'‘’"“”„«»‹›「」『』\/]+/u, 
+        pattern: new RegExp(`^[${OPERATORS}]`, "u"), 
+        types: [ TokenType.BINARY_OP ] 
+    },
+    // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
+    { 
+        pattern: new RegExp(`^[^\n\t ${RESERVED_SYMBOLS.map(s => escapeRegexCharacter(s)).join("")}√~\\-${TEXT_SEPARATORS}${OPERATORS}]+`, "u"), 
         types: [ TokenType.NAME ] 
     }
 ];

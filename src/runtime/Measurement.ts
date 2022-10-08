@@ -3,18 +3,16 @@ import TokenType from "../nodes/TokenType";
 import Unit from "../nodes/Unit";
 import Bool from "./Bool";
 import None from "./None";
-import type Value from "./Value";
 import Decimal from 'decimal.js';
 import Alias from "../nodes/Alias";
-import type BinaryOperation from "../nodes/BinaryOperation";
 import type UnaryOperation from "../nodes/UnaryOperation";
 import Primitive from "./Primitive";
 import MeasurementType from "../nodes/MeasurementType";
 import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
-import TypeException from "./TypeException";
 import type Evaluator from "./Evaluator";
 import FunctionException from "./FunctionException";
 import type Exception from "./Exception";
+import type Value from "./Value";
 
 /** A decimal number with a unit.
  * If all of it's parts are empty, it is not a number.
@@ -114,35 +112,6 @@ export default class Measurement extends Primitive {
 
     }
 
-    evaluateInfix(evaluator: Evaluator, op: BinaryOperation, right: Value): Measurement | Bool | Exception | None {
-
-        if(!(right instanceof Measurement)) 
-            return new TypeException(evaluator, new MeasurementType(), right);
-    
-        switch(op.getOperator()) {
-            case "+":
-                return this.unit.toString() === right.unit.toString() ?
-                    this.add(right) :
-                    new TypeException(evaluator, this.getType(), right)
-            case "-":
-                return this.unit.toString() === right.unit.toString() ?
-                    this.subtract(right) :
-                    new TypeException(evaluator, this.getType(), right)
-            case "×":
-            case "·": return this.multiply(right);
-            case "÷": return this.divide(right);
-            case "%": return this.remainder(right);
-            case "^": return new Measurement(this.num.pow(right.num), this.unit.power(right.num));
-            case "<": return this.lessThan(right);
-            case ">": return this.greaterThan(right);
-            case "≤": return new Bool(this.lessThan(right).bool || this.equals(right).bool);
-            case "≥": return new Bool(this.greaterThan(right).bool || this.equals(right).bool);
-            case "=": return this.equals(right);
-            case "≠": return new Bool(!this.equals(right).bool);
-            default: return new FunctionException(evaluator, op, this, op.getOperator());
-        }
-    }
-
     negate(): Measurement {
         return new Measurement(this.num.neg(), this.unit);
     }
@@ -160,54 +129,35 @@ export default class Measurement extends Primitive {
     }
 
     multiply(operand: Measurement): Measurement {
-        return new Measurement(this.num.times(operand.num),
-            new Unit(
-                this.unit.numerator.concat(operand.unit.numerator),
-                this.unit.denominator.concat(operand.unit.denominator)
-            )
-        );
+        return new Measurement(this.num.times(operand.num), this.unit.product(operand.unit));
     }
-
-    // isZero() { return this.digits.length === 1 && this.digits[0] === 0 && this.numerator.length === 0; }
 
     divide(divisor: Measurement): Measurement | None {
         return divisor.num.isZero() ? 
             new None([new Alias("nan")]) : 
-            new Measurement(
-                this.num.dividedBy(divisor.num), 
-                new Unit(
-                    this.unit.numerator.concat(divisor.unit.denominator),
-                    this.unit.denominator.concat(divisor.unit.numerator)
-                )
-            );
+            new Measurement(this.num.dividedBy(divisor.num), this.unit.quotient(divisor.unit))
     }
 
     remainder(divisor: Measurement): Measurement | None {
         return divisor.num.isZero() ? 
             new None([new Alias("nan")]) : 
-            new Measurement(
-                this.num.modulo(divisor.num), 
-                this.unit
-            );
+            new Measurement(this.num.modulo(divisor.num), this.unit);
     }
 
-    /** Equal if all of their parts are equal. */
-    equals(operand: Measurement): Bool {
-        return new Bool(this.num.equals(operand.num));        
+    isEqualTo(operand: Value): boolean {
+        return operand instanceof Measurement && this.num.equals(operand.num) && this.unit.isEqualTo(operand.unit);
     }
 
     greaterThan(operand: Measurement): Bool {
-        return new Bool(this.num.greaterThan(operand.num));    
+        return new Bool(this.num.greaterThan(operand.num) && this.unit.isEqualTo(operand.unit));    
     }
 
     lessThan(operand: Measurement): Bool {
-        return new Bool(this.num.lessThan(operand.num));        
+        return new Bool(this.num.lessThan(operand.num) && this.unit.isEqualTo(operand.unit));        
     }
 
     power(operand: Measurement) {
-
-        return new Measurement(this.num.pow(operand.num), this.unit);
-
+        return new Measurement(this.num.pow(operand.num), this.unit.power(operand.num.toNumber()));
     }
 
     getType() { return new MeasurementType(undefined, this.unit); }

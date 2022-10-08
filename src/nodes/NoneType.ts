@@ -1,4 +1,4 @@
-import { NONE_NATIVE_TYPE_NME } from "../native/NativeConstants";
+import { NONE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { NONE_SYMBOL } from "../parser/Tokenizer";
 import Alias from "./Alias";
 import AnyType from "./AnyType";
@@ -36,7 +36,7 @@ export default class NoneType extends Type {
         return this.aliases.find(a => type.aliases.find(b => a.isCompatible(b)) !== undefined) !== undefined;
     }
 
-    getNativeTypeName(): string { return NONE_NATIVE_TYPE_NME; }
+    getNativeTypeName(): string { return NONE_NATIVE_TYPE_NAME; }
 
     toWordplay(): string {
         return "•!" + this.aliases.map(a => a.getName());

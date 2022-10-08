@@ -22,7 +22,7 @@ start: Game([] "")
 state•Game: start ∆ ⌨️
 \t\t⌨️.key = "Escape" ? start
 \t\t(state.status() ≠ "playing") ∧ (⌨️.key = " ") ∧ ⌨️.down ? Game([] words.random())
-\t\t(state.status() = "playing") ∧ ⌨️.down ∧ (⌨️.key.length() = 1) ∧ ¬ state.guesses.has(⌨️.key) ? Game(state.guesses.add(⌨️.key) state.secret)
+\t\t(state.status() = "playing") ∧ ⌨️.down ∧ (⌨️.key.length() = 1) ∧ ¬state.guesses.has(⌨️.key) ? Game(state.guesses.add(⌨️.key) state.secret)
 \t\tstate
 
 \`The board is a translation of the secret, accounting for guesses\`/eng

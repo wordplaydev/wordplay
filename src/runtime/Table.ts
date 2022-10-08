@@ -28,6 +28,11 @@ export default class Table extends Value {
 
     resolve() { return undefined; }
 
+    isEqualTo(structure: Value): boolean {
+        structure;
+        return false;
+    }
+
     toString(): string {
         return this.rows.map(r => r.map(c => `|${c.toString()}`).join("") + "||").join("\n");
     }

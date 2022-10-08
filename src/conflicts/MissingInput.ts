@@ -3,14 +3,15 @@ import type Evaluate from "../nodes/Evaluate";
 import type FunctionType from "../nodes/FunctionType";
 import Conflict from "./Conflict";
 import type Bind from "../nodes/Bind";
+import type BinaryOperation from "../nodes/BinaryOperation";
 
 
 export default class MissingInput extends Conflict {
     readonly func: FunctionType | StructureType;
-    readonly evaluate: Evaluate;
+    readonly evaluate: Evaluate | BinaryOperation;
     readonly input: Bind;
 
-    constructor(func: FunctionType | StructureType, evaluate: Evaluate, input: Bind) {
+    constructor(func: FunctionType | StructureType, evaluate: Evaluate | BinaryOperation, input: Bind) {
         super(false);
         this.func = func;
         this.evaluate = evaluate;

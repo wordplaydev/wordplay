@@ -61,8 +61,9 @@ export default class UnaryOperation extends Expression {
         else if(this.operator.text.toString() === "√" && this.operand instanceof Expression) {
             const type = this.operand.getTypeUnlessCycle(context);
             if(!(type instanceof MeasurementType)) return new UnknownType(this);
-            if(type.unit ===  undefined || type.unit instanceof Unparsable) return type;
-            return new MeasurementType(undefined, type.unit.sqrt());
+            if(type.unit === undefined || type.unit instanceof Unparsable) return type;
+            // The unit of the result is the square root of whatever the unit of the input was.
+            return new MeasurementType(undefined, left => left.sqrt());
         } 
         else if(this.operator.text.toString() === "-" && this.operand instanceof Expression)
             return this.operand.getTypeUnlessCycle(context);

@@ -74,7 +74,7 @@ export default class Evaluate extends Expression {
         // The function must be a function or structure. If it's not, that's a conflict.
         // Then stop checking because we can't analyze anything.
         if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
-            return [ new NotAFunction(this, functionType) ];
+            return [ new NotAFunction(this, this.func.getTypeUnlessCycle(context), functionType) ];
 
         // Verify that all of the inputs provided are valid.
         let candidateTargetInputs;
@@ -423,7 +423,8 @@ export default class Evaluate extends Expression {
 
         // Get the function off the stack and bail if it's not a function.
         const functionOrStructure = evaluator.popValue(undefined);
-        if(!(functionOrStructure instanceof FunctionValue || functionOrStructure instanceof StructureDefinitionValue)) return functionOrStructure;
+        if(!(functionOrStructure instanceof FunctionValue || functionOrStructure instanceof StructureDefinitionValue)) 
+            return new FunctionException(evaluator, this, functionOrStructure, this.func.toWordplay());
 
         // Pop as many values as the definition requires, or the number of inputs provided, whichever is larger.
         // This accounts for variable length arguments.

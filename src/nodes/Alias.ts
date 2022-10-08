@@ -53,4 +53,8 @@ export default class Alias extends Node {
         ) as this; 
     }
 
+    equals(alias: Alias) {
+        return this.name?.getText() === alias.name?.getText();
+    }
+
 }

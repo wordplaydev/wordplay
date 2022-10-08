@@ -261,6 +261,9 @@ test("Parse expressions", () => {
     expect(((binary as BinaryOperation).left as BinaryOperation).left).toBeInstanceOf(BinaryOperation);
     expect((((binary as BinaryOperation).left as BinaryOperation).left as BinaryOperation).left).toBeInstanceOf(MeasurementLiteral);
 
+    const negativeInLists = parseExpression(tokens("[1 -2]"));
+    expect((negativeInLists as ListLiteral).values.length).toBe(2);
+
     const is = parseExpression(tokens("123 • #"));
     expect(is).toBeInstanceOf(Is);
 

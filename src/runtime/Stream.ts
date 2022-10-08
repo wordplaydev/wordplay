@@ -25,6 +25,10 @@ export default abstract class Stream extends Primitive {
 
     abstract getNames(): Translations;
 
+    isEqualTo(value: Value): boolean {
+        return value === this;
+    }
+
     add(value: Value) {
 
         // If we're stepping, then we don't add anything to the stream; time is frozen, and the outside world is ignored.

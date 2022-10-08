@@ -5,6 +5,7 @@ import Unparsable from "../nodes/Unparsable";
 import type ConversionValue from "./ConversionValue";
 import Evaluation from "./Evaluation";
 import type Evaluator from "./Evaluator";
+import FunctionValue from "./FunctionValue";
 import Value from "./Value";
 
 export default class Structure extends Value {
@@ -20,12 +21,34 @@ export default class Structure extends Value {
 
     }
 
+    /**
+     * A structure is equal to another structure if all of its bindings are equal and they have the same definition.
+     */
+    isEqualTo(structure: Value): boolean {
+    
+        if(!(structure instanceof Structure) || this.type !== structure.type) return false;
+
+        const thisBindings = this.context.getBindings();
+        const thatBindings = this.context.getBindings();
+
+        if(thisBindings.size !== thatBindings.size) return false;
+
+        return Array.from(thisBindings.keys()).every(key => {
+            const thisValue = thisBindings.get(key);
+            const thatValue = thatBindings.get(key);
+            return thisValue !== undefined && thatValue !== undefined && thisValue.isEqualTo(thatValue);
+        })
+    }
+
     getType() { return new StructureType(this.type); }
 
     getNativeTypeName(): string { return STRUCTURE_NATIVE_TYPE_NAME; }
 
-    resolve(name: string) {
-        return this.context.resolve(name);
+    resolve(name: string, evaluator?: Evaluator): Value | undefined {
+        const fun = this.context.resolve(name);
+        if(fun !== undefined) return fun;
+        const nativeFun = evaluator?.getNative().getFunction(this.getNativeTypeName(), name);
+        return nativeFun === undefined ? undefined : new FunctionValue(nativeFun, this);
     }
 
     getConversion(input: Type, output: Type): ConversionValue | undefined {

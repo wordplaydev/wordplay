@@ -8,13 +8,17 @@ import TokenType from "./TokenType";
 import Type from "./Type";
 import Unit from "./Unit";
 import Unparsable from "./Unparsable";
+import type BinaryOperation from "./BinaryOperation";
+import Expression from "./Expression";
+
+type UnitDeriver = (left: Unit, right: Unit, constant: number) => Unit;
 
 export default class MeasurementType extends Type {
     
     readonly number: Token;
-    readonly unit: Unit | Unparsable;
+    readonly unit: Unit | Unparsable | UnitDeriver;
 
-    constructor(number?: Token, unit?: Unit | Unparsable) {
+    constructor(number?: Token, unit?: Unit | Unparsable | UnitDeriver) {
         super();
         this.number = number ?? new Token(MEASUREMENT_SYMBOL, [ TokenType.NUMBER_TYPE ]);
         this.unit = unit ?? new Unit();
@@ -23,21 +27,38 @@ export default class MeasurementType extends Type {
     computeChildren() { 
         const children = [];
         children.push(this.number);
-        if(this.unit) children.push(this.unit);
+        if(this.unit instanceof Unit || this.unit instanceof Unparsable) children.push(this.unit);
         return children;   
     }
 
-    isCompatible(type: Type): boolean {
+    isCompatible(type: Type, context: Context, op?: BinaryOperation): boolean {
+
         if(type instanceof AnyType) return true;
+        
         // Not a measurement? Not compatible.
         if(!(type instanceof MeasurementType)) return false;
-        // One measurement without a unit? Compatible. Just inherit the other unit.
-        if(this.unit === undefined && type.unit === undefined) return true;
         
-        // Both with a unit? Convert to units and ask them.
-        const thisUnit = this.unit instanceof Unit ? this.unit : new Unit([], []);
-        const thatUnit = type.unit instanceof Unit ? type.unit : new Unit([], []);
+        // Are the units compatible? First, get concrete units.
+        const thisUnit = this.concreteUnit(context, op);
+        const thatUnit = type.concreteUnit(context, op);
+
+        // Return true if the units are compatible.
         return thisUnit.isCompatible(thatUnit);
+    }
+
+    concreteUnit(context: Context, op?: BinaryOperation): Unit {
+
+        if(this.unit instanceof Unit) return this.unit;
+        else if(op === undefined || this.unit instanceof Unparsable || !(op.left instanceof Expression) || !(op.right instanceof Expression)) return new Unit([], []);
+
+        const leftType = op.left.getTypeUnlessCycle(context);
+        const rightType = op.right.getTypeUnlessCycle(context);
+
+        if(!(leftType instanceof MeasurementType)) return new Unit();
+        if(!(rightType instanceof MeasurementType)) return new Unit();
+        
+        return this.unit.call(undefined, leftType.concreteUnit(context), rightType.concreteUnit(context), 0);
+        
     }
 
     computeConflicts() {}
@@ -51,7 +72,7 @@ export default class MeasurementType extends Type {
     clone(original?: Node, replacement?: Node) { 
         return new MeasurementType(
             this.number.cloneOrReplace([ Token ], original, replacement), 
-            this.unit?.cloneOrReplace([ Unit, Unparsable ], original, replacement)
+            this.unit === undefined || this.unit instanceof Function ? this.unit : this.unit.cloneOrReplace([ Unit, Unparsable ], original, replacement)
         ) as this; 
     }
 
