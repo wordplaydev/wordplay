@@ -923,8 +923,10 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
 
         const access = tokens.read(TokenType.ACCESS);
         let name;
-        if(tokens.nextIs(TokenType.NAME))
-            name = tokens.read(TokenType.NAME);
+        if(tokens.nextIsOneOf(TokenType.NAME, TokenType.UNARY_OP, TokenType.BINARY_OP))
+            name =  tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) :
+                    tokens.nextIs(TokenType.UNARY_OP) ? tokens.read(TokenType.UNARY_OP) :
+                    tokens.read(TokenType.BINARY_OP);
         else return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_ACCESS_NAME, [ left, access ]);
 
         left = new AccessName(left, access, name);
