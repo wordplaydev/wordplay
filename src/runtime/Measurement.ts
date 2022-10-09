@@ -5,13 +5,9 @@ import Bool from "./Bool";
 import None from "./None";
 import Decimal from 'decimal.js';
 import Alias from "../nodes/Alias";
-import type UnaryOperation from "../nodes/UnaryOperation";
 import Primitive from "./Primitive";
 import MeasurementType from "../nodes/MeasurementType";
 import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
-import type Evaluator from "./Evaluator";
-import FunctionException from "./FunctionException";
-import type Exception from "./Exception";
 import type Value from "./Value";
 
 /** A decimal number with a unit.
@@ -98,18 +94,8 @@ export default class Measurement extends Primitive {
         return this.num.toNumber();
     }
 
-    evaluatePrefix(evaluator: Evaluator, op: UnaryOperation): Measurement | Exception {
-
-        switch(op.getOperator()) {
-            case "-": 
-                return this.negate();
-            case "√":  
-                return new Measurement(this.num.sqrt(), this.unit.sqrt());
-
-            default: 
-                return new FunctionException(evaluator, op, this, op.getOperator());
-        }
-
+    sqrt(): Measurement {
+        return new Measurement(this.num.sqrt(), this.unit.sqrt());
     }
 
     negate(): Measurement {

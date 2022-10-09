@@ -1,17 +1,11 @@
-import BooleanType from "./BooleanType";
 import type Conflict from "../conflicts/Conflict";
-import { IncompatibleOperand } from "../conflicts/IncompatibleOperand";
 import Expression from "./Expression";
-import MeasurementType from "./MeasurementType";
 import Token from "./Token";
-import type Type from "./Type";
+import Type from "./Type";
 import type Node from "./Node";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
-import type Value from "../runtime/Value";
-import Bool from "../runtime/Bool";
-import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
@@ -20,6 +14,10 @@ import type Bind from "./Bind";
 import { NOT_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
 import FunctionException from "../runtime/FunctionException";
+import FunctionDefinition from "./FunctionDefinition";
+import NotAFunction from "../conflicts/NotAFunction";
+import FunctionType from "./FunctionType";
+import Evaluation from "../runtime/Evaluation";
 
 export default class UnaryOperation extends Expression {
 
@@ -35,6 +33,15 @@ export default class UnaryOperation extends Expression {
 
     getOperator() { return this.operator.text.toString(); }
 
+    getFunctionDefinition(context: Context) {
+
+        // Find the function on the left's type.
+        const expressionType = this.operand instanceof Expression ? this.operand.getTypeUnlessCycle(context) : undefined;
+        const fun = expressionType?.getDefinition(this.getOperator(), context, this);
+        return fun instanceof FunctionDefinition ? fun : undefined;
+
+    }
+
     computeChildren() {
         return [ this.operator, this.operand ];
     }
@@ -43,31 +50,23 @@ export default class UnaryOperation extends Expression {
     
         const conflicts = [];
 
-        // If the type is unknown, that's bad.
-        const type = this.operand instanceof Expression ? this.operand.getTypeUnlessCycle(context) : undefined;
+        // Find the function on the left's type.
+        const fun = this.getFunctionDefinition(context);
 
-        // If the type doesn't match the operator, that's bad.
-        if(this.operand instanceof Expression && type !== undefined && (this.operator.text.toString() === "√" || this.operator.text.toString() === "-") && !(type instanceof MeasurementType))
-            conflicts.push(new IncompatibleOperand(this, this.operator, this.operand, type, new MeasurementType()));
-        else if(this.operand instanceof Expression && type !== undefined && this.operator.text.toString() === "¬" && !(type instanceof BooleanType))
-            conflicts.push(new IncompatibleOperand(this, this.operator, this.operand, type, new BooleanType()));
+        // Did we find nothing?
+        if(fun === undefined)
+            conflicts.push(new NotAFunction(this, this.operand.getTypeUnlessCycle(context), undefined));
 
         return conflicts;
     
     }
 
     computeType(context: Context): Type {
-        if(this.operator.text.toString() === "¬" || this.operator.text.toString() === "~") return new BooleanType();
-        else if(this.operator.text.toString() === "√" && this.operand instanceof Expression) {
-            const type = this.operand.getTypeUnlessCycle(context);
-            if(!(type instanceof MeasurementType)) return new UnknownType(this);
-            if(type.unit === undefined || type.unit instanceof Unparsable) return type;
-            // The unit of the result is the square root of whatever the unit of the input was.
-            return new MeasurementType(undefined, left => left.sqrt());
-        } 
-        else if(this.operator.text.toString() === "-" && this.operand instanceof Expression)
-            return this.operand.getTypeUnlessCycle(context);
-        else return new UnknownType(this);
+
+        // The type of the expression is whatever the function definition says it is.
+        const functionType = this.getFunctionDefinition(context)?.getTypeUnlessCycle(context);
+        return functionType instanceof FunctionType && functionType.output instanceof Type ? functionType.output : new UnknownType(this);
+
     }
     
     compile(context: Context):Step[] {
@@ -80,7 +79,7 @@ export default class UnaryOperation extends Expression {
 
     getStartExplanations() { 
         return {
-            "eng": "First we evsluate the operand."
+            "eng": "First we evaluate the operand."
         }
      }
 
@@ -90,15 +89,20 @@ export default class UnaryOperation extends Expression {
         }
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(evaluator: Evaluator) {
 
         // Get the value of the operand.
         const value = evaluator.popValue(undefined);
 
-        // Evaluate the function on the value.
-        return value instanceof Measurement || value instanceof Bool ?
-            value.evaluatePrefix(evaluator, this) :
-            new FunctionException(evaluator, this, value, this.operator.getText());
+        const fun = value.getType().getDefinition(this.getOperator(), evaluator.getContext(), this);
+        if(!(fun instanceof FunctionDefinition) || !(fun.expression instanceof Expression))
+            return new FunctionException(evaluator, this, value, this.getOperator());
+
+        // Start the function's expression.
+        evaluator.startEvaluation(new Evaluation(evaluator, fun, fun.expression, value, new Map()));
+
+        // No values to return, the evaluation will compute it.
+        return undefined;
 
     }
 

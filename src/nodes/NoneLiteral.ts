@@ -11,16 +11,18 @@ import Alias from "./Alias";
 import type Bind from "./Bind";
 import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
+import { NONE_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
 
 export default class NoneLiteral extends Expression {
     readonly none: Token;
     readonly aliases: Alias[];
 
-    constructor(error: Token, aliases: Alias[]) {
+    constructor(error?: Token, aliases?: Alias[]) {
         super();
 
-        this.none = error;
-        this.aliases = aliases;
+        this.none = error ?? new Token(NONE_SYMBOL, [ TokenType.NONE ]);
+        this.aliases = aliases ?? [];
     }
 
     computeChildren() { return [ this.none, ...this.aliases ]; }

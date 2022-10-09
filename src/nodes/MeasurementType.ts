@@ -10,6 +10,7 @@ import Unit from "./Unit";
 import Unparsable from "./Unparsable";
 import type BinaryOperation from "./BinaryOperation";
 import Expression from "./Expression";
+import UnionType from "./UnionType";
 
 type UnitDeriver = (left: Unit, right: Unit, constant: number) => Unit;
 
@@ -34,6 +35,9 @@ export default class MeasurementType extends Type {
     isCompatible(type: Type, context: Context, op?: BinaryOperation): boolean {
 
         if(type instanceof AnyType) return true;
+
+        // Union type? Can this be applied ot any of the union's types?
+        if(type instanceof UnionType) return type.isCompatible(this, context);
         
         // Not a measurement? Not compatible.
         if(!(type instanceof MeasurementType)) return false;

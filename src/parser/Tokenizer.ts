@@ -68,7 +68,7 @@ const RESERVED_SYMBOLS = [
 ];
 
 const TEXT_SEPARATORS = "'‘’\"“”„«»‹›「」『』";
-const OPERATORS = '+\\-×·÷%^<≤=≠≥>∧∨\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F';
+const OPERATORS = '+\\-×·÷%^<≤=≠≥>∧∨¬√~\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F';
 
 function escapeRegexCharacter(c: string) { return /[\\\/\(\)\[\]\{\}]/.test(c) ? "\\" + c : c }
 
@@ -109,11 +109,6 @@ const patterns = [
     { pattern: /^[_0-9]+([.,][_0-9]+)?%?/, types: [ TokenType.NUMBER, TokenType.DECIMAL ] },    
     { pattern: "π", types: [ TokenType.NUMBER, TokenType.PI ] },
     { pattern: "∞", types: [ TokenType.NUMBER, TokenType.INFINITY ] },
-    // Unary are single glyphs with no space after.
-    { pattern: /^-(?!\s)/, types: [ TokenType.UNARY_OP ] },
-    { pattern: /^~(?!\s)/, types: [ TokenType.UNARY_OP ] },
-    { pattern: /^¬(?!\s)/, types: [ TokenType.UNARY_OP ] },
-    { pattern: /^√(?!\s)/, types: [ TokenType.UNARY_OP ] },
     { pattern: TRUE_SYMBOL, types: [ TokenType.BOOLEAN ] },
     { pattern: FALSE_SYMBOL, types: [ TokenType.BOOLEAN ] },
     // Match empty strings as both text and text types.
@@ -158,19 +153,17 @@ const patterns = [
     { pattern: MEASUREMENT_SYMBOL, types: [ TokenType.NUMBER_TYPE ] },
     { pattern: BOOLEAN_TYPE_SYMBOL, types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
     { pattern: "¿", types: [ TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL ] },
-    // Infix operators are single Unicode glyphs that are surrounded by whitespace that are not one of the above
+    // Prefix and infix operators are single Unicode glyphs that are surrounded by whitespace that are not one of the above
     // and one of the following:
     // - Mathematical operators: U+2200..U+22FF
     // - Supplementary operators: U+2A00–U+2AFF
     // - Arrows: U+2190–U+21FF, U+27F0–U+27FF, U+2900–U+297F
     // - Basic latin operators: +-×·÷%^<≤=≠≥>∧∨
-    { 
-        pattern: new RegExp(`^[${OPERATORS}]`, "u"), 
-        types: [ TokenType.BINARY_OP ] 
-    },
+    { pattern: new RegExp(`^[${OPERATORS}](?! )`, "u"), types: [ TokenType.UNARY_OP ] },
+    { pattern: new RegExp(`^[${OPERATORS}]`, "u"), types: [ TokenType.BINARY_OP ] },
     // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
     { 
-        pattern: new RegExp(`^[^\n\t ${RESERVED_SYMBOLS.map(s => escapeRegexCharacter(s)).join("")}√~\\-${TEXT_SEPARATORS}${OPERATORS}]+`, "u"), 
+        pattern: new RegExp(`^[^\n\t ${RESERVED_SYMBOLS.map(s => escapeRegexCharacter(s)).join("")}${TEXT_SEPARATORS}${OPERATORS}]+`, "u"), 
         types: [ TokenType.NAME ] 
     }
 ];

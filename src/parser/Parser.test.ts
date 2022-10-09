@@ -288,7 +288,7 @@ test("Parse expressions", () => {
     expect(withOutputType).toBeInstanceOf(FunctionDefinition);
     expect((withOutputType as FunctionDefinition).type).toBeInstanceOf(MeasurementType);
 
-    const withBody = parseExpression(tokens("ƒ(a b) •# a+b"));
+    const withBody = parseExpression(tokens("ƒ(a b) •# a + b"));
     expect(withBody).toBeInstanceOf(FunctionDefinition);
     expect((withBody as FunctionDefinition).expression).toBeInstanceOf(BinaryOperation);
 

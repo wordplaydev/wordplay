@@ -4,7 +4,7 @@ import Block from "../nodes/Block";
 import BooleanType from "../nodes/BooleanType";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import StructureDefinition from "../nodes/StructureDefinition";
-import { AND_SYMBOL, OR_SYMBOL } from "../parser/Tokenizer";
+import { AND_SYMBOL, NOT_SYMBOL, OR_SYMBOL } from "../parser/Tokenizer";
 import Bool from "../runtime/Bool";
 import Text from "../runtime/Text";
 import TypeException from "../runtime/TypeException";
@@ -39,6 +39,20 @@ export default function bootstrapBool() {
         new Block([], [
             createBooleanFunction(AND_SYMBOL, (left, right) => left.and(right)),
             createBooleanFunction(OR_SYMBOL, (left, right) => left.or(right)),
+            new FunctionDefinition(
+                [], [ new Alias(NOT_SYMBOL)], [], [],
+                new NativeExpression(
+                    new BooleanType(), 
+                    evaluation => {
+                        const left = evaluation.getContext();
+                        // This should be impossible, but the type system doesn't know it.
+                        if(!(left instanceof Bool)) return new TypeException(evaluation.getEvaluator(), new BooleanType(), left);
+                        return left.not();
+                    },
+                    { eng: "Logical not." }
+                ),
+                new BooleanType()
+            ),
             createBooleanFunction("=", (left, right) => new Bool(left.isEqualTo(right))),
             createBooleanFunction("≠", (left, right) => new Bool(!left.isEqualTo(right))),
             createNativeConversion([], "?", "''", (val: Bool) => new Text(val.toString()))

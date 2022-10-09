@@ -544,8 +544,8 @@ function parseUnit(tokens: Tokens): Unit | Unparsable {
     
     const numeratorTokens = tokens.nextIs(TokenType.NAME) ? [ tokens.read(TokenType.NAME) ] : [];
     // Keep reading · unit pairs until we run out or hit a /
-    while(tokens.nextIs(TokenType.BINARY_OP) && tokens.peekText() === "·") {
-        numeratorTokens.push(tokens.read(TokenType.BINARY_OP));
+    while(tokens.nextIs(TokenType.UNARY_OP) && tokens.peekText() === "·") {
+        numeratorTokens.push(tokens.read(TokenType.UNARY_OP));
         if(!tokens.nextIs(TokenType.NAME))
             return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_UNIT_NAME, [ numeratorTokens ]);
         numeratorTokens.push(tokens.read(TokenType.NAME));
@@ -557,8 +557,8 @@ function parseUnit(tokens: Tokens): Unit | Unparsable {
         if(!tokens.nextIs(TokenType.NAME))
             return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_UNIT_NAME, [ numeratorTokens, denominatorTokens ]);
         denominatorTokens.push(tokens.read(TokenType.NAME));
-        while(tokens.nextIs(TokenType.BINARY_OP) && tokens.peekText() === "·") {
-            denominatorTokens.push(tokens.read(TokenType.BINARY_OP));
+        while(tokens.nextIs(TokenType.UNARY_OP) && tokens.peekText() === "·") {
+            denominatorTokens.push(tokens.read(TokenType.UNARY_OP));
             if(!tokens.nextIs(TokenType.NAME))
                 return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_UNIT_NAME, [ numeratorTokens, denominatorTokens ]);
             denominatorTokens.push(tokens.read(TokenType.NAME));

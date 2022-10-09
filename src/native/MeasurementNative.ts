@@ -4,6 +4,7 @@ import Block from "../nodes/Block";
 import BooleanType from "../nodes/BooleanType";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import MeasurementType from "../nodes/MeasurementType";
+import NoneLiteral from "../nodes/NoneLiteral";
 import NoneType from "../nodes/NoneType";
 import StructureDefinition from "../nodes/StructureDefinition";
 import type Type from "../nodes/Type";
@@ -21,7 +22,7 @@ export default function bootstrapMeasurement() {
 
     const measurementOperandName = "val";
 
-    function createNativeMeasurementOperation(names: string[], inputType: Type, outputType: Type, expression: (left: Measurement, right: Measurement) => Value | undefined, requireEqualUnits: boolean=true) {
+    function createBinaryOp(names: string[], inputType: Type, outputType: Type, expression: (left: Measurement, right: Measurement) => Value | undefined, requireEqualUnits: boolean=true) {
         return new FunctionDefinition(
             [], names.map(n => new Alias(n)), [],
             [ new Bind([], undefined, [ new Alias(measurementOperandName) ], inputType) ],
@@ -39,14 +40,30 @@ export default function bootstrapMeasurement() {
                 { eng: "Native measurement operation." }
             ),
             outputType
-        );    
+        );
     }
     
+    function createUnaryOp(names: string[], outputType: Type, expression: (operand: Measurement) => Value | undefined) {
+        return new FunctionDefinition(
+            [], names.map(n => new Alias(n)), [], [],
+            new NativeExpression(
+                new MeasurementType(),
+                evaluation => {
+                    const value = evaluation.getContext();
+                    // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
+                    if(!(value instanceof Measurement)) return new TypeException(evaluation.getEvaluator(), new MeasurementType(), value);
+                    return expression(value) ?? new TypeException(evaluation.getEvaluator(), value.getType(), value);
+                },
+                { eng: "Native measurement operation." }
+            ),
+            outputType
+        );    
+    }
 
     return new StructureDefinition(
         [], [], [], [], [],
         new Block([], [
-            createNativeMeasurementOperation(
+            createBinaryOp(
                 ["+"],
                 // The operand's type should be the left's type.
                 new MeasurementType(undefined, left => left), 
@@ -54,15 +71,35 @@ export default function bootstrapMeasurement() {
                 new MeasurementType(undefined, left => left),
                 (left, right) => left.add(right)
             ),
-            createNativeMeasurementOperation(
-                ["-"], 
+            new FunctionDefinition(
+                [], [ new Alias("-") ], [],
+                [ 
+                    // Optional operand, since negation and subtraction are overloaded.
+                    new Bind([], undefined, [ new Alias(measurementOperandName) ], new UnionType(new NoneType([]), new MeasurementType(undefined, left => left)), new NoneLiteral()) 
+                ],
+                new NativeExpression(
+                    new MeasurementType(),
+                    evaluation => {
+                        const left = evaluation.getContext();
+                        const right = evaluation.resolve(measurementOperandName);
+                        // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
+                        if(!(left instanceof Measurement)) return new TypeException(evaluation.getEvaluator(), new MeasurementType(), left);
+                        if(right !== undefined && !(right instanceof Measurement)) return new TypeException(evaluation.getEvaluator(), left.getType(), right);
+                        return right === undefined ? left.negate() : left.subtract(right);
+                    },
+                    { eng: "Native measurement operation." }
+                ),
+                new MeasurementType(undefined, left => left)
+            ),
+            createBinaryOp(
+                ["-"],
                 // The operand's type should be the left's type.
                 new MeasurementType(undefined, left => left), 
                 // The output's type should be the left's type
                 new MeasurementType(undefined, left => left),                
                 (left, right) => left.subtract(right)
             ),
-            createNativeMeasurementOperation(
+            createBinaryOp(
                 ["×", "·"], 
                 // The operand's type can be any unitless measurement
                 new MeasurementType(),
@@ -71,15 +108,14 @@ export default function bootstrapMeasurement() {
                 (left, right) => left.multiply(right),
                 false
             ),
-            createNativeMeasurementOperation(
+            createBinaryOp(
                 ["÷"], 
                 new MeasurementType(), 
                 new MeasurementType(undefined, (left, right) => left.quotient(right)),
                 (left, right) => left.divide(right),
                 false
             ),
-            // TODO Output type should be subject type
-            createNativeMeasurementOperation(
+            createBinaryOp(
                 ["%"], 
                 new MeasurementType(), 
                 new UnionType(
@@ -89,56 +125,40 @@ export default function bootstrapMeasurement() {
                 (left, right) => left.remainder(right),
                 false
             ),
-            // Exponentiation units
-            // if(!(leftType instanceof MeasurementType)) return new UnknownType(this);
-            // if(!(rightType instanceof MeasurementType)) return new UnknownType(this);
-            // if(leftType.unit instanceof Unparsable || rightType.unit instanceof Unparsable) return new UnknownType(this);
-
-            // // If both sides or unitless, just propagate the left.
-            // if(leftType.unit === undefined && rightType.unit === undefined) return leftType;
-            // // If left has a unit and the right does not, duplicate the units the number of times of the power
-            // else if(leftType.unit !== undefined && rightType.unit === undefined) {
-            //     // Can we extract the exponent?
-            //     let exponent = undefined;
-            //     if(this.right instanceof MeasurementLiteral && this.right.isInteger())
-            //         exponent = parseInt(this.right.number.text.toString());
-            //     else if(this.right instanceof UnaryOperation && this.right.operand instanceof MeasurementLiteral && this.right.operand.isInteger())
-            //         exponent = parseInt(this.right.operand.number.text.toString());
-            //     // If the exponent is computed, and we don't know it's an integer, drop the unit.
-            //     return new MeasurementType(undefined, exponent === undefined ? new Unit() : leftType.unit.power(new Decimal(exponent)));
-            // } 
-            // // Otherwise, undefined: exponents can't have units.
-            // else return new UnknownType(this);
-            createNativeMeasurementOperation(
+            createBinaryOp(
                 ["^"], 
                 new MeasurementType(), 
                 new MeasurementType(undefined, (left, right, constant) => right === right && constant === undefined ? new Unit() : left.power(constant)),
                 (left, right) => left.power(right),
                 false
             ),
-            createNativeMeasurementOperation(
+            createBinaryOp(
                 ["<"], new MeasurementType(), new BooleanType(),
                 (left, right) => left.lessThan(right)
             ),
-            createNativeMeasurementOperation(
+            createBinaryOp(
                 [">"], new MeasurementType(), new BooleanType(),
                 (left, right) => left.greaterThan(right)
             ),
-            createNativeMeasurementOperation(
+            createBinaryOp(
                 ["≤"], new MeasurementType(), new BooleanType(),
                 (left, right) => new Bool(left.lessThan(right).bool || left.isEqualTo(right))
             ),
-            createNativeMeasurementOperation(
+            createBinaryOp(
                 ["≥"], new MeasurementType(), new BooleanType(),
                 (left, right) => new Bool(left.greaterThan(right).bool || left.isEqualTo(right))
             ),
-            createNativeMeasurementOperation(
+            createBinaryOp(
                 ["="], new MeasurementType(), new BooleanType(),
                 (left, right) => new Bool(left.isEqualTo(right))
             ),
-            createNativeMeasurementOperation(
+            createBinaryOp(
                 ["≠"], new MeasurementType(), new BooleanType(),
                 (left, right) => new Bool(!left.isEqualTo(right))
+            ),
+            createUnaryOp(
+                ["√"], new MeasurementType(undefined, unit => unit.sqrt()), 
+                operand => operand.sqrt()
             ),
         
             // Time
