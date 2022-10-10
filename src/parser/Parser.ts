@@ -64,6 +64,7 @@ import MapType from "../nodes/MapType";
 import SetType from "../nodes/SetType";
 import TypeInput from "../nodes/TypeInput";
 import This from "../nodes/This";
+import ConversionType from "../nodes/ConversionType";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -877,11 +878,11 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
 function parseConversion(tokens: Tokens): ConversionDefinition | Unparsable {
 
     const docs = parseDocumentation(tokens);
-    const input = parseType(tokens);
+    const input = parseType(tokens, true);
     if(!tokens.nextIs(TokenType.CONVERT))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_CONVERT, [ docs, input ]);
     const convert = tokens.read(TokenType.CONVERT);
-    const output = parseType(tokens);
+    const output = parseType(tokens, true);
     const expression = parseExpression(tokens);
 
     return new ConversionDefinition(docs, input, output, expression, convert);
@@ -892,7 +893,7 @@ function parseConversion(tokens: Tokens): ConversionDefinition | Unparsable {
 function parseConvert(expression: Expression, tokens: Tokens): Convert {
 
     const convert = tokens.read(TokenType.CONVERT);
-    const type = parseType(tokens);
+    const type = parseType(tokens, true);
         
     return new Convert(expression, convert, type);
 
@@ -942,7 +943,7 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
 }
 
 /** TYPE :: (? | name | MEASUREMENT_TYPE | TEXT_TYPE | NONE_TYPE | LIST_TYPE | SET_TYPE | FUNCTION_TYPE | STREAM_TYPE) (∨ TYPE)* */
-export function parseType(tokens: Tokens): Type | Unparsable {
+export function parseType(tokens: Tokens, isExpression:boolean=false): Type | Unparsable {
     let left: Type | Unparsable = (
         tokens.nextIs(TokenType.ETC) ? new TypePlaceholder(tokens.read(TokenType.ETC)) :
         tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read(TokenType.NAME)) :
@@ -957,6 +958,9 @@ export function parseType(tokens: Tokens): Type | Unparsable {
         tokens.nextIs(TokenType.STREAM) ? parseStreamType(tokens) :
         tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TYPE, [])
     );
+
+    if(!isExpression && !(left instanceof Unparsable) && tokens.nextIs(TokenType.CONVERT))
+        left = parseConversionType(left, tokens);
 
     while(!(left instanceof Unparsable) && tokens.nextIs(TokenType.UNION)) {
         const or = tokens.read(TokenType.UNION);
@@ -1070,6 +1074,16 @@ function parseFunctionType(tokens: Tokens): FunctionType | Unparsable {
     const output = parseType(tokens);
 
     return new FunctionType(inputs, output, fun, open, close);
+
+}
+
+/** CONVERSION_TYPE :: TYPE → TYPE */
+function parseConversionType(left: Type, tokens: Tokens): ConversionType | Unparsable {
+
+    const convert = tokens.read(TokenType.CONVERT);
+    const to = parseType(tokens);
+
+    return new ConversionType(left, convert, to);
 
 }
 

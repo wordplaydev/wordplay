@@ -77,7 +77,7 @@ export default class ConversionDefinition extends Expression {
     }
 
     computeType(): Type {
-        return this.output instanceof Unparsable ? new UnknownType(this) : new ConversionType(this.output);
+        return this.input instanceof Unparsable ? new UnknownType(this) : new ConversionType(this.input, undefined, this.output);
     }
 
     compile(): Step[] {
