@@ -10,7 +10,7 @@ export default class AnyType extends Type {
     }
 
     computeChildren(): Node[] { return []; }
-    isCompatible() { return true; }
+    accepts() { return true; }
     getNativeTypeName(): string { return ANY_NATIVE_TYPE_NAME; }
     computeConflicts() {}
 

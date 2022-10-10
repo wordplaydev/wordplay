@@ -20,7 +20,7 @@ export default class TypePlaceholder extends Type {
 
     computeConflicts(): Conflict[] { return [ new Placeholder(this) ]; }
 
-    isCompatible(): boolean { return false; }
+    accepts(): boolean { return false; }
 
     getNativeTypeName(): string { return "type_placeholder"; }
 

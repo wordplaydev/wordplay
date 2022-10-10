@@ -73,9 +73,9 @@ export default class FunctionDefinition extends Expression {
         if(!this.sharesName(fun)) return false;
         for(let i = 0; i < this.inputs.length; i++) {
             if(i >= fun.inputs.length) return false;
-            if(!this.inputs[i].getTypeUnlessCycle(context).isCompatible(fun.inputs[i].getTypeUnlessCycle(context), context)) return false;
+            if(!this.inputs[i].getTypeUnlessCycle(context).accepts(fun.inputs[i].getTypeUnlessCycle(context), context)) return false;
         }
-        return this.getTypeUnlessCycle(context).isCompatible(fun.getTypeUnlessCycle(context), context);
+        return this.getTypeUnlessCycle(context).accepts(fun.getTypeUnlessCycle(context), context);
 
     }
 

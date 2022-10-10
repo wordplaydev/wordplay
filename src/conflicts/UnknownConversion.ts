@@ -5,6 +5,7 @@ import Conflict from "./Conflict";
 export class UnknownConversion extends Conflict {
     readonly convert: Convert;
     readonly expectedType: Type;
+    
     constructor(expr: Convert, expectedType: Type) {
         super(false);
         this.convert = expr;

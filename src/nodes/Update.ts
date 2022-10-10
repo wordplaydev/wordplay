@@ -71,7 +71,7 @@ export default class Update extends Expression {
                 else if(columnType.bind instanceof Bind) {
                     const bindType = columnType.bind.getTypeUnlessCycle(context);
                     const cellType = cell.value.getTypeUnlessCycle(context);
-                    if(!bindType.isCompatible(cellType, context))
+                    if(!bindType.accepts(cellType, context))
                         conflicts.push(new IncompatibleCellType(tableType, cell, bindType, cellType));
                 }
             }

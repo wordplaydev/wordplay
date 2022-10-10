@@ -1,6 +1,5 @@
 import { TEXT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { TEXT_SYMBOL } from "../parser/Tokenizer";
-import AnyType from "./AnyType";
 import Language from "./Language";
 import type Context from "./Context";
 import type Node from "./Node";
@@ -29,11 +28,10 @@ export default class TextType extends Type {
 
     computeConflicts() {}
 
-    isCompatible(type: Type): boolean { 
-        return type instanceof AnyType ||  
-                (type instanceof TextType && 
+    accepts(type: Type): boolean { 
+        return  (type instanceof TextType && 
                 ((this.format === undefined && type.format === undefined) || 
-                 (this.format !== undefined && type.format !== undefined && this.format.isCompatible(type.format)))); 
+                 (this.format !== undefined && type.format !== undefined && this.format.equals(type.format)))); 
     }
 
     getNativeTypeName(): string { return TEXT_NATIVE_TYPE_NAME; }

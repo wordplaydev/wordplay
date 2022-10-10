@@ -41,7 +41,7 @@ export default class Is extends Expression {
         // Is the type of the expression compatible with the specified type? If not, warn.
         if(this.type instanceof Type) {
             const type = this.expression.getTypeUnlessCycle(context);
-            if(!type.isCompatible(this.type, context))
+            if(!this.type.accepts(type, context))
                 return [ new IncompatibleType(this, type)];
         }
 
@@ -65,7 +65,7 @@ export default class Is extends Expression {
 
         return this.type instanceof Unparsable ? 
             new SemanticException(evaluator, this.type) : 
-            new Bool(left.getType().isCompatible(this.type, evaluator.getContext()));
+            new Bool(left.getType().accepts(this.type, evaluator.getContext()));
 
     }
 

@@ -199,8 +199,6 @@ export default class StructureDefinition extends Expression {
 
     computeType(): Type { return new StructureType(this); }
 
-    isCompatible(type: Type): boolean { return type instanceof StructureType && type.definition === this; }
-
     hasName(name: string) { return this.aliases.find(a => a.getName() === name) !== undefined; }
 
     compile():Step[] {

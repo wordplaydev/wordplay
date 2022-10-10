@@ -14,7 +14,7 @@ export default class VariableType extends Type {
     computeChildren() { return []; }
     computeConflicts() {}
 
-    isCompatible(type: Type) { return type instanceof VariableType && type.definition == this.definition; }
+    accepts(type: Type) { return type instanceof VariableType && type.definition == this.definition; }
 
     getNativeTypeName(): string { return "variable"; }
 

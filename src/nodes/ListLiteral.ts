@@ -12,7 +12,6 @@ import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type Context from "./Context";
 import { getPossibleUnionType, TypeSet } from "./UnionType";
-import AnyType from "./AnyType";
 import type Bind from "./Bind";
 
 export default class ListLiteral extends Expression {
@@ -36,7 +35,6 @@ export default class ListLiteral extends Expression {
     computeType(context: Context): Type {
         const expressions = this.values.filter(e => e instanceof Expression) as Expression[];
         let itemType = getPossibleUnionType(context, expressions.map(v => v.getTypeUnlessCycle(context)));
-        if(itemType === undefined) itemType = new AnyType();
         return new ListType(itemType);
     }
 

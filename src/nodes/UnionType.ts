@@ -27,8 +27,8 @@ export default class UnionType extends Type {
         return [ this.left, this.or, this.right ];
     }
 
-    isCompatible(type: Type, context: Context): boolean {
-        return this.left.isCompatible(type, context) || (!(this.right instanceof Type) || this.right.isCompatible(type, context));
+    accepts(type: Type, context: Context): boolean {
+        return this.left.accepts(type, context) || (!(this.right instanceof Type) || this.right.accepts(type, context));
     }
 
     getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {
@@ -75,7 +75,7 @@ export function getPossibleUnionType(context: Context, types: Type[]): Type | un
 
     const uniqueTypes: Type[] = [];
     types.forEach(type => {
-        if(uniqueTypes.length === 0 || uniqueTypes.every(t => !t.isCompatible(type, context)))
+        if(uniqueTypes.length === 0 || uniqueTypes.every(t => !t.accepts(type, context)))
             uniqueTypes.push(type);
     })
 
@@ -106,7 +106,7 @@ export class TypeSet {
 
         // Remove any duplicates.
         for(const type of types)
-            if(Array.from(this.set).find(t => t.isCompatible(type, context)) === undefined)
+            if(Array.from(this.set).find(t => t.accepts(type, context)) === undefined)
                 this.set.add(type);
 
     }
@@ -114,7 +114,7 @@ export class TypeSet {
     list() { return Array.from(this.set); }
 
     contains(type: Type, context: Context): boolean {
-        return this.list().find(t => t.isCompatible(type, context)) !== undefined;
+        return this.list().find(t => t.accepts(type, context)) !== undefined;
     }
 
     union(set: TypeSet, context: Context) {
@@ -123,13 +123,13 @@ export class TypeSet {
 
     difference(set: TypeSet, context: Context) {
         return new TypeSet(
-            this.list().filter(thisType => set.list().find(thatType => thatType.isCompatible(thisType, context)) === undefined),
+            this.list().filter(thisType => set.list().find(thatType => thatType.accepts(thisType, context)) === undefined),
             context
         );
     }
 
     intersection(set: TypeSet, context: Context) {
-        return new TypeSet(this.list().filter(thisType => set.list().find(thatType => thatType.isCompatible(thisType, context)) !== undefined), context);
+        return new TypeSet(this.list().filter(thisType => set.list().find(thatType => thatType.accepts(thisType, context)) !== undefined), context);
     }
 
     /**

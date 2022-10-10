@@ -3,7 +3,6 @@ import Type from "./Type";
 import type Context from "./Context";
 import type Node from "./Node";
 import TokenType from "./TokenType";
-import AnyType from "./AnyType";
 import { BOOLEAN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 
@@ -20,7 +19,7 @@ export default class BooleanType extends Type {
     computeChildren() { return [ this.type ]; }
     computeConflicts() {}
 
-    isCompatible(type: Type) { return type instanceof AnyType || type instanceof BooleanType; }
+    accepts(type: Type) { return type instanceof BooleanType; }
 
     getNativeTypeName(): string { return BOOLEAN_NATIVE_TYPE_NAME; }
 

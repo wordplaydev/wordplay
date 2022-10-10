@@ -1,6 +1,5 @@
 import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { MEASUREMENT_SYMBOL } from "../parser/Tokenizer";
-import AnyType from "./AnyType";
 import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
@@ -10,7 +9,6 @@ import Unit from "./Unit";
 import Unparsable from "./Unparsable";
 import type BinaryOperation from "./BinaryOperation";
 import Expression from "./Expression";
-import UnionType from "./UnionType";
 
 type UnitDeriver = (left: Unit, right: Unit, constant: number) => Unit;
 
@@ -32,12 +30,7 @@ export default class MeasurementType extends Type {
         return children;   
     }
 
-    isCompatible(type: Type, context: Context, op?: BinaryOperation): boolean {
-
-        if(type instanceof AnyType) return true;
-
-        // Union type? Can this be applied ot any of the union's types?
-        if(type instanceof UnionType) return type.isCompatible(this, context);
+    accepts(type: Type, context: Context, op?: BinaryOperation): boolean {
         
         // Not a measurement? Not compatible.
         if(!(type instanceof MeasurementType)) return false;
@@ -47,7 +40,7 @@ export default class MeasurementType extends Type {
         const thatUnit = type.concreteUnit(context, op);
 
         // Return true if the units are compatible.
-        return thisUnit.isCompatible(thatUnit);
+        return thisUnit.accepts(thatUnit);
     }
 
     concreteUnit(context: Context, op?: BinaryOperation): Unit {

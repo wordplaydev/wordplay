@@ -10,7 +10,7 @@ export default class NeverType extends Type {
     }
 
     computeChildren(): Node[] { return []; }
-    isCompatible() { return true; }
+    accepts() { return false; }
     getNativeTypeName(): string { return NEVER_NATIVE_TYPE_NAME; }
     computeConflicts() {}
 

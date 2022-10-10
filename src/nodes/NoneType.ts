@@ -1,7 +1,6 @@
 import { NONE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { NONE_SYMBOL } from "../parser/Tokenizer";
 import Alias from "./Alias";
-import AnyType from "./AnyType";
 import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
@@ -26,14 +25,11 @@ export default class NoneType extends Type {
         return this.none === undefined ? [ ...this.aliases ] : [ this.none, ...this.aliases ];
     }
 
-    isCompatible(type: Type): boolean { 
-        if(type instanceof AnyType) return true;
-        // No if it's not a none type.
-        if(!(type instanceof NoneType)) return false;
-        // Yes if there are no aliases for either.
-        if(this.aliases.length === 0 && type.aliases.length === 0) return true;
-        // Otherwise, yes if they have an intersecting alias.
-        return this.aliases.find(a => type.aliases.find(b => a.isCompatible(b)) !== undefined) !== undefined;
+    accepts(type: Type): boolean { 
+        return type instanceof NoneType && (
+            (this.aliases.length === 0 && type.aliases.length === 0) || 
+            this.aliases.find(a => type.aliases.find(b => a.equals(b)) !== undefined) !== undefined
+        );
     }
 
     getNativeTypeName(): string { return NONE_NATIVE_TYPE_NAME; }

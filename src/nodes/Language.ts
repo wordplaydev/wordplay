@@ -27,7 +27,7 @@ export default class Language extends Node {
 
     getLanguage() { return this.lang instanceof Token ? this.lang.text.toString() : undefined; }
 
-    isCompatible(lang: Language) {
+    equals(lang: Language) {
         return this.getLanguage() === lang.getLanguage();
     }
 

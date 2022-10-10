@@ -9,7 +9,10 @@ export default abstract class Type extends Node {
         super();
     }
 
-    abstract isCompatible(type: Type, context: Context): boolean;
+    /**
+     * True if the given type can be bound to this type, in the given program context.
+     */
+    abstract accepts(type: Type, context: Context): boolean;
     abstract getNativeTypeName(): string;
 
     getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {

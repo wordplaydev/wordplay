@@ -30,15 +30,16 @@ export default class SetType extends Type {
     }
     computeConflicts() {}
 
-    isCompatible(type: Type, context: Context): boolean { 
+    accepts(type: Type, context: Context): boolean { 
         // If they have one, then they must be compable, and if there is a value type, they must be compatible.
         return  type instanceof SetType &&
                 (
-                    type.key === undefined ||
+                    // If the key type isn't specified, any will do.
+                    this.key === undefined ||
                     (
                     this.key instanceof Type &&
                     type.key instanceof Type &&
-                    this.key.isCompatible(type.key, context)
+                    this.key.accepts(type.key, context)
                     )
                 );
     }

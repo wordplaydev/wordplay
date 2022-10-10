@@ -31,7 +31,7 @@ export default class StructureType extends Type {
     getBind(name: string) { return this.definition.getBind(name); }
 
     /** Compatible if it's the same structure definition, or the given type is a refinement of the given structure.*/
-    isCompatible(type: Type, context: Context): boolean {
+    accepts(type: Type, context: Context): boolean {
 
         // If the given type is a name type, is does it refer to this type's structure definition?
         if(type instanceof NameType)
@@ -39,12 +39,12 @@ export default class StructureType extends Type {
 
         if(!(type instanceof StructureType)) return false;
         if(this.definition === type.definition) return true;
-        // Are any of this definition's interfaces compatible with the given type?
-        return this.definition.interfaces.find(int => {
-            let type = int.type;
-            if(type instanceof Unparsable) return false;
-            if(type instanceof NameType) type = type.getType(context);
-            return type.isCompatible(type, context);
+        // Are any of the given type's interfaces compatible with this?
+        return type.definition.interfaces.find(int => {
+            let interfaceType = int.type;
+            if(interfaceType instanceof Unparsable) return false;
+            if(interfaceType instanceof NameType) interfaceType = interfaceType.getType(context);
+            return this.accepts(interfaceType, context);
         }) !== undefined;
     }
 

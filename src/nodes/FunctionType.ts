@@ -4,7 +4,6 @@ import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
 import type Context from "./Context";
-import AnyType from "./AnyType";
 import { FUNCTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, FUNCTION_SYMBOL } from "../parser/Tokenizer";
 import Bind from "./Bind";
@@ -35,19 +34,18 @@ export default class FunctionType extends Type {
         return children;
     }
 
-    isCompatible(type: Type, context: Context): boolean {
-        if(type instanceof AnyType) return true;
+    accepts(type: Type, context: Context): boolean {
         if(!(type instanceof FunctionType)) return false;
         if(!(this.output instanceof Type)) return false;
         if(!(type.output instanceof Type)) return false;
-        if(!this.output.isCompatible(type.output, context)) return false;
+        if(!this.output.accepts(type.output, context)) return false;
         if(this.inputs.length != type.inputs.length) return false;
         for(let i = 0; i < this.inputs.length; i++) {
             const thisBind = this.inputs[i];
             const thatBind = type.inputs[i];
             if(thisBind instanceof Unparsable) return false;
             if(thatBind instanceof Unparsable) return false;
-            if(thisBind.type instanceof Type && thatBind.type instanceof Type && !thisBind.type.isCompatible(thatBind.type, context)) return false;
+            if(thisBind.type instanceof Type && thatBind.type instanceof Type && !thisBind.type.accepts(thatBind.type, context)) return false;
             if(thisBind.isVariableLength() !== thatBind.isVariableLength()) return false;
             if(thisBind.hasDefault() !== thatBind.hasDefault()) return false;
         }

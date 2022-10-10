@@ -1,5 +1,4 @@
 import { STREAM_SYMBOL } from "../parser/Tokenizer";
-import AnyType from "./AnyType";
 import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
@@ -26,12 +25,11 @@ export default class StreamType extends Type {
     }
     computeConflicts() {}
 
-    isCompatible(type: Type, context: Context): boolean {
-        if(type instanceof AnyType) return true;
+    accepts(type: Type, context: Context): boolean {
         return type instanceof StreamType && 
             this.type instanceof Type && 
             type.type instanceof Type && 
-            this.type.isCompatible(type.type, context);
+            this.type.accepts(type.type, context);
     }
 
     getNativeTypeName(): string { return STREAM_NATIVE_TYPE_NAME; }

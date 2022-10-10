@@ -119,7 +119,7 @@ export default class Evaluate extends Expression {
 
             // Figure out what type this expected input is. Resolve any type variables to concrete values.
             const expectedType = expectedInput.getType(context);
-            const concreteInputType = this.resolveTypeNames(expectedType, context);
+            const concreteExpectedType = this.resolveTypeNames(expectedType, context);
 
             if(expectedInput.isRequired()) {
                 const given = givenInputs.shift();
@@ -136,17 +136,17 @@ export default class Evaluate extends Expression {
                     if(!expectedInput.sharesName(given))
                         return [ new UnexpectedInput(functionType, this, expectedInput, given) ];
                     // The types have to match
-                    if(concreteInputType !== undefined && given.value instanceof Expression) {
+                    if(concreteExpectedType !== undefined && given.value instanceof Expression) {
                         const givenType = given.value.getTypeUnlessCycle(context);
-                        if(!givenType.isCompatible(concreteInputType, context))
-                            conflicts.push(new IncompatibleInput(functionType, this, given.value, givenType, concreteInputType));
+                        if(!concreteExpectedType.accepts(givenType, context))
+                            conflicts.push(new IncompatibleInput(functionType, this, given.value, givenType, concreteExpectedType));
                     }
                 }
                 // If the given value input isn't a bind, check the type of the next given input.
                 else {
                     const givenType = given.getType(context);
-                    if(concreteInputType !== undefined && !givenType.isCompatible(concreteInputType, context))
-                        conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType));
+                    if(concreteExpectedType !== undefined && !concreteExpectedType.accepts(givenType, context))
+                        conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteExpectedType));
                 }
 
                 // Remember that we matched this bind.
@@ -161,10 +161,10 @@ export default class Evaluate extends Expression {
                         const given = givenInputs.shift();
                         if(given !== undefined && given instanceof Expression) {
                             const givenType = given.getTypeUnlessCycle(context);
-                            if(!(concreteInputType instanceof ListType))
-                                throw Error(`Expected list type on variable length input, but received ${concreteInputType.constructor.name}`);
-                            else if(concreteInputType.type instanceof Type && !givenType.isCompatible(concreteInputType.type, context))
-                                conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType.type));
+                            if(!(concreteExpectedType instanceof ListType))
+                                throw Error(`Expected list type on variable length input, but received ${concreteExpectedType.constructor.name}`);
+                            else if(concreteExpectedType.type instanceof Type && !concreteExpectedType.type.accepts(givenType, context))
+                                conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteExpectedType.type));
                         }
                     }
                 }
@@ -176,8 +176,8 @@ export default class Evaluate extends Expression {
                         // If the types don't match, there's a conflict.
                         if(matchingBind.value !== undefined && matchingBind.value instanceof Expression) {
                             const givenType = matchingBind.value.getTypeUnlessCycle(context);
-                            if(!givenType.isCompatible(concreteInputType, context))
-                                conflicts.push(new IncompatibleInput(functionType, this, matchingBind.value, givenType, concreteInputType));
+                            if(!concreteExpectedType.accepts(givenType, context))
+                                conflicts.push(new IncompatibleInput(functionType, this, matchingBind.value, givenType, concreteExpectedType));
                         }
                         // Remember that we matched on this and remove it from the given inputs list.
                         givenInputs.splice(givenInputs.indexOf(matchingBind), 1);
@@ -188,8 +188,8 @@ export default class Evaluate extends Expression {
                         // If the given input is unnamed, consume it as the expected input.
                         if(given instanceof Expression) {
                             const givenType = given.getTypeUnlessCycle(context);
-                            if(!givenType.isCompatible(concreteInputType, context))
-                                conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteInputType));
+                            if(!concreteExpectedType.accepts(givenType, context))
+                                conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteExpectedType));
                             givenInputs.shift();
                         }
                     }

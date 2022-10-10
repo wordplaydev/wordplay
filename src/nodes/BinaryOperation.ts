@@ -91,7 +91,7 @@ export default class BinaryOperation extends Expression {
                     const firstInput = fun.inputs[0];
                     const expectedType = firstInput.getType(context);
                     // Pass this binary operation to the measurement type so it can reason about units correctly.
-                    if(this.right instanceof Expression && rightType !== undefined && !(rightType instanceof MeasurementType ? rightType.isCompatible(expectedType, context, this) : rightType.isCompatible(expectedType, context)))
+                    if(this.right instanceof Expression && rightType !== undefined && !(expectedType instanceof MeasurementType ? expectedType.accepts(rightType, context, this) : expectedType.accepts(rightType, context)))
                         conflicts.push(new IncompatibleInput(funType, this, this.right, rightType, expectedType));
                 }
             }

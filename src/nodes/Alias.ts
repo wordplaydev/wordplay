@@ -38,10 +38,14 @@ export default class Alias extends Node {
     getName(): string | undefined { return this.name instanceof Token ? this.name.text.toString() : this.name; }
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
 
-    isCompatible(alias: Alias) { 
+    equals(alias: Alias) { 
+
+        const thisLang = this.lang;
+        const thatLang = alias.lang;
+
         return this.getName() === alias.getName() && (
-            (this.getLanguage() === undefined && alias.getLanguage() === undefined) ||
-            (this.getLanguage() !== undefined && alias.getLanguage() !== undefined && this.getLanguage() === alias.getLanguage())
+            (thisLang === undefined && thatLang === undefined) ||
+            (thisLang !== undefined && thatLang !== undefined && thisLang.equals(thatLang))
         );
     }
 
@@ -51,10 +55,6 @@ export default class Alias extends Node {
             this.lang?.cloneOrReplace([ Language, undefined], original, replacement),
             this.semicolon?.cloneOrReplace([ Token, undefined], original, replacement)
         ) as this; 
-    }
-
-    equals(alias: Alias) {
-        return this.name?.getText() === alias.name?.getText();
     }
 
 }

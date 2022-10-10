@@ -161,7 +161,7 @@ export function analyzeRow(tableType: TableType, row: Row, context: Context): Co
                     matchedColumns.push(column);
                     const expected = column.getValueType(context);
                     const given = cell.getType(context);
-                    if(!given.isCompatible(expected, context))
+                    if(!expected.accepts(given, context))
                         conflicts.push(new IncompatibleCellType(tableType, cell, expected, given));
                 }
             }
@@ -181,7 +181,7 @@ export function analyzeRow(tableType: TableType, row: Row, context: Context): Co
             else {
                 const expected = column.getValueType(context);
                 const given = cell.getType(context);
-                if(!given.isCompatible(expected, context))
+                if(!expected.accepts(given, context))
                     conflicts.push(new IncompatibleCellType(tableType, cell, expected, given));
             }
         }

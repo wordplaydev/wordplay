@@ -60,7 +60,7 @@ export default class Conditional extends Expression {
             else {
                 const yesType = this.yes.getTypeUnlessCycle(context);
                 const noType = this.no.getTypeUnlessCycle(context);
-                if(yesType.isCompatible(noType, context))
+                if(yesType.accepts(noType, context))
                     return yesType;
                 else 
                 return new UnionType(yesType, noType);

@@ -36,22 +36,24 @@ export default class MapType extends Type {
     }
     computeConflicts() {}
 
-    isCompatible(type: Type, context: Context): boolean { 
+    accepts(type: Type, context: Context): boolean { 
         return  type instanceof MapType &&
                 // If they have one, then they must be compable, and if there is a value type, they must be compatible.
                 (
-                    (type.key === undefined ||
+                    // If the key type isn't specified, any will do.
+                    (this.key === undefined ||
                         (
                             this.key instanceof Type &&
                             type.key instanceof Type &&
-                            this.key.isCompatible(type.key, context)
+                            this.key.accepts(type.key, context)
                          )
                     ) &&
-                    (type.value === undefined ||
+                    // If the value type isn't specified, any will do.
+                    (this.value === undefined ||
                         (
                             this.value instanceof Type &&
                             type.value instanceof Type &&
-                            this.value.isCompatible(type.value, context)
+                            this.value.accepts(type.value, context)
                         )
                     )
                 )

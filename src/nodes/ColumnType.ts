@@ -5,7 +5,6 @@ import Bind from "../nodes/Bind";
 import type Node from "../nodes/Node";
 import Type from "./Type";
 import type Context from "./Context";
-import AnyType from "./AnyType";
 import { COLUMN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { TABLE_OPEN_SYMBOL } from "../parser/Tokenizer";
 
@@ -25,12 +24,11 @@ export default class ColumnType extends Type {
     computeChildren() { return [ this.bar, this.bind ]; }
     computeConflicts() {}
 
-    isCompatible(type: Type, context: Context): boolean {
-        if(type instanceof AnyType) return true;
+    accepts(type: Type, context: Context): boolean {
         return type instanceof ColumnType && 
             type.bind instanceof Bind && 
             this.bind instanceof Bind && 
-            this.bind.getTypeUnlessCycle(context).isCompatible(type.bind.getTypeUnlessCycle(context), context);
+            this.bind.getTypeUnlessCycle(context).accepts(type.bind.getTypeUnlessCycle(context), context);
     }
 
     getValueType(context: Context) { return this.bind.getType(context); }

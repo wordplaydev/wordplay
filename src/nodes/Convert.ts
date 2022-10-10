@@ -65,7 +65,7 @@ export default class Convert extends Expression {
         // If we know the expression's type, there must be a corresponding conversion on that type.
         const exprType = this.expression.getTypeUnlessCycle(context);
         const conversionPath = this.getConversionSequence(context);
-        if(!(exprType instanceof UnknownType) && this.type instanceof Type && !exprType.isCompatible(this.type, context) && (conversionPath === undefined || conversionPath.length === 0))
+        if(!(exprType instanceof UnknownType) && this.type instanceof Type && !this.type.accepts(exprType, context) && (conversionPath === undefined || conversionPath.length === 0))
             return [ new UnknownConversion(this, this.type) ];
         
         return [];
@@ -92,7 +92,7 @@ export default class Convert extends Expression {
         // If the type of value is already the type of the requested conversion, then just leave the value on the stack and do nothing.
         // Otherwise, identify the series of conversions that will achieve the right output type.
         const conversions = 
-            this.expression.getType(context).isCompatible(this.type, context) ? [] :
+            this.type.accepts(this.expression.getType(context), context) ? [] :
             this.getConversionSequence(context);
 
         // Evaluate the expression to convert, then push the conversion function on the stack.
@@ -100,7 +100,7 @@ export default class Convert extends Expression {
             new Start(this),
             ...this.expression.compile(context),
             ...(
-                conversions === undefined || (conversions.length === 0 && !this.expression.getType(context).isCompatible(this.type, context)) ?
+                conversions === undefined || (conversions.length === 0 && !this.type.accepts(this.expression.getType(context), context)) ?
                     [ new Halt(evaluator => new FunctionException(evaluator, this, evaluator.peekValue(), this.type.toWordplay()), this) ] :
                     conversions.map(conversion => new Action(
                         this, 
@@ -176,7 +176,7 @@ function getConversionPath(input: Type, output: Type, conversions: ConversionDef
     while (queue.length > 0) {
         const currentInput = queue.shift() as Type;
         // Is the type a match for the desired output? Return the path!
-        if(currentInput.isCompatible(output, context)) {
+        if(output.accepts(currentInput, context)) {
 
             const path: ConversionDefinition[] = [];
             // Start from the output
@@ -185,7 +185,7 @@ function getConversionPath(input: Type, output: Type, conversions: ConversionDef
             // Find the path, tracing backwards from output to input.
             while(true) {
                 // Find the type that goes to this type
-                const fromKey = Array.from(edges.keys()).find(t => t.isCompatible(to, context));
+                const fromKey = Array.from(edges.keys()).find(t => t.accepts(to, context));
                 const from = fromKey === undefined ? undefined : edges.get(fromKey);
                 // There should always be one; bail if there's not.
                 if(from === undefined) return [];
@@ -196,7 +196,7 @@ function getConversionPath(input: Type, output: Type, conversions: ConversionDef
                 // Add to the path.
                 path.unshift(conversion);
                 // If from is compatible with the input, we're done!
-                if(from.isCompatible(input, context)) return path;
+                if(from.accepts(input, context)) return path;
                 // Otherwise, set the "to" to "from" and find the next transition.
                 to = from;
             }
@@ -205,7 +205,7 @@ function getConversionPath(input: Type, output: Type, conversions: ConversionDef
         // Find all of the output types reachable through conversions
         for (let out of conversions.filter(c => c.convertsType(currentInput, context)).map(c => c.output).filter(c => c instanceof Type) as Type[]) {
             // If we haven't already visited this one, visit it.
-            if(Array.from(visited).find(type => out.isCompatible(type, context)) === undefined) {
+            if(Array.from(visited).find(type => out.accepts(type, context)) === undefined) {
                 // We remember the edges in reverse so we can trace backwards from it.
                 edges.set(out, currentInput);
                 queue.push(out);

@@ -29,12 +29,12 @@ export default class TableType extends Type {
         return this.columns.find(c => c.bind instanceof Bind && c.bind.hasName(name));
     }
 
-    isCompatible(type: Type, context: Context) {
+    accepts(type: Type, context: Context) {
 
         if(!(type instanceof TableType)) return false;
         if(this.columns.length !== type.columns.length) return false;    
         for(let i = 0; i < this.columns.length; i++)
-            if(!this.columns[i].isCompatible(type.columns[i], context))
+            if(!this.columns[i].accepts(type.columns[i], context))
                 return false;
         return true;
 

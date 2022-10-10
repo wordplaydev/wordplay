@@ -31,11 +31,14 @@ export default class ListType extends Type {
         return children;
     }
 
-    isCompatible(type: Type, context: Context): boolean {
+    accepts(type: Type, context: Context): boolean {
         return type instanceof ListType && 
             (
-                type.type === undefined || 
-                (this.type instanceof Type && type.type instanceof Type && this.type.isCompatible(type.type, context))
+                // If this list type has no type specified, any will do.
+                this.type === undefined || 
+                // If the given type has no type specified, any will do
+                type.type === undefined ||
+                (this.type instanceof Type && type.type instanceof Type && this.type.accepts(type.type, context))
             );
     }
 

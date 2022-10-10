@@ -40,9 +40,9 @@ export default class NameType extends Type {
     
     }
 
-    isCompatible(type: Type, context: Context): boolean {    
+    accepts(type: Type, context: Context): boolean {    
         const thisType = this.getType(context);
-        return thisType === undefined ? false : thisType.isCompatible(type, context);
+        return thisType === undefined ? false : thisType.accepts(type, context);
     }
 
     resolve(context: Context): Definition {
