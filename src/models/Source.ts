@@ -137,8 +137,8 @@ export default class Source {
             return this.verse(value as Structure);
         else if(contentType instanceof StructureType && contentType.definition === Phrase)
             return this.verse(this.group( value as Structure ));
-        else if(contentType instanceof TextType)
-            return this.verse(this.group(this.phrase(value as Text, 20)));
+        else if(value instanceof Text || typeof value === "string")
+            return this.verse(this.group(this.phrase(value, 20)));
         else
             return this.verse(this.group(this.phrase(value.toString(), 20)));
 
