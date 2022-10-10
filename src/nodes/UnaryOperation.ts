@@ -94,7 +94,7 @@ export default class UnaryOperation extends Expression {
         // Get the value of the operand.
         const value = evaluator.popValue(undefined);
 
-        const fun = value.getType().getDefinition(this.getOperator(), evaluator.getContext(), this);
+        const fun = value.getType(evaluator.getContext()).getDefinition(this.getOperator(), evaluator.getContext(), this);
         if(!(fun instanceof FunctionDefinition) || !(fun.expression instanceof Expression))
             return new FunctionException(evaluator, this, value, this.getOperator());
 

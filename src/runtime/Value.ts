@@ -1,3 +1,4 @@
+import type Context from "../nodes/Context";
 import type Type from "../nodes/Type";
 import type Evaluator from "./Evaluator";
 
@@ -9,7 +10,7 @@ export default abstract class Value {
     abstract toString(): string;
 
     /** Returns the Structure defining this value's interface. */
-    abstract getType(): Type;
+    abstract getType(context: Context): Type;
    
     abstract getNativeTypeName(): string;
 

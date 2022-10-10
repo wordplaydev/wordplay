@@ -1,3 +1,4 @@
+import type Context from "../nodes/Context";
 import type Reaction from "../nodes/Reaction";
 import type Evaluator from "./Evaluator";
 import Stream from "./Stream";
@@ -21,6 +22,6 @@ export default class ReactionStream extends Stream {
 
     start(): void {}
     stop() {}
-    getType() { return this.values[0].getType(); }
+    getType(context: Context) { return this.values[0].getType(context); }
 
 }

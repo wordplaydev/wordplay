@@ -158,7 +158,7 @@ export default class BinaryOperation extends Expression {
         const right = evaluator.popValue(undefined);
         const left = evaluator.popValue(undefined);
 
-        const fun = left.getType().getDefinition(this.getOperator(), evaluator.getContext(), this);
+        const fun = left.getType(evaluator.getContext()).getDefinition(this.getOperator(), evaluator.getContext(), this);
         if(!(fun instanceof FunctionDefinition) || !(fun.expression instanceof Expression))
             return new FunctionException(evaluator, this, left, this.getOperator());
 

@@ -130,7 +130,7 @@ export default class Source {
         if(value === undefined)
             return this.verse(this.group(this.phrase("No value", 20)))
 
-        const contentType = value.getType();
+        const contentType = value.getType(this.evaluator.getContext());
         if(contentType instanceof StructureType && contentType.definition === Verse)
             return value as Structure;
         else if(contentType instanceof StructureType && contentType.definition === Group)

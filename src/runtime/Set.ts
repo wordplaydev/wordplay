@@ -1,5 +1,7 @@
 import { SET_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import type Context from "../nodes/Context";
 import SetType from "../nodes/SetType";
+import { getPossibleUnionType } from "../nodes/UnionType";
 import Bool from "./Bool";
 import Measurement from "./Measurement";
 import Primitive from "./Primitive";
@@ -59,7 +61,8 @@ export default class Set extends Primitive {
         return set instanceof Set && set.values.length === this.values.length && this.values.every(val => set.has(val));
     }
 
-    getType() { return new SetType(); }
+    getType(context: Context) { return new SetType(undefined, undefined, getPossibleUnionType(context, this.values.map(v => v.getType(context)))); }
+
     getNativeTypeName(): string { return SET_NATIVE_TYPE_NAME; }
 
     toString() { return `{${Array.from(this.values).join(" ")}}`; }

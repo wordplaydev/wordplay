@@ -1,6 +1,8 @@
 import { MAP_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import Alias from "../nodes/Alias";
+import type Context from "../nodes/Context";
 import MapType from "../nodes/MapType";
+import { getPossibleUnionType } from "../nodes/UnionType";
 import Measurement from "./Measurement";
 import None from "./None";
 import Primitive from "./Primitive";
@@ -72,7 +74,14 @@ export default class Map extends Primitive {
         return this.values.map(kv => kv[1]);
     }
 
-    getType() { return new MapType(); }
+    getType(context: Context) { 
+        return new MapType(
+            undefined, undefined, 
+            getPossibleUnionType(context, this.values.map(v => v[0].getType(context))),
+            undefined,
+            getPossibleUnionType(context, this.values.map(v => v[1].getType(context))),
+        ); 
+    }
     
     getNativeTypeName(): string { return MAP_NATIVE_TYPE_NAME; }
 

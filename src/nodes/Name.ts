@@ -85,7 +85,7 @@ export default class Name extends Expression {
         if(definition === undefined || definition instanceof TypeVariable) return new UnknownType(this);
 
         // Get the type of the value, bind, or expression.
-        const type = definition instanceof Value ? definition.getType() : definition.getTypeUnlessCycle(context);
+        const type = definition instanceof Value ? definition.getType(context) : definition.getTypeUnlessCycle(context);
 
         // Is the type a union? Find the subset of types that are feasible, given any type checks in conditionals.
         if(definition instanceof Bind && type instanceof UnionType && this._unionTypes === undefined) {

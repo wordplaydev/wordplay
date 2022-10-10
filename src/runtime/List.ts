@@ -7,6 +7,8 @@ import None from "./None";
 import Primitive from "./Primitive";
 import type Value from "./Value";
 import { LIST_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import { getPossibleUnionType } from "../nodes/UnionType";
+import type Context from "../nodes/Context";
 
 export default class List extends Primitive {
 
@@ -67,7 +69,7 @@ export default class List extends Primitive {
 
     append(value: Value) { return new List([ ...this.values, value ]); }
 
-    getType() { return new ListType(); }
+    getType(context: Context) { return new ListType(getPossibleUnionType(context, this.values.map(v => v.getType(context))),); }
 
     getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }
 

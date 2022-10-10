@@ -135,7 +135,7 @@ export default class Evaluation {
     popValue(expected: Type | undefined): Value { 
         const value = this.#values.shift(); 
         if(value === undefined) return new ValueException(this.#evaluator);
-        else if(expected !== undefined && value.getType().constructor !== expected.constructor) return new TypeException(this.#evaluator, expected, value);
+        else if(expected !== undefined && value.getType(this.#evaluator.getContext()).constructor !== expected.constructor) return new TypeException(this.#evaluator, expected, value);
         else return value;
     }
 

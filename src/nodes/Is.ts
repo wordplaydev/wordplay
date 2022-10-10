@@ -61,11 +61,11 @@ export default class Is extends Expression {
 
     evaluate(evaluator: Evaluator): Value {
 
-        const left = evaluator.popValue(undefined);
+        const value = evaluator.popValue(undefined);
 
         return this.type instanceof Unparsable ? 
             new SemanticException(evaluator, this.type) : 
-            new Bool(left.getType().accepts(this.type, evaluator.getContext()));
+            new Bool(this.type.accepts(value.getType(evaluator.getContext()), evaluator.getContext()));
 
     }
 

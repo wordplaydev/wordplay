@@ -1,6 +1,6 @@
 import { CONVERSION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type ConversionDefinition from "../nodes/ConversionDefinition";
-import Context from "../nodes/Context";
+import type Context from "../nodes/Context";
 import type Evaluation from "./Evaluation";
 import Primitive from "./Primitive";
 import Value from "./Value";
@@ -19,10 +19,10 @@ export default class Conversion extends Primitive {
         this.context = context;
     }
 
-    getType() { 
+    getType(context: Context) { 
         return this.context instanceof Value ? 
-            this.context.getType() :
-            this.definition.getTypeUnlessCycle(new Context(this.context.getEvaluator().getSource(), this.context.getEvaluator().getProgram(), this.context.getEvaluator().getShares())); 
+            this.context.getType(context) :
+            this.definition.getTypeUnlessCycle(context); 
     }
 
     getNativeTypeName(): string { return CONVERSION_NATIVE_TYPE_NAME; }

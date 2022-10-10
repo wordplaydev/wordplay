@@ -1,4 +1,5 @@
 import { TEXT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import Language from "../nodes/Language";
 import TextType from "../nodes/TextType";
 import Measurement from "./Measurement";
 import Primitive from "./Primitive";
@@ -17,7 +18,7 @@ export default class Text extends Primitive {
         this.format = format;
     }
 
-    getType() { return new TextType(); }
+    getType() { return new TextType(undefined, new Language(this.format)); }
     
     getNativeTypeName(): string { return TEXT_NATIVE_TYPE_NAME; }
 

@@ -129,7 +129,7 @@ export function createNativeConversion(docs: Documentation[], inputTypeString: s
             outputTypeString,
             evaluation => {
                 const val = evaluation.getContext();
-                if(val instanceof Value && inputType.accepts(val.getType(), evaluation.getEvaluator().getContext())) return fun.call(undefined, val);
+                if(val instanceof Value && inputType.accepts(val.getType(evaluation.getEvaluator().getContext()), evaluation.getEvaluator().getContext())) return fun.call(undefined, val);
                 else return new TypeException(evaluation.getEvaluator(), inputType, val); 
             },
             {

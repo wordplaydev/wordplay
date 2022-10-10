@@ -1,4 +1,5 @@
 import { FUNCTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import type Context from "../nodes/Context";
 import type FunctionDefinition from "../nodes/FunctionDefinition";
 import type Evaluation from "./Evaluation";
 import Value from "./Value";
@@ -18,7 +19,7 @@ export default class FunctionValue extends Value {
         this.context = context;
     }
 
-    getType() { return this.context instanceof Value ? this.context.getType() : this.definition.getTypeUnlessCycle(this.context.getEvaluator().getContext()); }
+    getType(context: Context) { return this.context instanceof Value ? this.context.getType(context) : this.definition.getTypeUnlessCycle(context); }
     
     getNativeTypeName() { return FUNCTION_NATIVE_TYPE_NAME; }
 
