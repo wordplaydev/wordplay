@@ -121,6 +121,8 @@ import UnionType from "../nodes/UnionType";
 import TypePlaceholder from "../nodes/TypePlaceholder";
 import Is from "../nodes/Is";
 import This from "../nodes/This";
+import Dimension from "../nodes/Dimension";
+import DimensionView from "./DimensionView.svelte";
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Program, ProgramView);
@@ -165,6 +167,7 @@ nodeToView.set(Conditional, ConditionalView);
 nodeToView.set(MeasurementLiteral, MeasurementLiteralView);
 nodeToView.set(MeasurementType, MeasurementTypeView);
 nodeToView.set(Unit, UnitView);
+nodeToView.set(Dimension, DimensionView);
 
 nodeToView.set(BooleanLiteral, BooleanLiteralView);
 nodeToView.set(BooleanType, BooleanTypeView);

@@ -79,7 +79,7 @@ export default class Measurement extends Primitive {
             this.num = new Decimal(NaN);
         }
 
-        this.unit = unit === undefined ? new Unit([], []) : unit;
+        this.unit = unit === undefined ? new Unit() : unit;
     }
 
     isNotANumber(): Bool { 

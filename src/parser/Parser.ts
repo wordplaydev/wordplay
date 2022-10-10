@@ -1,4 +1,4 @@
-import { tokenize } from "./Tokenizer";
+import { EXPONENT_SYMBOL, tokenize } from "./Tokenizer";
 import Node from "../nodes/Node";
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
@@ -65,6 +65,7 @@ import SetType from "../nodes/SetType";
 import TypeInput from "../nodes/TypeInput";
 import This from "../nodes/This";
 import ConversionType from "../nodes/ConversionType";
+import Dimension from "../nodes/Dimension";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -540,33 +541,32 @@ function parseMeasurement(tokens: Tokens): MeasurementLiteral | Unparsable {
 
 }
 
-/** UNIT :: name (· NAME)* (/ name (· NAME)*)? */
+/** UNIT :: DIMENSION* (/ DIMENSION*)? */
 function parseUnit(tokens: Tokens): Unit | Unparsable {
     
-    const numeratorTokens = tokens.nextIs(TokenType.NAME) ? [ tokens.read(TokenType.NAME) ] : [];
-    // Keep reading · unit pairs until we run out or hit a /
-    while(tokens.nextIs(TokenType.UNARY_OP) && tokens.peekText() === "·") {
-        numeratorTokens.push(tokens.read(TokenType.UNARY_OP));
-        if(!tokens.nextIs(TokenType.NAME))
-            return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_UNIT_NAME, [ numeratorTokens ]);
-        numeratorTokens.push(tokens.read(TokenType.NAME));
-    }
-    const denominatorTokens = [];
-    // Is a ratio next? Read it then
-    if(tokens.nextIs(TokenType.LANGUAGE)) {
-        denominatorTokens.push(tokens.read(TokenType.LANGUAGE));
-        if(!tokens.nextIs(TokenType.NAME))
-            return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_UNIT_NAME, [ numeratorTokens, denominatorTokens ]);
-        denominatorTokens.push(tokens.read(TokenType.NAME));
-        while(tokens.nextIs(TokenType.UNARY_OP) && tokens.peekText() === "·") {
-            denominatorTokens.push(tokens.read(TokenType.UNARY_OP));
-            if(!tokens.nextIs(TokenType.NAME))
-                return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_UNIT_NAME, [ numeratorTokens, denominatorTokens ]);
-            denominatorTokens.push(tokens.read(TokenType.NAME));
-        }
-    }
+    // A unit is just a series of names, carets, numbers, and product symbols not separated by spaces.
+    const numerator: Dimension[] = [];
+    while(tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
+        numerator.push(parseDimension(tokens));
 
-    return new Unit(numeratorTokens, denominatorTokens);
+    const slash = tokens.nextIs(TokenType.LANGUAGE) ? tokens.read(TokenType.LANGUAGE) : undefined;
+
+    const denominator: Dimension[] = [];
+    while(tokens.nextIsOneOf(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
+        denominator.push(parseDimension(tokens));
+
+    return new Unit(undefined, numerator, slash, denominator);
+
+}
+
+/** DIMENSION :: NAME (^NUMBER)? */
+function parseDimension(tokens: Tokens): Dimension {
+
+    const name = tokens.read(TokenType.NAME);
+    const caret = tokens.nextIs(TokenType.UNARY_OP) && tokens.peekText() === EXPONENT_SYMBOL && tokens.nextLacksPrecedingSpace() ? tokens.read(TokenType.UNARY_OP) : undefined;
+    const exponent = tokens.nextIs(TokenType.NUMBER) && tokens.nextLacksPrecedingSpace() ? tokens.read(TokenType.NUMBER) : undefined;
+
+    return new Dimension(name, caret, exponent);
 
 }
 

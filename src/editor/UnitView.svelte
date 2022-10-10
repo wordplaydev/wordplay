@@ -6,4 +6,4 @@
 
 </script>
 
-<NodeSequenceView nodes={node.numeratorTokens}/><NodeSequenceView nodes={node.denominatorTokens}/>
+<NodeSequenceView nodes={node.numerator}/><NodeSequenceView nodes={node.denominator}/>

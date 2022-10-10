@@ -46,7 +46,7 @@ export default class MeasurementType extends Type {
     concreteUnit(context: Context, op?: BinaryOperation): Unit {
 
         if(this.unit instanceof Unit) return this.unit;
-        else if(op === undefined || this.unit instanceof Unparsable || !(op.left instanceof Expression) || !(op.right instanceof Expression)) return new Unit([], []);
+        else if(op === undefined || this.unit instanceof Unparsable || !(op.left instanceof Expression) || !(op.right instanceof Expression)) return new Unit();
 
         const leftType = op.left.getTypeUnlessCycle(context);
         const rightType = op.right.getTypeUnlessCycle(context);

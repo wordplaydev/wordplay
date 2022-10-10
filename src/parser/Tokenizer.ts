@@ -35,6 +35,8 @@ export const PLACEHOLDER_SYMBOL = "…";
 export const TEMPLATE_SYMBOL = "\\";
 export const THIS_SYMBOL = "*";
 export const BASE_SYMBOL = ";";
+export const PRODUCT_SYMBOL = "·";
+export const EXPONENT_SYMBOL = "^";
 
 const RESERVED_SYMBOLS = [
     TEMPLATE_SYMBOL,

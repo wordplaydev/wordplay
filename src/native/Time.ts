@@ -12,7 +12,7 @@ export default class Time extends Stream {
     startTime: number | undefined;
 
     constructor(evaluator: Evaluator) {
-        super(evaluator, new Measurement(0, new Unit(["ms"])));
+        super(evaluator, new Measurement(0, Unit.unit(["ms"])));
     }
 
     getNames() {
@@ -22,7 +22,7 @@ export default class Time extends Stream {
     }
 
     tick() {
-        this.add(new Measurement(Date.now() - (this.startTime as number), new Unit(["ms"])));
+        this.add(new Measurement(Date.now() - (this.startTime as number), Unit.unit(["ms"])));
     }
 
     start() {
@@ -43,6 +43,6 @@ export default class Time extends Stream {
 
     }
 
-    getType() { return new MeasurementType(undefined, new Unit(["ms"])); }
+    getType() { return new MeasurementType(undefined, Unit.unit(["ms"])); }
 
 }

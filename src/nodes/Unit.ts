@@ -1,143 +1,182 @@
-import Decimal from "decimal.js";
-import { LANGUAGE_SYMBOL } from "../parser/Tokenizer";
-import type Node from "./Node";
-import Token from "./Token";
-import TokenType from "./TokenType";
+import { EXPONENT_SYMBOL, LANGUAGE_SYMBOL, PRODUCT_SYMBOL } from "../parser/Tokenizer";
+import type Dimension from "./Dimension";
+import type Token from "./Token";
 import Type from "./Type";
+import type Node from "./Node";
+import Measurement from "../runtime/Measurement";
 
 export default class Unit extends Type {
 
-    readonly numeratorTokens: Token[];
-    readonly denominatorTokens: Token[];
-    readonly numerator: string[];
-    readonly denominator: string[];
+    /** In case this was parsed, we keep the original tokens around. */
+    readonly numerator: Dimension[];
+    readonly slash?: Token;
+    readonly denominator: Dimension[];
 
-    constructor(numerator: Token[] | string[] = [], denominator: Token[] | string[] = []) {
+    /** We store units internally as a map from unit names to a positive or negative non-zero exponent. */
+    readonly exponents: Map<string, number>;
+
+    constructor(exponents: (undefined|Map<string, number>)=undefined, numerator?: (Dimension[]|undefined), slash?: Token, denominator?: Dimension[]) {
 
         super();
 
-        // If we were given tokens, generate the arrays.
-        if((numerator.length > 0 && numerator[0] instanceof Token) || (denominator.length > 0 && denominator[0] instanceof Token)) {
-            this.numerator = (numerator as Token[]).filter(n => n.is(TokenType.NAME)).map(n => n.text.toString()).sort();
-            this.denominator = (denominator as Token[]).filter(n => n.is(TokenType.NAME)).map(n => n.text.toString()).sort();            
-            this.numeratorTokens = numerator as Token[];
-            this.denominatorTokens = denominator as Token[];
-        }
-        // If we were given strings, just assign them.
-        else {
-            this.numerator = numerator as string[];
-            this.denominator = denominator as string[];
-            this.numeratorTokens = [];
-            this.denominatorTokens = [];
-        }
+        // Did we parse it? Convert to exponents.
+        if(numerator !== undefined && denominator !== undefined) {
 
-        // Simply the unit for later comparison.
-        // While the same string appears in both numerator and denominator, remove from both.
-        // The strategy is to identify all of the unique units in the numerator, and for each one, count the
-        // number of times it appears in the numerator and denominator. We remove the minimum of the two from both lists.
-        const topUnits = [ ...new Set(this.numerator) ];
-        topUnits.forEach(top => {
-            // How many times does the top appear in both lists?
-            const cancelCount = Math.min(this.numerator.filter(n => n === top).length, this.denominator.filter(b => b === top).length);
-            for(let i = 0; i < cancelCount; i++) { 
-                this.numerator.splice(this.numerator.indexOf(top), 1); 
-                this.denominator.splice(this.denominator.indexOf(top), 1); 
+            this.numerator = numerator;
+            this.slash = slash;
+            this.denominator =  denominator;
+
+            this.exponents = new Map();
+            
+            for(const dim of numerator) {
+                const name = dim.getName();
+                const exp = dim.exponent === undefined ? 1 : new Measurement(dim.exponent.getText()).toNumber();
+                const current = this.exponents.get(name);
+                this.exponents.set(name, (current ?? 0) + exp);
             }
-        });
+            for(const dim of denominator) {
+                const name = dim.getName();
+                const exp = dim.exponent === undefined ? -1 : -(new Measurement(dim.exponent.getText()).toNumber());
+                const current = this.exponents.get(name);
+                this.exponents.set(name, (current ?? 0) + exp);
+            }
+        
+            // Eliminate any 0 exponent units.
+            for(const [ unit, exp ] of this.exponents)
+                if(exp === 0)
+                    this.exponents.delete(unit);
+
+        }
+        else {
+            // Set the exponents directly, if given.
+            if(exponents !== undefined) {
+                // Eliminate any 0 exponent units.
+                for(const [ unit, exp ] of exponents)
+                    if(exp === 0)
+                        exponents.delete(unit);
+
+                this.exponents = new Map(exponents);
+
+            }
+            else
+                this.exponents = new Map();
+
+            this.numerator = [];
+            this.denominator = [];
+        }
 
     }
 
-    isEmpty() { return this.numerator.length === 0 && this.denominator.length === 0; }
+    static map(numerator: string[], denominator: string[]) {
+
+        const exponents = new Map();
+        for(const unit of numerator)
+            exponents.set(unit, exponents.has(unit) ? (exponents.get(unit) ?? 0) + 1 : 1);
+        for(const unit of denominator)
+            exponents.set(unit, exponents.has(unit) ? (exponents.get(unit) ?? 0) - 1 : -1);
+        return exponents;
+
+    }
+
+    static unit(numerator: string[], denominator: string[]=[]) {
+        return new Unit(Unit.map(numerator, denominator));
+    }
+
+    isEmpty() { return this.exponents.size === 0; }
 
     isEqualTo(unit: Unit) {
-        return this.toString() === unit.toString();
+        return this.exponents.size === unit.exponents.size && Array.from(this.exponents.keys()).every(key => this.exponents.get(key) === unit.exponents.get(key))
     }
 
-    computeChildren(): Node[] { return this.numeratorTokens.concat(this.denominatorTokens); }
+    computeChildren() { 
+    
+        let children: Node[] = [];
+        if(this.numerator !== undefined)
+            children = children.concat(this.numerator);
+        if(this.slash !== undefined) children.push(this.slash);
+        if(this.denominator !== undefined)
+            children = children.concat(this.denominator);
+    
+        return children;
+    
+    }
     computeConflicts() {}
 
     accepts(unit: Unit): boolean {
-        return this.numerator.join("·") === unit.numerator.join("·") && 
-               this.denominator.join("·") === unit.denominator.join("·");
+        // Every key in this exists in the given unit and they have the same exponents.
+        return this.isEqualTo(unit);
     }
 
     getNativeTypeName(): string { return "unit"; }
 
     toString(depth?: number) {
+
+        const units = Array.from(this.exponents.keys()).sort();
+        const numerator = units.filter(unit => (this.exponents.get(unit) ?? 0) > 0);
+        const denominator = units.filter(unit => (this.exponents.get(unit) ?? 0) < 0);
+
         return (depth === undefined ? "" : "\t".repeat(depth)) + 
-            (this.numerator.length === 0 && this.denominator.length === 0 ? "" :
-            (this.numerator.length === 0 ? "" : this.numerator.join("·")) + 
-            (this.denominator.length === 0 ? "" : LANGUAGE_SYMBOL + this.denominator.join("·")));
+            numerator.map(unit => `${unit}${(this.exponents.get(unit) ?? 0) > 1 ? `${EXPONENT_SYMBOL}${this.exponents.get(unit)}` : ""}`).join(PRODUCT_SYMBOL) +
+            (denominator.length > 0 ? LANGUAGE_SYMBOL : "") + 
+            denominator.map(unit => `${unit}${(this.exponents.get(unit) ?? 0) < -1 ? `${EXPONENT_SYMBOL}${Math.abs(this.exponents.get(unit) ?? 0)}` : ""}`).join(PRODUCT_SYMBOL);
+
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new Unit(
-            this.numerator.length > 0 && this.numeratorTokens.length === 0 ? this.numerator : this.numeratorTokens.map(t => t.cloneOrReplace([ Token ], original, replacement)), 
-            this.denominator.length > 0 && this.denominatorTokens.length === 0 ? this.denominator : this.denominatorTokens.map(t => t.cloneOrReplace([ Token ], original, replacement))
-        ) as this; 
+    clone() { 
+        return new Unit(this.exponents) as this;
     }
 
     sqrt() {
 
-        // When we root, we root units too. This involves removing one of each unique unit from the numerator, 
-        // and when it's the last one, moving it to the denominator, and duplicating the units on the denominator.
-        // We then let Unit simplify it.
-        // For example, √(m/s·s) would be s/m·s, which simplifies to 1/m.
-        const uniqueNumeratorUnits = [...new Set(this.numerator)];
-        const uniqueDenominatorUnits = [...new Set(this.denominator)];
-        const newNumerator = this.numerator.slice();
-        const newDenominator = this.denominator.slice();
-        for(const unit of uniqueNumeratorUnits) {
-            newNumerator.splice(newNumerator.indexOf(unit), 1);
-            // If that was the last one, push the unit to the denominator.
-            if(newNumerator.indexOf(unit) < 0)
-                newDenominator.push(unit);
-        }
-        for(const unit of uniqueDenominatorUnits)
-            newDenominator.push(unit);
-    
-        return new Unit(newNumerator, newDenominator);
+        const newExponents = new Map();
+
+        // Subtract one from every unit's exponent, and if it would be zero, set it to -1.
+        for(const [unit, exponent] of this.exponents)
+            newExponents.set(unit, exponent === 1 ? -1 : exponent - 1)
+        
+        return new Unit(newExponents);
     
     }
 
     product(operand: Unit) {
-        return new Unit(
-            this.numerator.concat(operand.numerator),
-            this.denominator.concat(operand.denominator)
-        )
+
+        const newExponents = new Map(this.exponents);
+
+        // Add the given units' exponents to the existing exponents
+        for(const [unit, exponent] of operand.exponents) {
+            const currentExponent = newExponents.get(unit)
+            newExponents.set(unit, (currentExponent ?? 0) + exponent); 
+        }
+        
+        return new Unit(newExponents);
+
     }
 
     quotient(operand: Unit) {
-        return new Unit(
-            this.numerator.concat(operand.denominator),
-            this.denominator.concat(operand.numerator)
-        )
+        
+        const newExponents = new Map(this.exponents);
+
+        // Subtract the given units' exponents from the existing exponents
+        for(const [unit, exponent] of operand.exponents) {
+            const currentExponent = newExponents.get(unit)
+            newExponents.set(unit, (currentExponent ?? 0) - exponent); 
+        }
+        
+        return new Unit(newExponents);
+
     }
 
     power(exponent: number) {
     
-        if(!new Decimal(exponent).isInteger()) return new Unit();
+        // Multiply the exponents by the given exponent.
+        const newExponents = new Map(this.exponents);
 
-        // If the exponent is an integer, then we can compute it.
-        let newNumerator = this.numerator;
-        let newDenominator = this.denominator;
-        if(exponent > 1) {
-            for(let i = 0; i < exponent - 1; i++) {
-                newNumerator = newNumerator.concat(this.numerator);
-                newDenominator = newDenominator.concat(this.denominator);
-            }
-        }
-        else if(exponent === 0) {
-            return new Unit([], []);
-        }
-        else if(exponent < -1) {
-            for(let i = 0; i < -exponent + 1; i++) {
-                newNumerator = newNumerator.concat(this.denominator);
-                newDenominator = newDenominator.concat(this.numerator);
-            }
+        // Subtract the given units' exponents from the existing exponents
+        for(const [unit, exp] of this.exponents) {
+            newExponents.set(unit, exp * exponent); 
         }
 
-        return new Unit(newNumerator, newDenominator);
+        return new Unit(newExponents);
         
     }
 
