@@ -18,7 +18,7 @@ export default class Text extends Primitive {
         this.format = format;
     }
 
-    getType() { return new TextType(undefined, new Language(this.format)); }
+    getType() { return new TextType(undefined, this.format === undefined ? undefined : new Language(this.format)); }
     
     getNativeTypeName(): string { return TEXT_NATIVE_TYPE_NAME; }
 

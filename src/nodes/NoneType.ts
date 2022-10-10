@@ -35,7 +35,7 @@ export default class NoneType extends Type {
     getNativeTypeName(): string { return NONE_NATIVE_TYPE_NAME; }
 
     toWordplay(): string {
-        return "•!" + this.aliases.map(a => a.getName());
+        return "!" + this.aliases.map(a => a.getName());
     }
 
     getDefinition(name: string, context: Context, node: Node) {
