@@ -14,7 +14,6 @@ import { createStructure } from "../runtime/Structure";
 import Verse from "../native/Verse";
 import Group from "../native/Group";
 import Phrase from "../native/Phrase";
-import TextType from "../nodes/TextType";
 import List from "../runtime/List";
 import Text from "../runtime/Text";
 import Measurement from "../runtime/Measurement";

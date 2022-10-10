@@ -1,5 +1,4 @@
 import Alias from "../nodes/Alias";
-import AnyType from "../nodes/AnyType";
 import Bind from "../nodes/Bind";
 import BooleanType from "../nodes/BooleanType";
 import FunctionDefinition from "../nodes/FunctionDefinition";
@@ -31,6 +30,8 @@ import Block from "../nodes/Block";
 
 export default function bootstrapList() {
 
+    const LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME = "Out";
+
     const listTranslateHOFType = new FunctionType([ 
         new Bind(
             [],
@@ -38,7 +39,7 @@ export default function bootstrapList() {
             [ new Alias("value", "eng") ],
             new NameType(LIST_TYPE_VAR_NAME)
         )
-    ], new AnyType());
+    ], new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME));
 
     const listFilterHOFType = new FunctionType([ 
         new Bind(
@@ -84,7 +85,7 @@ export default function bootstrapList() {
             [],
             undefined,
             [ new Alias("combination", "eng") ],
-            new NameType(LIST_TYPE_VAR_NAME)
+            new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME)
         ),
         new Bind(
             [],
@@ -92,7 +93,7 @@ export default function bootstrapList() {
             [ new Alias("next", "eng") ],
             new NameType(LIST_TYPE_VAR_NAME)
         )
-    ], new NameType(LIST_TYPE_VAR_NAME));
+    ], new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME));
 
     return new StructureDefinition(
         // TODO Localized documentation
@@ -249,12 +250,12 @@ export default function bootstrapList() {
             new FunctionDefinition(
                 [], 
                 [ new Alias("translate", "eng") ], 
-                [], 
+                [ new TypeVariable(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME)], 
                 [
                     new Bind([], undefined, [ new Alias("translator", "eng")], listTranslateHOFType)
                 ],
                 new NativeHOFListTranslate(listTranslateHOFType),
-                new ListType(new NameType(LIST_TYPE_VAR_NAME))
+                new ListType(new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME))
             ),
             new FunctionDefinition(
                 [], 
@@ -305,7 +306,7 @@ export default function bootstrapList() {
                     new Bind([], undefined, [ new Alias("combiner", "eng")], listCombineHOFType)
                 ],
                 new NativeHOFListCombine(listCombineHOFType),
-                new ListType(new NameType(LIST_TYPE_VAR_NAME))
+                new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME)
             ),
             createNativeConversion([],  "[]", "''", (val: List) => new Text(val.toString())),
             createNativeConversion([],  "[]", "{}", (val: List) => new Set(val.getValues()))        

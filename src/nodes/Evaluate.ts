@@ -249,11 +249,10 @@ export default class Evaluate extends Expression {
             const typeVarDeclaration = nameType.resolve(context);
             if(typeVarDeclaration instanceof TypeVariable) {
                 const def = typeVarDeclaration.getParent();
-                // If the type variable is declared in a structure or function definition (the only places where they are declared,
+                // If the type variable is declared in a structure or function definition (the only places where type variables are declared,
                 // then infer the type of the type variable from the structure on which this function is being called.
                 if(def instanceof StructureDefinition || def instanceof FunctionDefinition) {
-                    // Determine the index of the type variable.
-                    // If we found it (which we always should), is it provided as an type input on this Evaluate?
+                    // First see if the type for the type variable was provided explicitly in this evaluate.
                     const typeVarIndex = def.typeVars.findIndex(v => v === typeVarDeclaration);
                     if(typeVarIndex >= 0 && typeVarIndex < this.typeInputs.length) {
                         const typeInput = this.typeInputs[typeVarIndex];
@@ -261,35 +260,67 @@ export default class Evaluate extends Expression {
                             concreteType = typeInput.type;
                     }
                     
-                    // Can we infer it from the structure on which this function is being called?
+                    // If we didn't find it explicitly provided as an input, can we infer it from the structure on which this function is being called?
+                    // For example, if we're evaluating a function on a list of text [ "" ], then the list type can give us the type of the list item, "".
                     if(concreteType === undefined && this.func instanceof AccessName) {
                         const subjectType = this.func.subject.getType(context);
                         concreteType = subjectType.resolveTypeVariable(nameType.getName());
                     }
                     
-                    // Can we infer it from any of the inputs?
+                    // If the subject of the evaluation couldn't resolve the type, can we infer it from any of the inputs?
+                    // For example, if a function took input ƒ (# # T), and this evaluate is ƒ (1 2 3), then we can infer that T is #.
+                    // Or, if a function takes a function put ƒ (# # ƒ() T), and this evaluate is ƒ (1 2 ƒ() 1), then we can infer that T is #.
                     // See if any of the function or structure's inputs have a type variable type corresponding to the name.
                     if(concreteType === undefined) {
-                        const indexOfInputWithVariableType = def.inputs.findIndex(i => i instanceof Bind && i.type instanceof NameType && i.type.isTypeVariable(context) && i.type.getName() === typeVarDeclaration.name.getText());
-                        // If we found an input that has this type, then see if we can find the corresponding input in this evaluate.
+                        // Is there an input whose type is the type variable we're trying to resolve?
+                        const indexOfInputWithVariableType = def.inputs.findIndex(i => 
+                            i instanceof Bind && i.type instanceof NameType && i.type.isTypeVariable(context) && i.type.getName() === typeVarDeclaration.name.getText()
+                        );
+                        const indexOfInputWithVariableOutputType = def.inputs.findIndex(i => 
+                            i instanceof Bind && i.type instanceof FunctionType && i.type.output instanceof NameType && i.type.output.isTypeVariable(context) && i.type.output.getName() === typeVarDeclaration.name.getText()
+                        );
+
+                        let inputFromWhichToInferType = -1;
+                        let inOutput = false;
                         if(indexOfInputWithVariableType >= 0) {
-                            const inputWithVariableType = def.inputs[indexOfInputWithVariableType];
-                            if(inputWithVariableType instanceof Bind && indexOfInputWithVariableType < this.inputs.length) {
+                            inputFromWhichToInferType = indexOfInputWithVariableType;
+                        }
+                        else if(indexOfInputWithVariableOutputType >= 0) {
+                            inputFromWhichToInferType = indexOfInputWithVariableOutputType;
+                            inOutput = true;
+                        }
+
+                        // If we found an input that has this type, then see if we can find the corresponding input in this evaluate.
+                        if(inputFromWhichToInferType >= 0) {
+
+                            const inputWithVariableType = def.inputs[inputFromWhichToInferType];
+                            if(inputWithVariableType instanceof Bind && inputFromWhichToInferType < this.inputs.length) {
                                 // Is this input specified by name?
                                 const namedInput = this.inputs.find(i => i instanceof Bind && inputWithVariableType.getNames().find(n => i.hasName(n)) !== undefined) as Bind | undefined;
                                 if(namedInput !== undefined) {
-                                    if(namedInput.value !== undefined)
+                                    // Infer the type of the type variable from the input's value expression.
+                                    if(namedInput.value !== undefined) {
                                         concreteType = namedInput.value.getType(context);
+                                        if(inOutput && concreteType instanceof FunctionType)
+                                            concreteType = concreteType.output instanceof Type ? concreteType.output : undefined;
+                                    }
                                 }
-                                // If it's not, get the input input at the corresponding index.
+                                // If it's not specified, get the input input at the corresponding index.
                                 else {
-                                    const inputByIndex = this.inputs[indexOfInputWithVariableType];
-                                    if(inputByIndex instanceof Expression)
+                                    const inputByIndex = this.inputs[inputFromWhichToInferType];
+                                    if(inputByIndex instanceof Expression) {
                                         concreteType = inputByIndex.getType(context);
+                                        if(inOutput && concreteType instanceof FunctionType)
+                                            concreteType = concreteType.output instanceof Type ? concreteType.output : undefined;
+                                    }
                                 }
                             }
                         }
                     }
+                
+                    // If we couldn't find it explicitly, in type of the value on which the function is being evaluated, or in an input, can we find it in the output type of an input function? 
+
+
                 }
             }
             // If we found a concrete type, refine the given type with the concrete type, then move on to the next type variable to resolve.

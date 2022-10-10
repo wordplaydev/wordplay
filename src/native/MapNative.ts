@@ -21,6 +21,8 @@ import Bool from "../runtime/Bool";
 
 export default function bootstrapMap() {
 
+    const MAP_HOF_OUTPUT_TYPE_VARIABLE_NAME = "Out";
+
     const mapFilterHOFType = new FunctionType([ 
         new Bind(
             [],
@@ -49,7 +51,7 @@ export default function bootstrapMap() {
             [ new Alias("value", "eng") ],
             new NameType(MAP_VALUE_TYPE_VAR_NAME)
         )
-    ], new NameType(MAP_VALUE_TYPE_VAR_NAME));
+    ], new NameType(MAP_HOF_OUTPUT_TYPE_VARIABLE_NAME));
 
     return new StructureDefinition(
         // TODO Localized documentation
@@ -147,7 +149,7 @@ export default function bootstrapMap() {
                     new Bind([], undefined, [ new Alias("translator", "eng")], mapTranslateHOFType)
                 ],
                 new NativeHOFMapTranslate(mapTranslateHOFType),
-                new MapType(undefined, undefined, new NameType(MAP_KEY_TYPE_VAR_NAME), undefined, new NameType(MAP_VALUE_TYPE_VAR_NAME))
+                new MapType(undefined, undefined, new NameType(MAP_KEY_TYPE_VAR_NAME), undefined, new NameType(MAP_HOF_OUTPUT_TYPE_VARIABLE_NAME))
             ),
             createNativeConversion([], "{:}", "''", (val: Map) => new Text(val.toString())),
             createNativeConversion([], "{:}", "{}", (val: Map) => new Set(val.getKeys())),
