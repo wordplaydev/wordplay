@@ -8,8 +8,8 @@ import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import SetValue from "../runtime/SetValue";
-import MapValue from "../runtime/MapValue";
+import Set from "../runtime/Set";
+import Map from "../runtime/Map";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
@@ -81,7 +81,7 @@ export default class SetOrMapAccess extends Expression {
         const key = evaluator.popValue(undefined);
         const setOrMap = evaluator.popValue(undefined);
 
-        if(!(setOrMap instanceof SetValue || setOrMap instanceof MapValue)) 
+        if(!(setOrMap instanceof Set || setOrMap instanceof Map)) 
             return new TypeException(evaluator, new UnionType(new SetType(), new MapType()), setOrMap);
         else return setOrMap.has(key);
     

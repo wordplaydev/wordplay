@@ -5,7 +5,7 @@ import type Evaluation from "./Evaluation";
 import Primitive from "./Primitive";
 import Value from "./Value";
 
-export default class ConversionValue extends Primitive {
+export default class Conversion extends Primitive {
     /** The definition from the AST. */
     readonly definition: ConversionDefinition;
     
@@ -30,7 +30,7 @@ export default class ConversionValue extends Primitive {
     toString() { return this.definition.toWordplay(); }
 
     isEqualTo(value: Value): boolean {
-        return value instanceof ConversionValue && this.definition === value.definition && this.context === value.context;
+        return value instanceof Conversion && this.definition === value.definition && this.context === value.context;
     }
 
 }

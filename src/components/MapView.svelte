@@ -1,9 +1,9 @@
 <script lang="ts">
     import { BIND_SYMBOL, SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
-    import type MapValue from "../runtime/MapValue";
+    import type Map from "../runtime/Map";
     import ValueView from "./ValueView.svelte";
 
-    export let value: MapValue;
+    export let value: Map;
 
 </script>
 

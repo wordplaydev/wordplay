@@ -1,9 +1,9 @@
 <script lang="ts">
     import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
-    import type SetValue from "../runtime/SetValue";
+    import type Set from "../runtime/Set";
     import ValueView from "./ValueView.svelte";
 
-    export let value: SetValue;
+    export let value: Set;
 
 </script>
 

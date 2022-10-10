@@ -5,7 +5,7 @@ import Measurement from "./Measurement";
 import Primitive from "./Primitive";
 import type Value from "./Value";
 
-export default class SetValue extends Primitive {
+export default class Set extends Primitive {
 
     readonly values: Value[];
 
@@ -29,34 +29,34 @@ export default class SetValue extends Primitive {
     }
 
     add(element: Value) { 
-        return new SetValue([ ...this.values, element]);
+        return new Set([ ...this.values, element]);
     }
 
     remove(element: Value) { 
-        return new SetValue(this.values.filter(v => !v.isEqualTo(element)));
+        return new Set(this.values.filter(v => !v.isEqualTo(element)));
     }
 
-    union(set: SetValue) { 
+    union(set: Set) { 
 
         const values = this.values.slice();        
         set.values.forEach(v => { if(values.find(e => e.isEqualTo(v)) === undefined) values.push(v); });
-        return new SetValue(values);
+        return new Set(values);
     }
 
-    intersection(set: SetValue) { 
+    intersection(set: Set) { 
 
         const values: Value[] = [];
         this.values.forEach(v => { if(set.values.find(e => e.isEqualTo(v)) !== undefined) values.push(v); });
-        return new SetValue(values);
+        return new Set(values);
     }
 
-    difference(set: SetValue) { 
+    difference(set: Set) { 
         // Remove any values from this set that occur in the given set.
-        return new SetValue(this.values.filter(v1 => set.values.find(v2 => v1.isEqualTo(v2)) === undefined));
+        return new Set(this.values.filter(v1 => set.values.find(v2 => v1.isEqualTo(v2)) === undefined));
     }
 
     isEqualTo(set: Value): boolean {
-        return set instanceof SetValue && set.values.length === this.values.length && this.values.every(val => set.has(val));
+        return set instanceof Set && set.values.length === this.values.length && this.values.every(val => set.has(val));
     }
 
     getType() { return new SetType(); }

@@ -5,7 +5,7 @@ import type Node from "./Node";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import SetValue from "../runtime/SetValue";
+import Set from "../runtime/Set";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
@@ -73,7 +73,7 @@ export default class SetLiteral extends Expression {
         const values = [];
         for(let i = 0; i < this.values.length; i++)
             values.unshift(evaluator.popValue(undefined));
-        return new SetValue(values);
+        return new Set(values);
             
     }
 

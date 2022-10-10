@@ -10,7 +10,7 @@ import StructureDefinition from "../nodes/StructureDefinition";
 import TypeVariable from "../nodes/TypeVariable";
 import List from "../runtime/List";
 import Text from "../runtime/Text";
-import SetValue from "../runtime/SetValue";
+import Set from "../runtime/Set";
 import TypeException from "../runtime/TypeException";
 import { createNativeConversion, createNativeFunction } from "./NativeBindings";
 import { SET_TYPE_VAR_NAME } from "./NativeConstants";
@@ -49,7 +49,7 @@ export default function bootstrapSet() {
                 evaluation => {
                         const set = evaluation?.getContext();
                         const other = evaluation.resolve("set");
-                        return !(set instanceof SetValue && other instanceof SetValue) ? 
+                        return !(set instanceof Set && other instanceof Set) ? 
                             new TypeException(evaluation.getEvaluator(), new SetType(), other) :
                             new Bool(set.isEqualTo(other));
                     }
@@ -63,7 +63,7 @@ export default function bootstrapSet() {
                 evaluation => {
                         const set = evaluation?.getContext();
                         const other = evaluation.resolve("set");
-                        return !(set instanceof SetValue && other instanceof SetValue) ? 
+                        return !(set instanceof Set && other instanceof Set) ? 
                             new TypeException(evaluation.getEvaluator(), new SetType(), other) :
                             new Bool(!set.isEqualTo(other));
                     }
@@ -77,7 +77,7 @@ export default function bootstrapSet() {
                 evaluation => {
                         const set = evaluation?.getContext();
                         const element = evaluation.resolve("value");
-                        if(set instanceof SetValue && element !== undefined) return set.add(element);
+                        if(set instanceof Set && element !== undefined) return set.add(element);
                         else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
                     }
             ),
@@ -90,7 +90,7 @@ export default function bootstrapSet() {
                 evaluation => {
                     const set = evaluation.getContext();
                     const element = evaluation.resolve("value");
-                    if(set instanceof SetValue && element !== undefined) return set.remove(element);
+                    if(set instanceof Set && element !== undefined) return set.remove(element);
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
                 }
             ),            
@@ -103,7 +103,7 @@ export default function bootstrapSet() {
                 evaluation => {
                     const set = evaluation.getContext();
                     const newSet = evaluation.resolve("set");
-                    if(set instanceof SetValue && newSet instanceof SetValue) return set.union(newSet);
+                    if(set instanceof Set && newSet instanceof Set) return set.union(newSet);
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
                 }
             ),
@@ -111,7 +111,7 @@ export default function bootstrapSet() {
                 evaluation => {
                     const set = evaluation.getContext();
                     const newSet = evaluation.resolve("set");
-                    if(set instanceof SetValue && newSet instanceof SetValue) return set.intersection(newSet);
+                    if(set instanceof Set && newSet instanceof Set) return set.intersection(newSet);
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
                 }
             ),
@@ -119,7 +119,7 @@ export default function bootstrapSet() {
                 evaluation => {
                     const set = evaluation.getContext();
                     const newSet = evaluation.resolve("set");
-                    if(set instanceof SetValue && newSet instanceof SetValue) return set.difference(newSet);
+                    if(set instanceof Set && newSet instanceof Set) return set.difference(newSet);
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
                 }
             ),
@@ -134,8 +134,8 @@ export default function bootstrapSet() {
                 new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME))
             ),
 
-            createNativeConversion([], "{}", "''", (val: SetValue) => new Text(val.toString())),
-            createNativeConversion([], "{}", "[]", (val: SetValue) => new List(val.values))
+            createNativeConversion([], "{}", "''", (val: Set) => new Text(val.toString())),
+            createNativeConversion([], "{}", "[]", (val: Set) => new List(val.values))
         ], false, true)
     );
     

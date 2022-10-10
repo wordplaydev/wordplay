@@ -13,7 +13,7 @@ import Evaluation from "../runtime/Evaluation";
 import type Evaluator from "../runtime/Evaluator";
 import Finish from "../runtime/Finish";
 import FunctionValue from "../runtime/FunctionValue";
-import MapValue from "../runtime/MapValue";
+import MapValue from "../runtime/Map";
 import Measurement from "../runtime/Measurement";
 import Start from "../runtime/Start";
 import type Step from "../runtime/Step";

@@ -2,7 +2,7 @@ import type ConversionDefinition from "../nodes/ConversionDefinition";
 import type FunctionDefinition from "../nodes/FunctionDefinition";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import type Type from "../nodes/Type";
-import type ConversionValue from "./ConversionValue";
+import type Conversion from "./Conversion";
 import type Evaluator from "./Evaluator";
 import Exception from "./Exception";
 import type Step from "./Step";
@@ -41,7 +41,7 @@ export default class Evaluation {
     readonly #values: Value[] = [];
 
     /** A list of conversions in this context. */
-    readonly #conversions: ConversionValue[] = [];
+    readonly #conversions: Conversion[] = [];
 
     /** The step to execute next */
     #step: number = 0;
@@ -152,7 +152,7 @@ export default class Evaluation {
     }
 
     /** Remember the given conversion for later. */
-    addConversion(conversion: ConversionValue) {
+    addConversion(conversion: Conversion) {
         this.#conversions.push(conversion);
     }
 

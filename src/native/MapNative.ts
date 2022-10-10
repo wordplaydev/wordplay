@@ -10,8 +10,8 @@ import StructureDefinition from "../nodes/StructureDefinition";
 import TypeVariable from "../nodes/TypeVariable";
 import List from "../runtime/List";
 import Text from "../runtime/Text";
-import MapValue from "../runtime/MapValue";
-import SetValue from "../runtime/SetValue";
+import Map from "../runtime/Map";
+import Set from "../runtime/Set";
 import TypeException from "../runtime/TypeException";
 import { MAP_KEY_TYPE_VAR_NAME, MAP_VALUE_TYPE_VAR_NAME } from "./NativeConstants";
 import NativeHOFMapFilter from "./NativeHOFMapFilter";
@@ -72,7 +72,7 @@ export default function bootstrapMap() {
                 evaluation => {
                         const map = evaluation?.getContext();
                         const other = evaluation.resolve("map");
-                        return !(map instanceof MapValue && other instanceof MapValue) ? 
+                        return !(map instanceof Map && other instanceof Map) ? 
                             new TypeException(evaluation.getEvaluator(), new MapType(), other) :
                             new Bool(map.isEqualTo(other));
                     }
@@ -86,7 +86,7 @@ export default function bootstrapMap() {
                 evaluation => {
                         const map = evaluation?.getContext();
                         const other = evaluation.resolve("map");
-                        return !(map instanceof MapValue && other instanceof MapValue) ? 
+                        return !(map instanceof Map && other instanceof Map) ? 
                             new TypeException(evaluation.getEvaluator(), new MapType(), other) :
                             new Bool(!map.isEqualTo(other));
                     }
@@ -101,7 +101,7 @@ export default function bootstrapMap() {
                     const map = evaluation.getContext();
                     const key = evaluation.resolve("key");
                     const value = evaluation.resolve("value");
-                    if(map instanceof MapValue && key !== undefined && value !== undefined) return map.set(key, value);
+                    if(map instanceof Map && key !== undefined && value !== undefined) return map.set(key, value);
                     else return new TypeException(evaluation.getEvaluator(), new MapType(), map);
                 }
             ),        
@@ -113,7 +113,7 @@ export default function bootstrapMap() {
                 evaluation => {
                     const map = evaluation.getContext();
                     const key = evaluation.resolve("key");
-                    if(map instanceof MapValue && key !== undefined) return map.unset(key);
+                    if(map instanceof Map && key !== undefined) return map.unset(key);
                     else return new TypeException(evaluation.getEvaluator(), new MapType(), map);
                 }
             ),
@@ -125,7 +125,7 @@ export default function bootstrapMap() {
                 evaluation => {
                     const map = evaluation.getContext();
                     const value = evaluation.resolve("value");
-                    if(map instanceof MapValue && value !== undefined) return map.remove(value);
+                    if(map instanceof Map && value !== undefined) return map.remove(value);
                     else return new TypeException(evaluation.getEvaluator(), new MapType(), map);
                 }
             ),
@@ -149,9 +149,9 @@ export default function bootstrapMap() {
                 new NativeHOFMapTranslate(mapTranslateHOFType),
                 new MapType(undefined, undefined, new NameType(MAP_KEY_TYPE_VAR_NAME), undefined, new NameType(MAP_VALUE_TYPE_VAR_NAME))
             ),
-            createNativeConversion([], "{:}", "''", (val: MapValue) => new Text(val.toString())),
-            createNativeConversion([], "{:}", "{}", (val: MapValue) => new SetValue(val.getKeys())),
-            createNativeConversion([], "{:}", "[]", (val: MapValue) => new List(val.getValues()))
+            createNativeConversion([], "{:}", "''", (val: Map) => new Text(val.toString())),
+            createNativeConversion([], "{:}", "{}", (val: Map) => new Set(val.getKeys())),
+            createNativeConversion([], "{:}", "[]", (val: Map) => new List(val.getValues()))
         ], false, true)
     );
 

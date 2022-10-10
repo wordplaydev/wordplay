@@ -14,7 +14,7 @@ import Type from "./Type";
 import type Evaluator from "../runtime/Evaluator";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
-import ConversionValue from "../runtime/ConversionValue";
+import Conversion from "../runtime/Conversion";
 import type Context from "./Context";
 import { parseType, tokens } from "../parser/Parser";
 import { CONVERT_SYMBOL } from "../parser/Tokenizer";
@@ -97,7 +97,7 @@ export default class ConversionDefinition extends Expression {
         const context = evaluator.getEvaluationContext();
         if(context === undefined) return new ContextException(evaluator, StackSize.EMPTY);
 
-        context.addConversion(new ConversionValue(this, context));
+        context.addConversion(new Conversion(this, context));
         
     }
 

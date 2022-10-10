@@ -13,7 +13,7 @@ import type Evaluator from "../runtime/Evaluator";
 import Finish from "../runtime/Finish";
 import FunctionValue from "../runtime/FunctionValue";
 import Measurement from "../runtime/Measurement";
-import SetValue from "../runtime/SetValue";
+import Set from "../runtime/Set";
 import Start from "../runtime/Start";
 import type Step from "../runtime/Step";
 import TypeException from "../runtime/TypeException";
@@ -42,7 +42,7 @@ export default class NativeHOFSetFilter extends HOF {
                 }, 
                 evaluator => {
                     evaluator.bind("index", new Measurement(1));
-                    evaluator.bind("set", new SetValue([]));
+                    evaluator.bind("set", new Set([]));
                     return undefined;
                 }),
             new Action(this, 
@@ -54,7 +54,7 @@ export default class NativeHOFSetFilter extends HOF {
                     const set = evaluator.getEvaluationContext()?.getContext();
                     // If the index is past the last index of the list, jump to the end.
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
-                    else if(!(set instanceof SetValue)) return new TypeException(evaluator, new SetType(), set);
+                    else if(!(set instanceof Set)) return new TypeException(evaluator, new SetType(), set);
                     else {
                         if(index.greaterThan(set.size()).bool)
                             evaluator.jump(1);
@@ -98,12 +98,12 @@ export default class NativeHOFSetFilter extends HOF {
                         return new TypeException(evaluator, new MeasurementType(), index);
 
                     const set = evaluator.getEvaluationContext()?.getContext();
-                    if(!(set instanceof SetValue))
+                    if(!(set instanceof Set))
                         return new TypeException(evaluator, new SetType(), set);
 
                     // If the include decided yes, append the value.
                     const newSet = evaluator.resolve("set");
-                    if(newSet instanceof SetValue) {
+                    if(newSet instanceof Set) {
                         if(include.bool) {
                             const setValue = set.values[index.num.toNumber() - 1];
                             evaluator.bind("set", newSet.add(setValue));

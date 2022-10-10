@@ -2,7 +2,7 @@ import type StructureDefinition from "../nodes/StructureDefinition";
 import StructureType, { STRUCTURE_NATIVE_TYPE_NAME } from "../nodes/StructureType";
 import type Type from "../nodes/Type";
 import Unparsable from "../nodes/Unparsable";
-import type ConversionValue from "./ConversionValue";
+import type Conversion from "./Conversion";
 import Evaluation from "./Evaluation";
 import type Evaluator from "./Evaluator";
 import FunctionValue from "./FunctionValue";
@@ -51,7 +51,7 @@ export default class Structure extends Value {
         return nativeFun === undefined ? undefined : new FunctionValue(nativeFun, this);
     }
 
-    getConversion(input: Type, output: Type): ConversionValue | undefined {
+    getConversion(input: Type, output: Type): Conversion | undefined {
         return this.context.getConversion(input, output);
     }
 

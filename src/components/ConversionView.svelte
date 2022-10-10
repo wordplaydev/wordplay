@@ -1,8 +1,8 @@
 <script lang="ts">
     import { CONVERT_SYMBOL } from "../parser/Tokenizer";
-import type ConversionValue from "../runtime/ConversionValue";
+import type Conversion from "../runtime/Conversion";
 
-    export let value: ConversionValue;
+    export let value: Conversion;
 
 </script>
 

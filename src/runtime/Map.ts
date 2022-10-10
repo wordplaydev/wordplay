@@ -6,7 +6,7 @@ import None from "./None";
 import Primitive from "./Primitive";
 import type Value from "./Value";
 
-export default class MapValue extends Primitive {
+export default class Map extends Primitive {
 
     readonly values: [Value, Value][];
 
@@ -32,7 +32,7 @@ export default class MapValue extends Primitive {
     }
 
     isEqualTo(value: Value): boolean {
-        if(!(value instanceof MapValue) || this.values.length !== value.values.length) return false;
+        if(!(value instanceof Map) || this.values.length !== value.values.length) return false;
         // For each pair, see if a corresponding pair exists in the given map.
         for(const keyValue of this.values) {
             if(value.values.find(otherKeyValue => keyValue[0].isEqualTo(otherKeyValue[0]) && keyValue[1].isEqualTo(otherKeyValue[1])) === undefined)
@@ -53,15 +53,15 @@ export default class MapValue extends Primitive {
         }) as [Value, Value][];
         if(!hasKey)
             values.push([ key, value ]);
-        return new MapValue(values);
+        return new Map(values);
     }
 
     unset(key: Value) {
-        return new MapValue(this.values.filter(kv => !kv[0].isEqualTo(key)));
+        return new Map(this.values.filter(kv => !kv[0].isEqualTo(key)));
     }
 
     remove(value: Value) {
-        return new MapValue(this.values.filter(kv => !kv[1].isEqualTo(value)));
+        return new Map(this.values.filter(kv => !kv[1].isEqualTo(value)));
     }
 
     getKeys() { 

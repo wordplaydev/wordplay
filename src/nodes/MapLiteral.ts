@@ -8,7 +8,7 @@ import Unparsable from "./Unparsable";
 import type Conflict from "../conflicts/Conflict";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import MapValue from "../runtime/MapValue";
+import Map from "../runtime/Map";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
@@ -97,7 +97,7 @@ export default class MapLiteral extends Expression {
             const key = evaluator.popValue(undefined);
             values.unshift([ key, value ]);
         }
-        return new MapValue(values);
+        return new Map(values);
             
     }
 

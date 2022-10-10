@@ -24,7 +24,7 @@ import NativeHOFListFilter from "./NativeHOFListFilter";
 import NativeHOFListFind from "./NativeHOFListFind";
 import NativeHOFListTranslate from "./NativeHOFListTranslate";
 import NativeHOFListUntil from "./NativeHOFListUntil";
-import SetValue from "../runtime/SetValue";
+import Set from "../runtime/Set";
 import StructureDefinition from "../nodes/StructureDefinition";
 import TypeVariable from "../nodes/TypeVariable";
 import Block from "../nodes/Block";
@@ -308,7 +308,7 @@ export default function bootstrapList() {
                 new ListType(new NameType(LIST_TYPE_VAR_NAME))
             ),
             createNativeConversion([],  "[]", "''", (val: List) => new Text(val.toString())),
-            createNativeConversion([],  "[]", "{}", (val: List) => new SetValue(val.getValues()))        
+            createNativeConversion([],  "[]", "{}", (val: List) => new Set(val.getValues()))        
         ], false, true)
     );
     
