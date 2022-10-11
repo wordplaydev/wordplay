@@ -14,6 +14,12 @@
 
     export let source: Source;
 
+    type Selection = {
+        node: Node,
+        kind: "step" | "exception" | "selected",
+        path: string | undefined
+    };
+
     let editor: HTMLElement;
     let keyboard: HTMLInputElement;
     $: program = source.program;
@@ -27,9 +33,8 @@
         setContext("caret", caret);
     }
 
-    let selection: Node | undefined = undefined;
-    let selectionKind: "step" | "exception" | "selected" | "none";
-    let selectionPath: string | undefined = undefined;
+    let selections: Selection[] = [];
+
     let rootWidth = 0;
     let rootHeight = 0;
 
@@ -69,17 +74,22 @@
 
         const currentStep = $caret.source.getEvaluator().currentStep();
         const latestValue = $caret.source.getEvaluator().getLatestResult();
-        [ selection, selectionKind ] = 
-            currentStep?.node instanceof Node ? [ currentStep.node, "step" ] :
-            latestValue instanceof Exception && latestValue.step !== undefined && latestValue.step.node instanceof Node ? [ latestValue.step.node, "exception" ] :
-            $caret.position instanceof Node ? [ $caret.position, "selected" ] :
-            [ undefined, "none" ];
 
-        // If there's a selected node, construct a list of rectangles to render in an SVG.
-        if(selection !== undefined && editor !== undefined) {
-            const nodeView = editor.querySelector(`.node-view[data-id="${selection.id}"]`);
-            if(nodeView !== null) {
-                selectionPath = createRowOutlineOf(nodeView, -viewportRect.left + viewport.scrollLeft, -viewportRect.top + viewport.scrollTop);
+        selections = [];
+
+        if($caret.position instanceof Node)
+            selections.push({ node: $caret.position, kind: "selected", path: undefined });
+        if(currentStep?.node instanceof Node)
+            selections.push({ node: currentStep.node, kind: "step", path: undefined });
+        if(latestValue instanceof Exception && latestValue.step !== undefined && latestValue.step.node instanceof Node)
+            selections.push({ node: latestValue.step.node, kind: "exception", path: undefined });
+        
+        // Compute the paths of the selected nodes.
+        if(editor !== undefined) {
+            for(const sel of selections) {
+                const nodeView = editor.querySelector(`.node-view[data-id="${sel.node.id}"]`);
+                if(nodeView !== null)
+                    sel.path = createRowOutlineOf(nodeView, -viewportRect.left + viewport.scrollLeft, -viewportRect.top + viewport.scrollTop);
             }
         }
 
@@ -313,11 +323,11 @@
     on:mousedown={handleClick}
 >
     <NodeView node={program}/>
-    {#if selection !== undefined }
-        <svg class={`selection ${selectionKind}`} width={rootWidth} height={rootHeight}>
-            <path d={selectionPath}/>
+    {#each selections as selection }
+        <svg class={`selection ${selection.kind}`} width={rootWidth} height={rootHeight}>
+            <path d={selection.path}/>
         </svg>
-    {/if}
+    {/each}
     <input 
         type="text" 
         class="keyboard-input" 
