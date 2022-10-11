@@ -144,7 +144,7 @@ export default class Unit extends Type {
 
         // Add the given units' exponents to the existing exponents
         for(const [unit, exponent] of operand.exponents) {
-            const currentExponent = newExponents.get(unit)
+            const currentExponent = newExponents.get(unit);
             newExponents.set(unit, (currentExponent ?? 0) + exponent); 
         }
         

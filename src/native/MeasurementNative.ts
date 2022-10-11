@@ -112,20 +112,14 @@ export default function bootstrapMeasurement() {
             createBinaryOp(
                 ["÷"],
                 new MeasurementType(), 
-                new UnionType(
-                    new MeasurementType(undefined, (left, right) => left.quotient(right)),
-                    new NoneType([ new Alias("nan", "eng")])
-                ),
+                new MeasurementType(undefined, (left, right) => left.quotient(right)),
                 (left, right) => left.divide(right),
                 false
             ),
             createBinaryOp(
                 ["%"], 
-                new MeasurementType(), 
-                new UnionType(
-                    new MeasurementType(undefined, left => left), 
-                    new NoneType([new Alias("nan", "eng")])
-                ),
+                new MeasurementType(),
+                new MeasurementType(undefined, left => left),
                 (left, right) => left.remainder(right),
                 false
             ),
@@ -137,27 +131,27 @@ export default function bootstrapMeasurement() {
                 false
             ),
             createBinaryOp(
-                ["<"], new MeasurementType(), new BooleanType(),
+                ["<"], new MeasurementType(undefined, unit => unit), new BooleanType(),
                 (left, right) => left.lessThan(right)
             ),
             createBinaryOp(
-                [">"], new MeasurementType(), new BooleanType(),
+                [">"], new MeasurementType(undefined, unit => unit), new BooleanType(),
                 (left, right) => left.greaterThan(right)
             ),
             createBinaryOp(
-                ["≤"], new MeasurementType(), new BooleanType(),
+                ["≤"], new MeasurementType(undefined, unit => unit), new BooleanType(),
                 (left, right) => new Bool(left.lessThan(right).bool || left.isEqualTo(right))
             ),
             createBinaryOp(
-                ["≥"], new MeasurementType(), new BooleanType(),
+                ["≥"], new MeasurementType(undefined, unit => unit), new BooleanType(),
                 (left, right) => new Bool(left.greaterThan(right).bool || left.isEqualTo(right))
             ),
             createBinaryOp(
-                ["="], new MeasurementType(), new BooleanType(),
+                ["="], new MeasurementType(undefined, unit => unit), new BooleanType(),
                 (left, right) => new Bool(left.isEqualTo(right))
             ),
             createBinaryOp(
-                ["≠"], new MeasurementType(), new BooleanType(),
+                ["≠"], new MeasurementType(undefined, unit => unit), new BooleanType(),
                 (left, right) => new Bool(!left.isEqualTo(right))
             ),
             createUnaryOp(

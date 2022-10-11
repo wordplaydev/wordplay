@@ -2,6 +2,7 @@ import type ConversionDefinition from "./ConversionDefinition";
 import type FunctionDefinition from "./FunctionDefinition";
 import Node from "./Node";
 import type Context from "./Context";
+import type Expression from "./Expression";
 
 export default abstract class Type extends Node {
 
@@ -12,7 +13,7 @@ export default abstract class Type extends Node {
     /**
      * True if the given type can be bound to this type, in the given program context.
      */
-    abstract accepts(type: Type, context: Context): boolean;
+    abstract accepts(type: Type, context: Context, expression?: Expression): boolean;
     abstract getNativeTypeName(): string;
 
     getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {

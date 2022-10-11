@@ -40,7 +40,7 @@ export default class MeasurementType extends Type {
         const thatUnit = type.concreteUnit(context, op);
 
         // Return true if the units are compatible.
-        return thisUnit.accepts(thatUnit);
+        return thisUnit.isEmpty() || thisUnit.accepts(thatUnit);
     }
 
     concreteUnit(context: Context, op?: BinaryOperation): Unit {
