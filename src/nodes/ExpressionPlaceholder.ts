@@ -14,14 +14,18 @@ import type { TypeSet } from "./UnionType";
 import SemanticException from "../runtime/SemanticException";
 import type Evaluator from "../runtime/Evaluator";
 import UnimplementedException from "../runtime/UnimplementedException";
+import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
+import AccessName from "./AccessName";
+import BooleanLiteral from "./BooleanLiteral";
 
 export default class ExpressionPlaceholder extends Expression {
     
     readonly etc: Token;
 
-    constructor(etc: Token) {
+    constructor(etc?: Token) {
         super();
-        this.etc = etc;
+        this.etc = etc ?? new Token(PLACEHOLDER_SYMBOL, [ TokenType.ETC ]);
     }
 
     computeChildren() { return [ this.etc ]; }
@@ -32,7 +36,7 @@ export default class ExpressionPlaceholder extends Expression {
 
     computeType(): Type { return new UnknownType(this); }
 
-    compile():Step[] {
+    compile(): Step[] {
         return [ new Halt(evaluator => new UnimplementedException(evaluator), this) ];
     }
 
@@ -57,5 +61,64 @@ export default class ExpressionPlaceholder extends Expression {
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
+
+    getReplacementOptions() {
+
+        return [
+            {
+                node: new AccessName(new ExpressionPlaceholder(), undefined, new Token("name", [ TokenType.NAME])),
+                label: { "eng": "Get a named value from a structure." }
+            },
+            {
+                node: new BooleanLiteral(true),
+                label: { "eng": "True" }
+            },
+            {
+                node: new BooleanLiteral(false),
+                label: { "eng": "False" }
+            },
+            // {
+            //     code: "… → …",
+            //     action: () => {}
+            // },
+            // {
+            //     code: "… → …",
+            //     action: () => {}
+            // },
+            // {
+            //     code: "ƒ …() …",
+            //     action: () => {}
+            // },
+            // {
+            //     code: "…•…",
+            //     action: () => {}
+            // },
+            // {
+            //     code: "…[…]",
+            //     action: () => {}
+            // },
+            // {
+            //     code: "…{…}",
+            //     action: () => {}
+            // },
+            // {
+            //     code: "… ∆ … …",
+            //     action: () => {}
+            // },
+            // {
+            //     code: "[]",
+            //     action: () => {}
+            // },
+            // {
+            //     code: "{}",
+            //     action: () => {}
+            // },
+            // {
+            //     code: "\\…\\",
+            //     action: () => {}
+            // }
+        ];
+
+    }
 
 }

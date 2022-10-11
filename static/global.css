@@ -22,7 +22,9 @@
     --wordplay-disabled-color: var(--color-lightgrey);
     --wordplay-spacing: 0.5em;
     --wordplay-font-face: "Noto Sans", "Noto Emoji", sans-serif;
+    --wordplay-code-font-face: "Noto Sans Mono", "Noto Emoji", monospace;
     --wordplay-font-weight: 500;
+    --wordplay-font-size: 10pt;
     --wordplay-border-width: 4px;
     --wordplay-border-radius: 6px;
     --wordplay-code-line-height: 1.4;

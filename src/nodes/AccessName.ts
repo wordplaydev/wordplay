@@ -18,6 +18,8 @@ import Bind from "./Bind";
 import UnionType, { TypeSet } from "./UnionType";
 import Conditional from "./Conditional";
 import Is from "./Is";
+import { ACCESS_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
 
 export default class AccessName extends Expression {
 
@@ -27,11 +29,11 @@ export default class AccessName extends Expression {
 
     _unionType: Type | undefined;
 
-    constructor(subject: Expression | Unparsable, access: Token, name: Token) {
+    constructor(subject: Expression | Unparsable, access: Token | undefined, name: Token) {
         super();
 
         this.subject = subject;
-        this.access = access;
+        this.access = access ?? new Token(ACCESS_SYMBOL, [ TokenType.ACCESS ]);
         this.name = name;
     }
 

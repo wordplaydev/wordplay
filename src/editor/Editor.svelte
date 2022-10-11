@@ -5,12 +5,16 @@
     import Caret from '../models/Caret';
     import { afterUpdate, setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
-    import commands, { getTokenByView, type Edit } from './Commands';
+    import commands, { type Edit } from './Commands';
     import NodeView from './NodeView.svelte';
     import type Source from '../models/Source';
     import { writable } from 'svelte/store';
     import Exception from '../runtime/Exception';
     import createRowOutlineOf from './outline';
+    import type Program from '../nodes/Program';
+    import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
+    import Menu from './Menu.svelte';
+    import type { Item } from './Item';
 
     export let source: Source;
 
@@ -22,21 +26,66 @@
 
     let editor: HTMLElement;
     let keyboard: HTMLInputElement;
-    $: program = source.program;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     let caret = writable<Caret>(new Caret(source, 0));
-    
-    // When the source changes, update the caret with the source.
-    $: {
-        caret.set($caret.withSource(source));
-        setContext("caret", caret);
-    }
 
     let selections: Selection[] = [];
 
     let rootWidth = 0;
     let rootHeight = 0;
+
+    // When source changes, update the program
+    $: program = source.program;
+
+    // When the source changes, update the caret with the new source.
+    $: {
+        caret.set($caret.withSource(source));
+        setContext("caret", caret);
+    }
+
+    // When source changes updates, make executing node visible.
+    $: {
+        let executingNode = source.getEvaluator().currentStep()?.node;
+        // If the program contains this node, scroll to it's view.
+        if(executingNode instanceof Node && source.program.contains(executingNode)) {
+            const element = document.querySelector(`[data-id="${executingNode.id}"]`);
+            if(element !== null)
+                ensureElementIsVisible(element, true);
+        }
+    }
+
+    // When the caret changes, determine if it's on a placeholder node for which we should show a menu.
+    let placeholder: {
+        node: ExpressionPlaceholder,
+        location: { left: number, top: number },
+        items: Item[]
+    } | undefined = undefined;
+    let placeholderIndex: number = -1;
+    $: {
+        // Start assuming we won't find one.
+        placeholder = undefined;
+        placeholderIndex = -1;
+        const parent = $caret.getToken()?.getParent();
+        const node = parent instanceof ExpressionPlaceholder ? parent : undefined;
+        if(node) {
+            const viewport = editor.parentElement;
+            const el = getNodeView(node);
+            if(el && viewport) {
+                const placeholderRect = el.getBoundingClientRect();
+                const viewportRect = viewport.getBoundingClientRect();
+                // Yay, we have everything we need to show a menu!
+                placeholder = {
+                    node: node,
+                    location: {
+                        left: placeholderRect.left - viewportRect.left,
+                        top: placeholderRect.bottom - viewportRect.top + 10
+                    },
+                    items: node.getReplacementOptions()
+                }
+            }
+        }
+    }
 
     // When the caret changes, make sure it's in view.
     afterUpdate(() => {
@@ -77,33 +126,36 @@
 
         selections = [];
 
-        if($caret.position instanceof Node)
-            selections.push({ node: $caret.position, kind: "selected", path: undefined });
         if(currentStep?.node instanceof Node)
             selections.push({ node: currentStep.node, kind: "step", path: undefined });
         if(latestValue instanceof Exception && latestValue.step !== undefined && latestValue.step.node instanceof Node)
             selections.push({ node: latestValue.step.node, kind: "exception", path: undefined });
+        // Add selection last, so it's always visible.
+        if($caret.position instanceof Node)
+            selections.push({ node: $caret.position, kind: "selected", path: undefined });
         
         // Compute the paths of the selected nodes.
         if(editor !== undefined) {
             for(const sel of selections) {
-                const nodeView = editor.querySelector(`.node-view[data-id="${sel.node.id}"]`);
-                if(nodeView !== null)
+                const nodeView = getNodeView(sel.node);
+                if(nodeView !== undefined)
                     sel.path = createRowOutlineOf(nodeView, -viewportRect.left + viewport.scrollLeft, -viewportRect.top + viewport.scrollTop);
             }
         }
 
     });
 
-    // When project updates, make executing node visible.
-    $: {
-        let executingNode = source.getEvaluator().currentStep()?.node;
-        // If the program contains this node, scroll to it's view.
-        if(executingNode instanceof Node && source.program.contains(executingNode)) {
-            const element = document.querySelector(`[data-id="${executingNode.id}"]`);
-            if(element !== null)
-                ensureElementIsVisible(element, true);
+    function getNodeView(node: Node): HTMLElement | undefined {
+        const view = editor.querySelector(`.node-view[data-id="${node.id}"]`);
+        return view instanceof HTMLElement ? view : undefined;
+    }
+
+    function getTokenByView(program: Program, tokenView: Element) {
+        if(tokenView instanceof HTMLElement && tokenView.dataset.id !== undefined) {
+            const node = program.getNodeByID(parseInt(tokenView.dataset.id));
+            return node instanceof Token ? node : undefined;
         }
+        return undefined;
     }
 
     function ensureElementIsVisible(element: Element, center: boolean=false) {
@@ -216,6 +268,12 @@
 
     function handleKeyDown(event: KeyboardEvent) {
 
+        if(placeholder !== undefined) {
+            if(event.key === "ArrowDown" && placeholderIndex < placeholder.items.length - 1) { placeholderIndex += 1; return; }
+            else if(event.key === "ArrowUp" && placeholderIndex >= 0) { placeholderIndex -= 1; return; }
+            else if(event.key === "Enter") { handleEdit($caret.replace(placeholder.node, placeholder.items[placeholderIndex].node)); return; }
+        }
+
         // Map meta to control on Mac OS/iOS.
         const control = event.metaKey || event.ctrlKey;
 
@@ -287,7 +345,7 @@
             // Replace the last grapheme entered with this grapheme, then reset the input text field.
             if(lastKeyboardInputValue !== undefined && lastKeyboardInputValue.getLength() === value.getLength()) {
                 const char = lastChar.toString();
-                const newSource = source.withPreviousCharacterReplaced(char, $caret.position);
+                const newSource = source.withPreviousGraphemeReplaced(char, $caret.position);
                 if(newSource) {
                     updateProject($project.withSource(source, newSource));
                     keyboard.value = "";
@@ -298,7 +356,7 @@
 
                 const char = lastChar.toString();
 
-                const newSource = source.withCharacterAt(char, $caret.position);
+                const newSource = source.withGraphemesAt(char, $caret.position);
                 if(newSource) {
                     updateProject($project.withSource(source, newSource));
                     caret.set(new Caret(newSource, $caret.position + 1));
@@ -322,16 +380,25 @@
     bind:this={editor}
     on:mousedown={handleClick}
 >
+    <!-- Render the program -->
     <NodeView node={program}/>
+    <!-- Do we have any selections to render? Render them! -->
     {#each selections as selection }
         <svg class={`selection ${selection.kind}`} width={rootWidth} height={rootHeight}>
             <path d={selection.path}/>
         </svg>
     {/each}
+    <!-- Are we on a placeholder? Show a menu! -->
+    {#if placeholder !== undefined }
+        <div class="menu" style={`left:${placeholder.location.left}px; top:${placeholder.location.top}px;`}>
+            <Menu items={placeholder.items} index={placeholderIndex} select={item => placeholder !== undefined ? handleEdit($caret.replace(placeholder.node, item.node)) : undefined } />
+        </div>
+    {/if}
+    <!-- Render the invisible text field that allows us to capture inputs -->
     <input 
         type="text" 
         class="keyboard-input" 
-        bind:this={keyboard} 
+        bind:this={keyboard}
         on:input={handleKeyboardInput}
         on:keydown={handleKeyDown}
     />
@@ -382,6 +449,11 @@
 
     .selection.selected path {
         stroke: var(--color-blue);
+    }
+
+    .menu {
+        position: absolute;
+        z-index: 2;
     }
 
 </style>

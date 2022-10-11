@@ -147,12 +147,12 @@ export default class Source {
         this.evaluator.stop();
     }
     
-    withPreviousCharacterReplaced(char: string, position: number) {
+    withPreviousGraphemeReplaced(char: string, position: number) {
         const newCode = this.code.withPreviousGraphemeReplaced(char, position);
         return newCode === undefined ? undefined : new Source(this.name, newCode, this.observers);
     }
 
-    withCharacterAt(char: string, position: number) {
+    withGraphemesAt(char: string, position: number) {
         const newCode = this.code.withGraphemeAt(char, position);
         return newCode == undefined ? undefined : new Source(this.name, newCode, this.observers);
     }

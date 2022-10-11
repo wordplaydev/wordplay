@@ -7,17 +7,18 @@ import Bool from "../runtime/Bool";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import type Node from "./Node";
-import { TRUE_SYMBOL } from "../parser/Tokenizer";
+import { FALSE_SYMBOL, TRUE_SYMBOL } from "../parser/Tokenizer";
 import type Bind from "./Bind";
 import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
+import TokenType from "./TokenType";
 
 export default class BooleanLiteral extends Expression {
     readonly value: Token;
 
-    constructor(value: Token) {
+    constructor(value: Token | boolean) {
         super();
-        this.value = value;
+        this.value = value === true || value === false ? new Token(value ? TRUE_SYMBOL : FALSE_SYMBOL, [ TokenType.BOOLEAN ]) : value;
     }
 
     computeConflicts() {}

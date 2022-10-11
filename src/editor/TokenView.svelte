@@ -152,8 +152,8 @@
 
     .token-view {
         display: inline-block;
-        font-family: "Noto Sans Mono", "Noto Emoji", monospace;
-        font-size: 10pt;
+        font-family: var(--wordplay-code-font-face);
+        font-size: var(--wordplay-font-size);
         position: relative;
         cursor: text;
         z-index: 1;
