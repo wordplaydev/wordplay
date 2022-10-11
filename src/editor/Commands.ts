@@ -5,13 +5,15 @@ import Token from "../nodes/Token";
 import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBOL, NOT_SYMBOL, OR_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL, STREAM_SYMBOL, TRUE_SYMBOL, TYPE_SYMBOL, TYPE_VAR_SYMBOL } from "../parser/Tokenizer";
 import type Source from "../models/Source";
 
+export type Edit = Caret | [ Source, Caret] | undefined;
+
 export type Command = {
     description: string,
     key?: string,
     shift?: boolean,
     alt?: boolean,
     control?: boolean,
-    execute: (caret: Caret, editor: HTMLElement, key: string) => Caret | [ Source, Caret] | undefined
+    execute: (caret: Caret, editor: HTMLElement, key: string) => Edit | Promise<Edit>
 }
 
 export function getTokenByView(program: Program, tokenView: Element) {
@@ -22,7 +24,7 @@ export function getTokenByView(program: Program, tokenView: Element) {
     return undefined;
 }
 
-function caretVertical(editor: HTMLElement, caret: Caret, direction: 1 | -1): Caret | undefined {
+function caretVertical(editor: HTMLElement, caret: Caret, direction: 1 | -1): Edit {
 
     if(caret.position instanceof Node) return;
 
@@ -105,14 +107,14 @@ function caretVertical(editor: HTMLElement, caret: Caret, direction: 1 | -1): Ca
 
 }
 
-function insertChar(caret: Caret, char: string): [ Source, Caret] | undefined {
+function insertChar(caret: Caret, char: string): Edit {
     if(typeof caret.position === "number") {
         const newProject = caret.source.withCharacterAt(char, caret.position);
-        return newProject === undefined ? undefined : [ newProject, new Caret(newProject, caret.position + 1) ];
+        return newProject === undefined ? undefined : [ newProject, new Caret(newProject, caret.position + char.length) ];
     }
 }
 
-function backspace(caret: Caret): [ Source, Caret] | undefined  {
+function backspace(caret: Caret): Edit {
     if(typeof caret.position === "number") {
         const newProject = caret.source.withoutGraphemeAt(caret.position - 1);
         return newProject === undefined ? undefined : [ newProject , new Caret(newProject, Math.max(0, caret.position - 1)) ];
@@ -307,6 +309,46 @@ const commands: Command[] = [
         description: "Delete previous character",
         key: "Backspace",
         execute: (caret: Caret) => backspace(caret)
+    },
+    {
+        description: "Copy",
+        key: "KeyC",
+        execute: async (caret: Caret) => {
+
+            if(!(caret.position instanceof Node)) return undefined;
+
+            // Set the OS clipboard.
+            if(navigator.clipboard) {
+                await navigator.clipboard.write([
+                    new ClipboardItem({
+                        "text/plain": new Blob([ caret.position.toWordplay() ], { type: "text/plain" })
+                    })
+                ]);
+            }
+            return undefined;
+        }
+    },
+    {
+        description: "Paste",
+        key: "KeyV",
+        execute: async (caret: Caret) => {
+
+            // See if there's something on the clipboard.
+            if(navigator.clipboard === undefined) return undefined;
+
+            const items = await navigator.clipboard.read();
+            for(const item of items) {
+                for(const type of item.types) {
+                    if(type === "text/plain") {
+                        const blob = await item.getType(type);
+                        const text = await blob.text();
+                        return insertChar(caret, text);
+                    }
+                }
+            }
+            return undefined;
+
+        }
     }
 ];
 

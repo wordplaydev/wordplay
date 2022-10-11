@@ -28,6 +28,7 @@ export default class Caret {
 
     isWhitespace(c: string) { return /[\t\n ]/.test(c); }
     isTab(c: string) { return /[\t]/.test(c); }
+    isNode() { return this.position instanceof Node; }
 
     // Get the code position corresponding to the beginning of the given row.
     rowPosition(row: number): number | undefined {

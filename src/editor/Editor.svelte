@@ -5,7 +5,7 @@
     import Caret from '../models/Caret';
     import { afterUpdate, setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
-    import commands, { getTokenByView } from './Commands';
+    import commands, { getTokenByView, type Edit } from './Commands';
     import NodeView from './NodeView.svelte';
     import type Source from '../models/Source';
     import { writable } from 'svelte/store';
@@ -228,24 +228,34 @@
 
                 // If it produced a new caret and optionally a new project, update the stores.
                 if(result !== undefined) {
-                    // Get the new caret and project to display.
-                    const newCaret = result instanceof Caret ? result : result[1];
-                    const newSource = result instanceof Caret ? undefined : result[0];
-
-                    // Update the caret and project.
-                    if(newSource) {
-                        updateProject($project.withSource(source, newSource));
-                        caret.set(newCaret.withSource(newSource));
-                    } else {
-                        caret.set(newCaret);
-                    }
-
+                    if(result instanceof Promise)
+                        result.then(edit => handleEdit(edit));
+                    else
+                        handleEdit(result);
                 }
 
                 // Stop looking for commands, we found one and tried it!
                 break;
                 
             }
+        }
+
+    }
+
+    function handleEdit(edit: Edit) {
+
+        if(edit === undefined) return;
+
+        // Get the new caret and source to display.
+        const newCaret = edit instanceof Caret ? edit : edit[1];
+        const newSource = edit instanceof Caret ? undefined : edit[0];
+
+        // Update the caret and project.
+        if(newSource) {
+            updateProject($project.withSource(source, newSource));
+            caret.set(newCaret.withSource(newSource));
+        } else {
+            caret.set(newCaret);
         }
 
     }
