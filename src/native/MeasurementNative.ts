@@ -110,9 +110,12 @@ export default function bootstrapMeasurement() {
                 false
             ),
             createBinaryOp(
-                ["÷"], 
+                ["÷"],
                 new MeasurementType(), 
-                new MeasurementType(undefined, (left, right) => left.quotient(right)),
+                new UnionType(
+                    new MeasurementType(undefined, (left, right) => left.quotient(right)),
+                    new NoneType([ new Alias("nan", "eng")])
+                ),
                 (left, right) => left.divide(right),
                 false
             ),
