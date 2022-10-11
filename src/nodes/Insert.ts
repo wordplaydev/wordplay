@@ -145,4 +145,10 @@ export default class Insert extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "Insert a row in a table"
+        }
+    }
+
 }

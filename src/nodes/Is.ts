@@ -116,4 +116,10 @@ export default class Is extends Expression {
     
     }
 
+    getDescriptions() {
+        return {
+            eng: "Check if a value is a type"
+        }
+    }
+
 }

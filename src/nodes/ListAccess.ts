@@ -106,4 +106,10 @@ export default class ListAccess extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "Get a value from a list by index"
+        }
+    }
+
 }

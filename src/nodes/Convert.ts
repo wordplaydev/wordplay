@@ -161,6 +161,12 @@ export default class Convert extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "Convert a value"
+        }
+    }
+
 }
 
 function getConversionPath(input: Type, output: Type, conversions: ConversionDefinition[], context: Context): ConversionDefinition[] {

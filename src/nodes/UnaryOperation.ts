@@ -128,5 +128,11 @@ export default class UnaryOperation extends Expression {
         return original.difference(possible, context);
 
     }
-    
+
+    getDescriptions() {
+        return {
+            eng: "Evaluate a function on a value"
+        }
+    }
+
 }

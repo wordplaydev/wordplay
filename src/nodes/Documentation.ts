@@ -27,4 +27,10 @@ export default class Documentation extends Node {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "Documentation"
+        }
+    }
+
 }

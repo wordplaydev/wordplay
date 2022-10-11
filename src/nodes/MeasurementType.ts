@@ -73,4 +73,10 @@ export default class MeasurementType extends Type {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "A number type"
+        }
+    }
+
 }

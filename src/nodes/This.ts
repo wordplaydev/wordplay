@@ -89,4 +89,10 @@ export default class This extends Expression {
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
+    getDescriptions() {
+        return {
+            eng: "The value of this"
+        }
+    }
+
 }

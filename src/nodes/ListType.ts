@@ -60,4 +60,10 @@ export default class ListType extends Type {
         return name === LIST_TYPE_VAR_NAME && this.type instanceof Type ? this.type : undefined;
     };
 
+    getDescriptions() {
+        return {
+            eng: "A list type"
+        }
+    }
+
 }

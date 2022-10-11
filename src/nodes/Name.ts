@@ -145,4 +145,10 @@ export default class Name extends Expression {
 
     clone(original?: Node, replacement?: Node) { return new Name(this.name.cloneOrReplace([ Token ], original, replacement)) as this; }
     
+    getDescriptions() {
+        return {
+            eng: "A name"
+        }
+    }
+
 }

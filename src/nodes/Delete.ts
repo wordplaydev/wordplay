@@ -109,4 +109,10 @@ export default class Delete extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "Delete a row from a table"
+        }
+    }
+
 }

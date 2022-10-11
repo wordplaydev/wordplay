@@ -115,4 +115,10 @@ export default class MapLiteral extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "A mapping from one set of values to another"
+        }
+    }
+
 }

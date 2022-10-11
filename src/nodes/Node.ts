@@ -4,6 +4,7 @@ import type Definition from "./Definition";
 import type NativeInterface from "../native/NativeInterface";
 import Context from "./Context";
 import type Source from "../models/Source";
+import type Translations from "./Translations";
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -23,7 +24,7 @@ export default abstract class Node {
     _conflicts: undefined | Conflict[] = undefined;
 
     constructor() {
-        this.id = NODE_ID_COUNTER++;        
+        this.id = NODE_ID_COUNTER++;
     }
 
     /* A recursive function that computes parents. Called by the root. Assumes the tree is immutable. */
@@ -211,5 +212,7 @@ export default abstract class Node {
         else
             return this.clone(original, replacement) as this;
     }
+
+    abstract getDescriptions(): Translations;
 
 }

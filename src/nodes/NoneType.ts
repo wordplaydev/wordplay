@@ -44,7 +44,15 @@ export default class NoneType extends Type {
 
     clone(original?: Node, replacement?: Node) { 
         return new NoneType(
-            this.aliases.map(a => a.cloneOrReplace([ Alias ], original, replacement))) as this; 
+            this.aliases.map(a => a.cloneOrReplace([ Alias ], original, replacement))
+        ) as this; 
+    }
+
+    getDescriptions() {
+        return {
+            eng: "A none type."
         }
+    }
+
 
 }

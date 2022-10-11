@@ -57,4 +57,10 @@ export default class Alias extends Node {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "A name"
+        }
+    }
+
 }

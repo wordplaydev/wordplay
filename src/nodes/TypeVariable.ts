@@ -28,4 +28,10 @@ export default class TypeVariable extends Node {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "A variable type"
+        }
+    }
+
 }

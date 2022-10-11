@@ -83,4 +83,10 @@ export default class Template extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "Text made of values"
+        }
+    }
+
 }

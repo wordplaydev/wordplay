@@ -116,5 +116,11 @@ export default class ConversionDefinition extends Expression {
             this.expression.evaluateTypeSet(bind, original, current, context);
         return current;
     }
+ 
+    getDescriptions() {
+        return {
+            eng: "A value conversion function"
+        }
+    }
 
 }

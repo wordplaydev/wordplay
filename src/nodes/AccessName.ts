@@ -20,6 +20,7 @@ import Conditional from "./Conditional";
 import Is from "./Is";
 import { ACCESS_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
+import type Translations from "./Translations";
 
 export default class AccessName extends Expression {
 
@@ -150,6 +151,12 @@ export default class AccessName extends Expression {
             this._unionType = possibleTypes.type();
         }
         return current;
+    }
+
+    getDescriptions(): Translations {
+        return {
+            eng: "Get a named value on a structure"
+        }
     }
 
 }

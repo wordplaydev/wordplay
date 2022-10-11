@@ -58,4 +58,10 @@ export default class NoneLiteral extends Expression {
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
+    getDescriptions() {
+        return {
+            eng: "A none value"
+        }
+    }
+
 }

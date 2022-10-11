@@ -85,4 +85,10 @@ export default class ListLiteral extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "A list of values"
+        }
+    }
+
 }

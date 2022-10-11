@@ -35,4 +35,10 @@ export default class Dimension extends Node {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "A dimension of a unit"
+        }
+    }
+
 }

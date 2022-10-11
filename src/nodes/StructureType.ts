@@ -60,4 +60,10 @@ export default class StructureType extends Type {
 
     clone() { return new StructureType(this.definition) as this; }
     
+    getDescriptions() {
+        return {
+            eng: "A structure type"
+        }
+    }
+
 }

@@ -123,4 +123,10 @@ export default class TableLiteral extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "A table"
+        }
+    }
+
 }

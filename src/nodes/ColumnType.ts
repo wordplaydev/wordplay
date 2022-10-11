@@ -42,4 +42,10 @@ export default class ColumnType extends Type {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "A table column type"
+        }
+    }
+
 }

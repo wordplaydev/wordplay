@@ -145,4 +145,10 @@ export default class Update extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "Update rows in a table"
+        }
+    }
+
 }

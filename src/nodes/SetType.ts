@@ -62,4 +62,10 @@ export default class SetType extends Type {
         return name === SET_TYPE_VAR_NAME && this.key instanceof Type ? this.key : undefined;
     };
 
+    getDescriptions() {
+        return {
+            eng: "A set type"
+        }
+    }
+
 }

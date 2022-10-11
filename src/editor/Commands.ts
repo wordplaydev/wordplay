@@ -1,5 +1,4 @@
 import type Caret from "../models/Caret";
-import type Program from "../nodes/Program";
 import Node from "../nodes/Node";
 import Token from "../nodes/Token";
 import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBOL, NOT_SYMBOL, OR_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL, STREAM_SYMBOL, TRUE_SYMBOL, TYPE_SYMBOL, TYPE_VAR_SYMBOL } from "../parser/Tokenizer";

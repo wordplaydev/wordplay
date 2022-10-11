@@ -94,4 +94,10 @@ export default class Program extends Node implements Evaluable {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "A program"
+        }
+    }
+
 }

@@ -47,4 +47,10 @@ export default class TextType extends Type {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "A text type"
+        }
+    }
+
 }

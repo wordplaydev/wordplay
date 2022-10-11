@@ -64,6 +64,12 @@ export default class UnionType extends Type {
             );
     }
     
+    getDescriptions() {
+        return {
+            eng: "One of these types"
+        }
+    }
+
 }
 
 /** Given a list of types, remove all duplicates, and if only one remains, return it.

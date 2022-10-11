@@ -29,5 +29,11 @@ export default class TypeInput extends Node {
     }
 
     computeConflicts() {}
+
+    getDescriptions() {
+        return {
+            eng: "A type input"
+        }
+    }
     
 }

@@ -19,7 +19,7 @@
     {#each items as item, i}
         <div class={`item ${i === index ? "selected" : ""}`} on:mousedown={event => handleItemClick(item, event)}>
             <div class="col"><svelte:component this={nodeToView.get(item.node.constructor) ?? UnknownNodeView} node={item.node} /></div>
-            <div class="col"><em>{item.label.eng}</em></div>
+            <div class="col"><em>{item.node.getDescriptions().eng}</em></div>
         </div>
     {/each}
 </section>

@@ -31,4 +31,10 @@ export default class KeyValue extends Node {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "A map key/value pair."
+        }
+    }
+
 }

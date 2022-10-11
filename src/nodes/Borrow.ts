@@ -67,4 +67,10 @@ export default class Borrow extends Node implements Evaluable {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: `Borrow a value`
+        }
+    }
+
 }

@@ -31,4 +31,10 @@ export default class ExceptionType extends Type {
 
     clone() { return new ExceptionType(this.exception) as this; }
 
+    getDescriptions() {
+        return {
+            eng: "An exception"
+        }
+    }
+
 }

@@ -150,4 +150,10 @@ export default class Reaction extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "A reaction to a stream change"
+        }
+    }
+
 }

@@ -81,4 +81,10 @@ export default class MapType extends Type {
             undefined;
     };
 
+    getDescriptions() {
+        return {
+            eng: "A map type"
+        }
+    }
+
 }

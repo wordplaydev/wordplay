@@ -114,4 +114,10 @@ export default class SetOrMapAccess extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "Get a value in a set or a map"
+        }
+    }
+
 }

@@ -18,4 +18,10 @@ export default class AnyType extends Type {
 
     clone() { return new AnyType() as this; }
 
+    getDescriptions() {
+        return {
+            eng: "A wildcard type"
+        }
+    }
+
 }

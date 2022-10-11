@@ -27,6 +27,13 @@ export default class TypePlaceholder extends Type {
     clone(original?: Node, replacement?: Node) { 
         return new TypePlaceholder(
             this.etc.cloneOrReplace([ Token ], original, replacement)
-        ) as this; }
+        ) as this; 
+    }
+
+    getDescriptions() {
+        return {
+            eng: "A type placeholder"
+        }
+    }
 
 }

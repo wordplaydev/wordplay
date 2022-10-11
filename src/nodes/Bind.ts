@@ -247,4 +247,10 @@ export default class Bind extends Node implements Evaluable, Named {
         ) as this; 
     }
     
+    getDescriptions() {
+        return {
+            eng: "Name a value."
+        }
+    }
+
 }

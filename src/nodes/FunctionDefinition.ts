@@ -201,4 +201,10 @@ export default class FunctionDefinition extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "A function definition."
+        }
+    }
+
 }

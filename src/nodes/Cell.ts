@@ -33,4 +33,10 @@ export default class Cell extends Node {
         return this.value.getType(context);
     }
 
+    getDescriptions() {
+        return {
+            eng: "A table cell"
+        }
+    }
+
 }

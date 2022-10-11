@@ -29,4 +29,10 @@ export default class BooleanType extends Type {
 
     clone(original?: Node, replacement?: Node) { return new BooleanType(this.type.cloneOrReplace([ Token ], original, replacement)) as this; }
 
+    getDescriptions() {
+        return {
+            eng: "A boolean type"
+        }
+    }
+
 }

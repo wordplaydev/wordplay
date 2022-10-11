@@ -247,4 +247,10 @@ export default class StructureDefinition extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "A structure definition"
+        }
+    }
+
 }

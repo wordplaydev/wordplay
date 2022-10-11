@@ -62,4 +62,11 @@ export default class Token extends Node {
     toWordplay() { return this.getWhitespace() + this.text.toString(); }
     computeConflicts() {}
     clone() { return new Token(this.text, this.types, this.index, this.whitespace) as this; }
+
+    getDescriptions() {
+        return {
+            eng: "A token"
+        }
+    }
+
 }

@@ -18,6 +18,7 @@ import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import AccessName from "./AccessName";
 import BooleanLiteral from "./BooleanLiteral";
+import type Translations from "./Translations";
 
 export default class ExpressionPlaceholder extends Expression {
     
@@ -66,16 +67,13 @@ export default class ExpressionPlaceholder extends Expression {
 
         return [
             {
-                node: new AccessName(new ExpressionPlaceholder(), undefined, new Token("name", [ TokenType.NAME])),
-                label: { "eng": "Get a named value from a structure." }
+                node: new AccessName(new ExpressionPlaceholder(), undefined, new Token("name", [ TokenType.NAME]))
             },
             {
-                node: new BooleanLiteral(true),
-                label: { "eng": "True" }
+                node: new BooleanLiteral(true)
             },
             {
-                node: new BooleanLiteral(false),
-                label: { "eng": "False" }
+                node: new BooleanLiteral(false)
             },
             // {
             //     code: "… → …",
@@ -119,6 +117,12 @@ export default class ExpressionPlaceholder extends Expression {
             // }
         ];
 
+    }
+
+    getDescriptions(): Translations {
+        return {
+            eng: "An expression placeholder"
+        }
     }
 
 }

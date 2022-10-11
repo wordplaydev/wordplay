@@ -130,4 +130,10 @@ export default class Conditional extends Expression {
     
     }
     
+    getDescriptions() {
+        return {
+            eng: "Evaluate to one of two values based on a test value"
+        }
+    }
+
 }

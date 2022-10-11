@@ -54,4 +54,10 @@ export default class NativeExpression extends Expression {
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { context; bind; original; return current; }
 
+    getDescriptions() {
+        return {
+            eng: "A native expression"
+        }
+    }
+
 }

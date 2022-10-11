@@ -37,4 +37,11 @@ export default class Language extends Node {
             this.slash.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
     }
+
+    getDescriptions() {
+        return {
+            eng: "A language"
+        }
+    }
+
 }

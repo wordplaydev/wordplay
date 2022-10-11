@@ -69,6 +69,12 @@ export default class Unparsable extends Node implements Evaluable {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "An unparsable sequence of symbols"
+        }
+    }
+
 }
 
 

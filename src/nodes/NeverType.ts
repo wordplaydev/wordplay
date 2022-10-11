@@ -18,4 +18,10 @@ export default class NeverType extends Type {
 
     clone() { return new NeverType() as this; }
 
+    getDescriptions() {
+        return {
+            eng: "An impossible type"
+        }
+    }
+
 }

@@ -41,11 +41,21 @@ export default class BooleanLiteral extends Expression {
     }
 
     evaluate(): Value {
-        return new Bool(this.value.text.toString() === TRUE_SYMBOL);
+        return new Bool(this.bool());
+    }
+
+    bool(): boolean {
+        return this.value.text.toString() === TRUE_SYMBOL;
     }
 
     clone(original?: Node, replacement?: Node) { return new BooleanLiteral(this.value.cloneOrReplace([ Token ], original, replacement)) as this; }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
+
+    getDescriptions() {
+        return {
+            eng: `${this.bool() ? "True" : "False"}`
+        }
+    }
 
 }

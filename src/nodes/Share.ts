@@ -96,4 +96,10 @@ export default class Share extends Node implements Evaluable {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "Share a named value"
+        }
+    }
+
 }

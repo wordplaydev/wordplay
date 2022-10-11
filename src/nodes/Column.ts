@@ -32,4 +32,10 @@ export default class Column extends Node {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "A table column"
+        }
+    }
+
 }

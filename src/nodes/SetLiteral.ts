@@ -90,4 +90,10 @@ export default class SetLiteral extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "A set of unique values"
+        }
+    }
+
 }

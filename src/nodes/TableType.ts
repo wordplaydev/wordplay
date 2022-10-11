@@ -49,4 +49,10 @@ export default class TableType extends Type {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "A table type"
+        }
+    }
+
 }

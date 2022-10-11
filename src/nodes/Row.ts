@@ -37,4 +37,10 @@ export default class Row extends Node {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "A table row"
+        }
+    }
+
 }

@@ -24,4 +24,10 @@ export default class VariableType extends Type {
 
     clone() { return new VariableType(this.definition) as this; }
 
+    getDescriptions() {
+        return {
+            eng: "A variable type type"
+        }
+    }
+
 }

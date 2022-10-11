@@ -72,4 +72,10 @@ export default class MeasurementLiteral extends Expression {
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
+    getDescriptions() {
+        return {
+            eng: "A number with an optional unit"
+        }
+    }
+
 }

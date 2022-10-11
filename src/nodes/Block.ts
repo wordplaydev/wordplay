@@ -176,5 +176,11 @@ export default class Block extends Expression {
         return last instanceof Expression ? last.evaluateTypeSet(bind, original, current, context) : current;
 
     }
-    
+
+    getDescriptions() {
+        return {
+            eng: "Evaluate one or more expressions"
+        }
+    }
+
 }

@@ -180,4 +180,10 @@ export default class Unit extends Type {
         
     }
 
+    getDescriptions() {
+        return {
+            eng: "A unit on a number"
+        }
+    }
+
 }

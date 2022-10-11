@@ -41,4 +41,10 @@ export default class StreamType extends Type {
         ) as this; 
     }
 
+    getDescriptions() {
+        return {
+            eng: "A stream type"
+        }
+    }
+
 }

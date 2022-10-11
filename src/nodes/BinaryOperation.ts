@@ -210,4 +210,10 @@ export default class BinaryOperation extends Expression {
     
     }
 
+    getDescriptions() {
+        return {
+            eng: "Evaluate an operation with two inputs."
+        }
+    }
+
 }

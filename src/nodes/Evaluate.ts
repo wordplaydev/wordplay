@@ -38,6 +38,7 @@ import SemanticException from "../runtime/SemanticException";
 import FunctionException from "../runtime/FunctionException";
 import ValueException from "../runtime/ValueException";
 import Exception from "../runtime/Exception";
+import type Translations from "./Translations";
 
 export default class Evaluate extends Expression {
 
@@ -548,6 +549,12 @@ export default class Evaluate extends Expression {
         if(this.func instanceof Expression) this.func.evaluateTypeSet(bind, original, current, context);
         this.inputs.forEach(input => { if(input instanceof Expression) input.evaluateTypeSet(bind, original, current, context); });
         return current;
+    }
+
+    getDescriptions(): Translations {
+        return {
+            eng: "Evaluate a function"
+        }
     }
 
 }

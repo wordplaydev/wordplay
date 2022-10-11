@@ -21,4 +21,10 @@ export default class UnknownType extends Type {
 
     clone() { return new UnknownType(this.node) as this; }
     
+    getDescriptions() {
+        return {
+            eng: "An unknown type"
+        }
+    }
+
 }

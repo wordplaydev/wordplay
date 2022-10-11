@@ -68,4 +68,10 @@ export default class NameType extends Type {
 
     clone(original?: Node, replacement?: Node) { return new NameType(this.type.cloneOrReplace([ Token ], original, replacement)) as this; }
 
+    getDescriptions() {
+        return {
+            eng: "A structure type"
+        }
+    }
+
 }

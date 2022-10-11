@@ -153,4 +153,10 @@ export default class Select extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "Select rows from a table"
+        }
+    }
+
 }

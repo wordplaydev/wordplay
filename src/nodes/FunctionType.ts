@@ -67,4 +67,11 @@ export default class FunctionType extends Type {
         return getEvaluationInputConflicts(this.inputs);
         
     }
+
+    getDescriptions() {
+        return {
+            eng: "A function type."
+        }
+    }
+
 }

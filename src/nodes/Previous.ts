@@ -101,4 +101,10 @@ export default class Previous extends Expression {
         return current;
     }
 
+    getDescriptions() {
+        return {
+            eng: "A previous stream value"
+        }
+    }
+
 }
