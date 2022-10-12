@@ -74,4 +74,16 @@ export default class NameType extends Type {
         }
     }
 
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        const definition = this.resolve(context);
+        if(child === this.type)
+            return (this.getAllDefinitions(context, this)
+                    .filter(def => def instanceof StructureDefinition && def !== definition) as StructureDefinition[])
+                    .reduce((names: string[], def: StructureDefinition) => [... names, ...def.getNames() ], [])
+                    .map(name => new Token(name, [ TokenType.NAME ]))
+        else return [];
+
+    }
+
 }
