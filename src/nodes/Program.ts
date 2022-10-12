@@ -7,8 +7,6 @@ import type Evaluable from "../runtime/Evaluable";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
-import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
-import Stream from "../runtime/Stream";
 import Token from "./Token";
 import type Context from "./Context";
 import Node from "./Node";
@@ -38,30 +36,15 @@ export default class Program extends Node implements Evaluable {
     computeChildren() { return [ ...this.borrows, this.block, this.end ]; }
     computeConflicts() {}
 
-    getDefinitionOfName(name: string, context: Context): Definition {
+    getDefinitions(node: Node, context: Context): Definition[] {
 
-        if(context.shares !== undefined) {
-            const share = context.shares.resolve(name);
-            if(share instanceof StructureDefinitionValue)
-                return share.definition;
-            else if(share instanceof Stream)
-                return share;
-        }
-        // Is it one of the borrows?
-        const borrow = this.borrows.find(borrow => borrow instanceof Borrow && borrow.name.getText() === name);
-        if(borrow !== undefined) {
-            const bind = context.source.getProject()?.getDefinition(context.source, name);
-            if(bind !== undefined) return bind;
-        }
-        
-        return undefined;
-    }
-
-    getAllDefinitions(context: Context): Definition[] {
-        
-        return  (this.borrows.filter(borrow => borrow instanceof Borrow) as Borrow[])
-                .map(borrow => context.source.getProject()?.getDefinition(context.source, borrow.name.getText()))
-                .filter(d => d !== undefined) as Definition[];
+        node;
+        return  [
+            ...context.shares?.getDefinitions() ?? [],
+            ...(this.borrows.filter(borrow => borrow instanceof Borrow) as Borrow[])
+            .map(borrow => context.source.getProject()?.getDefinition(context.source, borrow.name.getText()))
+            .filter(d => d !== undefined) as Definition[],
+        ]  
 
     }
     

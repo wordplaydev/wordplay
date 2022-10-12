@@ -49,23 +49,39 @@ export default abstract class Node {
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
     abstract computeConflicts(context: Context): Conflict[] | void;
 
+    /**
+     * Get all bindings defined by this node.
+     */
+    getDefinitions(node: Node, context: Context): Definition[] { context; node; return []; }
+    
+    /** Get all bindings defined by this node and all binding enclosures. */
+    getAllDefinitions(node: Node, context: Context): Definition[] {
+
+        let definitions: Definition[] = [];
+        let current: Node | undefined = this;
+        while(current !== undefined) {
+            definitions = [ ...current.getDefinitions(node, context), ...definitions ];
+            current = current.getBindingEnclosureOf();
+        }
+        return definitions;
+
+    }
+
     /** 
      * Each node has the option of exposing bindings. By default, nodes expose no bindings.
      **/
-    getDefinitionOfName(name: string, context: Context, node: Node): Definition {
-        // Silliness to avoid warnings on unused arguments.
-        name; context; node;
+    getDefinitionOfName(name: string, context: Context, node: Node): Definition | undefined {
+        
+        let current: Node | undefined = this;
+        while(current !== undefined) {
+            const def = current.getDefinitions(node, context).find(def => def.hasName(name));
+            if(def !== undefined) return def;
+            current = current.getBindingEnclosureOf();
+        }
         return undefined;
     };
-
-    /**
-     * Get all bindings available at this node)
-     */
-    getAllDefinitions(context: Context, node: Node): Definition[] {
-        return this.getBindingEnclosureOf()?.getAllDefinitions(context, node) ?? [];
-    }
     
-   /**
+    /**
      * Gathers all matching definitions in scope, useful for checking for duplicate bindings.
      */
     getAllDefinitionsOfName(name: string, context: Context, node: Node): Definition[] {

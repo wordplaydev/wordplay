@@ -184,7 +184,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
         // Find the name, using the binding enclosure, or the program.
         const enclosure = this.getBindingEnclosureOf();
-        const definition = enclosure !== undefined ? enclosure.getDefinitionOfName(name, context, this) : context.program.getDefinitionOfName(name, context);
+        const definition = enclosure !== undefined ? enclosure.getDefinitionOfName(name, context, this) : context.program.getDefinitionOfName(name, context, this);
         if(definition === undefined) return new UnknownType(this);
         else if(definition instanceof Bind) return definition.getTypeUnlessCycle(context);
         else if(definition instanceof TypeVariable) return new UnknownType(this);

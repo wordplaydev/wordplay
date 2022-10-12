@@ -150,32 +150,14 @@ export default class StructureDefinition extends Expression {
     
     }
 
-    /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
-    getDefinitionOfName(name: string, context: Context, node: Node): Definition {
-
-        // Is this it? Return it.
-        if(this.aliases.find(a => a.getName() === name)) return this;
-
-        // Does an input delare the name?
-        const input = this.getBind(name);
-        if(input !== undefined) return input;
-
-        // Is it a type variable?
-        const typeVar = this.typeVars.find(t => t instanceof TypeVariable && t.name.text.toString() === name) as TypeVariable | undefined;
-        if(typeVar !== undefined) return typeVar;
-
-        // If not, does the function nearest function or block declare the name?
-        return this.getBindingEnclosureOf()?.getDefinitionOfName(name, context, node);
-
-    }
-
-    getAllDefinitions(context: Context, node: Node): Definition[] {
+    getDefinitions(node: Node): Definition[] {
         // Does an input delare the name that isn't the one asking?
-        return [ 
+        return [
+            this,
             ... this.inputs.filter(i => i instanceof Bind && i !== node) as Bind[], 
             ... this.typeVars.filter(t => t instanceof TypeVariable) as TypeVariable[],
-            ... this.getBindingEnclosureOf()?.getAllDefinitions(context, node) ?? []
-        ];        
+            ... (this.block instanceof Block ? this.block.statements.filter(s => s instanceof FunctionDefinition || s instanceof StructureDefinition) as Definition[] : [])
+        ];
     }
 
     /**

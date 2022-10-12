@@ -64,16 +64,14 @@ export default class Insert extends Expression {
         return this.table.getTypeUnlessCycle(context);
     }
 
-    // Check the table's column binds.
-    getDefinitionOfName(name: string, context: Context, node: Node): Definition {
-    
-        const type = this.table.getTypeUnlessCycle(context);
-        if(type instanceof TableType) {
-            const column = type.getColumnNamed(name);
-            if(column !== undefined && column.bind instanceof Bind) return column.bind;
-        }
+    getDefinitions(node: Node, context: Context): Definition[] {
 
-        return this.getBindingEnclosureOf()?.getDefinitionOfName(name, context, node);
+        node;
+        const type = this.table.getTypeUnlessCycle(context);
+        if(type instanceof TableType)
+            return type.columns.filter(col => col.bind instanceof Bind).map(col => col.bind) as Bind[];
+        else
+            return [];
 
     }
 

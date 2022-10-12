@@ -25,6 +25,8 @@ export default abstract class Stream extends Primitive {
 
     abstract getNames(): Translations;
 
+    hasName(name: string) { return Object.values(this.getNames()).includes(name); }
+
     isEqualTo(value: Value): boolean {
         return value === this;
     }

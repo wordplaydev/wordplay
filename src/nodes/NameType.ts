@@ -45,7 +45,7 @@ export default class NameType extends Type {
         return thisType === undefined ? false : thisType.accepts(type, context);
     }
 
-    resolve(context: Context): Definition {
+    resolve(context: Context): Definition | undefined {
 
         const enclosure = this.getBindingEnclosureOf() ?? context.program;
         return enclosure.getDefinitionOfName(this.getName(), context, this);
@@ -78,7 +78,7 @@ export default class NameType extends Type {
 
         const definition = this.resolve(context);
         if(child === this.type)
-            return (this.getAllDefinitions(context, this)
+            return (this.getDefinitions(this, context)
                     .filter(def => def instanceof StructureDefinition && def !== definition) as StructureDefinition[])
                     .reduce((names: string[], def: StructureDefinition) => [... names, ...def.getNames() ], [])
                     .map(name => new Token(name, [ TokenType.NAME ]))

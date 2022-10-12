@@ -12,8 +12,9 @@ import type StructureDefinition from "../nodes/StructureDefinition";
 import type Evaluator from "./Evaluator";
 import Layout, { Vertical } from "../native/Layout";
 import Microphone from "../native/Microphone";
+import type Definition from "../nodes/Definition";
 
-export const DEFAULT_SHARES: Record<string, Value> = {}
+export const DEFAULT_SHARES: Record<string, StructureDefinitionValue | Stream> = {}
 
 function addDefaultShare(def: StructureDefinition) {
     const val = new StructureDefinitionValue(def);
@@ -71,6 +72,11 @@ export default class Shares {
         Object.values(this.microphone.getNames()).forEach(name => this.bind(name, this.microphone));
         
     }
+
+    getDefinitions() { 
+        return  Array.from(this.values.values())
+                .filter(v => v instanceof StructureDefinitionValue || v instanceof Stream)
+                .map(v => v instanceof StructureDefinitionValue ? v.definition : v) as Definition[] }
 
     getStreams(): Stream[] {
         return Array.from(this.values.values()).filter(v => v instanceof Stream) as Stream[];

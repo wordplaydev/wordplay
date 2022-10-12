@@ -87,43 +87,13 @@ export default class Block extends Expression {
 
     }
 
-    /** Given the index in this block and the given name, binds the bind that declares it, if there is one. */
-    getDefinitionOfName(name: string, context: Context, node: Node): Definition {
-
-        const index = this.getStatementIndexContaining(node);
-        if(index === undefined) return;
-
-        // Do any of the binds, shares, structure, or function definitions declare it?
-        const localBind = this.statements.find((s, i)  => 
-            // Note that we allow an bind to refer to itself, since bound reactions can refer to themselves.
-            i <= index &&
-            (
-                (s instanceof Bind && s.hasName(name)) ||
-                (s instanceof Share && s.bind instanceof Bind && s.bind.hasName(name)) ||
-                (s instanceof StructureDefinition && s.hasName(name)) || 
-                (s instanceof FunctionDefinition && s.aliases.find(n => n.getName() === name) !== undefined)
-            )
-        ) as Bind | Share | StructureDefinition | FunctionDefinition;
-
-        // If we found a local bind, return it.
-        if(localBind instanceof Share) {
-            if(!(localBind.bind instanceof Unparsable)) 
-                return localBind.bind;
-        }
-        else if(localBind !== undefined) return localBind;
-
-        // Is there an enclosing function or block?
-        return this.getBindingEnclosureOf()?.getDefinitionOfName(name, context, node);
-        
-    }
-
-    getAllDefinitions(context: Context, node: Node): Definition[] {
+    getDefinitions(node: Node): Definition[] {
 
         const index = this.getStatementIndexContaining(node);
         if(index === undefined) return [];
 
         // Do any of the binds, shares, structure, or function definitions declare it?
-        const definitions = this.statements.filter((s, i)  => 
+        return this.statements.filter((s, i)  => 
             // Note that we allow an bind to refer to itself, since bound reactions can refer to themselves.
             i <= index &&
             (
@@ -133,8 +103,6 @@ export default class Block extends Expression {
                 s instanceof FunctionDefinition
             )
         ).map(s => s instanceof Share ? s.bind : s) as Definition[];
-
-        return [ ... definitions, ...this.getBindingEnclosureOf()?.getAllDefinitions(context, node) ?? [] ];
         
     }
  

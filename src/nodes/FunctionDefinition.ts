@@ -65,6 +65,10 @@ export default class FunctionDefinition extends Expression {
         return this.getNames().find(n => funNames.includes(n)) !== undefined;
     }
 
+    hasName(name: string) {
+        return !(this.aliases instanceof Token) && this.aliases.find(a => a.getName() === name) !== undefined;
+    }
+
     /**
      * Name, inputs, and outputs must match.
      */
@@ -119,29 +123,12 @@ export default class FunctionDefinition extends Expression {
     
     }
 
-    /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
-    getDefinitionOfName(name: string, context: Context, node: Node): Definition {
-
-        // Does an input delare the name that isn't the one asking?
-        const input = this.inputs.find(i => i instanceof Bind && i.hasName(name) && i !== node) as Bind | undefined;
-        if(input !== undefined) return input;
-
-        // Is it a type variable?
-        const typeVar = this.typeVars.find(t => t instanceof TypeVariable && t.name.text.toString() === name) as TypeVariable | undefined;
-        if(typeVar !== undefined) return typeVar;
-
-        // If not, does the function nearest function or block declare the name?
-        return this.getBindingEnclosureOf()?.getDefinitionOfName(name, context, node);
-
-    }
-
-    getAllDefinitions(context: Context, node: Node): Definition[] {
+    getDefinitions(node: Node): Definition[] {
 
         // Does an input delare the name that isn't the one asking?
         return [ 
             ... this.inputs.filter(i => i instanceof Bind && i !== node) as Bind[], 
-            ... this.typeVars.filter(t => t instanceof TypeVariable) as TypeVariable[],
-            ... this.getBindingEnclosureOf()?.getAllDefinitions(context, node) ?? []
+            ... this.typeVars.filter(t => t instanceof TypeVariable) as TypeVariable[]
         ];
         
     }
@@ -153,10 +140,6 @@ export default class FunctionDefinition extends Expression {
             this.expression instanceof Token || this.expression instanceof Unparsable ? new UnknownType(this) : 
             this.expression.getTypeUnlessCycle(context);
         return new FunctionType(this.inputs, outputType);
-    }
-
-    hasName(name: string) {
-        return !(this.aliases instanceof Token) && this.aliases.find(a => a.getName() === name) !== undefined;
     }
 
     compile(): Step[] {

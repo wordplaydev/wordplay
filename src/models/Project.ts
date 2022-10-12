@@ -49,7 +49,7 @@ export default class Project {
 
     }
 
-    getDefinition(borrower: Source, name: string): Definition {
+    getDefinition(borrower: Source, name: string): Definition | undefined {
 
         const sources = this.getSourcesExcept(borrower);
         for(const source of sources) {

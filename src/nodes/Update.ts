@@ -90,17 +90,15 @@ export default class Update extends Expression {
         // The type of an update is the type of its table
         return this.table.getTypeUnlessCycle(context);        
     }
+    
+    getDefinitions(node: Node, context: Context): Definition[] {
 
-    // Check the table's column binds.
-    getDefinitionOfName(name: string, context: Context, node: Node): Definition {
-        
+        node;
         const type = this.table.getTypeUnlessCycle(context);
-        if(type instanceof TableType) {
-            const column = type.getColumnNamed(name);
-            if(column !== undefined && column.bind instanceof Bind) return column.bind;
-        }
-
-        return this.getBindingEnclosureOf()?.getDefinitionOfName(name, context, node);
+        if(type instanceof TableType)
+            return type.columns.filter(col => col.bind instanceof Bind).map(col => col.bind) as Bind[];
+        else
+            return [];
 
     }
 

@@ -70,7 +70,7 @@ export default class Name extends Expression {
         
     }
 
-    getBind(context: Context): Definition {
+    getBind(context: Context): Definition | undefined {
 
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
         return this.getBindingEnclosureOf()?.getDefinitionOfName(this.getName(), context, this);

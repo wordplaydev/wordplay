@@ -21,7 +21,7 @@ export function getPossibleTypes(parent: Node, child: Node, context: Context) {
         new SetType(undefined, undefined, new TypePlaceholder()),
         new MapType(undefined, undefined, new TypePlaceholder(), undefined, new TypePlaceholder()),
         // Any structure definition types that aren't the currently selected one.
-        ... (parent.getAllDefinitions(context, parent)
+        ... (parent.getAllDefinitions(parent, context)
             .filter(def => def instanceof StructureDefinition) as StructureDefinition[])
             .map(s => s.getNames().length > 0 ? new NameType(s.getNames()[0]) : undefined)
             .filter(n => n !== undefined && child instanceof Type && !child.accepts(n, context)) as NameType[]

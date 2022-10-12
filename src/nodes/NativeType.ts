@@ -1,6 +1,7 @@
 import type Context from "./Context";
 import Type from "./Type";
 import type Node from "./Node";
+import type Definition from "./Definition";
 
 export default abstract class MeasurementType extends Type {
 
@@ -8,8 +9,10 @@ export default abstract class MeasurementType extends Type {
         super();
     }
 
-    getDefinitionOfName(name: string, context: Context, node: Node) {
-        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinitionOfName(name, context, node); 
+    getDefinitions(node: Node, context: Context): Definition[] {
+        
+        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinitions(node) ?? []; 
+
     }
 
 }

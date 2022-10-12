@@ -30,7 +30,7 @@ export default class Borrow extends Node implements Evaluable {
     
         const conflicts = [];
 
-        const type = context.program.getDefinitionOfName(this.name.getText(), context);
+        const type = context.program.getDefinitionOfName(this.name.getText(), context, this);
         if(type === undefined)
             conflicts.push(new UnknownBorrow(this));
 

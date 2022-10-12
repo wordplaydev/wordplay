@@ -1,8 +1,9 @@
 import type Bind from "../nodes/Bind";
-import type Value from "../runtime/Value";
-import type Expression from "./Expression";
+import type Stream from "../runtime/Stream";
+import type FunctionDefinition from "./FunctionDefinition";
+import type StructureDefinition from "./StructureDefinition";
 import type TypeVariable from "./TypeVariable";
 
-type Definition = Bind | TypeVariable | Expression | Value | undefined;
+type Definition = Bind | TypeVariable | StructureDefinition | FunctionDefinition | Stream;
 
 export default Definition;
