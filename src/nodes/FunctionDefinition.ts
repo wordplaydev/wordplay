@@ -120,7 +120,7 @@ export default class FunctionDefinition extends Expression {
     }
 
     /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
-    getDefinition(name: string, context: Context, node: Node): Definition {
+    getDefinitionOfName(name: string, context: Context, node: Node): Definition {
 
         // Does an input delare the name that isn't the one asking?
         const input = this.inputs.find(i => i instanceof Bind && i.hasName(name) && i !== node) as Bind | undefined;
@@ -131,8 +131,19 @@ export default class FunctionDefinition extends Expression {
         if(typeVar !== undefined) return typeVar;
 
         // If not, does the function nearest function or block declare the name?
-        return this.getBindingEnclosureOf()?.getDefinition(name, context, node);
+        return this.getBindingEnclosureOf()?.getDefinitionOfName(name, context, node);
 
+    }
+
+    getAllDefinitions(context: Context, node: Node): Definition[] {
+
+        // Does an input delare the name that isn't the one asking?
+        return [ 
+            ... this.inputs.filter(i => i instanceof Bind && i !== node) as Bind[], 
+            ... this.typeVars.filter(t => t instanceof TypeVariable) as TypeVariable[],
+            ... this.getBindingEnclosureOf()?.getAllDefinitions(context, node) ?? []
+        ];
+        
     }
 
     computeType(context: Context): Type {

@@ -1027,8 +1027,7 @@ function parseSetOrMapType(tokens: Tokens): SetType | MapType | Unparsable {
     let bind = undefined;
     let value = undefined;
     if(tokens.nextIsnt(TokenType.SET_CLOSE)) {
-        if(!tokens.nextIs(TokenType.BIND))
-            key = parseType(tokens);
+        if(!tokens.nextIs(TokenType.BIND)) key = parseType(tokens);
         bind = tokens.nextIs(TokenType.BIND) ? tokens.read(TokenType.BIND) : undefined;
         value = bind !== undefined && !tokens.nextIs(TokenType.SET_CLOSE) ? parseType(tokens) : undefined;
     }

@@ -1,13 +1,15 @@
 import { MAP_KEY_TYPE_VAR_NAME, MAP_NATIVE_TYPE_NAME, MAP_VALUE_TYPE_VAR_NAME } from "../native/NativeConstants";
 import { BIND_SYMBOL, SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
+import NativeType from "./NativeType";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
+import { getPossibleTypes } from "./utilities";
 
-export default class MapType extends Type {
+export default class MapType extends NativeType {
 
     readonly open: Token;
     readonly key?: Type | Unparsable;
@@ -19,9 +21,9 @@ export default class MapType extends Type {
         super();
 
         this.open = open ?? new Token(SET_OPEN_SYMBOL, [ TokenType.SET_OPEN ]);
-        this.key = key;
         this.close = close ?? new Token(SET_CLOSE_SYMBOL, [ TokenType.SET_CLOSE ]);
-        this.bind = bind ?? new Token(BIND_SYMBOL, [ TokenType.SET_CLOSE ]);
+        this.bind = bind ?? new Token(BIND_SYMBOL, [ TokenType.BIND ]);
+        this.key = key;
         this.value = value;
     }
 
@@ -61,10 +63,6 @@ export default class MapType extends Type {
 
     getNativeTypeName(): string { return MAP_NATIVE_TYPE_NAME; }
 
-    getDefinition(name: string, context: Context, node: Node) {
-        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(name, context, node); 
-    }
-
     clone(original?: Node, replacement?: Node) { 
         return new MapType(
             this.open.cloneOrReplace([ Token ], original, replacement), 
@@ -85,6 +83,14 @@ export default class MapType extends Type {
         return {
             eng: "A map type"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        if(child === this.key || child === this.value)
+            return getPossibleTypes(this, child, context);
+        else return [];
+
     }
 
 }

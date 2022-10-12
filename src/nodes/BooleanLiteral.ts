@@ -58,4 +58,13 @@ export default class BooleanLiteral extends Expression {
         }
     }
 
+    getChildReplacements() {
+
+        // We could replace the token with the opposite token.
+        return [
+            new Token(!this.bool() ? TRUE_SYMBOL : FALSE_SYMBOL, [ TokenType.BOOLEAN ])
+        ];
+        
+    }
+
 }

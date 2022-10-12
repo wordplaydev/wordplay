@@ -1,13 +1,15 @@
 import { LIST_NATIVE_TYPE_NAME, LIST_TYPE_VAR_NAME } from "../native/NativeConstants";
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
+import NativeType from "./NativeType";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
+import { getPossibleTypes } from "./utilities";
 
-export default class ListType extends Type {
+export default class ListType extends NativeType {
 
     readonly open: Token;
     readonly type?: Type | Unparsable;
@@ -44,10 +46,6 @@ export default class ListType extends Type {
 
     getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }
 
-    getDefinition(name: string, context: Context, node: Node) {
-        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(name, context, node); 
-    }
-
     clone(original?: Node, replacement?: Node) { 
         return new ListType(
             this.type?.cloneOrReplace([ Type, Unparsable, undefined ], original, replacement),
@@ -64,6 +62,14 @@ export default class ListType extends Type {
         return {
             eng: "A list type"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        if(child === this.type)
+            return getPossibleTypes(this, child, context);
+        else return [];
+
     }
 
 }

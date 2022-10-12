@@ -1,9 +1,6 @@
 import type Conflict from "../conflicts/Conflict";
-import type Shares from "../runtime/Shares";
 import type Definition from "./Definition";
-import type NativeInterface from "../native/NativeInterface";
-import Context from "./Context";
-import type Source from "../models/Source";
+import type Context from "./Context";
 import type Translations from "./Translations";
 
 /* A global ID for nodes, for helping index them */
@@ -55,21 +52,28 @@ export default abstract class Node {
     /** 
      * Each node has the option of exposing bindings. By default, nodes expose no bindings.
      **/
-    getDefinition(name: string, context: Context, node: Node): Definition {
+    getDefinitionOfName(name: string, context: Context, node: Node): Definition {
         // Silliness to avoid warnings on unused arguments.
         name; context; node;
         return undefined;
     };
-    
+
     /**
+     * Get all bindings available at this node)
+     */
+    getAllDefinitions(context: Context, node: Node): Definition[] {
+        return this.getBindingEnclosureOf()?.getAllDefinitions(context, node) ?? [];
+    }
+    
+   /**
      * Gathers all matching definitions in scope, useful for checking for duplicate bindings.
      */
-    getAllDefinitions(name: string, context: Context, node: Node): Definition[] {
+    getAllDefinitionsOfName(name: string, context: Context, node: Node): Definition[] {
 
         const definitions = [];
         let current: Node | undefined = this;
         while(current !== undefined) {
-            const definition = current.getDefinition(name, context, node);
+            const definition = current.getDefinitionOfName(name, context, node);
             if(definition !== undefined)
                 definitions.unshift(definition);
             current = current.getBindingEnclosureOf();
@@ -88,10 +92,10 @@ export default abstract class Node {
     getConflictCache() { return this._conflicts === undefined ? [] : this._conflicts; }
     
     /** Returns all the conflicts in this tree. */
-    getAllConflicts(source: Source, shares: Shares, native: NativeInterface): Conflict[] {
+    getAllConflicts(context: Context): Conflict[] {
         let conflicts: Conflict[] = [];
         this.traverse(node => {
-            const nodeConflicts = node.getConflicts(new Context(source, source.program, shares, native));
+            const nodeConflicts = node.getConflicts(context);
             if(nodeConflicts !== undefined)
                 conflicts = conflicts.concat(nodeConflicts);
             return true;
@@ -214,5 +218,11 @@ export default abstract class Node {
     }
 
     abstract getDescriptions(): Translations;
+
+    /** Get nodes that would be valid replacements for this node. Used in autocomplete. */
+    getReplacements(context: Context): Node[] { return this.getParent()?.getChildReplacements(this, context) ?? []; }
+
+    /** Given a node that is possibly a child of this node, return a list of valid replacements of the child. */
+    getChildReplacements(child: Node, context: Context): Node[] { child; context; return []; }
 
 }

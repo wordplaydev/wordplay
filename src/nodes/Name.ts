@@ -73,7 +73,7 @@ export default class Name extends Expression {
     getBind(context: Context): Definition {
 
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
-        return this.getBindingEnclosureOf()?.getDefinition(this.getName(), context, this);
+        return this.getBindingEnclosureOf()?.getDefinitionOfName(this.getName(), context, this);
 
     }
 

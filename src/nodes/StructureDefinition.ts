@@ -66,7 +66,7 @@ export default class StructureDefinition extends Expression {
         this.block = block ?? new Block([], [], false, true);
     }
 
-    getNames() { return this.aliases.map(a => a.getName()); }
+    getNames() { return this.aliases.map(a => a.getName()).filter(n => n !== undefined) as string[]; }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block || (child instanceof Bind && this.inputs.includes(child)); }
 
@@ -151,7 +151,7 @@ export default class StructureDefinition extends Expression {
     }
 
     /** Given a program that contains this and a name, returns the bind that declares it, if there is one. */
-    getDefinition(name: string, context: Context, node: Node): Definition {
+    getDefinitionOfName(name: string, context: Context, node: Node): Definition {
 
         // Is this it? Return it.
         if(this.aliases.find(a => a.getName() === name)) return this;
@@ -165,8 +165,17 @@ export default class StructureDefinition extends Expression {
         if(typeVar !== undefined) return typeVar;
 
         // If not, does the function nearest function or block declare the name?
-        return this.getBindingEnclosureOf()?.getDefinition(name, context, node);
+        return this.getBindingEnclosureOf()?.getDefinitionOfName(name, context, node);
 
+    }
+
+    getAllDefinitions(context: Context, node: Node): Definition[] {
+        // Does an input delare the name that isn't the one asking?
+        return [ 
+            ... this.inputs.filter(i => i instanceof Bind && i !== node) as Bind[], 
+            ... this.typeVars.filter(t => t instanceof TypeVariable) as TypeVariable[],
+            ... this.getBindingEnclosureOf()?.getAllDefinitions(context, node) ?? []
+        ];        
     }
 
     /**

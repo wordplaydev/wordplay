@@ -1,13 +1,13 @@
 import { TEXT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { TEXT_SYMBOL } from "../parser/Tokenizer";
 import Language from "./Language";
-import type Context from "./Context";
+import NativeType from "./NativeType";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import Type from "./Type";
+import type Type from "./Type";
 
-export default class TextType extends Type {
+export default class TextType extends NativeType {
 
     readonly quote: Token;
     readonly format?: Language;
@@ -35,10 +35,6 @@ export default class TextType extends Type {
     }
 
     getNativeTypeName(): string { return TEXT_NATIVE_TYPE_NAME; }
-
-    getDefinition(name: string, context: Context, node: Node) {
-        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(name, context, node); 
-    }
 
     clone(original?: Node, replacement?: Node) { 
         return new TextType(

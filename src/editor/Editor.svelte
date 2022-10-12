@@ -12,7 +12,6 @@
     import Exception from '../runtime/Exception';
     import createRowOutlineOf from './outline';
     import type Program from '../nodes/Program';
-    import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
     import Menu from './Menu.svelte';
     import type { Item } from './Item';
 
@@ -57,7 +56,7 @@
 
     // When the caret changes, determine if it's on a placeholder node for which we should show a menu.
     let placeholder: {
-        node: ExpressionPlaceholder,
+        node: Node,
         location: { left: number, top: number },
         items: Item[]
     } | undefined = undefined;
@@ -66,9 +65,11 @@
         // Start assuming we won't find one.
         placeholder = undefined;
         placeholderIndex = -1;
-        const parent = $caret.getToken()?.getParent();
-        const node = parent instanceof ExpressionPlaceholder ? parent : undefined;
-        if(node) {
+        // If we found a match
+        const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
+        const replacements = node?.getReplacements(source.getContext()).map(n => { return { node: n } });
+
+        if(node !== undefined && editor !== undefined && replacements !== undefined && replacements.length > 0) {
             const viewport = editor.parentElement;
             const el = getNodeView(node);
             if(el && viewport) {
@@ -78,10 +79,10 @@
                 placeholder = {
                     node: node,
                     location: {
-                        left: placeholderRect.left - viewportRect.left,
-                        top: placeholderRect.bottom - viewportRect.top + 10
+                        left: placeholderRect.left - viewportRect.left + viewport.scrollLeft,
+                        top: placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10
                     },
-                    items: node.getReplacementOptions()
+                    items: replacements
                 }
             }
         }
@@ -271,7 +272,7 @@
         if(placeholder !== undefined) {
             if(event.key === "ArrowDown" && placeholderIndex < placeholder.items.length - 1) { placeholderIndex += 1; return; }
             else if(event.key === "ArrowUp" && placeholderIndex >= 0) { placeholderIndex -= 1; return; }
-            else if(event.key === "Enter") { handleEdit($caret.replace(placeholder.node, placeholder.items[placeholderIndex].node)); return; }
+            else if(event.key === "Enter" && placeholderIndex >= 0 && placeholder.items.length > 0) { handleEdit($caret.replace(placeholder.node, placeholder.items[placeholderIndex].node)); return; }
         }
 
         // Map meta to control on Mac OS/iOS.

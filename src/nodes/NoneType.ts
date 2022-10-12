@@ -1,13 +1,13 @@
 import { NONE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { NONE_SYMBOL } from "../parser/Tokenizer";
 import Alias from "./Alias";
-import type Context from "./Context";
+import NativeType from "./NativeType";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import Type from "./Type";
+import type Type from "./Type";
 
-export default class NoneType extends Type {
+export default class NoneType extends NativeType {
 
     readonly none: Token;
     readonly aliases: Alias[];
@@ -36,10 +36,6 @@ export default class NoneType extends Type {
 
     toWordplay(): string {
         return "!" + this.aliases.map(a => a.getName());
-    }
-
-    getDefinition(name: string, context: Context, node: Node) {
-        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(name, context, node); 
     }
 
     clone(original?: Node, replacement?: Node) { 

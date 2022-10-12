@@ -50,7 +50,7 @@ export default class BinaryOperation extends Expression {
 
         // Find the function on the left's type.
         const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
-        const fun = leftType?.getDefinition(this.getOperator(), context, this);
+        const fun = leftType?.getDefinitionOfName(this.getOperator(), context, this);
         return fun instanceof FunctionDefinition ? fun : undefined;
 
     }
@@ -158,7 +158,7 @@ export default class BinaryOperation extends Expression {
         const right = evaluator.popValue(undefined);
         const left = evaluator.popValue(undefined);
 
-        const fun = left.getType(evaluator.getContext()).getDefinition(this.getOperator(), evaluator.getContext(), this);
+        const fun = left.getType(evaluator.getContext()).getDefinitionOfName(this.getOperator(), evaluator.getContext(), this);
         if(!(fun instanceof FunctionDefinition) || !(fun.expression instanceof Expression))
             return new FunctionException(evaluator, this, left, this.getOperator());
 

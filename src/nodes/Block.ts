@@ -77,13 +77,21 @@ export default class Block extends Expression {
         
     }
 
-    /** Given the index in this block and the given name, binds the bind that declares it, if there is one. */
-    getDefinition(name: string, context: Context, node: Node): Definition {
+    getStatementIndexContaining(node: Node): number | undefined {
 
         const containingStatement = this.statements.find(s => s.contains(node));
         if(containingStatement === undefined) return;
         const index = this.statements.indexOf(containingStatement);
         if(index < 0) return;
+        return index;
+
+    }
+
+    /** Given the index in this block and the given name, binds the bind that declares it, if there is one. */
+    getDefinitionOfName(name: string, context: Context, node: Node): Definition {
+
+        const index = this.getStatementIndexContaining(node);
+        if(index === undefined) return;
 
         // Do any of the binds, shares, structure, or function definitions declare it?
         const localBind = this.statements.find((s, i)  => 
@@ -105,7 +113,28 @@ export default class Block extends Expression {
         else if(localBind !== undefined) return localBind;
 
         // Is there an enclosing function or block?
-        return this.getBindingEnclosureOf()?.getDefinition(name, context, node);
+        return this.getBindingEnclosureOf()?.getDefinitionOfName(name, context, node);
+        
+    }
+
+    getAllDefinitions(context: Context, node: Node): Definition[] {
+
+        const index = this.getStatementIndexContaining(node);
+        if(index === undefined) return [];
+
+        // Do any of the binds, shares, structure, or function definitions declare it?
+        const definitions = this.statements.filter((s, i)  => 
+            // Note that we allow an bind to refer to itself, since bound reactions can refer to themselves.
+            i <= index &&
+            (
+                s instanceof Bind ||
+                s instanceof Share && s.bind instanceof Bind ||
+                s instanceof StructureDefinition || 
+                s instanceof FunctionDefinition
+            )
+        ).map(s => s instanceof Share ? s.bind : s) as Definition[];
+
+        return [ ... definitions, ...this.getBindingEnclosureOf()?.getAllDefinitions(context, node) ?? [] ];
         
     }
  

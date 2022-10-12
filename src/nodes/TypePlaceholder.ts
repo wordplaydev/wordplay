@@ -3,15 +3,17 @@ import Placeholder from "../conflicts/Placeholder";
 import Token from "./Token";
 import Type from "./Type";
 import type Node from "./Node";
+import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
 
 export default class TypePlaceholder extends Type {
 
     readonly etc: Token;
 
-    constructor(etc: Token) {
+    constructor(etc?: Token) {
         super();
 
-        this.etc = etc;
+        this.etc = etc ?? new Token(PLACEHOLDER_SYMBOL, [ TokenType.ETC ]);
     }
 
     computeChildren() {
@@ -36,4 +38,10 @@ export default class TypePlaceholder extends Type {
         }
     }
 
+    getChildReplacements(): Node[] {
+
+        // Can't replace the placeholder token with anything. It's the only valid choice.
+        return [];
+
+    }
 }

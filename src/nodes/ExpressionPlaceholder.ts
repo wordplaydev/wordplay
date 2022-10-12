@@ -16,8 +16,6 @@ import type Evaluator from "../runtime/Evaluator";
 import UnimplementedException from "../runtime/UnimplementedException";
 import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import AccessName from "./AccessName";
-import BooleanLiteral from "./BooleanLiteral";
 import type Translations from "./Translations";
 
 export default class ExpressionPlaceholder extends Expression {
@@ -63,59 +61,10 @@ export default class ExpressionPlaceholder extends Expression {
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
-    getReplacementOptions() {
+    getChildReplacements(): Node[] {
 
-        return [
-            {
-                node: new AccessName(new ExpressionPlaceholder(), undefined, new Token("name", [ TokenType.NAME]))
-            },
-            {
-                node: new BooleanLiteral(true)
-            },
-            {
-                node: new BooleanLiteral(false)
-            },
-            // {
-            //     code: "… → …",
-            //     action: () => {}
-            // },
-            // {
-            //     code: "… → …",
-            //     action: () => {}
-            // },
-            // {
-            //     code: "ƒ …() …",
-            //     action: () => {}
-            // },
-            // {
-            //     code: "…•…",
-            //     action: () => {}
-            // },
-            // {
-            //     code: "…[…]",
-            //     action: () => {}
-            // },
-            // {
-            //     code: "…{…}",
-            //     action: () => {}
-            // },
-            // {
-            //     code: "… ∆ … …",
-            //     action: () => {}
-            // },
-            // {
-            //     code: "[]",
-            //     action: () => {}
-            // },
-            // {
-            //     code: "{}",
-            //     action: () => {}
-            // },
-            // {
-            //     code: "\\…\\",
-            //     action: () => {}
-            // }
-        ];
+        // Can't replace the token with anything.
+        return [];
 
     }
 

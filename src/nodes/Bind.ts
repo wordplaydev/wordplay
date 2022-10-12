@@ -36,6 +36,7 @@ import type Translations from "./Translations";
 import Exception from "../runtime/Exception";
 import Share from "./Share";
 import type Definition from "./Definition";
+import { getPossibleTypes } from "./utilities";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -107,7 +108,7 @@ export default class Bind extends Node implements Evaluable, Named {
         if(enclosure !== undefined) {
             const definitions = this.names.reduce((definitions: Definition[], alias) => {
                 const name: string | undefined = alias.getName();
-                return name === undefined ? definitions : definitions.concat(enclosure.getAllDefinitions(name, context, this));
+                return name === undefined ? definitions : definitions.concat(enclosure.getAllDefinitionsOfName(name, context, this));
             }, []).filter(def => def !== undefined && def !== this && (def instanceof Bind || def instanceof TypeVariable)) as (Bind | TypeVariable)[];
             if(definitions.length > 0)
                 conflicts.push(new DuplicateBinds(this, definitions));
@@ -183,7 +184,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
         // Find the name, using the binding enclosure, or the program.
         const enclosure = this.getBindingEnclosureOf();
-        const definition = enclosure !== undefined ? enclosure.getDefinition(name, context, this) : context.program.getDefinition(name, context);
+        const definition = enclosure !== undefined ? enclosure.getDefinitionOfName(name, context, this) : context.program.getDefinitionOfName(name, context);
         if(definition === undefined) return new UnknownType(this);
         else if(definition instanceof Bind) return definition.getTypeUnlessCycle(context);
         else if(definition instanceof TypeVariable) return new UnknownType(this);
@@ -192,7 +193,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
     }
 
-    getDefinition() { return undefined; }
+    getDefinitionOfName() { return undefined; }
 
     compile(context: Context):Step[] {
         return this.value === undefined ?
@@ -251,6 +252,19 @@ export default class Bind extends Node implements Evaluable, Named {
         return {
             eng: "Name a value."
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+        
+        if(child === this.type) {
+            return getPossibleTypes(this, child, context);
+        }
+        else if(child === this.value) {
+            // TODO Any expression, unless there's a type, in which case we just show expressions of the specified type.
+            return [];
+        }
+        else return [];
+
     }
 
 }

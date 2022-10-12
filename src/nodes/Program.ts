@@ -38,7 +38,7 @@ export default class Program extends Node implements Evaluable {
     computeChildren() { return [ ...this.borrows, this.block, this.end ]; }
     computeConflicts() {}
 
-    getDefinition(name: string, context: Context): Definition {
+    getDefinitionOfName(name: string, context: Context): Definition {
 
         if(context.shares !== undefined) {
             const share = context.shares.resolve(name);
@@ -55,6 +55,14 @@ export default class Program extends Node implements Evaluable {
         }
         
         return undefined;
+    }
+
+    getAllDefinitions(context: Context): Definition[] {
+        
+        return  (this.borrows.filter(borrow => borrow instanceof Borrow) as Borrow[])
+                .map(borrow => context.source.getProject()?.getDefinition(context.source, borrow.name.getText()))
+                .filter(d => d !== undefined) as Definition[];
+
     }
     
     compile(context: Context): Step[] {

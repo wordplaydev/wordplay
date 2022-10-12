@@ -54,7 +54,7 @@ export default class Project {
         const sources = this.getSourcesExcept(borrower);
         for(const source of sources) {
             const lastExpression = source.program.block instanceof Block ? source.program.block.statements[0] : undefined;
-            const definition = lastExpression === undefined ? undefined : source.program.block.getDefinition(name, source.evaluator.context, lastExpression);
+            const definition = lastExpression === undefined ? undefined : source.program.block.getDefinitionOfName(name, source.evaluator.context, lastExpression);
             if(definition !== undefined) return definition;
         }
         return undefined;

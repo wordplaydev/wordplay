@@ -48,7 +48,7 @@ export default class NameType extends Type {
     resolve(context: Context): Definition {
 
         const enclosure = this.getBindingEnclosureOf() ?? context.program;
-        return enclosure.getDefinition(this.getName(), context, this);
+        return enclosure.getDefinitionOfName(this.getName(), context, this);
 
     }
 

@@ -4,15 +4,16 @@ import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import Type from "./Type";
+import type Type from "./Type";
 import Unit from "./Unit";
 import Unparsable from "./Unparsable";
 import type BinaryOperation from "./BinaryOperation";
 import Expression from "./Expression";
+import NativeType from "./NativeType";
 
 type UnitDeriver = (left: Unit, right: Unit, constant: number) => Unit;
 
-export default class MeasurementType extends Type {
+export default class MeasurementType extends NativeType {
     
     readonly number: Token;
     readonly unit: Unit | Unparsable | UnitDeriver;
@@ -61,10 +62,6 @@ export default class MeasurementType extends Type {
     computeConflicts() {}
 
     getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }
-
-    getDefinition(name: string, context: Context, node: Node) {
-        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(name, context, node); 
-    }
 
     clone(original?: Node, replacement?: Node) { 
         return new MeasurementType(

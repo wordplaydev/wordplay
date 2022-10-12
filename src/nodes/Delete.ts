@@ -63,7 +63,7 @@ export default class Delete extends Expression {
     }
 
     // Check the table's column binds.
-    getDefinition(name: string, context: Context, node: Node): Definition {
+    getDefinitionOfName(name: string, context: Context, node: Node): Definition {
         
         const type = this.table.getTypeUnlessCycle(context);
         if(type instanceof TableType) {
@@ -71,7 +71,7 @@ export default class Delete extends Expression {
             if(column !== undefined && column.bind instanceof Bind) return column.bind;
         }
 
-        return this.getBindingEnclosureOf()?.getDefinition(name, context, node);
+        return this.getBindingEnclosureOf()?.getDefinitionOfName(name, context, node);
 
     }
 

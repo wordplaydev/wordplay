@@ -18,7 +18,7 @@ export default class VariableType extends Type {
 
     getNativeTypeName(): string { return "variable"; }
 
-    getDefinition() { return undefined; }
+    getDefinitionOfName() { return undefined; }
 
     toWordplay() { return this.definition.name.getText()}
 

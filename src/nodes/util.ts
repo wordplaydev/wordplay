@@ -132,7 +132,7 @@ export function getCaseCollision(name: string, enclosure: Node | undefined, cont
 
     if(otherCase === undefined) return;
 
-    const otherBind = enclosure.getDefinition(otherCase, context, node);
+    const otherBind = enclosure.getDefinitionOfName(otherCase, context, node);
     if(otherBind instanceof Bind) {
         const alias = otherBind.names.find(n => n.getName() === otherCase);
         if(alias !== undefined)

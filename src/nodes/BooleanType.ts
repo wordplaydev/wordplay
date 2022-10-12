@@ -1,12 +1,12 @@
 import Token from "./Token";
-import Type from "./Type";
-import type Context from "./Context";
+import type Type from "./Type";
 import type Node from "./Node";
 import TokenType from "./TokenType";
 import { BOOLEAN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
+import NativeType from "./NativeType";
 
-export default class BooleanType extends Type {
+export default class BooleanType extends NativeType {
 
     readonly type: Token;
 
@@ -22,10 +22,6 @@ export default class BooleanType extends Type {
     accepts(type: Type) { return type instanceof BooleanType; }
 
     getNativeTypeName(): string { return BOOLEAN_NATIVE_TYPE_NAME; }
-
-    getDefinition(name: string, context: Context, node: Node) {
-        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinition(name, context, node); 
-    }
 
     clone(original?: Node, replacement?: Node) { return new BooleanType(this.type.cloneOrReplace([ Token ], original, replacement)) as this; }
 

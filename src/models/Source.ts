@@ -18,6 +18,7 @@ import List from "../runtime/List";
 import Text from "../runtime/Text";
 import Measurement from "../runtime/Measurement";
 import type Project from "./Project";
+import Context from "../nodes/Context";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source {
@@ -61,7 +62,7 @@ export default class Source {
 
         // Now that we have a project, we can get conflicts (to enable cross-Source borrows).
 
-        this.conflicts = this.program.getAllConflicts(this, this.evaluator.getShares(), Native);
+        this.conflicts = this.program.getAllConflicts(this.getContext());
 
         // Build the conflict index by going through each conflict, asking for the conflicting nodes
         // and adding to the conflict to each node's list of conflicts.
@@ -77,6 +78,10 @@ export default class Source {
             });
         });
     
+    }
+
+    getContext() {
+        return new Context(this, this.program, this.evaluator.getShares(), Native);
     }
 
     getName() { return this.name; }
