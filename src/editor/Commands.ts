@@ -198,6 +198,7 @@ const commands: Command[] = [
     },
     {
         description: "Copy",
+        control: true,
         key: "KeyC",
         execute: async (caret: Caret) => {
 
@@ -216,6 +217,7 @@ const commands: Command[] = [
     },
     {
         description: "Paste",
+        control: true,
         key: "KeyV",
         execute: async (caret: Caret) => {
 
