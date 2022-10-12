@@ -18,6 +18,7 @@ import FunctionDefinition from "./FunctionDefinition";
 import NotAFunction from "../conflicts/NotAFunction";
 import FunctionType from "./FunctionType";
 import Evaluation from "../runtime/Evaluation";
+import TokenType from "./TokenType";
 
 export default class UnaryOperation extends Expression {
 
@@ -134,5 +135,19 @@ export default class UnaryOperation extends Expression {
             eng: "Evaluate a function on a value"
         }
     }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+        
+        // Operator must exist on the type of the left, unless not specified
+        if(child === this.operator) {
+            const expressionType = this.operand instanceof Expression ? this.operand.getTypeUnlessCycle(context) : undefined;
+            const funs = expressionType?.getAllDefinitions(this, context).filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.inputs.length === 0);;
+            return funs?.map(fun => new Token(fun.getNames()[0] as string, [ TokenType.UNARY_OP ])) ?? []
+        }
+
+        return [];
+
+    }
+
 
 }

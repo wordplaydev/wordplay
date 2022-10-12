@@ -37,6 +37,10 @@ import Exception from "../runtime/Exception";
 import Share from "./Share";
 import type Definition from "./Definition";
 import { getPossibleTypes } from "./getPossibleTypes";
+import getPossibleExpressions from "./getPossibleExpressions";
+import AnyType from "./AnyType";
+import { BIND_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -54,9 +58,9 @@ export default class Bind extends Node implements Evaluable, Named {
         this.docs = docs;
         this.etc = etc;
         this.names = names;
-        this.dot = dot;
+        this.dot = dot !== undefined ? dot : type === undefined ? undefined : new Token(TYPE_SYMBOL, [ TokenType.TYPE ]);
         this.type = type;
-        this.colon = colon;
+        this.colon = colon !== undefined ? colon : value === undefined ? undefined : new Token(BIND_SYMBOL, [ TokenType.BIND ]); 
         this.value = value;
     }
 
@@ -260,8 +264,7 @@ export default class Bind extends Node implements Evaluable, Named {
             return getPossibleTypes(this, child, context);
         }
         else if(child === this.value) {
-            // TODO Any expression, unless there's a type, in which case we just show expressions of the specified type.
-            return [];
+            return getPossibleExpressions(context, this.type instanceof Type ? this.type : new AnyType());
         }
         else return [];
 

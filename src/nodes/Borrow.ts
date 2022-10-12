@@ -9,6 +9,7 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Measurement from "../runtime/Measurement";
 import Unit from "./Unit";
+import TokenType from "./TokenType";
 
 export default class Borrow extends Node implements Evaluable {
     
@@ -71,6 +72,19 @@ export default class Borrow extends Node implements Evaluable {
         return {
             eng: `Borrow a value`
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+        
+        if(child === this.name)
+            // Return name tokens of all shares
+            return context.shares?.getDefinitions().map(def => {
+                const names = def.getNames();
+                return new Token(Array.isArray(names) ? names[0] : names.eng, [ TokenType.NAME ])
+            }) ?? [];
+
+        return [];
+
     }
 
 }

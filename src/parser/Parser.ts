@@ -58,8 +58,8 @@ import Is from "../nodes/Is";
 import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
 import TypePlaceholder from "../nodes/TypePlaceholder";
 import Previous from "../nodes/Previous";
-import MapLiteral from "../nodes/MapLiteral";
-import SetLiteral from "../nodes/SetLiteral";
+import MapLiteral, { type MapItem } from "../nodes/MapLiteral";
+import SetLiteral, { type SetItem } from "../nodes/SetLiteral";
 import MapType from "../nodes/MapType";
 import SetType from "../nodes/SetType";
 import TypeInput from "../nodes/TypeInput";
@@ -661,7 +661,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral | Unparsable {
     // Is this an empty map?
     if(tokens.nextAre(TokenType.BIND, TokenType.SET_CLOSE)) {
         const bind = tokens.read(TokenType.BIND);
-        return new MapLiteral(open, [], tokens.read(TokenType.SET_CLOSE), bind);
+        return new MapLiteral([], open, bind, tokens.read(TokenType.SET_CLOSE));
     }
 
     while(tokens.nextIsnt(TokenType.SET_CLOSE)) {
@@ -669,7 +669,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral | Unparsable {
         if(tokens.nextIs(TokenType.BIND)) {
             const bind = tokens.read(TokenType.BIND);
             const value = parseExpression(tokens);
-            values.push(new KeyValue(key, bind, value))
+            values.push(new KeyValue(key, value, bind))
         }
         else values.push(key);
     }
@@ -678,8 +678,8 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral | Unparsable {
 
     // Make a map
     return values.find(v => v instanceof KeyValue) !== undefined ? 
-        new MapLiteral(open, values, close) :
-        new SetLiteral(open, values as (Expression|Unparsable)[], close);
+        new MapLiteral(values as MapItem[], open, undefined, close) :
+        new SetLiteral(open, values as SetItem[], close);
 
 }
 

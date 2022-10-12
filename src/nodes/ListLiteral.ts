@@ -13,14 +13,17 @@ import Start from "../runtime/Start";
 import type Context from "./Context";
 import { getPossibleUnionType, TypeSet } from "./UnionType";
 import type Bind from "./Bind";
+import getPossibleExpressions from "./getPossibleExpressions";
+
+export type ListItem = Expression | Unparsable;
 
 export default class ListLiteral extends Expression {
 
     readonly open: Token;
-    readonly values: (Expression | Unparsable)[];
+    readonly values: ListItem[];
     readonly close: Token;
 
-    constructor(open: Token, values: (Expression | Unparsable)[], close: Token) {
+    constructor(open: Token, values: ListItem[], close: Token) {
         super();
 
         this.open = open;
@@ -89,6 +92,14 @@ export default class ListLiteral extends Expression {
         return {
             eng: "A list of values"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        if(this.values.includes(child as ListItem))
+            return getPossibleExpressions(context)
+        return [];
+
     }
 
 }

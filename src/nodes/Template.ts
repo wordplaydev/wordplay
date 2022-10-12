@@ -14,16 +14,21 @@ import Unparsable from "./Unparsable";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import Start from "../runtime/Start";
+import TokenType from "./TokenType";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import getPossibleExpressions from "./getPossibleExpressions";
+
+type Part = Token | Expression | Unparsable;
 
 export default class Template extends Expression {
     
-    readonly parts: (Token|Expression|Unparsable)[];
+    readonly parts: Part[];
     readonly format?: Language;
 
-    constructor(parts: (Token|Expression|Unparsable)[], format?: Language) {
+    constructor(parts?: Part[], format?: Language) {
         super();
 
-        this.parts = parts;
+        this.parts = parts ?? [ new Token("'\\",[ TokenType.TEXT_OPEN ]), new ExpressionPlaceholder(), new Token("\\'", [ TokenType.TEXT_CLOSE ] )];
         this.format = format;
     }
 
@@ -89,4 +94,12 @@ export default class Template extends Expression {
         }
     }
 
+    getChildReplacements(child: Node, context: Context): Node[] {
+    
+        if(this.parts.includes(child as Part))
+            return getPossibleExpressions(context);
+
+        return [];
+    }
+    
 }

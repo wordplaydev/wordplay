@@ -26,22 +26,29 @@ import ValueException from "../runtime/ValueException";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import None from "../runtime/None";
 import ConversionDefinition from "./ConversionDefinition";
+import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
+import getPossibleExpressions from "./getPossibleExpressions";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import Alias from "./Alias";
+
+export type Statement = Expression | Unparsable | Share | Bind;
 
 export default class Block extends Expression {
 
     readonly open?: Token | Unparsable;
-    readonly statements: (Expression | Unparsable | Share | Bind)[];
+    readonly statements: Statement[];
     readonly close?: Token | Unparsable;
     readonly docs: Documentation[];
     readonly root: boolean;
     readonly creator: boolean;
 
-    constructor(docs: Documentation[], statements: (Expression | Unparsable | Share | Bind)[], root: boolean, creator: boolean, open?: Token | Unparsable, close?: Token | Unparsable) {
+    constructor(docs: Documentation[], statements: Statement[], root: boolean, creator: boolean, open?: Token | Unparsable, close?: Token | Unparsable) {
         super();
 
-        this.open = open;
+        this.open = !root && open === undefined ? new Token(EVAL_OPEN_SYMBOL, [ TokenType.EVAL_OPEN ]) : open;
         this.statements = statements.slice();
-        this.close = close;
+        this.close = !root && close === undefined ? new Token(EVAL_CLOSE_SYMBOL, [ TokenType.EVAL_CLOSE ]) : close;
         this.docs = docs;
         this.root = root;
         this.creator = creator;
@@ -178,6 +185,18 @@ export default class Block extends Expression {
         return {
             eng: "Evaluate one or more expressions"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        if(this.statements.includes(child as Statement)) {
+            return [
+                ... getPossibleExpressions(context),
+                new Bind([], undefined, [ new Alias("") ], undefined, new ExpressionPlaceholder())
+            ]
+        }
+        return [];
+
     }
 
 }

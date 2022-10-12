@@ -1,6 +1,10 @@
+import { BIND_SYMBOL } from "../parser/Tokenizer";
+import type Context from "./Context";
 import Expression from "./Expression";
+import getPossibleExpressions from "./getPossibleExpressions";
 import Node from "./Node";
 import Token from "./Token";
+import TokenType from "./TokenType";
 import Unparsable from "./Unparsable";
 
 export default class KeyValue extends Node {
@@ -9,11 +13,11 @@ export default class KeyValue extends Node {
     readonly bind: Token;
     readonly value: Expression | Unparsable;
 
-    constructor(key: Expression | Unparsable, bind: Token, value: Expression | Unparsable) {
+    constructor(key: Expression | Unparsable, value: Expression | Unparsable, bind?: Token) {
         super();
 
         this.key = key;
-        this.bind = bind;
+        this.bind = bind ?? new Token(BIND_SYMBOL, [ TokenType.BIND ]);
         this.value = value;
     }
 
@@ -26,8 +30,8 @@ export default class KeyValue extends Node {
     clone(original?: Node, replacement?: Node) { 
         return new KeyValue(
             this.key.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.bind.cloneOrReplace([ Token ], original, replacement), 
-            this.value.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+            this.value.cloneOrReplace([ Expression, Unparsable ], original, replacement),
+            this.bind.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
     }
 
@@ -35,6 +39,14 @@ export default class KeyValue extends Node {
         return {
             eng: "A map key/value pair."
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        if(child === this.key || child === this.value)
+            return getPossibleExpressions(context);
+
+        return [];
     }
 
 }

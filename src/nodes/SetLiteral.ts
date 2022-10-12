@@ -14,14 +14,17 @@ import { getPossibleUnionType, TypeSet } from "./UnionType";
 import SetType from "./SetType";
 import AnyType from "./AnyType";
 import type Bind from "./Bind";
+import getPossibleExpressions from "./getPossibleExpressions";
+
+export type SetItem = Expression | Unparsable;
 
 export default class SetLiteral extends Expression {
 
     readonly open: Token;
-    readonly values: (Unparsable|Expression)[];
+    readonly values: SetItem[];
     readonly close: Token | Unparsable;
 
-    constructor(open: Token, values: (Unparsable|Expression)[], close: Token | Unparsable) {
+    constructor(open: Token, values: SetItem[], close: Token | Unparsable) {
         super();
 
         this.open = open;
@@ -94,6 +97,14 @@ export default class SetLiteral extends Expression {
         return {
             eng: "A set of unique values"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        if(this.values.includes(child as SetItem))
+            return getPossibleExpressions(context);
+
+        return [];
     }
 
 }

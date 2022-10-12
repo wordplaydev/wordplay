@@ -20,20 +20,24 @@ import Halt from "../runtime/Halt";
 import AnyType from "./AnyType";
 import type Bind from "./Bind";
 import SemanticException from "../runtime/SemanticException";
+import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
+
+export type MapItem = Unparsable | KeyValue;
 
 export default class MapLiteral extends Expression {
 
     readonly open: Token;
-    readonly values: (Unparsable|Expression|KeyValue)[];
+    readonly values: MapItem[];
     readonly close: Token | Unparsable;
     readonly bind?: Token;
 
-    constructor(open: Token, values: (Unparsable|Expression|KeyValue)[], close: Token | Unparsable, bind?: Token) {
+    constructor(values: MapItem[], open?: Token, bind?: Token, close?: Token | Unparsable) {
         super();
 
-        this.open = open;
         this.values = values.slice();
-        this.close = close;
+        this.open = open ?? new Token(SET_OPEN_SYMBOL, [ TokenType.SET_OPEN ]);
+        this.close = close ?? new Token(SET_CLOSE_SYMBOL, [ TokenType.SET_CLOSE ]);
         this.bind = bind;
         
     }
@@ -52,7 +56,7 @@ export default class MapLiteral extends Expression {
 
     computeType(context: Context): Type {
         let keyType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.key.getTypeUnlessCycle(context) : new UnknownType(v)));
-        let valueType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.value.getTypeUnlessCycle(context) : v.getTypeUnlessCycle(context)));
+        let valueType = getPossibleUnionType(context, this.values.map(v => v instanceof KeyValue ? v.value.getTypeUnlessCycle(context) : v.getTypeUnlessCycle()));
         if(keyType === undefined) keyType = new AnyType();
         else if(valueType === undefined) valueType = new AnyType();
         
@@ -103,10 +107,10 @@ export default class MapLiteral extends Expression {
 
     clone(original?: Node, replacement?: Node) { 
         return new MapLiteral(
-            this.open.cloneOrReplace([ Token ], original, replacement), 
             this.values.map(v => v.cloneOrReplace([ Unparsable, Expression, KeyValue ], original, replacement)), 
-            this.close.cloneOrReplace([ Token ], original, replacement), 
-            this.bind?.cloneOrReplace([ Token, undefined ], original, replacement)
+            this.open.cloneOrReplace([ Token ], original, replacement), 
+            this.bind?.cloneOrReplace([ Token, undefined ], original, replacement),
+            this.close.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
     }
 

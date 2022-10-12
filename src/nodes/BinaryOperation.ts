@@ -25,6 +25,9 @@ import Evaluation from "../runtime/Evaluation";
 import SemanticException from "../runtime/SemanticException";
 import NotAFunction from "../conflicts/NotAFunction";
 import MeasurementType from "./MeasurementType";
+import getPossibleExpressions from "./getPossibleExpressions";
+import AnyType from "./AnyType";
+import TokenType from "./TokenType";
 
 export default class BinaryOperation extends Expression {
 
@@ -214,6 +217,28 @@ export default class BinaryOperation extends Expression {
         return {
             eng: "Evaluate an operation with two inputs."
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+        
+        const expectedType = this.getFunctionDefinition(context)?.inputs[0]?.getType(context);
+
+        // Left can be anything
+        if(child === this.left) {
+            return getPossibleExpressions(context);
+        }
+        // Operator must exist on the type of the left, unless not specified
+        else if(child === this.operator) {
+            const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
+            const funs = leftType?.getAllDefinitions(this, context)?.filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.inputs.length === 1);
+            return funs?.map(fun => new Token(fun.getNames()[0] as string, [ TokenType.BINARY_OP ])) ?? []
+        }
+        // Right should comply with the expected type, unless it's not a known function
+        else if(child === this.right) {
+            return getPossibleExpressions(context, expectedType ?? new AnyType());
+        }
+        else return [];
+
     }
 
 }

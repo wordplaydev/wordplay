@@ -61,17 +61,10 @@ export default class ExpressionPlaceholder extends Expression {
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
-    getChildReplacements(): Node[] {
-
-        // Can't replace the token with anything.
-        return [];
-
-    }
-
     getDescriptions(): Translations {
         return {
             eng: "An expression placeholder"
         }
     }
-
+    
 }
