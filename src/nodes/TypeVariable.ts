@@ -2,7 +2,6 @@ import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import { TYPE_VAR_SYMBOL } from "../parser/Tokenizer";
-import type Context from "./Context";
 
 export default class TypeVariable extends Node {
 
