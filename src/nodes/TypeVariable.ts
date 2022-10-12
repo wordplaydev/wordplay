@@ -2,6 +2,7 @@ import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import { TYPE_VAR_SYMBOL } from "../parser/Tokenizer";
+import type Context from "./Context";
 
 export default class TypeVariable extends Node {
 
@@ -15,7 +16,8 @@ export default class TypeVariable extends Node {
         this.name = name instanceof Token ? name : new Token(name, [ TokenType.NAME ]);
     }
 
-    hasName(name: string) { return this.name.getText() === name; }
+    getName() { return this.name.getText(); }
+    hasName(name: string) { return this.getName() === name; }
 
     computeConflicts() {}
 

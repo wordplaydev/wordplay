@@ -78,10 +78,10 @@ export default class NameType extends Type {
 
         const definition = this.resolve(context);
         if(child === this.type)
-            // Any StructureDefinition in scope
+            // Any StructureDefinition and Type Variable in
             return (this.getAllDefinitions(this, context)
-                    .filter(def => def instanceof StructureDefinition && def !== definition) as StructureDefinition[])
-                    .reduce((names: string[], def: StructureDefinition) => [... names, ...def.getNames() ], [])
+                    .filter(def => (def instanceof StructureDefinition || def instanceof TypeVariable)  && def !== definition) as (StructureDefinition|TypeVariable)[])
+                    .reduce((names: string[], def) => [... names, ...(def instanceof StructureDefinition ? def.getNames() : [ def.getName()]) ], [])
                     // If the current name doesn't correspond to a type, then filter the types down to those that match the prefix.
                     .filter(name => definition === undefined && name.startsWith(this.getName()))
                     .map(name => new Token(name, [ TokenType.NAME ]))
