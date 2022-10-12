@@ -10,13 +10,18 @@ import StructureDefinition from "./StructureDefinition";
 import NameType from "./NameType";
 import type Context from "./Context";
 import Type from "./Type";
+import { getPossibleLanguages } from "./getPossibleLanguages";
+import Language from "./Language";
+import { getPossibleUnits } from "./getPossibleUnits";
 
 export function getPossibleTypes(parent: Node, child: Node, context: Context) {
 
+    const project = context.source.getProject();
+
     return [
         new BooleanType(),
-        new MeasurementType(),
-        new TextType(),
+        ...[ new MeasurementType(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => new MeasurementType(undefined, u))) ],
+        ...[ new TextType(), ... (project === undefined ? [] :getPossibleLanguages(project).map(l => new TextType(undefined, new Language(l)))) ],
         new ListType(new TypePlaceholder()),
         new SetType(undefined, undefined, new TypePlaceholder()),
         new MapType(undefined, undefined, new TypePlaceholder(), undefined, new TypePlaceholder()),

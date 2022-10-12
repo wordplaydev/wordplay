@@ -10,6 +10,7 @@ import Unparsable from "./Unparsable";
 import type BinaryOperation from "./BinaryOperation";
 import Expression from "./Expression";
 import NativeType from "./NativeType";
+import { getPossibleUnits } from "./getPossibleUnits";
 
 type UnitDeriver = (left: Unit, right: Unit, constant: number) => Unit;
 
@@ -74,6 +75,17 @@ export default class MeasurementType extends NativeType {
         return {
             eng: "A number type"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        const project = context.source.getProject();
+
+        if(child === this.unit && project !== undefined)
+            // Any unit in the project
+            return getPossibleUnits(project)
+        else return [];
+
     }
 
 }

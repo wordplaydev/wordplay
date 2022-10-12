@@ -10,6 +10,9 @@ import Start from "../runtime/Start";
 import Token from "./Token";
 import type Context from "./Context";
 import Node from "./Node";
+import Language from "./Language";
+import Unit from "./Unit";
+import Dimension from "./Dimension";
 
 export default class Program extends Node implements Evaluable {
     
@@ -46,6 +49,17 @@ export default class Program extends Node implements Evaluable {
             .filter(d => d !== undefined) as Definition[],
         ]  
 
+    }
+
+    getLanguagesUsed(): string[] {
+        return Array.from(new Set((this.nodes(n => n instanceof Language && n.getLanguage() !== undefined) as Language[]).map(n => n.getLanguage() as string)))
+    }
+
+    getUnitsUsed(): Unit[] {
+        return this.nodes(n => n instanceof Unit) as Unit[];
+    }
+    getDimensionsUsed(): Dimension[] {
+        return this.nodes(n => n instanceof Dimension) as Dimension[];
     }
     
     compile(context: Context): Step[] {

@@ -1,9 +1,11 @@
 import { EXPONENT_SYMBOL, LANGUAGE_SYMBOL, PRODUCT_SYMBOL } from "../parser/Tokenizer";
-import type Dimension from "./Dimension";
+import Dimension from "./Dimension";
 import type Token from "./Token";
 import Type from "./Type";
 import type Node from "./Node";
 import Measurement from "../runtime/Measurement";
+import type Context from "./Context";
+import { getPossibleDimensions } from "./getPossibleUnits";
 
 export default class Unit extends Type {
 
@@ -182,8 +184,21 @@ export default class Unit extends Type {
 
     getDescriptions() {
         return {
-            eng: "A unit on a number"
+            eng: this.exponents.size === 0 ? "A unitless number" : 
+                this.numerator.length === 1 && this.denominator.length === 0 ? this.numerator[0].getDescriptions().eng :
+                this.toWordplay() === "m/s" ? "velocity" :
+                "A number with unit"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+        
+        const project = context.source.getProject();
+        if(child !== this.slash && project !== undefined) {
+            return getPossibleDimensions(project).map(dim => new Dimension(dim));
+        }
+        else return [];
+
     }
 
 }

@@ -23,7 +23,7 @@ export default class NameType extends Type {
         this.type = typeof type === "string" ? new Token(type, [ TokenType.NAME ]) : type;
     }
 
-    getName() { return this.type instanceof Token ? this.type.text.toString() : this.type}
+    getName() { return this.type.text.toString() }
 
     computeChildren() { return [ this.type ]; }
 
@@ -78,9 +78,12 @@ export default class NameType extends Type {
 
         const definition = this.resolve(context);
         if(child === this.type)
-            return (this.getDefinitions(this, context)
+            // Any StructureDefinition in scope
+            return (this.getAllDefinitions(this, context)
                     .filter(def => def instanceof StructureDefinition && def !== definition) as StructureDefinition[])
                     .reduce((names: string[], def: StructureDefinition) => [... names, ...def.getNames() ], [])
+                    // If the current name doesn't correspond to a type, then filter the types down to those that match the prefix.
+                    .filter(name => definition === undefined && name.startsWith(this.getName()))
                     .map(name => new Token(name, [ TokenType.NAME ]))
         else return [];
 

@@ -1,11 +1,13 @@
 import { TEXT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { TEXT_SYMBOL } from "../parser/Tokenizer";
+import type Context from "./Context";
 import Language from "./Language";
 import NativeType from "./NativeType";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import type Type from "./Type";
+import { getPossibleLanguages } from "./getPossibleLanguages";
 
 export default class TextType extends NativeType {
 
@@ -47,6 +49,16 @@ export default class TextType extends NativeType {
         return {
             eng: "A text type"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        const project = context.source.getProject();
+        // Formats can be any Language tags that are used in the project.
+        if(child === this.format && project !== undefined)
+            return getPossibleLanguages(project).map(l => new Language(l))
+        else return [];
+
     }
 
 }

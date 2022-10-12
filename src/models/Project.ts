@@ -31,6 +31,7 @@ export default class Project {
     getSources() { return [ this.main, ...this.supplements]; }
     getSourcesExcept(source: Source) { return [ this.main, ...this.supplements].filter(s => s !== source); }
     getName() { return this.name; }
+    getContext() { return this.main.getContext(); }
 
     cleanup() { 
         this.main.cleanup();

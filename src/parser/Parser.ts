@@ -549,11 +549,13 @@ function parseUnit(tokens: Tokens): Unit | Unparsable {
     while(tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
         numerator.push(parseDimension(tokens));
 
-    const slash = tokens.nextIs(TokenType.LANGUAGE) ? tokens.read(TokenType.LANGUAGE) : undefined;
-
+    let slash = undefined;
     const denominator: Dimension[] = [];
-    while(tokens.nextIsOneOf(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
-        denominator.push(parseDimension(tokens));
+    if(tokens.nextIs(TokenType.LANGUAGE)) {
+        slash = tokens.read(TokenType.LANGUAGE);
+        while(tokens.nextIsOneOf(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
+            denominator.push(parseDimension(tokens));
+    }
 
     return new Unit(undefined, numerator, slash, denominator);
 
@@ -563,9 +565,12 @@ function parseUnit(tokens: Tokens): Unit | Unparsable {
 function parseDimension(tokens: Tokens): Dimension {
 
     const name = tokens.read(TokenType.NAME);
-    const caret = tokens.nextIs(TokenType.UNARY_OP) && tokens.peekText() === EXPONENT_SYMBOL && tokens.nextLacksPrecedingSpace() ? tokens.read(TokenType.UNARY_OP) : undefined;
-    const exponent = tokens.nextIs(TokenType.NUMBER) && tokens.nextLacksPrecedingSpace() ? tokens.read(TokenType.NUMBER) : undefined;
-
+    let caret = undefined;
+    let exponent = undefined;
+    if(tokens.nextIs(TokenType.UNARY_OP) && tokens.peekText() === EXPONENT_SYMBOL && tokens.nextLacksPrecedingSpace()) {
+        caret = tokens.read(TokenType.UNARY_OP);
+        exponent = tokens.nextIs(TokenType.NUMBER) && tokens.nextLacksPrecedingSpace() ? tokens.read(TokenType.NUMBER) : undefined;
+    }
     return new Dimension(name, caret, exponent);
 
 }
@@ -971,7 +976,7 @@ export function parseType(tokens: Tokens, isExpression:boolean=false): Type | Un
 
 }
 
-/** TEXT_TYPE :: text_type NAME? */
+/** TEXT_TYPE :: TEXT LANGUAGE? */
 function parseTextType(tokens: Tokens): TextType {
 
     const quote = tokens.read(TokenType.TEXT_TYPE);

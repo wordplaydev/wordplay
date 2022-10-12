@@ -1,9 +1,7 @@
 import type Caret from "../models/Caret";
 import Node from "../nodes/Node";
-import Token from "../nodes/Token";
 import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBOL, NOT_SYMBOL, OR_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL, STREAM_SYMBOL, TRUE_SYMBOL, TYPE_SYMBOL, TYPE_VAR_SYMBOL } from "../parser/Tokenizer";
 import type Source from "../models/Source";
-import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
 
 export type Edit = Caret | [ Source, Caret] | undefined;
 
@@ -49,23 +47,23 @@ const commands: Command[] = [
     {
         description: "Select the parent of the current caret position",
         key: "Escape",
-        execute: (caret: Caret) => {        
+        execute: (caret: Caret) => {
             const position = caret.position;
             if(position instanceof Node) {
-                // What tokens are selected currently?
-                const selectedTokens = position.nodes(n => n instanceof Token) as Token[];
                 // Select the parent node
                 let parent: Node | undefined | null = position.getParent();
-                let parentTokens = parent?.nodes(n => n instanceof Token) as Token[];
-                // While the parent's nodes are equivalent to the previous selection, keep going up the hierarchy.
-                while(parent && parentTokens.length === selectedTokens.length && !(parent instanceof ExpressionPlaceholder) && parentTokens.every((t, i) => t === selectedTokens[i])) {
-                    const newParent = parent.getParent();
-                    if(newParent) {
-                        parent = newParent;
-                        parentTokens = parent.nodes(n => n instanceof Token) as Token[];
-                    }
-                    else break;
-                }
+                // // What tokens are selected currently?
+                // const selectedTokens = position.nodes(n => n instanceof Token) as Token[];
+                // let parentTokens = parent?.nodes(n => n instanceof Token) as Token[];
+                // // While the parent's nodes are equivalent to the previous selection, keep going up the hierarchy.
+                // while(parent && parentTokens.length === selectedTokens.length && !(parent instanceof ExpressionPlaceholder) && parentTokens.every((t, i) => t === selectedTokens[i])) {
+                //     const newParent = parent.getParent();
+                //     if(newParent) {
+                //         parent = newParent;
+                //         parentTokens = parent.nodes(n => n instanceof Token) as Token[];
+                //     }
+                //     else break;
+                // }
                 // If we still have a parent, 
                 if(parent)
                     return caret.withPosition(parent);

@@ -36,7 +36,7 @@ import type Translations from "./Translations";
 import Exception from "../runtime/Exception";
 import Share from "./Share";
 import type Definition from "./Definition";
-import { getPossibleTypes } from "./utilities";
+import { getPossibleTypes } from "./getPossibleTypes";
 
 export default class Bind extends Node implements Evaluable, Named {
     

@@ -7,6 +7,7 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
+import { getPossibleTypes } from "./getPossibleTypes";
 
 export default class SetType extends NativeType {
 
@@ -63,6 +64,14 @@ export default class SetType extends NativeType {
         return {
             eng: "A set type"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        if(child === this.key)
+            return getPossibleTypes(this, child, context);
+        else return [];
+
     }
 
 }

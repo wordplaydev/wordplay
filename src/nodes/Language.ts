@@ -1,8 +1,10 @@
 import MissingLanguage from "../conflicts/MissingLanguage";
 import { LANGUAGE_SYMBOL } from "../parser/Tokenizer";
+import type Context from "./Context";
 import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
+import { getPossibleLanguages } from "./getPossibleLanguages";
 
 export default class Language extends Node {
     
@@ -42,6 +44,16 @@ export default class Language extends Node {
         return {
             eng: "A language"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        const project = context.source.getProject();
+        // Formats can be any Language tags that are used in the project.
+        if(child === this.lang && project !== undefined)
+            return getPossibleLanguages(project).map(l => new Token(l, [ TokenType.NAME ]))
+        else return [];
+
     }
 
 }

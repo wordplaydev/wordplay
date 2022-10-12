@@ -7,7 +7,7 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
-import { getPossibleTypes } from "./utilities";
+import { getPossibleTypes } from "./getPossibleTypes";
 
 export default class MapType extends NativeType {
 
