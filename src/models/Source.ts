@@ -135,11 +135,11 @@ export default class Source {
             return this.verse(this.group(this.phrase("No value", 20)))
 
         const contentType = value.getType(this.evaluator.getContext());
-        if(contentType instanceof StructureType && contentType.definition === Verse)
+        if(contentType instanceof StructureType && contentType.structure === Verse)
             return value as Structure;
-        else if(contentType instanceof StructureType && contentType.definition === Group)
+        else if(contentType instanceof StructureType && contentType.structure === Group)
             return this.verse(value as Structure);
-        else if(contentType instanceof StructureType && contentType.definition === Phrase)
+        else if(contentType instanceof StructureType && contentType.structure === Phrase)
             return this.verse(this.group( value as Structure ));
         else if(value instanceof Text || typeof value === "string")
             return this.verse(this.group(this.phrase(value, 20)));

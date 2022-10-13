@@ -21,6 +21,9 @@ import Is from "./Is";
 import { ACCESS_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Translations from "./Translations";
+import getPossibleExpressions from "./getPossibleExpressions";
+import TypeVariable from "./TypeVariable";
+import Stream from "../runtime/Stream";
 
 export default class AccessName extends Expression {
 
@@ -47,7 +50,7 @@ export default class AccessName extends Expression {
         const conflicts = [];
 
         const subjectType = this.getSubjectType(context);
-        if(subjectType instanceof StructureType && subjectType.getBind(this.name.text.toString()) === undefined)
+        if(subjectType instanceof StructureType && subjectType.getDefinition(this.name.text.toString()) === undefined)
             conflicts.push(new UnknownProperty(this));
 
         return conflicts;
@@ -71,9 +74,9 @@ export default class AccessName extends Expression {
         }
 
         if(subjectType instanceof StructureType) {
-            const bind = subjectType.getBind(this.name.getText());
-            if(bind === undefined) return new UnknownType(this);
-            
+            const bind = subjectType.getDefinition(this.name.getText());
+            if(bind === undefined || bind instanceof TypeVariable || bind instanceof Stream) return new UnknownType(this);
+                        
             const type = bind.getTypeUnlessCycle(context);
 
             // Narrow the type if it's a union.
@@ -87,7 +90,7 @@ export default class AccessName extends Expression {
                         a instanceof Conditional &&
                         a.condition.nodes(
                             n =>    n.getParent() instanceof Is && 
-                                    n instanceof AccessName && n.getSubjectType(context) instanceof StructureType && bind === (n.getSubjectType(context) as StructureType).getBind(this.name.getText())
+                                    n instanceof AccessName && n.getSubjectType(context) instanceof StructureType && bind === (n.getSubjectType(context) as StructureType).getDefinition(this.name.getText())
                         )
                     ).reverse() as Conditional[];
 
@@ -157,6 +160,22 @@ export default class AccessName extends Expression {
         return {
             eng: "Get a named value on a structure"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+        
+        if(child === this.subject) {
+            return getPossibleExpressions(context);
+        }
+        // For the name, what names exist on the subject that match the current name?
+        else if(child === this.name) {
+            const subjectType = this.getSubjectType(context);
+            if(subjectType instanceof StructureType)
+                return subjectType.structure.getDefinitions(child).filter(def => def.getNames().find(n => this.name.getText() === "" || n.startsWith(this.name.getText())) !== undefined).map(def => new Token(def.getNames()[0], [ TokenType.NAME ]));
+        }
+
+        return [];
+
     }
 
 }

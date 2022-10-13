@@ -58,7 +58,7 @@ export default class FunctionDefinition extends Expression {
         this.expression = expression;
     }
 
-    getNames() { return this.aliases.map(a => a.getName()); }
+    getNames() { return this.aliases.map(a => a.getName()).filter(n => n !== undefined) as string[]; }
 
     sharesName(fun: FunctionDefinition) {
         const funNames = fun.getNames();

@@ -150,6 +150,12 @@ export default class StructureDefinition extends Expression {
     
     }
 
+    getDefinition(name: string): Definition | undefined {
+        const inputBind = this.inputs.find(i => i instanceof Bind && i.hasName(name)) as Bind;
+        if(inputBind !== undefined) return inputBind;
+        return this.block instanceof Block ? this.block.statements.find(i => (i instanceof StructureDefinition || i instanceof FunctionDefinition) && i.aliases.find(a => a.getName() === name)) as FunctionDefinition | StructureDefinition : undefined;
+    }
+
     getDefinitions(node: Node): Definition[] {
         // Does an input delare the name that isn't the one asking?
         return [
@@ -180,12 +186,6 @@ export default class StructureDefinition extends Expression {
         return this.block instanceof Block ? 
             this.block.statements.filter(s => s instanceof ConversionDefinition) as ConversionDefinition[] :
             [];
-    }
-
-    getBind(name: string): Bind | FunctionDefinition | undefined {
-        const inputBind = this.inputs.find(i => i instanceof Bind && i.hasName(name)) as Bind;
-        if(inputBind !== undefined) return inputBind;
-        return this.block instanceof Block ? this.block.statements.find(i => i instanceof FunctionDefinition && i.aliases.find(a => a.getName() === name)) as FunctionDefinition: undefined;
     }
 
     computeType(): Type { return new StructureType(this); }

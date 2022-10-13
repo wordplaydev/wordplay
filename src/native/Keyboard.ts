@@ -22,7 +22,7 @@ export default class Keyboard extends Stream {
         this.evaluator = evaluator;
     }
 
-    getNames() { return {"eng": "⌨️"}; }
+    getTranslations() { return {"eng": "⌨️"}; }
 
     record(key: string, down: boolean) {
         this.add(createKey(this.evaluator, key, down));

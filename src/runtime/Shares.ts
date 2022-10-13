@@ -52,23 +52,23 @@ export default class Shares {
 
         // Share a timer stream for programs to listen to.
         this.time = new Time(evaluator);
-        Object.values(this.time.getNames()).forEach(name => this.bind(name, this.time));
+        Object.values(this.time.getTranslations()).forEach(name => this.bind(name, this.time));
 
         // Share a mouse button stream for programs to listen to.
         this.mouseButton = new MouseButton(evaluator);
-        Object.values(this.mouseButton.getNames()).forEach(name => this.bind(name, this.mouseButton));
+        Object.values(this.mouseButton.getTranslations()).forEach(name => this.bind(name, this.mouseButton));
 
         // Share a mouse position stream for programs to listen to.
         this.mousePosition = new MousePosition(evaluator);
-        Object.values(this.mousePosition.getNames()).forEach(name => this.bind(name, this.mousePosition));
+        Object.values(this.mousePosition.getTranslations()).forEach(name => this.bind(name, this.mousePosition));
         
         // Share a keyboard button stream for programs to listen to.
         this.keyboard = new Keyboard(evaluator);
-        Object.values(this.keyboard.getNames()).forEach(name => this.bind(name, this.keyboard));
+        Object.values(this.keyboard.getTranslations()).forEach(name => this.bind(name, this.keyboard));
 
         // Share the microphone.
         this.microphone = new Microphone(evaluator);
-        Object.values(this.microphone.getNames()).forEach(name => this.bind(name, this.microphone));
+        Object.values(this.microphone.getTranslations()).forEach(name => this.bind(name, this.microphone));
         
     }
 

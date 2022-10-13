@@ -80,7 +80,7 @@ export default class Borrow extends Node implements Evaluable {
             // Return name tokens of all shares
             return context.shares?.getDefinitions().map(def => {
                 const names = def.getNames();
-                return new Token(Array.isArray(names) ? names[0] : names.eng, [ TokenType.NAME ])
+                return new Token(names[0], [ TokenType.NAME ])
             }) ?? [];
 
         return [];

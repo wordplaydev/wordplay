@@ -25,7 +25,7 @@ export default class Microphone extends Stream {
 
     }
 
-    getNames() { 
+    getTranslations() { 
         return {
             "eng": "🎤"
         }; 

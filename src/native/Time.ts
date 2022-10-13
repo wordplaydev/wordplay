@@ -15,7 +15,7 @@ export default class Time extends Stream {
         super(evaluator, new Measurement(0, Unit.unit(["ms"])));
     }
 
-    getNames() {
+    getTranslations() {
         return {
             "eng": "⏱"
         };

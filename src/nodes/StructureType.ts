@@ -10,25 +10,25 @@ export const STRUCTURE_NATIVE_TYPE_NAME = "structure";
 
 export default class StructureType extends Type {
 
-    readonly definition: StructureDefinition;
+    readonly structure: StructureDefinition;
 
     constructor(definition: StructureDefinition) {
 
         super();
 
-        this.definition = definition;
+        this.structure = definition;
     }
 
     computeChildren() {
-        if(this.definition instanceof Node)
-            return [ this.definition ];
+        if(this.structure instanceof Node)
+            return [ this.structure ];
         else 
             return [];
     }
 
     computeConflicts() { return []; }
 
-    getBind(name: string) { return this.definition.getBind(name); }
+    getDefinition(name: string) { return this.structure.getDefinition(name); }
 
     /** Compatible if it's the same structure definition, or the given type is a refinement of the given structure.*/
     accepts(type: Type, context: Context): boolean {
@@ -38,9 +38,9 @@ export default class StructureType extends Type {
             type = type.getType(context);
 
         if(!(type instanceof StructureType)) return false;
-        if(this.definition === type.definition) return true;
+        if(this.structure === type.structure) return true;
         // Are any of the given type's interfaces compatible with this?
-        return type.definition.interfaces.find(int => {
+        return type.structure.interfaces.find(int => {
             let interfaceType = int.type;
             if(interfaceType instanceof Unparsable) return false;
             if(interfaceType instanceof NameType) interfaceType = interfaceType.getType(context);
@@ -49,16 +49,16 @@ export default class StructureType extends Type {
     }
 
     getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {
-        return this.definition.getConversion(context, input, output);
+        return this.structure.getConversion(context, input, output);
     }
 
     getAllConversions() {
-        return this.definition.getAllConversions();
+        return this.structure.getAllConversions();
     }
   
     getNativeTypeName(): string { return STRUCTURE_NATIVE_TYPE_NAME; }
 
-    clone() { return new StructureType(this.definition) as this; }
+    clone() { return new StructureType(this.structure) as this; }
     
     getDescriptions() {
         return {

@@ -23,9 +23,11 @@ export default abstract class Stream extends Primitive {
         this.add(initalValue);
     }
 
-    abstract getNames(): Translations;
+    abstract getTranslations(): Translations;
 
-    hasName(name: string) { return Object.values(this.getNames()).includes(name); }
+    getNames() { return Array.from(new Set(Object.values(this.getTranslations()))); }
+
+    hasName(name: string) { return Object.values(this.getTranslations()).includes(name); }
 
     isEqualTo(value: Value): boolean {
         return value === this;
@@ -76,7 +78,7 @@ export default abstract class Stream extends Primitive {
     }
 
     /** Should produce valid Wordplay code string representing the stream's name */
-    toString() { return this.getNames()["eng"]; };
+    toString() { return this.getTranslations()["eng"]; };
 
     /** Should return named values on the stream. */
     resolve(): Value | undefined { return undefined; }

@@ -5,4 +5,4 @@
 
 </script>
 
-{ value.getNames()["eng"] }
+{ value.getTranslations()["eng"] }

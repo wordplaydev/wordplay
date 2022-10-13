@@ -17,7 +17,7 @@ export default class MousePosition extends Stream {
         super(evaluator, position(evaluator, 0, 0));
     }
 
-    getNames() {
+    getTranslations() {
         return {
             "eng": "🖱⌖"
         }

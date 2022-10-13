@@ -39,16 +39,22 @@ import FunctionException from "../runtime/FunctionException";
 import ValueException from "../runtime/ValueException";
 import Exception from "../runtime/Exception";
 import type Translations from "./Translations";
+import { getPossibleTypes } from "./getPossibleTypes";
+import Name from "./Name";
+import TokenType from "./TokenType";
+import getPossibleExpressions from "./getPossibleExpressions";
+
+type InputType = Unparsable|Bind|Expression;
 
 export default class Evaluate extends Expression {
 
     readonly typeInputs: TypeInput[];
     readonly open: Token;
     readonly func: Expression | Unparsable;
-    readonly inputs: (Unparsable|Bind|Expression)[];
+    readonly inputs: InputType[];
     readonly close: Token;
 
-    constructor(typeInputs: TypeInput[], open: Token, func: Expression | Unparsable, inputs: (Unparsable|Bind|Expression)[], close: Token) {
+    constructor(typeInputs: TypeInput[], open: Token, func: Expression | Unparsable, inputs: InputType[], close: Token) {
         super();
 
         this.typeInputs = typeInputs;
@@ -83,11 +89,11 @@ export default class Evaluate extends Expression {
             candidateTargetInputs = functionType.inputs;
         else if(functionType instanceof StructureType) {
             // Can't create interfaces that don't have missing function definitions.
-            const abstractFunctions = functionType.definition.getAbstractFunctions();
+            const abstractFunctions = functionType.structure.getAbstractFunctions();
             if(abstractFunctions.length > 0)
-                return [ new NotInstantiable(this, functionType.definition, abstractFunctions) ];
+                return [ new NotInstantiable(this, functionType.structure, abstractFunctions) ];
             // Get the types of all of the inputs.
-            candidateTargetInputs = functionType.definition.inputs;
+            candidateTargetInputs = functionType.structure.inputs;
         }
 
         // If we somehow didn't get inputs, return nothing.
@@ -349,7 +355,7 @@ export default class Evaluate extends Expression {
         // and finding an expression to compile for each input.
         const funcType = this.func.getTypeUnlessCycle(context);
         const candidateExpectedInputs = funcType instanceof FunctionType ? funcType.inputs :
-            funcType instanceof StructureType ? funcType.definition.inputs :
+            funcType instanceof StructureType ? funcType.structure.inputs :
             undefined;
 
         // Compile a halt if we couldn't find the function.
@@ -555,6 +561,35 @@ export default class Evaluate extends Expression {
         return {
             eng: "Evaluate a function"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        // Type inputs can be any type
+        if(this.typeInputs.includes(child as TypeInput))
+            return getPossibleTypes(this, child, context);
+        
+        // Functions can be any function names in scope
+        if(child === this.func)
+            return this.getDefinitions(this, context).filter((def): def is FunctionDefinition => def instanceof FunctionDefinition).map(fun => new Name(new Token(fun.getNames()[0], [ TokenType.NAME ])))
+        
+        // Input expressions should match whatever the function expects, if there is one.
+        const index = this.inputs.indexOf(child as InputType);
+        if(index >= 0) {
+            const functionType = this.func.getTypeUnlessCycle(context);
+            if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
+                return getPossibleExpressions(context);
+
+            const bind = functionType instanceof FunctionType ? functionType.inputs[index] : functionType.structure.inputs[index];
+            if(bind === undefined || bind instanceof Unparsable)
+                return [];
+
+            const expectedType = bind.getType(context);
+
+            return getPossibleExpressions(context, expectedType);
+
+        }
+        return [];
     }
 
 }

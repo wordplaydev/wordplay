@@ -21,6 +21,7 @@ import Conditional from "./Conditional";
 import UnionType, { TypeSet } from "./UnionType";
 import Is from "./Is";
 import NameException from "../runtime/NameException";
+import TokenType from "./TokenType";
 
 export default class Name extends Expression {
     
@@ -149,6 +150,13 @@ export default class Name extends Expression {
         return {
             eng: "A name"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        child;
+        return this.getAllDefinitions(this, context).reduce((names: Token[], def) => [...names, ...def.getNames().map(name => new Token(name, [ TokenType.NAME ])) ], []);
+
     }
 
 }

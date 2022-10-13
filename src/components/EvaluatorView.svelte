@@ -12,7 +12,7 @@
 
     <p>{
         evaluator.streamsIgnoredDuringStepping.size > 0 ?
-            `You're stepping, so we ignored ${Array.from(evaluator.streamsIgnoredDuringStepping).map(stream => stream.getNames()["eng"]).join(", ")}` : 
+            `You're stepping, so we ignored ${Array.from(evaluator.streamsIgnoredDuringStepping).map(stream => stream.getTranslations()["eng"]).join(", ")}` : 
             ""
         }
     </p>

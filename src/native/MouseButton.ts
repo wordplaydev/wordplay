@@ -13,7 +13,7 @@ export default class MouseButton extends Stream {
         this.add(new Bool(state));
     }
 
-    getNames() { 
+    getTranslations() { 
         return {
             "eng": "🖱⬇️"
         };

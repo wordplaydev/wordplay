@@ -14,7 +14,7 @@ export default class ReactionStream extends Stream {
         this.reaction = reaction;
     }
 
-    getNames() { 
+    getTranslations() { 
         return {
             "eng": "reaction"
         };
