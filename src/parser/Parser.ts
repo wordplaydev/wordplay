@@ -710,7 +710,7 @@ function parseSetOrMapAccess(left: Expression | Unparsable, tokens: Tokens): Exp
 function parsePrevious(stream: Expression, tokens: Tokens): Previous | Unparsable {
 
     const previous = tokens.read(TokenType.PREVIOUS);
-    const index = tokens.nextIs(TokenType.NUMBER) ? parseMeasurement(tokens) : parseBlock(tokens);
+    const index = parseExpression(tokens);
 
     return new Previous(stream, previous, index);
 

@@ -21,6 +21,9 @@ import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import TypeException from "../runtime/TypeException";
 import AnyType from "./AnyType";
+import Name from "./Name";
+import TokenType from "./TokenType";
+import getPossibleExpressions from "./getPossibleExpressions";
 
 export default class Previous extends Expression {
 
@@ -105,6 +108,21 @@ export default class Previous extends Expression {
         return {
             eng: "A previous stream value"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+        
+        if(child === this.stream)
+            return  this.getAllDefinitions(this, context)
+                    .filter((def): def is Stream => def instanceof Stream)
+                    .map(stream => new Name(new Token(stream.getNames()[0], [ TokenType.NAME ])))
+
+        if(child === this.index)
+            return getPossibleExpressions(context, new MeasurementType());
+        
+        return [];
+
+
     }
 
 }

@@ -19,6 +19,10 @@ import type Context from "./Context";
 import UnionType, { TypeSet } from "./UnionType";
 import UnknownType from "./UnknownType";
 import Exception from "../runtime/Exception";
+import getPossibleExpressions from "./getPossibleExpressions";
+import Stream from "../runtime/Stream";
+import Name from "./Name";
+import TokenType from "./TokenType";
 
 export default class Reaction extends Expression {
 
@@ -154,6 +158,20 @@ export default class Reaction extends Expression {
         return {
             eng: "A reaction to a stream change"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+        
+        if(child === this.initial || child === this.next)
+            return getPossibleExpressions(context);
+        
+        if(child === this.stream)
+            return  this.getAllDefinitions(this, context)
+                    .filter((def): def is Stream => def instanceof Stream)
+                    .map(stream => new Name(new Token(stream.getNames()[0], [ TokenType.NAME ])))
+
+        return [];
+
     }
 
 }
