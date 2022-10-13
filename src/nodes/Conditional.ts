@@ -139,12 +139,14 @@ export default class Conditional extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
         
         if(child === this.condition)
-            return getPossibleExpressions(context, new BooleanType());
-        else if(child === this.yes || child === this.no)
-            return getPossibleExpressions(context);
+            return getPossibleExpressions(this.condition, context, new BooleanType());
+        if(child === this.yes)
+            return getPossibleExpressions(this.yes, context);
+        if(child === this.no)
+            return getPossibleExpressions(this.no, context);
         return [];
 
     }

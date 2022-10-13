@@ -77,7 +77,7 @@ export default class MeasurementType extends NativeType {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
 
         const project = context.source.getProject();
 

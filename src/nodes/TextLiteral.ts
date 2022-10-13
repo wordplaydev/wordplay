@@ -66,7 +66,7 @@ export default class TextLiteral extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
 
         const project = context.source.getProject();
         // Formats can be any Language tags that are used in the project.

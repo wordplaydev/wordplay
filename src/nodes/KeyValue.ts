@@ -41,10 +41,12 @@ export default class KeyValue extends Node {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
 
-        if(child === this.key || child === this.value)
-            return getPossibleExpressions(context);
+        if(child === this.key)
+            return getPossibleExpressions(this.key, context);
+        if(child === this.value)
+            return getPossibleExpressions(this.value, context);
 
         return [];
     }

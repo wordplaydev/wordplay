@@ -252,17 +252,17 @@ export default class Bind extends Node implements Evaluable, Named {
     
     getDescriptions() {
         return {
-            eng: "Name a value."
+            eng: "A named value."
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
         
         if(child === this.type) {
-            return getPossibleTypes(this, child, context);
+            return getPossibleTypes(this, context);
         }
         else if(child === this.value) {
-            return getPossibleExpressions(context, this.type instanceof Type ? this.type : new AnyType());
+            return getPossibleExpressions(this.value, context, this.type instanceof Type ? this.type : new AnyType());
         }
         else return [];
 

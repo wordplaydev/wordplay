@@ -12,6 +12,7 @@ import type Definition from "./Definition";
 import StructureDefinition from "./StructureDefinition";
 import VariableType from "./VariableType";
 import { NAME_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import Reference from "./Reference";
 
 export default class NameType extends Type {
 
@@ -74,18 +75,21 @@ export default class NameType extends Type {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
 
         const definition = this.resolve(context);
         if(child === this.type)
             // Any StructureDefinition and Type Variable in
             return (this.getAllDefinitions(this, context)
-                    .filter(def => (def instanceof StructureDefinition || def instanceof TypeVariable)  && def !== definition) as (StructureDefinition|TypeVariable)[])
-                    .reduce((names: string[], def) => [... names, ...(def instanceof StructureDefinition ? def.getNames() : [ def.getName()]) ], [])
-                    // If the current name doesn't correspond to a type, then filter the types down to those that match the prefix.
-                    .filter(name => definition === undefined && name.startsWith(this.getName()))
-                    .map(name => new Token(name, [ TokenType.NAME ]))
-        else return [];
+                    .filter(def => 
+                        (def instanceof StructureDefinition || def instanceof TypeVariable) && 
+                        def !== definition &&
+                        // If the current name doesn't correspond to a type, then filter the types down to those that match the prefix.
+                        (this.type.getText() === "" || def.getNames().find(name => name.startsWith(this.type.getText()) !== undefined))
+                    ) as (StructureDefinition|TypeVariable)[])
+                    .map(def => new Reference(def, name => new Token(name, [ TokenType.NAME ])))
+                    
+        return [];
 
     }
 

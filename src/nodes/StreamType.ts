@@ -1,4 +1,4 @@
-import { STREAM_SYMBOL } from "../parser/Tokenizer";
+import { REACTION_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
@@ -16,7 +16,7 @@ export default class StreamType extends Type {
     constructor(type: Type | Unparsable, stream?: Token) {
         super();
 
-        this.stream = stream ?? new Token(STREAM_SYMBOL, [ TokenType.STREAM ]);
+        this.stream = stream ?? new Token(REACTION_SYMBOL, [ TokenType.REACTION ]);
         this.type = type;
     }
 

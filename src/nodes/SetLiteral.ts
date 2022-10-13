@@ -15,6 +15,8 @@ import SetType from "./SetType";
 import AnyType from "./AnyType";
 import type Bind from "./Bind";
 import getPossibleExpressions from "./getPossibleExpressions";
+import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
 
 export type SetItem = Expression | Unparsable;
 
@@ -24,12 +26,12 @@ export default class SetLiteral extends Expression {
     readonly values: SetItem[];
     readonly close: Token | Unparsable;
 
-    constructor(open: Token, values: SetItem[], close: Token | Unparsable) {
+    constructor(values: SetItem[], open?: Token, close?: Token | Unparsable) {
         super();
 
-        this.open = open;
+        this.open = open ?? new Token(SET_OPEN_SYMBOL, [ TokenType.SET_OPEN ]);
         this.values = values.slice();
-        this.close = close;
+        this.close = close ?? new Token(SET_CLOSE_SYMBOL, [ TokenType.SET_CLOSE ]);
         
     }
 
@@ -82,8 +84,8 @@ export default class SetLiteral extends Expression {
 
     clone(original?: Node, replacement?: Node) { 
         return new SetLiteral(
-            this.open.cloneOrReplace([ Token ], original, replacement), 
             this.values.map(v => v.cloneOrReplace([ Expression, Unparsable ], original, replacement)), 
+            this.open.cloneOrReplace([ Token ], original, replacement), 
             this.close.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
     }
@@ -99,10 +101,11 @@ export default class SetLiteral extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
 
-        if(this.values.includes(child as SetItem))
-            return getPossibleExpressions(context);
+        const index = this.values.indexOf(child as SetItem);
+        if(index >= 0)
+            return getPossibleExpressions(this.values[index], context);
 
         return [];
     }

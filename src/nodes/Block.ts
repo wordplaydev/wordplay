@@ -187,13 +187,16 @@ export default class Block extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
 
-        if(this.statements.includes(child as Statement)) {
-            return [
-                ... getPossibleExpressions(context),
-                new Bind([], undefined, [ new Alias("") ], undefined, new ExpressionPlaceholder())
-            ]
+        const index = this.statements.indexOf(child as Statement);
+        if(index >= 0) {
+            const statement = this.statements[index];
+            if(statement instanceof Expression)
+                return [
+                    ... getPossibleExpressions(statement, context),
+                    new Bind([], undefined, [ new Alias("") ], undefined, new ExpressionPlaceholder())
+                ]
         }
         return [];
 

@@ -23,6 +23,8 @@ import getPossibleExpressions from "./getPossibleExpressions";
 import Stream from "../runtime/Stream";
 import Name from "./Name";
 import TokenType from "./TokenType";
+import { REACTION_SYMBOL } from "../parser/Tokenizer";
+import Reference from "./Reference";
 
 export default class Reaction extends Expression {
 
@@ -31,11 +33,11 @@ export default class Reaction extends Expression {
     readonly stream: Expression | Unparsable;
     readonly next: Expression | Unparsable;
 
-    constructor(initial: Expression, delta: Token, stream: Expression | Unparsable, next: Expression | Unparsable) {
+    constructor(initial: Expression, stream: Expression | Unparsable, next: Expression | Unparsable, delta?: Token) {
         super();
 
         this.initial = initial;
-        this.delta = delta;
+        this.delta = delta ?? new Token(REACTION_SYMBOL, [ TokenType.REACTION ]);
         this.stream = stream;
         this.next = next;
 
@@ -141,9 +143,9 @@ export default class Reaction extends Expression {
     clone(original?: Node, replacement?: Node) { 
         return new Reaction(
             this.initial.cloneOrReplace([ Expression ], original, replacement), 
-            this.delta.cloneOrReplace([ Token ], original, replacement), 
             this.stream.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.next.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+            this.next.cloneOrReplace([ Expression, Unparsable ], original, replacement),
+            this.delta.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
     }
 
@@ -160,15 +162,17 @@ export default class Reaction extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
         
-        if(child === this.initial || child === this.next)
-            return getPossibleExpressions(context);
+        if(child === this.initial)
+            return getPossibleExpressions(this.initial, context);
+        else if(child === this.next)
+            return getPossibleExpressions(this.next, context);
         
         if(child === this.stream)
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is Stream => def instanceof Stream)
-                    .map(stream => new Name(new Token(stream.getNames()[0], [ TokenType.NAME ])))
+                    .map(stream => new Reference<Name>(stream, name => new Name(name)));
 
         return [];
 

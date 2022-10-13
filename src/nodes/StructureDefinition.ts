@@ -29,6 +29,7 @@ import { Unimplemented } from "../conflicts/Unimplemented";
 import { Implemented } from "../conflicts/Implemented";
 import { DisallowedInputs } from "../conflicts/DisallowedInputs";
 import ContextException, { StackSize } from "../runtime/ContextException";
+import Reference from "./Reference";
 
 export default class StructureDefinition extends Expression {
 
@@ -244,13 +245,13 @@ export default class StructureDefinition extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
 
         // Interfaces can be any interface in scope.
         if(this.interfaces.includes(child as TypeInput)) {
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is StructureDefinition => def instanceof StructureDefinition && def.isInterface())
-                    .map(def => new TypeInput(new NameType(def.getNames()[0])));
+                    .map(def => new Reference<TypeInput>(def, name => new TypeInput(new NameType(name))));
         }
 
         return [];

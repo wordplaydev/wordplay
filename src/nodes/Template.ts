@@ -94,10 +94,14 @@ export default class Template extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
     
-        if(this.parts.includes(child as Part))
-            return getPossibleExpressions(context);
+        const index = this.parts.indexOf(child as Part);
+        if(index >= 0) {
+            const part = this.parts[index];
+            if(part instanceof Expression)
+                return getPossibleExpressions(part, context);
+        }
 
         return [];
     }

@@ -41,10 +41,10 @@ import Exception from "../runtime/Exception";
 import type Translations from "./Translations";
 import { getPossibleTypes } from "./getPossibleTypes";
 import Name from "./Name";
-import TokenType from "./TokenType";
 import getPossibleExpressions from "./getPossibleExpressions";
+import Reference from "./Reference";
 
-type InputType = Unparsable|Bind|Expression;
+type InputType = Unparsable | Bind | Expression;
 
 export default class Evaluate extends Expression {
 
@@ -563,30 +563,36 @@ export default class Evaluate extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[]  {
 
         // Type inputs can be any type
         if(this.typeInputs.includes(child as TypeInput))
-            return getPossibleTypes(this, child, context);
+            return getPossibleTypes(this, context);
         
         // Functions can be any function names in scope
         if(child === this.func)
-            return this.getDefinitions(this, context).filter((def): def is FunctionDefinition => def instanceof FunctionDefinition).map(fun => new Name(new Token(fun.getNames()[0], [ TokenType.NAME ])))
+            return  this.getDefinitions(this, context)
+                    .filter((def): def is FunctionDefinition => def instanceof FunctionDefinition)
+                    .map(fun => new Reference<Name>(fun, name => new Name(name)))
         
         // Input expressions should match whatever the function expects, if there is one.
         const index = this.inputs.indexOf(child as InputType);
         if(index >= 0) {
-            const functionType = this.func.getTypeUnlessCycle(context);
-            if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
-                return getPossibleExpressions(context);
+            const input = this.inputs[index];
+            if(input instanceof Expression) {
 
-            const bind = functionType instanceof FunctionType ? functionType.inputs[index] : functionType.structure.inputs[index];
-            if(bind === undefined || bind instanceof Unparsable)
-                return [];
+                const functionType = this.func.getTypeUnlessCycle(context);
+                if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
+                    return getPossibleExpressions(input, context);
 
-            const expectedType = bind.getType(context);
+                const bind = functionType instanceof FunctionType ? functionType.inputs[index] : functionType.structure.inputs[index];
+                if(bind === undefined || bind instanceof Unparsable)
+                    return [];
 
-            return getPossibleExpressions(context, expectedType);
+                const expectedType = bind.getType(context);
+
+                return getPossibleExpressions(input, context, expectedType);
+            }
 
         }
         return [];

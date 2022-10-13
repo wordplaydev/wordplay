@@ -34,7 +34,7 @@ enum TokenType {
     UPDATE,
     DELETE,
     UNION,
-    STREAM,
+    REACTION,
     STREAM_TYPE,
     PREVIOUS,
     ETC,

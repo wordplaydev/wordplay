@@ -10,6 +10,7 @@ import Finish from "../runtime/Finish";
 import Measurement from "../runtime/Measurement";
 import Unit from "./Unit";
 import TokenType from "./TokenType";
+import Reference from "./Reference";
 
 export default class Borrow extends Node implements Evaluable {
     
@@ -74,14 +75,13 @@ export default class Borrow extends Node implements Evaluable {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
         
         if(child === this.name)
             // Return name tokens of all shares
-            return context.shares?.getDefinitions().map(def => {
-                const names = def.getNames();
-                return new Token(names[0], [ TokenType.NAME ])
-            }) ?? [];
+            return context.shares
+                ?.getDefinitions()
+                .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ]))) ?? [];
 
         return [];
 

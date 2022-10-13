@@ -115,12 +115,12 @@ export default class ListAccess extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
         
         if(child === this.list)
-            return getPossibleExpressions(context, new ListType());
+            return getPossibleExpressions(this.list, context, new ListType());
         else if(child === this.index)
-            return getPossibleExpressions(context, new MeasurementType(undefined, new Unit()));
+            return getPossibleExpressions(this.index, context, new MeasurementType(undefined, new Unit()));
         return [];
 
     }

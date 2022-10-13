@@ -24,6 +24,7 @@ import type Translations from "./Translations";
 import getPossibleExpressions from "./getPossibleExpressions";
 import TypeVariable from "./TypeVariable";
 import Stream from "../runtime/Stream";
+import Reference from "./Reference";
 
 export default class AccessName extends Expression {
 
@@ -162,16 +163,19 @@ export default class AccessName extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
         
         if(child === this.subject) {
-            return getPossibleExpressions(context);
+            return getPossibleExpressions(this.subject, context);
         }
         // For the name, what names exist on the subject that match the current name?
         else if(child === this.name) {
             const subjectType = this.getSubjectType(context);
             if(subjectType instanceof StructureType)
-                return subjectType.structure.getDefinitions(child).filter(def => def.getNames().find(n => this.name.getText() === "" || n.startsWith(this.name.getText())) !== undefined).map(def => new Token(def.getNames()[0], [ TokenType.NAME ]));
+                return subjectType.structure
+                    .getDefinitions(child)
+                    .filter(def => def.getNames().find(n => this.name.getText() === "" || n.startsWith(this.name.getText())) !== undefined)
+                    .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ])));
         }
 
         return [];

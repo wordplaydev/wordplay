@@ -38,10 +38,4 @@ export default class TypePlaceholder extends Type {
         }
     }
 
-    getChildReplacements(): Node[] {
-
-        // Can't replace the placeholder token with anything. It's the only valid choice.
-        return [];
-
-    }
 }

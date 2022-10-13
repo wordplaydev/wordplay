@@ -168,10 +168,10 @@ export default class Convert extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
         
         if(child === this.expression)
-            return getPossibleExpressions(context);
+            return getPossibleExpressions(this.expression, context);
         else if(child === this.type) {
             // Any type it's convertable to.
             const inputType = this.expression.getTypeUnlessCycle(context);

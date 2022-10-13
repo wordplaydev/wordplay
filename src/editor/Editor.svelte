@@ -13,7 +13,7 @@
     import createRowOutlineOf from './outline';
     import type Program from '../nodes/Program';
     import Menu from './Menu.svelte';
-    import type { Item } from './Item';
+    import type Reference from '../nodes/Reference';
 
     export let source: Source;
 
@@ -54,20 +54,20 @@
         }
     }
 
-    // When the caret changes, determine if it's on a placeholder node for which we should show a menu.
-    let placeholder: {
+    // When the caret changes, determine if there's anything to show in a menu.
+    let menu: {
         node: Node,
         location: { left: number, top: number },
-        items: Item[]
+        items: (Node | Reference<Node>)[]
     } | undefined = undefined;
-    let placeholderIndex: number = -1;
+    let menuIndex: number = -1;
     $: {
         // Start assuming we won't find one.
-        placeholder = undefined;
-        placeholderIndex = -1;
+        menu = undefined;
+        menuIndex = -1;
         // If we found a match
         const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
-        const replacements = node?.getReplacements(source.getContext()).map(n => { return { node: n } });
+        const replacements = node?.getReplacements(source.getContext());
 
         if(node !== undefined && editor !== undefined && replacements !== undefined && replacements.length > 0) {
             const viewport = editor.parentElement;
@@ -76,7 +76,7 @@
                 const placeholderRect = el.getBoundingClientRect();
                 const viewportRect = viewport.getBoundingClientRect();
                 // Yay, we have everything we need to show a menu!
-                placeholder = {
+                menu = {
                     node: node,
                     location: {
                         left: placeholderRect.left - viewportRect.left + viewport.scrollLeft,
@@ -269,10 +269,12 @@
 
     function handleKeyDown(event: KeyboardEvent) {
 
-        if(placeholder !== undefined) {
-            if(event.key === "ArrowDown" && placeholderIndex < placeholder.items.length - 1) { placeholderIndex += 1; return; }
-            else if(event.key === "ArrowUp" && placeholderIndex >= 0) { placeholderIndex -= 1; return; }
-            else if(event.key === "Enter" && placeholderIndex >= 0 && placeholder.items.length > 0) { handleEdit($caret.replace(placeholder.node, placeholder.items[placeholderIndex].node)); return; }
+        if(menu !== undefined) {
+            if(event.key === "ArrowDown" && menuIndex < menu.items.length - 1) { menuIndex += 1; return; }
+            else if(event.key === "ArrowUp" && menuIndex >= 0) { menuIndex -= 1; return; }
+            else if(event.key === "Enter" && menuIndex >= 0 && menu.items.length > 0) { 
+                selectMenuItem(menu.node, menu.items[menuIndex]);
+            }
         }
 
         // Map meta to control on Mac OS/iOS.
@@ -309,6 +311,11 @@
             }
         }
 
+    }
+
+    function selectMenuItem(node: Node, replacement: Node | Reference<Node>) {
+        const replacementNode = replacement instanceof Node ? replacement : replacement.getNode("eng");
+        handleEdit($caret.replace(node, replacementNode)); return; 
     }
 
     function handleEdit(edit: Edit) {
@@ -390,9 +397,9 @@
         </svg>
     {/each}
     <!-- Are we on a placeholder? Show a menu! -->
-    {#if placeholder !== undefined }
-        <div class="menu" style={`left:${placeholder.location.left}px; top:${placeholder.location.top}px;`}>
-            <Menu items={placeholder.items} index={placeholderIndex} select={item => placeholder !== undefined ? handleEdit($caret.replace(placeholder.node, item.node)) : undefined } />
+    {#if menu !== undefined }
+        <div class="menu" style={`left:${menu.location.left}px; top:${menu.location.top}px;`}>
+            <Menu items={menu.items} index={menuIndex} select={item => menu !== undefined ? selectMenuItem(menu.node, item) : undefined } />
         </div>
     {/if}
     <!-- Render the invisible text field that allows us to capture inputs -->

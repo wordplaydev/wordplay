@@ -9,12 +9,12 @@ import type Node from "./Node";
 import StructureDefinition from "./StructureDefinition";
 import NameType from "./NameType";
 import type Context from "./Context";
-import Type from "./Type";
 import { getPossibleLanguages } from "./getPossibleLanguages";
 import Language from "./Language";
 import { getPossibleUnits } from "./getPossibleUnits";
+import Reference from "./Reference";
 
-export function getPossibleTypes(parent: Node, child: Node, context: Context) {
+export function getPossibleTypes(node: Node, context: Context): (Node | Reference<Node>)[] {
 
     const project = context.source.getProject();
 
@@ -25,11 +25,10 @@ export function getPossibleTypes(parent: Node, child: Node, context: Context) {
         new ListType(new TypePlaceholder()),
         new SetType(new TypePlaceholder()),
         new MapType(new TypePlaceholder(), new TypePlaceholder()),
-        // Any structure definition types that aren't the currently selected one.
-        ... (parent.getAllDefinitions(parent, context)
+        // Any structure definition types that match the  aren't the currently selected one.
+        ... (node.getAllDefinitions(node, context)
             .filter(def => def instanceof StructureDefinition) as StructureDefinition[])
-            .map(s => s.getNames().length > 0 ? new NameType(s.getNames()[0]) : undefined)
-            .filter(n => n !== undefined && child instanceof Type && !child.accepts(n, context)) as NameType[]
+            .map(s => new Reference<NameType>(s, name => new NameType(name)))
     ]
 
 }

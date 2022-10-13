@@ -19,6 +19,7 @@ import NotAFunction from "../conflicts/NotAFunction";
 import FunctionType from "./FunctionType";
 import Evaluation from "../runtime/Evaluation";
 import TokenType from "./TokenType";
+import type Reference from "./Reference";
 
 export default class UnaryOperation extends Expression {
 
@@ -136,7 +137,7 @@ export default class UnaryOperation extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
         
         // Operator must exist on the type of the left, unless not specified
         if(child === this.operator) {

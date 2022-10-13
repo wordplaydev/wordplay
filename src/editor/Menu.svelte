@@ -1,8 +1,10 @@
 <script lang="ts">
-
-    import type { Item } from "./Item";
+    import type Reference from "../nodes/Reference";
+    import Node from "../nodes/Node";
     import nodeToView from "./nodeToView";
     import UnknownNodeView from "./UnknownNodeView.svelte";
+
+    type Item = Node | Reference<Node>;
 
     export let items: Item[];
     export let index: number;
@@ -16,10 +18,14 @@
 </script>
 
 <section class="menu">
-    {#each items as item, i}
-        <div class={`item ${i === index ? "selected" : ""}`} on:mousedown={event => handleItemClick(item, event)}>
+    {#each items.map(item => { 
+        return { 
+            node: item instanceof Node ? item : item.getNode("eng"), 
+            description: item instanceof Node ? item.getDescriptions().eng : item.definition.getDescriptions().eng }
+        }) as item, i}
+        <div class={`item ${i === index ? "selected" : ""}`} on:mousedown={event => handleItemClick(item.node, event)}>
             <div class="col"><svelte:component this={nodeToView.get(item.node.constructor) ?? UnknownNodeView} node={item.node} /></div>
-            <div class="col"><em>{item.node.getDescriptions().eng}</em></div>
+            <div class="col"><em>{item.description}</em></div>
         </div>
     {/each}
 </section>

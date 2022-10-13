@@ -515,7 +515,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
             left = parseUpdate(left, tokens);
         else if(tokens.nextIs(TokenType.DELETE))
             left = parseDelete(left, tokens);
-        else if(tokens.nextIs(TokenType.STREAM))
+        else if(tokens.nextIs(TokenType.REACTION))
             left = parseReaction(left, tokens);
         else break;
     }
@@ -626,7 +626,7 @@ function parseList(tokens: Tokens): ListLiteral | Unparsable {
     else
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_LIST_CLOSE, [ open, values ]);
 
-    return new ListLiteral(open, values, close);
+    return new ListLiteral(values, open, close);
 
 }
 
@@ -679,7 +679,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral | Unparsable {
     // Make a map
     return values.find(v => v instanceof KeyValue) !== undefined ? 
         new MapLiteral(values as MapItem[], open, undefined, close) :
-        new SetLiteral(open, values as SetItem[], close);
+        new SetLiteral(values as SetItem[], open, close);
 
 }
 
@@ -712,7 +712,7 @@ function parsePrevious(stream: Expression, tokens: Tokens): Previous | Unparsabl
     const previous = tokens.read(TokenType.PREVIOUS);
     const index = parseExpression(tokens);
 
-    return new Previous(stream, previous, index);
+    return new Previous(stream, index, previous);
 
 }
 
@@ -805,10 +805,10 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 
 /** STREAM :: EXPRESSION ∆ EXPRESSION EXPRESSION */
 function parseReaction(initial: Expression, tokens: Tokens): Reaction {
-    const delta = tokens.read(TokenType.STREAM);
+    const delta = tokens.read(TokenType.REACTION);
     const stream = parseExpression(tokens);
     const next = parseExpression(tokens);
-    return new Reaction(initial, delta, stream, next); 
+    return new Reaction(initial, stream, next, delta); 
 }
 
 /** FUNCTION :: DOCS? (ƒ | ALIASES) TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
@@ -843,7 +843,7 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
         output = parseType(tokens);
     }
 
-    const expression = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : parseExpression(tokens);
+    const expression = parseExpression(tokens);
 
     return new FunctionDefinition(docs, aliases, typeVars, inputs, expression, output, fun, dot, open, close);
 
@@ -960,7 +960,7 @@ export function parseType(tokens: Tokens, isExpression:boolean=false): Type | Un
         tokens.nextIs(TokenType.SET_OPEN) ? parseSetOrMapType(tokens) :
         tokens.nextIs(TokenType.TABLE_OPEN) ? parseTableType(tokens) :
         tokens.nextIs(TokenType.FUNCTION) ? parseFunctionType(tokens) :
-        tokens.nextIs(TokenType.STREAM) ? parseStreamType(tokens) :
+        tokens.nextIs(TokenType.REACTION) ? parseStreamType(tokens) :
         tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TYPE, [])
     );
 

@@ -19,7 +19,7 @@ export const BIND_SYMBOL = ":";
 export const ALIAS_SYMBOL = ",";
 export const MEASUREMENT_SYMBOL = "#";
 export const NONE_SYMBOL = "!";
-export const STREAM_SYMBOL = "∆";
+export const REACTION_SYMBOL = "∆";
 export const PREVIOUS_SYMBOL = "@";
 export const TEXT_SYMBOL = "''";
 export const AND_SYMBOL = "∧";
@@ -57,7 +57,7 @@ const RESERVED_SYMBOLS = [
     NONE_SYMBOL,
     TYPE_SYMBOL,
     TYPE_VAR_SYMBOL,
-    STREAM_SYMBOL,
+    REACTION_SYMBOL,
     PREVIOUS_SYMBOL,
     CONVERT_SYMBOL,
     PLACEHOLDER_SYMBOL,
@@ -98,7 +98,7 @@ const patterns = [
     { pattern: NONE_SYMBOL, types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
     { pattern: TYPE_SYMBOL, types: [ TokenType.TYPE, TokenType.TYPE_OP, TokenType.UNION ] },
     { pattern: TYPE_VAR_SYMBOL, types: [ TokenType.TYPE_VAR ] },
-    { pattern: STREAM_SYMBOL, types: [ TokenType.STREAM, TokenType.STREAM_TYPE ] },
+    { pattern: REACTION_SYMBOL, types: [ TokenType.REACTION, TokenType.STREAM_TYPE ] },
     { pattern: PREVIOUS_SYMBOL, types: [ TokenType.PREVIOUS ] },
     { pattern: PLACEHOLDER_SYMBOL, types: [ TokenType.ETC ] },
     // Roman numerals

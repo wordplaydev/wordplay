@@ -9,6 +9,7 @@ import Unparsable from "./Unparsable";
 import { TYPE_SYMBOL } from "../parser/Tokenizer";
 import NeverType from "./NeverType";
 import { getPossibleTypes } from "./getPossibleTypes";
+import type Reference from "./Reference";
 
 export default class UnionType extends Type {
 
@@ -71,10 +72,10 @@ export default class UnionType extends Type {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[]  {
 
         if(child === this.left || child === this.right)
-            return getPossibleTypes(this, child, context);
+            return getPossibleTypes(this, context);
         else return [];
 
     }

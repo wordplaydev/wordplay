@@ -25,6 +25,7 @@ import type Translations from "./Translations";
 import { getPossibleTypes } from "./getPossibleTypes";
 import getPossibleExpressions from "./getPossibleExpressions";
 import AnyType from "./AnyType";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
 
 export default class FunctionDefinition extends Expression {
 
@@ -37,14 +38,14 @@ export default class FunctionDefinition extends Expression {
     readonly close: Token;
     readonly dot?: Token;
     readonly type?: Type | Unparsable;
-    readonly expression: Expression | Unparsable | Token;
+    readonly expression: Expression | Unparsable;
 
     constructor(
         docs: Documentation[], 
         aliases: Alias[], 
         typeVars: (TypeVariable|Unparsable)[], 
         inputs: (Bind|Unparsable)[], 
-        expression: Expression | Unparsable | Token, 
+        expression: Expression | Unparsable, 
         type?: Type | Unparsable, 
         fun?: Token, dot?: Token, open?: Token, close?: Token) {
         super();
@@ -140,7 +141,7 @@ export default class FunctionDefinition extends Expression {
         // The type is equivalent to the signature.
         const outputType = 
             this.type instanceof Type ? this.type : 
-            this.expression instanceof Token || this.expression instanceof Unparsable ? new UnknownType(this) : 
+            this.expression instanceof Unparsable ? new UnknownType(this) : 
             this.expression.getTypeUnlessCycle(context);
         return new FunctionType(this.inputs, outputType);
     }
@@ -177,7 +178,7 @@ export default class FunctionDefinition extends Expression {
 
     }
 
-    isAbstract() { return this.expression instanceof Token && this.expression.is(TokenType.ETC); }
+    isAbstract() { return this.expression instanceof ExpressionPlaceholder; }
 
     clone(original?: Node, replacement?: Node) { 
         return new FunctionDefinition(
@@ -204,14 +205,14 @@ export default class FunctionDefinition extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
 
         // Output type can be any time
         if(child === this.type)
-            return getPossibleTypes(this, child, context);
+            return getPossibleTypes(this, context);
         // Expression must be of output type, or any type if there isn't one.
         else if(child === this.expression)
-            return getPossibleExpressions(context, this.type === undefined || this.type instanceof Unparsable ? new AnyType() : this.type);
+            return getPossibleExpressions(this.expression, context, this.type === undefined || this.type instanceof Unparsable ? new AnyType() : this.type);
 
         return [];
     

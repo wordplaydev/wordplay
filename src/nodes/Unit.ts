@@ -191,7 +191,7 @@ export default class Unit extends Type {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
         
         const project = context.source.getProject();
         if(child !== this.slash && project !== undefined) {

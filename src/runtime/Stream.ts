@@ -24,6 +24,8 @@ export default abstract class Stream extends Primitive {
     }
 
     abstract getTranslations(): Translations;
+    
+    getDescriptions(): Translations { return this.getTranslations(); }
 
     getNames() { return Array.from(new Set(Object.values(this.getTranslations()))); }
 

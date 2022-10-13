@@ -2,6 +2,7 @@ import type Conflict from "../conflicts/Conflict";
 import type Definition from "./Definition";
 import type Context from "./Context";
 import type Translations from "./Translations";
+import type Reference from "./Reference";
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -236,9 +237,9 @@ export default abstract class Node {
     abstract getDescriptions(): Translations;
 
     /** Get nodes that would be valid replacements for this node. Used in autocomplete. */
-    getReplacements(context: Context): Node[] { return this.getParent()?.getChildReplacements(this, context) ?? []; }
+    getReplacements(context: Context): (Node | Reference<Node>)[] { return this.getParent()?.getChildReplacements(this, context) ?? []; }
 
     /** Given a node that is possibly a child of this node, return a list of valid replacements of the child. */
-    getChildReplacements(child: Node, context: Context): Node[] { child; context; return []; }
+    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] { child; context; return []; }
 
 }

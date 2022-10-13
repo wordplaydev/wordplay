@@ -24,6 +24,8 @@ import AnyType from "./AnyType";
 import Name from "./Name";
 import TokenType from "./TokenType";
 import getPossibleExpressions from "./getPossibleExpressions";
+import { PREVIOUS_SYMBOL } from "../parser/Tokenizer";
+import Reference from "./Reference";
 
 export default class Previous extends Expression {
 
@@ -31,11 +33,11 @@ export default class Previous extends Expression {
     readonly previous: Token;
     readonly index: Expression | Unparsable;
 
-    constructor(stream: Expression | Unparsable, previous: Token, index: Expression | Unparsable) {
+    constructor(stream: Expression | Unparsable, index: Expression | Unparsable, previous?: Token) {
         super();
 
         this.stream = stream;
-        this.previous = previous;
+        this.previous = previous ?? new Token(PREVIOUS_SYMBOL, [ TokenType.PREVIOUS ]);
         this.index = index;
     }
 
@@ -93,8 +95,8 @@ export default class Previous extends Expression {
     clone(original?: Node, replacement?: Node) { 
         return new Previous(
             this.stream.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.previous.cloneOrReplace([ Token ], original, replacement), 
-            this.index.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+            this.index.cloneOrReplace([ Expression, Unparsable ], original, replacement),
+            this.previous.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
     }
 
@@ -110,15 +112,15 @@ export default class Previous extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
         
         if(child === this.stream)
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is Stream => def instanceof Stream)
-                    .map(stream => new Name(new Token(stream.getNames()[0], [ TokenType.NAME ])))
+                    .map(stream => new Reference<Name>(stream, name => new Name(name)))
 
         if(child === this.index)
-            return getPossibleExpressions(context, new MeasurementType());
+            return getPossibleExpressions(this.index, context, new MeasurementType());
         
         return [];
 

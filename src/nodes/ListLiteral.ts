@@ -14,6 +14,8 @@ import type Context from "./Context";
 import { getPossibleUnionType, TypeSet } from "./UnionType";
 import type Bind from "./Bind";
 import getPossibleExpressions from "./getPossibleExpressions";
+import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
 
 export type ListItem = Expression | Unparsable;
 
@@ -23,12 +25,13 @@ export default class ListLiteral extends Expression {
     readonly values: ListItem[];
     readonly close: Token;
 
-    constructor(open: Token, values: ListItem[], close: Token) {
+    constructor(values: ListItem[], open?: Token, close?: Token) {
         super();
 
-        this.open = open;
+        this.open = open ?? new Token(LIST_OPEN_SYMBOL, [ TokenType.LIST_OPEN ]);
         this.values = values.slice();
-        this.close = close;
+        this.close = close ?? new Token(LIST_CLOSE_SYMBOL, [ TokenType.LIST_CLOSE ]);;
+
     }
 
     computeChildren() {
@@ -77,8 +80,8 @@ export default class ListLiteral extends Expression {
 
     clone(original?: Node, replacement?: Node) { 
         return new ListLiteral(
-            this.open.cloneOrReplace([ Token ], original, replacement), 
             this.values.map(v => v.cloneOrReplace([ Expression, Unparsable ], original, replacement)), 
+            this.open.cloneOrReplace([ Token ], original, replacement), 
             this.close.cloneOrReplace([ Token ], original, replacement)
          ) as this; 
     }
@@ -94,10 +97,11 @@ export default class ListLiteral extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
 
-        if(this.values.includes(child as ListItem))
-            return getPossibleExpressions(context)
+        const index = this.values.indexOf(child as ListItem);
+        if(index >= 0)
+            return getPossibleExpressions(this.values[index], context)
         return [];
 
     }

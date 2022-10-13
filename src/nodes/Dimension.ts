@@ -74,13 +74,14 @@ export default class Dimension extends Node {
             }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
 
         const project = context.source.getProject();
         // Dimension names can be any of the possible dimensions in the project.
         if(child === this.name && project !== undefined)
-            return getPossibleDimensions(project).map(l => new Token(l, [ TokenType.NAME ]))
-        else return [];
+            return getPossibleDimensions(project).map(dimension => new Token(dimension, [ TokenType.NAME ]));
+        
+        return [];
 
     }
 

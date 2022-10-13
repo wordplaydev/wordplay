@@ -80,7 +80,7 @@ export default class MeasurementLiteral extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Node[] {
+    getChildReplacements(child: Node, context: Context) {
 
         const project = context.source.getProject();
 
