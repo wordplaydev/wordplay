@@ -14,6 +14,9 @@ import type Context from "./Context";
 import UnionType, { TypeSet } from "./UnionType";
 import type Bind from "./Bind";
 import Start from "../runtime/Start";
+import getPossibleExpressions from "./getPossibleExpressions";
+import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
 
 export default class Conditional extends Expression {
     
@@ -22,11 +25,11 @@ export default class Conditional extends Expression {
     readonly yes: Expression | Unparsable;
     readonly no: Expression | Unparsable;
 
-    constructor(condition: Expression, conditional: Token, yes: Expression | Unparsable, no: Expression | Unparsable) {
+    constructor(condition: Expression, yes: Expression | Unparsable, no: Expression | Unparsable, conditional?: Token) {
         super();
 
         this.condition = condition;
-        this.conditional = conditional;
+        this.conditional = conditional ?? new Token(BOOLEAN_TYPE_SYMBOL, [ TokenType.BOOLEAN_TYPE ], undefined, " ");
         this.yes = yes;
         this.no = no;
 
@@ -103,9 +106,9 @@ export default class Conditional extends Expression {
     clone(original?: Node, replacement?: Node) { 
         return new Conditional(
             this.condition.cloneOrReplace([ Expression ], original, replacement), 
-            this.conditional.cloneOrReplace([ Token ], original, replacement), 
             this.yes.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.no.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+            this.no.cloneOrReplace([ Expression, Unparsable ], original, replacement),
+            this.conditional.cloneOrReplace([ Token ], original, replacement)
         ) as this;
     }
 
@@ -134,6 +137,16 @@ export default class Conditional extends Expression {
         return {
             eng: "Evaluate to one of two values based on a test value"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+        
+        if(child === this.condition)
+            return getPossibleExpressions(context, new BooleanType());
+        else if(child === this.yes || child === this.no)
+            return getPossibleExpressions(context);
+        return [];
+
     }
 
 }

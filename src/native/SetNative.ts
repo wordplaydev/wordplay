@@ -73,7 +73,7 @@ export default function bootstrapSet() {
                 [ new Alias("add", "eng") ], 
                 [], 
                 [ new Bind([], undefined, [ new Alias("value", "eng") ], new NameType(SET_TYPE_VAR_NAME) ) ], 
-                new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME)),
+                new SetType(new NameType(SET_TYPE_VAR_NAME)),
                 evaluation => {
                         const set = evaluation?.getContext();
                         const element = evaluation.resolve("value");
@@ -86,7 +86,7 @@ export default function bootstrapSet() {
                 [ new Alias("remove", "eng") ],
                 [], 
                 [ new Bind([], undefined, [ new Alias("value", "eng") ], new NameType(SET_TYPE_VAR_NAME) ) ], 
-                new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME)),
+                new SetType(new NameType(SET_TYPE_VAR_NAME)),
                 evaluation => {
                     const set = evaluation.getContext();
                     const element = evaluation.resolve("value");
@@ -98,8 +98,8 @@ export default function bootstrapSet() {
                 [], 
                 [ new Alias("union", "eng") ],
                 [], 
-                [ new Bind([], undefined, [ new Alias("set", "eng") ], new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME)) ) ],
-                new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME)),
+                [ new Bind([], undefined, [ new Alias("set", "eng") ], new SetType(new NameType(SET_TYPE_VAR_NAME)) ) ],
+                new SetType(new NameType(SET_TYPE_VAR_NAME)),
                 evaluation => {
                     const set = evaluation.getContext();
                     const newSet = evaluation.resolve("set");
@@ -107,7 +107,7 @@ export default function bootstrapSet() {
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
                 }
             ),
-            createNativeFunction([], [ new Alias("intersection", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME)),
+            createNativeFunction([], [ new Alias("intersection", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetType(new NameType(SET_TYPE_VAR_NAME)),
                 evaluation => {
                     const set = evaluation.getContext();
                     const newSet = evaluation.resolve("set");
@@ -115,7 +115,7 @@ export default function bootstrapSet() {
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
                 }
             ),
-            createNativeFunction([], [ new Alias("difference", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME)),
+            createNativeFunction([], [ new Alias("difference", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetType(new NameType(SET_TYPE_VAR_NAME)),
                 evaluation => {
                     const set = evaluation.getContext();
                     const newSet = evaluation.resolve("set");
@@ -131,7 +131,7 @@ export default function bootstrapSet() {
                     new Bind([], undefined, [ new Alias("checker", "eng")], setFilterHOFType)
                 ],
                 new NativeHOFSetFilter(setFilterHOFType),
-                new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME))
+                new SetType(new NameType(SET_TYPE_VAR_NAME))
             ),
 
             createNativeConversion([], "{}", "''", (val: Set) => new Text(val.toString())),

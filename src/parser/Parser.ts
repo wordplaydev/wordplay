@@ -414,7 +414,7 @@ export function parseExpression(tokens: Tokens): Expression | Unparsable {
         const conditional = tokens.read(TokenType.CONDITIONAL);
         const yes = parseExpression(tokens);
         const no = parseExpression(tokens);
-        return new Conditional(left, conditional, yes, no);    
+        return new Conditional(left, yes, no, conditional);    
     }
     else return left;
 
@@ -640,7 +640,7 @@ function parseListAccess(left: Expression | Unparsable, tokens: Tokens): Express
             return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_LIST_CLOSE, [ left, open, index ]);
         const close = tokens.read(TokenType.LIST_CLOSE);
 
-        left = new ListAccess(left, open, index, close);
+        left = new ListAccess(left, index, open, close);
 
         // But wait, is it a function evaluation?
         if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
@@ -1039,7 +1039,7 @@ function parseSetOrMapType(tokens: Tokens): SetType | MapType | Unparsable {
     if(tokens.nextIsnt(TokenType.SET_CLOSE))
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE, [ open, key, bind, value ]);
     const close = tokens.read(TokenType.SET_CLOSE);
-    return bind === undefined ? new SetType(open, close, key) : new MapType(open, close, key, bind, value);
+    return bind === undefined ? new SetType(key, open, close) : new MapType(key, value, open, bind, close);
 
 }
 

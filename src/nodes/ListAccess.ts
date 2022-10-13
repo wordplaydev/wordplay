@@ -22,6 +22,9 @@ import { outOfBoundsAliases } from "../runtime/Constants";
 import Unit from "./Unit";
 import type Bind from "./Bind";
 import type Translations from "./Translations";
+import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
+import getPossibleExpressions from "./getPossibleExpressions";
 
 export default class ListAccess extends Expression {
     readonly list: Expression | Unparsable;
@@ -29,13 +32,13 @@ export default class ListAccess extends Expression {
     readonly index: Expression | Unparsable;
     readonly close: Token;
 
-    constructor(list: Expression | Unparsable, open: Token, index: Expression | Unparsable, close: Token) {
+    constructor(list: Expression | Unparsable, index: Expression | Unparsable, open?: Token, close?: Token) {
         super();
 
         this.list = list;
-        this.open = open;
+        this.open = open ?? new Token(LIST_OPEN_SYMBOL, [ TokenType.LIST_OPEN ]);
         this.index = index;
-        this.close = close;
+        this.close = close ?? new Token(LIST_CLOSE_SYMBOL, [ TokenType.LIST_CLOSE ]);
     }
 
     computeChildren() {
@@ -94,8 +97,8 @@ export default class ListAccess extends Expression {
     clone(original?: Node, replacement?: Node) { 
         return new ListAccess(
             this.list.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.open.cloneOrReplace([ Token ], original, replacement), 
             this.index.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
+            this.open.cloneOrReplace([ Token ], original, replacement), 
             this.close.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
     }
@@ -110,6 +113,16 @@ export default class ListAccess extends Expression {
         return {
             eng: "Get a value from a list by index"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+        
+        if(child === this.list)
+            return getPossibleExpressions(context, new ListType());
+        else if(child === this.index)
+            return getPossibleExpressions(context, new MeasurementType(undefined, new Unit()));
+        return [];
+
     }
 
 }

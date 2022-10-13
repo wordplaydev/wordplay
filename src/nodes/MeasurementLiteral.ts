@@ -16,15 +16,17 @@ import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
 import type Evaluator from "../runtime/Evaluator";
 import SemanticException from "../runtime/SemanticException";
+import TokenType from "./TokenType";
+import { getPossibleUnits } from "./getPossibleUnits";
 
 export default class MeasurementLiteral extends Expression {
     
     readonly number: Token;
     readonly unit: Unit | Unparsable;
 
-    constructor(number: Token, unit?: Unit | Unparsable) {
+    constructor(number?: Token, unit?: Unit | Unparsable) {
         super();
-        this.number = number;
+        this.number = number ?? new Token("", [ TokenType.NUMBER ]);
         this.unit = unit ?? new Unit();
     }
 
@@ -76,6 +78,17 @@ export default class MeasurementLiteral extends Expression {
         return {
             eng: "A number with an optional unit"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        const project = context.source.getProject();
+
+        if(child === this.unit && project !== undefined)
+            // Any unit in the project
+            return getPossibleUnits(project)
+        else return [];
+
     }
 
 }

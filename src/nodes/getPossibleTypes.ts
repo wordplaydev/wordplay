@@ -21,10 +21,10 @@ export function getPossibleTypes(parent: Node, child: Node, context: Context) {
     return [
         new BooleanType(),
         ...[ new MeasurementType(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => new MeasurementType(undefined, u))) ],
-        ...[ new TextType(), ... (project === undefined ? [] :getPossibleLanguages(project).map(l => new TextType(undefined, new Language(l)))) ],
+        ...[ new TextType(), ... (project === undefined ? [] : getPossibleLanguages(project).map(l => new TextType(undefined, new Language(l)))) ],
         new ListType(new TypePlaceholder()),
-        new SetType(undefined, undefined, new TypePlaceholder()),
-        new MapType(undefined, undefined, new TypePlaceholder(), undefined, new TypePlaceholder()),
+        new SetType(new TypePlaceholder()),
+        new MapType(new TypePlaceholder(), new TypePlaceholder()),
         // Any structure definition types that aren't the currently selected one.
         ... (parent.getAllDefinitions(parent, context)
             .filter(def => def instanceof StructureDefinition) as StructureDefinition[])

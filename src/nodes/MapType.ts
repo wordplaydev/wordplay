@@ -17,7 +17,7 @@ export default class MapType extends NativeType {
     readonly value?: Type | Unparsable;
     readonly close: Token;
 
-    constructor(open?: Token, close?: Token, key?: Type | Unparsable, bind?: Token, value?: Type | Unparsable) {
+    constructor(key?: Type | Unparsable, value?: Type | Unparsable, open?: Token, bind?: Token, close?: Token) {
         super();
 
         this.open = open ?? new Token(SET_OPEN_SYMBOL, [ TokenType.SET_OPEN ]);
@@ -65,11 +65,11 @@ export default class MapType extends NativeType {
 
     clone(original?: Node, replacement?: Node) { 
         return new MapType(
-            this.open.cloneOrReplace([ Token ], original, replacement), 
-            this.close.cloneOrReplace([ Token], original, replacement), 
             this.key?.cloneOrReplace([ Type, Unparsable, undefined ], original, replacement), 
+            this.value?.cloneOrReplace([ Type, Unparsable ], original, replacement),
+            this.open.cloneOrReplace([ Token ], original, replacement),
             this.bind.cloneOrReplace([ Token ], original, replacement), 
-            this.value?.cloneOrReplace([ Type, Unparsable ], original, replacement)
+            this.close.cloneOrReplace([ Token], original, replacement) 
         ) as this; 
     }
 

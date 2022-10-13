@@ -21,6 +21,8 @@ import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import TypeException from "../runtime/TypeException";
 import UnionType from "./UnionType";
+import getPossibleExpressions from "./getPossibleExpressions";
+import AnyType from "./AnyType";
 
 export default class SetOrMapAccess extends Expression {
 
@@ -118,6 +120,23 @@ export default class SetOrMapAccess extends Expression {
         return {
             eng: "Get a value in a set or a map"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+        
+        if(child === this.setOrMap) {
+            return getPossibleExpressions(context, new UnionType(new SetType(new AnyType()), new MapType(new AnyType(), new AnyType())));
+        }
+        else if(child === this.key) {
+            const setMapType = this.setOrMap.getTypeUnlessCycle(context);
+            return getPossibleExpressions(context, 
+                (setMapType instanceof SetType || setMapType instanceof MapType) && setMapType.key instanceof Type ? setMapType.key :
+                new AnyType()
+            )
+        }
+        
+        return [];
+
     }
 
 }

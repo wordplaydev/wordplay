@@ -15,7 +15,7 @@ export default class SetType extends NativeType {
     readonly key?: Type | Unparsable;
     readonly close: Token;
 
-    constructor(open?: Token, close?: Token, key?: Type | Unparsable) {
+    constructor(key?: Type | Unparsable, open?: Token, close?: Token) {
         super();
 
         this.open = open ?? new Token(SET_OPEN_SYMBOL, [ TokenType.SET_OPEN ]);
@@ -50,9 +50,9 @@ export default class SetType extends NativeType {
 
     clone(original?: Node, replacement?: Node) { 
         return new SetType(
+            this.key?.cloneOrReplace([ Type, Unparsable, undefined ], original, replacement),
             this.open.cloneOrReplace([ Token ], original, replacement), 
-            this.close.cloneOrReplace([ Token ], original, replacement), 
-            this.key?.cloneOrReplace([ Type, Unparsable, undefined ], original, replacement)
+            this.close.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
     }
 

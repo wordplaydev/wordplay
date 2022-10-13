@@ -30,7 +30,7 @@ export default class NativeHOFSetFilter extends HOF {
     }
 
     computeChildren() { return [] };
-    computeType(): Type { return new SetType(undefined, undefined, new NameType(SET_TYPE_VAR_NAME)); }
+    computeType(): Type { return new SetType(new NameType(SET_TYPE_VAR_NAME)); }
 
     compile(): Step[] { 
         return [

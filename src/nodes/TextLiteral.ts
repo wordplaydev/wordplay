@@ -11,15 +11,17 @@ import Language from "./Language";
 import type Bind from "./Bind";
 import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
+import TokenType from "./TokenType";
+import { getPossibleLanguages } from "./getPossibleLanguages";
 
 export default class TextLiteral extends Expression {
     
     readonly text: Token;
     readonly format?: Language;
 
-    constructor(text: Token, format?: Language) {
+    constructor(text?: Token, format?: Language) {
         super();
-        this.text = text;
+        this.text = text ?? new Token('""', [ TokenType.TEXT ]);
         this.format = format;
     }
 
@@ -62,6 +64,16 @@ export default class TextLiteral extends Expression {
         return {
             eng: "Text"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        const project = context.source.getProject();
+        // Formats can be any Language tags that are used in the project.
+        if(child === this.format && project !== undefined)
+            return getPossibleLanguages(project).map(l => new Language(l))
+        else return [];
+
     }
 
 }

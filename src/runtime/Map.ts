@@ -76,10 +76,8 @@ export default class Map extends Primitive {
 
     getType(context: Context) { 
         return new MapType(
-            undefined, undefined, 
             getPossibleUnionType(context, this.values.map(v => v[0].getType(context))),
-            undefined,
-            getPossibleUnionType(context, this.values.map(v => v[1].getType(context))),
+            getPossibleUnionType(context, this.values.map(v => v[1].getType(context)))
         ); 
     }
     

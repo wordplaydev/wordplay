@@ -61,7 +61,7 @@ export default class Set extends Primitive {
         return set instanceof Set && set.values.length === this.values.length && this.values.every(val => set.has(val));
     }
 
-    getType(context: Context) { return new SetType(undefined, undefined, getPossibleUnionType(context, this.values.map(v => v.getType(context)))); }
+    getType(context: Context) { return new SetType(getPossibleUnionType(context, this.values.map(v => v.getType(context)))); }
 
     getNativeTypeName(): string { return SET_NATIVE_TYPE_NAME; }
 

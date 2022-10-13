@@ -21,6 +21,7 @@ import Halt from "../runtime/Halt";
 import Action from "../runtime/Action";
 import Block from "./Block";
 import { THIS_SYMBOL } from "../parser/Tokenizer";
+import getPossibleExpressions from "./getPossibleExpressions";
 
 export default class Convert extends Expression {
     
@@ -165,6 +166,20 @@ export default class Convert extends Expression {
         return {
             eng: "Convert a value"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+        
+        if(child === this.expression)
+            return getPossibleExpressions(context);
+        else if(child === this.type) {
+            // Any type it's convertable to.
+            const inputType = this.expression.getTypeUnlessCycle(context);
+            return inputType.getAllConversions(context).filter(conversion => conversion.input instanceof Type && conversion.input.accepts(inputType, context)).map(conversion => conversion.output);
+        }
+
+        return [];
+
     }
 
 }

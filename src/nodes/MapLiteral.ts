@@ -60,7 +60,7 @@ export default class MapLiteral extends Expression {
         if(keyType === undefined) keyType = new AnyType();
         else if(valueType === undefined) valueType = new AnyType();
         
-        return new MapType(undefined, undefined, keyType, undefined, valueType);
+        return new MapType(keyType, valueType);
 
     }
 
