@@ -22,6 +22,9 @@ import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, FUNCTION_SYMBOL } from "../parser/
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import type Translations from "./Translations";
+import { getPossibleTypes } from "./getPossibleTypes";
+import getPossibleExpressions from "./getPossibleExpressions";
+import AnyType from "./AnyType";
 
 export default class FunctionDefinition extends Expression {
 
@@ -199,6 +202,19 @@ export default class FunctionDefinition extends Expression {
         return {
             eng: "A function definition."
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        // Output type can be any time
+        if(child === this.type)
+            return getPossibleTypes(this, child, context);
+        // Expression must be of output type, or any type if there isn't one.
+        else if(child === this.expression)
+            return getPossibleExpressions(context, this.type === undefined || this.type instanceof Unparsable ? new AnyType() : this.type);
+
+        return [];
+    
     }
 
 }

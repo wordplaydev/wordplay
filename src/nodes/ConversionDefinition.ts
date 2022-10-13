@@ -21,6 +21,8 @@ import { CONVERT_SYMBOL } from "../parser/Tokenizer";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
+import { getPossibleTypes } from "./getPossibleTypes";
+import getPossibleExpressions from "./getPossibleExpressions";
 
 export default class ConversionDefinition extends Expression {
 
@@ -67,7 +69,7 @@ export default class ConversionDefinition extends Expression {
         const duplicateDocs = getDuplicateDocs(this.docs);
         if(duplicateDocs) conflicts.push(duplicateDocs);
 
-        // Can only appear in custom types.
+        // Can only appear in a block.
         const enclosure = this.getBindingEnclosureOf();
         if(!(enclosure instanceof Block))
             conflicts.push(new MisplacedConversion(this));
@@ -121,6 +123,19 @@ export default class ConversionDefinition extends Expression {
         return {
             eng: "A value conversion function"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+        
+        // Input and output can be any type
+        if(child === this.input || child === this.output)
+            return getPossibleTypes(this, child, context);
+        // Expression can be anything
+        if(child === this.expression)
+            return getPossibleExpressions(context);
+
+        return [];
+
     }
 
 }

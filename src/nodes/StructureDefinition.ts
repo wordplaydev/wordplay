@@ -23,7 +23,7 @@ import TokenType from "./TokenType";
 import FunctionType from "./FunctionType";
 import NameType from "./NameType";
 import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
-import type TypeInput from "./TypeInput";
+import TypeInput from "./TypeInput";
 import type { TypeSet } from "./UnionType";
 import { Unimplemented } from "../conflicts/Unimplemented";
 import { Implemented } from "../conflicts/Implemented";
@@ -242,6 +242,19 @@ export default class StructureDefinition extends Expression {
         return {
             eng: "A structure definition"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context): Node[] {
+
+        // Interfaces can be any interface in scope.
+        if(this.interfaces.includes(child as TypeInput)) {
+            return  this.getAllDefinitions(this, context)
+                    .filter((def): def is StructureDefinition => def instanceof StructureDefinition && def.isInterface())
+                    .map(def => new TypeInput(new NameType(def.getNames()[0])));
+        }
+
+        return [];
+    
     }
 
 }
