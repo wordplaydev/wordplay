@@ -120,7 +120,7 @@ export default class Previous extends Expression {
                     .map(stream => new Reference<Name>(stream, name => new Name(name)))
 
         if(child === this.index)
-            return getPossibleExpressions(this.index, context, new MeasurementType());
+            return getPossibleExpressions(this, this.index, context, new MeasurementType());
         
         return [];
 

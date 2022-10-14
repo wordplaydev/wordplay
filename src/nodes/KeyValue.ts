@@ -3,6 +3,7 @@ import type Context from "./Context";
 import Expression from "./Expression";
 import getPossibleExpressions from "./getPossibleExpressions";
 import Node from "./Node";
+import type Reference from "./Reference";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Unparsable from "./Unparsable";
@@ -41,12 +42,12 @@ export default class KeyValue extends Node {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
 
         if(child === this.key)
-            return getPossibleExpressions(this.key, context);
+            return getPossibleExpressions(this, this.key, context);
         if(child === this.value)
-            return getPossibleExpressions(this.value, context);
+            return getPossibleExpressions(this, this.value, context);
 
         return [];
     }

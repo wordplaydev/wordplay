@@ -58,16 +58,23 @@
     let menu: {
         node: Node,
         location: { left: number, top: number },
-        items: (Node | Reference<Node>)[]
+        items: (Node | Reference<Node>)[],
+        replace: boolean
     } | undefined = undefined;
     let menuIndex: number = -1;
     $: {
-        // Start assuming we won't find one.
+        // Start assuming we won't find anything to show.
         menu = undefined;
         menuIndex = -1;
-        // If we found a match
+
+        // Is the caret on a specific token or node?
         const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
-        const replacements = node?.getReplacements(source.getContext());
+        const between = $caret.getNodesBetween();
+
+        const replacements = between !== undefined ? 
+            between.reduce((replacements: (Node | Reference<Node>)[], pair) => [ ... replacements, ...pair[0].getChildReplacements(pair[1], source.getContext(), true) ], []) :
+            node !== undefined ? node.getReplacements(source.getContext(), false) :
+            undefined;
 
         if(node !== undefined && editor !== undefined && replacements !== undefined && replacements.length > 0) {
             const viewport = editor.parentElement;
@@ -82,7 +89,8 @@
                         left: placeholderRect.left - viewportRect.left + viewport.scrollLeft,
                         top: placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10
                     },
-                    items: replacements
+                    items: replacements,
+                    replace: between === undefined
                 }
             }
         }
@@ -273,7 +281,7 @@
             if(event.key === "ArrowDown" && menuIndex < menu.items.length - 1) { menuIndex += 1; return; }
             else if(event.key === "ArrowUp" && menuIndex >= 0) { menuIndex -= 1; return; }
             else if(event.key === "Enter" && menuIndex >= 0 && menu.items.length > 0) { 
-                selectMenuItem(menu.node, menu.items[menuIndex]);
+                selectMenuItem(menu.node, menu.items[menuIndex], menu.replace);
             }
         }
 
@@ -313,9 +321,9 @@
 
     }
 
-    function selectMenuItem(node: Node, replacement: Node | Reference<Node>) {
+    function selectMenuItem(node: Node, replacement: Node | Reference<Node>, replace: boolean) {
         const replacementNode = replacement instanceof Node ? replacement : replacement.getNode("eng");
-        handleEdit($caret.replace(node, replacementNode)); return; 
+        handleEdit(replace ? $caret.replace(node, replacementNode) : $caret.insert(replacementNode.toWordplay())); return; 
     }
 
     function handleEdit(edit: Edit) {
@@ -399,7 +407,7 @@
     <!-- Are we on a placeholder? Show a menu! -->
     {#if menu !== undefined }
         <div class="menu" style={`left:${menu.location.left}px; top:${menu.location.top}px;`}>
-            <Menu items={menu.items} index={menuIndex} select={item => menu !== undefined ? selectMenuItem(menu.node, item) : undefined } />
+            <Menu items={menu.items} index={menuIndex} select={item => menu !== undefined ? selectMenuItem(menu.node, item, menu.replace) : undefined } />
         </div>
     {/if}
     <!-- Render the invisible text field that allows us to capture inputs -->

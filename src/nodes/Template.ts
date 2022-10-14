@@ -17,6 +17,7 @@ import Start from "../runtime/Start";
 import TokenType from "./TokenType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import getPossibleExpressions from "./getPossibleExpressions";
+import type Reference from "./Reference";
 
 type Part = Token | Expression | Unparsable;
 
@@ -94,13 +95,13 @@ export default class Template extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
     
         const index = this.parts.indexOf(child as Part);
         if(index >= 0) {
             const part = this.parts[index];
             if(part instanceof Expression)
-                return getPossibleExpressions(part, context);
+                return getPossibleExpressions(this, part, context);
         }
 
         return [];

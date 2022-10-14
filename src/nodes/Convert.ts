@@ -22,6 +22,7 @@ import Action from "../runtime/Action";
 import Block from "./Block";
 import { THIS_SYMBOL } from "../parser/Tokenizer";
 import getPossibleExpressions from "./getPossibleExpressions";
+import type Reference from "./Reference";
 
 export default class Convert extends Expression {
     
@@ -168,10 +169,10 @@ export default class Convert extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
         
         if(child === this.expression)
-            return getPossibleExpressions(this.expression, context);
+            return getPossibleExpressions(this, this.expression, context);
         else if(child === this.type) {
             // Any type it's convertable to.
             const inputType = this.expression.getTypeUnlessCycle(context);

@@ -30,19 +30,19 @@ import type Unparsable from "./Unparsable";
 import type Node from "./Node";
 
 /** Offer possible expressions compatible with the given type, or if none was given, any possible expression */
-export default function getPossibleExpressions(node: Expression | Unparsable, context: Context, type: Type=new AnyType()): (Node | Reference<Node>)[] {
+export default function getPossibleExpressions(parent: Node, child: Expression | Unparsable | undefined, context: Context, type: Type=new AnyType()): (Node | Reference<Node>)[] {
 
     const project = context.source.getProject();
 
     return [
-        ...node.getAllDefinitions(node, context).map(def => new Reference<Name>(def, name => new Name(name))),
-        new Block([], [ node.clone() ], false, false),
+        ...parent.getAllDefinitions(parent, context).map(def => new Reference<Name>(def, name => new Name(name))),
+        ...(child === undefined ? [] : [ new Block([], [ child.clone() ], false, false) ]),
         new BooleanLiteral(true),
         new BooleanLiteral(false),
         ...[ new MeasurementLiteral(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => new MeasurementLiteral(undefined, u))) ],
         ...[ new TextLiteral(), ... (project === undefined ? [] : getPossibleLanguages(project).map(l => new TextLiteral(undefined, new Language(l)))) ],
         new Template(),
-        ...(node instanceof Expression && node.getType(context) instanceof BooleanType ? [ new Conditional( node, new ExpressionPlaceholder(), new ExpressionPlaceholder()) ] : [] ),
+        ...(child instanceof Expression && child.getType(context) instanceof BooleanType ? [ new Conditional( child, new ExpressionPlaceholder(), new ExpressionPlaceholder()) ] : [] ),
         new Conditional(new ExpressionPlaceholder(), new ExpressionPlaceholder(), new ExpressionPlaceholder()),
         new Block([], [ new ExpressionPlaceholder() ], false, false),
         new ListLiteral([ new ExpressionPlaceholder() ]),

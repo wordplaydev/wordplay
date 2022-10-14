@@ -16,6 +16,7 @@ import type Bind from "./Bind";
 import getPossibleExpressions from "./getPossibleExpressions";
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
+import type Reference from "./Reference";
 
 export type ListItem = Expression | Unparsable;
 
@@ -97,11 +98,11 @@ export default class ListLiteral extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context, before: boolean): (Node | Reference<Node>)[] {
 
         const index = this.values.indexOf(child as ListItem);
-        if(index >= 0)
-            return getPossibleExpressions(this.values[index], context)
+        if(index >= 0 || (before && child === this.close))
+            return getPossibleExpressions(this, before ? undefined : this.values[index], context)
         return [];
 
     }

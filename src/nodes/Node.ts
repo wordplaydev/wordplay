@@ -205,6 +205,11 @@ export default abstract class Node {
 
     }
 
+    whitespaceContainsPosition(index: number): boolean {
+        const children = this.getChildren();
+        return children.length > 0 && children[0].whitespaceContainsPosition(index);
+    }
+
     /** Creates a deep clone of this node and it's descendants. If it encounters replacement along the way, it uses that instead of the existing node. */
     abstract clone(original?: Node, replacement?: Node): this;
 
@@ -237,9 +242,9 @@ export default abstract class Node {
     abstract getDescriptions(): Translations;
 
     /** Get nodes that would be valid replacements for this node. Used in autocomplete. */
-    getReplacements(context: Context): (Node | Reference<Node>)[] { return this.getParent()?.getChildReplacements(this, context) ?? []; }
+    getReplacements(context: Context, before: boolean): (Node | Reference<Node>)[] { return this.getParent()?.getChildReplacements(this, context, before) ?? []; }
 
     /** Given a node that is possibly a child of this node, return a list of valid replacements of the child. */
-    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] { child; context; return []; }
+    getChildReplacements(child: Node, context: Context, before: boolean = false): (Node | Reference<Node>)[] { child; context; before; return []; }
 
 }

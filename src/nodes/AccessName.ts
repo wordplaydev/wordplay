@@ -163,10 +163,10 @@ export default class AccessName extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
         
         if(child === this.subject) {
-            return getPossibleExpressions(this.subject, context);
+            return getPossibleExpressions(this, this.subject, context);
         }
         // For the name, what names exist on the subject that match the current name?
         else if(child === this.name) {

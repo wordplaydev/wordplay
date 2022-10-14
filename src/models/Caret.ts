@@ -23,6 +23,69 @@ export default class Caret {
             undefined;
     }
 
+    getNodesBetween() {
+
+        // If the caret is a node, there is no notion of between.
+        if(this.position instanceof Node) return undefined;
+
+        // If it's an index, then we want to find all of the nodes that could insert something at this position,
+        // so we can make suggestions about what to put there. For example, consider this code and caret position.
+        // 
+        // name|: 5
+        //
+        // This has the syntax tree
+        // BIND
+        //      docs [] 
+        //      etc -
+        //      aliases: [ 
+        //          ALIAS
+        //              semicolon -
+        //              name TOKEN [ "name" ]
+        //              lang -
+        //      ]
+        //      dot -
+        //      type -
+        //      colon: TOKEN
+        //      expression: MEASUREMENT_LITERAL
+        //          
+        // The caret is between the alias and the colon. Based on the grammar, we could insert
+        //  • More characters on the right of the name
+        //  • A LANGUAGE for the alias
+        //  • Another ALIAS after this one
+        //  • A type symbol and type after the ALIAS list
+        //
+        // What's an algorithm that can determine all of these possibilities?
+        // Basically, we take the position, find the token that contains it,
+        // and find all of the ancestors of that token whose first and last token index contain the position.
+        // All of those nodes could possibly insert something.
+        //
+        // In the example above, the token that contains the index is the TOKEN,
+        // and its ancestors ALIAS and BIND contain it. But other code before and after the BIND do not contain it.
+        //
+        // Then, each of ALIAS and BIND would take the child the position is after as input, and offer recommendations
+        // of insertions. For example, ALIAS would get TOKEN as the node after, and then deduce from that that LANG
+        // is the only possible insertion, then offer possible languages. Then BIND would get the ALIAS as the node after,
+        // and deduce that it could insert another ALIAS, or a type and type symbol.
+        // All of this logic would have to be in nodes, since only the nodes (and the grammar) know what insertions are valid.
+
+        const token = this.getProgram().nodes().find(token => token instanceof Token && token.whitespaceContainsPosition(this.position as number)) as Token | undefined;
+        if(token === undefined) return undefined;
+        const pairs: [ Node, Node ][] = [];
+
+        let node: Node | undefined | null = token;
+        while(node instanceof Node) {
+            if(!node.whitespaceContainsPosition(this.position))
+                break;
+            const parent = node.getParent();
+            if(parent)
+                pairs.push([ parent, node ]);
+            node = parent;
+        }
+
+        return pairs;
+
+    }
+
     on(node: Node): boolean {
         const tokens = node.nodes(n => n instanceof Token) as Token[];
         const first = tokens.length > 0 ? tokens[0] : undefined;
@@ -114,10 +177,10 @@ export default class Caret {
 
     withSource(source: Source) { return new Caret(source, this.position); }
 
-    insertChar(char: string): Edit {
+    insert(text: string): Edit {
         if(typeof this.position === "number") {
-            const newSource = this.source.withGraphemesAt(char, this.position);
-            return newSource === undefined ? undefined : [ newSource, new Caret(newSource, this.position + char.length) ];
+            const newSource = this.source.withGraphemesAt(text, this.position);
+            return newSource === undefined ? undefined : [ newSource, new Caret(newSource, this.position + text.length) ];
         }
     }
 

@@ -128,7 +128,7 @@ export default class Is extends Expression {
     getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
         
         if(child === this.expression)
-            return getPossibleExpressions(this.expression, context);
+            return getPossibleExpressions(this, this.expression, context);
         if(child === this.type)
             return getPossibleTypes(this.type, context);
 

@@ -212,7 +212,7 @@ export default class FunctionDefinition extends Expression {
             return getPossibleTypes(this, context);
         // Expression must be of output type, or any type if there isn't one.
         else if(child === this.expression)
-            return getPossibleExpressions(this.expression, context, this.type === undefined || this.type instanceof Unparsable ? new AnyType() : this.type);
+            return getPossibleExpressions(this, this.expression, context, this.type === undefined || this.type instanceof Unparsable ? new AnyType() : this.type);
 
         return [];
     

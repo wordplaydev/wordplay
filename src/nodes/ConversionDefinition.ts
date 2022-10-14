@@ -133,7 +133,7 @@ export default class ConversionDefinition extends Expression {
             return getPossibleTypes(this, context);
         // Expression can be anything
         if(child === this.expression)
-            return getPossibleExpressions(this.expression, context);
+            return getPossibleExpressions(this, this.expression, context);
 
         return [];
 

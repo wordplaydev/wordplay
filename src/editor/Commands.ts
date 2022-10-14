@@ -82,112 +82,112 @@ const commands: Command[] = [
     {
         description: `Insert reaction symbol (${REACTION_SYMBOL})`,
         alt: true, key: "KeyD",
-        execute: (caret: Caret) => caret.insertChar(REACTION_SYMBOL)
+        execute: (caret: Caret) => caret.insert(REACTION_SYMBOL)
     },
     {
         description: `Insert borrow symbol (${BORROW_SYMBOL})`,
         alt: true, key: "ArrowDown",
-        execute: (caret: Caret) => caret.insertChar(BORROW_SYMBOL)
+        execute: (caret: Caret) => caret.insert(BORROW_SYMBOL)
     },
     {
         description: `Insert convert symbol (${CONVERT_SYMBOL})`,
         alt: true, key: "ArrowRight",
-        execute: (caret: Caret) => caret.insertChar(CONVERT_SYMBOL)
+        execute: (caret: Caret) => caret.insert(CONVERT_SYMBOL)
     },
     {
         description: `Insert share symbol (${SHARE_SYMBOL})`,
         alt: true, key: "ArrowUp",
-        execute: (caret: Caret) => caret.insertChar(SHARE_SYMBOL)
+        execute: (caret: Caret) => caret.insert(SHARE_SYMBOL)
     },
     {
         description: `Insert infinity symbol (∞)`,
         alt: true, key: "Digit5",
-        execute: (caret: Caret) => caret.insertChar("∞")
+        execute: (caret: Caret) => caret.insert("∞")
     },
     {
         description: "Insert pi symbol (π)",
         alt: true, key: "KeyP",
-        execute: (caret: Caret) => caret.insertChar("π")
+        execute: (caret: Caret) => caret.insert("π")
     },
     {
         description: `Insert Boolean AND symbol (${AND_SYMBOL})`,
         alt: true, key: "Digit6",
-        execute: (caret: Caret) => caret.insertChar(AND_SYMBOL)
+        execute: (caret: Caret) => caret.insert(AND_SYMBOL)
     },
     {
         description: `Insert Boolean OR symbol (${OR_SYMBOL})`,
         alt: true, key: "Digit7",
-        execute: (caret: Caret) => caret.insertChar(OR_SYMBOL)
+        execute: (caret: Caret) => caret.insert(OR_SYMBOL)
     },
     {
         description: `Insert type symbol (${TYPE_SYMBOL})`,
         shift: false, alt: true, key: "Digit8",
-        execute: (caret: Caret) => caret.insertChar(TYPE_SYMBOL)
+        execute: (caret: Caret) => caret.insert(TYPE_SYMBOL)
     },
     {
         description: `Insert type symbol (${TYPE_VAR_SYMBOL})`,
         shift: true, alt: true, key: "Digit8",
-        execute: (caret: Caret) => caret.insertChar(TYPE_VAR_SYMBOL)
+        execute: (caret: Caret) => caret.insert(TYPE_VAR_SYMBOL)
     },
     {
         description: `Insert true symbol (${TRUE_SYMBOL})`,
         alt: true, key: "Digit9",
-        execute: (caret: Caret) => caret.insertChar(TRUE_SYMBOL)
+        execute: (caret: Caret) => caret.insert(TRUE_SYMBOL)
     },
     {
         description: `Insert false symbol (${FALSE_SYMBOL})`,
         alt: true, key: "Digit0",
-        execute: (caret: Caret) => caret.insertChar(FALSE_SYMBOL)
+        execute: (caret: Caret) => caret.insert(FALSE_SYMBOL)
     },
     {
         description: "Insert not equal symbol (≠)",
         alt: true, key: "Equal",
-        execute: (caret: Caret) => caret.insertChar("≠")
+        execute: (caret: Caret) => caret.insert("≠")
     },
     {
         description: `Insert function symbol (${FUNCTION_SYMBOL})`,
         alt: true, key: "KeyF",
-        execute: (caret: Caret) => caret.insertChar(FUNCTION_SYMBOL)
+        execute: (caret: Caret) => caret.insert(FUNCTION_SYMBOL)
     },
     {
         description: `Insert Boolean NOT symbol (${NOT_SYMBOL})`,
         alt: true, key: "Backquote",
-        execute: (caret: Caret) => caret.insertChar(NOT_SYMBOL)
+        execute: (caret: Caret) => caret.insert(NOT_SYMBOL)
     },
     {
         description: "Insert less than or equal to symbol (≤)",
         alt: true, key: "Comma",
-        execute: (caret: Caret) => caret.insertChar("≤")
+        execute: (caret: Caret) => caret.insert("≤")
     },
     {
         description: "Insert greater than or equal to symbol (≥)",
         alt: true, key: "Period",
-        execute: (caret: Caret) => caret.insertChar("≥")
+        execute: (caret: Caret) => caret.insert("≥")
     },
     {
         description: `Insert placeholder symbol (${PLACEHOLDER_SYMBOL})`,
         alt: true, key: "Semicolon",
-        execute: (caret: Caret) => caret.insertChar(PLACEHOLDER_SYMBOL)
+        execute: (caret: Caret) => caret.insert(PLACEHOLDER_SYMBOL)
     },
     {
         description: "Insert multiply symbol (×)",
         alt: true, key: "KeyX",
-        execute: (caret: Caret) => caret.insertChar("×")
+        execute: (caret: Caret) => caret.insert("×")
     },
     {
         description: "Insert divide symbol (÷)",
         alt: true, key: "Slash",
-        execute: (caret: Caret) => caret.insertChar("÷")
+        execute: (caret: Caret) => caret.insert("÷")
     },
     {
         description: "Insert new line",
         key: "Enter",
-        execute: (caret: Caret) => caret.insertChar("\n")
+        execute: (caret: Caret) => caret.insert("\n")
     },
     {
         description: "Insert tab",
         key: "Tab",
-        execute: (caret: Caret) => caret.insertChar("\t")
+        execute: (caret: Caret) => caret.insert("\t")
     },
     {
         description: "Delete previous character",
@@ -228,7 +228,7 @@ const commands: Command[] = [
                     if(type === "text/plain") {
                         const blob = await item.getType(type);
                         const text = await blob.text();
-                        return caret.insertChar(text);
+                        return caret.insert(text);
                     }
                 }
             }

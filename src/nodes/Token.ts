@@ -47,7 +47,19 @@ export default class Token extends Node {
     getTextLength() { return this.text.getLength(); }
     getWhitespace() { return this.whitespace === undefined ? "" : this.whitespace; }
     hasWhitespace() { return this.whitespace === undefined ? false : this.whitespace.length > 0; }
-    containsPosition(position: number) { return this.whitespace == undefined || this.index === undefined ? false : position >= this.index - this.whitespace.length && position <= this.index + this.getTextLength(); }
+    
+    containsPosition(position: number) { 
+        return this.whitespace == undefined || this.index === undefined ? 
+            false : 
+            position >= this.index - this.whitespace.length && position <= this.index + this.getTextLength(); 
+    }
+    
+    whitespaceContainsPosition(position: number) { 
+        return this.whitespace == undefined || this.index === undefined ? 
+            false : 
+            position >= this.index - this.whitespace.length && position <= this.index; 
+    }
+
     hasPrecedingLineBreak() { return this.whitespace === undefined ? false : this.whitespace.includes("\n"); }
     isnt(type: TokenType) { return !this.is(type); }
     is(type: TokenType) { return this.types.includes(type); }

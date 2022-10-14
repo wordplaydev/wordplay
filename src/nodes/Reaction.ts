@@ -162,12 +162,12 @@ export default class Reaction extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
         
         if(child === this.initial)
-            return getPossibleExpressions(this.initial, context);
+            return getPossibleExpressions(this, this.initial, context);
         else if(child === this.next)
-            return getPossibleExpressions(this.next, context);
+            return getPossibleExpressions(this, this.next, context);
         
         if(child === this.stream)
             return  this.getAllDefinitions(this, context)

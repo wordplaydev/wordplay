@@ -41,6 +41,7 @@ import getPossibleExpressions from "./getPossibleExpressions";
 import AnyType from "./AnyType";
 import { BIND_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
+import type Reference from "./Reference";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -256,13 +257,13 @@ export default class Bind extends Node implements Evaluable, Named {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
         
         if(child === this.type) {
             return getPossibleTypes(this, context);
         }
         else if(child === this.value) {
-            return getPossibleExpressions(this.value, context, this.type instanceof Type ? this.type : new AnyType());
+            return getPossibleExpressions(this, this.value, context, this.type instanceof Type ? this.type : new AnyType());
         }
         else return [];
 

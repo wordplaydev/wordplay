@@ -583,7 +583,7 @@ export default class Evaluate extends Expression {
 
                 const functionType = this.func.getTypeUnlessCycle(context);
                 if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
-                    return getPossibleExpressions(input, context);
+                    return getPossibleExpressions(this, input, context);
 
                 const bind = functionType instanceof FunctionType ? functionType.inputs[index] : functionType.structure.inputs[index];
                 if(bind === undefined || bind instanceof Unparsable)
@@ -591,7 +591,7 @@ export default class Evaluate extends Expression {
 
                 const expectedType = bind.getType(context);
 
-                return getPossibleExpressions(input, context, expectedType);
+                return getPossibleExpressions(this, input, context, expectedType);
             }
 
         }

@@ -226,7 +226,7 @@ export default class BinaryOperation extends Expression {
 
         // Left can be anything
         if(child === this.left) {
-            return getPossibleExpressions(this.left, context);
+            return getPossibleExpressions(this, this.left, context);
         }
         // Operator must exist on the type of the left, unless not specified
         else if(child === this.operator) {
@@ -236,7 +236,7 @@ export default class BinaryOperation extends Expression {
         }
         // Right should comply with the expected type, unless it's not a known function
         else if(child === this.right) {
-            return getPossibleExpressions(this.right, context, expectedType ?? new AnyType());
+            return getPossibleExpressions(this, this.right, context, expectedType ?? new AnyType());
         }
         else return [];
 

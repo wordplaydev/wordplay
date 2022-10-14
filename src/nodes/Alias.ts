@@ -29,7 +29,7 @@ export default class Alias extends Node {
         return children;
     }
 
-    computeConflicts(): Conflict[] { 
+    computeConflicts(): Conflict[] {
     
         if(this.name === undefined) return [ new UnnamedAlias(this) ];
 
@@ -65,13 +65,18 @@ export default class Alias extends Node {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context, before: boolean) {
 
         const project = context.source.getProject();
-        // Formats can be any Language tags that are used in the project.
-        if(child === this.lang && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Language(l))
-        else return [];
+        if(before) {
+
+        }
+        else {
+            // Formats can be any Language tags that are used in the project.
+            if(child === this.lang && project !== undefined)
+                return getPossibleLanguages(project).map(l => new Language(l))
+        }
+        return [];
 
     }
 
