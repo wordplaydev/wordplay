@@ -4,6 +4,8 @@ import TokenType from "./TokenType";
 import type Conflict from "../conflicts/Conflict";
 import Language from "./Language";
 import UnnamedAlias from "../conflicts/UnnamedAlias";
+import type Context from "./Context";
+import { getPossibleLanguages } from "./getPossibleLanguages";
 
 export default class Alias extends Node {
     
@@ -61,6 +63,16 @@ export default class Alias extends Node {
         return {
             eng: "A name"
         }
+    }
+
+    getChildReplacements(child: Node, context: Context) {
+
+        const project = context.source.getProject();
+        // Formats can be any Language tags that are used in the project.
+        if(child === this.lang && project !== undefined)
+            return getPossibleLanguages(project).map(l => new Language(l))
+        else return [];
+
     }
 
 }
