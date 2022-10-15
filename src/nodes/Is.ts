@@ -19,9 +19,9 @@ import { IncompatibleType } from "../conflicts/IncompatibleType";
 import { TypeSet } from "./UnionType";
 import SemanticException from "../runtime/SemanticException";
 import Start from "../runtime/Start";
-import type Reference from "./Reference";
 import getPossibleExpressions from "./getPossibleExpressions";
 import { getPossibleTypes } from "./getPossibleTypes";
+import { Position, type Replacement } from "./Node";
 
 export default class Is extends Expression {
 
@@ -125,12 +125,14 @@ export default class Is extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
         
-        if(child === this.expression)
-            return getPossibleExpressions(this, this.expression, context);
-        if(child === this.type)
-            return getPossibleTypes(this.type, context);
+        if(position === Position.ON) {
+            if(child === this.expression)
+                return getPossibleExpressions(this, this.expression, context);
+            if(child === this.type)
+                return getPossibleTypes(this.type, context);
+        }
 
         return [];
 

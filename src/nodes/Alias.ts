@@ -1,4 +1,4 @@
-import Node from "./Node";
+import Node, { Position } from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import type Conflict from "../conflicts/Conflict";
@@ -65,17 +65,24 @@ export default class Alias extends Node {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, before: boolean) {
+    getChildReplacements(child: Node, context: Context, position: Position) {
 
         const project = context.source.getProject();
-        if(before) {
+        if(position === Position.BEFORE) {
 
         }
+        // Suggest languages for insertion if after the name with no language.
+        else if(position === Position.AFTER) {
+            if(this.lang === undefined && project !== undefined)
+                return getPossibleLanguages(project).map(l => new Language(l));
+        }
+        // Suggest languages for replacement if on the language.
         else {
             // Formats can be any Language tags that are used in the project.
             if(child === this.lang && project !== undefined)
                 return getPossibleLanguages(project).map(l => new Language(l))
         }
+
         return [];
 
     }

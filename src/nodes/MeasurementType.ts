@@ -11,6 +11,7 @@ import type BinaryOperation from "./BinaryOperation";
 import Expression from "./Expression";
 import NativeType from "./NativeType";
 import { getPossibleUnits } from "./getPossibleUnits";
+import { Position } from "./Node";
 
 type UnitDeriver = (left: Unit, right: Unit, constant: number) => Unit;
 
@@ -77,11 +78,11 @@ export default class MeasurementType extends NativeType {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context, position: Position) {
 
         const project = context.source.getProject();
 
-        if(child === this.unit && project !== undefined)
+        if(position === Position.ON && child === this.unit && project !== undefined)
             // Any unit in the project
             return getPossibleUnits(project)
         else return [];

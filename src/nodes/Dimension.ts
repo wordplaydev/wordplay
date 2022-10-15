@@ -1,6 +1,7 @@
+import { EXPONENT_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import { getPossibleDimensions } from "./getPossibleUnits";
-import Node from "./Node";
+import Node, { Position } from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 
@@ -74,13 +75,19 @@ export default class Dimension extends Node {
             }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context, position: Position) {
 
         const project = context.source.getProject();
         // Dimension names can be any of the possible dimensions in the project.
-        if(child === this.name && project !== undefined)
-            return getPossibleDimensions(project).map(dimension => new Token(dimension, [ TokenType.NAME ]));
-        
+        if(position === Position.ON) {
+            if(child === this.name && project !== undefined)
+                return getPossibleDimensions(project).map(dimension => new Token(dimension, [ TokenType.NAME ]));
+        }
+        else if(position === Position.AFTER) {
+            if(this.caret === undefined)
+                return [ new Token(EXPONENT_SYMBOL, [ TokenType.UNARY_OP ]) ];
+        }
+            
         return [];
 
     }

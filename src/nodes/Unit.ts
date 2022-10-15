@@ -1,11 +1,13 @@
 import { EXPONENT_SYMBOL, LANGUAGE_SYMBOL, PRODUCT_SYMBOL } from "../parser/Tokenizer";
 import Dimension from "./Dimension";
-import type Token from "./Token";
+import Token from "./Token";
 import Type from "./Type";
 import type Node from "./Node";
 import Measurement from "../runtime/Measurement";
 import type Context from "./Context";
 import { getPossibleDimensions } from "./getPossibleUnits";
+import { Position } from "./Node";
+import TokenType from "./TokenType";
 
 export default class Unit extends Type {
 
@@ -191,13 +193,18 @@ export default class Unit extends Type {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context, position: Position) {
         
         const project = context.source.getProject();
-        if(child !== this.slash && project !== undefined) {
-            return getPossibleDimensions(project).map(dim => new Dimension(dim));
+
+        if(position === Position.ON) {
+            if(child !== this.slash && project !== undefined)
+                return getPossibleDimensions(project).map(dim => new Dimension(dim));
         }
-        else return [];
+        else if(position === Position.AFTER)
+            if(this.numerator[this.numerator.length - 1] === child)
+                return [ new Token(LANGUAGE_SYMBOL, [ TokenType.LANGUAGE ])]
+        return [];
 
     }
 

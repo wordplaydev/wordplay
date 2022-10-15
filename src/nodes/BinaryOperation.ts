@@ -29,6 +29,7 @@ import getPossibleExpressions from "./getPossibleExpressions";
 import AnyType from "./AnyType";
 import TokenType from "./TokenType";
 import Reference from "./Reference";
+import { Position, type Replacement } from "./Node";
 
 export default class BinaryOperation extends Expression {
 
@@ -220,25 +221,28 @@ export default class BinaryOperation extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
         
         const expectedType = this.getFunctionDefinition(context)?.inputs[0]?.getType(context);
 
-        // Left can be anything
-        if(child === this.left) {
-            return getPossibleExpressions(this, this.left, context);
+        if(position === Position.ON) {
+            // Left can be anything
+            if(child === this.left) {
+                return getPossibleExpressions(this, this.left, context);
+            }
+            // Operator must exist on the type of the left, unless not specified
+            else if(child === this.operator) {
+                const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
+                const funs = leftType?.getAllDefinitions(this, context)?.filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.inputs.length === 1);
+                return funs?.map(fun => new Reference<Token>(fun, name => new Token(name, [ TokenType.BINARY_OP ]))) ?? []
+            }
+            // Right should comply with the expected type, unless it's not a known function
+            else if(child === this.right) {
+                return getPossibleExpressions(this, this.right, context, expectedType ?? new AnyType());
+            }
         }
-        // Operator must exist on the type of the left, unless not specified
-        else if(child === this.operator) {
-            const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
-            const funs = leftType?.getAllDefinitions(this, context)?.filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.inputs.length === 1);
-            return funs?.map(fun => new Reference<Token>(fun, name => new Token(name, [ TokenType.BINARY_OP ]))) ?? []
-        }
-        // Right should comply with the expected type, unless it's not a known function
-        else if(child === this.right) {
-            return getPossibleExpressions(this, this.right, context, expectedType ?? new AnyType());
-        }
-        else return [];
+        
+        return [];
 
     }
 

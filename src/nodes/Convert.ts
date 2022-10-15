@@ -22,7 +22,7 @@ import Action from "../runtime/Action";
 import Block from "./Block";
 import { THIS_SYMBOL } from "../parser/Tokenizer";
 import getPossibleExpressions from "./getPossibleExpressions";
-import type Reference from "./Reference";
+import { Position, type Replacement } from "./Node";
 
 export default class Convert extends Expression {
     
@@ -169,14 +169,16 @@ export default class Convert extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
         
-        if(child === this.expression)
-            return getPossibleExpressions(this, this.expression, context);
-        else if(child === this.type) {
-            // Any type it's convertable to.
-            const inputType = this.expression.getTypeUnlessCycle(context);
-            return inputType.getAllConversions(context).filter(conversion => conversion.input instanceof Type && conversion.input.accepts(inputType, context)).map(conversion => conversion.output);
+        if(position === Position.ON) {
+            if(child === this.expression)
+                return getPossibleExpressions(this, this.expression, context);
+            else if(child === this.type) {
+                // Any type it's convertable to.
+                const inputType = this.expression.getTypeUnlessCycle(context);
+                return inputType.getAllConversions(context).filter(conversion => conversion.input instanceof Type && conversion.input.accepts(inputType, context)).map(conversion => conversion.output);
+            }
         }
 
         return [];

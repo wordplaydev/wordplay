@@ -26,6 +26,7 @@ import { getPossibleTypes } from "./getPossibleTypes";
 import getPossibleExpressions from "./getPossibleExpressions";
 import AnyType from "./AnyType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import type { Replacement } from "./Node";
 
 export default class FunctionDefinition extends Expression {
 
@@ -205,7 +206,7 @@ export default class FunctionDefinition extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context): Replacement[] {
 
         // Output type can be any time
         if(child === this.type)

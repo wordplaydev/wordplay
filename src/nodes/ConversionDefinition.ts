@@ -23,7 +23,7 @@ import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import { getPossibleTypes } from "./getPossibleTypes";
 import getPossibleExpressions from "./getPossibleExpressions";
-import type Reference from "./Reference";
+import type { Replacement } from "./Node";
 
 export default class ConversionDefinition extends Expression {
 
@@ -126,7 +126,7 @@ export default class ConversionDefinition extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
+    getChildReplacements(child: Node, context: Context): Replacement[] {
         
         // Input and output can be any type
         if(child === this.input || child === this.output)

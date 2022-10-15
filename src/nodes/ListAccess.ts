@@ -25,7 +25,7 @@ import type Translations from "./Translations";
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import getPossibleExpressions from "./getPossibleExpressions";
-import type Reference from "./Reference";
+import { Position, type Replacement } from "./Node";
 
 export default class ListAccess extends Expression {
     readonly list: Expression | Unparsable;
@@ -116,12 +116,15 @@ export default class ListAccess extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+
+        if(position === Position.ON) {
+            if(child === this.list)
+                return getPossibleExpressions(this, this.list, context, new ListType());
+            else if(child === this.index)
+                return getPossibleExpressions(this, this.index, context, new MeasurementType(undefined, new Unit()));
+        }
         
-        if(child === this.list)
-            return getPossibleExpressions(this, this.list, context, new ListType());
-        else if(child === this.index)
-            return getPossibleExpressions(this, this.index, context, new MeasurementType(undefined, new Unit()));
         return [];
 
     }

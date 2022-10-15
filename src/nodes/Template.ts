@@ -17,7 +17,8 @@ import Start from "../runtime/Start";
 import TokenType from "./TokenType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import getPossibleExpressions from "./getPossibleExpressions";
-import type Reference from "./Reference";
+import { Position, type Replacement } from "./Node";
+import { getPossibleLanguages } from "./getPossibleLanguages";
 
 type Part = Token | Expression | Unparsable;
 
@@ -95,13 +96,30 @@ export default class Template extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
     
-        const index = this.parts.indexOf(child as Part);
-        if(index >= 0) {
-            const part = this.parts[index];
-            if(part instanceof Expression)
-                return getPossibleExpressions(this, part, context);
+        const project = context.source.getProject();
+
+        if(position === Position.ON) {
+            const index = this.parts.indexOf(child as Part);
+            if(index >= 0) {
+                const part = this.parts[index];
+                if(part instanceof Expression)
+                    return getPossibleExpressions(this, part, context);
+            }
+
+            if(child === this.format && project !== undefined)
+                return getPossibleLanguages(project).map(l => new Language(l));
+    
+        }
+        else if(position === Position.AFTER) {
+            // If at the end of a part
+            if(child === this.parts[this.parts.length - 1]) {
+                if(this.format === undefined) {
+                    if(project !== undefined)
+                        return getPossibleLanguages(project).map(l => new Language(l));
+                }
+            }
         }
 
         return [];

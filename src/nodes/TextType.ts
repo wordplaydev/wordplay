@@ -8,6 +8,7 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import type Type from "./Type";
 import { getPossibleLanguages } from "./getPossibleLanguages";
+import { Position } from "./Node";
 
 export default class TextType extends NativeType {
 
@@ -51,11 +52,11 @@ export default class TextType extends NativeType {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context, position: Position) {
 
         const project = context.source.getProject();
         // Formats can be any Language tags that are used in the project.
-        if(child === this.format && project !== undefined)
+        if(project !== undefined && ((position === Position.ON && child === this.format) || (this.format === undefined && position === Position.AFTER)))
             return getPossibleLanguages(project).map(l => new Language(l))
         else return [];
 

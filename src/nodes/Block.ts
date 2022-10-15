@@ -31,7 +31,7 @@ import TokenType from "./TokenType";
 import getPossibleExpressions from "./getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Alias from "./Alias";
-import type Reference from "./Reference";
+import { Position, type Replacement } from "./Node";
 
 export type Statement = Expression | Unparsable | Share | Bind;
 
@@ -188,21 +188,24 @@ export default class Block extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, before: boolean): (Node | Reference<Node>)[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+
+        const bind = new Bind([], undefined, [ new Alias("") ], undefined, new ExpressionPlaceholder());
 
         const index = this.statements.indexOf(child as Statement);
         if(index >= 0) {
             const statement = this.statements[index];
+            const last = index === this.statements.length - 1;
             if(statement instanceof Expression)
                 return [
-                    ... getPossibleExpressions(this, statement, context),
-                    new Bind([], undefined, [ new Alias("") ], undefined, new ExpressionPlaceholder())
+                    ...(last ? getPossibleExpressions(this, statement, context) : []),
+                    bind
                 ]
-            if(before)
-            return [
-                ... getPossibleExpressions(this, undefined, context),
-                new Bind([], undefined, [ new Alias("") ], undefined, new ExpressionPlaceholder())
-            ]
+            if(position === Position.BEFORE)
+                return [
+                    ...(last ? getPossibleExpressions(this, undefined, context) : []),
+                    bind
+                ]
             
         }
         return [];

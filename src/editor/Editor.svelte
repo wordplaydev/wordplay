@@ -1,6 +1,6 @@
 <script lang="ts">
     import { project, updateProject } from '../models/stores';
-    import Node from '../nodes/Node';
+    import Node, { Position, type Replacement } from '../nodes/Node';
     import Token from '../nodes/Token';
     import Caret from '../models/Caret';
     import { afterUpdate, setContext } from 'svelte';
@@ -13,7 +13,6 @@
     import createRowOutlineOf from './outline';
     import type Program from '../nodes/Program';
     import Menu from './Menu.svelte';
-    import type Reference from '../nodes/Reference';
 
     export let source: Source;
 
@@ -58,7 +57,7 @@
     let menu: {
         node: Node,
         location: { left: number, top: number },
-        items: (Node | Reference<Node>)[],
+        items: Replacement[],
         replace: boolean
     } | undefined = undefined;
     let menuIndex: number = -1;
@@ -72,8 +71,17 @@
         const between = $caret.getNodesBetween();
 
         const replacements = between !== undefined ? 
-            between.reduce((replacements: (Node | Reference<Node>)[], pair) => [ ... replacements, ...pair[0].getChildReplacements(pair[1], source.getContext(), true) ], []) :
-            node !== undefined ? node.getReplacements(source.getContext(), false) :
+            [
+                ... between.before.reduce((replacements: Replacement[], child) => {
+                    const parent = child.getParent();
+                    return parent === undefined || parent === null ? replacements : [ ... replacements, ...parent.getChildReplacements(child, source.getContext(), Position.BEFORE) ]
+                }, []),
+                ... between.after.reduce((replacements: Replacement[], child) => {
+                    const parent: Node | undefined | null = child.getParent();
+                    return parent === undefined || parent === null ? replacements : [ ...replacements, ...parent.getChildReplacements(child, source.getContext(),Position.AFTER) ]
+                }, [])
+            ] :
+            node !== undefined ? node.getReplacements(source.getContext(), Position.ON) :
             undefined;
 
         if(node !== undefined && editor !== undefined && replacements !== undefined && replacements.length > 0) {
@@ -321,9 +329,12 @@
 
     }
 
-    function selectMenuItem(node: Node, replacement: Node | Reference<Node>, replace: boolean) {
-        const replacementNode = replacement instanceof Node ? replacement : replacement.getNode("eng");
-        handleEdit(replace ? $caret.replace(node, replacementNode) : $caret.insert(replacementNode.toWordplay())); return; 
+    function selectMenuItem(node: Node, replacement: Replacement, replace: boolean) {
+        const code = 
+            replacement instanceof Node ? replacement.toWordplay() : 
+            Array.isArray(replacement) ? replacement.map(node => node.toWordplay()).join("") :
+            replacement.getNode("eng").toWordplay();
+        handleEdit(replace ? $caret.replace(node, code) : $caret.insert(code)); return; 
     }
 
     function handleEdit(edit: Edit) {

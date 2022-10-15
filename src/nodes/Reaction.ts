@@ -25,6 +25,7 @@ import Name from "./Name";
 import TokenType from "./TokenType";
 import { REACTION_SYMBOL } from "../parser/Tokenizer";
 import Reference from "./Reference";
+import { Position, type Replacement } from "./Node";
 
 export default class Reaction extends Expression {
 
@@ -162,17 +163,19 @@ export default class Reaction extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
         
-        if(child === this.initial)
-            return getPossibleExpressions(this, this.initial, context);
-        else if(child === this.next)
-            return getPossibleExpressions(this, this.next, context);
-        
-        if(child === this.stream)
-            return  this.getAllDefinitions(this, context)
-                    .filter((def): def is Stream => def instanceof Stream)
-                    .map(stream => new Reference<Name>(stream, name => new Name(name)));
+        if(position === Position.ON) {
+            if(child === this.initial)
+                return getPossibleExpressions(this, this.initial, context);
+            else if(child === this.next)
+                return getPossibleExpressions(this, this.next, context);
+            
+            if(child === this.stream)
+                return  this.getAllDefinitions(this, context)
+                        .filter((def): def is Stream => def instanceof Stream)
+                        .map(stream => new Reference<Name>(stream, name => new Name(name)));
+        }
 
         return [];
 

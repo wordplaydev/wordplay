@@ -8,7 +8,7 @@ import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
 import { getPossibleTypes } from "./getPossibleTypes";
-import type Reference from "./Reference";
+import { Position, type Replacement } from "./Node";
 
 export default class ListType extends NativeType {
 
@@ -65,11 +65,12 @@ export default class ListType extends NativeType {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[]  {
+    getChildReplacements(child: Node, context: Context, position: Position): Replacement[]  {
 
-        if(child === this.type)
+        if(position === Position.ON && child === this.type)
             return getPossibleTypes(this, context);
-        else return [];
+        
+        return [];
 
     }
 

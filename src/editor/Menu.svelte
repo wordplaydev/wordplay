@@ -1,16 +1,13 @@
 <script lang="ts">
-    import type Reference from "../nodes/Reference";
-    import Node from "../nodes/Node";
+    import Node, { type Replacement } from "../nodes/Node";
     import nodeToView from "./nodeToView";
     import UnknownNodeView from "./UnknownNodeView.svelte";
 
-    type Item = Node | Reference<Node>;
-
-    export let items: Item[];
+    export let items: Replacement[];
     export let index: number;
-    export let select: (item: Item) => void;
+    export let select: (item: Replacement) => void;
 
-    function handleItemClick(item: Item, event: MouseEvent) {
+    function handleItemClick(item: Replacement, event: MouseEvent) {
         select(item);
         event.stopPropagation();
     }
@@ -20,11 +17,11 @@
 <section class="menu">
     {#each items.map(item => { 
         return { 
-            node: item instanceof Node ? item : item.getNode("eng"), 
-            description: item instanceof Node ? item.getDescriptions().eng : item.definition.getDescriptions().eng }
+            node: item instanceof Node ? item : Array.isArray(item) ? item : item.getNode("eng"), 
+            description: item instanceof Node ? item.getDescriptions().eng : Array.isArray(item) ? item[1].getDescriptions().eng : item.definition.getDescriptions().eng }
         }) as item, i}
         <div class={`item ${i === index ? "selected" : ""}`} on:mousedown={event => handleItemClick(item.node, event)}>
-            <div class="col"><svelte:component this={nodeToView.get(item.node.constructor) ?? UnknownNodeView} node={item.node} /></div>
+            <div class="col"><svelte:component this={nodeToView.get((Array.isArray(item.node) ? item.node[0] : item.node).constructor) ?? UnknownNodeView} node={Array.isArray(item.node) ? item.node[0] : item.node} />{#if Array.isArray(item.node) }<svelte:component this={nodeToView.get(item.node[1].constructor) ?? UnknownNodeView} node={item.node[1]} />{/if}</div>
             <div class="col"><em>{item.description}</em></div>
         </div>
     {/each}

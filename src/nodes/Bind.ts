@@ -1,5 +1,5 @@
 import Expression from "./Expression";
-import Node from "./Node";
+import Node, { Position, type Replacement } from "./Node";
 import type Context from "./Context";
 import Alias from "./Alias";
 import Token from "./Token";
@@ -39,9 +39,11 @@ import type Definition from "./Definition";
 import { getPossibleTypes } from "./getPossibleTypes";
 import getPossibleExpressions from "./getPossibleExpressions";
 import AnyType from "./AnyType";
-import { BIND_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
+import { BIND_SYMBOL, PLACEHOLDER_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import type Reference from "./Reference";
+import TypePlaceholder from "./TypePlaceholder";
+import FunctionDefinition from "./FunctionDefinition";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -257,15 +259,43 @@ export default class Bind extends Node implements Evaluable, Named {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
-        
-        if(child === this.type) {
-            return getPossibleTypes(this, context);
+    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+
+        if(position === Position.ON) {
+            if(child === this.type) {
+                return getPossibleTypes(this, context);
+            }
+            else if(child === this.value) {
+                return getPossibleExpressions(this, this.value, context, this.type instanceof Type ? this.type : new AnyType());
+            }
         }
-        else if(child === this.value) {
-            return getPossibleExpressions(this, this.value, context, this.type instanceof Type ? this.type : new AnyType());
+        else if(position === Position.BEFORE) {
+            const parent = this.getParent();
+            // Before the … or a documentation? Suggest more documentation.
+            if(this.etc === child || this.docs.includes(child as Documentation))
+                return [ new Documentation() ];
+            // Before the first name? a name? Offer an etc or a documentation
+            else if(child === this.names[0]) {
+                if(this.etc === undefined) {
+                    if((parent instanceof FunctionDefinition || parent instanceof StructureDefinition) && parent.inputs.find(input => input.contains(child)) === parent.inputs[parent.inputs.length - 1])
+                        return [ new Token(PLACEHOLDER_SYMBOL, [ TokenType.ETC ]), new Documentation() ];
+                }
+            }
+            // Before the etc? Offer documentation
+            else if(child === this.etc)
+                return [ new Documentation() ];
+            // Before colon? Offer a type.
+            else if(child === this.colon && this.type === undefined)
+                return [ [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ] ];
         }
-        else return [];
+        else if(position === Position.AFTER) {
+            if(child === this.names[this.names.length - 1])
+                return [ [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ], [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] ];        
+            else if(child === this.type && this.colon === undefined)
+                return [ [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] ];        
+        }
+
+        return [];
 
     }
 

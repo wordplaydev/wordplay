@@ -3,6 +3,8 @@ import Node from "../nodes/Node";
 import Token from "../nodes/Token";
 import type Source from "./Source";
 
+export type InsertionContext = { before: Node[], after: Node[] };
+
 export default class Caret {
 
     readonly time: number;
@@ -68,18 +70,40 @@ export default class Caret {
         // and deduce that it could insert another ALIAS, or a type and type symbol.
         // All of this logic would have to be in nodes, since only the nodes (and the grammar) know what insertions are valid.
 
-        const token = this.getProgram().nodes().find(token => token instanceof Token && token.whitespaceContainsPosition(this.position as number)) as Token | undefined;
-        if(token === undefined) return undefined;
-        const pairs: [ Node, Node ][] = [];
+        // Find the token whose whitespace contains the current position. This is the token text to the right of the caret.
+        const tokens = this.getProgram().nodes().filter(token => token instanceof Token) as Token[];
+        const tokenAfter = this.getProgram().nodes().find(token => token.whitespaceContainsPosition(this.position as number)) as Token | undefined;
+        if(tokenAfter === undefined) return undefined;
+        // Find the token before the caret
+        const tokenBefore = tokens[0] === tokenAfter ? undefined : tokens[tokens.indexOf(tokenAfter) - 1];
 
-        let node: Node | undefined | null = token;
+        // Make a list of parent/child nodes that are adjacent to the caret.
+        const pairs: InsertionContext = {
+            before: [],
+            after: []
+        };
+
+        // Start with the token after and find all nodes that contain this token's whitespace.
+        let node: Node | undefined | null = tokenAfter;
         while(node instanceof Node) {
             if(!node.whitespaceContainsPosition(this.position))
                 break;
             const parent = node.getParent();
             if(parent)
-                pairs.push([ parent, node ]);
+                pairs.before.push(node);
             node = parent;
+        }
+
+        // Start with the token before and find all of the ancestors for which the token before is the last token in the node.
+        if(tokenBefore !== undefined) {
+            let node: Node | undefined | null = tokenBefore;
+            while(node instanceof Node) {
+                const parent = node.getParent();
+                const nodesTokens = node.nodes(t => t instanceof Token);
+                if(parent && nodesTokens.length > 0 && nodesTokens[nodesTokens.length - 1] === tokenBefore)
+                    pairs.after.push(node);
+                node = parent;
+            }
         }
 
         return pairs;
@@ -193,11 +217,11 @@ export default class Caret {
         return firstIndex === undefined || lastIndex === undefined ? undefined : [ firstIndex, lastIndex ];
     }
 
-    replace(old: Node, replacement: Node): Edit {
+    replace(old: Node, replacement: string): Edit {
 
         const range = this.getRange(old);
         if(range === undefined) return;
-        const newCode = replacement.toWordplay();
+        const newCode = replacement;
 
         const newSource = 
             this.source

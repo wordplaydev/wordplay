@@ -25,6 +25,8 @@ import getPossibleExpressions from "./getPossibleExpressions";
 import TypeVariable from "./TypeVariable";
 import Stream from "../runtime/Stream";
 import Reference from "./Reference";
+import { Position, type Replacement } from "./Node";
+import FunctionType from "./FunctionType";
 
 export default class AccessName extends Expression {
 
@@ -163,19 +165,31 @@ export default class AccessName extends Expression {
         }
     }
 
-getChildReplacements(child: Node, context: Context): (Node | Reference<Node>)[] {
+getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
         
-        if(child === this.subject) {
-            return getPossibleExpressions(this, this.subject, context);
+        if(position === Position.ON) {
+            if(child === this.subject) {
+                return getPossibleExpressions(this, this.subject, context);
+            }
+            // For the name, what names exist on the subject that match the current name?
+            else if(child === this.name) {
+                const subjectType = this.getSubjectType(context);
+                if(subjectType instanceof StructureType)
+                    return subjectType.structure
+                        .getDefinitions(child)
+                        .filter(def => def.getNames().find(n => this.name.getText() === "" || n.startsWith(this.name.getText())) !== undefined)
+                        .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ])));
+            }
         }
-        // For the name, what names exist on the subject that match the current name?
-        else if(child === this.name) {
-            const subjectType = this.getSubjectType(context);
-            if(subjectType instanceof StructureType)
-                return subjectType.structure
-                    .getDefinitions(child)
-                    .filter(def => def.getNames().find(n => this.name.getText() === "" || n.startsWith(this.name.getText())) !== undefined)
-                    .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ])));
+        // At the end, suggest function calls if this resolves to a function.
+        else if(position === Position.AFTER) {
+
+            const type = this.getType(context);
+            if(type instanceof StructureType || type instanceof FunctionType) {
+
+                // Replace this access with an evaluate that has a clone of this as it's function expression.
+                
+            }
         }
 
         return [];

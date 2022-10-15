@@ -17,6 +17,7 @@ import Start from "../runtime/Start";
 import getPossibleExpressions from "./getPossibleExpressions";
 import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
+import { Position, type Replacement } from "./Node";
 
 export default class Conditional extends Expression {
     
@@ -139,14 +140,17 @@ export default class Conditional extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
         
-        if(child === this.condition)
-            return getPossibleExpressions(this, this.condition, context, new BooleanType());
-        if(child === this.yes)
-            return getPossibleExpressions(this, this.yes, context);
-        if(child === this.no)
-            return getPossibleExpressions(this, this.no, context);
+        if(position === Position.ON) {
+            if(child === this.condition)
+                return getPossibleExpressions(this, this.condition, context, new BooleanType());
+            if(child === this.yes)
+                return getPossibleExpressions(this, this.yes, context);
+            if(child === this.no)
+                return getPossibleExpressions(this, this.no, context);
+        }
+        
         return [];
 
     }

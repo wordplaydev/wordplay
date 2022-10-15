@@ -23,6 +23,7 @@ import Is from "./Is";
 import NameException from "../runtime/NameException";
 import TokenType from "./TokenType";
 import Reference from "./Reference";
+import { Position } from "./Node";
 
 export default class Name extends Expression {
     
@@ -156,11 +157,14 @@ export default class Name extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context, position: Position) {
 
         child;
-        return this.getAllDefinitions(this, context)
+        if(position === Position.ON)
+            return this.getAllDefinitions(this, context)
                 .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ])))
+        
+        return [];
 
     }
 

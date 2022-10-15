@@ -13,6 +13,7 @@ import StructureDefinition from "./StructureDefinition";
 import VariableType from "./VariableType";
 import { NAME_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import Reference from "./Reference";
+import { Position } from "./Node";
 
 export default class NameType extends Type {
 
@@ -75,10 +76,10 @@ export default class NameType extends Type {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context, position: Position) {
 
         const definition = this.resolve(context);
-        if(child === this.type)
+        if(position === Position.ON && child === this.type)
             // Any StructureDefinition and Type Variable in
             return (this.getAllDefinitions(this, context)
                     .filter(def => 
