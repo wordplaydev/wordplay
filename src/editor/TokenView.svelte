@@ -159,14 +159,14 @@
         z-index: 1;
 
         --token-category-delimiter: var(--color-grey);
-        --token-category-relation: var(--color-yellow);
-        --token-category-share: var(--color-yellow);
+        --token-category-relation: var(--color-orange);
+        --token-category-share: var(--color-orange);
         --token-category-eval: var(--color-blue);
         --token-category-docs: var(--color-purple);
         --token-category-literal: var(--color-blue);
         --token-category-name: var(--color-black);
         --token-category-type: var(--color-orange);
-        --token-category-operator: var(--color-yellow);
+        --token-category-operator: var(--color-orange);
         --token-category-unknown: var(--color-pink);
     }
 
