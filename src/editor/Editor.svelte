@@ -445,7 +445,7 @@
         <div class="menu" style={`left:${menu.location.left}px; top:${menu.location.top}px;`}>
             <Menu 
                 items={menu.items} 
-                index={menuIndex} 
+                selection={menuIndex} 
                 action={menu.replace ? "replace" : "insert" }
                 select={item => menu !== undefined ? selectMenuItem(menu.node, item, menu.replace) : undefined } />
         </div>
