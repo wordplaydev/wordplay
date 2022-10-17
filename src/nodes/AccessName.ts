@@ -27,7 +27,6 @@ import Stream from "../runtime/Stream";
 import Reference from "./Reference";
 import { Position } from "./Node";
 import type Transform from "./Replacement"
-import FunctionType from "./FunctionType";
 import NameException from "../runtime/NameException";
 
 export default class AccessName extends Expression {
@@ -171,8 +170,8 @@ export default class AccessName extends Expression {
         }
     }
 
-getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
-        
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
+
         if(position === Position.ON) {
             if(child === this.subject) {
                 return getPossibleExpressions(this, this.subject, context);
@@ -185,16 +184,6 @@ getChildReplacements(child: Node, context: Context, position: Position): Transfo
                         .getDefinitions(child)
                         .filter(def => def.getNames().find(n => this.name && (this.name.getText() === "" || n.startsWith(this.name.getText())) !== undefined))
                         .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ])));
-            }
-        }
-        // At the end, suggest function calls if this resolves to a function.
-        else if(position === Position.END) {
-
-            const type = this.getType(context);
-            if(type instanceof StructureType || type instanceof FunctionType) {
-
-                // Replace this access with an evaluate that has a clone of this as it's function expression.
-                
             }
         }
 
