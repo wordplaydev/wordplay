@@ -246,6 +246,6 @@ export default abstract class Node {
     getReplacements(context: Context, before: Position): Transform[] { return this.getParent()?.getChildReplacements(this, context, before) ?? []; }
 
     /** Given a node that is possibly a child of this node, return a list of valid replacements of the child. */
-    getChildReplacements(child: Node, context: Context, position: Position = Position.ON): Transform[] { child; context; position; return []; }
+    getChildReplacements(child: Node | undefined, context: Context, position: Position = Position.ON): Transform[] { child; context; position; return []; }
 
 }

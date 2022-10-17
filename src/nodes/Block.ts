@@ -214,15 +214,17 @@ export default class Block extends Expression {
                         type
                     ]
             }
-            else if(position === Position.END) {
-                return [
-                    bind,
-                    fun,
-                    type,
-                    ...getPossibleExpressions(this, undefined, context)
-                ]
-            }
         }
+
+        if(position === Position.END) {
+            return [
+                bind,
+                fun,
+                type,
+                ...getPossibleExpressions(this, undefined, context)
+            ]
+        }
+
         return [];
 
     }

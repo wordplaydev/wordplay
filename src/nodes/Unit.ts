@@ -202,8 +202,8 @@ export default class Unit extends Type {
                 return getPossibleDimensions(project).map(dim => new Dimension(dim));
         }
         else if(position === Position.END)
-            if(this.numerator[this.numerator.length - 1] === child)
-                return [ new Token(LANGUAGE_SYMBOL, [ TokenType.LANGUAGE ])]
+            return [ new Token(LANGUAGE_SYMBOL, [ TokenType.LANGUAGE ])]
+
         return [];
 
     }

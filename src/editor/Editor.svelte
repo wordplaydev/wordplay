@@ -76,13 +76,14 @@
         const replacements = 
             between !== undefined ? 
                 [
+                    // Get all of the replacements possible immediately before the position.
                     ... between.before.reduce((replacements: Transform[], child) => {
                         const parent = child.getParent();
                         return parent === undefined || parent === null ? replacements : [ ... replacements, ...parent.getChildReplacements(child, source.getContext(), Position.BEFORE) ]
                     }, []),
+                    // Get all of the replacements possible and the ends of the nodes just before the position.
                     ... between.after.reduce((replacements: Transform[], child) => {
-                        const parent: Node | undefined | null = child.getParent();
-                        return parent === undefined || parent === null ? replacements : [ ...replacements, ...parent.getChildReplacements(child, source.getContext(),Position.END) ]
+                        return [ ...replacements, ...child.getChildReplacements(undefined, source.getContext(),Position.END) ]
                     }, [])
                 ] :
             node !== undefined ? node.getReplacements(source.getContext(), Position.ON) :

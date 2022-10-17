@@ -29,6 +29,8 @@ import TypeVariable from "./TypeVariable";
 import type Unparsable from "./Unparsable";
 import type Node from "./Node";
 import type Transform from "./Transform"
+import Alias from "./Alias";
+import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 
 /** Offer possible expressions compatible with the given type, or if none was given, any possible expression */
 export default function getPossibleExpressions(parent: Node, child: Expression | Unparsable | undefined, context: Context, type: Type=new AnyType()): Transform[] {
@@ -50,7 +52,7 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
         new SetLiteral([ new ExpressionPlaceholder() ]),
         new MapLiteral([ new KeyValue(new ExpressionPlaceholder(), new ExpressionPlaceholder())]),
         new FunctionDefinition([], [], [], [], new ExpressionPlaceholder()),
-        new StructureDefinition([], [], [], [], []),
+        new StructureDefinition([], [ new Alias(PLACEHOLDER_SYMBOL) ], [], [], []),
         new ConversionDefinition([], new TypePlaceholder(), new TypePlaceholder(), new ExpressionPlaceholder()),
         new Reaction(new ExpressionPlaceholder(), new ExpressionPlaceholder(), new ExpressionPlaceholder()),
         new Previous(new ExpressionPlaceholder(), new ExpressionPlaceholder())

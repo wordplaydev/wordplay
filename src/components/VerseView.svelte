@@ -7,7 +7,7 @@
 
     export let verse: Structure | undefined;
     export let evaluator: Evaluator;
-    $: group = verse?.resolve("group");
+    $: group = verse?.resolve("group", evaluator);
 
     function handleMouseDown() {
         if(evaluator)

@@ -306,16 +306,24 @@ export default class Bind extends Node implements Evaluable, Named {
                 ];
         }
         else if(position === Position.END) {
-            if(this.type === undefined)
-                return [ 
+            const children  = this.getChildren();
+            const lastChild = children[children.length - 1];
+            if(this.names.includes(lastChild as Alias))
+                return [
+                    new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])),
                     [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ], 
                     [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] 
                 ];
-            else if(this.type && this.colon === undefined)
+            else if(lastChild === this.dot)
+                return getPossibleTypes(this, context);
+            else if(lastChild === this.type)
                 return [ 
                     [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] 
                 ];
-            else return [ new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])) ]
+            else if(lastChild === this.colon)
+                return [ 
+                    new ExpressionPlaceholder()
+                ];
         }
 
         return [];
