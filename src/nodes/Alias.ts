@@ -14,10 +14,10 @@ export default class Alias extends Node {
     readonly name?: Token;
     readonly lang?: Language;
 
-    constructor(name: Token | string | undefined, lang?: Language | string, semicolon?: Token) {
+    constructor(name: Token | string | undefined, lang?: Language | string, separator?: Token) {
         super();
 
-        this.separator = semicolon;
+        this.separator = separator;
         this.name = typeof name === "string" ? new Token(name, [ TokenType.NAME ]) : name;
         this.lang = typeof lang === "string" ? new Language(lang) : lang;
     }

@@ -40,7 +40,7 @@ import type Definition from "./Definition";
 import { getPossibleTypes } from "./getPossibleTypes";
 import getPossibleExpressions from "./getPossibleExpressions";
 import AnyType from "./AnyType";
-import { BIND_SYMBOL, PLACEHOLDER_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
+import { ALIAS_SYMBOL, BIND_SYMBOL, PLACEHOLDER_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import TypePlaceholder from "./TypePlaceholder";
 import FunctionDefinition from "./FunctionDefinition";
@@ -296,15 +296,26 @@ export default class Bind extends Node implements Evaluable, Named {
             // Before the etc? Offer documentation
             else if(child === this.etc)
                 return [ new Documentation() ];
+            else if(this.names.includes(child as Alias))
+                return [ new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])) ];
             // Before colon? Offer a type.
             else if(child === this.colon && this.type === undefined)
-                return [ [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ] ];
+                return [ 
+                    [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ],
+                    new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ]))
+                ];
         }
         else if(position === Position.END) {
-            if(child === this.names[this.names.length - 1])
-                return [ [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ], [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] ];        
-            else if(child === this.type && this.colon === undefined)
-                return [ [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] ];        
+            if(this.type === undefined)
+                return [ 
+                    [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ], 
+                    [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] 
+                ];
+            else if(this.type && this.colon === undefined)
+                return [ 
+                    [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] 
+                ];
+            else return [ new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])) ]
         }
 
         return [];
