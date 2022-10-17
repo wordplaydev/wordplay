@@ -85,4 +85,8 @@ export default class Token extends Node {
         }
     }
 
+    withSpace() {
+        return new Token(this.text, this.types.slice(), this.index, " ");
+    }
+
 }

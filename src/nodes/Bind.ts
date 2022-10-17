@@ -65,7 +65,7 @@ export default class Bind extends Node implements Evaluable, Named {
         this.names = names;
         this.dot = dot !== undefined ? dot : type === undefined ? undefined : new Token(TYPE_SYMBOL, [ TokenType.TYPE ]);
         this.type = type;
-        this.colon = colon !== undefined ? colon : value === undefined ? undefined : new Token(BIND_SYMBOL, [ TokenType.BIND ]); 
+        this.colon = colon !== undefined ? colon : value === undefined ? undefined : new Token(BIND_SYMBOL, [ TokenType.BIND ], undefined, " "); 
         this.value = value;
     }
 
