@@ -9,10 +9,12 @@ import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import Token from "./Token";
 import type Context from "./Context";
-import Node from "./Node";
+import Node, { Position } from "./Node";
 import Language from "./Language";
 import Unit from "./Unit";
 import Dimension from "./Dimension";
+import type Transform from "./Transform";
+import getPossibleExpressions from "./getPossibleExpressions";
 
 export default class Program extends Node implements Evaluable {
     
@@ -103,6 +105,15 @@ export default class Program extends Node implements Evaluable {
         return {
             eng: "A program"
         }
+    }
+
+    getChildReplacements(child: Node | undefined, context: Context, position?: Position): Transform[] {
+        
+        if(position === Position.END)
+            return getPossibleExpressions(this, undefined, context);
+
+        return [];
+
     }
 
 }
