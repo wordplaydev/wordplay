@@ -136,13 +136,13 @@
 
             // Position the keyboard input.
             const caretRect = caretView.getBoundingClientRect();
-            caretTop = caretRect.top - viewportRect.top;
-            caretLeft = caretRect.left - viewportRect.left;
-            caretBottom = caretRect.bottom - viewportRect.top;
+            caretTop = caretRect.top - viewportRect.top + viewport.scrollTop;
+            caretLeft = caretRect.left - viewportRect.left + viewport.scrollLeft;
+            caretBottom = caretRect.bottom - viewportRect.top + viewport.scrollTop;
             const keyboard = editor?.querySelector(".keyboard-input");
             if(keyboard instanceof HTMLElement) {
-                keyboard.style.left = `${caretLeft + viewport.scrollLeft}px`;
-                keyboard.style.top = `${caretTop + viewport.scrollTop}px`;
+                keyboard.style.left = `${caretLeft}px`;
+                keyboard.style.top = `${caretTop}px`;
             }
         }
 

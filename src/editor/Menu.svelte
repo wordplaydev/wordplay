@@ -24,7 +24,6 @@
     $: {
         minItem = (selection < WINDOW ? 0 : selection - WINDOW) - Math.max(0, selection + WINDOW - (items.length - 1));
         maxItem = selection + WINDOW + Math.max(0, WINDOW - selection);
-        console.log(`${minItem}-${maxItem}`)
     }
 
 </script>

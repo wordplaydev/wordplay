@@ -192,23 +192,36 @@ export default class Block extends Expression {
     getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
 
         const bind = new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ], undefined, new ExpressionPlaceholder());
+        const type = new FunctionDefinition([], [ new Alias(PLACEHOLDER_SYMBOL) ], [], [], new ExpressionPlaceholder());
+        const fun = new StructureDefinition([], [ new Alias(PLACEHOLDER_SYMBOL) ], [], [], []);
 
         const index = this.statements.indexOf(child as Statement);
         if(index >= 0) {
             const statement = this.statements[index];
-            const last = index === this.statements.length - 1;
             if(position === Position.ON && statement instanceof Expression)
                 return [
-                    ...(last ? getPossibleExpressions(this, statement, context) : []),
-                    bind
+                    bind,
+                    fun,
+                    type,
+                    ...getPossibleExpressions(this, statement, context),
                 ]
             if(position === Position.BEFORE) {
                 const firstToken = child.nodes(n => n instanceof Token)[0];
                 if(firstToken instanceof Token && firstToken.hasNewline())
                     return [
-                        ...(last ? getPossibleExpressions(this, undefined, context) : []),
-                        bind
+                        bind,
+                        fun,
+                        type,
+                            ...getPossibleExpressions(this, undefined, context)
                     ]            
+            }
+            else if(position === Position.END) {
+                return [
+                    bind,
+                    fun,
+                    type,
+                    ...getPossibleExpressions(this, undefined, context)
+                ]
             }
         }
         return [];
