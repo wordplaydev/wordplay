@@ -203,7 +203,7 @@ export default class Block extends Expression {
                     bind,
                     fun,
                     type,
-                    ...getPossibleExpressions(this, statement, context),
+                    ...(index === this.statements.length - 1 ? getPossibleExpressions(this, statement, context) : []),
                 ]
             if(position === Position.BEFORE) {
                 const firstToken = child.nodes(n => n instanceof Token)[0];
@@ -211,9 +211,8 @@ export default class Block extends Expression {
                     return [
                         bind,
                         fun,
-                        type,
-                            ...getPossibleExpressions(this, undefined, context)
-                    ]            
+                        type
+                    ]
             }
             else if(position === Position.END) {
                 return [
