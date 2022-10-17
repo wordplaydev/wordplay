@@ -158,7 +158,7 @@ export default class Source {
     }
 
     withGraphemesAt(char: string, position: number) {
-        const newCode = this.code.withGraphemeAt(char, position);
+        const newCode = this.code.withGraphemesAt(char, position);
         return newCode == undefined ? undefined : new Source(this.name, newCode, this.observers);
     }
 

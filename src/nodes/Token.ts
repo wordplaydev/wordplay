@@ -47,6 +47,7 @@ export default class Token extends Node {
     getTextLength() { return this.text.getLength(); }
     getWhitespace() { return this.whitespace === undefined ? "" : this.whitespace; }
     hasWhitespace() { return this.whitespace === undefined ? false : this.whitespace.length > 0; }
+    hasNewline() { return this.newlines > 0; }
     
     containsPosition(position: number) { 
         return this.whitespace == undefined || this.index === undefined ? 

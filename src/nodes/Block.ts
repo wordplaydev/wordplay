@@ -197,17 +197,19 @@ export default class Block extends Expression {
         if(index >= 0) {
             const statement = this.statements[index];
             const last = index === this.statements.length - 1;
-            if(statement instanceof Expression)
+            if(position === Position.ON && statement instanceof Expression)
                 return [
                     ...(last ? getPossibleExpressions(this, statement, context) : []),
                     bind
                 ]
-            if(position === Position.BEFORE)
-                return [
-                    ...(last ? getPossibleExpressions(this, undefined, context) : []),
-                    bind
-                ]
-            
+            if(position === Position.BEFORE) {
+                const firstToken = child.nodes(n => n instanceof Token)[0];
+                if(firstToken instanceof Token && firstToken.hasNewline())
+                    return [
+                        ...(last ? getPossibleExpressions(this, undefined, context) : []),
+                        bind
+                    ]            
+            }
         }
         return [];
 

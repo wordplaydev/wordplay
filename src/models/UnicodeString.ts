@@ -27,8 +27,8 @@ export default class UnicodeString {
         return position < 0 || position > this.getSegments().length ? undefined : new UnicodeString([ ...this.getSegments().slice(0, position - 1).join(""), char, ...this.getSegments().slice(position)].join(""));
     }
 
-    withGraphemeAt(char: string, position: number) {
-        return position < 0 || position > this.getSegments().length ? undefined : new UnicodeString([ ...this.getSegments().slice(0, position).join(""), char, ...this.getSegments().slice(position)].join(""));
+    withGraphemesAt(graphemes: string, position: number) {
+        return position < 0 || position > this.getSegments().length ? undefined : new UnicodeString([ ...this.getSegments().slice(0, position).join(""), graphemes, ...this.getSegments().slice(position)].join(""));
     }
 
     withoutGraphemeAt(position: number) {

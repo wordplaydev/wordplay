@@ -58,11 +58,12 @@
     // When the caret changes, determine if there's anything to show in a menu.
     let menu: {
         node: Node,
-        location: { left: number, top: number },
+        location: { left: number, top: number } | undefined,
         items: Transform[],
         replace: boolean
     } | undefined = undefined;
     let menuIndex: number = -1;
+
     $: {
         // Start assuming we won't find anything to show.
         menu = undefined;
@@ -87,35 +88,26 @@
             node !== undefined ? node.getReplacements(source.getContext(), Position.ON) :
                 undefined;
 
-        if(node !== undefined && editor !== undefined && replacements !== undefined && replacements.length > 0) {
-            const viewport = editor.parentElement;
-            const el = getNodeView(node);
-            if(el && viewport) {
-                const placeholderRect = el.getBoundingClientRect();
-                const viewportRect = viewport.getBoundingClientRect();
-                // Yay, we have everything we need to show a menu!
-                menu = {
-                    node: node,
-                    location: {
-                        left: placeholderRect.left - viewportRect.left + viewport.scrollLeft,
-                        top: placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10
-                    },
-                    // Filter out duplicates
-                    items: replacements.filter((item1, index1) => 
-                        replacements.find((item2, index2) => 
-                            index2 > index1 && (
-                                (item1 instanceof Node && item2 instanceof Node && item1.toWordplay() === item2.toWordplay()) || 
-                                (Array.isArray(item1) && Array.isArray(item2) && item1.map(i => i.toWordplay()).join("") === item2.map(i => i.toWordplay()).join("")) ||
-                                (item1 instanceof Reference && item2 instanceof Reference && item1.definition === item2.definition)
-                            )
-                            ) === undefined),
-                    replace: between === undefined
-                }
+        if(node !== undefined && replacements !== undefined && replacements.length > 0) {
+            menu = {
+                node: node,
+                // Filter out duplicates
+                items: replacements.filter((item1, index1) => 
+                    replacements.find((item2, index2) => 
+                        index2 > index1 && (
+                            (item1 instanceof Node && item2 instanceof Node && item1.toWordplay() === item2.toWordplay()) || 
+                            (Array.isArray(item1) && Array.isArray(item2) && item1.map(i => i.toWordplay()).join("") === item2.map(i => i.toWordplay()).join("")) ||
+                            (item1 instanceof Reference && item2 instanceof Reference && item1.definition === item2.definition)
+                        )
+                        ) === undefined),
+                replace: between === undefined,
+                location: undefined // This gets defined after rendering.
             }
         }
+
     }
 
-    // When the caret changes, make sure it's in view.
+    // When the caret changes, make sure it's in view and position the menu
     afterUpdate(() => {
         if(editor === undefined || editor === null) return;
 
@@ -170,6 +162,28 @@
                     sel.path = createRowOutlineOf(nodeView, -viewportRect.left + viewport.scrollLeft, -viewportRect.top + viewport.scrollTop);
             }
         }
+
+        // Position the menu
+        if(menu !== undefined && editor !== undefined) {
+            const viewport = editor.parentElement;
+            const el = getNodeView(menu.node);
+            if(el && viewport) {
+                const placeholderRect = el.getBoundingClientRect();
+                const viewportRect = viewport.getBoundingClientRect();
+                // Yay, we have everything we need to show a menu!
+                menu = {
+                    node: menu.node,
+                    items: menu.items,
+                    replace: menu.replace,
+                    location: {
+                        left: placeholderRect.left - viewportRect.left + viewport.scrollLeft,
+                        top: placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10
+                    }
+                }
+            }
+            else console.log("Can't show replacements, node isn't rendered yet");
+        }
+
 
     });
 
@@ -427,7 +441,7 @@
         </svg>
     {/each}
     <!-- Are we on a placeholder? Show a menu! -->
-    {#if menu !== undefined }
+    {#if menu !== undefined && menu.location !== undefined }
         <div class="menu" style={`left:${menu.location.left}px; top:${menu.location.top}px;`}>
             <Menu 
                 items={menu.items} 

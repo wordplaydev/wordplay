@@ -27,7 +27,7 @@ import Start from "../runtime/Start";
 import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
 import type Named from "./Named";
-import { getCaseCollision, getDuplicateAliases } from "./util";
+import { getCaseCollision, getDuplicateAliases, getDuplicateDocs } from "./util";
 import Evaluate from "./Evaluate";
 import Block from "./Block";
 import ListType from "./ListType";
@@ -93,6 +93,10 @@ export default class Bind extends Node implements Evaluable, Named {
     computeConflicts(context: Context): Conflict[] {
 
         const conflicts = [];
+
+        // Can't have duplicate docs
+        const duplicateDocs = getDuplicateDocs(this.docs);
+        if(duplicateDocs) conflicts.push(duplicateDocs);
 
         // Etc tokens can't appear in block bindings, just structure and function definitions.
         if(this.isVariableLength() && this.getParent() instanceof Block)
