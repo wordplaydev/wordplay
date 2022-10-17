@@ -30,7 +30,7 @@ import AnyType from "./AnyType";
 import TokenType from "./TokenType";
 import Reference from "./Reference";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 export default class BinaryOperation extends Expression {
 

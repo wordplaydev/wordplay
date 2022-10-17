@@ -2,7 +2,7 @@ import type Conflict from "../conflicts/Conflict";
 import type Definition from "./Definition";
 import type Context from "./Context";
 import type Translations from "./Translations";
-import type Transform from "./Replacement";
+import type Transform from "./Transform";
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;

@@ -22,7 +22,7 @@ import Start from "../runtime/Start";
 import getPossibleExpressions from "./getPossibleExpressions";
 import { getPossibleTypes } from "./getPossibleTypes";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 export default class Is extends Expression {
 

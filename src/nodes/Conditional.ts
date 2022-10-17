@@ -18,7 +18,7 @@ import getPossibleExpressions from "./getPossibleExpressions";
 import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 export default class Conditional extends Expression {
     

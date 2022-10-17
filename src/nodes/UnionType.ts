@@ -10,7 +10,7 @@ import { TYPE_SYMBOL } from "../parser/Tokenizer";
 import NeverType from "./NeverType";
 import { getPossibleTypes } from "./getPossibleTypes";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 export default class UnionType extends Type {
 

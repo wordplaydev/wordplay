@@ -44,7 +44,7 @@ import Name from "./Name";
 import getPossibleExpressions from "./getPossibleExpressions";
 import Reference from "./Reference";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 type InputType = Unparsable | Bind | Expression;
 
@@ -614,7 +614,7 @@ export default class Evaluate extends Expression {
                     functionType instanceof FunctionType ? functionType.inputs[index] : 
                     functionType.structure.inputs[index];
 
-                if(bind instanceof Unparsable)
+                if(bind instanceof Unparsable || bind === undefined)
                     return [];
 
                 const expectedType = bind.getType(context);

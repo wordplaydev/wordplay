@@ -18,7 +18,7 @@ import TokenType from "./TokenType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import getPossibleExpressions from "./getPossibleExpressions";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 import { getPossibleLanguages } from "./getPossibleLanguages";
 
 type Part = Token | Expression | Unparsable;

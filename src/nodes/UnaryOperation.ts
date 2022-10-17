@@ -19,7 +19,7 @@ import NotAFunction from "../conflicts/NotAFunction";
 import FunctionType from "./FunctionType";
 import Evaluation from "../runtime/Evaluation";
 import TokenType from "./TokenType";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 export default class UnaryOperation extends Expression {
 

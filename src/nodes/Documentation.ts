@@ -3,7 +3,7 @@ import type Context from "./Context";
 import { getPossibleLanguages } from "./getPossibleLanguages";
 import Language from "./Language";
 import Node, { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 import Token from "./Token";
 import TokenType from "./TokenType";
 

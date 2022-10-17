@@ -17,7 +17,7 @@ import getPossibleExpressions from "./getPossibleExpressions";
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 export type ListItem = Expression | Unparsable;
 

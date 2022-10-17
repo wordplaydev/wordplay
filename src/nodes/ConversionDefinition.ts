@@ -24,7 +24,7 @@ import ContextException, { StackSize } from "../runtime/ContextException";
 import { getPossibleTypes } from "./getPossibleTypes";
 import getPossibleExpressions from "./getPossibleExpressions";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 export default class ConversionDefinition extends Expression {
 

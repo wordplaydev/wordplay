@@ -1,6 +1,6 @@
 import Expression from "./Expression";
 import Node, { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 import type Context from "./Context";
 import Alias from "./Alias";
 import Token from "./Token";
@@ -45,6 +45,7 @@ import TokenType from "./TokenType";
 import TypePlaceholder from "./TypePlaceholder";
 import FunctionDefinition from "./FunctionDefinition";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import type LanguageCode from "./LanguageCode";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -255,9 +256,15 @@ export default class Bind extends Node implements Evaluable, Named {
     }
     
     getDescriptions() {
-        return {
-            eng: "A named value."
+
+        // Generate documentation by language.
+        const descriptions: Record<LanguageCode, string> = { eng: "A named value" };
+        for(const doc of this.docs) {
+            if(doc.lang !== undefined)
+                descriptions[doc.lang.getLanguage() as LanguageCode] = doc.docs.getText();
         }
+        return descriptions;
+        
     }
 
     getChildReplacements(child: Node, context: Context, position: Position): Transform[] {

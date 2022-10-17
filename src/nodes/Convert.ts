@@ -23,7 +23,7 @@ import Block from "./Block";
 import { THIS_SYMBOL } from "../parser/Tokenizer";
 import getPossibleExpressions from "./getPossibleExpressions";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 export default class Convert extends Expression {
     

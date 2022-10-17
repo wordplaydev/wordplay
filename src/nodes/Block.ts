@@ -32,7 +32,7 @@ import getPossibleExpressions from "./getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Alias from "./Alias";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 export type Statement = Expression | Unparsable | Share | Bind;
 

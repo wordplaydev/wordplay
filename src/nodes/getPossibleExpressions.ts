@@ -28,7 +28,7 @@ import TypePlaceholder from "./TypePlaceholder";
 import TypeVariable from "./TypeVariable";
 import type Unparsable from "./Unparsable";
 import type Node from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 /** Offer possible expressions compatible with the given type, or if none was given, any possible expression */
 export default function getPossibleExpressions(parent: Node, child: Expression | Unparsable | undefined, context: Context, type: Type=new AnyType()): Transform[] {

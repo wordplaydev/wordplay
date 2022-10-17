@@ -17,7 +17,7 @@ import type Bind from "./Bind";
 import getPossibleExpressions from "./getPossibleExpressions";
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 export type SetItem = Expression | Unparsable;
 

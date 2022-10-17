@@ -3,7 +3,7 @@ import type Context from "./Context";
 import Expression from "./Expression";
 import getPossibleExpressions from "./getPossibleExpressions";
 import Node, { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Unparsable from "./Unparsable";

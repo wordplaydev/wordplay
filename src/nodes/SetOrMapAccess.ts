@@ -24,7 +24,7 @@ import UnionType from "./UnionType";
 import getPossibleExpressions from "./getPossibleExpressions";
 import AnyType from "./AnyType";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 export default class SetOrMapAccess extends Expression {
 

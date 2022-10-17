@@ -31,8 +31,9 @@ import { DisallowedInputs } from "../conflicts/DisallowedInputs";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import Reference from "./Reference";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 import TypePlaceholder from "./TypePlaceholder";
+import type LanguageCode from "./LanguageCode";
 
 export default class StructureDefinition extends Expression {
 
@@ -243,9 +244,15 @@ export default class StructureDefinition extends Expression {
     }
 
     getDescriptions() {
-        return {
-            eng: "A structure definition"
+        
+        // Generate documentation by language.
+        const descriptions: Record<LanguageCode, string> = { eng: "A type" };
+        for(const doc of this.docs) {
+            if(doc.lang !== undefined)
+                descriptions[doc.lang.getLanguage() as LanguageCode] = doc.docs.getText();
         }
+        return descriptions;
+
     }
 
     getChildReplacements(child: Node, context: Context, position: Position): Transform[] {

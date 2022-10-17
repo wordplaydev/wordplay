@@ -18,7 +18,7 @@ import Bind from "./Bind";
 import UnionType, { TypeSet } from "./UnionType";
 import Conditional from "./Conditional";
 import Is from "./Is";
-import { ACCESS_SYMBOL } from "../parser/Tokenizer";
+import { ACCESS_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Translations from "./Translations";
 import getPossibleExpressions from "./getPossibleExpressions";
@@ -26,8 +26,9 @@ import TypeVariable from "./TypeVariable";
 import Stream from "../runtime/Stream";
 import Reference from "./Reference";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 import NameException from "../runtime/NameException";
+import NativeType from "./NativeType";
 
 export default class AccessName extends Expression {
 
@@ -172,19 +173,23 @@ export default class AccessName extends Expression {
 
     getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
 
+        const subjectType = this.getSubjectType(context);
+
         if(position === Position.ON) {
             if(child === this.subject) {
                 return getPossibleExpressions(this, this.subject, context);
             }
-            // For the name, what names exist on the subject that match the current name?
-            else if(child === this.name) {
-                const subjectType = this.getSubjectType(context);
-                if(subjectType instanceof StructureType)
-                    return subjectType.structure
-                        .getDefinitions(child)
-                        .filter(def => def.getNames().find(n => this.name && (this.name.getText() === "" || n.startsWith(this.name.getText())) !== undefined))
-                        .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ])));
-            }
+        }
+
+        // For the name, what names exist on the subject that match the current name?
+        if((position === Position.ON && child === this.name) || (position === Position.END && this.name === undefined)) {
+            const definitions = 
+                subjectType instanceof StructureType ? subjectType.structure.getDefinitions(child) :
+                subjectType instanceof NativeType ? subjectType?.getDefinitions(this, context) : [];
+
+                return definitions
+                    .filter(def => def.getNames().find(n => this.name === undefined || this.name.getText() === PLACEHOLDER_SYMBOL || n.startsWith(this.name.getText())) !== undefined)
+                    .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ])));
         }
 
         return [];

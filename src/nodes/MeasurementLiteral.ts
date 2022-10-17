@@ -19,6 +19,7 @@ import SemanticException from "../runtime/SemanticException";
 import TokenType from "./TokenType";
 import { getPossibleUnits } from "./getPossibleUnits";
 import { Position } from "./Node";
+import type Transform from "./Transform";
 
 export default class MeasurementLiteral extends Expression {
     
@@ -81,14 +82,16 @@ export default class MeasurementLiteral extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position) {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
 
         const project = context.source.getProject();
 
-        if(position === Position.ON && child === this.unit && project !== undefined)
+        if(position === Position.ON && child === this.unit && project !== undefined) {
             // Any unit in the project
             return getPossibleUnits(project)
-        else return [];
+        }
+
+        return [];
 
     }
 

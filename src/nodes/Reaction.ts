@@ -26,7 +26,7 @@ import TokenType from "./TokenType";
 import { REACTION_SYMBOL } from "../parser/Tokenizer";
 import Reference from "./Reference";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 export default class Reaction extends Expression {
 

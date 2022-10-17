@@ -21,8 +21,9 @@ export default class Reference<NodeType extends Node> {
 
     getNode(language: LanguageCode): NodeType { 
     
-        const names = this.definition.getNames();        
-        return this.creator(this.definition.getNames().find(name => name === language) ?? names[0]);
+        const names = this.definition.getNames();
+        return this.creator(this.definition.getNames().find(name => name === language) ?? names[0] ?? "anonymous");
+        
     }
 
 }

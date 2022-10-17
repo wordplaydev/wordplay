@@ -27,7 +27,9 @@ import getPossibleExpressions from "./getPossibleExpressions";
 import AnyType from "./AnyType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
+import type Language from "./Language";
+import type LanguageCode from "./LanguageCode";
 
 export default class FunctionDefinition extends Expression {
 
@@ -202,9 +204,15 @@ export default class FunctionDefinition extends Expression {
     }
 
     getDescriptions() {
-        return {
-            eng: "A function definition."
+
+        // Generate documentation by language.
+        const descriptions: Record<LanguageCode, string> = { eng: "A function" };
+        for(const doc of this.docs) {
+            if(doc.lang !== undefined)
+                descriptions[doc.lang.getLanguage() as LanguageCode] = doc.docs.getText();
         }
+        return descriptions;
+
     }
 
     getChildReplacements(child: Node, context: Context, position: Position): Transform[] {

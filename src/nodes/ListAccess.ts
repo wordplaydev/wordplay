@@ -26,7 +26,7 @@ import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import getPossibleExpressions from "./getPossibleExpressions";
 import { Position } from "./Node";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 export default class ListAccess extends Expression {
     readonly list: Expression | Unparsable;

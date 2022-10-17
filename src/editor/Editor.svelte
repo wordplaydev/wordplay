@@ -1,6 +1,6 @@
 <script lang="ts">
     import { project, updateProject } from '../models/stores';
-    import type Transform from "../nodes/Replacement";
+    import type Transform from "../nodes/Transform";
     import Node, { Position } from '../nodes/Node';
     import Caret from '../models/Caret';
     import { afterUpdate, setContext } from 'svelte';
@@ -14,6 +14,7 @@
     import type Program from '../nodes/Program';
     import Menu from './Menu.svelte';
     import Token from '../nodes/Token';
+    import Reference from '../nodes/Reference';
 
     export let source: Source;
 
@@ -71,19 +72,20 @@
         const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
         const between = $caret.getNodesBetween();
 
-        const replacements = between !== undefined ? 
-            [
-                ... between.before.reduce((replacements: Transform[], child) => {
-                    const parent = child.getParent();
-                    return parent === undefined || parent === null ? replacements : [ ... replacements, ...parent.getChildReplacements(child, source.getContext(), Position.BEFORE) ]
-                }, []),
-                ... between.after.reduce((replacements: Transform[], child) => {
-                    const parent: Node | undefined | null = child.getParent();
-                    return parent === undefined || parent === null ? replacements : [ ...replacements, ...parent.getChildReplacements(child, source.getContext(),Position.END) ]
-                }, [])
-            ] :
+        const replacements = 
+            between !== undefined ? 
+                [
+                    ... between.before.reduce((replacements: Transform[], child) => {
+                        const parent = child.getParent();
+                        return parent === undefined || parent === null ? replacements : [ ... replacements, ...parent.getChildReplacements(child, source.getContext(), Position.BEFORE) ]
+                    }, []),
+                    ... between.after.reduce((replacements: Transform[], child) => {
+                        const parent: Node | undefined | null = child.getParent();
+                        return parent === undefined || parent === null ? replacements : [ ...replacements, ...parent.getChildReplacements(child, source.getContext(),Position.END) ]
+                    }, [])
+                ] :
             node !== undefined ? node.getReplacements(source.getContext(), Position.ON) :
-            undefined;
+                undefined;
 
         if(node !== undefined && editor !== undefined && replacements !== undefined && replacements.length > 0) {
             const viewport = editor.parentElement;
@@ -98,7 +100,15 @@
                         left: placeholderRect.left - viewportRect.left + viewport.scrollLeft,
                         top: placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10
                     },
-                    items: replacements,
+                    // Filter out duplicates
+                    items: replacements.filter((item1, index1) => 
+                        replacements.find((item2, index2) => 
+                            index2 > index1 && (
+                                (item1 instanceof Node && item2 instanceof Node && item1.toWordplay() === item2.toWordplay()) || 
+                                (Array.isArray(item1) && Array.isArray(item2) && item1.map(i => i.toWordplay()).join("") === item2.map(i => i.toWordplay()).join("")) ||
+                                (item1 instanceof Reference && item2 instanceof Reference && item1.definition === item2.definition)
+                            )
+                            ) === undefined),
                     replace: between === undefined
                 }
             }
@@ -419,7 +429,11 @@
     <!-- Are we on a placeholder? Show a menu! -->
     {#if menu !== undefined }
         <div class="menu" style={`left:${menu.location.left}px; top:${menu.location.top}px;`}>
-            <Menu items={menu.items} index={menuIndex} select={item => menu !== undefined ? selectMenuItem(menu.node, item, menu.replace) : undefined } />
+            <Menu 
+                items={menu.items} 
+                index={menuIndex} 
+                action={menu.replace ? "replace" : "insert" }
+                select={item => menu !== undefined ? selectMenuItem(menu.node, item, menu.replace) : undefined } />
         </div>
     {/if}
     <!-- Render the invisible text field that allows us to capture inputs -->

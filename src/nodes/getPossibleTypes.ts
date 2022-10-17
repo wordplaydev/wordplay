@@ -13,7 +13,7 @@ import { getPossibleLanguages } from "./getPossibleLanguages";
 import Language from "./Language";
 import { getPossibleUnits } from "./getPossibleUnits";
 import Reference from "./Reference";
-import type Transform from "./Replacement"
+import type Transform from "./Transform"
 
 export function getPossibleTypes(node: Node, context: Context): Transform[] {
 
