@@ -124,6 +124,10 @@
             rootHeight = rootView.offsetHeight + 20;
         }
 
+        let caretLeft = undefined;
+        let caretTop = undefined;
+        let caretBottom = undefined;
+
         // Scroll to the caret if we're not executing.
         if(caretView !== null && source.evaluator.isDone()) {
 
@@ -132,8 +136,9 @@
 
             // Position the keyboard input.
             const caretRect = caretView.getBoundingClientRect();
-            const caretTop = caretRect.top - viewportRect.top;
-            const caretLeft = caretRect.left - viewportRect.left;
+            caretTop = caretRect.top - viewportRect.top;
+            caretLeft = caretRect.left - viewportRect.left;
+            caretBottom = caretRect.bottom - viewportRect.top;
             const keyboard = editor?.querySelector(".keyboard-input");
             if(keyboard instanceof HTMLElement) {
                 keyboard.style.left = `${caretLeft + viewport.scrollLeft}px`;
@@ -165,26 +170,36 @@
 
         // Position the menu
         if(menu !== undefined && editor !== undefined) {
-            const viewport = editor.parentElement;
-            const el = getNodeView(menu.node);
-            if(el && viewport) {
-                const placeholderRect = el.getBoundingClientRect();
-                const viewportRect = viewport.getBoundingClientRect();
-                // Yay, we have everything we need to show a menu!
-                menu = {
-                    node: menu.node,
-                    items: menu.items,
-                    replace: menu.replace,
-                    location: {
+            let location = undefined;
+            if(menu.replace) {
+                const viewport = editor.parentElement;
+                const el = getNodeView(menu.node);
+                if(el && viewport) {
+                    const placeholderRect = el.getBoundingClientRect();
+                    const viewportRect = viewport.getBoundingClientRect();
+                    // Yay, we have everything we need to show a menu!
+                    location = {
                         left: placeholderRect.left - viewportRect.left + viewport.scrollLeft,
                         top: placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10
                     }
                 }
             }
-            else console.log("Can't show replacements, node isn't rendered yet");
+            else {
+                if(caretLeft !== undefined && caretBottom !== undefined)
+                    location = {
+                        left: caretLeft,
+                        top: caretBottom
+                    }
+            }
+
+            if(location)
+                menu = {
+                    node: menu.node,
+                    items: menu.items,
+                    replace: menu.replace,
+                    location: location
+                }
         }
-
-
     });
 
     function getNodeView(node: Node): HTMLElement | undefined {
