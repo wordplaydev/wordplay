@@ -78,7 +78,7 @@
                 }, []),
                 ... between.after.reduce((replacements: Replacement[], child) => {
                     const parent: Node | undefined | null = child.getParent();
-                    return parent === undefined || parent === null ? replacements : [ ...replacements, ...parent.getChildReplacements(child, source.getContext(),Position.AFTER) ]
+                    return parent === undefined || parent === null ? replacements : [ ...replacements, ...parent.getChildReplacements(child, source.getContext(),Position.END) ]
                 }, [])
             ] :
             node !== undefined ? node.getReplacements(source.getContext(), Position.ON) :

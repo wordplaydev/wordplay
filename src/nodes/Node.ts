@@ -7,7 +7,7 @@ import type Reference from "./Reference";
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
 
-export enum Position { ON, BEFORE, AFTER };
+export enum Position { ON, BEFORE, END };
 export type Replacement = Node | [ Node, Node ] | Reference<Node>;
 
 export default abstract class Node {

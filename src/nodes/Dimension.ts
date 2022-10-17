@@ -83,7 +83,7 @@ export default class Dimension extends Node {
             if(child === this.name && project !== undefined)
                 return getPossibleDimensions(project).map(dimension => new Token(dimension, [ TokenType.NAME ]));
         }
-        else if(position === Position.AFTER) {
+        else if(position === Position.END) {
             if(this.caret === undefined)
                 return [ new Token(EXPONENT_SYMBOL, [ TokenType.UNARY_OP ]) ];
         }

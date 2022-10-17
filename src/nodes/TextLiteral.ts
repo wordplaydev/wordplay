@@ -71,7 +71,7 @@ export default class TextLiteral extends Expression {
 
         const project = context.source.getProject();
         // Formats can be any Language tags that are used in the project.
-        if(project !== undefined && ((position === Position.ON && child === this.format) || (this.format === undefined && position === Position.AFTER)))
+        if(project !== undefined && ((position === Position.ON && child === this.format) || (this.format === undefined && position === Position.END)))
             return getPossibleLanguages(project).map(l => new Language(l))
         
         return [];

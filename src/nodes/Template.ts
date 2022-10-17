@@ -112,7 +112,7 @@ export default class Template extends Expression {
                 return getPossibleLanguages(project).map(l => new Language(l));
     
         }
-        else if(position === Position.AFTER) {
+        else if(position === Position.END) {
             // If at the end of a part
             if(child === this.parts[this.parts.length - 1]) {
                 if(this.format === undefined) {

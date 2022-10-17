@@ -288,7 +288,7 @@ export default class Bind extends Node implements Evaluable, Named {
             else if(child === this.colon && this.type === undefined)
                 return [ [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ] ];
         }
-        else if(position === Position.AFTER) {
+        else if(position === Position.END) {
             if(child === this.names[this.names.length - 1])
                 return [ [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ], [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] ];        
             else if(child === this.type && this.colon === undefined)

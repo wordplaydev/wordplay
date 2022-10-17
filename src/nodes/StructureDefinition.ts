@@ -22,7 +22,7 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import FunctionType from "./FunctionType";
 import NameType from "./NameType";
-import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
+import { ALIAS_SYMBOL, EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 import TypeInput from "./TypeInput";
 import type { TypeSet } from "./UnionType";
 import { Unimplemented } from "../conflicts/Unimplemented";
@@ -30,6 +30,8 @@ import { Implemented } from "../conflicts/Implemented";
 import { DisallowedInputs } from "../conflicts/DisallowedInputs";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import Reference from "./Reference";
+import { Position, type Replacement } from "./Node";
+import TypePlaceholder from "./TypePlaceholder";
 
 export default class StructureDefinition extends Expression {
 
@@ -245,13 +247,33 @@ export default class StructureDefinition extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
 
         // Interfaces can be any interface in scope.
-        if(this.interfaces.includes(child as TypeInput)) {
-            return  this.getAllDefinitions(this, context)
-                    .filter((def): def is StructureDefinition => def instanceof StructureDefinition && def.isInterface())
-                    .map(def => new Reference<TypeInput>(def, name => new TypeInput(new NameType(name))));
+        if(position === Position.ON) {
+            if(this.interfaces.includes(child as TypeInput)) {
+                return  this.getAllDefinitions(this, context)
+                        .filter((def): def is StructureDefinition => def instanceof StructureDefinition && def.isInterface())
+                        .map(def => new Reference<TypeInput>(def, name => new TypeInput(new NameType(name))));
+            }
+        }
+        else if(position === Position.BEFORE) {
+            if(child === this.open) {
+                const replacements = [];
+                if((this.interfaces.length === 0 && this.typeVars.length === 0) ||
+                    (this.interfaces.length > 0 && child === this.interfaces[0]) ||
+                    (this.interfaces.length === 0 && this.typeVars.length > 0 && this.typeVars[0] === child))
+                    replacements.push(new Alias("name", undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])));
+
+                if(this.typeVars.length === 0)
+                    replacements.push(new TypeInput(new TypePlaceholder()))
+
+                return replacements;
+            }
+            else if(this.interfaces.includes(child as TypeInput))
+                return [ new TypeInput(new TypePlaceholder())]
+            else if(child === this.close || this.inputs.includes(child as Bind))
+                return [ new Bind([], undefined, [ new Alias("name") ])];
         }
 
         return [];

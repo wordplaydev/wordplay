@@ -40,7 +40,7 @@ export default class Documentation extends Node {
     getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
 
         const project = context.source.getProject();
-        if(project !== undefined && ((child === this.lang && position === Position.ON) || (this.lang === undefined && position === Position.AFTER)))
+        if(project !== undefined && ((child === this.lang && position === Position.ON) || (this.lang === undefined && position === Position.END)))
             return getPossibleLanguages(project).map(l => new Language(l));
         
         return [];

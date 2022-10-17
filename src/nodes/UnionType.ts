@@ -84,7 +84,7 @@ export default class UnionType extends Type {
                 return []
 
         }
-        else if(position === Position.AFTER) {
+        else if(position === Position.END) {
             // TODO Suggest replacing the right with a new union type with the right as the left and a new right placeholder
         }
         

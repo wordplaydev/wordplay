@@ -56,7 +56,7 @@ export default class Language extends Node {
                 return getPossibleLanguages(project).map(l => new Token(l, [ TokenType.NAME ]))
         }
         // Suggest languages for insertion if after the slash
-        else if(position === Position.AFTER) {
+        else if(position === Position.END) {
             if(this.lang === undefined && project !== undefined)
                 return getPossibleLanguages(project).map(l => new Token(l, [ TokenType.NAME ]))
         }

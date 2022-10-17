@@ -182,7 +182,7 @@ getChildReplacements(child: Node, context: Context, position: Position): Replace
             }
         }
         // At the end, suggest function calls if this resolves to a function.
-        else if(position === Position.AFTER) {
+        else if(position === Position.END) {
 
             const type = this.getType(context);
             if(type instanceof StructureType || type instanceof FunctionType) {

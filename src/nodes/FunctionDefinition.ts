@@ -26,7 +26,7 @@ import { getPossibleTypes } from "./getPossibleTypes";
 import getPossibleExpressions from "./getPossibleExpressions";
 import AnyType from "./AnyType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import type { Replacement } from "./Node";
+import { Position, type Replacement } from "./Node";
 
 export default class FunctionDefinition extends Expression {
 
@@ -206,14 +206,22 @@ export default class FunctionDefinition extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Replacement[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
 
-        // Output type can be any time
-        if(child === this.type)
-            return getPossibleTypes(this, context);
-        // Expression must be of output type, or any type if there isn't one.
-        else if(child === this.expression)
-            return getPossibleExpressions(this, this.expression, context, this.type === undefined || this.type instanceof Unparsable ? new AnyType() : this.type);
+        // Replace the type or expression
+         if(position === Position.ON) {
+            if(child === this.type)
+                return getPossibleTypes(this, context);
+            // Expression must be of output type, or any type if there isn't one.
+            else if(child === this.expression)
+                return getPossibleExpressions(this, this.expression, context, this.type === undefined || this.type instanceof Unparsable ? new AnyType() : this.type);
+        }
+        // If before the right paren or a bind, suggest a bind.
+        if(position === Position.BEFORE) {
+            if(child === this.close || this.inputs.includes(child as Bind)) {
+                return [ new Bind([], undefined, [ new Alias("name") ])];
+            }
+        }
 
         return [];
     

@@ -72,7 +72,7 @@ export default class Alias extends Node {
 
         }
         // Suggest languages for insertion if after the name with no language.
-        else if(position === Position.AFTER) {
+        else if(position === Position.END) {
             if(this.lang === undefined && project !== undefined)
                 return getPossibleLanguages(project).map(l => new Language(l));
         }
