@@ -17,7 +17,7 @@ import type Bind from "./Bind";
 import getPossibleExpressions from "./getPossibleExpressions";
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import type { Replacement } from "./Node";
+import type Transform from "./Replacement"
 
 export type SetItem = Expression | Unparsable;
 
@@ -102,7 +102,7 @@ export default class SetLiteral extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Replacement[] {
+    getChildReplacements(child: Node, context: Context): Transform[] {
 
         const index = this.values.indexOf(child as SetItem);
         return getPossibleExpressions(this, index >= 0 ? this.values[index] : undefined, context);

@@ -13,9 +13,9 @@ import { getPossibleLanguages } from "./getPossibleLanguages";
 import Language from "./Language";
 import { getPossibleUnits } from "./getPossibleUnits";
 import Reference from "./Reference";
-import type { Replacement } from "./Node";
+import type Transform from "./Replacement"
 
-export function getPossibleTypes(node: Node, context: Context): Replacement[] {
+export function getPossibleTypes(node: Node, context: Context): Transform[] {
 
     const project = context.source.getProject();
 

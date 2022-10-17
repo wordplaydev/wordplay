@@ -17,7 +17,8 @@ import Start from "../runtime/Start";
 import TokenType from "./TokenType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import getPossibleExpressions from "./getPossibleExpressions";
-import { Position, type Replacement } from "./Node";
+import { Position } from "./Node";
+import type Transform from "./Replacement"
 import { getPossibleLanguages } from "./getPossibleLanguages";
 
 type Part = Token | Expression | Unparsable;
@@ -96,7 +97,7 @@ export default class Template extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
     
         const project = context.source.getProject();
 

@@ -14,7 +14,7 @@ export default class UnnamedAlias extends Conflict {
 
     getExplanations() { 
         return {
-            eng: `There should a name after me`
+            eng: `Don't forget to name me!`
         }
     }
 

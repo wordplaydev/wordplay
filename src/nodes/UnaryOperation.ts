@@ -19,7 +19,7 @@ import NotAFunction from "../conflicts/NotAFunction";
 import FunctionType from "./FunctionType";
 import Evaluation from "../runtime/Evaluation";
 import TokenType from "./TokenType";
-import type { Replacement } from "./Node";
+import type Transform from "./Replacement"
 
 export default class UnaryOperation extends Expression {
 
@@ -137,7 +137,7 @@ export default class UnaryOperation extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Replacement[] {
+    getChildReplacements(child: Node, context: Context): Transform[] {
         
         // Operator must exist on the type of the left, unless not specified
         if(child === this.operator) {

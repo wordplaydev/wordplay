@@ -21,7 +21,8 @@ import SemanticException from "../runtime/SemanticException";
 import Start from "../runtime/Start";
 import getPossibleExpressions from "./getPossibleExpressions";
 import { getPossibleTypes } from "./getPossibleTypes";
-import { Position, type Replacement } from "./Node";
+import { Position } from "./Node";
+import type Transform from "./Replacement"
 
 export default class Is extends Expression {
 
@@ -125,7 +126,7 @@ export default class Is extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
         
         if(position === Position.ON) {
             if(child === this.expression)

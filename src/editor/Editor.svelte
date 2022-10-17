@@ -1,7 +1,7 @@
 <script lang="ts">
     import { project, updateProject } from '../models/stores';
-    import Node, { Position, type Replacement } from '../nodes/Node';
-    import Token from '../nodes/Token';
+    import type Transform from "../nodes/Replacement";
+    import Node, { Position } from '../nodes/Node';
     import Caret from '../models/Caret';
     import { afterUpdate, setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
@@ -13,6 +13,7 @@
     import createRowOutlineOf from './outline';
     import type Program from '../nodes/Program';
     import Menu from './Menu.svelte';
+    import Token from '../nodes/Token';
 
     export let source: Source;
 
@@ -57,7 +58,7 @@
     let menu: {
         node: Node,
         location: { left: number, top: number },
-        items: Replacement[],
+        items: Transform[],
         replace: boolean
     } | undefined = undefined;
     let menuIndex: number = -1;
@@ -72,11 +73,11 @@
 
         const replacements = between !== undefined ? 
             [
-                ... between.before.reduce((replacements: Replacement[], child) => {
+                ... between.before.reduce((replacements: Transform[], child) => {
                     const parent = child.getParent();
                     return parent === undefined || parent === null ? replacements : [ ... replacements, ...parent.getChildReplacements(child, source.getContext(), Position.BEFORE) ]
                 }, []),
-                ... between.after.reduce((replacements: Replacement[], child) => {
+                ... between.after.reduce((replacements: Transform[], child) => {
                     const parent: Node | undefined | null = child.getParent();
                     return parent === undefined || parent === null ? replacements : [ ...replacements, ...parent.getChildReplacements(child, source.getContext(),Position.END) ]
                 }, [])
@@ -329,7 +330,7 @@
 
     }
 
-    function selectMenuItem(node: Node, replacement: Replacement, replace: boolean) {
+    function selectMenuItem(node: Node, replacement: Transform, replace: boolean) {
         const code = 
             replacement instanceof Node ? replacement.toWordplay() : 
             Array.isArray(replacement) ? replacement.map(node => node.toWordplay()).join("") :

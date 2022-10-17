@@ -22,7 +22,7 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import FunctionType from "./FunctionType";
 import NameType from "./NameType";
-import { ALIAS_SYMBOL, EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
+import { ALIAS_SYMBOL, EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, PLACEHOLDER_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 import TypeInput from "./TypeInput";
 import type { TypeSet } from "./UnionType";
 import { Unimplemented } from "../conflicts/Unimplemented";
@@ -30,7 +30,8 @@ import { Implemented } from "../conflicts/Implemented";
 import { DisallowedInputs } from "../conflicts/DisallowedInputs";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import Reference from "./Reference";
-import { Position, type Replacement } from "./Node";
+import { Position } from "./Node";
+import type Transform from "./Replacement"
 import TypePlaceholder from "./TypePlaceholder";
 
 export default class StructureDefinition extends Expression {
@@ -247,7 +248,7 @@ export default class StructureDefinition extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
 
         // Interfaces can be any interface in scope.
         if(position === Position.ON) {
@@ -263,7 +264,7 @@ export default class StructureDefinition extends Expression {
                 if((this.interfaces.length === 0 && this.typeVars.length === 0) ||
                     (this.interfaces.length > 0 && child === this.interfaces[0]) ||
                     (this.interfaces.length === 0 && this.typeVars.length > 0 && this.typeVars[0] === child))
-                    replacements.push(new Alias("name", undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])));
+                    replacements.push(new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])));
 
                 if(this.typeVars.length === 0)
                     replacements.push(new TypeInput(new TypePlaceholder()))
@@ -273,7 +274,7 @@ export default class StructureDefinition extends Expression {
             else if(this.interfaces.includes(child as TypeInput))
                 return [ new TypeInput(new TypePlaceholder())]
             else if(child === this.close || this.inputs.includes(child as Bind))
-                return [ new Bind([], undefined, [ new Alias("name") ])];
+                return [ new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ])];
         }
 
         return [];

@@ -43,7 +43,8 @@ import { getPossibleTypes } from "./getPossibleTypes";
 import Name from "./Name";
 import getPossibleExpressions from "./getPossibleExpressions";
 import Reference from "./Reference";
-import { Position, type Replacement } from "./Node";
+import { Position } from "./Node";
+import type Transform from "./Replacement"
 
 type InputType = Unparsable | Bind | Expression;
 
@@ -564,7 +565,7 @@ export default class Evaluate extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Replacement[]  {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[]  {
 
         const functionType = this.func.getTypeUnlessCycle(context);
         if(!(functionType instanceof FunctionType || functionType instanceof StructureType))

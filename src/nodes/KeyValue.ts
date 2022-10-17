@@ -2,7 +2,8 @@ import { BIND_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import Expression from "./Expression";
 import getPossibleExpressions from "./getPossibleExpressions";
-import Node, { Position, type Replacement } from "./Node";
+import Node, { Position } from "./Node";
+import type Transform from "./Replacement"
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Unparsable from "./Unparsable";
@@ -41,7 +42,7 @@ export default class KeyValue extends Node {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
 
         if(position === Position.ON) {
             if(child === this.key)

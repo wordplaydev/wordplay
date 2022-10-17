@@ -25,7 +25,8 @@ import Name from "./Name";
 import TokenType from "./TokenType";
 import { REACTION_SYMBOL } from "../parser/Tokenizer";
 import Reference from "./Reference";
-import { Position, type Replacement } from "./Node";
+import { Position } from "./Node";
+import type Transform from "./Replacement"
 
 export default class Reaction extends Expression {
 
@@ -163,7 +164,7 @@ export default class Reaction extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
         
         if(position === Position.ON) {
             if(child === this.initial)

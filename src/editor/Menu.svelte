@@ -1,13 +1,14 @@
 <script lang="ts">
-    import Node, { type Replacement } from "../nodes/Node";
+    import Node from "../nodes/Node";
     import nodeToView from "./nodeToView";
+    import type Transform from "../nodes/Replacement";
     import UnknownNodeView from "./UnknownNodeView.svelte";
 
-    export let items: Replacement[];
+    export let items: Transform[];
     export let index: number;
-    export let select: (item: Replacement) => void;
+    export let select: (item: Transform) => void;
 
-    function handleItemClick(item: Replacement, event: MouseEvent) {
+    function handleItemClick(item: Transform, event: MouseEvent) {
         select(item);
         event.stopPropagation();
     }

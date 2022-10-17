@@ -2,14 +2,12 @@ import type Conflict from "../conflicts/Conflict";
 import type Definition from "./Definition";
 import type Context from "./Context";
 import type Translations from "./Translations";
-import type Reference from "./Reference";
+import type Transform from "./Replacement";
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
 
 export enum Position { ON, BEFORE, END };
-export type Replacement = Node | [ Node, Node ] | Reference<Node>;
-
 export default abstract class Node {
 
     /* A unique ID to represent this node in memory. */
@@ -245,9 +243,9 @@ export default abstract class Node {
     abstract getDescriptions(): Translations;
 
     /** Get nodes that would be valid replacements for this node. Used in autocomplete. */
-    getReplacements(context: Context, before: Position): Replacement[] { return this.getParent()?.getChildReplacements(this, context, before) ?? []; }
+    getReplacements(context: Context, before: Position): Transform[] { return this.getParent()?.getChildReplacements(this, context, before) ?? []; }
 
     /** Given a node that is possibly a child of this node, return a list of valid replacements of the child. */
-    getChildReplacements(child: Node, context: Context, position: Position = Position.ON): Replacement[] { child; context; position; return []; }
+    getChildReplacements(child: Node, context: Context, position: Position = Position.ON): Transform[] { child; context; position; return []; }
 
 }

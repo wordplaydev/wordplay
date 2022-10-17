@@ -25,7 +25,8 @@ import getPossibleExpressions from "./getPossibleExpressions";
 import TypeVariable from "./TypeVariable";
 import Stream from "../runtime/Stream";
 import Reference from "./Reference";
-import { Position, type Replacement } from "./Node";
+import { Position } from "./Node";
+import type Transform from "./Replacement"
 import FunctionType from "./FunctionType";
 
 export default class AccessName extends Expression {
@@ -165,7 +166,7 @@ export default class AccessName extends Expression {
         }
     }
 
-getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
         
         if(position === Position.ON) {
             if(child === this.subject) {

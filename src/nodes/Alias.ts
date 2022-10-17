@@ -6,24 +6,25 @@ import Language from "./Language";
 import UnnamedAlias from "../conflicts/UnnamedAlias";
 import type Context from "./Context";
 import { getPossibleLanguages } from "./getPossibleLanguages";
+import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 
 export default class Alias extends Node {
     
-    readonly semicolon?: Token;
+    readonly separator?: Token;
     readonly name?: Token;
     readonly lang?: Language;
 
     constructor(name: Token | string | undefined, lang?: Language | string, semicolon?: Token) {
         super();
 
-        this.semicolon = semicolon;
+        this.separator = semicolon;
         this.name = typeof name === "string" ? new Token(name, [ TokenType.NAME ]) : name;
         this.lang = typeof lang === "string" ? new Language(lang) : lang;
     }
 
     computeChildren() { 
         const children = [];
-        if(this.semicolon instanceof Token) children.push(this.semicolon);
+        if(this.separator instanceof Token) children.push(this.separator);
         if(this.name instanceof Token) children.push(this.name);
         if(this.lang instanceof Language) children.push(this.lang);
         return children;
@@ -31,7 +32,7 @@ export default class Alias extends Node {
 
     computeConflicts(): Conflict[] {
     
-        if(this.name === undefined) return [ new UnnamedAlias(this) ];
+        if(this.name === undefined || this.name.getText() === PLACEHOLDER_SYMBOL) return [ new UnnamedAlias(this) ];
 
         return []; 
     
@@ -55,7 +56,7 @@ export default class Alias extends Node {
         return new Alias(
             this.name?.cloneOrReplace([ Token, undefined], original, replacement), 
             this.lang?.cloneOrReplace([ Language, undefined], original, replacement),
-            this.semicolon?.cloneOrReplace([ Token, undefined], original, replacement)
+            this.separator?.cloneOrReplace([ Token, undefined], original, replacement)
         ) as this; 
     }
 

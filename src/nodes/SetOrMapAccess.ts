@@ -23,7 +23,8 @@ import TypeException from "../runtime/TypeException";
 import UnionType from "./UnionType";
 import getPossibleExpressions from "./getPossibleExpressions";
 import AnyType from "./AnyType";
-import { Position, type Replacement } from "./Node";
+import { Position } from "./Node";
+import type Transform from "./Replacement"
 
 export default class SetOrMapAccess extends Expression {
 
@@ -123,7 +124,7 @@ export default class SetOrMapAccess extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
         
         if(position === Position.ON) {
             if(child === this.setOrMap) {

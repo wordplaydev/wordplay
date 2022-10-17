@@ -25,7 +25,8 @@ import type Translations from "./Translations";
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import getPossibleExpressions from "./getPossibleExpressions";
-import { Position, type Replacement } from "./Node";
+import { Position } from "./Node";
+import type Transform from "./Replacement"
 
 export default class ListAccess extends Expression {
     readonly list: Expression | Unparsable;
@@ -116,7 +117,7 @@ export default class ListAccess extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
 
         if(position === Position.ON) {
             if(child === this.list)

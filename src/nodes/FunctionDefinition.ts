@@ -18,7 +18,7 @@ import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import Alias from "./Alias";
-import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, FUNCTION_SYMBOL } from "../parser/Tokenizer";
+import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, FUNCTION_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import type Translations from "./Translations";
@@ -26,7 +26,8 @@ import { getPossibleTypes } from "./getPossibleTypes";
 import getPossibleExpressions from "./getPossibleExpressions";
 import AnyType from "./AnyType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import { Position, type Replacement } from "./Node";
+import { Position } from "./Node";
+import type Transform from "./Replacement"
 
 export default class FunctionDefinition extends Expression {
 
@@ -206,7 +207,7 @@ export default class FunctionDefinition extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
 
         // Replace the type or expression
          if(position === Position.ON) {
@@ -219,7 +220,7 @@ export default class FunctionDefinition extends Expression {
         // If before the right paren or a bind, suggest a bind.
         if(position === Position.BEFORE) {
             if(child === this.close || this.inputs.includes(child as Bind)) {
-                return [ new Bind([], undefined, [ new Alias("name") ])];
+                return [ new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ])];
             }
         }
 

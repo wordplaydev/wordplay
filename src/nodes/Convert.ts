@@ -22,7 +22,8 @@ import Action from "../runtime/Action";
 import Block from "./Block";
 import { THIS_SYMBOL } from "../parser/Tokenizer";
 import getPossibleExpressions from "./getPossibleExpressions";
-import { Position, type Replacement } from "./Node";
+import { Position } from "./Node";
+import type Transform from "./Replacement"
 
 export default class Convert extends Expression {
     
@@ -169,7 +170,7 @@ export default class Convert extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
         
         if(position === Position.ON) {
             if(child === this.expression)

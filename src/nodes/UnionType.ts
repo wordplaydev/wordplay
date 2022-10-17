@@ -9,7 +9,8 @@ import Unparsable from "./Unparsable";
 import { TYPE_SYMBOL } from "../parser/Tokenizer";
 import NeverType from "./NeverType";
 import { getPossibleTypes } from "./getPossibleTypes";
-import { Position, type Replacement } from "./Node";
+import { Position } from "./Node";
+import type Transform from "./Replacement"
 
 export default class UnionType extends Type {
 
@@ -72,7 +73,7 @@ export default class UnionType extends Type {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Replacement[]  {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[]  {
 
         if(position === Position.ON) {
             if(child === this.left || child === this.right)

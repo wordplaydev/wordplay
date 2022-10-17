@@ -17,7 +17,8 @@ import Start from "../runtime/Start";
 import getPossibleExpressions from "./getPossibleExpressions";
 import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import { Position, type Replacement } from "./Node";
+import { Position } from "./Node";
+import type Transform from "./Replacement"
 
 export default class Conditional extends Expression {
     
@@ -140,7 +141,7 @@ export default class Conditional extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
         
         if(position === Position.ON) {
             if(child === this.condition)

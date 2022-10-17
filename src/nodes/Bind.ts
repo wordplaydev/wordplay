@@ -1,5 +1,6 @@
 import Expression from "./Expression";
-import Node, { Position, type Replacement } from "./Node";
+import Node, { Position } from "./Node";
+import type Transform from "./Replacement"
 import type Context from "./Context";
 import Alias from "./Alias";
 import Token from "./Token";
@@ -259,7 +260,7 @@ export default class Bind extends Node implements Evaluable, Named {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
 
         if(position === Position.ON) {
             if(child === this.type) {

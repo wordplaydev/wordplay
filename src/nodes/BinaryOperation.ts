@@ -29,7 +29,8 @@ import getPossibleExpressions from "./getPossibleExpressions";
 import AnyType from "./AnyType";
 import TokenType from "./TokenType";
 import Reference from "./Reference";
-import { Position, type Replacement } from "./Node";
+import { Position } from "./Node";
+import type Transform from "./Replacement"
 
 export default class BinaryOperation extends Expression {
 
@@ -221,7 +222,7 @@ export default class BinaryOperation extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Replacement[] {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
         
         const expectedType = this.getFunctionDefinition(context)?.inputs[0]?.getType(context);
 
