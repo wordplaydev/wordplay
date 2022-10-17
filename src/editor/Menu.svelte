@@ -29,10 +29,10 @@
 
 </script>
 
-<section class="menu">
-    <div class="item header">
-        <em>{actionLabel}…</em>
-    </div>
+<table class="menu">
+    <tr class="item header">
+        <td colspan=2>{actionLabel}…</td>
+    </tr>
     {#each items.map(item => {     
         return { 
             node: item instanceof Node ? item : Array.isArray(item) ? item : item.getNode("eng"), 
@@ -44,19 +44,19 @@
     }
 
         {#if index >= minItem && index <= maxItem }
-            <div class={`item ${index === selection ? "selected" : ""}`} on:mousedown={event => handleItemClick(item.node, event)}>
-                <div class="col"><svelte:component this={nodeToView.get((Array.isArray(item.node) ? item.node[0] : item.node).constructor) ?? UnknownNodeView} node={Array.isArray(item.node) ? item.node[0] : item.node} />{#if Array.isArray(item.node) }<svelte:component this={nodeToView.get(item.node[1].constructor) ?? UnknownNodeView} node={item.node[1]} />{/if}</div>
-                <div class="col"><em>{item.description}</em></div>
-            </div>
+            <tr class={`item option ${index === selection ? "selected" : ""}`} on:mousedown={event => handleItemClick(item.node, event)}>
+                <td class="col"><svelte:component this={nodeToView.get((Array.isArray(item.node) ? item.node[0] : item.node).constructor) ?? UnknownNodeView} node={Array.isArray(item.node) ? item.node[0] : item.node} />{#if Array.isArray(item.node) }<svelte:component this={nodeToView.get(item.node[1].constructor) ?? UnknownNodeView} node={item.node[1]} />{/if}</td>
+                <td class="col"><em>{item.description}</em></td>
+            </tr>
         {:else if (index === minItem - 1 && minItem > 0) || (index === maxItem + 1 && maxItem < items.length - 1) }
-            <div class="item">…</div>
+            <tr class="item"><td colspan=2>…</td></tr>
         {/if}
     {:else}
         <!-- Feedback if there are no items. -->
         Nothing to {actionLabel.toLocaleLowerCase()}
     {/each}
 
-</section>
+</table>
 
 <style>
     .menu {
@@ -68,24 +68,24 @@
         max-width: 40em;
         overflow-x: hidden;
         z-index: 3;
+        border-spacing: 0;
+    }
+
+    .menu td {
+        text-align: left;
+        width: 50%;        
+    }
+
+    .menu td {
+        padding: var(--wordplay-spacing);
+        white-space: nowrap;
     }
 
     .item.header {
         background-color: var(--wordplay-disabled-color);
     }
 
-    .menu .item {
-
-        display: flex;
-        flex-direction: row;
-        align-content: flex-start;
-
-        padding: var(--wordplay-spacing);
-        white-space: nowrap;
-
-    }
-
-    .item:hover, .selected {
+    .item.option:hover, .selected {
         cursor: pointer;
         background-color: var(--wordplay-highlight);
     }
