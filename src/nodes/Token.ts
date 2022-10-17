@@ -77,7 +77,11 @@ export default class Token extends Node {
 
     getDescriptions() {
         return {
-            eng: "A token"
+            eng: this.is(TokenType.NAME) ? "A name" : 
+                this.is(TokenType.BINARY_OP) || this.is(TokenType.UNARY_OP) ? "An operator" :
+                this.is(TokenType.DOCS) ? "Documentation" :
+                this.is(TokenType.JAPANESE) || this.is(TokenType.ROMAN) || this.is(TokenType.NUMBER) || this.is(TokenType.PI) || this.is(TokenType.INFINITY) ? "A number" :            
+                "A token"
         }
     }
 

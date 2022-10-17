@@ -28,7 +28,6 @@ import AnyType from "./AnyType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import { Position } from "./Node";
 import type Transform from "./Transform"
-import type Language from "./Language";
 import type LanguageCode from "./LanguageCode";
 
 export default class FunctionDefinition extends Expression {

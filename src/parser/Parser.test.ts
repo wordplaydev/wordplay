@@ -49,6 +49,7 @@ import SetLiteral from "../nodes/SetLiteral";
 import MapLiteral from "../nodes/MapLiteral";
 import SetType from "../nodes/SetType";
 import MapType from "../nodes/MapType";
+import { PLACEHOLDER_SYMBOL } from "./Tokenizer";
 
 test("Parse programs", () => {
 
@@ -150,7 +151,7 @@ test("Parse binds", () => {
 
 test("Parse expressions", () => {
 
-    const placeholder = parseExpression(tokens("…"));
+    const placeholder = parseExpression(tokens(PLACEHOLDER_SYMBOL));
     expect(placeholder).toBeInstanceOf(ExpressionPlaceholder);
 
     const none = parseExpression(tokens("!"));
@@ -391,7 +392,7 @@ test("Blocks and binds", () => {
 
 test("Types", () => {
 
-    const placeholder = parseType(tokens("…"));
+    const placeholder = parseType(tokens(PLACEHOLDER_SYMBOL));
     expect(placeholder).toBeInstanceOf(TypePlaceholder);
 
     const name = parseType(tokens("Cat"));
