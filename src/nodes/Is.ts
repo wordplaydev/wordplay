@@ -108,7 +108,7 @@ export default class Is extends Expression {
                 return new TypeSet([ this.type ], context);
         }
 
-        if( this.expression instanceof AccessName) {
+        if( this.expression instanceof AccessName && this.expression.name) {
             const subject = this.expression.getSubjectType(context);
             if(subject instanceof StructureType) {
                 if(bind === subject.getDefinition(this.expression.name.getText()) && current.contains(this.type, context))

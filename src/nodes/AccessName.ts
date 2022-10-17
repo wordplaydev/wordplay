@@ -28,16 +28,17 @@ import Reference from "./Reference";
 import { Position } from "./Node";
 import type Transform from "./Replacement"
 import FunctionType from "./FunctionType";
+import NameException from "../runtime/NameException";
 
 export default class AccessName extends Expression {
 
     readonly subject: Expression | Unparsable;
     readonly access: Token;
-    readonly name: Token;
+    readonly name?: Token;
 
     _unionType: Type | undefined;
 
-    constructor(subject: Expression | Unparsable, access: Token | undefined, name: Token) {
+    constructor(subject: Expression | Unparsable, access: Token | undefined, name?: Token) {
         super();
 
         this.subject = subject;
@@ -46,7 +47,7 @@ export default class AccessName extends Expression {
     }
 
     computeChildren() {
-        return [ this.subject, this.access, this.name ];
+        return [ this.subject, this.access, this.name ].filter(n => n !== undefined) as Node[];
     }
 
     computeConflicts(context: Context): Conflict[] {
@@ -54,7 +55,7 @@ export default class AccessName extends Expression {
         const conflicts = [];
 
         const subjectType = this.getSubjectType(context);
-        if(subjectType instanceof StructureType && subjectType.getDefinition(this.name.text.toString()) === undefined)
+        if(this.name === undefined || (subjectType instanceof StructureType && subjectType.getDefinition(this.name.text.toString()) === undefined))
             conflicts.push(new UnknownProperty(this));
 
         return conflicts;
@@ -77,6 +78,8 @@ export default class AccessName extends Expression {
             subjectType = subjectType.type;
         }
 
+        if(this.name === undefined) return new UnknownType(this);
+
         if(subjectType instanceof StructureType) {
             const bind = subjectType.getDefinition(this.name.getText());
             if(bind === undefined || bind instanceof TypeVariable || bind instanceof Stream) return new UnknownType(this);
@@ -93,7 +96,8 @@ export default class AccessName extends Expression {
                 const guards = this.getAncestors()?.filter(a => 
                         a instanceof Conditional &&
                         a.condition.nodes(
-                            n =>    n.getParent() instanceof Is && 
+                            n =>    this.name !== undefined &&
+                                    n.getParent() instanceof Is && 
                                     n instanceof AccessName && n.getSubjectType(context) instanceof StructureType && bind === (n.getSubjectType(context) as StructureType).getDefinition(this.name.getText())
                         )
                     ).reverse() as Conditional[];
@@ -137,6 +141,7 @@ export default class AccessName extends Expression {
     evaluate(evaluator: Evaluator) {
 
         const subject = evaluator.popValue(undefined);
+        if(this.name === undefined) return new NameException(evaluator, "");
         const name = this.name.text.toString();
         return subject instanceof Exception ? 
             subject :
@@ -148,7 +153,7 @@ export default class AccessName extends Expression {
         return new AccessName(
             this.subject.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
             this.access.cloneOrReplace([ Token ], original, replacement), 
-            this.name.cloneOrReplace([ Token ], original, replacement)
+            this.name?.cloneOrReplace([ Token ], original, replacement)
         ) as this; 
     }
 
@@ -178,7 +183,7 @@ getChildReplacements(child: Node, context: Context, position: Position): Transfo
                 if(subjectType instanceof StructureType)
                     return subjectType.structure
                         .getDefinitions(child)
-                        .filter(def => def.getNames().find(n => this.name.getText() === "" || n.startsWith(this.name.getText())) !== undefined)
+                        .filter(def => def.getNames().find(n => this.name && (this.name.getText() === "" || n.startsWith(this.name.getText())) !== undefined))
                         .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ])));
             }
         }

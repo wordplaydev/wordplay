@@ -10,7 +10,7 @@ export class UnknownProperty extends Conflict {
     }
 
     getConflictingNodes() { 
-        return { primary: [ this.access.name ], secondary: [ this.access.subject ] };
+        return { primary: [ this.access.name ?? this.access.access ], secondary: [ this.access.subject ] };
     }
 
     getExplanations() { 

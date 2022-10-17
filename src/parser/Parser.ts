@@ -933,7 +933,6 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
             name =  tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) :
                     tokens.nextIs(TokenType.UNARY_OP) ? tokens.read(TokenType.UNARY_OP) :
                     tokens.read(TokenType.BINARY_OP);
-        else return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_ACCESS_NAME, [ left, access ]);
 
         left = new AccessName(left, access, name);
 
