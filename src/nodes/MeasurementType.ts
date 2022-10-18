@@ -43,7 +43,7 @@ export default class MeasurementType extends NativeType {
         const thatUnit = type.concreteUnit(context, op);
 
         // Return true if the units are compatible.
-        return thisUnit.isEmpty() || thisUnit.accepts(thatUnit);
+        return thisUnit.accepts(thatUnit);
     }
 
     concreteUnit(context: Context, op?: BinaryOperation): Unit {
@@ -74,7 +74,7 @@ export default class MeasurementType extends NativeType {
 
     getDescriptions() {
         return {
-            eng: "A number type"
+            eng: this.unit instanceof Unit ? this.unit.getDescriptions().eng : "A number"
         }
     }
 
