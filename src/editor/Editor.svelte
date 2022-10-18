@@ -16,6 +16,7 @@
     import Token from '../nodes/Token';
     import Reference from '../nodes/Reference';
     import KeyboardIdle from '../models/KeyboardIdle';
+    import CaretView from './CaretView.svelte';
 
     export let source: Source;
 
@@ -485,6 +486,8 @@
 >
     <!-- Render the program -->
     <NodeView node={program}/>
+    <!-- Render the caret on top of the program -->
+    <CaretView/>
     <!-- Do we have any selections to render? Render them! -->
     {#each selections as selection }
         <svg class={`selection ${selection.kind}`} width={programViewWidth} height={programViewHeight}>
