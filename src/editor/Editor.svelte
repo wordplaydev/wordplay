@@ -44,6 +44,9 @@
     // A shorthand for the currently evaluating step, if there is one.
     let executingNode = source.getEvaluator().currentStep()?.node;
 
+    // Focused when the active element is the text input.
+    let focused = false;
+
     // A menu of potential transformations based on the caret position.
     let menu: {
         node: Node,
@@ -79,7 +82,7 @@
     // When the caret changes or keyboard idle state changes, determine a new menu.
     $: {
 
-        if($KeyboardIdle && (typeof document !== "undefined" && document.activeElement === textInput)) {
+        if($KeyboardIdle && focused) {
 
             // Is the caret on a specific token or node?
             const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
@@ -471,6 +474,12 @@
 
     function handleTextInputFocusLoss() {
         hideMenu();
+        focused = false;
+    }
+
+    function handleTextInputFocusGain() {
+        hideMenu();
+        focused = true;
     }
 
     function hideMenu() {
@@ -487,7 +496,7 @@
     <!-- Render the program -->
     <NodeView node={program}/>
     <!-- Render the caret on top of the program -->
-    <CaretView/>
+    <CaretView blink={$KeyboardIdle && focused}/>
     <!-- Do we have any selections to render? Render them! -->
     {#each selections as selection }
         <svg class={`selection ${selection.kind}`} width={programViewWidth} height={programViewHeight}>
@@ -511,6 +520,7 @@
         bind:this={textInput}
         on:input={handleTextInput}
         on:keydown={handleKeyDown}
+        on:focus={handleTextInputFocusGain}
         on:blur={handleTextInputFocusLoss}
     />
 </div>

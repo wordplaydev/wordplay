@@ -2,9 +2,10 @@
     import { afterUpdate, getContext } from "svelte";
     import type { Writable } from "svelte/store";
     import type Caret from "../models/Caret";
-    import KeyboardIdle from "../models/KeyboardIdle";
     import { TAB_WIDTH } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
+
+    export let blink: boolean;
 
     // The current location of the caret.
     let location: { top: string, left: string, height: string } | undefined = undefined;
@@ -181,7 +182,7 @@
 </script>
 
 <span 
-    class="caret {$KeyboardIdle ? "blink" : ""}"
+    class="caret {blink ? "blink" : ""}"
     style={location === undefined ? "display:none" : `left: ${location.left}; top: ${location.top}; height: ${location.height};`}
     bind:this={caretElement}
 />
