@@ -217,7 +217,7 @@ export class Tokens {
 
         // Find all of the tokens before the next line break, include them
         const indexOfNextAfter = this.#unread.findIndex(t => t.hasPrecedingLineBreak());
-        const tokensAfter = this.#unread.splice(0, indexOfNextAfter < 1 ? this.#unread.length : indexOfNextAfter);
+        const tokensAfter = this.#unread.splice(0, indexOfNextAfter < 0 ? this.#unread.length : indexOfNextAfter);
 
         // Create an unparsable node.
         const unparsable = new Unparsable(reason, nodesBefore, tokensAfter);
@@ -1111,19 +1111,20 @@ function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
     }
 
     const typeVars = parseTypeVariables(tokens);
-    if(tokens.nextIsnt(TokenType.EVAL_OPEN))
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN, [ docs, type, aliases, interfaces, typeVars ]);
-    const open = tokens.read(TokenType.EVAL_OPEN);
 
     const inputs: (Bind|Unparsable)[] = [];
-    while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        inputs.push(parseBind(tokens));
+    let open;
+    let close;
+    if(tokens.nextIs(TokenType.EVAL_OPEN)) {
+        open = tokens.read(TokenType.EVAL_OPEN);
+        while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && (nextIsBind(tokens, false) || tokens.nextIs(TokenType.NAME)))
+            inputs.push(parseBind(tokens));
+        if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
+            return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ docs, type, aliases, interfaces, typeVars, open, inputs  ]);
+        close = tokens.read(TokenType.EVAL_CLOSE);
+    }
 
-    if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ docs, type, aliases, interfaces, typeVars, inputs ]);
-    const close = tokens.read(TokenType.EVAL_CLOSE);
-
-    const block = tokens.nextIsOneOf(TokenType.DOCS, TokenType.EVAL_OPEN) ? parseBlock(tokens, false, true) : undefined;
+    const block = tokens.nextAreDocsThen(TokenType.EVAL_OPEN) ? parseBlock(tokens, false, true) : undefined;
 
     return new StructureDefinition(docs, aliases, interfaces, typeVars, inputs, block, type, open, close);
 

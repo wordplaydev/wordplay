@@ -45,6 +45,7 @@ import getPossibleExpressions from "./getPossibleExpressions";
 import Reference from "./Reference";
 import { Position } from "./Node";
 import type Transform from "./Transform"
+import Block from "./Block";
 
 type InputType = Unparsable | Bind | Expression;
 
@@ -513,7 +514,7 @@ export default class Evaluate extends Expression {
 
             // Evaluate the structure's block with the bindings, generating an evaluation context with the
             // type's inputs and functions.
-            evaluator.startEvaluation(new Evaluation(evaluator, functionOrStructure.definition, functionOrStructure.definition.block, evaluator.getEvaluationContext(), bindings));
+            evaluator.startEvaluation(new Evaluation(evaluator, functionOrStructure.definition, functionOrStructure.definition.block ?? new Block([], [], true, true), evaluator.getEvaluationContext(), bindings));
 
         }
 

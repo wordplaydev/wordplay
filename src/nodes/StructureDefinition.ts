@@ -42,10 +42,10 @@ export default class StructureDefinition extends Expression {
     readonly aliases: Alias[];
     readonly interfaces: TypeInput[];
     readonly typeVars: (TypeVariable|Unparsable)[];
-    readonly open: Token;
+    readonly open?: Token;
     readonly inputs: (Bind | Unparsable)[];
-    readonly close: Token;
-    readonly block: Block | Unparsable;
+    readonly close?: Token;
+    readonly block?: Block | Unparsable;
 
     constructor(
         docs: Documentation[], 
@@ -65,10 +65,10 @@ export default class StructureDefinition extends Expression {
         this.aliases = aliases;
         this.interfaces = interfaces;
         this.typeVars = typeVars;
-        this.open = open ?? new Token(EVAL_OPEN_SYMBOL, [ TokenType.EVAL_OPEN ]);
+        this.open = open === undefined && inputs.length > 0 ? new Token(EVAL_OPEN_SYMBOL, [ TokenType.EVAL_OPEN ]) : open;
         this.inputs = inputs;
-        this.close = close ?? new Token(EVAL_CLOSE_SYMBOL, [ TokenType.EVAL_CLOSE ]);
-        this.block = block ?? new Block([], [], false, true);
+        this.close = close == undefined && inputs.length > 0 ?new Token(EVAL_CLOSE_SYMBOL, [ TokenType.EVAL_CLOSE ]) : close;
+        this.block = block;
     }
 
     getNames() { return this.aliases.map(a => a.getName()).filter(n => n !== undefined) as string[]; }
@@ -231,10 +231,10 @@ export default class StructureDefinition extends Expression {
             this.interfaces.map(i => i.cloneOrReplace([ NameType ], original, replacement)), 
             this.typeVars.map(t => t.cloneOrReplace([ TypeVariable, Unparsable ], original, replacement)),
             this.inputs.map(i => i.cloneOrReplace([ Bind, Unparsable ], original, replacement)),
-            this.block.cloneOrReplace([ Block ], original, replacement),
+            this.block?.cloneOrReplace([ Block ], original, replacement),
             this.type.cloneOrReplace([ Token ], original, replacement),
-            this.open.cloneOrReplace([ Token ], original, replacement),
-            this.close.cloneOrReplace([ Token ], original, replacement)
+            this.open?.cloneOrReplace([ Token ], original, replacement),
+            this.close?.cloneOrReplace([ Token ], original, replacement)
         ) as this;
     }
 
