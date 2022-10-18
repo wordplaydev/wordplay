@@ -47,10 +47,13 @@
     // Focused when the active element is the text input.
     let focused = false;
 
+    // Caret location comes from the caret
+    let caretLocation: { top: string, left: string, height: string, bottom: number } | undefined = undefined;
+
     // A menu of potential transformations based on the caret position.
     let menu: {
         node: Node,
-        location: { left: number, top: number } | undefined,
+        location: { left: string, top: string } | undefined,
         items: Transform[],
         replace: boolean
     } | undefined = undefined;
@@ -82,7 +85,7 @@
     // When the caret changes or keyboard idle state changes, determine a new menu.
     $: {
 
-        if($KeyboardIdle && focused) {
+        if($caret.isNode() || ($KeyboardIdle && focused)) {
 
             // Is the caret on a specific token or node?
             const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
@@ -125,6 +128,30 @@
 
     }
 
+    // When the caret location changes, position the menu and invisible input, and optionally scroll to the caret.
+    $: {
+        
+        if(caretLocation !== undefined) {
+
+            const keyboard = editor?.querySelector(".keyboard-input");
+            if(keyboard instanceof HTMLElement) {
+                keyboard.style.left = `${caretLocation.left}`;
+                keyboard.style.top = `${caretLocation.top}`;
+            }
+
+            // Position the menu at the cursor if it's an insertion.
+            if(menu !== undefined && !menu.replace)
+                menu = {
+                    node: menu.node,
+                    items: menu.items,
+                    replace: menu.replace,
+                    location: { left: caretLocation.left, top: `${caretLocation.bottom}px` }
+                }
+
+        }
+
+    }
+
     // When the editor view changes, position selections, the menu, and scroll the caret or executing node into view
     // and make sure the text input field is in focus.
     afterUpdate(() => {
@@ -147,26 +174,10 @@
 
         // ENSURE CARET IS VISIBLE AND POSITION THE INVISIBLE TEXT FIELD
 
-        let caretLeft = undefined;
-        let caretTop = undefined;
-        let caretBottom = undefined;
-
         // Scroll to the caret if we're not executing.
         if(caretView !== null && source.evaluator.isDone()) {
-
             // Move the scroll bars as necessary.
             ensureElementIsVisible(caretView);
-
-            // Position the keyboard input.
-            const caretRect = caretView.getBoundingClientRect();
-            caretTop = caretRect.top - viewportRect.top + viewport.scrollTop;
-            caretLeft = caretRect.left - viewportRect.left + viewport.scrollLeft;
-            caretBottom = caretRect.bottom - viewportRect.top + viewport.scrollTop;
-            const keyboard = editor?.querySelector(".keyboard-input");
-            if(keyboard instanceof HTMLElement) {
-                keyboard.style.left = `${caretLeft}px`;
-                keyboard.style.top = `${caretTop}px`;
-            }
         }
 
         const currentStep = $caret.source.getEvaluator().currentStep();
@@ -191,9 +202,8 @@
             }
         }
 
-        // Position the menu
+        // Position the menu if a node is selected.
         if(menu !== undefined && editor !== undefined) {
-            let location = undefined;
             if(menu.replace) {
                 const viewport = editor.parentElement;
                 const el = getNodeView(menu.node);
@@ -201,27 +211,17 @@
                     const placeholderRect = el.getBoundingClientRect();
                     const viewportRect = viewport.getBoundingClientRect();
                     // Yay, we have everything we need to show a menu!
-                    location = {
-                        left: placeholderRect.left - viewportRect.left + viewport.scrollLeft,
-                        top: placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10
+                    menu = {
+                        node: menu.node,
+                        items: menu.items,
+                        replace: menu.replace,
+                        location: {
+                            left: `${placeholderRect.left - viewportRect.left + viewport.scrollLeft}px`,
+                            top: `${placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10}px`
+                        }
                     }
                 }
             }
-            else {
-                if(caretLeft !== undefined && caretBottom !== undefined)
-                    location = {
-                        left: caretLeft,
-                        top: caretBottom
-                    }
-            }
-
-            if(location)
-                menu = {
-                    node: menu.node,
-                    items: menu.items,
-                    replace: menu.replace,
-                    location: location
-                }
         }
 
         // If the program contains this node, scroll to it's view.
@@ -496,7 +496,7 @@
     <!-- Render the program -->
     <NodeView node={program}/>
     <!-- Render the caret on top of the program -->
-    <CaretView blink={$KeyboardIdle && focused}/>
+    <CaretView blink={$KeyboardIdle && focused} bind:location={caretLocation}/>
     <!-- Do we have any selections to render? Render them! -->
     {#each selections as selection }
         <svg class={`selection ${selection.kind}`} width={programViewWidth} height={programViewHeight}>
@@ -505,7 +505,7 @@
     {/each}
     <!-- Are we on a placeholder? Show a menu! -->
     {#if menu !== undefined && menu.location !== undefined }
-        <div class="menu" style={`left:${menu.location.left}px; top:${menu.location.top}px;`}>
+        <div class="menu" style={`left: ${menu.location.left}; top: ${menu.location.top};`}>
             <Menu 
                 items={menu.items} 
                 selection={menuSelection} 

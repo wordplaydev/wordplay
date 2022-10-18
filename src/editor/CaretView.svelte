@@ -5,10 +5,12 @@
     import { TAB_WIDTH } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
 
+    type CaretPosition = { top: string, left: string, height: string, bottom: number };
+
     export let blink: boolean;
 
     // The current location of the caret.
-    let location: { top: string, left: string, height: string } | undefined = undefined;
+    export let location: CaretPosition | undefined = undefined;
 
     // The caret of the editor that contains this view.
     $: caret = getContext<Writable<Caret>>("caret");
@@ -117,7 +119,8 @@
             location = {
                 left: `${tokenLeft + widthAtCaret}px`,
                 top: `${tokenTop}px`,
-                height: `${tokenViewRect.height}px`
+                height: `${tokenViewRect.height}px`,
+                bottom: tokenTop + tokenViewRect.height
             }
         }
         // If the caret is in whitespace, compute the top/left based on the pattern whitespace sequence.
@@ -169,10 +172,13 @@
                     col += count;
                 }
 
+                const top = tokenTop - ((token.newlines - row) * (tokenHeight ?? 16) - 1);
+
                 location = {
                     left: `calc(${tokenLeft}px - ${token.precedingSpaces - col}ch)`,
-                    top: `${tokenTop - ((token.newlines - row) * (tokenHeight ?? 16) - 1)}px`,
-                    height: `${tokenHeight}px`
+                    top: `${top}px`,
+                    height: `${tokenHeight}px`,
+                    bottom: top + tokenHeight
                 }
             }
         }

@@ -205,7 +205,7 @@ export default class Block extends Expression {
                     type,
                     ...(index === this.statements.length - 1 ? getPossibleExpressions(this, statement, context) : []),
                 ]
-            if(position === Position.BEFORE) {
+            else if(position === Position.BEFORE) {
                 const firstToken = child.nodes(n => n instanceof Token)[0];
                 if(firstToken instanceof Token && firstToken.hasNewline())
                     return [

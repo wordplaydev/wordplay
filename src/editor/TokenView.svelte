@@ -4,8 +4,6 @@
 
     export let node: Token;
 
-    let element: HTMLElement;
-    
     $: kind = node.types[0] !== undefined ? TokenCategories.get(node.types[0]) : "default";
 
 </script>
@@ -14,7 +12,6 @@
     class="token-view token-{kind}" 
     style="color: {`var(--token-category-${kind})`}; margin-left: {node.precedingSpaces}ch"
     data-id={node.id}
-    bind:this={element}
 >
     <span class="text">{ node.text.toString() }</span>
 </span>
