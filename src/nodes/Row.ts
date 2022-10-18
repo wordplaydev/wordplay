@@ -43,4 +43,8 @@ export default class Row extends Node {
         }
     }
 
+    getReplacementChild() { return undefined; }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
+
 }

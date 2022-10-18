@@ -16,5 +16,9 @@ export default abstract class HOF extends Expression {
         }
     }
 
+    getReplacementChild() { return undefined; }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
+
 }
 

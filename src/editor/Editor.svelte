@@ -1,7 +1,7 @@
 <script lang="ts">
     import { project, updateProject } from '../models/stores';
     import type Transform from "../nodes/Transform";
-    import Node, { Position } from '../nodes/Node';
+    import Node from '../nodes/Node';
     import Caret from '../models/Caret';
     import { afterUpdate, onDestroy, setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
@@ -95,16 +95,14 @@
                 between !== undefined ? 
                     [
                         // Get all of the replacements possible immediately before the position.
-                        ... between.before.reduce((replacements: Transform[], child) => {
-                            const parent = child.getParent();
-                            return parent === undefined || parent === null ? replacements : [ ... replacements, ...parent.getChildReplacements(child, source.getContext(), Position.BEFORE) ]
-                        }, []),
+                        ... between.before.reduce((replacements: Transform[], child) =>
+                            [ ... replacements, ...(child.getParent()?.getInsertionBefore(child, source.getContext(), 0) ?? []) ], []),
                         // Get all of the replacements possible and the ends of the nodes just before the position.
                         ... between.after.reduce((replacements: Transform[], child) => {
-                            return [ ...replacements, ...child.getChildReplacements(undefined, source.getContext(),Position.END) ]
+                            return [ ...replacements, ...(child.getInsertionAfter(source.getContext(), 0) ?? []) ]
                         }, [])
                     ] :
-                node !== undefined ? node.getReplacements(source.getContext(), Position.ON) :
+                node !== undefined ? node.getParent()?.getReplacementChild(node, source.getContext()) :
                     undefined;
 
             if(node !== undefined && replacements !== undefined && replacements.length > 0) {

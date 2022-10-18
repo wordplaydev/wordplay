@@ -43,7 +43,6 @@ import { getPossibleTypes } from "./getPossibleTypes";
 import Name from "./Name";
 import getPossibleExpressions from "./getPossibleExpressions";
 import Reference from "./Reference";
-import { Position } from "./Node";
 import type Transform from "./Transform"
 import Block from "./Block";
 
@@ -566,69 +565,72 @@ export default class Evaluate extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[]  {
-
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+        
         const functionType = this.func.getTypeUnlessCycle(context);
         if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
-            return [];
+            return;
 
-        if(position === Position.ON) {
-            // Type inputs can be any type
-            if(this.typeInputs.includes(child as TypeInput))
-                return getPossibleTypes(this, context);
-            
-            // Functions can be any function names in scope
-            if(child === this.func)
-                return  this.getDefinitions(this, context)
-                        .filter((def): def is FunctionDefinition => def instanceof FunctionDefinition)
-                        .map(fun => new Reference<Name>(fun, name => new Name(name)))
-            
-            // Input expressions should match whatever the function expects, if there is one.
-            const index = this.inputs.indexOf(child as InputType);
-            if(index >= 0) {
-                const input = this.inputs[index];
-                if(input instanceof Expression) {
+        // Type inputs can be any type
+        if(this.typeInputs.includes(child as TypeInput))
+            return getPossibleTypes(this, context);
+        
+        // Functions can be any function names in scope
+        if(child === this.func)
+            return  this.getDefinitions(this, context)
+                    .filter((def): def is FunctionDefinition => def instanceof FunctionDefinition)
+                    .map(fun => new Reference<Name>(fun, name => new Name(name)))
+        
+        // Input expressions should match whatever the function expects, if there is one.
+        const index = this.inputs.indexOf(child as InputType);
+        if(index >= 0) {
+            const input = this.inputs[index];
+            if(input instanceof Expression) {
 
-                    const bind = functionType instanceof FunctionType ? functionType.inputs[index] : functionType.structure.inputs[index];
-                    if(bind === undefined || bind instanceof Unparsable)
-                        return [];
-
-                    const expectedType = bind.getType(context);
-
-                    return getPossibleExpressions(this, input, context, expectedType);
-                }
-
-            }
-        }
-        else if(position === Position.BEFORE) {
-
-            // If before a type input or the open paren, offer valid type inputs.
-            if(this.typeInputs.includes(child as TypeInput) || child === this.open)
-                return getPossibleTypes(this, context);
-
-            // If we're before the close, then see if there are any inputs to append
-            if(child === this.close) {
-
-                const index = this.inputs.length;
-
-                const bind = 
-                    functionType instanceof FunctionType ? functionType.inputs[index] : 
-                    functionType.structure.inputs[index];
-
-                if(bind instanceof Unparsable || bind === undefined)
+                const bind = functionType instanceof FunctionType ? functionType.inputs[index] : functionType.structure.inputs[index];
+                if(bind === undefined || bind instanceof Unparsable)
                     return [];
 
                 const expectedType = bind.getType(context);
 
-                // Suggest expressions of the expected type.
-                return getPossibleExpressions(this, undefined, context, expectedType);
-
+                return getPossibleExpressions(this, input, context, expectedType);
             }
 
         }
-        // Nothing to insert at the end.
 
-        return [];
+
     }
+    getInsertionBefore(child: Node, context: Context): Transform[] | undefined {
+        
+        const functionType = this.func.getTypeUnlessCycle(context);
+        if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
+            return;
+
+        // If before a type input or the open paren, offer valid type inputs.
+        if(this.typeInputs.includes(child as TypeInput) || child === this.open)
+            return getPossibleTypes(this, context);
+
+        // If we're before the close, then see if there are any inputs to append
+        if(child === this.close) {
+
+            const index = this.inputs.length;
+
+            const bind = 
+                functionType instanceof FunctionType ? functionType.inputs[index] : 
+                functionType.structure.inputs[index];
+
+            if(bind instanceof Unparsable || bind === undefined)
+                return [];
+
+            const expectedType = bind.getType(context);
+
+            // Suggest expressions of the expected type.
+            return getPossibleExpressions(this, undefined, context, expectedType);
+
+        }
+    
+    }
+
+    getInsertionAfter() { return undefined; }
 
 }

@@ -149,4 +149,8 @@ export default class Update extends Expression {
         }
     }
 
+    getReplacementChild() { return undefined; }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
+
 }

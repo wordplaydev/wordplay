@@ -4,6 +4,7 @@ import Bind from "../nodes/Bind";
 import Token from "./Token";
 import Unparsable from "./Unparsable";
 import UnknownType from "./UnknownType";
+import type Transform from "./Transform";
 
 export default class Column extends Node {
 
@@ -37,5 +38,9 @@ export default class Column extends Node {
             eng: "A table column"
         }
     }
+
+    getReplacementChild(): Transform[] | undefined { return undefined; }
+    getInsertionBefore(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(): Transform[] | undefined { return undefined; }
 
 }

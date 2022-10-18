@@ -68,4 +68,8 @@ export default class StructureType extends Type {
         }
     }
 
+    getReplacementChild() { return undefined; }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
+
 }

@@ -8,7 +8,6 @@ import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
 import { getPossibleTypes } from "./getPossibleTypes";
-import { Position } from "./Node";
 import type Transform from "./Transform"
 
 export default class MapType extends NativeType {
@@ -87,12 +86,15 @@ export default class MapType extends NativeType {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[]  {
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
 
-        if(position === Position.ON && (child === this.key || child === this.value))
+        if(child === this.key || child === this.value)
             return getPossibleTypes(this, context);
         else return [];
 
     }
+
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
 
 }

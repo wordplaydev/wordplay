@@ -26,7 +26,7 @@ import TokenType from "./TokenType";
 import getPossibleExpressions from "./getPossibleExpressions";
 import { PREVIOUS_SYMBOL } from "../parser/Tokenizer";
 import Reference from "./Reference";
-import { Position } from "./Node";
+import type Transform from "./Transform";
 
 export default class Previous extends Expression {
 
@@ -113,21 +113,19 @@ export default class Previous extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position) {
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
         
-        if(position === Position.ON) {
-            if(child === this.stream)
-                return  this.getAllDefinitions(this, context)
-                        .filter((def): def is Stream => def instanceof Stream)
-                        .map(stream => new Reference<Name>(stream, name => new Name(name)))
+        if(child === this.stream)
+            return  this.getAllDefinitions(this, context)
+                    .filter((def): def is Stream => def instanceof Stream)
+                    .map(stream => new Reference<Name>(stream, name => new Name(name)))
 
-            if(child === this.index)
-                return getPossibleExpressions(this, this.index, context, new MeasurementType());
-        }
-        
-        return [];
-
+        if(child === this.index)
+            return getPossibleExpressions(this, this.index, context, new MeasurementType());
 
     }
+
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
 
 }

@@ -2,7 +2,7 @@ import { BIND_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import Expression from "./Expression";
 import getPossibleExpressions from "./getPossibleExpressions";
-import Node, { Position } from "./Node";
+import Node from "./Node";
 import type Transform from "./Transform"
 import Token from "./Token";
 import TokenType from "./TokenType";
@@ -42,16 +42,14 @@ export default class KeyValue extends Node {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
 
-        if(position === Position.ON) {
-            if(child === this.key)
-                return getPossibleExpressions(this, this.key, context);
-            if(child === this.value)
-                return getPossibleExpressions(this, this.value, context);
-        }
+        if(child === this.key)
+            return getPossibleExpressions(this, this.key, context);
+        if(child === this.value)
+            return getPossibleExpressions(this, this.value, context);
 
-        return [];
     }
-
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
 }

@@ -1,4 +1,4 @@
-import Node, { Position } from "./Node";
+import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import type Conflict from "../conflicts/Conflict";
@@ -7,9 +7,10 @@ import UnnamedAlias from "../conflicts/UnnamedAlias";
 import type Context from "./Context";
 import { getPossibleLanguages } from "./getPossibleLanguages";
 import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+import type Transform from "./Transform";
 
 export default class Alias extends Node {
-    
+
     readonly separator?: Token;
     readonly name?: Token;
     readonly lang?: Language;
@@ -66,26 +67,25 @@ export default class Alias extends Node {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position) {
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
 
         const project = context.source.getProject();
-        if(position === Position.BEFORE) {
+        // Formats can be any Language tags that are used in the project.
+        if(child === this.lang && project !== undefined)
+            return getPossibleLanguages(project).map(l => new Language(l))
 
         }
+
+    getInsertionBefore(): Transform[] | undefined { return undefined; }
+
+    getInsertionAfter(context: Context): Transform[] | undefined {
+
+        const project = context.source.getProject();
         // Suggest languages for insertion if after the name with no language.
-        else if(position === Position.END) {
-            if(this.lang === undefined && project !== undefined)
-                return getPossibleLanguages(project).map(l => new Language(l));
-        }
-        // Suggest languages for replacement if on the language.
-        else {
-            // Formats can be any Language tags that are used in the project.
-            if(child === this.lang && project !== undefined)
-                return getPossibleLanguages(project).map(l => new Language(l))
-        }
-
-        return [];
+        if(this.lang === undefined && project !== undefined)
+            return getPossibleLanguages(project).map(l => new Language(l));
 
     }
 
 }
+

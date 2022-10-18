@@ -38,4 +38,8 @@ export default class TypePlaceholder extends Type {
         }
     }
 
+    getReplacementChild() { return undefined; }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
+
 }

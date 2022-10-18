@@ -30,7 +30,6 @@ import { Implemented } from "../conflicts/Implemented";
 import { DisallowedInputs } from "../conflicts/DisallowedInputs";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import Reference from "./Reference";
-import { Position } from "./Node";
 import type Transform from "./Transform"
 import TypePlaceholder from "./TypePlaceholder";
 import type LanguageCode from "./LanguageCode";
@@ -255,37 +254,33 @@ export default class StructureDefinition extends Expression {
 
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
-
-        // Interfaces can be any interface in scope.
-        if(position === Position.ON) {
-            if(this.interfaces.includes(child as TypeInput)) {
-                return  this.getAllDefinitions(this, context)
-                        .filter((def): def is StructureDefinition => def instanceof StructureDefinition && def.isInterface())
-                        .map(def => new Reference<TypeInput>(def, name => new TypeInput(new NameType(name))));
-            }
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+        if(this.interfaces.includes(child as TypeInput)) {
+            return  this.getAllDefinitions(this, context)
+                    .filter((def): def is StructureDefinition => def instanceof StructureDefinition && def.isInterface())
+                    .map(def => new Reference<TypeInput>(def, name => new TypeInput(new NameType(name))));
         }
-        else if(position === Position.BEFORE) {
-            if(child === this.open) {
-                const replacements = [];
-                if((this.interfaces.length === 0 && this.typeVars.length === 0) ||
-                    (this.interfaces.length > 0 && child === this.interfaces[0]) ||
-                    (this.interfaces.length === 0 && this.typeVars.length > 0 && this.typeVars[0] === child))
-                    replacements.push(new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])));
-
-                if(this.typeVars.length === 0)
-                    replacements.push(new TypeInput(new TypePlaceholder()))
-
-                return replacements;
-            }
-            else if(this.interfaces.includes(child as TypeInput))
-                return [ new TypeInput(new TypePlaceholder())]
-            else if(child === this.close || this.inputs.includes(child as Bind))
-                return [ new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ])];
-        }
-
-        return [];
-    
     }
+
+    getInsertionBefore(child: Node): Transform[] | undefined {
+        if(child === this.open) {
+            const replacements = [];
+            if((this.interfaces.length === 0 && this.typeVars.length === 0) ||
+                (this.interfaces.length > 0 && child === this.interfaces[0]) ||
+                (this.interfaces.length === 0 && this.typeVars.length > 0 && this.typeVars[0] === child))
+                replacements.push(new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])));
+
+            if(this.typeVars.length === 0)
+                replacements.push(new TypeInput(new TypePlaceholder()))
+
+            return replacements;
+        }
+        else if(this.interfaces.includes(child as TypeInput))
+            return [ new TypeInput(new TypePlaceholder())]
+        else if(child === this.close || this.inputs.includes(child as Bind))
+            return [ new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ])];
+    }
+    
+    getInsertionAfter() { return undefined; }
 
 }

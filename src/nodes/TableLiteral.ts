@@ -129,4 +129,8 @@ export default class TableLiteral extends Expression {
         }
     }
 
+    getReplacementChild() { return undefined; }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
+
 }

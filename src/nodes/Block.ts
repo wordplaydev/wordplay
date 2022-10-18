@@ -31,7 +31,6 @@ import TokenType from "./TokenType";
 import getPossibleExpressions from "./getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Alias from "./Alias";
-import { Position } from "./Node";
 import type Transform from "./Transform"
 
 export type Statement = Expression | Unparsable | Share | Bind;
@@ -189,43 +188,43 @@ export default class Block extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
-
+    getInsertions() {
         const bind = new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ], undefined, new ExpressionPlaceholder());
-        const type = new FunctionDefinition([], [ new Alias(PLACEHOLDER_SYMBOL) ], [], [], new ExpressionPlaceholder());
+        const type = new FunctionDefinition([], [ new Alias(new Token(PLACEHOLDER_SYMBOL, [ TokenType.PLACEHOLDER ], undefined, " ")) ], [], [], new ExpressionPlaceholder());
         const fun = new StructureDefinition([], [ new Alias(PLACEHOLDER_SYMBOL) ], [], [], []);
+        return [ bind, fun, type ];
+    }
 
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+        
         const index = this.statements.indexOf(child as Statement);
         if(index >= 0) {
             const statement = this.statements[index];
-            if(position === Position.ON && statement instanceof Expression)
+            if(statement instanceof Expression)
                 return [
-                    bind,
-                    fun,
-                    type,
+                    ... this.getInsertions(),
                     ...(index === this.statements.length - 1 ? getPossibleExpressions(this, statement, context) : []),
                 ]
-            else if(position === Position.BEFORE) {
-                const firstToken = child.nodes(n => n instanceof Token)[0];
-                if(firstToken instanceof Token && firstToken.hasNewline())
-                    return [
-                        bind,
-                        fun,
-                        type
-                    ]
-            }
         }
 
-        if(position === Position.END) {
-            return [
-                bind,
-                fun,
-                type,
-                ...getPossibleExpressions(this, undefined, context)
-            ]
+    }
+    getInsertionBefore(child: Node): Transform[] | undefined {
+
+        const index = this.statements.indexOf(child as Statement);
+        if(index >= 0) {
+            const firstToken = child.nodes(n => n instanceof Token)[0];
+            if(firstToken instanceof Token && firstToken.hasNewline())
+                return this.getInsertions();
         }
 
-        return [];
+    }
+
+    getInsertionAfter(context: Context): Transform[] | undefined {
+
+        return [
+            ...this.getInsertions(),
+            ...(this.root ? getPossibleExpressions(this, undefined, context) : [])
+        ]
 
     }
 

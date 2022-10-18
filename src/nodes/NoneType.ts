@@ -50,5 +50,8 @@ export default class NoneType extends NativeType {
         }
     }
 
+    getReplacementChild() { return undefined; }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
 
 }

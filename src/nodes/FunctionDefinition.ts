@@ -26,7 +26,6 @@ import { getPossibleTypes } from "./getPossibleTypes";
 import getPossibleExpressions from "./getPossibleExpressions";
 import AnyType from "./AnyType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import { Position } from "./Node";
 import type Transform from "./Transform"
 import type LanguageCode from "./LanguageCode";
 
@@ -214,25 +213,25 @@ export default class FunctionDefinition extends Expression {
 
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
 
-        // Replace the type or expression
-         if(position === Position.ON) {
-            if(child === this.type)
-                return getPossibleTypes(this, context);
-            // Expression must be of output type, or any type if there isn't one.
-            else if(child === this.expression)
-                return getPossibleExpressions(this, this.expression, context, this.type === undefined || this.type instanceof Unparsable ? new AnyType() : this.type);
-        }
-        // If before the right paren or a bind, suggest a bind.
-        if(position === Position.BEFORE) {
-            if(child === this.close || this.inputs.includes(child as Bind)) {
-                return [ new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ])];
-            }
-        }
+        if(child === this.type)
+            return getPossibleTypes(this, context);
+        // Expression must be of output type, or any type if there isn't one.
+        else if(child === this.expression)
+            return getPossibleExpressions(this, this.expression, context, this.type === undefined || this.type instanceof Unparsable ? new AnyType() : this.type);
 
-        return [];
-    
     }
+
+    getInsertionBefore(child: Node): Transform[] | undefined {
+
+        if(child === this.close || this.inputs.includes(child as Bind))
+            return [ new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ])];
+
+
+    }
+
+    getInsertionAfter(): Transform[] | undefined { return undefined; }
+
 
 }

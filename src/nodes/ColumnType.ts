@@ -7,6 +7,7 @@ import Type from "./Type";
 import type Context from "./Context";
 import { COLUMN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { TABLE_OPEN_SYMBOL } from "../parser/Tokenizer";
+import type Transform from "./Transform";
 
 export default class ColumnType extends Type {
 
@@ -47,5 +48,9 @@ export default class ColumnType extends Type {
             eng: "A table column type"
         }
     }
+
+    getReplacementChild(): Transform[] | undefined { return undefined; }
+    getInsertionBefore(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(): Transform[] | undefined { return undefined; }
 
 }

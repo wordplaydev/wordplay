@@ -2,8 +2,7 @@ import { DOCS_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import { getPossibleLanguages } from "./getPossibleLanguages";
 import Language from "./Language";
-import Node, { Position } from "./Node";
-import type Transform from "./Transform"
+import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 
@@ -38,13 +37,23 @@ export default class Documentation extends Node {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
+    getReplacementChild(child: Node, context: Context) {
 
         const project = context.source.getProject();
-        if(project !== undefined && ((child === this.lang && position === Position.ON) || (this.lang === undefined && position === Position.END)))
+        if(project !== undefined && child === this.lang)
             return getPossibleLanguages(project).map(l => new Language(l));
-        
+            
         return [];
+
+    }
+
+    getInsertionBefore() { return undefined; }
+
+    getInsertionAfter(context: Context) { 
+
+        const project = context.source.getProject();
+        if(project !== undefined && this.lang === undefined)
+            return getPossibleLanguages(project).map(l => new Language(l));
 
     }
 

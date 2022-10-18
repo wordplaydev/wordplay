@@ -12,6 +12,7 @@ import type Bind from "./Bind";
 import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
 import TokenType from "./TokenType";
+import type Transform from "./Transform";
 
 export default class BooleanLiteral extends Expression {
     readonly value: Token;
@@ -58,13 +59,15 @@ export default class BooleanLiteral extends Expression {
         }
     }
 
-    getChildReplacements() {
-
-        // We could replace the token with the opposite token.
+    getReplacementChild(): Transform[] | undefined { 
         return [
             new Token(!this.bool() ? TRUE_SYMBOL : FALSE_SYMBOL, [ TokenType.BOOLEAN ])
         ];
-        
     }
+
+    getInsertionBefore(): Transform[] | undefined { return undefined; }
+
+    getInsertionAfter(): Transform[] | undefined { return undefined; }
+
 
 }

@@ -23,7 +23,6 @@ import Is from "./Is";
 import NameException from "../runtime/NameException";
 import TokenType from "./TokenType";
 import Reference from "./Reference";
-import { Position } from "./Node";
 import type Transform from "./Transform";
 
 export default class Name extends Expression {
@@ -158,15 +157,15 @@ export default class Name extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
 
-        child;
-        if(position === Position.ON)
+        if(child === this.name)
             return this.getAllDefinitions(this, context)
                 .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ])))
-        
-        return [];
 
     }
+
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
 
 }

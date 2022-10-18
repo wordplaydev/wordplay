@@ -9,7 +9,7 @@ import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import Token from "./Token";
 import type Context from "./Context";
-import Node, { Position } from "./Node";
+import Node from "./Node";
 import Language from "./Language";
 import Unit from "./Unit";
 import Dimension from "./Dimension";
@@ -107,17 +107,17 @@ export default class Program extends Node implements Evaluable {
         }
     }
 
-    getChildReplacements(child: Node | undefined, context: Context, position?: Position): Transform[] {
-        
-        if(position === Position.BEFORE) {
-            if(child === this.block)
-                return [ new Borrow( )]
-        } 
-        if(position === Position.END)
-            return getPossibleExpressions(this, undefined, context);
+    getReplacementChild() { return undefined; }
 
-        return [];
+    getInsertionBefore(child: Node) { 
+    
+        if(child === this.block || this.borrows.includes(child as Borrow))
+            return [ new Borrow() ];
+    
+    }
 
+    getInsertionAfter(context: Context): Transform[] | undefined { 
+        return getPossibleExpressions(this, undefined, context);
     }
 
 }

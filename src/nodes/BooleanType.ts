@@ -5,6 +5,7 @@ import TokenType from "./TokenType";
 import { BOOLEAN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import NativeType from "./NativeType";
+import type Transform from "./Transform";
 
 export default class BooleanType extends NativeType {
 
@@ -30,5 +31,9 @@ export default class BooleanType extends NativeType {
             eng: "A boolean type"
         }
     }
+
+    getReplacementChild(): Transform[] | undefined { return undefined; }
+    getInsertionBefore(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(): Transform[] | undefined { return undefined; }
 
 }

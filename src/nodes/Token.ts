@@ -90,4 +90,8 @@ export default class Token extends Node {
         return new Token(this.text, this.types.slice(), this.index, " ");
     }
 
+    getReplacementChild() { return undefined; }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
+
 }

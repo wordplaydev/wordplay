@@ -137,7 +137,7 @@ export default class UnaryOperation extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Transform[] {
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
         
         // Operator must exist on the type of the left, unless not specified
         if(child === this.operator) {
@@ -150,5 +150,7 @@ export default class UnaryOperation extends Expression {
 
     }
 
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
 
 }

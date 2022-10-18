@@ -25,7 +25,6 @@ import type Translations from "./Translations";
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import getPossibleExpressions from "./getPossibleExpressions";
-import { Position } from "./Node";
 import type Transform from "./Transform"
 
 export default class ListAccess extends Expression {
@@ -117,17 +116,15 @@ export default class ListAccess extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
 
-        if(position === Position.ON) {
-            if(child === this.list)
-                return getPossibleExpressions(this, this.list, context, new ListType());
-            else if(child === this.index)
-                return getPossibleExpressions(this, this.index, context, new MeasurementType(undefined, new Unit()));
-        }
-        
-        return [];
+        if(child === this.list)
+            return getPossibleExpressions(this, this.list, context, new ListType());
+        else if(child === this.index)
+            return getPossibleExpressions(this, this.index, context, new MeasurementType(undefined, new Unit()));
 
     }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
 
 }

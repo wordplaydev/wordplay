@@ -8,7 +8,6 @@ import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
 import { getPossibleTypes } from "./getPossibleTypes";
-import { Position } from "./Node";
 import type Transform from "./Transform"
 
 export default class ListType extends NativeType {
@@ -66,13 +65,11 @@ export default class ListType extends NativeType {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[]  {
-
-        if(position === Position.ON && child === this.type)
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
+        if(child === this.type)
             return getPossibleTypes(this, context);
-        
-        return [];
-
     }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
 
 }

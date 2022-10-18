@@ -13,7 +13,7 @@ import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
 import TokenType from "./TokenType";
 import { getPossibleLanguages } from "./getPossibleLanguages";
-import { Position } from "./Node";
+import type Transform from "./Transform";
 
 export default class TextLiteral extends Expression {
     
@@ -67,15 +67,23 @@ export default class TextLiteral extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position) {
-
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    
         const project = context.source.getProject();
         // Formats can be any Language tags that are used in the project.
-        if(project !== undefined && ((position === Position.ON && child === this.format) || (this.format === undefined && position === Position.END)))
+        if(project !== undefined && child === this.format)
             return getPossibleLanguages(project).map(l => new Language(l))
 
-
-        return [];
+    }
+    
+    getInsertionBefore() { return undefined; }
+    
+    getInsertionAfter(context: Context) { 
+        
+        const project = context.source.getProject();
+        // Formats can be any Language tags that are used in the project.
+        if(project !== undefined && this.format === undefined)
+            return getPossibleLanguages(project).map(l => new Language(l));
 
     }
 

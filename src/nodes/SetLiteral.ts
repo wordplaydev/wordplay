@@ -102,11 +102,14 @@ export default class SetLiteral extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context): Transform[] {
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined  {
 
         const index = this.values.indexOf(child as SetItem);
         return getPossibleExpressions(this, index >= 0 ? this.values[index] : undefined, context);
 
     }
+
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
 
 }

@@ -1,10 +1,11 @@
 import MissingLanguage from "../conflicts/MissingLanguage";
 import { LANGUAGE_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
-import Node, { Position } from "./Node";
+import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import { getPossibleLanguages } from "./getPossibleLanguages";
+import type Transform from "./Transform";
 
 export default class Language extends Node {
     
@@ -46,23 +47,20 @@ export default class Language extends Node {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position) {
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
 
         const project = context.source.getProject();
-        // Formats can be any Language tags that are used in the project.
-        // Suggest langauges for replacement if we have the language selected
-        if(position === Position.ON) {
-            if(child === this.lang && project !== undefined)
-                return getPossibleLanguages(project).map(l => new Token(l, [ TokenType.NAME ]))
-        }
-        // Suggest languages for insertion if after the slash
-        else if(position === Position.END) {
-            if(this.lang === undefined && project !== undefined)
-                return getPossibleLanguages(project).map(l => new Token(l, [ TokenType.NAME ]))
-        }
-        
-        return [];
+        if(child === this.lang && project !== undefined)
+            return getPossibleLanguages(project).map(l => new Token(l, [ TokenType.NAME ]))
 
     }
+    getInsertionBefore() { return undefined; }
 
+    getInsertionAfter(context: Context) { 
+
+        const project = context.source.getProject();
+        if(this.lang === undefined && project !== undefined)
+            return getPossibleLanguages(project).map(l => new Token(l, [ TokenType.NAME ]))
+
+     }
 }

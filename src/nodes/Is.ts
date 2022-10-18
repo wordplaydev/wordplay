@@ -21,7 +21,6 @@ import SemanticException from "../runtime/SemanticException";
 import Start from "../runtime/Start";
 import getPossibleExpressions from "./getPossibleExpressions";
 import { getPossibleTypes } from "./getPossibleTypes";
-import { Position } from "./Node";
 import type Transform from "./Transform"
 
 export default class Is extends Expression {
@@ -126,17 +125,15 @@ export default class Is extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
-        
-        if(position === Position.ON) {
-            if(child === this.expression)
-                return getPossibleExpressions(this, this.expression, context);
-            if(child === this.type)
-                return getPossibleTypes(this.type, context);
-        }
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
 
-        return [];
+        if(child === this.expression)
+            return getPossibleExpressions(this, this.expression, context);
+        if(child === this.type)
+            return getPossibleTypes(this.type, context);
 
     }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
 
 }

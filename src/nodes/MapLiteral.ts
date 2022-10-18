@@ -80,7 +80,7 @@ export default class MapLiteral extends Expression {
             ];
     }
 
-    getStartExplanations(){
+    getStartExplanations() {
         return {
             "eng": "Let's make a map!"
         }
@@ -124,5 +124,9 @@ export default class MapLiteral extends Expression {
             eng: "A mapping from one set of values to another"
         }
     }
+
+    getReplacementChild() { return undefined; }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
 
 }

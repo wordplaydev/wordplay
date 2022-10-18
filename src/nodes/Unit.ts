@@ -6,8 +6,8 @@ import type Node from "./Node";
 import Measurement from "../runtime/Measurement";
 import type Context from "./Context";
 import { getPossibleDimensions } from "./getPossibleUnits";
-import { Position } from "./Node";
 import TokenType from "./TokenType";
+import type Transform from "./Transform";
 
 export default class Unit extends Type {
 
@@ -193,18 +193,21 @@ export default class Unit extends Type {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position) {
-        
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    
         const project = context.source.getProject();
 
-        if(position === Position.ON) {
-            if(child !== this.slash && project !== undefined)
-                return getPossibleDimensions(project).map(dim => new Dimension(dim));
-        }
-        else if(position === Position.END)
-            return [ new Token(LANGUAGE_SYMBOL, [ TokenType.LANGUAGE ])]
+        if(child !== this.slash && project !== undefined)
+            return getPossibleDimensions(project).map(dim => new Dimension(dim));
 
-        return [];
+    }
+    
+    getInsertionBefore() { return undefined; }
+    
+    getInsertionAfter() { 
+        
+        if(this.slash === undefined)
+            return [ new Token(LANGUAGE_SYMBOL, [ TokenType.LANGUAGE ])]
 
     }
 

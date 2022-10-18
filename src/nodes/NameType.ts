@@ -13,7 +13,7 @@ import StructureDefinition from "./StructureDefinition";
 import VariableType from "./VariableType";
 import { NAME_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import Reference from "./Reference";
-import { Position } from "./Node";
+import type Transform from "./Transform";
 
 export default class NameType extends Type {
 
@@ -76,10 +76,10 @@ export default class NameType extends Type {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position) {
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
 
         const definition = this.resolve(context);
-        if(position === Position.ON && child === this.type)
+        if(child === this.type)
             // Any StructureDefinition and Type Variable in
             return (this.getAllDefinitions(this, context)
                     .filter(def => 
@@ -89,9 +89,10 @@ export default class NameType extends Type {
                         (this.type.getText() === "" || def.getNames().find(name => name.startsWith(this.type.getText()) !== undefined))
                     ) as (StructureDefinition|TypeVariable)[])
                     .map(def => new Reference(def, name => new Token(name, [ TokenType.NAME ])))
-                    
-        return [];
 
     }
+
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
 
 }

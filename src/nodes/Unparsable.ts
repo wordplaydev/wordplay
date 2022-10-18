@@ -75,6 +75,10 @@ export default class Unparsable extends Node implements Evaluable {
         }
     }
 
+    getReplacementChild() { return undefined; }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
+
 }
 
 

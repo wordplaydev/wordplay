@@ -4,6 +4,7 @@ import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
+import type Transform from "./Transform";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
 
@@ -44,5 +45,9 @@ export default class ConversionType extends Type {
             eng: "A conversion function type"
         }
     }
+
+    getReplacementChild(): Transform[] | undefined { return undefined; }
+    getInsertionBefore(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(): Transform[] | undefined { return undefined; }
 
 }

@@ -23,7 +23,6 @@ import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import { getPossibleTypes } from "./getPossibleTypes";
 import getPossibleExpressions from "./getPossibleExpressions";
-import { Position } from "./Node";
 import type Transform from "./Transform"
 
 export default class ConversionDefinition extends Expression {
@@ -127,19 +126,17 @@ export default class ConversionDefinition extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, pos: Position): Transform[] {
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
         
-        // Input and output can be any type
-        if(pos === Position.ON) {
-            if(child === this.input || child === this.output)
-                return getPossibleTypes(this, context);
-            // Expression can be anything
-            if(child === this.expression)
-                return getPossibleExpressions(this, this.expression, context);
-        }
-
-        return [];
+        if(child === this.input || child === this.output)
+            return getPossibleTypes(this, context);
+        // Expression can be anything
+        if(child === this.expression)
+            return getPossibleExpressions(this, this.expression, context);
 
     }
+
+    getInsertionBefore(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(): Transform[] | undefined { return undefined; }
 
 }

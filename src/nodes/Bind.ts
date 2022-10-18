@@ -1,5 +1,5 @@
 import Expression from "./Expression";
-import Node, { Position } from "./Node";
+import Node from "./Node";
 import type Transform from "./Transform"
 import type Context from "./Context";
 import Alias from "./Alias";
@@ -271,63 +271,63 @@ export default class Bind extends Node implements Evaluable, Named {
         
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+        if(child === this.type) {
+            return getPossibleTypes(this, context);
+        }
+        else if(child === this.value) {
+            return getPossibleExpressions(this, this.value, context, this.type instanceof Type ? this.type : new AnyType());
+        }
+    }
 
-        if(position === Position.ON) {
-            if(child === this.type) {
-                return getPossibleTypes(this, context);
-            }
-            else if(child === this.value) {
-                return getPossibleExpressions(this, this.value, context, this.type instanceof Type ? this.type : new AnyType());
+    getInsertionBefore(child: Node): Transform[] | undefined {
+        
+        const parent = this.getParent();
+        // Before the … or a documentation? Suggest more documentation.
+        if(this.etc === child || this.docs.includes(child as Documentation))
+            return [ new Documentation() ];
+        // Before the first name? a name? Offer an etc or a documentation
+        else if(child === this.names[0]) {
+            if(this.etc === undefined) {
+                if((parent instanceof FunctionDefinition || parent instanceof StructureDefinition) && parent.inputs.find(input => input.contains(child)) === parent.inputs[parent.inputs.length - 1])
+                    return [ new Token(PLACEHOLDER_SYMBOL, [ TokenType.PLACEHOLDER ]), new Documentation() ];
             }
         }
-        else if(position === Position.BEFORE) {
-            const parent = this.getParent();
-            // Before the … or a documentation? Suggest more documentation.
-            if(this.etc === child || this.docs.includes(child as Documentation))
-                return [ new Documentation() ];
-            // Before the first name? a name? Offer an etc or a documentation
-            else if(child === this.names[0]) {
-                if(this.etc === undefined) {
-                    if((parent instanceof FunctionDefinition || parent instanceof StructureDefinition) && parent.inputs.find(input => input.contains(child)) === parent.inputs[parent.inputs.length - 1])
-                        return [ new Token(PLACEHOLDER_SYMBOL, [ TokenType.PLACEHOLDER ]), new Documentation() ];
-                }
-            }
-            // Before the etc? Offer documentation
-            else if(child === this.etc)
-                return [ new Documentation() ];
-            else if(this.names.includes(child as Alias))
-                return [ new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])) ];
-            // Before colon? Offer a type.
-            else if(child === this.colon && this.type === undefined)
-                return [ 
-                    [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ],
-                    new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ]))
-                ];
-        }
-        else if(position === Position.END) {
-            const children  = this.getChildren();
-            const lastChild = children[children.length - 1];
-            if(this.names.includes(lastChild as Alias))
-                return [
-                    new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])),
-                    [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ], 
-                    [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] 
-                ];
-            else if(lastChild === this.dot)
-                return getPossibleTypes(this, context);
-            else if(lastChild === this.type)
-                return [ 
-                    [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] 
-                ];
-            else if(lastChild === this.colon)
-                return [ 
-                    new ExpressionPlaceholder()
-                ];
-        }
-
-        return [];
+        // Before the etc? Offer documentation
+        else if(child === this.etc)
+            return [ new Documentation() ];
+        else if(this.names.includes(child as Alias))
+            return [ new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])) ];
+        // Before colon? Offer a type.
+        else if(child === this.colon && this.type === undefined)
+            return [ 
+                [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ],
+                new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ]))
+            ];
 
     }
+    getInsertionAfter(context: Context): Transform[] | undefined {
+        
+        const children  = this.getChildren();
+        const lastChild = children[children.length - 1];
+        if(this.names.includes(lastChild as Alias))
+            return [
+                new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])),
+                [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ], 
+                [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] 
+            ];
+        else if(lastChild === this.dot)
+            return getPossibleTypes(this, context);
+        else if(lastChild === this.type)
+            return [ 
+                [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] 
+            ];
+        else if(lastChild === this.colon)
+            return [ 
+                new ExpressionPlaceholder()
+            ];
+
+    }
+
 
 }

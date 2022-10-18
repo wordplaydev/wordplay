@@ -3,6 +3,7 @@ import type Context from "./Context";
 import Expression from "./Expression";
 import Node from "./Node";
 import Token from "./Token";
+import type Transform from "./Transform";
 import Unparsable from "./Unparsable";
 
 export default class Cell extends Node {
@@ -38,5 +39,9 @@ export default class Cell extends Node {
             eng: "A table cell"
         }
     }
+
+    getReplacementChild(): Transform[] | undefined { return undefined; }
+    getInsertionBefore(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(): Transform[] | undefined { return undefined; }
 
 }

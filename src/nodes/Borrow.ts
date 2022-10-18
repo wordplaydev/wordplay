@@ -12,6 +12,7 @@ import Unit from "./Unit";
 import TokenType from "./TokenType";
 import Reference from "./Reference";
 import { BORROW_SYMBOL } from "../parser/Tokenizer";
+import type Transform from "./Transform";
 
 export default class Borrow extends Node implements Evaluable {
     
@@ -80,16 +81,17 @@ export default class Borrow extends Node implements Evaluable {
         }
     }
 
-    getChildReplacements(child: Node, context: Context) {
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
         
         if(child === this.name)
             // Return name tokens of all shares
             return context.shares
                 ?.getDefinitions()
                 .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ]))) ?? [];
-
-        return [];
-
+    
     }
+
+    getInsertionBefore(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(): Transform[] | undefined { return undefined; }
 
 }

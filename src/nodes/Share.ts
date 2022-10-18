@@ -102,4 +102,8 @@ export default class Share extends Node implements Evaluable {
         }
     }
 
+    getReplacementChild() { return undefined; }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
+
 }

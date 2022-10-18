@@ -25,7 +25,6 @@ import getPossibleExpressions from "./getPossibleExpressions";
 import TypeVariable from "./TypeVariable";
 import Stream from "../runtime/Stream";
 import Reference from "./Reference";
-import { Position } from "./Node";
 import type Transform from "./Transform"
 import NameException from "../runtime/NameException";
 import NativeType from "./NativeType";
@@ -171,29 +170,33 @@ export default class AccessName extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
+    getNameTransforms(context: Context) {
 
         const subjectType = this.getSubjectType(context);
-
-        if(position === Position.ON) {
-            if(child === this.subject) {
-                return getPossibleExpressions(this, this.subject, context);
-            }
-        }
-
         // For the name, what names exist on the subject that match the current name?
-        if((position === Position.ON && child === this.name) || (position === Position.END && this.name === undefined)) {
-            const definitions = 
-                subjectType instanceof StructureType ? subjectType.structure.getDefinitions(child) :
-                subjectType instanceof NativeType ? subjectType?.getDefinitions(this, context) : [];
+        const definitions = 
+            subjectType instanceof StructureType ? subjectType.structure.getDefinitions(this) :
+            subjectType instanceof NativeType ? subjectType?.getDefinitions(this, context) : [];
+        return definitions
+            .filter(def => def.getNames().find(n => this.name === undefined || this.name.getText() === PLACEHOLDER_SYMBOL || n.startsWith(this.name.getText())) !== undefined)
+            .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ])));    
 
-                return definitions
-                    .filter(def => def.getNames().find(n => this.name === undefined || this.name.getText() === PLACEHOLDER_SYMBOL || n.startsWith(this.name.getText())) !== undefined)
-                    .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ])));
-        }
+    }
 
-        return [];
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
 
+        if(child === this.subject)
+            return getPossibleExpressions(this, this.subject, context);
+        else if(child === this.name)
+            return this.getNameTransforms(context);
+
+    }
+
+    getInsertionBefore(): Transform[] | undefined { return undefined; }
+
+    getInsertionAfter(context: Context): Transform[] | undefined {
+        if(this.access !== undefined)
+            return this.getNameTransforms(context);
     }
 
 }

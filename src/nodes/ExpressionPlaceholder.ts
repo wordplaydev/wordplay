@@ -66,5 +66,9 @@ export default class ExpressionPlaceholder extends Expression {
             eng: "An expression placeholder"
         }
     }
-    
+ 
+    getReplacementChild() { return undefined; }
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
+
 }

@@ -25,7 +25,6 @@ import Name from "./Name";
 import TokenType from "./TokenType";
 import { REACTION_SYMBOL } from "../parser/Tokenizer";
 import Reference from "./Reference";
-import { Position } from "./Node";
 import type Transform from "./Transform"
 
 export default class Reaction extends Expression {
@@ -164,22 +163,20 @@ export default class Reaction extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
-        
-        if(position === Position.ON) {
-            if(child === this.initial)
-                return getPossibleExpressions(this, this.initial, context);
-            else if(child === this.next)
-                return getPossibleExpressions(this, this.next, context);
-            
-            if(child === this.stream)
-                return  this.getAllDefinitions(this, context)
-                        .filter((def): def is Stream => def instanceof Stream)
-                        .map(stream => new Reference<Name>(stream, name => new Name(name)));
-        }
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
 
-        return [];
+        if(child === this.initial)
+            return getPossibleExpressions(this, this.initial, context);
+        else if(child === this.next)
+            return getPossibleExpressions(this, this.next, context);    
+        else if(child === this.stream)
+            return  this.getAllDefinitions(this, context)
+                    .filter((def): def is Stream => def instanceof Stream)
+                    .map(stream => new Reference<Name>(stream, name => new Name(name)));
 
     }
+
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
 
 }

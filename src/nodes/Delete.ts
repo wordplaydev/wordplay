@@ -18,6 +18,7 @@ import type Definition from "./Definition";
 import type { TypeSet } from "./UnionType";
 import UnimplementedException from "../runtime/UnimplementedException";
 import type Evaluator from "../runtime/Evaluator";
+import type Transform from "./Transform";
 
 export default class Delete extends Expression {
     
@@ -112,5 +113,9 @@ export default class Delete extends Expression {
             eng: "Delete a row from a table"
         }
     }
+
+    getReplacementChild(): Transform[] | undefined { return undefined; }
+    getInsertionBefore(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(): Transform[] | undefined { return undefined; }
 
 }

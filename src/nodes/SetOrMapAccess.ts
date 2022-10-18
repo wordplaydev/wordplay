@@ -23,7 +23,6 @@ import TypeException from "../runtime/TypeException";
 import UnionType from "./UnionType";
 import getPossibleExpressions from "./getPossibleExpressions";
 import AnyType from "./AnyType";
-import { Position } from "./Node";
 import type Transform from "./Transform"
 
 export default class SetOrMapAccess extends Expression {
@@ -124,23 +123,22 @@ export default class SetOrMapAccess extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
-        
-        if(position === Position.ON) {
-            if(child === this.setOrMap) {
-                return getPossibleExpressions(this, this.setOrMap, context, new UnionType(new SetType(new AnyType()), new MapType(new AnyType(), new AnyType())));
-            }
-            else if(child === this.key) {
-                const setMapType = this.setOrMap.getTypeUnlessCycle(context);
-                return getPossibleExpressions(this, this.key, context, 
-                    (setMapType instanceof SetType || setMapType instanceof MapType) && setMapType.key instanceof Type ? setMapType.key :
-                    new AnyType()
-                )
-            }
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined  {
+
+        if(child === this.setOrMap) {
+            return getPossibleExpressions(this, this.setOrMap, context, new UnionType(new SetType(new AnyType()), new MapType(new AnyType(), new AnyType())));
         }
-        
-        return [];
+        else if(child === this.key) {
+            const setMapType = this.setOrMap.getTypeUnlessCycle(context);
+            return getPossibleExpressions(this, this.key, context, 
+                (setMapType instanceof SetType || setMapType instanceof MapType) && setMapType.key instanceof Type ? setMapType.key :
+                new AnyType()
+            )
+        }
 
     }
+
+    getInsertionBefore() { return undefined; }
+    getInsertionAfter() { return undefined; }
 
 }
