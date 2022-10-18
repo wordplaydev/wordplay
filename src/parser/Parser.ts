@@ -217,7 +217,7 @@ export class Tokens {
 
         // Find all of the tokens before the next line break, include them
         const indexOfNextAfter = this.#unread.findIndex(t => t.hasPrecedingLineBreak());
-        const tokensAfter = this.#unread.splice(0, indexOfNextAfter < 0 ? this.#unread.length : indexOfNextAfter);
+        const tokensAfter = this.#unread.splice(0, indexOfNextAfter < 1 ? 1 : indexOfNextAfter);
 
         // Create an unparsable node.
         const unparsable = new Unparsable(reason, nodesBefore, tokensAfter);
