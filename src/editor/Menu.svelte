@@ -38,13 +38,14 @@
             // TODO item[1] is kludgey. It assumes the first node is an uninteresting placeholder, which may not always be true.
             description: item instanceof Node ? item.getDescriptions().eng : Array.isArray(item) ? item[1].getDescriptions().eng : item.definition.getDescriptions().eng }
         }) 
-        
         as item, index
     }
-
         {#if index >= minItem && index <= maxItem }
             <tr class={`item option ${index === selection ? "selected" : ""}`} on:mousedown={event => handleItemClick(item.node, event)}>
-                <td class="col"><svelte:component this={nodeToView.get((Array.isArray(item.node) ? item.node[0] : item.node).constructor) ?? UnknownNodeView} node={Array.isArray(item.node) ? item.node[0] : item.node} />{#if Array.isArray(item.node) }<svelte:component this={nodeToView.get(item.node[1].constructor) ?? UnknownNodeView} node={item.node[1]} />{/if}</td>
+                <td class="col">
+                    {#each Array.isArray(item.node) ? item.node : [ item.node ] as node}
+                        <svelte:component this={nodeToView.get(node.constructor) ?? UnknownNodeView} node={node} />
+                    {/each}
                 <td class="col"><em>{item.description}</em></td>
             </tr>
         {:else if (index === minItem - 1 && minItem > 0) || (index === maxItem + 1 && maxItem < items.length - 1) }
