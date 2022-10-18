@@ -24,6 +24,7 @@ import NameException from "../runtime/NameException";
 import TokenType from "./TokenType";
 import Reference from "./Reference";
 import { Position } from "./Node";
+import type Transform from "./Transform";
 
 export default class Name extends Expression {
     
@@ -157,7 +158,7 @@ export default class Name extends Expression {
         }
     }
 
-    getChildReplacements(child: Node, context: Context, position: Position) {
+    getChildReplacements(child: Node, context: Context, position: Position): Transform[] {
 
         child;
         if(position === Position.ON)
