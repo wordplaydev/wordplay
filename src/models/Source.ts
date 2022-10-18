@@ -56,7 +56,7 @@ export default class Source {
     }
 
     getProject() { return this._project; }
-    setProject(project: Project) { 
+    setProject(project: Project) {
         
         this._project = project; 
 

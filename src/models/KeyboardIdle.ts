@@ -10,7 +10,7 @@ const KeyboardIdle = readable<boolean>(true, set => {
 
     const interval = setInterval(() => {
         if(lastEvent !== undefined) {
-            const idle = (Date.now() - lastEvent) > 500;
+            const idle = (Date.now() - lastEvent) > 250;
             set(idle);
         }
         // This can run before the page is loaded, so we wait and attach once it is.

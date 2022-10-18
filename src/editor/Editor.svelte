@@ -15,6 +15,7 @@
     import Menu from './Menu.svelte';
     import Token from '../nodes/Token';
     import Reference from '../nodes/Reference';
+    import KeyboardIdle from '../models/KeyboardIdle';
 
     export let source: Source;
 
@@ -60,47 +61,54 @@
         executingNode = source.getEvaluator().currentStep()?.node;
     }
 
-    // When the caret changes, determine a new menu.
+    // When the caret changes or keyboard idle state changes, determine a new menu.
     $: {
-        // Start assuming we won't find anything to show.
-        menu = undefined;
-        menuSelection = -1;
 
-        // Is the caret on a specific token or node?
-        const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
-        const between = $caret.getNodesBetween();
+        // Sart by assuming there shouldn't be a menu.
+        if($KeyboardIdle === false && menuSelection < 0) {
+            menu = undefined;
+            menuSelection = -1;
+        }
 
-        const replacements = 
-            between !== undefined ? 
-                [
-                    // Get all of the replacements possible immediately before the position.
-                    ... between.before.reduce((replacements: Transform[], child) => {
-                        const parent = child.getParent();
-                        return parent === undefined || parent === null ? replacements : [ ... replacements, ...parent.getChildReplacements(child, source.getContext(), Position.BEFORE) ]
-                    }, []),
-                    // Get all of the replacements possible and the ends of the nodes just before the position.
-                    ... between.after.reduce((replacements: Transform[], child) => {
-                        return [ ...replacements, ...child.getChildReplacements(undefined, source.getContext(),Position.END) ]
-                    }, [])
-                ] :
-            node !== undefined ? node.getReplacements(source.getContext(), Position.ON) :
-                undefined;
+        if($KeyboardIdle) {
 
-        if(node !== undefined && replacements !== undefined && replacements.length > 0) {
-            menu = {
-                node: node,
-                // Filter out duplicates
-                items: replacements.filter((item1, index1) => 
-                    replacements.find((item2, index2) => 
-                        index2 > index1 && (
-                            (item1 instanceof Node && item2 instanceof Node && item1.toWordplay() === item2.toWordplay()) || 
-                            (Array.isArray(item1) && Array.isArray(item2) && item1.map(i => i.toWordplay()).join("") === item2.map(i => i.toWordplay()).join("")) ||
-                            (item1 instanceof Reference && item2 instanceof Reference && item1.definition === item2.definition)
-                        )
-                        ) === undefined),
-                replace: between === undefined,
-                location: undefined // This gets defined after rendering.
+            // Is the caret on a specific token or node?
+            const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
+            const between = $caret.getNodesBetween();
+
+            const replacements = 
+                between !== undefined ? 
+                    [
+                        // Get all of the replacements possible immediately before the position.
+                        ... between.before.reduce((replacements: Transform[], child) => {
+                            const parent = child.getParent();
+                            return parent === undefined || parent === null ? replacements : [ ... replacements, ...parent.getChildReplacements(child, source.getContext(), Position.BEFORE) ]
+                        }, []),
+                        // Get all of the replacements possible and the ends of the nodes just before the position.
+                        ... between.after.reduce((replacements: Transform[], child) => {
+                            return [ ...replacements, ...child.getChildReplacements(undefined, source.getContext(),Position.END) ]
+                        }, [])
+                    ] :
+                node !== undefined ? node.getReplacements(source.getContext(), Position.ON) :
+                    undefined;
+
+            if(node !== undefined && replacements !== undefined && replacements.length > 0) {
+                menu = {
+                    node: node,
+                    // Filter out duplicates
+                    items: replacements.filter((item1, index1) => 
+                        replacements.find((item2, index2) => 
+                            index2 > index1 && (
+                                (item1 instanceof Node && item2 instanceof Node && item1.toWordplay() === item2.toWordplay()) || 
+                                (Array.isArray(item1) && Array.isArray(item2) && item1.map(i => i.toWordplay()).join("") === item2.map(i => i.toWordplay()).join("")) ||
+                                (item1 instanceof Reference && item2 instanceof Reference && item1.definition === item2.definition)
+                            )
+                            ) === undefined),
+                    replace: between === undefined,
+                    location: undefined // This gets defined after rendering.
+                }
             }
+
         }
 
     }
@@ -230,16 +238,6 @@
         const viewport = editor?.parentElement;
         if(viewport === null) return;
 
-        // const elementRect = element.getBoundingClientRect();
-        // const editorRect = viewport.getBoundingClientRect();
-        // const elementTop = elementRect.top - editorRect.top;
-        // const elementBottom = elementTop + elementRect.height;
-        // const elementLeft = elementRect.left - editorRect.left;
-        // const visible = 
-        //     elementTop >= viewport.scrollTop && 
-        //     elementLeft >= viewport.scrollLeft &&
-        //     elementBottom <= viewport.scrollTop + viewport.clientHeight &&
-        //     elementLeft <= viewport.scrollLeft + viewport.clientWidth;
         element.scrollIntoView(center ? 
             { behavior: "smooth", block: "center", inline: "center"} :
             { behavior: "auto", block: "nearest", inline: "nearest"});
@@ -338,8 +336,14 @@
         if(menu !== undefined) {
             if(event.key === "ArrowDown" && menuSelection < menu.items.length - 1) { menuSelection += 1; return; }
             else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
+            else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
             else if(event.key === "Enter" && menuSelection >= 0 && menu.items.length > 0) { 
                 selectMenuItem(menu.node, menu.items[menuSelection], menu.replace);
+            }
+
+            if(event.key === "ArrowLeft" || event.key === "ArrowRight") {
+                menuSelection = -1;
+                menu = undefined;
             }
         }
 
@@ -407,7 +411,8 @@
 
     let lastKeyboardInputValue: undefined | UnicodeString = undefined;
 
-    function handleKeyboardInput(event: Event) {
+    function handleHiddenFieldInput(event: Event) {
+
         // Get the character that was typed into the text box.
         // If it's a string, insert it at the caret position then reset the text input's contents.
         if(typeof $caret.position === "number" && keyboard !== null) {
@@ -480,7 +485,7 @@
         type="text" 
         class="keyboard-input" 
         bind:this={keyboard}
-        on:input={handleKeyboardInput}
+        on:input={handleHiddenFieldInput}
         on:keydown={handleKeyDown}
     />
 </div>
