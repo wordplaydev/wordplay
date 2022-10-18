@@ -26,7 +26,7 @@
     };
 
     let editor: HTMLElement;
-    let keyboard: HTMLInputElement;
+    let textInput: HTMLInputElement;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     let caret = writable<Caret>(new Caret(source, 0));
@@ -124,7 +124,8 @@
 
     }
 
-    // When the editor view changes, position selections, the menu, and scroll the caret or executing node into view.
+    // When the editor view changes, position selections, the menu, and scroll the caret or executing node into view
+    // and make sure the text input field is in focus.
     afterUpdate(() => {
         if(editor === undefined || editor === null) return;
 
@@ -264,8 +265,7 @@
         event.preventDefault();
 
         // After we place the caret, focus on keyboard input.
-        if(keyboard instanceof HTMLElement)
-            keyboard.focus();
+        textInput.focus();
 
         // Then, place the caret. Find the tokens that contain the vertical mouse position.
         const tokenViews = editor.querySelectorAll(".token-view");
@@ -395,11 +395,14 @@
     }
 
     function selectMenuItem(node: Node, replacement: Transform, replace: boolean) {
+
         const code = 
             replacement instanceof Node ? replacement.toWordplay() : 
             Array.isArray(replacement) ? replacement.map(node => node.toWordplay()).join("") :
             replacement.getNode("eng").toWordplay();
-        handleEdit(replace ? $caret.replace(node, code) : $caret.insert(code)); return; 
+
+        handleEdit(replace ? $caret.replace(node, code) : $caret.insert(code));
+
     }
 
     function handleEdit(edit: Edit) {
@@ -418,18 +421,21 @@
             caret.set(newCaret);
         }
 
+        // After every edit, focus back on on text input
+        textInput.focus();
+
     }
 
     let lastKeyboardInputValue: undefined | UnicodeString = undefined;
 
-    function handleHiddenFieldInput(event: Event) {
+    function handleTextInput(event: Event) {
 
         // Get the character that was typed into the text box.
         // If it's a string, insert it at the caret position then reset the text input's contents.
-        if(typeof $caret.position === "number" && keyboard !== null) {
+        if(typeof $caret.position === "number" && textInput !== null) {
 
             // Wrap the string in a unicode wrapper so we can account for graphemes.
-            const value = new UnicodeString(keyboard.value);
+            const value = new UnicodeString(textInput.value);
 
             // Get the last grapheme entered.
             const lastChar = value.substring(value.getLength() - 1, value.getLength());
@@ -441,7 +447,7 @@
                 const newSource = source.withPreviousGraphemeReplaced(char, $caret.position);
                 if(newSource) {
                     updateProject($project.withSource(source, newSource));
-                    keyboard.value = "";
+                    textInput.value = "";
                 }
             }
             // Otherwise, just insert the grapheme and limit the input field to the last character.
@@ -455,11 +461,11 @@
                     caret.set(new Caret(newSource, $caret.position + 1));
                 }
                 if(value.getLength() > 1)
-                    keyboard.value = lastChar.toString();
+                    textInput.value = lastChar.toString();
             }
 
             // Remember the last value of the input field for comparison on the next keystroke.
-            lastKeyboardInputValue = new UnicodeString(keyboard.value);
+            lastKeyboardInputValue = new UnicodeString(textInput.value);
 
             // Prevent the OS from doing anything with this input.
             event.preventDefault();
@@ -493,10 +499,10 @@
     {/if}
     <!-- Render the invisible text field that allows us to capture inputs -->
     <input 
-        type="text" 
+        type="text"
         class="keyboard-input" 
-        bind:this={keyboard}
-        on:input={handleHiddenFieldInput}
+        bind:this={textInput}
+        on:input={handleTextInput}
         on:keydown={handleKeyDown}
     />
 </div>

@@ -13,7 +13,6 @@
 
     function handleItemClick(item: Transform, event: MouseEvent) {
         select(item);
-        event.stopPropagation();
     }
 
     let actionLabel = action === "insert" ? "Insert " : "Replace with ";
@@ -41,7 +40,10 @@
         as item, index
     }
         {#if index >= minItem && index <= maxItem }
-            <tr class={`item option ${index === selection ? "selected" : ""}`} on:mousedown={event => handleItemClick(item.node, event)}>
+            <!-- Prevent default is to ensure focus isn't lost on editor -->
+            <tr class={`item option ${index === selection ? "selected" : ""}`} 
+                on:mousedown|preventDefault|stopPropagation={event => handleItemClick(item.node, event)}
+            >
                 <td class="col">
                     {#each Array.isArray(item.node) ? item.node : [ item.node ] as node}
                         <svelte:component this={nodeToView.get(node.constructor) ?? UnknownNodeView} node={node} />
