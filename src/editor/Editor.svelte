@@ -3,7 +3,7 @@
     import type Transform from "../nodes/Transform";
     import Node, { Position } from '../nodes/Node';
     import Caret from '../models/Caret';
-    import { afterUpdate, setContext } from 'svelte';
+    import { afterUpdate, onDestroy, setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
     import commands, { type Edit } from './Commands';
     import NodeView from './NodeView.svelte';
@@ -61,14 +61,25 @@
         executingNode = source.getEvaluator().currentStep()?.node;
     }
 
-    // When the caret changes or keyboard idle state changes, determine a new menu.
-    $: {
-
+    // When keyboard idle changes to false, reset the menu if nothing is selected.
+    const menuKeyboardIdleReset = KeyboardIdle.subscribe(idle => {
         // Sart by assuming there shouldn't be a menu.
-        if($KeyboardIdle === false && menuSelection < 0) {
+        if(!idle && menuSelection < 0) {
             menu = undefined;
             menuSelection = -1;
         }
+    });
+    onDestroy(menuKeyboardIdleReset);
+
+    // When caret changes, reset the menu
+    const menuResetCaretChange = caret.subscribe(() => {
+        menu = undefined;
+        menuSelection = -1;
+    })
+    onDestroy(menuResetCaretChange);
+
+    // When the caret changes or keyboard idle state changes, determine a new menu.
+    $: {
 
         if($KeyboardIdle) {
 
