@@ -11,29 +11,32 @@ import Measurement from "../runtime/Measurement";
 import Unit from "./Unit";
 import TokenType from "./TokenType";
 import Reference from "./Reference";
+import { BORROW_SYMBOL } from "../parser/Tokenizer";
 
 export default class Borrow extends Node implements Evaluable {
     
     readonly borrow: Token;
-    readonly name: Token;
+    readonly name?: Token;
     readonly version?: Token;
 
-    constructor(borrow: Token, name: Token, version?: Token) {
+    constructor(borrow?: Token, name?: Token, version?: Token) {
         super();
 
-        this.borrow = borrow;
+        this.borrow = borrow ?? new Token(BORROW_SYMBOL, [ TokenType.BORROW ]);
         this.name = name;
         this.version = version;
     }
 
-    computeChildren() { return this.version === undefined ? [ this.borrow, this.name ] : [ this.borrow, this.name, this.version ]}
+    computeChildren() { 
+        return [ this.borrow, this.name, this.version ].filter(n => n !== undefined) as Node[];
+    }
 
     computeConflicts(context: Context): Conflict[] { 
     
         const conflicts = [];
 
-        const type = context.program.getDefinitionOfName(this.name.getText(), context, this);
-        if(type === undefined)
+        const type = this.name === undefined ? undefined : context.program.getDefinitionOfName(this.name.getText(), context, this);
+        if(this.name === undefined || type === undefined)
             conflicts.push(new UnknownBorrow(this));
 
         return conflicts; 
@@ -53,18 +56,20 @@ export default class Borrow extends Node implements Evaluable {
     }
 
     evaluate(evaluator: Evaluator) {
-        evaluator.borrow(this.getName());
+        const name = this.getName();
+        if(name !== undefined)
+            evaluator.borrow(name);
         return undefined;
     }    
 
-    getName() { return this.name.getText(); }
+    getName() { return this.name === undefined ? undefined : this.name.getText(); }
 
     getVersion() { return this.version === undefined ? undefined : (new Measurement(this.version, new Unit())).toNumber(); }
 
     clone(original?: Node, replacement?: Node) { 
         return new Borrow(
             this.borrow.cloneOrReplace([ Token ], original, replacement), 
-            this.name.cloneOrReplace([ Token ], original, replacement),
+            this.name?.cloneOrReplace([ Token ], original, replacement),
             this.version?.cloneOrReplace([ Token, undefined ], original, replacement)
         ) as this; 
     }

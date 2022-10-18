@@ -13,7 +13,7 @@ export default class TypePlaceholder extends Type {
     constructor(etc?: Token) {
         super();
 
-        this.etc = etc ?? new Token(PLACEHOLDER_SYMBOL, [ TokenType.ETC ]);
+        this.etc = etc ?? new Token(PLACEHOLDER_SYMBOL, [ TokenType.PLACEHOLDER ]);
     }
 
     computeChildren() {

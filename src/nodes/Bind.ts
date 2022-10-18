@@ -290,7 +290,7 @@ export default class Bind extends Node implements Evaluable, Named {
             else if(child === this.names[0]) {
                 if(this.etc === undefined) {
                     if((parent instanceof FunctionDefinition || parent instanceof StructureDefinition) && parent.inputs.find(input => input.contains(child)) === parent.inputs[parent.inputs.length - 1])
-                        return [ new Token(PLACEHOLDER_SYMBOL, [ TokenType.ETC ]), new Documentation() ];
+                        return [ new Token(PLACEHOLDER_SYMBOL, [ TokenType.PLACEHOLDER ]), new Documentation() ];
                 }
             }
             // Before the etc? Offer documentation

@@ -277,8 +277,6 @@ export function parseBorrow(tokens: Tokens): Borrow | Unparsable {
 
     if(tokens.nextIs(TokenType.NAME))
         name = tokens.read(TokenType.NAME);
-    else
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_BORRW_NAME, [ borrow ]);
 
     if(tokens.nextIs(TokenType.NUMBER) && !tokens.nextHasPrecedingLineBreak())
         version = tokens.read(TokenType.NUMBER);
@@ -352,7 +350,7 @@ function nextIsConversion(tokens: Tokens): boolean {
 export function parseBind(tokens: Tokens): Bind | Unparsable {
 
     let docs = parseDocumentation(tokens);
-    let etc = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : undefined;
+    let etc = tokens.nextIs(TokenType.PLACEHOLDER) ? tokens.read(TokenType.PLACEHOLDER) : undefined;
     let names: Alias[] | Unparsable = [];
     let colon;
     let value;
@@ -383,10 +381,10 @@ export function parseAliases(tokens: Tokens): Alias[] {
 
     const aliases: Alias[] = [];
 
-    while((aliases.length > 0 && tokens.nextIs(TokenType.ALIAS)) || (aliases.length === 0 && tokens.nextIs(TokenType.NAME))) {
+    while((aliases.length > 0 && tokens.nextIs(TokenType.ALIAS)) || (aliases.length === 0 && tokens.nextIsOneOf(TokenType.NAME, TokenType.PLACEHOLDER))) {
         const comma = tokens.nextIs(TokenType.ALIAS) ? tokens.read(TokenType.ALIAS) : undefined;
         if(aliases.length > 0 && comma === undefined) break;
-        const name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : undefined;
+        const name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : tokens.nextIs(TokenType.PLACEHOLDER) ? tokens.read(TokenType.PLACEHOLDER) : undefined;
         const lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
         aliases.push(new Alias(name, lang, comma));
     }
@@ -460,7 +458,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
         // This
         tokens.nextIs(TokenType.THIS) ? new This(tokens.read(TokenType.THIS)) :
         // Placeholder
-        tokens.nextIs(TokenType.ETC) ? new ExpressionPlaceholder(tokens.read(TokenType.ETC)) :
+        tokens.nextIs(TokenType.PLACEHOLDER) ? new ExpressionPlaceholder(tokens.read(TokenType.PLACEHOLDER)) :
         // Nones
         tokens.nextIs(TokenType.NONE) ? parseNone(tokens): 
         // A conversion. Need to parse before names, otherwise we might slurp up a type alone instead of a conversion.
@@ -533,7 +531,7 @@ function parseNone(tokens: Tokens): NoneLiteral | Unparsable {
 }
 
 /** NUMBER :: number name? */
-function parseMeasurement(tokens: Tokens): MeasurementLiteral | Unparsable {
+function parseMeasurement(tokens: Tokens): MeasurementLiteral {
 
     const number = tokens.read(TokenType.NUMBER);
     const unit = tokens.nextIsOneOf(TokenType.NAME, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
@@ -949,7 +947,7 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
 /** TYPE :: (? | name | MEASUREMENT_TYPE | TEXT_TYPE | NONE_TYPE | LIST_TYPE | SET_TYPE | FUNCTION_TYPE | STREAM_TYPE) (∨ TYPE)* */
 export function parseType(tokens: Tokens, isExpression:boolean=false): Type | Unparsable {
     let left: Type | Unparsable = (
-        tokens.nextIs(TokenType.ETC) ? new TypePlaceholder(tokens.read(TokenType.ETC)) :
+        tokens.nextIs(TokenType.PLACEHOLDER) ? new TypePlaceholder(tokens.read(TokenType.PLACEHOLDER)) :
         tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read(TokenType.NAME)) :
         tokens.nextIs(TokenType.BOOLEAN_TYPE) ? new BooleanType(tokens.read(TokenType.BOOLEAN_TYPE)) :
         tokens.nextIs(TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :

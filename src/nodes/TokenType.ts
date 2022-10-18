@@ -37,7 +37,7 @@ enum TokenType {
     REACTION,
     STREAM_TYPE,
     PREVIOUS,
-    ETC,
+    PLACEHOLDER,
     THIS,
 
     // These are the only operators eligible for unary, binary, or teriary notation.

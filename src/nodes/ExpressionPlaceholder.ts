@@ -24,7 +24,7 @@ export default class ExpressionPlaceholder extends Expression {
 
     constructor(etc?: Token) {
         super();
-        this.etc = etc ?? new Token(PLACEHOLDER_SYMBOL, [ TokenType.ETC ], undefined, " ");
+        this.etc = etc ?? new Token(PLACEHOLDER_SYMBOL, [ TokenType.PLACEHOLDER ], undefined, " ");
     }
 
     computeChildren() { return [ this.etc ]; }

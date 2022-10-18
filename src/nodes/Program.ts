@@ -47,7 +47,7 @@ export default class Program extends Node implements Evaluable {
         return  [
             ...context.shares?.getDefinitions() ?? [],
             ...(this.borrows.filter(borrow => borrow instanceof Borrow) as Borrow[])
-            .map(borrow => context.source.getProject()?.getDefinition(context.source, borrow.name.getText()))
+            .map(borrow => borrow.name === undefined ? undefined : context.source.getProject()?.getDefinition(context.source, borrow.name.getText()))
             .filter(d => d !== undefined) as Definition[],
         ]  
 
@@ -109,6 +109,10 @@ export default class Program extends Node implements Evaluable {
 
     getChildReplacements(child: Node | undefined, context: Context, position?: Position): Transform[] {
         
+        if(position === Position.BEFORE) {
+            if(child === this.block)
+                return [ new Borrow( )]
+        } 
         if(position === Position.END)
             return getPossibleExpressions(this, undefined, context);
 

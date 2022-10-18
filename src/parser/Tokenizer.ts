@@ -100,7 +100,7 @@ const patterns = [
     { pattern: TYPE_VAR_SYMBOL, types: [ TokenType.TYPE_VAR ] },
     { pattern: REACTION_SYMBOL, types: [ TokenType.REACTION, TokenType.STREAM_TYPE ] },
     { pattern: PREVIOUS_SYMBOL, types: [ TokenType.PREVIOUS ] },
-    { pattern: PLACEHOLDER_SYMBOL, types: [ TokenType.ETC ] },
+    { pattern: PLACEHOLDER_SYMBOL, types: [ TokenType.PLACEHOLDER ] },
     // Roman numerals
     { pattern: /^[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/, types: [ TokenType.NUMBER, TokenType.ROMAN ] },
     // Japanese numbers
