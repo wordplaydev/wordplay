@@ -151,7 +151,7 @@ const commands: Command[] = [
     },
     {
         description: `Insert Boolean NOT symbol (${NOT_SYMBOL})`,
-        alt: true, key: "Backquote",
+        alt: true, key: "Digit1",
         execute: (caret: Caret) => caret.insert(NOT_SYMBOL)
     },
     {

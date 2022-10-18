@@ -40,7 +40,7 @@ export default function bootstrapBool() {
             createBooleanFunction(AND_SYMBOL, (left, right) => left.and(right)),
             createBooleanFunction(OR_SYMBOL, (left, right) => left.or(right)),
             new FunctionDefinition(
-                [], [ new Alias(NOT_SYMBOL)], [], [],
+                [], [ new Alias(NOT_SYMBOL), new Alias("~")], [], [],
                 new NativeExpression(
                     new BooleanType(), 
                     evaluation => {
