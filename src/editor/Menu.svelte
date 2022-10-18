@@ -11,7 +11,7 @@
 
     const WINDOW = 2;
 
-    function handleItemClick(item: Transform, event: MouseEvent) {
+    function handleItemClick(item: Transform) {
         select(item);
     }
 
@@ -42,7 +42,7 @@
         {#if index >= minItem && index <= maxItem }
             <!-- Prevent default is to ensure focus isn't lost on editor -->
             <tr class={`item option ${index === selection ? "selected" : ""}`} 
-                on:mousedown|preventDefault|stopPropagation={event => handleItemClick(item.node, event)}
+                on:mousedown|preventDefault|stopPropagation={() => handleItemClick(item.node)}
             >
                 <td class="col">
                     {#each Array.isArray(item.node) ? item.node : [ item.node ] as node}
