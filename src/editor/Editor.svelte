@@ -64,24 +64,21 @@
     // When keyboard idle changes to false, reset the menu if nothing is selected.
     const menuKeyboardIdleReset = KeyboardIdle.subscribe(idle => {
         // Sart by assuming there shouldn't be a menu.
-        if(!idle && menuSelection < 0) {
-            menu = undefined;
-            menuSelection = -1;
-        }
+        if(!idle && menuSelection < 0)
+            hideMenu();
     });
     onDestroy(menuKeyboardIdleReset);
 
     // When caret changes, reset the menu
     const menuResetCaretChange = caret.subscribe(() => {
-        menu = undefined;
-        menuSelection = -1;
-    })
+        hideMenu();
+    });
     onDestroy(menuResetCaretChange);
 
     // When the caret changes or keyboard idle state changes, determine a new menu.
     $: {
 
-        if($KeyboardIdle) {
+        if($KeyboardIdle && (typeof document !== "undefined" && document.activeElement === textInput)) {
 
             // Is the caret on a specific token or node?
             const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
@@ -352,10 +349,8 @@
                 selectMenuItem(menu.node, menu.items[menuSelection], menu.replace);
             }
 
-            if(event.key === "ArrowLeft" || event.key === "ArrowRight") {
-                menuSelection = -1;
-                menu = undefined;
-            }
+            if(event.key === "ArrowLeft" || event.key === "ArrowRight")
+                hideMenu();
         }
 
         // Map meta to control on Mac OS/iOS.
@@ -473,6 +468,15 @@
 
     }
 
+    function handleTextInputFocusLoss() {
+        hideMenu();
+    }
+
+    function hideMenu() {
+        menu = undefined;
+        menuSelection = -1;
+    }
+
 </script>
 
 <div class="editor"
@@ -504,6 +508,7 @@
         bind:this={textInput}
         on:input={handleTextInput}
         on:keydown={handleKeyDown}
+        on:blur={handleTextInputFocusLoss}
     />
 </div>
 
