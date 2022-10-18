@@ -32,42 +32,39 @@
 
     let selections: Selection[] = [];
 
-    let rootWidth = 0;
-    let rootHeight = 0;
+    // The width and height of the program
+    let programViewWidth = 0;
+    let programViewHeight = 0;
 
-    // When source changes, update the program
-    $: program = source.program;
+    // A shorthand for the current program.
+    let program = source.program;
 
-    // When the source changes, update the caret with the new source.
-    $: {
-        caret.set($caret.withSource(source));
-        setContext("caret", caret);
-    }
+    // A shorthand for the currently evaluating step, if there is one.
+    let executingNode = source.getEvaluator().currentStep()?.node;
 
-    // When source changes updates, make executing node visible.
-    $: {
-        let executingNode = source.getEvaluator().currentStep()?.node;
-        // If the program contains this node, scroll to it's view.
-        if(executingNode instanceof Node && source.program.contains(executingNode)) {
-            const element = document.querySelector(`[data-id="${executingNode.id}"]`);
-            if(element !== null)
-                ensureElementIsVisible(element, true);
-        }
-    }
-
-    // When the caret changes, determine if there's anything to show in a menu.
+    // A menu of potential transformations based on the caret position.
     let menu: {
         node: Node,
         location: { left: number, top: number } | undefined,
         items: Transform[],
         replace: boolean
     } | undefined = undefined;
-    let menuIndex: number = -1;
 
+    let menuSelection: number = -1;
+
+    // When source changes, update various nested state from the source.
+    $: {
+        program = source.program;
+        caret.set($caret.withSource(source));
+        setContext("caret", caret);
+        executingNode = source.getEvaluator().currentStep()?.node;
+    }
+
+    // When the caret changes, determine a new menu.
     $: {
         // Start assuming we won't find anything to show.
         menu = undefined;
-        menuIndex = -1;
+        menuSelection = -1;
 
         // Is the caret on a specific token or node?
         const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
@@ -108,9 +105,11 @@
 
     }
 
-    // When the caret changes, make sure it's in view and position the menu
+    // When the editor view changes, position selections, the menu, and scroll the caret or executing node into view.
     afterUpdate(() => {
         if(editor === undefined || editor === null) return;
+
+        // GET MEASUREMENTS
 
         const viewport = editor.parentElement;
         if(viewport === null) return;
@@ -121,9 +120,11 @@
 
         if(rootView instanceof HTMLElement) {
             // Add a generous amount of space to account for browser differences.
-            rootWidth = rootView.offsetWidth + 20;
-            rootHeight = rootView.offsetHeight + 20;
+            programViewWidth = rootView.offsetWidth + 20;
+            programViewHeight = rootView.offsetHeight + 20;
         }
+
+        // ENSURE CARET IS VISIBLE AND POSITION THE INVISIBLE TEXT FIELD
 
         let caretLeft = undefined;
         let caretTop = undefined;
@@ -201,6 +202,14 @@
                     location: location
                 }
         }
+
+        // If the program contains this node, scroll to it's view.
+        if(executingNode instanceof Node && source.program.contains(executingNode)) {
+            const element = document.querySelector(`[data-id="${executingNode.id}"]`);
+            if(element !== null)
+                ensureElementIsVisible(element, false);
+        }
+
     });
 
     function getNodeView(node: Node): HTMLElement | undefined {
@@ -327,10 +336,10 @@
     function handleKeyDown(event: KeyboardEvent) {
 
         if(menu !== undefined) {
-            if(event.key === "ArrowDown" && menuIndex < menu.items.length - 1) { menuIndex += 1; return; }
-            else if(event.key === "ArrowUp" && menuIndex >= 0) { menuIndex -= 1; return; }
-            else if(event.key === "Enter" && menuIndex >= 0 && menu.items.length > 0) { 
-                selectMenuItem(menu.node, menu.items[menuIndex], menu.replace);
+            if(event.key === "ArrowDown" && menuSelection < menu.items.length - 1) { menuSelection += 1; return; }
+            else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
+            else if(event.key === "Enter" && menuSelection >= 0 && menu.items.length > 0) { 
+                selectMenuItem(menu.node, menu.items[menuSelection], menu.replace);
             }
         }
 
@@ -452,7 +461,7 @@
     <NodeView node={program}/>
     <!-- Do we have any selections to render? Render them! -->
     {#each selections as selection }
-        <svg class={`selection ${selection.kind}`} width={rootWidth} height={rootHeight}>
+        <svg class={`selection ${selection.kind}`} width={programViewWidth} height={programViewHeight}>
             <path d={selection.path}/>
         </svg>
     {/each}
@@ -461,7 +470,7 @@
         <div class="menu" style={`left:${menu.location.left}px; top:${menu.location.top}px;`}>
             <Menu 
                 items={menu.items} 
-                selection={menuIndex} 
+                selection={menuSelection} 
                 action={menu.replace ? "replace" : "insert" }
                 select={item => menu !== undefined ? selectMenuItem(menu.node, item, menu.replace) : undefined } />
         </div>
