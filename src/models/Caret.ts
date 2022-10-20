@@ -72,7 +72,7 @@ export default class Caret {
 
         // Find the token whose whitespace contains the current position. This is the token text to the right of the caret.
         const tokens = this.getProgram().nodes().filter(token => token instanceof Token) as Token[];
-        const tokenAfter = this.source.getTokenAt(this.position);
+        const tokenAfter = this.source.getTokenWithSpaceAt(this.position);
         if(tokenAfter === undefined) return undefined;
         // Find the token before the caret
         const tokenBefore = tokens[0] === tokenAfter ? undefined : tokens[tokens.indexOf(tokenAfter) - 1];

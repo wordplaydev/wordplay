@@ -221,6 +221,14 @@ export default class Source {
         return undefined;
     }
 
+    getTokenWithSpaceAt(position: number) {
+        // This could be faster with binary search, but let's not prematurely optimize.
+        for(const [token, index] of this.indicies)
+            if(this.tokenSpaceContains(token, position))
+                return token;
+        return undefined;
+    }
+
     tokenSpaceContains(token: Token, position: number) {
         const index = this.getTokenTextIndex(token);
         return position >= index - token.space.length && position <= index;     
