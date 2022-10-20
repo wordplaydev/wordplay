@@ -216,21 +216,24 @@ export default class Block extends Expression {
     }
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
 
-        const index = this.statements.indexOf(child as Statement);
-        if(index >= 0) {
-            const firstToken = child.nodes(n => n instanceof Token)[0];
-            if(firstToken instanceof Token && firstToken.hasNewline())
-                return this.getInsertions().map(insertion => new Append(context.source, position, this, this.statements, child, insertion));
+        if(context.source.isEmptyLine(position)) {
+            const index = this.statements.indexOf(child as Statement);
+            if(index >= 0) {
+                const firstToken = child.nodes(n => n instanceof Token)[0];
+                if(firstToken instanceof Token && firstToken.hasNewline())
+                    return this.getInsertions().map(insertion => new Append(context.source, position, this, this.statements, child, insertion));
+            }
         }
 
     }
 
     getInsertionAfter(context: Context, position: number): Transform[] | undefined {
 
-        return [
-            ...this.getInsertions().map(insertion => new Append(context.source, position, this, this.statements, undefined, insertion)),
-            ...(this.root ? getExpressionInsertions(context.source, position, this, this.statements, undefined, context) : [])
-        ]
+        if(this.root && context.source.isEmptyLine(position))
+            return [
+                ...this.getInsertions().map(insertion => new Append(context.source, position, this, this.statements, undefined, insertion)),
+                ...(this.root ? getExpressionInsertions(context.source, position, this, this.statements, undefined, context) : [])
+            ]
 
     }
 

@@ -194,6 +194,30 @@ export default class Source {
 
     }
 
+    isEmptyLine(position: number) {
+
+        // Only offer suggestions on empty newlines.
+        // An empty line is one for which every character before and after until the next new line is only a space or tab
+        let current = position;
+        let empty = true;
+        let next: string | undefined;
+        do {
+            current--;
+            next = this.code.at(current);
+        } while(next !== undefined && (next === " " || next === "\t"));
+        if(next !== "\n") empty = false;
+        else {
+            current = position;
+            do {
+                next = this.code.at(current);
+                current++;
+            } while(next !== undefined && (next === " " || next === "\t"));
+            if(next !== "\n" && next !== undefined) empty = false;    
+        }
+        return empty;
+
+    }
+
     /** Given a node N, and the set of conflicts C in the program, determines the subset of C in which the given N is complicit. */
     getPrimaryConflictsInvolvingNode(node: Node) {
         return this._primaryNodeConflicts.get(node);
