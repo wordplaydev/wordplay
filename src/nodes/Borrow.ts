@@ -68,11 +68,11 @@ export default class Borrow extends Node implements Evaluable {
 
     getVersion() { return this.version === undefined ? undefined : (new Measurement(this.version, new Unit())).toNumber(); }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Borrow(
-            this.cloneOrReplaceChild([ Token ], "borrow", this.borrow, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "name", this.name, original, replacement),
-            this.cloneOrReplaceChild([ Token, undefined ], "version", this.version, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "borrow", this.borrow, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "name", this.name, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "version", this.version, original, replacement)
         ) as this; 
     }
 

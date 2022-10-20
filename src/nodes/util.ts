@@ -20,6 +20,8 @@ import UnknownColumn from "../conflicts/UnknownColumn";
 import IncompatibleCellType from "../conflicts/IncompatibleCellType";
 import MissingCell from "../conflicts/MissingCell";
 import InvalidRow from "../conflicts/InvalidRow";
+import Token from "./Token";
+import TokenType from "./TokenType";
 
 export function getDuplicateDocs(docs: Documentation[]): DuplicateLanguages | undefined {
     const duplicatesByLanguage = new Map<string, Language[]>();
@@ -191,4 +193,14 @@ export function analyzeRow(tableType: TableType, row: Row, context: Context): Co
 
     return conflicts;
 
+}
+
+export function endsWithName(node: Node) { 
+    const tokens = node.nodes(t => t instanceof Token) as Token[];
+    return tokens.length > 0 && tokens[tokens.length - 1].is(TokenType.NAME);
+}
+
+export function startsWithName(node: Node) { 
+    const tokens = node.nodes(t => t instanceof Token) as Token[];
+    return tokens.length > 0 && tokens[0].is(TokenType.NAME);
 }

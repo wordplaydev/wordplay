@@ -31,7 +31,7 @@ import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
 import AccessName from "./AccessName";
 import TypeInput from "./TypeInput";
-import { getEvaluationInputConflicts } from "./util";
+import { endsWithName, getEvaluationInputConflicts, startsWithName } from "./util";
 import ListType from "./ListType";
 import type { TypeSet } from "./UnionType";
 import SemanticException from "../runtime/SemanticException";
@@ -46,7 +46,7 @@ import { getExpressionInsertions, getExpressionReplacements } from "../transform
 import type Transform from "../transforms/Transform"
 import Block from "./Block";
 import Replace from "../transforms/Replace";
-import withPrecedingSpace from "../transforms/withPrecedingSpace";
+import withPrecedingSpace, { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 
 type InputType = Unparsable | Bind | Expression;
 
@@ -64,17 +64,20 @@ export default class Evaluate extends Expression {
         this.typeInputs = typeInputs;
         this.open = withPrecedingSpace(open);
         this.func = func;
-        this.inputs = inputs.slice();
+        // Inputs must have space between them if they have adjacent names.
+        this.inputs = inputs.map((value: InputType, index) => 
+            withPrecedingSpaceIfDesired(index > 0 && endsWithName(inputs[index - 1]) && startsWithName(value), value));
         this.close = close;
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Evaluate(
-            this.cloneOrReplaceChild([ TypeInput ], "typeInputs", this.typeInputs, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "func", this.func, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable, Bind ], "inputs", this.inputs, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ TypeInput ], "typeInputs", this.typeInputs, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "func", this.func, original, replacement), 
+            this.cloneOrReplaceChild<InputType[]>(pretty, [ Expression, Unparsable, Bind ], "inputs", this.inputs, original, replacement)
+                .map((value: InputType, index: number) => withPrecedingSpaceIfDesired(pretty && index > 0, value)),
+            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
         ) as this; 
     }
 
@@ -349,7 +352,7 @@ export default class Evaluate extends Expression {
             // manually assigning the parent.
             if(concreteType !== undefined) {
                 // Set the type to the concrete type, or replace within if it's a compound type.
-                type = type === nameType ? concreteType : type.clone(nameType, concreteType);
+                type = type === nameType ? concreteType : type.clone(false, nameType, concreteType);
                 type.cacheParents();
                 type._parent = originalParents[index];
             }
@@ -627,7 +630,7 @@ export default class Evaluate extends Expression {
             const expectedType = bind.getType(context);
 
             // Suggest expressions of the expected type.
-            return getExpressionInsertions(context.source, position, this, this.inputs, undefined, context, expectedType);
+            return getExpressionInsertions(context.source, position, this, this.inputs, child, context, expectedType);
 
         }
     

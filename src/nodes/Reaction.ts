@@ -45,12 +45,12 @@ export default class Reaction extends Expression {
 
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Reaction(
-            this.cloneOrReplaceChild([ Expression ], "initial", this.initial, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "stream", this.stream, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "next", this.next, original, replacement),
-            this.cloneOrReplaceChild([ Token ], "delta", this.delta, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Expression ], "initial", this.initial, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "stream", this.stream, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "next", this.next, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token ], "delta", this.delta, original, replacement)
         ) as this; 
     }
 

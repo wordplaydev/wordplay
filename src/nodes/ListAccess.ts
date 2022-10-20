@@ -96,12 +96,12 @@ export default class ListAccess extends Expression {
 
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ListAccess(
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "list", this.list, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "index", this.index, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "list", this.list, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "index", this.index, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
         ) as this; 
     }
 

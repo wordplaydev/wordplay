@@ -109,10 +109,10 @@ export default class UnaryOperation extends Expression {
 
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new UnaryOperation(
-            this.cloneOrReplaceChild([ Token ], "operator", this.operator, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "operand", this.operand, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "operator", this.operator, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "operand", this.operand, original, replacement)
         ) as this; 
     }
 

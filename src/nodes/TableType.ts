@@ -22,10 +22,10 @@ export default class TableType extends Type {
         this.close = close ?? new Token(TABLE_CLOSE_SYMBOL, TokenType.TABLE_CLOSE);
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TableType(
-            this.cloneOrReplaceChild([ Column ], "columns", this.columns, original, replacement),
-            this.cloneOrReplaceChild([ Token, Unparsable ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Column ], "columns", this.columns, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token, Unparsable ], "close", this.close, original, replacement)
         ) as this; 
     }
 

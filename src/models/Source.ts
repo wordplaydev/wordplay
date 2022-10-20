@@ -248,15 +248,33 @@ export default class Source {
 
     }
 
-    getFirstToken(node: Node): Token | undefined {
+    getNodeFirstIndex(node: Node) {
+        const firstToken = this.getFirstToken(node);
+        return firstToken === undefined ? undefined : this.getTokenTextIndex(firstToken);
+    }
 
+    getNodeLastIndex(node: Node) {
+        const lastToken = this.getLastToken(node);
+        return lastToken === undefined ? undefined : this.getTokenLastIndex(lastToken);
+    }
+
+    getFirstToken(node: Node): Token | undefined {
         let next = node;
         do {
             if(next instanceof Token) return next;
             next = next.getChildren()[0];
         } while(next !== undefined);
         return undefined;
+    }
 
+    getLastToken(node: Node): Token | undefined {
+        let next = node;
+        do {
+            if(next instanceof Token) return next;
+            const children = next.getChildren();
+            next = children[children.length - 1];
+        } while(next !== undefined);
+        return undefined;
     }
 
     isEmptyLine(position: number) {

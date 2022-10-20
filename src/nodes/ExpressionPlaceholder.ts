@@ -55,9 +55,9 @@ export default class ExpressionPlaceholder extends Expression {
         return new SemanticException(evaluator, this);
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ExpressionPlaceholder(
-            this.cloneOrReplaceChild([ Token ], "etc", this.etc, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "etc", this.etc, original, replacement)
         ) as this; 
     }
 

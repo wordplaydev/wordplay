@@ -46,11 +46,11 @@ export default class AccessName extends Expression {
         this.name = name;
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new AccessName(
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "subject", this.subject, original, replacement),
-            this.cloneOrReplaceChild([ Token ], "access", this.access, original, replacement), 
-            this.cloneOrReplaceChild([ Token, undefined ], "name", this.name, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "subject", this.subject, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token ], "access", this.access, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "name", this.name, original, replacement)
         ) as this;
     }
 

@@ -29,8 +29,8 @@ export default class Replace<NodeType extends Node> extends Transform {
         // Replace the child, then clone the program with the new parent, and create a new source from it.
         const parentFirstToken = this.source.getFirstToken(parent);
         const parentIndex = parentFirstToken === undefined ? undefined : this.source.getTokenTextIndex(parentFirstToken);
-        const newParent = parent.clone(this.node, replacement);
-        const newSource = this.source.withProgram(this.source.program.clone(parent, newParent))
+        const newParent = parent.clone(true, this.node, replacement);
+        const newSource = this.source.withProgram(this.source.program.clone(false, parent, newParent))
         // Return the new source and place the caret after the replacement.
         return parentIndex === undefined ? undefined : [ newSource, new Caret(newSource, parentIndex + newParent.toWordplay().length) ];
 

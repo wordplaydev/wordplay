@@ -28,10 +28,10 @@ export default class Share extends Node implements Evaluable {
         this.bind = bind;
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Share(
-            this.cloneOrReplaceChild([ Token ], "share", this.share, original, replacement), 
-            this.cloneOrReplaceChild([ Bind, Unparsable ], "bind", this.bind, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "share", this.share, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "bind", this.bind, original, replacement)
         ) as this; 
     }
 

@@ -26,10 +26,10 @@ export default class Documentation extends Node {
     
     computeConflicts() {}
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Documentation(
-            this.cloneOrReplaceChild([ Token ], "docs", this.docs, original, replacement), 
-            this.cloneOrReplaceChild([ Language, undefined ], "lang", this.lang, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "docs", this.docs, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Language, undefined ], "lang", this.lang, original, replacement)
         ) as this; 
     }
 

@@ -51,6 +51,7 @@ import Add from "../transforms/Add";
 import Replace from "../transforms/Replace";
 import BindToken from "./BindToken";
 import TypeToken from "./TypeToken";
+import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -72,6 +73,18 @@ export default class Bind extends Node implements Evaluable, Named {
         this.type = type;
         this.colon = colon !== undefined ? colon : value === undefined ? undefined : new BindToken(); 
         this.value = value;
+    }
+
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+        return new Bind(
+            this.cloneOrReplaceChild(pretty, [ Documentation ], "docs", this.docs, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token, undefined], "etc", this.etc, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Alias ], "names", this.names, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Type, Unparsable, undefined ], "type", this.type, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable, undefined ], "value", this.value, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "dot", this.dot, original, replacement),
+            withPrecedingSpaceIfDesired<Token>(pretty, this.cloneOrReplaceChild(pretty, [ Token, undefined ], "colon", this.colon, original, replacement))
+        ) as this;
     }
 
     hasName(name: string) { return this.names.find(n => n.getName() === name) !== undefined; }
@@ -252,18 +265,6 @@ export default class Bind extends Node implements Evaluable, Named {
         return undefined;
 
     }
-
-    clone(original?: Node | string, replacement?: Node) { 
-        return new Bind(
-            this.cloneOrReplaceChild([ Documentation ], "docs", this.docs, original, replacement), 
-            this.cloneOrReplaceChild([ Token, undefined], "etc", this.etc, original, replacement), 
-            this.cloneOrReplaceChild([ Alias ], "names", this.names, original, replacement), 
-            this.cloneOrReplaceChild([ Type, Unparsable, undefined ], "type", this.type, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable, undefined ], "value", this.value, original, replacement), 
-            this.cloneOrReplaceChild([ Token, undefined ], "dot", this.dot, original, replacement),
-            this.cloneOrReplaceChild([ Token, undefined ], "colon", this.colon, original, replacement)
-        ) as this;
-    }
     
     getDescriptions() {
 
@@ -304,7 +305,7 @@ export default class Bind extends Node implements Evaluable, Named {
         }
         // Before the etc? Offer documentation
         else if(child === this.etc)
-            return [ new Append(context.source, position, this, this.docs, undefined, new Documentation()) ];
+            return [ new Append(context.source, position, this, this.docs, this.etc, new Documentation()) ];
         else if(this.names.includes(child as Alias))
             return [ new Append(context.source, position, this, this.names, child, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))) ];
         // Before colon? Offer a type.

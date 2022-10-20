@@ -105,11 +105,11 @@ export default class TableLiteral extends Expression {
 
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TableLiteral(
-            this.cloneOrReplaceChild([ Column ], "columns", this.columns, original, replacement), 
-            this.cloneOrReplaceChild([ Row ], "rows", this.rows, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Column ], "columns", this.columns, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Row ], "rows", this.rows, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
         ) as this; 
     }
 

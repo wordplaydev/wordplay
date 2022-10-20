@@ -32,11 +32,11 @@ export default class ConversionType extends Type {
 
     getNativeTypeName(): string { return CONVERSION_NATIVE_TYPE_NAME; }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ConversionType(
-            this.cloneOrReplaceChild([ Type ], "input", this.input, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "convert", this.convert, original, replacement),
-            this.cloneOrReplaceChild([ Type ], "output", this.output, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Type ], "input", this.input, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "convert", this.convert, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Type ], "output", this.output, original, replacement)
         ) as this; 
     }
 

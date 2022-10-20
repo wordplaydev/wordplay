@@ -33,10 +33,10 @@ export default class Add<NodeType extends Node> extends Transform {
         const newNode = this.getSubjectNode(lang);
 
         // Clone the parent
-        const newParent = this.parent.clone(this.field, newNode);
+        const newParent = this.parent.clone(true, this.field, newNode);
 
         // Clone the source with the new parent.
-        const newSource = this.source.withProgram(this.source.program.clone(this.parent, newParent));
+        const newSource = this.source.withProgram(this.source.program.clone(false, this.parent, newParent));
         
         return [ newSource, new Caret(newSource, this.position + newNode.toWordplay().length)];
 

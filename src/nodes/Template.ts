@@ -36,10 +36,10 @@ export default class Template extends Expression {
         this.format = format;
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Template(
-            this.cloneOrReplaceChild([ Token, Expression, Unparsable ], "parts", this.parts, original, replacement),
-            this.cloneOrReplaceChild([ Language, undefined ], "format", this.format, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token, Expression, Unparsable ], "parts", this.parts, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Language, undefined ], "format", this.format, original, replacement)
         ) as this; 
     }
 

@@ -17,6 +17,8 @@ import { getExpressionInsertions, getExpressionReplacements } from "../transform
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
+import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
+import { endsWithName, startsWithName } from "./util";
 
 export type ListItem = Expression | Unparsable;
 
@@ -30,16 +32,20 @@ export default class ListLiteral extends Expression {
         super();
 
         this.open = open ?? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN);
-        this.values = values.slice();
-        this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);;
+        // There must be spaces between list items if a previous item ends with a name and the next item starts with a name.
+        this.values = values.map((value: ListItem, index) => withPrecedingSpaceIfDesired(
+            index > 0 && endsWithName(values[index - 1]) && startsWithName(value),
+            value, " ", false))
+        this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
 
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ListLiteral(
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "values", this.values, original, replacement),
-            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild<ListItem[]>(pretty, [ Expression, Unparsable ], "values", this.values, original, replacement)
+                .map((value: ListItem, index) => withPrecedingSpaceIfDesired(pretty && index > 0, value)),
+            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
          ) as this; 
     }
 
@@ -110,7 +116,7 @@ export default class ListLiteral extends Expression {
         if(index >= 0)
             return getExpressionInsertions(context.source, position, this, this.values, child, context);
         else if(child === this.close)
-            return getExpressionInsertions(context.source, position, this, this.values, undefined, context);
+            return getExpressionInsertions(context.source, position, this, this.values, child, context);
     
     }
 

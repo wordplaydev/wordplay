@@ -65,13 +65,13 @@ export default class MapType extends NativeType {
 
     getNativeTypeName(): string { return MAP_NATIVE_TYPE_NAME; }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new MapType(
-            this.cloneOrReplaceChild([ Type, Unparsable, undefined ], "key", this.key, original, replacement), 
-            this.cloneOrReplaceChild([ Type, Unparsable ], "value", this.value, original, replacement),
-            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement),
-            this.cloneOrReplaceChild([ Token ], "bind", this.bind, original, replacement), 
-            this.cloneOrReplaceChild([ Token], "close", this.close, original, replacement) 
+            this.cloneOrReplaceChild(pretty, [ Type, Unparsable, undefined ], "key", this.key, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Type, Unparsable ], "value", this.value, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token ], "bind", this.bind, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token], "close", this.close, original, replacement) 
         ) as this; 
     }
 

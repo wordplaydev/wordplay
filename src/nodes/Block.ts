@@ -10,7 +10,7 @@ import Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
-import { getDuplicateDocs } from "./util";
+import { endsWithName, getDuplicateDocs, startsWithName } from "./util";
 import type Evaluator from "../runtime/Evaluator";
 import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
@@ -34,6 +34,7 @@ import Alias from "./Alias";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import Append from "../transforms/Append";
+import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 
 export type Statement = Expression | Unparsable | Share | Bind;
 
@@ -50,21 +51,31 @@ export default class Block extends Expression {
         super();
 
         this.open = !root && open === undefined ? new Token(EVAL_OPEN_SYMBOL, TokenType.EVAL_OPEN) : open;
-        this.statements = statements.slice();
+        this.statements = statements.map((value: Statement, index) => withPrecedingSpaceIfDesired(
+            index > 0 && endsWithName(statements[index - 1]) && startsWithName(value),
+            value));
         this.close = !root && close === undefined ? new Token(EVAL_CLOSE_SYMBOL, TokenType.EVAL_CLOSE) : close;
         this.docs = docs;
         this.root = root;
         this.creator = creator;
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Block(
-            this.cloneOrReplaceChild([ Documentation ], "docs", this.docs, original, replacement),
-            this.cloneOrReplaceChild([ Expression, Unparsable, Share, Bind ], "statements", this.statements, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Documentation ], "docs", this.docs, original, replacement),
+            this.cloneOrReplaceChild<Statement[]>(pretty, [ Expression, Unparsable, Share, Bind ], "statements", this.statements, original, replacement)
+                .map((statement: Statement, index, statements) => {
+                    index;
+                    // If there are more than one expressions in the block, then pretty print with newlines and tabs.
+                    if(statements.length <= 1) return statement;
+                    // Otherwise, put a newline before the block and a number of tabs equal to the number of ancestor blocks, functions, and types.
+                    const blocks = this.getAncestors()?.filter(node => node instanceof Block || node instanceof FunctionDefinition || node instanceof StructureDefinition || node instanceof ConversionDefinition)?.length ?? 0;
+                    return withPrecedingSpaceIfDesired(true, statement, "\n" + "\t".repeat(blocks), false);
+                }),
             this.root,
             this.creator, 
-            this.cloneOrReplaceChild([ Token, undefined ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild([ Token, undefined], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token, undefined], "close", this.close, original, replacement)
         ) as this; 
     }
 

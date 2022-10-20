@@ -42,12 +42,12 @@ export default class SetOrMapAccess extends Expression {
         this.close = close;
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new SetOrMapAccess(
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "setOrMap", this.setOrMap, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "key", this.key, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "setOrMap", this.setOrMap, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "key", this.key, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
         ) as this; 
     }
 

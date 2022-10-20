@@ -1,11 +1,13 @@
 import type Conflict from "../conflicts/Conflict";
 import type Definition from "./Definition";
 import type Context from "./Context";
-import type Translations from "./Translations";
 import type Transform from "../transforms/Transform";
+import type Translations from "./Translations";
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
+
+export type Path = [ string, number ][];
 
 export default abstract class Node {
 
@@ -151,7 +153,7 @@ export default abstract class Node {
         const nodes: Node[] = [];
         this.traverse(node => { 
             if(include === undefined || include.call(undefined, node) === true)
-                nodes.push(node); 
+                nodes.push(node);
             return true; 
         });
         return nodes;
@@ -193,6 +195,36 @@ export default abstract class Node {
         return this._parent;
     }
 
+    /** 
+     * Recursively constructs a path to this node from it's parents. A path is just a sequence of node constructor and child index pairs. 
+     * The node constructor name is for printing and error checking and the number is just the index of the child from getChildren().
+     * This is useful for finding corresponding nodes during tree manipulation, where a lot of cloning and reformatting happens.
+    */
+    getPath(): Path {
+
+        let parent = this.getParent();
+        if(parent) return [ ... parent.getPath(), [ parent.constructor.name, parent.getChildren().indexOf(this), ] ]
+        else return [];
+
+    }
+
+    /**
+     * Attempts to recursively resolve a path by traversing children.
+     */
+    resolvePath(path: Path): Node | undefined {
+
+        if(path.length === 0) return this;
+
+        const [ type, index ] = path[0];
+
+        // If the type of node doesn't match, this path doesn't resolve.
+        return  this.constructor.name !== type ? undefined :
+                // Otherwise, ask the corresponding child to continue resolving the path, unless there isn't one,
+                // in which case the path doesn't resolve.
+                this.getChildren()[index]?.resolvePath(path.slice(1));
+        
+    }
+
     /** True if the given nodes appears in this tree. */
     contains(node: Node) {
 
@@ -212,9 +244,9 @@ export default abstract class Node {
     }
 
     /** Creates a deep clone of this node and it's descendants. If it encounters replacement along the way, it uses that instead of the existing node. */
-    abstract clone(original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
+    abstract clone(pretty: boolean, original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
 
-    cloneOrReplaceChild<ExpectedTypes>(types: (Function | undefined)[], name: string, child: Node | Node[] | undefined, original: Node | Node[] | string | undefined, replacement: Node | undefined): ExpectedTypes {
+    cloneOrReplaceChild<ExpectedTypes>(pretty: boolean, types: (Function | undefined)[], name: string, child: Node | Node[] | undefined, original: Node | Node[] | string | undefined, replacement: Node | undefined): ExpectedTypes {
 
         // If the original we're replacing matches this field name or the child node, then try to update it.then check it's type and if it's valid, return it.
         if((typeof original === "string" && original === name) || child === original || (Array.isArray(child) && original instanceof Node && child.includes(original))) {
@@ -250,9 +282,9 @@ export default abstract class Node {
 
        // Otherwise, just clone the child. If it's a list, clone the list items.
         if(Array.isArray(child))
-            return child.map(n => n.clone(original, replacement)) as ExpectedTypes
+            return child.map(n => n.clone(pretty, original, replacement)) as ExpectedTypes
         else       
-            return child?.clone(original, replacement) as ExpectedTypes;
+            return child?.clone(pretty, original, replacement) as ExpectedTypes;
 
     }
 

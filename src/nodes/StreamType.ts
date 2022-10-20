@@ -34,10 +34,10 @@ export default class StreamType extends Type {
 
     getNativeTypeName(): string { return STREAM_NATIVE_TYPE_NAME; }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new StreamType(
-            this.cloneOrReplaceChild([ Type, Unparsable ], "type", this.type, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "stream", this.stream, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Type, Unparsable ], "type", this.type, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "stream", this.stream, original, replacement)
         ) as this; 
     }
 

@@ -25,10 +25,10 @@ export default class NoneLiteral extends Expression {
         this.aliases = aliases ?? [];
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new NoneLiteral(
-            this.cloneOrReplaceChild([ Token ], "none", this.none, original, replacement), 
-            this.cloneOrReplaceChild([ Alias ], "aliases", this.aliases, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "none", this.none, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Alias ], "aliases", this.aliases, original, replacement)
         ) as this; 
     }
 

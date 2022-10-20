@@ -42,7 +42,7 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
 
     return [
         ...parent.getAllDefinitions(parent, context),
-        ...(child === undefined ? [] : [ new Block([], [ child.clone() ], false, false) ]),
+        ...(child === undefined ? [] : [ new Block([], [ child.clone(false) ], false, false) ]),
         new BooleanLiteral(true),
         new BooleanLiteral(false),
         ...[ new MeasurementLiteral(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => new MeasurementLiteral(undefined, u))) ],

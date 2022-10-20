@@ -12,7 +12,7 @@ export default class Append<NodeType extends Node> extends Transform {
 
     readonly parent: Node;
     readonly position: number;
-    /** Undefined means "at the end" */
+    /** Undefined means after the last child. Otherwise, the node should be whatever child we're inserting before, even if it's not part of the list. */
     readonly before: Node | undefined;
     readonly list: Node[];
     readonly insertion: NodeType | Reference<NodeType>
@@ -53,24 +53,25 @@ export default class Append<NodeType extends Node> extends Transform {
         }
 
         // Clone the list.
-        let newList = this.list.map(item => item.clone());
+        let newList = this.list.map(item => item.clone(false));
 
-        // Insert at the end.
-        if(this.before === undefined) {
-            newList.push(newChild);
-        }
-        // Insert in the middle, before the given child.
-        else {
-            const index = this.list.indexOf(this.before);
-            if(index < 0) return;
-            newList.splice(index, 0, newChild);
-        }
+        // Insert the new child in the list. 
+        // If its unspecified or it is but it's not in the list, then it's at the end of the list.
+        // If a child before was given and it's in the list, then 
+        const insertionIndex = this.before === undefined || this.list.indexOf(this.before) < 0 ? newList.length : this.list.indexOf(this.before); 
+        newList.splice(insertionIndex, 0, newChild);
+
+        // Remember the child index in the parent, so we can find the new child we insert after it.
+        const childIndex = this.before === undefined ? this.parent.getChildren().length : this.parent.getChildren().indexOf(this.before);
         
-        // Clone the parent with the new list.
-        const newParent = this.parent.clone(this.list, newList);
+        // Get a path to the parent so we can find it later.
+        const parentPath = this.parent.getPath();
+
+        // Clone the parent with the new list, pretty printing.
+        const newParent = this.parent.clone(true, this.list, newList);
         
         // Make a new program with the new parent
-        let newProgram = this.source.program.clone(this.parent, newParent);
+        let newProgram = this.source.program.clone(false, this.parent, newParent);
 
         // Finally, if there's after space, find the first token after the last token in the new list and update it's space.
         if(afterSpace !== undefined && spaceNodeIndex !== undefined) {
@@ -80,14 +81,28 @@ export default class Append<NodeType extends Node> extends Transform {
             const newProgramTokens = newProgram.nodes(n => n instanceof Token) as Token[];
             const newSpaceNode = newProgramTokens[newSpaceNodeIndex];
             if(newSpaceNode !== undefined)
-                newProgram = newProgram.clone(newSpaceNode, newSpaceNode.withSpace(afterSpace));
+                newProgram = newProgram.clone(false, newSpaceNode, newSpaceNode.withSpace(afterSpace));
         }
 
         // Clone the source with the new parent.
         const newSource = this.source.withProgram(newProgram);
 
-        // Return the new source and put the caret after the inserted new child in the list. 
-        return [ newSource, new Caret(newSource, this.position + newChild.toWordplay().trim().length) ];
+        // Resolve the parent path so we can find the location of the insertion.
+        const finalParent = newProgram.resolvePath(parentPath);
+
+        // Bail if we couldn't find the parent
+        if(finalParent === undefined) return;
+
+        // Find the new child we inserted. It's at the same index that we inserted before.
+        const finalNewNode = finalParent.getChildren()[childIndex];
+        if(finalNewNode === undefined) return;
+
+        // Find it's last token index.
+        const newLastIndex = newSource.getNodeLastIndex(finalNewNode);
+        if(newLastIndex === undefined) return;
+
+        // Return the new source and put the caret immediately after the inserted new child.
+        return [ newSource, new Caret(newSource, newLastIndex) ];
 
     }
 

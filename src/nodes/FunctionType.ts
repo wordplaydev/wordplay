@@ -54,10 +54,10 @@ export default class FunctionType extends Type {
 
     getNativeTypeName(): string { return FUNCTION_NATIVE_TYPE_NAME; }
     
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new FunctionType(
-            this.cloneOrReplaceChild([ Bind, Unparsable ], "inputs", this.inputs, original, replacement),
-            this.cloneOrReplaceChild([ Type, Unparsable ], "output", this.output, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "inputs", this.inputs, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Type, Unparsable ], "output", this.output, original, replacement)
         ) as this;
     }
 

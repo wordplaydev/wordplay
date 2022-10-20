@@ -38,9 +38,9 @@ export default class NoneType extends NativeType {
         return "!" + this.aliases.map(a => a.getName());
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new NoneType(
-            this.cloneOrReplaceChild([ Alias ], "aliases", this.aliases, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Alias ], "aliases", this.aliases, original, replacement)
         ) as this; 
     }
 

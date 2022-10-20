@@ -127,12 +127,12 @@ export default class Unit extends Type {
 
     }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Unit(
             this.exponents === undefined ? undefined : new Map(this.exponents),
-            this.cloneOrReplaceChild([ Dimension ], "numerator", this.numerator, original, replacement), 
-            this.cloneOrReplaceChild([ Token, undefined ], "slash", this.slash, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "denominator", this.denominator, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Dimension ], "numerator", this.numerator, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "slash", this.slash, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "denominator", this.denominator, original, replacement), 
         ) as this; 
 
     }

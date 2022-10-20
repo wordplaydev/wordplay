@@ -53,10 +53,10 @@ export default class TextLiteral extends Expression {
         }
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TextLiteral(
-            this.cloneOrReplaceChild([ Token ], "text", this.text, original, replacement), 
-            this.cloneOrReplaceChild([ Language, undefined ], "format", this.format, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "text", this.text, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Language, undefined ], "format", this.format, original, replacement)
         ) as this; 
     }
 

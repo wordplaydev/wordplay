@@ -33,10 +33,10 @@ export default class MeasurementLiteral extends Expression {
         this.unit = unit === undefined ? new Unit() : withPrecedingSpace(unit, "", true);
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new MeasurementLiteral(
-            this.cloneOrReplaceChild([ Token ], "number", this.number, original, replacement), 
-            this.cloneOrReplaceChild([ Unit, Unparsable ], "unit", this.unit, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "number", this.number, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Unit, Unparsable ], "unit", this.unit, original, replacement)
         ) as this; 
     }
 

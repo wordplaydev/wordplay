@@ -18,6 +18,8 @@ import { getExpressionInsertions, getExpressionReplacements } from "../transform
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
+import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
+import { endsWithName, startsWithName } from "./util";
 
 export type SetItem = Expression | Unparsable;
 
@@ -31,9 +33,20 @@ export default class SetLiteral extends Expression {
         super();
 
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
-        this.values = values.slice();
+        this.values = values.map((value: SetItem, index) => withPrecedingSpaceIfDesired(
+            index > 0 && endsWithName(values[index - 1]) && startsWithName(value),
+            value, " ", false))
         this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
         
+    }
+
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+        return new SetLiteral(
+            this.cloneOrReplaceChild<SetItem[]>(pretty, [ Expression, Unparsable ], "values", this.values, original, replacement)
+                .map((value: SetItem, index: number) => withPrecedingSpaceIfDesired(pretty && index > 0, value)),
+            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
+        ) as this; 
     }
 
     computeChildren() {
@@ -83,14 +96,6 @@ export default class SetLiteral extends Expression {
             
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
-        return new SetLiteral(
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "values", this.values, original, replacement),
-            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
-        ) as this; 
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         this.values.forEach(val => { if(val instanceof Expression) val.evaluateTypeSet(bind, original, current, context); });
         return current;
@@ -113,10 +118,8 @@ export default class SetLiteral extends Expression {
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined { 
 
         const index = this.values.indexOf(child as SetItem);
-        if(index >= 0)
+        if(index >= 0 || child === this.close)
             return getExpressionInsertions(context.source, position, this, this.values, child, context);
-        else if(child === this.close)
-            return getExpressionInsertions(context.source, position, this, this.values, undefined, context);
     
     }
 

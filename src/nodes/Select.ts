@@ -42,12 +42,12 @@ export default class Select extends Expression {
 
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Select(
-            this.cloneOrReplaceChild([ Expression ], "table", this.table, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "select", this.select, original, replacement), 
-            this.cloneOrReplaceChild([ Row ], "row", this.row, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "query", this.query, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Expression ], "table", this.table, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "select", this.select, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Row ], "row", this.row, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "query", this.query, original, replacement)
         ) as this; 
     }
 

@@ -18,6 +18,8 @@ import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
+import { endsWithName, startsWithName } from "./util";
 
 export default class Conditional extends Expression {
     
@@ -32,8 +34,18 @@ export default class Conditional extends Expression {
         this.condition = condition;
         this.conditional = conditional ?? new Token(BOOLEAN_TYPE_SYMBOL, TokenType.BOOLEAN_TYPE, " ");
         this.yes = yes;
-        this.no = no;
+        // Must have a preciding space if yes ends with a name and no starts with one.
+        this.no = withPrecedingSpaceIfDesired(endsWithName(yes) && startsWithName(no), no);
 
+    }
+
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+        return new Conditional(
+            this.cloneOrReplaceChild(pretty, [ Expression ], "condition", this.condition, original, replacement), 
+            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "yes", this.yes, original, replacement)), 
+            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "no", this.no, original, replacement)),
+            withPrecedingSpaceIfDesired<Token>(pretty, this.cloneOrReplaceChild(pretty, [ Token ], "conditional", this.conditional, original, replacement))
+        ) as this;
     }
 
     computeChildren() { return [ this.condition, this.conditional, this.yes, this.no ]; }
@@ -103,15 +115,6 @@ export default class Conditional extends Expression {
 
     /** We never actually evaluate this node below because the jump logic handles things. */
     evaluate() { return undefined; }
-
-    clone(original?: Node | string, replacement?: Node) { 
-        return new Conditional(
-            this.cloneOrReplaceChild([ Expression ], "condition", this.condition, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "yes", this.yes, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "no", this.no, original, replacement),
-            this.cloneOrReplaceChild([ Token ], "conditional", this.conditional, original, replacement)
-        ) as this;
-    }
 
     /** 
      * Type checks narrow the set to the specified type, if contained in the set and if the check is on the same bind.

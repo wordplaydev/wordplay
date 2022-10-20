@@ -66,10 +66,10 @@ export default class MeasurementType extends NativeType {
 
     getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new MeasurementType(
-            this.cloneOrReplaceChild([ Token ], "number", this.number, original, replacement), 
-            this.unit === undefined || this.unit instanceof Function ? this.unit : this.cloneOrReplaceChild([ Unit, Unparsable ], "unit", this.unit, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "number", this.number, original, replacement), 
+            this.unit === undefined || this.unit instanceof Function ? this.unit : this.cloneOrReplaceChild(pretty, [ Unit, Unparsable ], "unit", this.unit, original, replacement)
         ) as this; 
     }
 

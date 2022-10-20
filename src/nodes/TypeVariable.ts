@@ -15,10 +15,10 @@ export default class TypeVariable extends Node {
         this.name = name instanceof Token ? name : new Token(name, TokenType.NAME);
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TypeVariable(
-            this.cloneOrReplaceChild([ Token ], "name", this.name, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "type", this.type, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "name", this.name, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "type", this.type, original, replacement)
         ) as this; 
     }
 

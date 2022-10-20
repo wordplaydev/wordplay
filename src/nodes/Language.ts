@@ -21,10 +21,10 @@ export default class Language extends Node {
         this.lang = typeof lang === "string" ? new Token(lang, TokenType.NAME) : lang;
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Language(
-            this.cloneOrReplaceChild([ Token, undefined ], "lang", this.lang, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "slash", this.slash, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "lang", this.lang, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "slash", this.slash, original, replacement)
         ) as this; 
     }
 

@@ -26,11 +26,11 @@ export default class Alias extends Node {
         this.lang = typeof lang === "string" ? new Language(lang) : lang;
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Alias(
-            this.cloneOrReplaceChild([ Token, undefined], "name", this.name, original, replacement), 
-            this.cloneOrReplaceChild([ Language, undefined], "lang", this.lang, original, replacement),
-            this.cloneOrReplaceChild([ Token, undefined], "separator", this.separator, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token, undefined], "name", this.name, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Language, undefined], "lang", this.lang, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token, undefined], "separator", this.separator, original, replacement)
         ) as this;
     }
 

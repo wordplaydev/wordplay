@@ -85,11 +85,11 @@ export default class Is extends Expression {
         }
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Is(
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "expression", this.expression, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "operator", this.operator, original, replacement),
-            this.cloneOrReplaceChild([ Unparsable, Type ], "type", this.type, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "expression", this.expression, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "operator", this.operator, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Unparsable, Type ], "type", this.type, original, replacement)
         ) as this; 
     }
 

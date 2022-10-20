@@ -18,10 +18,10 @@ export default class Cell extends Node {
         this.value = expression;
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Cell(
-            this.cloneOrReplaceChild([ Token ], "bar", this.bar, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable, Bind ], "value", this.value, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "bar", this.bar, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable, Bind ], "value", this.value, original, replacement)
         ) as this; 
     }
 

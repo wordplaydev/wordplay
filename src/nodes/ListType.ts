@@ -47,11 +47,11 @@ export default class ListType extends NativeType {
 
     getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ListType(
-            this.cloneOrReplaceChild([ Type, Unparsable, undefined ], "type", this.type, original, replacement),
-            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement),
-            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Type, Unparsable, undefined ], "type", this.type, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
         ) as this; 
     }
 

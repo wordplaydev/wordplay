@@ -72,17 +72,17 @@ export default class StructureDefinition extends Expression {
         this.block = block;
     }
 
-    clone(original?: Node | string, replacement?: Node) {
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) {
         return new StructureDefinition(
-            this.cloneOrReplaceChild([ Documentation ], "docs", this.docs, original, replacement),
-            this.cloneOrReplaceChild([ Alias ], "aliases", this.aliases, original, replacement),
-            this.cloneOrReplaceChild([ TypeInput ], "interfaces", this.interfaces, original, replacement), 
-            this.cloneOrReplaceChild([ TypeVariable, Unparsable ], "typeVars", this.typeVars, original, replacement),
-            this.cloneOrReplaceChild([ Bind, Unparsable ], "inputs", this.inputs, original, replacement),
-            this.cloneOrReplaceChild([ Block, Unparsable ], "block", this.block, original, replacement),
-            this.cloneOrReplaceChild([ Token ], "type", this.type, original, replacement),
-            this.cloneOrReplaceChild([ Token, undefined ], "open", this.open, original, replacement),
-            this.cloneOrReplaceChild([ Token, undefined ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Documentation ], "docs", this.docs, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Alias ], "aliases", this.aliases, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ TypeInput ], "interfaces", this.interfaces, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ TypeVariable, Unparsable ], "typeVars", this.typeVars, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "inputs", this.inputs, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Block, Unparsable ], "block", this.block, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token ], "type", this.type, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "open", this.open, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "close", this.close, original, replacement)
         ) as this;
     }
 
@@ -271,17 +271,17 @@ export default class StructureDefinition extends Expression {
             if((this.interfaces.length === 0 && this.typeVars.length === 0) ||
                 (this.interfaces.length > 0 && child === this.interfaces[0]) ||
                 (this.interfaces.length === 0 && this.typeVars.length > 0 && this.typeVars[0] === child))
-                transforms.push(new Append(context.source, position, this, this.aliases, undefined, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))));
+                transforms.push(new Append(context.source, position, this, this.aliases, child, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))));
 
             if(this.typeVars.length === 0)
-                transforms.push(new Append(context.source, position, this, this.typeVars, undefined, new TypeInput(new TypePlaceholder())));
+                transforms.push(new Append(context.source, position, this, this.typeVars, child, new TypeInput(new TypePlaceholder())));
 
             return transforms;
         }
         else if(this.interfaces.includes(child as TypeInput))
             return [ new Append(context.source, position, this, this.interfaces, child, new TypeInput(new TypePlaceholder())) ]
         else if(child === this.close || this.inputs.includes(child as Bind))
-            return [ new Append(context.source, position, this, this.inputs, undefined, new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ])) ];
+            return [ new Append(context.source, position, this, this.inputs, child, new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ])) ];
     }
     
     getInsertionAfter() { return undefined; }

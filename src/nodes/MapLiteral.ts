@@ -22,6 +22,8 @@ import type Bind from "./Bind";
 import SemanticException from "../runtime/SemanticException";
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
+import { endsWithName, startsWithName } from "./util";
+import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 
 export type MapItem = Unparsable | KeyValue;
 
@@ -35,19 +37,22 @@ export default class MapLiteral extends Expression {
     constructor(values: MapItem[], open?: Token, bind?: Token, close?: Token | Unparsable) {
         super();
 
-        this.values = values.slice();
+        this.values = values.map((value: MapItem, index) => withPrecedingSpaceIfDesired(
+            index > 0 && endsWithName(values[index - 1]) && startsWithName(value),
+            value, " ", false))
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
         this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
         this.bind = bind;
         
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new MapLiteral(
-            this.cloneOrReplaceChild([ Unparsable, KeyValue ], "values", this.values, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild([ Token, undefined ], "bind", this.bind, original, replacement),
-            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild<MapItem[]>(pretty, [ Unparsable, KeyValue ], "values", this.values, original, replacement)
+                .map((value: MapItem, index: number) => withPrecedingSpaceIfDesired(pretty && index > 0, value)),
+            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "bind", this.bind, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
         ) as this; 
     }
 

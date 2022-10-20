@@ -93,11 +93,11 @@ export default class Program extends Node implements Evaluable {
 
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Program(
-            this.cloneOrReplaceChild([ Borrow, Unparsable ], "borrows", this.borrows, original, replacement), 
-            this.cloneOrReplaceChild([ Block, Unparsable ], "block", this.block, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "end", this.end, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Borrow, Unparsable ], "borrows", this.borrows, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Block, Unparsable ], "block", this.block, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "end", this.end, original, replacement)
         ) as this; 
     }
 
@@ -112,7 +112,7 @@ export default class Program extends Node implements Evaluable {
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
     
         if(child === this.block || this.borrows.includes(child as Borrow))
-            return [ new Append(context.source, position, this, this.borrows, child === this.block ? undefined : child, new Borrow()) ];
+            return [ new Append(context.source, position, this, this.borrows, child, new Borrow()) ];
     
     }
 

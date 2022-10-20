@@ -94,11 +94,11 @@ export default class Delete extends Expression {
         }
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Delete(
-            this.cloneOrReplaceChild([ Expression ], "table", this.table, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "del", this.del, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "query", this.query, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Expression ], "table", this.table, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "del", this.del, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "query", this.query, original, replacement)
         ) as this; 
     }
 

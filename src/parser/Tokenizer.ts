@@ -70,7 +70,7 @@ const RESERVED_SYMBOLS = [
 ];
 
 const TEXT_SEPARATORS = "'‘’\"“”„«»‹›「」『』";
-const OPERATORS = '+\\-×·÷%^<≤=≠≥>∧∨¬√~\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F';
+const OPERATORS = '+\\-×·÷%^<≤=≠≥>∧∨¬√~\?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F';
 
 function escapeRegexCharacter(c: string) { return /[\\\/\(\)\[\]\{\}]/.test(c) ? "\\" + c : c }
 

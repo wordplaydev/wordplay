@@ -31,7 +31,7 @@ import TokenType from "./TokenType";
 
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
-import withPrecedingSpace from "../transforms/withPrecedingSpace";
+import withPrecedingSpace, { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 
 export default class BinaryOperation extends Expression {
 
@@ -44,14 +44,15 @@ export default class BinaryOperation extends Expression {
 
         this.operator = operator;
         this.left = left;
+        // Must have a preceding space, otherwise its tokenized as a unary operator.
         this.right = withPrecedingSpace(right);
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new BinaryOperation(
-            this.cloneOrReplaceChild([ Token ], "operator", this.operator, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "left", this.left, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "right", this.right, original, replacement)
+            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Token ], "operator", this.operator, original, replacement)), 
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "left", this.left, original, replacement), 
+            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "right", this.right, original, replacement))
         ) as this; 
     }
 

@@ -65,18 +65,18 @@ export default class FunctionDefinition extends Expression {
         this.expression = expression;
     }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new FunctionDefinition(
-            this.cloneOrReplaceChild([ Documentation ], "docs", this.docs, original, replacement), 
-            this.cloneOrReplaceChild([ Alias ], "aliases", this.aliases, original, replacement), 
-            this.cloneOrReplaceChild([ TypeVariable, Unparsable ], "typeVars", this.typeVars, original, replacement), 
-            this.cloneOrReplaceChild([ Bind, Unparsable ], "inputs", this.inputs, original, replacement), 
-            this.cloneOrReplaceChild([ Expression, Unparsable ], "expression", this.expression, original, replacement), 
-            this.cloneOrReplaceChild([ Unparsable, Type, undefined ], "type", this.type, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "fun", this.fun, original, replacement), 
-            this.cloneOrReplaceChild([ Token, undefined ], "dot", this.dot, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Documentation ], "docs", this.docs, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Alias ], "aliases", this.aliases, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ TypeVariable, Unparsable ], "typeVars", this.typeVars, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "inputs", this.inputs, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "expression", this.expression, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Unparsable, Type, undefined ], "type", this.type, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "fun", this.fun, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "dot", this.dot, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
         ) as this; 
     }
 
@@ -231,7 +231,7 @@ export default class FunctionDefinition extends Expression {
         const newBind = new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ]);
 
         if(child === this.close)
-            return [ new Append(context.source, position, this, this.inputs, undefined, newBind)]
+            return [ new Append(context.source, position, this, this.inputs, this.close, newBind)]
         else if(this.inputs.includes(child as Bind))
             return [ new Append(context.source, position, this, this.inputs, child, newBind) ];
 

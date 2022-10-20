@@ -26,10 +26,10 @@ export default class Column extends Node {
     hasDefault() { return this.bind instanceof Bind && this.bind.hasDefault(); }
     getType(context: Context) { return this.bind instanceof Unparsable ? new UnknownType(this) : this.bind.getTypeUnlessCycle(context); }
 
-    clone(original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Column(
-            this.cloneOrReplaceChild([ Token ], "bar", this.bar, original, replacement), 
-            this.cloneOrReplaceChild([ Bind, Unparsable ], "bind", this.bind, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "bar", this.bar, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "bind", this.bind, original, replacement)
         ) as this; 
     }
 
