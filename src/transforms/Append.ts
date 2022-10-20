@@ -5,6 +5,8 @@ import type LanguageCode from "../nodes/LanguageCode";
 import type { Edit } from "../editor/Commands";
 import type Reference from "./Reference";
 import Caret from "../models/Caret";
+import Token from "../nodes/Token";
+import withPrecedingSpace from "./withPrecedingSpace";
 
 export default class Append<NodeType extends Node> extends Transform {
 
@@ -30,29 +32,63 @@ export default class Append<NodeType extends Node> extends Transform {
     getEdit(lang: LanguageCode): Edit {
 
         // Get the node to insert.
-        const newChild = this.getSubjectNode(lang);
+        let newChild = this.getSubjectNode(lang);
+
+        // Find the space before the insertion by finding the token that contains the index.
+        // Insert the space we find before it.
+        const programTokens = this.source.program.nodes(n => n instanceof Token) as Token[];
+        const spaceNodeIndex = programTokens.findIndex(n => n.whitespaceContainsPosition(this.position));
+        const spaceNode = spaceNodeIndex < 0 ? undefined : programTokens[spaceNodeIndex];
+        let afterSpace = undefined;
+        if(spaceNode !== undefined) {
+            const space = spaceNode.whitespace;
+            const spaceIndex = spaceNode.getWhitespaceIndex();
+            const splitIndex = spaceIndex === undefined ? undefined : this.position - spaceIndex;
+            if(space !== undefined && splitIndex !== undefined) {
+                const beforeSpace = space?.substring(0, splitIndex);
+                // Save this for later.
+                afterSpace = space?.substring(splitIndex);
+                // Create a new child with the whitespace before
+                newChild = withPrecedingSpace(newChild, beforeSpace);
+            }
+        }
 
         // Clone the list.
-        const newList = this.list.map(item => item.clone());
-        if(this.before === undefined)
+        let newList = this.list.map(item => item.clone());
+
+        // Insert at the end.
+        if(this.before === undefined) {
             newList.push(newChild);
+        }
+        // Insert in the middle, before the given child.
         else {
             const index = this.list.indexOf(this.before);
             if(index < 0) return;
             newList.splice(index, 0, newChild);
         }
-
-        // Clone with the parent with the new list.
+        
+        // Clone the parent with the new list.
         const newParent = this.parent.clone(this.list, newList);
         
+        // Make a new program with the new parent
+        let newProgram = this.source.program.clone(this.parent, newParent);
+
+        // Finally, if there's after space, find the first token after the last token in the new list and update it's space.
+        if(afterSpace !== undefined) {
+            // Find the corresponding token in the revised program by summing it's original token index with the number
+            // of tokens in the new child.
+            const newSpaceNodeIndex = spaceNodeIndex + newChild.nodes(n => n instanceof Token).length;
+            const newProgramTokens = newProgram.nodes(n => n instanceof Token) as Token[];
+            const newSpaceNode = newProgramTokens[newSpaceNodeIndex];
+            if(newSpaceNode !== undefined)
+                newProgram = newProgram.clone(newSpaceNode, newSpaceNode.withSpace(afterSpace));
+        }
+
         // Clone the source with the new parent.
-        const newSource = this.source.withCode(
-            this.source.program.clone(this.parent, newParent)
-            .toWordplay()
-        );
+        const newSource = this.source.withCode(newProgram.toWordplay());
 
         // Return the new source and put the caret after the inserted new child in the list. 
-        return [ newSource, new Caret(newSource, this.position + newChild.toWordplay().length) ];
+        return [ newSource, new Caret(newSource, this.position + newChild.toWordplay().trim().length) ];
 
     }
 

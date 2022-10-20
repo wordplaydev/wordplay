@@ -58,9 +58,6 @@
                     $caret.position - textIndex : 
                     undefined;
 
-            if(caretIndex === undefined) 
-                console.log("Index is " + caretIndex);
-
         }
     }
 

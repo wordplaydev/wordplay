@@ -333,9 +333,12 @@
             if(event.key === "ArrowDown" && menuSelection < menu.transforms.length - 1) { menuSelection += 1; return; }
             else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
             else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
-            else if(event.key === "Enter" && menuSelection >= 0 && menu.transforms.length > 0)
+            else if(event.key === "Enter" && menuSelection >= 0 && menu.transforms.length > 0) {
                 handleEdit(menu.transforms[menuSelection].getEdit("eng"));
+                return;
+            }
 
+            // Hide the menu, then process the navigation.
             if(event.key === "ArrowLeft" || event.key === "ArrowRight")
                 hideMenu();
         }
