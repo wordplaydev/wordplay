@@ -20,10 +20,10 @@ export default class FunctionType extends Type {
     constructor(inputs: (Bind|Unparsable)[], output: Type | Unparsable, fun?: Token, open?: Token, close?: Token) {
         super();
 
-        this.fun = fun ?? new Token(FUNCTION_SYMBOL, [ TokenType.FUNCTION ]);
-        this.open = open ?? new Token(EVAL_OPEN_SYMBOL, [ TokenType.EVAL_OPEN ]);
+        this.fun = fun ?? new Token(FUNCTION_SYMBOL, TokenType.FUNCTION);
+        this.open = open ?? new Token(EVAL_OPEN_SYMBOL, TokenType.EVAL_OPEN);
         this.inputs = inputs;
-        this.close = close ?? new Token(EVAL_CLOSE_SYMBOL, [ TokenType.EVAL_CLOSE ]);;
+        this.close = close ?? new Token(EVAL_CLOSE_SYMBOL, TokenType.EVAL_CLOSE);;
         this.output = output;
     }
 

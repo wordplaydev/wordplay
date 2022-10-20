@@ -18,7 +18,7 @@ export default class KeyValue extends Node {
         super();
 
         this.key = key;
-        this.bind = bind ?? new Token(BIND_SYMBOL, [ TokenType.BIND ]);
+        this.bind = bind ?? new Token(BIND_SYMBOL, TokenType.BIND);
         this.value = value;
     }
 

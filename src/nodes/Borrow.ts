@@ -24,7 +24,7 @@ export default class Borrow extends Node implements Evaluable {
     constructor(borrow?: Token, name?: Token, version?: Token) {
         super();
 
-        this.borrow = borrow ?? new Token(BORROW_SYMBOL, [ TokenType.BORROW ]);
+        this.borrow = borrow ?? new Token(BORROW_SYMBOL, TokenType.BORROW);
         this.name = name;
         this.version = version;
     }
@@ -88,7 +88,7 @@ export default class Borrow extends Node implements Evaluable {
             // Return name tokens of all shares
             return context.shares
                 ?.getDefinitions()
-                .map(def => new Replace<Token>(context.source, child, [ name => new Token(name, [ TokenType.NAME ]), def ])) ?? [];
+                .map(def => new Replace<Token>(context.source, child, [ name => new Token(name, TokenType.NAME), def ])) ?? [];
     
     }
 

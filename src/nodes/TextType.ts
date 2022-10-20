@@ -20,7 +20,7 @@ export default class TextType extends NativeType {
     constructor(quote?: Token, format?: Language) {
         super();
 
-        this.quote = quote ?? new Token(TEXT_SYMBOL, [ TokenType.TEXT_TYPE ]);
+        this.quote = quote ?? new Token(TEXT_SYMBOL, TokenType.TEXT_TYPE);
         this.format = format;
     }
 

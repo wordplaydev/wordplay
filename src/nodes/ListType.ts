@@ -19,9 +19,9 @@ export default class ListType extends NativeType {
     constructor(type?: Type | Unparsable, open?: Token, close?: Token) {
         super();
 
-        this.open = open ?? new Token(LIST_OPEN_SYMBOL, [ TokenType.LIST_OPEN ]);
+        this.open = open ?? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN);
         this.type = type;
-        this.close = close ?? new Token(LIST_CLOSE_SYMBOL, [ TokenType.LIST_CLOSE ]);
+        this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
     }
 
     computeConflicts() {}

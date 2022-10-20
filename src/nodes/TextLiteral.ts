@@ -23,7 +23,7 @@ export default class TextLiteral extends Expression {
 
     constructor(text?: Token, format?: Language) {
         super();
-        this.text = text ?? new Token('""', [ TokenType.TEXT ]);
+        this.text = text ?? new Token('""', TokenType.TEXT);
         this.format = format;
     }
 

@@ -19,7 +19,7 @@ export default class TableType extends Type {
         super();
 
         this.columns = columns;
-        this.close = close ?? new Token(TABLE_CLOSE_SYMBOL, [ TokenType.TABLE_CLOSE ]);
+        this.close = close ?? new Token(TABLE_CLOSE_SYMBOL, TokenType.TABLE_CLOSE);
     }
 
     clone(original?: Node | string, replacement?: Node) { 

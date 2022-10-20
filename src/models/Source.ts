@@ -1,6 +1,6 @@
 import type Node from "../nodes/Node";
 import Token from "../nodes/Token";
-import type Program from "../nodes/Program";
+import Program from "../nodes/Program";
 import Native from "../native/NativeBindings";
 import type Conflict from "../conflicts/Conflict";
 import { parseProgram, Tokens } from "../parser/Parser";
@@ -38,20 +38,39 @@ export default class Source {
     /** The Project sets this once it's added. */
     _project: Project | undefined;
     
+    /** Functions to call when a source's evaluator has an update. */
     readonly observers: Set<() => void> = new Set();
 
-    constructor(name: string, code: string | UnicodeString, observers?: Set<() => void>) {
+    /** An index of token positions in the source file. */
+    readonly indicies: Map<Token, number> = new Map();
+
+    constructor(name: string, code: string | UnicodeString | Program, observers?: Set<() => void>) {
 
         this.name = name;
-        this.code = typeof code === "string" ? new UnicodeString(code) : code;
+
+        // Get the text of the program as a unicode string.
+        this.code = typeof code === "string" ? new UnicodeString(code) : 
+                    code instanceof UnicodeString ? code :
+                    new UnicodeString(code.toWordplay());
         
-        // Compute derived fields.
-        this.program = parseProgram(new Tokens(tokenize(this.code.getText())));
+        // Get the AST representation of the progrma.
+        this.program = code instanceof Program ? code : parseProgram(new Tokens(tokenize(this.code.getText())));
+
+        // Create an index of the program's tokens.
+        let index = 0;
+        for(const token of this.program.nodes(n => n instanceof Token) as Token[]) {
+            index += token.space.length;
+            this.indicies.set(token, index);
+            index += token.text.getLength();
+        }
+
+        // Create an evaluator, listen to it's changes, and set up any given observers.
         this.evaluator = new Evaluator(this);
         this.evaluator.observe(this);
-        this.conflicts = [];
-
         if(observers !== undefined) this.observers = observers;
+
+        // Start a cache of conflicts in the program.
+        this.conflicts = [];
 
     }
 
@@ -177,11 +196,34 @@ export default class Source {
     }
 
     withProgram(program: Program) {
-        return new Source(this.name, new UnicodeString(program.toWordplay()), this.observers);
+        return new Source(this.name, program, this.observers);
     }
 
     clone() {
         return new Source(this.name, this.code, this.observers);
+    }
+
+    getTokenTextIndex(token: Token) {
+        const index = this.indicies.get(token);
+        if(index === undefined) throw Error("No index for the given token; it must not be in this source, which means there's a defect somewhere.");
+        return index;
+    }
+
+    getTokenSpaceIndex(token: Token) { return this.getTokenTextIndex(token) - token.space.length; }
+    getTokenLastIndex(token: Token) { return this.getTokenTextIndex(token) + token.getTextLength(); }
+
+    getTokenAt(position: number) {
+        // This could be faster with binary search, but let's not prematurely optimize.
+        for(const [token, index] of this.indicies) {
+            if(position >= index - token.space.length && position <= index + token.getTextLength())
+                return token;
+        }
+        return undefined;
+    }
+
+    tokenSpaceContains(token: Token, position: number) {
+        const index = this.getTokenTextIndex(token);
+        return position >= index - token.space.length && position <= index;     
     }
 
     getNextToken(token: Token, direction: -1 | 1): Token | undefined {
@@ -191,6 +233,17 @@ export default class Source {
         return (direction < 0 && index <= 0) ? undefined : 
             (direction > 0 && index >= tokens.length - 1) ? undefined :
             tokens[index + direction];
+
+    }
+
+    getFirstToken(node: Node): Token | undefined {
+
+        let next = node;
+        do {
+            if(next instanceof Token) return next;
+            next = next.getChildren()[0];
+        } while(next !== undefined);
+        return undefined;
 
     }
 

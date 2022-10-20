@@ -39,7 +39,7 @@ export default class Name extends Expression {
 
         super();
 
-        this.name = typeof name ==="string" ? new Token(name, [ TokenType.NAME ]) : name;
+        this.name = typeof name ==="string" ? new Token(name, TokenType.NAME) : name;
 
     }
 
@@ -166,7 +166,7 @@ export default class Name extends Expression {
 
         if(child === this.name)
             return this.getAllDefinitions(this, context)
-                .map(def => new Replace<Token>(context.source, child, [ name => new Token(name, [ TokenType.NAME ]), def ]))
+                .map(def => new Replace<Token>(context.source, child, [ name => new Token(name, TokenType.NAME), def ]))
 
     }
 

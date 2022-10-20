@@ -3,7 +3,6 @@ import Transform from "./Transform";
 import Node from "../nodes/Node";
 import type Source from "../models/Source";
 import Caret from "../models/Caret";
-import Token from "../nodes/Token";
 import type LanguageCode from "../nodes/LanguageCode";
 import type Reference from "./Reference";
 
@@ -28,9 +27,10 @@ export default class Replace<NodeType extends Node> extends Transform {
         const replacement = this.getSubjectNode(lang);
 
         // Replace the child, then clone the program with the new parent, and create a new source from it.
-        const parentIndex = (parent.nodes(n => n instanceof Token) as Token[])[0]?.index;
+        const parentFirstToken = this.source.getFirstToken(parent);
+        const parentIndex = parentFirstToken === undefined ? undefined : this.source.getTokenTextIndex(parentFirstToken);
         const newParent = parent.clone(this.node, replacement);
-        const newSource = this.source.withCode(this.source.program.clone(parent, newParent).toWordplay())
+        const newSource = this.source.withProgram(this.source.program.clone(parent, newParent))
         // Return the new source and place the caret after the replacement.
         return parentIndex === undefined ? undefined : [ newSource, new Caret(newSource, parentIndex + newParent.toWordplay().length) ];
 

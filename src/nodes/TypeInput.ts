@@ -13,7 +13,7 @@ export default class TypeInput extends Node {
     constructor(type: Type | Unparsable, dot?: Token) {
         super();
 
-        this.dot = dot ?? new Token(TYPE_SYMBOL, [ TokenType.TYPE ]);
+        this.dot = dot ?? new Token(TYPE_SYMBOL, TokenType.TYPE);
         this.type = type;
     }
 

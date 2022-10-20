@@ -36,13 +36,12 @@ export default class Append<NodeType extends Node> extends Transform {
 
         // Find the space before the insertion by finding the token that contains the index.
         // Insert the space we find before it.
-        const programTokens = this.source.program.nodes(n => n instanceof Token) as Token[];
-        const spaceNodeIndex = programTokens.findIndex(n => n.whitespaceContainsPosition(this.position));
-        const spaceNode = spaceNodeIndex < 0 ? undefined : programTokens[spaceNodeIndex];
+        const spaceNode = this.source.getTokenAt(this.position);
+        const spaceNodeIndex = spaceNode === undefined ? undefined : this.source.program.nodes(n => n instanceof Token).indexOf(spaceNode);
         let afterSpace = undefined;
         if(spaceNode !== undefined) {
-            const space = spaceNode.whitespace;
-            const spaceIndex = spaceNode.getWhitespaceIndex();
+            const space = spaceNode.space;
+            const spaceIndex = this.source.getTokenSpaceIndex(spaceNode);
             const splitIndex = spaceIndex === undefined ? undefined : this.position - spaceIndex;
             if(space !== undefined && splitIndex !== undefined) {
                 const beforeSpace = space?.substring(0, splitIndex);
@@ -74,7 +73,7 @@ export default class Append<NodeType extends Node> extends Transform {
         let newProgram = this.source.program.clone(this.parent, newParent);
 
         // Finally, if there's after space, find the first token after the last token in the new list and update it's space.
-        if(afterSpace !== undefined) {
+        if(afterSpace !== undefined && spaceNodeIndex !== undefined) {
             // Find the corresponding token in the revised program by summing it's original token index with the number
             // of tokens in the new child.
             const newSpaceNodeIndex = spaceNodeIndex + newChild.nodes(n => n instanceof Token).length;
@@ -85,7 +84,7 @@ export default class Append<NodeType extends Node> extends Transform {
         }
 
         // Clone the source with the new parent.
-        const newSource = this.source.withCode(newProgram.toWordplay());
+        const newSource = this.source.withProgram(newProgram);
 
         // Return the new source and put the caret after the inserted new child in the list. 
         return [ newSource, new Caret(newSource, this.position + newChild.toWordplay().trim().length) ];

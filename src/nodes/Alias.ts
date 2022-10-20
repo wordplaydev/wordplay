@@ -22,7 +22,7 @@ export default class Alias extends Node {
         super();
 
         this.separator = separator;
-        this.name = typeof name === "string" ? new Token(name, [ TokenType.NAME ]) : name;
+        this.name = typeof name === "string" ? new Token(name, TokenType.NAME) : name;
         this.lang = typeof lang === "string" ? new Language(lang) : lang;
     }
 

@@ -30,9 +30,9 @@ export default class SetLiteral extends Expression {
     constructor(values: SetItem[], open?: Token, close?: Token | Unparsable) {
         super();
 
-        this.open = open ?? new Token(SET_OPEN_SYMBOL, [ TokenType.SET_OPEN ]);
+        this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
         this.values = values.slice();
-        this.close = close ?? new Token(SET_CLOSE_SYMBOL, [ TokenType.SET_CLOSE ]);
+        this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
         
     }
 

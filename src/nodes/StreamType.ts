@@ -16,7 +16,7 @@ export default class StreamType extends Type {
     constructor(type: Type | Unparsable, stream?: Token) {
         super();
 
-        this.stream = stream ?? new Token(REACTION_SYMBOL, [ TokenType.REACTION ]);
+        this.stream = stream ?? new Token(REACTION_SYMBOL, TokenType.REACTION);
         this.type = type;
     }
 

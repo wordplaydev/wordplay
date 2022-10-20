@@ -23,7 +23,7 @@ export default class MeasurementType extends NativeType {
 
     constructor(number?: Token, unit?: Unit | Unparsable | UnitDeriver) {
         super();
-        this.number = number ?? new Token(MEASUREMENT_SYMBOL, [ TokenType.NUMBER_TYPE ]);
+        this.number = number ?? new Token(MEASUREMENT_SYMBOL, TokenType.NUMBER_TYPE);
         this.unit = unit ?? new Unit();
     }
 

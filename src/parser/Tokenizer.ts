@@ -172,46 +172,42 @@ const patterns = [
 
 export function tokenize(source: string): Token[] {
     const tokens: Token[] = [];
-    let index = 0;
     while(source.length > 0) {
-        const nextToken = getNextToken(source, index);
+        const nextToken = getNextToken(source);
         if(nextToken === undefined) break;
         // Trim the token off the source.
         source = source.substring(nextToken.text.toString().length + nextToken.getWhitespace().length);
         tokens.push(nextToken);
-        // Increment the grapheme index by the grapheme length.
-        index += nextToken.getTextLength() + nextToken.getWhitespace().length;
     }
 
     // If there's nothing left -- or nothing but whitespace -- and the last token isn't a already end token, add one.
     if(tokens.length === 0 || !tokens[tokens.length - 1].is(TokenType.END))
-        tokens.push(new Token("", [ TokenType.END ], index, ""));
+        tokens.push(new Token("", TokenType.END));
 
     return tokens;
 }
 
-function getNextToken(source: string, index: number): Token | undefined {
+function getNextToken(source: string): Token | undefined {
 
     // Is there a series of space or tabs?
     const spaceMatch = source.match(/^[ \t\n]+/);
     const space = spaceMatch === null ? "" : spaceMatch[0];
     const trimmedSource = source.substring(space.length);
-    const startIndex = index + space.length;
 
     // If there's nothing left, return an end of file token.
-    if(trimmedSource.length === 0) return new Token("", [ TokenType.END ], startIndex, space);
+    if(trimmedSource.length === 0) return new Token("", TokenType.END, space);
 
     // See if one of the more complex regular expression patterns matches.
     for(let i = 0; i < patterns.length; i++) {
         const pattern = patterns[i];
         // If it's a string pattern, just see if the source starts with it.
         if(typeof pattern.pattern === 'string' && trimmedSource.startsWith(pattern.pattern))
-            return new Token(pattern.pattern, pattern.types, startIndex, space);
+            return new Token(pattern.pattern, pattern.types, space);
         else if(pattern.pattern instanceof RegExp) {
             const match = trimmedSource.match(pattern.pattern);
             // If we found a match, then return it.
             if(match !== null)
-                return new Token(match[0], pattern.types, startIndex, space);
+                return new Token(match[0], pattern.types, space);
         }
     }
     
@@ -221,6 +217,6 @@ function getNextToken(source: string, index: number): Token | undefined {
         const char = trimmedSource.charAt(nextSpace);
         if(char === " " || char === "\t" || char === "\n") break;
     }
-    return new Token(trimmedSource.substring(0, nextSpace), [ TokenType.UNKNOWN ], startIndex, space);
+    return new Token(trimmedSource.substring(0, nextSpace), TokenType.UNKNOWN, space);
 
 }

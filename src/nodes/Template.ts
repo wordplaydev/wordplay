@@ -32,7 +32,7 @@ export default class Template extends Expression {
     constructor(parts?: Part[], format?: Language) {
         super();
 
-        this.parts = parts ?? [ new Token("'\\",[ TokenType.TEXT_OPEN ]), new ExpressionPlaceholder(), new Token("\\'", [ TokenType.TEXT_CLOSE ] )];
+        this.parts = parts ?? [ new Token("'\\", TokenType.TEXT_OPEN), new ExpressionPlaceholder(), new Token("\\'", TokenType.TEXT_CLOSE )];
         this.format = format;
     }
 

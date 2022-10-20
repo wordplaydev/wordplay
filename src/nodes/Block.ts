@@ -49,9 +49,9 @@ export default class Block extends Expression {
     constructor(docs: Documentation[], statements: Statement[], root: boolean, creator: boolean, open?: Token | Unparsable, close?: Token | Unparsable) {
         super();
 
-        this.open = !root && open === undefined ? new Token(EVAL_OPEN_SYMBOL, [ TokenType.EVAL_OPEN ]) : open;
+        this.open = !root && open === undefined ? new Token(EVAL_OPEN_SYMBOL, TokenType.EVAL_OPEN) : open;
         this.statements = statements.slice();
-        this.close = !root && close === undefined ? new Token(EVAL_CLOSE_SYMBOL, [ TokenType.EVAL_CLOSE ]) : close;
+        this.close = !root && close === undefined ? new Token(EVAL_CLOSE_SYMBOL, TokenType.EVAL_CLOSE) : close;
         this.docs = docs;
         this.root = root;
         this.creator = creator;
@@ -192,7 +192,7 @@ export default class Block extends Expression {
 
     getInsertions() {
         const bind = new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ], undefined, new ExpressionPlaceholder());
-        const type = new FunctionDefinition([], [ new Alias(new Token(PLACEHOLDER_SYMBOL, [ TokenType.PLACEHOLDER ], undefined, " ")) ], [], [], new ExpressionPlaceholder());
+        const type = new FunctionDefinition([], [ new Alias(new Token(PLACEHOLDER_SYMBOL, TokenType.PLACEHOLDER, " ")) ], [], [], new ExpressionPlaceholder());
         const fun = new StructureDefinition([], [ new Alias(PLACEHOLDER_SYMBOL) ], [], [], []);
         return [ 
             bind, 

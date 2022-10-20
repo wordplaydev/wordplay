@@ -21,9 +21,9 @@ export default class MapType extends NativeType {
     constructor(key?: Type | Unparsable, value?: Type | Unparsable, open?: Token, bind?: Token, close?: Token) {
         super();
 
-        this.open = open ?? new Token(SET_OPEN_SYMBOL, [ TokenType.SET_OPEN ]);
-        this.close = close ?? new Token(SET_CLOSE_SYMBOL, [ TokenType.SET_CLOSE ]);
-        this.bind = bind ?? new Token(BIND_SYMBOL, [ TokenType.BIND ]);
+        this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
+        this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
+        this.bind = bind ?? new Token(BIND_SYMBOL, TokenType.BIND);
         this.key = key;
         this.value = value;
     }

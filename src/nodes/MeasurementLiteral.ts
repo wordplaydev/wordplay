@@ -28,7 +28,7 @@ export default class MeasurementLiteral extends Expression {
 
     constructor(number?: Token, unit?: Unit | Unparsable) {
         super();
-        this.number = number ?? new Token("", [ TokenType.NUMBER ]);
+        this.number = number ?? new Token("", TokenType.NUMBER);
         this.unit = unit ?? new Unit();
     }
 

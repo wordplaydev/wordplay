@@ -13,31 +13,31 @@ test("Test number translation", () => {
     expect((new Measurement(0.000000001)).toString()).toBe("1e-9");
 
     // Test token number translation.
-    expect((new Measurement(new Token("18.2", [ TokenType.DECIMAL ], 0))).toString()).toBe("18.2");
-    expect((new Measurement(new Token("200302.123", [ TokenType.DECIMAL ], 0))).toString()).toBe("200302.123");
-    expect((new Measurement(new Token("0.000000001", [ TokenType.DECIMAL ], 0))).toString()).toBe("1e-9");
-    expect((new Measurement(new Token("001.100", [ TokenType.DECIMAL ], 0))).toString()).toBe("1.1");
-    expect((new Measurement(new Token("1000", [ TokenType.DECIMAL ], 0))).toString()).toBe("1000");
-    expect((new Measurement(new Token("∞", [ TokenType.INFINITY ], 0))).toString()).toBe("Infinity");
+    expect((new Measurement(new Token("18.2", TokenType.DECIMAL))).toString()).toBe("18.2");
+    expect((new Measurement(new Token("200302.123", TokenType.DECIMAL))).toString()).toBe("200302.123");
+    expect((new Measurement(new Token("0.000000001", TokenType.DECIMAL))).toString()).toBe("1e-9");
+    expect((new Measurement(new Token("001.100", TokenType.DECIMAL))).toString()).toBe("1.1");
+    expect((new Measurement(new Token("1000", TokenType.DECIMAL))).toString()).toBe("1000");
+    expect((new Measurement(new Token("∞", TokenType.INFINITY))).toString()).toBe("Infinity");
 
     // Test Japanese numbers.
-    expect((new Measurement(new Token("十", [ TokenType.JAPANESE ]))).toString()).toBe("10");
-    expect((new Measurement(new Token("二十", [ TokenType.JAPANESE ]))).toString()).toBe("20");
-    expect((new Measurement(new Token("二万", [ TokenType.JAPANESE ]))).toString()).toBe("20000");
-    expect((new Measurement(new Token("二十・二分", [ TokenType.JAPANESE ]))).toString()).toBe("20.2");
-    expect((new Measurement(new Token("九万九千九百九十九・九分九厘九毛九糸九忽", [ TokenType.JAPANESE ]))).toString()).toBe("99999.99999");
-    expect((new Measurement(new Token("99万", [ TokenType.JAPANESE ]))).toString()).toBe("990000");
+    expect((new Measurement(new Token("十", TokenType.JAPANESE))).toString()).toBe("10");
+    expect((new Measurement(new Token("二十", TokenType.JAPANESE))).toString()).toBe("20");
+    expect((new Measurement(new Token("二万", TokenType.JAPANESE))).toString()).toBe("20000");
+    expect((new Measurement(new Token("二十・二分", TokenType.JAPANESE))).toString()).toBe("20.2");
+    expect((new Measurement(new Token("九万九千九百九十九・九分九厘九毛九糸九忽", TokenType.JAPANESE))).toString()).toBe("99999.99999");
+    expect((new Measurement(new Token("99万", TokenType.JAPANESE))).toString()).toBe("990000");
 
     // Test roman numerals.
-    expect((new Measurement(new Token("Ⅹ", [ TokenType.ROMAN ]))).toString()).toBe("10");
-    expect((new Measurement(new Token("ⅩⅩ", [ TokenType.ROMAN ]))).toString()).toBe("20");
-    expect((new Measurement(new Token("ⅩⅩⅩⅠⅩ", [ TokenType.ROMAN ]))).toString()).toBe("39");
-    expect((new Measurement(new Token("ⅭⅭⅩⅬⅤⅠ", [ TokenType.ROMAN ]))).toString()).toBe("246");
-    expect((new Measurement(new Token("ⅮⅭⅭⅬⅩⅩⅩⅠⅩ", [ TokenType.ROMAN ]))).toString()).toBe("789");
-    expect((new Measurement(new Token("ⅯⅯⅭⅮⅩⅩⅠ", [ TokenType.ROMAN ]))).toString()).toBe("2421");
+    expect((new Measurement(new Token("Ⅹ", TokenType.ROMAN))).toString()).toBe("10");
+    expect((new Measurement(new Token("ⅩⅩ", TokenType.ROMAN))).toString()).toBe("20");
+    expect((new Measurement(new Token("ⅩⅩⅩⅠⅩ", TokenType.ROMAN))).toString()).toBe("39");
+    expect((new Measurement(new Token("ⅭⅭⅩⅬⅤⅠ", TokenType.ROMAN))).toString()).toBe("246");
+    expect((new Measurement(new Token("ⅮⅭⅭⅬⅩⅩⅩⅠⅩ", TokenType.ROMAN))).toString()).toBe("789");
+    expect((new Measurement(new Token("ⅯⅯⅭⅮⅩⅩⅠ", TokenType.ROMAN))).toString()).toBe("2421");
 
     // Bases
-    expect((new Measurement(new Token("2;10101.01", [ TokenType.BASE ], 0)).toString())).toBe("21.25");
+    expect((new Measurement(new Token("2;10101.01", TokenType.BASE)).toString())).toBe("21.25");
 
 })
 

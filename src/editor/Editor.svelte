@@ -267,7 +267,7 @@
                 const tokenWhitespaceTop = tokenBounds.top - token.newlines * tokenBounds.height;
                 const tokenBottom = tokenBounds.bottom;
                 const whitespace = token.getWhitespace();
-                const tokenIndex = token.getTextIndex();
+                const tokenIndex = $caret.source.getTokenTextIndex(token);
                 if(tokenIndex !== undefined) {
                     // // If the mouse's vertical is within the top and bottom of this token view, include the token in the line.
                     if(tokenTop <= mouseY && tokenBottom >= mouseY)
@@ -307,8 +307,8 @@
         if(closest !== undefined) {
             const token = getTokenByView($caret.getProgram(), closest);
             if(token instanceof Token && event.target instanceof Element) {
-                const textIndex = token.getTextIndex();
-                const lastIndex = token.getLastIndex();
+                const textIndex = $caret.source.getTokenTextIndex(token);
+                const lastIndex = $caret.source.getTokenLastIndex(token);
                 if(textIndex !== undefined && lastIndex !== undefined) {
                     // The mouse event's offset is relative to what was clicked on, not the element handling the click, so we have to compute the real offset.
                     const targetRect = event.target.getBoundingClientRect();

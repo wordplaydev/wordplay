@@ -18,7 +18,7 @@ export default class ConversionType extends Type {
         super();
         
         this.input = input;
-        this.convert = convert ?? new Token(CONVERT_SYMBOL, [ TokenType.CONVERT ]);
+        this.convert = convert ?? new Token(CONVERT_SYMBOL, TokenType.CONVERT);
         this.output = output;
 
     }

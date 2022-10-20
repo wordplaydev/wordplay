@@ -17,8 +17,8 @@ export default class Language extends Node {
     constructor(lang?: Token | string, slash?: Token) {
         super();
 
-        this.slash = slash ?? new Token(LANGUAGE_SYMBOL, [ TokenType.LANGUAGE ]);
-        this.lang = typeof lang === "string" ? new Token(lang, [ TokenType.NAME ]) : lang;
+        this.slash = slash ?? new Token(LANGUAGE_SYMBOL, TokenType.LANGUAGE);
+        this.lang = typeof lang === "string" ? new Token(lang, TokenType.NAME) : lang;
     }
 
     clone(original?: Node | string, replacement?: Node) { 
@@ -53,7 +53,7 @@ export default class Language extends Node {
 
         const project = context.source.getProject();
         if(child === this.lang && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Replace(context.source, this.lang as Token, new Token(l, [ TokenType.NAME ])))
+            return getPossibleLanguages(project).map(l => new Replace(context.source, this.lang as Token, new Token(l, TokenType.NAME)))
 
     }
 
@@ -63,7 +63,7 @@ export default class Language extends Node {
 
         const project = context.source.getProject();
         if(this.lang === undefined && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Add(context.source, position, this, "lang", new Token(l, [ TokenType.NAME ])));
+            return getPossibleLanguages(project).map(l => new Add(context.source, position, this, "lang", new Token(l, TokenType.NAME)));
 
      }
 }

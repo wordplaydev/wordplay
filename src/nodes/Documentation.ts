@@ -16,7 +16,7 @@ export default class Documentation extends Node {
     constructor(docs?: Token, lang?: Language) {
         super();
 
-        this.docs = docs ?? new Token(`${DOCS_SYMBOL}${DOCS_SYMBOL}\n`, [ TokenType.DOCS ]);
+        this.docs = docs ?? new Token(`${DOCS_SYMBOL}${DOCS_SYMBOL}\n`, TokenType.DOCS);
         this.lang = lang;
     }
 

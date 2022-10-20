@@ -21,7 +21,7 @@ export default class UnionType extends Type {
         super();
 
         this.left = left;
-        this.or = or ?? new Token(TYPE_SYMBOL, [ TokenType.UNION ]);
+        this.or = or ?? new Token(TYPE_SYMBOL, TokenType.UNION);
         this.right = right;
     }
 

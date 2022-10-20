@@ -30,7 +30,7 @@ export default class Conditional extends Expression {
         super();
 
         this.condition = condition;
-        this.conditional = conditional ?? new Token(BOOLEAN_TYPE_SYMBOL, [ TokenType.BOOLEAN_TYPE ], undefined, " ");
+        this.conditional = conditional ?? new Token(BOOLEAN_TYPE_SYMBOL, TokenType.BOOLEAN_TYPE, " ");
         this.yes = yes;
         this.no = no;
 

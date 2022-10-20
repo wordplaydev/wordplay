@@ -214,7 +214,7 @@ export default class Unit extends Type {
     getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
         
         if(this.slash === undefined)
-            return [ new Add(context.source, position, this, "slash", new Token(LANGUAGE_SYMBOL, [ TokenType.LANGUAGE ])) ];
+            return [ new Add(context.source, position, this, "slash", new Token(LANGUAGE_SYMBOL, TokenType.LANGUAGE)) ];
 
     }
 

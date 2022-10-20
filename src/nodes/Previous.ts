@@ -39,7 +39,7 @@ export default class Previous extends Expression {
         super();
 
         this.stream = stream;
-        this.previous = previous ?? new Token(PREVIOUS_SYMBOL, [ TokenType.PREVIOUS ]);
+        this.previous = previous ?? new Token(PREVIOUS_SYMBOL, TokenType.PREVIOUS);
         this.index = index;
     }
 

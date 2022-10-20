@@ -39,7 +39,7 @@ export default class Reaction extends Expression {
         super();
 
         this.initial = initial;
-        this.delta = delta ?? new Token(REACTION_SYMBOL, [ TokenType.REACTION ]);
+        this.delta = delta ?? new Token(REACTION_SYMBOL, TokenType.REACTION);
         this.stream = stream;
         this.next = next;
 

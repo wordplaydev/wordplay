@@ -42,7 +42,7 @@ export default class AccessName extends Expression {
         super();
 
         this.subject = subject;
-        this.access = access ?? new Token(ACCESS_SYMBOL, [ TokenType.ACCESS ]);
+        this.access = access ?? new Token(ACCESS_SYMBOL, TokenType.ACCESS);
         this.name = name;
     }
 
@@ -189,7 +189,7 @@ export default class AccessName extends Expression {
             return getExpressionReplacements(context.source, this, this.subject, context);
         else if(child === this.name)
             return this.getNameTransforms(context)
-                .map(def => new Replace<Token>(context.source, child, [ name => new Token(name, [ TokenType.NAME ]), def ]));
+                .map(def => new Replace<Token>(context.source, child, [ name => new Token(name, TokenType.NAME), def ]));
 
     }
 
@@ -198,7 +198,7 @@ export default class AccessName extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined {
         if(this.access !== undefined)
             return this.getNameTransforms(context)
-                .map(def => new Replace<AccessName>(context.source, this, [ name => new AccessName(this.subject, undefined, new Token(name, [ TokenType.NAME ])), def ]));
+                .map(def => new Replace<AccessName>(context.source, this, [ name => new AccessName(this.subject, undefined, new Token(name, TokenType.NAME)), def ]));
         }
 
 }

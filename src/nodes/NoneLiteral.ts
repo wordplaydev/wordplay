@@ -21,7 +21,7 @@ export default class NoneLiteral extends Expression {
     constructor(error?: Token, aliases?: Alias[]) {
         super();
 
-        this.none = error ?? new Token(NONE_SYMBOL, [ TokenType.NONE ]);
+        this.none = error ?? new Token(NONE_SYMBOL, TokenType.NONE);
         this.aliases = aliases ?? [];
     }
 

@@ -37,7 +37,7 @@ export default class ConversionDefinition extends Expression {
         super();
 
         this.docs = docs;
-        this.convert = convert ?? new Token(CONVERT_SYMBOL, [ TokenType.CONVERT ]);
+        this.convert = convert ?? new Token(CONVERT_SYMBOL, TokenType.CONVERT);
         this.input = typeof input === "string" ? parseType(tokens(input)) : input;
         this.output = typeof output === "string" ? parseType(tokens(output)) : output;
         this.expression = expression;

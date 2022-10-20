@@ -15,7 +15,7 @@ export default class NoneType extends NativeType {
     constructor(aliases: Alias[], none?: Token) {
         super();
 
-        this.none = none ?? new Token(NONE_SYMBOL, [ TokenType.NONE_TYPE ]);
+        this.none = none ?? new Token(NONE_SYMBOL, TokenType.NONE_TYPE);
         this.aliases = aliases;
     }
 

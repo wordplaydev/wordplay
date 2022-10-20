@@ -11,8 +11,8 @@ export default class TypeVariable extends Node {
     constructor(name: Token | string, type?: Token) {
         super();
 
-        this.type = type ?? new Token(TYPE_VAR_SYMBOL, [ TokenType.TYPE_VAR ]);
-        this.name = name instanceof Token ? name : new Token(name, [ TokenType.NAME ]);
+        this.type = type ?? new Token(TYPE_VAR_SYMBOL, TokenType.TYPE_VAR);
+        this.name = name instanceof Token ? name : new Token(name, TokenType.NAME);
     }
 
     clone(original?: Node | string, replacement?: Node) { 

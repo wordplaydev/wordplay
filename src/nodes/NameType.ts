@@ -22,7 +22,7 @@ export default class NameType extends Type {
     constructor(type: Token | string) {
         super();
 
-        this.type = typeof type === "string" ? new Token(type, [ TokenType.NAME ]) : type;
+        this.type = typeof type === "string" ? new Token(type, TokenType.NAME) : type;
     }
 
     getName() { return this.type.text.toString() }
@@ -92,7 +92,7 @@ export default class NameType extends Type {
                         // If the current name doesn't correspond to a type, then filter the types down to those that match the prefix.
                         (this.type.getText() === "" || def.getNames().find(name => name.startsWith(this.type.getText()) !== undefined))
                     ) as (StructureDefinition|TypeVariable)[])
-                    .map(def => new Replace(context.source, child, [ name => new Token(name, [ TokenType.NAME ]), def ]))
+                    .map(def => new Replace(context.source, child, [ name => new Token(name, TokenType.NAME), def ]))
 
     }
 

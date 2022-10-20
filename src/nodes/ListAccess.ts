@@ -37,9 +37,9 @@ export default class ListAccess extends Expression {
         super();
 
         this.list = list;
-        this.open = open ?? new Token(LIST_OPEN_SYMBOL, [ TokenType.LIST_OPEN ]);
+        this.open = open ?? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN);
         this.index = index;
-        this.close = close ?? new Token(LIST_CLOSE_SYMBOL, [ TokenType.LIST_CLOSE ]);
+        this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
     }
 
     computeChildren() {

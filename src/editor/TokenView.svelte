@@ -4,7 +4,7 @@
 
     export let node: Token;
 
-    $: kind = node.types[0] !== undefined ? TokenCategories.get(node.types[0]) : "default";
+    $: kind = TokenCategories.get(Array.isArray(node.types) ? node.types[0] ?? "default" : node.types);
 
 </script>
 

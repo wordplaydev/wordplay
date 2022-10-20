@@ -61,13 +61,13 @@ export default class StructureDefinition extends Expression {
         super();
 
         this.docs = docs;
-        this.type = type ?? new Token(TYPE_SYMBOL, [ TokenType.TYPE ]);
+        this.type = type ?? new Token(TYPE_SYMBOL, TokenType.TYPE);
         this.aliases = aliases;
         this.interfaces = interfaces;
         this.typeVars = typeVars;
-        this.open = open === undefined && inputs.length > 0 ? new Token(EVAL_OPEN_SYMBOL, [ TokenType.EVAL_OPEN ]) : open;
+        this.open = open === undefined && inputs.length > 0 ? new Token(EVAL_OPEN_SYMBOL, TokenType.EVAL_OPEN) : open;
         this.inputs = inputs;
-        this.close = close == undefined && inputs.length > 0 ?new Token(EVAL_CLOSE_SYMBOL, [ TokenType.EVAL_CLOSE ]) : close;
+        this.close = close == undefined && inputs.length > 0 ?new Token(EVAL_CLOSE_SYMBOL, TokenType.EVAL_CLOSE) : close;
         this.block = block;
     }
 
@@ -270,7 +270,7 @@ export default class StructureDefinition extends Expression {
             if((this.interfaces.length === 0 && this.typeVars.length === 0) ||
                 (this.interfaces.length > 0 && child === this.interfaces[0]) ||
                 (this.interfaces.length === 0 && this.typeVars.length > 0 && this.typeVars[0] === child))
-                transforms.push(new Append(context.source, position, this, this.aliases, undefined, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ]))));
+                transforms.push(new Append(context.source, position, this, this.aliases, undefined, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))));
 
             if(this.typeVars.length === 0)
                 transforms.push(new Append(context.source, position, this, this.typeVars, undefined, new TypeInput(new TypePlaceholder())));

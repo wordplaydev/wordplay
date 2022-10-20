@@ -29,9 +29,9 @@ export default class ListLiteral extends Expression {
     constructor(values: ListItem[], open?: Token, close?: Token) {
         super();
 
-        this.open = open ?? new Token(LIST_OPEN_SYMBOL, [ TokenType.LIST_OPEN ]);
+        this.open = open ?? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN);
         this.values = values.slice();
-        this.close = close ?? new Token(LIST_CLOSE_SYMBOL, [ TokenType.LIST_CLOSE ]);;
+        this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);;
 
     }
 

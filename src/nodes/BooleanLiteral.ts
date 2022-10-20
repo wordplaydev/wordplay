@@ -20,7 +20,7 @@ export default class BooleanLiteral extends Expression {
 
     constructor(value: Token | boolean) {
         super();
-        this.value = value === true || value === false ? new Token(value ? TRUE_SYMBOL : FALSE_SYMBOL, [ TokenType.BOOLEAN ]) : value;
+        this.value = value === true || value === false ? new Token(value ? TRUE_SYMBOL : FALSE_SYMBOL, TokenType.BOOLEAN) : value;
     }
 
     computeConflicts() {}
@@ -66,7 +66,7 @@ export default class BooleanLiteral extends Expression {
 
     getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
         return [
-            new Replace(context.source, child, new Token(!this.bool() ? TRUE_SYMBOL : FALSE_SYMBOL, [ TokenType.BOOLEAN ]))
+            new Replace(context.source, child, new Token(!this.bool() ? TRUE_SYMBOL : FALSE_SYMBOL, TokenType.BOOLEAN))
         ];
     }
 

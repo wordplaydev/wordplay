@@ -54,12 +54,12 @@ export default class FunctionDefinition extends Expression {
         super();
 
         this.docs = docs;
-        this.fun = fun ?? new Token(FUNCTION_SYMBOL, [ TokenType.FUNCTION ]);
+        this.fun = fun ?? new Token(FUNCTION_SYMBOL, TokenType.FUNCTION);
         this.aliases = aliases;
         this.typeVars = typeVars;
-        this.open = open ?? new Token(EVAL_OPEN_SYMBOL, [ TokenType.EVAL_OPEN ]);
+        this.open = open ?? new Token(EVAL_OPEN_SYMBOL, TokenType.EVAL_OPEN);
         this.inputs = inputs;
-        this.close = close ?? new Token(EVAL_CLOSE_SYMBOL, [ TokenType.EVAL_CLOSE ]);
+        this.close = close ?? new Token(EVAL_CLOSE_SYMBOL, TokenType.EVAL_CLOSE);
         this.dot = dot;
         this.type = type;
         this.expression = expression;

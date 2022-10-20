@@ -19,9 +19,9 @@ export default class SetType extends NativeType {
     constructor(key?: Type | Unparsable, open?: Token, close?: Token) {
         super();
 
-        this.open = open ?? new Token(SET_OPEN_SYMBOL, [ TokenType.SET_OPEN ]);
+        this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
         this.key = key;
-        this.close = close ?? new Token(SET_CLOSE_SYMBOL, [ TokenType.SET_CLOSE ]);
+        this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
     }
 
     computeChildren() {

@@ -202,7 +202,7 @@ export class Tokens {
             return next.is(TokenType.NUMBER) ? next : next.withTypeNarrowedTo(expectedType);
         }
         else
-            return new Token("", [ TokenType.END ], this.#read.length === 0 ? 0 : (this.#read[this.#read.length - 1].getTextIndex() ?? 0) + this.#read[this.#read.length - 1].getTextLength(), "");
+            return new Token("", TokenType.END);
     }
 
     /** Returns a node annotated with an error message, as well as all surrounding tokens. */

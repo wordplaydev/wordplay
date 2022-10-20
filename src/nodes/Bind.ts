@@ -66,9 +66,9 @@ export default class Bind extends Node implements Evaluable, Named {
         this.docs = docs;
         this.etc = etc;
         this.names = names;
-        this.dot = dot !== undefined ? dot : type === undefined ? undefined : new Token(TYPE_SYMBOL, [ TokenType.TYPE ]);
+        this.dot = dot !== undefined ? dot : type === undefined ? undefined : new Token(TYPE_SYMBOL, TokenType.TYPE);
         this.type = type;
-        this.colon = colon !== undefined ? colon : value === undefined ? undefined : new Token(BIND_SYMBOL, [ TokenType.BIND ], undefined, " "); 
+        this.colon = colon !== undefined ? colon : value === undefined ? undefined : new Token(BIND_SYMBOL, TokenType.BIND, " "); 
         this.value = value;
     }
 
@@ -295,7 +295,7 @@ export default class Bind extends Node implements Evaluable, Named {
             if(this.etc === undefined) {
                 if((parent instanceof FunctionDefinition || parent instanceof StructureDefinition) && parent.inputs.find(input => input.contains(child)) === parent.inputs[parent.inputs.length - 1])
                     return [ 
-                        new Add(context.source, position, this, "etc", new Token(PLACEHOLDER_SYMBOL, [ TokenType.PLACEHOLDER ])), 
+                        new Add(context.source, position, this, "etc", new Token(PLACEHOLDER_SYMBOL, TokenType.PLACEHOLDER)), 
                         new Append(context.source, position, this, this.docs, child, new Documentation())
                     ];
             }
@@ -304,11 +304,11 @@ export default class Bind extends Node implements Evaluable, Named {
         else if(child === this.etc)
             return [ new Append(context.source, position, this, this.docs, undefined, new Documentation()) ];
         else if(this.names.includes(child as Alias))
-            return [ new Append(context.source, position, this, this.names, child, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ]))) ];
+            return [ new Append(context.source, position, this, this.names, child, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))) ];
         // Before colon? Offer a type.
         else if(child === this.colon && this.type === undefined)
             return [ 
-                new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, new TypePlaceholder(), this.value, new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), this.colon))
+                new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, new TypePlaceholder(), this.value, new Token(TYPE_SYMBOL, TokenType.TYPE), this.colon))
             ];
 
     }
@@ -317,12 +317,12 @@ export default class Bind extends Node implements Evaluable, Named {
         const children  = this.getChildren();
         const lastChild = children[children.length - 1];
 
-        const withValue = new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, this.type, new ExpressionPlaceholder(), this.dot, new Token(BIND_SYMBOL, [ TokenType.BIND ])));
+        const withValue = new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, this.type, new ExpressionPlaceholder(), this.dot, new Token(BIND_SYMBOL, TokenType.BIND)));
 
         if(this.names.includes(lastChild as Alias))
             return [
-                new Append(context.source, position, this, this.names, undefined, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ]))),
-                new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, new TypePlaceholder(), this.value, new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), this.colon)),
+                new Append(context.source, position, this, this.names, undefined, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))),
+                new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, new TypePlaceholder(), this.value, new Token(TYPE_SYMBOL, TokenType.TYPE), this.colon)),
                 withValue
             ];
         else if(lastChild === this.dot)

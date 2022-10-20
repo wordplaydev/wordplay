@@ -28,9 +28,9 @@
     $: {
         if(token !== undefined) {
             // Get some of the token's metadata
-            let whitespaceIndex = token.getWhitespaceIndex();
-            let lastIndex = token.getLastIndex();
-            let textIndex = token.getTextIndex();
+            let whitespaceIndex = $caret.source.getTokenSpaceIndex(token);
+            let lastIndex = $caret.source.getTokenLastIndex(token);
+            let textIndex = $caret.source.getTokenTextIndex(token);
 
             // Compute where the caret should be placed. Place it if...
             caretIndex = 
@@ -38,10 +38,6 @@
                 $caret.source.evaluator.isDone() &&
                 // Only show the caret if it's pointing to a number
                 typeof $caret.position === "number" &&
-                // All of these have to be numbers
-                whitespaceIndex !== undefined &&
-                lastIndex !== undefined &&
-                textIndex !== undefined &&
                 // The position can be anywhere after after the first glyph of the token, up to and including after the token's last character,
                 // or the end token of the program. This ensures that there's always a token responsible for rendering a caret, but never two.
                 (
@@ -123,7 +119,7 @@
         // If the caret is in whitespace, compute the top/left based on the pattern whitespace sequence.
         else {
 
-            let whitespaceIndex = token.getWhitespaceIndex();
+            let whitespaceIndex = $caret.source.getTokenSpaceIndex(token);
 
             // Track an index starting at wherever the caret is.
             let caretIndex = $caret.getIndex();
