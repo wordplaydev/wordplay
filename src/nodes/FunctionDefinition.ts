@@ -22,12 +22,13 @@ import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, FUNCTION_SYMBOL, PLACEHOLDER_SYMBO
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import type Translations from "./Translations";
-import { getPossibleTypes } from "./getPossibleTypes";
-import getPossibleExpressions from "./getPossibleExpressions";
+import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import type Transform from "./Transform"
+import type Transform from "../transforms/Transform"
 import type LanguageCode from "./LanguageCode";
+import Append from "../transforms/Append";
 
 export default class FunctionDefinition extends Expression {
 
@@ -64,7 +65,23 @@ export default class FunctionDefinition extends Expression {
         this.expression = expression;
     }
 
+    clone(original?: Node | string, replacement?: Node) { 
+        return new FunctionDefinition(
+            this.cloneOrReplaceChild([ Documentation ], "docs", this.docs, original, replacement), 
+            this.cloneOrReplaceChild([ Alias ], "aliases", this.aliases, original, replacement), 
+            this.cloneOrReplaceChild([ TypeVariable, Unparsable ], "typeVars", this.typeVars, original, replacement), 
+            this.cloneOrReplaceChild([ Bind, Unparsable ], "inputs", this.inputs, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "expression", this.expression, original, replacement), 
+            this.cloneOrReplaceChild([ Unparsable, Type, undefined ], "type", this.type, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "fun", this.fun, original, replacement), 
+            this.cloneOrReplaceChild([ Token, undefined ], "dot", this.dot, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
+        ) as this; 
+    }
+
     getNames() { return this.aliases.map(a => a.getName()).filter(n => n !== undefined) as string[]; }
+    getNameInLanguage(lang: LanguageCode) { return this.aliases.find(name => name.isLanguage(lang))?.getName() ?? this.aliases[0]?.getName(); }
 
     sharesName(fun: FunctionDefinition) {
         const funNames = fun.getNames();
@@ -182,20 +199,6 @@ export default class FunctionDefinition extends Expression {
 
     isAbstract() { return this.expression instanceof ExpressionPlaceholder; }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new FunctionDefinition(
-            this.docs.map(d => d.cloneOrReplace([ Documentation ], original, replacement)), 
-            this.aliases.map(a => a.cloneOrReplace([ Alias ], original, replacement)), 
-            this.typeVars.map(t => t.cloneOrReplace([ TypeVariable, Unparsable ], original, replacement)), 
-            this.inputs.map(i => i.cloneOrReplace([ Bind, Unparsable ], original, replacement)), 
-            this.expression.cloneOrReplace([ Expression, Unparsable, Token ], original, replacement), 
-            this.type?.cloneOrReplace([ Unparsable, Type, undefined ], original, replacement), 
-            this.fun.cloneOrReplace([ Token ], original, replacement), 
-            this.open.cloneOrReplace([ Token ], original, replacement), 
-            this.close.cloneOrReplace([ Token ], original, replacement)
-             ) as this; 
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.expression instanceof Expression) this.expression.evaluateTypeSet(bind, original, current, context);
         return current;
@@ -216,22 +219,24 @@ export default class FunctionDefinition extends Expression {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined {
 
         if(child === this.type)
-            return getPossibleTypes(this, context);
+            return getPossibleTypeReplacements(child, context);
         // Expression must be of output type, or any type if there isn't one.
         else if(child === this.expression)
-            return getPossibleExpressions(this, this.expression, context, this.type === undefined || this.type instanceof Unparsable ? new AnyType() : this.type);
+            return getExpressionReplacements(context.source, this, this.expression, context, this.type === undefined || this.type instanceof Unparsable ? new AnyType() : this.type);
 
     }
 
-    getInsertionBefore(child: Node): Transform[] | undefined {
+    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
 
-        if(child === this.close || this.inputs.includes(child as Bind))
-            return [ new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ])];
+        const newBind = new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ]);
 
+        if(child === this.close)
+            return [ new Append(context.source, position, this, this.inputs, undefined, newBind)]
+        else if(this.inputs.includes(child as Bind))
+            return [ new Append(context.source, position, this, this.inputs, child, newBind) ];
 
     }
 
     getInsertionAfter(): Transform[] | undefined { return undefined; }
-
 
 }

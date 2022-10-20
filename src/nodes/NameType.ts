@@ -12,8 +12,8 @@ import type Definition from "./Definition";
 import StructureDefinition from "./StructureDefinition";
 import VariableType from "./VariableType";
 import { NAME_NATIVE_TYPE_NAME } from "../native/NativeConstants";
-import Reference from "./Reference";
-import type Transform from "./Transform";
+import type Transform from "../transforms/Transform";
+import Replace from "../transforms/Replace";
 
 export default class NameType extends Type {
 
@@ -68,7 +68,11 @@ export default class NameType extends Type {
 
     getNativeTypeName(): string { return NAME_NATIVE_TYPE_NAME; }
 
-    clone(original?: Node, replacement?: Node) { return new NameType(this.type.cloneOrReplace([ Token ], original, replacement)) as this; }
+    clone(original?: Node | string, replacement?: Node) { 
+        return new NameType(
+            this.cloneOrReplaceChild([ Token ], "type", this.type, original, replacement)
+        ) as this; 
+    }
 
     getDescriptions() {
         return {
@@ -88,7 +92,7 @@ export default class NameType extends Type {
                         // If the current name doesn't correspond to a type, then filter the types down to those that match the prefix.
                         (this.type.getText() === "" || def.getNames().find(name => name.startsWith(this.type.getText()) !== undefined))
                     ) as (StructureDefinition|TypeVariable)[])
-                    .map(def => new Reference(def, name => new Token(name, [ TokenType.NAME ])))
+                    .map(def => new Replace(context.source, child, [ name => new Token(name, [ TokenType.NAME ]), def ]))
 
     }
 

@@ -54,10 +54,10 @@ export default class FunctionType extends Type {
 
     getNativeTypeName(): string { return FUNCTION_NATIVE_TYPE_NAME; }
     
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new FunctionType(
-            this.inputs.map(i => i.cloneOrReplace([ Bind, Unparsable ], original, replacement)),
-            this.output.cloneOrReplace([ Type, Unparsable ], original, replacement)
+            this.cloneOrReplaceChild([ Bind, Unparsable ], "inputs", this.inputs, original, replacement),
+            this.cloneOrReplaceChild([ Type, Unparsable ], "output", this.output, original, replacement)
         ) as this;
     }
 

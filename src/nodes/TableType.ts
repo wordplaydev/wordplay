@@ -3,7 +3,7 @@ import Type from "./Type";
 import type Node from "./Node";
 import Bind from "../nodes/Bind";
 import type Context from "./Context";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Column from "./Column";
@@ -20,6 +20,13 @@ export default class TableType extends Type {
 
         this.columns = columns;
         this.close = close ?? new Token(TABLE_CLOSE_SYMBOL, [ TokenType.TABLE_CLOSE ]);
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new TableType(
+            this.cloneOrReplaceChild([ Column ], "columns", this.columns, original, replacement),
+            this.cloneOrReplaceChild([ Token, Unparsable ], "close", this.close, original, replacement)
+        ) as this; 
     }
 
     computeChildren() { return [ ...this.columns, this.close ]; }
@@ -41,13 +48,6 @@ export default class TableType extends Type {
     }
      
     getNativeTypeName(): string { return TABLE_NATIVE_TYPE_NAME; }
-
-    clone(original?: Node, replacement?: Node) { 
-        return new TableType(
-            this.columns.map(c => c.cloneOrReplace([ Column ], original, replacement)), 
-            this.close.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
-    }
 
     getDescriptions() {
         return {

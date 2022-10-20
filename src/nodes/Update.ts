@@ -40,6 +40,15 @@ export default class Update extends Expression {
 
     }
 
+    clone(original?: Node | string, replacement?: Node) {
+        return new Update(
+            this.cloneOrReplaceChild([ Expression ], "table", this.table, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "update", this.update, original, replacement), 
+            this.cloneOrReplaceChild([ Row ], "row", this.row, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "query", this.query, original, replacement)
+        ) as this; 
+    }
+
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query; }
 
     computeChildren() { return [ this.table, this.update, this.row, this.query ]; }
@@ -124,15 +133,6 @@ export default class Update extends Expression {
 
     evaluate(evaluator: Evaluator): Value {
         return new UnimplementedException(evaluator);
-    }
-
-    clone(original?: Node, replacement?: Node) {
-        return new Update(
-            this.table.cloneOrReplace([ Expression ], original, replacement), 
-            this.update.cloneOrReplace([ Token ], original, replacement), 
-            this.row.cloneOrReplace([ Row ], original, replacement), 
-            this.query.cloneOrReplace([ Expression, Unparsable ], original, replacement)
-        ) as this; 
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 

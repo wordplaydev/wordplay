@@ -22,8 +22,9 @@ import UnionType, { TypeSet } from "./UnionType";
 import Is from "./Is";
 import NameException from "../runtime/NameException";
 import TokenType from "./TokenType";
-import Reference from "./Reference";
-import type Transform from "./Transform";
+
+import type Transform from "../transforms/Transform";
+import Replace from "../transforms/Replace";
 
 export default class Name extends Expression {
     
@@ -40,6 +41,12 @@ export default class Name extends Expression {
 
         this.name = typeof name ==="string" ? new Token(name, [ TokenType.NAME ]) : name;
 
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new Name(
+            this.cloneOrReplaceChild([ Token ], "name", this.name, original, replacement)
+        ) as this; 
     }
 
     getName() { return this.name.getText(); }
@@ -148,8 +155,6 @@ export default class Name extends Expression {
         return value === undefined ? new NameException(evaluator, this.name.getText()) : value;
 
     }
-
-    clone(original?: Node, replacement?: Node) { return new Name(this.name.cloneOrReplace([ Token ], original, replacement)) as this; }
     
     getDescriptions() {
         return {
@@ -161,7 +166,7 @@ export default class Name extends Expression {
 
         if(child === this.name)
             return this.getAllDefinitions(this, context)
-                .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ])))
+                .map(def => new Replace<Token>(context.source, child, [ name => new Token(name, [ TokenType.NAME ]), def ]))
 
     }
 

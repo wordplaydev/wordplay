@@ -2,7 +2,7 @@ import type Conflict from "../conflicts/Conflict";
 import type Definition from "./Definition";
 import type Context from "./Context";
 import type Translations from "./Translations";
-import type Transform from "./Transform";
+import type Transform from "../transforms/Transform";
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -135,6 +135,7 @@ export default abstract class Node {
         return `${tabs}${this.constructor.name}\n${this.getChildren().map(n => n.toString(depth + 1)).join("\n")}`;
     }
 
+    /** Translates the node back into text, preserving all whitespace and characters. */
     toWordplay(): string { return this.getChildren().map(t => t.toWordplay()).join(""); }
 
     /** A depth first traversal of this node and its descendants. Keeps traversing until the inspector returns false. */
@@ -211,38 +212,54 @@ export default abstract class Node {
     }
 
     /** Creates a deep clone of this node and it's descendants. If it encounters replacement along the way, it uses that instead of the existing node. */
-    abstract clone(original?: Node, replacement?: Node): this;
+    abstract clone(original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
 
-    /** A utility method that encapsulates an optional replacement during recursive cloning. */
-    cloneOrReplace(types: (Function | undefined)[], original: Node | undefined, replacement: Node | undefined): this {
-        if(this === original && replacement !== undefined) {
-            // See if the replacement is one of the expected types.
-            let valid = false;
-            for(const type of types) {
-                if(type === undefined) {
-                    if(replacement === undefined) { 
-                        valid = true; 
-                        break; 
-                    }
-                }
-                else {
-                    if(replacement instanceof type) {
-                        valid = true;
-                        break;
-                    }
-                }
+    cloneOrReplaceChild<ExpectedTypes>(types: (Function | undefined)[], name: string, child: Node | Node[] | undefined, original: Node | Node[] | string | undefined, replacement: Node | undefined): ExpectedTypes {
+
+        // If the original we're replacing matches this field name or the child node, then try to update it.then check it's type and if it's valid, return it.
+        if((typeof original === "string" && original === name) || child === original || (Array.isArray(child) && original instanceof Node && child.includes(original))) {
+            // The replacement must be one of the matches.
+            if(Array.isArray(replacement)) {
+                if(replacement.find(item => types.findIndex(type => type === undefined ? replacement === undefined : item instanceof type) < 0) !== undefined)
+                    throw Error(`Replacement array contains an invalid item type. Received ${replacement}, expected items of type ${types.map(type => type?.name).join(" | ")}`);
             }
-            if(valid) return replacement as this;
-            else throw Error("Replacement isn't of a valid type.");
-        }
-        else
-            return this.clone(original, replacement) as this;
+            else {
+                if(types.findIndex(type => type === undefined ? replacement === undefined : replacement instanceof type) < 0)
+                    throw Error(`Replacement isn't of a valid type. Received ${replacement}, of type ${replacement?.constructor.name}, expected ${types.map(type => type?.name).join(" | ")}`);
+            }
+            
+            // If the child given is an array and the original we're replacing is in the array, either replace or remove the original.
+            if(Array.isArray(child) && original instanceof Node) {
+                const index = child.indexOf(original);
+                const newList: Node[] = child.slice();
+                if(index >= 0) {
+                    // If the replacement is undefined, remove it from the list.
+                    if(replacement === undefined)
+                        newList.splice(index, 1);
+                    // Otherwise replace it.
+                    else 
+                        newList[index] = replacement;
+                    return newList as ExpectedTypes;
+
+                }
+                else throw Error(`Somehow didn't find index of original in child. This shouldn't be possibe.`);
+                
+            }
+            else return replacement as ExpectedTypes;
+       }
+
+       // Otherwise, just clone the child. If it's a list, clone the list items.
+        if(Array.isArray(child))
+            return child.map(n => n.clone(original, replacement)) as ExpectedTypes
+        else       
+            return child?.clone(original, replacement) as ExpectedTypes;
+
     }
 
     abstract getDescriptions(): Translations;
 
     abstract getReplacementChild(child: Node, context: Context): Transform[] | undefined;
-    abstract getInsertionBefore(child: Node, context: Context, offset: number): Transform[] | undefined;
-    abstract getInsertionAfter(context: Context, offset: number): Transform[] | undefined;
+    abstract getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined;
+    abstract getInsertionAfter(context: Context, position: number): Transform[] | undefined;
 
 }

@@ -28,10 +28,12 @@ import None from "../runtime/None";
 import ConversionDefinition from "./ConversionDefinition";
 import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import getPossibleExpressions from "./getPossibleExpressions";
+import { getExpressionInsertions, getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Alias from "./Alias";
-import type Transform from "./Transform"
+import type Transform from "../transforms/Transform"
+import Replace from "../transforms/Replace";
+import Append from "../transforms/Append";
 
 export type Statement = Expression | Unparsable | Share | Bind;
 
@@ -53,6 +55,17 @@ export default class Block extends Expression {
         this.docs = docs;
         this.root = root;
         this.creator = creator;
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new Block(
+            this.cloneOrReplaceChild([ Documentation ], "docs", this.docs, original, replacement),
+            this.cloneOrReplaceChild([ Expression, Unparsable, Share, Bind ], "statements", this.statements, original, replacement), 
+            this.root,
+            this.creator, 
+            this.cloneOrReplaceChild([ Token, undefined ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild([ Token, undefined], "close", this.close, original, replacement)
+        ) as this; 
     }
 
     getLast() { return this.statements.length === 0 ? undefined : this.statements[this.statements.length - 1]; }
@@ -159,17 +172,6 @@ export default class Block extends Expression {
 
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new Block(
-            this.docs.map(d => d.cloneOrReplace([ Documentation ], original, replacement)), 
-            this.statements.map(s => s.cloneOrReplace([ Expression, Unparsable, Share, Bind ], original, replacement)), 
-            this.root,
-            this.creator, 
-            this.open?.cloneOrReplace([ Token, undefined ], original, replacement), 
-            this.close?.cloneOrReplace([ Token, undefined], original, replacement)
-        ) as this; 
-    }
-
     /** 
      * Blocks don't do any type checks, but we do have them delegate type checks to their final expression.
      * since we use them for parentheticals in boolean logic.
@@ -192,7 +194,11 @@ export default class Block extends Expression {
         const bind = new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ], undefined, new ExpressionPlaceholder());
         const type = new FunctionDefinition([], [ new Alias(new Token(PLACEHOLDER_SYMBOL, [ TokenType.PLACEHOLDER ], undefined, " ")) ], [], [], new ExpressionPlaceholder());
         const fun = new StructureDefinition([], [ new Alias(PLACEHOLDER_SYMBOL) ], [], [], []);
-        return [ bind, fun, type ];
+        return [ 
+            bind, 
+            fun, 
+            type 
+        ];
     }
 
     getReplacementChild(child: Node, context: Context): Transform[] | undefined {
@@ -202,28 +208,28 @@ export default class Block extends Expression {
             const statement = this.statements[index];
             if(statement instanceof Expression)
                 return [
-                    ... this.getInsertions(),
-                    ...(index === this.statements.length - 1 ? getPossibleExpressions(this, statement, context) : []),
+                    ... this.getInsertions().map(insertion => new Replace(context.source, child, insertion)),
+                    ...(index === this.statements.length - 1 ? getExpressionReplacements(context.source, this, statement, context) : []),
                 ]
         }
 
     }
-    getInsertionBefore(child: Node): Transform[] | undefined {
+    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
 
         const index = this.statements.indexOf(child as Statement);
         if(index >= 0) {
             const firstToken = child.nodes(n => n instanceof Token)[0];
             if(firstToken instanceof Token && firstToken.hasNewline())
-                return this.getInsertions();
+                return this.getInsertions().map(insertion => new Append(context.source, position, this, this.statements, child, insertion));
         }
 
     }
 
-    getInsertionAfter(context: Context): Transform[] | undefined {
+    getInsertionAfter(context: Context, position: number): Transform[] | undefined {
 
         return [
-            ...this.getInsertions(),
-            ...(this.root ? getPossibleExpressions(this, undefined, context) : [])
+            ...this.getInsertions().map(insertion => new Append(context.source, position, this, this.statements, undefined, insertion)),
+            ...(this.root ? getExpressionInsertions(context.source, position, this, this.statements, undefined, context) : [])
         ]
 
     }

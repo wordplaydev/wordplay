@@ -24,8 +24,8 @@ import type Bind from "./Bind";
 import type Translations from "./Translations";
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import getPossibleExpressions from "./getPossibleExpressions";
-import type Transform from "./Transform"
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import type Transform from "../transforms/Transform"
 
 export default class ListAccess extends Expression {
     readonly list: Expression | Unparsable;
@@ -95,12 +95,12 @@ export default class ListAccess extends Expression {
 
     }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new ListAccess(
-            this.list.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.index.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.open.cloneOrReplace([ Token ], original, replacement), 
-            this.close.cloneOrReplace([ Token ], original, replacement)
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "list", this.list, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "index", this.index, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
         ) as this; 
     }
 
@@ -119,9 +119,9 @@ export default class ListAccess extends Expression {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
 
         if(child === this.list)
-            return getPossibleExpressions(this, this.list, context, new ListType());
+            return getExpressionReplacements(context.source, this, this.list, context, new ListType());
         else if(child === this.index)
-            return getPossibleExpressions(this, this.index, context, new MeasurementType(undefined, new Unit()));
+            return getExpressionReplacements(context.source, this, this.index, context, new MeasurementType(undefined, new Unit()));
 
     }
     getInsertionBefore() { return undefined; }

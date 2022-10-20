@@ -13,8 +13,8 @@ import Node from "./Node";
 import Language from "./Language";
 import Unit from "./Unit";
 import Dimension from "./Dimension";
-import type Transform from "./Transform";
-import getPossibleExpressions from "./getPossibleExpressions";
+import type Transform from "../transforms/Transform";
+import Append from "../transforms/Append";
 
 export default class Program extends Node implements Evaluable {
     
@@ -93,11 +93,11 @@ export default class Program extends Node implements Evaluable {
 
     }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new Program(
-            this.borrows.map(b => b.cloneOrReplace([ Borrow, Unparsable ], original, replacement)), 
-            this.block.cloneOrReplace([ Block, Unparsable ], original, replacement), 
-            this.end.cloneOrReplace([ Token ], original, replacement)
+            this.cloneOrReplaceChild([ Borrow, Unparsable ], "borrows", this.borrows, original, replacement), 
+            this.cloneOrReplaceChild([ Block, Unparsable ], "block", this.block, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "end", this.end, original, replacement)
         ) as this; 
     }
 
@@ -109,15 +109,13 @@ export default class Program extends Node implements Evaluable {
 
     getReplacementChild() { return undefined; }
 
-    getInsertionBefore(child: Node) { 
+    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
     
         if(child === this.block || this.borrows.includes(child as Borrow))
-            return [ new Borrow() ];
+            return [ new Append(context.source, position, this, this.borrows, child === this.block ? undefined : child, new Borrow()) ];
     
     }
 
-    getInsertionAfter(context: Context): Transform[] | undefined { 
-        return getPossibleExpressions(this, undefined, context);
-    }
+    getInsertionAfter(): Transform[] | undefined { return undefined; }
 
 }

@@ -39,12 +39,13 @@ import FunctionException from "../runtime/FunctionException";
 import ValueException from "../runtime/ValueException";
 import Exception from "../runtime/Exception";
 import type Translations from "./Translations";
-import { getPossibleTypes } from "./getPossibleTypes";
+import { getPossibleTypeInsertions, getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import Name from "./Name";
-import getPossibleExpressions from "./getPossibleExpressions";
-import Reference from "./Reference";
-import type Transform from "./Transform"
+import { getExpressionInsertions, getExpressionReplacements } from "../transforms/getPossibleExpressions";
+
+import type Transform from "../transforms/Transform"
 import Block from "./Block";
+import Replace from "../transforms/Replace";
 
 type InputType = Unparsable | Bind | Expression;
 
@@ -64,6 +65,16 @@ export default class Evaluate extends Expression {
         this.func = func;
         this.inputs = inputs.slice();
         this.close = close;
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new Evaluate(
+            this.cloneOrReplaceChild([ TypeInput ], "typeInputs", this.typeInputs, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "func", this.func, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable, Bind ], "inputs", this.inputs, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
+        ) as this; 
     }
 
     computeChildren() {
@@ -336,7 +347,8 @@ export default class Evaluate extends Expression {
             // Note: we have to do a somewhat kludgey thing here of caching the new type's parents and then 
             // manually assigning the parent.
             if(concreteType !== undefined) {
-                type = type.cloneOrReplace([ Type ], nameType, concreteType);
+                // Set the type to the concrete type, or replace within if it's a compound type.
+                type = type === nameType ? concreteType : type.clone(nameType, concreteType);
                 type.cacheParents();
                 type._parent = originalParents[index];
             }
@@ -543,16 +555,6 @@ export default class Evaluate extends Expression {
 
     }
  
-    clone(original?: Node, replacement?: Node) { 
-        return new Evaluate(
-            this.typeInputs.map(t => t.cloneOrReplace([ TypeInput ], original, replacement)), 
-            this.open.cloneOrReplace([ Token ], original, replacement), 
-            this.func.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.inputs.map(i => i.cloneOrReplace([ Expression, Unparsable, Bind ], original, replacement)), 
-            this.close.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.func instanceof Expression) this.func.evaluateTypeSet(bind, original, current, context);
         this.inputs.forEach(input => { if(input instanceof Expression) input.evaluateTypeSet(bind, original, current, context); });
@@ -573,13 +575,13 @@ export default class Evaluate extends Expression {
 
         // Type inputs can be any type
         if(this.typeInputs.includes(child as TypeInput))
-            return getPossibleTypes(this, context);
+            return getPossibleTypeReplacements(child, context);
         
         // Functions can be any function names in scope
         if(child === this.func)
             return  this.getDefinitions(this, context)
                     .filter((def): def is FunctionDefinition => def instanceof FunctionDefinition)
-                    .map(fun => new Reference<Name>(fun, name => new Name(name)))
+                    .map(fun => new Replace<Name>(context.source, child, [ name => new Name(name), fun ]))
         
         // Input expressions should match whatever the function expects, if there is one.
         const index = this.inputs.indexOf(child as InputType);
@@ -593,14 +595,13 @@ export default class Evaluate extends Expression {
 
                 const expectedType = bind.getType(context);
 
-                return getPossibleExpressions(this, input, context, expectedType);
+                return getExpressionReplacements(context.source, this, input, context, expectedType);
             }
 
         }
 
-
     }
-    getInsertionBefore(child: Node, context: Context): Transform[] | undefined {
+    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
         
         const functionType = this.func.getTypeUnlessCycle(context);
         if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
@@ -608,7 +609,7 @@ export default class Evaluate extends Expression {
 
         // If before a type input or the open paren, offer valid type inputs.
         if(this.typeInputs.includes(child as TypeInput) || child === this.open)
-            return getPossibleTypes(this, context);
+            return getPossibleTypeInsertions(this, position, this.typeInputs, child, context);
 
         // If we're before the close, then see if there are any inputs to append
         if(child === this.close) {
@@ -625,7 +626,7 @@ export default class Evaluate extends Expression {
             const expectedType = bind.getType(context);
 
             // Suggest expressions of the expected type.
-            return getPossibleExpressions(this, undefined, context, expectedType);
+            return getExpressionInsertions(context.source, position, this, this.inputs, undefined, context, expectedType);
 
         }
     

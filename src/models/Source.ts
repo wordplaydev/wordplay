@@ -176,6 +176,10 @@ export default class Source {
         return new Source(this.name, new UnicodeString(code), this.observers);
     }
 
+    withProgram(program: Program) {
+        return new Source(this.name, new UnicodeString(program.toWordplay()), this.observers);
+    }
+
     clone() {
         return new Source(this.name, this.code, this.observers);
     }

@@ -7,8 +7,8 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
-import { getPossibleTypes } from "./getPossibleTypes";
-import type Transform from "./Transform"
+import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
+import type Transform from "../transforms/Transform"
 
 export default class SetType extends NativeType {
 
@@ -49,11 +49,11 @@ export default class SetType extends NativeType {
 
     getNativeTypeName(): string { return SET_NATIVE_TYPE_NAME; }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new SetType(
-            this.key?.cloneOrReplace([ Type, Unparsable, undefined ], original, replacement),
-            this.open.cloneOrReplace([ Token ], original, replacement), 
-            this.close.cloneOrReplace([ Token ], original, replacement)
+            this.cloneOrReplaceChild([ Type, Unparsable, undefined ], "key", this.key, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
         ) as this; 
     }
 
@@ -70,17 +70,11 @@ export default class SetType extends NativeType {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined  {
 
         if(child === this.key)
-            return getPossibleTypes(this, context);
+            return getPossibleTypeReplacements(child, context);
 
     }
 
-    getInsertionBefore(child: Node, context: Context): Transform[] | undefined { 
-    
-        if(child === this.close)
-            return getPossibleTypes(this, context);
-    
-    }
-
+    getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter() { return undefined; }
     
 }

@@ -30,10 +30,10 @@ export default class Row extends Node {
      * */ 
     isBindingEnclosureOfChild(child: Node): boolean { return this.cells.includes(child as Cell); }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new Row(
-            this.cells.map(c => c.cloneOrReplace([ Cell ], original, replacement)), 
-            this.close.cloneOrReplace([ Token ], original, replacement)
+            this.cloneOrReplaceChild([ Cell ], "cells", this.cells, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
         ) as this; 
     }
 

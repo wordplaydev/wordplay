@@ -7,7 +7,7 @@ import Type from "./Type";
 import type Context from "./Context";
 import { COLUMN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { TABLE_OPEN_SYMBOL } from "../parser/Tokenizer";
-import type Transform from "./Transform";
+import type Transform from "../transforms/Transform";
 
 export default class ColumnType extends Type {
 
@@ -19,6 +19,13 @@ export default class ColumnType extends Type {
 
         this.bar = bar ?? new Token(TABLE_OPEN_SYMBOL, [ TokenType.TABLE_OPEN ]);
         this.bind = bind;
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new ColumnType(
+            this.cloneOrReplaceChild([ Bind, Unparsable ], "bind", this.bind, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "bar", this.bar, original, replacement)
+        ) as this; 
     }
 
     hasDefault() { return this.bind instanceof Bind && this.bind.hasDefault(); }
@@ -35,13 +42,6 @@ export default class ColumnType extends Type {
     getValueType(context: Context) { return this.bind.getType(context); }
 
     getNativeTypeName(): string { return COLUMN_NATIVE_TYPE_NAME; }
-
-    clone(original?: Node, replacement?: Node) { 
-        return new ColumnType(
-            this.bind.cloneOrReplace([ Bind, Unparsable ], original, replacement),
-            this.bar.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
-    }
 
     getDescriptions() {
         return {

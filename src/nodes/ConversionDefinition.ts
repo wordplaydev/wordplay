@@ -21,9 +21,9 @@ import { CONVERT_SYMBOL } from "../parser/Tokenizer";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
-import { getPossibleTypes } from "./getPossibleTypes";
-import getPossibleExpressions from "./getPossibleExpressions";
-import type Transform from "./Transform"
+import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import type Transform from "../transforms/Transform"
 
 export default class ConversionDefinition extends Expression {
 
@@ -41,6 +41,16 @@ export default class ConversionDefinition extends Expression {
         this.input = typeof input === "string" ? parseType(tokens(input)) : input;
         this.output = typeof output === "string" ? parseType(tokens(output)) : output;
         this.expression = expression;
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new ConversionDefinition(
+            this.cloneOrReplaceChild([ Documentation ], "docs", this.docs, original, replacement), 
+            this.cloneOrReplaceChild([ Type, Unparsable ], "input", this.input, original, replacement), 
+            this.cloneOrReplaceChild([ Type, Unparsable ], "output", this.output, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "expression", this.expression, original, replacement), 
+            this.cloneOrReplaceChild([ Token, undefined ], "convert", this.convert, original, replacement)
+        ) as this; 
     }
 
     computeChildren() {
@@ -104,16 +114,6 @@ export default class ConversionDefinition extends Expression {
         
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new ConversionDefinition(
-            this.docs.map(d => d.cloneOrReplace([ Documentation ], original, replacement)), 
-            this.input.cloneOrReplace([ Type, Unparsable ], original, replacement), 
-            this.output.cloneOrReplace([ Type, Unparsable ], original, replacement), 
-            this.expression.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.convert.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.expression instanceof Expression)
             this.expression.evaluateTypeSet(bind, original, current, context);
@@ -129,10 +129,10 @@ export default class ConversionDefinition extends Expression {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
         
         if(child === this.input || child === this.output)
-            return getPossibleTypes(this, context);
+            return getPossibleTypeReplacements(child, context);
         // Expression can be anything
         if(child === this.expression)
-            return getPossibleExpressions(this, this.expression, context);
+            return getExpressionReplacements(context.source, this, this.expression, context);
 
     }
 

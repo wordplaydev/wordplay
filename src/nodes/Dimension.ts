@@ -1,6 +1,9 @@
 import { EXPONENT_SYMBOL } from "../parser/Tokenizer";
+import Add from "../transforms/Add";
+import Replace from "../transforms/Replace";
+import type Transform from "../transforms/Transform";
 import type Context from "./Context";
-import { getPossibleDimensions } from "./getPossibleUnits";
+import { getPossibleDimensions } from "../transforms/getPossibleUnits";
 import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
@@ -20,6 +23,14 @@ export default class Dimension extends Node {
 
     }
 
+    clone(original?: Node | string, replacement?: Node) { 
+        return new Dimension(
+            this.cloneOrReplaceChild([ Token ], "name", this.name, original, replacement), 
+            this.cloneOrReplaceChild([ Token, undefined ], "caret", this.caret, original, replacement),
+            this.cloneOrReplaceChild([ Token, undefined ], "exponent", this.exponent, original, replacement)
+        ) as this; 
+    }
+
     getName() { return this.name.getText(); }
 
     computeChildren() {
@@ -30,14 +41,6 @@ export default class Dimension extends Node {
     }
 
     computeConflicts() {}
-
-    clone(original?: Node, replacement?: Node) { 
-        return new Dimension(
-            this.name.cloneOrReplace([ Token ], original, replacement), 
-            this.caret?.cloneOrReplace([ Token ], original, replacement),
-            this.exponent?.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
-    }
 
     getDescriptions() {
         const dim = this.getName();
@@ -80,19 +83,17 @@ export default class Dimension extends Node {
         const project = context.source.getProject();
         // Dimension names can be any of the possible dimensions in the project.
         if(child === this.name && project !== undefined)
-            return getPossibleDimensions(project).map(dimension => new Token(dimension, [ TokenType.NAME ]));
-            
-        return [];
+            return getPossibleDimensions(project)
+                .map(dimension => new Replace(context.source, child, new Token(dimension, [ TokenType.NAME ])));
 
     }
 
     getInsertionBefore() { return undefined; }
 
-    getInsertionAfter() { 
+    getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
 
         if(this.caret === undefined)
-            return [ new Token(EXPONENT_SYMBOL, [ TokenType.UNARY_OP ]) ];
-
+            return [ new Add(context.source, position, this, "exponent", new Token(EXPONENT_SYMBOL, [ TokenType.UNARY_OP ])) ];
     }
 
 }

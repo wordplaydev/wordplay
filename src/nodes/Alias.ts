@@ -5,9 +5,12 @@ import type Conflict from "../conflicts/Conflict";
 import Language from "./Language";
 import UnnamedAlias from "../conflicts/UnnamedAlias";
 import type Context from "./Context";
-import { getPossibleLanguages } from "./getPossibleLanguages";
+import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
 import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-import type Transform from "./Transform";
+import type Transform from "../transforms/Transform";
+import Replace from "../transforms/Replace";
+import Add from "../transforms/Add";
+import type LanguageCode from "./LanguageCode";
 
 export default class Alias extends Node {
 
@@ -21,6 +24,14 @@ export default class Alias extends Node {
         this.separator = separator;
         this.name = typeof name === "string" ? new Token(name, [ TokenType.NAME ]) : name;
         this.lang = typeof lang === "string" ? new Language(lang) : lang;
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new Alias(
+            this.cloneOrReplaceChild([ Token, undefined], "name", this.name, original, replacement), 
+            this.cloneOrReplaceChild([ Language, undefined], "lang", this.lang, original, replacement),
+            this.cloneOrReplaceChild([ Token, undefined], "separator", this.separator, original, replacement)
+        ) as this;
     }
 
     computeChildren() { 
@@ -41,6 +52,7 @@ export default class Alias extends Node {
 
     getName(): string | undefined { return this.name instanceof Token ? this.name.text.toString() : this.name; }
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
+    isLanguage(lang: LanguageCode) { return this.getLanguage() === lang as LanguageCode; }
 
     equals(alias: Alias) { 
 
@@ -51,14 +63,6 @@ export default class Alias extends Node {
             (thisLang === undefined && thatLang === undefined) ||
             (thisLang !== undefined && thatLang !== undefined && thisLang.equals(thatLang))
         );
-    }
-
-    clone(original?: Node, replacement?: Node) { 
-        return new Alias(
-            this.name?.cloneOrReplace([ Token, undefined], original, replacement), 
-            this.lang?.cloneOrReplace([ Language, undefined], original, replacement),
-            this.separator?.cloneOrReplace([ Token, undefined], original, replacement)
-        ) as this; 
     }
 
     getDescriptions() {
@@ -72,18 +76,18 @@ export default class Alias extends Node {
         const project = context.source.getProject();
         // Formats can be any Language tags that are used in the project.
         if(child === this.lang && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Language(l))
+            return getPossibleLanguages(project).map(lang => new Replace(context.source, child, new Language(lang)));
 
         }
 
     getInsertionBefore(): Transform[] | undefined { return undefined; }
 
-    getInsertionAfter(context: Context): Transform[] | undefined {
+    getInsertionAfter(context: Context, position: number): Transform[] | undefined {
 
         const project = context.source.getProject();
         // Suggest languages for insertion if after the name with no language.
         if(this.lang === undefined && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Language(l));
+            return getPossibleLanguages(project).map(lang => new Add(context.source, position, this, "lang", new Language(lang)));
 
     }
 

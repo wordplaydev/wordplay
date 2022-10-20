@@ -1,6 +1,8 @@
 import { DOCS_SYMBOL } from "../parser/Tokenizer";
+import Add from "../transforms/Add";
+import Replace from "../transforms/Replace";
 import type Context from "./Context";
-import { getPossibleLanguages } from "./getPossibleLanguages";
+import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
 import Language from "./Language";
 import Node from "./Node";
 import Token from "./Token";
@@ -24,10 +26,10 @@ export default class Documentation extends Node {
     
     computeConflicts() {}
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new Documentation(
-            this.docs.cloneOrReplace([ Token ], original, replacement), 
-            this.lang?.cloneOrReplace([ Language, undefined ], original, replacement)
+            this.cloneOrReplaceChild([ Token ], "docs", this.docs, original, replacement), 
+            this.cloneOrReplaceChild([ Language, undefined ], "lang", this.lang, original, replacement)
         ) as this; 
     }
 
@@ -41,7 +43,7 @@ export default class Documentation extends Node {
 
         const project = context.source.getProject();
         if(project !== undefined && child === this.lang)
-            return getPossibleLanguages(project).map(l => new Language(l));
+            return getPossibleLanguages(project).map(l => new Replace(context.source, child, new Language(l)));
             
         return [];
 
@@ -49,11 +51,11 @@ export default class Documentation extends Node {
 
     getInsertionBefore() { return undefined; }
 
-    getInsertionAfter(context: Context) { 
+    getInsertionAfter(context: Context, position: number) { 
 
         const project = context.source.getProject();
         if(project !== undefined && this.lang === undefined)
-            return getPossibleLanguages(project).map(l => new Language(l));
+            return getPossibleLanguages(project).map(l => new Add(context.source, position, this, "lang", new Language(l)));
 
     }
 

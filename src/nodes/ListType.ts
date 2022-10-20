@@ -7,8 +7,8 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
-import { getPossibleTypes } from "./getPossibleTypes";
-import type Transform from "./Transform"
+import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
+import type Transform from "../transforms/Transform"
 
 export default class ListType extends NativeType {
 
@@ -47,11 +47,11 @@ export default class ListType extends NativeType {
 
     getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new ListType(
-            this.type?.cloneOrReplace([ Type, Unparsable, undefined ], original, replacement),
-            this.open.cloneOrReplace([ Token ], original, replacement),
-            this.close.cloneOrReplace([ Token ], original, replacement)
+            this.cloneOrReplaceChild([ Type, Unparsable, undefined ], "type", this.type, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
         ) as this; 
     }
 
@@ -67,7 +67,7 @@ export default class ListType extends NativeType {
 
     getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
         if(child === this.type)
-            return getPossibleTypes(this, context);
+            return getPossibleTypeReplacements(child, context);
     }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }

@@ -17,15 +17,15 @@ export default class TypeInput extends Node {
         this.type = type;
     }
 
-    computeChildren() {
-        return [ this.dot, this.type ];
+    clone(original?: Node | string, replacement?: Node) { 
+        return new TypeInput(
+            this.cloneOrReplaceChild([ Type, Unparsable ], "type", this.type, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "dot", this.dot, original, replacement)
+        ) as this; 
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new TypeInput(
-            this.type.cloneOrReplace([ Type, Unparsable ], original, replacement),
-            this.dot.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
+    computeChildren() {
+        return [ this.dot, this.type ];
     }
 
     computeConflicts() {}

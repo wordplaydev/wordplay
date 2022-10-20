@@ -10,9 +10,10 @@ import Finish from "../runtime/Finish";
 import Measurement from "../runtime/Measurement";
 import Unit from "./Unit";
 import TokenType from "./TokenType";
-import Reference from "./Reference";
+
 import { BORROW_SYMBOL } from "../parser/Tokenizer";
-import type Transform from "./Transform";
+import type Transform from "../transforms/Transform";
+import Replace from "../transforms/Replace";
 
 export default class Borrow extends Node implements Evaluable {
     
@@ -67,11 +68,11 @@ export default class Borrow extends Node implements Evaluable {
 
     getVersion() { return this.version === undefined ? undefined : (new Measurement(this.version, new Unit())).toNumber(); }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new Borrow(
-            this.borrow.cloneOrReplace([ Token ], original, replacement), 
-            this.name?.cloneOrReplace([ Token ], original, replacement),
-            this.version?.cloneOrReplace([ Token, undefined ], original, replacement)
+            this.cloneOrReplaceChild([ Token ], "borrow", this.borrow, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "name", this.name, original, replacement),
+            this.cloneOrReplaceChild([ Token, undefined ], "version", this.version, original, replacement)
         ) as this; 
     }
 
@@ -87,7 +88,7 @@ export default class Borrow extends Node implements Evaluable {
             // Return name tokens of all shares
             return context.shares
                 ?.getDefinitions()
-                .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ]))) ?? [];
+                .map(def => new Replace<Token>(context.source, child, [ name => new Token(name, [ TokenType.NAME ]), def ])) ?? [];
     
     }
 

@@ -25,6 +25,13 @@ export default class NoneLiteral extends Expression {
         this.aliases = aliases ?? [];
     }
 
+    clone(original?: Node | string, replacement?: Node) { 
+        return new NoneLiteral(
+            this.cloneOrReplaceChild([ Token ], "none", this.none, original, replacement), 
+            this.cloneOrReplaceChild([ Alias ], "aliases", this.aliases, original, replacement)
+        ) as this; 
+    }
+
     computeChildren() { return [ this.none, ...this.aliases ]; }
     computeConflicts() {}
 
@@ -47,13 +54,6 @@ export default class NoneLiteral extends Expression {
         return {
             "eng": "Evaluate to this none value!"
         }
-    }
-
-    clone(original?: Node, replacement?: Node) { 
-        return new NoneLiteral(
-            this.none.cloneOrReplace([ Token ], original, replacement), 
-            this.aliases.map(a => a.cloneOrReplace([ Alias ], original, replacement))
-        ) as this; 
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }

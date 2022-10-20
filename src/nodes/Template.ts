@@ -16,9 +16,11 @@ import type { TypeSet } from "./UnionType";
 import Start from "../runtime/Start";
 import TokenType from "./TokenType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import getPossibleExpressions from "./getPossibleExpressions";
-import type Transform from "./Transform"
-import { getPossibleLanguages } from "./getPossibleLanguages";
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import type Transform from "../transforms/Transform"
+import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
+import Replace from "../transforms/Replace";
+import Add from "../transforms/Add";
 
 type Part = Token | Expression | Unparsable;
 
@@ -32,6 +34,13 @@ export default class Template extends Expression {
 
         this.parts = parts ?? [ new Token("'\\",[ TokenType.TEXT_OPEN ]), new ExpressionPlaceholder(), new Token("\\'", [ TokenType.TEXT_CLOSE ] )];
         this.format = format;
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new Template(
+            this.cloneOrReplaceChild([ Token, Expression, Unparsable ], "parts", this.parts, original, replacement),
+            this.cloneOrReplaceChild([ Language, undefined ], "format", this.format, original, replacement)
+        ) as this; 
     }
 
     computeChildren() { return this.format ? [ ...this.parts, this.format ] : [ ...this.parts ]; }
@@ -78,13 +87,6 @@ export default class Template extends Expression {
         }
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new Template(
-            this.parts.map(p => p.cloneOrReplace([ Token, Expression, Unparsable ], original, replacement)), 
-            this.format?.cloneOrReplace([ Language, undefined ], original, replacement)
-        ) as this; 
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         this.parts.forEach(part => { if(part instanceof Expression) part.evaluateTypeSet(bind, original, current, context); });
         return current;
@@ -104,22 +106,20 @@ export default class Template extends Expression {
         if(index >= 0) {
             const part = this.parts[index];
             if(part instanceof Expression)
-                return getPossibleExpressions(this, part, context);
+                return getExpressionReplacements(context.source, this, part, context);
         }
         else if(child === this.format && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Language(l));
+            return getPossibleLanguages(project).map(l => new Replace(context.source, child, new Language(l)));
 
     }
     
     getInsertionBefore() { return undefined; }
     
-    getInsertionAfter(context: Context) { 
+    getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
         
         const project = context.source.getProject();
-        if(this.format === undefined) {
-            if(project !== undefined)
-                return getPossibleLanguages(project).map(l => new Language(l));
-        }
+        if(this.format === undefined && project !== undefined)
+                return getPossibleLanguages(project).map(l => new Add(context.source, position, this, "format", new Language(l)));
 
     }
 

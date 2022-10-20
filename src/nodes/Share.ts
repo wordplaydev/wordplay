@@ -28,6 +28,13 @@ export default class Share extends Node implements Evaluable {
         this.bind = bind;
     }
 
+    clone(original?: Node | string, replacement?: Node) { 
+        return new Share(
+            this.cloneOrReplaceChild([ Token ], "share", this.share, original, replacement), 
+            this.cloneOrReplaceChild([ Bind, Unparsable ], "bind", this.bind, original, replacement)
+        ) as this; 
+    }
+
     computeChildren() { return [ this.share, this.bind ]; }
 
     computeConflicts(context: Context): Conflict[] {
@@ -87,13 +94,6 @@ export default class Share extends Node implements Evaluable {
         else
             return evaluator.share(name, value);
         
-    }
-
-    clone(original?: Node, replacement?: Node) { 
-        return new Share(
-            this.share.cloneOrReplace([ Token ], original, replacement), 
-            this.bind.cloneOrReplace([ Bind, Unparsable ], original, replacement)
-        ) as this; 
     }
 
     getDescriptions() {

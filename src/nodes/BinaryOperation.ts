@@ -25,11 +25,12 @@ import Evaluation from "../runtime/Evaluation";
 import SemanticException from "../runtime/SemanticException";
 import NotAFunction from "../conflicts/NotAFunction";
 import MeasurementType from "./MeasurementType";
-import getPossibleExpressions from "./getPossibleExpressions";
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
 import TokenType from "./TokenType";
-import Reference from "./Reference";
-import type Transform from "./Transform"
+
+import type Transform from "../transforms/Transform"
+import Replace from "../transforms/Replace";
 
 export default class BinaryOperation extends Expression {
 
@@ -43,6 +44,14 @@ export default class BinaryOperation extends Expression {
         this.operator = operator;
         this.left = left;
         this.right = right;
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new BinaryOperation(
+            this.cloneOrReplaceChild([ Token ], "operator", this.operator, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "left", this.left, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "right", this.right, original, replacement)
+        ) as this; 
     }
 
     getOperator() { return this.operator.text.toString(); }
@@ -179,14 +188,6 @@ export default class BinaryOperation extends Expression {
 
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new BinaryOperation(
-            this.operator.cloneOrReplace([ Token ], original, replacement), 
-            this.left.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.right.cloneOrReplace([ Expression, Unparsable ], original, replacement)
-        ) as this; 
-    }
-
     /** 
      * Type checks narrow the set to the specified type, if contained in the set and if the check is on the same bind.
      * */
@@ -227,17 +228,17 @@ export default class BinaryOperation extends Expression {
 
         // Left can be anything
         if(child === this.left) {
-            return getPossibleExpressions(this, this.left, context);
+            return getExpressionReplacements(context.source, this, this.left, context);
         }
         // Operator must exist on the type of the left, unless not specified
         else if(child === this.operator) {
             const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
             const funs = leftType?.getAllDefinitions(this, context)?.filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.inputs.length === 1);
-            return funs?.map(fun => new Reference<Token>(fun, name => new Token(name, [ TokenType.BINARY_OP ]))) ?? []
+            return funs?.map(fun => new Replace<Token>(context.source, child, [ name => new Token(name, [ TokenType.BINARY_OP ]), fun ])) ?? []
         }
         // Right should comply with the expected type, unless it's not a known function
         else if(child === this.right) {
-            return getPossibleExpressions(this, this.right, context, expectedType ?? new AnyType());
+            return getExpressionReplacements(context.source, this, this.right, context, expectedType ?? new AnyType());
         }
 
     }

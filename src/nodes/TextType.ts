@@ -7,8 +7,10 @@ import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import type Type from "./Type";
-import { getPossibleLanguages } from "./getPossibleLanguages";
-import type Transform from "./Transform";
+import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
+import type Transform from "../transforms/Transform";
+import Replace from "../transforms/Replace";
+import Add from "../transforms/Add";
 
 export default class TextType extends NativeType {
 
@@ -20,6 +22,13 @@ export default class TextType extends NativeType {
 
         this.quote = quote ?? new Token(TEXT_SYMBOL, [ TokenType.TEXT_TYPE ]);
         this.format = format;
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new TextType(
+            this.cloneOrReplaceChild([ Token ], "quote", this.quote, original, replacement), 
+            this.cloneOrReplaceChild([ Language, undefined ], "format", this.format, original, replacement)
+        ) as this; 
     }
 
     computeChildren() {
@@ -39,13 +48,6 @@ export default class TextType extends NativeType {
 
     getNativeTypeName(): string { return TEXT_NATIVE_TYPE_NAME; }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new TextType(
-            this.quote.cloneOrReplace([ Token ], original, replacement), 
-            this.format?.cloneOrReplace([ Language, undefined ], original, replacement)
-        ) as this; 
-    }
-
     getDescriptions() {
         return {
             eng: "A text type"
@@ -57,18 +59,18 @@ export default class TextType extends NativeType {
         const project = context.source.getProject();
         // Formats can be any Language tags that are used in the project.
         if(project !== undefined && child === this.format)
-            return getPossibleLanguages(project).map(l => new Language(l))
+            return getPossibleLanguages(project).map(l => new Replace(context.source, child, new Language(l)));
 
     }
     
     getInsertionBefore() { return undefined; }
     
-    getInsertionAfter(context: Context) { 
+    getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
         
         const project = context.source.getProject();
         // Formats can be any Language tags that are used in the project.
         if(project !== undefined && this.format === undefined)
-            return getPossibleLanguages(project).map(l => new Language(l));
+            return getPossibleLanguages(project).map(l => new Add(context.source, position, this, "format", new Language(l)));
 
     }
     

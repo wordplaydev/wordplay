@@ -12,8 +12,9 @@ import type Bind from "./Bind";
 import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
 import TokenType from "./TokenType";
-import { getPossibleLanguages } from "./getPossibleLanguages";
-import type Transform from "./Transform";
+import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
+import Add from "../transforms/Add";
+import Replace from "../transforms/Replace";
 
 export default class TextLiteral extends Expression {
     
@@ -52,10 +53,10 @@ export default class TextLiteral extends Expression {
         }
     }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new TextLiteral(
-            this.text.cloneOrReplace([ Token ], original, replacement), 
-            this.format?.cloneOrReplace([ Language, undefined ], original, replacement)
+            this.cloneOrReplaceChild([ Token ], "text", this.text, original, replacement), 
+            this.cloneOrReplaceChild([ Language, undefined ], "format", this.format, original, replacement)
         ) as this; 
     }
 
@@ -67,23 +68,23 @@ export default class TextLiteral extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getReplacementChild(child: Node, context: Context) {
     
         const project = context.source.getProject();
         // Formats can be any Language tags that are used in the project.
         if(project !== undefined && child === this.format)
-            return getPossibleLanguages(project).map(l => new Language(l))
+            return getPossibleLanguages(project).map(lang => new Replace(context.source, child, new Language(lang)));
 
     }
     
     getInsertionBefore() { return undefined; }
     
-    getInsertionAfter(context: Context) { 
+    getInsertionAfter(context: Context, position: number): Add<Language>[] | undefined { 
         
         const project = context.source.getProject();
         // Formats can be any Language tags that are used in the project.
         if(project !== undefined && this.format === undefined)
-            return getPossibleLanguages(project).map(l => new Language(l));
+            return getPossibleLanguages(project).map(lang => new Add(context.source, position, this, "format", new Language(lang)));
 
     }
 

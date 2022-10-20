@@ -1,6 +1,6 @@
 <script lang="ts">
     import { project, updateProject } from '../models/stores';
-    import type Transform from "../nodes/Transform";
+    import type Transform from "../transforms/Transform";
     import Node from '../nodes/Node';
     import Caret from '../models/Caret';
     import { afterUpdate, onDestroy, setContext } from 'svelte';
@@ -14,7 +14,6 @@
     import type Program from '../nodes/Program';
     import Menu from './Menu.svelte';
     import Token from '../nodes/Token';
-    import Reference from '../nodes/Reference';
     import KeyboardIdle from '../models/KeyboardIdle';
     import CaretView from './CaretView.svelte';
 
@@ -54,8 +53,7 @@
     let menu: {
         node: Node,
         location: { left: string, top: string } | undefined,
-        items: Transform[],
-        replace: boolean
+        transforms: Transform[],
     } | undefined = undefined;
 
     let menuSelection: number = -1;
@@ -91,33 +89,25 @@
             const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
             const between = $caret.getNodesBetween();
 
-            const replacements = 
+            const transforms = 
                 between !== undefined ? 
                     [
                         // Get all of the replacements possible immediately before the position.
-                        ... between.before.reduce((replacements: Transform[], child) =>
-                            [ ... replacements, ...(child.getParent()?.getInsertionBefore(child, source.getContext(), 0) ?? []) ], []),
+                        ... between.before.reduce((transforms: Transform[], child) =>
+                            [ ... transforms, ...(child.getParent()?.getInsertionBefore(child, source.getContext(), $caret.position as number) ?? []) ], []),
                         // Get all of the replacements possible and the ends of the nodes just before the position.
-                        ... between.after.reduce((replacements: Transform[], child) => {
-                            return [ ...replacements, ...(child.getInsertionAfter(source.getContext(), 0) ?? []) ]
+                        ... between.after.reduce((transforms: Transform[], child) => {
+                            return [ ...transforms, ...(child.getInsertionAfter(source.getContext(), $caret.position as number) ?? []) ]
                         }, [])
                     ] :
                 node !== undefined ? node.getParent()?.getReplacementChild(node, source.getContext()) :
                     undefined;
 
-            if(node !== undefined && replacements !== undefined && replacements.length > 0) {
+            if(node !== undefined && transforms !== undefined && transforms.length > 0) {
                 menu = {
                     node: node,
                     // Filter out duplicates
-                    items: replacements.filter((item1, index1) => 
-                        replacements.find((item2, index2) => 
-                            index2 > index1 && (
-                                (item1 instanceof Node && item2 instanceof Node && item1.toWordplay() === item2.toWordplay()) || 
-                                (Array.isArray(item1) && Array.isArray(item2) && item1.map(i => i.toWordplay()).join("") === item2.map(i => i.toWordplay()).join("")) ||
-                                (item1 instanceof Reference && item2 instanceof Reference && item1.definition === item2.definition)
-                            )
-                            ) === undefined),
-                    replace: between === undefined,
+                    transforms: transforms.filter(item1 => transforms.find(item2 => item1 !== item2 && item1.equals(item2)) === undefined),
                     location: undefined // This gets defined after rendering.
                 }
             }
@@ -138,11 +128,10 @@
             }
 
             // Position the menu at the cursor if it's an insertion.
-            if(menu !== undefined && !menu.replace)
+            if(menu !== undefined && $caret.isIndex())
                 menu = {
                     node: menu.node,
-                    items: menu.items,
-                    replace: menu.replace,
+                    transforms: menu.transforms,
                     location: { left: caretLocation.left, top: `${caretLocation.bottom}px` }
                 }
 
@@ -201,22 +190,19 @@
         }
 
         // Position the menu if a node is selected.
-        if(menu !== undefined && editor !== undefined) {
-            if(menu.replace) {
-                const viewport = editor.parentElement;
-                const el = getNodeView(menu.node);
-                if(el && viewport) {
-                    const placeholderRect = el.getBoundingClientRect();
-                    const viewportRect = viewport.getBoundingClientRect();
-                    // Yay, we have everything we need to show a menu!
-                    menu = {
-                        node: menu.node,
-                        items: menu.items,
-                        replace: menu.replace,
-                        location: {
-                            left: `${placeholderRect.left - viewportRect.left + viewport.scrollLeft}px`,
-                            top: `${placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10}px`
-                        }
+        if(menu !== undefined && editor !== undefined && $caret.isNode()) {
+            const viewport = editor.parentElement;
+            const el = getNodeView(menu.node);
+            if(el && viewport) {
+                const placeholderRect = el.getBoundingClientRect();
+                const viewportRect = viewport.getBoundingClientRect();
+                // Yay, we have everything we need to show a menu!
+                menu = {
+                    node: menu.node,
+                    transforms: menu.transforms,
+                    location: {
+                        left: `${placeholderRect.left - viewportRect.left + viewport.scrollLeft}px`,
+                        top: `${placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10}px`
                     }
                 }
             }
@@ -344,12 +330,11 @@
     function handleKeyDown(event: KeyboardEvent) {
 
         if(menu !== undefined) {
-            if(event.key === "ArrowDown" && menuSelection < menu.items.length - 1) { menuSelection += 1; return; }
+            if(event.key === "ArrowDown" && menuSelection < menu.transforms.length - 1) { menuSelection += 1; return; }
             else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
             else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
-            else if(event.key === "Enter" && menuSelection >= 0 && menu.items.length > 0) { 
-                selectMenuItem(menu.node, menu.items[menuSelection], menu.replace);
-            }
+            else if(event.key === "Enter" && menuSelection >= 0 && menu.transforms.length > 0)
+                handleEdit(menu.transforms[menuSelection].getEdit("eng"));
 
             if(event.key === "ArrowLeft" || event.key === "ArrowRight")
                 hideMenu();
@@ -388,17 +373,6 @@
                 
             }
         }
-
-    }
-
-    function selectMenuItem(node: Node, replacement: Transform, replace: boolean) {
-
-        const code = 
-            replacement instanceof Node ? replacement.toWordplay() : 
-            Array.isArray(replacement) ? replacement.map(node => node.toWordplay()).join("") :
-            replacement.getNode("eng").toWordplay();
-
-        handleEdit(replace ? $caret.replace(node, code) : $caret.insert(code));
 
     }
 
@@ -505,10 +479,10 @@
     {#if menu !== undefined && menu.location !== undefined }
         <div class="menu" style={`left: ${menu.location.left}; top: ${menu.location.top};`}>
             <Menu 
-                items={menu.items} 
+                transforms={menu.transforms} 
                 selection={menuSelection} 
-                action={menu.replace ? "replace" : "insert" }
-                select={item => menu !== undefined ? selectMenuItem(menu.node, item, menu.replace) : undefined } />
+                select={transform => handleEdit(transform.getEdit("eng")) }
+            />
         </div>
     {/if}
     <!-- Render the invisible text field that allows us to capture inputs -->

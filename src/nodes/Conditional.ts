@@ -14,10 +14,10 @@ import type Context from "./Context";
 import UnionType, { TypeSet } from "./UnionType";
 import type Bind from "./Bind";
 import Start from "../runtime/Start";
-import getPossibleExpressions from "./getPossibleExpressions";
 import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import type Transform from "./Transform"
+import type Transform from "../transforms/Transform"
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 
 export default class Conditional extends Expression {
     
@@ -104,12 +104,12 @@ export default class Conditional extends Expression {
     /** We never actually evaluate this node below because the jump logic handles things. */
     evaluate() { return undefined; }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new Conditional(
-            this.condition.cloneOrReplace([ Expression ], original, replacement), 
-            this.yes.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.no.cloneOrReplace([ Expression, Unparsable ], original, replacement),
-            this.conditional.cloneOrReplace([ Token ], original, replacement)
+            this.cloneOrReplaceChild([ Expression ], "condition", this.condition, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "yes", this.yes, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "no", this.no, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "conditional", this.conditional, original, replacement)
         ) as this;
     }
 
@@ -143,11 +143,11 @@ export default class Conditional extends Expression {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
         
         if(child === this.condition)
-            return getPossibleExpressions(this, this.condition, context, new BooleanType());
+            return getExpressionReplacements(context.source, this, this.condition, context, new BooleanType());
         if(child === this.yes)
-            return getPossibleExpressions(this, this.yes, context);
+            return getExpressionReplacements(context.source, this, this.yes, context);
         if(child === this.no)
-            return getPossibleExpressions(this, this.no, context);
+            return getExpressionReplacements(context.source, this, this.no, context);
 
     }
 

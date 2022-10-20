@@ -1,12 +1,10 @@
 <script lang="ts">
-    import Node from "../nodes/Node";
     import nodeToView from "./nodeToView";
-    import type Transform from "../nodes/Transform";
+    import type Transform from "../transforms/Transform";
     import UnknownNodeView from "./UnknownNodeView.svelte";
 
-    export let items: Transform[];
+    export let transforms: Transform[];
     export let selection: number;
-    export let action: "replace" | "insert";
     export let select: (item: Transform) => void;
 
     const WINDOW = 2;
@@ -15,13 +13,11 @@
         select(item);
     }
 
-    let actionLabel = action === "insert" ? "Insert " : "Replace with ";
-
     // Compute the visible window of items based on the selection.
     let minItem = selection;
     let maxItem = selection;
     $: {
-        minItem = (selection < WINDOW ? 0 : selection - WINDOW) - Math.max(0, selection + WINDOW - (items.length - 1));
+        minItem = (selection < WINDOW ? 0 : selection - WINDOW) - Math.max(0, selection + WINDOW - (transforms.length - 1));
         maxItem = selection + WINDOW + Math.max(0, WINDOW - selection);
     }
 
@@ -29,33 +25,25 @@
 
 <table class="menu">
     <tr class="item header">
-        <td colspan=2>{actionLabel}…</td>
+        <td colspan=2>Edit…</td>
     </tr>
-    {#each items.map(item => {     
-        return { 
-            node: item instanceof Node ? item : Array.isArray(item) ? item : item.getNode("eng"), 
-            // TODO item[1] is kludgey. It assumes the first node is an uninteresting placeholder, which may not always be true.
-            description: item instanceof Node ? item.getDescriptions().eng : Array.isArray(item) ? item[1].getDescriptions().eng : item.definition.getDescriptions().eng }
-        }) 
-        as item, index
+    {#each transforms as transform, index
     }
         {#if index >= minItem && index <= maxItem }
             <!-- Prevent default is to ensure focus isn't lost on editor -->
             <tr class={`item option ${index === selection ? "selected" : ""}`} 
-                on:mousedown|preventDefault|stopPropagation={() => handleItemClick(item.node)}
+                on:mousedown|preventDefault|stopPropagation={() => handleItemClick(transform)}
             >
                 <td class="col">
-                    {#each Array.isArray(item.node) ? item.node : [ item.node ] as node}
-                        <svelte:component this={nodeToView.get(node.constructor) ?? UnknownNodeView} node={node} />
-                    {/each}
-                <td class="col"><em>{item.description}</em></td>
+                    <svelte:component this={nodeToView.get(transform.getSubjectNode("eng").constructor) ?? UnknownNodeView} node={transform.getSubjectNode("eng")} />
+                <td class="col"><em>{transform.getDescription("eng")}</em></td>
             </tr>
-        {:else if (index === minItem - 1 && minItem > 0) || (index === maxItem + 1 && maxItem < items.length - 1) }
+        {:else if (index === minItem - 1 && minItem > 0) || (index === maxItem + 1 && maxItem < transforms.length - 1) }
             <tr class="item"><td colspan=2>…</td></tr>
         {/if}
     {:else}
         <!-- Feedback if there are no items. -->
-        Nothing to {actionLabel.toLocaleLowerCase()}
+        No suggested edits.
     {/each}
 
 </table>

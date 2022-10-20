@@ -19,9 +19,9 @@ import { IncompatibleType } from "../conflicts/IncompatibleType";
 import { TypeSet } from "./UnionType";
 import SemanticException from "../runtime/SemanticException";
 import Start from "../runtime/Start";
-import getPossibleExpressions from "./getPossibleExpressions";
-import { getPossibleTypes } from "./getPossibleTypes";
-import type Transform from "./Transform"
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
+import type Transform from "../transforms/Transform"
 
 export default class Is extends Expression {
 
@@ -84,11 +84,11 @@ export default class Is extends Expression {
         }
     }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new Is(
-            this.expression.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.operator.cloneOrReplace([ Token ], original, replacement),
-            this.type.cloneOrReplace([ Unparsable, Type ], original, replacement)
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "expression", this.expression, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "operator", this.operator, original, replacement),
+            this.cloneOrReplaceChild([ Unparsable, Type ], "type", this.type, original, replacement)
         ) as this; 
     }
 
@@ -128,12 +128,14 @@ export default class Is extends Expression {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
 
         if(child === this.expression)
-            return getPossibleExpressions(this, this.expression, context);
+            return getExpressionReplacements(context.source, this, this.expression, context);
         if(child === this.type)
-            return getPossibleTypes(this.type, context);
+            return getPossibleTypeReplacements(child, context);
 
     }
+
     getInsertionBefore() { return undefined; }
+
     getInsertionAfter() { return undefined; }
 
 }

@@ -55,8 +55,10 @@ export default class ExpressionPlaceholder extends Expression {
         return new SemanticException(evaluator, this);
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new ExpressionPlaceholder(this.etc.cloneOrReplace([ Token ], original, replacement)) as this; 
+    clone(original?: Node | string, replacement?: Node) { 
+        return new ExpressionPlaceholder(
+            this.cloneOrReplaceChild([ Token ], "etc", this.etc, original, replacement)
+        ) as this; 
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }

@@ -1,9 +1,9 @@
 import { BIND_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import Expression from "./Expression";
-import getPossibleExpressions from "./getPossibleExpressions";
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import Node from "./Node";
-import type Transform from "./Transform"
+import type Transform from "../transforms/Transform"
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Unparsable from "./Unparsable";
@@ -22,19 +22,19 @@ export default class KeyValue extends Node {
         this.value = value;
     }
 
+    clone(original?: Node | string, replacement?: Node) { 
+        return new KeyValue(
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "key", this.key, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "value", this.value, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "bind", this.bind, original, replacement)
+        ) as this; 
+    }
+
     computeChildren() {
         return [ this.key, this.bind, this.value ];
     }
 
     computeConflicts() {}
-
-    clone(original?: Node, replacement?: Node) { 
-        return new KeyValue(
-            this.key.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.value.cloneOrReplace([ Expression, Unparsable ], original, replacement),
-            this.bind.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
-    }
 
     getDescriptions() {
         return {
@@ -45,9 +45,9 @@ export default class KeyValue extends Node {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
 
         if(child === this.key)
-            return getPossibleExpressions(this, this.key, context);
+            return getExpressionReplacements(context.source, this, this.key, context);
         if(child === this.value)
-            return getPossibleExpressions(this, this.value, context);
+            return getExpressionReplacements(context.source, this, this.value, context);
 
     }
     getInsertionBefore() { return undefined; }

@@ -38,6 +38,14 @@ export default class Insert extends Expression {
 
     }
     
+    clone(original?: Node | string, replacement?: Node) { 
+        return new Insert(
+            this.cloneOrReplaceChild([ Expression ], "table", this.table, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "insert", this.insert, original, replacement),
+            this.cloneOrReplaceChild([ Row ], "row", this.row, original, replacement)
+        ) as this; 
+    }
+
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.row; }
 
     computeChildren() { return [ this.table, this.insert, this.row ]; }
@@ -127,14 +135,6 @@ export default class Insert extends Expression {
         // Return a new table with the values.
         return table.insert(values);
 
-    }
-
-    clone(original?: Node, replacement?: Node) { 
-        return new Insert(
-            this.table.cloneOrReplace([ Expression ], original, replacement),
-            this.insert.cloneOrReplace([ Token ], original, replacement),
-            this.row.cloneOrReplace([ Row ], original, replacement)
-        ) as this; 
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 

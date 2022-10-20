@@ -19,7 +19,8 @@ import NotAFunction from "../conflicts/NotAFunction";
 import FunctionType from "./FunctionType";
 import Evaluation from "../runtime/Evaluation";
 import TokenType from "./TokenType";
-import type Transform from "./Transform"
+import type Transform from "../transforms/Transform"
+import Replace from "../transforms/Replace";
 
 export default class UnaryOperation extends Expression {
 
@@ -108,10 +109,10 @@ export default class UnaryOperation extends Expression {
 
     }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new UnaryOperation(
-            this.operator.cloneOrReplace([ Token ], original, replacement), 
-            this.operand.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+            this.cloneOrReplaceChild([ Token ], "operator", this.operator, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "operand", this.operand, original, replacement)
         ) as this; 
     }
 
@@ -143,7 +144,7 @@ export default class UnaryOperation extends Expression {
         if(child === this.operator) {
             const expressionType = this.operand instanceof Expression ? this.operand.getTypeUnlessCycle(context) : undefined;
             const funs = expressionType?.getAllDefinitions(this, context).filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.inputs.length === 0);;
-            return funs?.map(fun => new Token(fun.getNames()[0] as string, [ TokenType.UNARY_OP ])) ?? []
+            return funs?.map(fun => new Replace(context.source, child, new Token(fun.getNames()[0] as string, [ TokenType.UNARY_OP ]))) ?? []
         }
 
         return [];

@@ -15,21 +15,22 @@ export default class TypeVariable extends Node {
         this.name = name instanceof Token ? name : new Token(name, [ TokenType.NAME ]);
     }
 
+    clone(original?: Node | string, replacement?: Node) { 
+        return new TypeVariable(
+            this.cloneOrReplaceChild([ Token ], "name", this.name, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "type", this.type, original, replacement)
+        ) as this; 
+    }
+
     getName() { return this.name.getText(); }
     getNames() { return [ this.name.getText() ]; }
     hasName(name: string) { return this.getName() === name; }
+    getNameInLanguage() { return this.name.getText(); }
 
     computeConflicts() {}
 
     computeChildren() {
         return [ this.type, this.name ];
-    }
-
-    clone(original?: Node, replacement?: Node) { 
-        return new TypeVariable(
-            this.name.cloneOrReplace([ Token ], original, replacement), 
-            this.type.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
     }
 
     getDescriptions() {

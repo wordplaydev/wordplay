@@ -1,7 +1,7 @@
 import type Project from "../models/Project";
 import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
-import MeasurementType from "./MeasurementType";
-import Unit from "./Unit";
+import MeasurementType from "../nodes/MeasurementType";
+import Unit from "../nodes/Unit";
 
 export function getPossibleUnits(project: Project) {
 

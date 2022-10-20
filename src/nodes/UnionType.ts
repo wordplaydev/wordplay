@@ -8,8 +8,8 @@ import Type from "./Type";
 import Unparsable from "./Unparsable";
 import { TYPE_SYMBOL } from "../parser/Tokenizer";
 import NeverType from "./NeverType";
-import { getPossibleTypes } from "./getPossibleTypes";
-import type Transform from "./Transform"
+import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
+import type Transform from "../transforms/Transform"
 
 export default class UnionType extends Type {
 
@@ -23,6 +23,14 @@ export default class UnionType extends Type {
         this.left = left;
         this.or = or ?? new Token(TYPE_SYMBOL, [ TokenType.UNION ]);
         this.right = right;
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new UnionType(
+            this.cloneOrReplaceChild([ Type ], "left", this.left, original, replacement), 
+            this.cloneOrReplaceChild([ Type, Unparsable ], "right", this.right, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "or", this.or, original, replacement)
+        ) as this; 
     }
 
     computeChildren() {
@@ -47,14 +55,6 @@ export default class UnionType extends Type {
 
     getNativeTypeName(): string { return "union"; }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new UnionType(
-            this.left.cloneOrReplace([ Type ], original, replacement), 
-            this.right.cloneOrReplace([ Type, Unparsable ], original, replacement), 
-            this.or.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
-    }
-
     computeConflicts() {}
 
     getTypes(context: Context): TypeSet {
@@ -75,7 +75,7 @@ export default class UnionType extends Type {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined {
 
         if(child === this.left || child === this.right)
-            return getPossibleTypes(this, context);
+            return getPossibleTypeReplacements(child, context);
 
     }
 

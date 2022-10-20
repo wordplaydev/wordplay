@@ -17,8 +17,9 @@ import type { TypeSet } from "./UnionType";
 import type Evaluator from "../runtime/Evaluator";
 import SemanticException from "../runtime/SemanticException";
 import TokenType from "./TokenType";
-import { getPossibleUnits } from "./getPossibleUnits";
-import type Transform from "./Transform";
+import { getPossibleUnits } from "../transforms/getPossibleUnits";
+import type Transform from "../transforms/Transform";
+import Replace from "../transforms/Replace";
 
 export default class MeasurementLiteral extends Expression {
     
@@ -29,6 +30,13 @@ export default class MeasurementLiteral extends Expression {
         super();
         this.number = number ?? new Token("", [ TokenType.NUMBER ]);
         this.unit = unit ?? new Unit();
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new MeasurementLiteral(
+            this.cloneOrReplaceChild([ Token ], "number", this.number, original, replacement), 
+            this.cloneOrReplaceChild([ Unit, Unparsable ], "unit", this.unit, original, replacement)
+        ) as this; 
     }
 
     isInteger() { return !isNaN(parseInt(this.number.text.toString())); }
@@ -66,13 +74,6 @@ export default class MeasurementLiteral extends Expression {
         }
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new MeasurementLiteral(
-            this.number.cloneOrReplace([ Token ], original, replacement), 
-            this.unit?.cloneOrReplace([ Unit, Unparsable ], original, replacement)
-        ) as this; 
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
     getDescriptions() {
@@ -84,10 +85,9 @@ export default class MeasurementLiteral extends Expression {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined {
 
         const project = context.source.getProject();
-        if(child === this.unit && project !== undefined) {
-            // Any unit in the project
-            return getPossibleUnits(project)
-        }
+        // Any unit in the project
+        if(child === this.unit && project !== undefined)
+            return getPossibleUnits(project).map(unit => new Replace(context.source, child, unit));
 
     }
 

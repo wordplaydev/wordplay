@@ -4,8 +4,10 @@ import type Context from "./Context";
 import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import { getPossibleLanguages } from "./getPossibleLanguages";
-import type Transform from "./Transform";
+import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
+import type Transform from "../transforms/Transform";
+import Replace from "../transforms/Replace";
+import Add from "../transforms/Add";
 
 export default class Language extends Node {
     
@@ -17,6 +19,13 @@ export default class Language extends Node {
 
         this.slash = slash ?? new Token(LANGUAGE_SYMBOL, [ TokenType.LANGUAGE ]);
         this.lang = typeof lang === "string" ? new Token(lang, [ TokenType.NAME ]) : lang;
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new Language(
+            this.cloneOrReplaceChild([ Token, undefined ], "lang", this.lang, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "slash", this.slash, original, replacement)
+        ) as this; 
     }
 
     computeChildren() {  return this.lang === undefined ? [ this.slash ] : [ this.slash, this.lang ]; }
@@ -34,16 +43,9 @@ export default class Language extends Node {
         return this.getLanguage() === lang.getLanguage();
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new Language(
-            this.lang?.cloneOrReplace([ Token, undefined ], original, replacement), 
-            this.slash.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
-    }
-
     getDescriptions() {
         return {
-            eng: "A language"
+            eng: "a language"
         }
     }
 
@@ -51,16 +53,17 @@ export default class Language extends Node {
 
         const project = context.source.getProject();
         if(child === this.lang && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Token(l, [ TokenType.NAME ]))
+            return getPossibleLanguages(project).map(l => new Replace(context.source, this.lang as Token, new Token(l, [ TokenType.NAME ])))
 
     }
+
     getInsertionBefore() { return undefined; }
 
-    getInsertionAfter(context: Context) { 
+    getInsertionAfter(context: Context, position: number) { 
 
         const project = context.source.getProject();
         if(this.lang === undefined && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Token(l, [ TokenType.NAME ]))
+            return getPossibleLanguages(project).map(l => new Add(context.source, position, this, "lang", new Token(l, [ TokenType.NAME ])));
 
      }
 }

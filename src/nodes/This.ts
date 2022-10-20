@@ -30,6 +30,10 @@ export default class This extends Expression {
         this.dis = dis;
     }
 
+    clone(original?: Node | string, replacement?: Node) { 
+        return new This(this.cloneOrReplaceChild([ Token ], "dis", this.dis, original, replacement)) as this; 
+    }
+
     computeChildren() { return [ this.dis ]; }
 
     getEnclosingStructure(): ThisStructure | undefined {
@@ -81,10 +85,6 @@ export default class This extends Expression {
 
     evaluate(evaluator: Evaluator): Value {        
         return evaluator.getThis() ?? new NameException(evaluator, THIS_SYMBOL);
-    }
-
-    clone(original?: Node, replacement?: Node) { 
-        return new This(this.dis.cloneOrReplace([ Token ], original, replacement)) as this; 
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }

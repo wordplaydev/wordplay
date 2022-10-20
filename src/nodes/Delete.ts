@@ -18,7 +18,7 @@ import type Definition from "./Definition";
 import type { TypeSet } from "./UnionType";
 import UnimplementedException from "../runtime/UnimplementedException";
 import type Evaluator from "../runtime/Evaluator";
-import type Transform from "./Transform";
+import type Transform from "../transforms/Transform";
 
 export default class Delete extends Expression {
     
@@ -94,11 +94,11 @@ export default class Delete extends Expression {
         }
     }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new Delete(
-            this.table.cloneOrReplace([ Expression ], original, replacement), 
-            this.del.cloneOrReplace([ Token ], original, replacement), 
-            this.query.cloneOrReplace([ Expression, Unparsable ], original, replacement)
+            this.cloneOrReplaceChild([ Expression ], "table", this.table, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "del", this.del, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "query", this.query, original, replacement)
         ) as this; 
     }
 

@@ -19,13 +19,14 @@ import type Context from "./Context";
 import UnionType, { TypeSet } from "./UnionType";
 import UnknownType from "./UnknownType";
 import Exception from "../runtime/Exception";
-import getPossibleExpressions from "./getPossibleExpressions";
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import Stream from "../runtime/Stream";
 import Name from "./Name";
 import TokenType from "./TokenType";
 import { REACTION_SYMBOL } from "../parser/Tokenizer";
-import Reference from "./Reference";
-import type Transform from "./Transform"
+
+import type Transform from "../transforms/Transform"
+import Replace from "../transforms/Replace";
 
 export default class Reaction extends Expression {
 
@@ -42,6 +43,15 @@ export default class Reaction extends Expression {
         this.stream = stream;
         this.next = next;
 
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new Reaction(
+            this.cloneOrReplaceChild([ Expression ], "initial", this.initial, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "stream", this.stream, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "next", this.next, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "delta", this.delta, original, replacement)
+        ) as this; 
     }
 
     computeChildren() {
@@ -141,15 +151,6 @@ export default class Reaction extends Expression {
 
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new Reaction(
-            this.initial.cloneOrReplace([ Expression ], original, replacement), 
-            this.stream.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.next.cloneOrReplace([ Expression, Unparsable ], original, replacement),
-            this.delta.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.initial instanceof Expression) this.initial.evaluateTypeSet(bind, original, current, context);
         if(this.stream instanceof Expression) this.stream.evaluateTypeSet(bind, original, current, context);
@@ -166,13 +167,13 @@ export default class Reaction extends Expression {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
 
         if(child === this.initial)
-            return getPossibleExpressions(this, this.initial, context);
+            return getExpressionReplacements(context.source, this, this.initial, context);
         else if(child === this.next)
-            return getPossibleExpressions(this, this.next, context);    
+            return getExpressionReplacements(context.source, this, this.next, context);    
         else if(child === this.stream)
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is Stream => def instanceof Stream)
-                    .map(stream => new Reference<Name>(stream, name => new Name(name)));
+                    .map(stream => new Replace<Name>(context.source, child, [ name => new Name(name), stream ]));
 
     }
 

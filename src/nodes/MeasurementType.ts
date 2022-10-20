@@ -10,8 +10,9 @@ import Unparsable from "./Unparsable";
 import type BinaryOperation from "./BinaryOperation";
 import Expression from "./Expression";
 import NativeType from "./NativeType";
-import { getPossibleUnits } from "./getPossibleUnits";
-import type Transform from "./Transform";
+import { getPossibleUnits } from "../transforms/getPossibleUnits";
+import type Transform from "../transforms/Transform";
+import Replace from "../transforms/Replace";
 
 type UnitDeriver = (left: Unit, right: Unit, constant: number) => Unit;
 
@@ -65,10 +66,10 @@ export default class MeasurementType extends NativeType {
 
     getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new MeasurementType(
-            this.number.cloneOrReplace([ Token ], original, replacement), 
-            this.unit === undefined || this.unit instanceof Function ? this.unit : this.unit.cloneOrReplace([ Unit, Unparsable ], original, replacement)
+            this.cloneOrReplaceChild([ Token ], "number", this.number, original, replacement), 
+            this.unit === undefined || this.unit instanceof Function ? this.unit : this.cloneOrReplaceChild([ Unit, Unparsable ], "unit", this.unit, original, replacement)
         ) as this; 
     }
 
@@ -83,7 +84,7 @@ export default class MeasurementType extends NativeType {
         const project = context.source.getProject();
         if(child === this.unit && project !== undefined) {
             // Any unit in the project
-            return getPossibleUnits(project)
+            return getPossibleUnits(project).map(unit => new Replace(context.source, child, unit));
         }
 
     }

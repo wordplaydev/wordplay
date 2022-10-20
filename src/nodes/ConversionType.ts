@@ -4,7 +4,7 @@ import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import type Transform from "./Transform";
+import type Transform from "../transforms/Transform";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
 
@@ -32,11 +32,11 @@ export default class ConversionType extends Type {
 
     getNativeTypeName(): string { return CONVERSION_NATIVE_TYPE_NAME; }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new ConversionType(
-            this.input.cloneOrReplace([ Type ], original, replacement), 
-            this.convert.cloneOrReplace([ Token ], original, replacement),
-            this.output.cloneOrReplace([ Type ], original, replacement)
+            this.cloneOrReplaceChild([ Type ], "input", this.input, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "convert", this.convert, original, replacement),
+            this.cloneOrReplaceChild([ Type ], "output", this.output, original, replacement)
         ) as this; 
     }
 

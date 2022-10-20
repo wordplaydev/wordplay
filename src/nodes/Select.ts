@@ -42,6 +42,15 @@ export default class Select extends Expression {
 
     }
 
+    clone(original?: Node | string, replacement?: Node) { 
+        return new Select(
+            this.cloneOrReplaceChild([ Expression ], "table", this.table, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "select", this.select, original, replacement), 
+            this.cloneOrReplaceChild([ Row ], "row", this.row, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "query", this.query, original, replacement)
+        ) as this; 
+    }
+
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query || child === this.row; }
     
     computeChildren() { return [ this.table, this.select, this.row, this.query ]; }
@@ -132,15 +141,6 @@ export default class Select extends Expression {
 
     evaluate(evaluator: Evaluator): Value {
         return new UnimplementedException(evaluator);
-    }
-
-    clone(original?: Node, replacement?: Node) { 
-        return new Select(
-            this.table.cloneOrReplace([ Expression ], original, replacement), 
-            this.select.cloneOrReplace([ Token ], original, replacement), 
-            this.row.cloneOrReplace([ Row ], original, replacement), 
-            this.query.cloneOrReplace([ Expression, Unparsable ], original, replacement)
-        ) as this; 
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 

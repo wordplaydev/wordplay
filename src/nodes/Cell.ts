@@ -3,7 +3,7 @@ import type Context from "./Context";
 import Expression from "./Expression";
 import Node from "./Node";
 import Token from "./Token";
-import type Transform from "./Transform";
+import type Transform from "../transforms/Transform";
 import Unparsable from "./Unparsable";
 
 export default class Cell extends Node {
@@ -18,17 +18,17 @@ export default class Cell extends Node {
         this.value = expression;
     }
 
+    clone(original?: Node | string, replacement?: Node) { 
+        return new Cell(
+            this.cloneOrReplaceChild([ Token ], "bar", this.bar, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable, Bind ], "value", this.value, original, replacement)
+        ) as this; 
+    }
+
     computeChildren() {
         return [ this.bar, this.value ];
     }
     computeConflicts() {}
-
-    clone(original?: Node, replacement?: Node) { 
-        return new Cell(
-            this.bar.cloneOrReplace([ Token ], original, replacement), 
-            this.value.cloneOrReplace([ Expression, Unparsable, Bind], original, replacement)
-        ) as this; 
-    }
 
     getType(context: Context) {
         return this.value.getType(context);

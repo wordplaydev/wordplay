@@ -21,8 +21,9 @@ import Halt from "../runtime/Halt";
 import Action from "../runtime/Action";
 import Block from "./Block";
 import { THIS_SYMBOL } from "../parser/Tokenizer";
-import getPossibleExpressions from "./getPossibleExpressions";
-import type Transform from "./Transform"
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import type Transform from "../transforms/Transform";
+import Replace from "../transforms/Replace";
 
 export default class Convert extends Expression {
     
@@ -36,6 +37,14 @@ export default class Convert extends Expression {
         this.expression = expression;
         this.convert = convert;
         this.type = type;
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new Convert(
+            this.cloneOrReplaceChild([ Expression ], "expression", this.expression, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "convert", this.convert, original, replacement), 
+            this.cloneOrReplaceChild([ Type, Unparsable ], "type", this.type, original, replacement)
+        ) as this; 
     }
 
     computeChildren() { return [ this.expression, this.convert, this.type ]; }
@@ -149,14 +158,6 @@ export default class Convert extends Expression {
         return undefined;
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new Convert(
-            this.expression.cloneOrReplace([ Expression ], original, replacement), 
-            this.convert.cloneOrReplace([ Token ], original, replacement), 
-            this.type.cloneOrReplace([ Type, Unparsable ], original, replacement)
-        ) as this; 
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.expression instanceof Expression)
             this.expression.evaluateTypeSet(bind, original, current, context);
@@ -172,14 +173,18 @@ export default class Convert extends Expression {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
         
         if(child === this.expression)
-            return getPossibleExpressions(this, this.expression, context);
+            return getExpressionReplacements(context.source, this, this.expression, context);
         else if(child === this.type) {
             // Any type it's convertable to.
             const inputType = this.expression.getTypeUnlessCycle(context);
-            return inputType.getAllConversions(context).filter(conversion => conversion.input instanceof Type && conversion.input.accepts(inputType, context)).map(conversion => conversion.output);
+            return inputType
+                .getAllConversions(context)
+                .filter(conversion => conversion.input instanceof Type && conversion.input.accepts(inputType, context))
+                .map(conversion => new Replace(context.source, child, conversion.output));
         }
 
     }
+
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(): Transform[] | undefined { return undefined; }
 

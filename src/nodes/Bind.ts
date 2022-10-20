@@ -1,6 +1,6 @@
 import Expression from "./Expression";
 import Node from "./Node";
-import type Transform from "./Transform"
+import type Transform from "../transforms/Transform"
 import type Context from "./Context";
 import Alias from "./Alias";
 import Token from "./Token";
@@ -37,8 +37,8 @@ import type Translations from "./Translations";
 import Exception from "../runtime/Exception";
 import Share from "./Share";
 import type Definition from "./Definition";
-import { getPossibleTypes } from "./getPossibleTypes";
-import getPossibleExpressions from "./getPossibleExpressions";
+import { getPossibleTypeAdds, getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
 import { ALIAS_SYMBOL, BIND_SYMBOL, PLACEHOLDER_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
@@ -46,6 +46,9 @@ import TypePlaceholder from "./TypePlaceholder";
 import FunctionDefinition from "./FunctionDefinition";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type LanguageCode from "./LanguageCode";
+import Append from "../transforms/Append";
+import Add from "../transforms/Add";
+import Replace from "../transforms/Replace";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -72,6 +75,7 @@ export default class Bind extends Node implements Evaluable, Named {
     hasName(name: string) { return this.names.find(n => n.getName() === name) !== undefined; }
     sharesName(bind: Bind) { return this.getNames().find(name => bind.hasName(name)) !== undefined; }
     getNames(): string[] { return this.names.map(n => n.getName()).filter(n => n !== undefined) as string[]; }
+    getNameInLanguage(lang: LanguageCode) { return this.names.find(name => name.isLanguage(lang))?.getName() ?? this.names[0]?.getName(); }
 
     isVariableLength() { return this.etc !== undefined; }
 
@@ -247,16 +251,16 @@ export default class Bind extends Node implements Evaluable, Named {
 
     }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new Bind(
-            this.docs.map(d => d.cloneOrReplace([ Documentation ], original, replacement)), 
-            this.etc?.cloneOrReplace([ Token, undefined], original, replacement), 
-            this.names.map(n => n.cloneOrReplace([ Alias ], original, replacement)), 
-            this.type?.cloneOrReplace([ Type, Unparsable, undefined ], original, replacement), 
-            this.value?.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.dot?.cloneOrReplace([ Token, undefined ], original, replacement),
-            this.colon?.cloneOrReplace([ Token, undefined ], original, replacement)
-        ) as this; 
+            this.cloneOrReplaceChild([ Documentation ], "docs", this.docs, original, replacement), 
+            this.cloneOrReplaceChild([ Token, undefined], "etc", this.etc, original, replacement), 
+            this.cloneOrReplaceChild([ Alias ], "names", this.names, original, replacement), 
+            this.cloneOrReplaceChild([ Type, Unparsable, undefined ], "type", this.type, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable, undefined ], "value", this.value, original, replacement), 
+            this.cloneOrReplaceChild([ Token, undefined ], "dot", this.dot, original, replacement),
+            this.cloneOrReplaceChild([ Token, undefined ], "colon", this.colon, original, replacement)
+        ) as this;
     }
     
     getDescriptions() {
@@ -273,58 +277,63 @@ export default class Bind extends Node implements Evaluable, Named {
 
     getReplacementChild(child: Node, context: Context): Transform[] | undefined {
         if(child === this.type) {
-            return getPossibleTypes(this, context);
+            return getPossibleTypeReplacements(child, context);
         }
         else if(child === this.value) {
-            return getPossibleExpressions(this, this.value, context, this.type instanceof Type ? this.type : new AnyType());
+            return getExpressionReplacements(context.source, this, this.value, context, this.type instanceof Type ? this.type : new AnyType());
         }
     }
 
-    getInsertionBefore(child: Node): Transform[] | undefined {
+    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
         
         const parent = this.getParent();
         // Before the … or a documentation? Suggest more documentation.
         if(this.etc === child || this.docs.includes(child as Documentation))
-            return [ new Documentation() ];
+            return [ new Append(context.source, position, this, this.docs, child, new Documentation()) ];
         // Before the first name? a name? Offer an etc or a documentation
         else if(child === this.names[0]) {
             if(this.etc === undefined) {
                 if((parent instanceof FunctionDefinition || parent instanceof StructureDefinition) && parent.inputs.find(input => input.contains(child)) === parent.inputs[parent.inputs.length - 1])
-                    return [ new Token(PLACEHOLDER_SYMBOL, [ TokenType.PLACEHOLDER ]), new Documentation() ];
+                    return [ 
+                        new Add(context.source, position, this, "etc", new Token(PLACEHOLDER_SYMBOL, [ TokenType.PLACEHOLDER ])), 
+                        new Append(context.source, position, this, this.docs, child, new Documentation())
+                    ];
             }
         }
         // Before the etc? Offer documentation
         else if(child === this.etc)
-            return [ new Documentation() ];
+            return [ new Append(context.source, position, this, this.docs, undefined, new Documentation()) ];
         else if(this.names.includes(child as Alias))
-            return [ new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])) ];
+            return [ new Append(context.source, position, this, this.names, child, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ]))) ];
         // Before colon? Offer a type.
         else if(child === this.colon && this.type === undefined)
             return [ 
-                [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ],
-                new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ]))
+                new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, new TypePlaceholder(), this.value, new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), this.colon))
             ];
 
     }
-    getInsertionAfter(context: Context): Transform[] | undefined {
+    getInsertionAfter(context: Context, position: number): Transform[] | undefined {
         
         const children  = this.getChildren();
         const lastChild = children[children.length - 1];
+
+        const withValue = new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, this.type, new ExpressionPlaceholder(), this.dot, new Token(BIND_SYMBOL, [ TokenType.BIND ])));
+
         if(this.names.includes(lastChild as Alias))
             return [
-                new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])),
-                [ new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), new TypePlaceholder() ], 
-                [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] 
+                new Append(context.source, position, this, this.names, undefined, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ]))),
+                new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, new TypePlaceholder(), this.value, new Token(TYPE_SYMBOL, [ TokenType.TYPE ]), this.colon)),
+                withValue
             ];
         else if(lastChild === this.dot)
-            return getPossibleTypes(this, context);
+            return getPossibleTypeAdds(this, "context", context, position);
         else if(lastChild === this.type)
             return [ 
-                [ new Token(BIND_SYMBOL, [ TokenType.BIND ]), new ExpressionPlaceholder()] 
+                withValue
             ];
         else if(lastChild === this.colon)
             return [ 
-                new ExpressionPlaceholder()
+                withValue
             ];
 
     }

@@ -7,8 +7,8 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
-import { getPossibleTypes } from "./getPossibleTypes";
-import type Transform from "./Transform"
+import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
+import type Transform from "../transforms/Transform"
 
 export default class MapType extends NativeType {
 
@@ -64,13 +64,13 @@ export default class MapType extends NativeType {
 
     getNativeTypeName(): string { return MAP_NATIVE_TYPE_NAME; }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new MapType(
-            this.key?.cloneOrReplace([ Type, Unparsable, undefined ], original, replacement), 
-            this.value?.cloneOrReplace([ Type, Unparsable ], original, replacement),
-            this.open.cloneOrReplace([ Token ], original, replacement),
-            this.bind.cloneOrReplace([ Token ], original, replacement), 
-            this.close.cloneOrReplace([ Token], original, replacement) 
+            this.cloneOrReplaceChild([ Type, Unparsable, undefined ], "key", this.key, original, replacement), 
+            this.cloneOrReplaceChild([ Type, Unparsable ], "value", this.value, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "bind", this.bind, original, replacement), 
+            this.cloneOrReplaceChild([ Token], "close", this.close, original, replacement) 
         ) as this; 
     }
 
@@ -89,8 +89,7 @@ export default class MapType extends NativeType {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined {
 
         if(child === this.key || child === this.value)
-            return getPossibleTypes(this, context);
-        else return [];
+            return getPossibleTypeReplacements(child, context);
 
     }
 

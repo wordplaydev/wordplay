@@ -21,9 +21,9 @@ import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import TypeException from "../runtime/TypeException";
 import UnionType from "./UnionType";
-import getPossibleExpressions from "./getPossibleExpressions";
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
-import type Transform from "./Transform"
+import type Transform from "../transforms/Transform"
 
 export default class SetOrMapAccess extends Expression {
 
@@ -39,6 +39,15 @@ export default class SetOrMapAccess extends Expression {
         this.open = open;
         this.key = key;
         this.close = close;
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new SetOrMapAccess(
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "setOrMap", this.setOrMap, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "key", this.key, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
+        ) as this; 
     }
 
     computeChildren() {
@@ -102,15 +111,6 @@ export default class SetOrMapAccess extends Expression {
         }
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new SetOrMapAccess(
-            this.setOrMap.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.open.cloneOrReplace([ Token ], original, replacement), 
-            this.key.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.close.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.setOrMap instanceof Expression) this.setOrMap.evaluateTypeSet(bind, original, current, context);
         if(this.key instanceof Expression) this.key.evaluateTypeSet(bind, original, current, context);
@@ -126,11 +126,11 @@ export default class SetOrMapAccess extends Expression {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined  {
 
         if(child === this.setOrMap) {
-            return getPossibleExpressions(this, this.setOrMap, context, new UnionType(new SetType(new AnyType()), new MapType(new AnyType(), new AnyType())));
+            return getExpressionReplacements(context.source, this, this.setOrMap, context, new UnionType(new SetType(new AnyType()), new MapType(new AnyType(), new AnyType())));
         }
         else if(child === this.key) {
             const setMapType = this.setOrMap.getTypeUnlessCycle(context);
-            return getPossibleExpressions(this, this.key, context, 
+            return getExpressionReplacements(context.source, this, this.key, context, 
                 (setMapType instanceof SetType || setMapType instanceof MapType) && setMapType.key instanceof Type ? setMapType.key :
                 new AnyType()
             )

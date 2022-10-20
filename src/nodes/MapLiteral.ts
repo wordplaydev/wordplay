@@ -42,6 +42,15 @@ export default class MapLiteral extends Expression {
         
     }
 
+    clone(original?: Node | string, replacement?: Node) { 
+        return new MapLiteral(
+            this.cloneOrReplaceChild([ Unparsable, KeyValue ], "values", this.values, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild([ Token, undefined ], "bind", this.bind, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
+        ) as this; 
+    }
+
     notAMap() { return this.values.find(v => v instanceof Expression) !== undefined; }
 
     computeChildren() {
@@ -103,15 +112,6 @@ export default class MapLiteral extends Expression {
         }
         return new Map(values);
             
-    }
-
-    clone(original?: Node, replacement?: Node) { 
-        return new MapLiteral(
-            this.values.map(v => v.cloneOrReplace([ Unparsable, Expression, KeyValue ], original, replacement)), 
-            this.open.cloneOrReplace([ Token ], original, replacement), 
-            this.bind?.cloneOrReplace([ Token, undefined ], original, replacement),
-            this.close.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 

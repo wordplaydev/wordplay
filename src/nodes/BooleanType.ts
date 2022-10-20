@@ -5,7 +5,7 @@ import TokenType from "./TokenType";
 import { BOOLEAN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import NativeType from "./NativeType";
-import type Transform from "./Transform";
+import type Transform from "../transforms/Transform";
 
 export default class BooleanType extends NativeType {
 
@@ -17,14 +17,18 @@ export default class BooleanType extends NativeType {
         this.type = type ?? new Token(BOOLEAN_TYPE_SYMBOL, [ TokenType.BOOLEAN_TYPE ]);
     }
 
+    clone(original?: Node | string, replacement?: Node) { 
+        return new BooleanType(
+            this.cloneOrReplaceChild([ Token ], "type", this.type, original, replacement)
+        ) as this; 
+    }
+
     computeChildren() { return [ this.type ]; }
     computeConflicts() {}
 
     accepts(type: Type) { return type instanceof BooleanType; }
 
     getNativeTypeName(): string { return BOOLEAN_NATIVE_TYPE_NAME; }
-
-    clone(original?: Node, replacement?: Node) { return new BooleanType(this.type.cloneOrReplace([ Token ], original, replacement)) as this; }
 
     getDescriptions() {
         return {

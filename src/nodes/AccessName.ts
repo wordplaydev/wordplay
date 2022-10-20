@@ -21,13 +21,14 @@ import Is from "./Is";
 import { ACCESS_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Translations from "./Translations";
-import getPossibleExpressions from "./getPossibleExpressions";
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import TypeVariable from "./TypeVariable";
 import Stream from "../runtime/Stream";
-import Reference from "./Reference";
-import type Transform from "./Transform"
+
+import type Transform from "../transforms/Transform"
 import NameException from "../runtime/NameException";
 import NativeType from "./NativeType";
+import Replace from "../transforms/Replace";
 
 export default class AccessName extends Expression {
 
@@ -43,6 +44,14 @@ export default class AccessName extends Expression {
         this.subject = subject;
         this.access = access ?? new Token(ACCESS_SYMBOL, [ TokenType.ACCESS ]);
         this.name = name;
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new AccessName(
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "subject", this.subject, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "access", this.access, original, replacement), 
+            this.cloneOrReplaceChild([ Token, undefined ], "name", this.name, original, replacement)
+        ) as this;
     }
 
     computeChildren() {
@@ -148,14 +157,6 @@ export default class AccessName extends Expression {
 
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new AccessName(
-            this.subject.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.access.cloneOrReplace([ Token ], original, replacement), 
-            this.name?.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.subject instanceof Expression) {
             const possibleTypes = this.subject.evaluateTypeSet(bind, original, current, context);
@@ -178,17 +179,17 @@ export default class AccessName extends Expression {
             subjectType instanceof StructureType ? subjectType.structure.getDefinitions(this) :
             subjectType instanceof NativeType ? subjectType?.getDefinitions(this, context) : [];
         return definitions
-            .filter(def => def.getNames().find(n => this.name === undefined || this.name.getText() === PLACEHOLDER_SYMBOL || n.startsWith(this.name.getText())) !== undefined)
-            .map(def => new Reference<Token>(def, name => new Token(name, [ TokenType.NAME ])));    
+            .filter(def => def.getNames().find(n => this.name === undefined || this.name.getText() === PLACEHOLDER_SYMBOL || n.startsWith(this.name.getText())) !== undefined);
 
     }
 
     getReplacementChild(child: Node, context: Context): Transform[] | undefined {
 
         if(child === this.subject)
-            return getPossibleExpressions(this, this.subject, context);
+            return getExpressionReplacements(context.source, this, this.subject, context);
         else if(child === this.name)
-            return this.getNameTransforms(context);
+            return this.getNameTransforms(context)
+                .map(def => new Replace<Token>(context.source, child, [ name => new Token(name, [ TokenType.NAME ]), def ]));
 
     }
 
@@ -196,7 +197,8 @@ export default class AccessName extends Expression {
 
     getInsertionAfter(context: Context): Transform[] | undefined {
         if(this.access !== undefined)
-            return this.getNameTransforms(context);
-    }
+            return this.getNameTransforms(context)
+                .map(def => new Replace<AccessName>(context.source, this, [ name => new AccessName(this.subject, undefined, new Token(name, [ TokenType.NAME ])), def ]));
+        }
 
 }

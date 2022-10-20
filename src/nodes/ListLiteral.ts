@@ -13,10 +13,10 @@ import Start from "../runtime/Start";
 import type Context from "./Context";
 import { getPossibleUnionType, TypeSet } from "./UnionType";
 import type Bind from "./Bind";
-import getPossibleExpressions from "./getPossibleExpressions";
+import { getExpressionInsertions, getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import type Transform from "./Transform"
+import type Transform from "../transforms/Transform"
 
 export type ListItem = Expression | Unparsable;
 
@@ -33,6 +33,14 @@ export default class ListLiteral extends Expression {
         this.values = values.slice();
         this.close = close ?? new Token(LIST_CLOSE_SYMBOL, [ TokenType.LIST_CLOSE ]);;
 
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new ListLiteral(
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "values", this.values, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
+         ) as this; 
     }
 
     computeChildren() {
@@ -79,14 +87,6 @@ export default class ListLiteral extends Expression {
         }
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new ListLiteral(
-            this.values.map(v => v.cloneOrReplace([ Expression, Unparsable ], original, replacement)), 
-            this.open.cloneOrReplace([ Token ], original, replacement), 
-            this.close.cloneOrReplace([ Token ], original, replacement)
-         ) as this; 
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         this.values.forEach(val => { if(val instanceof Expression) val.evaluateTypeSet(bind, original, current, context); });
         return current;
@@ -101,15 +101,16 @@ export default class ListLiteral extends Expression {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
 
         if(this.values.includes(child as ListItem))
-            return getPossibleExpressions(this, child as ListItem, context);
+            return getExpressionReplacements(context.source, this, child as ListItem, context);
 
     }
-    getInsertionBefore(child: Node, context: Context): Transform[] | undefined { 
+    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined { 
 
         const index = this.values.indexOf(child as ListItem);
         if(index >= 0)
-            return getPossibleExpressions(this, undefined, context)
-
+            return getExpressionInsertions(context.source, position, this, this.values, child, context);
+        else if(child === this.close)
+            return getExpressionInsertions(context.source, position, this, this.values, undefined, context);
     
     }
 

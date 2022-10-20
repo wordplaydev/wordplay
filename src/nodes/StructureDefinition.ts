@@ -29,10 +29,11 @@ import { Unimplemented } from "../conflicts/Unimplemented";
 import { Implemented } from "../conflicts/Implemented";
 import { DisallowedInputs } from "../conflicts/DisallowedInputs";
 import ContextException, { StackSize } from "../runtime/ContextException";
-import Reference from "./Reference";
-import type Transform from "./Transform"
+import type Transform from "../transforms/Transform"
 import TypePlaceholder from "./TypePlaceholder";
 import type LanguageCode from "./LanguageCode";
+import Append from "../transforms/Append";
+import Replace from "../transforms/Replace";
 
 export default class StructureDefinition extends Expression {
 
@@ -70,7 +71,22 @@ export default class StructureDefinition extends Expression {
         this.block = block;
     }
 
+    clone(original?: Node | string, replacement?: Node) {
+        return new StructureDefinition(
+            this.cloneOrReplaceChild([ Documentation ], "docs", this.docs, original, replacement),
+            this.cloneOrReplaceChild([ Alias ], "aliases", this.aliases, original, replacement),
+            this.cloneOrReplaceChild([ TypeInput ], "interfaces", this.interfaces, original, replacement), 
+            this.cloneOrReplaceChild([ TypeVariable, Unparsable ], "typeVars", this.typeVars, original, replacement),
+            this.cloneOrReplaceChild([ Bind, Unparsable ], "inputs", this.inputs, original, replacement),
+            this.cloneOrReplaceChild([ Block, Unparsable ], "block", this.block, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "type", this.type, original, replacement),
+            this.cloneOrReplaceChild([ Token, undefined ], "open", this.open, original, replacement),
+            this.cloneOrReplaceChild([ Token, undefined ], "close", this.close, original, replacement)
+        ) as this;
+    }
+
     getNames() { return this.aliases.map(a => a.getName()).filter(n => n !== undefined) as string[]; }
+    getNameInLanguage(lang: LanguageCode) { return this.aliases.find(name => name.isLanguage(lang))?.getName() ?? this.aliases[0]?.getName(); }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block || (child instanceof Bind && this.inputs.includes(child)); }
 
@@ -223,20 +239,6 @@ export default class StructureDefinition extends Expression {
         }
     }
 
-    clone(original?: Node, replacement?: Node) {
-        return new StructureDefinition(
-            this.docs.map(d => d.cloneOrReplace([ Documentation ], original, replacement)),
-            this.aliases.map(a => a.cloneOrReplace([ Alias ], original, replacement)),
-            this.interfaces.map(i => i.cloneOrReplace([ NameType ], original, replacement)), 
-            this.typeVars.map(t => t.cloneOrReplace([ TypeVariable, Unparsable ], original, replacement)),
-            this.inputs.map(i => i.cloneOrReplace([ Bind, Unparsable ], original, replacement)),
-            this.block?.cloneOrReplace([ Block ], original, replacement),
-            this.type.cloneOrReplace([ Token ], original, replacement),
-            this.open?.cloneOrReplace([ Token ], original, replacement),
-            this.close?.cloneOrReplace([ Token ], original, replacement)
-        ) as this;
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.block instanceof Expression) this.block.evaluateTypeSet(bind, original, current, context);
         return current;
@@ -258,27 +260,27 @@ export default class StructureDefinition extends Expression {
         if(this.interfaces.includes(child as TypeInput)) {
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is StructureDefinition => def instanceof StructureDefinition && def.isInterface())
-                    .map(def => new Reference<TypeInput>(def, name => new TypeInput(new NameType(name))));
+                    .map(def => new Replace<TypeInput>(context.source, child, [ name => new TypeInput(new NameType(name)), def ]));
         }
     }
 
-    getInsertionBefore(child: Node): Transform[] | undefined {
+    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
         if(child === this.open) {
-            const replacements = [];
+            const transforms: Transform[] = [];
             if((this.interfaces.length === 0 && this.typeVars.length === 0) ||
                 (this.interfaces.length > 0 && child === this.interfaces[0]) ||
                 (this.interfaces.length === 0 && this.typeVars.length > 0 && this.typeVars[0] === child))
-                replacements.push(new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ])));
+                transforms.push(new Append(context.source, position, this, this.aliases, undefined, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, [ TokenType.ALIAS ]))));
 
             if(this.typeVars.length === 0)
-                replacements.push(new TypeInput(new TypePlaceholder()))
+                transforms.push(new Append(context.source, position, this, this.typeVars, undefined, new TypeInput(new TypePlaceholder())));
 
-            return replacements;
+            return transforms;
         }
         else if(this.interfaces.includes(child as TypeInput))
-            return [ new TypeInput(new TypePlaceholder())]
+            return [ new Append(context.source, position, this, this.interfaces, child, new TypeInput(new TypePlaceholder())) ]
         else if(child === this.close || this.inputs.includes(child as Bind))
-            return [ new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ])];
+            return [ new Append(context.source, position, this, this.inputs, undefined, new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ])) ];
     }
     
     getInsertionAfter() { return undefined; }

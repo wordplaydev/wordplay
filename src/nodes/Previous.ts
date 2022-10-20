@@ -23,10 +23,11 @@ import TypeException from "../runtime/TypeException";
 import AnyType from "./AnyType";
 import Name from "./Name";
 import TokenType from "./TokenType";
-import getPossibleExpressions from "./getPossibleExpressions";
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import { PREVIOUS_SYMBOL } from "../parser/Tokenizer";
-import Reference from "./Reference";
-import type Transform from "./Transform";
+
+import type Transform from "../transforms/Transform";
+import Replace from "../transforms/Replace";
 
 export default class Previous extends Expression {
 
@@ -40,6 +41,14 @@ export default class Previous extends Expression {
         this.stream = stream;
         this.previous = previous ?? new Token(PREVIOUS_SYMBOL, [ TokenType.PREVIOUS ]);
         this.index = index;
+    }
+
+    clone(original?: Node | string, replacement?: Node) { 
+        return new Previous(
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "stream", this.stream, original, replacement), 
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "index", this.index, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "previous", this.previous, original, replacement)
+        ) as this; 
     }
 
     computeChildren() {
@@ -93,14 +102,6 @@ export default class Previous extends Expression {
 
     }
 
-    clone(original?: Node, replacement?: Node) { 
-        return new Previous(
-            this.stream.cloneOrReplace([ Expression, Unparsable ], original, replacement), 
-            this.index.cloneOrReplace([ Expression, Unparsable ], original, replacement),
-            this.previous.cloneOrReplace([ Token ], original, replacement)
-        ) as this; 
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.stream instanceof Expression) this.stream.evaluateTypeSet(bind, original, current, context);
         if(this.index instanceof Expression) this.index.evaluateTypeSet(bind, original, current, context);
@@ -118,10 +119,10 @@ export default class Previous extends Expression {
         if(child === this.stream)
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is Stream => def instanceof Stream)
-                    .map(stream => new Reference<Name>(stream, name => new Name(name)))
+                    .map(stream => new Replace<Name>(context.source, child, [ name => new Name(name), stream ]))
 
         if(child === this.index)
-            return getPossibleExpressions(this, this.index, context, new MeasurementType());
+            return getExpressionReplacements(context.source, this, this.index, context, new MeasurementType());
 
     }
 

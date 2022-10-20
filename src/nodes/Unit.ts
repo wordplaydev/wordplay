@@ -5,9 +5,11 @@ import Type from "./Type";
 import type Node from "./Node";
 import Measurement from "../runtime/Measurement";
 import type Context from "./Context";
-import { getPossibleDimensions } from "./getPossibleUnits";
+import { getPossibleDimensions } from "../transforms/getPossibleUnits";
 import TokenType from "./TokenType";
-import type Transform from "./Transform";
+import type Transform from "../transforms/Transform";
+import Replace from "../transforms/Replace";
+import Add from "../transforms/Add";
 
 export default class Unit extends Type {
 
@@ -54,12 +56,11 @@ export default class Unit extends Type {
         else {
             // Set the exponents directly, if given.
             if(exponents !== undefined) {
+                const cleanExponents = new Map();
                 // Eliminate any 0 exponent units.
-                for(const [ unit, exp ] of exponents)
-                    if(exp === 0)
-                        exponents.delete(unit);
-
-                this.exponents = new Map(exponents);
+                for(const unit of exponents.keys())
+                    if(exponents.get(unit) !== 0) cleanExponents.set(unit, exponents.get(unit));
+                this.exponents = cleanExponents;
 
             }
             else
@@ -126,8 +127,14 @@ export default class Unit extends Type {
 
     }
 
-    clone() { 
-        return new Unit(this.exponents) as this;
+    clone(original?: Node, replacement?: Node) { 
+        return new Unit(
+            this.exponents === undefined ? undefined : new Map(this.exponents),
+            this.cloneOrReplaceChild([ Dimension ], "numerator", this.numerator, original, replacement), 
+            this.cloneOrReplaceChild([ Token, undefined ], "slash", this.slash, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "denominator", this.denominator, original, replacement), 
+        ) as this; 
+
     }
 
     sqrt() {
@@ -198,16 +205,16 @@ export default class Unit extends Type {
         const project = context.source.getProject();
 
         if(child !== this.slash && project !== undefined)
-            return getPossibleDimensions(project).map(dim => new Dimension(dim));
+            return getPossibleDimensions(project).map(dim => new Replace(context.source, child, new Dimension(dim)));
 
     }
     
     getInsertionBefore() { return undefined; }
     
-    getInsertionAfter() { 
+    getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
         
         if(this.slash === undefined)
-            return [ new Token(LANGUAGE_SYMBOL, [ TokenType.LANGUAGE ])]
+            return [ new Add(context.source, position, this, "slash", new Token(LANGUAGE_SYMBOL, [ TokenType.LANGUAGE ])) ];
 
     }
 

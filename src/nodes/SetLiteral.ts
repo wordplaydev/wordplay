@@ -14,10 +14,10 @@ import { getPossibleUnionType, TypeSet } from "./UnionType";
 import SetType from "./SetType";
 import AnyType from "./AnyType";
 import type Bind from "./Bind";
-import getPossibleExpressions from "./getPossibleExpressions";
+import { getExpressionInsertions, getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import type Transform from "./Transform"
+import type Transform from "../transforms/Transform"
 
 export type SetItem = Expression | Unparsable;
 
@@ -83,11 +83,11 @@ export default class SetLiteral extends Expression {
             
     }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new SetLiteral(
-            this.values.map(v => v.cloneOrReplace([ Expression, Unparsable ], original, replacement)), 
-            this.open.cloneOrReplace([ Token ], original, replacement), 
-            this.close.cloneOrReplace([ Token ], original, replacement)
+            this.cloneOrReplaceChild([ Expression, Unparsable ], "values", this.values, original, replacement),
+            this.cloneOrReplaceChild([ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild([ Token ], "close", this.close, original, replacement)
         ) as this; 
     }
 
@@ -105,11 +105,21 @@ export default class SetLiteral extends Expression {
     getReplacementChild(child: Node, context: Context): Transform[] | undefined  {
 
         const index = this.values.indexOf(child as SetItem);
-        return getPossibleExpressions(this, index >= 0 ? this.values[index] : undefined, context);
+        if(index >= 0)
+            return getExpressionReplacements(context.source, this, this.values[index], context);
 
     }
 
-    getInsertionBefore() { return undefined; }
+    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined { 
+
+        const index = this.values.indexOf(child as SetItem);
+        if(index >= 0)
+            return getExpressionInsertions(context.source, position, this, this.values, child, context);
+        else if(child === this.close)
+            return getExpressionInsertions(context.source, position, this, this.values, undefined, context);
+    
+    }
+
     getInsertionAfter() { return undefined; }
 
 }

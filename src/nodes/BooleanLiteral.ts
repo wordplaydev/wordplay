@@ -12,7 +12,8 @@ import type Bind from "./Bind";
 import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
 import TokenType from "./TokenType";
-import type Transform from "./Transform";
+import type Transform from "../transforms/Transform";
+import Replace from "../transforms/Replace";
 
 export default class BooleanLiteral extends Expression {
     readonly value: Token;
@@ -49,7 +50,11 @@ export default class BooleanLiteral extends Expression {
         return this.value.text.toString() === TRUE_SYMBOL;
     }
 
-    clone(original?: Node, replacement?: Node) { return new BooleanLiteral(this.value.cloneOrReplace([ Token ], original, replacement)) as this; }
+    clone(original?: Node | string, replacement?: Node) { 
+        return new BooleanLiteral(
+            this.cloneOrReplaceChild([ Token ], "value", this.value, original, replacement)
+        ) as this; 
+    }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
@@ -59,9 +64,9 @@ export default class BooleanLiteral extends Expression {
         }
     }
 
-    getReplacementChild(): Transform[] | undefined { 
+    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
         return [
-            new Token(!this.bool() ? TRUE_SYMBOL : FALSE_SYMBOL, [ TokenType.BOOLEAN ])
+            new Replace(context.source, child, new Token(!this.bool() ? TRUE_SYMBOL : FALSE_SYMBOL, [ TokenType.BOOLEAN ]))
         ];
     }
 

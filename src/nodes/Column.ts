@@ -4,7 +4,7 @@ import Bind from "../nodes/Bind";
 import Token from "./Token";
 import Unparsable from "./Unparsable";
 import UnknownType from "./UnknownType";
-import type Transform from "./Transform";
+import type Transform from "../transforms/Transform";
 
 export default class Column extends Node {
 
@@ -26,10 +26,10 @@ export default class Column extends Node {
     hasDefault() { return this.bind instanceof Bind && this.bind.hasDefault(); }
     getType(context: Context) { return this.bind instanceof Unparsable ? new UnknownType(this) : this.bind.getTypeUnlessCycle(context); }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node | string, replacement?: Node) { 
         return new Column(
-            this.bar.cloneOrReplace([ Token ], original, replacement), 
-            this.bind.cloneOrReplace([ Bind, Unparsable ], original, replacement)
+            this.cloneOrReplaceChild([ Token ], "bar", this.bar, original, replacement), 
+            this.cloneOrReplaceChild([ Bind, Unparsable ], "bind", this.bind, original, replacement)
         ) as this; 
     }
 
