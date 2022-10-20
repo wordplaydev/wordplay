@@ -81,9 +81,9 @@ export default class Bind extends Node implements Evaluable, Named {
             this.cloneOrReplaceChild(pretty, [ Token, undefined], "etc", this.etc, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Alias ], "names", this.names, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Type, Unparsable, undefined ], "type", this.type, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable, undefined ], "value", this.value, original, replacement), 
+            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild<Expression|Unparsable>(pretty, [ Expression, Unparsable, undefined ], "value", this.value, original, replacement)), 
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "dot", this.dot, original, replacement),
-            withPrecedingSpaceIfDesired<Token>(pretty, this.cloneOrReplaceChild(pretty, [ Token, undefined ], "colon", this.colon, original, replacement))
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "colon", this.colon, original, replacement)
         ) as this;
     }
 
