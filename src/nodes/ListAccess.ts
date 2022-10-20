@@ -26,6 +26,7 @@ import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
+import withPrecedingSpace from "../transforms/withPrecedingSpace";
 
 export default class ListAccess extends Expression {
     readonly list: Expression | Unparsable;
@@ -37,7 +38,7 @@ export default class ListAccess extends Expression {
         super();
 
         this.list = list;
-        this.open = open ?? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN);
+        this.open = open === undefined ? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN) : withPrecedingSpace(open);
         this.index = index;
         this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
     }

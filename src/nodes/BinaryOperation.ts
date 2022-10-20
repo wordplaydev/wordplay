@@ -31,6 +31,7 @@ import TokenType from "./TokenType";
 
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
+import withPrecedingSpace from "../transforms/withPrecedingSpace";
 
 export default class BinaryOperation extends Expression {
 
@@ -43,7 +44,7 @@ export default class BinaryOperation extends Expression {
 
         this.operator = operator;
         this.left = left;
-        this.right = right;
+        this.right = withPrecedingSpace(right);
     }
 
     clone(original?: Node | string, replacement?: Node) { 

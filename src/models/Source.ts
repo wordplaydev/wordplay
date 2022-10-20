@@ -48,13 +48,17 @@ export default class Source {
 
         this.name = name;
 
-        // Get the text of the program as a unicode string.
-        this.code = typeof code === "string" ? new UnicodeString(code) : 
-                    code instanceof UnicodeString ? code :
-                    new UnicodeString(code.toWordplay());
-        
-        // Get the AST representation of the progrma.
-        this.program = code instanceof Program ? code : parseProgram(new Tokens(tokenize(this.code.getText())));
+        if(code instanceof Program) {
+            // Save the AST
+            this.program = code;
+        }
+        else {
+            // Generate the AST.
+            this.program = parseProgram(new Tokens(tokenize(code instanceof UnicodeString ? code.getText() : code)));
+        }
+
+        // Generate the text from the AST, which is responsible for pretty printing.
+        this.code = new UnicodeString(this.program.toWordplay());
 
         // Create an index of the program's tokens.
         let index = 0;
@@ -223,7 +227,7 @@ export default class Source {
 
     getTokenWithSpaceAt(position: number) {
         // This could be faster with binary search, but let's not prematurely optimize.
-        for(const [token, index] of this.indicies)
+        for(const [token] of this.indicies)
             if(this.tokenSpaceContains(token, position))
                 return token;
         return undefined;

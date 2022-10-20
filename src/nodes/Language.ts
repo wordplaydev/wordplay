@@ -1,5 +1,4 @@
 import MissingLanguage from "../conflicts/MissingLanguage";
-import { LANGUAGE_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import Node from "./Node";
 import Token from "./Token";
@@ -8,6 +7,7 @@ import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import Add from "../transforms/Add";
+import LanguageToken from "./LanguageToken";
 
 export default class Language extends Node {
     
@@ -17,7 +17,7 @@ export default class Language extends Node {
     constructor(lang?: Token | string, slash?: Token) {
         super();
 
-        this.slash = slash ?? new Token(LANGUAGE_SYMBOL, TokenType.LANGUAGE);
+        this.slash = slash ?? new LanguageToken();
         this.lang = typeof lang === "string" ? new Token(lang, TokenType.NAME) : lang;
     }
 

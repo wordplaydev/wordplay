@@ -7,6 +7,7 @@ import { getPossibleDimensions } from "../transforms/getPossibleUnits";
 import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
+import withPrecedingSpace from "../transforms/withPrecedingSpace";
 
 export default class Dimension extends Node {
 
@@ -18,8 +19,8 @@ export default class Dimension extends Node {
         super();
 
         this.name = typeof name === "string" ? new Token(name, TokenType.NAME) : name;
-        this.caret = caret;
-        this.exponent = exponent;
+        this.caret = caret === undefined ? undefined : withPrecedingSpace(caret, "", true);
+        this.exponent = exponent === undefined ? undefined : withPrecedingSpace(exponent, "", true);
 
     }
 

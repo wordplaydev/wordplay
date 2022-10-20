@@ -41,7 +41,7 @@ export default class Borrow extends Node implements Evaluable {
         if(this.name === undefined || type === undefined)
             conflicts.push(new UnknownBorrow(this));
 
-        return conflicts; 
+        return conflicts;
     
     }
 

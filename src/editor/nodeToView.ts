@@ -1,3 +1,4 @@
+import type Node from "../nodes/Node";
 import UnparsableView from "./UnparsableView.svelte";
 import BlockView from "./BlockView.svelte";
 import BorrowView from "./BorrowView.svelte";
@@ -52,6 +53,7 @@ import RowView from "./RowView.svelte";
 import CellView from "./CellView.svelte";
 import FunctionTypeView from "./FunctionTypeView.svelte";
 import ThisView from "./ThisView.svelte";
+import UnknownNodeView from "./UnknownNodeView.svelte";
 
 import InsertView from "./InsertView.svelte";
 import DeleteView from "./DeleteView.svelte";
@@ -207,4 +209,13 @@ nodeToView.set(Is, IsView);
 
 nodeToView.set(This, ThisView);
 
-export default nodeToView;
+export default function getNodeView(node: Node) {
+
+    let constructor = node.constructor;
+    do {
+        const view = nodeToView.get(constructor);
+        if(view !== undefined) return view;
+        constructor = Object.getPrototypeOf(constructor);
+    } while(constructor !== undefined);
+    return UnknownNodeView;
+}

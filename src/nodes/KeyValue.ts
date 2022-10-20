@@ -1,12 +1,11 @@
-import { BIND_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import Expression from "./Expression";
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import Node from "./Node";
 import type Transform from "../transforms/Transform"
 import Token from "./Token";
-import TokenType from "./TokenType";
 import Unparsable from "./Unparsable";
+import BindToken from "./BindToken";
 
 export default class KeyValue extends Node {
 
@@ -18,7 +17,7 @@ export default class KeyValue extends Node {
         super();
 
         this.key = key;
-        this.bind = bind ?? new Token(BIND_SYMBOL, TokenType.BIND);
+        this.bind = bind ?? new BindToken();
         this.value = value;
     }
 

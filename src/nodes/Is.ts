@@ -22,6 +22,7 @@ import Start from "../runtime/Start";
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
+import withPrecedingSpace from "../transforms/withPrecedingSpace";
 
 export default class Is extends Expression {
 
@@ -32,7 +33,7 @@ export default class Is extends Expression {
     constructor(left: Expression | Unparsable, operator: Token, right: Type | Unparsable, ) {
         super();
 
-        this.operator = operator;
+        this.operator = withPrecedingSpace(operator, "", true);
         this.expression = left;
         this.type = right;
     }

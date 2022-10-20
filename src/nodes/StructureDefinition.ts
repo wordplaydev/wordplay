@@ -22,7 +22,7 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import FunctionType from "./FunctionType";
 import NameType from "./NameType";
-import { ALIAS_SYMBOL, EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, PLACEHOLDER_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
+import { ALIAS_SYMBOL, EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TypeInput from "./TypeInput";
 import type { TypeSet } from "./UnionType";
 import { Unimplemented } from "../conflicts/Unimplemented";
@@ -34,6 +34,7 @@ import TypePlaceholder from "./TypePlaceholder";
 import type LanguageCode from "./LanguageCode";
 import Append from "../transforms/Append";
 import Replace from "../transforms/Replace";
+import TypeToken from "./TypeToken";
 
 export default class StructureDefinition extends Expression {
 
@@ -61,7 +62,7 @@ export default class StructureDefinition extends Expression {
         super();
 
         this.docs = docs;
-        this.type = type ?? new Token(TYPE_SYMBOL, TokenType.TYPE);
+        this.type = type ?? new TypeToken();
         this.aliases = aliases;
         this.interfaces = interfaces;
         this.typeVars = typeVars;

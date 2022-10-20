@@ -3,8 +3,7 @@
     import type { Writable } from "svelte/types/runtime/store";
     import type Caret from "../models/Caret";
     import type Node from "../nodes/Node";
-    import nodeToView from "./nodeToView";
-    import UnknownNodeView from "./UnknownNodeView.svelte";
+    import getNodeView from "./nodeToView";
 
     export let node: Node | undefined;
     export let block: boolean = false;
@@ -23,7 +22,7 @@
     class="{node.constructor.name} node-view {block ? "block" : "inline"} {primaryConflicts.length > 0 ? "primary-conflict" : ""} {secondaryConflicts.length > 0 ? "secondary-conflict" : ""}"
     data-id={node.id}
     on:mousedown={mousedown}
-><svelte:component this={nodeToView.get(node.constructor) ?? UnknownNodeView} node={node} />{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation("eng")}</div>{/each}</div>{/if}</div>
+><svelte:component this={getNodeView(node)} node={node} />{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation("eng")}</div>{/each}</div>{/if}</div>
 {/if}
 
 <style>

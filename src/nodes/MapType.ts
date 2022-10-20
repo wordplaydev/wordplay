@@ -1,5 +1,5 @@
 import { MAP_KEY_TYPE_VAR_NAME, MAP_NATIVE_TYPE_NAME, MAP_VALUE_TYPE_VAR_NAME } from "../native/NativeConstants";
-import { BIND_SYMBOL, SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
+import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import NativeType from "./NativeType";
 import type Node from "./Node";
@@ -9,6 +9,7 @@ import Type from "./Type";
 import Unparsable from "./Unparsable";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
+import BindToken from "./BindToken";
 
 export default class MapType extends NativeType {
 
@@ -23,7 +24,7 @@ export default class MapType extends NativeType {
 
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
         this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
-        this.bind = bind ?? new Token(BIND_SYMBOL, TokenType.BIND);
+        this.bind = bind ?? new BindToken();
         this.key = key;
         this.value = value;
     }

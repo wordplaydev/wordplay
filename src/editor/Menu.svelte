@@ -1,7 +1,6 @@
 <script lang="ts">
-    import nodeToView from "./nodeToView";
     import type Transform from "../transforms/Transform";
-    import UnknownNodeView from "./UnknownNodeView.svelte";
+    import getNodeView from "./nodeToView";
 
     export let transforms: Transform[];
     export let selection: number;
@@ -35,7 +34,8 @@
                 on:mousedown|preventDefault|stopPropagation={() => handleItemClick(transform)}
             >
                 <td class="col">
-                    <svelte:component this={nodeToView.get(transform.getSubjectNode("eng").constructor) ?? UnknownNodeView} node={transform.getSubjectNode("eng")} />
+                    <!-- svelte-ignore missing-declaration -->
+                    <svelte:component this={getNodeView(transform.getSubjectNode("eng"))} node={transform.getSubjectNode("eng")} />
                 <td class="col"><em>{transform.getDescription("eng")}</em></td>
             </tr>
         {:else if (index === minItem - 1 && minItem > 0) || (index === maxItem + 1 && maxItem < transforms.length - 1) }

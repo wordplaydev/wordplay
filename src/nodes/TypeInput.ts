@@ -1,8 +1,7 @@
-import { TYPE_SYMBOL } from "../parser/Tokenizer";
 import Node from "./Node";
 import Token from "./Token";
-import TokenType from "./TokenType";
 import Type from "./Type";
+import TypeToken from "./TypeToken";
 import Unparsable from "./Unparsable";
 
 export default class TypeInput extends Node {
@@ -13,7 +12,7 @@ export default class TypeInput extends Node {
     constructor(type: Type | Unparsable, dot?: Token) {
         super();
 
-        this.dot = dot ?? new Token(TYPE_SYMBOL, TokenType.TYPE);
+        this.dot = dot ?? new TypeToken();
         this.type = type;
     }
 

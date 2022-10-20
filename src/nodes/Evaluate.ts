@@ -46,6 +46,7 @@ import { getExpressionInsertions, getExpressionReplacements } from "../transform
 import type Transform from "../transforms/Transform"
 import Block from "./Block";
 import Replace from "../transforms/Replace";
+import withPrecedingSpace from "../transforms/withPrecedingSpace";
 
 type InputType = Unparsable | Bind | Expression;
 
@@ -61,7 +62,7 @@ export default class Evaluate extends Expression {
         super();
 
         this.typeInputs = typeInputs;
-        this.open = open;
+        this.open = withPrecedingSpace(open);
         this.func = func;
         this.inputs = inputs.slice();
         this.close = close;

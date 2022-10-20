@@ -6,10 +6,10 @@ import type Node from "./Node";
 import Measurement from "../runtime/Measurement";
 import type Context from "./Context";
 import { getPossibleDimensions } from "../transforms/getPossibleUnits";
-import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import Add from "../transforms/Add";
+import LanguageToken from "./LanguageToken";
 
 export default class Unit extends Type {
 
@@ -214,7 +214,7 @@ export default class Unit extends Type {
     getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
         
         if(this.slash === undefined)
-            return [ new Add(context.source, position, this, "slash", new Token(LANGUAGE_SYMBOL, TokenType.LANGUAGE)) ];
+            return [ new Add(context.source, position, this, "slash", new LanguageToken()) ];
 
     }
 

@@ -40,7 +40,7 @@ import type Definition from "./Definition";
 import { getPossibleTypeAdds, getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
-import { ALIAS_SYMBOL, BIND_SYMBOL, PLACEHOLDER_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
+import { ALIAS_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import TypePlaceholder from "./TypePlaceholder";
 import FunctionDefinition from "./FunctionDefinition";
@@ -49,6 +49,8 @@ import type LanguageCode from "./LanguageCode";
 import Append from "../transforms/Append";
 import Add from "../transforms/Add";
 import Replace from "../transforms/Replace";
+import BindToken from "./BindToken";
+import TypeToken from "./TypeToken";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -66,9 +68,9 @@ export default class Bind extends Node implements Evaluable, Named {
         this.docs = docs;
         this.etc = etc;
         this.names = names;
-        this.dot = dot !== undefined ? dot : type === undefined ? undefined : new Token(TYPE_SYMBOL, TokenType.TYPE);
+        this.dot = dot !== undefined ? dot : type === undefined ? undefined : new TypeToken();
         this.type = type;
-        this.colon = colon !== undefined ? colon : value === undefined ? undefined : new Token(BIND_SYMBOL, TokenType.BIND, " "); 
+        this.colon = colon !== undefined ? colon : value === undefined ? undefined : new BindToken(); 
         this.value = value;
     }
 
@@ -308,7 +310,7 @@ export default class Bind extends Node implements Evaluable, Named {
         // Before colon? Offer a type.
         else if(child === this.colon && this.type === undefined)
             return [ 
-                new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, new TypePlaceholder(), this.value, new Token(TYPE_SYMBOL, TokenType.TYPE), this.colon))
+                new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, new TypePlaceholder(), this.value, new TypeToken(), this.colon))
             ];
 
     }
@@ -317,12 +319,12 @@ export default class Bind extends Node implements Evaluable, Named {
         const children  = this.getChildren();
         const lastChild = children[children.length - 1];
 
-        const withValue = new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, this.type, new ExpressionPlaceholder(), this.dot, new Token(BIND_SYMBOL, TokenType.BIND)));
+        const withValue = new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, this.type, new ExpressionPlaceholder(), this.dot, new BindToken()));
 
         if(this.names.includes(lastChild as Alias))
             return [
                 new Append(context.source, position, this, this.names, undefined, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))),
-                new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, new TypePlaceholder(), this.value, new Token(TYPE_SYMBOL, TokenType.TYPE), this.colon)),
+                new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, new TypePlaceholder(), this.value, new TypeToken(), this.colon)),
                 withValue
             ];
         else if(lastChild === this.dot)

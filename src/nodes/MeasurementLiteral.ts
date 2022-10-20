@@ -20,6 +20,7 @@ import TokenType from "./TokenType";
 import { getPossibleUnits } from "../transforms/getPossibleUnits";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
+import withPrecedingSpace from "../transforms/withPrecedingSpace";
 
 export default class MeasurementLiteral extends Expression {
     
@@ -29,7 +30,7 @@ export default class MeasurementLiteral extends Expression {
     constructor(number?: Token, unit?: Unit | Unparsable) {
         super();
         this.number = number ?? new Token("", TokenType.NUMBER);
-        this.unit = unit ?? new Unit();
+        this.unit = unit === undefined ? new Unit() : withPrecedingSpace(unit, "", true);
     }
 
     clone(original?: Node | string, replacement?: Node) { 

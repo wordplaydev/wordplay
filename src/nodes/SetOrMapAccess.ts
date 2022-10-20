@@ -24,6 +24,7 @@ import UnionType from "./UnionType";
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
 import type Transform from "../transforms/Transform"
+import withPrecedingSpace from "../transforms/withPrecedingSpace";
 
 export default class SetOrMapAccess extends Expression {
 
@@ -36,7 +37,7 @@ export default class SetOrMapAccess extends Expression {
         super();
 
         this.setOrMap = setOrMap;
-        this.open = open;
+        this.open = withPrecedingSpace(open);
         this.key = key;
         this.close = close;
     }
