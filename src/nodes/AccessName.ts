@@ -29,6 +29,14 @@ import type Transform from "../transforms/Transform"
 import NameException from "../runtime/NameException";
 import NativeType from "./NativeType";
 import Replace from "../transforms/Replace";
+import FunctionDefinition from "./FunctionDefinition";
+import StructureDefinition from "./StructureDefinition";
+import Evaluate from "./Evaluate";
+import EvalOpenToken from "./EvalOpenToken";
+import Name from "./Name";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import EvalCloseToken from "./EvalCloseToken";
+import withPrecedingSpace from "../transforms/withPrecedingSpace";
 
 export default class AccessName extends Expression {
 
@@ -197,6 +205,18 @@ export default class AccessName extends Expression {
 
     getInsertionAfter(context: Context): Transform[] | undefined {
         if(this.access !== undefined)
+            return this.getNameTransforms(context)
+                .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
+                    // Include 
+                    new Replace(context.source, this, [ name => new Evaluate(
+                        [], new EvalOpenToken(), 
+                        new AccessName(withPrecedingSpace(this.subject.clone(false), "", true), undefined, 
+                        new Token(name, TokenType.NAME)), 
+                        def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder()), new EvalCloseToken()
+                        ), def ]) : 
+                    new Replace(context.source, this, [ name => new AccessName(withPrecedingSpace(this.subject.clone(false), "", true), undefined, new Token(name, TokenType.NAME)), def ])
+                );
+
             return this.getNameTransforms(context)
                 .map(def => new Replace<AccessName>(context.source, this, [ name => new AccessName(this.subject, undefined, new Token(name, TokenType.NAME)), def ]));
         }
