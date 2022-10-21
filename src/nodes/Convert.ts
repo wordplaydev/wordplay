@@ -21,7 +21,7 @@ import Halt from "../runtime/Halt";
 import Action from "../runtime/Action";
 import Block from "./Block";
 import { THIS_SYMBOL } from "../parser/Tokenizer";
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 
@@ -186,7 +186,7 @@ export default class Convert extends Expression {
     }
 
     getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }
 

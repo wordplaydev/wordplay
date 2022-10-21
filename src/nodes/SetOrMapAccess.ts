@@ -21,7 +21,7 @@ import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import TypeException from "../runtime/TypeException";
 import UnionType from "./UnionType";
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
 import type Transform from "../transforms/Transform"
 import withPrecedingSpace from "../transforms/withPrecedingSpace";
@@ -140,6 +140,7 @@ export default class SetOrMapAccess extends Expression {
     }
 
     getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
+
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

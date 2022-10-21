@@ -24,7 +24,7 @@ import type Bind from "./Bind";
 import type Translations from "./Translations";
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
 import withPrecedingSpace from "../transforms/withPrecedingSpace";
 
@@ -126,6 +126,7 @@ export default class ListAccess extends Expression {
 
     }
     getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
+
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

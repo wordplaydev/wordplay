@@ -15,6 +15,8 @@ import TokenType from "./TokenType";
 import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
 import Add from "../transforms/Add";
 import Replace from "../transforms/Replace";
+import type Transform from "../transforms/Transform";
+import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 
 export default class TextLiteral extends Expression {
     
@@ -79,12 +81,18 @@ export default class TextLiteral extends Expression {
     
     getInsertionBefore() { return undefined; }
     
-    getInsertionAfter(context: Context, position: number): Add<Language>[] | undefined { 
+    getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
         
         const project = context.source.getProject();
+
         // Formats can be any Language tags that are used in the project.
-        if(project !== undefined && this.format === undefined)
-            return getPossibleLanguages(project).map(lang => new Add(context.source, position, this, "format", new Language(lang)));
+        return [
+            ...getPossiblePostfix(context, this, this.getType(context)),
+            ...(project !== undefined && this.format === undefined ? 
+                getPossibleLanguages(project).map(lang => new Add(context.source, position, this, "format", new Language(lang))) :
+                []
+            )
+        ];
 
     }
 

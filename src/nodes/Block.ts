@@ -27,7 +27,7 @@ import ContextException, { StackSize } from "../runtime/ContextException";
 import None from "../runtime/None";
 import ConversionDefinition from "./ConversionDefinition";
 import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-import { getExpressionInsertions, getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Alias from "./Alias";
 import type Transform from "../transforms/Transform"
@@ -242,11 +242,16 @@ export default class Block extends Expression {
 
     getInsertionAfter(context: Context, position: number): Transform[] | undefined {
 
-        if(this.root && context.source.isEmptyLine(position))
-            return [
-                ...this.getInsertions().map(insertion => new Append(context.source, position, this, this.statements, undefined, insertion)),
-                ...(this.root ? getExpressionInsertions(context.source, position, this, this.statements, undefined, context) : [])
-            ]
+        return [
+            ...getPossiblePostfix(context, this, this.getType(context)),
+            ...(this.root && context.source.isEmptyLine(position) ?
+                    [
+                        ...this.getInsertions().map(insertion => new Append(context.source, position, this, this.statements, undefined, insertion)),
+                        ...(this.root ? getExpressionInsertions(context.source, position, this, this.statements, undefined, context) : [])
+                    ] :
+                    []
+            )
+        ];
 
     }
 

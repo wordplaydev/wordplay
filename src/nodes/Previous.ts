@@ -23,7 +23,7 @@ import TypeException from "../runtime/TypeException";
 import AnyType from "./AnyType";
 import Name from "./Name";
 import TokenType from "./TokenType";
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import { PREVIOUS_SYMBOL } from "../parser/Tokenizer";
 
 import type Transform from "../transforms/Transform";
@@ -127,6 +127,7 @@ export default class Previous extends Expression {
     }
 
     getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
+
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

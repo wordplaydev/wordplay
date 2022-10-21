@@ -107,7 +107,7 @@
                 menu = {
                     node: node,
                     // Filter out duplicates
-                    transforms: transforms.filter(item1 => transforms.find(item2 => item1 !== item2 && item1.equals(item2)) === undefined),
+                    transforms: transforms.filter((item1, index1) => transforms.find((item2, index2) => index2 > index1 && item1.equals(item2)) === undefined),
                     location: undefined // This gets defined after rendering.
                 }
             }

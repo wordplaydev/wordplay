@@ -14,7 +14,7 @@ import { getPossibleUnionType, TypeSet } from "./UnionType";
 import SetType from "./SetType";
 import AnyType from "./AnyType";
 import type Bind from "./Bind";
-import { getExpressionInsertions, getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
@@ -123,6 +123,6 @@ export default class SetLiteral extends Expression {
     
     }
 
-    getInsertionAfter() { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

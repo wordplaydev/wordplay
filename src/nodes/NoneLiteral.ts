@@ -13,6 +13,8 @@ import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
 import { NONE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
+import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import type Transform from "../transforms/Transform";
 
 export default class NoneLiteral extends Expression {
     readonly none: Token;
@@ -66,6 +68,6 @@ export default class NoneLiteral extends Expression {
 
     getReplacementChild() { return undefined; }
     getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

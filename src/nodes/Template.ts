@@ -16,7 +16,7 @@ import type { TypeSet } from "./UnionType";
 import Start from "../runtime/Start";
 import TokenType from "./TokenType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
 import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
 import Replace from "../transforms/Replace";
@@ -118,8 +118,11 @@ export default class Template extends Expression {
     getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
         
         const project = context.source.getProject();
-        if(this.format === undefined && project !== undefined)
-                return getPossibleLanguages(project).map(l => new Add(context.source, position, this, "format", new Language(l)));
+
+        return [
+            ...getPossiblePostfix(context, this, this.getType(context)),
+            ...(this.format === undefined && project !== undefined ? getPossibleLanguages(project).map(l => new Add(context.source, position, this, "format", new Language(l))) : [])
+        ];
 
     }
 

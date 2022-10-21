@@ -24,6 +24,8 @@ import type Definition from "./Definition";
 import type { TypeSet } from "./UnionType";
 import UnimplementedException from "../runtime/UnimplementedException";
 import type Evaluator from "../runtime/Evaluator";
+import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import type Transform from "../transforms/Transform";
 
 export default class Select extends Expression {
     
@@ -159,6 +161,7 @@ export default class Select extends Expression {
 
     getReplacementChild() { return undefined; }
     getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    
+   
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
+
 }

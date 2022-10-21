@@ -19,7 +19,7 @@ import type Context from "./Context";
 import UnionType, { TypeSet } from "./UnionType";
 import UnknownType from "./UnknownType";
 import Exception from "../runtime/Exception";
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Stream from "../runtime/Stream";
 import Name from "./Name";
 import TokenType from "./TokenType";
@@ -178,6 +178,7 @@ export default class Reaction extends Expression {
     }
 
     getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
+ 
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

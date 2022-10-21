@@ -41,7 +41,7 @@ import Exception from "../runtime/Exception";
 import type Translations from "./Translations";
 import { getPossibleTypeInsertions, getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import Name from "./Name";
-import { getExpressionInsertions, getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
 import Block from "./Block";
 import Replace from "../transforms/Replace";
@@ -637,6 +637,6 @@ export default class Evaluate extends Expression {
     
     }
 
-    getInsertionAfter() { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

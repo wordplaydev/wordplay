@@ -22,7 +22,7 @@ import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
 
 export default class ConversionDefinition extends Expression {
@@ -137,6 +137,6 @@ export default class ConversionDefinition extends Expression {
     }
 
     getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

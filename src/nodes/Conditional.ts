@@ -17,7 +17,7 @@ import Start from "../runtime/Start";
 import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 import { endsWithName, startsWithName } from "./util";
 
@@ -155,6 +155,6 @@ export default class Conditional extends Expression {
     }
 
     getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

@@ -25,7 +25,7 @@ import Evaluation from "../runtime/Evaluation";
 import SemanticException from "../runtime/SemanticException";
 import NotAFunction from "../conflicts/NotAFunction";
 import MeasurementType from "./MeasurementType";
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
 import TokenType from "./TokenType";
 
@@ -246,6 +246,6 @@ export default class BinaryOperation extends Expression {
     }
 
     getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

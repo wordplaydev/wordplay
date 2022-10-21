@@ -19,6 +19,7 @@ import type { TypeSet } from "./UnionType";
 import UnimplementedException from "../runtime/UnimplementedException";
 import type Evaluator from "../runtime/Evaluator";
 import type Transform from "../transforms/Transform";
+import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 
 export default class Delete extends Expression {
     
@@ -116,6 +117,6 @@ export default class Delete extends Expression {
 
     getReplacementChild(): Transform[] | undefined { return undefined; }
     getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

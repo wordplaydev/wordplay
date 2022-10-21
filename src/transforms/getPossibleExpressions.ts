@@ -35,6 +35,7 @@ import { getPossibleLanguages } from "./getPossibleLanguages";
 import { getPossibleUnits } from "./getPossibleUnits";
 import type Reference from "./Reference";
 import BinaryOperation from "../nodes/BinaryOperation";
+import withPrecedingSpace from "./withPrecedingSpace";
 
 /** Offer possible expressions compatible with the given type, or if none was given, any possible expression */
 export default function getPossibleExpressions(parent: Node, child: Expression | Unparsable | undefined, context: Context, type: Type=new AnyType()): (Expression | Definition)[] {
@@ -101,7 +102,7 @@ export function getPossiblePostfix(context: Context, node: Expression, type?: Ty
     return [
         // If given a type, any operations that are available on the type.
         ...((type === undefined ? [] : type.getAllDefinitions(node, context).filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.isOperator()) 
-            .map(def => new Replace(context.source, node, [ () => new BinaryOperation(def.getOperatorName() as string, node, new ExpressionPlaceholder()), def ]))))
+            .map(def => new Replace(context.source, node, [ () => new BinaryOperation(def.getOperatorName() as string, withPrecedingSpace(node, "", true), new ExpressionPlaceholder()), def ]))))
     ];
 
 }

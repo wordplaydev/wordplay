@@ -14,6 +14,7 @@ import type { TypeSet } from "./UnionType";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
+import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 
 export default class BooleanLiteral extends Expression {
     readonly value: Token;
@@ -71,8 +72,7 @@ export default class BooleanLiteral extends Expression {
     }
 
     getInsertionBefore(): Transform[] | undefined { return undefined; }
-
-    getInsertionAfter(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 
 }

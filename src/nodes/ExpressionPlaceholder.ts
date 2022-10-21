@@ -16,6 +16,8 @@ import type Evaluator from "../runtime/Evaluator";
 import UnimplementedException from "../runtime/UnimplementedException";
 import type Translations from "./Translations";
 import PlaceholderToken from "./PlaceholderToken";
+import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import type Transform from "../transforms/Transform";
 
 export default class ExpressionPlaceholder extends Expression {
     
@@ -70,6 +72,6 @@ export default class ExpressionPlaceholder extends Expression {
  
     getReplacementChild() { return undefined; }
     getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

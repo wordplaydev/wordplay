@@ -21,6 +21,7 @@ import Evaluation from "../runtime/Evaluation";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
+import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 
 export default class UnaryOperation extends Expression {
 
@@ -152,6 +153,6 @@ export default class UnaryOperation extends Expression {
     }
 
     getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

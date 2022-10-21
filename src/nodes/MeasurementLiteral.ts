@@ -94,10 +94,7 @@ export default class MeasurementLiteral extends Expression {
     }
 
     getInsertionBefore() { return undefined; }
-    getInsertionAfter(context: Context): Transform[] | undefined { 
-    
-        return getPossiblePostfix(context, this, this.getType(context));
-    
-    }
+
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

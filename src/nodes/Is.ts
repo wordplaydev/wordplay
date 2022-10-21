@@ -19,7 +19,7 @@ import { IncompatibleType } from "../conflicts/IncompatibleType";
 import { TypeSet } from "./UnionType";
 import SemanticException from "../runtime/SemanticException";
 import Start from "../runtime/Start";
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
 import withPrecedingSpace from "../transforms/withPrecedingSpace";
@@ -137,6 +137,6 @@ export default class Is extends Expression {
 
     getInsertionBefore() { return undefined; }
 
-    getInsertionAfter() { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

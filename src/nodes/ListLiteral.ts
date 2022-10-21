@@ -13,7 +13,7 @@ import Start from "../runtime/Start";
 import type Context from "./Context";
 import { getPossibleUnionType, TypeSet } from "./UnionType";
 import type Bind from "./Bind";
-import { getExpressionInsertions, getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
@@ -120,6 +120,6 @@ export default class ListLiteral extends Expression {
     
     }
 
-    getInsertionAfter() { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

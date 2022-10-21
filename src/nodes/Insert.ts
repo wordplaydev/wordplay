@@ -22,6 +22,8 @@ import type Cell from "./Cell";
 import TypeException from "../runtime/TypeException";
 import SemanticException from "../runtime/SemanticException";
 import Exception from "../runtime/Exception";
+import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import type Transform from "../transforms/Transform";
 
 export default class Insert extends Expression {
     
@@ -151,6 +153,6 @@ export default class Insert extends Expression {
 
     getReplacementChild() { return undefined; }
     getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

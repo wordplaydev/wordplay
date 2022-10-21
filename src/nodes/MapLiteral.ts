@@ -24,6 +24,8 @@ import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import { endsWithName, startsWithName } from "./util";
 import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
+import type Transform from "../transforms/Transform";
+import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 
 export type MapItem = Unparsable | KeyValue;
 
@@ -132,6 +134,7 @@ export default class MapLiteral extends Expression {
 
     getReplacementChild() { return undefined; }
     getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
+    
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

@@ -18,6 +18,8 @@ import NameException from "../runtime/NameException";
 import { THIS_SYMBOL } from "../parser/Tokenizer";
 import ConversionDefinition from "./ConversionDefinition";
 import MeasurementType from "./MeasurementType";
+import type Transform from "../transforms/Transform";
+import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 
 type ThisStructure = StructureDefinition | ConversionDefinition;
 
@@ -97,6 +99,6 @@ export default class This extends Expression {
 
     getReplacementChild() { return undefined; }
     getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }

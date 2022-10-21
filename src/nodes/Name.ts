@@ -29,6 +29,7 @@ import StructureDefinition from "./StructureDefinition";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Unparsable from "./Unparsable";
 import NameToken from "./NameToken";
+import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 
 export default class Name extends Expression {
     
@@ -177,13 +178,16 @@ export default class Name extends Expression {
     getInsertionBefore() { return undefined; }
     getInsertionAfter(context: Context): Transform[] | undefined { 
 
-        return this.getAllDefinitions(this, context)
-            .filter(def => def.getNames().find(name => name.startsWith(this.getName())) !== undefined)
-            .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
-                            // Include 
-                            new Replace(context.source, this, [ name => new Evaluate(new Name(name), def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder())), def ]) : 
-                            new Replace(context.source, this, [ name => new Name(name), def ])
-            );
+        return [
+            ...getPossiblePostfix(context, this, this.getType(context)),
+            ...this.getAllDefinitions(this, context)
+                .filter(def => def.getNames().find(name => name.startsWith(this.getName())) !== undefined)
+                .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
+                                // Include 
+                                new Replace(context.source, this, [ name => new Evaluate(new Name(name), def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder())), def ]) : 
+                                new Replace(context.source, this, [ name => new Name(name), def ])
+                )
+        ];
     
     }
 

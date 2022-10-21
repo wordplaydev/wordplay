@@ -21,7 +21,7 @@ import Is from "./Is";
 import { ACCESS_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Translations from "./Translations";
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
+import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import TypeVariable from "./TypeVariable";
 import Stream from "../runtime/Stream";
 import type Transform from "../transforms/Transform"
@@ -201,19 +201,22 @@ export default class AccessName extends Expression {
     getInsertionBefore(): Transform[] | undefined { return undefined; }
 
     getInsertionAfter(context: Context): Transform[] | undefined {
-        if(this.access !== undefined)
-            return this.getNameTransforms(context)
-                .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
-                    // Include 
-                    new Replace(context.source, this, [ name => new Evaluate(
-                        new AccessName(withPrecedingSpace(this.subject.clone(false), "", true), new NameToken(name)), 
-                        def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder())
-                    ), def ]) : 
-                    new Replace(context.source, this, [ name => new AccessName(withPrecedingSpace(this.subject.clone(false), "", true), new NameToken(name)), def ])
-                );
 
-            return this.getNameTransforms(context)
-                .map(def => new Replace<AccessName>(context.source, this, [ name => new AccessName(this.subject, new NameToken(name)), def ]));
-        }
+        return [
+            ...getPossiblePostfix(context, this, this.getType(context)),
+            ...(this.access === undefined ? [] : 
+                    this.getNameTransforms(context)
+                    .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
+                        // Include 
+                        new Replace(context.source, this, [ name => new Evaluate(
+                            new AccessName(withPrecedingSpace(this.subject.clone(false), "", true), new NameToken(name)), 
+                            def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder())
+                        ), def ]) : 
+                        new Replace(context.source, this, [ name => new AccessName(withPrecedingSpace(this.subject.clone(false), "", true), new NameToken(name)), def ])
+                    )
+            )
+        ]
+
+    }
 
 }

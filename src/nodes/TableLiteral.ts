@@ -20,6 +20,8 @@ import Token from "./Token";
 import type { TypeSet } from "./UnionType";
 import { analyzeRow } from "./util";
 import Exception from "../runtime/Exception";
+import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import type Transform from "../transforms/Transform";
 
 export default class TableLiteral extends Expression {
     
@@ -131,6 +133,7 @@ export default class TableLiteral extends Expression {
 
     getReplacementChild() { return undefined; }
     getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
+
+    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
 }
