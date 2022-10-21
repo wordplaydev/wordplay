@@ -39,10 +39,10 @@ export default class BinaryOperation extends Expression {
     readonly left: Expression | Unparsable;
     readonly right: Expression | Unparsable;
 
-    constructor(operator: Token, left: Expression | Unparsable, right: Expression | Unparsable) {
+    constructor(operator: Token | string, left: Expression | Unparsable, right: Expression | Unparsable) {
         super();
 
-        this.operator = operator;
+        this.operator = operator instanceof Token ? operator : new Token(operator, TokenType.BINARY_OP);
         this.left = left;
         // Must have a preceding space, otherwise its tokenized as a unary operator.
         this.right = withPrecedingSpace(right);
@@ -50,7 +50,7 @@ export default class BinaryOperation extends Expression {
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new BinaryOperation(
-            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Token ], "operator", this.operator, original, replacement)), 
+            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild<Token>(pretty, [ Token ], "operator", this.operator, original, replacement)), 
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "left", this.left, original, replacement), 
             withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "right", this.right, original, replacement))
         ) as this; 
@@ -235,7 +235,7 @@ export default class BinaryOperation extends Expression {
         // Operator must exist on the type of the left, unless not specified
         else if(child === this.operator) {
             const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
-            const funs = leftType?.getAllDefinitions(this, context)?.filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.inputs.length === 1);
+            const funs = leftType?.getAllDefinitions(this, context)?.filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.isOperator());
             return funs?.map(fun => new Replace<Token>(context.source, child, [ name => new Token(name, TokenType.BINARY_OP), fun ])) ?? []
         }
         // Right should comply with the expected type, unless it's not a known function

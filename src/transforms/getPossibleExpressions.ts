@@ -34,6 +34,7 @@ import Append from "./Append";
 import { getPossibleLanguages } from "./getPossibleLanguages";
 import { getPossibleUnits } from "./getPossibleUnits";
 import type Reference from "./Reference";
+import BinaryOperation from "../nodes/BinaryOperation";
 
 /** Offer possible expressions compatible with the given type, or if none was given, any possible expression */
 export default function getPossibleExpressions(parent: Node, child: Expression | Unparsable | undefined, context: Context, type: Type=new AnyType()): (Expression | Definition)[] {
@@ -92,5 +93,15 @@ export function getExpressionInsertions(source: Source, position: number, parent
 function getPossibleReference(replacement: Expression | Definition): Expression | Reference<Expression> {
     return replacement instanceof Expression && !(replacement instanceof FunctionDefinition) && !(replacement instanceof StructureDefinition) ? 
         replacement : [ (name: string) => new Name(name), replacement ]
+
+}
+
+export function getPossiblePostfix(context: Context, node: Expression, type?: Type): Replace<Expression>[] {
+
+    return [
+        // If given a type, any operations that are available on the type.
+        ...((type === undefined ? [] : type.getAllDefinitions(node, context).filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.isOperator()) 
+            .map(def => new Replace(context.source, node, [ () => new BinaryOperation(def.getOperatorName() as string, node, new ExpressionPlaceholder()), def ]))))
+    ];
 
 }

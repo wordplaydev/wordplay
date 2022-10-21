@@ -9,9 +9,10 @@ export default function withPrecedingSpace<NodeType extends Node>(node: NodeType
 
     const firstToken = tokens[0];
 
-    return (exact ? firstToken.space !== space : firstToken.space.length === 0)  ?
-        node.clone(false, firstToken, firstToken.withSpace(space)) :
-        node;
+    if(exact ? firstToken.space !== space : firstToken.space.length === 0) {
+        return node.clone(false, firstToken, firstToken.withSpace(space));
+    }
+    else return node;
 
 }
 

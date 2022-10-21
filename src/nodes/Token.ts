@@ -57,7 +57,11 @@ export default class Token extends Node {
     toString(depth: number=0){ return `${"\t".repeat(depth)}${Array.isArray(this.types) ? this.types.map(t => TokenType[t]).join('/') : TokenType[this.types]}(${this.space.length}): ${this.text.toString().replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
     toWordplay() { return this.getWhitespace() + this.text.toString(); }
     computeConflicts() {}
-    clone() { return new Token(this.text, this.types, this.space) as this; }
+    clone(pretty: boolean, original?: Node, replacement?: Node): this {
+        pretty;
+        if(original === this && replacement instanceof Token) return replacement as this;
+        else return new Token(this.text, this.types, this.space) as this; 
+    }
 
     getDescriptions() {
         return {

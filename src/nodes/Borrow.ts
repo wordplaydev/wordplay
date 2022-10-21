@@ -30,6 +30,14 @@ export default class Borrow extends Node implements Evaluable {
         this.version = version;
     }
 
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+        return new Borrow(
+            this.cloneOrReplaceChild(pretty, [ Token ], "borrow", this.borrow, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "name", this.name, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "version", this.version, original, replacement)
+        ) as this; 
+    }
+
     computeChildren() { 
         return [ this.borrow, this.name, this.version ].filter(n => n !== undefined) as Node[];
     }
@@ -68,14 +76,6 @@ export default class Borrow extends Node implements Evaluable {
     getName() { return this.name === undefined ? undefined : this.name.getText(); }
 
     getVersion() { return this.version === undefined ? undefined : (new Measurement(this.version, new Unit())).toNumber(); }
-
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new Borrow(
-            this.cloneOrReplaceChild(pretty, [ Token ], "borrow", this.borrow, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "name", this.name, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "version", this.version, original, replacement)
-        ) as this; 
-    }
 
     getDescriptions() {
         return {

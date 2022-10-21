@@ -18,7 +18,7 @@ import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import Alias from "./Alias";
-import { FUNCTION_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+import { BinaryOpRegEx, FUNCTION_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import type Translations from "./Translations";
@@ -94,6 +94,16 @@ export default class FunctionDefinition extends Expression {
 
     hasName(name: string) {
         return !(this.aliases instanceof Token) && this.aliases.find(a => a.getName() === name) !== undefined;
+    }
+
+    isOperator() { return this.inputs.length === 1 && this.getOperatorName() !== undefined; }
+    getOperatorName() { 
+        for(const alias of this.aliases) {
+            const name = alias.getName();
+            if(name !== undefined && BinaryOpRegEx.test(name))
+                return name;
+        }
+        return;
     }
 
     /**

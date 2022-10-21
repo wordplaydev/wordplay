@@ -21,6 +21,7 @@ import { getPossibleUnits } from "../transforms/getPossibleUnits";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import withPrecedingSpace from "../transforms/withPrecedingSpace";
+import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 
 export default class MeasurementLiteral extends Expression {
     
@@ -93,6 +94,10 @@ export default class MeasurementLiteral extends Expression {
     }
 
     getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { 
+    
+        return getPossiblePostfix(context, this, this.getType(context));
+    
+    }
 
 }
