@@ -27,7 +27,6 @@ import ContextException, { StackSize } from "../runtime/ContextException";
 import None from "../runtime/None";
 import ConversionDefinition from "./ConversionDefinition";
 import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-import TokenType from "./TokenType";
 import { getExpressionInsertions, getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Alias from "./Alias";
@@ -37,6 +36,7 @@ import Append from "../transforms/Append";
 import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
+import PlaceholderToken from "./PlaceholderToken";
 
 export type Statement = Expression | Unparsable | Share | Bind;
 
@@ -205,7 +205,7 @@ export default class Block extends Expression {
 
     getInsertions() {
         const bind = new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ], undefined, new ExpressionPlaceholder());
-        const type = new FunctionDefinition([], [ new Alias(new Token(PLACEHOLDER_SYMBOL, TokenType.PLACEHOLDER, " ")) ], [], [], new ExpressionPlaceholder());
+        const type = new FunctionDefinition([], [ new Alias(new PlaceholderToken()) ], [], [], new ExpressionPlaceholder());
         const fun = new StructureDefinition([], [ new Alias(PLACEHOLDER_SYMBOL) ], [], [], []);
         return [ 
             bind, 

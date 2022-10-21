@@ -31,6 +31,7 @@ import type LanguageCode from "./LanguageCode";
 import Append from "../transforms/Append";
 import EvalCloseToken from "./EvalCloseToken";
 import EvalOpenToken from "./EvalOpenToken";
+import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 
 export default class FunctionDefinition extends Expression {
 
@@ -70,10 +71,11 @@ export default class FunctionDefinition extends Expression {
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new FunctionDefinition(
             this.cloneOrReplaceChild(pretty, [ Documentation ], "docs", this.docs, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Alias ], "aliases", this.aliases, original, replacement), 
+            this.cloneOrReplaceChild<Alias[]>(pretty, [ Alias ], "aliases", this.aliases, original, replacement)
+                .map((alias: Alias, index: number) => withPrecedingSpaceIfDesired(pretty && index === 0, alias)),
             this.cloneOrReplaceChild(pretty, [ TypeVariable, Unparsable ], "typeVars", this.typeVars, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "inputs", this.inputs, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "expression", this.expression, original, replacement), 
+            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "expression", this.expression, original, replacement)), 
             this.cloneOrReplaceChild(pretty, [ Unparsable, Type, undefined ], "type", this.type, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token ], "fun", this.fun, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "dot", this.dot, original, replacement), 

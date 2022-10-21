@@ -15,7 +15,11 @@ export default abstract class Transform {
 
     abstract getEdit(lang: LanguageCode): Edit;
     abstract getDescription(lang: LanguageCode): string;
-    abstract getSubjectNode(lang: LanguageCode): Node;
+    abstract getNewNode(lang: LanguageCode): Node;
     abstract equals(transform: Transform): boolean;
+
+    // Pretty print all new nodes.
+    getPrettyNewNode(lang: LanguageCode): Node { return this.getNewNode(lang).clone(true); }
+
 
 }

@@ -52,6 +52,7 @@ import Replace from "../transforms/Replace";
 import BindToken from "./BindToken";
 import TypeToken from "./TypeToken";
 import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
+import PlaceholderToken from "./PlaceholderToken";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -298,7 +299,7 @@ export default class Bind extends Node implements Evaluable, Named {
             if(this.etc === undefined) {
                 if((parent instanceof FunctionDefinition || parent instanceof StructureDefinition) && parent.inputs.find(input => input.contains(child)) === parent.inputs[parent.inputs.length - 1])
                     return [ 
-                        new Add(context.source, position, this, "etc", new Token(PLACEHOLDER_SYMBOL, TokenType.PLACEHOLDER)), 
+                        new Add(context.source, position, this, "etc", new PlaceholderToken()), 
                         new Append(context.source, position, this, this.docs, child, new Documentation())
                     ];
             }

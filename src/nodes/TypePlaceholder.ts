@@ -3,8 +3,7 @@ import Placeholder from "../conflicts/Placeholder";
 import Token from "./Token";
 import Type from "./Type";
 import type Node from "./Node";
-import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-import TokenType from "./TokenType";
+import PlaceholderToken from "./PlaceholderToken";
 
 export default class TypePlaceholder extends Type {
 
@@ -13,7 +12,7 @@ export default class TypePlaceholder extends Type {
     constructor(etc?: Token) {
         super();
 
-        this.etc = etc ?? new Token(PLACEHOLDER_SYMBOL, TokenType.PLACEHOLDER);
+        this.etc = etc ?? new PlaceholderToken();
     }
 
     computeChildren() {

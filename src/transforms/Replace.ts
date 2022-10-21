@@ -30,7 +30,7 @@ export default class Replace<NodeType extends Node> extends Transform {
         if(space === undefined) return;
 
         // Get or create the replacement with the original node's space.
-        const replacement = withPrecedingSpace(this.getSubjectNode(lang), space, true);
+        const replacement = withPrecedingSpace(this.getPrettyNewNode(lang).clone(true), space, true);
 
         // Get a path to the node we're replacing, so we can find it's replacement and position the cursor.
         const path = this.node.getPath();
@@ -48,18 +48,19 @@ export default class Replace<NodeType extends Node> extends Transform {
 
     }
 
-    getSubjectNode(lang: LanguageCode) { 
+    getNewNode(lang: LanguageCode) { 
         
         if(this.replacement instanceof Node)
             return this.replacement;
+
         const [ creator, def ] = this.replacement;
-            return creator(def.getNameInLanguage(lang) ?? "unnamed");
+        return creator(def.getNameInLanguage(lang) ?? "unnamed");
         
     }
 
     getDescription(lang: LanguageCode): string {
 
-        const replacement = this.getSubjectNode(lang);
+        const replacement = this.getPrettyNewNode(lang);
         return {
             eng: "Replace with " + replacement.getDescriptions().eng
         }[lang];

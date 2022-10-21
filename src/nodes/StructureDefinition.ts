@@ -81,7 +81,7 @@ export default class StructureDefinition extends Expression {
             this.cloneOrReplaceChild(pretty, [ TypeInput ], "interfaces", this.interfaces, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ TypeVariable, Unparsable ], "typeVars", this.typeVars, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "inputs", this.inputs, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Block, Unparsable ], "block", this.block, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Block, Unparsable, undefined ], "block", this.block, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token ], "type", this.type, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "open", this.open, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "close", this.close, original, replacement)

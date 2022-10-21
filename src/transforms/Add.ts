@@ -23,14 +23,14 @@ export default class Add<NodeType extends Node> extends Transform {
 
     }
 
-    getSubjectNode(lang: LanguageCode): Node {
+    getNewNode(lang: LanguageCode): Node {
         return this.child instanceof Node ? this.child : this.child[0](this.child[1].getNameInLanguage(lang) ?? "unnamed");
     }
 
     getEdit(lang: LanguageCode): Edit {
         
         // Make the new node
-        const newNode = this.getSubjectNode(lang);
+        const newNode = this.getPrettyNewNode(lang);
 
         // Clone the parent
         const newParent = this.parent.clone(true, this.field, newNode);
@@ -43,7 +43,7 @@ export default class Add<NodeType extends Node> extends Transform {
     }
 
     getDescription(lang: LanguageCode): string {
-        const node = this.getSubjectNode(lang);
+        const node = this.getPrettyNewNode(lang);
         return {
             eng: "Add " + node.getDescriptions().eng
         }[lang];

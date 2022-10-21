@@ -14,9 +14,8 @@ import type { TypeSet } from "./UnionType";
 import SemanticException from "../runtime/SemanticException";
 import type Evaluator from "../runtime/Evaluator";
 import UnimplementedException from "../runtime/UnimplementedException";
-import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-import TokenType from "./TokenType";
 import type Translations from "./Translations";
+import PlaceholderToken from "./PlaceholderToken";
 
 export default class ExpressionPlaceholder extends Expression {
     
@@ -24,7 +23,7 @@ export default class ExpressionPlaceholder extends Expression {
 
     constructor(etc?: Token) {
         super();
-        this.etc = etc ?? new Token(PLACEHOLDER_SYMBOL, TokenType.PLACEHOLDER, " ");
+        this.etc = etc ?? new PlaceholderToken();
     }
 
     computeChildren() { return [ this.etc ]; }

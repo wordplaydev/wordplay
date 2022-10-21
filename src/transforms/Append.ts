@@ -31,8 +31,8 @@ export default class Append<NodeType extends Node> extends Transform {
 
     getEdit(lang: LanguageCode): Edit {
 
-        // Get the node to insert.
-        let newChild = this.getSubjectNode(lang);
+        // Get the node to insert, prettied.
+        let newChild = this.getPrettyNewNode(lang).clone(true);
 
         // Find the space before the insertion by finding the token that contains the index.
         // Insert the space we find before it.
@@ -107,13 +107,13 @@ export default class Append<NodeType extends Node> extends Transform {
     }
 
     getDescription(lang: LanguageCode): string {
-        const replacement = this.getSubjectNode(lang);
+        const replacement = this.getPrettyNewNode(lang);
         return {
             eng: "Insert " + replacement.getDescriptions().eng
         }[lang];
     }
 
-    getSubjectNode(lang: LanguageCode): Node {
+    getNewNode(lang: LanguageCode): Node {
         if(this.insertion instanceof Node)
             return this.insertion;
         const [ creator, def ] = this.insertion;
