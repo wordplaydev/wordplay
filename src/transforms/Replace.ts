@@ -5,6 +5,7 @@ import type Source from "../models/Source";
 import Caret from "../models/Caret";
 import type LanguageCode from "../nodes/LanguageCode";
 import type Reference from "./Reference";
+import withPrecedingSpace from "./withPrecedingSpace";
 
 export default class Replace<NodeType extends Node> extends Transform {
 
@@ -24,13 +25,17 @@ export default class Replace<NodeType extends Node> extends Transform {
         const parent = this.node.getParent();
         if(parent === undefined || parent === null) return;
 
-        // Get or create the replacement.
-        const replacement = this.getSubjectNode(lang);
+        // Get the space prior to the current node.
+        const space = this.source.getFirstToken(this.node)?.space;
+        if(space === undefined) return;
 
-        // Get a path to the node we're replacing, so we can find it's replacement.
+        // Get or create the replacement with the original node's space.
+        const replacement = withPrecedingSpace(this.getSubjectNode(lang), space, true);
+
+        // Get a path to the node we're replacing, so we can find it's replacement and position the cursor.
         const path = this.node.getPath();
 
-        // Replace the child, then clone the program with the new parent, and create a new source from it.
+        // Replace the child in the parent, pretty printing it, then clone the program with the new parent, and create a new source from it.
         const newParent = parent.clone(true, this.node, replacement);
         const newSource = this.source.withProgram(this.source.program.clone(false, parent, newParent));
 
