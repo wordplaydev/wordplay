@@ -1,3 +1,4 @@
+import { test } from "vitest";
 import { testConflict } from "../conflicts/TestUtilities";
 import { MissingShareLanguages } from "../conflicts/MissingShareLanguages";
 import { MisplacedShare } from "../conflicts/MisplacedShare";

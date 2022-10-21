@@ -1,3 +1,4 @@
+import { test, expect } from "vitest";
 import { testConflict } from "../conflicts/TestUtilities";
 import Evaluator from "../runtime/Evaluator";
 import BinaryOperation from "./BinaryOperation";

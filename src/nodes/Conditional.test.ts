@@ -4,6 +4,7 @@ import Evaluator from "../runtime/Evaluator";
 import Conditional from "./Conditional";
 import BinaryOperation from "./BinaryOperation";
 import NotAFunction from "../conflicts/NotAFunction";
+import { test, expect } from "vitest";
 
 test("Test conditional conflicts", () => {
 

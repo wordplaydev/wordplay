@@ -1,3 +1,4 @@
+import { test } from "vitest";
 import { testConflict } from "../conflicts/TestUtilities";
 import DuplicateLanguages from "../conflicts/DuplicateLanguages";
 import RequiredAfterOptional from "../conflicts/RequiredAfterOptional";

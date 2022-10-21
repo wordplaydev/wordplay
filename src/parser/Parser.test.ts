@@ -1,3 +1,4 @@
+import { test, expect } from "vitest";
 import Alias from "../nodes/Alias";
 import Bind from "../nodes/Bind";
 import Block from "../nodes/Block";

@@ -1,3 +1,4 @@
+import { test } from "vitest";
 import { testConflict } from "../conflicts/TestUtilities";
 import IncompatibleCellType from "../conflicts/IncompatibleCellType";
 import NotATable from "../conflicts/NotATable";

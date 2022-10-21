@@ -1,3 +1,4 @@
+import { test, expect } from "vitest";
 import { testConflict } from "../conflicts/TestUtilities";
 import { IncompatibleKey } from "../conflicts/IncompatibleKey";
 import Evaluator from "../runtime/Evaluator";

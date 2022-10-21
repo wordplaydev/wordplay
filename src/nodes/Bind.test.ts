@@ -1,3 +1,4 @@
+import { test, expect } from "vitest";
 import { testConflict } from "../conflicts/TestUtilities";
 import { UnusedBind } from "../conflicts/UnusedBind";
 import { IncompatibleBind } from "../conflicts/IncompatibleBind";

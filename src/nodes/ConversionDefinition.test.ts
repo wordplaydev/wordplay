@@ -1,6 +1,7 @@
 import { testConflict } from "../conflicts/TestUtilities";
 import DuplicateLanguages from "../conflicts/DuplicateLanguages";
 import ConversionDefinition from "./ConversionDefinition";
+import { test } from "vitest";
 
 test("Test conversion conflicts", () => {
 

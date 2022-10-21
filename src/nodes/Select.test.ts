@@ -1,3 +1,4 @@
+import { test } from "vitest";
 import { testConflict } from "../conflicts/TestUtilities";
 import UnknownColumn from "../conflicts/UnknownColumn";
 import ExpectedSelectName from "../conflicts/ExpectedSelectName";

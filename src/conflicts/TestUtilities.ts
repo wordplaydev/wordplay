@@ -1,3 +1,4 @@
+import { expect } from "vitest";
 import Native from "../native/NativeBindings";
 import Block from "../nodes/Block";
 import Expression from "../nodes/Expression";

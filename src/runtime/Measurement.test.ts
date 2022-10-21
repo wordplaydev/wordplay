@@ -1,3 +1,4 @@
+import { test, expect } from "vitest";
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
 import { FALSE_SYMBOL, TRUE_SYMBOL } from "../parser/Tokenizer";

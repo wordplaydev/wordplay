@@ -4,6 +4,7 @@ import { IgnoredExpression } from "../conflicts/IgnoredExpression";
 import DuplicateLanguages from "../conflicts/DuplicateLanguages";
 import Evaluator from "../runtime/Evaluator";
 import Block from "./Block";
+import { test, expect } from "vitest";
 
 test("Test block conflicts", () => {
 

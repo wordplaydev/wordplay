@@ -1,3 +1,4 @@
+import { test } from "vitest";
 import CaseSensitive from "../conflicts/CaseSensitive";
 import { testConflict } from "../conflicts/TestUtilities";
 import { UnexpectedTypeVariable } from "../conflicts/UnexpectedTypeVariable";

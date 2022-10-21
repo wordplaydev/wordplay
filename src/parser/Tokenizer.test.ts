@@ -1,3 +1,4 @@
+import { test, expect } from "vitest";
 import { tokenize } from "./Tokenizer";
 
 test("Tokenize names and whitespace", () => {

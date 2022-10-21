@@ -1,3 +1,4 @@
+import { test } from "vitest";
 import { testConflict } from "../conflicts/TestUtilities";
 import UnaryOperation from "./UnaryOperation";
 import NotAFunction from "../conflicts/NotAFunction";

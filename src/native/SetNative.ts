@@ -1,4 +1,3 @@
-import Alias from "../nodes/Alias";
 import Bind from "../nodes/Bind";
 import Block from "../nodes/Block";
 import BooleanType from "../nodes/BooleanType";
@@ -16,6 +15,7 @@ import { createNativeConversion, createNativeFunction } from "./NativeBindings";
 import { SET_TYPE_VAR_NAME } from "./NativeConstants";
 import NativeHOFSetFilter from "./NativeHOFSetFilter";
 import Bool from "../runtime/Bool";
+import Alias from "../nodes/Alias";
 
 export default function bootstrapSet() {
 

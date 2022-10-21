@@ -1,3 +1,4 @@
+import { test, expect } from "vitest";
 import { testConflict, testTypes } from "../conflicts/TestUtilities";
 import IncompatibleInput from "../conflicts/IncompatibleInput";
 import NotInstantiable from "../conflicts/NotInstantiable";

@@ -1,6 +1,7 @@
 import { FALSE_SYMBOL, TRUE_SYMBOL } from "../parser/Tokenizer";
 import Evaluator from "../runtime/Evaluator";
 import Exception from "../runtime/Exception";
+import { test, expect } from "vitest";
 
 test("Test equality", () => {
 

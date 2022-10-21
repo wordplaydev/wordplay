@@ -1,3 +1,4 @@
+import { test, expect } from "vitest";
 import UnicodeString from "./UnicodeString";
 
 test("Insert and remove.", () => {

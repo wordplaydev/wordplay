@@ -1,3 +1,4 @@
+import { test, expect } from "vitest";
 import { FALSE_SYMBOL, TRUE_SYMBOL } from "../parser/Tokenizer";
 import Evaluator from "./Evaluator";
 

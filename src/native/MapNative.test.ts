@@ -1,3 +1,4 @@
+import { test, expect } from "vitest";
 import Evaluator from "../runtime/Evaluator";
 
 test("Test map functions", () => {
