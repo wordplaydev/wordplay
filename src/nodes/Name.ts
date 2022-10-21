@@ -21,15 +21,12 @@ import Conditional from "./Conditional";
 import UnionType, { TypeSet } from "./UnionType";
 import Is from "./Is";
 import NameException from "../runtime/NameException";
-
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import Evaluate from "./Evaluate";
-import EvalOpenToken from "./EvalOpenToken";
 import FunctionDefinition from "./FunctionDefinition";
 import StructureDefinition from "./StructureDefinition";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import EvalCloseToken from "./EvalCloseToken";
 import Unparsable from "./Unparsable";
 import NameToken from "./NameToken";
 
@@ -184,7 +181,7 @@ export default class Name extends Expression {
             .filter(def => def.getNames().find(name => name.startsWith(this.getName())) !== undefined)
             .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
                             // Include 
-                            new Replace(context.source, this, [ name => new Evaluate([], new EvalOpenToken(), new Name(name), def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder()), new EvalCloseToken()), def ]) : 
+                            new Replace(context.source, this, [ name => new Evaluate(new Name(name), def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder())), def ]) : 
                             new Replace(context.source, this, [ name => new Name(name), def ])
             );
     

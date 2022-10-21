@@ -31,9 +31,7 @@ import Replace from "../transforms/Replace";
 import FunctionDefinition from "./FunctionDefinition";
 import StructureDefinition from "./StructureDefinition";
 import Evaluate from "./Evaluate";
-import EvalOpenToken from "./EvalOpenToken";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import EvalCloseToken from "./EvalCloseToken";
 import withPrecedingSpace from "../transforms/withPrecedingSpace";
 import NameToken from "./NameToken";
 
@@ -208,10 +206,9 @@ export default class AccessName extends Expression {
                 .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
                     // Include 
                     new Replace(context.source, this, [ name => new Evaluate(
-                        [], new EvalOpenToken(), 
                         new AccessName(withPrecedingSpace(this.subject.clone(false), "", true), new NameToken(name)), 
-                        def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder()), new EvalCloseToken()
-                        ), def ]) : 
+                        def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder())
+                    ), def ]) : 
                     new Replace(context.source, this, [ name => new AccessName(withPrecedingSpace(this.subject.clone(false), "", true), new NameToken(name)), def ])
                 );
 

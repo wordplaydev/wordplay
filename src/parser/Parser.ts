@@ -873,7 +873,7 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
     else
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ left, typeInputs, open, inputs ]);
     
-    return new Evaluate(typeInputs, open, left, inputs, close);
+    return new Evaluate(left, inputs, typeInputs, open, close);
 
 }
 

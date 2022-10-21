@@ -42,11 +42,12 @@ import type Translations from "./Translations";
 import { getPossibleTypeInsertions, getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import Name from "./Name";
 import { getExpressionInsertions, getExpressionReplacements } from "../transforms/getPossibleExpressions";
-
 import type Transform from "../transforms/Transform"
 import Block from "./Block";
 import Replace from "../transforms/Replace";
-import withPrecedingSpace, { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
+import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
+import EvalOpenToken from "./EvalOpenToken";
+import EvalCloseToken from "./EvalCloseToken";
 
 type InputType = Unparsable | Bind | Expression;
 
@@ -58,25 +59,25 @@ export default class Evaluate extends Expression {
     readonly inputs: InputType[];
     readonly close: Token;
 
-    constructor(typeInputs: TypeInput[], open: Token, func: Expression | Unparsable, inputs: InputType[], close: Token) {
+    constructor(func: Expression | Unparsable, inputs: InputType[], typeInputs?: TypeInput[], open?: Token, close?: Token) {
         super();
 
-        this.typeInputs = typeInputs;
-        this.open = withPrecedingSpace(open);
+        this.typeInputs = typeInputs ?? [];
+        this.open = open ?? new EvalOpenToken();
         this.func = func;
         // Inputs must have space between them if they have adjacent names.
         this.inputs = inputs.map((value: InputType, index) => 
             withPrecedingSpaceIfDesired(index > 0 && endsWithName(inputs[index - 1]) && startsWithName(value), value));
-        this.close = close;
+        this.close = close ?? new EvalCloseToken();
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Evaluate(
-            this.cloneOrReplaceChild(pretty, [ TypeInput ], "typeInputs", this.typeInputs, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "func", this.func, original, replacement), 
             this.cloneOrReplaceChild<InputType[]>(pretty, [ Expression, Unparsable, Bind ], "inputs", this.inputs, original, replacement)
                 .map((value: InputType, index: number) => withPrecedingSpaceIfDesired(pretty && index > 0, value)),
+            this.cloneOrReplaceChild(pretty, [ TypeInput ], "typeInputs", this.typeInputs, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
         ) as this;
     }
