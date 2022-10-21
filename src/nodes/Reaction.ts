@@ -27,6 +27,7 @@ import { REACTION_SYMBOL } from "../parser/Tokenizer";
 
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
+import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 
 export default class Reaction extends Expression {
 
@@ -48,9 +49,9 @@ export default class Reaction extends Expression {
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Reaction(
             this.cloneOrReplaceChild(pretty, [ Expression ], "initial", this.initial, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "stream", this.stream, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "next", this.next, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "delta", this.delta, original, replacement)
+            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "stream", this.stream, original, replacement)),
+            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "next", this.next, original, replacement)),
+            withPrecedingSpaceIfDesired<Token>(pretty, this.cloneOrReplaceChild(pretty, [ Token ], "delta", this.delta, original, replacement))
         ) as this; 
     }
 

@@ -19,7 +19,7 @@ import SetLiteral from "../nodes/SetLiteral";
 import StructureDefinition from "../nodes/StructureDefinition";
 import Template from "../nodes/Template";
 import TextLiteral from "../nodes/TextLiteral";
-import type Type from "../nodes/Type";
+import Type from "../nodes/Type";
 import TypePlaceholder from "../nodes/TypePlaceholder";
 import type Unparsable from "../nodes/Unparsable";
 import type Node from "../nodes/Node";
@@ -36,6 +36,13 @@ import { getPossibleUnits } from "./getPossibleUnits";
 import type Reference from "./Reference";
 import BinaryOperation from "../nodes/BinaryOperation";
 import withPrecedingSpace from "./withPrecedingSpace";
+import ListType from "../nodes/ListType";
+import ListAccess from "../nodes/ListAccess";
+import MapType from "../nodes/MapType";
+import SetType from "../nodes/SetType";
+import SetOrMapAccess from "../nodes/SetOrMapAccess";
+import StreamType from "../nodes/StreamType";
+import Convert from "../nodes/Convert";
 
 /** Offer possible expressions compatible with the given type, or if none was given, any possible expression */
 export default function getPossibleExpressions(parent: Node, child: Expression | Unparsable | undefined, context: Context, type: Type=new AnyType()): (Expression | Definition)[] {
@@ -100,9 +107,25 @@ function getPossibleReference(replacement: Expression | Definition): Expression 
 export function getPossiblePostfix(context: Context, node: Expression, type?: Type): Replace<Expression>[] {
 
     return [
-        // If given a type, any operations that are available on the type.
+        // If the type is a boolean, offer a conditional
+        ...(type instanceof BooleanType ? [ new Replace(context.source, node, new Conditional(withPrecedingSpace(node, "", true), new ExpressionPlaceholder(), new ExpressionPlaceholder())) ] : []),
+        // If the type is a list, offer a list access
+        ...(type instanceof ListType ? [ new Replace(context.source, node, new ListAccess(withPrecedingSpace(node, "", true), new ExpressionPlaceholder())) ] : []),
+        // If the type is a set or map, offer a list access
+        ...(type instanceof SetType || type instanceof MapType ? [ new Replace(context.source, node, new SetOrMapAccess(withPrecedingSpace(node, "", true), new ExpressionPlaceholder())) ] : []),
+        // If the type is a stream, offer a previous
+        ...(type instanceof StreamType ? [ new Replace(context.source, node, new Previous(withPrecedingSpace(node, "", true), new ExpressionPlaceholder())) ] : []),
+        // Reactions
+        ...[ new Replace(context.source, node, new Reaction(withPrecedingSpace(node, "", true), new ExpressionPlaceholder(), new ExpressionPlaceholder()))],
+        // If given a type, any binary operations that are available on the type.
         ...((type === undefined ? [] : type.getAllDefinitions(node, context).filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.isOperator()) 
-            .map(def => new Replace(context.source, node, [ () => new BinaryOperation(def.getOperatorName() as string, withPrecedingSpace(node, "", true), new ExpressionPlaceholder()), def ]))))
+            .map(def => new Replace(context.source, node, [ () => new BinaryOperation(def.getOperatorName() as string, withPrecedingSpace(node, "", true), new ExpressionPlaceholder()), def ])))),
+        // Get any conversions available
+        ...(type === undefined ? [] :
+                type.getAllConversions(context)
+                    .filter(conversion => conversion.input instanceof Type && type.accepts(conversion.input, context))
+                    .map(conversion => new Replace(context.source, node, new Convert(withPrecedingSpace(node, "", true), conversion.output.clone(true)))))
+
     ];
 
 }

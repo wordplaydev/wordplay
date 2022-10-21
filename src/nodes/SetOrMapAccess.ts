@@ -25,6 +25,8 @@ import { getExpressionReplacements, getPossiblePostfix } from "../transforms/get
 import AnyType from "./AnyType";
 import type Transform from "../transforms/Transform"
 import withPrecedingSpace from "../transforms/withPrecedingSpace";
+import SetOpenToken from "./SetOpenToken";
+import SetCloseToken from "./SetCloseToken";
 
 export default class SetOrMapAccess extends Expression {
 
@@ -33,20 +35,20 @@ export default class SetOrMapAccess extends Expression {
     readonly key: Expression | Unparsable;
     readonly close: Token;
 
-    constructor(setOrMap: Expression | Unparsable, open: Token, key: Expression | Unparsable, close: Token) {
+    constructor(setOrMap: Expression | Unparsable, key: Expression | Unparsable, open?: Token, close?: Token) {
         super();
 
         this.setOrMap = setOrMap;
-        this.open = withPrecedingSpace(open);
+        this.open = open === undefined ? new SetOpenToken() : withPrecedingSpace(open, "", true);
         this.key = key;
-        this.close = close;
+        this.close = close ?? new SetCloseToken();
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new SetOrMapAccess(
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "setOrMap", this.setOrMap, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "key", this.key, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
         ) as this; 
     }

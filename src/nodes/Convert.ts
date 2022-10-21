@@ -20,10 +20,11 @@ import ConversionDefinition from "./ConversionDefinition";
 import Halt from "../runtime/Halt";
 import Action from "../runtime/Action";
 import Block from "./Block";
-import { THIS_SYMBOL } from "../parser/Tokenizer";
+import { CONVERT_SYMBOL, THIS_SYMBOL } from "../parser/Tokenizer";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
+import TokenType from "./TokenType";
 
 export default class Convert extends Expression {
     
@@ -31,19 +32,19 @@ export default class Convert extends Expression {
     readonly convert: Token;
     readonly type: Type | Unparsable;
 
-    constructor(expression: Expression, convert: Token, type: Type | Unparsable) {
+    constructor(expression: Expression, type: Type | Unparsable, convert?: Token) {
         super();
 
         this.expression = expression;
-        this.convert = convert;
+        this.convert = convert ?? new Token(CONVERT_SYMBOL, TokenType.CONVERT);
         this.type = type;
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Convert(
             this.cloneOrReplaceChild(pretty, [ Expression ], "expression", this.expression, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "convert", this.convert, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Type, Unparsable ], "type", this.type, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Type, Unparsable ], "type", this.type, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token ], "convert", this.convert, original, replacement)
         ) as this; 
     }
 

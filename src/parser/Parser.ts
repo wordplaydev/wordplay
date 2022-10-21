@@ -692,7 +692,7 @@ function parseSetOrMapAccess(left: Expression | Unparsable, tokens: Tokens): Exp
             return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE, [ left, open, key ]);
         const close = tokens.read(TokenType.SET_CLOSE);
 
-        left = new SetOrMapAccess(left, open, key, close);
+        left = new SetOrMapAccess(left, key, open, close);
 
         // But wait, is it a function evaluation?
         if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
@@ -898,7 +898,7 @@ function parseConvert(expression: Expression, tokens: Tokens): Convert {
     const convert = tokens.read(TokenType.CONVERT);
     const type = parseType(tokens, true);
         
-    return new Convert(expression, convert, type);
+    return new Convert(expression, type, convert);
 
 }
 
