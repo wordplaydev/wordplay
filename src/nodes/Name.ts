@@ -31,6 +31,7 @@ import FunctionDefinition from "./FunctionDefinition";
 import StructureDefinition from "./StructureDefinition";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import EvalCloseToken from "./EvalCloseToken";
+import Unparsable from "./Unparsable";
 
 export default class Name extends Expression {
     
@@ -182,7 +183,8 @@ export default class Name extends Expression {
         return this.getAllDefinitions(this, context)
             .filter(def => def.getNames().find(name => name.startsWith(this.getName())) !== undefined)
             .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
-                            new Replace(context.source, this, [ name => new Evaluate([], new EvalOpenToken(), new Name(name), def.inputs.map(() => new ExpressionPlaceholder()), new EvalCloseToken()), def ]) : 
+                            // Include 
+                            new Replace(context.source, this, [ name => new Evaluate([], new EvalOpenToken(), new Name(name), def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder()), new EvalCloseToken()), def ]) : 
                             new Replace(context.source, this, [ name => new Name(name), def ])
             );
     

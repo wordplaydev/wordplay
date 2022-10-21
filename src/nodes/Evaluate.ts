@@ -78,7 +78,7 @@ export default class Evaluate extends Expression {
             this.cloneOrReplaceChild<InputType[]>(pretty, [ Expression, Unparsable, Bind ], "inputs", this.inputs, original, replacement)
                 .map((value: InputType, index: number) => withPrecedingSpaceIfDesired(pretty && index > 0, value)),
             this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
-        ) as this; 
+        ) as this;
     }
 
     computeChildren() {
