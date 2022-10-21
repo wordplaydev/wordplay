@@ -18,7 +18,7 @@ import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import Alias from "./Alias";
-import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, FUNCTION_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+import { FUNCTION_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import type Translations from "./Translations";
@@ -29,6 +29,8 @@ import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Transform from "../transforms/Transform"
 import type LanguageCode from "./LanguageCode";
 import Append from "../transforms/Append";
+import EvalCloseToken from "./EvalCloseToken";
+import EvalOpenToken from "./EvalOpenToken";
 
 export default class FunctionDefinition extends Expression {
 
@@ -57,9 +59,9 @@ export default class FunctionDefinition extends Expression {
         this.fun = fun ?? new Token(FUNCTION_SYMBOL, TokenType.FUNCTION);
         this.aliases = aliases;
         this.typeVars = typeVars;
-        this.open = open ?? new Token(EVAL_OPEN_SYMBOL, TokenType.EVAL_OPEN);
+        this.open = open ?? new EvalOpenToken();
         this.inputs = inputs;
-        this.close = close ?? new Token(EVAL_CLOSE_SYMBOL, TokenType.EVAL_CLOSE);
+        this.close = close ?? new EvalCloseToken();
         this.dot = dot;
         this.type = type;
         this.expression = expression;

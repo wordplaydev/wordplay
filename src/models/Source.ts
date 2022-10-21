@@ -209,7 +209,8 @@ export default class Source {
 
     getTokenTextIndex(token: Token) {
         const index = this.indicies.get(token);
-        if(index === undefined) throw Error("No index for the given token; it must not be in this source, which means there's a defect somewhere.");
+        if(index === undefined) 
+            throw Error("No index for the given token; it must not be in this source, which means there's a defect somewhere.");
         return index;
     }
 

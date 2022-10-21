@@ -22,7 +22,7 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import FunctionType from "./FunctionType";
 import NameType from "./NameType";
-import { ALIAS_SYMBOL, EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+import { ALIAS_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TypeInput from "./TypeInput";
 import type { TypeSet } from "./UnionType";
 import { Unimplemented } from "../conflicts/Unimplemented";
@@ -35,6 +35,8 @@ import type LanguageCode from "./LanguageCode";
 import Append from "../transforms/Append";
 import Replace from "../transforms/Replace";
 import TypeToken from "./TypeToken";
+import EvalOpenToken from "./EvalOpenToken";
+import EvalCloseToken from "./EvalCloseToken";
 
 export default class StructureDefinition extends Expression {
 
@@ -66,9 +68,9 @@ export default class StructureDefinition extends Expression {
         this.aliases = aliases;
         this.interfaces = interfaces;
         this.typeVars = typeVars;
-        this.open = open === undefined && inputs.length > 0 ? new Token(EVAL_OPEN_SYMBOL, TokenType.EVAL_OPEN) : open;
+        this.open = open === undefined && inputs.length > 0 ? new EvalOpenToken() : open;
         this.inputs = inputs;
-        this.close = close == undefined && inputs.length > 0 ?new Token(EVAL_CLOSE_SYMBOL, TokenType.EVAL_CLOSE) : close;
+        this.close = close == undefined && inputs.length > 0 ?new EvalCloseToken() : close;
         this.block = block;
     }
 

@@ -29,14 +29,10 @@ export default abstract class Node {
 
     /* A recursive function that computes parents. Called by the root. Assumes the tree is immutable. */
     cacheParents() {
-
-        const children = this.getChildren();
-        for(let i = 0; i < children.length; i++) {
-            const child = children[i];
+        for(const child of this.getChildren()) {
             child._parent = this;
             child.cacheParents();
         }
-
     }
 
     /** Returns the children in the node, in order. Needed for batch operations on trees. Cache children to avoid recomputation. */

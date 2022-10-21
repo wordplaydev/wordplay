@@ -25,6 +25,12 @@ import TokenType from "./TokenType";
 
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
+import Evaluate from "./Evaluate";
+import EvalOpenToken from "./EvalOpenToken";
+import FunctionDefinition from "./FunctionDefinition";
+import StructureDefinition from "./StructureDefinition";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import EvalCloseToken from "./EvalCloseToken";
 
 export default class Name extends Expression {
     
@@ -171,6 +177,15 @@ export default class Name extends Expression {
     }
 
     getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
+    getInsertionAfter(context: Context): Transform[] | undefined { 
+
+        return this.getAllDefinitions(this, context)
+            .filter(def => def.getNames().find(name => name.startsWith(this.getName())) !== undefined)
+            .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
+                            new Replace(context.source, this, [ name => new Evaluate([], new EvalOpenToken(), new Name(name), def.inputs.map(() => new ExpressionPlaceholder()), new EvalCloseToken()), def ]) : 
+                            new Replace(context.source, this, [ name => new Name(name), def ])
+            );
+    
+    }
 
 }

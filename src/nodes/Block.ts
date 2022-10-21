@@ -26,7 +26,7 @@ import ValueException from "../runtime/ValueException";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import None from "../runtime/None";
 import ConversionDefinition from "./ConversionDefinition";
-import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import { getExpressionInsertions, getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
@@ -35,6 +35,8 @@ import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import Append from "../transforms/Append";
 import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
+import EvalOpenToken from "./EvalOpenToken";
+import EvalCloseToken from "./EvalCloseToken";
 
 export type Statement = Expression | Unparsable | Share | Bind;
 
@@ -50,11 +52,11 @@ export default class Block extends Expression {
     constructor(docs: Documentation[], statements: Statement[], root: boolean, creator: boolean, open?: Token | Unparsable, close?: Token | Unparsable) {
         super();
 
-        this.open = !root && open === undefined ? new Token(EVAL_OPEN_SYMBOL, TokenType.EVAL_OPEN) : open;
+        this.open = !root && open === undefined ? new EvalOpenToken() : open;
         this.statements = statements.map((value: Statement, index) => withPrecedingSpaceIfDesired(
             index > 0 && endsWithName(statements[index - 1]) && startsWithName(value),
             value));
-        this.close = !root && close === undefined ? new Token(EVAL_CLOSE_SYMBOL, TokenType.EVAL_CLOSE) : close;
+        this.close = !root && close === undefined ? new EvalCloseToken() : close;
         this.docs = docs;
         this.root = root;
         this.creator = creator;

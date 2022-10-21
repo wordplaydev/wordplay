@@ -5,9 +5,11 @@ import Type from "./Type";
 import Unparsable from "./Unparsable";
 import type Context from "./Context";
 import { FUNCTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
-import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, FUNCTION_SYMBOL } from "../parser/Tokenizer";
+import { FUNCTION_SYMBOL } from "../parser/Tokenizer";
 import Bind from "./Bind";
 import { getEvaluationInputConflicts } from "./util";
+import EvalCloseToken from "./EvalCloseToken";
+import EvalOpenToken from "./EvalOpenToken";
 
 export default class FunctionType extends Type {
 
@@ -21,9 +23,9 @@ export default class FunctionType extends Type {
         super();
 
         this.fun = fun ?? new Token(FUNCTION_SYMBOL, TokenType.FUNCTION);
-        this.open = open ?? new Token(EVAL_OPEN_SYMBOL, TokenType.EVAL_OPEN);
+        this.open = open ?? new EvalOpenToken();
         this.inputs = inputs;
-        this.close = close ?? new Token(EVAL_CLOSE_SYMBOL, TokenType.EVAL_CLOSE);;
+        this.close = close ?? new EvalCloseToken();;
         this.output = output;
     }
 
