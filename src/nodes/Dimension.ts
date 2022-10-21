@@ -8,6 +8,7 @@ import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import withPrecedingSpace from "../transforms/withPrecedingSpace";
+import NameToken from "./NameToken";
 
 export default class Dimension extends Node {
 
@@ -18,7 +19,7 @@ export default class Dimension extends Node {
     constructor(name: Token | string, caret?: Token, exponent?: Token) {
         super();
 
-        this.name = typeof name === "string" ? new Token(name, TokenType.NAME) : name;
+        this.name = typeof name === "string" ? new NameToken(name) : name;
         this.caret = caret === undefined ? undefined : withPrecedingSpace(caret, "", true);
         this.exponent = exponent === undefined ? undefined : withPrecedingSpace(exponent, "", true);
 
@@ -85,7 +86,7 @@ export default class Dimension extends Node {
         // Dimension names can be any of the possible dimensions in the project.
         if(child === this.name && project !== undefined)
             return getPossibleDimensions(project)
-                .map(dimension => new Replace(context.source, child, new Token(dimension, TokenType.NAME)));
+                .map(dimension => new Replace(context.source, child, new NameToken(dimension)));
 
     }
 

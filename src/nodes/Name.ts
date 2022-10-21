@@ -21,7 +21,6 @@ import Conditional from "./Conditional";
 import UnionType, { TypeSet } from "./UnionType";
 import Is from "./Is";
 import NameException from "../runtime/NameException";
-import TokenType from "./TokenType";
 
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
@@ -32,6 +31,7 @@ import StructureDefinition from "./StructureDefinition";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import EvalCloseToken from "./EvalCloseToken";
 import Unparsable from "./Unparsable";
+import NameToken from "./NameToken";
 
 export default class Name extends Expression {
     
@@ -46,7 +46,7 @@ export default class Name extends Expression {
 
         super();
 
-        this.name = typeof name ==="string" ? new Token(name, TokenType.NAME) : name;
+        this.name = typeof name ==="string" ? new NameToken(name) : name;
 
     }
 
@@ -173,7 +173,7 @@ export default class Name extends Expression {
 
         if(child === this.name)
             return this.getAllDefinitions(this, context)
-                .map(def => new Replace<Token>(context.source, child, [ name => new Token(name, TokenType.NAME), def ]))
+                .map(def => new Replace<Token>(context.source, child, [ name => new NameToken(name), def ]))
 
     }
 

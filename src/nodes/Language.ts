@@ -2,12 +2,12 @@ import MissingLanguage from "../conflicts/MissingLanguage";
 import type Context from "./Context";
 import Node from "./Node";
 import Token from "./Token";
-import TokenType from "./TokenType";
 import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import Add from "../transforms/Add";
 import LanguageToken from "./LanguageToken";
+import NameToken from "./NameToken";
 
 export default class Language extends Node {
     
@@ -18,7 +18,7 @@ export default class Language extends Node {
         super();
 
         this.slash = slash ?? new LanguageToken();
-        this.lang = typeof lang === "string" ? new Token(lang, TokenType.NAME) : lang;
+        this.lang = typeof lang === "string" ? new NameToken(lang) : lang;
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
@@ -53,7 +53,7 @@ export default class Language extends Node {
 
         const project = context.source.getProject();
         if(child === this.lang && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Replace(context.source, this.lang as Token, new Token(l, TokenType.NAME)))
+            return getPossibleLanguages(project).map(l => new Replace(context.source, this.lang as Token, new NameToken(l)))
 
     }
 
@@ -63,7 +63,7 @@ export default class Language extends Node {
 
         const project = context.source.getProject();
         if(this.lang === undefined && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Add(context.source, position, this, "lang", new Token(l, TokenType.NAME)));
+            return getPossibleLanguages(project).map(l => new Add(context.source, position, this, "lang", new NameToken(l)));
 
      }
 }

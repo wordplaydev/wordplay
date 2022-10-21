@@ -932,7 +932,7 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
                     tokens.nextIs(TokenType.UNARY_OP) ? tokens.read(TokenType.UNARY_OP) :
                     tokens.read(TokenType.BINARY_OP);
 
-        left = new AccessName(left, access, name);
+        left = new AccessName(left, name, access);
 
         // But wait, is it a function evaluation?
         if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())

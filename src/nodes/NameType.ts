@@ -1,7 +1,6 @@
 import type Conflict from "../conflicts/Conflict";
 import { UnknownTypeName } from "../conflicts/UnknownTypeName";
 import Token from "./Token";
-import TokenType from "./TokenType";
 import Type from "./Type";
 import type Node from "./Node";
 import TypeVariable from "./TypeVariable";
@@ -14,6 +13,7 @@ import VariableType from "./VariableType";
 import { NAME_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
+import NameToken from "./NameToken";
 
 export default class NameType extends Type {
 
@@ -22,7 +22,7 @@ export default class NameType extends Type {
     constructor(type: Token | string) {
         super();
 
-        this.type = typeof type === "string" ? new Token(type, TokenType.NAME) : type;
+        this.type = typeof type === "string" ? new NameToken(type) : type;
     }
 
     getName() { return this.type.text.toString() }
@@ -92,7 +92,7 @@ export default class NameType extends Type {
                         // If the current name doesn't correspond to a type, then filter the types down to those that match the prefix.
                         (this.type.getText() === "" || def.getNames().find(name => name.startsWith(this.type.getText()) !== undefined))
                     ) as (StructureDefinition|TypeVariable)[])
-                    .map(def => new Replace(context.source, child, [ name => new Token(name, TokenType.NAME), def ]))
+                    .map(def => new Replace(context.source, child, [ name => new NameToken(name), def ]))
 
     }
 

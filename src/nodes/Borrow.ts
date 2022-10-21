@@ -14,6 +14,7 @@ import TokenType from "./TokenType";
 import { BORROW_SYMBOL } from "../parser/Tokenizer";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
+import NameToken from "./NameToken";
 
 export default class Borrow extends Node implements Evaluable {
     
@@ -88,7 +89,7 @@ export default class Borrow extends Node implements Evaluable {
             // Return name tokens of all shares
             return context.shares
                 ?.getDefinitions()
-                .map(def => new Replace<Token>(context.source, child, [ name => new Token(name, TokenType.NAME), def ])) ?? [];
+                .map(def => new Replace<Token>(context.source, child, [ name => new NameToken(name), def ])) ?? [];
     
     }
 

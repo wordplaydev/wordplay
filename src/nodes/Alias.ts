@@ -1,6 +1,5 @@
 import Node from "./Node";
 import Token from "./Token";
-import TokenType from "./TokenType";
 import type Conflict from "../conflicts/Conflict";
 import Language from "./Language";
 import UnnamedAlias from "../conflicts/UnnamedAlias";
@@ -11,6 +10,7 @@ import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import Add from "../transforms/Add";
 import type LanguageCode from "./LanguageCode";
+import NameToken from "./NameToken";
 
 export default class Alias extends Node {
 
@@ -22,7 +22,7 @@ export default class Alias extends Node {
         super();
 
         this.separator = separator;
-        this.name = typeof name === "string" ? new Token(name, TokenType.NAME) : name;
+        this.name = typeof name === "string" ? new NameToken(name) : name;
         this.lang = typeof lang === "string" ? new Language(lang) : lang;
     }
 

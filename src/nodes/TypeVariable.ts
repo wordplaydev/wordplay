@@ -2,6 +2,7 @@ import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import { TYPE_VAR_SYMBOL } from "../parser/Tokenizer";
+import NameToken from "./NameToken";
 
 export default class TypeVariable extends Node {
 
@@ -12,7 +13,7 @@ export default class TypeVariable extends Node {
         super();
 
         this.type = type ?? new Token(TYPE_VAR_SYMBOL, TokenType.TYPE_VAR);
-        this.name = name instanceof Token ? name : new Token(name, TokenType.NAME);
+        this.name = name instanceof Token ? name : new NameToken(name);
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 

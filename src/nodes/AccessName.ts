@@ -24,7 +24,6 @@ import type Translations from "./Translations";
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import TypeVariable from "./TypeVariable";
 import Stream from "../runtime/Stream";
-
 import type Transform from "../transforms/Transform"
 import NameException from "../runtime/NameException";
 import NativeType from "./NativeType";
@@ -33,10 +32,10 @@ import FunctionDefinition from "./FunctionDefinition";
 import StructureDefinition from "./StructureDefinition";
 import Evaluate from "./Evaluate";
 import EvalOpenToken from "./EvalOpenToken";
-import Name from "./Name";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import EvalCloseToken from "./EvalCloseToken";
 import withPrecedingSpace from "../transforms/withPrecedingSpace";
+import NameToken from "./NameToken";
 
 export default class AccessName extends Expression {
 
@@ -46,7 +45,7 @@ export default class AccessName extends Expression {
 
     _unionType: Type | undefined;
 
-    constructor(subject: Expression | Unparsable, access: Token | undefined, name?: Token) {
+    constructor(subject: Expression | Unparsable, name?: Token, access?: Token) {
         super();
 
         this.subject = subject;
@@ -57,8 +56,8 @@ export default class AccessName extends Expression {
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new AccessName(
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "subject", this.subject, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "access", this.access, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "name", this.name, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "name", this.name, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token ], "access", this.access, original, replacement)
         ) as this;
     }
 
@@ -197,7 +196,7 @@ export default class AccessName extends Expression {
             return getExpressionReplacements(context.source, this, this.subject, context);
         else if(child === this.name)
             return this.getNameTransforms(context)
-                .map(def => new Replace<Token>(context.source, child, [ name => new Token(name, TokenType.NAME), def ]));
+                .map(def => new Replace<Token>(context.source, child, [ name => new NameToken(name), def ]));
 
     }
 
@@ -210,15 +209,14 @@ export default class AccessName extends Expression {
                     // Include 
                     new Replace(context.source, this, [ name => new Evaluate(
                         [], new EvalOpenToken(), 
-                        new AccessName(withPrecedingSpace(this.subject.clone(false), "", true), undefined, 
-                        new Token(name, TokenType.NAME)), 
+                        new AccessName(withPrecedingSpace(this.subject.clone(false), "", true), new NameToken(name)), 
                         def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder()), new EvalCloseToken()
                         ), def ]) : 
-                    new Replace(context.source, this, [ name => new AccessName(withPrecedingSpace(this.subject.clone(false), "", true), undefined, new Token(name, TokenType.NAME)), def ])
+                    new Replace(context.source, this, [ name => new AccessName(withPrecedingSpace(this.subject.clone(false), "", true), new NameToken(name)), def ])
                 );
 
             return this.getNameTransforms(context)
-                .map(def => new Replace<AccessName>(context.source, this, [ name => new AccessName(this.subject, undefined, new Token(name, TokenType.NAME)), def ]));
+                .map(def => new Replace<AccessName>(context.source, this, [ name => new AccessName(this.subject, new NameToken(name)), def ]));
         }
 
 }
