@@ -6,6 +6,8 @@ import type Transform from "../transforms/Transform"
 import Token from "./Token";
 import Unparsable from "./Unparsable";
 import BindToken from "./BindToken";
+import Replace from "../transforms/Replace";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
 
 export default class KeyValue extends Node {
 
@@ -41,7 +43,7 @@ export default class KeyValue extends Node {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
 
         if(child === this.key)
             return getExpressionReplacements(context.source, this, this.key, context);
@@ -51,4 +53,7 @@ export default class KeyValue extends Node {
     }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.key || child === this.value) return new Replace(context.source, child, new ExpressionPlaceholder());
+    }
 }

@@ -83,7 +83,7 @@ export default class Borrow extends Node implements Evaluable {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
         
         if(child === this.name)
             // Return name tokens of all shares
@@ -95,5 +95,5 @@ export default class Borrow extends Node implements Evaluable {
 
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(): Transform[] | undefined { return undefined; }
-
+    getChildRemoval(): Transform | undefined { return undefined; }
 }

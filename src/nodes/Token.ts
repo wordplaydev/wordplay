@@ -77,8 +77,17 @@ export default class Token extends Node {
         return new Token(this.text, this.types, space);
     }
 
-    getReplacementChild() { return undefined; }
+    withPrecedingSpace(space: string=" ", exact: boolean=false): this {
+
+        if(exact ? this.space !== space : this.space.length === 0)
+            return this.withSpace(space) as this;
+        else return this;
+
+    }
+
+    getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
+    getChildRemoval() { return undefined; }
 
 }

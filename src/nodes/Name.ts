@@ -167,7 +167,7 @@ export default class Name extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
         if(child === this.name)
             return this.getAllDefinitions(this, context)
@@ -190,5 +190,7 @@ export default class Name extends Expression {
         ];
     
     }
+
+    getChildRemoval(): Transform | undefined { return undefined; }
 
 }

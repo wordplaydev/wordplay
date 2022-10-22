@@ -40,8 +40,9 @@ export default class Cell extends Node {
         }
     }
 
-    getReplacementChild(): Transform[] | undefined { return undefined; }
+    getChildReplacement(): Transform[] | undefined { return undefined; }
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(): Transform[] | undefined { return undefined; }
-
+    getChildRemoval(): Transform | undefined { return undefined; }
+    
 }

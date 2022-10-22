@@ -1,6 +1,9 @@
 import { NONE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { NONE_SYMBOL } from "../parser/Tokenizer";
+import Remove from "../transforms/Remove";
+import type Transform from "../transforms/Transform";
 import Alias from "./Alias";
+import type Context from "./Context";
 import NativeType from "./NativeType";
 import type Node from "./Node";
 import Token from "./Token";
@@ -50,8 +53,10 @@ export default class NoneType extends NativeType {
         }
     }
 
-    getReplacementChild() { return undefined; }
+    getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
-
+    getChildRemoval(child: Node, context: Context): Transform | undefined { 
+        if(this.aliases.includes(child as Alias)) return new Remove(context.source, this, child);    
+    }
 }

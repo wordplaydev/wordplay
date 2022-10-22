@@ -10,6 +10,8 @@ import Bind from "./Bind";
 import { getEvaluationInputConflicts } from "./util";
 import EvalCloseToken from "./EvalCloseToken";
 import EvalOpenToken from "./EvalOpenToken";
+import type Transform from "../transforms/Transform";
+import Remove from "../transforms/Remove";
 
 export default class FunctionType extends Type {
 
@@ -76,8 +78,14 @@ export default class FunctionType extends Type {
         }
     }
 
-    getReplacementChild() { return undefined; }
+    getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
 
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(this.inputs.includes(child as Bind | Unparsable))
+            return new Remove(context.source, this, child);
+        else if(child === this.output) return new Remove(context.source, this, this.output);
+    }
+    
 }

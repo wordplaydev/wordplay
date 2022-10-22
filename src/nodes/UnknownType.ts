@@ -27,8 +27,9 @@ export default class UnknownType extends Type {
         }
     }
 
-    getReplacementChild() { return undefined; }
+    getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
+    getChildRemoval() { return undefined; }
 
 }

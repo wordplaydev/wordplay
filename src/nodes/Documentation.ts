@@ -7,6 +7,8 @@ import Language from "./Language";
 import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
+import type Transform from "../transforms/Transform";
+import Remove from "../transforms/Remove";
 
 export default class Documentation extends Node {
     
@@ -39,7 +41,7 @@ export default class Documentation extends Node {
         }
     }
 
-    getReplacementChild(child: Node, context: Context) {
+    getChildReplacement(child: Node, context: Context) {
 
         const project = context.source.getProject();
         if(project !== undefined && child === this.lang)
@@ -57,6 +59,10 @@ export default class Documentation extends Node {
         if(project !== undefined && this.lang === undefined)
             return getPossibleLanguages(project).map(l => new Add(context.source, position, this, "lang", new Language(l)));
 
+    }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.lang) return new Remove(context.source, this, child);
     }
 
 }

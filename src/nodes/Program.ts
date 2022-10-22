@@ -15,6 +15,8 @@ import Unit from "./Unit";
 import Dimension from "./Dimension";
 import type Transform from "../transforms/Transform";
 import Append from "../transforms/Append";
+import Remove from "../transforms/Remove";
+import Replace from "../transforms/Replace";
 
 export default class Program extends Node implements Evaluable {
     
@@ -107,7 +109,7 @@ export default class Program extends Node implements Evaluable {
         }
     }
 
-    getReplacementChild() { return undefined; }
+    getChildReplacement() { return undefined; }
 
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
     
@@ -118,4 +120,8 @@ export default class Program extends Node implements Evaluable {
 
     getInsertionAfter(): Transform[] | undefined { return undefined; }
 
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(this.borrows.includes(child as Borrow)) return new Remove(context.source, this, child);
+        else if(child === this.block) return new Replace(context.source, this.block, new Block([], [], this.block instanceof Block ? this.block.root : false, this.block instanceof Block ? this.block.creator : false));
+    }
 }

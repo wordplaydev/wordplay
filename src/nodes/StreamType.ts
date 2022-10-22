@@ -1,9 +1,12 @@
 import { REACTION_SYMBOL } from "../parser/Tokenizer";
+import Replace from "../transforms/Replace";
+import type Transform from "../transforms/Transform";
 import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
+import TypePlaceholder from "./TypePlaceholder";
 import Unparsable from "./Unparsable";
 
 export const STREAM_NATIVE_TYPE_NAME = "stream";
@@ -47,8 +50,10 @@ export default class StreamType extends Type {
         }
     }
 
-    getReplacementChild() { return undefined; }
+    getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
-
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.type) return new Replace(context.source, child, new TypePlaceholder());
+    }
 }

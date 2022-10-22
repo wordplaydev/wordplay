@@ -20,7 +20,6 @@ import TokenType from "./TokenType";
 import { getPossibleUnits } from "../transforms/getPossibleUnits";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
-import withPrecedingSpace from "../transforms/withPrecedingSpace";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 
 export default class MeasurementLiteral extends Expression {
@@ -31,14 +30,14 @@ export default class MeasurementLiteral extends Expression {
     constructor(number?: Token, unit?: Unit | Unparsable) {
         super();
         this.number = number ?? new Token("", TokenType.NUMBER);
-        this.unit = unit === undefined ? new Unit() : withPrecedingSpace(unit, "", true);
+        this.unit = unit === undefined ? new Unit() : unit.withPrecedingSpace("", true);
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new MeasurementLiteral(
             this.cloneOrReplaceChild(pretty, [ Token ], "number", this.number, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Unit, Unparsable ], "unit", this.unit, original, replacement)
-        ) as this; 
+        ) as this;
     }
 
     isInteger() { return !isNaN(parseInt(this.number.text.toString())); }
@@ -84,7 +83,7 @@ export default class MeasurementLiteral extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
         const project = context.source.getProject();
         // Any unit in the project
@@ -97,4 +96,7 @@ export default class MeasurementLiteral extends Expression {
 
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.unit) return new Replace(context.source, child, new Unit());
+    }
 }

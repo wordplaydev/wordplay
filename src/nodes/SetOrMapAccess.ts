@@ -24,9 +24,10 @@ import UnionType from "./UnionType";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
 import type Transform from "../transforms/Transform"
-import withPrecedingSpace from "../transforms/withPrecedingSpace";
 import SetOpenToken from "./SetOpenToken";
 import SetCloseToken from "./SetCloseToken";
+import Replace from "../transforms/Replace";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
 
 export default class SetOrMapAccess extends Expression {
 
@@ -39,7 +40,7 @@ export default class SetOrMapAccess extends Expression {
         super();
 
         this.setOrMap = setOrMap;
-        this.open = open === undefined ? new SetOpenToken() : withPrecedingSpace(open, "", true);
+        this.open = open === undefined ? new SetOpenToken() : open.withPrecedingSpace("", true);
         this.key = key;
         this.close = close ?? new SetCloseToken();
     }
@@ -126,7 +127,7 @@ export default class SetOrMapAccess extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined  {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined  {
 
         if(child === this.setOrMap) {
             return getExpressionReplacements(context.source, this, this.setOrMap, context, new UnionType(new SetType(new AnyType()), new MapType(new AnyType(), new AnyType())));
@@ -145,4 +146,7 @@ export default class SetOrMapAccess extends Expression {
 
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.setOrMap || child === this.key) return new Replace(context.source, child, new ExpressionPlaceholder());
+    }
 }

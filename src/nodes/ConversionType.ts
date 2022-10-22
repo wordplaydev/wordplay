@@ -7,6 +7,8 @@ import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform";
 import Type from "./Type";
 import type Unparsable from "./Unparsable";
+import TypePlaceholder from "./TypePlaceholder";
+import Replace from "../transforms/Replace";
 
 export default class ConversionType extends Type {
 
@@ -46,8 +48,11 @@ export default class ConversionType extends Type {
         }
     }
 
-    getReplacementChild(): Transform[] | undefined { return undefined; }
+    getChildReplacement(): Transform[] | undefined { return undefined; }
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(): Transform[] | undefined { return undefined; }
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.input || child === this.output) return new Replace(context.source, child, new TypePlaceholder());
+    }
 
 }

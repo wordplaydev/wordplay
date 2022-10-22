@@ -11,6 +11,8 @@ import Replace from "../transforms/Replace";
 import Add from "../transforms/Add";
 import type LanguageCode from "./LanguageCode";
 import NameToken from "./NameToken";
+import PlaceholderToken from "./PlaceholderToken";
+import Remove from "../transforms/Remove";
 
 export default class Alias extends Node {
 
@@ -71,7 +73,7 @@ export default class Alias extends Node {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
         const project = context.source.getProject();
         // Formats can be any Language tags that are used in the project.
@@ -88,6 +90,13 @@ export default class Alias extends Node {
         // Suggest languages for insertion if after the name with no language.
         if(this.lang === undefined && project !== undefined)
             return getPossibleLanguages(project).map(lang => new Add(context.source, position, this, "lang", new Language(lang)));
+
+    }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        
+        if(child === this.name) return new Replace(context.source, child, new PlaceholderToken());
+        else if(child === this.lang) return new Remove(context.source, this, this.lang);
 
     }
 

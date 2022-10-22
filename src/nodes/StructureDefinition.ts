@@ -38,6 +38,7 @@ import TypeToken from "./TypeToken";
 import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import Remove from "../transforms/Remove";
 
 export default class StructureDefinition extends Expression {
 
@@ -260,7 +261,7 @@ export default class StructureDefinition extends Expression {
 
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
         if(this.interfaces.includes(child as TypeInput)) {
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is StructureDefinition => def instanceof StructureDefinition && def.isInterface())
@@ -289,4 +290,14 @@ export default class StructureDefinition extends Expression {
 
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if( this.docs.includes(child as Documentation) || 
+            this.aliases.includes(child as Alias) ||
+            this.typeVars.includes(child as TypeVariable) || 
+            this.interfaces.includes(child as TypeInput) || 
+            this.inputs.includes(child as Bind | Unparsable))
+            return new Remove(context.source, this, child);
+        else if(child === this.block) return new Remove(context.source, this, child);
+    
+    }
 }

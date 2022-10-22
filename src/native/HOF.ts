@@ -2,7 +2,6 @@ import type Bind from "../nodes/Bind";
 import type Context from "../nodes/Context";
 import Expression from "../nodes/Expression";
 import type { TypeSet } from "../nodes/UnionType";
-import type Transform from "../transforms/Transform";
 
 export default abstract class HOF extends Expression {
 
@@ -17,9 +16,9 @@ export default abstract class HOF extends Expression {
         }
     }
 
-    getReplacementChild() { return undefined; }
+    getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
-    getInsertionAfter(): Transform[] | undefined { return undefined; }
-
+    getInsertionAfter() { return undefined; }
+    getChildRemoval() { return undefined; }
 }
 

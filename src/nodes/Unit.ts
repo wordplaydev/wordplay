@@ -10,6 +10,7 @@ import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import Add from "../transforms/Add";
 import LanguageToken from "./LanguageToken";
+import Remove from "../transforms/Remove";
 
 export default class Unit extends Type {
 
@@ -200,7 +201,7 @@ export default class Unit extends Type {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
     
         const project = context.source.getProject();
 
@@ -216,6 +217,15 @@ export default class Unit extends Type {
         if(this.slash === undefined)
             return [ new Add(context.source, position, this, "slash", new LanguageToken()) ];
 
+    }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(this.numerator.includes(child as Dimension)) return new Remove(context.source, this, child);
+        else if(this.denominator.includes(child as Dimension)) {
+            if(this.denominator.length === 1 && this.slash) return new Remove(context.source, this, this.slash, child);
+            else return new Remove(context.source, this, child);
+        }
+            
     }
 
 }

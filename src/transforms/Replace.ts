@@ -5,20 +5,19 @@ import type Source from "../models/Source";
 import Caret from "../models/Caret";
 import type LanguageCode from "../nodes/LanguageCode";
 import type Reference from "./Reference";
-import withPrecedingSpace from "./withPrecedingSpace";
 
 export default class Replace<NodeType extends Node> extends Transform {
 
     readonly node: Node;
     readonly replacement: NodeType | Reference<NodeType>;
 
-    constructor(source: Source, node: Node, replacement: NodeType | Reference<NodeType> ) {
+    constructor(source: Source, node: Node, replacement: NodeType | Reference<NodeType>) {
         super(source);
 
         this.node = node;
         this.replacement = replacement;
 
-    }    
+    }
 
     getEdit(lang: LanguageCode): Edit {
         
@@ -29,8 +28,12 @@ export default class Replace<NodeType extends Node> extends Transform {
         const space = this.source.getFirstToken(this.node)?.space;
         if(space === undefined) return;
 
+        // Get the position of the node we're replacing.
+        const position = this.source.getNodeFirstIndex(this.node);
+        if(position === undefined) return;
+
         // Get or create the replacement with the original node's space.
-        const replacement = withPrecedingSpace(this.getPrettyNewNode(lang).clone(true), space, true);
+        const replacement = this.getPrettyNewNode(lang).withPrecedingSpace(space, true);
 
         // Get a path to the node we're replacing, so we can find it's replacement and position the cursor.
         const path = this.node.getPath();
@@ -44,13 +47,13 @@ export default class Replace<NodeType extends Node> extends Transform {
         const newIndex = newChild === undefined ? undefined : newSource.getNodeLastIndex(newChild);
 
         // Return the new source and place the caret after the replacement.
-        return newIndex === undefined ? undefined : [ newSource, new Caret(newSource, newIndex) ];
+        return [ newSource, new Caret(newSource, newIndex ?? position) ];
 
     }
 
     getNewNode(lang: LanguageCode) { 
         
-        if(this.replacement instanceof Node)
+        if(!Array.isArray(this.replacement)) 
             return this.replacement;
 
         const [ creator, def ] = this.replacement;

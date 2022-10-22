@@ -9,6 +9,8 @@ import Type from "./Type";
 import Unparsable from "./Unparsable";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
+import TypePlaceholder from "./TypePlaceholder";
+import Replace from "../transforms/Replace";
 
 export default class ListType extends NativeType {
 
@@ -65,11 +67,13 @@ export default class ListType extends NativeType {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
         if(child === this.type)
             return getPossibleTypeReplacements(child, context);
     }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
-
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.type) return new Replace(context.source, child, new TypePlaceholder());
+    }
 }

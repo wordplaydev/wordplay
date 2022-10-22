@@ -65,7 +65,7 @@ export default class BooleanLiteral extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
         return [
             new Replace(context.source, child, new Token(!this.bool() ? TRUE_SYMBOL : FALSE_SYMBOL, TokenType.BOOLEAN))
         ];
@@ -73,6 +73,6 @@ export default class BooleanLiteral extends Expression {
 
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-
+    getChildRemoval(): Transform | undefined { return undefined; }
 
 }

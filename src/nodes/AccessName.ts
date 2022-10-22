@@ -32,8 +32,8 @@ import FunctionDefinition from "./FunctionDefinition";
 import StructureDefinition from "./StructureDefinition";
 import Evaluate from "./Evaluate";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import withPrecedingSpace from "../transforms/withPrecedingSpace";
 import NameToken from "./NameToken";
+import PlaceholderToken from "./PlaceholderToken";
 
 export default class AccessName extends Expression {
 
@@ -188,7 +188,7 @@ export default class AccessName extends Expression {
 
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
         if(child === this.subject)
             return getExpressionReplacements(context.source, this, this.subject, context);
@@ -209,13 +209,20 @@ export default class AccessName extends Expression {
                     .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
                         // Include 
                         new Replace(context.source, this, [ name => new Evaluate(
-                            new AccessName(withPrecedingSpace(this.subject.clone(false), "", true), new NameToken(name)), 
+                            new AccessName(this.subject.withPrecedingSpace("", true), new NameToken(name)), 
                             def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder())
                         ), def ]) : 
-                        new Replace(context.source, this, [ name => new AccessName(withPrecedingSpace(this.subject.clone(false), "", true), new NameToken(name)), def ])
+                        new Replace(context.source, this, [ name => new AccessName(this.subject.withPrecedingSpace("", true), new NameToken(name)), def ])
                     )
             )
         ]
+
+    }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        
+        if(child === this.subject) return new Replace(context.source, child, new ExpressionPlaceholder());
+        else if(child === this.name) return new Replace(context.source, child, new PlaceholderToken());
 
     }
 

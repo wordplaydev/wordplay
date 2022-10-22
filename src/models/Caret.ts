@@ -233,12 +233,18 @@ export default class Caret {
             const newSource = this.source.withoutGraphemeAt(this.position - 1);
             return newSource === undefined ? undefined : [ newSource , new Caret(newSource, Math.max(0, this.position - 1)) ];
         } 
-        // If it's a node, delete the text between the first and last token and replace it with a placeholder.
+        // If it's a node, see if there's a removal transform.
         else {
-            const range = this.getRange(this.position);
-            if(range === undefined) return; 
-            const newProject = this.source.withoutGraphemesBetween(range[0], range[1]);
-            return newProject === undefined ? undefined : [ newProject , new Caret(newProject, range[0]) ];
+
+            const removal = this.position.getParent()?.getChildRemoval(this.position, this.source.getContext());
+            if(removal) return removal.getEdit("eng");
+            else {
+                // Delete the text between the first and last token and replace it with a placeholder.
+                const range = this.getRange(this.position);
+                if(range === undefined) return; 
+                const newProject = this.source.withoutGraphemesBetween(range[0], range[1]);
+                return newProject === undefined ? undefined : [ newProject , new Caret(newProject, range[0]) ];
+            }
         }
     }
     

@@ -79,7 +79,7 @@ export default class MeasurementType extends NativeType {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
         const project = context.source.getProject();
         if(child === this.unit && project !== undefined) {
@@ -92,4 +92,7 @@ export default class MeasurementType extends NativeType {
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
 
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.unit) return new Replace(context.source, child, new Unit());
+    }
 }

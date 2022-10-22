@@ -115,8 +115,9 @@ export default class Delete extends Expression {
         }
     }
 
-    getReplacementChild(): Transform[] | undefined { return undefined; }
+    getChildReplacement(): Transform[] | undefined { return undefined; }
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-
+    getChildRemoval(): Transform | undefined { return undefined; }
+    
 }

@@ -17,6 +17,7 @@ import Add from "../transforms/Add";
 import Replace from "../transforms/Replace";
 import type Transform from "../transforms/Transform";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import Remove from "../transforms/Remove";
 
 export default class TextLiteral extends Expression {
     
@@ -70,7 +71,7 @@ export default class TextLiteral extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context) {
+    getChildReplacement(child: Node, context: Context) {
     
         const project = context.source.getProject();
         // Formats can be any Language tags that are used in the project.
@@ -94,6 +95,10 @@ export default class TextLiteral extends Expression {
             )
         ];
 
+    }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.format) return new Remove(context.source, this, child);
     }
 
 }

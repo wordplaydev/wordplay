@@ -10,6 +10,8 @@ import { TYPE_SYMBOL } from "../parser/Tokenizer";
 import NeverType from "./NeverType";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
+import Replace from "../transforms/Replace";
+import TypePlaceholder from "./TypePlaceholder";
 
 export default class UnionType extends Type {
 
@@ -72,7 +74,7 @@ export default class UnionType extends Type {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
         if(child === this.left || child === this.right)
             return getPossibleTypeReplacements(child, context);
@@ -82,6 +84,9 @@ export default class UnionType extends Type {
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
 
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.left || child === this.right) return new Replace(context.source, child, new TypePlaceholder());
+    }
 }
 
 /** Given a list of types, remove all duplicates, and if only one remains, return it.

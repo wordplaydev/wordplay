@@ -3,7 +3,7 @@ import Type from "./Type";
 import type Node from "./Node";
 import type Definition from "./Definition";
 
-export default abstract class MeasurementType extends Type {
+export default abstract class NativeType extends Type {
 
     constructor() {
         super();

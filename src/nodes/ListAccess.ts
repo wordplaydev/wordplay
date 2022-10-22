@@ -26,7 +26,8 @@ import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
-import withPrecedingSpace from "../transforms/withPrecedingSpace";
+import Replace from "../transforms/Replace";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
 
 export default class ListAccess extends Expression {
     readonly list: Expression | Unparsable;
@@ -38,9 +39,18 @@ export default class ListAccess extends Expression {
         super();
 
         this.list = list;
-        this.open = open === undefined ? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN) : withPrecedingSpace(open, "", true);
+        this.open = open === undefined ? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN) : open.withPrecedingSpace("", true);
         this.index = index;
         this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
+    }
+
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+        return new ListAccess(
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "list", this.list, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "index", this.index, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
+        ) as this; 
     }
 
     computeChildren() {
@@ -96,15 +106,6 @@ export default class ListAccess extends Expression {
 
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new ListAccess(
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "list", this.list, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "index", this.index, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
-        ) as this; 
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.list instanceof Expression) this.list.evaluateTypeSet(bind, original, current, context);
         if(this.index instanceof Expression) this.index.evaluateTypeSet(bind, original, current, context);
@@ -117,7 +118,7 @@ export default class ListAccess extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
 
         if(child === this.list)
             return getExpressionReplacements(context.source, this, this.list, context, new ListType());
@@ -129,4 +130,8 @@ export default class ListAccess extends Expression {
 
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.list || child === this.index) return new Replace(context.source, child, new ExpressionPlaceholder());
+    }
+    
 }

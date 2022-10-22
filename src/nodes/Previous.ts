@@ -28,6 +28,7 @@ import { PREVIOUS_SYMBOL } from "../parser/Tokenizer";
 
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
 
 export default class Previous extends Expression {
 
@@ -114,7 +115,7 @@ export default class Previous extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
         
         if(child === this.stream)
             return  this.getAllDefinitions(this, context)
@@ -130,4 +131,7 @@ export default class Previous extends Expression {
 
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
+    getChildRemoval(child: Node, context: Context): Transform | undefined { 
+        if(child === this.stream || child === this.index) return new Replace(context.source, child, new ExpressionPlaceholder());
+    }
 }

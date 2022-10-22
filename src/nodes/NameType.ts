@@ -80,7 +80,7 @@ export default class NameType extends Type {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
         const definition = this.resolve(context);
         if(child === this.type)
@@ -98,5 +98,5 @@ export default class NameType extends Type {
 
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
-
+    getChildRemoval(): Transform | undefined { return undefined; }
 }

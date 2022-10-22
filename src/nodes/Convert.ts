@@ -25,6 +25,8 @@ import { getExpressionReplacements, getPossiblePostfix } from "../transforms/get
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import TokenType from "./TokenType";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import TypePlaceholder from "./TypePlaceholder";
 
 export default class Convert extends Expression {
     
@@ -171,7 +173,7 @@ export default class Convert extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
         
         if(child === this.expression)
             return getExpressionReplacements(context.source, this, this.expression, context);
@@ -188,6 +190,11 @@ export default class Convert extends Expression {
 
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.expression) return new Replace(context.source, child, new ExpressionPlaceholder());
+        else if(child === this.type) return new Replace(context.source, child, new TypePlaceholder());
+    }
 
 }
 

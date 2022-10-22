@@ -60,8 +60,9 @@ export default class NativeExpression extends Expression {
         }
     }
 
-    getReplacementChild() { return undefined; }
+    getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
+    getChildRemoval() { return undefined; }
 
 }

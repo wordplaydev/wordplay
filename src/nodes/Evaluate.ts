@@ -45,9 +45,10 @@ import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix 
 import type Transform from "../transforms/Transform"
 import Block from "./Block";
 import Replace from "../transforms/Replace";
-import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import Remove from "../transforms/Remove";
 
 type InputType = Unparsable | Bind | Expression;
 
@@ -67,7 +68,7 @@ export default class Evaluate extends Expression {
         this.func = func;
         // Inputs must have space between them if they have adjacent names.
         this.inputs = inputs.map((value: InputType, index) => 
-            withPrecedingSpaceIfDesired(index > 0 && endsWithName(inputs[index - 1]) && startsWithName(value), value));
+            value.withPrecedingSpaceIfDesired(index > 0 && endsWithName(inputs[index - 1]) && startsWithName(value)));
         this.close = close ?? new EvalCloseToken();
     }
 
@@ -75,7 +76,7 @@ export default class Evaluate extends Expression {
         return new Evaluate(
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "func", this.func, original, replacement), 
             this.cloneOrReplaceChild<InputType[]>(pretty, [ Expression, Unparsable, Bind ], "inputs", this.inputs, original, replacement)
-                .map((value: InputType, index: number) => withPrecedingSpaceIfDesired(pretty && index > 0, value)),
+                .map((value: InputType, index: number) => value.withPrecedingSpaceIfDesired(pretty && index > 0)),
             this.cloneOrReplaceChild(pretty, [ TypeInput ], "typeInputs", this.typeInputs, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
@@ -572,7 +573,7 @@ export default class Evaluate extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
         
         const functionType = this.func.getTypeUnlessCycle(context);
         if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
@@ -638,5 +639,10 @@ export default class Evaluate extends Expression {
     }
 
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.func) return new Replace(context.source, child, new ExpressionPlaceholder());
+        else if(this.typeInputs.includes(child as TypeInput) || this.inputs.includes(child as InputType)) return new Remove(context.source, this, child);    
+    }
 
 }

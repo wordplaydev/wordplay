@@ -242,19 +242,12 @@ export default abstract class Node {
     /** Creates a deep clone of this node and it's descendants. If it encounters replacement along the way, it uses that instead of the existing node. */
     abstract clone(pretty: boolean, original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
 
-    cloneOrReplaceChild<ExpectedTypes>(pretty: boolean, types: (Function | undefined)[], name: string, child: Node | Node[] | undefined, original: Node | Node[] | string | undefined, replacement: Node | undefined): ExpectedTypes {
+    cloneOrReplaceChild<ExpectedTypes>(pretty: boolean, types: (Function | undefined)[], name: string, child: Node | Node[] | undefined, original: Node | string | undefined, replacement: Node | undefined): ExpectedTypes {
 
         // If the original we're replacing matches this field name or the child node, then try to update it.then check it's type and if it's valid, return it.
         if((typeof original === "string" && original === name) || child === original || (Array.isArray(child) && original instanceof Node && child.includes(original))) {
-            // The replacement must be one of the matches.
-            if(Array.isArray(replacement)) {
-                if(replacement.find(item => types.findIndex(type => type === undefined ? replacement === undefined : item instanceof type) < 0) !== undefined)
-                    throw Error(`Replacement array contains an invalid item type. Received ${replacement}, expected items of type ${types.map(type => type?.name).join(" | ")}`);
-            }
-            else {
-                if(types.findIndex(type => type === undefined ? replacement === undefined : replacement instanceof type) < 0)
-                    throw Error(`Replacement isn't of a valid type. Received ${replacement}, of type ${replacement?.constructor.name}, expected ${types.map(type => type?.name).join(" | ")}`);
-            }
+            if((!Array.isArray(child) || replacement !== undefined) && types.findIndex(type => type === undefined ? replacement === undefined : replacement instanceof type) < 0)
+                throw Error(`Replacement isn't of a valid type. Received ${replacement}, of type ${replacement?.constructor.name}, expected ${types.map(type => type?.name).join(" | ")}`);
             
             // If the child given is an array and the original we're replacing is in the array, either replace or remove the original.
             if(Array.isArray(child) && original instanceof Node) {
@@ -284,10 +277,23 @@ export default abstract class Node {
 
     }
 
+    withPrecedingSpaceIfDesired(desired: boolean, space: string=" ", exact: boolean=false) {
+        return desired ? this.withPrecedingSpace(space, exact) : this;
+    }
+
+    withPrecedingSpace(space: string=" ", exact: boolean=false): this {
+
+        const children = this.getChildren();
+        if(children.length === 0) return this;
+        return this.clone(false, children[0], children[0].withPrecedingSpace(space, exact));
+
+    }
+
     abstract getDescriptions(): Translations;
 
-    abstract getReplacementChild(child: Node, context: Context): Transform[] | undefined;
+    abstract getChildReplacement(child: Node, context: Context): Transform[] | undefined;
     abstract getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined;
     abstract getInsertionAfter(context: Context, position: number): Transform[] | undefined;
+    abstract getChildRemoval(child: Node, context: Context): Transform | undefined;
 
 }

@@ -21,6 +21,7 @@ import type Transform from "../transforms/Transform"
 import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
 import Replace from "../transforms/Replace";
 import Add from "../transforms/Add";
+import Remove from "../transforms/Remove";
 
 type Part = Token | Expression | Unparsable;
 
@@ -98,7 +99,7 @@ export default class Template extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
     
         const project = context.source.getProject();
 
@@ -124,6 +125,11 @@ export default class Template extends Expression {
             ...(this.format === undefined && project !== undefined ? getPossibleLanguages(project).map(l => new Add(context.source, position, this, "format", new Language(l))) : [])
         ];
 
+    }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(this.parts.includes(child as Part)) return new Remove(context.source, this, child);
+        else if(child === this.format) return new Remove(context.source, this, child);
     }
 
 }

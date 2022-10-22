@@ -6,7 +6,6 @@ import type { Edit } from "../editor/Commands";
 import type Reference from "./Reference";
 import Caret from "../models/Caret";
 import Token from "../nodes/Token";
-import withPrecedingSpace from "./withPrecedingSpace";
 
 export default class Append<NodeType extends Node> extends Transform {
 
@@ -48,7 +47,7 @@ export default class Append<NodeType extends Node> extends Transform {
                 // Save this for later.
                 afterSpace = space?.substring(splitIndex);
                 // Create a new child with the whitespace before
-                newChild = withPrecedingSpace(newChild, beforeSpace, true);
+                newChild = newChild.withPrecedingSpace(beforeSpace, true);
             }
         }
 

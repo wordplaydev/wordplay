@@ -31,7 +31,8 @@ import TokenType from "./TokenType";
 
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
-import withPrecedingSpace, { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import PlaceholderToken from "./PlaceholderToken";
 
 export default class BinaryOperation extends Expression {
 
@@ -45,14 +46,14 @@ export default class BinaryOperation extends Expression {
         this.operator = operator instanceof Token ? operator : new Token(operator, TokenType.BINARY_OP);
         this.left = left;
         // Must have a preceding space, otherwise its tokenized as a unary operator.
-        this.right = withPrecedingSpace(right);
+        this.right = right.withPrecedingSpace();
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new BinaryOperation(
-            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild<Token>(pretty, [ Token ], "operator", this.operator, original, replacement)), 
+            this.cloneOrReplaceChild<Token>(pretty, [ Token ], "operator", this.operator, original, replacement).withPrecedingSpaceIfDesired(pretty), 
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "left", this.left, original, replacement), 
-            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "right", this.right, original, replacement))
+            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, [ Expression, Unparsable ], "right", this.right, original, replacement).withPrecedingSpaceIfDesired(pretty)
         ) as this; 
     }
 
@@ -224,7 +225,7 @@ export default class BinaryOperation extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
         const expectedType = this.getFunctionDefinition(context)?.inputs[0]?.getType(context);
 
@@ -247,5 +248,11 @@ export default class BinaryOperation extends Expression {
 
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        
+        if(child === this.left || child === this.right) return new Replace(context.source, child, new ExpressionPlaceholder());
+        else if(child === this.operator) return new Replace(context.source, child, new PlaceholderToken());
+
+    }
 
 }

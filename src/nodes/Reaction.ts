@@ -24,10 +24,9 @@ import Stream from "../runtime/Stream";
 import Name from "./Name";
 import TokenType from "./TokenType";
 import { REACTION_SYMBOL } from "../parser/Tokenizer";
-
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
-import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
 
 export default class Reaction extends Expression {
 
@@ -49,9 +48,9 @@ export default class Reaction extends Expression {
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Reaction(
             this.cloneOrReplaceChild(pretty, [ Expression ], "initial", this.initial, original, replacement), 
-            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "stream", this.stream, original, replacement)),
-            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "next", this.next, original, replacement)),
-            withPrecedingSpaceIfDesired<Token>(pretty, this.cloneOrReplaceChild(pretty, [ Token ], "delta", this.delta, original, replacement))
+            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, [ Expression, Unparsable ], "stream", this.stream, original, replacement).withPrecedingSpaceIfDesired(pretty),
+            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, [ Expression, Unparsable ], "next", this.next, original, replacement).withPrecedingSpaceIfDesired(pretty),
+            this.cloneOrReplaceChild<Token>(pretty, [ Token ], "delta", this.delta, original, replacement).withPrecedingSpaceIfDesired(pretty)
         ) as this; 
     }
 
@@ -165,7 +164,7 @@ export default class Reaction extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
 
         if(child === this.initial)
             return getExpressionReplacements(context.source, this, this.initial, context);
@@ -181,5 +180,9 @@ export default class Reaction extends Expression {
     getInsertionBefore() { return undefined; }
  
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.initial || child === this.stream || child === this.next) return new Replace(context.source, child, new ExpressionPlaceholder());
+    }
 
 }

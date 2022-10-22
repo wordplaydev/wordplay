@@ -18,8 +18,9 @@ import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 import { endsWithName, startsWithName } from "./util";
+import Replace from "../transforms/Replace";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
 
 export default class Conditional extends Expression {
     
@@ -35,16 +36,16 @@ export default class Conditional extends Expression {
         this.conditional = conditional ?? new Token(BOOLEAN_TYPE_SYMBOL, TokenType.BOOLEAN_TYPE, " ");
         this.yes = yes;
         // Must have a preciding space if yes ends with a name and no starts with one.
-        this.no = withPrecedingSpaceIfDesired(endsWithName(yes) && startsWithName(no), no);
+        this.no = no.withPrecedingSpaceIfDesired(endsWithName(yes) && startsWithName(no));
 
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Conditional(
             this.cloneOrReplaceChild(pretty, [ Expression ], "condition", this.condition, original, replacement), 
-            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "yes", this.yes, original, replacement)), 
-            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "no", this.no, original, replacement)),
-            withPrecedingSpaceIfDesired<Token>(pretty, this.cloneOrReplaceChild(pretty, [ Token ], "conditional", this.conditional, original, replacement))
+            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, [ Expression, Unparsable ], "yes", this.yes, original, replacement).withPrecedingSpaceIfDesired(pretty), 
+            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, [ Expression, Unparsable ], "no", this.no, original, replacement).withPrecedingSpaceIfDesired(pretty),
+            this.cloneOrReplaceChild<Token>(pretty, [ Token ], "conditional", this.conditional, original, replacement).withPrecedingSpaceIfDesired(pretty)
         ) as this;
     }
 
@@ -143,7 +144,7 @@ export default class Conditional extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
         
         if(child === this.condition)
             return getExpressionReplacements(context.source, this, this.condition, context, new BooleanType());
@@ -156,5 +157,9 @@ export default class Conditional extends Expression {
 
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.condition || child === this.yes || child === this.no)
+            return new Replace(context.source, this, new ExpressionPlaceholder());
+    }
 
 }

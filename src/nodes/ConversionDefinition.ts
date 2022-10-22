@@ -24,6 +24,10 @@ import ContextException, { StackSize } from "../runtime/ContextException";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
+import Remove from "../transforms/Remove";
+import Replace from "../transforms/Replace";
+import TypePlaceholder from "./TypePlaceholder";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
 
 export default class ConversionDefinition extends Expression {
 
@@ -126,7 +130,7 @@ export default class ConversionDefinition extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
         
         if(child === this.input || child === this.output)
             return getPossibleTypeReplacements(child, context);
@@ -138,5 +142,11 @@ export default class ConversionDefinition extends Expression {
 
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(this.docs.includes(child as Documentation)) return new Remove(context.source, this, child);
+        else if(child === this.input || child === this.output) return new Replace(context.source, child, new TypePlaceholder());
+        else if(child === this.expression) return new Replace(context.source, child, new ExpressionPlaceholder());
+    }
 
 }

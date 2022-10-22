@@ -159,9 +159,10 @@ export default class Select extends Expression {
         }
     }
 
-    getReplacementChild() { return undefined; }
+    getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
    
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-
+    getChildRemoval() { return undefined; }
+    
 }

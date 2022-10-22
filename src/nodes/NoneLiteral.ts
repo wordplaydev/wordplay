@@ -15,6 +15,7 @@ import { NONE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
+import Remove from "../transforms/Remove";
 
 export default class NoneLiteral extends Expression {
     readonly none: Token;
@@ -66,8 +67,10 @@ export default class NoneLiteral extends Expression {
         }
     }
 
-    getReplacementChild() { return undefined; }
+    getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-
+    getChildRemoval(child: Node, context: Context): Transform | undefined { 
+        if(this.aliases.includes(child as Alias)) return new Remove(context.source, this, child);    
+    }
 }

@@ -17,8 +17,8 @@ import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix 
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
-import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 import { endsWithName, startsWithName } from "./util";
+import Remove from "../transforms/Remove";
 
 export type ListItem = Expression | Unparsable;
 
@@ -33,9 +33,8 @@ export default class ListLiteral extends Expression {
 
         this.open = open ?? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN);
         // There must be spaces between list items if a previous item ends with a name and the next item starts with a name.
-        this.values = values.map((value: ListItem, index) => withPrecedingSpaceIfDesired(
-            index > 0 && endsWithName(values[index - 1]) && startsWithName(value),
-            value, " ", false))
+        this.values = values.map((value: ListItem, index) => 
+            value.withPrecedingSpaceIfDesired(index > 0 && endsWithName(values[index - 1]) && startsWithName(value)," ", false))
         this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
 
     }
@@ -43,7 +42,7 @@ export default class ListLiteral extends Expression {
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ListLiteral(
             this.cloneOrReplaceChild<ListItem[]>(pretty, [ Expression, Unparsable ], "values", this.values, original, replacement)
-                .map((value: ListItem, index) => withPrecedingSpaceIfDesired(pretty && index > 0, value)),
+                .map((value: ListItem, index) => value.withPrecedingSpaceIfDesired(pretty && index > 0)),
             this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
          ) as this; 
@@ -104,7 +103,7 @@ export default class ListLiteral extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
 
         if(this.values.includes(child as ListItem))
             return getExpressionReplacements(context.source, this, child as ListItem, context);
@@ -122,4 +121,7 @@ export default class ListLiteral extends Expression {
 
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(this.values.includes(child as ListItem)) return new Remove(context.source, this, child);
+    }
 }

@@ -31,7 +31,8 @@ import type LanguageCode from "./LanguageCode";
 import Append from "../transforms/Append";
 import EvalCloseToken from "./EvalCloseToken";
 import EvalOpenToken from "./EvalOpenToken";
-import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
+import Remove from "../transforms/Remove";
+import Replace from "../transforms/Replace";
 
 export default class FunctionDefinition extends Expression {
 
@@ -72,10 +73,10 @@ export default class FunctionDefinition extends Expression {
         return new FunctionDefinition(
             this.cloneOrReplaceChild(pretty, [ Documentation ], "docs", this.docs, original, replacement), 
             this.cloneOrReplaceChild<Alias[]>(pretty, [ Alias ], "aliases", this.aliases, original, replacement)
-                .map((alias: Alias, index: number) => withPrecedingSpaceIfDesired(pretty && index === 0, alias)),
+                .map((alias: Alias, index: number) => alias.withPrecedingSpaceIfDesired(pretty && index === 0)),
             this.cloneOrReplaceChild(pretty, [ TypeVariable, Unparsable ], "typeVars", this.typeVars, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "inputs", this.inputs, original, replacement), 
-            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "expression", this.expression, original, replacement)), 
+            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, [ Expression, Unparsable ], "expression", this.expression, original, replacement).withPrecedingSpaceIfDesired(pretty), 
             this.cloneOrReplaceChild(pretty, [ Unparsable, Type, undefined ], "type", this.type, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token ], "fun", this.fun, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "dot", this.dot, original, replacement), 
@@ -230,7 +231,7 @@ export default class FunctionDefinition extends Expression {
 
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
         if(child === this.type)
             return getPossibleTypeReplacements(child, context);
@@ -252,5 +253,15 @@ export default class FunctionDefinition extends Expression {
     }
 
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if( this.docs.includes(child as Documentation) || 
+            this.aliases.includes(child as Alias) ||
+            this.typeVars.includes(child as TypeVariable) || 
+            this.inputs.includes(child as Bind | Unparsable))
+            return new Remove(context.source, this, child);
+        else if(child === this.type && this.dot) return new Remove(context.source, this, this.dot, this.type);
+        else if(child === this.expression) return new Replace(context.source, child, new ExpressionPlaceholder());    
+    }
 
 }

@@ -18,8 +18,8 @@ import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix 
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
-import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 import { endsWithName, startsWithName } from "./util";
+import Remove from "../transforms/Remove";
 
 export type SetItem = Expression | Unparsable;
 
@@ -33,9 +33,8 @@ export default class SetLiteral extends Expression {
         super();
 
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
-        this.values = values.map((value: SetItem, index) => withPrecedingSpaceIfDesired(
-            index > 0 && endsWithName(values[index - 1]) && startsWithName(value),
-            value, " ", false))
+        this.values = values.map((value: SetItem, index) => 
+            value.withPrecedingSpaceIfDesired(index > 0 && endsWithName(values[index - 1]) && startsWithName(value), " ", false))
         this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
         
     }
@@ -43,7 +42,7 @@ export default class SetLiteral extends Expression {
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new SetLiteral(
             this.cloneOrReplaceChild<SetItem[]>(pretty, [ Expression, Unparsable ], "values", this.values, original, replacement)
-                .map((value: SetItem, index: number) => withPrecedingSpaceIfDesired(pretty && index > 0, value)),
+                .map((value: SetItem, index: number) => value.withPrecedingSpaceIfDesired(pretty && index > 0)),
             this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
         ) as this; 
@@ -107,7 +106,7 @@ export default class SetLiteral extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined  {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined  {
 
         const index = this.values.indexOf(child as SetItem);
         if(index >= 0)
@@ -124,5 +123,8 @@ export default class SetLiteral extends Expression {
     }
 
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(this.values.includes(child as SetItem)) return new Remove(context.source, this, child);
+    }
 
 }

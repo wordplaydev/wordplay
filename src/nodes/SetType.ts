@@ -9,6 +9,8 @@ import Type from "./Type";
 import Unparsable from "./Unparsable";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
+import Replace from "../transforms/Replace";
+import TypePlaceholder from "./TypePlaceholder";
 
 export default class SetType extends NativeType {
 
@@ -67,7 +69,7 @@ export default class SetType extends NativeType {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined  {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined  {
 
         if(child === this.key)
             return getPossibleTypeReplacements(child, context);
@@ -77,4 +79,7 @@ export default class SetType extends NativeType {
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter() { return undefined; }
     
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.key) return new Replace(context.source, child, new TypePlaceholder());
+    }
 }

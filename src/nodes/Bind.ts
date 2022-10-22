@@ -51,8 +51,8 @@ import Add from "../transforms/Add";
 import Replace from "../transforms/Replace";
 import BindToken from "./BindToken";
 import TypeToken from "./TypeToken";
-import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 import PlaceholderToken from "./PlaceholderToken";
+import Remove from "../transforms/Remove";
 
 export default class Bind extends Node implements Evaluable, Named {
     
@@ -82,7 +82,7 @@ export default class Bind extends Node implements Evaluable, Named {
             this.cloneOrReplaceChild(pretty, [ Token, undefined], "etc", this.etc, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Alias ], "names", this.names, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Type, Unparsable, undefined ], "type", this.type, original, replacement), 
-            withPrecedingSpaceIfDesired(pretty, this.cloneOrReplaceChild<Expression|Unparsable>(pretty, [ Expression, Unparsable, undefined ], "value", this.value, original, replacement)), 
+            this.cloneOrReplaceChild<Expression|Unparsable|undefined>(pretty, [ Expression, Unparsable, undefined ], "value", this.value, original, replacement)?.withPrecedingSpaceIfDesired(pretty),
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "dot", this.dot, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "colon", this.colon, original, replacement)
         ) as this;
@@ -279,7 +279,7 @@ export default class Bind extends Node implements Evaluable, Named {
         
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
         if(child === this.type) {
             return getPossibleTypeReplacements(child, context);
         }
@@ -342,5 +342,17 @@ export default class Bind extends Node implements Evaluable, Named {
 
     }
 
+    withoutType() { 
+
+    }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        
+        if(this.docs.includes(child as Documentation)) return new Remove(context.source, this, child);
+        else if(this.names.includes(child as Alias)) return new Remove(context.source, this, child);
+        else if(child === this.type && this.dot) return new Remove(context.source, this, this.dot, this.type);
+        else if(child === this.value && this.colon) return new Remove(context.source, this, this.colon, this.value);
+
+    }
 
 }

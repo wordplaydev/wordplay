@@ -100,7 +100,7 @@
                             return [ ...transforms, ...(child.getInsertionAfter(source.getContext(), $caret.position as number) ?? []) ]
                         }, [])
                     ] :
-                node !== undefined ? node.getParent()?.getReplacementChild(node, source.getContext()) :
+                node !== undefined ? node.getParent()?.getChildReplacement(node, source.getContext()) :
                     undefined;
 
             if(node !== undefined && transforms !== undefined && transforms.length > 0) {

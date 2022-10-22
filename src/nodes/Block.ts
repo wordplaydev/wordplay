@@ -33,10 +33,10 @@ import Alias from "./Alias";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import Append from "../transforms/Append";
-import { withPrecedingSpaceIfDesired } from "../transforms/withPrecedingSpace";
 import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
 import PlaceholderToken from "./PlaceholderToken";
+import Remove from "../transforms/Remove";
 
 export type Statement = Expression | Unparsable | Share | Bind;
 
@@ -53,9 +53,8 @@ export default class Block extends Expression {
         super();
 
         this.open = !root && open === undefined ? new EvalOpenToken() : open;
-        this.statements = statements.map((value: Statement, index) => withPrecedingSpaceIfDesired(
-            index > 0 && endsWithName(statements[index - 1]) && startsWithName(value),
-            value));
+        this.statements = statements.map((value: Statement, index) => 
+            value.withPrecedingSpaceIfDesired(index > 0 && endsWithName(statements[index - 1]) && startsWithName(value)));
         this.close = !root && close === undefined ? new EvalCloseToken() : close;
         this.docs = docs;
         this.root = root;
@@ -69,10 +68,10 @@ export default class Block extends Expression {
                 .map((statement: Statement, index, statements) => {
                     index;
                     // If there are more than one expressions in the block, then pretty print with newlines and tabs.
-                    if(statements.length <= 1) return statement;
+                    if(!pretty || statements.length <= 1) return statement;
                     // Otherwise, put a newline before the block and a number of tabs equal to the number of ancestor blocks, functions, and types.
                     const blocks = this.getAncestors()?.filter(node => node instanceof Block || node instanceof FunctionDefinition || node instanceof StructureDefinition || node instanceof ConversionDefinition)?.length ?? 0;
-                    return withPrecedingSpaceIfDesired(true, statement, "\n" + "\t".repeat(blocks), false);
+                    return statement.withPrecedingSpace("\n" + "\t".repeat(blocks), false);
                 }),
             this.root,
             this.creator, 
@@ -214,7 +213,7 @@ export default class Block extends Expression {
         ];
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
         
         const index = this.statements.indexOf(child as Statement);
         if(index >= 0) {
@@ -253,6 +252,10 @@ export default class Block extends Expression {
             )
         ];
 
+    }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        return new Remove(context.source, this, child);
     }
 
 }

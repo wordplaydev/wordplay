@@ -22,7 +22,9 @@ import Start from "../runtime/Start";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
-import withPrecedingSpace from "../transforms/withPrecedingSpace";
+import Replace from "../transforms/Replace";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import TypePlaceholder from "./TypePlaceholder";
 
 export default class Is extends Expression {
 
@@ -33,7 +35,7 @@ export default class Is extends Expression {
     constructor(left: Expression | Unparsable, operator: Token, right: Type | Unparsable, ) {
         super();
 
-        this.operator = withPrecedingSpace(operator, "", true);
+        this.operator = operator.withPrecedingSpace("", true);
         this.expression = left;
         this.type = right;
     }
@@ -126,7 +128,7 @@ export default class Is extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined { 
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
 
         if(child === this.expression)
             return getExpressionReplacements(context.source, this, this.expression, context);
@@ -138,5 +140,10 @@ export default class Is extends Expression {
     getInsertionBefore() { return undefined; }
 
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.expression) return new Replace(context.source, child, new ExpressionPlaceholder());
+        else if(child === this.type) return new Replace(context.source, child, new TypePlaceholder());
+    }
 
 }

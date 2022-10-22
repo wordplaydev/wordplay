@@ -11,6 +11,7 @@ import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import Add from "../transforms/Add";
+import Remove from "../transforms/Remove";
 
 export default class TextType extends NativeType {
 
@@ -33,7 +34,7 @@ export default class TextType extends NativeType {
 
     computeChildren() {
         const children = [];
-        if(this.quote) children.push(this.quote);
+        children.push(this.quote);
         if(this.format) children.push(this.format);
         return children;
     }
@@ -54,7 +55,7 @@ export default class TextType extends NativeType {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
     
         const project = context.source.getProject();
         // Formats can be any Language tags that are used in the project.
@@ -74,4 +75,7 @@ export default class TextType extends NativeType {
 
     }
     
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.format) return new Remove(context.source, this, child);
+    }
 }

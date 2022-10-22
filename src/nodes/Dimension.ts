@@ -7,8 +7,8 @@ import { getPossibleDimensions } from "../transforms/getPossibleUnits";
 import Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import withPrecedingSpace from "../transforms/withPrecedingSpace";
 import NameToken from "./NameToken";
+import Remove from "../transforms/Remove";
 
 export default class Dimension extends Node {
 
@@ -20,8 +20,8 @@ export default class Dimension extends Node {
         super();
 
         this.name = typeof name === "string" ? new NameToken(name) : name;
-        this.caret = caret === undefined ? undefined : withPrecedingSpace(caret, "", true);
-        this.exponent = exponent === undefined ? undefined : withPrecedingSpace(exponent, "", true);
+        this.caret = caret === undefined ? undefined : caret.withPrecedingSpace("", true);
+        this.exponent = exponent === undefined ? undefined : exponent.withPrecedingSpace("", true);
 
     }
 
@@ -80,7 +80,7 @@ export default class Dimension extends Node {
             }
     }
 
-    getReplacementChild(child: Node, context: Context) {
+    getChildReplacement(child: Node, context: Context) {
 
         const project = context.source.getProject();
         // Dimension names can be any of the possible dimensions in the project.
@@ -96,6 +96,10 @@ export default class Dimension extends Node {
 
         if(this.caret === undefined)
             return [ new Add(context.source, position, this, "exponent", new Token(EXPONENT_SYMBOL, TokenType.UNARY_OP)) ];
+    }
+
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.exponent && this.caret) return new Remove(context.source, this, this.caret, child);
     }
 
 }

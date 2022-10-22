@@ -40,8 +40,9 @@ export default class TypeVariable extends Node {
         }
     }
 
-    getReplacementChild() { return undefined; }
+    getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
+    getChildRemoval() { return undefined; }
 
 }

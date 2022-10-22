@@ -22,6 +22,7 @@ import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import ExpressionPlaceholder from "./ExpressionPlaceholder";
 
 export default class UnaryOperation extends Expression {
 
@@ -139,7 +140,7 @@ export default class UnaryOperation extends Expression {
         }
     }
 
-    getReplacementChild(child: Node, context: Context): Transform[] | undefined {
+    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
         
         // Operator must exist on the type of the left, unless not specified
         if(child === this.operator) {
@@ -154,5 +155,7 @@ export default class UnaryOperation extends Expression {
 
     getInsertionBefore() { return undefined; }
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-
+    getChildRemoval(child: Node, context: Context): Transform | undefined {
+        if(child === this.operand) return new Replace(context.source, child, new ExpressionPlaceholder());
+    }
 }
