@@ -42,4 +42,8 @@ export default class TypePlaceholder extends Type {
     getInsertionAfter() { return undefined; }
     getChildRemoval() { return undefined; }
 
+    getFirstPlaceholder(): Node | undefined {
+        return this;
+    }
+
 }

@@ -90,4 +90,8 @@ export default class Token extends Node {
     getInsertionAfter() { return undefined; }
     getChildRemoval() { return undefined; }
 
+    getFirstPlaceholder(): Node | undefined {
+        return this.is(TokenType.PLACEHOLDER) ? this : undefined;
+    }
+
 }

@@ -5,6 +5,8 @@ import type Source from "../models/Source";
 import Caret from "../models/Caret";
 import type LanguageCode from "../nodes/LanguageCode";
 import type Reference from "./Reference";
+import Token from "../nodes/Token";
+import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 
 export default class Replace<NodeType extends Node> extends Transform {
 
@@ -44,10 +46,16 @@ export default class Replace<NodeType extends Node> extends Transform {
 
         // Find the replacement child and it's last index.
         const newChild = newSource.program.resolvePath(path);
-        const newIndex = newChild === undefined ? undefined : newSource.getNodeLastIndex(newChild);
+        if(newChild === undefined) return;
+        let newCaretPosition: Node | number | undefined = newSource.getNodeLastIndex(newChild);
+        if(newCaretPosition === undefined) return;
+
+        // Does the new child have a placeholder token? If so, place the caret at that instead of the end.
+        const firstPlaceholder = newChild.getFirstPlaceholder();
+        if(firstPlaceholder) newCaretPosition = firstPlaceholder;
 
         // Return the new source and place the caret after the replacement.
-        return [ newSource, new Caret(newSource, newIndex ?? position) ];
+        return [ newSource, new Caret(newSource, newCaretPosition ?? position) ];
 
     }
 

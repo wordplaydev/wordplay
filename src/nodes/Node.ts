@@ -289,6 +289,10 @@ export default abstract class Node {
 
     }
 
+    getFirstPlaceholder(): Node | undefined {
+        return this.getChildren().find(n => n.getFirstPlaceholder());
+    }
+
     abstract getDescriptions(): Translations;
 
     abstract getChildReplacement(child: Node, context: Context): Transform[] | undefined;

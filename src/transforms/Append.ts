@@ -6,6 +6,7 @@ import type { Edit } from "../editor/Commands";
 import type Reference from "./Reference";
 import Caret from "../models/Caret";
 import Token from "../nodes/Token";
+import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 
 export default class Append<NodeType extends Node> extends Transform {
 
@@ -97,11 +98,15 @@ export default class Append<NodeType extends Node> extends Transform {
         if(finalNewNode === undefined) return;
 
         // Find it's last token index.
-        const newLastIndex = newSource.getNodeLastIndex(finalNewNode);
-        if(newLastIndex === undefined) return;
+        let newCaretPosition: Node | number | undefined = newSource.getNodeLastIndex(finalNewNode);
+        if(newCaretPosition === undefined) return;
+
+        // Does the insertion have a placeholder token? If so, place the caret at it's first placeholder instead of the end.
+        const firstPlaceholder = newChild.getFirstPlaceholder();
+        if(firstPlaceholder) newCaretPosition = firstPlaceholder;
 
         // Return the new source and put the caret immediately after the inserted new child.
-        return [ newSource, new Caret(newSource, newLastIndex) ];
+        return [ newSource, new Caret(newSource, newCaretPosition) ];
 
     }
 
