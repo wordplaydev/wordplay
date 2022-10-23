@@ -6,7 +6,6 @@ import type { Edit } from "../editor/Commands";
 import type Reference from "./Reference";
 import Caret from "../models/Caret";
 import Token from "../nodes/Token";
-import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 
 export default class Append<NodeType extends Node> extends Transform {
 

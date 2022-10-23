@@ -5,8 +5,6 @@ import type Source from "../models/Source";
 import Caret from "../models/Caret";
 import type LanguageCode from "../nodes/LanguageCode";
 import type Reference from "./Reference";
-import Token from "../nodes/Token";
-import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 
 export default class Replace<NodeType extends Node> extends Transform {
 

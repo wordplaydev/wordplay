@@ -44,7 +44,7 @@
                     (token.is(TokenType.END) && $caret.isEnd()) ||
                     (
                         // It must be after the start OR at the start and not whitespace
-                        ($caret.position > whitespaceIndex || ($caret.position === whitespaceIndex && (whitespaceIndex === 0 || !$caret.isWhitespace($caret.source.getCode().at(whitespaceIndex) ?? '')))) && 
+                        ($caret.position >= whitespaceIndex || ($caret.position === whitespaceIndex && (whitespaceIndex === 0 || !$caret.isWhitespace($caret.source.getCode().at(whitespaceIndex) ?? '')))) && 
                         // ... and it must be before the end OR at the end and either the very end or at whitespace.
                         $caret.position <= lastIndex
                     )
@@ -91,7 +91,7 @@
         let tokenTop = tokenViewRect.top - viewportRect.top + viewport.scrollTop;
 
         // Is the caret in the text, and not the whitespace?
-        if(caretIndex >= 0) {
+        if(caretIndex > 0) {
 
             // Measure the width of the text at this index, if we haven't already.
             let widthAtCaret = undefined;

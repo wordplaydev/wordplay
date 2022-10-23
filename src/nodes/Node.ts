@@ -246,10 +246,14 @@ export default abstract class Node {
 
         // If the original we're replacing matches this field name or the child node, then try to update it.then check it's type and if it's valid, return it.
         if((typeof original === "string" && original === name) || child === original || (Array.isArray(child) && original instanceof Node && child.includes(original))) {
-            if((!Array.isArray(child) || replacement !== undefined) && types.findIndex(type => type === undefined ? replacement === undefined : replacement instanceof type) < 0)
+            if( Array.isArray(child) && Array.isArray(replacement)) {
+                if(!replacement.every(node => types.findIndex(type => type !== undefined && node instanceof type) >= 0))
+                    throw Error(`Replacement list contains an element of an invalid type. Expected ${types.map(type => type?.name).join(" | ")}, but received ${replacement.map(n => n.constructor.name).join(", ")}`);
+            }
+            else if((!Array.isArray(child) || replacement !== undefined) && types.findIndex(type => type === undefined ? replacement === undefined : replacement instanceof type) < 0)
                 throw Error(`Replacement isn't of a valid type. Received ${replacement}, of type ${replacement?.constructor.name}, expected ${types.map(type => type?.name).join(" | ")}`);
             
-            // If the child given is an array and the original we're replacing is in the array, either replace or remove the original.
+            // If the child we're replacing is an array but the original is a single node, either replace or remove the original.
             if(Array.isArray(child) && original instanceof Node) {
                 const index = child.indexOf(original);
                 const newList: Node[] = child.slice();

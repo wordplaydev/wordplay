@@ -220,7 +220,7 @@ export default class Source {
     getTokenAt(position: number) {
         // This could be faster with binary search, but let's not prematurely optimize.
         for(const [token, index] of this.indicies) {
-            if(position >= index - token.space.length && position <= index + token.getTextLength())
+            if(position >= index - token.space.length && position < index + token.getTextLength())
                 return token;
         }
         return undefined;
