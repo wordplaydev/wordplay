@@ -90,6 +90,29 @@
         let tokenLeft = tokenViewRect.left - viewportRect.left + viewport.scrollLeft;
         let tokenTop = tokenViewRect.top - viewportRect.top + viewport.scrollTop;
 
+        // To compute line height, find two tokens on adjacent lines and difference their tops.
+        const tokenViews = editorView.querySelectorAll(".Token");
+        let firstTokenView: Element | undefined = undefined;
+        let firstTokenViewAfterLineBreak: Element | undefined = undefined;
+        for(const tokenView of tokenViews) {
+            if(firstTokenView === undefined) 
+                firstTokenView = tokenView;
+            if(tokenView.querySelector("br") !== null) {
+                firstTokenViewAfterLineBreak = tokenView;
+                break;
+            }
+        }
+
+        let tokenHeight = tokenViewRect.height;
+        let lineHeight;
+
+        if(firstTokenView && firstTokenViewAfterLineBreak) {
+            lineHeight = firstTokenViewAfterLineBreak.getBoundingClientRect().top - firstTokenView.getBoundingClientRect().top;
+        }
+        else {
+            lineHeight = tokenViewRect.height;
+        }
+
         // Is the caret in the text, and not the whitespace?
         if(caretIndex > 0) {
 
@@ -112,67 +135,82 @@
             location = {
                 left: `${tokenLeft + widthAtCaret}px`,
                 top: `${tokenTop}px`,
-                height: `${tokenViewRect.height}px`,
+                height: `${tokenHeight}px`,
                 bottom: tokenTop + tokenViewRect.height
             }
         }
-        // If the caret is in whitespace, compute the top/left based on the pattern whitespace sequence.
+        // If the caret is in the preceding space, compute the top/left.
         else {
 
-            let whitespaceIndex = $caret.source.getTokenSpaceIndex(token);
+            // Three cases to handle...
+            //   1) The caret is in space trailing a line (including just at the end of the line, just before a newline).
+            //   2) The caret is somewhere on an empty line.
+            //   3) The caret is in the space preceding a token.
+            // Figure out which three of this is the case, then position accordingly.
 
-            // Track an index starting at wherever the caret is.
-            let caretIndex = $caret.getIndex();
-            const whitespace = token.getWhitespace();
-            if(caretIndex !== undefined && whitespaceIndex !== undefined) {
+            const spaceIndex = token.space.length + caretIndex;
+            const spaceBefore = token.space.substring(0, spaceIndex);
+            const spaceAfter = token.space.substring(spaceIndex);
 
-                // Where in the whitespace is the caret?
-                let whitespaceOffset = caretIndex - whitespaceIndex;
-                let index = 0;
-                let row = 0;
-                let col = 0;
-                while(index < whitespaceOffset && index < whitespace.length) {
-                    const char = whitespace.charAt(index);
-                    if(char === "\n") {
-                        row++;
-                        col = 0;
-                    }
-                    else if(char === " ") 
-                        col++;
-                    else if(char === "\t")
-                        col += TAB_WIDTH;
-                    index++;
-                }
+            let spaceLeft: string;
+            let spaceTop: number;
 
-                // Get the height of the element so we know how many lines to adjust.
-                // We measure the height of a 
-                let tokenHeight = tokenView?.getBoundingClientRect().height;
-                const lineBreak = tokenView?.closest(".editor")?.querySelector("br");
-                if(lineBreak !== null && lineBreak !== undefined) tokenHeight = lineBreak.getBoundingClientRect().height;
+            const editorPaddingLeft = parseInt(window.getComputedStyle(editorView).getPropertyValue('padding-left').replace("px", ""));
+            const editorPaddingTop = parseInt(window.getComputedStyle(editorView).getPropertyValue('padding-top').replace("px", ""))
 
-                // If there's trailing whitespace at the end of a line (i.e. this whitespace ends with a newline), 
-                // we need to account for it's width to ensure the caret appears properly offset from the end of the line.
-                if(tokenHeight !== undefined && whitespace.charAt(0) !== "\n" && whitespace.length > 0 && whitespace.charAt(whitespace.length - 1) === "\n" && row === 0) {
+            // Find the right side of token just prior to the current one that has this space.
+            const priorToken = $caret.source.getNextToken(token, -1);
+            const priorTokenView = priorToken === undefined ? null : editorView.querySelector(`.token-view[data-id="${priorToken.id}"]`);
+            const priorTokenViewRect = priorTokenView?.getBoundingClientRect();
+            let priorTokenRight = priorTokenViewRect === undefined ? 
+                editorPaddingLeft : 
+                priorTokenViewRect.right - viewportRect.left + viewport.scrollLeft;
+            let priorTokenTop = priorTokenViewRect === undefined ? 
+                editorPaddingTop : 
+                priorTokenViewRect.top - viewportRect.top + viewport.scrollTop;
 
-                    let index = whitespaceIndex - 1;
-                    let count = 0;
-                    // Keep looping until we find a non-space, non-tab character.
-                    while(index > 0 && $caret.getCode().at(index) !== "\n") { 
-                        const char = $caret.getCode().at(index);
-                        count = count + (char === "\t" ? TAB_WIDTH : 1); 
-                        index--;
-                    }
-                    col += count;
-                }
+            // 1) Trailing space (the caret is before the first newline)
+            if(spaceBefore.indexOf("\n") < 0) {
+                // Count the number of spaces prior to the next newline.
+                const spaces = spaceBefore.split(" ").length - 1 + (spaceBefore.split("\t").length - 1) * TAB_WIDTH;
 
-                const top = tokenTop - ((token.newlines - row) * (tokenHeight ?? 16) - 1);
+                // Place the caret to the right of the prior token, {spaces} after.
+                spaceLeft = `calc(${priorTokenRight}px + ${spaces}ch)`;
+                spaceTop = priorTokenTop;
 
-                location = {
-                    left: `calc(${tokenLeft}px - ${token.precedingSpaces - col}ch)`,
-                    top: `${top}px`,
-                    height: `${tokenHeight}px`,
-                    bottom: top + tokenHeight
-                }
+            }
+            // 2) Empty line (there is a newline before and after the current position)
+            else if(spaceBefore.indexOf("\n") >= 0 && spaceAfter.indexOf("\n") >= 0) {
+                // Place the caret's top at {tokenHeight} * {number of new lines prior}
+                spaceTop = priorTokenTop + (spaceBefore.split("\n").length - 1) * lineHeight;
+
+                // Place the caret's left the number of spaces on this line
+                const beforeLines = spaceBefore.split("\n");
+                const spaceOnLine = beforeLines[beforeLines.length - 1];
+                const spaces = spaceOnLine.split(" ").length - 1 + (spaceOnLine.split("\t").length - 1) * TAB_WIDTH;
+
+                spaceLeft = `calc(${editorPaddingLeft}px + ${spaces}ch)`;
+
+            }
+            // 3) Preceding space (the caret is after the last newline)
+            else {
+                // Get the last line of spaces.
+                const spaceLines = token.space.split("\n");
+                let spaceOnLastLine = spaceLines[spaceLines.length - 1];
+                // Truncate the last line of spaces after the current position of the caret.
+                spaceOnLastLine = spaceOnLastLine.substring(0, spaceOnLastLine.length - (token.space.length - spaceIndex));
+                // Compute the spaces prior to the caret on this line.
+                const spaces = spaceOnLastLine.split(" ").length - 1 + (spaceOnLastLine.split("\t").length - 1) * TAB_WIDTH;
+
+                spaceTop = tokenTop;
+                spaceLeft = `calc(${spaces === 0 ? editorPaddingLeft : 0}px + ${spaces}ch)`;
+            }
+
+            location = {
+                left: spaceLeft,
+                top: `${spaceTop}px`,
+                height: `${tokenHeight}px`,
+                bottom: spaceTop + tokenHeight
             }
         }
 
