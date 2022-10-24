@@ -1,11 +1,10 @@
 import Alias from "../nodes/Alias";
-import Language from "../nodes/Language";
 import StructureDefinition from "../nodes/StructureDefinition";
 import { parseBind, tokens } from "../parser/Parser";
 
 const Verse = new StructureDefinition(
     [], // TODO Localized documentation
-    [ new Alias("Verse", new Language("eng")) ],
+    [ new Alias("Verse", "eng") ],
     [],
     [],
     [

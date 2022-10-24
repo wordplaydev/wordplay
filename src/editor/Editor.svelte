@@ -3,12 +3,12 @@
     import type Transform from "../transforms/Transform";
     import Node from '../nodes/Node';
     import Caret from '../models/Caret';
-    import { afterUpdate, onDestroy, setContext } from 'svelte';
+    import { afterUpdate, getContext, onDestroy, setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
     import commands, { type Edit } from './Commands';
     import NodeView from './NodeView.svelte';
     import type Source from '../models/Source';
-    import { writable } from 'svelte/store';
+    import { writable, type Writable } from 'svelte/store';
     import Exception from '../runtime/Exception';
     import createRowOutlineOf from './outline';
     import type Program from '../nodes/Program';
@@ -17,6 +17,7 @@
     import KeyboardIdle from '../models/KeyboardIdle';
     import CaretView from './CaretView.svelte';
     import { PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
+    import type LanguageCode from '../nodes/LanguageCode';
 
     export let source: Source;
 
@@ -66,6 +67,8 @@
         setContext("caret", caret);
         executingNode = source.getEvaluator().currentStep()?.node;
     }
+
+    $: languages = getContext<Writable<LanguageCode[]>>("languages")
 
     // When keyboard idle changes to false, reset the menu if nothing is selected.
     const menuKeyboardIdleReset = KeyboardIdle.subscribe(idle => {
@@ -335,7 +338,7 @@
             else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
             else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
             else if(event.key === "Enter" && menuSelection >= 0 && menu.transforms.length > 0) {
-                handleEdit(menu.transforms[menuSelection].getEdit("eng"));
+                handleEdit(menu.transforms[menuSelection].getEdit($languages[0]));
                 return;
             }
 
@@ -506,7 +509,7 @@
             <Menu 
                 transforms={menu.transforms} 
                 selection={menuSelection} 
-                select={transform => handleEdit(transform.getEdit("eng")) }
+                select={transform => handleEdit(transform.getEdit($languages[0])) }
             />
         </div>
     {/if}

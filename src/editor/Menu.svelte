@@ -1,4 +1,7 @@
 <script lang="ts">
+    import { getContext } from "svelte";
+    import type { Writable } from "svelte/store";
+    import type LanguageCode from "../nodes/LanguageCode";
     import type Transform from "../transforms/Transform";
     import getNodeView from "./nodeToView";
 
@@ -20,14 +23,15 @@
         maxItem = selection + WINDOW + Math.max(0, WINDOW - selection);
     }
 
+    $: languages = getContext<Writable<LanguageCode[]>>("languages");
+
 </script>
 
 <table class="menu">
     <tr class="item header">
         <td colspan=2>Edit…</td>
     </tr>
-    {#each transforms as transform, index
-    }
+    {#each transforms as transform, index}
         {#if index >= minItem && index <= maxItem }
             <!-- Prevent default is to ensure focus isn't lost on editor -->
             <tr class={`item option ${index === selection ? "selected" : ""}`} 
@@ -35,8 +39,8 @@
             >
                 <td class="col">
                     <!-- svelte-ignore missing-declaration -->
-                    <svelte:component this={getNodeView(transform.getPrettyNewNode("eng"))} node={transform.getPrettyNewNode("eng")} />
-                <td class="col"><em>{transform.getDescription("eng")}</em></td>
+                    <svelte:component this={getNodeView(transform.getPrettyNewNode($languages[0]))} node={transform.getPrettyNewNode($languages[0])} />
+                <td class="col"><em>{transform.getDescription($languages[0])}</em></td>
             </tr>
         {:else if (index === minItem - 1 && minItem > 0) || (index === maxItem + 1 && maxItem < transforms.length - 1) }
             <tr class="item"><td colspan=2>…</td></tr>

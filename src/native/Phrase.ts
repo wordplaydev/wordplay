@@ -1,11 +1,10 @@
 import Alias from "../nodes/Alias";
-import Language from "../nodes/Language";
 import StructureDefinition from "../nodes/StructureDefinition";
 import { parseBind, tokens } from "../parser/Parser";
 
 const Phrase = new StructureDefinition(
     [], // TODO Add documentation.
-    [ new Alias("Phrase", new Language("eng")) ],
+    [ new Alias("Phrase", "eng") ],
     [],
     [],
     [

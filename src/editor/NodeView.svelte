@@ -2,6 +2,7 @@
     import { getContext } from "svelte";
     import type { Writable } from "svelte/types/runtime/store";
     import type Caret from "../models/Caret";
+    import type LanguageCode from "../nodes/LanguageCode";
     import type Node from "../nodes/Node";
     import getNodeView from "./nodeToView";
 
@@ -10,9 +11,11 @@
     export let mousedown: undefined | ((event: MouseEvent) => void) = undefined;
 
     $: caret = getContext<Writable<Caret>>("caret");
+    $: languages = getContext<Writable<LanguageCode[]>>("languages");
 
     $: primaryConflicts = node === undefined ? [] : $caret.source.getPrimaryConflictsInvolvingNode(node) ?? [];
     $: secondaryConflicts = node === undefined ? [] : $caret.source.getSecondaryConflictsInvolvingNode(node) ?? [];
+
 
 </script>
 
@@ -22,7 +25,7 @@
     class="{node.constructor.name} node-view {block ? "block" : "inline"} {primaryConflicts.length > 0 ? "primary-conflict" : ""} {secondaryConflicts.length > 0 ? "secondary-conflict" : ""}"
     data-id={node.id}
     on:mousedown={mousedown}
-><svelte:component this={getNodeView(node)} node={node} />{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation("eng")}</div>{/each}</div>{/if}</div>
+><svelte:component this={getNodeView(node)} node={node} />{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation($languages[0])}</div>{/each}</div>{/if}</div>
 {/if}
 
 <style>

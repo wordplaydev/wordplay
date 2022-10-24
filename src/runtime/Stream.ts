@@ -82,7 +82,7 @@ export default abstract class Stream extends Primitive {
     }
 
     /** Should produce valid Wordplay code string representing the stream's name */
-    toString() { return this.getTranslations()["eng"]; };
+    toString() { return this.getTranslations()["😀"]; };
 
     /** Should return named values on the stream. */
     resolve(): Value | undefined { return undefined; }
