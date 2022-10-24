@@ -40,7 +40,7 @@ import type Definition from "./Definition";
 import { getPossibleTypeAdds, getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
-import { ALIAS_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+import { ALIAS_SYMBOL, ANONYMOUS_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import TypePlaceholder from "./TypePlaceholder";
 import FunctionDefinition from "./FunctionDefinition";
@@ -90,7 +90,10 @@ export default class Bind extends Node implements Evaluable, Named {
     hasName(name: string) { return this.names.find(n => n.getName() === name) !== undefined; }
     sharesName(bind: Bind) { return this.getNames().find(name => bind.hasName(name)) !== undefined; }
     getNames(): string[] { return this.names.map(n => n.getName()).filter(n => n !== undefined) as string[]; }
-    getNameInLanguage(lang: LanguageCode) { return this.names.find(name => name.isLanguage(lang))?.getName() ?? this.names[0]?.getName(); }
+    
+    getNameInLanguage(lang: LanguageCode) { 
+        return this.names.find(name => name.isLanguage(lang))?.getName() ?? this.names[0]?.getName() ?? ANONYMOUS_SYMBOL; 
+    }
 
     isVariableLength() { return this.etc !== undefined; }
 

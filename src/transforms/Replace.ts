@@ -63,7 +63,7 @@ export default class Replace<NodeType extends Node> extends Transform {
             return this.replacement;
 
         const [ creator, def ] = this.replacement;
-        return creator(def.getNameInLanguage(lang) ?? "unnamed");
+        return creator(def.getNameInLanguage(lang));
         
     }
 

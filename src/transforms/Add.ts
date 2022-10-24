@@ -24,7 +24,7 @@ export default class Add<NodeType extends Node> extends Transform {
     }
 
     getNewNode(lang: LanguageCode): Node {
-        return this.child instanceof Node ? this.child : this.child[0](this.child[1].getNameInLanguage(lang) ?? "unnamed");
+        return this.child instanceof Node ? this.child : this.child[0](this.child[1].getNameInLanguage(lang));
     }
 
     getEdit(lang: LanguageCode): Edit {

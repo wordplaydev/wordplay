@@ -22,7 +22,7 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import FunctionType from "./FunctionType";
 import NameType from "./NameType";
-import { ALIAS_SYMBOL } from "../parser/Tokenizer";
+import { ALIAS_SYMBOL, ANONYMOUS_SYMBOL } from "../parser/Tokenizer";
 import TypeInput from "./TypeInput";
 import type { TypeSet } from "./UnionType";
 import { Unimplemented } from "../conflicts/Unimplemented";
@@ -91,7 +91,11 @@ export default class StructureDefinition extends Expression {
     }
 
     getNames() { return this.aliases.map(a => a.getName()).filter(n => n !== undefined) as string[]; }
-    getNameInLanguage(lang: LanguageCode) { return this.aliases.find(name => name.isLanguage(lang))?.getName() ?? this.aliases[0]?.getName(); }
+    
+    getNameInLanguage(lang: LanguageCode): string { 
+        return this.aliases.find(name => name.isLanguage(lang))?.getName() ?? this.aliases[0]?.getName() ?? ANONYMOUS_SYMBOL; 
+    }
+    
     getTranslations() { return aliasesToTranslations(this.aliases); }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block || (child instanceof Bind && this.inputs.includes(child)); }

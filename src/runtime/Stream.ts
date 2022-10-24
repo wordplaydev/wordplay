@@ -29,7 +29,7 @@ export default abstract class Stream extends Primitive {
     getDescriptions(): Translations { return this.getTranslations(); }
 
     getNames() { return Array.from(new Set(Object.values(this.getTranslations()))); }
-    getNameInLanguage(lang: LanguageCode) { return this.getTranslations()[lang]; }
+    getNameInLanguage(lang: LanguageCode): string { return this.getTranslations()[lang]; }
 
     hasName(name: string) { return Object.values(this.getTranslations()).includes(name); }
 

@@ -18,7 +18,7 @@ import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import Alias from "./Alias";
-import { BinaryOpRegEx, FUNCTION_SYMBOL } from "../parser/Tokenizer";
+import { ANONYMOUS_SYMBOL, BinaryOpRegEx, FUNCTION_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import type Translations from "./Translations";
@@ -87,7 +87,9 @@ export default class FunctionDefinition extends Expression {
     }
 
     getNames() { return this.aliases.map(a => a.getName()).filter(n => n !== undefined) as string[]; }
-    getNameInLanguage(lang: LanguageCode) { return this.aliases.find(name => name.isLanguage(lang))?.getName() ?? this.aliases[0]?.getName(); }
+    getNameInLanguage(lang: LanguageCode): string { 
+        return this.aliases.find(name => name.isLanguage(lang))?.getName() ?? this.aliases[0]?.getName() ?? ANONYMOUS_SYMBOL;
+    }
 
     sharesName(fun: FunctionDefinition) {
         const funNames = fun.getNames();

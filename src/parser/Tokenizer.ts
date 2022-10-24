@@ -37,6 +37,7 @@ export const THIS_SYMBOL = "*";
 export const BASE_SYMBOL = ";";
 export const PRODUCT_SYMBOL = "·";
 export const EXPONENT_SYMBOL = "^";
+export const ANONYMOUS_SYMBOL = "👤" 
 
 const RESERVED_SYMBOLS = [
     TEMPLATE_SYMBOL,

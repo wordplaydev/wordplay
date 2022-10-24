@@ -122,7 +122,7 @@ export default class Append<NodeType extends Node> extends Transform {
         if(this.insertion instanceof Node)
             return this.insertion;
         const [ creator, def ] = this.insertion;
-            return creator(def.getNameInLanguage(lang) ?? "unnamed");
+            return creator(def.getNameInLanguage(lang));
     }
 
     equals(transform: Transform): boolean {
