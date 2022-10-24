@@ -818,7 +818,7 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 
     const fun = tokens.read(TokenType.FUNCTION);
 
-    const aliases = tokens.nextIs(TokenType.NAME) ? parseAliases(tokens) : [];
+    const aliases = tokens.nextIsOneOf(TokenType.NAME, TokenType.PLACEHOLDER) ? parseAliases(tokens) : [];
 
     const typeVars = parseTypeVariables(tokens);
 
@@ -927,8 +927,9 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
 
         const access = tokens.read(TokenType.ACCESS);
         let name;
-        if(tokens.nextIsOneOf(TokenType.NAME, TokenType.UNARY_OP, TokenType.BINARY_OP))
+        if(tokens.nextIsOneOf(TokenType.NAME, TokenType.PLACEHOLDER, TokenType.UNARY_OP, TokenType.BINARY_OP))
             name =  tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) :
+                    tokens.nextIs(TokenType.PLACEHOLDER) ? tokens.read(TokenType.PLACEHOLDER) :
                     tokens.nextIs(TokenType.UNARY_OP) ? tokens.read(TokenType.UNARY_OP) :
                     tokens.read(TokenType.BINARY_OP);
 

@@ -27,6 +27,7 @@ import { REACTION_SYMBOL } from "../parser/Tokenizer";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import type Translations from "./Translations";
 
 export default class Reaction extends Expression {
 
@@ -185,4 +186,17 @@ export default class Reaction extends Expression {
         if(child === this.initial || child === this.stream || child === this.next) return new Replace(context.source, child, new ExpressionPlaceholder());
     }
 
+    getChildPlaceholderLabel(child: Node): Translations | undefined {
+        if(child === this.initial) return {
+            eng: "inital"
+        };
+        else if(child === this.stream) return {
+            eng: "stream"
+        };
+        else if(child === this.next) return {
+            eng: "next"
+        };
+
+    }
+    
 }

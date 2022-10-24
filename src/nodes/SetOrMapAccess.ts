@@ -28,6 +28,7 @@ import SetOpenToken from "./SetOpenToken";
 import SetCloseToken from "./SetCloseToken";
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import type Translations from "./Translations";
 
 export default class SetOrMapAccess extends Expression {
 
@@ -149,4 +150,14 @@ export default class SetOrMapAccess extends Expression {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.setOrMap || child === this.key) return new Replace(context.source, child, new ExpressionPlaceholder());
     }
+
+    getChildPlaceholderLabel(child: Node): Translations | undefined {
+        if(child === this.setOrMap) return {
+            eng: "set/map"
+        };
+        else if(child === this.key) return {
+            eng: "key"
+        };
+    }
+
 }

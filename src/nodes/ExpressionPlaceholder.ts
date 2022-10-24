@@ -19,16 +19,20 @@ import PlaceholderToken from "./PlaceholderToken";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
 
+const ExpressionLabels: Translations = {
+    eng: "value"
+};
+
 export default class ExpressionPlaceholder extends Expression {
     
-    readonly etc: Token;
+    readonly placeholder: Token;
 
     constructor(etc?: Token) {
         super();
-        this.etc = etc ?? new PlaceholderToken();
+        this.placeholder = etc ?? new PlaceholderToken();
     }
 
-    computeChildren() { return [ this.etc ]; }
+    computeChildren() { return [ this.placeholder ]; }
 
     computeConflicts(): Conflict[] { 
         return [ new Placeholder(this) ];
@@ -58,7 +62,7 @@ export default class ExpressionPlaceholder extends Expression {
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ExpressionPlaceholder(
-            this.cloneOrReplaceChild(pretty, [ Token ], "etc", this.etc, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "etc", this.placeholder, original, replacement)
         ) as this; 
     }
 
@@ -77,6 +81,14 @@ export default class ExpressionPlaceholder extends Expression {
     
     getFirstPlaceholder(): Node | undefined {
         return this;
+    }
+
+    getChildPlaceholderLabel(child: Node): Translations | undefined {
+        if(child === this.placeholder) {
+            const parent = this.getParent();
+            // See if the parent has a label.
+            return parent?.getChildPlaceholderLabel(this) ?? ExpressionLabels;
+        }
     }
 
 }

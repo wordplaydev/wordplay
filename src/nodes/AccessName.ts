@@ -34,6 +34,7 @@ import Evaluate from "./Evaluate";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import NameToken from "./NameToken";
 import PlaceholderToken from "./PlaceholderToken";
+import { NameLabels } from "./Alias";
 
 export default class AccessName extends Expression {
 
@@ -224,6 +225,10 @@ export default class AccessName extends Expression {
         if(child === this.subject) return new Replace(context.source, child, new ExpressionPlaceholder());
         else if(child === this.name) return new Replace(context.source, child, new PlaceholderToken());
 
+    }
+
+    getChildPlaceholderLabel(child: Node): Translations | undefined {
+        if(child === this.name) return NameLabels;
     }
 
 }

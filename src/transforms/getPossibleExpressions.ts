@@ -24,7 +24,6 @@ import TypePlaceholder from "../nodes/TypePlaceholder";
 import type Unparsable from "../nodes/Unparsable";
 import type Node from "../nodes/Node";
 import Alias from "../nodes/Alias";
-import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import type Definition from "../nodes/Definition";
 import TypeVariable from "../nodes/TypeVariable";
 import type Source from "../models/Source";
@@ -63,7 +62,7 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
         new SetLiteral([]),
         new MapLiteral([ new KeyValue(new ExpressionPlaceholder(), new ExpressionPlaceholder())]),
         new FunctionDefinition([], [], [], [], new ExpressionPlaceholder()),
-        new StructureDefinition([], [ new Alias(PLACEHOLDER_SYMBOL) ], [], [], []),
+        new StructureDefinition([], [ new Alias() ], [], [], []),
         new ConversionDefinition([], new TypePlaceholder(), new TypePlaceholder(), new ExpressionPlaceholder()),
         new Reaction(new ExpressionPlaceholder(), new ExpressionPlaceholder(), new ExpressionPlaceholder()),
         new Previous(new ExpressionPlaceholder(), new ExpressionPlaceholder())

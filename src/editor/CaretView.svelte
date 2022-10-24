@@ -2,8 +2,9 @@
     import { afterUpdate, getContext } from "svelte";
     import type { Writable } from "svelte/store";
     import type Caret from "../models/Caret";
-    import { TAB_WIDTH } from "../nodes/Token";
+    import Token, { TAB_WIDTH } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
+    import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 
     type CaretPosition = { top: string, left: string, height: string, bottom: number };
 
@@ -63,12 +64,6 @@
         // Start assuming no position.
         location = undefined;
 
-        // No token? No caret.
-        if(token === undefined) return;
-
-        // No index to render? No caret.
-        if(caretIndex === undefined) return;
-
         // No caret view? No caret.
         if(caretElement === undefined) return;
 
@@ -77,28 +72,59 @@
         if(editorView === null) return;
 
         const viewport = editorView.parentElement;
+        if(viewport === null) return;
+        const viewportRect = viewport.getBoundingClientRect();
+
+        const viewportXOffset = viewportRect.left + viewport.scrollLeft;
+        const viewportYOffset = viewportRect.top + viewport.scrollTop;
+
+        // If the caret is a node and it's a placeholder, then position a caret in it's center
+        if($caret.position instanceof Token && $caret.position.getText() === PLACEHOLDER_SYMBOL) {
+
+            const tokenView = editorView.querySelector(`.token-view[data-id="${$caret.position.id}"]`);
+            if(tokenView === null) return;
+            const tokenViewRect = tokenView.getBoundingClientRect();
+
+            location = {
+                left: `${tokenViewRect.left - viewportXOffset + tokenViewRect.width / 2}px`,
+                top: `${tokenViewRect.top- viewportYOffset}px`,
+                height: `${tokenViewRect.height}px`,
+                bottom: tokenViewRect.bottom - viewportYOffset
+            }
+            return;
+
+        }
+
+        // No token? No caret.
+        if(token === undefined) return;
+
+        // No index to render? No caret.
+        if(caretIndex === undefined) return;
+
         const tokenView = editorView.querySelector(`.token-view[data-id="${token.id}"]`);
-        if(viewport === null || tokenView === null) return;
+        if(tokenView === null) return;
 
         const textElement = tokenView.querySelector(".text");
         if(textElement === null) return;
 
         // Figure out where the token view is, so we can properly offset the caret position in the editor.
         const tokenViewRect = tokenView.getBoundingClientRect();
-        const viewportRect = viewport.getBoundingClientRect();
 
-        let tokenLeft = tokenViewRect.left - viewportRect.left + viewport.scrollLeft;
-        let tokenTop = tokenViewRect.top - viewportRect.top + viewport.scrollTop;
+        let tokenLeft = tokenViewRect.left - viewportXOffset;
+        let tokenTop = tokenViewRect.top - viewportYOffset;
 
         // To compute line height, find two tokens on adjacent lines and difference their tops.
         const tokenViews = editorView.querySelectorAll(".Token");
         let firstTokenView: Element | undefined = undefined;
         let firstTokenViewAfterLineBreak: Element | undefined = undefined;
+        let lineBreakCount: number | undefined = undefined;
         for(const tokenView of tokenViews) {
             if(firstTokenView === undefined) 
                 firstTokenView = tokenView;
-            if(tokenView.querySelector("br") !== null) {
+            const lineBreaks = tokenView.querySelectorAll("br");
+            if(lineBreaks.length > 0) {
                 firstTokenViewAfterLineBreak = tokenView;
+                lineBreakCount = lineBreaks.length;
                 break;
             }
         }
@@ -106,8 +132,8 @@
         let tokenHeight = tokenViewRect.height;
         let lineHeight;
 
-        if(firstTokenView && firstTokenViewAfterLineBreak) {
-            lineHeight = firstTokenViewAfterLineBreak.getBoundingClientRect().top - firstTokenView.getBoundingClientRect().top;
+        if(firstTokenView && firstTokenViewAfterLineBreak && lineBreakCount) {
+            lineHeight = (firstTokenViewAfterLineBreak.getBoundingClientRect().top - firstTokenView.getBoundingClientRect().top ) / lineBreakCount;
         }
         else {
             lineHeight = tokenViewRect.height;

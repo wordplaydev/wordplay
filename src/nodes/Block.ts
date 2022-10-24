@@ -26,7 +26,6 @@ import ValueException from "../runtime/ValueException";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import None from "../runtime/None";
 import ConversionDefinition from "./ConversionDefinition";
-import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Alias from "./Alias";
@@ -35,8 +34,8 @@ import Replace from "../transforms/Replace";
 import Append from "../transforms/Append";
 import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
-import PlaceholderToken from "./PlaceholderToken";
 import Remove from "../transforms/Remove";
+import type Translations from "./Translations";
 
 export type Statement = Expression | Unparsable | Share | Bind;
 
@@ -203,9 +202,9 @@ export default class Block extends Expression {
     }
 
     getInsertions() {
-        const bind = new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ], undefined, new ExpressionPlaceholder());
-        const type = new FunctionDefinition([], [ new Alias(new PlaceholderToken()) ], [], [], new ExpressionPlaceholder());
-        const fun = new StructureDefinition([], [ new Alias(PLACEHOLDER_SYMBOL) ], [], [], []);
+        const bind = new Bind([], undefined, [ new Alias(undefined) ], undefined, new ExpressionPlaceholder());
+        const type = new FunctionDefinition([], [ new Alias(undefined) ], [], [], new ExpressionPlaceholder());
+        const fun = new StructureDefinition([], [ new Alias(undefined) ], [], [], []);
         return [ 
             bind, 
             fun, 
@@ -257,5 +256,12 @@ export default class Block extends Expression {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         return new Remove(context.source, this, child);
     }
+
+    getChildPlaceholderLabel(child: Node): Translations | undefined {
+        if(this.statements.includes(child as Statement)) return {
+            eng: "statement"
+        };
+    }
+
 
 }

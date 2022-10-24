@@ -19,6 +19,7 @@ import Text from "../runtime/Text";
 import Measurement from "../runtime/Measurement";
 import type Project from "./Project";
 import Context from "../nodes/Context";
+import TokenType from "../nodes/TokenType";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source {
@@ -217,10 +218,10 @@ export default class Source {
     getTokenSpaceIndex(token: Token) { return this.getTokenTextIndex(token) - token.space.length; }
     getTokenLastIndex(token: Token) { return this.getTokenTextIndex(token) + token.getTextLength(); }
 
-    getTokenAt(position: number) {
+    getTokenAt(position: number, includingWhitespace: boolean = true) {
         // This could be faster with binary search, but let's not prematurely optimize.
         for(const [token, index] of this.indicies) {
-            if(position >= index - token.space.length && position < index + token.getTextLength())
+            if(position >= index - (includingWhitespace ? token.space.length : 0) && (position < index + token.getTextLength() || token.is(TokenType.END)))
                 return token;
         }
         return undefined;
@@ -243,9 +244,10 @@ export default class Source {
 
         const tokens = this.program.nodes(n => n instanceof Token) as Token[];
         const index = tokens.indexOf(token);
-        return (direction < 0 && index <= 0) ? undefined : 
-            (direction > 0 && index >= tokens.length - 1) ? undefined :
-            tokens[index + direction];
+
+        if(direction < 0 && index <= 0) return undefined;
+        if(direction > 0 && index >= tokens.length - 1) return undefined;
+        return tokens[index + direction];
 
     }
 

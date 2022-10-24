@@ -134,4 +134,13 @@ export default class ListAccess extends Expression {
         if(child === this.list || child === this.index) return new Replace(context.source, child, new ExpressionPlaceholder());
     }
     
+    getChildPlaceholderLabel(child: Node): Translations | undefined {
+        if(child === this.list) return {
+            eng: "list"
+        };
+        else if(child === this.index) return {
+            eng: "index"
+        };
+    }
+
 }

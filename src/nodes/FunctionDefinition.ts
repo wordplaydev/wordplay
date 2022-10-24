@@ -18,7 +18,7 @@ import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import Alias from "./Alias";
-import { BinaryOpRegEx, FUNCTION_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+import { BinaryOpRegEx, FUNCTION_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import type Translations from "./Translations";
@@ -243,7 +243,7 @@ export default class FunctionDefinition extends Expression {
 
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
 
-        const newBind = new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ]);
+        const newBind = new Bind([], undefined, [ new Alias() ]);
 
         if(child === this.close)
             return [ new Append(context.source, position, this, this.inputs, this.close, newBind)]

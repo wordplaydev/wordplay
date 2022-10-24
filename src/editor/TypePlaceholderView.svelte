@@ -6,4 +6,4 @@
 
 </script>
 
-<NodeView node={node.etc} />
+<NodeView node={node.placeholder} />

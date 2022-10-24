@@ -22,7 +22,7 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import FunctionType from "./FunctionType";
 import NameType from "./NameType";
-import { ALIAS_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+import { ALIAS_SYMBOL } from "../parser/Tokenizer";
 import TypeInput from "./TypeInput";
 import type { TypeSet } from "./UnionType";
 import { Unimplemented } from "../conflicts/Unimplemented";
@@ -275,7 +275,7 @@ export default class StructureDefinition extends Expression {
             if((this.interfaces.length === 0 && this.typeVars.length === 0) ||
                 (this.interfaces.length > 0 && child === this.interfaces[0]) ||
                 (this.interfaces.length === 0 && this.typeVars.length > 0 && this.typeVars[0] === child))
-                transforms.push(new Append(context.source, position, this, this.aliases, child, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))));
+                transforms.push(new Append(context.source, position, this, this.aliases, child, new Alias(undefined, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))));
 
             if(this.typeVars.length === 0)
                 transforms.push(new Append(context.source, position, this, this.typeVars, child, new TypeInput(new TypePlaceholder())));
@@ -285,7 +285,7 @@ export default class StructureDefinition extends Expression {
         else if(this.interfaces.includes(child as TypeInput))
             return [ new Append(context.source, position, this, this.interfaces, child, new TypeInput(new TypePlaceholder())) ]
         else if(child === this.close || this.inputs.includes(child as Bind))
-            return [ new Append(context.source, position, this, this.inputs, child, new Bind([], undefined, [ new Alias(PLACEHOLDER_SYMBOL) ])) ];
+            return [ new Append(context.source, position, this, this.inputs, child, new Bind([], undefined, [ new Alias() ])) ];
     }
 
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }

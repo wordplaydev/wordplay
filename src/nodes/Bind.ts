@@ -51,7 +51,6 @@ import Add from "../transforms/Add";
 import Replace from "../transforms/Replace";
 import BindToken from "./BindToken";
 import TypeToken from "./TypeToken";
-import PlaceholderToken from "./PlaceholderToken";
 import Remove from "../transforms/Remove";
 
 export default class Bind extends Node implements Evaluable, Named {
@@ -299,7 +298,7 @@ export default class Bind extends Node implements Evaluable, Named {
             if(this.etc === undefined) {
                 if((parent instanceof FunctionDefinition || parent instanceof StructureDefinition) && parent.inputs.find(input => input.contains(child)) === parent.inputs[parent.inputs.length - 1])
                     return [ 
-                        new Add(context.source, position, this, "etc", new PlaceholderToken()), 
+                        new Add(context.source, position, this, "etc", new Token(PLACEHOLDER_SYMBOL, TokenType.PLACEHOLDER)), 
                         new Append(context.source, position, this, this.docs, child, new Documentation())
                     ];
             }
@@ -308,7 +307,7 @@ export default class Bind extends Node implements Evaluable, Named {
         else if(child === this.etc)
             return [ new Append(context.source, position, this, this.docs, this.etc, new Documentation()) ];
         else if(this.names.includes(child as Alias))
-            return [ new Append(context.source, position, this, this.names, child, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))) ];
+            return [ new Append(context.source, position, this, this.names, child, new Alias(undefined, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))) ];
         // Before colon? Offer a type.
         else if(child === this.colon && this.type === undefined)
             return [ 
@@ -325,7 +324,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
         if(this.names.includes(lastChild as Alias))
             return [
-                new Append(context.source, position, this, this.names, undefined, new Alias(PLACEHOLDER_SYMBOL, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))),
+                new Append(context.source, position, this, this.names, undefined, new Alias(undefined, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))),
                 new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, new TypePlaceholder(), this.value, new TypeToken(), this.colon)),
                 withValue
             ];

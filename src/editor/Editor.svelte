@@ -16,6 +16,7 @@
     import Token from '../nodes/Token';
     import KeyboardIdle from '../models/KeyboardIdle';
     import CaretView from './CaretView.svelte';
+    import { PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
 
     export let source: Source;
 
@@ -404,9 +405,10 @@
 
     function handleTextInput(event: Event) {
 
+        let edit: Edit | undefined = undefined;
+
         // Get the character that was typed into the text box.
-        // If it's a string, insert it at the caret position then reset the text input's contents.
-        if(typeof $caret.position === "number" && textInput !== null) {
+        if(textInput !== null) {
 
             // Wrap the string in a unicode wrapper so we can account for graphemes.
             const value = new UnicodeString(textInput.value);
@@ -414,28 +416,44 @@
             // Get the last grapheme entered.
             const lastChar = value.substring(value.getLength() - 1, value.getLength());
 
-            // If the last keyboard value length is equal to the new one, then it was a diacritic.
-            // Replace the last grapheme entered with this grapheme, then reset the input text field.
-            if(lastKeyboardInputValue !== undefined && lastKeyboardInputValue.getLength() === value.getLength()) {
-                const char = lastChar.toString();
-                const newSource = source.withPreviousGraphemeReplaced(char, $caret.position);
-                if(newSource) {
-                    updateProject($project.withSource(source, newSource));
-                    textInput.value = "";
-                }
-            }
-            // Otherwise, just insert the grapheme and limit the input field to the last character.
-            else {
+            const isPlaceholder = $caret.position instanceof Token && $caret.position.getText() === PLACEHOLDER_SYMBOL;
 
-                const char = lastChar.toString();
+            const position = 
+                typeof $caret.position === "number" ? $caret.position :
+                isPlaceholder ? source.getTokenTextIndex($caret.position as Token) :
+                undefined;
 
-                const newSource = source.withGraphemesAt(char, $caret.position);
-                if(newSource) {
-                    updateProject($project.withSource(source, newSource));
-                    caret.set(new Caret(newSource, $caret.position + 1));
+            if(position) {
+
+                // If the last keyboard value length is equal to the new one, then it was a diacritic.
+                // Replace the last grapheme entered with this grapheme, then reset the input text field.
+                if(lastKeyboardInputValue !== undefined && lastKeyboardInputValue.getLength() === value.getLength()) {
+                    const char = lastChar.toString();
+                    const newSource = source.withPreviousGraphemeReplaced(char, position);
+                    if(newSource) {
+                        // Reset the hidden field.
+                        textInput.value = "";
+                        edit = [ newSource, new Caret(newSource, position) ];
+                    }
                 }
-                if(value.getLength() > 1)
-                    textInput.value = lastChar.toString();
+                // Otherwise, just insert the grapheme and limit the input field to the last character.
+                else {
+
+                    const char = lastChar.toString();
+
+                    // If it was a placeholder, first remove the 
+                    let newSource: Source | undefined = source;
+                    if(isPlaceholder)
+                        newSource = newSource.withoutGraphemeAt(position);
+                    newSource = newSource?.withGraphemesAt(char, position);
+                    if(newSource) {
+                        edit = [ newSource, new Caret(newSource, position + 1) ];
+                        if(value.getLength() > 1)
+                        textInput.value = lastChar.toString();
+                    }
+                    // Rest the field to the last character.
+                }
+
             }
 
             // Remember the last value of the input field for comparison on the next keystroke.
@@ -444,6 +462,10 @@
             // Prevent the OS from doing anything with this input.
             event.preventDefault();
         }
+
+        // Did we make an update?
+        if(edit)
+            handleEdit(edit);
 
     }
 

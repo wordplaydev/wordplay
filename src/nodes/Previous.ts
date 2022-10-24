@@ -29,6 +29,7 @@ import { PREVIOUS_SYMBOL } from "../parser/Tokenizer";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import type Translations from "./Translations";
 
 export default class Previous extends Expression {
 
@@ -134,4 +135,15 @@ export default class Previous extends Expression {
     getChildRemoval(child: Node, context: Context): Transform | undefined { 
         if(child === this.stream || child === this.index) return new Replace(context.source, child, new ExpressionPlaceholder());
     }
+
+    getChildPlaceholderLabel(child: Node): Translations | undefined {
+        if(child === this.stream) return {
+            eng: "stream"
+        };
+        else if(child === this.index) return {
+            eng: "index"
+        };
+
+    }
+
 }

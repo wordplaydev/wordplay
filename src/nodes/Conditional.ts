@@ -21,6 +21,7 @@ import { getExpressionReplacements, getPossiblePostfix } from "../transforms/get
 import { endsWithName, startsWithName } from "./util";
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import type Translations from "./Translations";
 
 export default class Conditional extends Expression {
     
@@ -160,6 +161,18 @@ export default class Conditional extends Expression {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.condition || child === this.yes || child === this.no)
             return new Replace(context.source, this, new ExpressionPlaceholder());
+    }
+
+    getChildPlaceholderLabel(child: Node): Translations | undefined {
+        if(child === this.condition) return {
+            eng: "condition"
+        };
+        else if(child === this.yes) return {
+            eng: "true"
+        };
+        else if(child === this.no) return {
+            eng: "false"
+        };
     }
 
 }

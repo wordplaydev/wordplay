@@ -13,6 +13,11 @@ import type LanguageCode from "./LanguageCode";
 import NameToken from "./NameToken";
 import PlaceholderToken from "./PlaceholderToken";
 import Remove from "../transforms/Remove";
+import type Translations from "./Translations";
+
+export const NameLabels: Translations = {
+    eng: "name"
+};
 
 export default class Alias extends Node {
 
@@ -20,11 +25,11 @@ export default class Alias extends Node {
     readonly name?: Token;
     readonly lang?: Language;
 
-    constructor(name: Token | string | undefined, lang?: Language | string, separator?: Token) {
+    constructor(name?: Token | string, lang?: Language | string, separator?: Token) {
         super();
 
         this.separator = separator;
-        this.name = typeof name === "string" ? new NameToken(name) : name;
+        this.name = typeof name === "string" ? new NameToken(name) : name instanceof Token ? name : new PlaceholderToken();
         this.lang = typeof lang === "string" ? new Language(lang) : lang;
     }
 
@@ -98,6 +103,10 @@ export default class Alias extends Node {
         if(child === this.name) return new Replace(context.source, child, new PlaceholderToken());
         else if(child === this.lang) return new Remove(context.source, this, this.lang);
 
+    }
+
+    getChildPlaceholderLabel(child: Node): Translations | undefined {
+        if(child === this.name) return NameLabels;
     }
 
 }

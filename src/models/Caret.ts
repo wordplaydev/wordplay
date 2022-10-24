@@ -1,6 +1,7 @@
 import type { Edit } from "../editor/Commands";
 import Node from "../nodes/Node";
 import Token from "../nodes/Token";
+import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import type Source from "./Source";
 
 export type InsertionContext = { before: Node[], after: Node[] };
@@ -11,19 +12,32 @@ export default class Caret {
     readonly source: Source;
     readonly position: number | Node;
 
+    // A cache of the token we're at, since we use it frequently.
+    readonly token: Token | undefined;
+    readonly tokenPrior: Token | undefined;
+    readonly tokenSpaceIndex: number | undefined;
+    readonly tokenExcludingWhitespace: Token | undefined;
+
     constructor(source: Source, position: number | Node) {
         this.time = Date.now();
         this.source = source;
         this.position = position;
+
+        this.token = (typeof this.position === "number") ? this.source.getTokenAt(this.position) : undefined;
+        this.tokenPrior = (typeof this.position === "number") ? this.source.getTokenAt(this.position - 1) : undefined;
+        this.tokenSpaceIndex = this.token === undefined ? undefined : this.source.getTokenSpaceIndex(this.token);
+        this.tokenExcludingWhitespace = (typeof this.position === "number") ? this.source.getTokenAt(this.position, false) : undefined;
+
+    }
+
+    atBeginningOfToken() {
+        return this.tokenSpaceIndex === this.position
     }
 
     getCode() { return this.source.getCode(); }
     getProgram() { return this.source.program; }
-    getToken(): Token | undefined {
-        return (typeof this.position === "number") ? 
-            this.source.getTokenAt(this.position) :
-            undefined;
-    }
+    getToken(): Token | undefined { return this.token; }
+    getTokenExcludingWhitespace(): Token | undefined { return this.tokenExcludingWhitespace; }
 
     getNodesBetween() {
 
@@ -179,11 +193,17 @@ export default class Caret {
                 return this;
         }
         else {
-            const stop = direction < 0 ? 0 : this.source.getCode().getLength();
-            if(this.position === stop) return this;
-            // This needs to be Unicode aware, as we don't want to navgiate to the next code point, but rather the
-            // next grapheme in the string. To find this, we have to find the position of the next grapheme in the program.
+        
+            if(this.position === (direction < 0 ? 0 : this.source.getCode().getLength())) return this;
             let pos = this.position + direction;
+
+            // If we're at a placeholder, return the token at this position
+            if(this.source.code.at(this.position - (direction < 0 ? 1 : 0)) === PLACEHOLDER_SYMBOL) {
+                const placeholderToken = this.source.getTokenAt(this.position - (direction < 0 ? 1 : 0));
+                if(placeholderToken)
+                    return this.withPosition(placeholderToken);
+            }
+
             return this.withPosition(pos);
         }
     }
@@ -199,6 +219,14 @@ export default class Caret {
         if(typeof this.position === "number") {
             const newSource = this.source.withGraphemesAt(text, this.position);
             return newSource === undefined ? undefined : [ newSource, new Caret(newSource, this.position + text.length) ];
+        }
+        else if(this.position instanceof Token && this.position.getText() === PLACEHOLDER_SYMBOL) {
+            const indexOfPlaceholder = this.source.getTokenTextIndex(this.position);
+            let newSource = this.source.withoutGraphemeAt(indexOfPlaceholder);
+            newSource = newSource?.withGraphemesAt(text, indexOfPlaceholder);
+            return newSource === undefined ? undefined : [ newSource, new Caret(newSource, indexOfPlaceholder + text.length)]
+
+
         }
     }
 

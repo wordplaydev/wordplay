@@ -4,19 +4,20 @@ import Token from "./Token";
 import Type from "./Type";
 import type Node from "./Node";
 import PlaceholderToken from "./PlaceholderToken";
+import type Translations from "./Translations";
 
 export default class TypePlaceholder extends Type {
 
-    readonly etc: Token;
+    readonly placeholder: Token;
 
     constructor(etc?: Token) {
         super();
 
-        this.etc = etc ?? new PlaceholderToken();
+        this.placeholder = etc ?? new PlaceholderToken();
     }
 
     computeChildren() {
-        return [ this.etc ];
+        return [ this.placeholder ];
     }
 
     computeConflicts(): Conflict[] { return [ new Placeholder(this) ]; }
@@ -27,7 +28,7 @@ export default class TypePlaceholder extends Type {
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TypePlaceholder(
-            this.cloneOrReplaceChild(pretty, [ Token ], "etc", this.etc, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "etc", this.placeholder, original, replacement)
         ) as this; 
     }
 
@@ -44,6 +45,12 @@ export default class TypePlaceholder extends Type {
 
     getFirstPlaceholder(): Node | undefined {
         return this;
+    }
+
+    getChildPlaceholderLabel(child: Node): Translations | undefined {
+        if(child === this.placeholder) return {
+            eng: "type"
+        };
     }
 
 }
