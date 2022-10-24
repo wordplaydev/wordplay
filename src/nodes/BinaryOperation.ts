@@ -33,6 +33,8 @@ import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import PlaceholderToken from "./PlaceholderToken";
+import type Translations from "./Translations";
+import { aliasesToTranslations } from "./util";
 
 export default class BinaryOperation extends Expression {
 
@@ -253,6 +255,23 @@ export default class BinaryOperation extends Expression {
         if(child === this.left || child === this.right) return new Replace(context.source, child, new ExpressionPlaceholder());
         else if(child === this.operator) return new Replace(context.source, child, new PlaceholderToken());
 
+    }
+
+    getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined {
+
+        if(child === this.operator) return {
+            eng: "operator"
+        }
+        // If it's the right, find the name of the input.
+        else if(child === this.right) {
+            const fun = this.getFunctionDefinition(context);
+            if(fun) {
+                const firstInput = fun.inputs[0];
+                if(firstInput instanceof Bind)
+                    return aliasesToTranslations(firstInput.names);
+            }
+        }
+    
     }
 
 }

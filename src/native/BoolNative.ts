@@ -11,17 +11,21 @@ import TypeException from "../runtime/TypeException";
 import { createNativeConversion } from "./NativeBindings";
 import NativeExpression from "./NativeExpression";
 
+const OperandNames = {
+    eng: "boolean"
+}
+
 export default function bootstrapBool() {
 
     function createBooleanFunction(name: string, expression: (left: Bool, right: Bool) => Bool) {
         return new FunctionDefinition(
             [], [ new Alias(name)], [],
-            [ new Bind([], undefined, [ new Alias("val") ], new BooleanType()) ],
+            [ new Bind([], undefined, [ new Alias(OperandNames.eng) ], new BooleanType()) ],
             new NativeExpression(
                 new BooleanType(), 
                 evaluation => {
                     const left = evaluation.getContext();
-                    const right = evaluation.resolve("val");
+                    const right = evaluation.resolve(OperandNames.eng);
                     // This should be impossible, but the type system doesn't know it.
                     if(!(left instanceof Bool)) return new TypeException(evaluation.getEvaluator(), new BooleanType(), left);
                     if(!(right instanceof Bool)) return new TypeException(evaluation.getEvaluator(), new BooleanType(), right);

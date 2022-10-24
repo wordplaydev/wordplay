@@ -79,11 +79,11 @@ export default class ExpressionPlaceholder extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     getChildRemoval() { return undefined; }
     
-    getChildPlaceholderLabel(child: Node): Translations | undefined {
+    getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined {
         if(child === this.placeholder) {
             const parent = this.getParent();
             // See if the parent has a label.
-            return parent?.getChildPlaceholderLabel(this) ?? ExpressionLabels;
+            return parent?.getChildPlaceholderLabel(this, context) ?? ExpressionLabels;
         }
     }
 

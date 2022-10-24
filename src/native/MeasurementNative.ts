@@ -21,7 +21,7 @@ import NativeExpression from "./NativeExpression";
 
 export default function bootstrapMeasurement() {
 
-    const measurementOperandName = "val";
+    const measurementOperandName = "number";
 
     function createBinaryOp(names: string[], inputType: Type, outputType: Type, expression: (left: Measurement, right: Measurement) => Value | undefined, requireEqualUnits: boolean=true) {
         return new FunctionDefinition(

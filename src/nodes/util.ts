@@ -22,6 +22,7 @@ import MissingCell from "../conflicts/MissingCell";
 import InvalidRow from "../conflicts/InvalidRow";
 import Token from "./Token";
 import TokenType from "./TokenType";
+import type Translations from "./Translations";
 
 export function getDuplicateDocs(docs: Documentation[]): DuplicateLanguages | undefined {
     const duplicatesByLanguage = new Map<string, Language[]>();
@@ -203,4 +204,19 @@ export function endsWithName(node: Node) {
 export function startsWithName(node: Node) { 
     const tokens = node.nodes(t => t instanceof Token) as Token[];
     return tokens.length > 0 && tokens[0].is(TokenType.NAME);
+}
+
+export function aliasesToTranslations(aliases: Alias[]): Translations {
+
+    // Define some default translations
+    const translations: Record<string, string> = {
+        eng: aliases.find(a => a.getLanguage() === undefined)?.getName() ?? aliases[0].getName() ?? "anonymous"
+    }
+
+    // Override with the alias list.
+    for(const alias of aliases)
+        translations[alias.getLanguage() ?? "eng"] = alias.getName() ?? "anonymous";
+
+    return translations as Translations;
+
 }

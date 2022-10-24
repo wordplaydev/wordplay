@@ -23,7 +23,6 @@ import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import type Translations from "./Translations";
 
 export default class UnaryOperation extends Expression {
 
@@ -158,12 +157,6 @@ export default class UnaryOperation extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.operand) return new Replace(context.source, child, new ExpressionPlaceholder());
-    }
-
-    getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if(child === this.operand) return {
-            eng: "value"
-        };
     }
 
 }

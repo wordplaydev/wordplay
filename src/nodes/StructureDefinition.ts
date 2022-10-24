@@ -8,7 +8,7 @@ import type Conflict from "../conflicts/Conflict";
 import Type from "./Type";
 import Block from "./Block";
 import FunctionDefinition from "./FunctionDefinition";
-import { getDuplicateDocs, getDuplicateAliases, typeVarsAreUnique, getEvaluationInputConflicts } from "./util";
+import { getDuplicateDocs, getDuplicateAliases, typeVarsAreUnique, getEvaluationInputConflicts, aliasesToTranslations } from "./util";
 import ConversionDefinition from "./ConversionDefinition";
 import type Evaluator from "../runtime/Evaluator";
 import Finish from "../runtime/Finish";
@@ -91,6 +91,7 @@ export default class StructureDefinition extends Expression {
 
     getNames() { return this.aliases.map(a => a.getName()).filter(n => n !== undefined) as string[]; }
     getNameInLanguage(lang: LanguageCode) { return this.aliases.find(name => name.isLanguage(lang))?.getName() ?? this.aliases[0]?.getName(); }
+    getTranslations() { return aliasesToTranslations(this.aliases); }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block || (child instanceof Bind && this.inputs.includes(child)); }
 

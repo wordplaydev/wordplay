@@ -17,7 +17,7 @@
         ($caret.tokenPrior === node && $caret.atBeginningOfToken() && $caret.token && $caret.token.space.length > 0) || 
         isPlaceholder;
     $: textToShow = 
-        isPlaceholder ? node.getParent()?.getChildPlaceholderLabel(node)?.eng ?? PLACEHOLDER_SYMBOL : 
+        isPlaceholder ? node.getParent()?.getChildPlaceholderLabel(node, $caret.source.getContext())?.eng ?? PLACEHOLDER_SYMBOL : 
         node.text.getLength() === 0 ? "\u00A0" : 
         node.text.toString()
 

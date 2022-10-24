@@ -33,6 +33,7 @@ import EvalCloseToken from "./EvalCloseToken";
 import EvalOpenToken from "./EvalOpenToken";
 import Remove from "../transforms/Remove";
 import Replace from "../transforms/Replace";
+import StructureDefinition from "./StructureDefinition";
 
 export default class FunctionDefinition extends Expression {
 
@@ -217,6 +218,10 @@ export default class FunctionDefinition extends Expression {
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.expression instanceof Expression) this.expression.evaluateTypeSet(bind, original, current, context);
         return current;
+    }
+
+    getStructure() {
+        return this._parent instanceof StructureDefinition ? this._parent : undefined;
     }
 
     getDescriptions() {

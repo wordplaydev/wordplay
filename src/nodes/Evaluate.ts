@@ -31,7 +31,7 @@ import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
 import AccessName from "./AccessName";
 import TypeInput from "./TypeInput";
-import { endsWithName, getEvaluationInputConflicts, startsWithName } from "./util";
+import { aliasesToTranslations, endsWithName, getEvaluationInputConflicts, startsWithName } from "./util";
 import ListType from "./ListType";
 import type { TypeSet } from "./UnionType";
 import SemanticException from "../runtime/SemanticException";
@@ -353,10 +353,11 @@ export default class Evaluate extends Expression {
             // Note: we have to do a somewhat kludgey thing here of caching the new type's parents and then 
             // manually assigning the parent.
             if(concreteType !== undefined) {
+                concreteType = concreteType.clone(false);
                 // Set the type to the concrete type, or replace within if it's a compound type.
                 // Crucially, we clone the concrete type before we cache its parents, otherwise the concrete type that
                 // might appear somewhere in a program is reparented.
-                type = type === nameType ? concreteType : type.clone(false, nameType, concreteType.clone(false));
+                type = type === nameType ? concreteType : type.clone(false, nameType, concreteType);
                 type.cacheParents();
                 type._parent = originalParents[index];
             }
@@ -645,6 +646,28 @@ export default class Evaluate extends Expression {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.func) return new Replace(context.source, child, new ExpressionPlaceholder());
         else if(this.typeInputs.includes(child as TypeInput) || this.inputs.includes(child as InputType)) return new Remove(context.source, this, child);    
+    }
+
+    getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined {
+        // Find the corresponding input's definition, getting names from the Binds.
+        if(this.inputs.includes(child as InputType)) {
+            const index = this.inputs.indexOf(child as InputType);
+            if(index >= 0) {
+                const funType = this.func.getTypeUnlessCycle(context);
+                if(funType instanceof FunctionType && index < funType.inputs.length) {
+                    const bind = funType.inputs[index];
+                    if(bind instanceof Bind) {
+                        return aliasesToTranslations(bind.names);
+                    }
+                }
+                else if(funType instanceof StructureType && index < funType.structure.inputs.length) {
+                    const bind = funType.structure.inputs[index];
+                    if(bind instanceof Bind) {
+                        return aliasesToTranslations(bind.names);
+                    }
+                }
+            }
+        }
     }
 
 }

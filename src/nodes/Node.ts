@@ -310,6 +310,6 @@ export default abstract class Node {
     abstract getChildRemoval(child: Node, context: Context): Transform | undefined;
     
     /** Provide localized labels for any child that can be a placeholder. */
-    getChildPlaceholderLabel(child: Node): Translations | undefined { child; return undefined; }
+    getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined { child; context; return undefined; }
 
 }
