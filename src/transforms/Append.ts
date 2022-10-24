@@ -101,7 +101,7 @@ export default class Append<NodeType extends Node> extends Transform {
         if(newCaretPosition === undefined) return;
 
         // Does the insertion have a placeholder token? If so, place the caret at it's first placeholder instead of the end.
-        const firstPlaceholder = newChild.getFirstPlaceholder();
+        const firstPlaceholder = finalNewNode.getFirstPlaceholder();
         if(firstPlaceholder) newCaretPosition = firstPlaceholder;
 
         // Return the new source and put the caret immediately after the inserted new child.
