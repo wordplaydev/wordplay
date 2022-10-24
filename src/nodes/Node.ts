@@ -294,7 +294,12 @@ export default abstract class Node {
     }
 
     getFirstPlaceholder(): Node | undefined {
-        return this.getChildren().find(n => n.getFirstPlaceholder());
+        for(const child of this.getChildren()) {
+            const placeholder = child.getFirstPlaceholder();
+            if(placeholder)
+                return placeholder;
+        }
+        return undefined;
     }
 
     abstract getDescriptions(): Translations;

@@ -43,10 +43,6 @@ export default class TypePlaceholder extends Type {
     getInsertionAfter() { return undefined; }
     getChildRemoval() { return undefined; }
 
-    getFirstPlaceholder(): Node | undefined {
-        return this;
-    }
-
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.placeholder) return {
             eng: "type"

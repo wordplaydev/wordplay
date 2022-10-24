@@ -79,10 +79,6 @@ export default class ExpressionPlaceholder extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     getChildRemoval() { return undefined; }
     
-    getFirstPlaceholder(): Node | undefined {
-        return this;
-    }
-
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.placeholder) {
             const parent = this.getParent();
