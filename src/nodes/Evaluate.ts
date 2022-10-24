@@ -354,7 +354,9 @@ export default class Evaluate extends Expression {
             // manually assigning the parent.
             if(concreteType !== undefined) {
                 // Set the type to the concrete type, or replace within if it's a compound type.
-                type = type === nameType ? concreteType : type.clone(false, nameType, concreteType);
+                // Crucially, we clone the concrete type before we cache its parents, otherwise the concrete type that
+                // might appear somewhere in a program is reparented.
+                type = type === nameType ? concreteType : type.clone(false, nameType, concreteType.clone(false));
                 type.cacheParents();
                 type._parent = originalParents[index];
             }
