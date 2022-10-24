@@ -37,7 +37,6 @@ import Replace from "../transforms/Replace";
 import TypeToken from "./TypeToken";
 import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Remove from "../transforms/Remove";
 
 export default class StructureDefinition extends Expression {
@@ -288,7 +287,7 @@ export default class StructureDefinition extends Expression {
             return [ new Append(context.source, position, this, this.inputs, child, new Bind([], undefined, [ new Alias() ])) ];
     }
 
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
+    getInsertionAfter(): Transform[] | undefined { return []; }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if( this.docs.includes(child as Documentation) || 

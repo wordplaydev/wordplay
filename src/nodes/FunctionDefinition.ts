@@ -23,7 +23,7 @@ import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import type Translations from "./Translations";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
-import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Transform from "../transforms/Transform"
@@ -252,7 +252,7 @@ export default class FunctionDefinition extends Expression {
 
     }
 
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
+    getInsertionAfter(): Transform[] | undefined { return []; }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if( this.docs.includes(child as Documentation) || 

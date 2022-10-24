@@ -240,15 +240,15 @@ export default class Block extends Expression {
 
     getInsertionAfter(context: Context, position: number): Transform[] | undefined {
 
+        if(this.root) return [];
+
         return [
             ...getPossiblePostfix(context, this, this.getType(context)),
-            ...(this.root && context.source.isEmptyLine(position) ?
-                    [
-                        ...this.getInsertions().map(insertion => new Append(context.source, position, this, this.statements, undefined, insertion)),
-                        ...(this.root ? getExpressionInsertions(context.source, position, this, this.statements, undefined, context) : [])
-                    ] :
-                    []
-            )
+            ...context.source.isEmptyLine(position) ?
+                [
+                    ...this.getInsertions().map(insertion => new Append(context.source, position, this, this.statements, undefined, insertion)),
+                    ...(this.root ? getExpressionInsertions(context.source, position, this, this.statements, undefined, context) : [])
+                ] : []
         ];
 
     }
