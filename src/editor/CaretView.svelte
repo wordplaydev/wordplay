@@ -75,8 +75,8 @@
         if(viewport === null) return;
         const viewportRect = viewport.getBoundingClientRect();
 
-        const viewportXOffset = viewportRect.left + viewport.scrollLeft;
-        const viewportYOffset = viewportRect.top + viewport.scrollTop;
+        const viewportXOffset = -viewportRect.left + viewport.scrollLeft;
+        const viewportYOffset = -viewportRect.top + viewport.scrollTop;
 
         // If the caret is a node and it's a placeholder, then position a caret in it's center
         if($caret.position instanceof Token && $caret.position.getText() === PLACEHOLDER_SYMBOL) {
@@ -86,10 +86,10 @@
             const tokenViewRect = tokenView.getBoundingClientRect();
 
             location = {
-                left: `${tokenViewRect.left - viewportXOffset + tokenViewRect.width / 2}px`,
-                top: `${tokenViewRect.top- viewportYOffset}px`,
+                left: `${tokenViewRect.left + viewportXOffset + tokenViewRect.width / 2}px`,
+                top: `${tokenViewRect.top + viewportYOffset}px`,
                 height: `${tokenViewRect.height}px`,
-                bottom: tokenViewRect.bottom - viewportYOffset
+                bottom: tokenViewRect.bottom + viewportYOffset
             }
             return;
 
@@ -110,8 +110,8 @@
         // Figure out where the token view is, so we can properly offset the caret position in the editor.
         const tokenViewRect = tokenView.getBoundingClientRect();
 
-        let tokenLeft = tokenViewRect.left - viewportXOffset;
-        let tokenTop = tokenViewRect.top - viewportYOffset;
+        let tokenLeft = tokenViewRect.left + viewportXOffset;
+        let tokenTop = tokenViewRect.top + viewportYOffset;
 
         // To compute line height, find two tokens on adjacent lines and difference their tops.
         const tokenViews = editorView.querySelectorAll(".Token");
