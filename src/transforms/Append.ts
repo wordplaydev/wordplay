@@ -113,7 +113,8 @@ export default class Append<NodeType extends Node> extends Transform {
     getDescription(lang: LanguageCode): string {
         const replacement = this.getPrettyNewNode(lang);
         return {
-            eng: "Insert " + replacement.getDescriptions().eng
+            eng: "Insert " + replacement.getDescriptions().eng,
+            "😀": "TODO: + " + replacement.getDescriptions()["😀"],
         }[lang];
     }
 

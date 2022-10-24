@@ -20,6 +20,7 @@ import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
 
 const ExpressionLabels: Translations = {
+    "😀": "TODO",
     eng: "value"
 };
 
@@ -44,18 +45,6 @@ export default class ExpressionPlaceholder extends Expression {
         return [ new Halt(evaluator => new UnimplementedException(evaluator), this) ];
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "Can't evaluate a placeholder."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Can't evaluate a placeholder."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value {
         return new SemanticException(evaluator, this);
     }
@@ -67,12 +56,6 @@ export default class ExpressionPlaceholder extends Expression {
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
-
-    getDescriptions(): Translations {
-        return {
-            eng: "An expression placeholder"
-        }
-    }
  
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
@@ -84,6 +67,27 @@ export default class ExpressionPlaceholder extends Expression {
             const parent = this.getParent();
             // See if the parent has a label.
             return parent?.getChildPlaceholderLabel(this, context) ?? ExpressionLabels;
+        }
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "An expression placeholder"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "Can't evaluate a placeholder."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Can't evaluate a placeholder."
         }
     }
 

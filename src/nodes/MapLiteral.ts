@@ -26,6 +26,7 @@ import { endsWithName, startsWithName } from "./util";
 import type Transform from "../transforms/Transform";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Remove from "../transforms/Remove";
+import type Translations from "./Translations";
 
 export type MapItem = Unparsable | KeyValue;
 
@@ -95,18 +96,6 @@ export default class MapLiteral extends Expression {
             ];
     }
 
-    getStartExplanations() {
-        return {
-            "eng": "Let's make a map!"
-        }
-    }
-
-    getFinishExplanations() { 
-        return {
-            "eng": "Now that we have all of the keys and values, create the map."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value {
 
         // Pop all of the values. Order doesn't matter.
@@ -125,12 +114,6 @@ export default class MapLiteral extends Expression {
         return current;
     }
 
-    getDescriptions() {
-        return {
-            eng: "A mapping from one set of values to another"
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     
@@ -139,4 +122,26 @@ export default class MapLiteral extends Expression {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(this.values.includes(child as MapItem)) return new Remove(context.source, this, child);
     }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A mapping from one set of values to another"
+        }
+    }
+
+    getStartExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Let's make a map!"
+        }
+    }
+
+    getFinishExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "Now that we have all of the keys and values, create the map."
+        }
+    }
+
 }

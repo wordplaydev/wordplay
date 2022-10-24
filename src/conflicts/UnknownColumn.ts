@@ -1,5 +1,6 @@
 import type Cell from "../nodes/Cell";
 import type TableType from "../nodes/TableType";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -17,8 +18,9 @@ export default class UnknownColumn extends Conflict {
         return { primary: [ this.cell ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `This isn't one of the columns in this table type.`
         }
     }

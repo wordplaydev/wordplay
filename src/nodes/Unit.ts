@@ -11,6 +11,7 @@ import Replace from "../transforms/Replace";
 import Add from "../transforms/Add";
 import LanguageToken from "./LanguageToken";
 import Remove from "../transforms/Remove";
+import type Translations from "./Translations";
 
 export default class Unit extends Type {
 
@@ -192,15 +193,6 @@ export default class Unit extends Type {
         
     }
 
-    getDescriptions() {
-        return {
-            eng: this.exponents.size === 0 ? "A unitless number" : 
-                this.numerator.length === 1 && this.denominator.length === 0 ? this.numerator[0].getDescriptions().eng :
-                this.toWordplay() === "m/s" ? "velocity" :
-                "A number with unit"
-        }
-    }
-
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
     
         const project = context.source.getProject();
@@ -226,6 +218,16 @@ export default class Unit extends Type {
             else return new Remove(context.source, this, child);
         }
             
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: this.exponents.size === 0 ? "A unitless number" : 
+                this.numerator.length === 1 && this.denominator.length === 0 ? this.numerator[0].getDescriptions().eng :
+                this.toWordplay() === "m/s" ? "velocity" :
+                "A number with unit"
+        }
     }
 
 }

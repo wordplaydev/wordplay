@@ -16,6 +16,7 @@ import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 
 export const NameLabels: Translations = {
+    "😀": "TODO",
     eng: "name"
 };
 
@@ -72,8 +73,9 @@ export default class Alias extends Node {
         );
     }
 
-    getDescriptions() {
+    getDescriptions(): Translations {
         return {
+            "😀": "TODO",
             eng: "A name"
         }
     }

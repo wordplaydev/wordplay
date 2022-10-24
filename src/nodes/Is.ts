@@ -25,6 +25,7 @@ import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import TypePlaceholder from "./TypePlaceholder";
+import type Translations from "./Translations";
 
 export default class Is extends Expression {
 
@@ -75,18 +76,6 @@ export default class Is extends Expression {
 
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "Start by getting the value of the expression."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Check if this value is of this type."
-        }
-    }
-
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Is(
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "expression", this.expression, original, replacement), 
@@ -122,12 +111,6 @@ export default class Is extends Expression {
     
     }
 
-    getDescriptions() {
-        return {
-            eng: "Check if a value is a type"
-        }
-    }
-
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
 
         if(child === this.expression)
@@ -144,6 +127,27 @@ export default class Is extends Expression {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.expression) return new Replace(context.source, child, new ExpressionPlaceholder());
         else if(child === this.type) return new Replace(context.source, child, new TypePlaceholder());
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Check if a value is a type"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "Start by getting the value of the expression."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Check if this value is of this type."
+        }
     }
 
 }

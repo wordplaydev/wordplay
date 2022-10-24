@@ -29,7 +29,10 @@ export default function bootstrapNone() {
                     if(!(right instanceof None)) return new TypeException(evaluation.getEvaluator(), new NoneType([]), right);
                     return expression(left, right);
                 },
-                { eng: "Native none operation." }
+                {
+                    "😀": "TODO", 
+                    eng: "Native none operation." 
+                }
             ),
             new BooleanType()
         );

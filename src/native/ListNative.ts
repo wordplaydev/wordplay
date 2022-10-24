@@ -225,7 +225,8 @@ export default function bootstrapList() {
                         return new Bool(list.isEqualTo(value));
                     },
                     {
-                        "eng": "Comparing list values."
+                        "😀": "TODO",
+                        eng: "Comparing list values."
                     }
                 ),
                 new BooleanType()
@@ -242,7 +243,8 @@ export default function bootstrapList() {
                         return new Bool(!list.isEqualTo(value));
                     },
                     {
-                        "eng": "Comparing list values."
+                        "😀": "TODO",
+                        eng: "Comparing list values."
                     }
                 ),
                 new BooleanType()

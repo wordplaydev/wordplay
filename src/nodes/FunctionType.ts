@@ -12,6 +12,7 @@ import EvalCloseToken from "./EvalCloseToken";
 import EvalOpenToken from "./EvalOpenToken";
 import type Transform from "../transforms/Transform";
 import Remove from "../transforms/Remove";
+import type Translations from "./Translations";
 
 export default class FunctionType extends Type {
 
@@ -72,8 +73,9 @@ export default class FunctionType extends Type {
         
     }
 
-    getDescriptions() {
+    getDescriptions(): Translations {
         return {
+            "😀": "TODO",
             eng: "A function type."
         }
     }

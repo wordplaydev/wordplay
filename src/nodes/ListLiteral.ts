@@ -19,6 +19,7 @@ import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
 import { endsWithName, startsWithName } from "./util";
 import Remove from "../transforms/Remove";
+import type Translations from "./Translations";
 
 export type ListItem = Expression | Unparsable;
 
@@ -80,27 +81,9 @@ export default class ListLiteral extends Expression {
         
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "First evaluate all of the values for this list."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Now make the list!"
-        }
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         this.values.forEach(val => { if(val instanceof Expression) val.evaluateTypeSet(bind, original, current, context); });
         return current;
-    }
-
-    getDescriptions() {
-        return {
-            eng: "A list of values"
-        }
     }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
@@ -124,4 +107,26 @@ export default class ListLiteral extends Expression {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(this.values.includes(child as ListItem)) return new Remove(context.source, this, child);
     }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A list of values"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "First evaluate all of the values for this list."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Now make the list!"
+        }
+    }
+
 }

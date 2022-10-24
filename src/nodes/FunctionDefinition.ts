@@ -189,7 +189,8 @@ export default class FunctionDefinition extends Expression {
 
     getFinishExplanations(): Translations {
         return {
-            "eng": "Let's define this function and bind it to this name."
+            "😀": "TODO",
+            eng: "Let's define this function and bind it to this name."
         }
     }
 
@@ -224,10 +225,13 @@ export default class FunctionDefinition extends Expression {
         return this._parent instanceof StructureDefinition ? this._parent : undefined;
     }
 
-    getDescriptions() {
+    getDescriptions(): Translations {
 
         // Generate documentation by language.
-        const descriptions: Record<LanguageCode, string> = { eng: "A function" };
+        const descriptions: Translations = { 
+            "😀": "TODO",
+            eng: "A function" 
+        };
         for(const doc of this.docs) {
             if(doc.lang !== undefined)
                 descriptions[doc.lang.getLanguage() as LanguageCode] = doc.docs.getText();

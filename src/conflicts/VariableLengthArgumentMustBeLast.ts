@@ -1,5 +1,6 @@
 import Conflict from "./Conflict";
 import type Bind from "../nodes/Bind";
+import type Translations from "../nodes/Translations";
 
 
 export default class VariableLengthArgumentMustBeLast extends Conflict {
@@ -16,8 +17,9 @@ export default class VariableLengthArgumentMustBeLast extends Conflict {
         return { primary: [ this.bind ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `Variable length inputs must be last.`
         }
     }

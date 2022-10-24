@@ -18,6 +18,7 @@ export class IgnoredExpression extends Conflict {
 
     getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `I feel useless. I am useless! Someone use me!`
         }
     }

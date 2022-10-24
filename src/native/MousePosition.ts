@@ -19,7 +19,8 @@ export default class MousePosition extends Stream {
 
     getTranslations() {
         return {
-            "eng": "🖱⌖"
+            "😀": "TODO",
+            eng: "🖱⌖"
         }
     }
 

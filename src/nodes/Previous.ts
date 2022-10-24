@@ -84,14 +84,6 @@ export default class Previous extends Expression {
         return [ ...this.stream.compile(context), new KeepStream(this), ...this.index.compile(context), new Finish(this) ];
     }
 
-    getStartExplanations() { return this.getFinishExplanations(); }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Let's get the stream value at this index."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value {
 
         const index = evaluator.popValue(new MeasurementType());
@@ -108,12 +100,6 @@ export default class Previous extends Expression {
         if(this.stream instanceof Expression) this.stream.evaluateTypeSet(bind, original, current, context);
         if(this.index instanceof Expression) this.index.evaluateTypeSet(bind, original, current, context);
         return current;
-    }
-
-    getDescriptions() {
-        return {
-            eng: "A previous stream value"
-        }
     }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
@@ -138,12 +124,30 @@ export default class Previous extends Expression {
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.stream) return {
+            "😀": "TODO",
             eng: "stream"
         };
         else if(child === this.index) return {
+            "😀": "TODO",
             eng: "index"
         };
 
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A previous stream value"
+        }
+    }
+
+    getStartExplanations(): Translations { return this.getFinishExplanations(); }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Let's get the stream value at this index."
+        }
     }
 
 }

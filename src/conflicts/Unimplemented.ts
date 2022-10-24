@@ -1,5 +1,6 @@
 import type FunctionDefinition from "../nodes/FunctionDefinition";
 import type StructureDefinition from "../nodes/StructureDefinition";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -19,8 +20,9 @@ export class Unimplemented extends Conflict {
         return { primary: this.structure.aliases, secondary: [ this.fun ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `Because this structure implements interface ${this.interfaceStructure.getNames()}, it has to implement function ${this.fun.getNames()}.`
         }
     }

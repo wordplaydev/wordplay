@@ -1,6 +1,7 @@
 import type BinaryOperation from "../nodes/BinaryOperation";
 import Convert from "../nodes/Convert";
 import Evaluate from "../nodes/Evaluate";
+import type Translations from "../nodes/Translations";
 import type UnaryOperation from "../nodes/UnaryOperation";
 import type Evaluator from "./Evaluator";
 import Exception from "./Exception";
@@ -21,9 +22,10 @@ export default class FunctionException extends Exception {
 
     }
 
-    getExplanations() {
+    getExplanations(): Translations {
         return {
-            "eng": `Couldn't find ${this.node instanceof Evaluate ? "function" : this.node instanceof Convert ? "conversion" : "operation"} ${this.verb.toString()} on ${this.subject ===  undefined ? "this" : this.subject.toString()}.`
+            eng: `Couldn't find ${this.node instanceof Evaluate ? "function" : this.node instanceof Convert ? "conversion" : "operation"} ${this.verb.toString()} on ${this.subject ===  undefined ? "this" : this.subject.toString()}.`,
+            "😀": "TODO: 🤷🏻‍♀️"
         }
     };
 

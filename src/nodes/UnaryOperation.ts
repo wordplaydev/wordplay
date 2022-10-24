@@ -23,6 +23,7 @@ import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import type Translations from "./Translations";
 
 export default class UnaryOperation extends Expression {
 
@@ -82,18 +83,6 @@ export default class UnaryOperation extends Expression {
         ];
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "First we evaluate the operand."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Now that we have the operand, we operate on it."
-        }
-    }
-
     evaluate(evaluator: Evaluator) {
 
         // Get the value of the operand.
@@ -134,12 +123,6 @@ export default class UnaryOperation extends Expression {
 
     }
 
-    getDescriptions() {
-        return {
-            eng: "Evaluate a function on a value"
-        }
-    }
-
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
         
         // Operator must exist on the type of the left, unless not specified
@@ -157,6 +140,27 @@ export default class UnaryOperation extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.operand) return new Replace(context.source, child, new ExpressionPlaceholder());
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Evaluate a function on a value"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "First we evaluate the operand."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Now that we have the operand, we operate on it."
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 import Conflict from "./Conflict";
 import type TypeVariable from "../nodes/TypeVariable";
+import type Translations from "../nodes/Translations";
 
 
 export default class DuplicateTypeVariables extends Conflict {
@@ -18,9 +19,10 @@ export default class DuplicateTypeVariables extends Conflict {
         return { primary: Array.from(this.duplicates.values()).flat() };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
-            eng: `Duplicate type variables ${Array.from(this.duplicates.values()).flat().map(lang => lang.toWordplay())}.`
+            eng: `Duplicate type variables ${Array.from(this.duplicates.values()).flat().map(lang => lang.toWordplay())}.`,
+            "😀": "TODO"
         }
     }
 }

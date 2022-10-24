@@ -15,6 +15,7 @@ import { BORROW_SYMBOL } from "../parser/Tokenizer";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import NameToken from "./NameToken";
+import type Translations from "./Translations";
 
 export default class Borrow extends Node implements Evaluable {
     
@@ -58,14 +59,6 @@ export default class Borrow extends Node implements Evaluable {
         return [ new Finish(this) ];
     }
 
-    getStartExplanations() { return this.getFinishExplanations(); }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Find the shared name in other programs to borrow."
-        }
-    }
-
     evaluate(evaluator: Evaluator) {
         const name = this.getName();
         if(name !== undefined)
@@ -76,12 +69,6 @@ export default class Borrow extends Node implements Evaluable {
     getName() { return this.name === undefined ? undefined : this.name.getText(); }
 
     getVersion() { return this.version === undefined ? undefined : (new Measurement(this.version, new Unit())).toNumber(); }
-
-    getDescriptions() {
-        return {
-            eng: `Borrow a value`
-        }
-    }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
         
@@ -96,4 +83,21 @@ export default class Borrow extends Node implements Evaluable {
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(): Transform[] | undefined { return undefined; }
     getChildRemoval(): Transform | undefined { return undefined; }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: `Borrow a value`
+        }
+    }
+
+    getStartExplanations(): Translations { return this.getFinishExplanations(); }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Find the shared name in other programs to borrow."
+        }
+    }
+
 }

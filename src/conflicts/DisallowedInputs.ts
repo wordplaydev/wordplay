@@ -1,4 +1,5 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -14,9 +15,10 @@ export class DisallowedInputs extends Conflict {
         return { primary: this.structure.aliases, secondary: this.structure.inputs };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
-            eng: `Structures that don't implement some functions can't have inputs.`
+            eng: `Interfaces can't have inputs.`,
+            "😀": "TODO: … → 🚫 ()"
         }
     }
 

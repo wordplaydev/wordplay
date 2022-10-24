@@ -16,7 +16,8 @@ export default class ReactionStream extends Stream {
 
     getTranslations() { 
         return {
-            "eng": "reaction"
+            eng: "reaction",
+            "😀": "∆"
         };
     }
 

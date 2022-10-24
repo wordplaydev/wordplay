@@ -17,6 +17,7 @@ import type Transform from "../transforms/Transform";
 import Append from "../transforms/Append";
 import Remove from "../transforms/Remove";
 import Replace from "../transforms/Replace";
+import type Translations from "./Translations";
 
 export default class Program extends Node implements Evaluable {
     
@@ -76,18 +77,6 @@ export default class Program extends Node implements Evaluable {
         ];
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "Yay, we get to evaluate a program!"
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "We finished evaluating the program, here's what we got!"
-        }
-    }
-
     evaluate(evaluator: Evaluator) {
 
         // Return whatever the block computed, if there is anything.
@@ -101,12 +90,6 @@ export default class Program extends Node implements Evaluable {
             this.cloneOrReplaceChild(pretty, [ Block, Unparsable ], "block", this.block, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token ], "end", this.end, original, replacement)
         ) as this; 
-    }
-
-    getDescriptions() {
-        return {
-            eng: "A program"
-        }
     }
 
     getChildReplacement() { return undefined; }
@@ -124,4 +107,26 @@ export default class Program extends Node implements Evaluable {
         if(this.borrows.includes(child as Borrow)) return new Remove(context.source, this, child);
         else if(child === this.block) return new Replace(context.source, this.block, new Block([], [], this.block instanceof Block ? this.block.root : false, this.block instanceof Block ? this.block.creator : false));
     }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A program"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "Yay, we get to evaluate a program!"
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "We finished evaluating the program, here's what we got!"
+        }
+    }
+
 }

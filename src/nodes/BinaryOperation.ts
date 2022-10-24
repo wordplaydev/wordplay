@@ -160,18 +160,6 @@ export default class BinaryOperation extends Expression {
         }
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "We first evaluate the left and right."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "We end by performing the operation on the left and right."
-        }
-    }
-
     evaluate(evaluator: Evaluator) {
 
         const right = evaluator.popValue(undefined);
@@ -221,12 +209,6 @@ export default class BinaryOperation extends Expression {
     
     }
 
-    getDescriptions() {
-        return {
-            eng: "Evaluate an operation with two inputs."
-        }
-    }
-
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
         const expectedType = this.getFunctionDefinition(context)?.inputs[0]?.getType(context);
@@ -260,6 +242,7 @@ export default class BinaryOperation extends Expression {
     getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined {
 
         if(child === this.operator) return {
+            "😀": "TODO",
             eng: "operator"
         }
         // If it's the right, find the name of the input.
@@ -272,6 +255,27 @@ export default class BinaryOperation extends Expression {
             }
         }
     
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Evaluate an operation with two inputs."
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "We first evaluate the left and right."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "We end by performing the operation on the left and right."
+        }
     }
 
 }

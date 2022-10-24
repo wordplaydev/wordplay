@@ -1,4 +1,5 @@
 import type Cell from "../nodes/Cell";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -15,9 +16,10 @@ export default class ExpectedSelectName extends Conflict {
         return { primary: [ this.cell ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
-            eng: `This has to be a column name`
+            eng: `This has to be a column name`,
+            "😀": "TODO"
         }
     }
 

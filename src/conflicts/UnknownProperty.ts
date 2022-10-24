@@ -1,4 +1,5 @@
 import type AccessName from "../nodes/AccessName";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 export class UnknownProperty extends Conflict {
@@ -13,8 +14,9 @@ export class UnknownProperty extends Conflict {
         return { primary: [ this.access.name ?? this.access.access ], secondary: [ this.access.subject ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `I don't know who I am!`
         }
     }

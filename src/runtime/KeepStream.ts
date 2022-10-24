@@ -15,7 +15,8 @@ export default class KeepStream extends Step {
 
     getExplanations(): Translations {
         return {
-            "eng": `Keeping the stream.`
+            eng: `Keeping the stream.`,
+            "😀": "TODO: ∆"
         }
     }
 

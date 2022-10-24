@@ -38,7 +38,8 @@ export default class NativeHOFMapTranslate extends HOF {
             // Initialize an iterator and an empty list in this scope.
             new Action(this, 
                 {
-                    "eng": "Initialize an index and the new map."
+                    "😀": "TODO",
+                    eng: "Initialize an index and the new map."
                 },
                 evaluator => {
                     evaluator.bind("index", new Measurement(1));
@@ -48,7 +49,8 @@ export default class NativeHOFMapTranslate extends HOF {
             ),
             new Action(this, 
                 {
-                    "eng": "Apply the translator to the next key."
+                    "😀": "TODO",
+                    eng: "Apply the translator to the next key."
                 },
                 evaluator => {
                     const index = evaluator.resolve("index");
@@ -89,7 +91,8 @@ export default class NativeHOFMapTranslate extends HOF {
             // Save the translated value and then jump to the conditional.
             new Action(this, 
                 {
-                    "eng": "Add the new value to the new map."
+                    "😀": "TODO",
+                    eng: "Add the new value to the new map."
                 },
                 evaluator => {
 
@@ -126,13 +129,15 @@ export default class NativeHOFMapTranslate extends HOF {
 
     getStartExplanations(): Translations {
         return {
-            "eng": "Translate each value in the map, making a new map."
+            "😀": "TODO",
+            eng: "Translate each value in the map, making a new map."
         }
     }
 
     getFinishExplanations(): Translations {
         return {
-            "eng": "Evaluate to the new map!"
+            "😀": "TODO",
+            eng: "Evaluate to the new map!"
         }
     }
 

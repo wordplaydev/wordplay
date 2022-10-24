@@ -27,6 +27,7 @@ import Replace from "../transforms/Replace";
 import TokenType from "./TokenType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import TypePlaceholder from "./TypePlaceholder";
+import type Translations from "./Translations";
 
 export default class Convert extends Expression {
     
@@ -119,7 +120,8 @@ export default class Convert extends Expression {
                     conversions.map(conversion => new Action(
                         this, 
                         {
-                            "eng": `Translate to ${conversion.output.toWordplay()}`
+                            "😀": "TODO",
+                            eng: `Translate to ${conversion.output.toWordplay()}`
                         },
                         evaluator =>  {
                             // Get the value to convert
@@ -145,18 +147,6 @@ export default class Convert extends Expression {
         ];
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "We start by evaluating the value to convert, then do zero or more conversions to get to the desired type."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Yay, we have our converted value!"
-        }
-    }
-
     evaluate() {
         return undefined;
     }
@@ -165,12 +155,6 @@ export default class Convert extends Expression {
         if(this.expression instanceof Expression)
             this.expression.evaluateTypeSet(bind, original, current, context);
         return current;
-    }
-
-    getDescriptions() {
-        return {
-            eng: "Convert a value"
-        }
     }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
@@ -194,6 +178,27 @@ export default class Convert extends Expression {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.expression) return new Replace(context.source, child, new ExpressionPlaceholder());
         else if(child === this.type) return new Replace(context.source, child, new TypePlaceholder());
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Convert a value"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "We start by evaluating the value to convert, then do zero or more conversions to get to the desired type."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Yay, we have our converted value!"
+        }
     }
 
 }

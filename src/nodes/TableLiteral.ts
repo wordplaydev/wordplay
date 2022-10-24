@@ -22,6 +22,7 @@ import { analyzeRow } from "./util";
 import Exception from "../runtime/Exception";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
+import type Translations from "./Translations";
 
 export default class TableLiteral extends Expression {
     
@@ -79,18 +80,6 @@ export default class TableLiteral extends Expression {
         ];
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "First we evaluate all of the rows and cells."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Now that we have all of the values, let's make the table."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value {
         
         const rows: Value[][] = [];
@@ -125,15 +114,30 @@ export default class TableLiteral extends Expression {
         return current;
     }
 
-    getDescriptions() {
-        return {
-            eng: "A table"
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     getChildRemoval() { return undefined; }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "First we evaluate all of the rows and cells."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Now that we have all of the values, let's make the table."
+        }
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A table"
+        }
+    }
     
 }

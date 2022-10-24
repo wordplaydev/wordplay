@@ -15,7 +15,8 @@ export default class MouseButton extends Stream {
 
     getTranslations() { 
         return {
-            "eng": "🖱⬇️"
+            "😀": "TODO",
+            eng: "🖱⬇️"
         };
     }
 

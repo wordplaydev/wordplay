@@ -6,6 +6,7 @@ import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
 import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
+import type Translations from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import Action from "../runtime/Action";
 import Bool from "../runtime/Bool";
@@ -39,7 +40,8 @@ export default class NativeHOFListFind extends HOF {
             // Initialize an iterator and an empty list in this scope.
             new Action(this, 
                 {
-                    "eng": "Start at the first item."
+                    "😀": "TODO",
+                    eng: "Start at the first item."
                 },
                 evaluator => {
                     evaluator.bind("index", new Measurement(1));
@@ -47,7 +49,8 @@ export default class NativeHOFListFind extends HOF {
                 }),
             new Action(this, 
                 {
-                    "eng": "Apply the checker to the next item."
+                    "😀": "TODO",
+                    eng: "Apply the checker to the next item."
                 },
                 evaluator => {
                     const index = evaluator.resolve("index");
@@ -84,7 +87,8 @@ export default class NativeHOFListFind extends HOF {
             // Save the translated value and then jump to the conditional.
             new Action(this, 
                 {
-                    "eng": "If it matches, we found! Otherwise, keep checking."
+                    "😀": "TODO",
+                    eng: "If it matches, we found! Otherwise, keep checking."
                 },
                 evaluator => {
 
@@ -111,18 +115,6 @@ export default class NativeHOFListFind extends HOF {
         ];
     }
 
-    getStartExplanations() {
-        return {
-            "eng": "Move from the beginning to the end in search for a match."
-        }
-    }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Evaluate to the match or none."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value | undefined {
         // Get the current index.
         const index = evaluator.resolve("index");
@@ -137,6 +129,20 @@ export default class NativeHOFListFind extends HOF {
         // If we're past the end of the list, return nothing. Otherwise return the value at the index.
         return index.greaterThan(list.length()).bool ? new None([ new Alias("notfound", "eng")]) : list.get(index);
 
+    }
+
+    getStartExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Move from the beginning to the end in search for a match."
+        }
+    }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Evaluate to the match or none."
+        }
     }
 
 }

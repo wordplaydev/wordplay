@@ -1,4 +1,5 @@
 import type Block from "../nodes/Block";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -15,9 +16,10 @@ export class ExpectedEndingExpression extends Conflict {
         return { primary: [ this.block.statements.length === 0 ? this.block : this.block.statements[this.block.statements.length - 1] ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
-            eng: `Every block must end with an expression.`
+            eng: `Every block must end with an expression.`,
+            "😀": "TODO: …?"
         }
     }
 

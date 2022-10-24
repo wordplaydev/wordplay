@@ -4,6 +4,7 @@ import type Unparsable from "./Unparsable";
 import Token from "./Token";
 import Bind from "./Bind";
 import Expression from "./Expression";
+import type Translations from "./Translations";
 
 export default class Row extends Node {
 
@@ -37,15 +38,16 @@ export default class Row extends Node {
         ) as this; 
     }
 
-    getDescriptions() {
-        return {
-            eng: "A table row"
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
     getChildRemoval() { return undefined; }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A table row"
+        }
+    }
 
 }

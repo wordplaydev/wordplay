@@ -20,6 +20,7 @@ export default class OrderOfOperations extends Conflict {
 
     getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `All operators evalute left to right, unlike math. Use parentheses to specify which order to evaluate these.`
         }
     }

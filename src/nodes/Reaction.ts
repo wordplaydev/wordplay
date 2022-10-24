@@ -124,18 +124,6 @@ export default class Reaction extends Expression {
         ];
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "We start by getting the latest value of the stream."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "We end by evaluating to the new value."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value | undefined {
 
         // Get the value.
@@ -157,12 +145,6 @@ export default class Reaction extends Expression {
         if(this.stream instanceof Expression) this.stream.evaluateTypeSet(bind, original, current, context);
         if(this.next instanceof Expression) this.next.evaluateTypeSet(bind, original, current, context);
         return current;
-    }
-
-    getDescriptions() {
-        return {
-            eng: "A reaction to a stream change"
-        }
     }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
@@ -188,15 +170,39 @@ export default class Reaction extends Expression {
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.initial) return {
+            "😀": "TODO",
             eng: "inital"
         };
         else if(child === this.stream) return {
+            "😀": "TODO",
             eng: "stream"
         };
         else if(child === this.next) return {
+            "😀": "TODO",
             eng: "next"
         };
 
     }
     
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A reaction to a stream change"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "We start by getting the latest value of the stream."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "We end by evaluating to the new value."
+        }
+    }
+
 }

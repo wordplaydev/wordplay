@@ -1,4 +1,5 @@
 import type Share from "../nodes/Share";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -13,8 +14,9 @@ export class MisplacedShare extends Conflict {
         return { primary: [ this.share.share ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `Can only share things in the main block.`
         }
     }

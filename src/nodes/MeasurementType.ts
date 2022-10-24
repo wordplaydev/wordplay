@@ -13,6 +13,7 @@ import NativeType from "./NativeType";
 import { getPossibleUnits } from "../transforms/getPossibleUnits";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
+import type Translations from "./Translations";
 
 type UnitDeriver = (left: Unit, right: Unit, constant: number) => Unit;
 
@@ -73,8 +74,9 @@ export default class MeasurementType extends NativeType {
         ) as this; 
     }
 
-    getDescriptions() {
+    getDescriptions(): Translations {
         return {
+            "😀": "TODO",
             eng: this.unit instanceof Unit ? this.unit.getDescriptions().eng : "A number"
         }
     }

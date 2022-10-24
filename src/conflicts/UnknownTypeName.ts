@@ -1,4 +1,5 @@
 import type NameType from "../nodes/NameType";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -14,8 +15,9 @@ export class UnknownTypeName extends Conflict {
         return { primary: [ this.name ] }; 
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `I don't know what type I am!`
         }
     }

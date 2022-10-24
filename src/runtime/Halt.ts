@@ -21,7 +21,8 @@ export default class Halt extends Step {
 
     getExplanations(): Translations {
         return {
-            "eng": `There was an exception, so the program had to stop.`
+            eng: `There was an exception, so the program had to stop.`,
+            "😀": "TODO: ✋🏻"
         }
     }
 

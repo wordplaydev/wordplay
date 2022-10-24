@@ -1,4 +1,5 @@
 import type ConversionDefinition from "../nodes/ConversionDefinition";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -15,8 +16,9 @@ export class MisplacedConversion extends Conflict {
         return { primary: [ this.conversion ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `Can't put a conversion here.`
         }
     }

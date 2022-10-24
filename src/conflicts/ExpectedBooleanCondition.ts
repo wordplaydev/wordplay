@@ -1,8 +1,9 @@
 import type Conditional from "../nodes/Conditional";
+import type Translations from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
 
-export class ExpectedBooleanCondition extends Conflict {
+export default class ExpectedBooleanCondition extends Conflict {
     
     readonly conditional: Conditional;
     readonly type: Type;
@@ -20,9 +21,10 @@ export class ExpectedBooleanCondition extends Conflict {
         return { primary: [ this.conditional.condition ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
-            eng: `Expected Boolean; this is type ${this.type.toWordplay()}`
+            eng: `Expected Boolean; this is type ${this.type.toWordplay()}`,
+            "😀": "TODO"
         }
     }
 

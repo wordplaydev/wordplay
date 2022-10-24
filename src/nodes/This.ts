@@ -20,6 +20,7 @@ import ConversionDefinition from "./ConversionDefinition";
 import MeasurementType from "./MeasurementType";
 import type Transform from "../transforms/Transform";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import type Translations from "./Translations";
 
 type ThisStructure = StructureDefinition | ConversionDefinition;
 
@@ -73,33 +74,36 @@ export default class This extends Expression {
         return [ new Finish(this) ];
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "Get the structure evaluating this."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Get the structure evaluating this."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value {        
         return evaluator.getThis() ?? new NameException(evaluator, THIS_SYMBOL);
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
-    getDescriptions() {
-        return {
-            eng: "The value of this"
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     getChildRemoval() { return undefined; }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "Get the structure evaluating this."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Get the structure evaluating this."
+        }
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "The value of this"
+        }
+    }
 
 }

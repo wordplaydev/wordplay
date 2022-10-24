@@ -8,6 +8,7 @@ import type Context from "./Context";
 import { COLUMN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { TABLE_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type Transform from "../transforms/Transform";
+import type Translations from "./Translations";
 
 export default class ColumnType extends Type {
 
@@ -43,15 +44,16 @@ export default class ColumnType extends Type {
 
     getNativeTypeName(): string { return COLUMN_NATIVE_TYPE_NAME; }
 
-    getDescriptions() {
-        return {
-            eng: "A table column type"
-        }
-    }
-
     getChildReplacement(): Transform[] | undefined { return undefined; }
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(): Transform[] | undefined { return undefined; }
     getChildRemoval(): Transform | undefined { return undefined; }
     
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A table column type"
+        }
+    }
+
 }

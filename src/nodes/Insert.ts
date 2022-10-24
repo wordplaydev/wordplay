@@ -24,6 +24,7 @@ import SemanticException from "../runtime/SemanticException";
 import Exception from "../runtime/Exception";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
+import type Translations from "./Translations";
 
 export default class Insert extends Expression {
     
@@ -109,18 +110,6 @@ export default class Insert extends Expression {
         ];
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "First we evaluate the table, then all the rows to insert."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Make a new table with the inserted rows."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value {
 
         // We've got a table and some cells, insert the row!
@@ -145,14 +134,30 @@ export default class Insert extends Expression {
         return current;
     }
 
-    getDescriptions() {
-        return {
-            eng: "Insert a row in a table"
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     getChildRemoval(): Transform | undefined { return undefined; }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Insert a row in a table"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "First we evaluate the table, then all the rows to insert."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Make a new table with the inserted rows."
+        }
+    }
+
 }

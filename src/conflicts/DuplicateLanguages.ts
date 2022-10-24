@@ -22,8 +22,10 @@ export default class DuplicateLanguages extends Conflict {
     }
 
     getExplanations(): Translations { 
+        const dupes = Array.from(this.duplicates.values()).flat().map(lang => lang.getLanguage());
         return {
-            eng: `Duplicate languages ${Array.from(this.duplicates.values()).flat().map(lang => lang.getLanguage())}.`
+            eng: `Duplicate languages ${dupes}.`,
+            "😀": `TODO ${dupes.join(", ")}`
         }
     }
 

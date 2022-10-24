@@ -9,6 +9,7 @@ import TokenType from "./TokenType";
 import Column from "./Column";
 import { TABLE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { TABLE_CLOSE_SYMBOL } from "../parser/Tokenizer";
+import type Translations from "./Translations";
 
 export default class TableType extends Type {
     
@@ -49,15 +50,16 @@ export default class TableType extends Type {
      
     getNativeTypeName(): string { return TABLE_NATIVE_TYPE_NAME; }
 
-    getDescriptions() {
-        return {
-            eng: "A table type"
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
     getChildRemoval() { return undefined; }
-    
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A table type"
+        }
+    }
+
 }

@@ -20,6 +20,7 @@ import UnimplementedException from "../runtime/UnimplementedException";
 import type Evaluator from "../runtime/Evaluator";
 import type Transform from "../transforms/Transform";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import type Translations from "./Translations";
 
 export default class Delete extends Expression {
     
@@ -83,18 +84,6 @@ export default class Delete extends Expression {
         return new UnimplementedException(evaluator);
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "First evaluate the table."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Now make a table without the matching rows."
-        }
-    }
-
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Delete(
             this.cloneOrReplaceChild(pretty, [ Expression ], "table", this.table, original, replacement), 
@@ -109,15 +98,30 @@ export default class Delete extends Expression {
         return current;
     }
 
-    getDescriptions() {
-        return {
-            eng: "Delete a row from a table"
-        }
-    }
-
     getChildReplacement(): Transform[] | undefined { return undefined; }
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     getChildRemoval(): Transform | undefined { return undefined; }
     
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Delete a row from a table"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "First evaluate the table."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Now make a table without the matching rows."
+        }
+    }
+
 }

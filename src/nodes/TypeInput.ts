@@ -3,6 +3,7 @@ import type Transform from "../transforms/Transform";
 import type Context from "./Context";
 import Node from "./Node";
 import Token from "./Token";
+import type Translations from "./Translations";
 import Type from "./Type";
 import TypePlaceholder from "./TypePlaceholder";
 import TypeToken from "./TypeToken";
@@ -32,12 +33,6 @@ export default class TypeInput extends Node {
     }
 
     computeConflicts() {}
-
-    getDescriptions() {
-        return {
-            eng: "A type input"
-        }
-    }
     
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
@@ -45,4 +40,12 @@ export default class TypeInput extends Node {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.type) return new Replace(context.source, this, new TypePlaceholder());
     }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A type input"
+        }
+    }
+
 }

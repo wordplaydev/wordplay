@@ -5,6 +5,7 @@ import type Context from "./Context";
 import type StructureDefinition from "./StructureDefinition";
 import NameType from "./NameType";
 import Unparsable from "./Unparsable";
+import type Translations from "./Translations";
 
 export const STRUCTURE_NATIVE_TYPE_NAME = "structure";
 
@@ -62,15 +63,16 @@ export default class StructureType extends Type {
 
     toWordplay() { return this.structure.getNames()[0]; }
 
-    getDescriptions() {
-        return {
-            eng: "A structure type"
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
     getChildRemoval() { return undefined; }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A structure type"
+        }
+    }
 
 }

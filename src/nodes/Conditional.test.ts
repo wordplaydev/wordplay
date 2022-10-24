@@ -1,5 +1,5 @@
 import { testConflict } from "../conflicts/TestUtilities";
-import { ExpectedBooleanCondition } from "../conflicts/ExpectedBooleanCondition";
+import ExpectedBooleanCondition from "../conflicts/ExpectedBooleanCondition";
 import Evaluator from "../runtime/Evaluator";
 import Conditional from "./Conditional";
 import BinaryOperation from "./BinaryOperation";

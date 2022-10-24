@@ -5,6 +5,7 @@ import type Node from "../nodes/Node";
 import type Value from "../runtime/Value";
 import type Type from "../nodes/Type";
 import type UnaryOperation from "../nodes/UnaryOperation";
+import type Translations from "../nodes/Translations";
 
 export default class NotAFunction extends Conflict {
     readonly evaluate: Evaluate | BinaryOperation | UnaryOperation;
@@ -22,8 +23,9 @@ export default class NotAFunction extends Conflict {
         return { primary: [ this.evaluate instanceof Evaluate ? this.evaluate.func : this.evaluate.operator ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `${this.evaluate instanceof Evaluate ? this.evaluate.func : this.evaluate.operator.toWordplay() } isn't a function on ${this.type.toWordplay() }`
         }
     }

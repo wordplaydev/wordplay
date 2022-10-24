@@ -45,24 +45,25 @@ export default class NativeExpression extends Expression {
         return evaluation === undefined ? undefined : this.evaluator.call(undefined, evaluation);
     }
 
-    getStartExplanations() { return this.getFinishExplanations(); }
-
-    getFinishExplanations() { return this.explanations; }
-
     /** Can't clone native expressions, there's only one of them! */
     clone() { return this; }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { context; bind; original; return current; }
 
-    getDescriptions() {
-        return {
-            eng: "A native expression"
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
     getChildRemoval() { return undefined; }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A native expression"
+        }
+    }
+
+    getStartExplanations(): Translations { return this.getFinishExplanations(); }
+
+    getFinishExplanations(): Translations { return this.explanations; }
 
 }

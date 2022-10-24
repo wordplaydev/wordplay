@@ -1,6 +1,7 @@
 import type ColumnType from "../nodes/ColumnType";
 import type Row from "../nodes/Row";
 import type TableType from "../nodes/TableType";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -22,8 +23,9 @@ export default class MissingCell extends Conflict {
         return { primary: [ this.row ], secondary: [ this.column ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `This row is missing column ${this.column.toWordplay()}.`
         }
     }

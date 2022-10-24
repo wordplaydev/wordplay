@@ -1,4 +1,5 @@
 import type Share from "../nodes/Share";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -14,8 +15,9 @@ export class MissingShareLanguages extends Conflict {
         return { primary: [ this.share ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `To share something, you must tag it's names with languages.`
         }
     }

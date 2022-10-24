@@ -15,6 +15,7 @@ import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import type Translations from "./Translations";
 
 export default class BooleanLiteral extends Expression {
     readonly value: Token;
@@ -35,14 +36,6 @@ export default class BooleanLiteral extends Expression {
         return [ new Finish(this) ];
     }
 
-    getStartExplanations() { return this.getFinishExplanations(); }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Evaluate to a bool"
-        }
-    }
-
     evaluate(): Value {
         return new Bool(this.bool());
     }
@@ -59,12 +52,6 @@ export default class BooleanLiteral extends Expression {
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
-    getDescriptions() {
-        return {
-            eng: `${this.bool() ? "True" : "False"}`
-        }
-    }
-
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
         return [
             new Replace(context.source, child, new Token(!this.bool() ? TRUE_SYMBOL : FALSE_SYMBOL, TokenType.BOOLEAN))
@@ -74,5 +61,21 @@ export default class BooleanLiteral extends Expression {
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     getChildRemoval(): Transform | undefined { return undefined; }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: `${this.bool() ? "True" : "False"}`
+        }
+    }
+
+    getStartExplanations(): Translations { return this.getFinishExplanations(); }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Evaluate to a bool"
+        }
+    }
 
 }

@@ -1,5 +1,6 @@
 import type FunctionDefinition from "../nodes/FunctionDefinition";
 import type StructureDefinition from "../nodes/StructureDefinition";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -17,8 +18,9 @@ export class Implemented extends Conflict {
         return { primary: this.structure.aliases, secondary: this.functions };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `Structures that don't implement some functions can't implement others.`
         }
     }

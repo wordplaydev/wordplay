@@ -1,4 +1,5 @@
 import type Expression from "../nodes/Expression";
+import type Translations from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
 
@@ -21,8 +22,9 @@ export class IncompatibleBind extends Conflict {
         return { primary: [ this.value ], secondary: [ this.expectedType ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `Expected ${this.expectedType.toWordplay()}, got ${this.valueType.toWordplay()}`
         }
     }

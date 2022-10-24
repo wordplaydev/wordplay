@@ -1,5 +1,6 @@
 import type Bind from "../nodes/Bind";
 import type Share from "../nodes/Share";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -16,9 +17,10 @@ export class DuplicateShare extends Conflict {
         return { primary: (this.share.bind as Bind).names, secondary: (this.other.bind as Bind).names };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
-            eng: `This share has the same name as a share in another file.`
+            eng: `This share has the same name as a share in another file.`,
+            "😀": "TODO"
         }
     }
 

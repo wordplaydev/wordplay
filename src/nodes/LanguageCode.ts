@@ -1,3 +1,3 @@
-type LanguageCode = "eng";
+type LanguageCode = "eng" | "😀";
 
 export default LanguageCode;

@@ -29,7 +29,8 @@ export default class JumpIfStreamExists extends Step {
 
     getExplanations(): Translations {
         return {
-            "eng": `Have we already initialized this stream?`
+            eng: `TODO: Have we already initialized this stream?`,
+            "😀": "TODO: ⏭∆"
         }
     }
 

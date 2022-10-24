@@ -5,6 +5,7 @@ import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
 import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
+import type Translations from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import Action from "../runtime/Action";
 import Bool from "../runtime/Bool";
@@ -38,7 +39,8 @@ export default class NativeHOFListMap extends HOF {
             // Initialize an iterator and an empty list in this scope.
             new Action(this, 
                 {
-                    "eng": "Initialize an index and list"
+                    "😀": "TODO",
+                    eng: "Initialize an index and list"
                 },
                 evaluator => {
                     evaluator.bind("index", new Measurement(1));
@@ -47,7 +49,8 @@ export default class NativeHOFListMap extends HOF {
                 }),
             new Action(this, 
                 {
-                    "eng": "Check the next item"
+                    "😀": "TODO",
+                    eng: "Check the next item"
                 },
                 evaluator => {
                     const index = evaluator.resolve("index");
@@ -84,7 +87,8 @@ export default class NativeHOFListMap extends HOF {
             // Save the translated value and then jump to the conditional.
             new Action(this, 
                 {
-                    "eng": "Add the next item to the list and go to the next item."
+                    "😀": "TODO",
+                    eng: "Add the next item to the list and go to the next item."
                 },
                 evaluator => {
 
@@ -129,21 +133,23 @@ export default class NativeHOFListMap extends HOF {
         ];
     }
 
-    getStartExplanations() {
-        return {
-            "eng": "Include everything until we find a matching item."
-        }
-    }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Evaluate to the new truncated list."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value | undefined {
         // Evaluate to the filtered list.
         return evaluator.resolve("list");
+    }
+
+    getStartExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Include everything until we find a matching item."
+        }
+    }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Evaluate to the new truncated list."
+        }
     }
 
 }

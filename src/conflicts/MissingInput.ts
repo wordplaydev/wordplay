@@ -4,6 +4,7 @@ import type FunctionType from "../nodes/FunctionType";
 import Conflict from "./Conflict";
 import type Bind from "../nodes/Bind";
 import type BinaryOperation from "../nodes/BinaryOperation";
+import type Translations from "../nodes/Translations";
 
 
 export default class MissingInput extends Conflict {
@@ -22,8 +23,9 @@ export default class MissingInput extends Conflict {
         return { primary: this.input.names };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `Expected an input ${this.input.names.map(a => a.getName()).join(", ")}, but it wasn't provided.`
         }
     }

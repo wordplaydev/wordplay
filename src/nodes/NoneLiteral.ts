@@ -16,6 +16,7 @@ import TokenType from "./TokenType";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
 import Remove from "../transforms/Remove";
+import type Translations from "./Translations";
 
 export default class NoneLiteral extends Expression {
     readonly none: Token;
@@ -51,18 +52,20 @@ export default class NoneLiteral extends Expression {
         return new None(this.aliases);
     }
 
-    getStartExplanations() { return this.getFinishExplanations(); }
+    getStartExplanations(): Translations { return this.getFinishExplanations(); }
 
-    getFinishExplanations() {
+    getFinishExplanations(): Translations {
         return {
-            "eng": "Evaluate to this none value!"
+            "😀": "TODO",
+            eng: "Evaluate to this none value!"
         }
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
-    getDescriptions() {
+    getDescriptions(): Translations {
         return {
+            "😀": "TODO",
             eng: "A none value"
         }
     }

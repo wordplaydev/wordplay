@@ -18,7 +18,8 @@ export default class CircularReference extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            eng: `I can't compute ${this.name.getName()} using itself!`
+            eng: `I can't compute ${this.name.getName()} using itself!`,
+            "😀": `TODO: ⟲`
         }
     }
 

@@ -12,6 +12,7 @@ import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import Add from "../transforms/Add";
 import Remove from "../transforms/Remove";
+import type Translations from "./Translations";
 
 export default class TextType extends NativeType {
 
@@ -49,12 +50,6 @@ export default class TextType extends NativeType {
 
     getNativeTypeName(): string { return TEXT_NATIVE_TYPE_NAME; }
 
-    getDescriptions() {
-        return {
-            eng: "A text type"
-        }
-    }
-
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
     
         const project = context.source.getProject();
@@ -78,4 +73,13 @@ export default class TextType extends NativeType {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.format) return new Remove(context.source, this, child);
     }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A text type"
+        }
+    }
+
+
 }

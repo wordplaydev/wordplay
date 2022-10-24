@@ -71,7 +71,8 @@ export default class Replace<NodeType extends Node> extends Transform {
 
         const replacement = this.getPrettyNewNode(lang);
         return {
-            eng: "Replace with " + replacement.getDescriptions().eng
+            eng: "Replace with " + replacement.getDescriptions().eng,
+            "😀": "TODO: → " + replacement.getDescriptions()["😀"],
         }[lang];
 
     }

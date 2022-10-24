@@ -1,4 +1,5 @@
 import type Convert from "../nodes/Convert";
+import type Translations from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
 
@@ -16,8 +17,9 @@ export class UnknownConversion extends Conflict {
         return { primary: [ this.convert.type ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `There's no conversion from this to this type.`
         }
     }

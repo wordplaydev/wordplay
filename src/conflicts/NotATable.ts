@@ -1,6 +1,7 @@
 import type Delete from "../nodes/Delete";
 import type Insert from "../nodes/Insert";
 import type Select from "../nodes/Select";
+import type Translations from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import type Update from "../nodes/Update";
 import Conflict from "./Conflict";
@@ -21,8 +22,9 @@ export default class NotATable extends Conflict {
         return { primary: [ this.op.table ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `Expected a table, but this is ${this.received.toWordplay()}`
         }
     }

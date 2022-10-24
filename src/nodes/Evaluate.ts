@@ -468,18 +468,6 @@ export default class Evaluate extends Expression {
         ];
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "We first have to evaluate all of the inputs, then the function to evaluate."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Now that we have the inputs and the function, we can start evaluating the function."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value | undefined {
 
         // Get the function off the stack and bail if it's not a function.
@@ -568,12 +556,6 @@ export default class Evaluate extends Expression {
         if(this.func instanceof Expression) this.func.evaluateTypeSet(bind, original, current, context);
         this.inputs.forEach(input => { if(input instanceof Expression) input.evaluateTypeSet(bind, original, current, context); });
         return current;
-    }
-
-    getDescriptions(): Translations {
-        return {
-            eng: "Evaluate a function"
-        }
     }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
@@ -669,5 +651,27 @@ export default class Evaluate extends Expression {
             }
         }
     }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Evaluate a function"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "We first have to evaluate all of the inputs, then the function to evaluate."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Now that we have the inputs and the function, we can start evaluating the function."
+        }
+    }
+
 
 }

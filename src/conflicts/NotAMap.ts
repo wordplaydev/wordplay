@@ -1,5 +1,6 @@
 import Expression from "../nodes/Expression";
 import type MapLiteral from "../nodes/MapLiteral";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -15,8 +16,9 @@ export class NotAMap extends Conflict {
         return { primary: this.map.values.filter(n => n instanceof Expression) };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `These values aren't key:value pairs, but others are, so this is an invalid map literal.`
         }
     }

@@ -108,7 +108,8 @@ export function createNativeFunction(
             output, 
             evaluator, 
             {
-                "eng": docs.find(doc => doc.lang?.getLanguage() === "eng")?.docs.getText() ?? "No documentatinon"
+                "😀": "TODO",
+                eng: docs.find(doc => doc.lang?.getLanguage() === "eng")?.docs.getText() ?? "No documentatinon"
             }
         ),
         output
@@ -133,7 +134,8 @@ export function createNativeConversion(docs: Documentation[], inputTypeString: s
                 else return new TypeException(evaluation.getEvaluator(), inputType, val); 
             },
             {
-                "eng": docs.find(doc => doc.lang?.getLanguage() === "eng")?.docs.getText() ?? "No documentation"
+                "😀": "TODO",
+                eng: docs.find(doc => doc.lang?.getLanguage() === "eng")?.docs.getText() ?? "No documentation"
             }
         )
     )

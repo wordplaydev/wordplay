@@ -1,3 +1,4 @@
+import type Translations from "../nodes/Translations";
 import type Evaluator from "./Evaluator";
 import Exception from "./Exception";
 
@@ -13,10 +14,16 @@ export default class ContextException extends Exception {
         this.reason = reason;
     }
 
-    getExplanations() {
-        return {
-            "eng": this.reason === StackSize.EMPTY ? `Not executing any functions.` : `Executed too many functions.`
-        }
+    getExplanations(): Translations {
+        return this.reason === StackSize.EMPTY ?
+            {
+                eng: `Not executing any functions.`,
+                "😀": `🫙`
+            } :
+            {
+                eng: `Executed too many functions.`,
+                "😀": `🫗`
+            }
     };
 
 }

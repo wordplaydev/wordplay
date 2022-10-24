@@ -68,21 +68,7 @@ export default class MeasurementLiteral extends Expression {
         else return new Measurement(this.number, this.unit);
     }
 
-    getStartExplanations() { return this.getFinishExplanations(); }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Evaluate to a measurement!"
-        }
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
-
-    getDescriptions() {
-        return {
-            eng: "A number with an optional unit"
-        }
-    }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
@@ -103,7 +89,25 @@ export default class MeasurementLiteral extends Expression {
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.number) return {
+            "😀": "TODO",
             eng: "#"
         }
     }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A number with an optional unit"
+        }
+    }
+
+    getStartExplanations(): Translations { return this.getFinishExplanations(); }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Evaluate to a measurement!"
+        }
+    }
+
 }

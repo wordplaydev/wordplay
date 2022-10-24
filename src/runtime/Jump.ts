@@ -25,7 +25,8 @@ export default class Jump extends Step {
 
     getExplanations(): Translations {
         return {
-            "eng": `Jumping ahead.`
+            eng: `Jumping ahead.`,
+            "😀": "TODO: ⏭"
         }
     }
 

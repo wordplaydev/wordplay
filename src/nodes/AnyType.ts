@@ -1,5 +1,6 @@
 import { ANY_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Node from "./Node";
+import type Translations from "./Translations";
 import Type from "./Type";
 
 export default class AnyType extends Type {
@@ -18,8 +19,9 @@ export default class AnyType extends Type {
 
     clone() { return new AnyType() as this; }
 
-    getDescriptions() {
+    getDescriptions(): Translations {
         return {
+            "😀": "TODO",
             eng: "A wildcard type"
         }
     }

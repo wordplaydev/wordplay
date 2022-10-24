@@ -4,6 +4,7 @@ import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
 import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
+import type Translations from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import Action from "../runtime/Action";
 import Evaluation from "../runtime/Evaluation";
@@ -36,7 +37,8 @@ export default class NativeHOFListTranslate extends HOF {
             // Initialize an iterator and an empty list in this scope.
             new Action(this, 
                 {
-                    "eng": "Initialize an index and new list."
+                    "😀": "TODO",
+                    eng: "Initialize an index and new list."
                 },
                 evaluator => {
                     evaluator.bind("index", new Measurement(1));
@@ -46,7 +48,8 @@ export default class NativeHOFListTranslate extends HOF {
             ),
             new Action(this, 
                 {
-                    "eng": "Apply the translator to the next item."
+                    "😀": "TODO",
+                    eng: "Apply the translator to the next item."
                 },
                 evaluator => {
                     const index = evaluator.resolve("index");
@@ -84,7 +87,8 @@ export default class NativeHOFListTranslate extends HOF {
             // Save the translated value and then jump to the conditional.
             new Action(this, 
                 {
-                    "eng": "Add the translated item to the new list."
+                    "😀": "TODO",
+                    eng: "Add the translated item to the new list."
                 },
                 evaluator => {
 
@@ -112,21 +116,23 @@ export default class NativeHOFListTranslate extends HOF {
         ];
     }
 
-    getStartExplanations() {
-        return {
-            "eng": "Translate items in the list, one by one."
-        }
-    }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Evaluate to the new list."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value | undefined {
         // Evaluate to the new list.
         return evaluator.resolve("list");
+    }
+
+    getStartExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Translate items in the list, one by one."
+        }
+    }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Evaluate to the new list."
+        }
     }
 
 }

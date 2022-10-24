@@ -1,5 +1,6 @@
 import Conflict from "./Conflict";
 import type Unparsable from "../nodes/Unparsable";
+import type Translations from "../nodes/Translations";
 
 export class UnparsableConflict extends Conflict {
     readonly unparsable: Unparsable;
@@ -13,8 +14,9 @@ export class UnparsableConflict extends Conflict {
         return { primary: [ this.unparsable ] };
     }
 
-    getExplanations() {
+    getExplanations(): Translations {
         return {
+            "😀": "TODO",
             eng: `I couldn't parse this.`
         };
     }

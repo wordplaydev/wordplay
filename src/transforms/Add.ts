@@ -59,7 +59,8 @@ export default class Add<NodeType extends Node> extends Transform {
     getDescription(lang: LanguageCode): string {
         const node = this.getPrettyNewNode(lang);
         return {
-            eng: "Add " + node.getDescriptions().eng
+            eng: "Add " + node.getDescriptions().eng,
+            "😀": "Add " + node.getDescriptions()["😀"],
         }[lang];
     }
 

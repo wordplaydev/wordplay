@@ -1,4 +1,5 @@
 import type Name from "../nodes/Name";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -14,8 +15,9 @@ export class UnexpectedTypeVariable extends Conflict {
         return { primary: [ this.name ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `I describe kinds of values, but I'm not one. I don't now what to do!`
         }
     }

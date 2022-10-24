@@ -5,6 +5,7 @@ import Token from "./Token";
 import Unparsable from "./Unparsable";
 import UnknownType from "./UnknownType";
 import type Transform from "../transforms/Transform";
+import type Translations from "./Translations";
 
 export default class Column extends Node {
 
@@ -33,8 +34,9 @@ export default class Column extends Node {
         ) as this; 
     }
 
-    getDescriptions() {
+    getDescriptions(): Translations {
         return {
+            "😀": "TODO",
             eng: "A table column"
         }
     }

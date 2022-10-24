@@ -1,6 +1,6 @@
 import BooleanType from "./BooleanType";
 import type Conflict from "../conflicts/Conflict";
-import { ExpectedBooleanCondition } from "../conflicts/ExpectedBooleanCondition";
+import ExpectedBooleanCondition from "../conflicts/ExpectedBooleanCondition";
 import Expression from "./Expression";
 import Token from "./Token";
 import type Node from "./Node";
@@ -103,18 +103,6 @@ export default class Conditional extends Expression {
         
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "First check if the condition is true."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "All done."
-        }
-    }
-
     /** We never actually evaluate this node below because the jump logic handles things. */
     evaluate() { return undefined; }
 
@@ -139,12 +127,6 @@ export default class Conditional extends Expression {
     
     }
     
-    getDescriptions() {
-        return {
-            eng: "Evaluate to one of two values based on a test value"
-        }
-    }
-
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
         
         if(child === this.condition)
@@ -165,14 +147,38 @@ export default class Conditional extends Expression {
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.condition) return {
+            "😀": "TODO",
             eng: "condition"
         };
         else if(child === this.yes) return {
+            "😀": "TODO",
             eng: "true"
         };
         else if(child === this.no) return {
+            "😀": "TODO",
             eng: "false"
         };
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Evaluate to one of two values based on a test value"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "First check if the condition is true."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "All done."
+        }
     }
 
 }

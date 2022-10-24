@@ -6,6 +6,7 @@ import type Unparsable from "../nodes/Unparsable";
 import type Expression from "../nodes/Expression";
 import type Bind from "../nodes/Bind";
 import type BinaryOperation from "../nodes/BinaryOperation";
+import type Translations from "../nodes/Translations";
 
 
 export default class UnexpectedInputs extends Conflict {
@@ -25,8 +26,9 @@ export default class UnexpectedInputs extends Conflict {
         return { primary: this.inputs };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `This evaluation of ${this.evaluate instanceof Evaluate ? this.evaluate.func.toWordplay() : this.evaluate.operator.toWordplay()} has too many inputs.`
         }
     }

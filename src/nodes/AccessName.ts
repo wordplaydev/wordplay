@@ -140,18 +140,6 @@ export default class AccessName extends Expression {
 
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "First evaluate the structure."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Now find the name in this structure."
-        }
-    }
-
     evaluate(evaluator: Evaluator) {
 
         const subject = evaluator.popValue(undefined);
@@ -169,12 +157,6 @@ export default class AccessName extends Expression {
             this._unionType = possibleTypes.type();
         }
         return current;
-    }
-
-    getDescriptions(): Translations {
-        return {
-            eng: "Get a named value on a structure"
-        }
     }
 
     getNameTransforms(context: Context) {
@@ -229,6 +211,27 @@ export default class AccessName extends Expression {
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.name) return NameLabels;
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Get a named value on a structure"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "First evaluate the structure."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Now find the name in this structure."
+        }
     }
 
 }

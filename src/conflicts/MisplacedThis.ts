@@ -1,4 +1,5 @@
 import type This from "../nodes/This";
+import type Translations from "../nodes/Translations";
 import { THIS_SYMBOL } from "../parser/Tokenizer";
 import Conflict from "./Conflict";
 
@@ -14,8 +15,9 @@ export class MisplacedThis extends Conflict {
         return { primary: [ this.dis.dis ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `Can only use ${THIS_SYMBOL} inside a structure definition or reaction.`
         }
     }

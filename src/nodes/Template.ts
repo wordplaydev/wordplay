@@ -22,6 +22,7 @@ import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
 import Replace from "../transforms/Replace";
 import Add from "../transforms/Add";
 import Remove from "../transforms/Remove";
+import type Translations from "./Translations";
 
 type Part = Token | Expression | Unparsable;
 
@@ -76,27 +77,9 @@ export default class Template extends Expression {
 
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "Start by evaluating all of the parts in this template."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Now make some text out of the parts!"
-        }
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         this.parts.forEach(part => { if(part instanceof Expression) part.evaluateTypeSet(bind, original, current, context); });
         return current;
-    }
-
-    getDescriptions() {
-        return {
-            eng: "Text made of values"
-        }
     }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
@@ -130,6 +113,27 @@ export default class Template extends Expression {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(this.parts.includes(child as Part)) return new Remove(context.source, this, child);
         else if(child === this.format) return new Remove(context.source, this, child);
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Text made of values"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "Start by evaluating all of the parts in this template."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Now make some text out of the parts!"
+        }
     }
 
 }

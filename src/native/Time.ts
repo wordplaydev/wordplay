@@ -17,7 +17,8 @@ export default class Time extends Stream {
 
     getTranslations() {
         return {
-            "eng": "⏱"
+            "😀": "TODO",
+            eng: "⏱"
         };
     }
 

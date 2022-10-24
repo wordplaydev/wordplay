@@ -1,4 +1,5 @@
 import type Cell from "../nodes/Cell";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 export default class ExpectedUpdateBind extends Conflict {
@@ -14,9 +15,10 @@ export default class ExpectedUpdateBind extends Conflict {
         return { primary: [ this.cell ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
-            eng: `This has to provide a value, can't update without one!`
+            eng: `This has to provide a value, can't update without one!`,
+            "😀": "TODO"
         }
     }
 

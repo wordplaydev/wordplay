@@ -41,7 +41,8 @@ export default class JumpIfStreamUnchanged extends Step {
 
     getExplanations(): Translations {
         return {
-            "eng": `Has this stream changed at all?`
+            eng: `Has this stream changed at all?`,
+            "😀": "⏭∆"
         }
     }
 

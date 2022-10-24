@@ -4,6 +4,7 @@ import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
 import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
+import type Translations from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import Action from "../runtime/Action";
 import Evaluation from "../runtime/Evaluation";
@@ -37,7 +38,8 @@ export default class NativeHOFListCombine extends HOF {
             // Initialize an iterator and the current combination.
             new Action(this, 
                 {
-                    "eng": "Start at the first item."
+                    "😀": "TODO",
+                    eng: "Start at the first item."
                 },
                 evaluator => {
                     evaluator.bind("index", new Measurement(1));
@@ -46,7 +48,8 @@ export default class NativeHOFListCombine extends HOF {
             ),
             new Action(this, 
                 {
-                    "eng": "Apply the function to the current item."
+                    "😀": "TODO",
+                    eng: "Apply the function to the current item."
                 },
                 evaluator => {
                     // Get the index.
@@ -97,7 +100,8 @@ export default class NativeHOFListCombine extends HOF {
             // Save the translated value and then jump to the conditional.
             new Action(this, 
                 {
-                    "eng": "Update the combined value."
+                    "😀": "TODO",
+                    eng: "Update the combined value."
                 },
                 evaluator => {
 
@@ -121,23 +125,25 @@ export default class NativeHOFListCombine extends HOF {
         ];
     }
 
-    getStartExplanations() {
-        return {
-            "eng": "Go through each list item and create something larger from each part."
-        }
-    }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Evaluate to the thing we made."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value | undefined {
 
         // Return the combo.
         return evaluator.resolve("initial");
 
+    }
+
+    getStartExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Go through each list item and create something larger from each part."
+        }
+    }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Evaluate to the thing we made."
+        }
     }
 
 }

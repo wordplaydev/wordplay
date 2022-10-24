@@ -84,13 +84,15 @@ export default class ListAccess extends Expression {
 
     getStartExplanations(): Translations {
         return {
-            "eng": "Let's get a value from the list!"
+            "😀": "TODO",
+            eng: "Let's get a value from the list!"
         }
     }
 
     getFinishExplanations(): Translations {
         return {
-            "eng": "Now that we have list and the index, get the value in the list at this index."
+            "😀": "TODO",
+            eng: "Now that we have list and the index, get the value in the list at this index."
         }
     }
 
@@ -112,8 +114,9 @@ export default class ListAccess extends Expression {
         return current;
     }
 
-    getDescriptions() {
+    getDescriptions(): Translations {
         return {
+            "😀": "TODO",
             eng: "Get a value from a list by index"
         }
     }
@@ -136,9 +139,11 @@ export default class ListAccess extends Expression {
     
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.list) return {
+            "😀": "TODO",
             eng: "list"
         };
         else if(child === this.index) return {
+            "😀": "TODO",
             eng: "index"
         };
     }

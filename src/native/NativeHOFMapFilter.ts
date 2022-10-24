@@ -6,6 +6,7 @@ import ListType from "../nodes/ListType";
 import MapType from "../nodes/MapType";
 import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
+import type Translations from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import Action from "../runtime/Action";
 import Bool from "../runtime/Bool";
@@ -39,7 +40,8 @@ export default class NativeHOFMapFilter extends HOF {
             // Initialize an iterator and an empty list in this scope.
             new Action(this, 
                 {
-                    "eng": "Initialize an index and map"
+                    "😀": "TODO",
+                    eng: "Initialize an index and map"
                 },
                 evaluator => {
                     evaluator.bind("index", new Measurement(1));
@@ -48,7 +50,8 @@ export default class NativeHOFMapFilter extends HOF {
                 }),
             new Action(this, 
                 {
-                    "eng": "Check the next map value."
+                    "😀": "TODO",
+                    eng: "Check the next map value."
                 },
                 evaluator => {
                     const index = evaluator.resolve("index");
@@ -88,7 +91,8 @@ export default class NativeHOFMapFilter extends HOF {
             // Save the translated value and then jump to the conditional.
             new Action(this, 
                 {
-                    "eng": "Include if it matched."
+                    "😀": "TODO",
+                    eng: "Include if it matched."
                 },
                 evaluator => {
 
@@ -129,21 +133,23 @@ export default class NativeHOFMapFilter extends HOF {
         ];
     }
 
-    getStartExplanations() {
-        return {
-            "eng": "Make a new map of matching values."
-        }
-    }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Evaluate to the new map."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value | undefined {
         // Evaluate to the filtered list.
         return evaluator.resolve("map");
+    }
+
+    getStartExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Make a new map of matching values."
+        }
+    }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Evaluate to the new map."
+        }
     }
 
 }

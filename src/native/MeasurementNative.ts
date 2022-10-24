@@ -38,7 +38,10 @@ export default function bootstrapMeasurement() {
                     if(requireEqualUnits && !left.unit.isEqualTo(right.unit)) return new TypeException(evaluation.getEvaluator(), left.getType(), right);
                     return expression(left, right) ?? new TypeException(evaluation.getEvaluator(), left.getType(), right);
                 },
-                { eng: "Native measurement operation." }
+                { 
+                    "😀": "TODO",
+                    eng: "Native measurement operation." 
+                }
             ),
             outputType
         );
@@ -55,7 +58,10 @@ export default function bootstrapMeasurement() {
                     if(!(value instanceof Measurement)) return new TypeException(evaluation.getEvaluator(), new MeasurementType(), value);
                     return expression(value) ?? new TypeException(evaluation.getEvaluator(), value.getType(), value);
                 },
-                { eng: "Native measurement operation." }
+                { 
+                    "😀": "TODO",
+                    eng: "Native measurement operation." 
+                }
             ),
             outputType
         );    
@@ -88,7 +94,10 @@ export default function bootstrapMeasurement() {
                         if(right !== undefined && !(right instanceof Measurement)) return new TypeException(evaluation.getEvaluator(), left.getType(), right);
                         return right === undefined ? left.negate() : left.subtract(right);
                     },
-                    { eng: "Native measurement operation." }
+                    { 
+                        "😀": "TODO",
+                        eng: "Native measurement operation." 
+                    }
                 ),
                 new MeasurementType(undefined, left => left)
             ),

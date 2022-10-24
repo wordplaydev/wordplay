@@ -1,5 +1,6 @@
 import { NEVER_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Node from "./Node";
+import type Translations from "./Translations";
 import Type from "./Type";
 
 export default class NeverType extends Type {
@@ -18,8 +19,9 @@ export default class NeverType extends Type {
 
     clone() { return new NeverType() as this; }
 
-    getDescriptions() {
+    getDescriptions(): Translations {
         return {
+            "😀": "TODO",
             eng: "An impossible type"
         }
     }

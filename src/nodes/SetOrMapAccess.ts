@@ -104,28 +104,10 @@ export default class SetOrMapAccess extends Expression {
     
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "First evaluate the set/map, then the key."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Then find the matching key in the set/map."
-        }
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.setOrMap instanceof Expression) this.setOrMap.evaluateTypeSet(bind, original, current, context);
         if(this.key instanceof Expression) this.key.evaluateTypeSet(bind, original, current, context);
         return current;
-    }
-
-    getDescriptions() {
-        return {
-            eng: "Get a value in a set or a map"
-        }
     }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined  {
@@ -151,11 +133,34 @@ export default class SetOrMapAccess extends Expression {
         if(child === this.setOrMap || child === this.key) return new Replace(context.source, child, new ExpressionPlaceholder());
     }
 
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "First evaluate the set/map, then the key."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Then find the matching key in the set/map."
+        }
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Get a value in a set or a map"
+        }
+    }
+
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.setOrMap) return {
+            "😀": "TODO",
             eng: "set/map"
         };
         else if(child === this.key) return {
+            "😀": "TODO",
             eng: "key"
         };
     }

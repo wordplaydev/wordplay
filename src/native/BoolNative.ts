@@ -31,7 +31,10 @@ export default function bootstrapBool() {
                     if(!(right instanceof Bool)) return new TypeException(evaluation.getEvaluator(), new BooleanType(), right);
                     return expression(left, right);
                 },
-                { eng: "Native boolean operation." }
+                { 
+                    "😀": "TODO",
+                    eng: "Native boolean operation." 
+                }
             ),
             new BooleanType()
         );
@@ -53,7 +56,10 @@ export default function bootstrapBool() {
                         if(!(left instanceof Bool)) return new TypeException(evaluation.getEvaluator(), new BooleanType(), left);
                         return left.not();
                     },
-                    { eng: "Logical not." }
+                    { 
+                        "😀": "TODO",
+                        eng: "Logical not." 
+                    }
                 ),
                 new BooleanType()
             ),

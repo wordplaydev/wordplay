@@ -11,6 +11,7 @@ import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
 import TypePlaceholder from "./TypePlaceholder";
 import Replace from "../transforms/Replace";
+import type Translations from "./Translations";
 
 export default class ListType extends NativeType {
 
@@ -61,8 +62,9 @@ export default class ListType extends NativeType {
         return name === LIST_TYPE_VAR_NAME && this.type instanceof Type ? this.type : undefined;
     };
 
-    getDescriptions() {
+    getDescriptions(): Translations {
         return {
+            "😀": "TODO",
             eng: "A list type"
         }
     }

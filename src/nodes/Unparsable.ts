@@ -8,7 +8,7 @@ import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
 import UnknownType from "./UnknownType";
 import { UnparsableConflict } from "../conflicts/UnparsableConflict";
-import UnparasableException from "../runtime/SemanticException";
+import SemanticException from "../runtime/SemanticException";
 import type Evaluator from "../runtime/Evaluator";
 import type Translations from "./Translations";
 
@@ -54,32 +54,33 @@ export default class Unparsable extends Node implements Evaluable {
     }
 
     compile(): Step[] {
-        return [ new Halt(evaluator => new UnparasableException(evaluator, this), this) ];
-    }
-
-    getStartExplanations(): Translations { return this.getFinishExplanations(); }
-
-    getFinishExplanations(): Translations {
-        return {
-            "eng": "We couldn't make sense of this, so we're stopping the program."
-        }
+        return [ new Halt(evaluator => new SemanticException(evaluator, this), this) ];
     }
 
     evaluate(evaluator: Evaluator): Value {
-        return new UnparasableException(evaluator, this);
-    }
-
-    getDescriptions() {
-        return {
-            eng: "An unparsable sequence of symbols"
-        }
+        return new SemanticException(evaluator, this);
     }
 
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
     getChildRemoval() { return undefined; }
-    
+
+    getDescriptions(): Translations {
+        return {
+            eng: "An unparsable sequence of symbols",
+            "😀": "TODO: 🤔"
+        }
+    }
+    getStartExplanations(): Translations { return this.getFinishExplanations(); }
+
+    getFinishExplanations(): Translations {
+        return {
+            eng: "We couldn't make sense of this, so we're stopping the program.",
+            "😀": "TODO: 🛑"
+        }
+    }
+
 }
 
 

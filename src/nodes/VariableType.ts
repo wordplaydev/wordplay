@@ -1,3 +1,4 @@
+import type Translations from "./Translations";
 import Type from "./Type";
 import type TypeVariable from "./TypeVariable";
 
@@ -24,15 +25,17 @@ export default class VariableType extends Type {
 
     clone() { return new VariableType(this.definition) as this; }
 
-    getDescriptions() {
-        return {
-            eng: "A variable type type"
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
     getChildRemoval() { return undefined; }
-    
+
+    getDescriptions(): Translations {
+        return {
+            eng: "A variable type type",
+            "😀": `TODO: •x?`
+        }
+    }
+
+
 }

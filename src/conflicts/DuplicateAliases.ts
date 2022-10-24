@@ -19,8 +19,10 @@ export default class DuplicateAliases extends Conflict {
     }
 
     getExplanations(): Translations { 
+        const duplicates = [... new Set(Array.from(this.duplicates.values()).flat().map(lang => lang.getName()))];
         return {
-            eng: `Duplicate aliases ${[... new Set(Array.from(this.duplicates.values()).flat().map(lang => lang.getName()))]}.`
+            eng: `Duplicate aliases ${duplicates.join(", ")}.`,
+            "😀": `TODO: ${duplicates.join(", ")}`
         }
     }
 

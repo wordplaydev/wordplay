@@ -1,4 +1,5 @@
 import type Alias from "../nodes/Alias";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 export default class UnnamedAlias extends Conflict {
@@ -12,8 +13,9 @@ export default class UnnamedAlias extends Conflict {
         return { primary: [ this.alias ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `Don't forget to name me!`
         }
     }

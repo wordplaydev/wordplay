@@ -1,5 +1,6 @@
 import type Cell from "../nodes/Cell";
 import type TableType from "../nodes/TableType";
+import type Translations from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
 
@@ -24,8 +25,9 @@ export default class IncompatibleCellType extends Conflict {
         return { primary:  [this.cell ], secondary: [ this.type ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `Expected ${this.expected.toWordplay()}, received ${this.received.toWordplay()}`
         }
     }

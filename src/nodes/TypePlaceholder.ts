@@ -32,12 +32,6 @@ export default class TypePlaceholder extends Type {
         ) as this; 
     }
 
-    getDescriptions() {
-        return {
-            eng: "A type placeholder"
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
@@ -45,8 +39,17 @@ export default class TypePlaceholder extends Type {
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.placeholder) return {
+            "😀": "TODO",
             eng: "type"
         };
     }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A type placeholder"
+        }
+    }
+
 
 }

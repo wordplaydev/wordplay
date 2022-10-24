@@ -18,6 +18,7 @@ import Replace from "../transforms/Replace";
 import type Transform from "../transforms/Transform";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Remove from "../transforms/Remove";
+import type Translations from "./Translations";
 
 export default class TextLiteral extends Expression {
     
@@ -48,14 +49,6 @@ export default class TextLiteral extends Expression {
         return new Text(this.text.text.toString().substring(1, this.text.text.toString().length - (lastCharIsQuote ? 1 : 0)), this.format === undefined ? undefined : this.format.getLanguage());
     }
 
-    getStartExplanations() { return this.getFinishExplanations(); }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Evaluate to this text!"
-        }
-    }
-
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TextLiteral(
             this.cloneOrReplaceChild(pretty, [ Token ], "text", this.text, original, replacement), 
@@ -64,12 +57,6 @@ export default class TextLiteral extends Expression {
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
-
-    getDescriptions() {
-        return {
-            eng: "Text"
-        }
-    }
 
     getChildReplacement(child: Node, context: Context) {
     
@@ -99,6 +86,22 @@ export default class TextLiteral extends Expression {
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.format) return new Remove(context.source, this, child);
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Text"
+        }
+    }
+
+    getStartExplanations(): Translations { return this.getFinishExplanations(); }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Evaluate to this text!"
+        }
     }
 
 }

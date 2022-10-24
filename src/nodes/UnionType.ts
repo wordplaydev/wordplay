@@ -12,6 +12,7 @@ import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import TypePlaceholder from "./TypePlaceholder";
+import type Translations from "./Translations";
 
 export default class UnionType extends Type {
 
@@ -68,12 +69,6 @@ export default class UnionType extends Type {
             );
     }
     
-    getDescriptions() {
-        return {
-            eng: "One of these types"
-        }
-    }
-
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
         if(child === this.left || child === this.right)
@@ -87,6 +82,14 @@ export default class UnionType extends Type {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.left || child === this.right) return new Replace(context.source, child, new TypePlaceholder());
     }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "One of these types"
+        }
+    }
+
 }
 
 /** Given a list of types, remove all duplicates, and if only one remains, return it.

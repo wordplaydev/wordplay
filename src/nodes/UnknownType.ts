@@ -1,4 +1,5 @@
 import type Node from "./Node";
+import type Translations from "./Translations";
 import Type from "./Type";
 
 export default class UnknownType extends Type {
@@ -21,15 +22,16 @@ export default class UnknownType extends Type {
 
     clone() { return new UnknownType(this.node) as this; }
     
-    getDescriptions() {
-        return {
-            eng: "An unknown type"
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
     getChildRemoval() { return undefined; }
+
+    getDescriptions(): Translations {
+        return {
+            eng: "An unknown type",
+            "😀": "TODO: •🤔"
+        }
+    }
 
 }

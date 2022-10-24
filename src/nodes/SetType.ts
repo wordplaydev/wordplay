@@ -11,6 +11,7 @@ import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import TypePlaceholder from "./TypePlaceholder";
+import type Translations from "./Translations";
 
 export default class SetType extends NativeType {
 
@@ -63,12 +64,6 @@ export default class SetType extends NativeType {
         return name === SET_TYPE_VAR_NAME && this.key instanceof Type ? this.key : undefined;
     };
 
-    getDescriptions() {
-        return {
-            eng: "A set type"
-        }
-    }
-
     getChildReplacement(child: Node, context: Context): Transform[] | undefined  {
 
         if(child === this.key)
@@ -82,4 +77,12 @@ export default class SetType extends NativeType {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.key) return new Replace(context.source, child, new TypePlaceholder());
     }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A set type"
+        }
+    }
+
 }

@@ -28,6 +28,7 @@ import Remove from "../transforms/Remove";
 import Replace from "../transforms/Replace";
 import TypePlaceholder from "./TypePlaceholder";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import type Translations from "./Translations";
 
 export default class ConversionDefinition extends Expression {
 
@@ -101,14 +102,6 @@ export default class ConversionDefinition extends Expression {
         return [ new Finish(this) ];
     }
 
-    getStartExplanations() { return this.getFinishExplanations(); }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Let's define this conversion!"
-        }
-    }
-
     evaluate(evaluator: Evaluator) {
 
         const context = evaluator.getEvaluationContext();
@@ -124,12 +117,6 @@ export default class ConversionDefinition extends Expression {
         return current;
     }
  
-    getDescriptions() {
-        return {
-            eng: "A value conversion function"
-        }
-    }
-
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
         
         if(child === this.input || child === this.output)
@@ -148,5 +135,22 @@ export default class ConversionDefinition extends Expression {
         else if(child === this.input || child === this.output) return new Replace(context.source, child, new TypePlaceholder());
         else if(child === this.expression) return new Replace(context.source, child, new ExpressionPlaceholder());
     }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A value conversion function"
+        }
+    }
+
+    getStartExplanations(): Translations { return this.getFinishExplanations(); }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Let's define this conversion!"
+        }
+    }
+
 
 }

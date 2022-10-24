@@ -40,7 +40,8 @@ export default class NativeHOFListAll extends HOF {
             ),
             new Action(this, 
                 {
-                    "eng": "Translate the next list element into a boolean."
+                    "😀": "TODO",
+                    eng: "Translate the next list element into a boolean."
                 }, 
                 evaluator => {
                     const index = evaluator.resolve("index");
@@ -80,7 +81,8 @@ export default class NativeHOFListAll extends HOF {
             // Save the translated value and then jump to the conditional.
             new Action(this, 
                 {
-                    "eng": "Is it true? If so, check the next list item, if there is one, otherwise finish."
+                    "😀": "TODO",
+                    eng: "Is it true? If so, check the next list item, if there is one, otherwise finish."
                 }, 
                 evaluator => {
 
@@ -109,13 +111,15 @@ export default class NativeHOFListAll extends HOF {
 
     getStartExplanations(): Translations {
         return {
-            "eng": "We'll go through each item, seeing if the matcher function evaluates to true."
+            "😀": "TODO",
+            eng: "We'll go through each item, seeing if the matcher function evaluates to true."
         }
     }
 
     getFinishExplanations(): Translations {
         return {
-            "eng": "If we made it to the end of the list, then evaluate to true, otherwise false."
+            "😀": "TODO",
+            eng: "If we made it to the end of the list, then evaluate to true, otherwise false."
         }
     }
 

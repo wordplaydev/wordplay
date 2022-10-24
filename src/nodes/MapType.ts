@@ -12,6 +12,7 @@ import type Transform from "../transforms/Transform"
 import BindToken from "./BindToken";
 import TypePlaceholder from "./TypePlaceholder";
 import Replace from "../transforms/Replace";
+import type Translations from "./Translations";
 
 export default class MapType extends NativeType {
 
@@ -83,8 +84,9 @@ export default class MapType extends NativeType {
             undefined;
     };
 
-    getDescriptions() {
+    getDescriptions(): Translations {
         return {
+            "😀": "TODO",
             eng: "A map type"
         }
     }

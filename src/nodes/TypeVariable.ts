@@ -3,6 +3,7 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import { TYPE_VAR_SYMBOL } from "../parser/Tokenizer";
 import NameToken from "./NameToken";
+import type Translations from "./Translations";
 
 export default class TypeVariable extends Node {
 
@@ -34,15 +35,16 @@ export default class TypeVariable extends Node {
         return [ this.type, this.name ];
     }
 
-    getDescriptions() {
-        return {
-            eng: "A variable type"
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
     getChildRemoval() { return undefined; }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A variable type"
+        }
+    }
 
 }

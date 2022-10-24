@@ -8,6 +8,7 @@ import Unparsable from "./Unparsable";
 import BindToken from "./BindToken";
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import type Translations from "./Translations";
 
 export default class KeyValue extends Node {
 
@@ -37,8 +38,9 @@ export default class KeyValue extends Node {
 
     computeConflicts() {}
 
-    getDescriptions() {
+    getDescriptions(): Translations {
         return {
+            "😀": "TODO",
             eng: "A map key/value pair."
         }
     }

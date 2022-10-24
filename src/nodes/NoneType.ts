@@ -8,6 +8,7 @@ import NativeType from "./NativeType";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
+import type Translations from "./Translations";
 import type Type from "./Type";
 
 export default class NoneType extends NativeType {
@@ -47,16 +48,18 @@ export default class NoneType extends NativeType {
         ) as this; 
     }
 
-    getDescriptions() {
-        return {
-            eng: "A none type."
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
     getChildRemoval(child: Node, context: Context): Transform | undefined { 
         if(this.aliases.includes(child as Alias)) return new Remove(context.source, this, child);    
     }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A none type."
+        }
+    }
+
 }

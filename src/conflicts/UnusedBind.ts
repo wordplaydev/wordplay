@@ -1,6 +1,7 @@
 import type Bind from "../nodes/Bind";
 import Conflict from "./Conflict";
 import type Token from "../nodes/Token";
+import type Translations from "../nodes/Translations";
 
 export class UnusedBind extends Conflict {
 
@@ -16,8 +17,9 @@ export class UnusedBind extends Conflict {
         return { primary: this.bind.names.map(a => a.name).filter(n => n !== undefined) as Token[] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `No one use using ${this.bind.getNames().length === 1 ? "me" : "us"} :(`
         }
     }

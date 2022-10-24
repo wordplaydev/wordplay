@@ -1,4 +1,5 @@
 import type Language from "../nodes/Language";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -14,8 +15,9 @@ export default class MissingLanguage extends Conflict {
         return { primary: [ this.language.slash ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `Languages require a language code.`
         }
     }

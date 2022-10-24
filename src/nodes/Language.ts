@@ -9,6 +9,7 @@ import Add from "../transforms/Add";
 import LanguageToken from "./LanguageToken";
 import NameToken from "./NameToken";
 import Remove from "../transforms/Remove";
+import type Translations from "./Translations";
 
 export default class Language extends Node {
     
@@ -44,8 +45,9 @@ export default class Language extends Node {
         return this.getLanguage() === lang.getLanguage();
     }
 
-    getDescriptions() {
+    getDescriptions(): Translations {
         return {
+            "😀": "TODO",
             eng: "a language"
         }
     }

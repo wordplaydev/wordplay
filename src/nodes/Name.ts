@@ -30,6 +30,7 @@ import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Unparsable from "./Unparsable";
 import NameToken from "./NameToken";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import type Translations from "./Translations";
 
 export default class Name extends Expression {
     
@@ -144,14 +145,6 @@ export default class Name extends Expression {
         return [ new Finish(this) ];
     }
 
-    getStartExplanations() { return this.getFinishExplanations(); }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Find the name get evaluate to it's value."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value {
 
         // Search for the name in the given evaluation context.
@@ -161,11 +154,22 @@ export default class Name extends Expression {
 
     }
     
-    getDescriptions() {
+    getDescriptions(): Translations {
         return {
+            "😀": "TODO",
             eng: "A name"
         }
     }
+
+    getStartExplanations(): Translations { return this.getFinishExplanations(); }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Find the name get evaluate to it's value."
+        }
+    }
+
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 

@@ -1,4 +1,5 @@
 import type MeasurementLiteral from "../nodes/MeasurementLiteral";
+import type Translations from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 
@@ -14,8 +15,9 @@ export class NotANumber extends Conflict {
         return { primary: [ this.measurement ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `This number isn't formatted correctly`
         }
     }

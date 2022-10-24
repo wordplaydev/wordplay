@@ -6,6 +6,7 @@ import { BOOLEAN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import NativeType from "./NativeType";
 import type Transform from "../transforms/Transform";
+import type Translations from "./Translations";
 
 export default class BooleanType extends NativeType {
 
@@ -30,8 +31,9 @@ export default class BooleanType extends NativeType {
 
     getNativeTypeName(): string { return BOOLEAN_NATIVE_TYPE_NAME; }
 
-    getDescriptions() {
+    getDescriptions(): Translations {
         return {
+            "😀": "TODO",
             eng: "A boolean type"
         }
     }

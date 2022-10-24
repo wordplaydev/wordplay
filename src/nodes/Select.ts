@@ -26,6 +26,7 @@ import UnimplementedException from "../runtime/UnimplementedException";
 import type Evaluator from "../runtime/Evaluator";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
+import type Translations from "./Translations";
 
 export default class Select extends Expression {
     
@@ -129,18 +130,6 @@ export default class Select extends Expression {
         ];
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "First we get the table, then we select values from it."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Now that we have the table, let's get the matching values."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value {
         return new UnimplementedException(evaluator);
     }
@@ -153,16 +142,31 @@ export default class Select extends Expression {
         return current;
     }
 
-    getDescriptions() {
-        return {
-            eng: "Select rows from a table"
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
    
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     getChildRemoval() { return undefined; }
-    
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Select rows from a table"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "First we get the table, then we select values from it."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Now that we have the table, let's get the matching values."
+        }
+    }
+
 }

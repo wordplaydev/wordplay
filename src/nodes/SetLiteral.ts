@@ -20,6 +20,7 @@ import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
 import { endsWithName, startsWithName } from "./util";
 import Remove from "../transforms/Remove";
+import type Translations from "./Translations";
 
 export type SetItem = Expression | Unparsable;
 
@@ -73,18 +74,6 @@ export default class SetLiteral extends Expression {
         ];
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "Start evaluating all the set items."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Now that we have all the set items, make the set."
-        }
-    }
-
     evaluate(evaluator: Evaluator): Value {
 
         // Pop all of the values. Order doesn't matter.
@@ -98,12 +87,6 @@ export default class SetLiteral extends Expression {
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         this.values.forEach(val => { if(val instanceof Expression) val.evaluateTypeSet(bind, original, current, context); });
         return current;
-    }
-
-    getDescriptions() {
-        return {
-            eng: "A set of unique values"
-        }
     }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined  {
@@ -123,8 +106,30 @@ export default class SetLiteral extends Expression {
     }
 
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
+    
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(this.values.includes(child as SetItem)) return new Remove(context.source, this, child);
+    }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "A set of unique values"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "Start evaluating all the set items."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Now that we have all the set items, make the set."
+        }
     }
 
 }

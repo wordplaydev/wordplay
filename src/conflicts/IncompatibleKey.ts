@@ -1,4 +1,5 @@
 import type SetOrMapAccess from "../nodes/SetOrMapAccess";
+import type Translations from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
 
@@ -19,8 +20,9 @@ export class IncompatibleKey extends Conflict {
         return { primary: [ this.access.key ], secondary: [ this.expected ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `I expect keys of type ${this.expected.toWordplay()}, but this is ${this.received.toWordplay()}.`
         }
     }

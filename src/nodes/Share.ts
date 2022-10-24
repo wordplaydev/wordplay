@@ -15,6 +15,7 @@ import SemanticException from "../runtime/SemanticException";
 import NameException from "../runtime/NameException";
 import Block from "./Block";
 import { DuplicateShare } from "../conflicts/DuplicateShare";
+import type Translations from "./Translations";
 
 export default class Share extends Node implements Evaluable {
     
@@ -70,18 +71,6 @@ export default class Share extends Node implements Evaluable {
         return [ new Start(this), ...this.bind.compile(context), new Finish(this) ];
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "Let's evaluate first, then share."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Now that we have the value, let's share it!"
-        }
-    }
-
     evaluate(evaluator: Evaluator) {
 
         if(this.bind instanceof Unparsable) 
@@ -96,15 +85,30 @@ export default class Share extends Node implements Evaluable {
         
     }
 
-    getDescriptions() {
-        return {
-            eng: "Share a named value"
-        }
-    }
-
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
     getChildRemoval() { return undefined; }
+
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Share a named value"
+        }
+    }
+
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "Let's evaluate first, then share."
+        }
+     }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Now that we have the value, let's share it!"
+        }
+    }
 
 }

@@ -157,18 +157,6 @@ export default class Block extends Expression {
 
     }
 
-    getStartExplanations() { 
-        return {
-            "eng": "We'll evaluate all of the expressions first."
-        }
-     }
-
-    getFinishExplanations() {
-        return {
-            "eng": "Now that we're done, we'll evaluate to the last expression's value."
-        }
-    }
-
     evaluate(evaluator: Evaluator) {
 
         // If this block is creating a structure, take the context and bindings we just created
@@ -193,12 +181,6 @@ export default class Block extends Expression {
         const last = this.statements[this.statements.length - 1];
         return last instanceof Expression ? last.evaluateTypeSet(bind, original, current, context) : current;
 
-    }
-
-    getDescriptions() {
-        return {
-            eng: "Evaluate one or more expressions"
-        }
     }
 
     getInsertions() {
@@ -259,9 +241,29 @@ export default class Block extends Expression {
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(this.statements.includes(child as Statement)) return {
+            "😀": "TODO",
             eng: "statement"
         };
     }
+    getDescriptions(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Evaluate one or more expressions"
+        }
+    }
 
+    getStartExplanations(): Translations { 
+        return {
+            "😀": "TODO",
+            eng: "We'll evaluate all of the expressions first."
+        }
+    }
+
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Now that we're done, we'll evaluate to the last expression's value."
+        }
+    }
 
 }

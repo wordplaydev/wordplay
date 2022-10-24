@@ -237,13 +237,15 @@ export default class Bind extends Node implements Evaluable, Named {
 
     getStartExplanations(): Translations {
         return {
-            "eng": "Evaluate the value first"
+            "😀": "TODO",
+            eng: "Evaluate the value first"
         }
     }
 
     getFinishExplanations(): Translations {
         return {
-            "eng": "Bind the value to this name."
+            "😀": "TODO",
+            eng: "Bind the value to this name."
         }
     }
 
@@ -266,10 +268,13 @@ export default class Bind extends Node implements Evaluable, Named {
 
     }
     
-    getDescriptions() {
+    getDescriptions(): Translations {
 
         // Generate documentation by language.
-        const descriptions: Record<LanguageCode, string> = { eng: "A named value" };
+        const descriptions: Translations = { 
+            "😀": "TODO", 
+            eng: "A named value" 
+        };
         for(const doc of this.docs) {
             if(doc.lang !== undefined)
                 descriptions[doc.lang.getLanguage() as LanguageCode] = doc.docs.getText();

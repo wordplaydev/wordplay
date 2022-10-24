@@ -38,6 +38,7 @@ import TypeToken from "./TypeToken";
 import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
 import Remove from "../transforms/Remove";
+import type Translations from "./Translations";
 
 export default class StructureDefinition extends Expression {
 
@@ -237,28 +238,9 @@ export default class StructureDefinition extends Expression {
             
     }
     
-    getStartExplanations() { return this.getFinishExplanations(); }
-    getFinishExplanations() {
-        return {
-            "eng": "Evaluate to this structure definition!"
-        }
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.block instanceof Expression) this.block.evaluateTypeSet(bind, original, current, context);
         return current;
-    }
-
-    getDescriptions() {
-        
-        // Generate documentation by language.
-        const descriptions: Record<LanguageCode, string> = { eng: "A type" };
-        for(const doc of this.docs) {
-            if(doc.lang !== undefined)
-                descriptions[doc.lang.getLanguage() as LanguageCode] = doc.docs.getText();
-        }
-        return descriptions;
-
     }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
@@ -300,4 +282,28 @@ export default class StructureDefinition extends Expression {
         else if(child === this.block) return new Remove(context.source, this, child);
     
     }
+
+    getStartExplanations(): Translations { return this.getFinishExplanations(); }
+    getFinishExplanations(): Translations {
+        return {
+            "😀": "TODO",
+            eng: "Evaluate to this structure definition!"
+        }
+    }
+
+    getDescriptions(): Translations {
+        
+        // Generate documentation by language.
+        const descriptions: Record<LanguageCode, string> = { 
+            "😀": "TODO",
+            eng: "A type" 
+        };
+        for(const doc of this.docs) {
+            if(doc.lang !== undefined)
+                descriptions[doc.lang.getLanguage() as LanguageCode] = doc.docs.getText();
+        }
+        return descriptions;
+
+    }
+
 }

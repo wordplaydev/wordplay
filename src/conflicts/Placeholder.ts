@@ -1,4 +1,5 @@
 import type ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
+import type Translations from "../nodes/Translations";
 import type TypePlaceholder from "../nodes/TypePlaceholder";
 import Conflict from "./Conflict";
 
@@ -15,8 +16,9 @@ export default class Placeholder extends Conflict {
         return { primary: [ this.placeholder ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `Don't forget to replace his with some code!`
         }
     }

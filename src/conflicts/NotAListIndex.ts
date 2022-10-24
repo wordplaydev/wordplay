@@ -1,4 +1,5 @@
 import type ListAccess from "../nodes/ListAccess";
+import type Translations from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
 
@@ -19,8 +20,9 @@ export class NotAListIndex extends Conflict {
         return { primary: [ this.access.index ] };
     }
 
-    getExplanations() { 
+    getExplanations(): Translations { 
         return {
+            "😀": "TODO",
             eng: `Lists can only be accessed with #'s. This is a ${this.indexType.toWordplay()}.`
         }
     }

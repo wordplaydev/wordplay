@@ -33,7 +33,8 @@ export default class JumpIf extends Step {
 
     getExplanations(): Translations {
         return {
-            "eng": `Jumping ahead if the value on the stack is ${this.yes ? TRUE_SYMBOL : FALSE_SYMBOL }.`
+            eng: `Jumping ahead if the value on the stack is ${this.yes ? TRUE_SYMBOL : FALSE_SYMBOL }.`,
+            "😀": "TODO: ⏭?"
         }
     }
 
