@@ -23,6 +23,7 @@ import InvalidRow from "../conflicts/InvalidRow";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import type Translations from "./Translations";
+import { ANONYMOUS_SYMBOL } from "../parser/Tokenizer";
 
 export function getDuplicateDocs(docs: Documentation[]): DuplicateLanguages | undefined {
     const duplicatesByLanguage = new Map<string, Language[]>();
@@ -208,14 +209,19 @@ export function startsWithName(node: Node) {
 
 export function aliasesToTranslations(aliases: Alias[]): Translations {
 
-    // Define some default translations
-    const translations: Record<string, string> = {
-        eng: aliases.find(a => a.getLanguage() === undefined)?.getName() ?? aliases[0].getName() ?? "anonymous"
+    // Define some default translations using whatever aliases are defined.
+    const translations: Translations = {
+        eng: aliases.find(a => a.getLanguage() === undefined)?.getName() ?? aliases[0].getName() ?? ANONYMOUS_SYMBOL,
+        "😀": aliases.find(a => a.getLanguage() === undefined)?.getName() ?? aliases[0].getName() ?? ANONYMOUS_SYMBOL
     }
 
     // Override with the alias list.
-    for(const alias of aliases)
-        translations[alias.getLanguage() ?? "eng"] = alias.getName() ?? "anonymous";
+    for(const alias of aliases) {
+        const lang = alias.getLanguage();
+        const name = alias.getName();
+        if(lang !== undefined && name !== undefined)
+            (translations as Record<string,string>)[lang] = name;
+    }
 
     return translations as Translations;
 
