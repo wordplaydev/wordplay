@@ -20,13 +20,13 @@ export default class MissingInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.input.names };
+        return { primary: this.input.aliases };
     }
 
     getExplanations(): Translations { 
         return {
             "😀": "TODO",
-            eng: `Expected an input ${this.input.names.map(a => a.getName()).join(", ")}, but it wasn't provided.`
+            eng: `Expected an input ${this.input.aliases.map(a => a.getName()).join(", ")}, but it wasn't provided.`
         }
     }
 

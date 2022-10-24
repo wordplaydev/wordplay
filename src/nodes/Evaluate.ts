@@ -424,7 +424,7 @@ export default class Evaluate extends Expression {
             else {
                 // and it's not a variable length input, first search for a named input, otherwise grab the next input.
                 if(!expectedInput.isVariableLength()) {
-                    const bind = givenInputs.find(g => g instanceof Bind && expectedInput.names.find(a => a.getName() === g.names[0].getName()) !== undefined);
+                    const bind = givenInputs.find(g => g instanceof Bind && expectedInput.aliases.find(a => a.getName() === g.aliases[0].getName()) !== undefined);
                     // If we found a bind with a matching name, compile it's value.
                     if(bind instanceof Bind && bind.value !== undefined)
                         return bind.value.compile(context);
@@ -537,7 +537,7 @@ export default class Evaluate extends Expression {
             if(bind instanceof Unparsable) return new SemanticException(evaluator, bind);
             else if(i >= values.length) 
                 return new ValueException(evaluator);
-            bind.names.forEach(name => {
+            bind.aliases.forEach(name => {
                 const n = name.getName();
                 if(n !== undefined)
                     bindings.set(
@@ -639,13 +639,13 @@ export default class Evaluate extends Expression {
                 if(funType instanceof FunctionType && index < funType.inputs.length) {
                     const bind = funType.inputs[index];
                     if(bind instanceof Bind) {
-                        return aliasesToTranslations(bind.names);
+                        return aliasesToTranslations(bind.aliases);
                     }
                 }
                 else if(funType instanceof StructureType && index < funType.structure.inputs.length) {
                     const bind = funType.structure.inputs[index];
                     if(bind instanceof Bind) {
-                        return aliasesToTranslations(bind.names);
+                        return aliasesToTranslations(bind.aliases);
                     }
                 }
             }

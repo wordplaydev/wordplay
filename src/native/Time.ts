@@ -1,4 +1,5 @@
 import MeasurementType from "../nodes/MeasurementType";
+import type Translations from "../nodes/Translations";
 import Unit from "../nodes/Unit";
 import type Evaluator from "../runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
@@ -15,9 +16,9 @@ export default class Time extends Stream {
         super(evaluator, new Measurement(0, Unit.unit(["ms"])));
     }
 
-    getTranslations() {
+    getTranslations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": "timer",
             eng: "⏱"
         };
     }

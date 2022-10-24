@@ -1,4 +1,5 @@
 import MeasurementType from "../nodes/MeasurementType";
+import type Translations from "../nodes/Translations";
 import type Evaluator from "../runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
 import Stream from "../runtime/Stream";
@@ -25,9 +26,9 @@ export default class Microphone extends Stream {
 
     }
 
-    getTranslations() { 
+    getTranslations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": "mic",
             eng: "🎤"
         }; 
     }

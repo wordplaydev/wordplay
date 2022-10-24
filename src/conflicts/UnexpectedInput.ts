@@ -22,7 +22,7 @@ export default class UnexpectedInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.given.names };
+        return { primary: this.given.aliases };
     }
 
     getExplanations(): Translations { 

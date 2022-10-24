@@ -27,7 +27,7 @@ import Start from "../runtime/Start";
 import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
 import type Named from "./Named";
-import { getCaseCollision, getDuplicateAliases, getDuplicateDocs } from "./util";
+import { aliasesToTranslations, getCaseCollision, getDuplicateAliases, getDuplicateDocs } from "./util";
 import Evaluate from "./Evaluate";
 import Block from "./Block";
 import ListType from "./ListType";
@@ -40,7 +40,7 @@ import type Definition from "./Definition";
 import { getPossibleTypeAdds, getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
-import { ALIAS_SYMBOL, ANONYMOUS_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+import { ALIAS_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import TypePlaceholder from "./TypePlaceholder";
 import FunctionDefinition from "./FunctionDefinition";
@@ -57,7 +57,7 @@ export default class Bind extends Node implements Evaluable, Named {
     
     readonly docs: Documentation[];
     readonly etc: Token | undefined;
-    readonly names: Alias[];
+    readonly aliases: Alias[];
     readonly dot?: Token;
     readonly type?: Type | Unparsable;
     readonly colon?: Token;
@@ -68,7 +68,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
         this.docs = docs;
         this.etc = etc;
-        this.names = names;
+        this.aliases = names;
         this.dot = dot !== undefined ? dot : type === undefined ? undefined : new TypeToken();
         this.type = type;
         this.colon = colon !== undefined ? colon : value === undefined ? undefined : new BindToken(); 
@@ -79,7 +79,7 @@ export default class Bind extends Node implements Evaluable, Named {
         return new Bind(
             this.cloneOrReplaceChild(pretty, [ Documentation ], "docs", this.docs, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token, undefined], "etc", this.etc, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Alias ], "names", this.names, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Alias ], "aliases", this.aliases, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Type, Unparsable, undefined ], "type", this.type, original, replacement), 
             this.cloneOrReplaceChild<Expression|Unparsable|undefined>(pretty, [ Expression, Unparsable, undefined ], "value", this.value, original, replacement)?.withPrecedingSpaceIfDesired(pretty),
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "dot", this.dot, original, replacement),
@@ -87,12 +87,12 @@ export default class Bind extends Node implements Evaluable, Named {
         ) as this;
     }
 
-    hasName(name: string) { return this.names.find(n => n.getName() === name) !== undefined; }
+    hasName(name: string) { return this.aliases.find(n => n.getName() === name) !== undefined; }
     sharesName(bind: Bind) { return this.getNames().find(name => bind.hasName(name)) !== undefined; }
-    getNames(): string[] { return this.names.map(n => n.getName()).filter(n => n !== undefined) as string[]; }
+    getNames(): string[] { return this.aliases.map(n => n.getName()).filter(n => n !== undefined) as string[]; }
     
-    getNameInLanguage(lang: LanguageCode) { 
-        return this.names.find(name => name.isLanguage(lang))?.getName() ?? this.names[0]?.getName() ?? ANONYMOUS_SYMBOL; 
+    getNameInLanguage(lang: LanguageCode) {
+        return aliasesToTranslations(this.aliases)[lang];
     }
 
     isVariableLength() { return this.etc !== undefined; }
@@ -104,7 +104,7 @@ export default class Bind extends Node implements Evaluable, Named {
         let children: Node[] = [];
         children = children.concat(this.docs);
         if(this.etc) children.push(this.etc);
-        children = children.concat(this.names);
+        children = children.concat(this.aliases);
         if(this.dot) children.push(this.dot);
         if(this.type) children.push(this.type);
         if(this.colon) children.push(this.colon);
@@ -125,7 +125,7 @@ export default class Bind extends Node implements Evaluable, Named {
             conflicts.push(new UnexpectedEtc(this));
 
         // Bind aliases have to be unique
-        const duplicates = getDuplicateAliases(this.names);
+        const duplicates = getDuplicateAliases(this.aliases);
         if(duplicates) conflicts.push(duplicates);
 
         // If there's a type, the value must match.
@@ -139,7 +139,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
         // It can't already be defined.
         if(enclosure !== undefined) {
-            const definitions = this.names.reduce((definitions: Definition[], alias) => {
+            const definitions = this.aliases.reduce((definitions: Definition[], alias) => {
                 const name: string | undefined = alias.getName();
                 return name === undefined ? definitions : definitions.concat(enclosure.getAllDefinitionsOfName(name, context, this));
             }, []).filter(def => def !== undefined && def !== this && (def instanceof Bind || def instanceof TypeVariable)) as (Bind | TypeVariable)[];
@@ -150,7 +150,7 @@ export default class Bind extends Node implements Evaluable, Named {
         // Warn if there are similarly cased definitions.
         // Is there match with the other case?
         if(enclosure !== undefined) {
-            this.names.forEach(alias => {
+            this.aliases.forEach(alias => {
                 // Is there match with the other case?
                 const name = alias.getName();
                 if(name !== undefined) {
@@ -163,7 +163,7 @@ export default class Bind extends Node implements Evaluable, Named {
         // If this bind isn't part of an Evaluate or a Share, it should be used in some expression in its parent.
         const parent = this.getParent();
         if(enclosure && !(parent instanceof Share || parent instanceof Column || parent instanceof ColumnType || parent instanceof Cell || parent instanceof Evaluate)) {
-            const uses = enclosure.nodes(n => n instanceof Name && this.names.find(name => name.getName() === n.name.text.toString()) !== undefined);
+            const uses = enclosure.nodes(n => n instanceof Name && this.aliases.find(name => name.getName() === n.name.text.toString()) !== undefined);
             if(uses.length === 0)
                 conflicts.push(new UnusedBind(this));
         }
@@ -261,7 +261,7 @@ export default class Bind extends Node implements Evaluable, Named {
         if(value instanceof Exception) return value;
 
         // Bind the value on the stack to the names.
-        this.names.forEach(alias => { 
+        this.aliases.forEach(alias => { 
             const name = alias.getName(); 
             if(name !== undefined) 
                 evaluator.bind(name, value);
@@ -302,7 +302,7 @@ export default class Bind extends Node implements Evaluable, Named {
         if(this.etc === child || this.docs.includes(child as Documentation))
             return [ new Append(context.source, position, this, this.docs, child, new Documentation()) ];
         // Before the first name? a name? Offer an etc or a documentation
-        else if(child === this.names[0]) {
+        else if(child === this.aliases[0]) {
             if(this.etc === undefined) {
                 if((parent instanceof FunctionDefinition || parent instanceof StructureDefinition) && parent.inputs.find(input => input.contains(child)) === parent.inputs[parent.inputs.length - 1])
                     return [ 
@@ -314,12 +314,12 @@ export default class Bind extends Node implements Evaluable, Named {
         // Before the etc? Offer documentation
         else if(child === this.etc)
             return [ new Append(context.source, position, this, this.docs, this.etc, new Documentation()) ];
-        else if(this.names.includes(child as Alias))
-            return [ new Append(context.source, position, this, this.names, child, new Alias(undefined, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))) ];
+        else if(this.aliases.includes(child as Alias))
+            return [ new Append(context.source, position, this, this.aliases, child, new Alias(undefined, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))) ];
         // Before colon? Offer a type.
         else if(child === this.colon && this.type === undefined)
             return [ 
-                new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, new TypePlaceholder(), this.value, new TypeToken(), this.colon))
+                new Replace(context.source, this, new Bind(this.docs, this.etc, this.aliases, new TypePlaceholder(), this.value, new TypeToken(), this.colon))
             ];
 
     }
@@ -328,12 +328,12 @@ export default class Bind extends Node implements Evaluable, Named {
         const children  = this.getChildren();
         const lastChild = children[children.length - 1];
 
-        const withValue = new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, this.type, new ExpressionPlaceholder(), this.dot, new BindToken()));
+        const withValue = new Replace(context.source, this, new Bind(this.docs, this.etc, this.aliases, this.type, new ExpressionPlaceholder(), this.dot, new BindToken()));
 
-        if(this.names.includes(lastChild as Alias))
+        if(this.aliases.includes(lastChild as Alias))
             return [
-                new Append(context.source, position, this, this.names, undefined, new Alias(undefined, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))),
-                new Replace(context.source, this, new Bind(this.docs, this.etc, this.names, new TypePlaceholder(), this.value, new TypeToken(), this.colon)),
+                new Append(context.source, position, this, this.aliases, undefined, new Alias(undefined, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))),
+                new Replace(context.source, this, new Bind(this.docs, this.etc, this.aliases, new TypePlaceholder(), this.value, new TypeToken(), this.colon)),
                 withValue
             ];
         else if(lastChild === this.dot)
@@ -356,7 +356,7 @@ export default class Bind extends Node implements Evaluable, Named {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         
         if(this.docs.includes(child as Documentation)) return new Remove(context.source, this, child);
-        else if(this.names.includes(child as Alias)) return new Remove(context.source, this, child);
+        else if(this.aliases.includes(child as Alias)) return new Remove(context.source, this, child);
         else if(child === this.type && this.dot) return new Remove(context.source, this, this.dot, this.type);
         else if(child === this.value && this.colon) return new Remove(context.source, this, this.colon, this.value);
 

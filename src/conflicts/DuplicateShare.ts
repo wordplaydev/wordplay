@@ -14,7 +14,7 @@ export class DuplicateShare extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: (this.share.bind as Bind).names, secondary: (this.other.bind as Bind).names };
+        return { primary: (this.share.bind as Bind).aliases, secondary: (this.other.bind as Bind).aliases };
     }
 
     getExplanations(): Translations { 

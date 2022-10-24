@@ -1,5 +1,6 @@
 import StreamType from "../nodes/StreamType";
 import StructureType from "../nodes/StructureType";
+import type Translations from "../nodes/Translations";
 import Unit from "../nodes/Unit";
 import type Evaluator from "../runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
@@ -17,9 +18,9 @@ export default class MousePosition extends Stream {
         super(evaluator, position(evaluator, 0, 0));
     }
 
-    getTranslations() {
+    getTranslations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": "mouse position",
             eng: "🖱⌖"
         }
     }

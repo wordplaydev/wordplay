@@ -106,17 +106,17 @@ test("Parse binds", () => {
 
     const validName = parseBind(tokens("a"));
     expect(validName).toBeInstanceOf(Bind);
-    expect((validName as Bind).names).toHaveLength(1);
-    expect((validName as Bind).names[0]).toBeInstanceOf(Alias);
-    expect((validName as Bind).names[0].getName()).toBe("a");
-    expect((validName as Bind).names[0].lang).toBe(undefined);
+    expect((validName as Bind).aliases).toHaveLength(1);
+    expect((validName as Bind).aliases[0]).toBeInstanceOf(Alias);
+    expect((validName as Bind).aliases[0].getName()).toBe("a");
+    expect((validName as Bind).aliases[0].lang).toBe(undefined);
 
     const valuedName = parseBind(tokens("a: 1"));
     expect(valuedName).toBeInstanceOf(Bind);
-    expect((valuedName as Bind).names).toHaveLength(1);
-    expect((valuedName as Bind).names[0]).toBeInstanceOf(Alias);
-    expect((valuedName as Bind).names[0].getName()).toBe("a");
-    expect((valuedName as Bind).names[0].lang).toBe(undefined);
+    expect((valuedName as Bind).aliases).toHaveLength(1);
+    expect((valuedName as Bind).aliases[0]).toBeInstanceOf(Alias);
+    expect((valuedName as Bind).aliases[0].getName()).toBe("a");
+    expect((valuedName as Bind).aliases[0].lang).toBe(undefined);
     expect((valuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
     const typedValuedName = parseBind(tokens("a•#: 1"));
@@ -126,9 +126,9 @@ test("Parse binds", () => {
 
     const aliasedTypedValuedName = parseBind(tokens("a/eng, b/span•#: 1"));
     expect(aliasedTypedValuedName).toBeInstanceOf(Bind);
-    expect((aliasedTypedValuedName as Bind).names).toHaveLength(2);
-    expect((aliasedTypedValuedName as Bind).names[0]).toBeInstanceOf(Alias);
-    expect((aliasedTypedValuedName as Bind).names[0].getLanguage()).toBe("eng");
+    expect((aliasedTypedValuedName as Bind).aliases).toHaveLength(2);
+    expect((aliasedTypedValuedName as Bind).aliases[0]).toBeInstanceOf(Alias);
+    expect((aliasedTypedValuedName as Bind).aliases[0].getLanguage()).toBe("eng");
     expect((aliasedTypedValuedName as Bind).type).toBeInstanceOf(MeasurementType);
     expect((aliasedTypedValuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 

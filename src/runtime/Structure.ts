@@ -60,7 +60,7 @@ export default class Structure extends Value {
             
             if(bind instanceof Unparsable) return "";
             
-            const name = bind.names[0].getName();
+            const name = bind.aliases[0].getName();
             const value = name == undefined ? undefined : this.resolve(name);
             return value === undefined ? "" : `${name}: ${value}`;
         

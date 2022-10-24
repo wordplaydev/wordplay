@@ -111,7 +111,7 @@ export function getEvaluationInputConflicts(inputs: (Bind|Unparsable)[]) {
     const conflicts = [];
 
     // Structure input names must be unique
-    const duplicateInputs = getDuplicateAliases(inputs.map(i => i instanceof Bind ? i.names : []).flat());
+    const duplicateInputs = getDuplicateAliases(inputs.map(i => i instanceof Bind ? i.aliases : []).flat());
     if(duplicateInputs) conflicts.push(duplicateInputs);
     
     // Required inputs can never follow an optional one.
@@ -138,7 +138,7 @@ export function getCaseCollision(name: string, enclosure: Node | undefined, cont
 
     const otherBind = enclosure.getDefinitionOfName(otherCase, context, node);
     if(otherBind instanceof Bind) {
-        const alias = otherBind.names.find(n => n.getName() === otherCase);
+        const alias = otherBind.aliases.find(n => n.getName() === otherCase);
         if(alias !== undefined)
             return new CaseSensitive(node, alias);
     }
@@ -211,7 +211,7 @@ export function aliasesToTranslations(aliases: Alias[]): Translations {
 
     // Define some default translations using whatever aliases are defined.
     const translations: Translations = {
-        eng: aliases.find(a => a.getLanguage() === undefined)?.getName() ?? aliases[0].getName() ?? ANONYMOUS_SYMBOL,
+        eng: aliases.find(a => a.getLanguage() === undefined)?.getName() ?? aliases[0].getName() ?? "anonymous",
         "😀": aliases.find(a => a.getLanguage() === undefined)?.getName() ?? aliases[0].getName() ?? ANONYMOUS_SYMBOL
     }
 

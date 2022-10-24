@@ -70,10 +70,10 @@ export default class Update extends Expression {
 
         this.row.cells.forEach(cell => {
             // The columns in an update must be binds with expressions.
-            if(!(cell.value instanceof Bind && cell.value.value !== undefined && cell.value.names.length === 1))
+            if(!(cell.value instanceof Bind && cell.value.value !== undefined && cell.value.aliases.length === 1))
                 conflicts.push(new ExpectedUpdateBind(cell))
             else if(tableType instanceof TableType) {
-                const alias = cell.value instanceof Bind && cell.value.names.length > 0 ? cell.value.names[0] : undefined;
+                const alias = cell.value instanceof Bind && cell.value.aliases.length > 0 ? cell.value.aliases[0] : undefined;
                 const name = alias === undefined ? undefined : alias.getName();
                 const columnType = name === undefined ? undefined : tableType.getColumnNamed(name);
                 // The named table column must exist.

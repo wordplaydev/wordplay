@@ -1,4 +1,5 @@
 import BooleanType from "../nodes/BooleanType";
+import type Translations from "../nodes/Translations";
 import Bool from "../runtime/Bool";
 import type Evaluator from "../runtime/Evaluator";
 import Stream from "../runtime/Stream";
@@ -13,9 +14,9 @@ export default class MouseButton extends Stream {
         this.add(new Bool(state));
     }
 
-    getTranslations() { 
+    getTranslations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": "mouse-button",
             eng: "🖱⬇️"
         };
     }

@@ -18,13 +18,13 @@ export class DuplicateBinds extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.bind.names , secondary: this.duplicates };
+        return { primary: this.bind.aliases , secondary: this.duplicates };
     }
 
     getExplanations(): Translations { 
         return {
-            eng: `${this.bind.names[0].getName()} is already defined.`,
-            "😀": `${this.bind.names[0].getName()} ${this.bind.names[0].getName()}`
+            eng: `${this.bind.aliases[0].getName()} is already defined.`,
+            "😀": `${this.bind.aliases[0].getName()} ${this.bind.aliases[0].getName()}`
         }
     }
 

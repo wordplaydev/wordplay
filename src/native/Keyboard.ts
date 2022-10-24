@@ -7,6 +7,7 @@ import None from "../runtime/None";
 import type Evaluator from "../runtime/Evaluator";
 import StructureType from "../nodes/StructureType";
 import StreamType from "../nodes/StreamType";
+import type Translations from "../nodes/Translations";
 
 function createKey(evaluator: Evaluator, key: string, down: boolean) {
     return createStructure(evaluator, Key, { key: new Text(key), down: new Bool(down) })
@@ -22,9 +23,9 @@ export default class Keyboard extends Stream {
         this.evaluator = evaluator;
     }
 
-    getTranslations() { 
+    getTranslations(): Translations { 
         return {
-            "😀": "⌨️",
+            "😀": "keyboard",
             eng: "⌨️"
         }; 
     }

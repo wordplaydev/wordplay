@@ -10,7 +10,7 @@ import Documentation from "./Documentation";
 import type Conflict from "../conflicts/Conflict";
 import FunctionType from "./FunctionType";
 import UnknownType from "./UnknownType";
-import { getDuplicateDocs, getDuplicateAliases, typeVarsAreUnique, getEvaluationInputConflicts } from "./util";
+import { getDuplicateDocs, getDuplicateAliases, typeVarsAreUnique, getEvaluationInputConflicts, aliasesToTranslations } from "./util";
 import type Evaluator from "../runtime/Evaluator";
 import FunctionValue from "../runtime/FunctionValue";
 import type Step from "../runtime/Step";
@@ -18,7 +18,7 @@ import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import Alias from "./Alias";
-import { ANONYMOUS_SYMBOL, BinaryOpRegEx, FUNCTION_SYMBOL } from "../parser/Tokenizer";
+import { BinaryOpRegEx, FUNCTION_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import type Translations from "./Translations";
@@ -88,7 +88,7 @@ export default class FunctionDefinition extends Expression {
 
     getNames() { return this.aliases.map(a => a.getName()).filter(n => n !== undefined) as string[]; }
     getNameInLanguage(lang: LanguageCode): string { 
-        return this.aliases.find(name => name.isLanguage(lang))?.getName() ?? this.aliases[0]?.getName() ?? ANONYMOUS_SYMBOL;
+        return aliasesToTranslations(this.aliases)[lang];
     }
 
     sharesName(fun: FunctionDefinition) {
