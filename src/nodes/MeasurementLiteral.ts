@@ -16,11 +16,12 @@ import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
 import type Evaluator from "../runtime/Evaluator";
 import SemanticException from "../runtime/SemanticException";
-import TokenType from "./TokenType";
 import { getPossibleUnits } from "../transforms/getPossibleUnits";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import PlaceholderToken from "./PlaceholderToken";
+import type Translations from "./Translations";
 
 export default class MeasurementLiteral extends Expression {
     
@@ -29,7 +30,7 @@ export default class MeasurementLiteral extends Expression {
 
     constructor(number?: Token, unit?: Unit | Unparsable) {
         super();
-        this.number = number ?? new Token("", TokenType.NUMBER);
+        this.number = number ?? new PlaceholderToken();
         this.unit = unit === undefined ? new Unit() : unit.withPrecedingSpace("", true);
     }
 
@@ -98,5 +99,11 @@ export default class MeasurementLiteral extends Expression {
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.unit) return new Replace(context.source, child, new Unit());
+    }
+
+    getChildPlaceholderLabel(child: Node): Translations | undefined {
+        if(child === this.number) return {
+            eng: "#"
+        }
     }
 }
