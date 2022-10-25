@@ -1,6 +1,7 @@
 import { ANY_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Node from "./Node";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 import Type from "./Type";
 
 export default class AnyType extends Type {
@@ -21,7 +22,7 @@ export default class AnyType extends Type {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A wildcard type"
         }
     }

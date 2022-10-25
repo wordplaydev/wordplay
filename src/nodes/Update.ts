@@ -25,6 +25,7 @@ import type Evaluator from "../runtime/Evaluator";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Update extends Expression {
     
@@ -142,21 +143,21 @@ export default class Update extends Expression {
     getDescriptions(): Translations {
         return {
             eng: "Update rows in a table",
-            "😀": `TODO`
+            "😀": TRANSLATE
         }
     }
 
     getStartExplanations(): Translations { 
         return {
             eng: "First we get the table, then we select values from it.",
-            "😀": `TODO`
+            "😀": TRANSLATE
         }
      }
 
     getFinishExplanations(): Translations {
         return {
             eng: "Now that we have the table, let's create a new table with the updated values.",
-            "😀": `TODO`
+            "😀": TRANSLATE
         }
     }
 

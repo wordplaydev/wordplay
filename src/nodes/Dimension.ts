@@ -10,6 +10,7 @@ import TokenType from "./TokenType";
 import NameToken from "./NameToken";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Dimension extends Node {
 
@@ -48,7 +49,7 @@ export default class Dimension extends Node {
     getDescriptions(): Translations {
         const dim = this.getName();
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: 
                 dim === "pm" ? "picometers" :
                 dim === "nm" ? "nanometers" :

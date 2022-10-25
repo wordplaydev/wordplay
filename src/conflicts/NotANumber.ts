@@ -1,5 +1,6 @@
 import type MeasurementLiteral from "../nodes/MeasurementLiteral";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 
@@ -17,7 +18,7 @@ export class NotANumber extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `This number isn't formatted correctly`
         }
     }

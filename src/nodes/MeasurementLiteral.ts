@@ -22,6 +22,7 @@ import Replace from "../transforms/Replace";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import PlaceholderToken from "./PlaceholderToken";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class MeasurementLiteral extends Expression {
     
@@ -89,14 +90,14 @@ export default class MeasurementLiteral extends Expression {
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.number) return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "#"
         }
     }
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A number with an optional unit"
         }
     }
@@ -105,7 +106,7 @@ export default class MeasurementLiteral extends Expression {
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate to a measurement!"
         }
     }

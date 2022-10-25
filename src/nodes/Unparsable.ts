@@ -11,6 +11,7 @@ import { UnparsableConflict } from "../conflicts/UnparsableConflict";
 import SemanticException from "../runtime/SemanticException";
 import type Evaluator from "../runtime/Evaluator";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Unparsable extends Node implements Evaluable {
     
@@ -69,7 +70,7 @@ export default class Unparsable extends Node implements Evaluable {
     getDescriptions(): Translations {
         return {
             eng: "An unparsable sequence of symbols",
-            "😀": "TODO: 🤔"
+            "😀": `${TRANSLATE} 🤔`
         }
     }
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
@@ -77,7 +78,7 @@ export default class Unparsable extends Node implements Evaluable {
     getFinishExplanations(): Translations {
         return {
             eng: "We couldn't make sense of this, so we're stopping the program.",
-            "😀": "TODO: 🛑"
+            "😀": `${TRANSLATE}`
         }
     }
 

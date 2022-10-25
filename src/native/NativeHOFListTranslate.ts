@@ -5,6 +5,7 @@ import ListType from "../nodes/ListType";
 import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type Type from "../nodes/Type";
 import Action from "../runtime/Action";
 import Evaluation from "../runtime/Evaluation";
@@ -37,7 +38,7 @@ export default class NativeHOFListTranslate extends HOF {
             // Initialize an iterator and an empty list in this scope.
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Initialize an index and new list."
                 },
                 evaluator => {
@@ -48,7 +49,7 @@ export default class NativeHOFListTranslate extends HOF {
             ),
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Apply the translator to the next item."
                 },
                 evaluator => {
@@ -87,7 +88,7 @@ export default class NativeHOFListTranslate extends HOF {
             // Save the translated value and then jump to the conditional.
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Add the translated item to the new list."
                 },
                 evaluator => {
@@ -123,14 +124,14 @@ export default class NativeHOFListTranslate extends HOF {
 
     getStartExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Translate items in the list, one by one."
         }
     }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate to the new list."
         }
     }

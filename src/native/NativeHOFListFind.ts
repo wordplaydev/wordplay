@@ -7,6 +7,7 @@ import ListType from "../nodes/ListType";
 import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type Type from "../nodes/Type";
 import Action from "../runtime/Action";
 import Bool from "../runtime/Bool";
@@ -40,7 +41,7 @@ export default class NativeHOFListFind extends HOF {
             // Initialize an iterator and an empty list in this scope.
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Start at the first item."
                 },
                 evaluator => {
@@ -49,7 +50,7 @@ export default class NativeHOFListFind extends HOF {
                 }),
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Apply the checker to the next item."
                 },
                 evaluator => {
@@ -87,7 +88,7 @@ export default class NativeHOFListFind extends HOF {
             // Save the translated value and then jump to the conditional.
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "If it matches, we found! Otherwise, keep checking."
                 },
                 evaluator => {
@@ -133,14 +134,14 @@ export default class NativeHOFListFind extends HOF {
 
     getStartExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Move from the beginning to the end in search for a match."
         }
     }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate to the match or none."
         }
     }

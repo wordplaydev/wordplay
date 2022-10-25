@@ -10,6 +10,7 @@ import type Unparsable from "./Unparsable";
 import TypePlaceholder from "./TypePlaceholder";
 import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class ConversionType extends Type {
 
@@ -45,7 +46,7 @@ export default class ConversionType extends Type {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A conversion function type"
         }
     }

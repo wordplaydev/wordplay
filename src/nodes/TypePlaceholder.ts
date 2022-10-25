@@ -5,6 +5,7 @@ import Type from "./Type";
 import type Node from "./Node";
 import PlaceholderToken from "./PlaceholderToken";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class TypePlaceholder extends Type {
 
@@ -39,14 +40,14 @@ export default class TypePlaceholder extends Type {
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.placeholder) return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "type"
         };
     }
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A type placeholder"
         }
     }

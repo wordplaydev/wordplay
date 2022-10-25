@@ -2,6 +2,7 @@
     import { getContext } from "svelte";
     import type { Writable } from "svelte/store";
     import type LanguageCode from "../nodes/LanguageCode";
+    import { TRANSLATE } from "../nodes/Translations";
     import type Evaluator from "../runtime/Evaluator";
     import EvaluationView from "./EvaluationView.svelte";
 
@@ -21,7 +22,7 @@
         evaluator.streamsIgnoredDuringStepping.size > 0 ?
             {
                 eng:`You're stepping, so we ignored ${ignoredStreams.join(", ")}`,
-                "😀": `TODO: ${ignoredStreams.join(", ")}`
+                "😀": `${TRANSLATE} ${ignoredStreams.join(", ")}`
             }[$languages[0]]
              : 
             ""

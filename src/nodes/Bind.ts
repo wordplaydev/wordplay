@@ -34,6 +34,7 @@ import ListType from "./ListType";
 import Cell from "./Cell";
 import ValueException from "../runtime/ValueException";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 import Exception from "../runtime/Exception";
 import Share from "./Share";
 import type Definition from "./Definition";
@@ -240,14 +241,14 @@ export default class Bind extends Node implements Evaluable, Named {
 
     getStartExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate the value first"
         }
     }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Bind the value to this name."
         }
     }
@@ -275,7 +276,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
         // Generate documentation by language.
         const descriptions: Translations = { 
-            "😀": "TODO", 
+            "😀": TRANSLATE, 
             eng: "A named value" 
         };
         for(const doc of this.docs) {

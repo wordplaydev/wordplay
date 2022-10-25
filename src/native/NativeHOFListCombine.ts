@@ -5,6 +5,7 @@ import ListType from "../nodes/ListType";
 import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type Type from "../nodes/Type";
 import Action from "../runtime/Action";
 import Evaluation from "../runtime/Evaluation";
@@ -38,7 +39,7 @@ export default class NativeHOFListCombine extends HOF {
             // Initialize an iterator and the current combination.
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Start at the first item."
                 },
                 evaluator => {
@@ -48,7 +49,7 @@ export default class NativeHOFListCombine extends HOF {
             ),
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Apply the function to the current item."
                 },
                 evaluator => {
@@ -100,7 +101,7 @@ export default class NativeHOFListCombine extends HOF {
             // Save the translated value and then jump to the conditional.
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Update the combined value."
                 },
                 evaluator => {
@@ -134,14 +135,14 @@ export default class NativeHOFListCombine extends HOF {
 
     getStartExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Go through each list item and create something larger from each part."
         }
     }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate to the thing we made."
         }
     }

@@ -1,6 +1,7 @@
 import Bind from "../nodes/Bind";
 import BooleanType from "../nodes/BooleanType";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import Expression from "../nodes/Expression";
 import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
@@ -40,7 +41,7 @@ export default class NativeHOFListAll extends HOF {
             ),
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Translate the next list element into a boolean."
                 }, 
                 evaluator => {
@@ -81,7 +82,7 @@ export default class NativeHOFListAll extends HOF {
             // Save the translated value and then jump to the conditional.
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Is it true? If so, check the next list item, if there is one, otherwise finish."
                 }, 
                 evaluator => {
@@ -111,14 +112,14 @@ export default class NativeHOFListAll extends HOF {
 
     getStartExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "We'll go through each item, seeing if the matcher function evaluates to true."
         }
     }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "If we made it to the end of the list, then evaluate to true, otherwise false."
         }
     }

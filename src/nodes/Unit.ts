@@ -12,6 +12,7 @@ import Add from "../transforms/Add";
 import LanguageToken from "./LanguageToken";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Unit extends Type {
 
@@ -222,7 +223,7 @@ export default class Unit extends Type {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: this.exponents.size === 0 ? "A unitless number" : 
                 this.numerator.length === 1 && this.denominator.length === 0 ? this.numerator[0].getDescriptions().eng :
                 this.toWordplay() === "m/s" ? "velocity" :

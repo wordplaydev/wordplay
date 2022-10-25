@@ -1,5 +1,6 @@
 import type Name from "../nodes/Name";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 export default class CircularReference extends Conflict {
@@ -19,7 +20,7 @@ export default class CircularReference extends Conflict {
     getExplanations(): Translations { 
         return {
             eng: `I can't compute ${this.name.getName()} using itself!`,
-            "😀": `TODO: ⟲`
+            "😀": `${TRANSLATE} ⟲`
         }
     }
 

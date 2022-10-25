@@ -22,6 +22,7 @@ import { outOfBoundsAliases } from "../runtime/Constants";
 import Unit from "./Unit";
 import type Bind from "./Bind";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
@@ -84,14 +85,14 @@ export default class ListAccess extends Expression {
 
     getStartExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Let's get a value from the list!"
         }
     }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Now that we have list and the index, get the value in the list at this index."
         }
     }
@@ -116,7 +117,7 @@ export default class ListAccess extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Get a value from a list by index"
         }
     }
@@ -139,11 +140,11 @@ export default class ListAccess extends Expression {
     
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.list) return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "list"
         };
         else if(child === this.index) return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "index"
         };
     }

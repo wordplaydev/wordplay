@@ -2,6 +2,7 @@ import UnicodeString from "../models/UnicodeString";
 import Node from "./Node";
 import TokenType from "./TokenType";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export const TAB_WIDTH = 2;
 
@@ -66,7 +67,7 @@ export default class Token extends Node {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: this.is(TokenType.NAME) ? "A name" : 
                 this.is(TokenType.BINARY_OP) || this.is(TokenType.UNARY_OP) ? "An operator" :
                 this.is(TokenType.DOCS) ? "Documentation" :

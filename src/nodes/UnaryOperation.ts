@@ -24,6 +24,7 @@ import Replace from "../transforms/Replace";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class UnaryOperation extends Expression {
 
@@ -144,21 +145,21 @@ export default class UnaryOperation extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate a function on a value"
         }
     }
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "First we evaluate the operand."
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Now that we have the operand, we operate on it."
         }
     }

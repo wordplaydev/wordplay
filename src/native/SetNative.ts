@@ -29,7 +29,6 @@ export default function bootstrapSet() {
     ], new NameType(SET_TYPE_VAR_NAME));
     
     return new StructureDefinition(
-        // TODO Localized documentation
         [],
         [],
         // No interfaces

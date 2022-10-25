@@ -1,5 +1,6 @@
 import type Node from "./Node";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 import Type from "./Type";
 
 export default class UnknownType extends Type {
@@ -30,7 +31,7 @@ export default class UnknownType extends Type {
     getDescriptions(): Translations {
         return {
             eng: "An unknown type",
-            "😀": "TODO: •🤔"
+            "😀": `${TRANSLATE} •🤔`
         }
     }
 

@@ -1,5 +1,6 @@
 import type Bind from "../nodes/Bind";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 
@@ -16,7 +17,7 @@ export class UnexpectedEtc extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `Variable length only applies to evaluations, they can't go here.`
         }
     }

@@ -7,6 +7,7 @@ import MeasurementType from "../nodes/MeasurementType";
 import NoneLiteral from "../nodes/NoneLiteral";
 import NoneType from "../nodes/NoneType";
 import StructureDefinition from "../nodes/StructureDefinition";
+import { TRANSLATE } from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import UnionType from "../nodes/UnionType";
 import Unit from "../nodes/Unit";
@@ -39,7 +40,7 @@ export default function bootstrapMeasurement() {
                     return expression(left, right) ?? new TypeException(evaluation.getEvaluator(), left.getType(), right);
                 },
                 { 
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Native measurement operation." 
                 }
             ),
@@ -59,7 +60,7 @@ export default function bootstrapMeasurement() {
                     return expression(value) ?? new TypeException(evaluation.getEvaluator(), value.getType(), value);
                 },
                 { 
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Native measurement operation." 
                 }
             ),
@@ -95,7 +96,7 @@ export default function bootstrapMeasurement() {
                         return right === undefined ? left.negate() : left.subtract(right);
                     },
                     { 
-                        "😀": "TODO",
+                        "😀": TRANSLATE,
                         eng: "Native measurement operation." 
                     }
                 ),

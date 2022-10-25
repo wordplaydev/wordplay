@@ -4,6 +4,7 @@ import Node from "../nodes/Node";
 import type Source from "../models/Source";
 import Caret from "../models/Caret";
 import type LanguageCode from "../nodes/LanguageCode";
+import { TRANSLATE } from "../nodes/Translations";
 
 /**
  * Remove a sequence of nodes in a parent.
@@ -95,7 +96,7 @@ export default class Remove extends Transform {
         const replacement = this.getPrettyNewNode(lang);
         return {
             eng: "Replace with " + replacement.getDescriptions().eng,
-            "😀": "TODO: - " + replacement.getDescriptions()["😀"],
+            "😀": `${TRANSLATE} - ${replacement.getDescriptions()["😀"]}`,
         }[lang];
 
     }

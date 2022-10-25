@@ -3,6 +3,7 @@ import type Evaluate from "../nodes/Evaluate";
 import type FunctionType from "../nodes/FunctionType";
 import Conflict from "./Conflict";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type Expression from "../nodes/Expression";
 import type Bind from "../nodes/Bind";
 import type Type from "../nodes/Type";
@@ -31,7 +32,7 @@ export default class IncompatibleInput extends Conflict {
 
     getExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `Expected input of type ${this.expectedType.toWordplay()}, received ${this.givenType.toWordplay()}`
         }
     }

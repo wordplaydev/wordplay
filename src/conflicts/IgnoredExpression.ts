@@ -1,6 +1,7 @@
 import type Expression from "../nodes/Expression";
 import Conflict from "./Conflict";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 
 
 export class IgnoredExpression extends Conflict {
@@ -18,7 +19,7 @@ export class IgnoredExpression extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `I feel useless. I am useless! Someone use me!`
         }
     }

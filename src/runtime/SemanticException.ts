@@ -2,6 +2,7 @@ import type Evaluator from "./Evaluator";
 import Exception from "./Exception";
 import type Node from "../nodes/Node";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 
 export default class SemanticException extends Exception {
 
@@ -17,7 +18,7 @@ export default class SemanticException extends Exception {
     getExplanations(): Translations {
         return {
             eng: `${this.unparsable.toWordplay()} has a problem. Check for errors.`,
-            "😀": "TODO: 🤷🏻‍♀️"
+            "😀": `${TRANSLATE} 🤷🏻‍♀️`
         }
     };
 

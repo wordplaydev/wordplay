@@ -1,4 +1,5 @@
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type Reaction from "../nodes/Reaction";
 import type Evaluator from "./Evaluator";
 import Step from "./Step";
@@ -29,8 +30,8 @@ export default class JumpIfStreamExists extends Step {
 
     getExplanations(): Translations {
         return {
-            eng: `TODO: Have we already initialized this stream?`,
-            "😀": "TODO: ⏭∆"
+            eng: `${TRANSLATE} Have we already initialized this stream?`,
+            "😀": TRANSLATE
         }
     }
 

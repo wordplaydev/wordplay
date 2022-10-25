@@ -36,6 +36,7 @@ import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export type Statement = Expression | Unparsable | Share | Bind;
 
@@ -241,27 +242,27 @@ export default class Block extends Expression {
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(this.statements.includes(child as Statement)) return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "statement"
         };
     }
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate one or more expressions"
         }
     }
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "We'll evaluate all of the expressions first."
         }
     }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Now that we're done, we'll evaluate to the last expression's value."
         }
     }

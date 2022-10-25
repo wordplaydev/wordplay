@@ -4,6 +4,7 @@ import type Context from "./Context";
 import Node from "./Node";
 import Token from "./Token";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 import Type from "./Type";
 import TypePlaceholder from "./TypePlaceholder";
 import TypeToken from "./TypeToken";
@@ -43,7 +44,7 @@ export default class TypeInput extends Node {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A type input"
         }
     }

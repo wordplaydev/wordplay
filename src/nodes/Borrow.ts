@@ -16,6 +16,7 @@ import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import NameToken from "./NameToken";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Borrow extends Node implements Evaluable {
     
@@ -86,7 +87,7 @@ export default class Borrow extends Node implements Evaluable {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `Borrow a value`
         }
     }
@@ -95,7 +96,7 @@ export default class Borrow extends Node implements Evaluable {
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Find the shared name in other programs to borrow."
         }
     }

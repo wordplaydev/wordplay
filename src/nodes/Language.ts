@@ -10,6 +10,7 @@ import LanguageToken from "./LanguageToken";
 import NameToken from "./NameToken";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Language extends Node {
     
@@ -47,7 +48,7 @@ export default class Language extends Node {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "a language"
         }
     }

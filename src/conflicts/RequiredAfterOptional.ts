@@ -1,6 +1,7 @@
 import Conflict from "./Conflict";
 import type Bind from "../nodes/Bind";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 
 
 export default class RequiredAfterOptional extends Conflict {
@@ -18,7 +19,7 @@ export default class RequiredAfterOptional extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `Required inputs can't come after optional ones.`
         }
     }

@@ -1,5 +1,6 @@
 import type Block from "../nodes/Block";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 
@@ -19,7 +20,7 @@ export class ExpectedEndingExpression extends Conflict {
     getExplanations(): Translations { 
         return {
             eng: `Every block must end with an expression.`,
-            "😀": "TODO: …?"
+            "😀": `${TRANSLATE} …?`
         }
     }
 

@@ -5,6 +5,7 @@ import Conflict from "./Conflict";
 import type Bind from "../nodes/Bind";
 import type BinaryOperation from "../nodes/BinaryOperation";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 
 
 export default class MissingInput extends Conflict {
@@ -25,7 +26,7 @@ export default class MissingInput extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `Expected an input ${this.input.aliases.map(a => a.getName()).join(", ")}, but it wasn't provided.`
         }
     }

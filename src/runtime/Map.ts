@@ -29,7 +29,6 @@ export default class Map extends Primitive {
 
     has(key: Value) { 
         const kv = this.values.find( kv2 => kv2[0].isEqualTo(key));
-        // TODO Localize
         return kv === undefined ? new None([new Alias("unknownkey")]) : kv[1];
     }
 

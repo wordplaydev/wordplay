@@ -6,6 +6,7 @@ import ListType from "../nodes/ListType";
 import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type Type from "../nodes/Type";
 import Action from "../runtime/Action";
 import Bool from "../runtime/Bool";
@@ -39,7 +40,7 @@ export default class NativeHOFListMap extends HOF {
             // Initialize an iterator and an empty list in this scope.
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Initialize an index and list"
                 },
                 evaluator => {
@@ -49,7 +50,7 @@ export default class NativeHOFListMap extends HOF {
                 }),
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Check the next item"
                 },
                 evaluator => {
@@ -87,7 +88,7 @@ export default class NativeHOFListMap extends HOF {
             // Save the translated value and then jump to the conditional.
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Add the next item to the list and go to the next item."
                 },
                 evaluator => {
@@ -140,14 +141,14 @@ export default class NativeHOFListMap extends HOF {
 
     getStartExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Include everything until we find a matching item."
         }
     }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate to the new truncated list."
         }
     }

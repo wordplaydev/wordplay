@@ -10,6 +10,7 @@ import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Documentation extends Node {
     
@@ -38,7 +39,7 @@ export default class Documentation extends Node {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Documentation"
         }
     }

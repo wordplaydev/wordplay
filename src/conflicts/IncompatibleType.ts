@@ -1,5 +1,6 @@
 import Conflict from "./Conflict";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type Type from "../nodes/Type";
 import type Is from "../nodes/Is";
 
@@ -20,7 +21,7 @@ export class IncompatibleType extends Conflict {
 
     getExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `This can never be a ${this.is.type.toWordplay()}, it's a ${this.givenType.toWordplay()}`
         }
     }

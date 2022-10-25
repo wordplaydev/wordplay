@@ -2,6 +2,7 @@ import type Documentation from "../nodes/Documentation";
 import type Language from "../nodes/Language";
 import Conflict from "./Conflict";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations";
 
 export default class DuplicateLanguages extends Conflict {
 
@@ -25,7 +26,7 @@ export default class DuplicateLanguages extends Conflict {
         const dupes = Array.from(this.duplicates.values()).flat().map(lang => lang.getLanguage());
         return {
             eng: `Duplicate languages ${dupes}.`,
-            "😀": `TODO ${dupes.join(", ")}`
+            "😀": `${TRANSLATE} ${dupes.join(", ")}`
         }
     }
 

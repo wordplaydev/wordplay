@@ -1,5 +1,6 @@
 import type Column from "../nodes/Column";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 export default class ExpectedColumnType extends Conflict {
@@ -17,7 +18,7 @@ export default class ExpectedColumnType extends Conflict {
     getExplanations(): Translations { 
         return {
             eng: `Table columns have to have a type.`,
-            "😀": "TODO"
+            "😀": TRANSLATE
         }
     }
 

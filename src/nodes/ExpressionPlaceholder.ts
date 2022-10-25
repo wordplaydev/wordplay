@@ -15,12 +15,13 @@ import SemanticException from "../runtime/SemanticException";
 import type Evaluator from "../runtime/Evaluator";
 import UnimplementedException from "../runtime/UnimplementedException";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 import PlaceholderToken from "./PlaceholderToken";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
 
 const ExpressionLabels: Translations = {
-    "😀": "TODO",
+    "😀": TRANSLATE,
     eng: "value"
 };
 
@@ -72,21 +73,21 @@ export default class ExpressionPlaceholder extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "An expression placeholder"
         }
     }
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Can't evaluate a placeholder."
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Can't evaluate a placeholder."
         }
     }

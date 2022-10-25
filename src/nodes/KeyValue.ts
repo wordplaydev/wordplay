@@ -9,6 +9,7 @@ import BindToken from "./BindToken";
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class KeyValue extends Node {
 
@@ -40,7 +41,7 @@ export default class KeyValue extends Node {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A map key/value pair."
         }
     }

@@ -9,6 +9,7 @@ import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 import type Type from "./Type";
 
 export default class NoneType extends NativeType {
@@ -57,7 +58,7 @@ export default class NoneType extends NativeType {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A none type."
         }
     }

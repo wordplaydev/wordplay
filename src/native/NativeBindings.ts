@@ -23,6 +23,7 @@ import bootstrapSet from "./SetNative";
 import bootstrapMap from "./MapNative";
 import Block from "../nodes/Block";
 import { BOOLEAN_NATIVE_TYPE_NAME, LIST_NATIVE_TYPE_NAME, MAP_NATIVE_TYPE_NAME, MEASUREMENT_NATIVE_TYPE_NAME, NONE_NATIVE_TYPE_NAME, SET_NATIVE_TYPE_NAME, TEXT_NATIVE_TYPE_NAME } from "./NativeConstants";
+import { TRANSLATE } from "../nodes/Translations";
 
 export class NativeBindings implements NativeInterface {
 
@@ -108,7 +109,7 @@ export function createNativeFunction(
             output, 
             evaluator, 
             {
-                "😀": "TODO",
+                "😀": TRANSLATE,
                 eng: docs.find(doc => doc.lang?.getLanguage() === "eng")?.docs.getText() ?? "No documentatinon"
             }
         ),
@@ -134,7 +135,7 @@ export function createNativeConversion(docs: Documentation[], inputTypeString: s
                 else return new TypeException(evaluation.getEvaluator(), inputType, val); 
             },
             {
-                "😀": "TODO",
+                "😀": TRANSLATE,
                 eng: docs.find(doc => doc.lang?.getLanguage() === "eng")?.docs.getText() ?? "No documentation"
             }
         )

@@ -2,6 +2,7 @@ import type Evaluate from "../nodes/Evaluate";
 import type FunctionDefinition from "../nodes/FunctionDefinition";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 export default class NotInstantiable extends Conflict {
@@ -23,7 +24,7 @@ export default class NotInstantiable extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `Can't make a structure that has undefined functions.`
         }
     }

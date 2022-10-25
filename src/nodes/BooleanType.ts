@@ -7,6 +7,7 @@ import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import NativeType from "./NativeType";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class BooleanType extends NativeType {
 
@@ -33,7 +34,7 @@ export default class BooleanType extends NativeType {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A boolean type"
         }
     }

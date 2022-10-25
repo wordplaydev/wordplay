@@ -13,6 +13,7 @@ import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import TypePlaceholder from "./TypePlaceholder";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class UnionType extends Type {
 
@@ -85,7 +86,7 @@ export default class UnionType extends Type {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "One of these types"
         }
     }

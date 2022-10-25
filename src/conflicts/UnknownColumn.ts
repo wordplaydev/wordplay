@@ -1,6 +1,7 @@
 import type Cell from "../nodes/Cell";
 import type TableType from "../nodes/TableType";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 
@@ -20,7 +21,7 @@ export default class UnknownColumn extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `This isn't one of the columns in this table type.`
         }
     }

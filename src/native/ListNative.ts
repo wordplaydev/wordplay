@@ -27,6 +27,7 @@ import Set from "../runtime/Set";
 import StructureDefinition from "../nodes/StructureDefinition";
 import TypeVariable from "../nodes/TypeVariable";
 import Block from "../nodes/Block";
+import { TRANSLATE } from "../nodes/Translations";
 
 export default function bootstrapList() {
 
@@ -96,7 +97,6 @@ export default function bootstrapList() {
     ], new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME));
 
     return new StructureDefinition(
-        // TODO Localized documentation
         [],
         [],
         // No interfaces
@@ -225,7 +225,7 @@ export default function bootstrapList() {
                         return new Bool(list.isEqualTo(value));
                     },
                     {
-                        "😀": "TODO",
+                        "😀": TRANSLATE,
                         eng: "Comparing list values."
                     }
                 ),
@@ -243,7 +243,7 @@ export default function bootstrapList() {
                         return new Bool(!list.isEqualTo(value));
                     },
                     {
-                        "😀": "TODO",
+                        "😀": TRANSLATE,
                         eng: "Comparing list values."
                     }
                 ),

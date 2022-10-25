@@ -21,6 +21,7 @@ import type Transform from "../transforms/Transform"
 import { endsWithName, startsWithName } from "./util";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export type SetItem = Expression | Unparsable;
 
@@ -113,21 +114,21 @@ export default class SetLiteral extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A set of unique values"
         }
     }
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Start evaluating all the set items."
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Now that we have all the set items, make the set."
         }
     }

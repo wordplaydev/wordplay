@@ -1,5 +1,6 @@
 import type Previous from "../nodes/Previous";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
 
@@ -22,7 +23,7 @@ export class NotAStreamIndex extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `This has to be number, but it's a ${this.indexType.toWordplay()}`
         }
     }

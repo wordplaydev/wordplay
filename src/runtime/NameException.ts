@@ -1,4 +1,5 @@
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type Evaluator from "./Evaluator";
 import Exception from "./Exception";
 
@@ -16,7 +17,7 @@ export default class UnparasableException extends Exception {
     getExplanations(): Translations {
         return {
             eng: `Couldn't find ${this.name}.`,
-            "😀": `TODO: ${this.name}🤷🏻‍♀️`
+            "😀": `${TRANSLATE} ${this.name}🤷🏻‍♀️`
         }
     };
 

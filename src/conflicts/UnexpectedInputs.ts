@@ -7,6 +7,7 @@ import type Expression from "../nodes/Expression";
 import type Bind from "../nodes/Bind";
 import type BinaryOperation from "../nodes/BinaryOperation";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 
 
 export default class UnexpectedInputs extends Conflict {
@@ -28,7 +29,7 @@ export default class UnexpectedInputs extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `This evaluation of ${this.evaluate instanceof Evaluate ? this.evaluate.func.toWordplay() : this.evaluate.operator.toWordplay()} has too many inputs.`
         }
     }

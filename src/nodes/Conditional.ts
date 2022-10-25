@@ -22,6 +22,7 @@ import { endsWithName, startsWithName } from "./util";
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Conditional extends Expression {
     
@@ -147,36 +148,36 @@ export default class Conditional extends Expression {
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.condition) return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "condition"
         };
         else if(child === this.yes) return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "true"
         };
         else if(child === this.no) return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "false"
         };
     }
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate to one of two values based on a test value"
         }
     }
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "First check if the condition is true."
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "All done."
         }
     }

@@ -16,6 +16,7 @@ import NameException from "../runtime/NameException";
 import Block from "./Block";
 import { DuplicateShare } from "../conflicts/DuplicateShare";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Share extends Node implements Evaluable {
     
@@ -92,21 +93,21 @@ export default class Share extends Node implements Evaluable {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Share a named value"
         }
     }
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Let's evaluate first, then share."
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Now that we have the value, let's share it!"
         }
     }

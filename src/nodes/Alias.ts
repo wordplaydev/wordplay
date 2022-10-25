@@ -14,9 +14,10 @@ import NameToken from "./NameToken";
 import PlaceholderToken from "./PlaceholderToken";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export const NameLabels: Translations = {
-    "😀": "TODO",
+    "😀": TRANSLATE,
     eng: "name"
 };
 
@@ -75,7 +76,7 @@ export default class Alias extends Node {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A name"
         }
     }

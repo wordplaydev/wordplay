@@ -5,6 +5,7 @@ import Token from "./Token";
 import Bind from "./Bind";
 import Expression from "./Expression";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Row extends Node {
 
@@ -45,7 +46,7 @@ export default class Row extends Node {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A table row"
         }
     }

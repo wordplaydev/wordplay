@@ -1,4 +1,5 @@
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 import Type from "./Type";
 import type TypeVariable from "./TypeVariable";
 
@@ -33,7 +34,7 @@ export default class VariableType extends Type {
     getDescriptions(): Translations {
         return {
             eng: "A variable type type",
-            "😀": `TODO: •x?`
+            "😀": `${TRANSLATE} •x?`
         }
     }
 

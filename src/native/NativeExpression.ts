@@ -13,6 +13,7 @@ import type Bind from "../nodes/Bind";
 import type Context from "../nodes/Context";
 import type { TypeSet } from "../nodes/UnionType";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 
 export default class NativeExpression extends Expression {
     
@@ -57,7 +58,7 @@ export default class NativeExpression extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A native expression"
         }
     }

@@ -39,6 +39,7 @@ import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class StructureDefinition extends Expression {
 
@@ -290,7 +291,7 @@ export default class StructureDefinition extends Expression {
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate to this structure definition!"
         }
     }
@@ -299,7 +300,7 @@ export default class StructureDefinition extends Expression {
         
         // Generate documentation by language.
         const descriptions: Record<LanguageCode, string> = { 
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A type" 
         };
         for(const doc of this.docs) {

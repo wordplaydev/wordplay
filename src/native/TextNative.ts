@@ -28,7 +28,6 @@ export default function bootstrapText() {
     }
 
     return new StructureDefinition(
-        // TODO Localized documentation
         [],[], [], [], [],
         new Block([], [ 
             createTextFunction([ new Alias("length", "eng") ], [], new MeasurementType(), 

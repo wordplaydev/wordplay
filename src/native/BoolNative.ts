@@ -4,6 +4,7 @@ import Block from "../nodes/Block";
 import BooleanType from "../nodes/BooleanType";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import StructureDefinition from "../nodes/StructureDefinition";
+import { TRANSLATE } from "../nodes/Translations";
 import { AND_SYMBOL, NOT_SYMBOL, OR_SYMBOL } from "../parser/Tokenizer";
 import Bool from "../runtime/Bool";
 import Text from "../runtime/Text";
@@ -32,7 +33,7 @@ export default function bootstrapBool() {
                     return expression(left, right);
                 },
                 { 
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Native boolean operation." 
                 }
             ),
@@ -41,7 +42,6 @@ export default function bootstrapBool() {
     }
 
     return new StructureDefinition(
-        // TODO Localized documentation
         [],[], [], [], [],
         new Block([], [
             createBooleanFunction(AND_SYMBOL, (left, right) => left.and(right)),
@@ -57,7 +57,7 @@ export default function bootstrapBool() {
                         return left.not();
                     },
                     { 
-                        "😀": "TODO",
+                        "😀": TRANSLATE,
                         eng: "Logical not." 
                     }
                 ),

@@ -1,5 +1,6 @@
 import type Cell from "../nodes/Cell";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 
@@ -19,7 +20,7 @@ export default class ExpectedSelectName extends Conflict {
     getExplanations(): Translations { 
         return {
             eng: `This has to be a column name`,
-            "😀": "TODO"
+            "😀": TRANSLATE
         }
     }
 

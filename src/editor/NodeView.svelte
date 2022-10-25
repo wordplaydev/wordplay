@@ -19,7 +19,7 @@
 
 </script>
 
-<!-- Don't render anything if we weren't given a node. TODO Interface for replacing with a slot. -->
+<!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
 <div 
     class="{node.constructor.name} node-view {block ? "block" : "inline"} {primaryConflicts.length > 0 ? "primary-conflict" : ""} {secondaryConflicts.length > 0 ? "secondary-conflict" : ""}"

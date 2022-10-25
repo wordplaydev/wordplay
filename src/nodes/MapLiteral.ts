@@ -27,6 +27,7 @@ import type Transform from "../transforms/Transform";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export type MapItem = Unparsable | KeyValue;
 
@@ -125,21 +126,21 @@ export default class MapLiteral extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A mapping from one set of values to another"
         }
     }
 
     getStartExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Let's make a map!"
         }
     }
 
     getFinishExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Now that we have all of the keys and values, create the map."
         }
     }

@@ -23,6 +23,7 @@ import Replace from "../transforms/Replace";
 import Add from "../transforms/Add";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 type Part = Token | Expression | Unparsable;
 
@@ -117,21 +118,21 @@ export default class Template extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Text made of values"
         }
     }
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Start by evaluating all of the parts in this template."
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Now make some text out of the parts!"
         }
     }

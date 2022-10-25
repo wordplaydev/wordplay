@@ -2,6 +2,7 @@ import type Bind from "../nodes/Bind";
 import type Context from "../nodes/Context";
 import Expression from "../nodes/Expression";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type { TypeSet } from "../nodes/UnionType";
 
 export default abstract class HOF extends Expression {
@@ -13,7 +14,7 @@ export default abstract class HOF extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A higher order function"
         }
     }

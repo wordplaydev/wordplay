@@ -1,6 +1,7 @@
 import { EXCEPTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Exception from "../runtime/Exception";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 import Type from "./Type";
 
 export default class ExceptionType extends Type {
@@ -34,7 +35,7 @@ export default class ExceptionType extends Type {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "An exception"
         }
     }

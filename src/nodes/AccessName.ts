@@ -21,6 +21,7 @@ import Is from "./Is";
 import { ACCESS_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import TypeVariable from "./TypeVariable";
 import Stream from "../runtime/Stream";
@@ -215,21 +216,21 @@ export default class AccessName extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Get a named value on a structure"
         }
     }
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "First evaluate the structure."
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Now find the name in this structure."
         }
     }

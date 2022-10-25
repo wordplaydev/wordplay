@@ -2,6 +2,7 @@ import type Bind from "../nodes/Bind";
 import Conflict from "./Conflict";
 import type Token from "../nodes/Token";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 
 export class UnusedBind extends Conflict {
 
@@ -19,7 +20,7 @@ export class UnusedBind extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `No one use using ${this.bind.getNames().length === 1 ? "me" : "us"} :(`
         }
     }

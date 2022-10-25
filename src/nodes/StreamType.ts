@@ -6,6 +6,7 @@ import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 import Type from "./Type";
 import TypePlaceholder from "./TypePlaceholder";
 import Unparsable from "./Unparsable";
@@ -54,7 +55,7 @@ export default class StreamType extends Type {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A stream type"
         }
     }

@@ -19,6 +19,7 @@ import type Transform from "../transforms/Transform";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class TextLiteral extends Expression {
     
@@ -90,7 +91,7 @@ export default class TextLiteral extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Text"
         }
     }
@@ -99,7 +100,7 @@ export default class TextLiteral extends Expression {
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate to this text!"
         }
     }

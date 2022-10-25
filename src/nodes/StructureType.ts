@@ -6,6 +6,7 @@ import type StructureDefinition from "./StructureDefinition";
 import NameType from "./NameType";
 import Unparsable from "./Unparsable";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export const STRUCTURE_NATIVE_TYPE_NAME = "structure";
 
@@ -70,7 +71,7 @@ export default class StructureType extends Type {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A structure type"
         }
     }

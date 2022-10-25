@@ -6,6 +6,7 @@ import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
 import SetType from "../nodes/SetType";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type Type from "../nodes/Type";
 import Action from "../runtime/Action";
 import Bool from "../runtime/Bool";
@@ -39,7 +40,7 @@ export default class NativeHOFSetFilter extends HOF {
             // Initialize an iterator and an empty list in this scope.
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Initialize an index and new set."
                 }, 
                 evaluator => {
@@ -49,7 +50,7 @@ export default class NativeHOFSetFilter extends HOF {
                 }),
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Check the next set value."
                 },
                 evaluator => {
@@ -87,7 +88,7 @@ export default class NativeHOFSetFilter extends HOF {
             // Save the translated value and then jump to the conditional.
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Include the value if it matched."
                 },
                 evaluator => {
@@ -134,14 +135,14 @@ export default class NativeHOFSetFilter extends HOF {
 
     getStartExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Go through each value in the set and see if it matches."
         }
     }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate to the new set."
         }
     }

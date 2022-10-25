@@ -29,6 +29,7 @@ import SetCloseToken from "./SetCloseToken";
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class SetOrMapAccess extends Expression {
 
@@ -135,32 +136,32 @@ export default class SetOrMapAccess extends Expression {
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "First evaluate the set/map, then the key."
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Then find the matching key in the set/map."
         }
     }
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Get a value in a set or a map"
         }
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.setOrMap) return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "set/map"
         };
         else if(child === this.key) return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "key"
         };
     }

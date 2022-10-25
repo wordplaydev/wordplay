@@ -29,6 +29,7 @@ import Replace from "../transforms/Replace";
 import TypePlaceholder from "./TypePlaceholder";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class ConversionDefinition extends Expression {
 
@@ -138,7 +139,7 @@ export default class ConversionDefinition extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A value conversion function"
         }
     }
@@ -147,7 +148,7 @@ export default class ConversionDefinition extends Expression {
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Let's define this conversion!"
         }
     }

@@ -1,5 +1,6 @@
 import type Name from "../nodes/Name";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 
@@ -17,7 +18,7 @@ export class UnexpectedTypeVariable extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `I describe kinds of values, but I'm not one. I don't now what to do!`
         }
     }

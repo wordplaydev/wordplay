@@ -5,6 +5,7 @@ import type Source from "../models/Source";
 import Caret from "../models/Caret";
 import type LanguageCode from "../nodes/LanguageCode";
 import type Reference from "./Reference";
+import { TRANSLATE } from "../nodes/Translations";
 
 export default class Replace<NodeType extends Node> extends Transform {
 
@@ -72,7 +73,7 @@ export default class Replace<NodeType extends Node> extends Transform {
         const replacement = this.getPrettyNewNode(lang);
         return {
             eng: "Replace with " + replacement.getDescriptions().eng,
-            "😀": "TODO: → " + replacement.getDescriptions()["😀"],
+            "😀": `${TRANSLATE} → ${replacement.getDescriptions()["😀"]}`
         }[lang];
 
     }

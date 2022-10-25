@@ -4,6 +4,7 @@ import TokenType from "./TokenType";
 import { TYPE_VAR_SYMBOL } from "../parser/Tokenizer";
 import NameToken from "./NameToken";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class TypeVariable extends Node {
 
@@ -42,7 +43,7 @@ export default class TypeVariable extends Node {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A variable type"
         }
     }

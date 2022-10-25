@@ -2,6 +2,7 @@ import type ColumnType from "../nodes/ColumnType";
 import type Row from "../nodes/Row";
 import type TableType from "../nodes/TableType";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 
@@ -25,7 +26,7 @@ export default class MissingCell extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `This row is missing column ${this.column.toWordplay()}.`
         }
     }

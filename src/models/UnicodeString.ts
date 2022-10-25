@@ -1,4 +1,3 @@
-// TODO We probably need to include the list of all languages we support here.
 const segmenter = new Intl.Segmenter();
 
 export default class UnicodeString {

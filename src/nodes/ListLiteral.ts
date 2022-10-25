@@ -20,6 +20,7 @@ import type Transform from "../transforms/Transform"
 import { endsWithName, startsWithName } from "./util";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export type ListItem = Expression | Unparsable;
 
@@ -110,21 +111,21 @@ export default class ListLiteral extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A list of values"
         }
     }
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "First evaluate all of the values for this list."
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Now make the list!"
         }
     }

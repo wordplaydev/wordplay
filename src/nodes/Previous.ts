@@ -30,6 +30,7 @@ import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Previous extends Expression {
 
@@ -124,11 +125,11 @@ export default class Previous extends Expression {
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.stream) return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "stream"
         };
         else if(child === this.index) return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "index"
         };
 
@@ -136,7 +137,7 @@ export default class Previous extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A previous stream value"
         }
     }
@@ -145,7 +146,7 @@ export default class Previous extends Expression {
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Let's get the stream value at this index."
         }
     }

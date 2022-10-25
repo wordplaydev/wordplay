@@ -18,6 +18,7 @@ import Append from "../transforms/Append";
 import Remove from "../transforms/Remove";
 import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Program extends Node implements Evaluable {
     
@@ -110,21 +111,21 @@ export default class Program extends Node implements Evaluable {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A program"
         }
     }
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Yay, we get to evaluate a program!"
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "We finished evaluating the program, here's what we got!"
         }
     }

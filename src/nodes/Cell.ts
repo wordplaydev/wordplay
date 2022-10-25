@@ -6,6 +6,7 @@ import Token from "./Token";
 import type Transform from "../transforms/Transform";
 import Unparsable from "./Unparsable";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Cell extends Node {
 
@@ -37,7 +38,7 @@ export default class Cell extends Node {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A table cell"
         }
     }

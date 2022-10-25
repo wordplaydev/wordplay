@@ -54,7 +54,6 @@ export default function bootstrapMap() {
     ], new NameType(MAP_HOF_OUTPUT_TYPE_VARIABLE_NAME));
 
     return new StructureDefinition(
-        // TODO Localized documentation
         [],
         [],
         // No interfaces

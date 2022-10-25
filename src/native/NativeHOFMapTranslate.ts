@@ -1,5 +1,6 @@
 import Bind from "../nodes/Bind";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import Expression from "../nodes/Expression";
 import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
@@ -38,7 +39,7 @@ export default class NativeHOFMapTranslate extends HOF {
             // Initialize an iterator and an empty list in this scope.
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Initialize an index and the new map."
                 },
                 evaluator => {
@@ -49,7 +50,7 @@ export default class NativeHOFMapTranslate extends HOF {
             ),
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Apply the translator to the next key."
                 },
                 evaluator => {
@@ -91,7 +92,7 @@ export default class NativeHOFMapTranslate extends HOF {
             // Save the translated value and then jump to the conditional.
             new Action(this, 
                 {
-                    "😀": "TODO",
+                    "😀": TRANSLATE,
                     eng: "Add the new value to the new map."
                 },
                 evaluator => {
@@ -129,14 +130,14 @@ export default class NativeHOFMapTranslate extends HOF {
 
     getStartExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Translate each value in the map, making a new map."
         }
     }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate to the new map!"
         }
     }

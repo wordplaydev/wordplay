@@ -13,6 +13,7 @@ import Replace from "../transforms/Replace";
 import Add from "../transforms/Add";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class TextType extends NativeType {
 
@@ -76,7 +77,7 @@ export default class TextType extends NativeType {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A text type"
         }
     }

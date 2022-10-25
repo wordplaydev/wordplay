@@ -1,5 +1,6 @@
 import type ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type TypePlaceholder from "../nodes/TypePlaceholder";
 import Conflict from "./Conflict";
 
@@ -18,7 +19,7 @@ export default class Placeholder extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `Don't forget to replace his with some code!`
         }
     }

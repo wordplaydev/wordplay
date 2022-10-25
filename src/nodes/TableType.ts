@@ -10,6 +10,7 @@ import Column from "./Column";
 import { TABLE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { TABLE_CLOSE_SYMBOL } from "../parser/Tokenizer";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class TableType extends Type {
     
@@ -57,7 +58,7 @@ export default class TableType extends Type {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A table type"
         }
     }

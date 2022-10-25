@@ -28,8 +28,8 @@ export default class Microphone extends Stream {
 
     getTranslations(): Translations { 
         return {
-            "😀": "mic",
-            eng: "🎤"
+            "😀": "🎤",
+            eng: "mic"
         }; 
     }
 

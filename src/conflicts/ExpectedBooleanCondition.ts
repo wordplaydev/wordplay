@@ -1,5 +1,6 @@
 import type Conditional from "../nodes/Conditional";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
 
@@ -24,7 +25,7 @@ export default class ExpectedBooleanCondition extends Conflict {
     getExplanations(): Translations { 
         return {
             eng: `Expected Boolean; this is type ${this.type.toWordplay()}`,
-            "😀": "TODO"
+            "😀": TRANSLATE
         }
     }
 

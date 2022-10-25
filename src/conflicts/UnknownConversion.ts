@@ -1,5 +1,6 @@
 import type Convert from "../nodes/Convert";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
 
@@ -19,7 +20,7 @@ export class UnknownConversion extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `There's no conversion from this to this type.`
         }
     }

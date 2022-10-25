@@ -17,6 +17,7 @@ import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class NoneLiteral extends Expression {
     readonly none: Token;
@@ -56,7 +57,7 @@ export default class NoneLiteral extends Expression {
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate to this none value!"
         }
     }
@@ -65,7 +66,7 @@ export default class NoneLiteral extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A none value"
         }
     }

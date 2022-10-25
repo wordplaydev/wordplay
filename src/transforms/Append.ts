@@ -6,6 +6,7 @@ import type { Edit } from "../editor/Commands";
 import type Reference from "./Reference";
 import Caret from "../models/Caret";
 import Token from "../nodes/Token";
+import { TRANSLATE } from "../nodes/Translations";
 
 export default class Append<NodeType extends Node> extends Transform {
 
@@ -114,7 +115,7 @@ export default class Append<NodeType extends Node> extends Transform {
         const replacement = this.getPrettyNewNode(lang);
         return {
             eng: "Insert " + replacement.getDescriptions().eng,
-            "😀": "TODO: + " + replacement.getDescriptions()["😀"],
+            "😀": `${TRANSLATE} ${replacement.getDescriptions()["😀"]}`
         }[lang];
     }
 

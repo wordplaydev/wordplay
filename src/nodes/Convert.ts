@@ -28,6 +28,7 @@ import TokenType from "./TokenType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import TypePlaceholder from "./TypePlaceholder";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Convert extends Expression {
     
@@ -120,7 +121,7 @@ export default class Convert extends Expression {
                     conversions.map(conversion => new Action(
                         this, 
                         {
-                            "😀": "TODO",
+                            "😀": TRANSLATE,
                             eng: `Translate to ${conversion.output.toWordplay()}`
                         },
                         evaluator =>  {
@@ -182,21 +183,21 @@ export default class Convert extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Convert a value"
         }
     }
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "We start by evaluating the value to convert, then do zero or more conversions to get to the desired type."
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Yay, we have our converted value!"
         }
     }

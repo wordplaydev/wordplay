@@ -15,6 +15,7 @@ import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import NameToken from "./NameToken";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class NameType extends Type {
 
@@ -77,7 +78,7 @@ export default class NameType extends Type {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A structure type"
         }
     }

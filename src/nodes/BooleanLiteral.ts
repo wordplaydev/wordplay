@@ -16,6 +16,7 @@ import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class BooleanLiteral extends Expression {
     readonly value: Token;
@@ -64,7 +65,7 @@ export default class BooleanLiteral extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `${this.bool() ? "True" : "False"}`
         }
     }
@@ -73,7 +74,7 @@ export default class BooleanLiteral extends Expression {
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate to a bool"
         }
     }

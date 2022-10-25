@@ -1,4 +1,5 @@
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type Evaluable from "./Evaluable";
 import type Evaluator from "./Evaluator";
 import Step from "./Step";
@@ -26,7 +27,7 @@ export default class Jump extends Step {
     getExplanations(): Translations {
         return {
             eng: `Jumping ahead.`,
-            "😀": "TODO: ⏭"
+            "😀": `${TRANSLATE} ⏭`
         }
     }
 

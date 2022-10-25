@@ -1,6 +1,7 @@
 import Conflict from "./Conflict";
 import type Translations from "../nodes/Translations";
 import type Alias from "../nodes/Alias";
+import { TRANSLATE } from "../nodes/Translations";
 
 export default class DuplicateAliases extends Conflict {
 
@@ -22,7 +23,7 @@ export default class DuplicateAliases extends Conflict {
         const duplicates = [... new Set(Array.from(this.duplicates.values()).flat().map(lang => lang.getName()))];
         return {
             eng: `Duplicate aliases ${duplicates.join(", ")}.`,
-            "😀": `TODO: ${duplicates.join(", ")}`
+            "😀": `${TRANSLATE} ${duplicates.join(", ")}`
         }
     }
 

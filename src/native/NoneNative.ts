@@ -12,6 +12,7 @@ import TypeException from "../runtime/TypeException";
 import NoneType from "../nodes/NoneType";
 import type Value from "../runtime/Value";
 import { createNativeConversion } from "./NativeBindings";
+import { TRANSLATE } from "../nodes/Translations";
 
 export default function bootstrapNone() {
 
@@ -30,7 +31,7 @@ export default function bootstrapNone() {
                     return expression(left, right);
                 },
                 {
-                    "😀": "TODO", 
+                    "😀": TRANSLATE, 
                     eng: "Native none operation." 
                 }
             ),
@@ -39,7 +40,6 @@ export default function bootstrapNone() {
     }
     
     return new StructureDefinition(
-        // TODO Localized documentation
         [],[], [], [], [],
         new Block([], [ 
             createNativeConversion([], "!", "''", (val: None) => new Text(val.toString())),

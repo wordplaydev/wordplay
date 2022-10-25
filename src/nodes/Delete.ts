@@ -21,6 +21,7 @@ import type Evaluator from "../runtime/Evaluator";
 import type Transform from "../transforms/Transform";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Delete extends Expression {
     
@@ -105,21 +106,21 @@ export default class Delete extends Expression {
     
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Delete a row from a table"
         }
     }
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "First evaluate the table."
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Now make a table without the matching rows."
         }
     }

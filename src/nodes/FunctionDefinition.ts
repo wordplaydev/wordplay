@@ -22,6 +22,7 @@ import { BinaryOpRegEx, FUNCTION_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
@@ -191,7 +192,7 @@ export default class FunctionDefinition extends Expression {
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Let's define this function and bind it to this name."
         }
     }
@@ -231,7 +232,7 @@ export default class FunctionDefinition extends Expression {
 
         // Generate documentation by language.
         const descriptions: Translations = { 
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A function" 
         };
         for(const doc of this.docs) {

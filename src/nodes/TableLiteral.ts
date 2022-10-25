@@ -23,6 +23,7 @@ import Exception from "../runtime/Exception";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class TableLiteral extends Expression {
     
@@ -121,21 +122,21 @@ export default class TableLiteral extends Expression {
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "First we evaluate all of the rows and cells."
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Now that we have all of the values, let's make the table."
         }
     }
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A table"
         }
     }

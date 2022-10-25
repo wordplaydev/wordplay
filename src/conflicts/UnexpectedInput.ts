@@ -4,6 +4,7 @@ import type FunctionType from "../nodes/FunctionType";
 import Conflict from "./Conflict";
 import type Bind from "../nodes/Bind";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 
 export default class UnexpectedInput extends Conflict {
     readonly func: FunctionType | StructureType;
@@ -27,7 +28,7 @@ export default class UnexpectedInput extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `We expected ${this.expected.getNames().join(",")} here.`
         }
     }

@@ -21,6 +21,7 @@ import MeasurementType from "./MeasurementType";
 import type Transform from "../transforms/Transform";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 type ThisStructure = StructureDefinition | ConversionDefinition;
 
@@ -87,21 +88,21 @@ export default class This extends Expression {
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Get the structure evaluating this."
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Get the structure evaluating this."
         }
     }
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "The value of this"
         }
     }

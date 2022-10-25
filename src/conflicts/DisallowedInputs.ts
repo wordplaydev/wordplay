@@ -1,5 +1,6 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 
@@ -18,7 +19,7 @@ export class DisallowedInputs extends Conflict {
     getExplanations(): Translations { 
         return {
             eng: `Interfaces can't have inputs.`,
-            "😀": "TODO: … → 🚫 ()"
+            "😀": `${TRANSLATE}: … → 🚫 ()`
         }
     }
 

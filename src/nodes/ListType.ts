@@ -12,6 +12,7 @@ import type Transform from "../transforms/Transform"
 import TypePlaceholder from "./TypePlaceholder";
 import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class ListType extends NativeType {
 
@@ -64,7 +65,7 @@ export default class ListType extends NativeType {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A list type"
         }
     }

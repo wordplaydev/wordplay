@@ -34,6 +34,7 @@ import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import PlaceholderToken from "./PlaceholderToken";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 import { aliasesToTranslations } from "./util";
 
 export default class BinaryOperation extends Expression {
@@ -242,7 +243,7 @@ export default class BinaryOperation extends Expression {
     getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined {
 
         if(child === this.operator) return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "operator"
         }
         // If it's the right, find the name of the input.
@@ -259,21 +260,21 @@ export default class BinaryOperation extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Evaluate an operation with two inputs."
         }
     }
 
     getStartExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "We first evaluate the left and right."
         }
      }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "We end by performing the operation on the left and right."
         }
     }

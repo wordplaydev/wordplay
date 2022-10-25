@@ -1,5 +1,6 @@
 import type Borrow from "../nodes/Borrow";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 
@@ -20,7 +21,7 @@ export class UnknownBorrow extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `I don't know who I am!`
         }
     }

@@ -31,6 +31,7 @@ import Unparsable from "./Unparsable";
 import NameToken from "./NameToken";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
+import { TRANSLATE } from "./Translations"
 
 export default class Name extends Expression {
     
@@ -156,7 +157,7 @@ export default class Name extends Expression {
     
     getDescriptions(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "A name"
         }
     }
@@ -165,7 +166,7 @@ export default class Name extends Expression {
 
     getFinishExplanations(): Translations {
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: "Find the name get evaluate to it's value."
         }
     }

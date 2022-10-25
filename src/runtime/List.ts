@@ -24,7 +24,6 @@ export default class List extends Primitive {
 
     get(index: Measurement) {
         const value = this.values[index.toNumber() - 1];
-        // TODO Localize
         return value === undefined ? new None(outOfBoundsAliases) : value;
     }
 

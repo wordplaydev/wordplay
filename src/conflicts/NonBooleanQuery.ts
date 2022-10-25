@@ -1,6 +1,7 @@
 import type Delete from "../nodes/Delete";
 import type Select from "../nodes/Select";
 import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations"
 import type Type from "../nodes/Type";
 import type Update from "../nodes/Update";
 import Conflict from "./Conflict";
@@ -24,7 +25,7 @@ export default class NonBooleanQuery extends Conflict {
 
     getExplanations(): Translations { 
         return {
-            "😀": "TODO",
+            "😀": TRANSLATE,
             eng: `Table queries have to be Boolean-typed; this is ${this.type.toWordplay()}`
         }
     }
