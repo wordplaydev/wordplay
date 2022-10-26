@@ -29,6 +29,16 @@ export default class Docs extends Node {
             return [ new DuplicateLanguages(this, duplicates) ];
     }
 
+    getTranslations(): Translations {
+
+        const translations: Record<string, string | undefined> = {};
+        for(const docs of this.docs) {
+            translations[docs.getLanguage() ?? ""] = docs.docs.getText();
+        }
+        return translations as Translations;
+    
+    }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Docs(
             this.cloneOrReplaceChild<Doc[]>(pretty, [ Doc ], "docs", this.docs, original, replacement), 

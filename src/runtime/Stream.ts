@@ -5,8 +5,16 @@ import Primitive from "./Primitive";
 import type Value from "./Value";
 import type Evaluator from "./Evaluator";
 import type LanguageCode from "../nodes/LanguageCode";
+import Names from "../nodes/Names";
+import Docs from "../nodes/Docs";
 
 export default abstract class Stream extends Primitive {
+
+    /** Documentation on this stream */
+    docs: Docs;
+
+    /** The names of this stream */
+    names: Names;
 
     /** The evaluator listening to this stream. */
     evaluator: Evaluator;
@@ -17,24 +25,21 @@ export default abstract class Stream extends Primitive {
     /** Listeners watching this stream */
     reactors: ((stream: Stream)=>void)[] = [];
 
-    constructor(evaluator: Evaluator, initalValue: Value) {
+    constructor(docs: Docs | Translations, names: Names | Translations, evaluator: Evaluator, initalValue: Value) {
         super();
 
+        this.docs = docs instanceof Docs ? docs : new Docs(docs);
+        this.names = names instanceof Names ? names : new Names(names);
         this.evaluator = evaluator;
         this.add(initalValue);
     }
-
-    abstract getTranslations(): Translations;
     
-    getDescriptions(): Translations { return this.getTranslations(); }
+    getDescriptions(): Translations { return this.docs.getTranslations(); }
 
-    getNames() { return Array.from(new Set(Object.values(this.getTranslations()))); }
-    getTranslation(languages: LanguageCode[]): string { 
-        const translations = this.getTranslations();
-        return translations[languages.find(lang => lang in translations) ?? "eng"];
-    }
+    getNames() { return this.names.getNames(); }
+    getTranslation(languages: LanguageCode[]): string { return this.names.getTranslation(languages); }
 
-    hasName(name: string) { return Object.values(this.getTranslations()).includes(name); }
+    hasName(name: string) { return this.names.hasName(name); }
 
     isEqualTo(value: Value): boolean {
         return value === this;
@@ -85,7 +90,7 @@ export default abstract class Stream extends Primitive {
     }
 
     /** Should produce valid Wordplay code string representing the stream's name */
-    toString() { return this.getTranslations()["😀"]; };
+    toString() { return this.names.getTranslation("😀"); };
 
     /** Should return named values on the stream. */
     resolve(): Value | undefined { return undefined; }

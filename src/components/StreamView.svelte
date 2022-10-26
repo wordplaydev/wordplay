@@ -10,4 +10,4 @@
 
 </script>
 
-{ value.getTranslations()[$languages[0]] }
+{ value.getTranslation($languages) }

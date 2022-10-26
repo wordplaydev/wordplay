@@ -10,7 +10,7 @@
 
     $: languages = getContext<Writable<LanguageCode[]>>("languages");
 
-    $: ignoredStreams = Array.from(evaluator.streamsIgnoredDuringStepping).map(stream => stream.getTranslations()[$languages[0]]);
+    $: ignoredStreams = Array.from(evaluator.streamsIgnoredDuringStepping).map(stream => stream.getTranslation($languages));
 
 </script>
 

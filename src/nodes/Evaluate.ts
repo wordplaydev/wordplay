@@ -50,7 +50,6 @@ import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Remove from "../transforms/Remove";
-import type LanguageCode from "./LanguageCode";
 
 type InputType = Unparsable | Bind | Expression;
 

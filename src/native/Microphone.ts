@@ -1,5 +1,5 @@
 import MeasurementType from "../nodes/MeasurementType";
-import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations";
 import type Evaluator from "../runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
 import Stream from "../runtime/Stream";
@@ -22,15 +22,19 @@ export default class Microphone extends Stream {
     frequencies: Uint8Array = new Uint8Array(FFT_SIZE);
 
     constructor(evaluator: Evaluator) {
-        super(evaluator, percent([0]));
+        super(
+            {
+                eng: "A stream of microphone amplitudes",
+                "😀": TRANSLATE
+            }, 
+            {
+                "😀": "🎤",
+                eng: "mic"
+            },
+            evaluator, 
+            percent([0])
+        );
 
-    }
-
-    getTranslations(): Translations { 
-        return {
-            "😀": "🎤",
-            eng: "mic"
-        }; 
     }
 
     sample() {

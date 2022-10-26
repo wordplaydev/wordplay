@@ -1,5 +1,5 @@
 import MeasurementType from "../nodes/MeasurementType";
-import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations";
 import Unit from "../nodes/Unit";
 import type Evaluator from "../runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
@@ -13,14 +13,18 @@ export default class Time extends Stream {
     startTime: number | undefined;
 
     constructor(evaluator: Evaluator) {
-        super(evaluator, new Measurement(0, Unit.unit(["ms"])));
-    }
-
-    getTranslations(): Translations {
-        return {
-            "😀": "⏱",
-            eng: "time"
-        };
+        super(
+            {
+                eng: "A stream of clock ticks, thirty times per second.",
+                "😀": TRANSLATE
+            }, 
+            {
+                "😀": "⏱",
+                eng: "time"
+            },
+            evaluator, 
+            new Measurement(0, Unit.unit(["ms"]))
+        );
     }
 
     tick() {

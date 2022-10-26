@@ -1,6 +1,6 @@
 import StreamType from "../nodes/StreamType";
 import StructureType from "../nodes/StructureType";
-import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations";
 import Unit from "../nodes/Unit";
 import type Evaluator from "../runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
@@ -15,14 +15,18 @@ function position(evaluator: Evaluator, x: number, y: number) {
 export default class MousePosition extends Stream {
 
     constructor(evaluator: Evaluator) {
-        super(evaluator, position(evaluator, 0, 0));
-    }
-
-    getTranslations(): Translations {
-        return {
-            "😀": "mouse position",
-            eng: "🖱⌖"
-        }
+        super(
+            {
+                eng: "A stream of mouse move events",
+                "😀": TRANSLATE
+            }, 
+            {
+                "😀": "mouse position",
+                eng: "🖱⌖"
+            },
+            evaluator, 
+            position(evaluator, 0, 0)
+        );
     }
 
     record(x: number, y: number) {
