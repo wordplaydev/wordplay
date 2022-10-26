@@ -383,8 +383,8 @@ export function parseNames(tokens: Tokens): Names {
 
     const names: Name[] = [];
 
-    while((names.length > 0 && tokens.nextIs(TokenType.ALIAS)) || (names.length === 0 && tokens.nextIsOneOf(TokenType.NAME, TokenType.PLACEHOLDER))) {
-        const comma = tokens.nextIs(TokenType.ALIAS) ? tokens.read(TokenType.ALIAS) : undefined;
+    while((names.length > 0 && tokens.nextIs(TokenType.NAME_SEPARATOR)) || (names.length === 0 && tokens.nextIsOneOf(TokenType.NAME, TokenType.PLACEHOLDER))) {
+        const comma = tokens.nextIs(TokenType.NAME_SEPARATOR) ? tokens.read(TokenType.NAME_SEPARATOR) : undefined;
         if(names.length > 0 && comma === undefined) break;
         const name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : tokens.nextIs(TokenType.PLACEHOLDER) ? tokens.read(TokenType.PLACEHOLDER) : undefined;
         const lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;

@@ -16,7 +16,7 @@ export const LIST_CLOSE_SYMBOL = "]";
 export const SET_OPEN_SYMBOL = "{";
 export const SET_CLOSE_SYMBOL = "}";
 export const BIND_SYMBOL = ":";
-export const ALIAS_SYMBOL = ",";
+export const NAME_SEPARATOR_SYMBOL = ",";
 export const MEASUREMENT_SYMBOL = "#";
 export const NONE_SYMBOL = "!";
 export const REACTION_SYMBOL = "∆";
@@ -67,7 +67,7 @@ const RESERVED_SYMBOLS = [
     NOT_SYMBOL,
     LANGUAGE_SYMBOL,
     THIS_SYMBOL,
-    ALIAS_SYMBOL
+    NAME_SEPARATOR_SYMBOL
 ];
 
 const TEXT_SEPARATORS = "'‘’\"“”„«»‹›「」『』";
@@ -82,7 +82,7 @@ const patterns = [
     { pattern: LIST_CLOSE_SYMBOL, types: [ TokenType.LIST_CLOSE ] },
     { pattern: SET_OPEN_SYMBOL, types: [ TokenType.SET_OPEN ] },
     { pattern: SET_CLOSE_SYMBOL, types: [ TokenType.SET_CLOSE ] },
-    { pattern: ALIAS_SYMBOL, types: [ TokenType.ALIAS ] },
+    { pattern: NAME_SEPARATOR_SYMBOL, types: [ TokenType.NAME_SEPARATOR ] },
     { pattern: LANGUAGE_SYMBOL, types: [ TokenType.LANGUAGE ] },
     { pattern: "|?", types: [ TokenType.SELECT] },
     { pattern: "|+", types: [ TokenType.INSERT] },

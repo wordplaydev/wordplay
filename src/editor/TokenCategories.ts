@@ -31,7 +31,7 @@ TokenCategories.set(TokenType.DOCS, TokenCategoryDocs);
 TokenCategories.set(TokenType.NONE, TokenCategoryLiteral);
 TokenCategories.set(TokenType.TYPE, TokenCategoryRelation);
 TokenCategories.set(TokenType.TYPE_VAR, TokenCategoryRelation);
-TokenCategories.set(TokenType.ALIAS, TokenCategoryDelimiter);
+TokenCategories.set(TokenType.NAME_SEPARATOR, TokenCategoryDelimiter);
 TokenCategories.set(TokenType.LANGUAGE, TokenCategoryDelimiter);
 TokenCategories.set(TokenType.BOOLEAN_TYPE, TokenCategoryLiteral);
 TokenCategories.set(TokenType.TEXT_TYPE, TokenCategoryType);

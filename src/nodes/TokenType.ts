@@ -17,7 +17,7 @@ enum TokenType {
     TYPE,
     TYPE_OP,
     TYPE_VAR,
-    ALIAS,
+    NAME_SEPARATOR,
     LANGUAGE,
     BOOLEAN_TYPE,
     TEXT_TYPE,
