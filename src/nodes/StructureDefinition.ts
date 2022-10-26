@@ -35,7 +35,7 @@ import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
-import { TRANSLATE } from "./Translations"
+import { overrideWithDocs, TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
 
@@ -273,14 +273,13 @@ export default class StructureDefinition extends Expression {
     }
 
     getDescriptions(): Translations {
-        
-        // Generate documentation by language.
-        const descriptions: Record<LanguageCode, string> = { 
-            "😀": TRANSLATE,
-            eng: "A structure" 
-        };
-        return descriptions;
-
+        return overrideWithDocs(
+            { 
+                eng: "a structure",
+                "😀": TRANSLATE
+            }, 
+            this.docs
+        );
     }
 
 }

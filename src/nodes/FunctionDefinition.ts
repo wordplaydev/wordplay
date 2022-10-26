@@ -21,7 +21,7 @@ import { BinaryOpRegEx, FUNCTION_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import type Translations from "./Translations";
-import { TRANSLATE } from "./Translations"
+import { overrideWithDocs, TRANSLATE } from "./Translations"
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
@@ -205,14 +205,13 @@ export default class FunctionDefinition extends Expression {
     }
 
     getDescriptions(): Translations {
-
-        // Generate documentation by language.
-        const descriptions: Translations = { 
-            "😀": TRANSLATE,
-            eng: "A function" 
-        };
-        return descriptions;
-
+        return overrideWithDocs(
+            { 
+                "😀": TRANSLATE,
+                eng: "A function" 
+            }, 
+            this.docs
+        );
     }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {

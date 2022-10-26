@@ -93,10 +93,10 @@ export default class Remove extends Transform {
 
     getDescription(languages: LanguageCode[]): string {
 
-        const replacement = this.getPrettyNewNode(languages);
+        const translations = this.getPrettyNewNode(languages).getDescriptions(this.source.getContext());
         const descriptions = {
-            eng: "Replace with " + replacement.getDescriptions().eng,
-            "😀": `${TRANSLATE} - ${replacement.getDescriptions()["😀"]}`,
+            eng: `Remove ${translations.eng}`,
+            "😀": TRANSLATE
         };
 
         return descriptions[languages.find(lang => lang in descriptions) ?? "eng"];;

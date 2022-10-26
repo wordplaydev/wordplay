@@ -5,6 +5,7 @@ import type Source from "../models/Source";
 import type LanguageCode from "../nodes/LanguageCode";
 import type Refer from "./Refer";
 import Caret from "../models/Caret";
+import { TRANSLATE } from "../nodes/Translations";
 
 export default class Add<NodeType extends Node> extends Transform {
 
@@ -57,11 +58,21 @@ export default class Add<NodeType extends Node> extends Transform {
     }
 
     getDescription(languages: LanguageCode[]): string {
-        const node = this.getPrettyNewNode(languages);
+
+        let translations = undefined;
+        if(Array.isArray(this.child))
+            translations = this.child[1].getDescriptions();
+
+        if(translations === undefined) {
+            const replacement = this.getPrettyNewNode(languages);
+            translations = replacement.getDescriptions(this.source.getContext());
+        }
+
         const descriptions = {
-            eng: "Add " + node.getDescriptions().eng,
-            "😀": "Add " + node.getDescriptions()["😀"],
+            eng: `Add ${translations.eng}`,
+            "😀": TRANSLATE
         };
+        
         return descriptions[languages.find(lang => lang in descriptions) ?? "eng"];
     }
 

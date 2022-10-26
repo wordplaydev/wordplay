@@ -62,7 +62,7 @@ export default class Reference extends Expression {
     computeConflicts(context: Context): Conflict[] { 
 
         const name = this.getName();
-        const bindOrTypeVar = this.getBind(context);
+        const bindOrTypeVar = this.getDefinition(context);
 
         const conflicts = [];
 
@@ -90,7 +90,7 @@ export default class Reference extends Expression {
         
     }
 
-    getBind(context: Context): Definition | undefined {
+    getDefinition(context: Context): Definition | undefined {
 
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
         return this.getBindingEnclosureOf()?.getDefinitionOfName(this.getName(), context, this);
@@ -99,7 +99,7 @@ export default class Reference extends Expression {
 
     computeType(context: Context): Type {
         // The type is the type of the bind.
-        const definition = this.getBind(context);
+        const definition = this.getDefinition(context);
 
         // If we couldn't find a definition or the definition is a type variable, return unknown.
         if(definition === undefined || definition instanceof TypeVariable) return new UnknownType(this);
@@ -116,7 +116,7 @@ export default class Reference extends Expression {
                     a instanceof Conditional &&
                     a.condition.nodes(
                         n =>    n.getParent() instanceof Is && 
-                                n instanceof Reference && definition === n.getBind(context)
+                                n instanceof Reference && definition === n.getDefinition(context)
                     )
                 ).reverse() as Conditional[];
 
@@ -136,7 +136,7 @@ export default class Reference extends Expression {
         bind; original; context;
 
         // Cache the type of this name at this point in execution.
-        if(this.getBind(context) === bind)
+        if(this.getDefinition(context) === bind)
             this._unionTypes = current.type();
 
         return current;
@@ -155,11 +155,17 @@ export default class Reference extends Expression {
 
     }
     
-    getDescriptions(): Translations {
-        return {
-            "😀": TRANSLATE,
-            eng: "A name"
-        }
+    getDescriptions(context: Context): Translations {
+        // Default descriptions.
+        const definition = this.getDefinition(context);
+
+        // Override with definition's descriptions.
+        return definition !== undefined ? 
+            definition.getDescriptions() : 
+            {
+                "😀": TRANSLATE,
+                eng: "an undefined name"
+            }
     }
 
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
@@ -170,7 +176,6 @@ export default class Reference extends Expression {
             eng: "Find the name get evaluate to it's value."
         }
     }
-
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 

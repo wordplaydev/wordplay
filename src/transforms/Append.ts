@@ -112,11 +112,21 @@ export default class Append<NodeType extends Node> extends Transform {
     }
 
     getDescription(languages: LanguageCode[]): string {
-        const replacement = this.getPrettyNewNode(languages);
+
+        let translations = undefined;
+        if(Array.isArray(this.insertion))
+            translations = this.insertion[1].getDescriptions();
+
+        if(translations === undefined) {
+            const replacement = this.getPrettyNewNode(languages);
+            translations = replacement.getDescriptions(this.source.getContext());
+        }
+
         const descriptions = {
-            eng: "Insert " + replacement.getDescriptions().eng,
-            "😀": `${TRANSLATE} ${replacement.getDescriptions()["😀"]}`
+            eng: `Insert ${translations.eng}`,
+            "😀": TRANSLATE
         };
+        
         return descriptions[languages.find(lang => lang in descriptions) ?? "eng"];;
     }
 

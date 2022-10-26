@@ -302,7 +302,7 @@ export default abstract class Node {
         return undefined;
     }
 
-    abstract getDescriptions(): Translations;
+    abstract getDescriptions(context: Context): Translations;
 
     abstract getChildReplacement(child: Node, context: Context): Transform[] | undefined;
     abstract getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined;

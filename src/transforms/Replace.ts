@@ -70,10 +70,18 @@ export default class Replace<NodeType extends Node> extends Transform {
 
     getDescription(languages: LanguageCode[]): string {
 
-        const replacement = this.getPrettyNewNode(languages);
+        let translations = undefined;
+        if(Array.isArray(this.replacement))
+            translations = this.replacement[1].getDescriptions();
+
+        if(translations === undefined) {
+            const replacement = this.getPrettyNewNode(languages);
+            translations = replacement.getDescriptions(this.source.getContext());
+        }
+
         const descriptions = {
-            eng: "Replace with " + replacement.getDescriptions().eng,
-            "😀": `${TRANSLATE} → ${replacement.getDescriptions()["😀"]}`
+            eng: `Replace with ${translations.eng}`,
+            "😀": `${TRANSLATE} → ${translations["😀"]}`
         };
         return descriptions[languages.find(lang => lang in descriptions) ?? "eng"];
 

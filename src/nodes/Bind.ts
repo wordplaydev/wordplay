@@ -32,7 +32,7 @@ import ListType from "./ListType";
 import Cell from "./Cell";
 import ValueException from "../runtime/ValueException";
 import type Translations from "./Translations";
-import { TRANSLATE } from "./Translations"
+import { overrideWithDocs, TRANSLATE } from "./Translations"
 import Exception from "../runtime/Exception";
 import Share from "./Share";
 import type Definition from "./Definition";
@@ -265,12 +265,10 @@ export default class Bind extends Node implements Evaluable, Named {
     
     getDescriptions(): Translations {
 
-        // Generate documentation by language.
-        const descriptions: Translations = { 
-            "😀": TRANSLATE, 
+        return overrideWithDocs({ 
+            "😀": TRANSLATE,
             eng: "A named value" 
-        };
-        return descriptions;
+        }, this.docs);
         
     }
 
