@@ -39,8 +39,8 @@
             >
                 <td class="col">
                     <!-- svelte-ignore missing-declaration -->
-                    <svelte:component this={getNodeView(transform.getPrettyNewNode($languages[0]))} node={transform.getPrettyNewNode($languages[0])} />
-                <td class="col"><em>{transform.getDescription($languages[0])}</em></td>
+                    <svelte:component this={getNodeView(transform.getPrettyNewNode($languages))} node={transform.getPrettyNewNode($languages)} />
+                <td class="col"><em>{transform.getDescription($languages)}</em></td>
             </tr>
         {:else if (index === minItem - 1 && minItem > 0) || (index === maxItem + 1 && maxItem < transforms.length - 1) }
             <tr class="item"><td colspan=2>…</td></tr>

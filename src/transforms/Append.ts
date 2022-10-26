@@ -29,7 +29,7 @@ export default class Append<NodeType extends Node> extends Transform {
 
     }
 
-    getEdit(lang: LanguageCode): Edit {
+    getEdit(lang: LanguageCode[]): Edit {
 
         // Get the node to insert, prettied.
         let newChild = this.getPrettyNewNode(lang).clone(true);
@@ -111,19 +111,20 @@ export default class Append<NodeType extends Node> extends Transform {
 
     }
 
-    getDescription(lang: LanguageCode): string {
-        const replacement = this.getPrettyNewNode(lang);
-        return {
+    getDescription(languages: LanguageCode[]): string {
+        const replacement = this.getPrettyNewNode(languages);
+        const descriptions = {
             eng: "Insert " + replacement.getDescriptions().eng,
             "😀": `${TRANSLATE} ${replacement.getDescriptions()["😀"]}`
-        }[lang];
+        };
+        return descriptions[languages.find(lang => lang in descriptions) ?? "eng"];;
     }
 
-    getNewNode(lang: LanguageCode): Node {
+    getNewNode(languages: LanguageCode[]): Node {
         if(this.insertion instanceof Node)
             return this.insertion;
         const [ creator, def ] = this.insertion;
-            return creator(def.getTranslation(lang));
+            return creator(def.getTranslation(languages));
     }
 
     equals(transform: Transform): boolean {

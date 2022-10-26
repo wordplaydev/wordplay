@@ -338,7 +338,7 @@
             else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
             else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
             else if(event.key === "Enter" && menuSelection >= 0 && menu.transforms.length > 0) {
-                handleEdit(menu.transforms[menuSelection].getEdit($languages[0]));
+                handleEdit(menu.transforms[menuSelection].getEdit($languages));
                 return;
             }
 
@@ -509,7 +509,7 @@
             <Menu 
                 transforms={menu.transforms} 
                 selection={menuSelection} 
-                select={transform => handleEdit(transform.getEdit($languages[0])) }
+                select={transform => handleEdit(transform.getEdit($languages)) }
             />
         </div>
     {/if}

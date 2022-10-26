@@ -265,7 +265,7 @@ export default class Caret {
         else {
 
             const removal = this.position.getParent()?.getChildRemoval(this.position, this.source.getContext());
-            if(removal) return removal.getEdit("eng");
+            if(removal) return removal.getEdit(["eng"]);
             else {
                 // Delete the text between the first and last token and replace it with a placeholder.
                 const range = this.getRange(this.position);

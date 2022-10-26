@@ -23,14 +23,14 @@ export default class Add<NodeType extends Node> extends Transform {
 
     }
 
-    getNewNode(lang: LanguageCode): Node {
-        return this.child instanceof Node ? this.child : this.child[0](this.child[1].getTranslation(lang));
+    getNewNode(languages: LanguageCode[]): Node {
+        return this.child instanceof Node ? this.child : this.child[0](this.child[1].getTranslation(languages));
     }
 
-    getEdit(lang: LanguageCode): Edit {
+    getEdit(languages: LanguageCode[]): Edit {
         
         // Make the new node
-        const newNode = this.getPrettyNewNode(lang);
+        const newNode = this.getPrettyNewNode(languages);
 
         // Clone the parent
         const newParent = this.parent.clone(true, this.field, newNode);
@@ -56,12 +56,13 @@ export default class Add<NodeType extends Node> extends Transform {
 
     }
 
-    getDescription(lang: LanguageCode): string {
-        const node = this.getPrettyNewNode(lang);
-        return {
+    getDescription(languages: LanguageCode[]): string {
+        const node = this.getPrettyNewNode(languages);
+        const descriptions = {
             eng: "Add " + node.getDescriptions().eng,
             "😀": "Add " + node.getDescriptions()["😀"],
-        }[lang];
+        };
+        return descriptions[languages.find(lang => lang in descriptions) ?? "eng"];
     }
 
     equals(transform: Transform) {

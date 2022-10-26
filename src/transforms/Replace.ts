@@ -20,7 +20,7 @@ export default class Replace<NodeType extends Node> extends Transform {
 
     }
 
-    getEdit(lang: LanguageCode): Edit {
+    getEdit(lang: LanguageCode[]): Edit {
         
         const parent = this.node.getParent();
         if(parent === undefined || parent === null) return;
@@ -58,23 +58,24 @@ export default class Replace<NodeType extends Node> extends Transform {
 
     }
 
-    getNewNode(lang: LanguageCode) { 
+    getNewNode(languages: LanguageCode[]) { 
         
         if(!Array.isArray(this.replacement)) 
             return this.replacement;
 
         const [ creator, def ] = this.replacement;
-        return creator(def.getTranslation(lang));
+        return creator(def.getTranslation(languages));
         
     }
 
-    getDescription(lang: LanguageCode): string {
+    getDescription(languages: LanguageCode[]): string {
 
-        const replacement = this.getPrettyNewNode(lang);
-        return {
+        const replacement = this.getPrettyNewNode(languages);
+        const descriptions = {
             eng: "Replace with " + replacement.getDescriptions().eng,
             "😀": `${TRANSLATE} → ${replacement.getDescriptions()["😀"]}`
-        }[lang];
+        };
+        return descriptions[languages.find(lang => lang in descriptions) ?? "eng"];
 
     }
 

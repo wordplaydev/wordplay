@@ -91,7 +91,7 @@ export default class StructureDefinition extends Expression {
 
     getNames() { return this.names.getNames(); }
     hasName(name: string) { return this.names.hasName(name); }
-    getTranslation(lang: LanguageCode): string { return this.names.getTranslation(lang); }
+    getTranslation(lang: LanguageCode[]): string { return this.names.getTranslation(lang); }
     getTranslations() { return this.names.getTranslations(); }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block || (child instanceof Bind && this.inputs.includes(child)); }

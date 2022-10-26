@@ -94,7 +94,7 @@ export default class FunctionDefinition extends Expression {
 
     hasName(name: string) { return this.names.hasName(name); }
     getNames() { return this.names.getNames(); }
-    getTranslation(lang: LanguageCode) { return this.names.getTranslation(lang); }
+    getTranslation(lang: LanguageCode[]) { return this.names.getTranslation(lang); }
 
     isOperator() { return this.inputs.length === 1 && this.getOperatorName() !== undefined; }
     
