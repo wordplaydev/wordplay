@@ -35,6 +35,7 @@ import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import PlaceholderToken from "./PlaceholderToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import type LanguageCode from "./LanguageCode";
 
 export default class BinaryOperation extends Expression {
 
@@ -257,14 +258,27 @@ export default class BinaryOperation extends Expression {
     
     }
 
-    getDescriptions(): Translations {
-        return {
+    getDescriptions(context: Context): Translations {
+        const descriptions: Translations = {
             "😀": TRANSLATE,
-            eng: "Evaluate an operation with two inputs."
+            eng: "Evaluate an unknown function with two inputs."
         }
+
+        // Find the function on the left's type.
+        const fun = this.getFunctionDefinition(context);
+        if(fun !== undefined) {
+            for(const doc of fun.docs.docs) {
+                const lang = doc.getLanguage();
+                if(lang !== undefined)
+                    descriptions[lang as LanguageCode] = doc.docs.getText();
+            }
+        }
+
+        return descriptions;
     }
 
     getStartExplanations(): Translations { 
+
         return {
             "😀": TRANSLATE,
             eng: "We first evaluate the left and right."

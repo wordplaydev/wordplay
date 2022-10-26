@@ -39,7 +39,7 @@ import FunctionException from "../runtime/FunctionException";
 import ValueException from "../runtime/ValueException";
 import Exception from "../runtime/Exception";
 import type Translations from "./Translations";
-import { TRANSLATE } from "./Translations"
+import { overrideWithDocs, TRANSLATE } from "./Translations"
 import { getPossibleTypeInsertions, getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import Reference from "./Reference";
 import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
@@ -50,6 +50,7 @@ import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Remove from "../transforms/Remove";
+import type LanguageCode from "./LanguageCode";
 
 type InputType = Unparsable | Bind | Expression;
 
@@ -235,6 +236,17 @@ export default class Evaluate extends Expression {
 
         return conflicts;
     
+    }
+
+    getDefinition(context: Context) {
+
+        const def = 
+            this.func instanceof Reference ? this.func.getDefinition(context) :
+            this.func instanceof PropertyReference ? this.func.getDefinition(context) :
+                undefined;
+            
+        return def instanceof FunctionDefinition ? def : undefined;
+
     }
 
     computeType(context: Context): Type {
@@ -653,11 +665,16 @@ export default class Evaluate extends Expression {
         }
     }
 
-    getDescriptions(): Translations {
-        return {
+    getDescriptions(context: Context): Translations {
+        const descriptions: Translations = {
             "😀": TRANSLATE,
-            eng: "Evaluate a function"
+            eng: "Evaluate an unknown function"
         }
+
+        // Find the function on the left's type.
+        const fun = this.getDefinition(context);
+        return fun !== undefined ? overrideWithDocs(descriptions, fun.docs) : descriptions;
+        
     }
 
     getStartExplanations(): Translations { 

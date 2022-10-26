@@ -25,6 +25,7 @@ import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import type LanguageCode from "./LanguageCode";
 
 export default class UnaryOperation extends Expression {
 
@@ -143,11 +144,24 @@ export default class UnaryOperation extends Expression {
         if(child === this.operand) return new Replace(context.source, child, new ExpressionPlaceholder());
     }
 
-    getDescriptions(): Translations {
-        return {
+    getDescriptions(context: Context): Translations {
+        const descriptions: Translations = {
             "😀": TRANSLATE,
-            eng: "Evaluate a function on a value"
+            eng: "Evaluate an unknown unary on a value"
         }
+
+        // Find the function on the left's type.
+        const fun = this.getFunctionDefinition(context);
+        if(fun !== undefined) {
+            for(const doc of fun.docs.docs) {
+                const lang = doc.getLanguage();
+                if(lang !== undefined)
+                    descriptions[lang as LanguageCode] = doc.docs.getText();
+            }
+        }
+
+        return descriptions;
+        
     }
 
     getStartExplanations(): Translations { 

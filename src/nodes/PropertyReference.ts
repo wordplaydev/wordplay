@@ -36,6 +36,7 @@ import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import NameToken from "./NameToken";
 import PlaceholderToken from "./PlaceholderToken";
 import { NameLabels } from "./Name";
+import type Definition from "./Definition";
 
 export default class PropertyReference extends Expression {
 
@@ -74,6 +75,14 @@ export default class PropertyReference extends Expression {
             conflicts.push(new UnknownProperty(this));
 
         return conflicts;
+    }
+
+    getDefinition(context: Context): Definition | undefined {
+        const structure = this.getSubjectType(context);
+        if(!(structure instanceof StructureType) || this.name === undefined) return;
+
+        return structure.getDefinitionOfName(this.name.getText(), context, this);
+
     }
 
     getSubjectType(context: Context): Type | undefined {
