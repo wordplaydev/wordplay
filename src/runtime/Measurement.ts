@@ -36,10 +36,7 @@ export default class Measurement extends Primitive {
             // If it matches the decimal pattern, randomize requested digits, then convert to a Decimal.
             else if(number.is(TokenType.DECIMAL)) {
 
-                // Randomize any underscore digits.
                 let text = number.text.toString();
-                while(text.indexOf("_") >= 0)
-                    text = text.toString().replace("_", Decimal.random().times(10).floor().toString());
 
                 // Is there a trailing %? Strip it.
                 const isPercent = text.charAt(text.length - 1) === "%";
