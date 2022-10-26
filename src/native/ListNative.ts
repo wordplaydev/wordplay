@@ -1,4 +1,3 @@
-import Alias from "../nodes/Alias";
 import Bind from "../nodes/Bind";
 import BooleanType from "../nodes/BooleanType";
 import FunctionDefinition from "../nodes/FunctionDefinition";
@@ -36,7 +35,6 @@ export default function bootstrapList() {
     const listTranslateHOFType = new FunctionType([ 
         new Bind(
             WRITE_DOCS,
-            undefined,
             {
                 eng: "value",
                 "😀": TRANSLATE
@@ -48,7 +46,6 @@ export default function bootstrapList() {
     const listFilterHOFType = new FunctionType([ 
         new Bind(
             WRITE_DOCS, 
-            undefined, 
             {
                 eng: "value",
                 "😀": TRANSLATE
@@ -60,7 +57,6 @@ export default function bootstrapList() {
     const listAllHOFType = new FunctionType([ 
         new Bind(
             WRITE_DOCS,
-            undefined,
             {
                 eng: "value",
                 "😀": TRANSLATE
@@ -73,12 +69,11 @@ export default function bootstrapList() {
     const listUntilHOFType = new FunctionType([ 
         new Bind(
             WRITE_DOCS,
-            undefined,
             {
                 eng: "value",
                 "😀": TRANSLATE
             },
-            new BooleanType(),
+            new BooleanType()
         )
     ], new NameType(LIST_TYPE_VAR_NAME));
 
@@ -86,7 +81,6 @@ export default function bootstrapList() {
     const listFindHOFType = new FunctionType([ 
         new Bind(
             WRITE_DOCS,
-            undefined,
             {
                 eng: "value",
                 "😀": TRANSLATE
@@ -99,7 +93,6 @@ export default function bootstrapList() {
     const listCombineHOFType = new FunctionType([ 
         new Bind(
             WRITE_DOCS,
-            undefined,
             {
                 eng: "combination",
                 "😀": TRANSLATE
@@ -108,7 +101,6 @@ export default function bootstrapList() {
         ),
         new Bind(
             WRITE_DOCS,
-            undefined,
             {
                 eng: "next",
                 "😀": TRANSLATE
@@ -127,7 +119,7 @@ export default function bootstrapList() {
         [ new TypeVariable(LIST_TYPE_VAR_NAME)],
         [],
         // Include all of the functions defined above.
-        new Block([], [
+        new Block([
             createNativeFunction(
                 WRITE_DOCS, 
                 {
@@ -137,7 +129,6 @@ export default function bootstrapList() {
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
-                    undefined, 
                     {
                         eng: "value",
                         "😀": TRANSLATE
@@ -206,7 +197,6 @@ export default function bootstrapList() {
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
-                    undefined, 
                     {
                         eng: "value",
                         "😀": TRANSLATE
@@ -230,7 +220,6 @@ export default function bootstrapList() {
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
-                    undefined, 
                     {
                         eng: "separator",
                         "😀": TRANSLATE
@@ -278,7 +267,7 @@ export default function bootstrapList() {
             createNativeFunction(
                 WRITE_DOCS, 
                 {
-                    eng: "lastLast",
+                    eng: "sansLast",
                     "😀": TRANSLATE
                 }, 
                 [], 
@@ -299,7 +288,6 @@ export default function bootstrapList() {
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
-                    undefined, 
                     {
                         eng: "value",
                         "😀": TRANSLATE
@@ -322,8 +310,7 @@ export default function bootstrapList() {
                 },
                 [], 
                 [ new Bind(
-                    WRITE_DOCS, 
-                    undefined, 
+                    WRITE_DOCS,
                     {
                         eng: "value",
                         "😀": TRANSLATE
@@ -362,7 +349,6 @@ export default function bootstrapList() {
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
-                    undefined, 
                     {
                         eng: "value",
                         "😀": TRANSLATE
@@ -393,7 +379,6 @@ export default function bootstrapList() {
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
-                    undefined, 
                     {
                         eng: "value",
                         "😀": TRANSLATE
@@ -424,7 +409,6 @@ export default function bootstrapList() {
                 [ new TypeVariable(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME)], 
                 [ new Bind(
                     WRITE_DOCS, 
-                    undefined, 
                     {
                         eng: "translator",
                         "😀": TRANSLATE
@@ -443,7 +427,6 @@ export default function bootstrapList() {
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
-                    undefined, 
                     {
                         eng: "include",
                         "😀": TRANSLATE
@@ -462,7 +445,6 @@ export default function bootstrapList() {
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
-                    undefined, 
                     {
                         eng: "matcher",
                         "😀": TRANSLATE
@@ -481,7 +463,6 @@ export default function bootstrapList() {
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
-                    undefined, 
                     {
                         eng: "checker",
                         "😀": TRANSLATE
@@ -500,7 +481,6 @@ export default function bootstrapList() {
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
-                    undefined, 
                     {
                         eng: "checker",
                         "😀": TRANSLATE
@@ -520,7 +500,6 @@ export default function bootstrapList() {
                 [
                     new Bind(
                         WRITE_DOCS, 
-                        undefined, 
                         {
                             eng: "initial",
                             "😀": TRANSLATE
@@ -528,7 +507,6 @@ export default function bootstrapList() {
                     ),
                     new Bind(
                         WRITE_DOCS, 
-                        undefined, 
                         {
                             eng: "combiner",
                             "😀": TRANSLATE
@@ -538,8 +516,8 @@ export default function bootstrapList() {
                 new NativeHOFListCombine(listCombineHOFType),
                 new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME)
             ),
-            createNativeConversion([],  "[]", "''", (val: List) => new Text(val.toString())),
-            createNativeConversion([],  "[]", "{}", (val: List) => new Set(val.getValues()))        
+            createNativeConversion(WRITE_DOCS,  "[]", "''", (val: List) => new Text(val.toString())),
+            createNativeConversion(WRITE_DOCS,  "[]", "{}", (val: List) => new Set(val.getValues()))        
         ], false, true)
     );
     

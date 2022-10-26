@@ -29,9 +29,9 @@ import List from "../runtime/List";
 import NameType from "./NameType";
 import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
-import AccessName from "./AccessName";
+import PropertyReference from "./PropertyReference";
 import TypeInput from "./TypeInput";
-import { aliasesToTranslations, endsWithName, getEvaluationInputConflicts, startsWithName } from "./util";
+import { endsWithName, getEvaluationInputConflicts, startsWithName } from "./util";
 import ListType from "./ListType";
 import type { TypeSet } from "./UnionType";
 import SemanticException from "../runtime/SemanticException";
@@ -41,7 +41,7 @@ import Exception from "../runtime/Exception";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import { getPossibleTypeInsertions, getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
-import Name from "./Name";
+import Reference from "./Reference";
 import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
 import Block from "./Block";
@@ -289,8 +289,8 @@ export default class Evaluate extends Expression {
                     
                     // If we didn't find it explicitly provided as an input, can we infer it from the structure on which this function is being called?
                     // For example, if we're evaluating a function on a list of text [ "" ], then the list type can give us the type of the list item, "".
-                    if(concreteType === undefined && this.func instanceof AccessName) {
-                        const subjectType = this.func.subject.getType(context);
+                    if(concreteType === undefined && this.func instanceof PropertyReference) {
+                        const subjectType = this.func.structure.getType(context);
                         concreteType = subjectType.resolveTypeVariable(nameType.getName());
                     }
                     
@@ -425,7 +425,7 @@ export default class Evaluate extends Expression {
             else {
                 // and it's not a variable length input, first search for a named input, otherwise grab the next input.
                 if(!expectedInput.isVariableLength()) {
-                    const bind = givenInputs.find(g => g instanceof Bind && expectedInput.aliases.find(a => a.getName() === g.aliases[0].getName()) !== undefined);
+                    const bind = givenInputs.find(g => g instanceof Bind && expectedInput.sharesName(g));
                     // If we found a bind with a matching name, compile it's value.
                     if(bind instanceof Bind && bind.value !== undefined)
                         return bind.value.compile(context);
@@ -523,7 +523,7 @@ export default class Evaluate extends Expression {
 
             // Evaluate the structure's block with the bindings, generating an evaluation context with the
             // type's inputs and functions.
-            evaluator.startEvaluation(new Evaluation(evaluator, functionOrStructure.definition, functionOrStructure.definition.block ?? new Block([], [], true, true), evaluator.getEvaluationContext(), bindings));
+            evaluator.startEvaluation(new Evaluation(evaluator, functionOrStructure.definition, functionOrStructure.definition.block ?? new Block([], true, true), evaluator.getEvaluationContext(), bindings));
 
         }
 
@@ -538,7 +538,7 @@ export default class Evaluate extends Expression {
             if(bind instanceof Unparsable) return new SemanticException(evaluator, bind);
             else if(i >= values.length) 
                 return new ValueException(evaluator);
-            bind.aliases.forEach(name => {
+            bind.names.names.forEach(name => {
                 const n = name.getName();
                 if(n !== undefined)
                     bindings.set(
@@ -573,7 +573,7 @@ export default class Evaluate extends Expression {
         if(child === this.func)
             return  this.getDefinitions(this, context)
                     .filter((def): def is FunctionDefinition => def instanceof FunctionDefinition)
-                    .map(fun => new Replace<Name>(context.source, child, [ name => new Name(name), fun ]))
+                    .map(fun => new Replace<Reference>(context.source, child, [ name => new Reference(name), fun ]))
         
         // Input expressions should match whatever the function expects, if there is one.
         const index = this.inputs.indexOf(child as InputType);
@@ -640,13 +640,13 @@ export default class Evaluate extends Expression {
                 if(funType instanceof FunctionType && index < funType.inputs.length) {
                     const bind = funType.inputs[index];
                     if(bind instanceof Bind) {
-                        return aliasesToTranslations(bind.aliases);
+                        return bind.names.getTranslations();
                     }
                 }
                 else if(funType instanceof StructureType && index < funType.structure.inputs.length) {
                     const bind = funType.structure.inputs[index];
                     if(bind instanceof Bind) {
-                        return aliasesToTranslations(bind.aliases);
+                        return bind.names.getTranslations();
                     }
                 }
             }

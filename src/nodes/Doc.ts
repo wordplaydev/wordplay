@@ -9,9 +9,9 @@ import type Transform from "../transforms/Transform";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import DocsToken from "./DocsToken";
+import DocToken from "./DocToken";
 
-export default class Documentation extends Node {
+export default class Doc extends Node {
     
     readonly docs: Token;
     readonly lang?: Language;
@@ -19,8 +19,8 @@ export default class Documentation extends Node {
     constructor(docs?: Token | string, lang?: Language | string) {
         super();
 
-        this.docs = docs instanceof Token ? docs : new DocsToken(docs ?? "");
-        this.lang = lang instanceof Language ? lang : new Language(lang ?? "");
+        this.docs = docs instanceof Token ? docs : new DocToken(docs ?? "");
+        this.lang = lang instanceof Language ? lang : lang === undefined ? undefined : new Language(lang ?? "");
     }
 
     computeChildren() { return this.lang === undefined ? [ this.docs ] : [ this.docs, this.lang ]}
@@ -30,7 +30,7 @@ export default class Documentation extends Node {
     computeConflicts() {}
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new Documentation(
+        return new Doc(
             this.cloneOrReplaceChild(pretty, [ Token ], "docs", this.docs, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Language, undefined ], "lang", this.lang, original, replacement)
         ) as this; 

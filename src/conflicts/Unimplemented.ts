@@ -18,7 +18,7 @@ export class Unimplemented extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.structure.aliases, secondary: [ this.fun ] };
+        return { primary: this.structure.names.names, secondary: [ this.fun ] };
     }
 
     getExplanations(): Translations { 

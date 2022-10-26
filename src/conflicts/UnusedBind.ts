@@ -1,10 +1,9 @@
 import type Bind from "../nodes/Bind";
 import Conflict from "./Conflict";
-import type Token from "../nodes/Token";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 
-export class UnusedBind extends Conflict {
+export default class UnusedBind extends Conflict {
 
     readonly bind: Bind;
 
@@ -15,7 +14,7 @@ export class UnusedBind extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.bind.aliases.map(a => a.name).filter(n => n !== undefined) as Token[] };
+        return { primary: this.bind.names.names };
     }
 
     getExplanations(): Translations { 

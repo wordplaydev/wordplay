@@ -6,4 +6,4 @@
 
 </script>
 
-{ NONE_SYMBOL}{value.aliases.join(" ") }
+{ NONE_SYMBOL }{value.names?.getNames().join(" ") ?? "" }

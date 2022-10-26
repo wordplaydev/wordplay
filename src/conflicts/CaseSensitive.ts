@@ -1,15 +1,15 @@
-import type Alias from "../nodes/Alias";
 import type Name from "../nodes/Name";
+import type Reference from "../nodes/Reference";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 export default class CaseSensitive extends Conflict {
 
-    readonly name: Name | Alias;
-    readonly alias: Alias;
+    readonly name: Reference | Name;
+    readonly alias: Name;
     
-    constructor(name: Name | Alias, alias: Alias) { 
+    constructor(name: Reference | Name, alias: Name) { 
         super(true);
 
         this.name = name;

@@ -16,7 +16,7 @@ export class Implemented extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.structure.aliases, secondary: this.functions };
+        return { primary: this.structure.names.names, secondary: this.functions };
     }
 
     getExplanations(): Translations { 

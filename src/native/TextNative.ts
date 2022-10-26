@@ -14,7 +14,8 @@ import Measurement from "../runtime/Measurement";
 import List from "../runtime/List";
 import Block from "../nodes/Block";
 import type Translations from "../nodes/Translations";
-import { TRANSLATE, WRITE } from "../nodes/Translations";
+import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
+import Names from "../nodes/Names";
 
 export default function bootstrapText() {
 
@@ -29,8 +30,13 @@ export default function bootstrapText() {
     }
 
     return new StructureDefinition(
-        [],[], [], [], [],
-        new Block([], [ 
+        undefined, 
+        new Names({
+            eng: "text",
+            "😀": "''"
+        }), 
+        [], [], [],
+        new Block([ 
             createTextFunction(
                 {
                 eng: WRITE,
@@ -52,12 +58,12 @@ export default function bootstrapText() {
                 {
                     eng: WRITE,
                     "😀": "="
-                }, [ new Bind(
+                }, 
+                [ new Bind(
                     {
                         eng: WRITE,
                         "😀": WRITE
                     }, 
-                    undefined, 
                     {
                         eng: "val",
                         "😀": TRANSLATE
@@ -84,7 +90,6 @@ export default function bootstrapText() {
                         eng: WRITE,
                         "😀": WRITE
                     }, 
-                    undefined, 
                     {
                         eng: "val",
                         "😀": TRANSLATE
@@ -98,8 +103,8 @@ export default function bootstrapText() {
                     else return new TypeException(evaluation.getEvaluator(), new TextType(), val);
                 }
             ),
-            createNativeConversion([], '""', '[""]', (val: Text) => new List(val.text.split("").map(c => new Text(c)))),
-            createNativeConversion([], '""', "#", (val: Text) => new Measurement(val.text))
+            createNativeConversion(WRITE_DOCS, '""', '[""]', (val: Text) => new List(val.text.split("").map(c => new Text(c)))),
+            createNativeConversion(WRITE_DOCS, '""', "#", (val: Text) => new Measurement(val.text))
         ], false, true)
     );
     

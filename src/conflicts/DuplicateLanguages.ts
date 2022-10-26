@@ -1,32 +1,33 @@
-import type Documentation from "../nodes/Documentation";
 import type Language from "../nodes/Language";
 import Conflict from "./Conflict";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations";
+import type Docs from "../nodes/Docs";
+import type Names from "../nodes/Names";
 
 export default class DuplicateLanguages extends Conflict {
 
-    readonly docs: Documentation[];
-    readonly duplicates: Map<string, Language[]>;
+    readonly tagged: Docs | Names;
+    readonly duplicates: (Language|undefined)[];
 
-    constructor(docs: Documentation[], duplicates: Map<string, Language[]>) {
+    constructor(tagged: Docs | Names, duplicates: (Language|undefined)[]) {
 
         super(false);
 
-        this.docs = docs;
+        this.tagged = tagged;
         this.duplicates = duplicates;
 
     }
 
     getConflictingNodes() {
-        return { primary: Array.from(this.duplicates.values()).flat() };
+        return { primary: this.duplicates.map(lang => lang ?? this.tagged) };
     }
 
     getExplanations(): Translations { 
-        const dupes = Array.from(this.duplicates.values()).flat().map(lang => lang.getLanguage());
+        const dupes = this.duplicates.map(dupe => dupe ?? this.tagged).join(", ");
         return {
             eng: `Duplicate languages ${dupes}.`,
-            "😀": `${TRANSLATE} ${dupes.join(", ")}`
+            "😀": `${TRANSLATE} ${dupes}`
         }
     }
 

@@ -6,18 +6,17 @@ import TokenType from "./TokenType";
 import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
-import Documentation from "./Documentation";
 import type Conflict from "../conflicts/Conflict";
 import FunctionType from "./FunctionType";
 import UnknownType from "./UnknownType";
-import { getDuplicateDocs, getDuplicateAliases, typeVarsAreUnique, getEvaluationInputConflicts, aliasesToTranslations } from "./util";
+import { typeVarsAreUnique, getEvaluationInputConflicts } from "./util";
 import type Evaluator from "../runtime/Evaluator";
 import FunctionValue from "../runtime/FunctionValue";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Definition from "./Definition";
-import Alias from "./Alias";
+import Name from "./Name";
 import { BinaryOpRegEx, FUNCTION_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
@@ -28,19 +27,21 @@ import { getExpressionReplacements } from "../transforms/getPossibleExpressions"
 import AnyType from "./AnyType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Transform from "../transforms/Transform"
-import type LanguageCode from "./LanguageCode";
 import Append from "../transforms/Append";
 import EvalCloseToken from "./EvalCloseToken";
 import EvalOpenToken from "./EvalOpenToken";
 import Remove from "../transforms/Remove";
 import Replace from "../transforms/Replace";
 import StructureDefinition from "./StructureDefinition";
+import Docs from "./Docs";
+import Names from "./Names";
+import type LanguageCode from "./LanguageCode";
 
 export default class FunctionDefinition extends Expression {
 
-    readonly docs: Documentation[];
+    readonly docs: Docs;
     readonly fun: Token;
-    readonly aliases: Alias[];
+    readonly names: Names;
     readonly typeVars: (TypeVariable|Unparsable)[];
     readonly open: Token;
     readonly inputs: (Bind|Unparsable)[];
@@ -50,8 +51,8 @@ export default class FunctionDefinition extends Expression {
     readonly expression: Expression | Unparsable;
 
     constructor(
-        docs: Documentation[] | Translations, 
-        aliases: Alias[] | Translations, 
+        docs: Docs | Translations | undefined, 
+        names: Names | Translations | undefined, 
         typeVars: (TypeVariable|Unparsable)[], 
         inputs: (Bind|Unparsable)[], 
         expression: Expression | Unparsable, 
@@ -59,8 +60,8 @@ export default class FunctionDefinition extends Expression {
         fun?: Token, dot?: Token, open?: Token, close?: Token) {
         super();
 
-        this.docs = Array.isArray(docs) ? docs : Object.keys(docs).map(lang => new Documentation(docs[lang as LanguageCode], lang));
-        this.aliases = Array.isArray(aliases) ? aliases : Object.keys(aliases).map(lang => new Alias(aliases[lang as LanguageCode], lang));
+        this.docs = docs instanceof Docs ? docs : new Docs(docs);
+        this.names = names instanceof Names ? names : new Names(names);
         this.fun = fun ?? new Token(FUNCTION_SYMBOL, TokenType.FUNCTION);
         this.typeVars = typeVars;
         this.open = open ?? new EvalOpenToken();
@@ -73,9 +74,8 @@ export default class FunctionDefinition extends Expression {
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new FunctionDefinition(
-            this.cloneOrReplaceChild(pretty, [ Documentation ], "docs", this.docs, original, replacement), 
-            this.cloneOrReplaceChild<Alias[]>(pretty, [ Alias ], "aliases", this.aliases, original, replacement)
-                .map((alias: Alias, index: number) => alias.withPrecedingSpaceIfDesired(pretty && index === 0)),
+            this.cloneOrReplaceChild(pretty, [ Docs ], "docs", this.docs, original, replacement), 
+            this.cloneOrReplaceChild<Names>(pretty, [ Names ], "names", this.names, original, replacement),
             this.cloneOrReplaceChild(pretty, [ TypeVariable, Unparsable ], "typeVars", this.typeVars, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "inputs", this.inputs, original, replacement), 
             this.cloneOrReplaceChild<Expression|Unparsable>(pretty, [ Expression, Unparsable ], "expression", this.expression, original, replacement).withPrecedingSpaceIfDesired(pretty), 
@@ -87,28 +87,19 @@ export default class FunctionDefinition extends Expression {
         ) as this; 
     }
 
-    getNames() { return this.aliases.map(a => a.getName()).filter(n => n !== undefined) as string[]; }
-    getNameInLanguage(lang: LanguageCode): string { 
-        return aliasesToTranslations(this.aliases)[lang];
-    }
-
     sharesName(fun: FunctionDefinition) {
-        const funNames = fun.getNames();
-        return this.getNames().find(n => funNames.includes(n)) !== undefined;
+        const funNames = fun.names.getNames();
+        return this.names.getNames().find(n => funNames.includes(n)) !== undefined;
     }
 
-    hasName(name: string) {
-        return !(this.aliases instanceof Token) && this.aliases.find(a => a.getName() === name) !== undefined;
-    }
+    hasName(name: string) { return this.names.hasName(name); }
+    getNames() { return this.names.getNames(); }
+    getTranslation(lang: LanguageCode) { return this.names.getTranslation(lang); }
 
     isOperator() { return this.inputs.length === 1 && this.getOperatorName() !== undefined; }
+    
     getOperatorName() { 
-        for(const alias of this.aliases) {
-            const name = alias.getName();
-            if(name !== undefined && BinaryOpRegEx.test(name))
-                return name;
-        }
-        return;
+        return this.names.getNames().find(name => BinaryOpRegEx.test(name));
     }
 
     /**
@@ -131,7 +122,7 @@ export default class FunctionDefinition extends Expression {
         let children: Node[] = [];
         children = children.concat(this.docs);
         children.push(this.fun);
-        children = children.concat(this.aliases);
+        children = children.concat(this.names);
         if(this.typeVars) children = children.concat(this.typeVars);
         children.push(this.open);
         children = children.concat(this.inputs);
@@ -145,15 +136,7 @@ export default class FunctionDefinition extends Expression {
     computeConflicts(): Conflict[] { 
 
         let conflicts: Conflict[] = [];
-    
-        // Docs must be unique.
-        const duplicateDocs = getDuplicateDocs(this.docs);
-        if(duplicateDocs) conflicts.push(duplicateDocs);
-    
-        // Function names must be unique
-        const duplicateNames = getDuplicateAliases(this.aliases);
-        if(duplicateNames) conflicts.push(duplicateNames);
-
+        
         // Type variables must have unique names.
         const duplicateTypeVars = typeVarsAreUnique(this.typeVars);
         if(duplicateTypeVars) conflicts.push(duplicateTypeVars);
@@ -206,11 +189,7 @@ export default class FunctionDefinition extends Expression {
             new FunctionValue(this, context);
 
         // Bind the value and then return it.
-        this.aliases.forEach(a => {
-            const name = a.getName();
-            if(name !== undefined)
-                evaluator.bind(name, value);
-        });
+        this.names.getNames().forEach(name => evaluator.bind(name, value));
 
         // Return the value.
         return value;
@@ -235,10 +214,6 @@ export default class FunctionDefinition extends Expression {
             "😀": TRANSLATE,
             eng: "A function" 
         };
-        for(const doc of this.docs) {
-            if(doc.lang !== undefined)
-                descriptions[doc.lang.getLanguage() as LanguageCode] = doc.docs.getText();
-        }
         return descriptions;
 
     }
@@ -255,7 +230,7 @@ export default class FunctionDefinition extends Expression {
 
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
 
-        const newBind = new Bind([], undefined, [ new Alias() ]);
+        const newBind = new Bind(undefined, new Names([new Name()]));
 
         if(child === this.close)
             return [ new Append(context.source, position, this, this.inputs, this.close, newBind)]
@@ -267,9 +242,7 @@ export default class FunctionDefinition extends Expression {
     getInsertionAfter(): Transform[] | undefined { return []; }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if( this.docs.includes(child as Documentation) || 
-            this.aliases.includes(child as Alias) ||
-            this.typeVars.includes(child as TypeVariable) || 
+        if( this.typeVars.includes(child as TypeVariable) || 
             this.inputs.includes(child as Bind | Unparsable))
             return new Remove(context.source, this, child);
         else if(child === this.type && this.dot) return new Remove(context.source, this, this.dot, this.type);

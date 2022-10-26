@@ -6,21 +6,21 @@ import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import Add from "../transforms/Add";
-import LanguageToken from "./LanguageToken";
 import NameToken from "./NameToken";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import LanguageToken from "./LanguageToken";
 
 export default class Language extends Node {
     
-    readonly slash: Token;
+    readonly slash?: Token;
     readonly lang?: Token;
 
     constructor(lang?: Token | string, slash?: Token) {
         super();
 
-        this.slash = slash ?? new LanguageToken();
+        this.slash = lang instanceof Token ? slash : new LanguageToken();
         this.lang = typeof lang === "string" ? new NameToken(lang) : lang;
     }
 
@@ -31,11 +31,16 @@ export default class Language extends Node {
         ) as this; 
     }
 
-    computeChildren() {  return this.lang === undefined ? [ this.slash ] : [ this.slash, this.lang ]; }
+    computeChildren() { 
+        const children = [];
+        if(this.slash) children.push(this.slash);
+        if(this.lang) children.push(this.lang);
+        return children;
+    }
 
     computeConflicts() {
-        if(this.lang === undefined)
-            return [ new MissingLanguage(this) ];
+        if(this.lang === undefined && this.slash !== undefined)
+            return [ new MissingLanguage(this, this.slash) ];
         
         return [];
     }

@@ -13,7 +13,7 @@ export class DisallowedInputs extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.structure.aliases, secondary: this.structure.inputs };
+        return { primary: this.structure.names.names, secondary: this.structure.inputs };
     }
 
     getExplanations(): Translations { 

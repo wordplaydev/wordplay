@@ -56,11 +56,11 @@ export default class Structure extends Value {
     }
 
     toString(): string {
-        return `${this.type.aliases[0].getName()}(${this.type.inputs.map(bind => {
+        return `${this.type.names.names[0].getName()}(${this.type.inputs.map(bind => {
             
             if(bind instanceof Unparsable) return "";
             
-            const name = bind.aliases[0].getName();
+            const name = bind.names.names[0].getName();
             const value = name == undefined ? undefined : this.resolve(name);
             return value === undefined ? "" : `${name}: ${value}`;
         

@@ -3,14 +3,13 @@ import Bind from "./Bind";
 import type Conflict from "../conflicts/Conflict";
 import { ExpectedEndingExpression } from "../conflicts/ExpectedEndingExpression";
 import { IgnoredExpression } from "../conflicts/IgnoredExpression";
-import Documentation from "./Documentation";
 import Expression from "./Expression";
 import Share from "./Share";
 import Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
-import { endsWithName, getDuplicateDocs, startsWithName } from "./util";
+import { endsWithName, startsWithName } from "./util";
 import type Evaluator from "../runtime/Evaluator";
 import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
@@ -28,7 +27,7 @@ import None from "../runtime/None";
 import ConversionDefinition from "./ConversionDefinition";
 import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import Alias from "./Alias";
+import Name from "./Name";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import Append from "../transforms/Append";
@@ -37,6 +36,8 @@ import EvalCloseToken from "./EvalCloseToken";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import Docs from "./Docs";
+import Names from "./Names";
 
 export type Statement = Expression | Unparsable | Share | Bind;
 
@@ -45,25 +46,24 @@ export default class Block extends Expression {
     readonly open?: Token | Unparsable;
     readonly statements: Statement[];
     readonly close?: Token | Unparsable;
-    readonly docs: Documentation[];
+    readonly docs: Docs;
     readonly root: boolean;
     readonly creator: boolean;
 
-    constructor(docs: Documentation[], statements: Statement[], root: boolean, creator: boolean, open?: Token | Unparsable, close?: Token | Unparsable) {
+    constructor(statements: Statement[], root: boolean, creator: boolean, open?: Token | Unparsable, close?: Token | Unparsable, docs?: Docs | Translations) {
         super();
 
         this.open = !root && open === undefined ? new EvalOpenToken() : open;
         this.statements = statements.map((value: Statement, index) => 
             value.withPrecedingSpaceIfDesired(index > 0 && endsWithName(statements[index - 1]) && startsWithName(value)));
         this.close = !root && close === undefined ? new EvalCloseToken() : close;
-        this.docs = docs;
+        this.docs = docs instanceof Docs ? docs : new Docs(docs);
         this.root = root;
         this.creator = creator;
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Block(
-            this.cloneOrReplaceChild(pretty, [ Documentation ], "docs", this.docs, original, replacement),
             this.cloneOrReplaceChild<Statement[]>(pretty, [ Expression, Unparsable, Share, Bind ], "statements", this.statements, original, replacement)
                 .map((statement: Statement, index, statements) => {
                     index;
@@ -76,7 +76,8 @@ export default class Block extends Expression {
             this.root,
             this.creator, 
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token, undefined], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token, undefined], "close", this.close, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Docs ], "docs", this.docs, original, replacement),
         ) as this; 
     }
 
@@ -85,7 +86,7 @@ export default class Block extends Expression {
     isBindingEnclosureOfChild(): boolean { return true; }
 
     computeChildren() {
-        return [ ...this.docs, ...(this.open ? [ this.open ] : []), ...this.statements, ...(this.close ? [ this.close ] : [])];
+        return [ this.docs, ...(this.open ? [ this.open ] : []), ...this.statements, ...(this.close ? [ this.close ] : [])];
     }
 
     computeConflicts(): Conflict[] {
@@ -101,10 +102,6 @@ export default class Block extends Expression {
             .slice(0, this.statements.length - 1)
             .filter(s => (s instanceof Expression && !(s instanceof StructureDefinition || s instanceof FunctionDefinition || s instanceof ConversionDefinition)))
             .forEach(s => conflicts.push(new IgnoredExpression(s as Expression)));
-
-        // Docs must be unique.
-        const duplicateDocs = getDuplicateDocs(this.docs);
-        if(duplicateDocs) conflicts.push(duplicateDocs);
 
         return conflicts;
         
@@ -185,9 +182,9 @@ export default class Block extends Expression {
     }
 
     getInsertions() {
-        const bind = new Bind([], undefined, [ new Alias(undefined) ], undefined, new ExpressionPlaceholder());
-        const type = new FunctionDefinition([], [ new Alias(undefined) ], [], [], new ExpressionPlaceholder());
-        const fun = new StructureDefinition([], [ new Alias(undefined) ], [], [], []);
+        const bind = new Bind(undefined, new Names([ new Name() ]), undefined, new ExpressionPlaceholder());
+        const type = new FunctionDefinition(undefined, new Names([ new Name() ]), [], [], new ExpressionPlaceholder());
+        const fun = new StructureDefinition(undefined, new Names([ new Name() ]), [], [], []);
         return [ 
             bind, 
             fun, 

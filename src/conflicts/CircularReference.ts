@@ -1,13 +1,13 @@
-import type Name from "../nodes/Name";
+import type Reference from "../nodes/Reference";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 export default class CircularReference extends Conflict {
 
-    readonly name: Name;
+    readonly name: Reference;
     
-    constructor(name: Name) { 
+    constructor(name: Reference) { 
         super(true);
 
         this.name = name;

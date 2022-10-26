@@ -4,7 +4,6 @@ import NativeExpression from "./NativeExpression";
 import type Context from "../nodes/Context";
 import type Type from "../nodes/Type";
 import ConversionDefinition from "../nodes/ConversionDefinition";
-import type Documentation from "../nodes/Documentation";
 import type TypeVariable from "../nodes/TypeVariable";
 import type Bind from "../nodes/Bind";
 import Value from "../runtime/Value";
@@ -39,7 +38,7 @@ export class NativeBindings implements NativeInterface {
         if(!(kind in this.functionsByType))
             this.functionsByType[kind] = {};
 
-        fun.aliases.forEach(a => {
+        fun.names.names.forEach(a => {
             const name = a.getName();
             if(name !== undefined)
                 this.functionsByType[kind][name] = fun
@@ -118,7 +117,7 @@ export function createNativeFunction(
 
 }
 
-export function createNativeConversion(docs: Documentation[], inputTypeString: string, outputTypeString: string, fun: Function) {
+export function createNativeConversion(docs: Translations, inputTypeString: string, outputTypeString: string, fun: Function) {
 
     // Parse the expected type.
     const inputType = parseType(tokens(inputTypeString));
@@ -134,10 +133,7 @@ export function createNativeConversion(docs: Documentation[], inputTypeString: s
                 if(val instanceof Value && inputType.accepts(val.getType(evaluation.getEvaluator().getContext()), evaluation.getEvaluator().getContext())) return fun.call(undefined, val);
                 else return new TypeException(evaluation.getEvaluator(), inputType, val); 
             },
-            {
-                "😀": TRANSLATE,
-                eng: docs.find(doc => doc.lang?.getLanguage() === "eng")?.docs.getText() ?? "No documentation"
-            }
+            docs
         )
     )
 }

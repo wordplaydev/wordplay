@@ -5,11 +5,12 @@ import DuplicateLanguages from "../conflicts/DuplicateLanguages";
 import Evaluator from "../runtime/Evaluator";
 import Block from "./Block";
 import { test, expect } from "vitest";
+import Docs from "./Docs";
 
 test("Test block conflicts", () => {
 
     testConflict('(1)', '()', Block, ExpectedEndingExpression);
-    testConflict('`hi`/eng`hola`/spa\n"hi"', '`hi`/eng`hola`/eng\n"hi"', Block, DuplicateLanguages);
+    testConflict('`hi`/eng`hola`/spa\n"hi"', '`hi`/eng`hola`/eng\n"hi"', Docs, DuplicateLanguages);
     testConflict('1 + 1', '1 + 1\n2 + 2', Block, IgnoredExpression);
 
 });

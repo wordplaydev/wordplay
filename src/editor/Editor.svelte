@@ -426,7 +426,7 @@
                 isPlaceholder ? source.getTokenTextIndex($caret.position as Token) :
                 undefined;
 
-            if(position) {
+            if(position !== undefined) {
 
                 // If the last keyboard value length is equal to the new one, then it was a diacritic.
                 // Replace the last grapheme entered with this grapheme, then reset the input text field.

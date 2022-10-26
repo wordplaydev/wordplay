@@ -106,7 +106,7 @@ export default class Program extends Node implements Evaluable {
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(this.borrows.includes(child as Borrow)) return new Remove(context.source, this, child);
-        else if(child === this.block) return new Replace(context.source, this.block, new Block([], [], this.block instanceof Block ? this.block.root : false, this.block instanceof Block ? this.block.creator : false));
+        else if(child === this.block) return new Replace(context.source, this.block, new Block([], this.block instanceof Block ? this.block.root : false, this.block instanceof Block ? this.block.creator : false));
     }
 
     getDescriptions(): Translations {

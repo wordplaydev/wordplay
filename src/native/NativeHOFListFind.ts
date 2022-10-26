@@ -1,4 +1,4 @@
-import Alias from "../nodes/Alias";
+import Name from "../nodes/Name";
 import Bind from "../nodes/Bind";
 import BooleanType from "../nodes/BooleanType";
 import Expression from "../nodes/Expression";
@@ -25,6 +25,7 @@ import TypeException from "../runtime/TypeException";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
 import { LIST_TYPE_VAR_NAME } from "./NativeConstants";
+import Names from "../nodes/Names";
 
 export default class NativeHOFListFind extends HOF {
 
@@ -155,4 +156,4 @@ const NotFound = {
     eng: "notfound",
     "😀": TRANSLATE
 }
-const NotFoundAliases = Object.keys(NotFound).map(lang => new Alias(NotFound[lang as LanguageCode], lang));
+const NotFoundAliases = new Names(Object.keys(NotFound).map(lang => new Name(NotFound[lang as LanguageCode], lang)));

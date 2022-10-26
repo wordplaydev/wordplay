@@ -15,7 +15,7 @@
 <div>
     <h3>{
         definition instanceof Program ? "Program" : 
-        definition instanceof FunctionDefinition ? definition.getNames() :
+        definition instanceof FunctionDefinition ? definition.names.getNames() :
         definition instanceof StructureDefinition ? definition.getNames() :
         definition.output.toWordplay()
         }

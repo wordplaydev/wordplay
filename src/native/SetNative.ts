@@ -15,7 +15,6 @@ import { createNativeConversion, createNativeFunction } from "./NativeBindings";
 import { SET_TYPE_VAR_NAME } from "./NativeConstants";
 import NativeHOFSetFilter from "./NativeHOFSetFilter";
 import Bool from "../runtime/Bool";
-import Alias from "../nodes/Alias";
 import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
 
 export default function bootstrapSet() {
@@ -23,7 +22,6 @@ export default function bootstrapSet() {
     const setFilterHOFType = new FunctionType([ 
         new Bind(
             WRITE_DOCS,
-            undefined,
             {
                 eng: "value",
                 "😀": TRANSLATE
@@ -48,7 +46,7 @@ export default function bootstrapSet() {
         // No inputs
         [],
         // Include all of the functions defined above.
-        new Block([], [
+        new Block([
             createNativeFunction(
                 {
                     eng: WRITE,
@@ -64,7 +62,6 @@ export default function bootstrapSet() {
                         eng: WRITE,
                         "😀": WRITE
                     }, 
-                    undefined, 
                     {
                         eng: "set",
                         "😀": TRANSLATE
@@ -95,7 +92,6 @@ export default function bootstrapSet() {
                         eng: WRITE,
                         "😀": WRITE
                     }, 
-                    undefined, 
                     {
                         eng: "set",
                         "😀": TRANSLATE
@@ -126,7 +122,6 @@ export default function bootstrapSet() {
                         eng: WRITE,
                         "😀": WRITE
                     }, 
-                    undefined, 
                     {
                         eng: "value",
                         "😀": TRANSLATE
@@ -156,7 +151,6 @@ export default function bootstrapSet() {
                         eng: WRITE,
                         "😀": WRITE
                     }, 
-                    undefined, 
                     {
                         eng: "value",
                         "😀": TRANSLATE
@@ -186,7 +180,6 @@ export default function bootstrapSet() {
                         eng: WRITE,
                         "😀": WRITE
                     }, 
-                    undefined, 
                     {
                         eng: "set",
                         "😀": WRITE
@@ -210,12 +203,12 @@ export default function bootstrapSet() {
                     eng: "intersection",
                     "😀": "∩"
                 }, 
-                [], [ new Bind(
+                [], 
+                [ new Bind(
                     {
                         eng: WRITE,
                         "😀": WRITE
                     }, 
-                    undefined, 
                     {
                         eng: "set",
                         "😀": WRITE
@@ -244,7 +237,6 @@ export default function bootstrapSet() {
                         eng: WRITE,
                         "😀": WRITE
                     }, 
-                    undefined, 
                     {
                         eng: "set",
                         "😀": WRITE
@@ -273,7 +265,6 @@ export default function bootstrapSet() {
                         eng: WRITE,
                         "😀": WRITE
                     }, 
-                    undefined, 
                     {
                         eng: "checker",
                         "😀": TRANSLATE
@@ -284,8 +275,8 @@ export default function bootstrapSet() {
                 new SetType(new NameType(SET_TYPE_VAR_NAME))
             ),
 
-            createNativeConversion([], "{}", "''", (val: Set) => new Text(val.toString())),
-            createNativeConversion([], "{}", "[]", (val: Set) => new List(val.values))
+            createNativeConversion(WRITE_DOCS, "{}", "''", (val: Set) => new Text(val.toString())),
+            createNativeConversion(WRITE_DOCS, "{}", "[]", (val: Set) => new List(val.values))
         ], false, true)
     );
     

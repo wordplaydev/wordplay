@@ -4,15 +4,15 @@ import Node from "../nodes/Node";
 import type Source from "../models/Source";
 import Caret from "../models/Caret";
 import type LanguageCode from "../nodes/LanguageCode";
-import type Reference from "./Reference";
+import type Refer from "./Refer";
 import { TRANSLATE } from "../nodes/Translations";
 
 export default class Replace<NodeType extends Node> extends Transform {
 
     readonly node: Node;
-    readonly replacement: NodeType | Reference<NodeType>;
+    readonly replacement: NodeType | Refer<NodeType>;
 
-    constructor(source: Source, node: Node, replacement: NodeType | Reference<NodeType>) {
+    constructor(source: Source, node: Node, replacement: NodeType | Refer<NodeType>) {
         super(source);
 
         this.node = node;
@@ -64,7 +64,7 @@ export default class Replace<NodeType extends Node> extends Transform {
             return this.replacement;
 
         const [ creator, def ] = this.replacement;
-        return creator(def.getNameInLanguage(lang));
+        return creator(def.getTranslation(lang));
         
     }
 

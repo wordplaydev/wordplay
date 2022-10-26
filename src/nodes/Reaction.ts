@@ -21,7 +21,7 @@ import UnknownType from "./UnknownType";
 import Exception from "../runtime/Exception";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Stream from "../runtime/Stream";
-import Name from "./Name";
+import Reference from "./Reference";
 import TokenType from "./TokenType";
 import { REACTION_SYMBOL } from "../parser/Tokenizer";
 import type Transform from "../transforms/Transform"
@@ -157,7 +157,7 @@ export default class Reaction extends Expression {
         else if(child === this.stream)
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is Stream => def instanceof Stream)
-                    .map(stream => new Replace<Name>(context.source, child, [ name => new Name(name), stream ]));
+                    .map(stream => new Replace<Reference>(context.source, child, [ name => new Reference(name), stream ]));
 
     }
 

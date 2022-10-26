@@ -35,7 +35,6 @@ import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import PlaceholderToken from "./PlaceholderToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import { aliasesToTranslations } from "./util";
 
 export default class BinaryOperation extends Expression {
 
@@ -175,7 +174,7 @@ export default class BinaryOperation extends Expression {
             return new SemanticException(evaluator, operand);
 
         // Start the function's expression.
-        evaluator.startEvaluation(new Evaluation(evaluator, fun, fun.expression, left, new Map().set(operand.aliases[0].getName(), right)));
+        evaluator.startEvaluation(new Evaluation(evaluator, fun, fun.expression, left, new Map().set(operand.names.names[0].getName(), right)));
 
         // No values to return, the evaluation will compute it.
         return undefined;
@@ -252,7 +251,7 @@ export default class BinaryOperation extends Expression {
             if(fun) {
                 const firstInput = fun.inputs[0];
                 if(firstInput instanceof Bind)
-                    return aliasesToTranslations(firstInput.aliases);
+                    return firstInput.names.getTranslations();
             }
         }
     

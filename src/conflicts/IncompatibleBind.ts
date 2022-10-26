@@ -5,7 +5,7 @@ import type Type from "../nodes/Type";
 import Conflict from "./Conflict";
 
 
-export class IncompatibleBind extends Conflict {
+export default class IncompatibleBind extends Conflict {
 
     readonly expectedType: Type;
     readonly value: Expression;

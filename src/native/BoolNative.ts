@@ -4,7 +4,7 @@ import BooleanType from "../nodes/BooleanType";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import StructureDefinition from "../nodes/StructureDefinition";
 import type Translations from "../nodes/Translations";
-import { TRANSLATE, WRITE } from "../nodes/Translations";
+import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
 import { AND_SYMBOL, NOT_SYMBOL, OR_SYMBOL } from "../parser/Tokenizer";
 import Bool from "../runtime/Bool";
 import Text from "../runtime/Text";
@@ -29,7 +29,6 @@ export default function bootstrapBool() {
                     eng: WRITE,
                     "😀": WRITE
                 }, 
-                undefined, 
                 OperandNames, 
                 new BooleanType()
             ) ],
@@ -64,7 +63,7 @@ export default function bootstrapBool() {
         [], 
         [], 
         [],
-        new Block([], [
+        new Block([
             createBooleanFunction(
                 {
                     eng: WRITE,
@@ -135,7 +134,7 @@ export default function bootstrapBool() {
                 }, 
                 (left, right) => new Bool(!left.isEqualTo(right))
             ),
-            createNativeConversion([], "?", "''", (val: Bool) => new Text(val.toString()))
+            createNativeConversion(WRITE_DOCS, "?", "''", (val: Bool) => new Text(val.toString()))
         ], false, true)
     );
     

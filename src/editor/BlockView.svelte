@@ -7,4 +7,4 @@
 
 </script>
 
-<NodeSequenceView nodes={node.docs}/><NodeView node={node.open}/><NodeSequenceView nodes={node.statements}/><NodeView node={node.close}/>
+<NodeView node={node.docs}/><NodeView node={node.open}/><NodeSequenceView nodes={node.statements}/><NodeView node={node.close}/>

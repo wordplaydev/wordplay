@@ -3,7 +3,7 @@ import type Translations from "../nodes/Translations";
 import type TypeVariable from "../nodes/TypeVariable";
 import Conflict from "./Conflict";
 
-export class DuplicateBinds extends Conflict {
+export default class DuplicateBinds extends Conflict {
 
     readonly bind: Bind;
     readonly duplicates: (Bind | TypeVariable)[];
@@ -18,13 +18,13 @@ export class DuplicateBinds extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.bind.aliases , secondary: this.duplicates };
+        return { primary: this.bind.names.names, secondary: this.duplicates };
     }
 
     getExplanations(): Translations { 
         return {
-            eng: `${this.bind.aliases[0].getName()} is already defined.`,
-            "😀": `${this.bind.aliases[0].getName()} ${this.bind.aliases[0].getName()}`
+            eng: `${this.bind.names.names[0].getName()} is already defined.`,
+            "😀": `${this.bind.names.names[0].getName()} ${this.bind.names.names[0].getName()}`
         }
     }
 

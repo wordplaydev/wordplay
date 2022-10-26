@@ -35,34 +35,34 @@ import Evaluate from "./Evaluate";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import NameToken from "./NameToken";
 import PlaceholderToken from "./PlaceholderToken";
-import { NameLabels } from "./Alias";
+import { NameLabels } from "./Name";
 
-export default class AccessName extends Expression {
+export default class PropertyReference extends Expression {
 
-    readonly subject: Expression | Unparsable;
-    readonly access: Token;
+    readonly structure: Expression | Unparsable;
+    readonly dot: Token;
     readonly name?: Token;
 
     _unionType: Type | undefined;
 
-    constructor(subject: Expression | Unparsable, name?: Token, access?: Token) {
+    constructor(subject: Expression | Unparsable, name?: Token, dot?: Token) {
         super();
 
-        this.subject = subject;
-        this.access = access ?? new Token(ACCESS_SYMBOL, TokenType.ACCESS);
+        this.structure = subject;
+        this.dot = dot ?? new Token(ACCESS_SYMBOL, TokenType.ACCESS);
         this.name = name;
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new AccessName(
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "subject", this.subject, original, replacement),
+        return new PropertyReference(
+            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "subject", this.structure, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "name", this.name, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "access", this.access, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "access", this.dot, original, replacement)
         ) as this;
     }
 
     computeChildren() {
-        return [ this.subject, this.access, this.name ].filter(n => n !== undefined) as Node[];
+        return [ this.structure, this.dot, this.name ].filter(n => n !== undefined) as Node[];
     }
 
     computeConflicts(context: Context): Conflict[] {
@@ -78,8 +78,8 @@ export default class AccessName extends Expression {
 
     getSubjectType(context: Context): Type | undefined {
 
-        if(this.subject instanceof Unparsable) return;
-        return this.subject.getTypeUnlessCycle(context);
+        if(this.structure instanceof Unparsable) return;
+        return this.structure.getTypeUnlessCycle(context);
 
     }
 
@@ -113,7 +113,7 @@ export default class AccessName extends Expression {
                         a.condition.nodes(
                             n =>    this.name !== undefined &&
                                     n.getParent() instanceof Is && 
-                                    n instanceof AccessName && n.getSubjectType(context) instanceof StructureType && bind === (n.getSubjectType(context) as StructureType).getDefinition(this.name.getText())
+                                    n instanceof PropertyReference && n.getSubjectType(context) instanceof StructureType && bind === (n.getSubjectType(context) as StructureType).getDefinition(this.name.getText())
                         )
                     ).reverse() as Conditional[];
 
@@ -137,7 +137,7 @@ export default class AccessName extends Expression {
 
     compile(context: Context):Step[] {
         
-        return [ new Start(this), ...this.subject.compile(context), new Finish(this) ]
+        return [ new Start(this), ...this.structure.compile(context), new Finish(this) ]
 
     }
 
@@ -153,8 +153,8 @@ export default class AccessName extends Expression {
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
-        if(this.subject instanceof Expression) {
-            const possibleTypes = this.subject.evaluateTypeSet(bind, original, current, context);
+        if(this.structure instanceof Expression) {
+            const possibleTypes = this.structure.evaluateTypeSet(bind, original, current, context);
             this._unionType = possibleTypes.type();
         }
         return current;
@@ -174,8 +174,8 @@ export default class AccessName extends Expression {
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
-        if(child === this.subject)
-            return getExpressionReplacements(context.source, this, this.subject, context);
+        if(child === this.structure)
+            return getExpressionReplacements(context.source, this, this.structure, context);
         else if(child === this.name)
             return this.getNameTransforms(context)
                 .map(def => new Replace<Token>(context.source, child, [ name => new NameToken(name), def ]));
@@ -188,15 +188,15 @@ export default class AccessName extends Expression {
 
         return [
             ...getPossiblePostfix(context, this, this.getType(context)),
-            ...(this.access === undefined ? [] : 
+            ...(this.dot === undefined ? [] : 
                     this.getNameTransforms(context)
                     .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
                         // Include 
                         new Replace(context.source, this, [ name => new Evaluate(
-                            new AccessName(this.subject.withPrecedingSpace("", true), new NameToken(name)), 
+                            new PropertyReference(this.structure.withPrecedingSpace("", true), new NameToken(name)), 
                             def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder())
                         ), def ]) : 
-                        new Replace(context.source, this, [ name => new AccessName(this.subject.withPrecedingSpace("", true), new NameToken(name)), def ])
+                        new Replace(context.source, this, [ name => new PropertyReference(this.structure.withPrecedingSpace("", true), new NameToken(name)), def ])
                     )
             )
         ]
@@ -205,7 +205,7 @@ export default class AccessName extends Expression {
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         
-        if(child === this.subject) return new Replace(context.source, child, new ExpressionPlaceholder());
+        if(child === this.structure) return new Replace(context.source, child, new ExpressionPlaceholder());
         else if(child === this.name) return new Replace(context.source, child, new PlaceholderToken());
 
     }

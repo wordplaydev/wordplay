@@ -28,7 +28,7 @@ export default class TypeVariable extends Node {
     getName() { return this.name.getText(); }
     getNames() { return [ this.name.getText() ]; }
     hasName(name: string) { return this.getName() === name; }
-    getNameInLanguage() { return this.name.getText(); }
+    getTranslation() { return this.name.getText(); }
 
     computeConflicts() {}
 

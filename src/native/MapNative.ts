@@ -1,4 +1,3 @@
-import Alias from "../nodes/Alias";
 import Bind from "../nodes/Bind";
 import Block from "../nodes/Block";
 import BooleanType from "../nodes/BooleanType";
@@ -30,7 +29,6 @@ export default function bootstrapMap() {
                 eng: WRITE,
                 "😀": WRITE
             },
-            undefined,
             {
                 eng: "key",
                 "😀": TRANSLATE
@@ -42,7 +40,6 @@ export default function bootstrapMap() {
                 eng: WRITE,
                 "😀": WRITE
             },
-            undefined,
             {
                 eng: "value",
                 "😀": TRANSLATE
@@ -57,7 +54,6 @@ export default function bootstrapMap() {
                 eng: WRITE,
                 "😀": WRITE
             },
-            undefined,
             {
                 eng: "key",
                 "😀": TRANSLATE
@@ -69,7 +65,6 @@ export default function bootstrapMap() {
                 eng: WRITE,
                 "😀": WRITE
             },
-            undefined,
             {
                 eng: "value",
                 "😀": TRANSLATE
@@ -94,7 +89,7 @@ export default function bootstrapMap() {
         // No inputs
         [],
         // Include all of the functions defined above.
-        new Block([], [             
+        new Block([             
             createNativeFunction(
                 {
                     eng: WRITE,
@@ -107,7 +102,6 @@ export default function bootstrapMap() {
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
-                    undefined, 
                     {
                         eng: "map",
                         "😀": TRANSLATE
@@ -138,7 +132,6 @@ export default function bootstrapMap() {
                         eng: WRITE,
                         "😀": WRITE
                     },
-                    undefined, 
                     {
                         eng: "map",
                         "😀": TRANSLATE
@@ -170,7 +163,6 @@ export default function bootstrapMap() {
                             eng: WRITE,
                             "😀": WRITE
                         }, 
-                        undefined, 
                         {
                             eng: "key",
                             "😀": TRANSLATE
@@ -182,7 +174,6 @@ export default function bootstrapMap() {
                             eng: WRITE,
                             "😀": WRITE
                         }, 
-                        undefined, 
                         {
                             eng: "value",
                             "😀": TRANSLATE
@@ -215,7 +206,6 @@ export default function bootstrapMap() {
                             eng: WRITE,
                             "😀": WRITE
                         }, 
-                        undefined, 
                         {
                             eng: "key",
                             "😀": WRITE
@@ -247,7 +237,6 @@ export default function bootstrapMap() {
                             eng: WRITE,
                             "😀": WRITE
                         }, 
-                        undefined, 
                         {
                             eng: "value",
                             "😀": WRITE
@@ -279,7 +268,6 @@ export default function bootstrapMap() {
                             eng: WRITE,
                             "😀": WRITE
                         },
-                        undefined, 
                         {
                             eng: "checker",
                             "😀": WRITE
@@ -306,7 +294,6 @@ export default function bootstrapMap() {
                             eng: WRITE,
                             "😀": WRITE
                         }, 
-                        undefined, 
                         {
                             eng: "translator",
                             "😀": WRITE
@@ -317,9 +304,9 @@ export default function bootstrapMap() {
                 new NativeHOFMapTranslate(mapTranslateHOFType),
                 new MapType(new NameType(MAP_KEY_TYPE_VAR_NAME), new NameType(MAP_HOF_OUTPUT_TYPE_VARIABLE_NAME))
             ),
-            createNativeConversion([], "{:}", "''", (val: Map) => new Text(val.toString())),
-            createNativeConversion([], "{:}", "{}", (val: Map) => new Set(val.getKeys())),
-            createNativeConversion([], "{:}", "[]", (val: Map) => new List(val.getValues()))
+            createNativeConversion(WRITE_DOCS, "{:}", "''", (val: Map) => new Text(val.toString())),
+            createNativeConversion(WRITE_DOCS, "{:}", "{}", (val: Map) => new Set(val.getKeys())),
+            createNativeConversion(WRITE_DOCS, "{:}", "[]", (val: Map) => new List(val.getValues()))
         ], false, true)
     );
 

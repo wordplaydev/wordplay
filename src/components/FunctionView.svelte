@@ -5,4 +5,4 @@
 
 </script>
 
-{value.definition.getNames().join(" ")}
+{value.definition.names.getNames().join(" ")}

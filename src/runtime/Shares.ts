@@ -17,7 +17,7 @@ export const DEFAULT_SHARES: Record<string, StructureDefinitionValue | Stream> =
 
 function addDefaultShare(def: StructureDefinition) {
     const val = new StructureDefinitionValue(def);
-    def.aliases.forEach(a => {
+    def.names.names.forEach(a => {
         const name = a.getName();
         if(name !== undefined)
             DEFAULT_SHARES[name] = val;

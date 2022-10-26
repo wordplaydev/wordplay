@@ -11,7 +11,7 @@ import TypeException from "../runtime/TypeException";
 import NoneType from "../nodes/NoneType";
 import type Value from "../runtime/Value";
 import { createNativeConversion } from "./NativeBindings";
-import { TRANSLATE, WRITE } from "../nodes/Translations";
+import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
 import type Translations from "../nodes/Translations";
 
 export default function bootstrapNone() {
@@ -26,7 +26,6 @@ export default function bootstrapNone() {
                     eng: WRITE,
                     "😀": WRITE
                 }, 
-                undefined, 
                 {
                     eng: "val",
                     "😀": TRANSLATE
@@ -62,8 +61,8 @@ export default function bootstrapNone() {
             "😀": TRANSLATE
         }, 
         [], [], [],
-        new Block([], [ 
-            createNativeConversion([], "!", "''", (val: None) => new Text(val.toString())),
+        new Block([ 
+            createNativeConversion(WRITE_DOCS, "!", "''", (val: None) => new Text(val.toString())),
             createNativeNoneFunction(
                 {
                     eng: WRITE,

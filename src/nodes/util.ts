@@ -1,18 +1,14 @@
 import CaseSensitive from "../conflicts/CaseSensitive";
-import DuplicateAliases from "../conflicts/DuplicateAliases";
-import DuplicateLanguages from "../conflicts/DuplicateLanguages";
 import DuplicateTypeVariables from "../conflicts/DuplicateTypeVariables";
 import RequiredAfterOptional from "../conflicts/RequiredAfterOptional";
 import VariableLengthArgumentMustBeLast from "../conflicts/VariableLengthArgumentMustBeLast";
-import type Alias from "./Alias";
+import type Name from "./Name";
 import Bind from "./Bind";
 import type Context from "./Context";
-import type Documentation from "./Documentation";
-import type Language from "./Language";
 import TypeVariable from "./TypeVariable";
 import type Unparsable from "./Unparsable";
 import type Node from "./Node";
-import type Name from "./Name";
+import type Reference from "./Reference";
 import type TableType from "./TableType";
 import type Row from "./Row";
 import type Conflict from "../conflicts/Conflict";
@@ -22,44 +18,7 @@ import MissingCell from "../conflicts/MissingCell";
 import InvalidRow from "../conflicts/InvalidRow";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import type Translations from "./Translations";
-import { ANONYMOUS_SYMBOL } from "../parser/Tokenizer";
-
-export function getDuplicateDocs(docs: Documentation[]): DuplicateLanguages | undefined {
-    const duplicatesByLanguage = new Map<string, Language[]>();
-    docs.forEach(doc => { 
-        const language = doc.getLanguage();
-        if(language !== undefined && doc.lang !== undefined) {
-            let duplicates = duplicatesByLanguage.get(language);
-            if(duplicates === undefined) { duplicates = []; duplicatesByLanguage.set(language, duplicates); }
-            duplicates.push(doc.lang);
-        }
-    });
-    duplicatesByLanguage.forEach((dupes, language) => {
-        if(dupes.length === 1)
-            duplicatesByLanguage.delete(language);
-    });
-
-    return duplicatesByLanguage.size > 0 ? new DuplicateLanguages(docs, duplicatesByLanguage) : undefined;
-
-}
-
-export function getDuplicateAliases(aliases: Alias[]): DuplicateAliases | undefined {
-    const duplicatesByName = new Map<string, Alias[]>();
-    aliases.forEach(alias => { 
-        const name = alias.getName();
-        if(name !== undefined) {
-            let duplicates = duplicatesByName.get(name);
-            if(duplicates === undefined) { duplicates = []; duplicatesByName.set(name, duplicates); }
-            duplicates.push(alias);
-        }
-    });
-    duplicatesByName.forEach((dupes, language) => {
-        if(dupes.length === 1)
-            duplicatesByName.delete(language);
-    });
-    return duplicatesByName.size > 0 ? new DuplicateAliases(duplicatesByName) : undefined;
-}
+import DuplicateBinds from "../conflicts/DuplicateBinds";
 
 export function typeVarsAreUnique(vars: (TypeVariable|Unparsable)[]): DuplicateTypeVariables | undefined {
     const typeVars = vars.filter(v => v instanceof TypeVariable) as TypeVariable[];
@@ -111,8 +70,10 @@ export function getEvaluationInputConflicts(inputs: (Bind|Unparsable)[]) {
     const conflicts = [];
 
     // Structure input names must be unique
-    const duplicateInputs = getDuplicateAliases(inputs.map(i => i instanceof Bind ? i.aliases : []).flat());
-    if(duplicateInputs) conflicts.push(duplicateInputs);
+    const bindInputs = inputs.map(i => i instanceof Bind ? i : []).flat() as Bind[];
+    const duplicateBinds = bindInputs.filter(bind1 => bindInputs.find(bind2 => bind1 !== bind2 && bind1.sharesName(bind2)) !== undefined);
+    if(duplicateBinds.length > 0) 
+        conflicts.push(new DuplicateBinds(duplicateBinds[0], duplicateBinds));
     
     // Required inputs can never follow an optional one.
     const requiredAfterOptional = requiredBindAfterOptional(inputs);
@@ -126,7 +87,7 @@ export function getEvaluationInputConflicts(inputs: (Bind|Unparsable)[]) {
 
 }
 
-export function getCaseCollision(name: string, enclosure: Node | undefined, context: Context, node: Name | Alias): CaseSensitive | undefined {
+export function getCaseCollision(name: string, enclosure: Node | undefined, context: Context, node: Reference | Name): CaseSensitive | undefined {
 
     if(enclosure === undefined) return;
 
@@ -138,7 +99,7 @@ export function getCaseCollision(name: string, enclosure: Node | undefined, cont
 
     const otherBind = enclosure.getDefinitionOfName(otherCase, context, node);
     if(otherBind instanceof Bind) {
-        const alias = otherBind.aliases.find(n => n.getName() === otherCase);
+        const alias = otherBind.names.names.find(n => n.getName() === otherCase);
         if(alias !== undefined)
             return new CaseSensitive(node, alias);
     }
@@ -205,24 +166,4 @@ export function endsWithName(node: Node) {
 export function startsWithName(node: Node) { 
     const tokens = node.nodes(t => t instanceof Token) as Token[];
     return tokens.length > 0 && tokens[0].is(TokenType.NAME);
-}
-
-export function aliasesToTranslations(aliases: Alias[]): Translations {
-
-    // Define some default translations using whatever aliases are defined.
-    const translations: Translations = {
-        eng: aliases.find(a => a.getLanguage() === undefined)?.getName() ?? aliases[0].getName() ?? "anonymous",
-        "😀": aliases.find(a => a.getLanguage() === undefined)?.getName() ?? aliases[0].getName() ?? ANONYMOUS_SYMBOL
-    }
-
-    // Override with the alias list.
-    for(const alias of aliases) {
-        const lang = alias.getLanguage();
-        const name = alias.getName();
-        if(lang !== undefined && name !== undefined)
-            (translations as Record<string,string>)[lang] = name;
-    }
-
-    return translations as Translations;
-
 }

@@ -34,7 +34,5 @@ test("Test map conversions", () => {
 });
 
 test("Test primitive extensions", () => {
-    expect(Evaluator.evaluateCode("#s→#kitty * × 1kitty + 1kitty\n5s→#kitty")?.toString()).toBe('6kitty');
-
-
+    expect(Evaluator.evaluateCode("#s→#kitty * · 1kitty + 1kitty\n5s→#kitty")?.toString()).toBe('6kitty');
 });

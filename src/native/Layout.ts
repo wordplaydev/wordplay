@@ -1,4 +1,3 @@
-import Alias from "../nodes/Alias";
 import NameType from "../nodes/NameType";
 import StructureDefinition from "../nodes/StructureDefinition";
 import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";

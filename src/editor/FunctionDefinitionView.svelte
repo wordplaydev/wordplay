@@ -7,4 +7,4 @@
 
 </script>
 
-<NodeSequenceView nodes={node.docs}/><NodeView node={node.fun}/><NodeSequenceView nodes={node.aliases}/><NodeSequenceView nodes={node.typeVars}/><NodeView node={node.open}/><NodeSequenceView nodes={node.inputs}/><NodeView node={node.close}/><NodeView node={node.dot}/><NodeView node={node.type}/><NodeView node={node.expression}/>
+<NodeView node={node.docs}/><NodeView node={node.fun}/><NodeView node={node.names}/><NodeSequenceView nodes={node.typeVars}/><NodeView node={node.open}/><NodeSequenceView nodes={node.inputs}/><NodeView node={node.close}/><NodeView node={node.dot}/><NodeView node={node.type}/><NodeView node={node.expression}/>

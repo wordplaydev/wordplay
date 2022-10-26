@@ -9,7 +9,7 @@ import NotATable from "../conflicts/NotATable";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
-import Name from "./Name";
+import Reference from "./Reference";
 import TableType from "./TableType";
 import type ColumnType from "./ColumnType";
 import BooleanType from "./BooleanType";
@@ -71,14 +71,14 @@ export default class Select extends Expression {
 
         // The columns in a select must be names.
         this.row.cells.forEach(cell => {
-            if(!(cell.value instanceof Name))
+            if(!(cell.value instanceof Reference))
                 conflicts.push(new ExpectedSelectName(cell))
         });
 
         // The columns named must be names in the table's type.
         if(tableType instanceof TableType) {
             this.row.cells.forEach(cell => {
-                const cellName = cell.value instanceof Name ? cell.value : undefined; 
+                const cellName = cell.value instanceof Reference ? cell.value : undefined; 
                 if(!(cellName !== undefined && tableType.getColumnNamed(cellName.name.getText()) !== undefined))
                     conflicts.push(new UnknownColumn(tableType, cell));
             });
@@ -102,7 +102,7 @@ export default class Select extends Expression {
         // For each cell in the select row, find the corresponding column type in the table type.
         // If we can't find one, return unknown.
         const columnTypes = this.row.cells.map(cell => {
-            const column = cell.value instanceof Name ? tableType.getColumnNamed(cell.value.name.text.toString()) : undefined; 
+            const column = cell.value instanceof Reference ? tableType.getColumnNamed(cell.value.name.text.toString()) : undefined; 
             return column === undefined ? undefined : column;
         });
         if(columnTypes.find(t => t === undefined)) return new UnknownType(this);

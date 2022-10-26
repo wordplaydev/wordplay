@@ -21,7 +21,7 @@ import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import TypeException from "../runtime/TypeException";
 import AnyType from "./AnyType";
-import Name from "./Name";
+import Reference from "./Reference";
 import TokenType from "./TokenType";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import { PREVIOUS_SYMBOL } from "../parser/Tokenizer";
@@ -108,7 +108,7 @@ export default class Previous extends Expression {
         if(child === this.stream)
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is Stream => def instanceof Stream)
-                    .map(stream => new Replace<Name>(context.source, child, [ name => new Name(name), stream ]))
+                    .map(stream => new Replace<Reference>(context.source, child, [ name => new Reference(name), stream ]))
 
         if(child === this.index)
             return getExpressionReplacements(context.source, this, this.index, context, new MeasurementType());

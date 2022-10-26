@@ -12,8 +12,8 @@ import Type from "./Type";
 import type Node from "./Node";
 import Unparsable from "./Unparsable";
 import type Bind from "./Bind";
-import Name from "./Name";
-import AccessName from "./AccessName";
+import Reference from "./Reference";
+import PropertyReference from "./PropertyReference";
 import StructureType from "./StructureType";
 import { IncompatibleType } from "../conflicts/IncompatibleType";
 import { TypeSet } from "./UnionType";
@@ -94,13 +94,13 @@ export default class Is extends Expression {
 
         if(this.type instanceof Unparsable) return current;
 
-        if(this.expression instanceof Name) {
+        if(this.expression instanceof Reference) {
             // If this is the bind we're looking for and this type check's type is in the set
             if(this.expression.getBind(context) === bind && current.contains(this.type, context))
                 return new TypeSet([ this.type ], context);
         }
 
-        if( this.expression instanceof AccessName && this.expression.name) {
+        if( this.expression instanceof PropertyReference && this.expression.name) {
             const subject = this.expression.getSubjectType(context);
             if(subject instanceof StructureType) {
                 if(bind === subject.getDefinition(this.expression.name.getText()) && current.contains(this.type, context))

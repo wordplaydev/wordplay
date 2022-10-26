@@ -1,11 +1,11 @@
 <script lang="ts">
     // import { getContext } from "svelte";
     // import type { Writable } from "svelte/store";
-    import type Alias from "../nodes/Alias";
+    import type Doc from "../nodes/Doc";
     // import type LanguageCode from "../nodes/LanguageCode";
     import NodeView from "./NodeView.svelte";
     
-    export let node: Alias;
+    export let node: Doc;
 
     // let languages = getContext<Writable<LanguageCode[]>>("languages");
 
@@ -16,7 +16,7 @@
 </script>
 
 <!-- {#if languageSelected}
-    <NodeView node={node.name}/>
+    <NodeView node={node.docs}/>
 {:else if caretIn } -->
-    <NodeView node={node.separator}/><strong><NodeView node={node.name}/></strong><NodeView node={node.lang}/>
+    <NodeView node={node.docs}/><NodeView node={node.lang}/>
 <!-- {/if} -->

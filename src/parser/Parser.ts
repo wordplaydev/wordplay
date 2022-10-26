@@ -13,7 +13,7 @@ import Bind from "../nodes/Bind";
 import Evaluate from "../nodes/Evaluate";
 import UnaryOperation from "../nodes/UnaryOperation";
 import BinaryOperation from "../nodes/BinaryOperation";
-import AccessName from "../nodes/AccessName";
+import PropertyReference from "../nodes/PropertyReference";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import Template from "../nodes/Template";
 import UnionType from "../nodes/UnionType";
@@ -32,8 +32,8 @@ import ListAccess from "../nodes/ListAccess";
 import Conditional from "../nodes/Conditional";
 import Share from "../nodes/Share";
 import StructureDefinition from "../nodes/StructureDefinition";
-import Alias from "../nodes/Alias";
-import Documentation from "../nodes/Documentation";
+import Name from "../nodes/Name";
+import Doc from "../nodes/Doc";
 import Column from "../nodes/Column";
 import Cell from "../nodes/Cell";
 import Row from "../nodes/Row";
@@ -49,7 +49,7 @@ import Reaction from "../nodes/Reaction";
 import StreamType from "../nodes/StreamType";
 import BooleanType from "../nodes/BooleanType";
 import SetOrMapAccess from "../nodes/SetOrMapAccess";
-import Name from "../nodes/Name";
+import Reference from "../nodes/Reference";
 import BooleanLiteral from "../nodes/BooleanLiteral";
 import Convert from "../nodes/Convert";
 import Unit from "../nodes/Unit";
@@ -66,6 +66,8 @@ import TypeInput from "../nodes/TypeInput";
 import This from "../nodes/This";
 import ConversionType from "../nodes/ConversionType";
 import Dimension from "../nodes/Dimension";
+import Docs from "../nodes/Docs";
+import Names from "../nodes/Names";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -318,7 +320,7 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
             tokens.read(TokenType.EVAL_CLOSE) :
             tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, []);
 
-    return new Block(docs, statements, root, creator, open, close);
+    return new Block(statements, root, creator, open, close, docs);
 
 }
 
@@ -346,21 +348,21 @@ function nextIsConversion(tokens: Tokens): boolean {
 
 }
 
-/** BIND :: ALIAS TYPE? (: EXPRESSION)? */
+/** BIND :: NAMES TYPE? (: EXPRESSION)? */
 export function parseBind(tokens: Tokens): Bind | Unparsable {
 
     let docs = parseDocumentation(tokens);
     let etc = tokens.nextIs(TokenType.PLACEHOLDER) ? tokens.read(TokenType.PLACEHOLDER) : undefined;
-    let names: Alias[] | Unparsable = [];
+    let names: Names | Unparsable;
     let colon;
     let value;
     let dot;
     let type;
     
-    names = parseAliases(tokens);
+    names = parseNames(tokens);
 
-    if(names.length === 0)
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_BIND_NAME, [ docs, etc ]);
+    if(names.names.length === 0)
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_BIND_NAME, [ docs ]);
 
     if(tokens.nextIs(TokenType.TYPE)) {
         dot = tokens.read(TokenType.TYPE);
@@ -372,24 +374,24 @@ export function parseBind(tokens: Tokens): Bind | Unparsable {
         value = parseExpression(tokens);
     }
 
-    return new Bind(docs, etc, names, type, value, dot, colon);
+    return new Bind(docs, names, type, value, etc, dot, colon);
 
 }
 
 /** ALIAS :: (name LANGUAGE?)+ */
-export function parseAliases(tokens: Tokens): Alias[] {
+export function parseNames(tokens: Tokens): Names {
 
-    const aliases: Alias[] = [];
+    const names: Name[] = [];
 
-    while((aliases.length > 0 && tokens.nextIs(TokenType.ALIAS)) || (aliases.length === 0 && tokens.nextIsOneOf(TokenType.NAME, TokenType.PLACEHOLDER))) {
+    while((names.length > 0 && tokens.nextIs(TokenType.ALIAS)) || (names.length === 0 && tokens.nextIsOneOf(TokenType.NAME, TokenType.PLACEHOLDER))) {
         const comma = tokens.nextIs(TokenType.ALIAS) ? tokens.read(TokenType.ALIAS) : undefined;
-        if(aliases.length > 0 && comma === undefined) break;
+        if(names.length > 0 && comma === undefined) break;
         const name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : tokens.nextIs(TokenType.PLACEHOLDER) ? tokens.read(TokenType.PLACEHOLDER) : undefined;
         const lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
-        aliases.push(new Alias(name, lang, comma));
+        names.push(new Name(name, lang, comma));
     }
 
-    return aliases;
+    return new Names(names);
 
 }
 
@@ -464,7 +466,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
         // A conversion. Need to parse before names, otherwise we might slurp up a type alone instead of a conversion.
         nextIsConversion(tokens) ? parseConversion(tokens) :
         // Names or booleans are easy
-        tokens.nextIs(TokenType.NAME) ? new Name(tokens.read(TokenType.NAME)) :
+        tokens.nextIs(TokenType.NAME) ? new Reference(tokens.read(TokenType.NAME)) :
         // Booleans
         tokens.nextIs(TokenType.BOOLEAN) ? new BooleanLiteral(tokens.read(TokenType.BOOLEAN)) :
         // Numbers with units
@@ -525,7 +527,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
 function parseNone(tokens: Tokens): NoneLiteral | Unparsable {
 
     const error = tokens.read(TokenType.NONE);
-    const names = parseAliases(tokens);
+    const names = parseNames(tokens);
     return new NoneLiteral(error, names);
 
 }
@@ -818,7 +820,7 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 
     const fun = tokens.read(TokenType.FUNCTION);
 
-    const aliases = tokens.nextIsOneOf(TokenType.NAME, TokenType.PLACEHOLDER) ? parseAliases(tokens) : [];
+    const aliases = tokens.nextIsOneOf(TokenType.NAME, TokenType.PLACEHOLDER) ? parseNames(tokens) : undefined;
 
     const typeVars = parseTypeVariables(tokens);
 
@@ -933,7 +935,7 @@ function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression 
                     tokens.nextIs(TokenType.UNARY_OP) ? tokens.read(TokenType.UNARY_OP) :
                     tokens.read(TokenType.BINARY_OP);
 
-        left = new AccessName(left, name, access);
+        left = new PropertyReference(left, name, access);
 
         // But wait, is it a function evaluation?
         if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
@@ -996,7 +998,7 @@ function parseMeasurementType(tokens: Tokens): MeasurementType {
 function parseNoneType(tokens: Tokens): NoneType {
 
     const oops = tokens.read(TokenType.NONE_TYPE);
-    const names = parseAliases(tokens);
+    const names = parseNames(tokens);
     return new NoneType(names, oops);
 
 }
@@ -1098,9 +1100,7 @@ export function parseStructure(tokens: Tokens): StructureDefinition | Unparsable
 
     const type = tokens.read(TokenType.TYPE);
 
-    const aliases = parseAliases(tokens);
-    if(aliases.length === 0)
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_STRUCTURE_NAME, [ docs, type ])
+    const aliases = parseNames(tokens);
 
     const interfaces: TypeInput[] = [];
     while(tokens.nextIs(TokenType.TYPE)) {
@@ -1131,14 +1131,14 @@ export function parseStructure(tokens: Tokens): StructureDefinition | Unparsable
 
 }
 
-function parseDocumentation(tokens: Tokens): Documentation[]  {
+function parseDocumentation(tokens: Tokens): Docs  {
 
     const docs = [];
     while(tokens.nextIs(TokenType.DOCS)) {
         const doc = tokens.read(TokenType.DOCS);
         const lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
-        docs.push(new Documentation(doc, lang));
+        docs.push(new Doc(doc, lang));
     }
-    return docs;
+    return new Docs(docs);
 
 }

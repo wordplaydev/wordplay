@@ -2,22 +2,20 @@ import Expression from "./Expression";
 import Node from "./Node";
 import type Transform from "../transforms/Transform"
 import type Context from "./Context";
-import Alias from "./Alias";
 import Token from "./Token";
 import Type from "./Type";
 import Unparsable from "./Unparsable";
-import Documentation from "./Documentation";
 import type Conflict from "../conflicts/Conflict";
-import { UnusedBind } from "../conflicts/UnusedBind";
-import { DuplicateBinds } from "../conflicts/DuplicateBinds";
-import { IncompatibleBind } from "../conflicts/IncompatibleBind";
-import { UnexpectedEtc } from "../conflicts/UnexpectedEtc";
+import UnusedBind from "../conflicts/UnusedBind";
+import DuplicateBinds from "../conflicts/DuplicateBinds";
+import IncompatibleBind from "../conflicts/IncompatibleBind";
+import UnexpectedEtc from "../conflicts/UnexpectedEtc";
 import UnknownType from "./UnknownType";
 import NameType from "./NameType";
 import StructureType from "./StructureType";
 import StructureDefinition from "./StructureDefinition";
 import TypeVariable from "./TypeVariable";
-import Name from "./Name";
+import Reference from "./Reference";
 import Column from "./Column";
 import ColumnType from "./ColumnType";
 import type Evaluator from "../runtime/Evaluator";
@@ -27,7 +25,7 @@ import Start from "../runtime/Start";
 import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
 import type Named from "./Named";
-import { aliasesToTranslations, getCaseCollision, getDuplicateAliases, getDuplicateDocs } from "./util";
+import { getCaseCollision } from "./util";
 import Evaluate from "./Evaluate";
 import Block from "./Block";
 import ListType from "./ListType";
@@ -41,34 +39,35 @@ import type Definition from "./Definition";
 import { getPossibleTypeAdds, getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
-import { ALIAS_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import TypePlaceholder from "./TypePlaceholder";
 import FunctionDefinition from "./FunctionDefinition";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type LanguageCode from "./LanguageCode";
-import Append from "../transforms/Append";
 import Add from "../transforms/Add";
 import Replace from "../transforms/Replace";
 import BindToken from "./BindToken";
 import TypeToken from "./TypeToken";
 import Remove from "../transforms/Remove";
+import Docs from "./Docs";
+import Names from "./Names";
 
 export default class Bind extends Node implements Evaluable, Named {
     
-    readonly docs: Documentation[];
-    readonly etc: Token | undefined;
-    readonly aliases: Alias[];
+    readonly docs: Docs;
+    readonly etc?: Token | undefined;
+    readonly names: Names;
     readonly dot?: Token;
     readonly type?: Type | Unparsable;
     readonly colon?: Token;
     readonly value?: Expression | Unparsable;
 
-    constructor(docs: Documentation[] | Translations, etc: Token | undefined, names: Alias[] | Translations, type?: Type | Unparsable, value?: Expression | Unparsable, dot?: Token, colon?: Token) {
+    constructor(docs: Docs | Translations | undefined, names: Names | Translations | undefined, type?: Type | Unparsable, value?: Expression | Unparsable, etc?: Token | undefined, dot?: Token, colon?: Token) {
         super();
 
-        this.docs = Array.isArray(docs) ? docs : Object.keys(docs).map(lang => new Documentation(docs[lang as LanguageCode], lang));
-        this.aliases = Array.isArray(names) ? names : Object.keys(names).map(lang => new Alias(names[lang as LanguageCode], lang));
+        this.docs = docs instanceof Docs ? docs : new Docs(docs);
+        this.names = names instanceof Names ? names : new Names(names);
         this.etc = etc;
         this.dot = dot !== undefined ? dot : type === undefined ? undefined : new TypeToken();
         this.type = type;
@@ -78,22 +77,22 @@ export default class Bind extends Node implements Evaluable, Named {
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Bind(
-            this.cloneOrReplaceChild(pretty, [ Documentation ], "docs", this.docs, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token, undefined], "etc", this.etc, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Alias ], "aliases", this.aliases, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Docs ], "docs", this.docs, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Names ], "names", this.names, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Type, Unparsable, undefined ], "type", this.type, original, replacement), 
             this.cloneOrReplaceChild<Expression|Unparsable|undefined>(pretty, [ Expression, Unparsable, undefined ], "value", this.value, original, replacement)?.withPrecedingSpaceIfDesired(pretty),
+            this.cloneOrReplaceChild(pretty, [ Token, undefined], "etc", this.etc, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "dot", this.dot, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "colon", this.colon, original, replacement)
         ) as this;
     }
 
-    hasName(name: string) { return this.aliases.find(n => n.getName() === name) !== undefined; }
-    sharesName(bind: Bind) { return this.getNames().find(name => bind.hasName(name)) !== undefined; }
-    getNames(): string[] { return this.aliases.map(n => n.getName()).filter(n => n !== undefined) as string[]; }
+    hasName(name: string) { return this.names.hasName(name); }
+    sharesName(bind: Bind) { return this.names.getNames().find(name => bind.hasName(name)) !== undefined; }
+    getNames(): string[] { return this.names.getNames(); }
     
-    getNameInLanguage(lang: LanguageCode) {
-        return aliasesToTranslations(this.aliases)[lang];
+    getTranslation(lang: LanguageCode) {
+        return this.names.getTranslation(lang);
     }
 
     isVariableLength() { return this.etc !== undefined; }
@@ -103,9 +102,9 @@ export default class Bind extends Node implements Evaluable, Named {
 
     computeChildren() { 
         let children: Node[] = [];
-        children = children.concat(this.docs);
+        children.push(this.docs);
         if(this.etc) children.push(this.etc);
-        children = children.concat(this.aliases);
+        children.push(this.names);
         if(this.dot) children.push(this.dot);
         if(this.type) children.push(this.type);
         if(this.colon) children.push(this.colon);
@@ -117,17 +116,9 @@ export default class Bind extends Node implements Evaluable, Named {
 
         const conflicts = [];
 
-        // Can't have duplicate docs
-        const duplicateDocs = getDuplicateDocs(this.docs);
-        if(duplicateDocs) conflicts.push(duplicateDocs);
-
         // Etc tokens can't appear in block bindings, just structure and function definitions.
         if(this.isVariableLength() && this.getParent() instanceof Block)
             conflicts.push(new UnexpectedEtc(this));
-
-        // Bind aliases have to be unique
-        const duplicates = getDuplicateAliases(this.aliases);
-        if(duplicates) conflicts.push(duplicates);
 
         // If there's a type, the value must match.
         if(this.type instanceof Type && this.value && this.value instanceof Expression) {
@@ -140,7 +131,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
         // It can't already be defined.
         if(enclosure !== undefined) {
-            const definitions = this.aliases.reduce((definitions: Definition[], alias) => {
+            const definitions = this.names.names.reduce((definitions: Definition[], alias) => {
                 const name: string | undefined = alias.getName();
                 return name === undefined ? definitions : definitions.concat(enclosure.getAllDefinitionsOfName(name, context, this));
             }, []).filter(def => def !== undefined && def !== this && (def instanceof Bind || def instanceof TypeVariable)) as (Bind | TypeVariable)[];
@@ -151,7 +142,7 @@ export default class Bind extends Node implements Evaluable, Named {
         // Warn if there are similarly cased definitions.
         // Is there match with the other case?
         if(enclosure !== undefined) {
-            this.aliases.forEach(alias => {
+            this.names.names.forEach(alias => {
                 // Is there match with the other case?
                 const name = alias.getName();
                 if(name !== undefined) {
@@ -164,7 +155,7 @@ export default class Bind extends Node implements Evaluable, Named {
         // If this bind isn't part of an Evaluate or a Share, it should be used in some expression in its parent.
         const parent = this.getParent();
         if(enclosure && !(parent instanceof Share || parent instanceof Column || parent instanceof ColumnType || parent instanceof Cell || parent instanceof Evaluate)) {
-            const uses = enclosure.nodes(n => n instanceof Name && this.aliases.find(name => name.getName() === n.name.text.toString()) !== undefined);
+            const uses = enclosure.nodes(n => n instanceof Reference && this.names.names.find(name => name.getName() === n.name.text.toString()) !== undefined);
             if(uses.length === 0)
                 conflicts.push(new UnusedBind(this));
         }
@@ -262,7 +253,7 @@ export default class Bind extends Node implements Evaluable, Named {
         if(value instanceof Exception) return value;
 
         // Bind the value on the stack to the names.
-        this.aliases.forEach(alias => { 
+        this.names.names.forEach(alias => { 
             const name = alias.getName(); 
             if(name !== undefined) 
                 evaluator.bind(name, value);
@@ -279,10 +270,6 @@ export default class Bind extends Node implements Evaluable, Named {
             "😀": TRANSLATE, 
             eng: "A named value" 
         };
-        for(const doc of this.docs) {
-            if(doc.lang !== undefined)
-                descriptions[doc.lang.getLanguage() as LanguageCode] = doc.docs.getText();
-        }
         return descriptions;
         
     }
@@ -299,28 +286,19 @@ export default class Bind extends Node implements Evaluable, Named {
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
         
         const parent = this.getParent();
-        // Before the … or a documentation? Suggest more documentation.
-        if(this.etc === child || this.docs.includes(child as Documentation))
-            return [ new Append(context.source, position, this, this.docs, child, new Documentation()) ];
         // Before the first name? a name? Offer an etc or a documentation
-        else if(child === this.aliases[0]) {
+        if(child === this.names) {
             if(this.etc === undefined) {
                 if((parent instanceof FunctionDefinition || parent instanceof StructureDefinition) && parent.inputs.find(input => input.contains(child)) === parent.inputs[parent.inputs.length - 1])
                     return [ 
-                        new Add(context.source, position, this, "etc", new Token(PLACEHOLDER_SYMBOL, TokenType.PLACEHOLDER)), 
-                        new Append(context.source, position, this, this.docs, child, new Documentation())
+                        new Add(context.source, position, this, "etc", new Token(PLACEHOLDER_SYMBOL, TokenType.PLACEHOLDER)),
                     ];
             }
         }
-        // Before the etc? Offer documentation
-        else if(child === this.etc)
-            return [ new Append(context.source, position, this, this.docs, this.etc, new Documentation()) ];
-        else if(this.aliases.includes(child as Alias))
-            return [ new Append(context.source, position, this, this.aliases, child, new Alias(undefined, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))) ];
         // Before colon? Offer a type.
         else if(child === this.colon && this.type === undefined)
             return [ 
-                new Replace(context.source, this, new Bind(this.docs, this.etc, this.aliases, new TypePlaceholder(), this.value, new TypeToken(), this.colon))
+                new Replace(context.source, this, new Bind(this.docs, this.names, new TypePlaceholder(), this.value, this.etc, new TypeToken(), this.colon))
             ];
 
     }
@@ -329,15 +307,9 @@ export default class Bind extends Node implements Evaluable, Named {
         const children  = this.getChildren();
         const lastChild = children[children.length - 1];
 
-        const withValue = new Replace(context.source, this, new Bind(this.docs, this.etc, this.aliases, this.type, new ExpressionPlaceholder(), this.dot, new BindToken()));
+        const withValue = new Replace(context.source, this, new Bind(this.docs, this.names, this.type, new ExpressionPlaceholder(), this.etc, this.dot, new BindToken()));
 
-        if(this.aliases.includes(lastChild as Alias))
-            return [
-                new Append(context.source, position, this, this.aliases, undefined, new Alias(undefined, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))),
-                new Replace(context.source, this, new Bind(this.docs, this.etc, this.aliases, new TypePlaceholder(), this.value, new TypeToken(), this.colon)),
-                withValue
-            ];
-        else if(lastChild === this.dot)
+        if(lastChild === this.dot)
             return getPossibleTypeAdds(this, "context", context, position);
         else if(lastChild === this.type)
             return [ 
@@ -356,9 +328,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         
-        if(this.docs.includes(child as Documentation)) return new Remove(context.source, this, child);
-        else if(this.aliases.includes(child as Alias)) return new Remove(context.source, this, child);
-        else if(child === this.type && this.dot) return new Remove(context.source, this, this.dot, this.type);
+        if(child === this.type && this.dot) return new Remove(context.source, this, this.dot, this.type);
         else if(child === this.value && this.colon) return new Remove(context.source, this, this.colon, this.value);
 
     }

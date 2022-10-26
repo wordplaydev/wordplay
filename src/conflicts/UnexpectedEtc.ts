@@ -4,7 +4,7 @@ import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 
-export class UnexpectedEtc extends Conflict {
+export default class UnexpectedEtc extends Conflict {
     readonly bind: Bind;
     constructor(bind: Bind) {
         super(false);

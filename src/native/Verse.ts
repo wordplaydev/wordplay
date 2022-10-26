@@ -1,4 +1,3 @@
-import Alias from "../nodes/Alias";
 import Bind from "../nodes/Bind";
 import Dimension from "../nodes/Dimension";
 import MeasurementLiteral from "../nodes/MeasurementLiteral";
@@ -11,7 +10,6 @@ import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
 import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
 import Unit from "../nodes/Unit";
-import { parseBind, tokens } from "../parser/Parser";
 
 const Verse = new StructureDefinition(
     WRITE_DOCS,
@@ -24,7 +22,6 @@ const Verse = new StructureDefinition(
     [
         new Bind(
             WRITE_DOCS,
-            undefined,
             {
                 eng: "group",
                 "😀": TRANSLATE
@@ -33,7 +30,6 @@ const Verse = new StructureDefinition(
         ),
         new Bind(
             WRITE_DOCS,
-            undefined,
             {
                 eng: "font",
                 "😀": TRANSLATE
@@ -43,7 +39,6 @@ const Verse = new StructureDefinition(
         ),
         new Bind(
             WRITE_DOCS,
-            undefined,
             {
                 eng: "size",
                 "😀": TRANSLATE

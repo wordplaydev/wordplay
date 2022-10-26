@@ -3,7 +3,7 @@ import Transform from "./Transform";
 import type Source from "../models/Source";
 import type LanguageCode from "../nodes/LanguageCode";
 import type { Edit } from "../editor/Commands";
-import type Reference from "./Reference";
+import type Refer from "./Refer";
 import Caret from "../models/Caret";
 import Token from "../nodes/Token";
 import { TRANSLATE } from "../nodes/Translations";
@@ -15,9 +15,9 @@ export default class Append<NodeType extends Node> extends Transform {
     /** Undefined means after the last child. Otherwise, the node should be whatever child we're inserting before, even if it's not part of the list. */
     readonly before: Node | undefined;
     readonly list: Node[];
-    readonly insertion: NodeType | Reference<NodeType>
+    readonly insertion: NodeType | Refer<NodeType>
 
-    constructor(source: Source, position: number, parent: Node, list: Node[], before: Node | undefined, insertion: NodeType | Reference<NodeType>) {
+    constructor(source: Source, position: number, parent: Node, list: Node[], before: Node | undefined, insertion: NodeType | Refer<NodeType>) {
 
         super(source);
 
@@ -123,7 +123,7 @@ export default class Append<NodeType extends Node> extends Transform {
         if(this.insertion instanceof Node)
             return this.insertion;
         const [ creator, def ] = this.insertion;
-            return creator(def.getNameInLanguage(lang));
+            return creator(def.getTranslation(lang));
     }
 
     equals(transform: Transform): boolean {

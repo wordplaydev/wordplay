@@ -29,7 +29,7 @@ export default abstract class Stream extends Primitive {
     getDescriptions(): Translations { return this.getTranslations(); }
 
     getNames() { return Array.from(new Set(Object.values(this.getTranslations()))); }
-    getNameInLanguage(lang: LanguageCode): string { return this.getTranslations()[lang]; }
+    getTranslation(lang: LanguageCode): string { return this.getTranslations()[lang]; }
 
     hasName(name: string) { return Object.values(this.getTranslations()).includes(name); }
 
@@ -64,7 +64,7 @@ export default abstract class Stream extends Primitive {
     at(index: number): Value {
 
         const position = this.values.length - index - 1;
-        return position >= 0 && position < this.values.length ? this.values[position] : new None([]);
+        return position >= 0 && position < this.values.length ? this.values[position] : new None();
 
     }
 

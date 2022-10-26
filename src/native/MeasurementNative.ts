@@ -1,4 +1,3 @@
-import Alias from "../nodes/Alias";
 import Bind from "../nodes/Bind";
 import Block from "../nodes/Block";
 import BooleanType from "../nodes/BooleanType";
@@ -28,7 +27,6 @@ export default function bootstrapMeasurement() {
             docs, names, [],
             [ new Bind(
                 inputDocs, 
-                undefined, 
                 {
                     eng: "number",
                     "😀": TRANSLATE
@@ -82,7 +80,7 @@ export default function bootstrapMeasurement() {
             "😀": "#"
         }, 
         [], [], [],
-        new Block([], [
+        new Block([
             createBinaryOp(
                 WRITE_DOCS,
                 {
@@ -107,13 +105,12 @@ export default function bootstrapMeasurement() {
                     // Optional operand, since negation and subtraction are overloaded.
                     new Bind(
                         WRITE_DOCS,
-                        undefined, 
                         {
                             eng: "number",
                             "😀": TRANSLATE
                         }, 
                         new UnionType(
-                            new NoneType([]),
+                            new NoneType(),
                             new MeasurementType(undefined, left => left)), 
                         new NoneLiteral()
                     ) 
@@ -255,59 +252,59 @@ export default function bootstrapMeasurement() {
                 operand => operand.sqrt()
             ),
         
-            createNativeConversion([], '#', "''", (val: Measurement) => new Text(val.toString())),
+            createNativeConversion(WRITE_DOCS, '#', "''", (val: Measurement) => new Text(val.toString())),
 
             // Time
-            createNativeConversion([], '#s', "#min", (val: Measurement) => val.divide(new Measurement(60, Unit.unit(["s"], ["min"])))),
-            createNativeConversion([], '#s', "#h", (val: Measurement) => val.divide(new Measurement(3600, Unit.unit(["s"], ["h"])))),
-            createNativeConversion([], '#s', "#day", (val: Measurement) => val.divide(new Measurement(86400, Unit.unit(["s"], ["day"])))),
-            createNativeConversion([], '#s', "#wk", (val: Measurement) => val.divide(new Measurement(604800, Unit.unit(["s"], ["wk"])))),
-            createNativeConversion([], '#s', "#yr", (val: Measurement) => val.divide(new Measurement(31449600, Unit.unit(["s"], ["yr"])))),
-            createNativeConversion([], '#min', "#s", (val: Measurement) => val.multiply(new Measurement(60, Unit.unit(["s"], ["min"])))),
-            createNativeConversion([], '#h', "#s", (val: Measurement) => val.multiply(new Measurement(3600, Unit.unit(["s"], ["h"])))),
-            createNativeConversion([], '#day', "#s", (val: Measurement) => val.multiply(new Measurement(86400, Unit.unit(["s"], ["day"])))),
-            createNativeConversion([], '#wk', "#s", (val: Measurement) => val.multiply(new Measurement(604800, Unit.unit(["s"], ["wk"])))),
-            createNativeConversion([], '#yr', "#s", (val: Measurement) => val.multiply(new Measurement(31449600, Unit.unit(["s"], ["yr"])))),
+            createNativeConversion(WRITE_DOCS, '#s', "#min", (val: Measurement) => val.divide(new Measurement(60, Unit.unit(["s"], ["min"])))),
+            createNativeConversion(WRITE_DOCS, '#s', "#h", (val: Measurement) => val.divide(new Measurement(3600, Unit.unit(["s"], ["h"])))),
+            createNativeConversion(WRITE_DOCS, '#s', "#day", (val: Measurement) => val.divide(new Measurement(86400, Unit.unit(["s"], ["day"])))),
+            createNativeConversion(WRITE_DOCS, '#s', "#wk", (val: Measurement) => val.divide(new Measurement(604800, Unit.unit(["s"], ["wk"])))),
+            createNativeConversion(WRITE_DOCS, '#s', "#yr", (val: Measurement) => val.divide(new Measurement(31449600, Unit.unit(["s"], ["yr"])))),
+            createNativeConversion(WRITE_DOCS, '#min', "#s", (val: Measurement) => val.multiply(new Measurement(60, Unit.unit(["s"], ["min"])))),
+            createNativeConversion(WRITE_DOCS, '#h', "#s", (val: Measurement) => val.multiply(new Measurement(3600, Unit.unit(["s"], ["h"])))),
+            createNativeConversion(WRITE_DOCS, '#day', "#s", (val: Measurement) => val.multiply(new Measurement(86400, Unit.unit(["s"], ["day"])))),
+            createNativeConversion(WRITE_DOCS, '#wk', "#s", (val: Measurement) => val.multiply(new Measurement(604800, Unit.unit(["s"], ["wk"])))),
+            createNativeConversion(WRITE_DOCS, '#yr', "#s", (val: Measurement) => val.multiply(new Measurement(31449600, Unit.unit(["s"], ["yr"])))),
 
             // Distance
-            createNativeConversion([], '#m', "#pm", (val: Measurement) => val.multiply(new Measurement(1000000000000, Unit.unit(["pm"], ["m"])))),
-            createNativeConversion([], '#m', "#nm", (val: Measurement) => val.multiply(new Measurement(1000000000, Unit.unit(["nm"], ["m"])))),
-            createNativeConversion([], '#m', "#µm", (val: Measurement) => val.multiply(new Measurement(1000000, Unit.unit(["µm"], ["m"])))),
-            createNativeConversion([], '#m', "#mm", (val: Measurement) => val.multiply(new Measurement(1000, Unit.unit(["mm"], ["m"])))),
-            createNativeConversion([], '#m', "#cm", (val: Measurement) => val.multiply(new Measurement(100, Unit.unit(["cm"], ["m"])))),
-            createNativeConversion([], '#m', "#dm", (val: Measurement) => val.multiply(new Measurement(10, Unit.unit(["dm"], ["m"])))),
-            createNativeConversion([], '#m', "#km", (val: Measurement) => val.divide(new Measurement(1000, Unit.unit(["m"], ["km"])))),
-            createNativeConversion([], '#m', "#Mm", (val: Measurement) => val.divide(new Measurement(1000000, Unit.unit(["m"], ["Mm"])))),
-            createNativeConversion([], '#m', "#Gm", (val: Measurement) => val.divide(new Measurement(1000000000, Unit.unit(["m"], ["Gm"])))),
-            createNativeConversion([], '#m', "#Tm", (val: Measurement) => val.divide(new Measurement(1000000000000, Unit.unit(["m"], ["Tm"])))),
-            createNativeConversion([], '#pm', "#m", (val: Measurement) => val.divide(new Measurement(1000000000000, Unit.unit(["pm"], ["m"])))),
-            createNativeConversion([], '#nm', "#m", (val: Measurement) => val.divide(new Measurement(1000000000, Unit.unit(["nm"], ["m"])))),
-            createNativeConversion([], '#µm', "#m", (val: Measurement) => val.divide(new Measurement(1000000, Unit.unit(["µm"], ["m"])))),
-            createNativeConversion([], '#mm', "#m", (val: Measurement) => val.divide(new Measurement(1000, Unit.unit(["mm"], ["m"])))),
-            createNativeConversion([], '#cm', "#m", (val: Measurement) => val.divide(new Measurement(100, Unit.unit(["cm"], ["m"])))),
-            createNativeConversion([], '#dm', "#m", (val: Measurement) => val.divide(new Measurement(10, Unit.unit(["dm"], ["m"])))),
-            createNativeConversion([], '#km', "#m", (val: Measurement) => val.multiply(new Measurement(1000, Unit.unit(["m"], ["km"])))),
-            createNativeConversion([], '#Mm', "#m", (val: Measurement) => val.multiply(new Measurement(1000000, Unit.unit(["m"], ["Mm"])))),
-            createNativeConversion([], '#Gm', "#m", (val: Measurement) => val.multiply(new Measurement(1000000000, Unit.unit(["m"], ["Gm"])))),
-            createNativeConversion([], '#Tm', "#mT", (val: Measurement) => val.divide(new Measurement(1000000000000, Unit.unit(["m"], ["Tm"])))),
+            createNativeConversion(WRITE_DOCS, '#m', "#pm", (val: Measurement) => val.multiply(new Measurement(1000000000000, Unit.unit(["pm"], ["m"])))),
+            createNativeConversion(WRITE_DOCS, '#m', "#nm", (val: Measurement) => val.multiply(new Measurement(1000000000, Unit.unit(["nm"], ["m"])))),
+            createNativeConversion(WRITE_DOCS, '#m', "#µm", (val: Measurement) => val.multiply(new Measurement(1000000, Unit.unit(["µm"], ["m"])))),
+            createNativeConversion(WRITE_DOCS, '#m', "#mm", (val: Measurement) => val.multiply(new Measurement(1000, Unit.unit(["mm"], ["m"])))),
+            createNativeConversion(WRITE_DOCS, '#m', "#cm", (val: Measurement) => val.multiply(new Measurement(100, Unit.unit(["cm"], ["m"])))),
+            createNativeConversion(WRITE_DOCS, '#m', "#dm", (val: Measurement) => val.multiply(new Measurement(10, Unit.unit(["dm"], ["m"])))),
+            createNativeConversion(WRITE_DOCS, '#m', "#km", (val: Measurement) => val.divide(new Measurement(1000, Unit.unit(["m"], ["km"])))),
+            createNativeConversion(WRITE_DOCS, '#m', "#Mm", (val: Measurement) => val.divide(new Measurement(1000000, Unit.unit(["m"], ["Mm"])))),
+            createNativeConversion(WRITE_DOCS, '#m', "#Gm", (val: Measurement) => val.divide(new Measurement(1000000000, Unit.unit(["m"], ["Gm"])))),
+            createNativeConversion(WRITE_DOCS, '#m', "#Tm", (val: Measurement) => val.divide(new Measurement(1000000000000, Unit.unit(["m"], ["Tm"])))),
+            createNativeConversion(WRITE_DOCS, '#pm', "#m", (val: Measurement) => val.divide(new Measurement(1000000000000, Unit.unit(["pm"], ["m"])))),
+            createNativeConversion(WRITE_DOCS, '#nm', "#m", (val: Measurement) => val.divide(new Measurement(1000000000, Unit.unit(["nm"], ["m"])))),
+            createNativeConversion(WRITE_DOCS, '#µm', "#m", (val: Measurement) => val.divide(new Measurement(1000000, Unit.unit(["µm"], ["m"])))),
+            createNativeConversion(WRITE_DOCS, '#mm', "#m", (val: Measurement) => val.divide(new Measurement(1000, Unit.unit(["mm"], ["m"])))),
+            createNativeConversion(WRITE_DOCS, '#cm', "#m", (val: Measurement) => val.divide(new Measurement(100, Unit.unit(["cm"], ["m"])))),
+            createNativeConversion(WRITE_DOCS, '#dm', "#m", (val: Measurement) => val.divide(new Measurement(10, Unit.unit(["dm"], ["m"])))),
+            createNativeConversion(WRITE_DOCS, '#km', "#m", (val: Measurement) => val.multiply(new Measurement(1000, Unit.unit(["m"], ["km"])))),
+            createNativeConversion(WRITE_DOCS, '#Mm', "#m", (val: Measurement) => val.multiply(new Measurement(1000000, Unit.unit(["m"], ["Mm"])))),
+            createNativeConversion(WRITE_DOCS, '#Gm', "#m", (val: Measurement) => val.multiply(new Measurement(1000000000, Unit.unit(["m"], ["Gm"])))),
+            createNativeConversion(WRITE_DOCS, '#Tm', "#mT", (val: Measurement) => val.divide(new Measurement(1000000000000, Unit.unit(["m"], ["Tm"])))),
 
             // Imperial conversions
-            createNativeConversion([], '#km', "#mi", (val: Measurement) => val.multiply(new Measurement(0.621371, Unit.unit(["mi"], ["km"])))),
-            createNativeConversion([], '#mi', "#km", (val: Measurement) => val.divide(new Measurement(0.621371, Unit.unit(["mi"], ["km"])))),
-            createNativeConversion([], '#cm', "#in", (val: Measurement) => val.multiply(new Measurement(0.393701, Unit.unit(["in"], ["cm"])))),
-            createNativeConversion([], '#in', "#cm", (val: Measurement) => val.divide(new Measurement(0.393701, Unit.unit(["in"], ["cm"])))),
-            createNativeConversion([], '#m', "#ft", (val: Measurement) => val.multiply(new Measurement(0.3048, Unit.unit(["ft"], ["km"])))),
-            createNativeConversion([], '#ft', "#m", (val: Measurement) => val.divide(new Measurement(0.3048, Unit.unit(["ft"], ["km"])))),
+            createNativeConversion(WRITE_DOCS, '#km', "#mi", (val: Measurement) => val.multiply(new Measurement(0.621371, Unit.unit(["mi"], ["km"])))),
+            createNativeConversion(WRITE_DOCS, '#mi', "#km", (val: Measurement) => val.divide(new Measurement(0.621371, Unit.unit(["mi"], ["km"])))),
+            createNativeConversion(WRITE_DOCS, '#cm', "#in", (val: Measurement) => val.multiply(new Measurement(0.393701, Unit.unit(["in"], ["cm"])))),
+            createNativeConversion(WRITE_DOCS, '#in', "#cm", (val: Measurement) => val.divide(new Measurement(0.393701, Unit.unit(["in"], ["cm"])))),
+            createNativeConversion(WRITE_DOCS, '#m', "#ft", (val: Measurement) => val.multiply(new Measurement(0.3048, Unit.unit(["ft"], ["km"])))),
+            createNativeConversion(WRITE_DOCS, '#ft', "#m", (val: Measurement) => val.divide(new Measurement(0.3048, Unit.unit(["ft"], ["km"])))),
             
             // Weight
-            createNativeConversion([], '#g', "#mg", (val: Measurement) => val.multiply(new Measurement(1000, Unit.unit(["mg"], ["g"])))),
-            createNativeConversion([], '#mg', "#g", (val: Measurement) => val.divide(new Measurement(1000, Unit.unit(["mg"], ["g"])))),
-            createNativeConversion([], '#g', "#kg", (val: Measurement) => val.divide(new Measurement(1000, Unit.unit(["g"], ["kg"])))),
-            createNativeConversion([], '#kg', "#g", (val: Measurement) => val.multiply(new Measurement(1000, Unit.unit(["g"], ["kg"])))),
-            createNativeConversion([], '#g', "#oz", (val: Measurement) => val.multiply(new Measurement(0.035274, Unit.unit(["oz"], ["g"])))),
-            createNativeConversion([], '#oz', "#g", (val: Measurement) => val.divide(new Measurement(0.035274, Unit.unit(["oz"], ["g"])))),
-            createNativeConversion([], '#oz', "#lb", (val: Measurement) => val.multiply(new Measurement(0.0625, Unit.unit(["lb"], ["oz"])))),
-            createNativeConversion([], '#lb', "#oz", (val: Measurement) => val.divide(new Measurement(0.0625, Unit.unit(["lb"], ["oz"]))))
+            createNativeConversion(WRITE_DOCS, '#g', "#mg", (val: Measurement) => val.multiply(new Measurement(1000, Unit.unit(["mg"], ["g"])))),
+            createNativeConversion(WRITE_DOCS, '#mg', "#g", (val: Measurement) => val.divide(new Measurement(1000, Unit.unit(["mg"], ["g"])))),
+            createNativeConversion(WRITE_DOCS, '#g', "#kg", (val: Measurement) => val.divide(new Measurement(1000, Unit.unit(["g"], ["kg"])))),
+            createNativeConversion(WRITE_DOCS, '#kg', "#g", (val: Measurement) => val.multiply(new Measurement(1000, Unit.unit(["g"], ["kg"])))),
+            createNativeConversion(WRITE_DOCS, '#g', "#oz", (val: Measurement) => val.multiply(new Measurement(0.035274, Unit.unit(["oz"], ["g"])))),
+            createNativeConversion(WRITE_DOCS, '#oz', "#g", (val: Measurement) => val.divide(new Measurement(0.035274, Unit.unit(["oz"], ["g"])))),
+            createNativeConversion(WRITE_DOCS, '#oz', "#lb", (val: Measurement) => val.multiply(new Measurement(0.0625, Unit.unit(["lb"], ["oz"])))),
+            createNativeConversion(WRITE_DOCS, '#lb', "#oz", (val: Measurement) => val.divide(new Measurement(0.0625, Unit.unit(["lb"], ["oz"]))))
 
         ], false, true)
     );

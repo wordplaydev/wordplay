@@ -3,12 +3,11 @@ import Bind from "./Bind";
 import Expression from "./Expression";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
-import Documentation from "./Documentation";
 import type Conflict from "../conflicts/Conflict";
 import Type from "./Type";
 import Block from "./Block";
 import FunctionDefinition from "./FunctionDefinition";
-import { getDuplicateDocs, getDuplicateAliases, typeVarsAreUnique, getEvaluationInputConflicts, aliasesToTranslations } from "./util";
+import { typeVarsAreUnique, getEvaluationInputConflicts } from "./util";
 import ConversionDefinition from "./ConversionDefinition";
 import type Evaluator from "../runtime/Evaluator";
 import Finish from "../runtime/Finish";
@@ -17,12 +16,9 @@ import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import StructureType from "./StructureType";
-import Alias from "./Alias";
 import Token from "./Token";
-import TokenType from "./TokenType";
 import FunctionType from "./FunctionType";
 import NameType from "./NameType";
-import { ALIAS_SYMBOL } from "../parser/Tokenizer";
 import TypeInput from "./TypeInput";
 import type { TypeSet } from "./UnionType";
 import { Unimplemented } from "../conflicts/Unimplemented";
@@ -40,12 +36,14 @@ import EvalCloseToken from "./EvalCloseToken";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import Docs from "./Docs";
+import Names from "./Names";
 
 export default class StructureDefinition extends Expression {
 
     readonly type: Token;
-    readonly docs: Documentation[];
-    readonly aliases: Alias[];
+    readonly docs: Docs;
+    readonly names: Names;
     readonly interfaces: TypeInput[];
     readonly typeVars: (TypeVariable|Unparsable)[];
     readonly open?: Token;
@@ -54,8 +52,8 @@ export default class StructureDefinition extends Expression {
     readonly block?: Block | Unparsable;
 
     constructor(
-        docs: Documentation[] | Translations, 
-        aliases: Alias[] | Translations, 
+        docs: Docs | Translations | undefined, 
+        names: Names | Translations | undefined, 
         interfaces: TypeInput[], 
         typeVars: (TypeVariable|Unparsable)[], 
         inputs: (Bind|Unparsable)[], 
@@ -66,8 +64,8 @@ export default class StructureDefinition extends Expression {
 
         super();
 
-        this.docs = Array.isArray(docs) ? docs : Object.keys(docs).map(lang => new Documentation(docs[lang as LanguageCode], lang));
-        this.aliases = Array.isArray(aliases) ? aliases : Object.keys(aliases).map(lang => new Alias(aliases[lang as LanguageCode], lang));
+        this.docs = docs instanceof Docs ? docs : new Docs(docs);
+        this.names = names instanceof Names ? names : new Names(names);
         this.type = type ?? new TypeToken();
         this.interfaces = interfaces;
         this.typeVars = typeVars;
@@ -79,8 +77,8 @@ export default class StructureDefinition extends Expression {
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) {
         return new StructureDefinition(
-            this.cloneOrReplaceChild(pretty, [ Documentation ], "docs", this.docs, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Alias ], "aliases", this.aliases, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Docs ], "docs", this.docs, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Names ], "names", this.names, original, replacement),
             this.cloneOrReplaceChild(pretty, [ TypeInput ], "interfaces", this.interfaces, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ TypeVariable, Unparsable ], "typeVars", this.typeVars, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "inputs", this.inputs, original, replacement),
@@ -91,13 +89,10 @@ export default class StructureDefinition extends Expression {
         ) as this;
     }
 
-    getNames() { return this.aliases.map(a => a.getName()).filter(n => n !== undefined) as string[]; }
-    
-    getNameInLanguage(lang: LanguageCode): string { 
-        return aliasesToTranslations(this.aliases)[lang];
-    }
-    
-    getTranslations() { return aliasesToTranslations(this.aliases); }
+    getNames() { return this.names.getNames(); }
+    hasName(name: string) { return this.names.hasName(name); }
+    getTranslation(lang: LanguageCode): string { return this.names.getTranslation(lang); }
+    getTranslations() { return this.names.getTranslations(); }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block || (child instanceof Bind && this.inputs.includes(child)); }
 
@@ -123,7 +118,7 @@ export default class StructureDefinition extends Expression {
     }
 
     computeChildren() {
-        let children: Node[] = [ this.type, ...this.docs, ...this.aliases, ...this.interfaces, ...this.typeVars ];
+        let children: Node[] = [ this.type, this.docs, this.names, ...this.interfaces, ...this.typeVars ];
         if(this.open) children.push(this.open);
         children = children.concat(this.inputs);
         if(this.close) children.push(this.close);
@@ -135,14 +130,6 @@ export default class StructureDefinition extends Expression {
         
         let conflicts: Conflict[] = [];
     
-        // Docs must be unique.
-        const duplicateDocs = getDuplicateDocs(this.docs);
-        if(duplicateDocs) conflicts.push(duplicateDocs);
-    
-        // Structure names must be unique
-        const duplicateNames = getDuplicateAliases(this.aliases);
-        if(duplicateNames) conflicts.push(duplicateNames);
-
         // Type variables must have unique names
         const duplicateTypeVars = typeVarsAreUnique(this.typeVars);
         if(duplicateTypeVars) conflicts.push(duplicateTypeVars);
@@ -184,7 +171,7 @@ export default class StructureDefinition extends Expression {
     getDefinition(name: string): Definition | undefined {
         const inputBind = this.inputs.find(i => i instanceof Bind && i.hasName(name)) as Bind;
         if(inputBind !== undefined) return inputBind;
-        return this.block instanceof Block ? this.block.statements.find(i => (i instanceof StructureDefinition || i instanceof FunctionDefinition) && i.aliases.find(a => a.getName() === name)) as FunctionDefinition | StructureDefinition : undefined;
+        return this.block instanceof Block ? this.block.statements.find(i => (i instanceof StructureDefinition || i instanceof FunctionDefinition) && i.names.names.find(a => a.getName() === name)) as FunctionDefinition | StructureDefinition : undefined;
     }
 
     getDefinitions(node: Node): Definition[] {
@@ -221,8 +208,6 @@ export default class StructureDefinition extends Expression {
 
     computeType(): Type { return new StructureType(this); }
 
-    hasName(name: string) { return this.aliases.find(a => a.getName() === name) !== undefined; }
-
     compile():Step[] {
         return [ new Finish(this) ];
     }
@@ -231,7 +216,7 @@ export default class StructureDefinition extends Expression {
         const context = evaluator.getEvaluationContext();
         if(context !== undefined) {
             const def = new StructureDefinitionValue(this, context);
-            this.aliases.forEach(a => {
+            this.names.names.forEach(a => {
                 const name = a.getName();
                 if(name !== undefined)
                     context.bind(name, def);
@@ -259,11 +244,6 @@ export default class StructureDefinition extends Expression {
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
         if(child === this.open) {
             const transforms: Transform[] = [];
-            if((this.interfaces.length === 0 && this.typeVars.length === 0) ||
-                (this.interfaces.length > 0 && child === this.interfaces[0]) ||
-                (this.interfaces.length === 0 && this.typeVars.length > 0 && this.typeVars[0] === child))
-                transforms.push(new Append(context.source, position, this, this.aliases, child, new Alias(undefined, undefined, new Token(ALIAS_SYMBOL, TokenType.ALIAS))));
-
             if(this.typeVars.length === 0)
                 transforms.push(new Append(context.source, position, this, this.typeVars, child, new TypeInput(new TypePlaceholder())));
 
@@ -271,16 +251,12 @@ export default class StructureDefinition extends Expression {
         }
         else if(this.interfaces.includes(child as TypeInput))
             return [ new Append(context.source, position, this, this.interfaces, child, new TypeInput(new TypePlaceholder())) ]
-        else if(child === this.close || this.inputs.includes(child as Bind))
-            return [ new Append(context.source, position, this, this.inputs, child, new Bind([], undefined, [ new Alias() ])) ];
     }
 
     getInsertionAfter(): Transform[] | undefined { return []; }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if( this.docs.includes(child as Documentation) || 
-            this.aliases.includes(child as Alias) ||
-            this.typeVars.includes(child as TypeVariable) || 
+        if( this.typeVars.includes(child as TypeVariable) || 
             this.interfaces.includes(child as TypeInput) || 
             this.inputs.includes(child as Bind | Unparsable))
             return new Remove(context.source, this, child);
@@ -301,12 +277,8 @@ export default class StructureDefinition extends Expression {
         // Generate documentation by language.
         const descriptions: Record<LanguageCode, string> = { 
             "😀": TRANSLATE,
-            eng: "A type" 
+            eng: "A structure" 
         };
-        for(const doc of this.docs) {
-            if(doc.lang !== undefined)
-                descriptions[doc.lang.getLanguage() as LanguageCode] = doc.docs.getText();
-        }
         return descriptions;
 
     }

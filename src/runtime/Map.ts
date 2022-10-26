@@ -1,5 +1,5 @@
 import { MAP_NATIVE_TYPE_NAME } from "../native/NativeConstants";
-import Alias from "../nodes/Alias";
+import Name from "../nodes/Name";
 import type Context from "../nodes/Context";
 import MapType from "../nodes/MapType";
 import { getPossibleUnionType } from "../nodes/UnionType";
@@ -7,6 +7,7 @@ import Measurement from "./Measurement";
 import None from "./None";
 import Primitive from "./Primitive";
 import type Value from "./Value";
+import Names from "../nodes/Names";
 
 export default class Map extends Primitive {
 
@@ -29,7 +30,7 @@ export default class Map extends Primitive {
 
     has(key: Value) { 
         const kv = this.values.find( kv2 => kv2[0].isEqualTo(key));
-        return kv === undefined ? new None([new Alias("unknownkey")]) : kv[1];
+        return kv === undefined ? new None(new Names([new Name("unknownkey")])) : kv[1];
     }
 
     isEqualTo(value: Value): boolean {

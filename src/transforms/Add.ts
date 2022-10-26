@@ -3,17 +3,17 @@ import Transform from "./Transform";
 import Node from "../nodes/Node";
 import type Source from "../models/Source";
 import type LanguageCode from "../nodes/LanguageCode";
-import type Reference from "./Reference";
+import type Refer from "./Refer";
 import Caret from "../models/Caret";
 
 export default class Add<NodeType extends Node> extends Transform {
 
     readonly parent: Node;
     readonly position: number;
-    readonly child: NodeType | Reference<NodeType>;
+    readonly child: NodeType | Refer<NodeType>;
     readonly field: string;
 
-    constructor(source: Source, position: number, parent: Node, field: string, child: NodeType | Reference<NodeType>) {
+    constructor(source: Source, position: number, parent: Node, field: string, child: NodeType | Refer<NodeType>) {
         super(source);
 
         this.parent = parent;
@@ -24,7 +24,7 @@ export default class Add<NodeType extends Node> extends Transform {
     }
 
     getNewNode(lang: LanguageCode): Node {
-        return this.child instanceof Node ? this.child : this.child[0](this.child[1].getNameInLanguage(lang));
+        return this.child instanceof Node ? this.child : this.child[0](this.child[1].getTranslation(lang));
     }
 
     getEdit(lang: LanguageCode): Edit {
