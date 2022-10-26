@@ -1,4 +1,4 @@
-import { LIST_NATIVE_TYPE_NAME, LIST_TYPE_VAR_NAME } from "../native/NativeConstants";
+import { LIST_NATIVE_TYPE_NAME, LIST_TYPE_VAR_NAMES } from "../native/NativeConstants";
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import NativeType from "./NativeType";
@@ -60,7 +60,7 @@ export default class ListType extends NativeType {
     }
 
     resolveTypeVariable(name: string): Type | undefined { 
-        return name === LIST_TYPE_VAR_NAME && this.type instanceof Type ? this.type : undefined;
+        return Object.values(LIST_TYPE_VAR_NAMES).includes(name) && this.type instanceof Type ? this.type : undefined;
     };
 
     getDescriptions(): Translations {

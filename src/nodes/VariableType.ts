@@ -22,7 +22,7 @@ export default class VariableType extends Type {
 
     getDefinitionOfName() { return undefined; }
 
-    toWordplay() { return this.definition.name.getText()}
+    toWordplay() { return this.definition.names.toWordplay(); }
 
     clone() { return new VariableType(this.definition) as this; }
 

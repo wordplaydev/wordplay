@@ -21,7 +21,7 @@ import type Step from "../runtime/Step";
 import TypeException from "../runtime/TypeException";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
-import { SET_TYPE_VAR_NAME } from "./NativeConstants";
+import { SET_TYPE_VAR_NAMES } from "./NativeConstants";
 
 export default class NativeHOFSetFilter extends HOF {
 
@@ -32,7 +32,7 @@ export default class NativeHOFSetFilter extends HOF {
     }
 
     computeChildren() { return [] };
-    computeType(): Type { return new SetType(new NameType(SET_TYPE_VAR_NAME)); }
+    computeType(): Type { return new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)); }
 
     compile(): Step[] { 
         return [

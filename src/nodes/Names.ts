@@ -44,6 +44,8 @@ export default class Names extends Node {
     
     }
 
+    sharesName(names: Names) { return this.names.find(name => name.name && names.hasName(name.name.getText())) !== undefined; }
+    
     getTranslations() {
         const translations: Record<string, string | undefined> = {};
         for(const name of this.names) {

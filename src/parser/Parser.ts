@@ -910,12 +910,8 @@ function parseTypeVariables(tokens: Tokens): (TypeVariable|Unparsable)[] {
     const vars = [];
     while(tokens.nextIs(TokenType.TYPE_VAR)) {
         const type = tokens.read(TokenType.TYPE_VAR);
-        if(tokens.nextIsnt(TokenType.NAME)) {
-            vars.push(tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TYPE_VAR_NAME, [ ...vars, type ] ));
-            return vars;
-        }
-        const name = tokens.read(TokenType.NAME);
-        vars.push(new TypeVariable(name, type));
+        const names = parseNames(tokens);
+        vars.push(new TypeVariable(names, type));
     }
     return vars;
 

@@ -14,7 +14,7 @@ import List from "../runtime/List";
 import Text from "../runtime/Text";
 import TypeException from "../runtime/TypeException";
 import { createNativeConversion, createNativeFunction } from "./NativeBindings";
-import { LIST_TYPE_VAR_NAME } from "./NativeConstants";
+import { LIST_TYPE_VAR_NAMES } from "./NativeConstants";
 import NativeExpression from "./NativeExpression";
 import NativeHOFListAll from "./NativeHOFListAll";
 import NativeHOFListCombine from "./NativeHOFListCombine";
@@ -27,10 +27,14 @@ import StructureDefinition from "../nodes/StructureDefinition";
 import TypeVariable from "../nodes/TypeVariable";
 import Block from "../nodes/Block";
 import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
+import type Translations from "../nodes/Translations";
 
 export default function bootstrapList() {
 
-    const LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME = "Out";
+    const LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME: Translations = {
+        eng: "Out",
+        "😀": TRANSLATE
+    };
 
     const listTranslateHOFType = new FunctionType([ 
         new Bind(
@@ -39,9 +43,9 @@ export default function bootstrapList() {
                 eng: "value",
                 "😀": TRANSLATE
             },
-            new NameType(LIST_TYPE_VAR_NAME)
+            new NameType(LIST_TYPE_VAR_NAMES.eng)
         )
-    ], new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME));
+    ], new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME.eng));
 
     const listFilterHOFType = new FunctionType([ 
         new Bind(
@@ -50,7 +54,7 @@ export default function bootstrapList() {
                 eng: "value",
                 "😀": TRANSLATE
             },
-            new NameType(LIST_TYPE_VAR_NAME)
+            new NameType(LIST_TYPE_VAR_NAMES.eng)
         )
     ], new BooleanType());
 
@@ -61,7 +65,7 @@ export default function bootstrapList() {
                 eng: "value",
                 "😀": TRANSLATE
             },
-            new NameType(LIST_TYPE_VAR_NAME)
+            new NameType(LIST_TYPE_VAR_NAMES.eng)
         )
     ], new BooleanType());
 
@@ -75,7 +79,7 @@ export default function bootstrapList() {
             },
             new BooleanType()
         )
-    ], new NameType(LIST_TYPE_VAR_NAME));
+    ], new NameType(LIST_TYPE_VAR_NAMES.eng));
 
 
     const listFindHOFType = new FunctionType([ 
@@ -87,7 +91,7 @@ export default function bootstrapList() {
             },
             new BooleanType()
         )
-    ], new NameType(LIST_TYPE_VAR_NAME));
+    ], new NameType(LIST_TYPE_VAR_NAMES.eng));
 
 
     const listCombineHOFType = new FunctionType([ 
@@ -97,7 +101,7 @@ export default function bootstrapList() {
                 eng: "combination",
                 "😀": TRANSLATE
             },
-            new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME)
+            new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME.eng)
         ),
         new Bind(
             WRITE_DOCS,
@@ -105,9 +109,9 @@ export default function bootstrapList() {
                 eng: "next",
                 "😀": TRANSLATE
             },
-            new NameType(LIST_TYPE_VAR_NAME)
+            new NameType(LIST_TYPE_VAR_NAMES.eng)
         )
-    ], new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME));
+    ], new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME.eng));
 
     return new StructureDefinition(
         WRITE_DOCS,
@@ -116,7 +120,7 @@ export default function bootstrapList() {
             "😀": TRANSLATE
         },
         [],
-        [ new TypeVariable(LIST_TYPE_VAR_NAME)],
+        [ new TypeVariable(LIST_TYPE_VAR_NAMES)],
         [],
         // Include all of the functions defined above.
         new Block([
@@ -133,9 +137,9 @@ export default function bootstrapList() {
                         eng: "value",
                         "😀": TRANSLATE
                     }, 
-                    new NameType(LIST_TYPE_VAR_NAME)
+                    new NameType(LIST_TYPE_VAR_NAMES.eng)
                 ) ],
-                new ListType(new NameType(LIST_TYPE_VAR_NAME)),
+                new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 evaluation => {
                     const list = evaluation.getContext();
                     const value = evaluation.resolve('value');
@@ -166,7 +170,7 @@ export default function bootstrapList() {
                 }, 
                 [], 
                 [],
-                new NameType(LIST_TYPE_VAR_NAME),
+                new NameType(LIST_TYPE_VAR_NAMES.eng),
                 evaluation => {
                     const list = evaluation.getContext();
                     if(list instanceof List) return list.random();
@@ -181,7 +185,7 @@ export default function bootstrapList() {
                 }, 
                 [], 
                 [], 
-                new NameType(LIST_TYPE_VAR_NAME),
+                new NameType(LIST_TYPE_VAR_NAMES.eng),
                 evaluation => {
                     const list = evaluation.getContext();
                     if(list instanceof List) return list.first();
@@ -201,7 +205,7 @@ export default function bootstrapList() {
                         eng: "value",
                         "😀": TRANSLATE
                     }, 
-                    new NameType(LIST_TYPE_VAR_NAME)
+                    new NameType(LIST_TYPE_VAR_NAMES.eng)
                 ) ], 
                 new BooleanType(),
                 evaluation => {
@@ -242,7 +246,7 @@ export default function bootstrapList() {
                 }, 
                 [], 
                 [], 
-                new NameType(LIST_TYPE_VAR_NAME),
+                new NameType(LIST_TYPE_VAR_NAMES.eng),
                 evaluation => {
                     const list = evaluation.getContext();
                     if(list instanceof List) return list.last();
@@ -257,7 +261,7 @@ export default function bootstrapList() {
                 }, 
                 [], 
                 [], 
-                new ListType(new NameType(LIST_TYPE_VAR_NAME)),
+                new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 evaluation => {
                     const list = evaluation.getContext();
                     if(list instanceof List) return list.sansFirst();
@@ -272,7 +276,7 @@ export default function bootstrapList() {
                 }, 
                 [], 
                 [], 
-                new ListType(new NameType(LIST_TYPE_VAR_NAME)),
+                new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 evaluation => {
                     const list = evaluation.getContext();
                     if(list instanceof List) return list.sansLast();
@@ -292,9 +296,9 @@ export default function bootstrapList() {
                         eng: "value",
                         "😀": TRANSLATE
                     }, 
-                    new NameType(LIST_TYPE_VAR_NAME)
+                    new NameType(LIST_TYPE_VAR_NAMES.eng)
                 ) ], 
-                new ListType(new NameType(LIST_TYPE_VAR_NAME)),
+                new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 evaluation => {
                     const list = evaluation.getContext();
                     const value = evaluation.resolve("value");
@@ -315,9 +319,9 @@ export default function bootstrapList() {
                         eng: "value",
                         "😀": TRANSLATE
                     }, 
-                    new NameType(LIST_TYPE_VAR_NAME)
+                    new NameType(LIST_TYPE_VAR_NAMES.eng)
                 ) ], 
-                new ListType(new NameType(LIST_TYPE_VAR_NAME)),
+                new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 evaluation => {
                     const list = evaluation.getContext();
                     const value = evaluation.resolve("value");
@@ -333,7 +337,7 @@ export default function bootstrapList() {
                 }, 
                 [], 
                 [], 
-                new ListType(new NameType(LIST_TYPE_VAR_NAME)),
+                new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 evaluation => {
                     const list = evaluation.getContext();
                     if(list instanceof List) return list.reverse();
@@ -416,7 +420,7 @@ export default function bootstrapList() {
                     listTranslateHOFType
                 ) ],
                 new NativeHOFListTranslate(listTranslateHOFType),
-                new ListType(new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME))
+                new ListType(new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME.eng))
             ),
             new FunctionDefinition(
                 WRITE_DOCS, 
@@ -434,7 +438,7 @@ export default function bootstrapList() {
                     listFilterHOFType
                 ) ],
                 new NativeHOFListFilter(listFilterHOFType),
-                new ListType(new NameType(LIST_TYPE_VAR_NAME))
+                new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng))
             ),
             new FunctionDefinition(
                 WRITE_DOCS, 
@@ -470,7 +474,7 @@ export default function bootstrapList() {
                     listUntilHOFType
                 )],
                 new NativeHOFListUntil(listUntilHOFType),
-                new ListType(new NameType(LIST_TYPE_VAR_NAME))
+                new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng))
             ),
             new FunctionDefinition(
                 WRITE_DOCS, 
@@ -488,7 +492,7 @@ export default function bootstrapList() {
                     listFindHOFType
                 ) ],
                 new NativeHOFListFind(listFindHOFType),
-                new UnionType(new NameType(LIST_TYPE_VAR_NAME), new NoneType({ eng: "notfound", "😀": TRANSLATE }))
+                new UnionType(new NameType(LIST_TYPE_VAR_NAMES.eng), new NoneType({ eng: "notfound", "😀": TRANSLATE }))
             ),
             new FunctionDefinition(
                 WRITE_DOCS, 
@@ -514,7 +518,7 @@ export default function bootstrapList() {
                         listCombineHOFType
                     )],
                 new NativeHOFListCombine(listCombineHOFType),
-                new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME)
+                new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME.eng)
             ),
             createNativeConversion(WRITE_DOCS,  "[]", "''", (val: List) => new Text(val.toString())),
             createNativeConversion(WRITE_DOCS,  "[]", "{}", (val: List) => new Set(val.getValues()))        

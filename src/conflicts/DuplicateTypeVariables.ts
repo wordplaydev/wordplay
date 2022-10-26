@@ -6,9 +6,9 @@ import { TRANSLATE } from "../nodes/Translations"
 
 export default class DuplicateTypeVariables extends Conflict {
 
-    readonly duplicates: Map<string, TypeVariable[]>;
+    readonly duplicates: TypeVariable[];
 
-    constructor(duplicates: Map<string, TypeVariable[]>) {
+    constructor(duplicates: TypeVariable[]) {
 
         super(false);
 
@@ -17,12 +17,12 @@ export default class DuplicateTypeVariables extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: Array.from(this.duplicates.values()).flat() };
+        return { primary: this.duplicates };
     }
 
     getExplanations(): Translations { 
         return {
-            eng: `Duplicate type variables ${Array.from(this.duplicates.values()).flat().map(lang => lang.toWordplay())}.`,
+            eng: `Duplicate type variables ${this.duplicates.map(dupe => dupe.toWordplay())}.`,
             "😀": TRANSLATE
         }
     }

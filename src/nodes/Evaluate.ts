@@ -301,10 +301,10 @@ export default class Evaluate extends Expression {
                     if(concreteType === undefined) {
                         // Is there an input whose type is the type variable we're trying to resolve?
                         const indexOfInputWithVariableType = def.inputs.findIndex(i => 
-                            i instanceof Bind && i.type instanceof NameType && i.type.isTypeVariable(context) && i.type.getName() === typeVarDeclaration.name.getText()
+                            i instanceof Bind && i.type instanceof NameType && i.type.isTypeVariable(context) && typeVarDeclaration.hasName(i.type.getName())
                         );
                         const indexOfInputWithVariableOutputType = def.inputs.findIndex(i => 
-                            i instanceof Bind && i.type instanceof FunctionType && i.type.output instanceof NameType && i.type.output.isTypeVariable(context) && i.type.output.getName() === typeVarDeclaration.name.getText()
+                            i instanceof Bind && i.type instanceof FunctionType && i.type.output instanceof NameType && i.type.output.isTypeVariable(context) && typeVarDeclaration.hasName(i.type.output.getName())
                         );
 
                         let inputFromWhichToInferType = -1;

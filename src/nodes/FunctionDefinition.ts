@@ -87,10 +87,7 @@ export default class FunctionDefinition extends Expression {
         ) as this; 
     }
 
-    sharesName(fun: FunctionDefinition) {
-        const funNames = fun.names.getNames();
-        return this.names.getNames().find(n => funNames.includes(n)) !== undefined;
-    }
+    sharesName(fun: FunctionDefinition) { return this.names.sharesName(fun.names); }
 
     hasName(name: string) { return this.names.hasName(name); }
     getNames() { return this.names.getNames(); }

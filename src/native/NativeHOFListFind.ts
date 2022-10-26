@@ -24,7 +24,7 @@ import type Step from "../runtime/Step";
 import TypeException from "../runtime/TypeException";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
-import { LIST_TYPE_VAR_NAME } from "./NativeConstants";
+import { LIST_TYPE_VAR_NAMES } from "./NativeConstants";
 import Names from "../nodes/Names";
 
 export default class NativeHOFListFind extends HOF {
@@ -35,7 +35,7 @@ export default class NativeHOFListFind extends HOF {
         this.hofType = hofType;
     }
 
-    computeType(): Type { return new NameType(LIST_TYPE_VAR_NAME); }
+    computeType(): Type { return new NameType(LIST_TYPE_VAR_NAMES.eng); }
 
     compile(): Step[] { 
         return [

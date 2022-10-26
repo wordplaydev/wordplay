@@ -12,7 +12,7 @@ import Text from "../runtime/Text";
 import Set from "../runtime/Set";
 import TypeException from "../runtime/TypeException";
 import { createNativeConversion, createNativeFunction } from "./NativeBindings";
-import { SET_TYPE_VAR_NAME } from "./NativeConstants";
+import { SET_TYPE_VAR_NAMES } from "./NativeConstants";
 import NativeHOFSetFilter from "./NativeHOFSetFilter";
 import Bool from "../runtime/Bool";
 import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
@@ -28,7 +28,7 @@ export default function bootstrapSet() {
             },
             new BooleanType()
         )
-    ], new NameType(SET_TYPE_VAR_NAME));
+    ], new NameType(SET_TYPE_VAR_NAMES.eng));
     
     return new StructureDefinition(
         {
@@ -42,7 +42,7 @@ export default function bootstrapSet() {
         // No interfaces
         [],
         // One type variable
-        [ new TypeVariable(SET_TYPE_VAR_NAME)],
+        [ new TypeVariable(SET_TYPE_VAR_NAMES)],
         // No inputs
         [],
         // Include all of the functions defined above.
@@ -126,9 +126,9 @@ export default function bootstrapSet() {
                         eng: "value",
                         "😀": TRANSLATE
                     }, 
-                    new NameType(SET_TYPE_VAR_NAME) 
+                    new NameType(SET_TYPE_VAR_NAMES.eng) 
                 ) ], 
-                new SetType(new NameType(SET_TYPE_VAR_NAME)),
+                new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 evaluation => {
                         const set = evaluation?.getContext();
                         const element = evaluation.resolve("value");
@@ -155,9 +155,9 @@ export default function bootstrapSet() {
                         eng: "value",
                         "😀": TRANSLATE
                     }, 
-                    new NameType(SET_TYPE_VAR_NAME) 
+                    new NameType(SET_TYPE_VAR_NAMES.eng) 
                 ) ], 
-                new SetType(new NameType(SET_TYPE_VAR_NAME)),
+                new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 evaluation => {
                     const set = evaluation.getContext();
                     const element = evaluation.resolve("value");
@@ -184,9 +184,9 @@ export default function bootstrapSet() {
                         eng: "set",
                         "😀": WRITE
                     }, 
-                    new SetType(new NameType(SET_TYPE_VAR_NAME)) 
+                    new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)) 
                 ) ],
-                new SetType(new NameType(SET_TYPE_VAR_NAME)),
+                new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 evaluation => {
                     const set = evaluation.getContext();
                     const newSet = evaluation.resolve("set");
@@ -214,7 +214,7 @@ export default function bootstrapSet() {
                         "😀": WRITE
                     }
                 ) ], 
-                new SetType(new NameType(SET_TYPE_VAR_NAME)),
+                new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 evaluation => {
                     const set = evaluation.getContext();
                     const newSet = evaluation.resolve("set");
@@ -242,7 +242,7 @@ export default function bootstrapSet() {
                         "😀": WRITE
                     }
                 ) ], 
-                new SetType(new NameType(SET_TYPE_VAR_NAME)),
+                new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 evaluation => {
                     const set = evaluation.getContext();
                     const newSet = evaluation.resolve("set");
@@ -272,7 +272,7 @@ export default function bootstrapSet() {
                     setFilterHOFType
                 ) ],
                 new NativeHOFSetFilter(setFilterHOFType),
-                new SetType(new NameType(SET_TYPE_VAR_NAME))
+                new SetType(new NameType(SET_TYPE_VAR_NAMES.eng))
             ),
 
             createNativeConversion(WRITE_DOCS, "{}", "''", (val: Set) => new Text(val.toString())),

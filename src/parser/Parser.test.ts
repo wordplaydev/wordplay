@@ -336,7 +336,7 @@ test("Parse expressions", () => {
     expect(structureDefWithInterface).toBeInstanceOf(StructureDefinition);
     expect((structureDefWithInterface as StructureDefinition).interfaces).toHaveLength(1);
 
-    const structureDefWithTypeVariables = parseExpression(tokens("•Cat∘S(species•'') ( meow: ƒ() say(species) )"))
+    const structureDefWithTypeVariables = parseExpression(tokens("•Cat∘Breed/eng,🐈/😀(species•'') ( meow: ƒ() say(species) )"))
     expect(structureDefWithTypeVariables).toBeInstanceOf(StructureDefinition);
     expect((structureDefWithTypeVariables as StructureDefinition).typeVars).toHaveLength(1);
 

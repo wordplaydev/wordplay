@@ -21,22 +21,13 @@ import TokenType from "./TokenType";
 import DuplicateBinds from "../conflicts/DuplicateBinds";
 
 export function typeVarsAreUnique(vars: (TypeVariable|Unparsable)[]): DuplicateTypeVariables | undefined {
-    const typeVars = vars.filter(v => v instanceof TypeVariable) as TypeVariable[];
-    const duplicatesByName = new Map<string, TypeVariable[]>();
-    typeVars.forEach(variable => { 
-        const language = variable.name.getText();
-        if(language !== undefined && variable.name !== undefined) {
-            let duplicates = duplicatesByName.get(language);
-            if(duplicates === undefined) { duplicates = []; duplicatesByName.set(language, duplicates); }
-            duplicates.push(variable);
-        }
-    });
-    duplicatesByName.forEach((dupes, language) => {
-        if(dupes.length === 1)
-            duplicatesByName.delete(language);
-    });
-
-    return duplicatesByName.size > 0 ? new DuplicateTypeVariables(duplicatesByName) : undefined;
+    const duplicateTypeVars = 
+        vars.filter(tv1 => 
+            tv1 instanceof TypeVariable && 
+            vars.find(tv2 => tv2 instanceof TypeVariable && tv2 !== tv1 && tv1.names.sharesName(tv2.names))
+        ) as TypeVariable[];
+    
+    return duplicateTypeVars.length > 0 ? new DuplicateTypeVariables(duplicateTypeVars) : undefined;
 
 }
 

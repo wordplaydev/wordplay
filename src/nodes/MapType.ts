@@ -1,4 +1,4 @@
-import { MAP_KEY_TYPE_VAR_NAME, MAP_NATIVE_TYPE_NAME, MAP_VALUE_TYPE_VAR_NAME } from "../native/NativeConstants";
+import { MAP_KEY_TYPE_VAR_NAMES, MAP_NATIVE_TYPE_NAME, MAP_VALUE_TYPE_VAR_NAMES } from "../native/NativeConstants";
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import NativeType from "./NativeType";
@@ -80,8 +80,8 @@ export default class MapType extends NativeType {
     }
 
     resolveTypeVariable(name: string): Type | undefined { 
-        return name === MAP_KEY_TYPE_VAR_NAME && this.key instanceof Type ? this.key : 
-            name === MAP_VALUE_TYPE_VAR_NAME && this.value instanceof Type ? this.value :
+        return Object.values(MAP_KEY_TYPE_VAR_NAMES).includes(name) && this.key instanceof Type ? this.key : 
+            Object.values(MAP_VALUE_TYPE_VAR_NAMES).includes(name) && this.value instanceof Type ? this.value :
             undefined;
     };
 

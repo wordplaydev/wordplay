@@ -12,7 +12,7 @@ import Text from "../runtime/Text";
 import Map from "../runtime/Map";
 import Set from "../runtime/Set";
 import TypeException from "../runtime/TypeException";
-import { MAP_KEY_TYPE_VAR_NAME, MAP_VALUE_TYPE_VAR_NAME } from "./NativeConstants";
+import { MAP_KEY_TYPE_VAR_NAMES, MAP_VALUE_TYPE_VAR_NAMES } from "./NativeConstants";
 import NativeHOFMapFilter from "./NativeHOFMapFilter";
 import NativeHOFMapTranslate from "./NativeHOFMapTranslate";
 import { createNativeConversion, createNativeFunction } from "./NativeBindings";
@@ -33,7 +33,7 @@ export default function bootstrapMap() {
                 eng: "key",
                 "😀": TRANSLATE
             }, 
-            new NameType(MAP_KEY_TYPE_VAR_NAME)
+            new NameType(MAP_KEY_TYPE_VAR_NAMES.eng)
         ),
         new Bind(
             {
@@ -44,7 +44,7 @@ export default function bootstrapMap() {
                 eng: "value",
                 "😀": TRANSLATE
             },
-            new NameType(MAP_VALUE_TYPE_VAR_NAME)
+            new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng)
         )
     ], new BooleanType());
 
@@ -58,7 +58,7 @@ export default function bootstrapMap() {
                 eng: "key",
                 "😀": TRANSLATE
             }, 
-            new NameType(MAP_KEY_TYPE_VAR_NAME)
+            new NameType(MAP_KEY_TYPE_VAR_NAMES.eng)
         ),
         new Bind(
             {
@@ -69,7 +69,7 @@ export default function bootstrapMap() {
                 eng: "value",
                 "😀": TRANSLATE
             },
-            new NameType(MAP_VALUE_TYPE_VAR_NAME)
+            new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng)
         )
     ], new NameType(MAP_HOF_OUTPUT_TYPE_VARIABLE_NAME));
 
@@ -85,7 +85,7 @@ export default function bootstrapMap() {
         // No interfaces
         [],
         // One type variable
-        [ new TypeVariable(MAP_KEY_TYPE_VAR_NAME), new TypeVariable(MAP_VALUE_TYPE_VAR_NAME)],
+        [ new TypeVariable(MAP_KEY_TYPE_VAR_NAMES), new TypeVariable(MAP_VALUE_TYPE_VAR_NAMES)],
         // No inputs
         [],
         // Include all of the functions defined above.
@@ -276,7 +276,7 @@ export default function bootstrapMap() {
                     )
                 ],
                 new NativeHOFMapFilter(mapFilterHOFType),
-                new MapType(new NameType(MAP_KEY_TYPE_VAR_NAME), new NameType(MAP_VALUE_TYPE_VAR_NAME))
+                new MapType(new NameType(MAP_KEY_TYPE_VAR_NAMES.eng), new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng))
             ),
             new FunctionDefinition(
                 {
@@ -302,7 +302,7 @@ export default function bootstrapMap() {
                     )
                 ],
                 new NativeHOFMapTranslate(mapTranslateHOFType),
-                new MapType(new NameType(MAP_KEY_TYPE_VAR_NAME), new NameType(MAP_HOF_OUTPUT_TYPE_VARIABLE_NAME))
+                new MapType(new NameType(MAP_KEY_TYPE_VAR_NAMES.eng), new NameType(MAP_HOF_OUTPUT_TYPE_VARIABLE_NAME))
             ),
             createNativeConversion(WRITE_DOCS, "{:}", "''", (val: Map) => new Text(val.toString())),
             createNativeConversion(WRITE_DOCS, "{:}", "{}", (val: Map) => new Set(val.getKeys())),

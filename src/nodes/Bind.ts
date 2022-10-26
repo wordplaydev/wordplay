@@ -88,7 +88,7 @@ export default class Bind extends Node implements Evaluable, Named {
     }
 
     hasName(name: string) { return this.names.hasName(name); }
-    sharesName(bind: Bind) { return this.names.getNames().find(name => bind.hasName(name)) !== undefined; }
+    sharesName(bind: Bind) { return this.names.sharesName(bind.names); }
     getNames(): string[] { return this.names.getNames(); }
     
     getTranslation(lang: LanguageCode[]) {

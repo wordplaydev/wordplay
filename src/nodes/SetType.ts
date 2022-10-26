@@ -1,4 +1,4 @@
-import { SET_NATIVE_TYPE_NAME, SET_TYPE_VAR_NAME } from "../native/NativeConstants";
+import { SET_NATIVE_TYPE_NAME, SET_TYPE_VAR_NAMES } from "../native/NativeConstants";
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import NativeType from "./NativeType";
@@ -62,7 +62,7 @@ export default class SetType extends NativeType {
     }
 
     resolveTypeVariable(name: string): Type | undefined { 
-        return name === SET_TYPE_VAR_NAME && this.key instanceof Type ? this.key : undefined;
+        return Object.values(SET_TYPE_VAR_NAMES).includes(name) && this.key instanceof Type ? this.key : undefined;
     };
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined  {
