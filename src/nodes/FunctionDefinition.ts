@@ -48,14 +48,14 @@ export default class FunctionDefinition extends Expression {
     readonly close: Token;
     readonly dot?: Token;
     readonly type?: Type | Unparsable;
-    readonly expression: Expression | Unparsable;
+    readonly expression: Expression | Unparsable | Token;
 
     constructor(
         docs: Docs | Translations | undefined, 
         names: Names | Translations | undefined, 
         typeVars: (TypeVariable|Unparsable)[], 
         inputs: (Bind|Unparsable)[], 
-        expression: Expression | Unparsable, 
+        expression: Expression | Token | Unparsable, 
         type?: Type | Unparsable, 
         fun?: Token, dot?: Token, open?: Token, close?: Token) {
         super();
@@ -78,7 +78,7 @@ export default class FunctionDefinition extends Expression {
             this.cloneOrReplaceChild<Names>(pretty, [ Names ], "names", this.names, original, replacement),
             this.cloneOrReplaceChild(pretty, [ TypeVariable, Unparsable ], "typeVars", this.typeVars, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "inputs", this.inputs, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, [ Expression, Unparsable ], "expression", this.expression, original, replacement).withPrecedingSpaceIfDesired(pretty), 
+            this.cloneOrReplaceChild<Expression|Unparsable|Token>(pretty, [ Expression, Unparsable, Token ], "expression", this.expression, original, replacement).withPrecedingSpaceIfDesired(pretty), 
             this.cloneOrReplaceChild(pretty, [ Unparsable, Type, undefined ], "type", this.type, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token ], "fun", this.fun, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "dot", this.dot, original, replacement), 
@@ -159,7 +159,7 @@ export default class FunctionDefinition extends Expression {
         // The type is equivalent to the signature.
         const outputType = 
             this.type instanceof Type ? this.type : 
-            this.expression instanceof Unparsable ? new UnknownType(this) : 
+            !(this.expression instanceof Expression) ? new UnknownType(this) : 
             this.expression.getTypeUnlessCycle(context);
         return new FunctionType(this.inputs, outputType);
     }
@@ -193,7 +193,7 @@ export default class FunctionDefinition extends Expression {
 
     }
 
-    isAbstract() { return this.expression instanceof ExpressionPlaceholder; }
+    isAbstract() { return this.expression instanceof Token && this.expression.is(TokenType.ETC); }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.expression instanceof Expression) this.expression.evaluateTypeSet(bind, original, current, context);
@@ -219,7 +219,7 @@ export default class FunctionDefinition extends Expression {
         if(child === this.type)
             return getPossibleTypeReplacements(child, context);
         // Expression must be of output type, or any type if there isn't one.
-        else if(child === this.expression)
+        else if(child === this.expression && this.expression instanceof Expression)
             return getExpressionReplacements(context.source, this, this.expression, context, this.type === undefined || this.type instanceof Unparsable ? new AnyType() : this.type);
 
     }

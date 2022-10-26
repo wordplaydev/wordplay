@@ -38,6 +38,7 @@ enum TokenType {
     STREAM_TYPE,
     PREVIOUS,
     PLACEHOLDER,
+    ETC,
     THIS,
 
     // These are the only operators eligible for unary, binary, or teriary notation.

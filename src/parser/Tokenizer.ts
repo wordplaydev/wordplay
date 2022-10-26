@@ -27,11 +27,12 @@ export const OR_SYMBOL = "∨";
 export const NOT_SYMBOL = "¬";
 export const TRUE_SYMBOL = "⊤";
 export const FALSE_SYMBOL = "⊥";
-export const ACCESS_SYMBOL = ".";
+export const PROPERTY_SYMBOL = ".";
 export const BORROW_SYMBOL = "↓";
 export const SHARE_SYMBOL = "↑";
 export const DOCS_SYMBOL = "`";
-export const PLACEHOLDER_SYMBOL = "…";
+export const PLACEHOLDER_SYMBOL = "_";
+export const ETC_SYMBOL = "…";
 export const TEMPLATE_SYMBOL = "\\";
 export const THIS_SYMBOL = "*";
 export const BASE_SYMBOL = ";";
@@ -48,7 +49,7 @@ const RESERVED_SYMBOLS = [
     SET_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
     BIND_SYMBOL,
-    ACCESS_SYMBOL,
+    PROPERTY_SYMBOL,
     BASE_SYMBOL,
     FUNCTION_SYMBOL,
     BORROW_SYMBOL,
@@ -61,6 +62,7 @@ const RESERVED_SYMBOLS = [
     PREVIOUS_SYMBOL,
     CONVERT_SYMBOL,
     PLACEHOLDER_SYMBOL,
+    ETC_SYMBOL,
     TRUE_SYMBOL,
     FALSE_SYMBOL,
     NOT_SYMBOL,
@@ -90,7 +92,7 @@ const patterns = [
     { pattern: TABLE_CLOSE_SYMBOL, types: [ TokenType.TABLE_CLOSE] },
     { pattern: TABLE_OPEN_SYMBOL, types: [ TokenType.TABLE_OPEN] },
     { pattern: BIND_SYMBOL, types: [ TokenType.BIND ] },
-    { pattern: ACCESS_SYMBOL, types: [ TokenType.ACCESS ] },
+    { pattern: PROPERTY_SYMBOL, types: [ TokenType.ACCESS ] },
     { pattern: FUNCTION_SYMBOL, types: [ TokenType.FUNCTION ] },
     { pattern: BORROW_SYMBOL, types: [ TokenType.BORROW ] },
     { pattern: SHARE_SYMBOL, types: [ TokenType.SHARE ] },
@@ -103,6 +105,7 @@ const patterns = [
     { pattern: REACTION_SYMBOL, types: [ TokenType.REACTION, TokenType.STREAM_TYPE ] },
     { pattern: PREVIOUS_SYMBOL, types: [ TokenType.PREVIOUS ] },
     { pattern: PLACEHOLDER_SYMBOL, types: [ TokenType.PLACEHOLDER ] },
+    { pattern: ETC_SYMBOL, types: [ TokenType.ETC ] },
     // Roman numerals
     { pattern: /^[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/, types: [ TokenType.NUMBER, TokenType.ROMAN ] },
     // Japanese numbers

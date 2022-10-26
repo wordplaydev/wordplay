@@ -352,7 +352,7 @@ function nextIsConversion(tokens: Tokens): boolean {
 export function parseBind(tokens: Tokens): Bind | Unparsable {
 
     let docs = parseDocumentation(tokens);
-    let etc = tokens.nextIs(TokenType.PLACEHOLDER) ? tokens.read(TokenType.PLACEHOLDER) : undefined;
+    let etc = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : undefined;
     let names: Names | Unparsable;
     let colon;
     let value;
@@ -820,12 +820,12 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 
     const fun = tokens.read(TokenType.FUNCTION);
 
-    const aliases = tokens.nextIsOneOf(TokenType.NAME, TokenType.PLACEHOLDER) ? parseNames(tokens) : undefined;
+    const names = tokens.nextIsOneOf(TokenType.NAME, TokenType.PLACEHOLDER) ? parseNames(tokens) : undefined;
 
     const typeVars = parseTypeVariables(tokens);
 
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN, [ docs, fun, aliases, typeVars ]);
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN, [ docs, fun, names, typeVars ]);
     const open = tokens.read(TokenType.EVAL_OPEN);
 
     const inputs: (Bind|Unparsable)[] = [];
@@ -833,7 +833,7 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
         inputs.push(parseBind(tokens));
 
     if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ docs, fun, aliases, typeVars, open, inputs ]);
+        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ docs, fun, names, typeVars, open, inputs ]);
     const close = tokens.read(TokenType.EVAL_CLOSE);
 
     let dot;
@@ -843,9 +843,9 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
         output = parseType(tokens);
     }
 
-    const expression = parseExpression(tokens);
+    const expression = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : parseExpression(tokens);
 
-    return new FunctionDefinition(docs, aliases, typeVars, inputs, expression, output, fun, dot, open, close);
+    return new FunctionDefinition(docs, names, typeVars, inputs, expression, output, fun, dot, open, close);
 
 }
 

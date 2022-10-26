@@ -18,7 +18,7 @@ import Bind from "./Bind";
 import UnionType, { TypeSet } from "./UnionType";
 import Conditional from "./Conditional";
 import Is from "./Is";
-import { ACCESS_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+import { PROPERTY_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
@@ -50,7 +50,7 @@ export default class PropertyReference extends Expression {
         super();
 
         this.structure = subject;
-        this.dot = dot ?? new Token(ACCESS_SYMBOL, TokenType.ACCESS);
+        this.dot = dot ?? new Token(PROPERTY_SYMBOL, TokenType.ACCESS);
         this.name = name;
     }
 
