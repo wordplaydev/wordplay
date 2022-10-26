@@ -8,6 +8,9 @@ import None from "./None";
 import Primitive from "./Primitive";
 import type Value from "./Value";
 import Names from "../nodes/Names";
+import type Translations from "../nodes/Translations";
+import { TRANSLATE } from "../nodes/Translations";
+import type LanguageCode from "../nodes/LanguageCode";
 
 export default class Map extends Primitive {
 
@@ -30,7 +33,7 @@ export default class Map extends Primitive {
 
     has(key: Value) { 
         const kv = this.values.find( kv2 => kv2[0].isEqualTo(key));
-        return kv === undefined ? new None(new Names([new Name("unknownkey")])) : kv[1];
+        return kv === undefined ? new None(UnknownKeyNames) : kv[1];
     }
 
     isEqualTo(value: Value): boolean {
@@ -86,3 +89,10 @@ export default class Map extends Primitive {
     toString() { return `{${Array.from(this.values).sort().map(k => `${k[0].toString()}:${(this.has(k[0]) as Value).toString()}`).join(" ")}}`; }
 
 }
+
+const UnknownKey: Translations = {
+    eng: "unknown-key",
+    "😀": TRANSLATE
+}
+
+const UnknownKeyNames = new Names(Object.keys(UnknownKey).map(lang => new Name(UnknownKey[lang as LanguageCode], lang)));
