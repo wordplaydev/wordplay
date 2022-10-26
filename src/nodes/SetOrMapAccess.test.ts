@@ -3,10 +3,12 @@ import { testConflict } from "../conflicts/TestUtilities";
 import { IncompatibleKey } from "../conflicts/IncompatibleKey";
 import Evaluator from "../runtime/Evaluator";
 import SetOrMapAccess from "./SetOrMapAccess";
+import { NotASetOrMap } from "../conflicts/NotASetOrMap";
 
 test("Test set access conflicts", () => {
 
     testConflict('{1:1 2:2 3:3}{1}', '{1:1 2:2 3:3}{"hi"}', SetOrMapAccess, IncompatibleKey);
+    testConflict('{1:1 2:2 3:3}{1}', '[1 2 3]{"hi"}', SetOrMapAccess, NotASetOrMap);
     
 });
 

@@ -30,6 +30,7 @@ import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import { NotASetOrMap } from "../conflicts/NotASetOrMap";
 
 export default class SetOrMapAccess extends Expression {
 
@@ -67,10 +68,15 @@ export default class SetOrMapAccess extends Expression {
         const setMapType = this.setOrMap.getTypeUnlessCycle(context);
         const keyType = this.key.getTypeUnlessCycle(context);
 
-        if((setMapType instanceof SetType || setMapType instanceof MapType) && setMapType.key instanceof Type && !setMapType.key.accepts(keyType, context))
-            return [ new IncompatibleKey(this, setMapType.key, keyType) ];
+        const conflicts = [];
 
-        return [];
+        if(!(setMapType instanceof SetType || setMapType instanceof MapType))
+            conflicts.push(new NotASetOrMap(this, setMapType));
+
+        if((setMapType instanceof SetType || setMapType instanceof MapType) && setMapType.key instanceof Type && !setMapType.key.accepts(keyType, context))
+            conflicts.push(new IncompatibleKey(this, setMapType.key, keyType));
+
+        return conflicts;
     
     }
 
