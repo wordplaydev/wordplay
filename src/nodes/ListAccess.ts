@@ -28,6 +28,7 @@ import { getExpressionReplacements, getPossiblePostfix } from "../transforms/get
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import { NotAList } from "../conflicts/NotAList";
 
 export default class ListAccess extends Expression {
     readonly list: Expression | Unparsable;
@@ -61,12 +62,18 @@ export default class ListAccess extends Expression {
     
         if(this.list instanceof Unparsable || this.index instanceof Unparsable) return [];
 
+        const conflicts = [];
+
+        const listType = this.list.getTypeUnlessCycle(context);
+        if(!(listType instanceof ListType))
+            conflicts.push(new NotAList(this, listType));
+
         const indexType = this.index.getTypeUnlessCycle(context);
 
         if(!(indexType instanceof MeasurementType) || (indexType.unit instanceof Unit && !indexType.unit.isEmpty()))
-            return [ new NotAListIndex(this, indexType) ];
+            conflicts.push(new NotAListIndex(this, indexType));
 
-        return []; 
+        return conflicts; 
     
     }
 
