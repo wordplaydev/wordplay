@@ -1090,7 +1090,7 @@ function parseConversionType(left: Type, tokens: Tokens): ConversionType | Unpar
 }
 
 /** CUSTOM_TYPE :: DOCS? • ALIASES (•NAME)* TYPE_VARS ( BIND* ) BLOCK? */
-function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
+export function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
 
     const docs = parseDocumentation(tokens);
 

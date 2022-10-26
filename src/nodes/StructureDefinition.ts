@@ -54,8 +54,8 @@ export default class StructureDefinition extends Expression {
     readonly block?: Block | Unparsable;
 
     constructor(
-        docs: Documentation[], 
-        aliases: Alias[], 
+        docs: Documentation[] | Translations, 
+        aliases: Alias[] | Translations, 
         interfaces: TypeInput[], 
         typeVars: (TypeVariable|Unparsable)[], 
         inputs: (Bind|Unparsable)[], 
@@ -66,9 +66,9 @@ export default class StructureDefinition extends Expression {
 
         super();
 
-        this.docs = docs;
+        this.docs = Array.isArray(docs) ? docs : Object.keys(docs).map(lang => new Documentation(docs[lang as LanguageCode], lang));
+        this.aliases = Array.isArray(aliases) ? aliases : Object.keys(aliases).map(lang => new Alias(aliases[lang as LanguageCode], lang));
         this.type = type ?? new TypeToken();
-        this.aliases = aliases;
         this.interfaces = interfaces;
         this.typeVars = typeVars;
         this.open = open === undefined && inputs.length > 0 ? new EvalOpenToken() : open;

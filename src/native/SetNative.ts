@@ -16,21 +16,31 @@ import { SET_TYPE_VAR_NAME } from "./NativeConstants";
 import NativeHOFSetFilter from "./NativeHOFSetFilter";
 import Bool from "../runtime/Bool";
 import Alias from "../nodes/Alias";
+import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
 
 export default function bootstrapSet() {
 
     const setFilterHOFType = new FunctionType([ 
         new Bind(
-            [],
+            WRITE_DOCS,
             undefined,
-            [ new Alias("value", "eng") ],
+            {
+                eng: "value",
+                "😀": TRANSLATE
+            },
             new BooleanType()
         )
     ], new NameType(SET_TYPE_VAR_NAME));
     
     return new StructureDefinition(
-        [],
-        [],
+        {
+            eng: WRITE,
+            "😀": WRITE
+        },
+        {
+            eng: "set",
+            "😀": TRANSLATE
+        },
         // No interfaces
         [],
         // One type variable
@@ -40,10 +50,27 @@ export default function bootstrapSet() {
         // Include all of the functions defined above.
         new Block([], [
             createNativeFunction(
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                },
+                {
+                    eng: "equals",
+                    "😀": "="
+                }, 
                 [], 
-                [ new Alias("=") ], 
-                [], 
-                [ new Bind([], undefined, [ new Alias("set", "eng") ], new SetType() ) ], 
+                [ new Bind(
+                    {
+                        eng: WRITE,
+                        "😀": WRITE
+                    }, 
+                    undefined, 
+                    {
+                        eng: "set",
+                        "😀": TRANSLATE
+                    }, 
+                    new SetType() 
+                ) ], 
                 new BooleanType(),
                 evaluation => {
                         const set = evaluation?.getContext();
@@ -54,10 +81,27 @@ export default function bootstrapSet() {
                     }
             ),
             createNativeFunction(
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                },
+                {
+                    eng: "not-equal",
+                    "😀": "≠"
+                },
                 [], 
-                [ new Alias("≠") ], 
-                [], 
-                [ new Bind([], undefined, [ new Alias("set", "eng") ], new SetType() ) ], 
+                [ new Bind(
+                    {
+                        eng: WRITE,
+                        "😀": WRITE
+                    }, 
+                    undefined, 
+                    {
+                        eng: "set",
+                        "😀": TRANSLATE
+                    }, 
+                    new SetType() 
+                ) ], 
                 new BooleanType(),
                 evaluation => {
                         const set = evaluation?.getContext();
@@ -68,10 +112,27 @@ export default function bootstrapSet() {
                     }
             ),
             createNativeFunction(
-                [], 
-                [ new Alias("add", "eng") ], 
-                [], 
-                [ new Bind([], undefined, [ new Alias("value", "eng") ], new NameType(SET_TYPE_VAR_NAME) ) ], 
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                }, 
+                {
+                    eng: "add",
+                    "😀": "+"
+                },
+                [],
+                [ new Bind(
+                    {
+                        eng: WRITE,
+                        "😀": WRITE
+                    }, 
+                    undefined, 
+                    {
+                        eng: "value",
+                        "😀": TRANSLATE
+                    }, 
+                    new NameType(SET_TYPE_VAR_NAME) 
+                ) ], 
                 new SetType(new NameType(SET_TYPE_VAR_NAME)),
                 evaluation => {
                         const set = evaluation?.getContext();
@@ -81,10 +142,27 @@ export default function bootstrapSet() {
                     }
             ),
             createNativeFunction(
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                }, 
+                {
+                    eng: "remove",
+                    "😀": "-"
+                },
                 [], 
-                [ new Alias("remove", "eng") ],
-                [], 
-                [ new Bind([], undefined, [ new Alias("value", "eng") ], new NameType(SET_TYPE_VAR_NAME) ) ], 
+                [ new Bind(
+                    {
+                        eng: WRITE,
+                        "😀": WRITE
+                    }, 
+                    undefined, 
+                    {
+                        eng: "value",
+                        "😀": TRANSLATE
+                    }, 
+                    new NameType(SET_TYPE_VAR_NAME) 
+                ) ], 
                 new SetType(new NameType(SET_TYPE_VAR_NAME)),
                 evaluation => {
                     const set = evaluation.getContext();
@@ -94,10 +172,27 @@ export default function bootstrapSet() {
                 }
             ),            
             createNativeFunction(
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                }, 
+                {
+                    eng: "union",
+                    "😀": "∪"
+                },
                 [], 
-                [ new Alias("union", "eng") ],
-                [], 
-                [ new Bind([], undefined, [ new Alias("set", "eng") ], new SetType(new NameType(SET_TYPE_VAR_NAME)) ) ],
+                [ new Bind(
+                    {
+                        eng: WRITE,
+                        "😀": WRITE
+                    }, 
+                    undefined, 
+                    {
+                        eng: "set",
+                        "😀": WRITE
+                    }, 
+                    new SetType(new NameType(SET_TYPE_VAR_NAME)) 
+                ) ],
                 new SetType(new NameType(SET_TYPE_VAR_NAME)),
                 evaluation => {
                     const set = evaluation.getContext();
@@ -106,7 +201,27 @@ export default function bootstrapSet() {
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
                 }
             ),
-            createNativeFunction([], [ new Alias("intersection", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetType(new NameType(SET_TYPE_VAR_NAME)),
+            createNativeFunction(
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                }, 
+                {
+                    eng: "intersection",
+                    "😀": "∩"
+                }, 
+                [], [ new Bind(
+                    {
+                        eng: WRITE,
+                        "😀": WRITE
+                    }, 
+                    undefined, 
+                    {
+                        eng: "set",
+                        "😀": WRITE
+                    }
+                ) ], 
+                new SetType(new NameType(SET_TYPE_VAR_NAME)),
                 evaluation => {
                     const set = evaluation.getContext();
                     const newSet = evaluation.resolve("set");
@@ -114,7 +229,28 @@ export default function bootstrapSet() {
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
                 }
             ),
-            createNativeFunction([], [ new Alias("difference", "eng") ], [], [ new Bind([], undefined, [ new Alias("set", "eng") ] ) ], new SetType(new NameType(SET_TYPE_VAR_NAME)),
+            createNativeFunction(
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                }, 
+                {
+                    eng: "difference",
+                    "😀": TRANSLATE
+                }, 
+                [], 
+                [ new Bind(
+                    {
+                        eng: WRITE,
+                        "😀": WRITE
+                    }, 
+                    undefined, 
+                    {
+                        eng: "set",
+                        "😀": WRITE
+                    }
+                ) ], 
+                new SetType(new NameType(SET_TYPE_VAR_NAME)),
                 evaluation => {
                     const set = evaluation.getContext();
                     const newSet = evaluation.resolve("set");
@@ -123,12 +259,27 @@ export default function bootstrapSet() {
                 }
             ),
             new FunctionDefinition(
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                }, 
+                {
+                    eng: "filter",
+                    "😀": TRANSLATE
+                }, 
                 [], 
-                [ new Alias("filter", "eng") ], 
-                [], 
-                [
-                    new Bind([], undefined, [ new Alias("checker", "eng")], setFilterHOFType)
-                ],
+                [ new Bind(
+                    {
+                        eng: WRITE,
+                        "😀": WRITE
+                    }, 
+                    undefined, 
+                    {
+                        eng: "checker",
+                        "😀": TRANSLATE
+                    }, 
+                    setFilterHOFType
+                ) ],
                 new NativeHOFSetFilter(setFilterHOFType),
                 new SetType(new NameType(SET_TYPE_VAR_NAME))
             ),

@@ -50,8 +50,8 @@ export default class FunctionDefinition extends Expression {
     readonly expression: Expression | Unparsable;
 
     constructor(
-        docs: Documentation[], 
-        aliases: Alias[], 
+        docs: Documentation[] | Translations, 
+        aliases: Alias[] | Translations, 
         typeVars: (TypeVariable|Unparsable)[], 
         inputs: (Bind|Unparsable)[], 
         expression: Expression | Unparsable, 
@@ -59,9 +59,9 @@ export default class FunctionDefinition extends Expression {
         fun?: Token, dot?: Token, open?: Token, close?: Token) {
         super();
 
-        this.docs = docs;
+        this.docs = Array.isArray(docs) ? docs : Object.keys(docs).map(lang => new Documentation(docs[lang as LanguageCode], lang));
+        this.aliases = Array.isArray(aliases) ? aliases : Object.keys(aliases).map(lang => new Alias(aliases[lang as LanguageCode], lang));
         this.fun = fun ?? new Token(FUNCTION_SYMBOL, TokenType.FUNCTION);
-        this.aliases = aliases;
         this.typeVars = typeVars;
         this.open = open ?? new EvalOpenToken();
         this.inputs = inputs;

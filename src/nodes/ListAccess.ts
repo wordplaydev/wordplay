@@ -18,7 +18,6 @@ import type Context from "./Context";
 import type Node from "./Node";
 import NoneType from "./NoneType";
 import UnionType, { TypeSet } from "./UnionType";
-import { outOfBoundsAliases } from "../runtime/Constants";
 import Unit from "./Unit";
 import type Bind from "./Bind";
 import type Translations from "./Translations";
@@ -75,7 +74,14 @@ export default class ListAccess extends Expression {
         // The type is the list's value type, or unknown otherwise.
         if(this.list instanceof Unparsable) return new UnknownType(this);
         const listType = this.list.getTypeUnlessCycle(context);
-        if(listType instanceof ListType && listType.type instanceof Type) return new UnionType(listType.type, new NoneType(outOfBoundsAliases));
+        if(listType instanceof ListType && listType.type instanceof Type) 
+            return new UnionType(
+                listType.type, new 
+                NoneType({
+                    eng: "indexoutofbounds",
+                    "😀": TRANSLATE
+                })
+            );
         else return new UnknownType(this);
     }
 

@@ -1,4 +1,3 @@
-import type Alias from "../nodes/Alias";
 import type NativeInterface from "./NativeInterface";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import NativeExpression from "./NativeExpression";
@@ -24,6 +23,7 @@ import bootstrapMap from "./MapNative";
 import Block from "../nodes/Block";
 import { BOOLEAN_NATIVE_TYPE_NAME, LIST_NATIVE_TYPE_NAME, MAP_NATIVE_TYPE_NAME, MEASUREMENT_NATIVE_TYPE_NAME, NONE_NATIVE_TYPE_NAME, SET_NATIVE_TYPE_NAME, TEXT_NATIVE_TYPE_NAME } from "./NativeConstants";
 import { TRANSLATE } from "../nodes/Translations";
+import type Translations from "../nodes/Translations";
 
 export class NativeBindings implements NativeInterface {
 
@@ -96,8 +96,8 @@ export class NativeBindings implements NativeInterface {
 }
 
 export function createNativeFunction(
-    docs: Documentation[], 
-    aliases: Alias[], 
+    docs: Translations, 
+    aliases: Translations, 
     typeVars: TypeVariable[], 
     inputs: Bind[], 
     output: Type,
@@ -110,7 +110,7 @@ export function createNativeFunction(
             evaluator, 
             {
                 "😀": TRANSLATE,
-                eng: docs.find(doc => doc.lang?.getLanguage() === "eng")?.docs.getText() ?? "No documentatinon"
+                eng: TRANSLATE
             }
         ),
         output

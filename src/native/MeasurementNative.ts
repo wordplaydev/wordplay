@@ -7,7 +7,8 @@ import MeasurementType from "../nodes/MeasurementType";
 import NoneLiteral from "../nodes/NoneLiteral";
 import NoneType from "../nodes/NoneType";
 import StructureDefinition from "../nodes/StructureDefinition";
-import { TRANSLATE } from "../nodes/Translations";
+import type Translations from "../nodes/Translations";
+import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import UnionType from "../nodes/UnionType";
 import Unit from "../nodes/Unit";
@@ -22,17 +23,23 @@ import NativeExpression from "./NativeExpression";
 
 export default function bootstrapMeasurement() {
 
-    const measurementOperandName = "number";
-
-    function createBinaryOp(names: string[], inputType: Type, outputType: Type, expression: (left: Measurement, right: Measurement) => Value | undefined, requireEqualUnits: boolean=true) {
+    function createBinaryOp(docs: Translations, names: Translations, inputDocs: Translations, inputType: Type, outputType: Type, expression: (left: Measurement, right: Measurement) => Value | undefined, requireEqualUnits: boolean=true) {
         return new FunctionDefinition(
-            [], names.map(n => new Alias(n)), [],
-            [ new Bind([], undefined, [ new Alias(measurementOperandName) ], inputType) ],
+            docs, names, [],
+            [ new Bind(
+                inputDocs, 
+                undefined, 
+                {
+                    eng: "number",
+                    "😀": TRANSLATE
+                }, 
+                inputType
+            ) ],
             new NativeExpression(
                 new MeasurementType(),
                 evaluation => {
                     const left = evaluation.getContext();
-                    const right = evaluation.resolve(measurementOperandName);
+                    const right = evaluation.resolve("number");
                     // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
                     if(!(left instanceof Measurement)) return new TypeException(evaluation.getEvaluator(), new MeasurementType(), left);
                     if(!(right instanceof Measurement)) return new TypeException(evaluation.getEvaluator(), left.getType(), right);
@@ -48,9 +55,9 @@ export default function bootstrapMeasurement() {
         );
     }
     
-    function createUnaryOp(names: string[], outputType: Type, expression: (operand: Measurement) => Value | undefined) {
+    function createUnaryOp(docs: Translations, names: Translations, outputType: Type, expression: (operand: Measurement) => Value | undefined) {
         return new FunctionDefinition(
-            [], names.map(n => new Alias(n)), [], [],
+            docs, names, [], [],
             new NativeExpression(
                 new MeasurementType(),
                 evaluation => {
@@ -69,10 +76,20 @@ export default function bootstrapMeasurement() {
     }
 
     return new StructureDefinition(
-        [], [], [], [], [],
+        WRITE_DOCS, 
+        {
+            eng: "number",
+            "😀": "#"
+        }, 
+        [], [], [],
         new Block([], [
             createBinaryOp(
-                ["+"],
+                WRITE_DOCS,
+                {
+                    eng: "add",
+                    "😀": "+"
+                },
+                WRITE_DOCS,
                 // The operand's type should be the left's type.
                 new MeasurementType(undefined, left => left), 
                 // The output's type should be the left's type
@@ -80,16 +97,32 @@ export default function bootstrapMeasurement() {
                 (left, right) => left.add(right)
             ),
             new FunctionDefinition(
-                [], [ new Alias("-") ], [],
+                WRITE_DOCS, 
+                {
+                    eng: "subtract",
+                    "😀": "-"
+                },
+                [],
                 [ 
                     // Optional operand, since negation and subtraction are overloaded.
-                    new Bind([], undefined, [ new Alias(measurementOperandName) ], new UnionType(new NoneType([]), new MeasurementType(undefined, left => left)), new NoneLiteral()) 
+                    new Bind(
+                        WRITE_DOCS,
+                        undefined, 
+                        {
+                            eng: "number",
+                            "😀": TRANSLATE
+                        }, 
+                        new UnionType(
+                            new NoneType([]),
+                            new MeasurementType(undefined, left => left)), 
+                        new NoneLiteral()
+                    ) 
                 ],
                 new NativeExpression(
                     new MeasurementType(),
                     evaluation => {
                         const left = evaluation.getContext();
-                        const right = evaluation.resolve(measurementOperandName);
+                        const right = evaluation.resolve("number");
                         // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
                         if(!(left instanceof Measurement)) return new TypeException(evaluation.getEvaluator(), new MeasurementType(), left);
                         if(right !== undefined && !(right instanceof Measurement)) return new TypeException(evaluation.getEvaluator(), left.getType(), right);
@@ -103,15 +136,12 @@ export default function bootstrapMeasurement() {
                 new MeasurementType(undefined, left => left)
             ),
             createBinaryOp(
-                ["-"],
-                // The operand's type should be the left's type.
-                new MeasurementType(undefined, left => left), 
-                // The output's type should be the left's type
-                new MeasurementType(undefined, left => left),                
-                (left, right) => left.subtract(right)
-            ),
-            createBinaryOp(
-                ["×", PRODUCT_SYMBOL], 
+                WRITE_DOCS,
+                {
+                    eng: "multiply",
+                    "😀": PRODUCT_SYMBOL
+                },
+                WRITE_DOCS,
                 // The operand's type can be any unitless measurement
                 new MeasurementType(),
                 // The output's type is is the unit's product
@@ -120,52 +150,108 @@ export default function bootstrapMeasurement() {
                 false
             ),
             createBinaryOp(
-                ["÷"],
+                WRITE_DOCS,
+                {
+                    eng: "divide",
+                    "😀": "÷"
+                },
+                WRITE_DOCS,
                 new MeasurementType(), 
                 new MeasurementType(undefined, (left, right) => left.quotient(right)),
                 (left, right) => left.divide(right),
                 false
             ),
             createBinaryOp(
-                ["%"], 
+                WRITE_DOCS,
+                {
+                    eng: "remainder",
+                    "😀": "%"
+                },
+                WRITE_DOCS,
                 new MeasurementType(),
                 new MeasurementType(undefined, left => left),
                 (left, right) => left.remainder(right),
                 false
             ),
             createBinaryOp(
-                ["^"], 
+                WRITE_DOCS,
+                {
+                    eng: "power",
+                    "😀": "^"
+                },
+                WRITE_DOCS,
                 new MeasurementType(), 
                 new MeasurementType(undefined, (left, right, constant) => right === right && constant === undefined ? new Unit() : left.power(constant)),
                 (left, right) => left.power(right),
                 false
             ),
             createBinaryOp(
-                ["<"], new MeasurementType(undefined, unit => unit), new BooleanType(),
+                WRITE_DOCS,
+                {
+                    eng: "less-than",
+                    "😀": "<"
+                },
+                WRITE_DOCS,
+                new MeasurementType(undefined, unit => unit), new BooleanType(),
                 (left, right) => left.lessThan(right)
             ),
             createBinaryOp(
-                [">"], new MeasurementType(undefined, unit => unit), new BooleanType(),
+                WRITE_DOCS,
+                {
+                    eng: "greater-than",
+                    "😀": ">"
+                },
+                WRITE_DOCS,
+                new MeasurementType(undefined, unit => unit), new BooleanType(),
                 (left, right) => left.greaterThan(right)
             ),
             createBinaryOp(
-                ["≤"], new MeasurementType(undefined, unit => unit), new BooleanType(),
+                WRITE_DOCS,
+                {
+                    eng: "less-than-or-equal",
+                    "😀": "≤"
+                },
+                WRITE_DOCS,
+                new MeasurementType(undefined, unit => unit), new BooleanType(),
                 (left, right) => new Bool(left.lessThan(right).bool || left.isEqualTo(right))
             ),
             createBinaryOp(
-                ["≥"], new MeasurementType(undefined, unit => unit), new BooleanType(),
+                WRITE_DOCS,
+                {
+                    eng: "greater-than-or-equal",
+                    "😀": "≥"
+                },
+                WRITE_DOCS,
+                new MeasurementType(undefined, unit => unit), new BooleanType(),
                 (left, right) => new Bool(left.greaterThan(right).bool || left.isEqualTo(right))
             ),
             createBinaryOp(
-                ["="], new MeasurementType(undefined, unit => unit), new BooleanType(),
+                WRITE_DOCS,
+                {
+                    eng: "equals",
+                    "😀": "="
+                },
+                WRITE_DOCS,
+                new MeasurementType(undefined, unit => unit), new BooleanType(),
                 (left, right) => new Bool(left.isEqualTo(right))
             ),
             createBinaryOp(
-                ["≠"], new MeasurementType(undefined, unit => unit), new BooleanType(),
+                WRITE_DOCS,
+                {
+                    eng: "not-equal",
+                    "😀": "≠"
+                },
+                WRITE_DOCS,
+                new MeasurementType(undefined, unit => unit), new BooleanType(),
                 (left, right) => new Bool(!left.isEqualTo(right))
             ),
             createUnaryOp(
-                ["√"], new MeasurementType(undefined, unit => unit.sqrt()), 
+                WRITE_DOCS,
+                {
+                    eng: "square-root",
+                    "😀": "√"
+                },
+                new MeasurementType(undefined, unit => unit.sqrt()), 
                 operand => operand.sqrt()
             ),
         

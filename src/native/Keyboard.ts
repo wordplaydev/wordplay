@@ -18,7 +18,7 @@ export default class Keyboard extends Stream {
     readonly evaluator: Evaluator;
 
     constructor(evaluator: Evaluator) {
-        super(evaluator, new None([]));
+        super(evaluator, new None());
         
         this.evaluator = evaluator;
     }

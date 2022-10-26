@@ -1,4 +1,3 @@
-import { DOCS_SYMBOL } from "../parser/Tokenizer";
 import Add from "../transforms/Add";
 import Replace from "../transforms/Replace";
 import type Context from "./Context";
@@ -6,22 +5,22 @@ import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
 import Language from "./Language";
 import Node from "./Node";
 import Token from "./Token";
-import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import DocsToken from "./DocsToken";
 
 export default class Documentation extends Node {
     
     readonly docs: Token;
     readonly lang?: Language;
 
-    constructor(docs?: Token, lang?: Language) {
+    constructor(docs?: Token | string, lang?: Language | string) {
         super();
 
-        this.docs = docs ?? new Token(`${DOCS_SYMBOL}${DOCS_SYMBOL}\n`, TokenType.DOCS);
-        this.lang = lang;
+        this.docs = docs instanceof Token ? docs : new DocsToken(docs ?? "");
+        this.lang = lang instanceof Language ? lang : new Language(lang ?? "");
     }
 
     computeChildren() { return this.lang === undefined ? [ this.docs ] : [ this.docs, this.lang ]}
@@ -56,7 +55,7 @@ export default class Documentation extends Node {
 
     getInsertionBefore() { return undefined; }
 
-    getInsertionAfter(context: Context, position: number) { 
+    getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
 
         const project = context.source.getProject();
         if(project !== undefined && this.lang === undefined)

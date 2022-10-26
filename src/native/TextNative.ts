@@ -1,4 +1,3 @@
-import Alias from "../nodes/Alias";
 import Bind from "../nodes/Bind";
 import BooleanType from "../nodes/BooleanType";
 import MeasurementType from "../nodes/MeasurementType";
@@ -14,11 +13,13 @@ import StructureDefinition from "../nodes/StructureDefinition";
 import Measurement from "../runtime/Measurement";
 import List from "../runtime/List";
 import Block from "../nodes/Block";
+import type Translations from "../nodes/Translations";
+import { TRANSLATE, WRITE } from "../nodes/Translations";
 
 export default function bootstrapText() {
 
-    function createTextFunction(names: Alias[], inputs: Bind[], output: Type, expression: (text: Text, evaluation: Evaluation) => Value) {
-        return createNativeFunction([], names, [], inputs, output,
+    function createTextFunction(docs: Translations, names: Translations, inputs: Bind[], output: Type, expression: (text: Text, evaluation: Evaluation) => Value) {
+        return createNativeFunction(docs, names, [], inputs, output,
             evaluation => {
                 const text = evaluation.getContext();
                 if(text instanceof Text) return expression(text, evaluation);
@@ -30,17 +31,67 @@ export default function bootstrapText() {
     return new StructureDefinition(
         [],[], [], [], [],
         new Block([], [ 
-            createTextFunction([ new Alias("length", "eng") ], [], new MeasurementType(), 
+            createTextFunction(
+                {
+                eng: WRITE,
+                "😀": WRITE
+                },
+                {
+                    eng: "length",
+                    "😀": TRANSLATE
+                }, 
+                [], 
+                new MeasurementType(), 
                 text => text.length()
             ),
-            createTextFunction([ new Alias("=", "") ], [ new Bind([], undefined, [ new Alias("val", "eng") ], new TextType())], new BooleanType(), 
+            createTextFunction(
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                },
+                {
+                    eng: WRITE,
+                    "😀": "="
+                }, [ new Bind(
+                    {
+                        eng: WRITE,
+                        "😀": WRITE
+                    }, 
+                    undefined, 
+                    {
+                        eng: "val",
+                        "😀": TRANSLATE
+                    }, 
+                    new TextType()
+                )],
+                new BooleanType(), 
                 (text, evaluation) => {
                     const val = evaluation.resolve("val");
                     if(val instanceof Text) return new Bool(text.isEqualTo(val));
                     else return new TypeException(evaluation.getEvaluator(), new TextType(), val);
                 }
             ),
-            createTextFunction([ new Alias("≠", "") ], [ new Bind([], undefined, [ new Alias("val", "eng") ], new TextType())], new BooleanType(), 
+            createTextFunction(
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                },
+                {
+                    eng: "not-equal",
+                    "😀": "≠"
+                }, [ new Bind(
+                    {
+                        eng: WRITE,
+                        "😀": WRITE
+                    }, 
+                    undefined, 
+                    {
+                        eng: "val",
+                        "😀": TRANSLATE
+                    }, 
+                    new TextType()
+                )], 
+                new BooleanType(), 
                 (text, evaluation) => {
                     const val = evaluation.resolve("val");
                     if(val instanceof Text) return new Bool(!text.isEqualTo(val));

@@ -26,9 +26,9 @@ export default class TextLiteral extends Expression {
     readonly text: Token;
     readonly format?: Language;
 
-    constructor(text?: Token, format?: Language) {
+    constructor(text?: Token | string, format?: Language) {
         super();
-        this.text = text ?? new Token('""', TokenType.TEXT);
+        this.text = text instanceof Token ? text : new Token(`'${text ?? ""}'`, TokenType.TEXT);
         this.format = format;
     }
 

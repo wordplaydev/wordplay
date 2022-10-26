@@ -64,12 +64,12 @@ export default class Bind extends Node implements Evaluable, Named {
     readonly colon?: Token;
     readonly value?: Expression | Unparsable;
 
-    constructor(docs: Documentation[], etc: Token | undefined, names: Alias[], type?: Type | Unparsable, value?: Expression | Unparsable, dot?: Token, colon?: Token) {
+    constructor(docs: Documentation[] | Translations, etc: Token | undefined, names: Alias[] | Translations, type?: Type | Unparsable, value?: Expression | Unparsable, dot?: Token, colon?: Token) {
         super();
 
-        this.docs = docs;
+        this.docs = Array.isArray(docs) ? docs : Object.keys(docs).map(lang => new Documentation(docs[lang as LanguageCode], lang));
+        this.aliases = Array.isArray(names) ? names : Object.keys(names).map(lang => new Alias(names[lang as LanguageCode], lang));
         this.etc = etc;
-        this.aliases = names;
         this.dot = dot !== undefined ? dot : type === undefined ? undefined : new TypeToken();
         this.type = type;
         this.colon = colon !== undefined ? colon : value === undefined ? undefined : new BindToken(); 

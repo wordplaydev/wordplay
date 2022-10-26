@@ -18,6 +18,7 @@ import NativeHOFMapFilter from "./NativeHOFMapFilter";
 import NativeHOFMapTranslate from "./NativeHOFMapTranslate";
 import { createNativeConversion, createNativeFunction } from "./NativeBindings";
 import Bool from "../runtime/Bool";
+import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
 
 export default function bootstrapMap() {
 
@@ -25,37 +26,67 @@ export default function bootstrapMap() {
 
     const mapFilterHOFType = new FunctionType([ 
         new Bind(
-            [],
+            {
+                eng: WRITE,
+                "😀": WRITE
+            },
             undefined,
-            [ new Alias("key", "eng") ],
+            {
+                eng: "key",
+                "😀": TRANSLATE
+            }, 
             new NameType(MAP_KEY_TYPE_VAR_NAME)
         ),
         new Bind(
-            [],
+            {
+                eng: WRITE,
+                "😀": WRITE
+            },
             undefined,
-            [ new Alias("value", "eng") ],
+            {
+                eng: "value",
+                "😀": TRANSLATE
+            },
             new NameType(MAP_VALUE_TYPE_VAR_NAME)
         )
     ], new BooleanType());
 
     const mapTranslateHOFType = new FunctionType([ 
         new Bind(
-            [],
+            {
+                eng: WRITE,
+                "😀": WRITE
+            },
             undefined,
-            [ new Alias("key", "eng") ],
+            {
+                eng: "key",
+                "😀": TRANSLATE
+            }, 
             new NameType(MAP_KEY_TYPE_VAR_NAME)
         ),
         new Bind(
-            [],
+            {
+                eng: WRITE,
+                "😀": WRITE
+            },
             undefined,
-            [ new Alias("value", "eng") ],
+            {
+                eng: "value",
+                "😀": TRANSLATE
+            },
             new NameType(MAP_VALUE_TYPE_VAR_NAME)
         )
     ], new NameType(MAP_HOF_OUTPUT_TYPE_VARIABLE_NAME));
 
     return new StructureDefinition(
-        [],
-        [],
+        {
+            eng: WRITE,
+            "😀": WRITE
+        },
+        {
+            eng: "structure",
+            "😀": TRANSLATE
+        },
         // No interfaces
         [],
         // One type variable
@@ -65,10 +96,24 @@ export default function bootstrapMap() {
         // Include all of the functions defined above.
         new Block([], [             
             createNativeFunction(
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                },
+                {
+                    eng: "equals",
+                    "😀": "="
+                }, 
                 [], 
-                [ new Alias("=") ], 
-                [], 
-                [ new Bind([], undefined, [ new Alias("map", "eng") ], new MapType() ) ], 
+                [ new Bind(
+                    WRITE_DOCS, 
+                    undefined, 
+                    {
+                        eng: "map",
+                        "😀": TRANSLATE
+                    },
+                    new MapType()
+                ) ], 
                 new BooleanType(),
                 evaluation => {
                         const map = evaluation?.getContext();
@@ -79,23 +124,71 @@ export default function bootstrapMap() {
                     }
             ),
             createNativeFunction(
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                }, 
+                {
+                    eng: "not-equal",
+                    "😀": "≠"
+                }, 
                 [], 
-                [ new Alias("≠") ], 
-                [], 
-                [ new Bind([], undefined, [ new Alias("map", "eng") ], new MapType() ) ], 
+                [ new Bind(
+                    {
+                        eng: WRITE,
+                        "😀": WRITE
+                    },
+                    undefined, 
+                    {
+                        eng: "map",
+                        "😀": TRANSLATE
+                    }, 
+                    new MapType() 
+                ) ], 
                 new BooleanType(),
                 evaluation => {
-                        const map = evaluation?.getContext();
-                        const other = evaluation.resolve("map");
-                        return !(map instanceof Map && other instanceof Map) ? 
-                            new TypeException(evaluation.getEvaluator(), new MapType(), other) :
-                            new Bool(!map.isEqualTo(other));
-                    }
+                    const map = evaluation?.getContext();
+                    const other = evaluation.resolve("map");
+                    return !(map instanceof Map && other instanceof Map) ? 
+                        new TypeException(evaluation.getEvaluator(), new MapType(), other) :
+                        new Bool(!map.isEqualTo(other));
+                }
             ),
-            createNativeFunction([], [ new Alias("set", "eng") ], [], 
+            createNativeFunction(
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                }, 
+                {
+                    eng: "set",
+                    "😀": TRANSLATE
+                },
+                [], 
                 [ 
-                    new Bind([], undefined, [ new Alias("key", "eng") ], new NameType("K") ),
-                    new Bind([], undefined, [ new Alias("value", "eng") ], new NameType("V") )
+                    new Bind(
+                        {
+                            eng: WRITE,
+                            "😀": WRITE
+                        }, 
+                        undefined, 
+                        {
+                            eng: "key",
+                            "😀": TRANSLATE
+                        }, 
+                        new NameType("K") 
+                    ),
+                    new Bind(
+                        {
+                            eng: WRITE,
+                            "😀": WRITE
+                        }, 
+                        undefined, 
+                        {
+                            eng: "value",
+                            "😀": TRANSLATE
+                        }, 
+                        new NameType("V") 
+                    )
                 ],
                 new MapType(),
                 evaluation => {
@@ -106,9 +199,29 @@ export default function bootstrapMap() {
                     else return new TypeException(evaluation.getEvaluator(), new MapType(), map);
                 }
             ),        
-            createNativeFunction([], [ new Alias("unset", "eng") ], [], 
+            createNativeFunction(
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                }, 
+                {
+                    eng: "unset",
+                    "😀": TRANSLATE
+                },
+                [], 
                 [ 
-                    new Bind([], undefined, [ new Alias("key", "eng") ], new NameType("K") )
+                    new Bind(
+                        {
+                            eng: WRITE,
+                            "😀": WRITE
+                        }, 
+                        undefined, 
+                        {
+                            eng: "key",
+                            "😀": WRITE
+                        },
+                        new NameType("K") 
+                    )
                 ],
                 new MapType(),
                 evaluation => {
@@ -118,9 +231,29 @@ export default function bootstrapMap() {
                     else return new TypeException(evaluation.getEvaluator(), new MapType(), map);
                 }
             ),
-            createNativeFunction([], [ new Alias("remove", "eng") ], [], 
+            createNativeFunction(
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                },
+                {
+                    eng: "remove",
+                    "😀": WRITE
+                },
+                [], 
                 [ 
-                    new Bind([], undefined, [ new Alias("value", "eng") ], new NameType("V") )
+                    new Bind(
+                        {
+                            eng: WRITE,
+                            "😀": WRITE
+                        }, 
+                        undefined, 
+                        {
+                            eng: "value",
+                            "😀": WRITE
+                        },
+                        new NameType("V") 
+                    )
                 ],
                 new MapType(),
                 evaluation => {
@@ -131,21 +264,55 @@ export default function bootstrapMap() {
                 }
             ),
             new FunctionDefinition(
-                [], 
-                [ new Alias("filter", "eng") ], 
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                }, 
+                {
+                    eng: "filter",
+                    "😀": WRITE
+                },
                 [], 
                 [
-                    new Bind([], undefined, [ new Alias("checker", "eng")], mapFilterHOFType)
+                    new Bind(
+                        {
+                            eng: WRITE,
+                            "😀": WRITE
+                        },
+                        undefined, 
+                        {
+                            eng: "checker",
+                            "😀": WRITE
+                        },
+                        mapFilterHOFType
+                    )
                 ],
                 new NativeHOFMapFilter(mapFilterHOFType),
                 new MapType(new NameType(MAP_KEY_TYPE_VAR_NAME), new NameType(MAP_VALUE_TYPE_VAR_NAME))
             ),
             new FunctionDefinition(
-                [], 
-                [ new Alias("translate", "eng") ], 
+                {
+                    eng: WRITE,
+                    "😀": WRITE
+                }, 
+                {
+                    eng: "translate",
+                    "😀": WRITE
+                },
                 [], 
                 [
-                    new Bind([], undefined, [ new Alias("translator", "eng")], mapTranslateHOFType)
+                    new Bind(
+                        {
+                            eng: WRITE,
+                            "😀": WRITE
+                        }, 
+                        undefined, 
+                        {
+                            eng: "translator",
+                            "😀": WRITE
+                        }, 
+                        mapTranslateHOFType
+                    )
                 ],
                 new NativeHOFMapTranslate(mapTranslateHOFType),
                 new MapType(new NameType(MAP_KEY_TYPE_VAR_NAME), new NameType(MAP_HOF_OUTPUT_TYPE_VARIABLE_NAME))

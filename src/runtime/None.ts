@@ -7,12 +7,12 @@ export default class None extends Value {
 
     readonly aliases: Alias[];
 
-    constructor(aliases: Alias[]=[]) {
+    constructor(aliases: Alias[] = []) {
         super();
         this.aliases = aliases;
     }
 
-    getType() { return new NoneType([]); }
+    getType() { return new NoneType(this.aliases); }
     
     getNativeTypeName(): string { return NONE_NATIVE_TYPE_NAME; }
 

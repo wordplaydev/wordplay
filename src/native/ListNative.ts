@@ -27,7 +27,7 @@ import Set from "../runtime/Set";
 import StructureDefinition from "../nodes/StructureDefinition";
 import TypeVariable from "../nodes/TypeVariable";
 import Block from "../nodes/Block";
-import { TRANSLATE } from "../nodes/Translations";
+import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
 
 export default function bootstrapList() {
 
@@ -35,27 +35,36 @@ export default function bootstrapList() {
 
     const listTranslateHOFType = new FunctionType([ 
         new Bind(
-            [],
+            WRITE_DOCS,
             undefined,
-            [ new Alias("value", "eng") ],
+            {
+                eng: "value",
+                "😀": TRANSLATE
+            },
             new NameType(LIST_TYPE_VAR_NAME)
         )
     ], new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME));
 
     const listFilterHOFType = new FunctionType([ 
         new Bind(
-            [], 
+            WRITE_DOCS, 
             undefined, 
-            [ new Alias("value", "eng") ],
+            {
+                eng: "value",
+                "😀": TRANSLATE
+            },
             new NameType(LIST_TYPE_VAR_NAME)
         )
     ], new BooleanType());
 
     const listAllHOFType = new FunctionType([ 
         new Bind(
-            [],
+            WRITE_DOCS,
             undefined,
-            [ new Alias("value", "eng") ],
+            {
+                eng: "value",
+                "😀": TRANSLATE
+            },
             new NameType(LIST_TYPE_VAR_NAME)
         )
     ], new BooleanType());
@@ -63,9 +72,12 @@ export default function bootstrapList() {
 
     const listUntilHOFType = new FunctionType([ 
         new Bind(
-            [],
+            WRITE_DOCS,
             undefined,
-            [ new Alias("value", "eng") ],
+            {
+                eng: "value",
+                "😀": TRANSLATE
+            },
             new BooleanType(),
         )
     ], new NameType(LIST_TYPE_VAR_NAME));
@@ -73,9 +85,12 @@ export default function bootstrapList() {
 
     const listFindHOFType = new FunctionType([ 
         new Bind(
-            [],
+            WRITE_DOCS,
             undefined,
-            [ new Alias("value", "eng") ],
+            {
+                eng: "value",
+                "😀": TRANSLATE
+            },
             new BooleanType()
         )
     ], new NameType(LIST_TYPE_VAR_NAME));
@@ -83,34 +98,52 @@ export default function bootstrapList() {
 
     const listCombineHOFType = new FunctionType([ 
         new Bind(
-            [],
+            WRITE_DOCS,
             undefined,
-            [ new Alias("combination", "eng") ],
+            {
+                eng: "combination",
+                "😀": TRANSLATE
+            },
             new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME)
         ),
         new Bind(
-            [],
+            WRITE_DOCS,
             undefined,
-            [ new Alias("next", "eng") ],
+            {
+                eng: "next",
+                "😀": TRANSLATE
+            },
             new NameType(LIST_TYPE_VAR_NAME)
         )
     ], new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME));
 
     return new StructureDefinition(
+        WRITE_DOCS,
+        {
+            eng: "list",
+            "😀": TRANSLATE
+        },
         [],
-        [],
-        // No interfaces
-        [],
-        // One type variable
         [ new TypeVariable(LIST_TYPE_VAR_NAME)],
-        // No inputs
         [],
         // Include all of the functions defined above.
         new Block([], [
-            createNativeFunction([], [ new Alias("add", "eng") ], [], 
-                [
-                    new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType(LIST_TYPE_VAR_NAME))
-                ],
+            createNativeFunction(
+                WRITE_DOCS, 
+                {
+                    eng: "add",
+                    "😀": "+"
+                }, 
+                [], 
+                [ new Bind(
+                    WRITE_DOCS, 
+                    undefined, 
+                    {
+                        eng: "value",
+                        "😀": TRANSLATE
+                    }, 
+                    new NameType(LIST_TYPE_VAR_NAME)
+                ) ],
                 new ListType(new NameType(LIST_TYPE_VAR_NAME)),
                 evaluation => {
                     const list = evaluation.getContext();
@@ -119,29 +152,67 @@ export default function bootstrapList() {
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
             ),
-            createNativeFunction([], [ new Alias("length", "eng") ], [], [], new MeasurementType(),
+            createNativeFunction(
+                WRITE_DOCS, 
+                {
+                    eng: "length",
+                    "😀": TRANSLATE
+                }, 
+                [], 
+                [], 
+                new MeasurementType(),
                 evaluation => {
                     const list = evaluation.getContext();
                     if(list instanceof List) return list.length();
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
             ),
-            createNativeFunction([], [ new Alias("random", "eng") ], [], [], new NameType(LIST_TYPE_VAR_NAME),
+            createNativeFunction(
+                WRITE_DOCS, 
+                {
+                    eng: "random",
+                    "😀": TRANSLATE
+                }, 
+                [], 
+                [],
+                new NameType(LIST_TYPE_VAR_NAME),
                 evaluation => {
                     const list = evaluation.getContext();
                     if(list instanceof List) return list.random();
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
             ),
-            createNativeFunction([], [ new Alias("first", "eng") ], [], [], new NameType(LIST_TYPE_VAR_NAME),
+            createNativeFunction(
+                WRITE_DOCS, 
+                {
+                    eng: "first",
+                    "😀": TRANSLATE
+                }, 
+                [], 
+                [], 
+                new NameType(LIST_TYPE_VAR_NAME),
                 evaluation => {
                     const list = evaluation.getContext();
                     if(list instanceof List) return list.first();
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
             ),
-            createNativeFunction([], [ new Alias("has", "eng") ], [], 
-                [ new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType(LIST_TYPE_VAR_NAME)) ], 
+            createNativeFunction(
+                WRITE_DOCS, 
+                {
+                    eng: "has",
+                    "😀": TRANSLATE
+                }, 
+                [], 
+                [ new Bind(
+                    WRITE_DOCS, 
+                    undefined, 
+                    {
+                        eng: "value",
+                        "😀": TRANSLATE
+                    }, 
+                    new NameType(LIST_TYPE_VAR_NAME)
+                ) ], 
                 new BooleanType(),
                 evaluation => {
                     const list = evaluation.getContext();
@@ -150,10 +221,23 @@ export default function bootstrapList() {
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
             ),
-            createNativeFunction([], [ new Alias("join", "eng") ], [], 
-                [
-                    new Bind([], undefined, [ new Alias("separator", "eng"), ], new TextType())
-                ], new TextType(),
+            createNativeFunction(
+                WRITE_DOCS, 
+                {
+                    eng: "join",
+                    "😀": TRANSLATE
+                }, 
+                [], 
+                [ new Bind(
+                    WRITE_DOCS, 
+                    undefined, 
+                    {
+                        eng: "separator",
+                        "😀": TRANSLATE
+                    }, 
+                    new TextType()
+                ) ], 
+                new TextType(),
                 evaluation => {
                     const list = evaluation.getContext();
                     const separator = evaluation.resolve("separator");
@@ -161,31 +245,67 @@ export default function bootstrapList() {
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
             ),
-            createNativeFunction([], [ new Alias("last", "eng") ], [], [], new NameType(LIST_TYPE_VAR_NAME),
+            createNativeFunction(
+                WRITE_DOCS, 
+                {
+                    eng: "last",
+                    "😀": TRANSLATE
+                }, 
+                [], 
+                [], 
+                new NameType(LIST_TYPE_VAR_NAME),
                 evaluation => {
                     const list = evaluation.getContext();
                     if(list instanceof List) return list.last();
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
             ),
-            createNativeFunction([], [ new Alias("sansFirst", "eng") ], [], [], new ListType(new NameType(LIST_TYPE_VAR_NAME)),
+            createNativeFunction(
+                WRITE_DOCS, 
+                {
+                    eng: "sansFirst",
+                    "😀": TRANSLATE
+                }, 
+                [], 
+                [], 
+                new ListType(new NameType(LIST_TYPE_VAR_NAME)),
                 evaluation => {
                     const list = evaluation.getContext();
                     if(list instanceof List) return list.sansFirst();
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
             ),
-            createNativeFunction([], [ new Alias("sansLast", "eng") ], [], [], new ListType(new NameType(LIST_TYPE_VAR_NAME)),
+            createNativeFunction(
+                WRITE_DOCS, 
+                {
+                    eng: "lastLast",
+                    "😀": TRANSLATE
+                }, 
+                [], 
+                [], 
+                new ListType(new NameType(LIST_TYPE_VAR_NAME)),
                 evaluation => {
                     const list = evaluation.getContext();
                     if(list instanceof List) return list.sansLast();
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
             ),
-            createNativeFunction([], [ new Alias("sans", "eng") ], [], 
-                [
-                    new Bind([], undefined, [ new Alias("value", "eng"), ], new NameType(LIST_TYPE_VAR_NAME))
-                ], 
+            createNativeFunction(
+                WRITE_DOCS, 
+                {
+                    eng: "sans",
+                    "😀": TRANSLATE
+                }, 
+                [], 
+                [ new Bind(
+                    WRITE_DOCS, 
+                    undefined, 
+                    {
+                        eng: "value",
+                        "😀": TRANSLATE
+                    }, 
+                    new NameType(LIST_TYPE_VAR_NAME)
+                ) ], 
                 new ListType(new NameType(LIST_TYPE_VAR_NAME)),
                 evaluation => {
                     const list = evaluation.getContext();
@@ -194,10 +314,22 @@ export default function bootstrapList() {
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
             ),
-            createNativeFunction([], [ new Alias("sansAll", "eng") ], [], 
-                [
-                    new Bind([], undefined, [ new Alias("value", "eng") ], new NameType(LIST_TYPE_VAR_NAME))
-                ], 
+            createNativeFunction(
+                WRITE_DOCS, 
+                {
+                    eng: "sansAll",
+                    "😀": TRANSLATE
+                },
+                [], 
+                [ new Bind(
+                    WRITE_DOCS, 
+                    undefined, 
+                    {
+                        eng: "value",
+                        "😀": TRANSLATE
+                    }, 
+                    new NameType(LIST_TYPE_VAR_NAME)
+                ) ], 
                 new ListType(new NameType(LIST_TYPE_VAR_NAME)),
                 evaluation => {
                     const list = evaluation.getContext();
@@ -206,7 +338,15 @@ export default function bootstrapList() {
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
             ),
-            createNativeFunction([], [ new Alias("reverse", "eng") ], [], [], new ListType(new NameType(LIST_TYPE_VAR_NAME)),
+            createNativeFunction(
+                WRITE_DOCS,
+                {
+                    eng: "reverse",
+                    "😀": TRANSLATE
+                }, 
+                [], 
+                [], 
+                new ListType(new NameType(LIST_TYPE_VAR_NAME)),
                 evaluation => {
                     const list = evaluation.getContext();
                     if(list instanceof List) return list.reverse();
@@ -214,8 +354,21 @@ export default function bootstrapList() {
                 }
             ),
             new FunctionDefinition(
-                [], [ new Alias("=") ], [], 
-                [ new Bind([], undefined, [ new Alias("value", "eng")], new ListType()) ],
+                WRITE_DOCS, 
+                {
+                    eng: "equals",
+                    "😀": "="
+                }, 
+                [], 
+                [ new Bind(
+                    WRITE_DOCS, 
+                    undefined, 
+                    {
+                        eng: "value",
+                        "😀": TRANSLATE
+                    }, 
+                    new ListType()
+                ) ],
                 new NativeExpression(new BooleanType(), 
                     evaluation => {
                         const list = evaluation.getContext();
@@ -232,8 +385,21 @@ export default function bootstrapList() {
                 new BooleanType()
             ),
             new FunctionDefinition(
-                [], [ new Alias("≠") ], [], 
-                [ new Bind([], undefined, [ new Alias("value", "eng")], new ListType()) ],
+                WRITE_DOCS, 
+                {
+                    eng: "not-equal",
+                    "😀": "≠"
+                }, 
+                [], 
+                [ new Bind(
+                    WRITE_DOCS, 
+                    undefined, 
+                    {
+                        eng: "value",
+                        "😀": TRANSLATE
+                    }, 
+                    new ListType()
+                ) ],
                 new NativeExpression(new BooleanType(), 
                     evaluation => {
                         const list = evaluation.getContext();
@@ -250,63 +416,125 @@ export default function bootstrapList() {
                 new BooleanType()
             ),
             new FunctionDefinition(
-                [], 
-                [ new Alias("translate", "eng") ], 
+                WRITE_DOCS, 
+                {
+                    eng: "translate",
+                    "😀": TRANSLATE
+                }, 
                 [ new TypeVariable(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME)], 
-                [
-                    new Bind([], undefined, [ new Alias("translator", "eng")], listTranslateHOFType)
-                ],
+                [ new Bind(
+                    WRITE_DOCS, 
+                    undefined, 
+                    {
+                        eng: "translator",
+                        "😀": TRANSLATE
+                    }, 
+                    listTranslateHOFType
+                ) ],
                 new NativeHOFListTranslate(listTranslateHOFType),
                 new ListType(new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME))
             ),
             new FunctionDefinition(
+                WRITE_DOCS, 
+                {
+                    eng: "filter",
+                    "😀": TRANSLATE
+                }, 
                 [], 
-                [ new Alias("filter", "eng") ], 
-                [], 
-                [
-                    new Bind([], undefined, [ new Alias("include", "eng")], listFilterHOFType)
-                ],
+                [ new Bind(
+                    WRITE_DOCS, 
+                    undefined, 
+                    {
+                        eng: "include",
+                        "😀": TRANSLATE
+                    }, 
+                    listFilterHOFType
+                ) ],
                 new NativeHOFListFilter(listFilterHOFType),
                 new ListType(new NameType(LIST_TYPE_VAR_NAME))
             ),
             new FunctionDefinition(
+                WRITE_DOCS, 
+                {
+                    eng: "all",
+                    "😀": TRANSLATE
+                }, 
                 [], 
-                [ new Alias("all", "eng") ], 
-                [], 
-                [
-                    new Bind([], undefined, [ new Alias("matcher", "eng")], listAllHOFType)
-                ],
+                [ new Bind(
+                    WRITE_DOCS, 
+                    undefined, 
+                    {
+                        eng: "matcher",
+                        "😀": TRANSLATE
+                    }, 
+                    listAllHOFType
+                ) ],
                 new NativeHOFListAll(listAllHOFType),
                 new BooleanType()
             ),        
             new FunctionDefinition(
+                WRITE_DOCS, 
+                {
+                    eng: "until",
+                    "😀": TRANSLATE
+                }, 
                 [], 
-                [ new Alias("until", "eng") ], 
-                [], 
-                [
-                    new Bind([], undefined, [ new Alias("checker", "eng")], listUntilHOFType)
-                ],
+                [ new Bind(
+                    WRITE_DOCS, 
+                    undefined, 
+                    {
+                        eng: "checker",
+                        "😀": TRANSLATE
+                    }, 
+                    listUntilHOFType
+                )],
                 new NativeHOFListUntil(listUntilHOFType),
                 new ListType(new NameType(LIST_TYPE_VAR_NAME))
             ),
             new FunctionDefinition(
+                WRITE_DOCS, 
+                {
+                    eng: "find",
+                    "😀": TRANSLATE
+                }, 
                 [], 
-                [ new Alias("find", "eng") ], 
-                [], 
-                [
-                    new Bind([], undefined, [ new Alias("checker", "eng")], listFindHOFType)
-                ],
+                [ new Bind(
+                    WRITE_DOCS, 
+                    undefined, 
+                    {
+                        eng: "checker",
+                        "😀": TRANSLATE
+                    }, 
+                    listFindHOFType
+                ) ],
                 new NativeHOFListFind(listFindHOFType),
-                new UnionType(new NameType(LIST_TYPE_VAR_NAME), new NoneType([ new Alias("notfound", "eng")]))
-            ),        
+                new UnionType(new NameType(LIST_TYPE_VAR_NAME), new NoneType({ eng: "notfound", "😀": TRANSLATE }))
+            ),
             new FunctionDefinition(
-                [], 
-                [ new Alias("combine", "eng") ], 
+                WRITE_DOCS, 
+                {
+                    eng: "combine",
+                    "😀": TRANSLATE
+                }, 
                 [], 
                 [
-                    new Bind([], undefined, [ new Alias("initial", "eng")]),
-                    new Bind([], undefined, [ new Alias("combiner", "eng")], listCombineHOFType)
-                ],
+                    new Bind(
+                        WRITE_DOCS, 
+                        undefined, 
+                        {
+                            eng: "initial",
+                            "😀": TRANSLATE
+                        }
+                    ),
+                    new Bind(
+                        WRITE_DOCS, 
+                        undefined, 
+                        {
+                            eng: "combiner",
+                            "😀": TRANSLATE
+                        },
+                        listCombineHOFType
+                    )],
                 new NativeHOFListCombine(listCombineHOFType),
                 new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME)
             ),

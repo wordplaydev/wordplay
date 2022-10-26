@@ -4,6 +4,7 @@ import Remove from "../transforms/Remove";
 import type Transform from "../transforms/Transform";
 import Alias from "./Alias";
 import type Context from "./Context";
+import type LanguageCode from "./LanguageCode";
 import NativeType from "./NativeType";
 import type Node from "./Node";
 import Token from "./Token";
@@ -17,11 +18,11 @@ export default class NoneType extends NativeType {
     readonly none: Token;
     readonly aliases: Alias[];
 
-    constructor(aliases: Alias[], none?: Token) {
+    constructor(aliases?: Alias[] | Translations, none?: Token) {
         super();
 
         this.none = none ?? new Token(NONE_SYMBOL, TokenType.NONE_TYPE);
-        this.aliases = aliases;
+        this.aliases = aliases === undefined ? [] : Array.isArray(aliases) ? aliases : Object.keys(aliases).map(lang => new Alias(aliases[lang as LanguageCode], lang));
     }
 
     computeConflicts() {}

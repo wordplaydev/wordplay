@@ -3,6 +3,7 @@ import Bind from "../nodes/Bind";
 import BooleanType from "../nodes/BooleanType";
 import Expression from "../nodes/Expression";
 import type FunctionType from "../nodes/FunctionType";
+import type LanguageCode from "../nodes/LanguageCode";
 import ListType from "../nodes/ListType";
 import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
@@ -128,7 +129,9 @@ export default class NativeHOFListFind extends HOF {
             return new TypeException(evaluator, new ListType(), list);
 
         // If we're past the end of the list, return nothing. Otherwise return the value at the index.
-        return index.greaterThan(list.length()).bool ? new None([ new Alias("notfound", "eng")]) : list.get(index);
+        return index.greaterThan(list.length()).bool ? 
+            new None(NotFoundAliases) : 
+            list.get(index);
 
     }
 
@@ -147,3 +150,9 @@ export default class NativeHOFListFind extends HOF {
     }
 
 }
+
+const NotFound = {
+    eng: "notfound",
+    "😀": TRANSLATE
+}
+const NotFoundAliases = Object.keys(NotFound).map(lang => new Alias(NotFound[lang as LanguageCode], lang));

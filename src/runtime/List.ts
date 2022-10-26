@@ -1,5 +1,4 @@
 import ListType from "../nodes/ListType";
-;import { outOfBoundsAliases } from "../runtime/Constants";
 import Bool from "./Bool";
 import Text from "./Text";
 import Measurement from "./Measurement";
@@ -9,6 +8,10 @@ import type Value from "./Value";
 import { LIST_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { getPossibleUnionType } from "../nodes/UnionType";
 import type Context from "../nodes/Context";
+import { TRANSLATE } from "../nodes/Translations";
+import type LanguageCode from "../nodes/LanguageCode";
+import Alias from "../nodes/Alias";
+import type Translations from "../nodes/Translations";
 
 export default class List extends Primitive {
 
@@ -24,7 +27,7 @@ export default class List extends Primitive {
 
     get(index: Measurement) {
         const value = this.values[index.toNumber() - 1];
-        return value === undefined ? new None(outOfBoundsAliases) : value;
+        return value === undefined ? new None(OutOfBoundsAliases) : value;
     }
 
     length() { return new Measurement(this.values.length); }
@@ -47,9 +50,9 @@ export default class List extends Primitive {
 
     add(value: Value) { return new List([...this.values, value]); }
 
-    first() { return this.values.length === 0 ? new None(outOfBoundsAliases) : this.values[0]; }
+    first() { return this.values.length === 0 ? new None(OutOfBoundsAliases) : this.values[0]; }
 
-    last() { return this.values.length === 0 ? new None(outOfBoundsAliases) : this.values[this.values.length - 1];}
+    last() { return this.values.length === 0 ? new None(OutOfBoundsAliases) : this.values[this.values.length - 1];}
 
     sansFirst() { return new List(this.values.slice(1)); }
 
@@ -77,3 +80,9 @@ export default class List extends Primitive {
     }
 
 }
+
+const OutOfBounds: Translations = {
+    eng: "outofbounds",
+    "😀": TRANSLATE
+};
+const OutOfBoundsAliases = Object.keys(OutOfBounds).map(lang => new Alias(OutOfBounds[lang as LanguageCode], lang));

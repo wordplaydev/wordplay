@@ -1,11 +1,15 @@
 import Alias from "../nodes/Alias";
 import NameType from "../nodes/NameType";
 import StructureDefinition from "../nodes/StructureDefinition";
+import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
 import TypeInput from "../nodes/TypeInput";
 
 export const Layout = new StructureDefinition(
-    [],
-    [ new Alias("Layout", "eng") ],
+    WRITE_DOCS,
+    {
+        eng: "Layout",
+        "😀": TRANSLATE
+    },
     [],
     [],
     []
@@ -13,8 +17,11 @@ export const Layout = new StructureDefinition(
 export default Layout;
 
 export const Vertical = new StructureDefinition(
-    [],
-    [ new Alias("Vertical", "eng") ],
+    WRITE_DOCS,
+    {
+        eng: "Vertical",
+        "😀": TRANSLATE
+    },
     [ new TypeInput(new NameType("Layout")) ],
     [],
     []
