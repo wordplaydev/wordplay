@@ -244,7 +244,7 @@ test("Parse expressions", () => {
     expect(stream).toBeInstanceOf(Reaction);
     expect((stream as Reaction).next).toBeInstanceOf(BinaryOperation);
 
-    const previous = parseExpression(tokens("a@1"));
+    const previous = parseExpression(tokens("a←1"));
     expect(previous).toBeInstanceOf(Previous);
     expect((previous as Previous).index).toBeInstanceOf(MeasurementLiteral);
 

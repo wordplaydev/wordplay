@@ -1,6 +1,6 @@
 import type Caret from "../models/Caret";
 import Node from "../nodes/Node";
-import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBOL, NOT_SYMBOL, OR_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL, REACTION_SYMBOL, TRUE_SYMBOL, TYPE_SYMBOL, TYPE_VAR_SYMBOL } from "../parser/Tokenizer";
+import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBOL, NOT_SYMBOL, OR_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL, REACTION_SYMBOL, TRUE_SYMBOL, TYPE_SYMBOL, TYPE_VAR_SYMBOL, PREVIOUS_SYMBOL } from "../parser/Tokenizer";
 import type Source from "../models/Source";
 
 export type Edit = Caret | [ Source, Caret] | undefined;
@@ -35,6 +35,7 @@ const commands: Command[] = [
     },
     {
         description: "Move the caret one position left",
+        alt: false,
         key: "ArrowLeft",
         execute: (caret: Caret) => caret.left()
     },
@@ -88,6 +89,11 @@ const commands: Command[] = [
         description: `Insert borrow symbol (${BORROW_SYMBOL})`,
         alt: true, key: "ArrowDown",
         execute: (caret: Caret) => caret.insert(BORROW_SYMBOL)
+    },
+    {
+        description: `Insert previous symbol (${PREVIOUS_SYMBOL})`,
+        alt: true, key: "ArrowLeft",
+        execute: (caret: Caret) => caret.insert(PREVIOUS_SYMBOL)
     },
     {
         description: `Insert convert symbol (${CONVERT_SYMBOL})`,

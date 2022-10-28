@@ -336,7 +336,6 @@
         if(menu !== undefined) {
             if(event.key === "ArrowDown" && menuSelection < menu.transforms.length - 1) { menuSelection += 1; return; }
             else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
-            else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
             else if(event.key === "Enter" && menuSelection >= 0 && menu.transforms.length > 0) {
                 handleEdit(menu.transforms[menuSelection].getEdit($languages));
                 return;
@@ -349,6 +348,8 @@
 
         // Map meta to control on Mac OS/iOS.
         const control = event.metaKey || event.ctrlKey;
+
+        console.log(event.key);
 
         // Loop through the commands and see if there's a match to this event.
         for(let i = 0; i < commands.length; i++) {
