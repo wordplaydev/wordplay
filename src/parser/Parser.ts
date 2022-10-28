@@ -116,6 +116,11 @@ export class Tokens {
         return this.hasNext() ? this.#unread[0].text.toString() : undefined
     }
 
+    /** Get the space of the next token */
+    peekSpace(): string | undefined {
+        return this.hasNext() ? this.#unread[0].space.toString() : undefined
+    }
+
     /** Returns true if the token list isn't empty. */
     hasNext(): boolean {
         return this.#unread.length > 0;
@@ -255,6 +260,10 @@ export function tokens(code: string): Tokens {
 // PROGRAM :: BORROW* BLOCK
 export function parseProgram(tokens: Tokens): Program {
 
+    // If a borrow is next or there's no whitespace, parse a docs.
+    const docs = tokens.nextLacksPrecedingSpace() || tokens.nextIs(TokenType.BORROW) ? 
+        parseDocumentation(tokens) : new Docs();
+
     const borrows = [];
     while(tokens.nextIs(TokenType.BORROW))
         borrows.push(parseBorrow(tokens));
@@ -267,7 +276,7 @@ export function parseProgram(tokens: Tokens): Program {
         tokens.read(TokenType.END) :
         tokens.readUnparsableLine(SyntacticConflict.EXPECTED_END, []);
 
-    return new Program(borrows, block, end);
+    return new Program(docs, borrows, block, end);
 
 }
 
@@ -297,8 +306,8 @@ function parseShare(tokens: Tokens): Share {
 /** BLOCK :: DOCS ? ( [BIND|EXPRESSION]+ )  */
 export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean=false): Block | Unparsable {
 
-    // Grab any documentation
-    let docs = parseDocumentation(tokens);
+   // Grab any documentation if this isn't a root.
+    let docs = root ? undefined : parseDocumentation(tokens);
 
     const open = root ? 
         undefined :
@@ -1130,7 +1139,7 @@ export function parseStructure(tokens: Tokens): StructureDefinition | Unparsable
 function parseDocumentation(tokens: Tokens): Docs  {
 
     const docs = [];
-    while(tokens.nextIs(TokenType.DOCS)) {
+    while(tokens.nextIs(TokenType.DOCS) && (docs.length === 0 || (tokens.peekSpace()?.split("\n").length ?? 0) - 1 <= 1 )) {
         const doc = tokens.read(TokenType.DOCS);
         const lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
         docs.push(new Doc(doc, lang));

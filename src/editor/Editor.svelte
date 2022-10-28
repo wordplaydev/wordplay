@@ -349,8 +349,6 @@
         // Map meta to control on Mac OS/iOS.
         const control = event.metaKey || event.ctrlKey;
 
-        console.log(event.key);
-
         // Loop through the commands and see if there's a match to this event.
         for(let i = 0; i < commands.length; i++) {
             const command = commands[i];

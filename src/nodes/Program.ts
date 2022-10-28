@@ -19,17 +19,20 @@ import Remove from "../transforms/Remove";
 import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import Docs from "./Docs";
 
 export default class Program extends Node implements Evaluable {
     
+    readonly docs: Docs;
     readonly borrows: (Borrow | Unparsable)[];
     readonly block: Block | Unparsable;
     readonly end: Token | Unparsable;
 
-    constructor(borrows: (Borrow|Unparsable)[], block: Block | Unparsable, end: Token | Unparsable) {
+    constructor(docs: Docs, borrows: (Borrow|Unparsable)[], block: Block | Unparsable, end: Token | Unparsable) {
 
         super();
 
+        this.docs = docs;
         this.borrows = borrows.slice();
         this.block = block;
         this.end = end;
@@ -42,7 +45,7 @@ export default class Program extends Node implements Evaluable {
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }
 
-    computeChildren() { return [ ...this.borrows, this.block, this.end ]; }
+    computeChildren() { return [ this.docs, ...this.borrows, this.block, this.end ]; }
     computeConflicts() {}
 
     getDefinitions(node: Node, context: Context): Definition[] {
@@ -87,6 +90,7 @@ export default class Program extends Node implements Evaluable {
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Program(
+            this.cloneOrReplaceChild(pretty, [ Docs ], "docs", this.docs, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Borrow, Unparsable ], "borrows", this.borrows, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Block, Unparsable ], "block", this.block, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token ], "end", this.end, original, replacement)

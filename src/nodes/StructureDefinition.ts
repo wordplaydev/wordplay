@@ -117,7 +117,7 @@ export default class StructureDefinition extends Expression {
     }
 
     computeChildren() {
-        let children: Node[] = [ this.type, this.docs, this.names, ...this.interfaces, ...this.typeVars ];
+        let children: Node[] = [ this.docs, this.type, this.names, ...this.interfaces, ...this.typeVars ];
         if(this.open) children.push(this.open);
         children = children.concat(this.inputs);
         if(this.close) children.push(this.close);

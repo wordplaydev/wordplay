@@ -14,7 +14,7 @@ import DuplicateBinds from "../conflicts/DuplicateBinds";
 
 test("Test custom type conflicts", () => {
 
-    testConflict('a:1\n`hi`/eng`hola`/spa•Hi()', 'a:1\n`hi`/eng`hola`/eng•Hi() ', Docs, DuplicateLanguages, 2);
+    testConflict('a:1\n`hi`/eng`hola`/spa•Hi()', 'a:1\n`hi`/eng`hola`/eng•Hi() ', Docs, DuplicateLanguages, 3);
     testConflict('•Cat,Dog(a b)', '•Cat,Cat(a b)', Names, DuplicateNames);
     testConflict('•Cat(a b)', '•Cat(a a)', StructureDefinition, DuplicateBinds);
     testConflict('•Cat ∘T∘U ()', '•Cat ∘T∘T ()', StructureDefinition, DuplicateTypeVariables);
