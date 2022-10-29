@@ -747,8 +747,6 @@ function parseRow(tokens: Tokens): Row {
         const cell = tokens.read(TokenType.TABLE_OPEN);
         const value = nextIsBind(tokens) ? parseBind(tokens) : parseExpression(tokens);
         cells.push(new Cell(cell, value));
-        if(tokens.nextHasPrecedingLineBreak())
-            break;
     }
 
     // Read the closing row marker.
