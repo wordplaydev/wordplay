@@ -32,7 +32,6 @@ import TypePlaceholderView from "./TypePlaceholderView.svelte";
 import NoneLiteralView from "./NoneLiteralView.svelte";
 import NoneTypeView from "./NoneTypeView.svelte";
 import MeasurementTypeView from "./MeasurementTypeView.svelte";
-import ShareView from "./ShareView.svelte";
 import SetLiteralView from "./SetLiteralView.svelte";
 import MapLiteralView from "./MapLiteralView.svelte";
 import KeyValueView from "./KeyValueView.svelte";
@@ -69,7 +68,6 @@ import Token from "../nodes/Token";
 import Unparsable from "../nodes/Unparsable";
 import Doc from "../nodes/Doc";
 import Borrow from "../nodes/Borrow";
-import Share from "../nodes/Share";
 import Block from "../nodes/Block";
 import Bind from "../nodes/Bind";
 import Name from "../nodes/Name";
@@ -138,7 +136,6 @@ nodeToView.set(Doc, DocView);
 nodeToView.set(Docs, DocsView);
 
 nodeToView.set(Borrow, BorrowView);
-nodeToView.set(Share, ShareView);
 
 nodeToView.set(Block, BlockView);
 

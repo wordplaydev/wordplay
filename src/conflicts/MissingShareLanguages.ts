@@ -1,13 +1,13 @@
-import type Share from "../nodes/Share";
+import type Bind from "../nodes/Bind";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 
 export class MissingShareLanguages extends Conflict {
-    readonly share: Share;
+    readonly share: Bind;
 
-    constructor(share: Share) {
+    constructor(share: Bind) {
         super(false);
         this.share = share;
     }

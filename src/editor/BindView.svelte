@@ -6,7 +6,7 @@
 
 </script>
 
-<NodeView node={node.docs}/><NodeView node={node.etc}/><NodeView node={node.names}/><span class="type">{#if node.type}<NodeView node={node.dot}/><NodeView node={node.type}/>{/if}</span><strong><NodeView node={node.colon}/></strong>{#if node.value }<NodeView node={node.value}/>{/if}
+<NodeView node={node.docs}/><NodeView node={node.share}/><NodeView node={node.etc}/><NodeView node={node.names}/><span class="type">{#if node.type}<NodeView node={node.dot}/><NodeView node={node.type}/>{/if}</span><strong><NodeView node={node.colon}/></strong>{#if node.value }<NodeView node={node.value}/>{/if}
 
 <style>
     .type {

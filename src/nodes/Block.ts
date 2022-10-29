@@ -4,7 +4,6 @@ import type Conflict from "../conflicts/Conflict";
 import { ExpectedEndingExpression } from "../conflicts/ExpectedEndingExpression";
 import { IgnoredExpression } from "../conflicts/IgnoredExpression";
 import Expression from "./Expression";
-import Share from "./Share";
 import Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
@@ -39,7 +38,7 @@ import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
 
-export type Statement = Expression | Unparsable | Share | Bind;
+export type Statement = Expression | Unparsable | Bind;
 
 export default class Block extends Expression {
 
@@ -64,7 +63,7 @@ export default class Block extends Expression {
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Block(
-            this.cloneOrReplaceChild<Statement[]>(pretty, [ Expression, Unparsable, Share, Bind ], "statements", this.statements, original, replacement)
+            this.cloneOrReplaceChild<Statement[]>(pretty, [ Expression, Unparsable, Bind ], "statements", this.statements, original, replacement)
                 .map((statement: Statement, index, statements) => {
                     index;
                     // If there are more than one expressions in the block, then pretty print with newlines and tabs.
@@ -122,17 +121,16 @@ export default class Block extends Expression {
         const index = this.getStatementIndexContaining(node);
         if(index === undefined) return [];
 
-        // Do any of the binds, shares, structure, or function definitions declare it?
+        // Do any of the binds, structure, or function definitions declare it?
         return this.statements.filter((s, i)  => 
             // Note that we allow an bind to refer to itself, since bound reactions can refer to themselves.
             i <= index &&
             (
                 s instanceof Bind ||
-                s instanceof Share && s.bind instanceof Bind ||
                 s instanceof StructureDefinition || 
                 s instanceof FunctionDefinition
             )
-        ).map(s => s instanceof Share ? s.bind : s) as Definition[];
+        ) as Definition[];
         
     }
  

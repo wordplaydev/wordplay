@@ -30,7 +30,6 @@ import TypeVariable from "../nodes/TypeVariable";
 import KeyValue from "../nodes/KeyValue";
 import ListAccess from "../nodes/ListAccess";
 import Conditional from "../nodes/Conditional";
-import Share from "../nodes/Share";
 import StructureDefinition from "../nodes/StructureDefinition";
 import Name from "../nodes/Name";
 import Doc from "../nodes/Doc";
@@ -295,14 +294,6 @@ export function parseBorrow(tokens: Tokens): Borrow | Unparsable {
     return new Borrow(borrow, name, version);
 }
 
-function parseShare(tokens: Tokens): Share {
-
-    const share = tokens.read(TokenType.SHARE);
-    const bind = parseBind(tokens);
-    return new Share(share, bind);
-
-}
-
 /** BLOCK :: DOCS ? ( [BIND|EXPRESSION]+ )  */
 export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean=false): Block | Unparsable {
 
@@ -318,7 +309,6 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
     const statements = [];
     while(tokens.nextIsnt(TokenType.END) && (root || tokens.nextIsnt(TokenType.EVAL_CLOSE)))
         statements.push(
-            tokens.nextIs(TokenType.SHARE) ? parseShare(tokens) :
             nextIsBind(tokens, true) ? parseBind(tokens) :
             parseExpression(tokens)
         );
@@ -361,14 +351,13 @@ function nextIsConversion(tokens: Tokens): boolean {
 export function parseBind(tokens: Tokens): Bind | Unparsable {
 
     let docs = parseDocumentation(tokens);
-    let etc = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : undefined;
-    let names: Names | Unparsable;
+    const share = tokens.nextIs(TokenType.SHARE) ? tokens.read(TokenType.SHARE) : undefined;
+    const etc = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : undefined;
+    const names = parseNames(tokens);
     let colon;
     let value;
     let dot;
     let type;
-    
-    names = parseNames(tokens);
 
     if(names.names.length === 0)
         return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_BIND_NAME, [ docs ]);
@@ -383,7 +372,7 @@ export function parseBind(tokens: Tokens): Bind | Unparsable {
         value = parseExpression(tokens);
     }
 
-    return new Bind(docs, names, type, value, etc, dot, colon);
+    return new Bind(docs, names, type, value, share, etc, dot, colon);
 
 }
 

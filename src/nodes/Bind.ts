@@ -34,7 +34,6 @@ import ValueException from "../runtime/ValueException";
 import type Translations from "./Translations";
 import { overrideWithDocs, TRANSLATE } from "./Translations"
 import Exception from "../runtime/Exception";
-import Share from "./Share";
 import type Definition from "./Definition";
 import { getPossibleTypeAdds, getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
@@ -52,21 +51,26 @@ import TypeToken from "./TypeToken";
 import Remove from "../transforms/Remove";
 import Docs from "./Docs";
 import Names from "./Names";
+import { MissingShareLanguages } from "../conflicts/MissingShareLanguages";
+import { MisplacedShare } from "../conflicts/MisplacedShare";
+import { DuplicateShare } from "../conflicts/DuplicateShare";
 
 export default class Bind extends Node implements Evaluable, Named {
     
     readonly docs: Docs;
-    readonly etc?: Token | undefined;
+    readonly share: Token | undefined;
+    readonly etc: Token | undefined;
     readonly names: Names;
     readonly dot?: Token;
     readonly type?: Type | Unparsable;
     readonly colon?: Token;
     readonly value?: Expression | Unparsable;
 
-    constructor(docs: Docs | Translations | undefined, names: Names | Translations | undefined, type?: Type | Unparsable, value?: Expression | Unparsable, etc?: Token | undefined, dot?: Token, colon?: Token) {
+    constructor(docs: Docs | Translations | undefined, names: Names | Translations | undefined, type?: Type | Unparsable, value?: Expression | Unparsable, share?: Token | undefined, etc?: Token | undefined, dot?: Token, colon?: Token) {
         super();
 
         this.docs = docs instanceof Docs ? docs : new Docs(docs);
+        this.share = share;
         this.names = names instanceof Names ? names : new Names(names);
         this.etc = etc;
         this.dot = dot !== undefined ? dot : type === undefined ? undefined : new TypeToken();
@@ -81,6 +85,7 @@ export default class Bind extends Node implements Evaluable, Named {
             this.cloneOrReplaceChild(pretty, [ Names ], "names", this.names, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Type, Unparsable, undefined ], "type", this.type, original, replacement), 
             this.cloneOrReplaceChild<Expression|Unparsable|undefined>(pretty, [ Expression, Unparsable, undefined ], "value", this.value, original, replacement)?.withPrecedingSpaceIfDesired(pretty),
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "share", this.share, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token, undefined], "etc", this.etc, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "dot", this.dot, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "colon", this.colon, original, replacement)
@@ -101,15 +106,16 @@ export default class Bind extends Node implements Evaluable, Named {
     isRequired() { return this.value === undefined && !this.isVariableLength(); }
 
     computeChildren() { 
-        let children: Node[] = [];
-        children.push(this.docs);
-        if(this.etc) children.push(this.etc);
-        children.push(this.names);
-        if(this.dot) children.push(this.dot);
-        if(this.type) children.push(this.type);
-        if(this.colon) children.push(this.colon);
-        if(this.value) children.push(this.value);
-        return children;
+        return [
+            this.docs,
+            this.share,
+            this.etc,
+            this.names,
+            this.dot,
+            this.type,
+            this.colon,
+            this.value
+        ].filter(n => n !== undefined) as Node[];
     }
 
     computeConflicts(context: Context): Conflict[] {
@@ -152,17 +158,42 @@ export default class Bind extends Node implements Evaluable, Named {
             });
         }
 
-        // If this bind isn't part of an Evaluate or a Share, it should be used in some expression in its parent.
+        // If this bind isn't part of an Evaluate, it should be used in some expression in its parent.
         const parent = this.getParent();
-        if(enclosure && !(parent instanceof Share || parent instanceof Column || parent instanceof ColumnType || parent instanceof Cell || parent instanceof Evaluate)) {
+        if(enclosure && !this.isShared() && !(parent instanceof Column || parent instanceof ColumnType || parent instanceof Cell || parent instanceof Evaluate)) {
             const uses = enclosure.nodes(n => n instanceof Reference && this.names.names.find(name => name.getName() === n.name.text.toString()) !== undefined);
             if(uses.length === 0)
                 conflicts.push(new UnusedBind(this));
         }
 
+        // Shares can only appear in the program's root block.
+        if(this.share !== undefined) {
+            if(!context.program.block.getChildren().includes(this))
+                conflicts.push(new MisplacedShare(this, this.share));
+
+            // Bindings must have language tags on all names to clarify what langauge they're written in.
+            if(!this.names.names.every(n => n.lang !== undefined))
+                conflicts.push(new MissingShareLanguages(this));
+
+            // Other shares in this project can't have the same name
+            const sources = context.source.getProject()?.getSourcesExcept(context.source);
+            if(sources !== undefined) {
+                for(const source of sources) {
+                    if(source.program.block instanceof Block) {
+                        for(const share of source.program.block.statements.filter(s => s instanceof Bind && s.isShared()) as Bind[]) {
+                            if(this.sharesName(share))
+                                conflicts.push(new DuplicateShare(this, share));
+                        }
+                    }
+                }
+            }
+        }
+
         return conflicts;
 
     }
+
+    isShared() { return this.share !== undefined; }
 
     getType(context: Context): Type {
 
@@ -258,6 +289,15 @@ export default class Bind extends Node implements Evaluable, Named {
             if(name !== undefined) 
                 evaluator.bind(name, value);
         });
+ 
+        // Share if shared.
+        if(this.isShared()) {
+            for(const name of this.names.names) {
+                const n = name.getName();
+                if(n !== undefined)
+                    evaluator.share(n, value);
+            }
+        }
 
         return undefined;
 

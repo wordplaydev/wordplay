@@ -29,6 +29,7 @@ const Group = new StructureDefinition(
             },
             new NameType("Phrase"),
             undefined,
+            undefined,
             new PlaceholderToken()
         )
     ]

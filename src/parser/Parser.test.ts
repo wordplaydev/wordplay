@@ -13,7 +13,6 @@ import NameType from "../nodes/NameType";
 import NoneType from "../nodes/NoneType";
 import { SyntacticConflict, parse, parseBind, parseBlock, parseExpression, parseType, tokens } from "./Parser";
 import Program from "../nodes/Program";
-import Share from "../nodes/Share";
 import StreamType from "../nodes/StreamType";
 import TableType from "../nodes/TableType";
 import TextType from "../nodes/TextType";
@@ -70,17 +69,10 @@ test("Parse borrows", () => {
 
 test("Parse shares", () => {
 
-    const good = parse("↑ fancy");
+    const good = parse("↑ fancy: 1");
     expect(good.block).toBeInstanceOf(Block);
     expect((good.block as Block).statements).toHaveLength(1);
-    expect((good.block as Block).statements[0]).toBeInstanceOf(Share)
-    expect(((good.block as Block).statements[0] as Share).bind).toBeInstanceOf(Bind);
-
-    const bad = parse("↑");
-    expect(bad.block).toBeInstanceOf(Block);
-    expect((bad.block as Block).statements).toHaveLength(1);
-    expect((bad.block as Block).statements[0]).toBeInstanceOf(Share)
-    expect(((bad.block as Block).statements[0] as Share).bind).toBeInstanceOf(Unparsable);
+    expect((good.block as Block).statements[0]).toBeInstanceOf(Bind)
 
 })
 

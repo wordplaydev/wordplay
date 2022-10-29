@@ -1,18 +1,22 @@
-import type Share from "../nodes/Share";
+import type Bind from "../nodes/Bind";
+import type Token from "../nodes/Token";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 
 export class MisplacedShare extends Conflict {
-    readonly share: Share;
-    constructor(share: Share) {
+    readonly bind: Bind;
+    readonly share: Token;
+    constructor(bind: Bind, share: Token) {
         super(false);
+        
+        this.bind = bind;
         this.share = share;
     }
 
     getConflictingNodes() {
-        return { primary: [ this.share.share ] };
+        return { primary: [ this.share ] };
     }
 
     getExplanations(): Translations { 
