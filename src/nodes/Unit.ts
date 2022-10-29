@@ -140,13 +140,13 @@ export default class Unit extends Type {
 
     }
 
-    sqrt() {
+    root(root: number) {
 
         const newExponents = new Map();
 
         // Subtract one from every unit's exponent, and if it would be zero, set it to -1.
         for(const [unit, exponent] of this.exponents)
-            newExponents.set(unit, exponent === 1 ? -1 : exponent - 1)
+            newExponents.set(unit, exponent === 1 ? -(root - 1) : exponent - (root - 1))
         
         return new Unit(newExponents);
     
@@ -185,7 +185,7 @@ export default class Unit extends Type {
         // Multiply the exponents by the given exponent.
         const newExponents = new Map(this.exponents);
 
-        // Subtract the given units' exponents from the existing exponents
+        // Multiply the units by the power.
         for(const [unit, exp] of this.exponents) {
             newExponents.set(unit, exp * exponent); 
         }

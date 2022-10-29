@@ -48,8 +48,7 @@ export default class BinaryOperation extends Expression {
 
         this.operator = operator instanceof Token ? operator : new Token(operator, TokenType.BINARY_OP);
         this.left = left;
-        // Must have a preceding space, otherwise its tokenized as a unary operator.
-        this.right = right.withPrecedingSpace();
+        this.right = right;
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 

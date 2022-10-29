@@ -92,8 +92,8 @@ export default class Measurement extends Primitive {
         return this.num.toNumber();
     }
 
-    sqrt(): Measurement {
-        return new Measurement(this.num.sqrt(), this.unit.sqrt());
+    root(operand: Measurement): Measurement {
+        return new Measurement(this.num.pow(new Decimal(1).div(operand.num)), this.unit.root(operand.num.toNumber()));
     }
 
     negate(): Measurement {

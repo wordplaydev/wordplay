@@ -576,8 +576,8 @@ function parseDimension(tokens: Tokens): Dimension {
     const name = tokens.read(TokenType.NAME);
     let caret = undefined;
     let exponent = undefined;
-    if(tokens.nextIs(TokenType.UNARY_OP) && tokens.peekText() === EXPONENT_SYMBOL && tokens.nextLacksPrecedingSpace()) {
-        caret = tokens.read(TokenType.UNARY_OP);
+    if(tokens.nextIs(TokenType.BINARY_OP) && tokens.peekText() === EXPONENT_SYMBOL && tokens.nextLacksPrecedingSpace()) {
+        caret = tokens.read(TokenType.BINARY_OP);
         exponent = tokens.nextIs(TokenType.NUMBER) && tokens.nextLacksPrecedingSpace() ? tokens.read(TokenType.NUMBER) : undefined;
     }
     return new Dimension(name, caret, exponent);

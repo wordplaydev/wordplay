@@ -185,6 +185,18 @@ export default function bootstrapMeasurement() {
             createBinaryOp(
                 WRITE_DOCS,
                 {
+                    eng: "root",
+                    "😀": "√"
+                },
+                WRITE_DOCS,
+                new MeasurementType(),
+                new MeasurementType(undefined, (left, right, constant) => right === right && constant === undefined ? new Unit() : left.root(constant)),
+                (left, right) => left.root(right),
+                false
+            ),
+            createBinaryOp(
+                WRITE_DOCS,
+                {
                     eng: "less-than",
                     "😀": "<"
                 },
@@ -241,15 +253,6 @@ export default function bootstrapMeasurement() {
                 WRITE_DOCS,
                 new MeasurementType(undefined, unit => unit), new BooleanType(),
                 (left, right) => new Bool(!left.isEqualTo(right))
-            ),
-            createUnaryOp(
-                WRITE_DOCS,
-                {
-                    eng: "square-root",
-                    "😀": "√"
-                },
-                new MeasurementType(undefined, unit => unit.sqrt()), 
-                operand => operand.sqrt()
             ),
         
             createNativeConversion(WRITE_DOCS, '#', "''", (val: Measurement) => new Text(val.toString())),

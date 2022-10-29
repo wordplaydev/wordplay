@@ -72,9 +72,10 @@ const RESERVED_SYMBOLS = [
 ];
 
 const TEXT_SEPARATORS = "'‘’\"“”„«»‹›「」『』";
-const OPERATORS = '+\\-×·÷%^<≤=≠≥>∧∨¬√~\?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F';
+const UNARY_OPERATORS = "¬-";
+const BINARY_OEPRATORS = '+\\-×·÷%^<≤=≠≥>∧∨~\?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F';
 
-export const BinaryOpRegEx = new RegExp(`^[${OPERATORS}]`, "u");
+export const BinaryOpRegEx = new RegExp(`^[${BINARY_OEPRATORS}]`, "u");
 
 function escapeRegexCharacter(c: string) { return /[\\\/\(\)\[\]\{\}]/.test(c) ? "\\" + c : c }
 
@@ -166,11 +167,11 @@ const patterns = [
     // - Supplementary operators: U+2A00–U+2AFF
     // - Arrows: U+2190–U+21FF, U+27F0–U+27FF, U+2900–U+297F
     // - Basic latin operators: +-×·÷%^<≤=≠≥>∧∨
-    { pattern: new RegExp(`^[${OPERATORS}](?! )`, "u"), types: [ TokenType.UNARY_OP ] },
+    { pattern: new RegExp(`^[${UNARY_OPERATORS}](?! )`, "u"), types: [ TokenType.UNARY_OP ] },
     { pattern: BinaryOpRegEx, types: [ TokenType.BINARY_OP ] },
     // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
     { 
-        pattern: new RegExp(`^[^\n\t ${RESERVED_SYMBOLS.map(s => escapeRegexCharacter(s)).join("")}${TEXT_SEPARATORS}${OPERATORS}]+`, "u"), 
+        pattern: new RegExp(`^[^\n\t ${RESERVED_SYMBOLS.map(s => escapeRegexCharacter(s)).join("")}${TEXT_SEPARATORS}${BINARY_OEPRATORS}]+`, "u"), 
         types: [ TokenType.NAME ] 
     }
 ];
