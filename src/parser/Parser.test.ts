@@ -182,10 +182,9 @@ test("Parse expressions", () => {
 
     const template = parseExpression(tokens('"My cat\'s name is \\name + name\\, what\'s yours?"'));
     expect(template).toBeInstanceOf(Template);
-    expect((template as Template).parts).toHaveLength(3);
-    expect((template as Template).parts[0]).toBeInstanceOf(Token);
-    expect((template as Template).parts[1]).toBeInstanceOf(BinaryOperation);
-    expect((template as Template).parts[2]).toBeInstanceOf(Token);
+    expect((template as Template).expressions).toHaveLength(2);
+    expect((template as Template).expressions[0]).toBeInstanceOf(BinaryOperation);
+    expect((template as Template).expressions[1]).toBeInstanceOf(Token);
 
     const format = parseExpression(tokens("«hola»/spa"));
     expect(format).toBeInstanceOf(TextLiteral);

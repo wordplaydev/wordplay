@@ -596,27 +596,28 @@ function parseText(tokens: Tokens): TextLiteral {
 /** TEMPLATE :: text_open ( EXPRESSION text_between )* EXPRESSION text_close name? */
 function parseTemplate(tokens: Tokens): Template | Unparsable {
 
-    const parts = [];
-
-    if(!tokens.nextIs(TokenType.TEXT_OPEN))
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TEXT_OPEN, []);
-    parts.push(tokens.read(TokenType.TEXT_OPEN));
+    const open = tokens.read(TokenType.TEXT_OPEN);
+    const expressions: (Expression | Unparsable | Token)[] = [];
 
     do {
-        const expression = parseExpression(tokens);
-        parts.push(expression);
-        if(tokens.nextIs(TokenType.TEXT_BETWEEN))
-            parts.push(tokens.read(TokenType.TEXT_BETWEEN));
-    } while(tokens.nextIsnt(TokenType.TEXT_CLOSE));
+        expressions.push(parseExpression(tokens));
+        const close = 
+            tokens.nextIs(TokenType.TEXT_BETWEEN) ? tokens.read(TokenType.TEXT_BETWEEN) :
+            tokens.nextIs(TokenType.TEXT_CLOSE) ? tokens.read(TokenType.TEXT_CLOSE) :
+            undefined;
+        if(close !== undefined)
+            expressions.push(close);
+        if(close === undefined || close.is(TokenType.TEXT_CLOSE))
+            break;
+    } while(true);
 
-    if(!tokens.nextIs(TokenType.TEXT_CLOSE))
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TEXT_CLOSE, parts);
-    parts.push(tokens.read(TokenType.TEXT_CLOSE));
+    // Read an optional close.
+    const close = tokens.nextIs(TokenType.TEXT_CLOSE) ? tokens.read(TokenType.TEXT_CLOSE) : undefined;
 
-    // Read an optional format if there's no preceding space.
+    // Read an optional format.
     const format = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
 
-    return new Template(parts, format);
+    return new Template(open, expressions, format);
 
 }
 

@@ -25,28 +25,31 @@ import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
-type Part = Token | Expression | Unparsable;
+export type TemplatePart = Expression | Unparsable | Token;
 
 export default class Template extends Expression {
     
-    readonly parts: Part[];
+    readonly open: Token;
+    readonly expressions: TemplatePart[];
     readonly format?: Language;
 
-    constructor(parts?: Part[], format?: Language) {
+    constructor(open: Token, expressions: TemplatePart[], format?: Language) {
         super();
 
-        this.parts = parts ?? [ new Token("'\\", TokenType.TEXT_OPEN), new ExpressionPlaceholder(), new Token("\\'", TokenType.TEXT_CLOSE )];
+        this.open = open;
+        this.expressions = expressions ?? [ new Token("'\\", TokenType.TEXT_OPEN), new ExpressionPlaceholder(), new Token("\\'", TokenType.TEXT_CLOSE )];
         this.format = format;
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Template(
-            this.cloneOrReplaceChild(pretty, [ Token, Expression, Unparsable ], "parts", this.parts, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement),
+            this.cloneOrReplaceChild(pretty, [ Token, Expression, Unparsable ], "expressions", this.expressions, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Language, undefined ], "format", this.format, original, replacement)
         ) as this; 
     }
 
-    computeChildren() { return this.format ? [ ...this.parts, this.format ] : [ ...this.parts ]; }
+    computeChildren() { return [ this.open, ...this.expressions, this.format ].filter(n => n !== undefined) as Node[]; }
 
     computeConflicts() { return []; }
 
@@ -57,7 +60,7 @@ export default class Template extends Expression {
     compile(context: Context):Step[] {
         return [
             new Start(this),
-            ...this.parts.filter(p => p instanceof Expression).reduce(
+            ...this.expressions.filter(p => p instanceof Expression).reduce(
                 (parts: Step[], part) => [...parts, ...(part as Expression).compile(context)], []
             ),
             new Finish(this)
@@ -68,18 +71,19 @@ export default class Template extends Expression {
         
         // Build the string in reverse, accounting for the reversed stack of values.
         let text = "";
-        for(let i = this.parts.length - 1; i >= 0; i--) {
-            const p = this.parts[i];
+        for(let i = this.expressions.length - 1; i >= 0; i--) {
+            const p = this.expressions[i];
             const part = p instanceof Token ? new Text(p.text.toString().substring(1, p.text.toString().length - 1)) : evaluator.popValue(new TextType());
             if(!(part instanceof Text)) return part;
             text = part.text + text;
         }
+        text = this.open.text.toString().substring(1, this.open.text.toString().length - 1) + text;
         return new Text(text, this.format?.getLanguage());
 
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
-        this.parts.forEach(part => { if(part instanceof Expression) part.evaluateTypeSet(bind, original, current, context); });
+        this.expressions.forEach(part => { if(part instanceof Expression) part.evaluateTypeSet(bind, original, current, context); });
         return current;
     }
 
@@ -87,9 +91,9 @@ export default class Template extends Expression {
     
         const project = context.source.getProject();
 
-        const index = this.parts.indexOf(child as Part);
+        const index = this.expressions.indexOf(child as TemplatePart);
         if(index >= 0) {
-            const part = this.parts[index];
+            const part = this.expressions[index];
             if(part instanceof Expression)
                 return getExpressionReplacements(context.source, this, part, context);
         }
@@ -112,7 +116,7 @@ export default class Template extends Expression {
     }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.parts.includes(child as Part)) return new Remove(context.source, this, child);
+        if(this.expressions.includes(child as TemplatePart)) return new Remove(context.source, this, child);
         else if(child === this.format) return new Remove(context.source, this, child);
     }
 
