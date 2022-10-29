@@ -40,12 +40,12 @@ board/eng,
 \`🚨 + 🔤 → 📺\`/😀
 screen/eng,
 📺/😀:
-\tstate.status() = "start" ? Group(Vertical() Phrase("Welcome to WhatWord!" 30pt) Phrase("Press space to begin") Phrase("Type letters to guess"))
-\tstate.status() = "lost" ?  Group(Vertical() board Phrase("You lost. Press space to play again."))
-\tstate.status() = "won" ?   Group(Vertical() board Phrase("You won, nice job! Press space to play again."))
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t Group(Vertical() board Phrase("Guesses: \\state.guesses.join(' ')\\" 16pt) Phrase("\\state.guessesRemaining()→''\\ remaining" 12pt))
+\tstate.status() = "start" ? ▣(⬇() 💬("Welcome to WhatWord!" 30pt) 💬("Press space to begin") 💬("Type letters to guess"))
+\tstate.status() = "lost" ?  ▣(⬇() board 💬("You lost. Press space to play again."))
+\tstate.status() = "won" ?   ▣(⬇() board 💬("You won, nice job! Press space to play again."))
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t ▣(⬇() board 💬("Guesses: \\state.guesses.join(' ')\\" 16pt) 💬("\\state.guessesRemaining()→''\\ remaining" 12pt))
 
-Verse(screen)`,
+🌎(screen)`,
 
 `\`These are the secret words. Don't tell anyone!\`/eng
 \`Estas son las palabras secretas. ¡No se lo digas a nadie!\`/spa

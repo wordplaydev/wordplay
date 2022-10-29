@@ -8,7 +8,7 @@ const Group = new StructureDefinition(
     WRITE_DOCS,
     {
         eng: "Group",
-        "😀": TRANSLATE
+        "😀": "▣"
     },
     [],
     [],

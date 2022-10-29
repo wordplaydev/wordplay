@@ -19,7 +19,7 @@ export const Vertical = new StructureDefinition(
     WRITE_DOCS,
     {
         eng: "Vertical",
-        "😀": TRANSLATE
+        "😀": "⬇"
     },
     [ new TypeInput(new NameType("Layout")) ],
     [],

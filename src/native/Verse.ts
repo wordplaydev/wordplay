@@ -15,7 +15,7 @@ const Verse = new StructureDefinition(
     WRITE_DOCS,
     {
         eng: "Verse",
-        "😀": TRANSLATE
+        "😀": "🌎"
     },
     [],
     [],

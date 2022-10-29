@@ -14,7 +14,7 @@ const Phrase = new StructureDefinition(
     WRITE_DOCS,
     {
         eng: "Phrase",
-        "😀": TRANSLATE
+        "😀": "💬"
     },
     [],
     [],
