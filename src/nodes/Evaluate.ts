@@ -59,7 +59,7 @@ export default class Evaluate extends Expression {
     readonly typeInputs: TypeInput[];
     readonly open: Token;
     readonly inputs: InputType[];
-    readonly close: Token;
+    readonly close?: Token;
 
     constructor(func: Expression | Unparsable, inputs: InputType[], typeInputs?: TypeInput[], open?: Token, close?: Token) {
         super();
@@ -70,7 +70,7 @@ export default class Evaluate extends Expression {
         // Inputs must have space between them if they have adjacent names.
         this.inputs = inputs.map((value: InputType, index) => 
             value.withPrecedingSpaceIfDesired(index > 0 && endsWithName(inputs[index - 1]) && startsWithName(value)));
-        this.close = close ?? new EvalCloseToken();
+        this.close = close;
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
@@ -80,14 +80,12 @@ export default class Evaluate extends Expression {
                 .map((value: InputType, index: number) => value.withPrecedingSpaceIfDesired(pretty && index > 0)),
             this.cloneOrReplaceChild(pretty, [ TypeInput ], "typeInputs", this.typeInputs, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "close", this.close, original, replacement)
         ) as this;
     }
 
     computeChildren() {
-        let children: Node[] = [];
-        children = children.concat([ ...this.typeInputs, this.func, this.open, ...this.inputs, this.close ]);
-        return children;
+        return [ ...this.typeInputs, this.func, this.open, ...this.inputs, this.close ].filter(n => n !== undefined) as Node[];
     }
 
     computeConflicts(context: Context): Conflict[] { 

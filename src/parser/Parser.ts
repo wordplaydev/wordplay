@@ -864,13 +864,11 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
     const inputs: (Bind|Expression|Unparsable)[] = [];
     let close;
     
-    while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
+    while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && (tokens.peekSpace() ?? "").split("\n").length - 1 < 2)
         inputs.push(nextIsBind(tokens, true) ? parseBind(tokens) : parseExpression(tokens));
     
     if(tokens.nextIs(TokenType.EVAL_CLOSE))
         close = tokens.read(TokenType.EVAL_CLOSE);
-    else
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ left, typeInputs, open, inputs ]);
     
     return new Evaluate(left, inputs, typeInputs, open, close);
 
