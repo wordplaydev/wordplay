@@ -12,13 +12,13 @@ export const examples: Stuff[] = [
     WhatWord,
     { name: "Listen", source: [ 
 `↓🎤
-Phrase(🎤 > 50 ? "🔈🔈" "🔈" 1pt × 🎤)`
+Phrase(🎤 > 50 ? "🔈🔈" "🔈" 1pt · 🎤)`
     ]},
     {
         name: "Talk",
         source: [
 `↓🎤
-Phrase(🎤 > 50 ? "😮" "😐" 60pt + (1pt × ((🎤 > 50 ? 🎤 - 50 50) ÷ 5)))`
+Phrase(🎤 > 50 ? "😮" "😐" 60pt + (1pt · ((🎤 > 50 ? 🎤 - 50 50) ÷ 5)))`
     ]},
     {
         name: "AnimatedFace",

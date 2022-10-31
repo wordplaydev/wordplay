@@ -35,12 +35,15 @@ state/eng,
 board/eng,
 🔤/😀: 💬(state.secret→[""].translate(ƒ(letter•"") ((state.status() = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 24pt)
 
+\`The title on the title screen\`/eng
+title: 💬("Welcome to WhatWord!" 30pt "Noto Sans" Fade(1000))
+
 \`The rest of the game screen depends on the game status\`/eng
 \`El resto de la pantalla del juego depende del estado del juego.\`/spa
 \`🚨 + 🔤 → 📺\`/😀
 screen/eng,
 📺/😀:
-\tstate.status() = "start" ? ▣(⬇() 💬("Welcome to WhatWord!" 30pt) 💬("Press space to begin") 💬("Type letters to guess"))
+\tstate.status() = "start" ? ▣(⬇() title 💬("Press space to begin") 💬("Type letters to guess"))
 \tstate.status() = "lost" ?  ▣(⬇() board 💬("You lost. Press space to play again."))
 \tstate.status() = "won" ?   ▣(⬇() board 💬("You won, nice job! Press space to play again."))
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t ▣(⬇() board 💬("Guesses: \\state.guesses.join(' ')\\" 16pt) 💬("\\state.guessesRemaining()→''\\ remaining" 12pt))

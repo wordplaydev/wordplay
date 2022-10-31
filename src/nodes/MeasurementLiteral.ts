@@ -23,15 +23,16 @@ import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import PlaceholderToken from "./PlaceholderToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import TokenType from "./TokenType";
 
 export default class MeasurementLiteral extends Expression {
     
     readonly number: Token;
     readonly unit: Unit | Unparsable;
 
-    constructor(number?: Token, unit?: Unit | Unparsable) {
+    constructor(number?: Token | number, unit?: Unit | Unparsable) {
         super();
-        this.number = number ?? new PlaceholderToken();
+        this.number = number === undefined ? new PlaceholderToken() : number instanceof Token ? number : new Token("" + number, TokenType.DECIMAL);
         this.unit = unit === undefined ? new Unit() : unit.withPrecedingSpace("", true);
     }
 
@@ -64,6 +65,7 @@ export default class MeasurementLiteral extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value {
+
         if(this.unit instanceof Unparsable) return new SemanticException(evaluator, this.unit);
         // This needs to translate between different number formats.
         else return new Measurement(this, this.number, this.unit);

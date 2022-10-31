@@ -41,7 +41,7 @@
         on:mousedown={handleMouseDown} 
         on:mouseup={handleMouseUp}
         on:mousemove={handleMouseMove}
-        on:keydown={handleKeyDown}
+        on:keydown|stopPropagation|preventDefault={handleKeyDown}
         on:keyup={handleKeyUp}
     >
         {#if verse === undefined}

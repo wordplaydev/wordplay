@@ -2,12 +2,16 @@ import Bind from "../nodes/Bind";
 import Dimension from "../nodes/Dimension";
 import MeasurementLiteral from "../nodes/MeasurementLiteral";
 import MeasurementType from "../nodes/MeasurementType";
+import NameType from "../nodes/NameType";
+import NoneLiteral from "../nodes/NoneLiteral";
+import NoneType from "../nodes/NoneType";
 import StructureDefinition from "../nodes/StructureDefinition";
 import TextLiteral from "../nodes/TextLiteral";
 import TextType from "../nodes/TextType";
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
 import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
+import UnionType from "../nodes/UnionType";
 import Unit from "../nodes/Unit";
 
 const Phrase = new StructureDefinition(
@@ -44,6 +48,15 @@ const Phrase = new StructureDefinition(
             },
             new TextType(),
             new TextLiteral(new Token("'Noto Sans'", TokenType.TEXT))
+        ),
+        new Bind(
+            WRITE_DOCS,
+            {
+                eng: "in",
+                "😀": TRANSLATE
+            },
+            new UnionType(new NameType("Transition"), new NoneType()),
+            new NoneLiteral()
         )
     ]
 );

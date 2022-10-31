@@ -119,7 +119,7 @@ export default class Measurement extends Primitive {
 
     divide(requestor: Node, divisor: Measurement): Measurement | None {
         return divisor.num.isZero() ? 
-            new None(new Names([new Name("nan")])) : 
+            new None(requestor, new Names([new Name("nan")])) : 
             new Measurement(requestor, this.num.dividedBy(divisor.num), this.unit.quotient(divisor.unit))
     }
 

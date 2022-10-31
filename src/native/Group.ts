@@ -2,7 +2,9 @@ import Bind from "../nodes/Bind";
 import NameType from "../nodes/NameType";
 import StructureDefinition from "../nodes/StructureDefinition";
 import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
-import PlaceholderToken from "../nodes/PlaceholderToken";
+import Token from "../nodes/Token";
+import { ETC_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "../nodes/TokenType";
 
 const Group = new StructureDefinition(
     WRITE_DOCS,
@@ -30,7 +32,7 @@ const Group = new StructureDefinition(
             new NameType("Phrase"),
             undefined,
             undefined,
-            new PlaceholderToken()
+            new Token(ETC_SYMBOL, TokenType.ETC)
         )
     ]
 );

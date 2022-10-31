@@ -12,6 +12,7 @@ import type StructureDefinition from "../nodes/StructureDefinition";
 import type Evaluator from "./Evaluator";
 import Layout, { Vertical } from "../native/Layout";
 import Microphone from "../native/Microphone";
+import Transition, { Fade } from "../native/Transition";
 
 export default class Shares {
 
@@ -38,6 +39,8 @@ export default class Shares {
         this.addStructureDefinition(Group);
         this.addStructureDefinition(Vertical);
         this.addStructureDefinition(Layout);
+        this.addStructureDefinition(Transition);
+        this.addStructureDefinition(Fade);
 
         // Share a timer stream for programs to listen to.
         this.time = new Time(evaluator);
