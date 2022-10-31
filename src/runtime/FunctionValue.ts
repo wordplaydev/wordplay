@@ -13,7 +13,7 @@ export default class FunctionValue extends Value {
     readonly context: Evaluation | Value;
 
     constructor(definition: FunctionDefinition, context: Evaluation | Value) {
-    super();
+    super(definition);
 
         this.definition = definition;
         this.context = context;

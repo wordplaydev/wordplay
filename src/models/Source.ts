@@ -136,15 +136,15 @@ export default class Source {
 
     phrase(text: string | Text, size: number=12, font: string="Noto Sans", ): Structure {
         return createStructure(this.evaluator, Phrase, {
-            size: new Measurement(size),
-            font: new Text(font),
-            text: text instanceof Text ? text : new Text(text)
+            size: new Measurement(this.program, size),
+            font: new Text(this.program, font),
+            text: text instanceof Text ? text : new Text(this.program, text)
         })
     }
 
     group(...phrases: Structure[]) {
         return createStructure(this.evaluator, Group, {
-            phrases: new List(phrases)
+            phrases: new List(this.program, phrases)
         })
     }
 

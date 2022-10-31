@@ -42,8 +42,8 @@ export default class NativeHOFListTranslate extends HOF {
                     eng: "Initialize an index and new list."
                 },
                 evaluator => {
-                    evaluator.bind("index", new Measurement(1));
-                    evaluator.bind("list", new List([]));
+                    evaluator.bind("index", new Measurement(this, 1));
+                    evaluator.bind("list", new List(this, []));
                     return undefined;
                 }
             ),
@@ -59,7 +59,7 @@ export default class NativeHOFListTranslate extends HOF {
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
                     else if(!(list instanceof List)) return new TypeException(evaluator, new ListType(), index);
                     else {
-                        if(index.greaterThan(list.length()).bool)
+                        if(index.greaterThan(this, list.length(this)).bool)
                             evaluator.jump(1);
                         // Otherwise, apply the given translator function to the current list value.
                         else {
@@ -74,6 +74,7 @@ export default class NativeHOFListTranslate extends HOF {
                                 // Apply the translator function to the value
                                 evaluator.startEvaluation(new Evaluation(
                                     evaluator, 
+                                    this,
                                     translator.definition, 
                                     translator.definition.expression, 
                                     translator.context, 
@@ -99,13 +100,13 @@ export default class NativeHOFListTranslate extends HOF {
                 // Append the translated value to the list.
                 const list = evaluator.resolve("list");
                 if(list instanceof List)
-                    evaluator.bind("list", list.append(translatedValue));
+                    evaluator.bind("list", list.append(this, translatedValue));
                 else return new TypeException(evaluator, new ListType(), list);
 
                 // Increment the counter
                 const index = evaluator.resolve("index");
                 if(index instanceof Measurement)
-                    evaluator.bind("index", index.add(new Measurement(1)));
+                    evaluator.bind("index", index.add(this, new Measurement(this, 1)));
                 else return new TypeException(evaluator, new MeasurementType(), index);
 
                 // Jump to the conditional

@@ -4,7 +4,7 @@ import type Type from "../nodes/Type";
 import type Step from "src/runtime/Step";
 import Finish from "../runtime/Finish";
 import Expression from "../nodes/Expression";
-import type Node from "../nodes/Node";
+import Node from "../nodes/Node";
 import { parseType, tokens } from "../parser/Parser";
 import Unparsable from "../nodes/Unparsable";
 import UnknownType from "../nodes/UnknownType";
@@ -14,14 +14,15 @@ import type Context from "../nodes/Context";
 import type { TypeSet } from "../nodes/UnionType";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
+import ValueException from "../runtime/ValueException";
 
 export default class NativeExpression extends Expression {
     
     readonly type: Type;
-    readonly evaluator: (evaluator: Evaluation) => Value;
+    readonly evaluator: (requestor: Node, evaluator: Evaluation) => Value;
     readonly explanations: Translations;
 
-    constructor(type: Type | string, evaluator: (evaluator: Evaluation) => Value, explanations: Translations) {
+    constructor(type: Type | string, evaluator: (requestor: Node, evaluator: Evaluation) => Value, explanations: Translations) {
         super();
 
         if(typeof type === "string") {
@@ -42,8 +43,10 @@ export default class NativeExpression extends Expression {
     computeType(): Type { return this.type; }
     compile(): Step[] { return [ new Finish(this) ]; }
     evaluate(evaluator: Evaluator): Value | undefined {
+        const requestor = evaluator.getEvaluationContext()?.currentStep()?.node;
+        if(!(requestor instanceof Node)) return new ValueException(evaluator);
         const evaluation = evaluator.getEvaluationContext();
-        return evaluation === undefined ? undefined : this.evaluator.call(undefined, evaluation);
+        return evaluation === undefined ? undefined : this.evaluator(requestor, evaluation);
     }
 
     /** Can't clone native expressions, there's only one of them! */

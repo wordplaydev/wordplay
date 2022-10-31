@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import List from "../runtime/List";
     import Structure from "../runtime/Structure";
     import PhraseView from "./PhraseView.svelte";
@@ -9,21 +10,26 @@
     $: phraseStructure = group.resolve("phrases");
     $: phrases = phraseStructure instanceof List ? phraseStructure.getValues() : undefined;
 
+    let visible = false;
+    onMount(() => visible = true);
+
 </script>
 
-<div class={layout}>
-    {#if phrases === undefined}
-        Group doesn't have phrases
-    {:else}
-        {#each phrases as phrase}
-            {#if phrase instanceof Structure }
-                <PhraseView phrase={phrase} />
-            {:else}
-                {phrase.constructor.name}
-            {/if}
-        {/each}
-    {/if}
-</div>
+{#if visible}
+    <div class={layout}>
+        {#if phrases === undefined}
+            Group doesn't have phrases
+        {:else}
+            {#each phrases as phrase (phrase.creator.id)}
+                {#if phrase instanceof Structure }
+                    <PhraseView phrase={phrase} />
+                {:else}
+                    {phrase.constructor.name}
+                {/if}
+            {/each}
+        {/if}
+    </div>
+{/if}
 
 <style>
 

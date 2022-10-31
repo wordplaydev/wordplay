@@ -38,7 +38,7 @@ export default class BooleanLiteral extends Expression {
     }
 
     evaluate(): Value {
-        return new Bool(this.bool());
+        return new Bool(this, this.bool());
     }
 
     bool(): boolean {

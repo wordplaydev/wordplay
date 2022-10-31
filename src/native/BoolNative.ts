@@ -11,6 +11,8 @@ import Text from "../runtime/Text";
 import TypeException from "../runtime/TypeException";
 import { createNativeConversion } from "./NativeBindings";
 import NativeExpression from "./NativeExpression";
+import type Node from "../nodes/Node";
+import type Value from "../runtime/Value";
 
 const OperandNames: Translations = {
     eng: "boolean",
@@ -19,7 +21,7 @@ const OperandNames: Translations = {
 
 export default function bootstrapBool() {
 
-    function createBooleanFunction(docs: Translations, names: Translations, expression: (left: Bool, right: Bool) => Bool) {
+    function createBooleanFunction(docs: Translations, names: Translations, expression: (requestor: Node, left: Bool, right: Bool) => Bool) {
         return new FunctionDefinition(
             docs, 
             names,
@@ -34,13 +36,13 @@ export default function bootstrapBool() {
             ) ],
             new NativeExpression(
                 new BooleanType(), 
-                evaluation => {
+                (requestor, evaluation) => {
                     const left = evaluation.getContext();
-                    const right = evaluation.resolve(OperandNames.eng);
+                    const right: Value | undefined = evaluation.resolve(OperandNames.eng);
                     // This should be impossible, but the type system doesn't know it.
                     if(!(left instanceof Bool)) return new TypeException(evaluation.getEvaluator(), new BooleanType(), left);
                     if(!(right instanceof Bool)) return new TypeException(evaluation.getEvaluator(), new BooleanType(), right);
-                    return expression(left, right);
+                    return expression(requestor, left, right);
                 },
                 { 
                     "😀": TRANSLATE,
@@ -73,7 +75,7 @@ export default function bootstrapBool() {
                     eng: "and",
                     "😀": AND_SYMBOL
                 }, 
-                (left, right) => left.and(right)
+                (requestor, left, right) => left.and(requestor, right)
             ),
             createBooleanFunction(
                 {
@@ -84,7 +86,7 @@ export default function bootstrapBool() {
                     eng: OR_SYMBOL,
                     "😀": TRANSLATE
                 }, 
-                (left, right) => left.or(right)
+                (requestor, left, right) => left.or(requestor, right)
             ),
             new FunctionDefinition(
                 {
@@ -99,11 +101,11 @@ export default function bootstrapBool() {
                 [],
                 new NativeExpression(
                     new BooleanType(), 
-                    evaluation => {
+                    (requestor, evaluation) => {
                         const left = evaluation.getContext();
                         // This should be impossible, but the type system doesn't know it.
                         if(!(left instanceof Bool)) return new TypeException(evaluation.getEvaluator(), new BooleanType(), left);
-                        return left.not();
+                        return left.not(requestor);
                     },
                     {
                         "😀": TRANSLATE,
@@ -121,7 +123,7 @@ export default function bootstrapBool() {
                     eng: "equals",
                     "😀": "="
                 }, 
-                (left, right) => new Bool(left.isEqualTo(right))
+                (requestor, left, right) => new Bool(requestor, left.isEqualTo(right))
             ),
             createBooleanFunction(
                 {
@@ -132,9 +134,9 @@ export default function bootstrapBool() {
                     eng: "not-equal",
                     "😀": "≠"
                 }, 
-                (left, right) => new Bool(!left.isEqualTo(right))
+                (requestor, left, right) => new Bool(requestor, !left.isEqualTo(right))
             ),
-            createNativeConversion(WRITE_DOCS, "?", "''", (val: Bool) => new Text(val.toString()))
+            createNativeConversion(WRITE_DOCS, "?", "''", (requestor, val: Value) => new Text(requestor, val.toString()))
         ], false, true)
     );
     

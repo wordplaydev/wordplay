@@ -3,6 +3,7 @@ import StructureType, { STRUCTURE_NATIVE_TYPE_NAME } from "../nodes/StructureTyp
 import type Evaluation from "./Evaluation";
 import Primitive from "./Primitive";
 import type Value from "./Value";
+import type Node from "../nodes/Node";
 
 export default class StructureDefinitionValue extends Primitive {
 
@@ -12,8 +13,8 @@ export default class StructureDefinitionValue extends Primitive {
     /** The evaluation context in which this function was created. This enables closures. */
     readonly context: Evaluation | undefined;
 
-    constructor(definition: StructureDefinition, context?: Evaluation) {
-        super();
+    constructor(creator: Node, definition: StructureDefinition, context?: Evaluation) {
+        super(creator);
 
         this.definition = definition;
         this.context = context;

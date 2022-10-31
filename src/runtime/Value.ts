@@ -1,10 +1,19 @@
 import type Context from "../nodes/Context";
 import type Type from "../nodes/Type";
 import type Evaluator from "./Evaluator";
+import type Node from "../nodes/Node";
+
+/** Used to uniquely distinguish values. */
+let VALUE_ID = 0;
 
 export default abstract class Value {
 
-    constructor() {}
+    readonly id = VALUE_ID++;
+    readonly creator: Node;
+
+    constructor(creator: Node) { 
+        this.creator = creator;
+    }
 
     /** Returns a Wordplay sytnax representation of the value. */
     abstract toString(): string;

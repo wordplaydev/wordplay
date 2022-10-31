@@ -13,27 +13,12 @@ import type Evaluator from "./Evaluator";
 import Layout, { Vertical } from "../native/Layout";
 import Microphone from "../native/Microphone";
 
-export const DEFAULT_SHARES: Record<string, StructureDefinitionValue | Stream> = {}
-
-function addDefaultShare(def: StructureDefinition) {
-    const val = new StructureDefinitionValue(def);
-    def.names.names.forEach(a => {
-        const name = a.getName();
-        if(name !== undefined)
-            DEFAULT_SHARES[name] = val;
-    });
-}
-
-addDefaultShare(Verse);
-addDefaultShare(Phrase);
-addDefaultShare(Group);
-addDefaultShare(Vertical);
-addDefaultShare(Layout);
-
 export default class Shares {
 
     readonly values: Map<string, Value>;
+    readonly defaults: Record<string, StructureDefinitionValue | Stream> = {}
 
+    readonly evaluator: Evaluator;
     readonly time: Time;
     readonly mouseButton: MouseButton;
     readonly mousePosition: MousePosition;
@@ -42,13 +27,17 @@ export default class Shares {
 
     constructor(evaluator: Evaluator, bindings?: Record<string, Value>) {
 
+        this.evaluator = evaluator;
         this.values = new Map();
 
         if(bindings)
             Object.keys(bindings).forEach(name => this.bind(name, bindings[name]));
 
-        // Add implicit shares.
-        Object.keys(DEFAULT_SHARES).forEach(name => this.bind(name, DEFAULT_SHARES[name]));
+        this.addStructureDefinition(Verse);
+        this.addStructureDefinition(Phrase);
+        this.addStructureDefinition(Group);
+        this.addStructureDefinition(Vertical);
+        this.addStructureDefinition(Layout);
 
         // Share a timer stream for programs to listen to.
         this.time = new Time(evaluator);
@@ -70,6 +59,22 @@ export default class Shares {
         this.microphone = new Microphone(evaluator);
         Object.values(this.microphone.getNames()).forEach(name => this.bind(name, this.microphone));
         
+    }
+
+    addStructureDefinition(def: StructureDefinition) {
+        const val = new StructureDefinitionValue(this.evaluator.getProgram(), def);
+        def.names.names.forEach(a => {
+            const name = a.getName();
+            if(name !== undefined) {
+                this.bind(name, val);
+                this.defaults[name] = val;
+            }
+        });
+
+    }
+
+    getDefaultShares() { 
+        return this.defaults;
     }
 
     getDefinitions() { 

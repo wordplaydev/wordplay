@@ -45,8 +45,8 @@ export default class NativeHOFMapFilter extends HOF {
                     eng: "Initialize an index and map"
                 },
                 evaluator => {
-                    evaluator.bind("index", new Measurement(1));
-                    evaluator.bind("map", new MapValue([]));
+                    evaluator.bind("index", new Measurement(this, 1));
+                    evaluator.bind("map", new MapValue(this, []));
                     return undefined;
                 }),
             new Action(this, 
@@ -61,7 +61,7 @@ export default class NativeHOFMapFilter extends HOF {
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
                     else if(!(map instanceof MapValue)) return new TypeException(evaluator, new MapType(), map);
                     else {
-                        if(index.greaterThan(map.size()).bool)
+                        if(index.greaterThan(this, map.size(this)).bool)
                             evaluator.jump(1);
                         // Otherwise, apply the given translator function to the current list value.
                         else {
@@ -79,6 +79,7 @@ export default class NativeHOFMapFilter extends HOF {
                                 // Apply the translator function to the value
                                 evaluator.startEvaluation(new Evaluation(
                                     evaluator, 
+                                    this,
                                     checker.definition, 
                                     checker.definition.expression, 
                                     checker.context, 
@@ -118,12 +119,12 @@ export default class NativeHOFMapFilter extends HOF {
                     if(include.bool) {
                         const mapKey = map.values[index.num.toNumber() - 1][0];
                         const mapValue = map.values[index.num.toNumber() - 1][1];
-                        evaluator.bind("map", newMap.set(mapKey, mapValue));
+                        evaluator.bind("map", newMap.set(this, mapKey, mapValue));
                     }
                 }
 
                 // Increment the counter
-                evaluator.bind("index", index.add(new Measurement(1)));
+                evaluator.bind("index", index.add(this, new Measurement(this, 1)));
 
                 // Jump to the conditional
                 evaluator.jump(-2);

@@ -16,6 +16,9 @@ import { SET_TYPE_VAR_NAMES } from "./NativeConstants";
 import NativeHOFSetFilter from "./NativeHOFSetFilter";
 import Bool from "../runtime/Bool";
 import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
+import type Node from "../nodes/Node";
+import type Value from "../runtime/Value";
+import type Evaluation from "../runtime/Evaluation";
 
 export default function bootstrapSet() {
 
@@ -69,12 +72,12 @@ export default function bootstrapSet() {
                     new SetType() 
                 ) ], 
                 new BooleanType(),
-                evaluation => {
+                (requestor, evaluation) => {
                         const set = evaluation?.getContext();
                         const other = evaluation.resolve("set");
                         return !(set instanceof Set && other instanceof Set) ? 
                             new TypeException(evaluation.getEvaluator(), new SetType(), other) :
-                            new Bool(set.isEqualTo(other));
+                            new Bool(requestor, set.isEqualTo(other));
                     }
             ),
             createNativeFunction(
@@ -99,12 +102,12 @@ export default function bootstrapSet() {
                     new SetType() 
                 ) ], 
                 new BooleanType(),
-                evaluation => {
+                (requestor, evaluation) => {
                         const set = evaluation?.getContext();
                         const other = evaluation.resolve("set");
                         return !(set instanceof Set && other instanceof Set) ? 
                             new TypeException(evaluation.getEvaluator(), new SetType(), other) :
-                            new Bool(!set.isEqualTo(other));
+                            new Bool(requestor, !set.isEqualTo(other));
                     }
             ),
             createNativeFunction(
@@ -129,10 +132,10 @@ export default function bootstrapSet() {
                     new NameType(SET_TYPE_VAR_NAMES.eng) 
                 ) ], 
                 new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
-                evaluation => {
+                (requestor, evaluation) => {
                         const set = evaluation?.getContext();
                         const element = evaluation.resolve("value");
-                        if(set instanceof Set && element !== undefined) return set.add(element);
+                        if(set instanceof Set && element !== undefined) return set.add(requestor, element);
                         else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
                     }
             ),
@@ -158,10 +161,10 @@ export default function bootstrapSet() {
                     new NameType(SET_TYPE_VAR_NAMES.eng) 
                 ) ], 
                 new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
-                evaluation => {
-                    const set = evaluation.getContext();
+                (requestor, evaluation) => {
+                    const set: Evaluation | Value | undefined = evaluation.getContext();
                     const element = evaluation.resolve("value");
-                    if(set instanceof Set && element !== undefined) return set.remove(element);
+                    if(set instanceof Set && element !== undefined) return set.remove(requestor, element);
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
                 }
             ),            
@@ -187,10 +190,10 @@ export default function bootstrapSet() {
                     new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)) 
                 ) ],
                 new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
-                evaluation => {
+                (requestor, evaluation) => {
                     const set = evaluation.getContext();
                     const newSet = evaluation.resolve("set");
-                    if(set instanceof Set && newSet instanceof Set) return set.union(newSet);
+                    if(set instanceof Set && newSet instanceof Set) return set.union(requestor, newSet);
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
                 }
             ),
@@ -215,10 +218,10 @@ export default function bootstrapSet() {
                     }
                 ) ], 
                 new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
-                evaluation => {
+                (requestor, evaluation) => {
                     const set = evaluation.getContext();
                     const newSet = evaluation.resolve("set");
-                    if(set instanceof Set && newSet instanceof Set) return set.intersection(newSet);
+                    if(set instanceof Set && newSet instanceof Set) return set.intersection(requestor, newSet);
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
                 }
             ),
@@ -243,10 +246,10 @@ export default function bootstrapSet() {
                     }
                 ) ], 
                 new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
-                evaluation => {
+                (requestor, evaluation) => {
                     const set = evaluation.getContext();
                     const newSet = evaluation.resolve("set");
-                    if(set instanceof Set && newSet instanceof Set) return set.difference(newSet);
+                    if(set instanceof Set && newSet instanceof Set) return set.difference(requestor, newSet);
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
                 }
             ),
@@ -275,8 +278,8 @@ export default function bootstrapSet() {
                 new SetType(new NameType(SET_TYPE_VAR_NAMES.eng))
             ),
 
-            createNativeConversion(WRITE_DOCS, "{}", "''", (val: Set) => new Text(val.toString())),
-            createNativeConversion(WRITE_DOCS, "{}", "[]", (val: Set) => new List(val.values))
+            createNativeConversion(WRITE_DOCS, "{}", "''", (requestor: Node, val: Set) => new Text(requestor, val.toString())),
+            createNativeConversion(WRITE_DOCS, "{}", "[]", (requestor: Node, val: Set) => new List(requestor, val.values))
         ], false, true)
     );
     

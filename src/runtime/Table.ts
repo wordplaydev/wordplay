@@ -9,10 +9,10 @@ export default class Table extends Value {
     readonly literal: TableLiteral;
     readonly rows: Value[][];
 
-    constructor(literal: TableLiteral, rows: Value[][]) {
-        super();
+    constructor(creator: TableLiteral, rows: Value[][]) {
+        super(creator);
 
-        this.literal = literal;
+        this.literal = creator;
         this.rows = rows;
     }
 

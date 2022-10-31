@@ -47,7 +47,6 @@ import type Transform from "../transforms/Transform"
 import Block from "./Block";
 import Replace from "../transforms/Replace";
 import EvalOpenToken from "./EvalOpenToken";
-import EvalCloseToken from "./EvalCloseToken";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Remove from "../transforms/Remove";
 
@@ -517,6 +516,7 @@ export default class Evaluate extends Expression {
 
             evaluator.startEvaluation(new Evaluation(
                 evaluator, 
+                this,
                 definition, 
                 body, 
                 functionOrStructure.context, 
@@ -532,7 +532,7 @@ export default class Evaluate extends Expression {
 
             // Evaluate the structure's block with the bindings, generating an evaluation context with the
             // type's inputs and functions.
-            evaluator.startEvaluation(new Evaluation(evaluator, functionOrStructure.definition, functionOrStructure.definition.block ?? new Block([], true, true), evaluator.getEvaluationContext(), bindings));
+            evaluator.startEvaluation(new Evaluation(evaluator, this, functionOrStructure.definition, functionOrStructure.definition.block ?? new Block([], true, true), evaluator.getEvaluationContext(), bindings));
 
         }
 
@@ -553,7 +553,7 @@ export default class Evaluate extends Expression {
                     bindings.set(
                         n, 
                         bind.isVariableLength() ? 
-                            new List(values.slice(i)) :
+                            new List(this, values.slice(i)) :
                             values[i]
                     )
             });

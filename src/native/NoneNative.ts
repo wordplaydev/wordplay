@@ -13,10 +13,11 @@ import type Value from "../runtime/Value";
 import { createNativeConversion } from "./NativeBindings";
 import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
 import type Translations from "../nodes/Translations";
+import type Node from "../nodes/Node";
 
 export default function bootstrapNone() {
 
-    function createNativeNoneFunction(docs: Translations, names: Translations, expression: (left: None, right: None) => Value) {
+    function createNativeNoneFunction(docs: Translations, names: Translations, expression: (requestor: Node, left: None, right: None) => Value) {
         return new FunctionDefinition(
             docs,
             names,
@@ -34,13 +35,13 @@ export default function bootstrapNone() {
             ) ],
             new NativeExpression(
                 new BooleanType(), 
-                evaluation => {
+                (requestor, evaluation) => {
                     const left = evaluation.getContext();
                     const right = evaluation.resolve("val");
                     // This should be impossible, but the type system doesn't know it.
                     if(!(left instanceof None)) return new TypeException(evaluation.getEvaluator(), new NoneType(), left);
                     if(!(right instanceof None)) return new TypeException(evaluation.getEvaluator(), new NoneType(), right);
-                    return expression(left, right);
+                    return expression(requestor, left, right);
                 },
                 {
                     "😀": TRANSLATE, 
@@ -62,7 +63,7 @@ export default function bootstrapNone() {
         }, 
         [], [], [],
         new Block([ 
-            createNativeConversion(WRITE_DOCS, "!", "''", (val: None) => new Text(val.toString())),
+            createNativeConversion(WRITE_DOCS, "!", "''", (requestor, val: None) => new Text(requestor, val.toString())),
             createNativeNoneFunction(
                 {
                     eng: WRITE,
@@ -72,7 +73,7 @@ export default function bootstrapNone() {
                     eng: "equals",
                     "😀": "="
                 }, 
-                (left: None, right: None) => new Bool(left.isEqualTo(right))
+                (requestor: Node, left: None, right: None) => new Bool(requestor, left.isEqualTo(right))
             ),
             createNativeNoneFunction(
                 {
@@ -83,7 +84,7 @@ export default function bootstrapNone() {
                     eng: "not-equal",
                     "😀": "≠"
                 }, 
-                (left: None, right: None) => new Bool(!left.isEqualTo(right))
+                (requestor: Node, left: None, right: None) => new Bool(requestor, !left.isEqualTo(right))
             )
         ], false, true)
     );

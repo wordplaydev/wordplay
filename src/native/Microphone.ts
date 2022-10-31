@@ -7,10 +7,6 @@ import { FREQUENCY } from "./Time";
 
 const FFT_SIZE = 32;
 
-function percent(frequencies: number[]) {
-    return new Measurement(Math.floor(100 * Math.max.apply(undefined, frequencies) / 256));
-}
-
 // A helpful article on getting raw data streams:
 // https://stackoverflow.com/questions/69237143/how-do-i-get-the-audio-frequency-from-my-mic-using-javascript
 export default class Microphone extends Stream {
@@ -23,6 +19,7 @@ export default class Microphone extends Stream {
 
     constructor(evaluator: Evaluator) {
         super(
+            evaluator.getProgram(),
             {
                 eng: "A stream of microphone amplitudes",
                 "😀": TRANSLATE
@@ -32,11 +29,15 @@ export default class Microphone extends Stream {
                 eng: "mic"
             },
             evaluator, 
-            percent([0])
+            new Measurement(evaluator.getProgram(), 0)
         );
 
     }
 
+    percent(frequencies: number[]) {
+        return new Measurement(this.evaluator.getProgram(), Math.floor(100 * Math.max.apply(undefined, frequencies) / 256));
+    }
+    
     sample() {
         if(this.analyzer === undefined) return;
 
@@ -44,7 +45,7 @@ export default class Microphone extends Stream {
         // Get a copy of the frequencies.
         const frequencies = Array.from(this.frequencies);
         // Compute the maximum frequency in the same and convert it to a percentage.
-        this.add(percent(frequencies));
+        this.add(this.percent(frequencies));
 
     }
 

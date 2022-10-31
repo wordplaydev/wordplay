@@ -4,6 +4,7 @@
     import ExceptionView from "./ExceptionView.svelte";
     import EvaluatorView from "./EvaluatorView.svelte";
     import GroupView from "./GroupView.svelte";
+    import { onMount } from "svelte";
 
     export let verse: Structure | undefined;
     export let evaluator: Evaluator;
@@ -30,25 +31,29 @@
             evaluator.getShares().getKeyboard().record(event.key, true);
     }
 
+    let visible = false;
+    onMount(() => visible = true);
+
 </script>
 
-<div class="verse" style={`width: 100%; height: auto;`} tabindex=0
-    on:mousedown={handleMouseDown} 
-    on:mouseup={handleMouseUp}
-    on:mousemove={handleMouseMove}
-    on:keydown={handleKeyDown}
-    on:keyup={handleKeyUp}
->
+{#if visible}
+    <div class="verse" style={`width: 100%; height: auto;`} tabindex=0
+        on:mousedown={handleMouseDown} 
+        on:mouseup={handleMouseUp}
+        on:mousemove={handleMouseMove}
+        on:keydown={handleKeyDown}
+        on:keyup={handleKeyUp}
+    >
+        {#if verse === undefined}
+            <EvaluatorView evaluator={evaluator} />
+        {:else if !(group instanceof Structure)}
+            <ExceptionView>Group wasn't a structure</ExceptionView>
+        {:else}
+            <GroupView group={group} />
+        {/if}
 
-    {#if verse === undefined}
-        <EvaluatorView evaluator={evaluator} />
-    {:else if !(group instanceof Structure)}
-        <ExceptionView>Group wasn't a structure</ExceptionView>
-    {:else}
-        <GroupView group={group} />
-    {/if}
-
-</div>
+    </div>
+{/if}
 
 <style>
     .verse:focus {

@@ -78,7 +78,7 @@ export default class ListLiteral extends Expression {
             values.unshift(evaluator.popValue(undefined));
 
         // Construct the new list.
-        return new List(values);
+        return new List(this, values);
         
     }
 

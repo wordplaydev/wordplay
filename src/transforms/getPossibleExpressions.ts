@@ -43,6 +43,8 @@ import StreamType from "../nodes/StreamType";
 import Convert from "../nodes/Convert";
 import Docs from "../nodes/Docs";
 import Names from "../nodes/Names";
+import Token from "../nodes/Token";
+import TokenType from "../nodes/TokenType";
 
 /** Offer possible expressions compatible with the given type, or if none was given, any possible expression */
 export default function getPossibleExpressions(parent: Node, child: Expression | Unparsable | undefined, context: Context, type: Type=new AnyType()): (Expression | Definition)[] {
@@ -56,7 +58,7 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
         new BooleanLiteral(false),
         ...[ new MeasurementLiteral(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => new MeasurementLiteral(undefined, u))) ],
         ...[ new TextLiteral(), ... (project === undefined ? [] : getPossibleLanguages(project).map(l => new TextLiteral(undefined, new Language(l)))) ],
-        new Template(),
+        new Template(new Token('"\\', TokenType.TEXT_OPEN), [ new ExpressionPlaceholder(), new Token('\\"', TokenType.TEXT_CLOSE)]),
         ...(child instanceof Expression && child.getType(context) instanceof BooleanType ? [ new Conditional( child, new ExpressionPlaceholder(), new ExpressionPlaceholder()) ] : [] ),
         new Conditional(new ExpressionPlaceholder(), new ExpressionPlaceholder(), new ExpressionPlaceholder()),
         new Block([ new ExpressionPlaceholder() ], false, false),

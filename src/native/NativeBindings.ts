@@ -23,6 +23,7 @@ import Block from "../nodes/Block";
 import { BOOLEAN_NATIVE_TYPE_NAME, LIST_NATIVE_TYPE_NAME, MAP_NATIVE_TYPE_NAME, MEASUREMENT_NATIVE_TYPE_NAME, NONE_NATIVE_TYPE_NAME, SET_NATIVE_TYPE_NAME, TEXT_NATIVE_TYPE_NAME } from "./NativeConstants";
 import { TRANSLATE } from "../nodes/Translations";
 import type Translations from "../nodes/Translations";
+import type Node from "../nodes/Node";
 
 export class NativeBindings implements NativeInterface {
 
@@ -100,8 +101,7 @@ export function createNativeFunction(
     typeVars: TypeVariable[], 
     inputs: Bind[], 
     output: Type,
-    evaluator: (evaluator: Evaluation) => Value) {
-
+    evaluator: (requestor: Node, evaluator: Evaluation) => Value) {
     return new FunctionDefinition(
         docs, aliases, typeVars, inputs,
         new NativeExpression(
@@ -117,7 +117,7 @@ export function createNativeFunction(
 
 }
 
-export function createNativeConversion(docs: Translations, inputTypeString: string, outputTypeString: string, fun: Function) {
+export function createNativeConversion<ValueType extends Value>(docs: Translations, inputTypeString: string, outputTypeString: string, convert: (requestor: Node, value: ValueType) => Value) {
 
     // Parse the expected type.
     const inputType = parseType(tokens(inputTypeString));
@@ -128,9 +128,9 @@ export function createNativeConversion(docs: Translations, inputTypeString: stri
         docs, inputType, outputTypeString,
         new NativeExpression(
             outputTypeString,
-            evaluation => {
+            (requestor, evaluation) => {
                 const val = evaluation.getContext();
-                if(val instanceof Value && inputType.accepts(val.getType(evaluation.getEvaluator().getContext()), evaluation.getEvaluator().getContext())) return fun.call(undefined, val);
+                if(val instanceof Value && inputType.accepts(val.getType(evaluation.getEvaluator().getContext()), evaluation.getEvaluator().getContext())) return convert(requestor, val as ValueType);
                 else return new TypeException(evaluation.getEvaluator(), inputType, val); 
             },
             docs

@@ -13,13 +13,14 @@ import type LanguageCode from "../nodes/LanguageCode";
 import Name from "../nodes/Name";
 import type Translations from "../nodes/Translations";
 import Names from "../nodes/Names";
+import type Node from "../nodes/Node";
 
 export default class List extends Primitive {
 
     readonly values: Value[] = [];
 
-    constructor(values: Value[]) {
-        super();
+    constructor(creator: Node, values: Value[]) {
+        super(creator);
 
         this.values = values.slice();
     }
@@ -31,10 +32,10 @@ export default class List extends Primitive {
         return value === undefined ? new None(OutOfBoundsNames) : value;
     }
 
-    length() { return new Measurement(this.values.length); }
+    length(requestor: Node) { return new Measurement(requestor, this.values.length); }
 
-    has(value: Value) { 
-        return new Bool(this.values.find(v => value.isEqualTo(v)) !== undefined);
+    has(requestor: Node, value: Value) { 
+        return new Bool(requestor, this.values.find(v => value.isEqualTo(v)) !== undefined);
     }
 
     isEqualTo(value: Value): boolean {
@@ -45,34 +46,34 @@ export default class List extends Primitive {
         return this.values[Math.floor(Math.random() * this.values.length)];
     }
 
-    join(separator: Text) { 
-        return new Text(this.values.map(v => v instanceof Text ? v.text : v.toString()).join(separator.text));
+    join(requestor: Node, separator: Text) { 
+        return new Text(requestor, this.values.map(v => v instanceof Text ? v.text : v.toString()).join(separator.text));
     }
 
-    add(value: Value) { return new List([...this.values, value]); }
+    add(requestor: Node, value: Value) { return new List(requestor, [...this.values, value]); }
 
     first() { return this.values.length === 0 ? new None(OutOfBoundsNames) : this.values[0]; }
 
     last() { return this.values.length === 0 ? new None(OutOfBoundsNames) : this.values[this.values.length - 1];}
 
-    sansFirst() { return new List(this.values.slice(1)); }
+    sansFirst(requestor: Node) { return new List(requestor, this.values.slice(1)); }
 
-    sansLast() { return new List(this.values.slice(0, -1)); }
+    sansLast(requestor: Node) { return new List(requestor, this.values.slice(0, -1)); }
 
-    sans(value: Value) { 
+    sans(requestor: Node, value: Value) { 
         const val = this.values.find(v => v.isEqualTo(value));
-        return val === undefined ? this : new List(this.values.filter(v => v !== val));    
+        return val === undefined ? this : new List(requestor, this.values.filter(v => v !== val));    
     }
 
-    sansAll(value: Value) { 
-        return new List(this.values.filter(v => !v.isEqualTo(value)));
+    sansAll(requestor: Node, value: Value) { 
+        return new List(requestor, this.values.filter(v => !v.isEqualTo(value)));
     }
 
-    reverse() { return new List(this.values.reverse()); }
+    reverse(requestor: Node) { return new List(requestor, this.values.reverse()); }
 
-    append(value: Value) { return new List([ ...this.values, value ]); }
+    append(requestor: Node, value: Value) { return new List(requestor, [ ...this.values, value ]); }
 
-    getType(context: Context) { return new ListType(getPossibleUnionType(context, this.values.map(v => v.getType(context))),); }
+    getType(context: Context) { return new ListType(getPossibleUnionType(context, this.values.map(v => v.getType(context)))); }
 
     getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }
 

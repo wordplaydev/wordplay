@@ -81,8 +81,8 @@ export default class SetLiteral extends Expression {
         const values = [];
         for(let i = 0; i < this.values.length; i++)
             values.unshift(evaluator.popValue(undefined));
-        return new Set(values);
-            
+        return new Set(this, values);
+        
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 

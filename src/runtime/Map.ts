@@ -11,13 +11,14 @@ import Names from "../nodes/Names";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations";
 import type LanguageCode from "../nodes/LanguageCode";
+import type Node from "../nodes/Node";
 
 export default class Map extends Primitive {
 
     readonly values: [Value, Value][];
 
-    constructor(values: [Value, Value][]) {
-        super();
+    constructor(creator: Node, values: [Value, Value][]) {
+        super(creator);
 
         this.values = [];
         values.forEach(kv => {
@@ -27,13 +28,13 @@ export default class Map extends Primitive {
 
     }
 
-    size() { 
-        return new Measurement(this.values.length);
+    size(requestor: Node) { 
+        return new Measurement(requestor, this.values.length);
     }
 
-    has(key: Value) { 
+    has(requestor: Node, key: Value) { 
         const kv = this.values.find( kv2 => kv2[0].isEqualTo(key));
-        return kv === undefined ? new None(UnknownKeyNames) : kv[1];
+        return kv === undefined ? new None(requestor, UnknownKeyNames) : kv[1];
     }
 
     isEqualTo(value: Value): boolean {
@@ -47,7 +48,7 @@ export default class Map extends Primitive {
         return true;
     }
 
-    set(key: Value, value: Value) {
+    set(requestor: Node, key: Value, value: Value) {
         let hasKey = false;
         const values: [Value, Value][] = this.values.map(kv => {
             if(kv[0].isEqualTo(key)) {
@@ -58,15 +59,15 @@ export default class Map extends Primitive {
         }) as [Value, Value][];
         if(!hasKey)
             values.push([ key, value ]);
-        return new Map(values);
+        return new Map(requestor, values);
     }
 
-    unset(key: Value) {
-        return new Map(this.values.filter(kv => !kv[0].isEqualTo(key)));
+    unset(requestor: Node, key: Value) {
+        return new Map(requestor, this.values.filter(kv => !kv[0].isEqualTo(key)));
     }
 
-    remove(value: Value) {
-        return new Map(this.values.filter(kv => !kv[1].isEqualTo(value)));
+    remove(requestor: Node, value: Value) {
+        return new Map(requestor, this.values.filter(kv => !kv[1].isEqualTo(value)));
     }
 
     getKeys() { 
@@ -86,7 +87,7 @@ export default class Map extends Primitive {
     
     getNativeTypeName(): string { return MAP_NATIVE_TYPE_NAME; }
 
-    toString() { return `{${Array.from(this.values).sort().map(k => `${k[0].toString()}:${(this.has(k[0]) as Value).toString()}`).join(" ")}}`; }
+    toString() { return `{${Array.from(this.values).sort().map(k => `${k[0].toString()}:${(this.has(this.creator, k[0]) as Value).toString()}`).join(" ")}}`; }
 
 }
 

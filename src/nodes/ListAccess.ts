@@ -113,7 +113,7 @@ export default class ListAccess extends Expression {
     evaluate(evaluator: Evaluator): Value {
 
         const index = evaluator.popValue(new MeasurementType());
-        if(!(index instanceof Measurement) || !index.isInteger()) return index;
+        if(!(index instanceof Measurement) || !index.num.isInteger()) return index;
 
         const list = evaluator.popValue(new ListType());
         if(!(list instanceof List)) return list;

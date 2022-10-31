@@ -48,7 +48,7 @@ export default class MeasurementLiteral extends Expression {
 
     computeConflicts(): Conflict[] { 
     
-        if(new Measurement(this.number).num.isNaN())
+        if(new Measurement(this, this.number).num.isNaN())
             return [ new NotANumber(this) ];
         else
             return []; 
@@ -66,7 +66,7 @@ export default class MeasurementLiteral extends Expression {
     evaluate(evaluator: Evaluator): Value {
         if(this.unit instanceof Unparsable) return new SemanticException(evaluator, this.unit);
         // This needs to translate between different number formats.
-        else return new Measurement(this.number, this.unit);
+        else return new Measurement(this, this.number, this.unit);
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }

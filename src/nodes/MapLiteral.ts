@@ -106,7 +106,7 @@ export default class MapLiteral extends Expression {
             const key = evaluator.popValue(undefined);
             values.unshift([ key, value ]);
         }
-        return new Map(values);
+        return new Map(this, values);
             
     }
 

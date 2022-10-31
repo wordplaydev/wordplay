@@ -13,7 +13,7 @@ export default class Conversion extends Primitive {
     readonly context: Evaluation | Value;
 
     constructor(definition: ConversionDefinition, context: Evaluation | Value) {
-        super();
+        super(definition);
 
         this.definition = definition;
         this.context = context;

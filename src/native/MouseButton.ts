@@ -8,6 +8,7 @@ export default class MouseButton extends Stream {
 
     constructor(evaluator: Evaluator) {
         super(
+            evaluator.getProgram(),
             {
                 eng: "A stream of mouse button up and down events.",
                 "😀": TRANSLATE
@@ -17,12 +18,12 @@ export default class MouseButton extends Stream {
                 eng: "🖱⬇️"
             },
             evaluator, 
-            new Bool(true)
+            new Bool(evaluator.getProgram(), true)
         );
     }
 
     record(state: boolean) {
-        this.add(new Bool(state));
+        this.add(new Bool(this.evaluator.getProgram(), state));
     }
 
     start() {}

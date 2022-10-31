@@ -44,8 +44,8 @@ export default class NativeHOFSetFilter extends HOF {
                     eng: "Initialize an index and new set."
                 }, 
                 evaluator => {
-                    evaluator.bind("index", new Measurement(1));
-                    evaluator.bind("set", new Set([]));
+                    evaluator.bind("index", new Measurement(this, 1));
+                    evaluator.bind("set", new Set(this, []));
                     return undefined;
                 }),
             new Action(this, 
@@ -60,7 +60,7 @@ export default class NativeHOFSetFilter extends HOF {
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
                     else if(!(set instanceof Set)) return new TypeException(evaluator, new SetType(), set);
                     else {
-                        if(index.greaterThan(set.size()).bool)
+                        if(index.greaterThan(this, set.size(this)).bool)
                             evaluator.jump(1);
                         // Otherwise, apply the given translator function to the current list value.
                         else {
@@ -74,7 +74,8 @@ export default class NativeHOFSetFilter extends HOF {
                                 (checker.definition.inputs[0] as Bind).getNames().forEach(n =>  bindings.set(n, setValue));
                                 // Apply the translator function to the value
                                 evaluator.startEvaluation(new Evaluation(
-                                    evaluator, 
+                                    evaluator,
+                                    this,
                                     checker.definition, 
                                     checker.definition.expression, 
                                     checker.context, 
@@ -111,13 +112,13 @@ export default class NativeHOFSetFilter extends HOF {
                     if(newSet instanceof Set) {
                         if(include.bool) {
                             const setValue = set.values[index.num.toNumber() - 1];
-                            evaluator.bind("set", newSet.add(setValue));
+                            evaluator.bind("set", newSet.add(this, setValue));
                         }
                     }
                     else return new TypeException(evaluator, new SetType(), newSet);
 
                     // Increment the counter
-                    evaluator.bind("index", index.add(new Measurement(1)));
+                    evaluator.bind("index", index.add(this, new Measurement(this, 1)));
 
                     // Jump to the conditional
                     evaluator.jump(-2);

@@ -10,6 +10,7 @@ import MeasurementType from "../nodes/MeasurementType";
 import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Value from "./Value";
 import Names from "../nodes/Names";
+import type Node from "../nodes/Node";
 
 /** A decimal number with a unit.
  * If all of it's parts are empty, it is not a number.
@@ -20,8 +21,8 @@ export default class Measurement extends Primitive {
     readonly num: Decimal;
     readonly unit: Unit;
 
-    constructor(number: number | Token | Decimal | string, unit?: Unit) {
-        super();
+    constructor(creator: Node, number: number | Token | Decimal | string, unit?: Unit) {
+        super(creator);
 
         // If the number given is a Decimal, just assign it.
         if(number instanceof Decimal) {
@@ -80,77 +81,75 @@ export default class Measurement extends Primitive {
         this.unit = unit === undefined ? new Unit() : unit;
     }
 
-    isNotANumber(): Bool {
-        return new Bool(this.num.isNaN());
+    isNotANumber(requestor: Node): Bool {
+        return new Bool(requestor, this.num.isNaN());
     }
 
-    isInteger(): Bool { 
-        return new Bool(this.num.isInteger());
+    isInteger(requestor: Node): Bool { 
+        return new Bool(requestor, this.num.isInteger());
     }
 
     toNumber(): number { 
         return this.num.toNumber();
     }
 
-    root(operand: Measurement): Measurement {
-        return new Measurement(this.num.pow(new Decimal(1).div(operand.num)), this.unit.root(operand.num.toNumber()));
+    root(requestor: Node, operand: Measurement): Measurement {
+        return new Measurement(requestor, this.num.pow(new Decimal(1).div(operand.num)), this.unit.root(operand.num.toNumber()));
     }
 
-    negate(): Measurement {
-        return new Measurement(this.num.neg(), this.unit);
+    negate(requestor: Node): Measurement {
+        return new Measurement(requestor, this.num.neg(), this.unit);
     }
 
-    absolute(): Measurement {
-        return new Measurement(this.num.abs(), this.unit);
+    absolute(requestor: Node): Measurement {
+        return new Measurement(requestor, this.num.abs(), this.unit);
     }
 
-    add(operand: Measurement): Measurement {
-        return new Measurement(this.num.add(operand.num), this.unit);
+    add(requestor: Node, operand: Measurement): Measurement {
+        return new Measurement(requestor, this.num.add(operand.num), this.unit);
     }
 
-    subtract(operand: Measurement): Measurement {
-        return new Measurement(this.num.sub(operand.num), this.unit);
+    subtract(requestor: Node, operand: Measurement): Measurement {
+        return new Measurement(requestor, this.num.sub(operand.num), this.unit);
     }
 
-    multiply(operand: Measurement): Measurement {
-        return new Measurement(this.num.times(operand.num), this.unit.product(operand.unit));
+    multiply(requestor: Node, operand: Measurement): Measurement {
+        return new Measurement(requestor, this.num.times(operand.num), this.unit.product(operand.unit));
     }
 
-    divide(divisor: Measurement): Measurement | None {
+    divide(requestor: Node, divisor: Measurement): Measurement | None {
         return divisor.num.isZero() ? 
             new None(new Names([new Name("nan")])) : 
-            new Measurement(this.num.dividedBy(divisor.num), this.unit.quotient(divisor.unit))
+            new Measurement(requestor, this.num.dividedBy(divisor.num), this.unit.quotient(divisor.unit))
     }
 
-    remainder(divisor: Measurement): Measurement | None {
+    remainder(requestor: Node, divisor: Measurement): Measurement | None {
         return divisor.num.isZero() ? 
             new None(new Names([new Name("nan")])) : 
-            new Measurement(this.num.modulo(divisor.num), this.unit);
+            new Measurement(requestor, this.num.modulo(divisor.num), this.unit);
     }
 
     isEqualTo(operand: Value): boolean {
         return operand instanceof Measurement && this.num.equals(operand.num) && this.unit.isEqualTo(operand.unit);
     }
 
-    greaterThan(operand: Measurement): Bool {
-        return new Bool(this.num.greaterThan(operand.num) && this.unit.isEqualTo(operand.unit));    
+    greaterThan(requestor: Node, operand: Measurement): Bool {
+        return new Bool(requestor, this.num.greaterThan(operand.num) && this.unit.isEqualTo(operand.unit));    
     }
 
-    lessThan(operand: Measurement): Bool {
-        return new Bool(this.num.lessThan(operand.num) && this.unit.isEqualTo(operand.unit));        
+    lessThan(requestor: Node, operand: Measurement): Bool {
+        return new Bool(requestor, this.num.lessThan(operand.num) && this.unit.isEqualTo(operand.unit));        
     }
 
-    power(operand: Measurement) {
-        return new Measurement(this.num.pow(operand.num), this.unit.power(operand.num.toNumber()));
+    power(requestor: Node, operand: Measurement) {
+        return new Measurement(requestor, this.num.pow(operand.num), this.unit.power(operand.num.toNumber()));
     }
 
     getType() { return new MeasurementType(undefined, this.unit); }
     
     getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }
 
-    unitless(): Measurement { return new Measurement(this.num); }
-
-    withUnit(unit: Unit): Measurement { return new Measurement(this.num, unit); }
+    unitless(requestor: Node): Measurement { return new Measurement(requestor, this.num); }
     
     toString() { 
         return `${this.num.toString()}${this.unit.toString()}`;

@@ -11,6 +11,7 @@ export default class ReactionStream extends Stream {
 
     constructor(evaluator: Evaluator, reaction: Reaction, initialValue: Value) {
         super(
+            reaction,
             {
                 eng: "A stream of values based on other streams.",
                 "😀": TRANSLATE

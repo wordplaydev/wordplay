@@ -3,13 +3,15 @@ import type Names from "../nodes/Names";
 import NoneType from "../nodes/NoneType";
 import { NONE_SYMBOL } from "../parser/Tokenizer";
 import Value from "./Value";
+import type Node from "../nodes/Node";
 
 export default class None extends Value {
 
     readonly names?: Names;
 
-    constructor(names?: Names) {
-        super();
+    constructor(creator: Node, names?: Names) {
+        super(creator);
+        
         this.names = names;
     }
 

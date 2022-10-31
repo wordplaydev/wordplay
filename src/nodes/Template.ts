@@ -73,12 +73,12 @@ export default class Template extends Expression {
         let text = "";
         for(let i = this.expressions.length - 1; i >= 0; i--) {
             const p = this.expressions[i];
-            const part = p instanceof Token ? new Text(p.text.toString().substring(1, p.text.toString().length - 1)) : evaluator.popValue(new TextType());
+            const part = p instanceof Token ? new Text(this, p.text.toString().substring(1, p.text.toString().length - 1)) : evaluator.popValue(new TextType());
             if(!(part instanceof Text)) return part;
             text = part.text + text;
         }
         text = this.open.text.toString().substring(1, this.open.text.toString().length - 1) + text;
-        return new Text(text, this.format?.getLanguage());
+        return new Text(this, text, this.format?.getLanguage());
 
     }
 

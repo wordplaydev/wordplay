@@ -47,7 +47,7 @@ export default class NativeHOFListFind extends HOF {
                     eng: "Start at the first item."
                 },
                 evaluator => {
-                    evaluator.bind("index", new Measurement(1));
+                    evaluator.bind("index", new Measurement(this, 1));
                     return undefined;
                 }),
             new Action(this, 
@@ -62,7 +62,7 @@ export default class NativeHOFListFind extends HOF {
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
                     else if(!(list instanceof List)) return new TypeException(evaluator, new ListType(), list);
                     else {
-                        if(index.greaterThan(list.length()).bool)
+                        if(index.greaterThan(this, list.length(this)).bool)
                             evaluator.jump(1);
                         // Otherwise, apply the given translator function to the current list value.
                         else {
@@ -77,6 +77,7 @@ export default class NativeHOFListFind extends HOF {
                                 // Apply the translator function to the value
                                 evaluator.startEvaluation(new Evaluation(
                                     evaluator, 
+                                    this,
                                     include.definition, 
                                     include.definition.expression, 
                                     include.context, 
@@ -109,7 +110,7 @@ export default class NativeHOFListFind extends HOF {
                     return new TypeException(evaluator, new MeasurementType(), index);
 
                 // If it doesn't match, increment the counter and jump back to the conditional.
-                evaluator.bind("index", index.add(new Measurement(1)));
+                evaluator.bind("index", index.add(this, new Measurement(this, 1)));
                 evaluator.jump(-2);
 
                 return undefined;
@@ -130,7 +131,7 @@ export default class NativeHOFListFind extends HOF {
             return new TypeException(evaluator, new ListType(), list);
 
         // If we're past the end of the list, return nothing. Otherwise return the value at the index.
-        return index.greaterThan(list.length()).bool ? 
+        return index.greaterThan(this, list.length(this)).bool ? 
             new None(NotFoundAliases) : 
             list.get(index);
 

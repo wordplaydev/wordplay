@@ -43,7 +43,7 @@ export default class NativeHOFListCombine extends HOF {
                     eng: "Start at the first item."
                 },
                 evaluator => {
-                    evaluator.bind("index", new Measurement(1));
+                    evaluator.bind("index", new Measurement(this, 1));
                     return undefined;
                 }
             ),
@@ -69,7 +69,7 @@ export default class NativeHOFListCombine extends HOF {
                         return new NameException(evaluator, "initial");
 
                     // If we're past the end of the list, jump past the loop.
-                    if(index.greaterThan(list.length()).bool)
+                    if(index.greaterThan(this, list.length(this)).bool)
                         evaluator.jump(1);
                     // Otherwise, apply the given translator function to the current list value.
                     else {
@@ -87,6 +87,7 @@ export default class NativeHOFListCombine extends HOF {
                             // Apply the translator function to the value
                             evaluator.startEvaluation(new Evaluation(
                                 evaluator, 
+                                this,
                                 translator.definition, 
                                 translator.definition.expression, 
                                 translator.context, 
@@ -115,7 +116,7 @@ export default class NativeHOFListCombine extends HOF {
                         return new TypeException(evaluator, new MeasurementType(), index);
                     
                     // Increment the index.
-                    evaluator.bind("index", index.add(new Measurement(1)));
+                    evaluator.bind("index", index.add(this, new Measurement(this, 1)));
 
                     // Jump back to the loop.
                     evaluator.jump(-2);

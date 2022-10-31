@@ -35,7 +35,7 @@ export default class NativeHOFListAll extends HOF {
         return [
             new Start(this, 
                 evaluator => {
-                    evaluator.bind("index", new Measurement(1));
+                    evaluator.bind("index", new Measurement(this, 1));
                     return undefined;
                 }
             ),
@@ -51,7 +51,7 @@ export default class NativeHOFListAll extends HOF {
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
                     else if(!(list instanceof List)) return new TypeException(evaluator, new ListType(), list);
                     else {
-                        if(index.greaterThan(list.length()).bool)
+                        if(index.greaterThan(this, list.length(this, )).bool)
                             evaluator.jump(1);
                         // Otherwise, apply the given matcher function to the current list value.
                         else {
@@ -66,6 +66,7 @@ export default class NativeHOFListAll extends HOF {
                                 // Apply the translator function to the value
                                 evaluator.startEvaluation(new Evaluation(
                                     evaluator, 
+                                    this,
                                     translator.definition, 
                                     translator.definition.expression, 
                                     translator.context, 
@@ -98,7 +99,7 @@ export default class NativeHOFListAll extends HOF {
         
                     // If it matched, increment and jump to the conditional.
                     if(matched.bool) {
-                        evaluator.bind("index", index.add(new Measurement(1)));
+                        evaluator.bind("index", index.add(this, new Measurement(this, 1)));
                         evaluator.jump(-2);
                     }
                     // Otherwise, go to the last step and fail.
@@ -135,7 +136,7 @@ export default class NativeHOFListAll extends HOF {
             return new TypeException(evaluator, new ListType(), list);
 
         // Evaluate to true if we made it past the length of the list, false otherwise.
-        return index.greaterThan(list.length());
+        return index.greaterThan(this, list.length(this));
 
     }
 

@@ -69,7 +69,7 @@ export default class Borrow extends Node implements Evaluable {
 
     getName() { return this.name === undefined ? undefined : this.name.getText(); }
 
-    getVersion() { return this.version === undefined ? undefined : (new Measurement(this.version, new Unit())).toNumber(); }
+    getVersion() { return this.version === undefined ? undefined : (new Measurement(this, this.version, new Unit())).toNumber(); }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
         

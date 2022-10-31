@@ -9,13 +9,14 @@ import { createStructure } from "../runtime/Structure";
 import Place from "./Place";
 
 function position(evaluator: Evaluator, x: number, y: number) {
-    return createStructure(evaluator, Place, { x: new Measurement(x, Unit.unit([ "px"])), y: new Measurement(y, Unit.unit([ "px"])) })
+    return createStructure(evaluator, Place, { x: new Measurement(evaluator.getProgram(), x, Unit.unit([ "px"])), y: new Measurement(evaluator.getProgram(), y, Unit.unit([ "px"])) })
 }
 
 export default class MousePosition extends Stream {
 
     constructor(evaluator: Evaluator) {
         super(
+            evaluator.getProgram(),
             {
                 eng: "A stream of mouse move events",
                 "😀": TRANSLATE

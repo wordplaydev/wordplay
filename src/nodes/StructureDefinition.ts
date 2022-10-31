@@ -214,7 +214,7 @@ export default class StructureDefinition extends Expression {
     evaluate(evaluator: Evaluator) {
         const context = evaluator.getEvaluationContext();
         if(context !== undefined) {
-            const def = new StructureDefinitionValue(this, context);
+            const def = new StructureDefinitionValue(this, this, context);
             this.names.names.forEach(a => {
                 const name = a.getName();
                 if(name !== undefined)

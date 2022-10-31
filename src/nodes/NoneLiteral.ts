@@ -50,7 +50,7 @@ export default class NoneLiteral extends Expression {
     }
 
     evaluate(): Value {
-        return new None(this.names);
+        return new None(this, this.names);
     }
 
     getStartExplanations(): Translations { return this.getFinishExplanations(); }

@@ -2,7 +2,7 @@ import Node from "../nodes/Node";
 import type Reaction from "../nodes/Reaction";
 import Evaluation from "./Evaluation";
 import ReactionStream from "./ReactionStream";
-import Shares, { DEFAULT_SHARES } from "./Shares";
+import Shares from "./Shares";
 import Stream from "./Stream";
 import Value from "./Value";
 import Context from "../nodes/Context";
@@ -115,7 +115,7 @@ export default class Evaluator {
 
     getNative(): NativeInterface { return Native; }
 
-    getThis(): Value | undefined { return this.getEvaluationContext()?.getThis(); }
+    getThis(requestor: Node): Value | undefined { return this.getEvaluationContext()?.getThis(requestor); }
 
     ignoredStream(stream: Stream) {
         // Does the root evaluation bind this stream? If so, note that we ignored it.
@@ -239,10 +239,10 @@ export default class Evaluator {
 
         // Reset the evluation stack and start evaluating the the program.
         this.evaluations.length = 0;
-        this.evaluations.push(new Evaluation(this, this.source.program, this.source.program));
+        this.evaluations.push(new Evaluation(this, this.source.program, this.source.program, this.source.program));
 
         // Borrow all of the implicit borrows.
-        Object.keys(DEFAULT_SHARES).forEach(name => this.borrow(name));
+        Object.keys(this.shares.getDefaultShares()).forEach(name => this.borrow(name));
 
         // Stop remembering in case the last execution ended abruptly.
         this.stopRememberingStreamAccesses();

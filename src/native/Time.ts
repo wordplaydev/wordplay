@@ -14,6 +14,7 @@ export default class Time extends Stream {
 
     constructor(evaluator: Evaluator) {
         super(
+            evaluator.getProgram(),
             {
                 eng: "A stream of clock ticks, thirty times per second.",
                 "😀": TRANSLATE
@@ -23,12 +24,12 @@ export default class Time extends Stream {
                 eng: "time"
             },
             evaluator, 
-            new Measurement(0, Unit.unit(["ms"]))
+            new Measurement(evaluator.getProgram(), 0, Unit.unit(["ms"]))
         );
     }
 
     tick() {
-        this.add(new Measurement(Date.now() - (this.startTime as number), Unit.unit(["ms"])));
+        this.add(new Measurement(this.evaluator.getProgram(), Date.now() - (this.startTime as number), Unit.unit(["ms"])));
     }
 
     start() {

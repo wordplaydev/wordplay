@@ -3,6 +3,7 @@
     import Measurement from "../runtime/Measurement";
     import Text from "../runtime/Text";
     import ExceptionView from "./ExceptionView.svelte";
+    import { fade } from "svelte/transition";
 
     export let phrase: Structure;
 
@@ -19,7 +20,10 @@
 {:else if !(font instanceof Text)}
     <ExceptionView>expected text to be a ""</ExceptionView>
 {:else}
-<div style={`font-size: ${size.num.toNumber()}pt; font-family: "${font.text}"`}>
-    {text.text}
-</div>
+    <!-- Key on the phrase's creator node, so we only trigger transitions when this phrase view's creator changes. -->
+    {#key phrase.creator.id }
+        <div style={`font-size: ${size.num.toNumber()}pt; font-family: "${font.text}"`} in:fade>
+            {text.text}
+        </div>
+    {/key}
 {/if}

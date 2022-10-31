@@ -16,8 +16,12 @@ import TypeException from "./TypeException";
 import Structure from "./Structure";
 import Primitive from "./Primitive";
 import Measurement from "./Measurement";
+import type Node from "../nodes/Node";
 
 export default class Evaluation {
+
+    /** The node that caused this evaluation to start. */
+    readonly #creator: Node;
 
     /** The evaluator running the program */
     readonly #evaluator: Evaluator;
@@ -48,11 +52,13 @@ export default class Evaluation {
     
     constructor(
         evaluator: Evaluator,
+        creator: Node,
         definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition, 
         node: Evaluable, 
         context?: Evaluation | Value, 
         bindings?: Map<string, Value>) {
 
+        this.#creator = creator;
         this.#evaluator = evaluator;
         this.#definition = definition;
         this.#node = node;
@@ -66,6 +72,7 @@ export default class Evaluation {
 
     }
 
+    getCreator() { return this.#creator; }
     getEvaluator() { return this.#evaluator; }
     getDefinition() { return this.#definition; }
     getContext() { return this.#context; }
@@ -173,13 +180,13 @@ export default class Evaluation {
     }
 
     /** Finds the enclosuring structure closure, possibly this. */
-    getThis(): Value | undefined {
+    getThis(requestor: Node): Value | undefined {
 
         const context = this.#context;
         return context instanceof Structure ? context :
-            context instanceof Measurement ? context.unitless() :
+            context instanceof Measurement ? context.unitless(requestor) :
             context instanceof Primitive ? context :
-            context instanceof Evaluation ? context.getThis() :
+            context instanceof Evaluation ? context.getThis(requestor) :
             undefined;
 
     }

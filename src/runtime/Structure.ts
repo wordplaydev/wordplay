@@ -7,14 +7,15 @@ import Evaluation from "./Evaluation";
 import type Evaluator from "./Evaluator";
 import FunctionValue from "./FunctionValue";
 import Value from "./Value";
+import type Node from "../nodes/Node";
 
 export default class Structure extends Value {
 
     readonly type: StructureDefinition;
     readonly context: Evaluation;
 
-    constructor(context: Evaluation) {
-        super();
+    constructor(creator: Node, context: Evaluation) {
+        super(creator);
 
         this.type = context.getDefinition() as StructureDefinition;
         this.context = context;
@@ -74,6 +75,6 @@ export function createStructure(evaluator: Evaluator, definition: StructureDefin
 
     const bindings = new Map<string,Value>();
     Object.keys(values).forEach(key => bindings.set(key, values[key]));
-    return new Structure(new Evaluation(evaluator, definition, definition, undefined, bindings));
+    return new Structure(definition, new Evaluation(evaluator, evaluator.getProgram(), definition, definition, undefined, bindings));
 
 }

@@ -133,6 +133,7 @@ export default class Convert extends Expression {
                             evaluator.startEvaluation(
                                 new Evaluation(
                                     evaluator,
+                                    this,
                                     conversion, 
                                     conversion.expression, 
                                     value,

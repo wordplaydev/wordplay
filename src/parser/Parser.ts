@@ -600,9 +600,6 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
             break;
     } while(true);
 
-    // Read an optional close.
-    const close = tokens.nextIs(TokenType.TEXT_CLOSE) ? tokens.read(TokenType.TEXT_CLOSE) : undefined;
-
     // Read an optional format.
     const format = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
 

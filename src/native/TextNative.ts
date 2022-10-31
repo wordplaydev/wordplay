@@ -16,14 +16,15 @@ import Block from "../nodes/Block";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
 import Names from "../nodes/Names";
+import type Node from "../nodes/Node";
 
 export default function bootstrapText() {
 
-    function createTextFunction(docs: Translations, names: Translations, inputs: Bind[], output: Type, expression: (text: Text, evaluation: Evaluation) => Value) {
+    function createTextFunction(docs: Translations, names: Translations, inputs: Bind[], output: Type, expression: (requestor: Node, text: Text, evaluation: Evaluation) => Value) {
         return createNativeFunction(docs, names, [], inputs, output,
-            evaluation => {
+            (requestor, evaluation) => {
                 const text = evaluation.getContext();
-                if(text instanceof Text) return expression(text, evaluation);
+                if(text instanceof Text) return expression(requestor, text, evaluation);
                 else return new TypeException(evaluation.getEvaluator(), new TextType(), text);
             }
         );
@@ -48,7 +49,7 @@ export default function bootstrapText() {
                 }, 
                 [], 
                 new MeasurementType(), 
-                text => text.length()
+                (requestor, text) => text.length(requestor)
             ),
             createTextFunction(
                 {
@@ -71,9 +72,9 @@ export default function bootstrapText() {
                     new TextType()
                 )],
                 new BooleanType(), 
-                (text, evaluation) => {
+                (requestor, text, evaluation) => {
                     const val = evaluation.resolve("val");
-                    if(val instanceof Text) return new Bool(text.isEqualTo(val));
+                    if(val instanceof Text) return new Bool(requestor, text.isEqualTo(val));
                     else return new TypeException(evaluation.getEvaluator(), new TextType(), val);
                 }
             ),
@@ -97,14 +98,14 @@ export default function bootstrapText() {
                     new TextType()
                 )], 
                 new BooleanType(), 
-                (text, evaluation) => {
+                (requestor, text, evaluation) => {
                     const val = evaluation.resolve("val");
-                    if(val instanceof Text) return new Bool(!text.isEqualTo(val));
+                    if(val instanceof Text) return new Bool(requestor, !text.isEqualTo(val));
                     else return new TypeException(evaluation.getEvaluator(), new TextType(), val);
                 }
             ),
-            createNativeConversion(WRITE_DOCS, '""', '[""]', (val: Text) => new List(val.text.split("").map(c => new Text(c)))),
-            createNativeConversion(WRITE_DOCS, '""', "#", (val: Text) => new Measurement(val.text))
+            createNativeConversion(WRITE_DOCS, '""', '[""]', (requestor: Node, val: Text) => new List(requestor, val.text.split("").map(c => new Text(requestor, c)))),
+            createNativeConversion(WRITE_DOCS, '""', "#", (requestor: Node, val: Text) => new Measurement(requestor, val.text))
         ], false, true)
     );
     

@@ -95,7 +95,7 @@ export default class UnaryOperation extends Expression {
             return new FunctionException(evaluator, this, value, this.getOperator());
 
         // Start the function's expression.
-        evaluator.startEvaluation(new Evaluation(evaluator, fun, fun.expression, value, new Map()));
+        evaluator.startEvaluation(new Evaluation(evaluator, this, fun, fun.expression, value, new Map()));
 
         // No values to return, the evaluation will compute it.
         return undefined;

@@ -18,6 +18,7 @@ import NativeHOFMapTranslate from "./NativeHOFMapTranslate";
 import { createNativeConversion, createNativeFunction } from "./NativeBindings";
 import Bool from "../runtime/Bool";
 import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
+import type Node from "../nodes/Node";
 
 export default function bootstrapMap() {
 
@@ -109,12 +110,12 @@ export default function bootstrapMap() {
                     new MapType()
                 ) ], 
                 new BooleanType(),
-                evaluation => {
+                (requestor, evaluation) => {
                         const map = evaluation?.getContext();
                         const other = evaluation.resolve("map");
                         return !(map instanceof Map && other instanceof Map) ? 
                             new TypeException(evaluation.getEvaluator(), new MapType(), other) :
-                            new Bool(map.isEqualTo(other));
+                            new Bool(requestor, map.isEqualTo(other));
                     }
             ),
             createNativeFunction(
@@ -139,12 +140,12 @@ export default function bootstrapMap() {
                     new MapType() 
                 ) ], 
                 new BooleanType(),
-                evaluation => {
+                (requestor, evaluation) => {
                     const map = evaluation?.getContext();
                     const other = evaluation.resolve("map");
                     return !(map instanceof Map && other instanceof Map) ? 
                         new TypeException(evaluation.getEvaluator(), new MapType(), other) :
-                        new Bool(!map.isEqualTo(other));
+                        new Bool(requestor, !map.isEqualTo(other));
                 }
             ),
             createNativeFunction(
@@ -182,11 +183,11 @@ export default function bootstrapMap() {
                     )
                 ],
                 new MapType(),
-                evaluation => {
+                (requestor, evaluation) => {
                     const map = evaluation.getContext();
                     const key = evaluation.resolve("key");
                     const value = evaluation.resolve("value");
-                    if(map instanceof Map && key !== undefined && value !== undefined) return map.set(key, value);
+                    if(map instanceof Map && key !== undefined && value !== undefined) return map.set(requestor, key, value);
                     else return new TypeException(evaluation.getEvaluator(), new MapType(), map);
                 }
             ),        
@@ -214,10 +215,10 @@ export default function bootstrapMap() {
                     )
                 ],
                 new MapType(),
-                evaluation => {
+                (requestor, evaluation) => {
                     const map = evaluation.getContext();
                     const key = evaluation.resolve("key");
-                    if(map instanceof Map && key !== undefined) return map.unset(key);
+                    if(map instanceof Map && key !== undefined) return map.unset(requestor, key);
                     else return new TypeException(evaluation.getEvaluator(), new MapType(), map);
                 }
             ),
@@ -245,10 +246,10 @@ export default function bootstrapMap() {
                     )
                 ],
                 new MapType(),
-                evaluation => {
+                (requestor, evaluation) => {
                     const map = evaluation.getContext();
                     const value = evaluation.resolve("value");
-                    if(map instanceof Map && value !== undefined) return map.remove(value);
+                    if(map instanceof Map && value !== undefined) return map.remove(requestor, value);
                     else return new TypeException(evaluation.getEvaluator(), new MapType(), map);
                 }
             ),
@@ -304,9 +305,9 @@ export default function bootstrapMap() {
                 new NativeHOFMapTranslate(mapTranslateHOFType),
                 new MapType(new NameType(MAP_KEY_TYPE_VAR_NAMES.eng), new NameType(MAP_HOF_OUTPUT_TYPE_VARIABLE_NAME))
             ),
-            createNativeConversion(WRITE_DOCS, "{:}", "''", (val: Map) => new Text(val.toString())),
-            createNativeConversion(WRITE_DOCS, "{:}", "{}", (val: Map) => new Set(val.getKeys())),
-            createNativeConversion(WRITE_DOCS, "{:}", "[]", (val: Map) => new List(val.getValues()))
+            createNativeConversion(WRITE_DOCS, "{:}", "''", (requestor: Node, val: Map) => new Text(requestor, val.toString())),
+            createNativeConversion(WRITE_DOCS, "{:}", "{}", (requestor: Node, val: Map) => new Set(requestor, val.getKeys())),
+            createNativeConversion(WRITE_DOCS, "{:}", "[]", (requestor: Node, val: Map) => new List(requestor, val.getValues()))
         ], false, true)
     );
 

@@ -88,12 +88,12 @@ export default class Previous extends Expression {
     evaluate(evaluator: Evaluator): Value {
 
         const index = evaluator.popValue(new MeasurementType());
-        if(!(index instanceof Measurement) || !index.isInteger()) return index;
+        if(!(index instanceof Measurement) || !index.num.isInteger()) return index;
 
         const stream = evaluator.popValue(new StreamType(new AnyType()));
         if(!(stream instanceof Stream)) return stream;new TypeException(evaluator, new StreamType(new AnyType()), stream);
 
-        return stream.at(index.toNumber());
+        return stream.at(this, index.toNumber());
 
     }
 

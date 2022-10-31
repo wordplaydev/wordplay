@@ -6,13 +6,14 @@ import Bool from "./Bool";
 import Measurement from "./Measurement";
 import Primitive from "./Primitive";
 import type Value from "./Value";
+import type Node from "../nodes/Node";
 
 export default class Set extends Primitive {
 
     readonly values: Value[];
 
-    constructor(values: Value[]) {
-        super();
+    constructor(creator: Node, values: Value[]) {
+        super(creator);
 
         this.values = [];
         values.forEach(v => {
@@ -22,43 +23,43 @@ export default class Set extends Primitive {
 
     }
 
-    size() {
-        return new Measurement(this.values.length);
+    size(requestor: Node) {
+        return new Measurement(requestor, this.values.length);
     }
 
-    has(key: Value) { 
-        return new Bool(this.values.find(v => key.isEqualTo(v)) !== undefined);
+    has(requestor: Node, key: Value) { 
+        return new Bool(requestor, this.values.find(v => key.isEqualTo(v)) !== undefined);
     }
 
-    add(element: Value) { 
-        return new Set([ ...this.values, element]);
+    add(requestor: Node, element: Value) { 
+        return new Set(requestor, [ ...this.values, element]);
     }
 
-    remove(element: Value) { 
-        return new Set(this.values.filter(v => !v.isEqualTo(element)));
+    remove(requestor: Node, element: Value) { 
+        return new Set(requestor, this.values.filter(v => !v.isEqualTo(element)));
     }
 
-    union(set: Set) { 
+    union(requestor: Node, set: Set) { 
 
         const values = this.values.slice();        
         set.values.forEach(v => { if(values.find(e => e.isEqualTo(v)) === undefined) values.push(v); });
-        return new Set(values);
+        return new Set(requestor, values);
     }
 
-    intersection(set: Set) { 
+    intersection(requestor: Node, set: Set) { 
 
         const values: Value[] = [];
         this.values.forEach(v => { if(set.values.find(e => e.isEqualTo(v)) !== undefined) values.push(v); });
-        return new Set(values);
+        return new Set(requestor, values);
     }
 
-    difference(set: Set) { 
+    difference(requestor: Node, set: Set) { 
         // Remove any values from this set that occur in the given set.
-        return new Set(this.values.filter(v1 => set.values.find(v2 => v1.isEqualTo(v2)) === undefined));
+        return new Set(requestor, this.values.filter(v1 => set.values.find(v2 => v1.isEqualTo(v2)) === undefined));
     }
 
     isEqualTo(set: Value): boolean {
-        return set instanceof Set && set.values.length === this.values.length && this.values.every(val => set.has(val));
+        return set instanceof Set && set.values.length === this.values.length && this.values.every(val => set.values.find(val2 => val.isEqualTo(val2)) !== undefined);
     }
 
     getType(context: Context) { return new SetType(getPossibleUnionType(context, this.values.map(v => v.getType(context)))); }

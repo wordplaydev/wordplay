@@ -73,7 +73,7 @@ export default class Is extends Expression {
 
         return this.type instanceof Unparsable ? 
             new SemanticException(evaluator, this.type) : 
-            new Bool(this.type.accepts(value.getType(evaluator.getContext()), evaluator.getContext()));
+            new Bool(this, this.type.accepts(value.getType(evaluator.getContext()), evaluator.getContext()));
 
     }
 

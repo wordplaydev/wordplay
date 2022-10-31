@@ -11,7 +11,7 @@ export default abstract class Exception extends Primitive {
     readonly step?: Step;
 
     constructor(evaluator: Evaluator) {
-        super();
+        super(evaluator.getProgram());
 
         this.evaluator = evaluator;
         this.step = this.evaluator.getEvaluationContext()?.currentStep();

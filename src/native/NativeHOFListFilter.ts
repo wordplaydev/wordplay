@@ -44,8 +44,8 @@ export default class NativeHOFListMap extends HOF {
                     eng: "Initialize an index and new list."
                 },
                 evaluator => {
-                    evaluator.bind("index", new Measurement(1));
-                    evaluator.bind("list", new List([]));
+                    evaluator.bind("index", new Measurement(this, 1));
+                    evaluator.bind("list", new List(this, []));
                     return undefined;
                 }
             ),
@@ -61,7 +61,7 @@ export default class NativeHOFListMap extends HOF {
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
                     else if(!(list instanceof List)) return new TypeException(evaluator, new ListType(), list);
                     else {
-                        if(index.greaterThan(list.length()).bool)
+                        if(index.greaterThan(this, list.length(this)).bool)
                             evaluator.jump(1);
                         // Otherwise, apply the given translator function to the current list value.
                         else {
@@ -76,6 +76,7 @@ export default class NativeHOFListMap extends HOF {
                                 // Apply the translator function to the value
                                 evaluator.startEvaluation(new Evaluation(
                                     evaluator, 
+                                    this,
                                     include.definition, 
                                     include.definition.expression, 
                                     include.context, 
@@ -115,12 +116,12 @@ export default class NativeHOFListMap extends HOF {
                     else {
                         if(include.bool) {
                             const listValue = list.get(index);
-                            evaluator.bind("list", newList.append(listValue));
+                            evaluator.bind("list", newList.append(this, listValue));
                         }
                     }
 
                     // Increment the counter
-                    evaluator.bind("index", index.add(new Measurement(1)));
+                    evaluator.bind("index", index.add(this, new Measurement(this, 1)));
 
                     // Jump to the conditional
                     evaluator.jump(-2);

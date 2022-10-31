@@ -33,7 +33,7 @@ state/eng,
 \`El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.\`/spa
 \`🤔 + 🤫 → 🔤\`/😀
 board/eng,
-🔤/😀: Phrase(state.secret→[""].translate(ƒ(letter•"") ((state.status() = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 24pt)
+🔤/😀: 💬(state.secret→[""].translate(ƒ(letter•"") ((state.status() = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 24pt)
 
 \`The rest of the game screen depends on the game status\`/eng
 \`El resto de la pantalla del juego depende del estado del juego.\`/spa

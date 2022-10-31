@@ -9,16 +9,13 @@ import StructureType from "../nodes/StructureType";
 import StreamType from "../nodes/StreamType";
 import { TRANSLATE } from "../nodes/Translations";
 
-function createKey(evaluator: Evaluator, key: string, down: boolean) {
-    return createStructure(evaluator, Key, { key: new Text(key), down: new Bool(down) })
-}
-
 export default class Keyboard extends Stream {
 
     readonly evaluator: Evaluator;
 
     constructor(evaluator: Evaluator) {
         super(
+            evaluator.getProgram(),
             {
                 eng: "A stream of key up and down events.",
                 "😀": TRANSLATE
@@ -28,16 +25,16 @@ export default class Keyboard extends Stream {
                 "😀": "⌨️"
             }, 
             evaluator, 
-            new None()
+            new None(evaluator.getProgram())
         );
         
         this.evaluator = evaluator;
     }
 
     record(key: string, down: boolean) {
-        this.add(createKey(this.evaluator, key, down));
+        this.add(createStructure(this.evaluator, Key, { key: new Text(this.evaluator.getProgram(), key), down: new Bool(this.evaluator.getProgram(), down) }));
     }
-
+    
     start() {}
     stop() {}
 

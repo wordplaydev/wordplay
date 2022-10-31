@@ -7,6 +7,7 @@ import type Evaluator from "./Evaluator";
 import type LanguageCode from "../nodes/LanguageCode";
 import Names from "../nodes/Names";
 import Docs from "../nodes/Docs";
+import type Node from "../nodes/Node";
 
 export default abstract class Stream extends Primitive {
 
@@ -25,8 +26,8 @@ export default abstract class Stream extends Primitive {
     /** Listeners watching this stream */
     reactors: ((stream: Stream)=>void)[] = [];
 
-    constructor(docs: Docs | Translations, names: Names | Translations, evaluator: Evaluator, initalValue: Value) {
-        super();
+    constructor(creator: Node, docs: Docs | Translations, names: Names | Translations, evaluator: Evaluator, initalValue: Value) {
+        super(creator);
 
         this.docs = docs instanceof Docs ? docs : new Docs(docs);
         this.names = names instanceof Names ? names : new Names(names);
@@ -69,10 +70,10 @@ export default abstract class Stream extends Primitive {
 
     latest() { return this.values[this.values.length - 1]; }
 
-    at(index: number): Value {
+    at(requestor: Node, index: number): Value {
 
         const position = this.values.length - index - 1;
-        return position >= 0 && position < this.values.length ? this.values[position] : new None();
+        return position >= 0 && position < this.values.length ? this.values[position] : new None(requestor);
 
     }
 

@@ -6,13 +6,14 @@ import type Evaluator from "./Evaluator";
 import FunctionException from "./FunctionException";
 import Primitive from "./Primitive";
 import type Value from "./Value";
+import type Node from "../nodes/Node";
 
 export default class Bool extends Primitive {
 
     readonly bool: boolean;
 
-    constructor(bool: boolean) {
-        super();
+    constructor(creator: Node, bool: boolean) {
+        super(creator);
 
         this.bool = bool;
     }
@@ -23,15 +24,15 @@ export default class Bool extends Primitive {
     
     getNativeTypeName(): string { return BOOLEAN_NATIVE_TYPE_NAME }
 
-    and(value: Bool) { return new Bool(this.bool && value.bool); }
-    or(value: Bool) { return new Bool(this.bool || value.bool); }
-    not() { return new Bool(!this.bool); }
+    and(requestor: Node, value: Bool) { return new Bool(requestor, this.bool && value.bool); }
+    or(requestor: Node, value: Bool) { return new Bool(requestor, this.bool || value.bool); }
+    not(requestor: Node) { return new Bool(requestor, !this.bool); }
 
-    evaluatePrefix(evaluator: Evaluator, op: UnaryOperation): Value {
+    evaluatePrefix(requestor: Node, evaluator: Evaluator, op: UnaryOperation): Value {
 
         switch(op.getOperator()) {
             case "~":
-            case NOT_SYMBOL: return this.not();
+            case NOT_SYMBOL: return this.not(requestor);
             default: return new FunctionException(evaluator, op, this, op.getOperator());
         }
 
