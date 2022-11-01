@@ -5,7 +5,7 @@
 
     export let group: Structure;
     const layoutStructure = group.resolve("layout");
-    const layout = layoutStructure instanceof Structure ? `layout-${layoutStructure.type.names.getTranslations().eng}` : "layout-default";
+    const layout = layoutStructure instanceof Structure ? `layout-${layoutStructure.type.names.getTranslations().eng}` : "layout-Vertical";
     $: phraseStructure = group.resolve("phrases");
     $: phrases = phraseStructure instanceof List ? phraseStructure.getValues() : undefined;
 

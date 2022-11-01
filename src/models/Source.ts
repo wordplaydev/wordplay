@@ -144,7 +144,7 @@ export default class Source {
     }
 
     group(...phrases: Structure[]) {
-        return createStructure(this.evaluator, Group, {
+        return createStructure(this.evaluator, Group as StructureDefinition, {
             phrases: new List(this.program, phrases)
         })
     }
