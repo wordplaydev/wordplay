@@ -384,6 +384,9 @@ test("Types", () => {
     const number = parseType(tokens("#"));
     expect(number).toBeInstanceOf(MeasurementType);
 
+    const specificNumber = parseType(tokens("1"));
+    expect(specificNumber).toBeInstanceOf(MeasurementType);
+
     const text = parseType(tokens("''"));
     expect(text).toBeInstanceOf(TextType);
 

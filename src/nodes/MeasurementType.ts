@@ -44,9 +44,9 @@ export default class MeasurementType extends NativeType {
         // Are the units compatible? First, get concrete units.
         const thisUnit = this.concreteUnit(context, op);
         const thatUnit = type.concreteUnit(context, op);
-
-        // Return true if the units are compatible.
-        return thisUnit.accepts(thatUnit);
+        
+        // If this is a specific number, then the other must be specific too. Units must also be compatible.
+        return (this.number.is(TokenType.NUMBER_TYPE) || this.number.getText() === type.number.getText()) && thisUnit.accepts(thatUnit);
     }
 
     concreteUnit(context: Context, op?: BinaryOperation): Unit {

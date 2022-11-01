@@ -940,7 +940,7 @@ export function parseType(tokens: Tokens, isExpression:boolean=false): Type | Un
         tokens.nextIs(TokenType.PLACEHOLDER) ? new TypePlaceholder(tokens.read(TokenType.PLACEHOLDER)) :
         tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read(TokenType.NAME)) :
         tokens.nextIs(TokenType.BOOLEAN_TYPE) ? new BooleanType(tokens.read(TokenType.BOOLEAN_TYPE)) :
-        tokens.nextIs(TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :
+        tokens.nextIsOneOf(TokenType.NUMBER, TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :
         tokens.nextIs(TokenType.TEXT) ? parseTextType(tokens) :
         tokens.nextIs(TokenType.NONE) ? parseNoneType(tokens) :
         tokens.nextIs(TokenType.LIST_OPEN) ? parseListType(tokens) :
@@ -975,7 +975,7 @@ function parseTextType(tokens: Tokens): TextType {
 /** NUMBER_TYPE :: #NAME? */
 function parseMeasurementType(tokens: Tokens): MeasurementType {
 
-    const number = tokens.read(TokenType.NUMBER_TYPE);
+    const number = tokens.nextIs(TokenType.NUMBER) ? tokens.read(TokenType.NUMBER) : tokens.read(TokenType.NUMBER_TYPE);
     const unit = tokens.nextIsOneOf(TokenType.NAME, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
     return new MeasurementType(number, unit);
 
