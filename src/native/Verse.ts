@@ -1,52 +1,12 @@
-import Bind from "../nodes/Bind";
-import Dimension from "../nodes/Dimension";
-import MeasurementLiteral from "../nodes/MeasurementLiteral";
-import MeasurementType from "../nodes/MeasurementType";
-import NameType from "../nodes/NameType";
-import StructureDefinition from "../nodes/StructureDefinition";
-import TextLiteral from "../nodes/TextLiteral";
-import TextType from "../nodes/TextType";
-import Token from "../nodes/Token";
-import TokenType from "../nodes/TokenType";
-import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
-import Unit from "../nodes/Unit";
+import { TRANSLATE } from "../nodes/Translations";
+import { parseStructure, tokens } from "../parser/Parser";
 
-const Verse = new StructureDefinition(
-    WRITE_DOCS,
-    {
-        eng: "Verse",
-        "😀": "🌎"
-    },
-    [],
-    [],
-    [
-        new Bind(
-            WRITE_DOCS,
-            {
-                eng: "group",
-                "😀": `${TRANSLATE}1`
-            },
-            new NameType("Group")
-        ),
-        new Bind(
-            WRITE_DOCS,
-            {
-                eng: "font",
-                "😀": `${TRANSLATE}2`
-            },
-            new TextType(),
-            new TextLiteral("'Noto Sans'")
-        ),
-        new Bind(
-            WRITE_DOCS,
-            {
-                eng: "size",
-                "😀": `${TRANSLATE}3`
-            },
-            new MeasurementType(undefined, new Unit(undefined, [ new Dimension("pt") ])),
-            new MeasurementLiteral(new Token("12", TokenType.NUMBER), new Unit(undefined, [ new Dimension("pt")]))
-        )
-    ]
-);
+const Verse = parseStructure(tokens(`
+•Verse/eng,🌎/😀(
+    group/eng,${TRANSLATE}group/😀•Group
+    font/eng,${TRANSLATE}font/😀•"": "Noto Sans"
+    size/eng,${TRANSLATE}size/😀•#pt: 12pt
+)`
+));
 
 export default Verse;

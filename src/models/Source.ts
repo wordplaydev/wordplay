@@ -150,7 +150,7 @@ export default class Source {
     }
 
     verse(group: Structure) {
-        return createStructure(this.evaluator, Verse, { group: group });
+        return createStructure(this.evaluator, Verse as StructureDefinition, { group: group });
     }
 
     valueToVerse(value: Value | undefined): Structure {
