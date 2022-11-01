@@ -29,6 +29,10 @@ export default class Token extends Node {
         this.text = text instanceof UnicodeString ? text : new UnicodeString(text);
         this.space = space;
 
+        // No token is allowed to be empty except the end token.
+        if(this.text.getLength() === 0 && !this.is(TokenType.END)) 
+            throw Error("This token has no text");
+
         // Split the whitespace by lines, then tabs.
         const lines = this.space?.split("\n");
         // Compute the number of newlines overall.
