@@ -43,7 +43,7 @@ title: 💬("Welcome to WhatWord!" 32pt in:Fade(100ms) animate:Bounce(100m 1000m
 \`🚨 + 🔤 → 📺\`/😀
 screen/eng,
 📺/😀:
-\tstate.status() = "start" ? ▣(⬇() title 💬("Press space to begin" animate: Throb(1.1 1000s)))
+\tstate.status() = "start" ? ▣(⬇() title 💬("Press space to begin" animate: Throb(1.1 1000ms)))
 \tstate.status() = "lost" ?  ▣(⬇() board 💬("You lost. Press space to play again."))
 \tstate.status() = "won" ?   ▣(⬇() board 💬("You won, nice job! Press space to play again."))
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t ▣(⬇() board 💬(state.guesses.length() = 0 ? "Type a letter to guess" "Guesses: \\state.guesses.join(' ')\\" 16pt) 

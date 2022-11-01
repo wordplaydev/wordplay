@@ -5,7 +5,7 @@ export const Animation = parseStructure(tokens(`•Animation/eng,${TRANSLATE}Ani
 export default Animation;
 
 export const Wobble = parseStructure(tokens(
-`•Wobble/eng,😵‍💫/😀 ∘Animation(
+`•Wobble/eng,😵‍💫/😀 •Animation(
     angle/eng,${TRANSLATE}angle/😀•#°:10°
     duration/eng,${TRANSLATE}duration/😀•#ms:400ms
     count/eng,${TRANSLATE}count/😀•#:∞
@@ -13,7 +13,7 @@ export const Wobble = parseStructure(tokens(
 ));
 
 export const Throb = parseStructure(tokens(
-`•Throb/eng,${TRANSLATE}Throb/😀 ∘Animation(
+`•Throb/eng,${TRANSLATE}Throb/😀 •Animation(
     scale/eng,${TRANSLATE}scale/😀•#:1.2
     duration/eng,${TRANSLATE}duration/😀•#ms:400ms
     count/eng,${TRANSLATE}count/😀•#:∞
@@ -21,8 +21,8 @@ export const Throb = parseStructure(tokens(
 ));
 
 export const Bounce = parseStructure(tokens(
-`•Bounce/eng,${TRANSLATE}Bounce/😀 ∘Animation(
-    height/eng,${TRANSLATE}height/😀•#:10pt
+`•Bounce/eng,${TRANSLATE}Bounce/😀 •Animation(
+    height/eng,${TRANSLATE}height/😀•#m:10m
     duration/eng,${TRANSLATE}duration/😀•#ms:400ms
     count/eng,${TRANSLATE}count/😀•#:∞
 )`
