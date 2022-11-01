@@ -26,9 +26,24 @@ export const Fade = new StructureDefinition(
         eng: "Fade",
         "😀": "🫥"
     },
-    [ new TypeInput(new NameType("Transtion")) ],
+    [ new TypeInput(new NameType("Transition")) ],
     [],
     [
+        new Bind(WRITE_DOCS, { eng: "duration", "😀": TRANSLATE }, new MeasurementType(undefined, new Unit(undefined, [ new Dimension("ms") ])), new MeasurementLiteral(400, new Unit(undefined, [ new Dimension("ms") ]))),
+        new Bind(WRITE_DOCS, { eng: "delay", "😀": TRANSLATE }, new MeasurementType(undefined, new Unit(undefined, [ new Dimension("ms") ])), new MeasurementLiteral(0, new Unit(undefined, [ new Dimension("ms") ])))
+    ]
+)
+
+export const Scale = new StructureDefinition(
+    WRITE_DOCS,
+    {
+        eng: "Scale",
+        "😀": TRANSLATE
+    },
+    [ new TypeInput(new NameType("Transition")) ],
+    [],
+    [
+        new Bind(WRITE_DOCS, { eng: "scale", "😀": TRANSLATE }, new MeasurementType(), new MeasurementLiteral(2)),
         new Bind(WRITE_DOCS, { eng: "duration", "😀": TRANSLATE }, new MeasurementType(undefined, new Unit(undefined, [ new Dimension("ms") ])), new MeasurementLiteral(400, new Unit(undefined, [ new Dimension("ms") ]))),
         new Bind(WRITE_DOCS, { eng: "delay", "😀": TRANSLATE }, new MeasurementType(undefined, new Unit(undefined, [ new Dimension("ms") ])), new MeasurementLiteral(0, new Unit(undefined, [ new Dimension("ms") ])))
     ]

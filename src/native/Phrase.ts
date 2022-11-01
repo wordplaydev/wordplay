@@ -38,7 +38,7 @@ const Phrase = new StructureDefinition(
                 "😀": TRANSLATE
             },
             new MeasurementType(undefined, new Unit(undefined, [ new Dimension("pt") ])),
-            new MeasurementLiteral(new Token("12", TokenType.NUMBER), new Unit(undefined, [ new Dimension("pt")]))
+            new MeasurementLiteral(12, new Unit(undefined, [ new Dimension("pt")]))
         ),
         new Bind(
             WRITE_DOCS,
@@ -56,6 +56,15 @@ const Phrase = new StructureDefinition(
                 "😀": TRANSLATE
             },
             new UnionType(new NameType("Transition"), new NoneType()),
+            new NoneLiteral()
+        ),
+        new Bind(
+            WRITE_DOCS,
+            {
+                eng: "animation",
+                "😀": TRANSLATE
+            },
+            new UnionType(new NameType("Animation"), new NoneType()),
             new NoneLiteral()
         )
     ]

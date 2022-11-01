@@ -37,7 +37,7 @@
 </script>
 
 {#if visible}
-    <div class="verse" style={`width: 100%; height: auto;`} tabindex=0
+    <div class="verse" tabindex=0
         on:mousedown={handleMouseDown} 
         on:mouseup={handleMouseUp}
         on:mousemove={handleMouseMove}
@@ -56,6 +56,13 @@
 {/if}
 
 <style>
+    .verse {
+        width: 100%; 
+        height: 100%;
+        display: flex;
+        align-items: stretch;
+    }
+
     .verse:focus {
         outline: hidden;
     }

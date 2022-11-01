@@ -8,6 +8,8 @@ import type Evaluator from "./Evaluator";
 import FunctionValue from "./FunctionValue";
 import Value from "./Value";
 import type Node from "../nodes/Node";
+import Measurement from "./Measurement";
+import Text from "./Text";
 
 export default class Structure extends Value {
 
@@ -50,6 +52,20 @@ export default class Structure extends Value {
         if(fun !== undefined) return fun;
         const nativeFun = evaluator?.getNative().getFunction(this.getNativeTypeName(), name);
         return nativeFun === undefined ? undefined : new FunctionValue(nativeFun, this);
+    }
+
+    getMeasurement(name: string): number | undefined {
+        const measurement = this.resolve(name);
+        if(measurement instanceof Measurement)
+            return measurement.toNumber();
+        return undefined;
+    }
+
+    getText(name: string): string | undefined {
+        const text = this.resolve(name);
+        if(text instanceof Text)
+            return text.text.toString();
+        return undefined;
     }
 
     getConversion(input: Type, output: Type): Conversion | undefined {
