@@ -20,6 +20,7 @@ import Measurement from "../runtime/Measurement";
 import type Project from "./Project";
 import Context from "../nodes/Context";
 import TokenType from "../nodes/TokenType";
+import type StructureDefinition from "../nodes/StructureDefinition";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source {
@@ -135,7 +136,7 @@ export default class Source {
     }
 
     phrase(text: string | Text, size: number=12, font: string="Noto Sans", ): Structure {
-        return createStructure(this.evaluator, Phrase, {
+        return createStructure(this.evaluator, Phrase as StructureDefinition, {
             size: new Measurement(this.program, size),
             font: new Text(this.program, font),
             text: text instanceof Text ? text : new Text(this.program, text)

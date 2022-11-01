@@ -5,7 +5,7 @@ type Translations = Record<LanguageCode, string>;
 export default Translations;
 
 
-export const TRANSLATE = "Name TBD";
+export const TRANSLATE = "TBD";
 export const WRITE = "Documentation TBD";
 
 export const WRITE_DOCS = {

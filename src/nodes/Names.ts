@@ -61,6 +61,8 @@ export default class Names extends Node {
         return preferredTranslation?.getName() ?? this.names[0].getName() ?? "—";
     }
 
+    hasTranslation(lang: LanguageCode) { return this.names.find(name => name.getLanguage() === lang) !== undefined; }
+
     getNames() { return this.names.map(a => a.getName()).filter(n => n !== undefined) as string[]; }
 
     hasName(name: string) {

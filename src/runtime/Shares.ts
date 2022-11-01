@@ -14,6 +14,7 @@ import Layout, { Vertical } from "../native/Layout";
 import Microphone from "../native/Microphone";
 import Transition, { Fade, Scale } from "../native/Transition";
 import Animation, { Bounce, Throb, Wobble } from "../native/Animation";
+import Unparsable from "../nodes/Unparsable";
 
 export default class Shares {
 
@@ -72,7 +73,9 @@ export default class Shares {
         
     }
 
-    addStructureDefinition(def: StructureDefinition) {
+    addStructureDefinition(def: StructureDefinition | Unparsable) {
+        if(def instanceof Unparsable) throw Error(`Couldn't add unparsable ${def.toWordplay()}`);
+
         const val = new StructureDefinitionValue(this.evaluator.getProgram(), def);
         def.names.names.forEach(a => {
             const name = a.getName();

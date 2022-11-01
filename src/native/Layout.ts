@@ -1,27 +1,7 @@
-import NameType from "../nodes/NameType";
-import StructureDefinition from "../nodes/StructureDefinition";
-import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
-import TypeInput from "../nodes/TypeInput";
+import { TRANSLATE } from "../nodes/Translations";
+import { parseStructure, tokens } from "../parser/Parser";
 
-export const Layout = new StructureDefinition(
-    WRITE_DOCS,
-    {
-        eng: "Layout",
-        "😀": TRANSLATE
-    },
-    [],
-    [],
-    []
-);
+export const Layout = parseStructure(tokens(`•Layout/eng,${TRANSLATE}Layout/😀()`))
 export default Layout;
 
-export const Vertical = new StructureDefinition(
-    WRITE_DOCS,
-    {
-        eng: "Vertical",
-        "😀": "⬇"
-    },
-    [ new TypeInput(new NameType("Layout")) ],
-    [],
-    []
-)
+export const Vertical = parseStructure(tokens(`•Vertical/eng,⬇/😀 ∘Layout()`));
