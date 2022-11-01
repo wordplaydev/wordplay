@@ -33,7 +33,7 @@ state/eng,
 \`El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.\`/spa
 \`🤔 + 🤫 → 🔤\`/😀
 board/eng,
-🔤/😀: 💬(state.secret→[""].translate(ƒ(letter•"") ((state.status() = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 24pt "Noto Sans" Fade() state.status() = "won" ? Bounce(100m 1000ms) !)
+🔤/😀: 💬(state.secret→[""].translate(ƒ(letter•"") ((state.status() = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 24pt "Noto Sans" Fade() state.status() = "won" ? Bounce(100m 1000ms) ø)
 
 \`The title on the title screen\`/eng
 title: 💬("Welcome to WhatWord!" 30pt "Noto Sans" Fade(100ms) Bounce(100m 1000ms))
@@ -46,7 +46,7 @@ screen/eng,
 \tstate.status() = "start" ? ▣(⬇() title 💬("Press space to begin" 12pt "Noto Sans" Fade() Throb(1.1 1000s)))
 \tstate.status() = "lost" ?  ▣(⬇() board 💬("You lost. Press space to play again."))
 \tstate.status() = "won" ?   ▣(⬇() board 💬("You won, nice job! Press space to play again."))
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t ▣(⬇() board 💬(state.guesses.length() = 0 ? "Type a letter to guess" "Guesses: \\state.guesses.join(' ')\\" 16pt) 💬("\\state.guessesRemaining()→''\\ remaining" 12pt "Noto Sans" Scale() state.guessesRemaining() ≤ 3 ? Wobble(5° 200ms) !))
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t ▣(⬇() board 💬(state.guesses.length() = 0 ? "Type a letter to guess" "Guesses: \\state.guesses.join(' ')\\" 16pt) 💬("\\state.guessesRemaining()→''\\ remaining" 12pt "Noto Sans" Scale() state.guessesRemaining() ≤ 3 ? Wobble(5° 200ms) ø))
 
 🌎(screen)`,
 
