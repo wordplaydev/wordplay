@@ -27,7 +27,7 @@ export default function bootstrapSet() {
             WRITE_DOCS,
             {
                 eng: "value",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}value`
             },
             new BooleanType()
         )
@@ -40,7 +40,7 @@ export default function bootstrapSet() {
         },
         {
             eng: "set",
-            "😀": TRANSLATE
+            "😀": `${TRANSLATE}set`
         },
         // No interfaces
         [],
@@ -67,7 +67,7 @@ export default function bootstrapSet() {
                     }, 
                     {
                         eng: "set",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     new SetType() 
                 ) ], 
@@ -97,7 +97,7 @@ export default function bootstrapSet() {
                     }, 
                     {
                         eng: "set",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     new SetType() 
                 ) ], 
@@ -127,7 +127,7 @@ export default function bootstrapSet() {
                     }, 
                     {
                         eng: "value",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}value`
                     }, 
                     new NameType(SET_TYPE_VAR_NAMES.eng) 
                 ) ], 
@@ -156,7 +156,7 @@ export default function bootstrapSet() {
                     }, 
                     {
                         eng: "value",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     new NameType(SET_TYPE_VAR_NAMES.eng) 
                 ) ], 
@@ -185,7 +185,7 @@ export default function bootstrapSet() {
                     }, 
                     {
                         eng: "set",
-                        "😀": WRITE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)) 
                 ) ],
@@ -214,7 +214,7 @@ export default function bootstrapSet() {
                     }, 
                     {
                         eng: "set",
-                        "😀": WRITE
+                        "😀": `${TRANSLATE}1`
                     }
                 ) ], 
                 new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
@@ -242,7 +242,7 @@ export default function bootstrapSet() {
                     }, 
                     {
                         eng: "set",
-                        "😀": WRITE
+                        "😀": `${TRANSLATE}1`
                     }
                 ) ], 
                 new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
@@ -270,7 +270,7 @@ export default function bootstrapSet() {
                     }, 
                     {
                         eng: "checker",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     setFilterHOFType
                 ) ],

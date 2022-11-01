@@ -67,7 +67,7 @@ export default function bootstrapText() {
                     }, 
                     {
                         eng: "val",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     new TextType()
                 )],
@@ -93,7 +93,7 @@ export default function bootstrapText() {
                     }, 
                     {
                         eng: "val",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     new TextType()
                 )], 

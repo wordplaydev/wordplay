@@ -30,7 +30,7 @@ export default function bootstrapNone() {
                 }, 
                 {
                     eng: "val",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}1`
                 }, 
                 new BooleanType()
             ) ],

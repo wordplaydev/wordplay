@@ -22,7 +22,10 @@ import type Node from "../nodes/Node";
 
 export default function bootstrapMap() {
 
-    const MAP_HOF_OUTPUT_TYPE_VARIABLE_NAME = "Out";
+    const MAP_HOF_OUTPUT_NAMES = {
+        eng: "Out",
+        "😀": `${TRANSLATE}Out`
+    }
 
     const mapFilterHOFType = new FunctionType([ 
         new Bind(
@@ -32,7 +35,7 @@ export default function bootstrapMap() {
             },
             {
                 eng: "key",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}key`
             }, 
             new NameType(MAP_KEY_TYPE_VAR_NAMES.eng)
         ),
@@ -43,7 +46,7 @@ export default function bootstrapMap() {
             },
             {
                 eng: "value",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}value`
             },
             new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng)
         )
@@ -57,7 +60,7 @@ export default function bootstrapMap() {
             },
             {
                 eng: "key",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}key`
             }, 
             new NameType(MAP_KEY_TYPE_VAR_NAMES.eng)
         ),
@@ -68,11 +71,11 @@ export default function bootstrapMap() {
             },
             {
                 eng: "value",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}value`
             },
             new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng)
         )
-    ], new NameType(MAP_HOF_OUTPUT_TYPE_VARIABLE_NAME));
+    ], new NameType(MAP_HOF_OUTPUT_NAMES.eng));
 
     return new StructureDefinition(
         {
@@ -81,7 +84,7 @@ export default function bootstrapMap() {
         },
         {
             eng: "structure",
-            "😀": TRANSLATE
+            "😀": `${TRANSLATE}structure`
         },
         // No interfaces
         [],
@@ -105,7 +108,7 @@ export default function bootstrapMap() {
                     WRITE_DOCS, 
                     {
                         eng: "map",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     },
                     new MapType()
                 ) ], 
@@ -135,7 +138,7 @@ export default function bootstrapMap() {
                     },
                     {
                         eng: "map",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     new MapType() 
                 ) ], 
@@ -155,7 +158,7 @@ export default function bootstrapMap() {
                 }, 
                 {
                     eng: "set",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}set`
                 },
                 [], 
                 [ 
@@ -166,9 +169,9 @@ export default function bootstrapMap() {
                         }, 
                         {
                             eng: "key",
-                            "😀": TRANSLATE
+                            "😀": `${TRANSLATE}key`
                         }, 
-                        new NameType("K") 
+                        new NameType(MAP_KEY_TYPE_VAR_NAMES.eng) 
                     ),
                     new Bind(
                         {
@@ -177,9 +180,9 @@ export default function bootstrapMap() {
                         }, 
                         {
                             eng: "value",
-                            "😀": TRANSLATE
+                            "😀": `${TRANSLATE}value`
                         }, 
-                        new NameType("V") 
+                        new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng) 
                     )
                 ],
                 new MapType(),
@@ -198,7 +201,7 @@ export default function bootstrapMap() {
                 }, 
                 {
                     eng: "unset",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}unset`
                 },
                 [], 
                 [ 
@@ -209,9 +212,9 @@ export default function bootstrapMap() {
                         }, 
                         {
                             eng: "key",
-                            "😀": WRITE
+                            "😀": `${TRANSLATE}1`
                         },
-                        new NameType("K") 
+                        new NameType(MAP_KEY_TYPE_VAR_NAMES.eng) 
                     )
                 ],
                 new MapType(),
@@ -229,7 +232,7 @@ export default function bootstrapMap() {
                 },
                 {
                     eng: "remove",
-                    "😀": WRITE
+                    "😀": `${TRANSLATE}remove`
                 },
                 [], 
                 [ 
@@ -240,9 +243,9 @@ export default function bootstrapMap() {
                         }, 
                         {
                             eng: "value",
-                            "😀": WRITE
+                            "😀": `${TRANSLATE}value`
                         },
-                        new NameType("V") 
+                        new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng) 
                     )
                 ],
                 new MapType(),
@@ -271,7 +274,7 @@ export default function bootstrapMap() {
                         },
                         {
                             eng: "checker",
-                            "😀": WRITE
+                            "😀": `${TRANSLATE}1`
                         },
                         mapFilterHOFType
                     )
@@ -288,7 +291,9 @@ export default function bootstrapMap() {
                     eng: "translate",
                     "😀": WRITE
                 },
-                [], 
+                [
+                    new TypeVariable(MAP_HOF_OUTPUT_NAMES)
+                ], 
                 [
                     new Bind(
                         {
@@ -297,13 +302,13 @@ export default function bootstrapMap() {
                         }, 
                         {
                             eng: "translator",
-                            "😀": WRITE
+                            "😀": `${TRANSLATE}1`
                         }, 
                         mapTranslateHOFType
                     )
                 ],
                 new NativeHOFMapTranslate(mapTranslateHOFType),
-                new MapType(new NameType(MAP_KEY_TYPE_VAR_NAMES.eng), new NameType(MAP_HOF_OUTPUT_TYPE_VARIABLE_NAME))
+                new MapType(new NameType(MAP_KEY_TYPE_VAR_NAMES.eng), new NameType(MAP_HOF_OUTPUT_NAMES.eng))
             ),
             createNativeConversion(WRITE_DOCS, "{:}", "''", (requestor: Node, val: Map) => new Text(requestor, val.toString())),
             createNativeConversion(WRITE_DOCS, "{:}", "{}", (requestor: Node, val: Map) => new Set(requestor, val.getKeys())),

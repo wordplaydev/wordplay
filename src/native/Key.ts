@@ -17,7 +17,7 @@ const Key = new StructureDefinition(
             WRITE_DOCS,
             {
                 eng: "key",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}1`
             },
             new TextType()
         ),
@@ -25,7 +25,7 @@ const Key = new StructureDefinition(
             WRITE_DOCS,
             {
                 eng: "down",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}2`
             },
             new BooleanType()
         )

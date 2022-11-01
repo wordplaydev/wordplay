@@ -24,7 +24,7 @@ const Verse = new StructureDefinition(
             WRITE_DOCS,
             {
                 eng: "group",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}1`
             },
             new NameType("Group")
         ),
@@ -32,7 +32,7 @@ const Verse = new StructureDefinition(
             WRITE_DOCS,
             {
                 eng: "font",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}2`
             },
             new TextType(),
             new TextLiteral("'Noto Sans'")
@@ -41,7 +41,7 @@ const Verse = new StructureDefinition(
             WRITE_DOCS,
             {
                 eng: "size",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}3`
             },
             new MeasurementType(undefined, new Unit(undefined, [ new Dimension("pt") ])),
             new MeasurementLiteral(new Token("12", TokenType.NUMBER), new Unit(undefined, [ new Dimension("pt")]))

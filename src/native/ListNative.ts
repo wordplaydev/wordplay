@@ -26,7 +26,7 @@ import Set from "../runtime/Set";
 import StructureDefinition from "../nodes/StructureDefinition";
 import TypeVariable from "../nodes/TypeVariable";
 import Block from "../nodes/Block";
-import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
+import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
 import type Translations from "../nodes/Translations";
 import type Node from "../nodes/Node";
 
@@ -34,7 +34,7 @@ export default function bootstrapList() {
 
     const LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME: Translations = {
         eng: "Out",
-        "😀": TRANSLATE
+        "😀": `${TRANSLATE}Out`
     };
 
     const listTranslateHOFType = new FunctionType([ 
@@ -42,7 +42,7 @@ export default function bootstrapList() {
             WRITE_DOCS,
             {
                 eng: "value",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}value`
             },
             new NameType(LIST_TYPE_VAR_NAMES.eng)
         )
@@ -53,7 +53,7 @@ export default function bootstrapList() {
             WRITE_DOCS, 
             {
                 eng: "value",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}value`
             },
             new NameType(LIST_TYPE_VAR_NAMES.eng)
         )
@@ -64,7 +64,7 @@ export default function bootstrapList() {
             WRITE_DOCS,
             {
                 eng: "value",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}value`
             },
             new NameType(LIST_TYPE_VAR_NAMES.eng)
         )
@@ -76,7 +76,7 @@ export default function bootstrapList() {
             WRITE_DOCS,
             {
                 eng: "value",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}value`
             },
             new BooleanType()
         )
@@ -88,7 +88,7 @@ export default function bootstrapList() {
             WRITE_DOCS,
             {
                 eng: "value",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}value`
             },
             new BooleanType()
         )
@@ -100,7 +100,7 @@ export default function bootstrapList() {
             WRITE_DOCS,
             {
                 eng: "combination",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}combination`
             },
             new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME.eng)
         ),
@@ -108,7 +108,7 @@ export default function bootstrapList() {
             WRITE_DOCS,
             {
                 eng: "next",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}next`
             },
             new NameType(LIST_TYPE_VAR_NAMES.eng)
         )
@@ -118,7 +118,7 @@ export default function bootstrapList() {
         WRITE_DOCS,
         {
             eng: "list",
-            "😀": TRANSLATE
+            "😀": `${TRANSLATE}list`
         },
         [],
         [ new TypeVariable(LIST_TYPE_VAR_NAMES)],
@@ -136,7 +136,7 @@ export default function bootstrapList() {
                     WRITE_DOCS, 
                     {
                         eng: "value",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     new NameType(LIST_TYPE_VAR_NAMES.eng)
                 ) ],
@@ -152,7 +152,7 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "length",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}length`
                 }, 
                 [], 
                 [], 
@@ -167,7 +167,7 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "random",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}random`
                 }, 
                 [], 
                 [],
@@ -183,7 +183,7 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "first",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}first`
                 }, 
                 [], 
                 [], 
@@ -199,14 +199,14 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "has",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}has`
                 }, 
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
                     {
                         eng: "value",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     new NameType(LIST_TYPE_VAR_NAMES.eng)
                 ) ], 
@@ -222,14 +222,14 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "join",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}join`
                 }, 
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
                     {
                         eng: "separator",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     new TextType()
                 ) ], 
@@ -245,7 +245,7 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "last",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}last`
                 }, 
                 [], 
                 [], 
@@ -261,7 +261,7 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "sansFirst",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}sansFirst`
                 }, 
                 [], 
                 [], 
@@ -276,7 +276,7 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "sansLast",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}sansLast`
                 }, 
                 [], 
                 [], 
@@ -291,14 +291,14 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "sans",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}sans`
                 }, 
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
                     {
                         eng: "value",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     new NameType(LIST_TYPE_VAR_NAMES.eng)
                 ) ], 
@@ -314,14 +314,14 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "sansAll",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}sansAll`
                 },
                 [], 
                 [ new Bind(
                     WRITE_DOCS,
                     {
                         eng: "value",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     new NameType(LIST_TYPE_VAR_NAMES.eng)
                 ) ], 
@@ -337,7 +337,7 @@ export default function bootstrapList() {
                 WRITE_DOCS,
                 {
                     eng: "reverse",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}reverse`
                 }, 
                 [], 
                 [], 
@@ -359,7 +359,7 @@ export default function bootstrapList() {
                     WRITE_DOCS, 
                     {
                         eng: "value",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     new ListType()
                 ) ],
@@ -372,7 +372,7 @@ export default function bootstrapList() {
                         return new Bool(requestor, list.isEqualTo(value));
                     },
                     {
-                        "😀": TRANSLATE,
+                        "😀": WRITE,
                         eng: "Comparing list values."
                     }
                 ),
@@ -389,7 +389,7 @@ export default function bootstrapList() {
                     WRITE_DOCS, 
                     {
                         eng: "value",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     new ListType()
                 ) ],
@@ -402,7 +402,7 @@ export default function bootstrapList() {
                         return new Bool(requestor, !list.isEqualTo(value));
                     },
                     {
-                        "😀": TRANSLATE,
+                        "😀": WRITE,
                         eng: "Comparing list values."
                     }
                 ),
@@ -412,14 +412,14 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "translate",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}translate`
                 }, 
                 [ new TypeVariable(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME)], 
                 [ new Bind(
                     WRITE_DOCS, 
                     {
                         eng: "translator",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     listTranslateHOFType
                 ) ],
@@ -430,14 +430,14 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "filter",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}filter`
                 }, 
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
                     {
                         eng: "include",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     listFilterHOFType
                 ) ],
@@ -448,14 +448,14 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "all",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}all`
                 }, 
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
                     {
                         eng: "matcher",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     listAllHOFType
                 ) ],
@@ -466,14 +466,14 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "until",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}until`
                 }, 
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
                     {
                         eng: "checker",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     listUntilHOFType
                 )],
@@ -484,14 +484,14 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "find",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}find`
                 }, 
                 [], 
                 [ new Bind(
                     WRITE_DOCS, 
                     {
                         eng: "checker",
-                        "😀": TRANSLATE
+                        "😀": `${TRANSLATE}1`
                     }, 
                     listFindHOFType
                 ) ],
@@ -502,22 +502,22 @@ export default function bootstrapList() {
                 WRITE_DOCS, 
                 {
                     eng: "combine",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}combine`
                 }, 
-                [], 
+                [ new TypeVariable(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME) ], 
                 [
                     new Bind(
                         WRITE_DOCS, 
                         {
                             eng: "initial",
-                            "😀": TRANSLATE
+                            "😀": `${TRANSLATE}1`
                         }
                     ),
                     new Bind(
                         WRITE_DOCS, 
                         {
                             eng: "combiner",
-                            "😀": TRANSLATE
+                            "😀": `${TRANSLATE}2`
                         },
                         listCombineHOFType
                     )],

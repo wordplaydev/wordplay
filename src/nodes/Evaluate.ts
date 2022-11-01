@@ -94,9 +94,6 @@ export default class Evaluate extends Expression {
 
         if(this.func instanceof Unparsable) return [];
 
-        if(this.toWordplay().includes("Welcome"))
-            console.log("Checking throb line.");
-
         const functionType = this.func.getTypeUnlessCycle(context);
 
         // The function must be a function or structure. If it's not, that's a conflict.

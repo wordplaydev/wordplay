@@ -19,7 +19,7 @@ const Group = new StructureDefinition(
             WRITE_DOCS,
             {
                 eng: "layout",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}1`
             },
             new NameType("Layout")
         ),
@@ -27,7 +27,7 @@ const Group = new StructureDefinition(
             WRITE_DOCS,
             {
                 eng: "phrases",
-                "😀": TRANSLATE
+                "😀": `${TRANSLATE}2`
             },
             new NameType("Phrase"),
             undefined,

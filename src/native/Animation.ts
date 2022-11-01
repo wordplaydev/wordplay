@@ -29,9 +29,9 @@ export const Wobble = new StructureDefinition(
     [ new TypeInput(new NameType("Animation")) ],
     [],
     [
-        new Bind(WRITE_DOCS, { eng: "angle", "😀": TRANSLATE }, new MeasurementType(undefined, new Unit(undefined, [ new Dimension("°") ])), new MeasurementLiteral(10, new Unit(undefined, [ new Dimension("°") ]))),
-        new Bind(WRITE_DOCS, { eng: "duration", "😀": TRANSLATE }, new MeasurementType(undefined, new Unit(undefined, [ new Dimension("ms") ])), new MeasurementLiteral(400, new Unit(undefined, [ new Dimension("ms") ]))),
-        new Bind(WRITE_DOCS, { eng: "count", "😀": TRANSLATE }, new MeasurementType(), new MeasurementLiteral(Infinity)),
+        new Bind(WRITE_DOCS, { eng: "angle", "😀": `${TRANSLATE}1` }, new MeasurementType(undefined, new Unit(undefined, [ new Dimension("°") ])), new MeasurementLiteral(10, new Unit(undefined, [ new Dimension("°") ]))),
+        new Bind(WRITE_DOCS, { eng: "duration", "😀": `${TRANSLATE}2` }, new MeasurementType(undefined, new Unit(undefined, [ new Dimension("ms") ])), new MeasurementLiteral(400, new Unit(undefined, [ new Dimension("ms") ]))),
+        new Bind(WRITE_DOCS, { eng: "count", "😀": `${TRANSLATE}3` }, new MeasurementType(), new MeasurementLiteral(Infinity)),
     ]
 )
 
@@ -44,9 +44,9 @@ export const Throb = new StructureDefinition(
     [ new TypeInput(new NameType("Animation")) ],
     [],
     [
-        new Bind(WRITE_DOCS, { eng: "scale", "😀": TRANSLATE }, new MeasurementType(), new MeasurementLiteral(1.2)),
-        new Bind(WRITE_DOCS, { eng: "duration", "😀": TRANSLATE }, new MeasurementType(undefined, new Unit(undefined, [ new Dimension("ms") ])), new MeasurementLiteral(400, new Unit(undefined, [ new Dimension("ms") ]))),
-        new Bind(WRITE_DOCS, { eng: "count", "😀": TRANSLATE }, new MeasurementType(), new MeasurementLiteral(Infinity)),
+        new Bind(WRITE_DOCS, { eng: "scale", "😀": `${TRANSLATE}1` }, new MeasurementType(), new MeasurementLiteral(1.2)),
+        new Bind(WRITE_DOCS, { eng: "duration", "😀": `${TRANSLATE}2` }, new MeasurementType(undefined, new Unit(undefined, [ new Dimension("ms") ])), new MeasurementLiteral(400, new Unit(undefined, [ new Dimension("ms") ]))),
+        new Bind(WRITE_DOCS, { eng: "count", "😀": `${TRANSLATE}3` }, new MeasurementType(), new MeasurementLiteral(Infinity)),
     ]
 )
 
@@ -59,8 +59,8 @@ export const Bounce = new StructureDefinition(
     [ new TypeInput(new NameType("Animation")) ],
     [],
     [
-        new Bind(WRITE_DOCS, { eng: "height", "😀": TRANSLATE }, new MeasurementType(undefined, new Unit(undefined, [ new Dimension("m")])), new MeasurementLiteral(1.2)),
-        new Bind(WRITE_DOCS, { eng: "duration", "😀": TRANSLATE }, new MeasurementType(undefined, new Unit(undefined, [ new Dimension("ms") ])), new MeasurementLiteral(400, new Unit(undefined, [ new Dimension("ms") ]))),
-        new Bind(WRITE_DOCS, { eng: "count", "😀": TRANSLATE }, new MeasurementType(), new MeasurementLiteral(Infinity)),
+        new Bind(WRITE_DOCS, { eng: "height", "😀": `${TRANSLATE}1` }, new MeasurementType(undefined, new Unit(undefined, [ new Dimension("m")])), new MeasurementLiteral(1.2)),
+        new Bind(WRITE_DOCS, { eng: "duration", "😀": `${TRANSLATE}2` }, new MeasurementType(undefined, new Unit(undefined, [ new Dimension("ms") ])), new MeasurementLiteral(400, new Unit(undefined, [ new Dimension("ms") ]))),
+        new Bind(WRITE_DOCS, { eng: "count", "😀": `${TRANSLATE}3` }, new MeasurementType(), new MeasurementLiteral(Infinity)),
     ]
 )

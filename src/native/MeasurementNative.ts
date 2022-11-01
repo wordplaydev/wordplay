@@ -7,7 +7,7 @@ import NoneLiteral from "../nodes/NoneLiteral";
 import NoneType from "../nodes/NoneType";
 import StructureDefinition from "../nodes/StructureDefinition";
 import type Translations from "../nodes/Translations";
-import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
+import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
 import type Type from "../nodes/Type";
 import UnionType from "../nodes/UnionType";
 import Unit from "../nodes/Unit";
@@ -30,7 +30,7 @@ export default function bootstrapMeasurement() {
                 inputDocs, 
                 {
                     eng: "number",
-                    "😀": TRANSLATE
+                    "😀": `${TRANSLATE}number`
                 }, 
                 inputType
             ) ],
@@ -46,7 +46,7 @@ export default function bootstrapMeasurement() {
                     return expression(requestor, left, right) ?? new TypeException(evaluation.getEvaluator(), left.getType(), right);
                 },
                 { 
-                    "😀": TRANSLATE,
+                    "😀": WRITE,
                     eng: "Native measurement operation." 
                 }
             ),
@@ -88,7 +88,7 @@ export default function bootstrapMeasurement() {
                         WRITE_DOCS,
                         {
                             eng: "number",
-                            "😀": TRANSLATE
+                            "😀": `${TRANSLATE}1`
                         }, 
                         new UnionType(
                             new NoneType(),
@@ -107,7 +107,7 @@ export default function bootstrapMeasurement() {
                         return right === undefined ? left.negate(requestor) : left.subtract(requestor, right);
                     },
                     { 
-                        "😀": TRANSLATE,
+                        "😀": WRITE,
                         eng: "Native measurement operation." 
                     }
                 ),

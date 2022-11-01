@@ -16,7 +16,7 @@ import type Value from "../runtime/Value";
 
 const OperandNames: Translations = {
     eng: "boolean",
-    "😀": "?"
+    "😀": `${TRANSLATE}1`
 };
 
 export default function bootstrapBool() {
@@ -45,7 +45,7 @@ export default function bootstrapBool() {
                     return expression(requestor, left, right);
                 },
                 { 
-                    "😀": TRANSLATE,
+                    "😀": WRITE,
                     eng: "Native boolean operation." 
                 }
             ),
@@ -59,8 +59,8 @@ export default function bootstrapBool() {
             "😀": WRITE
         },
         {
-            eng: TRANSLATE,
-            "😀": TRANSLATE
+            eng: "bool",
+            "😀": `${TRANSLATE}bool`
         }, 
         [], 
         [], 
@@ -108,7 +108,7 @@ export default function bootstrapBool() {
                         return left.not(requestor);
                     },
                     {
-                        "😀": TRANSLATE,
+                        "😀": WRITE,
                         eng: "Logical not." 
                     }
                 ),
