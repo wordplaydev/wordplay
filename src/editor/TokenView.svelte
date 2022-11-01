@@ -19,7 +19,7 @@
     $: textToShow = 
         isPlaceholder ? node.getParent()?.getChildPlaceholderLabel(node, $caret.source.getContext())?.eng ?? PLACEHOLDER_SYMBOL : 
         node.text.getLength() === 0 ? "\u00A0" : 
-        node.text.toString()
+        node.text.toString().replaceAll(" ", "&nbsp;")
 
 </script>
 
@@ -28,7 +28,7 @@
     style="color: {`var(--token-category-${kind})`}; margin-left: {node.precedingSpaces}ch"
     data-id={node.id}
 >
-    <span class="text">{ textToShow }</span>
+    <span class="text">{@html textToShow }</span>
 </span>
 
 <style>

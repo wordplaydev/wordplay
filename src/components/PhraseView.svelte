@@ -35,6 +35,8 @@
         animationType === Bounce ? "bounce" :
         ""}`;
 
+    $: renderedText = text.replaceAll(" ", "&nbsp;");
+
     $: transitionFunction =
         transitionType === Fade ?
             (node: HTMLElement, {}) => {
@@ -67,9 +69,9 @@
 {#if visible }
     {#key phrase.creator.id }
         {#if transitionFunction }
-            <div class={classes} style={style} in:transitionFunction={{}}>{text}</div>
+            <div class={classes} style={style} in:transitionFunction={{}}>{@html renderedText}</div>
         {:else}
-            <div class={classes} style={style}>{text}</div>
+            <div class={classes} style={style}>{@html renderedText}</div>
         {/if}
     {/key}
 {/if}
