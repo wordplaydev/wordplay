@@ -82,13 +82,7 @@ export default class ListAccess extends Expression {
         if(this.list instanceof Unparsable) return new UnknownType(this);
         const listType = this.list.getTypeUnlessCycle(context);
         if(listType instanceof ListType && listType.type instanceof Type) 
-            return new UnionType(
-                listType.type, new 
-                NoneType({
-                    eng: "indexoutofbounds",
-                    "😀": TRANSLATE
-                })
-            );
+            return new UnionType(listType.type, new NoneType());
         else return new UnknownType(this);
     }
 

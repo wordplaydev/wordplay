@@ -1,4 +1,5 @@
 import { test, expect } from "vitest";
+import { NONE_SYMBOL } from "../parser/Tokenizer";
 import Evaluator from "../runtime/Evaluator";
 
 test("Test boolean conversions", () => {
@@ -6,7 +7,7 @@ test("Test boolean conversions", () => {
 });
 
 test("Test none conversions", () => {
-    expect(Evaluator.evaluateCode("!→''")?.toString()).toBe('"!"');
+    expect(Evaluator.evaluateCode(`${NONE_SYMBOL}→''`)?.toString()).toBe(`"${NONE_SYMBOL}"`);
 });
 
 test("Test text conversions", () => {

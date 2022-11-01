@@ -49,7 +49,7 @@ import SetLiteral from "../nodes/SetLiteral";
 import MapLiteral from "../nodes/MapLiteral";
 import SetType from "../nodes/SetType";
 import MapType from "../nodes/MapType";
-import { PLACEHOLDER_SYMBOL } from "./Tokenizer";
+import { NONE_SYMBOL, PLACEHOLDER_SYMBOL } from "./Tokenizer";
 
 test("Parse programs", () => {
 
@@ -143,12 +143,8 @@ test("Parse expressions", () => {
     const placeholder = parseExpression(tokens(PLACEHOLDER_SYMBOL));
     expect(placeholder).toBeInstanceOf(ExpressionPlaceholder);
 
-    const none = parseExpression(tokens("!"));
+    const none = parseExpression(tokens(NONE_SYMBOL));
     expect(none).toBeInstanceOf(NoneLiteral);
-
-    const noneRefined = parseExpression(tokens("!zero"));
-    expect(noneRefined).toBeInstanceOf(NoneLiteral);
-    expect((noneRefined as NoneLiteral)?.toWordplay()).toBe("!zero");
 
     const name = parseExpression(tokens("boomy"));
     expect(name).toBeInstanceOf(Reference);
@@ -391,12 +387,8 @@ test("Types", () => {
     const text = parseType(tokens("''"));
     expect(text).toBeInstanceOf(TextType);
 
-    const none = parseType(tokens("!"));
-    expect(none).toBeInstanceOf(NoneType);
-
-    const noneRefined = parseType(tokens("!zero"));
-    expect(noneRefined).toBeInstanceOf(NoneType);
-    expect((noneRefined as NoneType).names.names[0].getName()).toBe("zero");
+    const none = parseType(tokens(NONE_SYMBOL));
+    expect(none).toBeInstanceOf(NoneType)
 
     const list = parseType(tokens("[#]"));
     expect(list).toBeInstanceOf(ListType);

@@ -3,7 +3,8 @@
     import type None from "../runtime/None";
 
     export let value: None;
+    value;
 
 </script>
 
-{ NONE_SYMBOL }{value.names?.getNames().join(" ") ?? "" }
+{ NONE_SYMBOL }

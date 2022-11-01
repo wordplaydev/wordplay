@@ -37,7 +37,7 @@
 
     $: transitionFunction =
         transitionType === Fade ?
-            (node: HTMLElement) => {
+            (node: HTMLElement, {}) => {
                 const style = getComputedStyle(node);
                 const opacity = +style.opacity;
 
@@ -48,7 +48,8 @@
                 }
             } : 
         transitionType === Scale ?
-            () => {
+            (node: HTMLElement, {}) => {
+                node;
                 return {
                     delay: transitionDelay ?? 0,
                     duration: transitionDuration ?? 400,
@@ -66,13 +67,9 @@
 {#if visible }
     {#key phrase.creator.id }
         {#if transitionFunction }
-            <div class={classes} style={style} in:transitionFunction>
-                {text}
-            </div>
+            <div class={classes} style={style} in:transitionFunction={{}}>{text}</div>
         {:else}
-            <div class={classes} style={style}>
-                {text}
-            </div>
+            <div class={classes} style={style}>{text}</div>
         {/if}
     {/key}
 {/if}

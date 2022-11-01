@@ -14,6 +14,7 @@ import { createNativeConversion } from "./NativeBindings";
 import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
 import type Translations from "../nodes/Translations";
 import type Node from "../nodes/Node";
+import { NONE_SYMBOL } from "../parser/Tokenizer";
 
 export default function bootstrapNone() {
 
@@ -63,7 +64,7 @@ export default function bootstrapNone() {
         }, 
         [], [], [],
         new Block([ 
-            createNativeConversion(WRITE_DOCS, "!", "''", (requestor, val: None) => new Text(requestor, val.toString())),
+            createNativeConversion(WRITE_DOCS, NONE_SYMBOL, "''", (requestor, val: None) => new Text(requestor, val.toString())),
             createNativeNoneFunction(
                 {
                     eng: WRITE,

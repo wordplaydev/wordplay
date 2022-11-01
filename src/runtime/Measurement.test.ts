@@ -2,7 +2,7 @@ import { test, expect } from "vitest";
 import MeasurementLiteral from "../nodes/MeasurementLiteral";
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
-import { FALSE_SYMBOL, TRUE_SYMBOL } from "../parser/Tokenizer";
+import { FALSE_SYMBOL, NONE_SYMBOL, TRUE_SYMBOL } from "../parser/Tokenizer";
 import Evaluator from "./Evaluator";
 import Measurement from "./Measurement";
 import TypeException from "./TypeException";
@@ -52,7 +52,7 @@ test("Test equalities and inequalities", () => {
     expect(Evaluator.evaluateCode(`1 = 2`)?.toString()).toBe(FALSE_SYMBOL);
     expect(Evaluator.evaluateCode(`1m = 1m`)?.toString()).toBe(TRUE_SYMBOL);
     expect(Evaluator.evaluateCode(`1m = 1`)).toBeInstanceOf(TypeException);
-    expect(Evaluator.evaluateCode(`1 = !`)).toBeInstanceOf(TypeException);
+    expect(Evaluator.evaluateCode(`1 = ø`)).toBeInstanceOf(TypeException);
 
     expect((new Measurement(literal, 5)).lessThan(literal, new Measurement(literal, 3)).bool).toBe(false);
     expect((new Measurement(literal, 5)).lessThan(literal, new Measurement(literal, 10)).bool).toBe(true);
@@ -102,7 +102,7 @@ test("Test division", () => {
 
     expect((new Measurement(literal, 1)).divide(literal, new Measurement(literal, 1)).toString()).toBe("1");
     expect((new Measurement(literal, 0)).divide(literal, new Measurement(literal, 1)).toString()).toBe("0");
-    expect((new Measurement(literal, 1)).divide(literal, new Measurement(literal, 0)).toString()).toBe("!nan");
+    expect((new Measurement(literal, 1)).divide(literal, new Measurement(literal, 0)).toString()).toBe(NONE_SYMBOL);
     expect((new Measurement(literal, 10)).divide(literal, new Measurement(literal, 5)).toString()).toBe("2");
     expect((new Measurement(literal, -10)).divide(literal, new Measurement(literal, 5)).toString()).toBe("-2");
     expect((new Measurement(literal, 1)).divide(literal, new Measurement(literal, 3)).toString()).toBe("0.33333333333333333333");

@@ -525,8 +525,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
 function parseNone(tokens: Tokens): NoneLiteral | Unparsable {
 
     const error = tokens.read(TokenType.NONE);
-    const names = parseNames(tokens);
-    return new NoneLiteral(error, names);
+    return new NoneLiteral(error);
 
 }
 
@@ -985,9 +984,8 @@ function parseMeasurementType(tokens: Tokens): MeasurementType {
 /** NONE_TYPE :: !NAME? */
 function parseNoneType(tokens: Tokens): NoneType {
 
-    const oops = tokens.read(TokenType.NONE_TYPE);
-    const names = parseNames(tokens);
-    return new NoneType(names, oops);
+    const none = tokens.read(TokenType.NONE_TYPE);
+    return new NoneType(none);
 
 }
 

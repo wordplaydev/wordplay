@@ -496,7 +496,7 @@ export default function bootstrapList() {
                     listFindHOFType
                 ) ],
                 new NativeHOFListFind(listFindHOFType),
-                new UnionType(new NameType(LIST_TYPE_VAR_NAMES.eng), new NoneType({ eng: "notfound", "😀": TRANSLATE }))
+                new UnionType(new NameType(LIST_TYPE_VAR_NAMES.eng), new NoneType())
             ),
             new FunctionDefinition(
                 WRITE_DOCS, 

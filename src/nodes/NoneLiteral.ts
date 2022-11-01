@@ -7,7 +7,6 @@ import None from "../runtime/None";
 import type Value from "../runtime/Value";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
-import Name from "./Name";
 import type Bind from "./Bind";
 import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
@@ -17,32 +16,27 @@ import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import Names from "./Names";
 
 export default class NoneLiteral extends Expression {
     readonly none: Token;
-    readonly names: Names;
 
-    constructor(error?: Token, names?: Names) {
+    constructor(none?: Token) {
         super();
 
-        this.none = error ?? new Token(NONE_SYMBOL, TokenType.NONE);
-        this.names = names ?? new Names();
+        this.none = none ?? new Token(NONE_SYMBOL, TokenType.NONE);
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new NoneLiteral(
-            this.cloneOrReplaceChild(pretty, [ Token ], "none", this.none, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Name ], "aliases", this.names, original, replacement)
+            this.cloneOrReplaceChild(pretty, [ Token ], "none", this.none, original, replacement)
         ) as this; 
     }
 
-    computeChildren() { return [ this.none, this.names ]; }
+    computeChildren() { return [ this.none ]; }
     computeConflicts() {}
 
     computeType(): Type {
-        // Always of type none, with the optional name.
-        return new NoneType(this.names, this.none);
+        return new NoneType();
     }
 
     compile(): Step[] {
@@ -50,7 +44,7 @@ export default class NoneLiteral extends Expression {
     }
 
     evaluate(): Value {
-        return new None(this, this.names);
+        return new None(this);
     }
 
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
