@@ -57,7 +57,7 @@ export default class MeasurementLiteral extends Expression {
     }
 
     computeType(): Type {
-        return new MeasurementType(undefined, this.unit instanceof Unparsable ? undefined : this.unit);
+        return new MeasurementType(this.number.clone(false), this.unit instanceof Unparsable ? undefined : this.unit);
     }
 
     compile():Step[] {
