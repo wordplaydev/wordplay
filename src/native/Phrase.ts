@@ -10,7 +10,7 @@ import TextLiteral from "../nodes/TextLiteral";
 import TextType from "../nodes/TextType";
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
-import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
+import { WRITE_DOCS } from "../nodes/Translations";
 import UnionType from "../nodes/UnionType";
 import Unit from "../nodes/Unit";
 
@@ -27,7 +27,7 @@ const Phrase = new StructureDefinition(
             WRITE_DOCS, 
             {
                 eng: "text",
-                "😀": TRANSLATE
+                "😀": "✍︎"
             },
             new TextType()
         ),
@@ -35,7 +35,7 @@ const Phrase = new StructureDefinition(
             WRITE_DOCS,
             {
                 eng: "size",
-                "😀": TRANSLATE
+                "😀": "⇕"
             },
             new MeasurementType(undefined, new Unit(undefined, [ new Dimension("pt") ])),
             new MeasurementLiteral(12, new Unit(undefined, [ new Dimension("pt")]))
@@ -44,7 +44,7 @@ const Phrase = new StructureDefinition(
             WRITE_DOCS,
             {
                 eng: "font",
-                "😀": TRANSLATE
+                "😀": "👚"
             },
             new TextType(),
             new TextLiteral(new Token("'Noto Sans'", TokenType.TEXT))
@@ -53,7 +53,7 @@ const Phrase = new StructureDefinition(
             WRITE_DOCS,
             {
                 eng: "in",
-                "😀": TRANSLATE
+                "😀": "🎬"
             },
             new UnionType(new NameType("Transition"), new NoneType()),
             new NoneLiteral()
@@ -61,8 +61,8 @@ const Phrase = new StructureDefinition(
         new Bind(
             WRITE_DOCS,
             {
-                eng: "animation",
-                "😀": TRANSLATE
+                eng: "animate",
+                "😀": "🔂"
             },
             new UnionType(new NameType("Animation"), new NoneType()),
             new NoneLiteral()

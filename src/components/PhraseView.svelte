@@ -10,7 +10,7 @@
     $: text = phrase.getText("text") ?? "";
     $: font = phrase.getText("font") ?? "";
     $: transition = phrase.resolve("in");
-    $: animation = phrase.resolve("animation");
+    $: animation = phrase.resolve("animate");
 
     $: transitionType = transition instanceof Structure ? transition.type : undefined;
     $: transitionDuration = transition instanceof Structure ? transition.getMeasurement("duration") : undefined;

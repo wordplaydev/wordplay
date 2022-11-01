@@ -10,6 +10,7 @@ import UnexpectedInput from "../conflicts/UnexpectedInput";
 import MeasurementType from "./MeasurementType";
 import SetType from "./SetType";
 import MapType from "./MapType";
+import UnknownInput from "../conflicts/UnknownInput";
 
 test("Test evaluate conflicts", () => {
 
@@ -18,6 +19,7 @@ test("Test evaluate conflicts", () => {
     testConflict('•Cat(a•#) ()\nCat(1)', '•Cat(a•#) ()\nCat("hi")', Evaluate, IncompatibleInput);
     testConflict('x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(1)', Evaluate, MissingInput);
     testConflict('x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(a:1 c:2)', Evaluate, UnexpectedInput);
+    testConflict('x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(a:1 b:2 c:3)', Evaluate, UnknownInput);
     testConflict('x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(a:1 a:2)', Evaluate, UnexpectedInput);
     testConflict('x: ƒ(…num•#) a - b\nx(1 2 3)', 'x: ƒ(…num•"") a - b\nx(1 2 3)', Evaluate, IncompatibleInput);
 

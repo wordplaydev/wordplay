@@ -49,6 +49,7 @@ import Replace from "../transforms/Replace";
 import EvalOpenToken from "./EvalOpenToken";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Remove from "../transforms/Remove";
+import UnknownInput from "../conflicts/UnknownInput";
 
 type InputType = Unparsable | Bind | Expression;
 
@@ -92,6 +93,9 @@ export default class Evaluate extends Expression {
         const conflicts = [];
 
         if(this.func instanceof Unparsable) return [];
+
+        if(this.toWordplay().includes("Welcome"))
+            console.log("Checking throb line.");
 
         const functionType = this.func.getTypeUnlessCycle(context);
 
@@ -166,15 +170,12 @@ export default class Evaluate extends Expression {
                             conflicts.push(new IncompatibleInput(functionType, this, given.value, givenType, concreteExpectedType));
                     }
                 }
-                // If the given value input isn't a bind, check the type of the next given input.
+                // If the given value input isn't a bind, check the type of the input.
                 else {
                     const givenType = given.getType(context);
                     if(concreteExpectedType !== undefined && !concreteExpectedType.accepts(givenType, context, given))
                         conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteExpectedType));
                 }
-
-                // Remember that we matched this bind.
-                bindsGiven.add(expectedInput);
 
             }
             // If it's optional, go through each one to see if it's provided in the remaining inputs.
@@ -203,13 +204,14 @@ export default class Evaluate extends Expression {
                             if(!concreteExpectedType.accepts(givenType, context, matchingBind.value))
                                 conflicts.push(new IncompatibleInput(functionType, this, matchingBind.value, givenType, concreteExpectedType));
                         }
-                        // Remember that we matched on this and remove it from the given inputs list.
+                        // Remove it from the given inputs list.
                         givenInputs.splice(givenInputs.indexOf(matchingBind), 1);
+
                     }
-                    // If there wasn't a named input matching, see if the next input matches the type.
+                    // If there wasn't a named input matching, see if the next non-bind expression matches the type.
                     else if(givenInputs.length > 0) {
                         const given = givenInputs[0];
-                        // If the given input is unnamed, consume it as the expected input.
+                        // If the given input is an expression, map it to the expected input, and see if there's a type error.
                         if(given instanceof Expression) {
                             const givenType = given.getTypeUnlessCycle(context);
                             if(!concreteExpectedType.accepts(givenType, context, given))
@@ -217,19 +219,25 @@ export default class Evaluate extends Expression {
                             givenInputs.shift();
                         }
                     }
+                    // Otherwise, there's no given input for this optional input.
                 }
-
-                // Remember that we processed this input.
-                bindsGiven.add(expectedInput);
 
             }
 
-            // If there are remaining given inputs that didn't match anything, something's wrong.
-            if(givenInputs.length > 0)
-                conflicts.push(new UnexpectedInputs(functionType, this, givenInputs));
-
         }
 
+        // See if any of the remaining given inputs are bound to unknown names.
+        for(const given of givenInputs) {
+            if(given instanceof Bind && expectedInputs.find(expected => expected.sharesName(given)) === undefined) {
+                conflicts.push(new UnknownInput(functionType, this, given));
+                givenInputs.splice(givenInputs.indexOf(given), 1);
+            }
+        }
+        
+        // If there are remaining given inputs that didn't match anything, something's wrong.
+        if(givenInputs.length > 0)
+            conflicts.push(new UnexpectedInputs(functionType, this, givenInputs));    
+    
         return conflicts;
     
     }
@@ -390,69 +398,82 @@ export default class Evaluate extends Expression {
             funcType instanceof StructureType ? funcType.structure.inputs :
             undefined;
 
-        // Compile a halt if we couldn't find the function.
+        // Halt if we couldn't find the function.
         if(candidateExpectedInputs === undefined)
             return [ new Halt(evaluator => new FunctionException(evaluator, this, undefined, this.func.toWordplay()), this) ];
 
-        // Compile a halt if any of the function's inputs are unparsable.
+        // Halt if any of the function's binds are unparsable.
         const unparsableExpected = candidateExpectedInputs.find(i => i instanceof Unparsable);
         if(unparsableExpected !== undefined)
             return [ new Halt(evaluator => new SemanticException(evaluator, unparsableExpected), this) ];
 
-        // Compile a halt if any of the function's inputs are unparsable.
+        // Halt if any of the function's inputs are unparsable.
         const unparsableGiven = this.inputs.find(i => i instanceof Unparsable);
         if(unparsableGiven !== undefined)
             return [ new Halt(evaluator => new SemanticException(evaluator, unparsableGiven), this) ];
 
         // Make typescript happy now that we've guarded against unparsables.
         const expectedInputs = candidateExpectedInputs as Bind[];
-        const givenInputs = this.inputs.slice() as (Expression | Unparsable)[];
+        const givenInputs = this.inputs.slice() as (Expression|Bind)[];
 
         // Iterate through the inputs, compiling given or default expressions.
         const inputSteps = expectedInputs.map(expectedInput => {
 
             // Find the given input that corresponds to the next desired input.
-            // If this input is required, grab the next given input.
+
+            // If the next expected input is required, grab the next given input.
             if(expectedInput.isRequired()) {
-                const requiredInput = givenInputs.shift();
+                const input = givenInputs.shift();
                 // If there isn't one, exception!
-                if(requiredInput === undefined)
+                if(input === undefined)
                     return [ new Halt(evaluator => new ValueException(evaluator), this) ];
-                // If it's a bind, compile the bind's expression
-                else if(requiredInput instanceof Bind) {
-                    if(requiredInput.value === undefined) 
-                        return [ new Halt(evaluator => new SemanticException(evaluator, requiredInput), this) ];
+                // If the given input is a bind...
+                else if(input instanceof Bind) {
+                    // And it doesn't have a default value, halt.
+                    if(input.value === undefined) 
+                        return [ new Halt(evaluator => new SemanticException(evaluator, input), this) ];
+                    // But it doesn't correspond to the required input, halt
+                    else if(!input.sharesName(expectedInput))
+                        return [ new Halt(evaluator => new ValueException(evaluator), this) ];
+                    // Otherwise, compile the bind's expression.
                     else
-                        return requiredInput.value.compile(context);
+                        return input.value.compile(context);
                 }
                 // Otherwise, compile the expression.
                 else
-                    return requiredInput.compile(context);
+                    return input.compile(context);
             }
-            // If it's not required...
+            // If the next expected input is optional...
             else {
-                // and it's not a variable length input, first search for a named input, otherwise grab the next input.
+                // ... and it's not a variable length input, first search for a named input, otherwise grab the next input.
                 if(!expectedInput.isVariableLength()) {
                     const bind = givenInputs.find(g => g instanceof Bind && expectedInput.sharesName(g));
-                    // If we found a bind with a matching name, compile it's value.
-                    if(bind instanceof Bind && bind.value !== undefined)
+                    // If we found a bind with a matching name and it has a value, compile it's value. Halt if it has no value.
+                    if(bind instanceof Bind) {
+                        if(bind.value === undefined)
+                            return [ new Halt(evaluator => new ValueException(evaluator), this) ];
+                        // Remove the given input from the list of inputs
+                        givenInputs.splice(givenInputs.indexOf(bind), 1);
+                        // Return the compiled value.
                         return bind.value.compile(context);
-                    // If we didn't, then compile the next value.
-                    const optionalInput = givenInputs.shift();
+                    }
+
+                    // If we didn't find a matching bind for this expected input, see if there's a non-bind expression next, use it.
+                    const optionalInput = givenInputs.length > 0 && givenInputs[0] instanceof Expression ? givenInputs.shift() : undefined;
                     if(optionalInput !== undefined)
                         return optionalInput.compile(context);
-                    // If there wasn't one, use the default value.
+                    
+                    // If there wasn't one, use the expected input's default value.
                     return expectedInput.value === undefined ? 
                         [ new Halt(evaluator => new SemanticException(evaluator, expectedInput), this) ] :
                         expectedInput.value.compile(context);
                 }
-                // If it is a variable length input, reduce the remaining given input expressions.
+                // If it is a variable length input, reduce the remaining given input expressions into a list of steps.
                 else {
                     return givenInputs.reduce((prev: Step[], next) =>
                         [
                             ...prev, 
                             ...(
-                                next instanceof Unparsable ? [ new Halt(evaluator => new SemanticException(evaluator, next), this) ] :
                                 next instanceof Bind ? 
                                     (
                                         next.value === undefined ? 

@@ -29,21 +29,21 @@ export default class Unit extends Type {
         super();
 
         // Did we parse it? Convert to exponents.
-        if(numerator !== undefined && denominator !== undefined) {
+        if(numerator !== undefined || denominator !== undefined) {
 
-            this.numerator = numerator;
+            this.numerator = numerator ?? [];
             this.slash = slash;
-            this.denominator =  denominator;
+            this.denominator =  denominator ?? [];
 
             this.exponents = new Map();
             
-            for(const dim of numerator) {
+            for(const dim of this.numerator) {
                 const name = dim.getName();
                 const exp = dim.exponent === undefined ? 1 : new Measurement(this, dim.exponent.getText()).toNumber();
                 const current = this.exponents.get(name);
                 this.exponents.set(name, (current ?? 0) + exp);
             }
-            for(const dim of denominator) {
+            for(const dim of this.denominator) {
                 const name = dim.getName();
                 const exp = dim.exponent === undefined ? -1 : -(new Measurement(this, dim.exponent.getText()).toNumber());
                 const current = this.exponents.get(name);
