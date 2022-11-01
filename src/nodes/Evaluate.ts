@@ -140,7 +140,6 @@ export default class Evaluate extends Expression {
         // To do this, we loop through target inputs and consume the given inputs according to matching rules.
 
         const givenInputs = this.inputs.slice() as (Expression|Bind)[];
-        const bindsGiven = new Set<Bind>();
 
         // Loop through each of the expected types and see if the given types match.
         for(const expectedInput of expectedInputs) {

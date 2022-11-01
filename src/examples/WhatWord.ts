@@ -46,7 +46,9 @@ screen/eng,
 \tstate.status() = "start" ? ▣(⬇() title 💬("Press space to begin" animate: Throb(1.1 1000s)))
 \tstate.status() = "lost" ?  ▣(⬇() board 💬("You lost. Press space to play again."))
 \tstate.status() = "won" ?   ▣(⬇() board 💬("You won, nice job! Press space to play again."))
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t ▣(⬇() board 💬(state.guesses.length() = 0 ? "Type a letter to guess" "Guesses: \\state.guesses.join(' ')\\" 16pt) 💬("\\state.guessesRemaining()→''\\ remaining" in: Scale() animate: state.guessesRemaining() ≤ 3 ? Wobble(5° 200ms) ø))
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t ▣(⬇() board 💬(state.guesses.length() = 0 ? "Type a letter to guess" "Guesses: \\state.guesses.join(' ')\\" 16pt) 
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t💬("\\state.guessesRemaining()→''\\ remaining" in: Scale() animate: state.guessesRemaining() ≤ 3 ? Wobble(5° 200ms) ø)
+                              )
 
 🌎(screen)`,
 

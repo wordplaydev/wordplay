@@ -42,6 +42,23 @@ export default class UnionType extends Type {
     }
 
     accepts(type: Type, context: Context): boolean {
+
+        // Union types accept a given type T if T is a subset of the union type.
+        // For example:
+        // A | B accepts A? Yes
+        // A | B accepts B? Yes
+        // A | B accepts A | B? Yes
+        // A | B accepts A | C? No
+        // A | B accepts A | B | C? No
+        // A | B accepts C? No
+
+        // A union type accepts a type if it's right or left accepts the type.
+        return type instanceof UnionType ?
+            (this.containsType(type.left, context) && (type.right instanceof Unparsable || this.containsType(type.right, context))) :
+            this.containsType(type, context);
+    }
+
+    containsType(type: Type, context: Context) {
         return this.left.accepts(type, context) || (!(this.right instanceof Type) || this.right.accepts(type, context));
     }
 
