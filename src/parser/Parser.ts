@@ -941,7 +941,7 @@ export function parseType(tokens: Tokens, isExpression:boolean=false): Type | Un
         tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read(TokenType.NAME)) :
         tokens.nextIs(TokenType.BOOLEAN_TYPE) ? new BooleanType(tokens.read(TokenType.BOOLEAN_TYPE)) :
         tokens.nextIs(TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :
-        tokens.nextIs(TokenType.TEXT_TYPE) ? parseTextType(tokens) :
+        tokens.nextIs(TokenType.TEXT) ? parseTextType(tokens) :
         tokens.nextIs(TokenType.NONE) ? parseNoneType(tokens) :
         tokens.nextIs(TokenType.LIST_OPEN) ? parseListType(tokens) :
         tokens.nextIs(TokenType.SET_OPEN) ? parseSetOrMapType(tokens) :
@@ -966,7 +966,7 @@ export function parseType(tokens: Tokens, isExpression:boolean=false): Type | Un
 /** TEXT_TYPE :: TEXT LANGUAGE? */
 function parseTextType(tokens: Tokens): TextType {
 
-    const quote = tokens.read(TokenType.TEXT_TYPE);
+    const quote = tokens.read(TokenType.TEXT);
     const format = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
     return new TextType(quote, format);
 

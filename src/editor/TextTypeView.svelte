@@ -6,4 +6,4 @@
 
 </script>
 
-<NodeView node={node.quote} /><NodeView node={node.format}/>
+<NodeView node={node.text} /><NodeView node={node.format}/>

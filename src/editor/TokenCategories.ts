@@ -34,7 +34,6 @@ TokenCategories.set(TokenType.TYPE_VAR, TokenCategoryRelation);
 TokenCategories.set(TokenType.NAME_SEPARATOR, TokenCategoryDelimiter);
 TokenCategories.set(TokenType.LANGUAGE, TokenCategoryDelimiter);
 TokenCategories.set(TokenType.BOOLEAN_TYPE, TokenCategoryLiteral);
-TokenCategories.set(TokenType.TEXT_TYPE, TokenCategoryType);
 TokenCategories.set(TokenType.NUMBER_TYPE, TokenCategoryType);
 TokenCategories.set(TokenType.JAPANESE, TokenCategoryLiteral);
 TokenCategories.set(TokenType.ROMAN, TokenCategoryLiteral);

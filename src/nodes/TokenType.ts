@@ -20,7 +20,6 @@ enum TokenType {
     NAME_SEPARATOR,
     LANGUAGE,
     BOOLEAN_TYPE,
-    TEXT_TYPE,
     NUMBER_TYPE,
     JAPANESE,
     ROMAN,

@@ -119,8 +119,6 @@ const patterns = [
     { pattern: "∞", types: [ TokenType.NUMBER, TokenType.INFINITY ] },
     { pattern: TRUE_SYMBOL, types: [ TokenType.BOOLEAN ] },
     { pattern: FALSE_SYMBOL, types: [ TokenType.BOOLEAN ] },
-    // Match empty strings as both text and text types.
-    { pattern: /^(""|''|“”|„“|‘’|«»|「」|『』)/u, types: [ TokenType.TEXT, TokenType.TEXT_TYPE ] },
     // Lazily match non-template strings that lack open parentheses and aren't closed with a preceding escape.
     { pattern: /^"[^\\]*?("|(?=\n))/u, types: [ TokenType.TEXT ] },
     { pattern: /^“[^\\]*?(”|(?=\n))/u, types: [ TokenType.TEXT ] },

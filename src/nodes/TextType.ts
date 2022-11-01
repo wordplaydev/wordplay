@@ -15,28 +15,29 @@ import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
+/** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends NativeType {
 
-    readonly quote: Token;
+    readonly text: Token;
     readonly format?: Language;
 
-    constructor(quote?: Token, format?: Language) {
+    constructor(text?: Token, format?: Language) {
         super();
 
-        this.quote = quote ?? new Token(TEXT_SYMBOL, TokenType.TEXT_TYPE);
+        this.text = text ?? new Token(TEXT_SYMBOL, TokenType.TEXT);
         this.format = format;
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TextType(
-            this.cloneOrReplaceChild(pretty, [ Token ], "quote", this.quote, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Token ], "quote", this.text, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Language, undefined ], "format", this.format, original, replacement)
         ) as this; 
     }
 
     computeChildren() {
         const children = [];
-        children.push(this.quote);
+        children.push(this.text);
         if(this.format) children.push(this.format);
         return children;
     }
@@ -44,9 +45,16 @@ export default class TextType extends NativeType {
     computeConflicts() {}
 
     accepts(type: Type): boolean { 
-        return  (type instanceof TextType && 
+        // For this to accept the given type, this must be an empty string or the text and the given type must be the same.
+        return  (type instanceof TextType && (this.getText() === "" || (this.text.getText() === type.text.getText())) &&
                 ((this.format === undefined && type.format === undefined) || 
                  (this.format !== undefined && type.format !== undefined && this.format.equals(type.format)))); 
+    }
+
+    /** Strip the delimiters from the token to get the text literal that defines this type. */
+    getText() {
+        const text = this.text.getText();
+        return text.substring(1, text.length - 1);
     }
 
     getNativeTypeName(): string { return TEXT_NATIVE_TYPE_NAME; }
