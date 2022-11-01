@@ -36,7 +36,7 @@ board/eng,
 🔤/😀: 💬(state.secret→[""].translate(ƒ(letter•"") ((state.status() = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 32pt animate: state.status() = "won" ? Bounce(100m 1000ms) ø)
 
 \`The title on the title screen\`/eng
-title: 💬("Welcome to WhatWord!" 32pt in:Fade(100ms) animate:Bounce(100m 1000ms))
+title: 💬("Welcome to WhatWord!" 32pt in:Fade(500ms))
 
 \`The rest of the game screen depends on the game status\`/eng
 \`El resto de la pantalla del juego depende del estado del juego.\`/spa
