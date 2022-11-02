@@ -8,6 +8,7 @@ const Style = parseStructure(tokens(
     font/eng,🔡/😀${Fonts.map(font => `•"${font.name}"`).join("")}: "Noto Sans"
     weight/eng,${TRANSLATE}weight/😀•1•2•3•4•5•6•7•8•9: 4
     size/eng,📏/😀•#pt:12pt
+    italic/eng,${TRANSLATE}italic/😀•?: ⊤
 )`));
 
 export default Style;
