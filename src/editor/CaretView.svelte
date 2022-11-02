@@ -135,11 +135,13 @@
         for(const tokenView of tokenViews) {
             if(firstTokenView === undefined) 
                 firstTokenView = tokenView;
-            const lineBreaks = tokenView.querySelectorAll("br");
-            if(lineBreaks.length > 0) {
-                firstTokenViewAfterLineBreak = tokenView;
-                lineBreakCount = lineBreaks.length;
-                break;
+            else {
+                const lineBreaks = tokenView.querySelectorAll("br");
+                if(lineBreaks.length > 0) {
+                    firstTokenViewAfterLineBreak = tokenView;
+                    lineBreakCount = lineBreaks.length;
+                    break;
+                }
             }
         }
 
