@@ -56,10 +56,22 @@
                     undefined;
 
         }
+
+        // Update the caret's location.
+        location = computeLocation();
+
     }
 
     // After we render, update the caret position.
     afterUpdate(() => {
+
+        // Now that we've rendered the caret, scroll to it, if we're not executing.
+        if(caretElement && location && $caret.source.evaluator.isDone())
+            caretElement.scrollIntoView({ behavior: "auto", block: "nearest", inline: "nearest"});
+
+    });
+
+    function computeLocation() {
 
         // Start assuming no position.
         location = undefined;
@@ -85,13 +97,12 @@
             if(tokenView === null) return;
             const tokenViewRect = tokenView.getBoundingClientRect();
 
-            location = {
+            return {
                 left: `${tokenViewRect.left + viewportXOffset + tokenViewRect.width / 2}px`,
                 top: `${tokenViewRect.top + viewportYOffset}px`,
                 height: `${tokenViewRect.height}px`,
                 bottom: tokenViewRect.bottom + viewportYOffset
             }
-            return;
 
         }
 
@@ -154,12 +165,11 @@
             textNode.replaceWith(tempNode);
             // Get the text element's new width
             widthAtCaret = textElement.getBoundingClientRect().width;
-            console.log("Width at caret is " + widthAtCaret);
             // Restore the text node
             tempNode.replaceWith(textNode);
 
             // Set the left of the caret at the measured width.
-            location = {
+            return {
                 left: `${tokenLeft + widthAtCaret}px`,
                 top: `${tokenTop}px`,
                 height: `${tokenHeight}px`,
@@ -233,7 +243,7 @@
                 spaceLeft = `calc(${spaces === 0 ? editorPaddingLeft : 0}px + ${spaces}ch)`;
             }
 
-            location = {
+            return {
                 left: spaceLeft,
                 top: `${spaceTop}px`,
                 height: `${tokenHeight}px`,
@@ -241,7 +251,7 @@
             }
         }
 
-    });
+    }
 
 </script>
 

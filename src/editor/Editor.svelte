@@ -160,21 +160,12 @@
         if(viewport === null) return;
 
         const viewportRect = viewport.getBoundingClientRect();
-        const caretView = editor.querySelector(".caret");
         const rootView = editor.querySelector(".node-view");
 
         if(rootView instanceof HTMLElement) {
             // Add a generous amount of space to account for browser differences.
             programViewWidth = rootView.offsetWidth + 20;
             programViewHeight = rootView.offsetHeight + 20;
-        }
-
-        // ENSURE CARET IS VISIBLE AND POSITION THE INVISIBLE TEXT FIELD
-
-        // Scroll to the caret if we're not executing.
-        if(caretView !== null && source.evaluator.isDone()) {
-            // Move the scroll bars as necessary.
-            ensureElementIsVisible(caretView);
         }
 
         const currentStep = $caret.source.getEvaluator().currentStep();
@@ -259,9 +250,6 @@
         // Prevent the OS from giving the document body focus.
         event.preventDefault();
 
-        // After we place the caret, focus on keyboard input.
-        textInput.focus();
-
         // Then, place the caret. Find the tokens that contain the vertical mouse position.
         const tokenViews = editor.querySelectorAll(".token-view");
         const line: Element[] = [];
@@ -332,8 +320,10 @@
         }
         else if(whitespacePosition !== undefined) {
             caret.set($caret.withPosition(whitespacePosition));
-            return;
         }
+
+        // After we place the caret, focus on keyboard input.
+        textInput.focus();
 
     }
 
