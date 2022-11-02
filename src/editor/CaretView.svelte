@@ -29,7 +29,7 @@
     $: {
         if(token !== undefined) {
             // Get some of the token's metadata
-            let whitespaceIndex = $caret.source.getTokenSpaceIndex(token);
+            let spaceIndex = $caret.source.getTokenSpaceIndex(token);
             let lastIndex = $caret.source.getTokenLastIndex(token);
             let textIndex = $caret.source.getTokenTextIndex(token);
 
@@ -40,12 +40,12 @@
                 // Only show the caret if it's pointing to a number
                 typeof $caret.position === "number" &&
                 // The position can be anywhere after after the first glyph of the token, up to and including after the token's last character,
-                // or the end token of the program. This ensures that there's always a token responsible for rendering a caret, but never two.
+                // or the end token of the program.
                 (
                     (token.is(TokenType.END) && $caret.isEnd()) ||
                     (
                         // It must be after the start OR at the start and not whitespace
-                        ($caret.position >= whitespaceIndex || ($caret.position === whitespaceIndex && (whitespaceIndex === 0 || !$caret.isWhitespace($caret.source.getCode().at(whitespaceIndex) ?? '')))) && 
+                        ($caret.position >= spaceIndex || ($caret.position === spaceIndex && (spaceIndex === 0 || !$caret.isSpace($caret.source.getCode().at(spaceIndex) ?? '')))) && 
                         // ... and it must be before the end OR at the end and either the very end or at whitespace.
                         $caret.position <= lastIndex
                     )
@@ -148,12 +148,13 @@
             const trimmedText = token.text.substring(0, caretIndex).toString();
             // Get the text node of the token view
             const textNode = textElement.childNodes[0];
-            // Create a trimmed node
-            const tempNode = document.createTextNode(trimmedText);
+            // Create a trimmed node, but replace spaces in the trimmed text with visible characters so that they are included in measurement.
+            const tempNode = document.createTextNode(trimmedText.replaceAll(" ", "·"));
             // Temporarily replace the node
             textNode.replaceWith(tempNode);
             // Get the text element's new width
             widthAtCaret = textElement.getBoundingClientRect().width;
+            console.log("Width at caret is " + widthAtCaret);
             // Restore the text node
             tempNode.replaceWith(textNode);
 

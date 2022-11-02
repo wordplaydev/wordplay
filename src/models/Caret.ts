@@ -129,7 +129,7 @@ export default class Caret {
     isIndex() { return typeof this.position === "number"; }
     getIndex() { return this.isIndex() ? this.position as number : undefined; }
 
-    isWhitespace(c: string) { return /[\t\n ]/.test(c); }
+    isSpace(c: string) { return /[\t\n ]/.test(c); }
     isTab(c: string) { return /[\t]/.test(c); }
     isNode() { return this.position instanceof Node; }
 
@@ -157,14 +157,6 @@ export default class Caret {
             return Math.max(column - 1, 0);
         }
         return undefined;
-    }
-
-    between(start: number, end: number): boolean { 
-        return typeof this.position === "number" && 
-            // It must be after the start OR at the start and not whitespace
-            (this.position > start || (this.position === start && (start === 0 || !this.isWhitespace(this.source.getCode().at(start) ?? '')))) && 
-            // ... and it must be before the end OR at the end and either the very end or at whitespace.
-            this.position <= end;
     }
 
     left(): Caret { return this.moveHorizontal(-1); }

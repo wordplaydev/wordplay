@@ -12,8 +12,6 @@ import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import StructureDefinition from "../nodes/StructureDefinition";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import { SupportedLanguages } from "../nodes/LanguageCode";
-import type Definition from "../nodes/Definition";
-import type Names from "../nodes/Names";
 import Bind from "../nodes/Bind";
 
 const source = new Source("native", "");
