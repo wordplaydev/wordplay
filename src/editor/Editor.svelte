@@ -60,6 +60,7 @@
 
     // Triggered by escape.
     let menuVisible = false;
+    let menuRequested = false;
 
     let menuSelection: number = -1;
 
@@ -90,7 +91,7 @@
     // When the caret changes or keyboard idle state changes, determine a new menu.
     $: {
 
-        if(focused) {
+        if(focused && (menuVisible || menuRequested)) {
 
             // Is the caret on a specific token or node?
             const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
@@ -119,7 +120,8 @@
                 }
 
                 // Make it visible if a node is selected. Otherwise, wait for it to be triggered.
-                menuVisible = $caret.isNode();
+                menuVisible = $caret.isNode() || menuRequested;
+                menuRequested = false;
             }
 
         }
@@ -129,7 +131,7 @@
     // When the caret location changes, position the menu and invisible input, and optionally scroll to the caret.
     $: {
         
-        if(caretLocation !== undefined) {
+        if(caretLocation !== undefined && menuVisible) {
 
             const keyboard = editor?.querySelector(".keyboard-input");
             if(keyboard instanceof HTMLElement) {
@@ -329,24 +331,23 @@
 
     function handleKeyDown(event: KeyboardEvent) {
 
-        if(menu !== undefined) {
-            if(menuVisible) {
-                if(event.key === "ArrowDown" && menuSelection < menu.transforms.length - 1) { menuSelection += 1; return; }
-                else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
-                else if(event.key === "Enter" && menuSelection >= 0 && menu.transforms.length > 0) {
-                    handleEdit(menu.transforms[menuSelection].getEdit($languages));
-                    return;
-                }
-            }
-            else if(event.key === "Escape" && $caret.isIndex() && !menuVisible) {
-                menuVisible = true;
+        if(menu !== undefined && menuVisible) {
+            if(event.key === "ArrowDown" && menuSelection < menu.transforms.length - 1) { menuSelection += 1; return; }
+            else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
+            else if(event.key === "Enter" && menuSelection >= 0 && menu.transforms.length > 0) {
+                handleEdit(menu.transforms[menuSelection].getEdit($languages));
                 return;
             }
-
-            // Hide the menu, then process the navigation.
-            if(event.key === "ArrowLeft" || event.key === "ArrowRight")
-                hideMenu();
         }
+
+        if(!menuVisible && event.key === "Escape" && $caret.isIndex()) {
+            menuRequested = true;
+            return;
+        }
+
+        // Hide the menu, then process the navigation.
+        if(event.key === "ArrowLeft" || event.key === "ArrowRight")
+            hideMenu();
 
         // Map meta to control on Mac OS/iOS.
         const control = event.metaKey || event.ctrlKey;
