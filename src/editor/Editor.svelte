@@ -536,6 +536,9 @@
         line-height: var(--wordplay-code-line-height);
         padding: var(--wordplay-spacing);
         position: relative;
+
+        font-family: var(--wordplay-code-font-face);
+        font-size: var(--wordplay-font-size);
     }
 
     .keyboard-input {

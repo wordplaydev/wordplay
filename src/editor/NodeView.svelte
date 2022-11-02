@@ -33,7 +33,6 @@
     .node-view {
         border-top-left-radius: var(--wordplay-editor-radius);
         border-bottom-right-radius: var(--wordplay-editor-radius);
-        font-family: "Noto Sans Mono", monospace;
         position: relative;
     }
     

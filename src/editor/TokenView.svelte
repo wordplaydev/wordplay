@@ -35,8 +35,6 @@
 
     .token-view {
         display: inline-block;
-        font-family: var(--wordplay-code-font-face);
-        font-size: var(--wordplay-font-size);
         position: relative;
         cursor: text;
         z-index: 1;

@@ -243,7 +243,7 @@
                 const spaces = spaceOnLastLine.split(" ").length - 1 + (spaceOnLastLine.split("\t").length - 1) * TAB_WIDTH;
 
                 spaceTop = tokenTop;
-                spaceLeft = `calc(${spaces === 0 ? editorPaddingLeft : 0}px + ${spaces}ch)`;
+                spaceLeft = `calc(${editorPaddingLeft}px + ${spaces}ch)`;
             }
 
             return {
