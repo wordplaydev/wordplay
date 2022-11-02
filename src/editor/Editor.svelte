@@ -322,7 +322,7 @@
             caret.set($caret.withPosition(whitespacePosition));
         }
 
-        // After we place the caret, focus on keyboard input.
+        // After we place the caret, focus on keyboard input, in case it's not focused.
         textInput.focus();
 
     }

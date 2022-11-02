@@ -69,6 +69,9 @@
         if(caretElement && location && $caret.source.evaluator.isDone())
             caretElement.scrollIntoView({ behavior: "auto", block: "nearest", inline: "nearest"});
 
+        // Update the caret's location, in case other things changed.
+        location = computeLocation();
+
     });
 
     function computeLocation() {
