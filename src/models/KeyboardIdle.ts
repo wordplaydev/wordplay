@@ -3,28 +3,33 @@ import { readable } from "svelte/store";
 // A store that updates an idle state based on the last keydown event.
 const KeyboardIdle = readable<boolean>(true, set => {
 
-    let attached = false;
-    let lastEvent: number | undefined = undefined;
+    let checker: NodeJS.Timer | undefined = undefined;
 
-    function handleKeyDown() { lastEvent = Date.now(); }
-
-    const interval = setInterval(() => {
-        if(lastEvent !== undefined) {
-            const idle = (Date.now() - lastEvent) > 250;
-            set(idle);
-        }
+    // Poll until document is available to attach listener.
+    const attacher = setInterval(() => {
         // This can run before the page is loaded, so we wait and attach once it is.
-        if(typeof document !== "undefined" && !attached) {
+        if(typeof document !== "undefined") {
             document.addEventListener("keydown", handleKeyDown);
-            attached = true;
+            clearInterval(attacher);
         }
     }, 500);
+    
+    function handleKeyDown() { 
 
-    return function stop() {
-        clearInterval(interval);
+        // Clear any previous timer.
+        if(checker) clearTimeout(checker);
+        // Set idle to false.
+        set(false);
+        // Set idel to true in a bit.
+        checker = setTimeout(() => set(true), 500);
+    
+    }
+
+    return () => { 
+        if(checker) clearTimeout(checker);
         if(typeof document !== "undefined")
             document.removeEventListener("keydown", handleKeyDown);
-    }
+    };
 
 });
 
