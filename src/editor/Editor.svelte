@@ -58,6 +58,9 @@
         transforms: Transform[],
     } | undefined = undefined;
 
+    // Triggered by escape.
+    let menuVisible = false;
+
     let menuSelection: number = -1;
 
     // When source changes, update various nested state from the source.
@@ -87,7 +90,7 @@
     // When the caret changes or keyboard idle state changes, determine a new menu.
     $: {
 
-        if($caret.isNode() || ($KeyboardIdle && focused)) {
+        if(focused) {
 
             // Is the caret on a specific token or node?
             const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
@@ -114,6 +117,9 @@
                     transforms: transforms.filter((item1, index1) => transforms.find((item2, index2) => index2 > index1 && item1.equals(item2)) === undefined),
                     location: undefined // This gets defined after rendering.
                 }
+
+                // Make it visible if a node is selected. Otherwise, wait for it to be triggered.
+                menuVisible = $caret.isNode();
             }
 
         }
@@ -334,10 +340,16 @@
     function handleKeyDown(event: KeyboardEvent) {
 
         if(menu !== undefined) {
-            if(event.key === "ArrowDown" && menuSelection < menu.transforms.length - 1) { menuSelection += 1; return; }
-            else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
-            else if(event.key === "Enter" && menuSelection >= 0 && menu.transforms.length > 0) {
-                handleEdit(menu.transforms[menuSelection].getEdit($languages));
+            if(menuVisible) {
+                if(event.key === "ArrowDown" && menuSelection < menu.transforms.length - 1) { menuSelection += 1; return; }
+                else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
+                else if(event.key === "Enter" && menuSelection >= 0 && menu.transforms.length > 0) {
+                    handleEdit(menu.transforms[menuSelection].getEdit($languages));
+                    return;
+                }
+            }
+            else if(event.key === "Escape" && $caret.isIndex() && !menuVisible) {
+                menuVisible = true;
                 return;
             }
 
@@ -503,7 +515,7 @@
         </svg>
     {/each}
     <!-- Are we on a placeholder? Show a menu! -->
-    {#if menu !== undefined && menu.location !== undefined }
+    {#if menu !== undefined && menu.location !== undefined && menuVisible }
         <div class="menu" style={`left: ${menu.location.left}; top: ${menu.location.top};`}>
             <Menu 
                 transforms={menu.transforms} 
