@@ -153,6 +153,8 @@ export default class Evaluator {
         this.observers.forEach(observer => observer.ended(this.latestValue));
     }
 
+    isEvaluating() { return this.evaluations.length > 0 || this.latestValue !== undefined; }
+
     /** True if the evaluation stack is empty. */
     isDone() { return this.evaluations.length === 0; }
 

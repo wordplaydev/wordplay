@@ -22,16 +22,22 @@ export default class Project {
         main.setProject(this);
         supplements.forEach(supp => supp.setProject(this));
 
-        // Now start all of the source's evaluators.
-        for(const source of this.getSources())
-            source.getEvaluator().start([])
-
     }
 
     getSources() { return [ this.main, ...this.supplements]; }
     getSourcesExcept(source: Source) { return [ this.main, ...this.supplements].filter(s => s !== source); }
     getName() { return this.name; }
     getContext() { return this.main.getContext(); }
+
+    isEvaluating() {
+        return this.getSources().some(source => source.evaluator.isEvaluating());
+    }
+
+    evaluate() {
+        // Now start all of the source's evaluators.
+        for(const source of this.getSources())
+            source.getEvaluator().start([]);
+    }
 
     cleanup() { 
         this.main.cleanup();

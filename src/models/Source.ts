@@ -132,7 +132,7 @@ export default class Source {
 
     getVerse() {         
         const value = this.evaluator.getLatestResult();
-        return value === undefined ? undefined : this.valueToVerse(value);
+        return this.valueToVerse(value);
     }
 
     phrase(text: string | Text, size: number=12, font: string="Noto Sans", ): Structure {
@@ -157,7 +157,7 @@ export default class Source {
 
         // If the content is a Verse, just show it as is.
         if(value === undefined)
-            return this.verse(this.group(this.phrase("No value", 20)))
+            return this.verse(this.group(this.phrase("...", 20)))
 
         const contentType = value.getType(this.evaluator.getContext());
         if(contentType instanceof StructureType && contentType.structure === Verse)

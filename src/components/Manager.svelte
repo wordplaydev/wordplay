@@ -3,13 +3,10 @@
 <script lang="ts">
     import Header from '../components/Header.svelte';
     import { project } from '../models/stores';
-    import { onDestroy, setContext } from 'svelte';
+    import { setContext } from 'svelte';
     import ProjectView from './ProjectView.svelte';
     import { writable } from 'svelte/store';
     import type LanguageCode from '../nodes/LanguageCode';
-
-    // Clean up the project when unmounted.
-    onDestroy(() => $project.cleanup());
 
     // An interface-wide list of preferred languages.
     let languages = writable<LanguageCode[]>(["eng"]);

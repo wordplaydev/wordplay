@@ -1,10 +1,20 @@
 
 <!-- A window manager that displays a set of windows -->
 <script lang="ts">
+    import { onDestroy } from "svelte";
+    import KeyboardIdle from "../models/KeyboardIdle";
     import type Project from "../models/Project";
     import SourceView from "./SourceView.svelte";
 
     export let project: Project;
+
+    // Clean up the project when unmounted.
+    onDestroy(() => project.cleanup());
+
+    $: {
+        if($KeyboardIdle && !project.isEvaluating())
+            project.evaluate();
+    }
 
 </script>
 
