@@ -155,7 +155,7 @@ export default class StructureDefinition extends Expression {
                         if(abstractFunctions !== undefined)
                             for(const abFun of abstractFunctions) {
                                 // Does this structure implement the given abstract function on the interface?
-                                if(this.block.statements.find(statement => statement instanceof FunctionDefinition && statement.matches(abFun, context)) === undefined)
+                                if(this.block.statements.find(statement => statement instanceof FunctionDefinition && abFun.accepts(statement, context)) === undefined)
                                     conflicts.push(new Unimplemented(this, definition, abFun));
                             }
                     }

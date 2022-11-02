@@ -11,6 +11,7 @@ import MeasurementType from "./MeasurementType";
 import SetType from "./SetType";
 import MapType from "./MapType";
 import UnknownInput from "../conflicts/UnknownInput";
+import UnionType from "./UnionType";
 
 test("Test evaluate conflicts", () => {
 
@@ -48,7 +49,7 @@ test("Test generics", () => {
     // Infer the type from an input.
     testTypes("ƒ test∘T(a•T) a\ntest(1)", MeasurementType);
     // Infer from lists
-    testTypes("[ 1 2 3 ].random()", MeasurementType);
+    testTypes("[ 1 2 3 ].random()", UnionType);
     // Infer from sets
     testTypes("{ 1 2 3 }.remove(1)", SetType);
     // Infer from map higher order function

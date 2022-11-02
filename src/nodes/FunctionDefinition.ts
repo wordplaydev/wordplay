@@ -102,7 +102,7 @@ export default class FunctionDefinition extends Expression {
     /**
      * Name, inputs, and outputs must match.
      */
-    matches(fun: FunctionDefinition, context: Context) {
+    accepts(fun: FunctionDefinition, context: Context) {
 
         if(!this.sharesName(fun)) return false;
         for(let i = 0; i < this.inputs.length; i++) {

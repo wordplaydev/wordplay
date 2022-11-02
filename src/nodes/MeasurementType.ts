@@ -15,6 +15,7 @@ import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import UnionType from "./UnionType";
 
 type UnitDeriver = (left: Unit, right: Unit, constant: number) => Unit;
 
@@ -37,16 +38,27 @@ export default class MeasurementType extends NativeType {
     }
 
     accepts(type: Type, context: Context, op?: BinaryOperation): boolean {
+
+        const types = type instanceof MeasurementType ? [ type ] : type instanceof UnionType ? type.getTypes(context).list() : [];
         
-        // Not a measurement? Not compatible.
-        if(!(type instanceof MeasurementType)) return false;
-        
+        if(types.length === 0) return false;
+
         // Are the units compatible? First, get concrete units.
         const thisUnit = this.concreteUnit(context, op);
-        const thatUnit = type.concreteUnit(context, op);
+
+        // Not a measurement? Not compatible.
+        for(const possibleType of types) {
         
-        // If this is a specific number, then the other must be specific too. Units must also be compatible.
-        return (this.number.is(TokenType.NUMBER_TYPE) || this.number.getText() === type.number.getText()) && thisUnit.accepts(thatUnit);
+            if(!(possibleType instanceof MeasurementType)) return false;
+
+            const thatUnit = possibleType.concreteUnit(context, op);
+            
+            // If this is a specific number, then the other must be specific too. Units must also be compatible.
+            if(!((this.number.is(TokenType.NUMBER_TYPE) || this.number.getText() === possibleType.number.getText()) && thisUnit.accepts(thatUnit)))
+                return false;
+        }
+        return true;
+
     }
 
     concreteUnit(context: Context, op?: BinaryOperation): Unit {

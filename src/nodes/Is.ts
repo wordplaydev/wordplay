@@ -16,7 +16,7 @@ import Reference from "./Reference";
 import PropertyReference from "./PropertyReference";
 import StructureType from "./StructureType";
 import { IncompatibleType } from "../conflicts/IncompatibleType";
-import { TypeSet } from "./UnionType";
+import UnionType, { TypeSet } from "./UnionType";
 import SemanticException from "../runtime/SemanticException";
 import Start from "../runtime/Start";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
@@ -49,7 +49,9 @@ export default class Is extends Expression {
         // Is the type of the expression compatible with the specified type? If not, warn.
         if(this.type instanceof Type) {
             const type = this.expression.getTypeUnlessCycle(context);
-            if(!this.type.accepts(type, context))
+
+            if((type instanceof UnionType && !type.getTypes(context).acceptedBy(this.type, context)) || 
+                (!(type instanceof UnionType) && !this.type.accepts(type, context)))
                 return [ new IncompatibleType(this, type)];
         }
 
@@ -96,14 +98,14 @@ export default class Is extends Expression {
 
         if(this.expression instanceof Reference) {
             // If this is the bind we're looking for and this type check's type is in the set
-            if(this.expression.getDefinition(context) === bind && current.contains(this.type, context))
+            if(this.expression.getDefinition(context) === bind && current.acceptedBy(this.type, context))
                 return new TypeSet([ this.type ], context);
         }
 
         if( this.expression instanceof PropertyReference && this.expression.name) {
             const subject = this.expression.getSubjectType(context);
             if(subject instanceof StructureType) {
-                if(bind === subject.getDefinition(this.expression.name.getText()) && current.contains(this.type, context))
+                if(bind === subject.getDefinition(this.expression.name.getText()) && current.acceptedBy(this.type, context))
                 return new TypeSet([ this.type ], context);
             }
         }

@@ -14,6 +14,7 @@ import Replace from "../transforms/Replace";
 import TypePlaceholder from "./TypePlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import type Definition from "./Definition";
 
 export default class UnionType extends Type {
 
@@ -101,6 +102,14 @@ export default class UnionType extends Type {
         if(child === this.left || child === this.right) return new Replace(context.source, child, new TypePlaceholder());
     }
 
+    getDefinitions(node: Node, context: Context): Definition[] {
+
+        // Get definitions of all of the types, removing duplicates.
+        return [ ... this.left.getDefinitions(node, context), ...(this.right instanceof Type ? this.right.getDefinitions(node, context) : []) ]
+            .filter((def1, index1, defs) => defs.find((def2, index2) => def1 === def2 && index2 > index1) !== undefined);
+
+    }
+
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
@@ -159,6 +168,10 @@ export class TypeSet {
 
     contains(type: Type, context: Context): boolean {
         return this.list().find(t => t.accepts(type, context)) !== undefined;
+    }
+
+    acceptedBy(type: Type, context: Context): boolean {
+        return this.list().find(t => type.accepts(t, context)) !== undefined;
     }
 
     union(set: TypeSet, context: Context) {

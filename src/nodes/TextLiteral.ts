@@ -36,7 +36,7 @@ export default class TextLiteral extends Expression {
     computeConflicts() {}
 
     computeType(): Type {
-        return new TextType(undefined, this.format);
+        return new TextType(this.text.withPrecedingSpace("", true), this.format);
     }
 
     compile(): Step[] {

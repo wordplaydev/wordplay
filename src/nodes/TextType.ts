@@ -14,6 +14,7 @@ import Add from "../transforms/Add";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import UnionType from "./UnionType";
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends NativeType {
@@ -44,11 +45,25 @@ export default class TextType extends NativeType {
 
     computeConflicts() {}
 
-    accepts(type: Type): boolean { 
+    accepts(type: Type, context: Context): boolean { 
+
+        const types = 
+            type instanceof TextType ? [ type ] : 
+            type instanceof UnionType ? type.getTypes(context).list() : 
+            [];
+
+        if(types.length === 0) return false;
+
         // For this to accept the given type, this must be an empty string or the text and the given type must be the same.
-        return  (type instanceof TextType && (this.getText() === "" || (this.text.getText() === type.text.getText())) &&
-                ((this.format === undefined && type.format === undefined) || 
-                 (this.format !== undefined && type.format !== undefined && this.format.equals(type.format)))); 
+        for(const possibleType of types) {
+            if(!(possibleType instanceof TextType)) return false;
+            if(!((this.getText() === "" || (this.text.getText() === possibleType.text.getText())) &&
+                ((this.format === undefined && possibleType.format === undefined) || 
+                 (this.format !== undefined && possibleType.format !== undefined && this.format.equals(possibleType.format)))))
+                 return false;
+        }
+        return true;
+
     }
 
     /** Strip the delimiters from the token to get the text literal that defines this type. */
