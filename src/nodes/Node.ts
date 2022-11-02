@@ -62,6 +62,8 @@ export default abstract class Node {
             definitions = [ ...current.getDefinitions(node, context), ...definitions ];
             current = current.getBindingEnclosureOf();
         }
+
+        definitions = [ ...context.shares?.getDefinitions() ?? [], ...definitions ];
         return definitions;
 
     }
@@ -77,7 +79,10 @@ export default abstract class Node {
             if(def !== undefined) return def;
             current = current.getBindingEnclosureOf();
         }
-        return undefined;
+
+        // Check the defaults.
+        return context.shares?.getDefaultDefinition(name);
+
     };
     
     /**

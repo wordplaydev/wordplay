@@ -45,6 +45,8 @@ export class NativeBindings implements NativeInterface {
                 this.functionsByType[kind][name] = fun
         });
 
+        fun.cacheParents();
+
     }
 
     addConversion(kind: string, conversion: ConversionDefinition) {
@@ -53,6 +55,9 @@ export class NativeBindings implements NativeInterface {
             this.conversionsByType[kind] = [];
 
         this.conversionsByType[kind].push(conversion);
+
+        conversion.cacheParents();
+
     }
 
     addStructure(kind: string, structure: StructureDefinition) {
@@ -70,6 +75,8 @@ export class NativeBindings implements NativeInterface {
                     this.addConversion(kind, statement);
             }
         }
+
+        structure.cacheParents();
 
     }
     

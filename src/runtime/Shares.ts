@@ -15,6 +15,8 @@ import Microphone from "../native/Microphone";
 import Transition, { Fade, Scale } from "../native/Transition";
 import Animation, { Bounce, Throb, Wobble } from "../native/Animation";
 import Unparsable from "../nodes/Unparsable";
+import Style from "../native/Style";
+import type Definition from "../nodes/Definition";
 
 export default class Shares {
 
@@ -38,6 +40,7 @@ export default class Shares {
 
         this.addStructureDefinition(Verse);
         this.addStructureDefinition(Phrase);
+        this.addStructureDefinition(Style);
         this.addStructureDefinition(Group);
         this.addStructureDefinition(Vertical);
         this.addStructureDefinition(Layout);
@@ -74,7 +77,10 @@ export default class Shares {
     }
 
     addStructureDefinition(def: StructureDefinition | Unparsable) {
+
         if(def instanceof Unparsable) throw Error(`Couldn't add unparsable ${def.toWordplay()}`);
+
+        def.cacheParents();
 
         const val = new StructureDefinitionValue(this.evaluator.getProgram(), def);
         def.names.names.forEach(a => {
@@ -114,4 +120,10 @@ export default class Shares {
         return this.values.has(name) ? this.values.get(name) as Value : undefined;
     }
 
+    /** Handle version. */
+    getDefaultDefinition(name: string): Definition | undefined {
+        const def = this.defaults[name];
+        return def instanceof StructureDefinitionValue ? def.definition : undefined;
+    }
+    
 }

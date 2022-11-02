@@ -102,7 +102,8 @@ export default class Reference extends Expression {
         const definition = this.getDefinition(context);
 
         // If we couldn't find a definition or the definition is a type variable, return unknown.
-        if(definition === undefined || definition instanceof TypeVariable) return new UnknownType(this);
+        if(definition === undefined || definition instanceof TypeVariable)
+            return new UnknownType(this);
 
         // Get the type of the value, bind, or expression.
         const type = definition instanceof Value ? definition.getType(context) : definition.getTypeUnlessCycle(context);

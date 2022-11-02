@@ -386,6 +386,9 @@ export default class Evaluate extends Expression {
 
     compile(context: Context): Step[] {
 
+        if(this.func.toWordplay().includes("Style"))
+            console.log("Style!");
+
         // To compile an evaluate, we need to compile all of the given and default values in
         // order of the function's declaration. This requires getting the function/structure definition
         // and finding an expression to compile for each input.

@@ -33,10 +33,10 @@ state/eng,
 \`El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.\`/spa
 \`🤔 + 🤫 → 🔤\`/😀
 board/eng,
-🔤/😀: 💬(state.secret→[""].translate(ƒ(letter•"") ((state.status() = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 32pt animate: state.status() = "won" ? Bounce(100m 1000ms) ø)
+🔤/😀: 💬(state.secret→[""].translate(ƒ(letter•"") ((state.status() = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 👗(size: 32pt) animate: state.status() = "won" ? Bounce(100m 1000ms) ø)
 
 \`The title on the title screen\`/eng
-title: 💬("Welcome to WhatWord!" 32pt in:Fade(500ms))
+title: 💬("Welcome to WhatWord!" 👗(size: 32pt) in:Fade(500ms))
 
 \`The rest of the game screen depends on the game status\`/eng
 \`El resto de la pantalla del juego depende del estado del juego.\`/spa
@@ -46,7 +46,7 @@ screen/eng,
 \tstate.status() = "start" ? ▣(⬇() title 💬("Press space to begin" animate: Throb(1.1 1000ms)))
 \tstate.status() = "lost" ?  ▣(⬇() board 💬("You lost. Press space to play again."))
 \tstate.status() = "won" ?   ▣(⬇() board 💬("You won, nice job! Press space to play again."))
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t ▣(⬇() board 💬(state.guesses.length() = 0 ? "Type a letter to guess" "Guesses: \\state.guesses.join(' ')\\" 16pt) 
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t ▣(⬇() board 💬(state.guesses.length() = 0 ? "Type a letter to guess" "Guesses: \\state.guesses.join(' ')\\" 👗(size: 16pt)) 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t💬("\\state.guessesRemaining()→''\\ remaining" in: Scale() animate: state.guessesRemaining() ≤ 3 ? Wobble(5° 200ms) ø)
                               )
 

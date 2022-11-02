@@ -6,9 +6,11 @@
 
     export let phrase: Structure;
 
-    $: size = phrase.getMeasurement("size") ?? 12;
     $: text = phrase.getText("text") ?? "";
-    $: font = phrase.getText("font") ?? "";
+    $: style = phrase.resolve("style");
+    $: size = (style instanceof Structure ? style.getMeasurement("size") : undefined) ?? 12;
+    $: font = (style instanceof Structure ? style.getText("font") : undefined) ?? "Noto Sans";
+    $: weight = (style instanceof Structure ? style.getMeasurement("weight") : undefined) ?? 4;
     $: transition = phrase.resolve("in");
     $: animation = phrase.resolve("animate");
 
@@ -28,7 +30,7 @@
         ) + `--duration: ${animationDuration}ms; --animation-count: ${animationCount === Infinity ? "infinite" : animationCount};`
 
 
-    $: style = `font-size: ${size}pt; font-family: "${font}"; ${animationStyle}`;
+    $: cssStyle = `font-size: ${size}pt; font-family: "${font}"; font-weight: ${weight * 100}; ${animationStyle}`;
     $: classes = `phrase ${
         animationType === Wobble ? "wobble" :
         animationType === Throb ? "throb" :
@@ -69,9 +71,9 @@
 {#if visible }
     {#key phrase.creator.id }
         {#if transitionFunction }
-            <div class={classes} style={style} in:transitionFunction={{}}>{@html renderedText}</div>
+            <div class={classes} style={cssStyle} in:transitionFunction={{}}>{@html renderedText}</div>
         {:else}
-            <div class={classes} style={style}>{@html renderedText}</div>
+            <div class={classes} style={cssStyle}>{@html renderedText}</div>
         {/if}
     {/key}
 {/if}
