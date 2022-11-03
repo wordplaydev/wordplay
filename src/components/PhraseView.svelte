@@ -3,6 +3,7 @@
     import { Fade, Scale } from "../native/Transition";
     import { Bounce, Throb, Wobble } from "../native/Animation";
     import { onMount } from "svelte";
+    import { Fonts, type FontWeight } from "../native/Fonts";
 
     export let phrase: Structure;
 
@@ -36,6 +37,9 @@
         animationType === Throb ? "throb" :
         animationType === Bounce ? "bounce" :
         ""}`;
+
+    // Ensure the font is loaded.
+    $: Fonts.load({ name: font, weight: weight * 100 as FontWeight, italic: false});
 
     $: renderedText = text.replaceAll(" ", "&nbsp;");
 

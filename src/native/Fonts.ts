@@ -61,7 +61,7 @@ export class FontManager {
     ];
 
     constructor() {
-        this.fonts.forEach(font => this.loadFont(font));
+        this.fonts.forEach(font => this.load(font));
     }
 
     /** Returns true if the given font spec appears in SupportedFonts */
@@ -77,7 +77,7 @@ export class FontManager {
         );
     }
 
-    loadFont(font: Font) {
+    load(font: Font) {
 
         // Don't try to add if not in a browser yet.
         if(typeof document === "undefined" || typeof FontFace === "undefined")

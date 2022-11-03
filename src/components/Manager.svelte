@@ -13,6 +13,8 @@
 
     // Don't display the manager until the fonts are loaded.
     let fontsLoaded = false;
+
+    // Wait for the fonts to load before we display
     onMount(() => document.fonts.ready.then(() => fontsLoaded = true));
 
     // Store in a context for easy access by components.
