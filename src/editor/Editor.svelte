@@ -540,6 +540,7 @@
 
         font-family: var(--wordplay-code-font-face);
         font-size: var(--wordplay-font-size);
+        font-weight: 400;
     }
 
     .keyboard-input {

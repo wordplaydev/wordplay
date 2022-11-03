@@ -3,7 +3,7 @@
 <script lang="ts">
     import Header from '../components/Header.svelte';
     import { project } from '../models/stores';
-    import { setContext } from 'svelte';
+    import { onMount, setContext } from 'svelte';
     import ProjectView from './ProjectView.svelte';
     import { writable } from 'svelte/store';
     import type LanguageCode from '../nodes/LanguageCode';
@@ -11,15 +11,21 @@
     // An interface-wide list of preferred languages.
     let languages = writable<LanguageCode[]>(["eng"]);
 
+    // Don't display the manager until the fonts are loaded.
+    let fontsLoaded = false;
+    onMount(() => document.fonts.ready.then(() => fontsLoaded = true));
+
     // Store in a context for easy access by components.
     setContext("languages", languages);
 
 </script>
 
-<div class="manager">
-    <Header></Header>
-    <ProjectView project={$project} />
-</div>
+{#if fontsLoaded }
+    <div class="manager">
+        <Header></Header>
+        <ProjectView project={$project} />
+    </div>
+{/if}
 
 <style>
     .manager {
