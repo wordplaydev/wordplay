@@ -40,6 +40,11 @@ const SupportedFontFamilies: FontFamily[] = [
         name: "Noto Mono",
         weights: { min: 100, max: 900},
         italic: false
+    },
+    {
+        name: "Poor Story",
+        weights: [ 400 ],
+        italic: false
     }
 ];
 export { SupportedFontFamilies as SupportedFonts };
