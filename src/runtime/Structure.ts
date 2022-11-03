@@ -10,6 +10,7 @@ import Value from "./Value";
 import type Node from "../nodes/Node";
 import Measurement from "./Measurement";
 import Text from "./Text";
+import Bool from "./Bool";
 
 export default class Structure extends Value {
 
@@ -58,6 +59,13 @@ export default class Structure extends Value {
         const measurement = this.resolve(name);
         if(measurement instanceof Measurement)
             return measurement.toNumber();
+        return undefined;
+    }
+
+    getBool(name: string): boolean | undefined {
+        const bool = this.resolve(name);
+        if(bool instanceof Bool)
+            return bool.bool;
         return undefined;
     }
 

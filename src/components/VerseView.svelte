@@ -14,6 +14,7 @@
     $: size = (style instanceof Structure ? style.getMeasurement("size") : undefined) ?? 12;
     $: font = (style instanceof Structure ? style.getText("font") : undefined) ?? "Noto Sans";
     $: weight = (style instanceof Structure ? style.getMeasurement("weight") : undefined) ?? 4;
+    $: italic = style instanceof Structure ? style.getBool("italic") : undefined;
 
     // Ensure the font is loaded.
     $: if(font) Fonts.load({ name: font, weight: (weight ?? 4) * 100 as FontWeight, italic: false});
@@ -51,7 +52,7 @@
         on:mousemove={handleMouseMove}
         on:keydown|stopPropagation|preventDefault={handleKeyDown}
         on:keyup={handleKeyUp}
-        style={`font-family: "${font}"; font-size: ${size}pt; font-weight: ${weight};`}
+        style={`font-family: "${font}"; font-size: ${size}pt; font-weight: ${weight}; font-style: ${italic ? "italic" : "normal"};`}
     >
         {#if verse === undefined}
             <EvaluatorView evaluator={evaluator} />

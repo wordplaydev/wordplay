@@ -12,6 +12,7 @@
     $: size = style instanceof Structure ? style.getMeasurement("size") : undefined;
     $: font = style instanceof Structure ? style.getText("font") : undefined;
     $: weight = style instanceof Structure ? style.getMeasurement("weight") : undefined;
+    $: italic = style instanceof Structure ? style.getBool("italic") : undefined;
     $: transition = phrase.resolve("in");
     $: animation = phrase.resolve("animate");
 
@@ -31,7 +32,7 @@
         ) + `--duration: ${animationDuration}ms; --animation-count: ${animationCount === Infinity ? "infinite" : animationCount};`
 
 
-    $: cssStyle = `${size !== undefined ? `font-size: ${size}pt;` : ""} ${font !== undefined ? `font-family: "${font}";` : ""} ${weight !== undefined ? `font-weight: ${weight * 100};` : ""} ${animationStyle}`;
+    $: cssStyle = `${size !== undefined ? `font-size: ${size}pt;` : ""} ${font !== undefined ? `font-family: "${font}";` : ""} ${weight !== undefined ? `font-weight: ${weight * 100};` : ""} ${italic === true ? `font-style: italic;` : ""} ${animationStyle}`;
     $: classes = `phrase ${
         animationType === Wobble ? "wobble" :
         animationType === Throb ? "throb" :
@@ -39,7 +40,7 @@
         ""}`;
 
     // Ensure the font is loaded.
-    $: if(font) Fonts.load({ name: font, weight: (weight ?? 4) * 100 as FontWeight, italic: false});
+    $: if(font) Fonts.load({ name: font, weight: (weight ?? 4) * 100 as FontWeight, italic: italic === true});
 
     $: renderedText = text.replaceAll(" ", "&nbsp;");
 
