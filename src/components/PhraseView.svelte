@@ -3,16 +3,12 @@
     import { Fade, Scale } from "../native/Transition";
     import { Bounce, Throb, Wobble } from "../native/Animation";
     import { onMount } from "svelte";
-    import { Fonts, type FontWeight } from "../native/Fonts";
+    import { styleToCSS } from "../native/Style";
 
     export let phrase: Structure;
 
     $: text = phrase.getText("text") ?? "";
-    $: style = phrase.resolve("style");
-    $: size = style instanceof Structure ? style.getMeasurement("size") : undefined;
-    $: font = style instanceof Structure ? style.getText("font") : undefined;
-    $: weight = style instanceof Structure ? style.getMeasurement("weight") : undefined;
-    $: italic = style instanceof Structure ? style.getBool("italic") : undefined;
+    $: style = styleToCSS(phrase.resolve("style"));
     $: transition = phrase.resolve("in");
     $: animation = phrase.resolve("animate");
 
@@ -32,15 +28,12 @@
         ) + `--duration: ${animationDuration}ms; --animation-count: ${animationCount === Infinity ? "infinite" : animationCount};`
 
 
-    $: cssStyle = `${size !== undefined ? `font-size: ${size}pt;` : ""} ${font !== undefined ? `font-family: "${font}";` : ""} ${weight !== undefined ? `font-weight: ${weight * 100};` : ""} ${italic === true ? `font-style: italic;` : ""} ${animationStyle}`;
+    $: cssStyle = `${style} ${animationStyle}`;
     $: classes = `phrase ${
         animationType === Wobble ? "wobble" :
         animationType === Throb ? "throb" :
         animationType === Bounce ? "bounce" :
         ""}`;
-
-    // Ensure the font is loaded.
-    $: if(font) Fonts.load({ name: font, weight: (weight ?? 4) * 100 as FontWeight, italic: italic === true});
 
     $: renderedText = text.replaceAll(" ", "&nbsp;");
 

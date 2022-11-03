@@ -5,19 +5,11 @@
     import EvaluatorView from "./EvaluatorView.svelte";
     import GroupView from "./GroupView.svelte";
     import { onMount } from "svelte";
-    import { Fonts, type FontWeight } from "../native/Fonts";
+    import { styleToCSS } from "../native/Style";
 
     export let verse: Structure | undefined;
     export let evaluator: Evaluator;
     $: group = verse?.resolve("group", evaluator);
-    $: style = verse?.resolve("style", evaluator);
-    $: size = (style instanceof Structure ? style.getMeasurement("size") : undefined) ?? 12;
-    $: font = (style instanceof Structure ? style.getText("font") : undefined) ?? "Noto Sans";
-    $: weight = (style instanceof Structure ? style.getMeasurement("weight") : undefined) ?? 4;
-    $: italic = style instanceof Structure ? style.getBool("italic") : undefined;
-
-    // Ensure the font is loaded.
-    $: if(font) Fonts.load({ name: font, weight: (weight ?? 4) * 100 as FontWeight, italic: false});
 
     function handleMouseDown() {
         if(evaluator)
@@ -52,7 +44,7 @@
         on:mousemove={handleMouseMove}
         on:keydown|stopPropagation|preventDefault={handleKeyDown}
         on:keyup={handleKeyUp}
-        style={`font-family: "${font}"; font-size: ${size}pt; font-weight: ${weight}; font-style: ${italic ? "italic" : "normal"};`}
+        style={styleToCSS(verse?.resolve("style", evaluator))}
     >
         {#if verse === undefined}
             <EvaluatorView evaluator={evaluator} />
