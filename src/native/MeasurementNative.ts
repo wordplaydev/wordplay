@@ -20,6 +20,7 @@ import type Value from "../runtime/Value";
 import { createNativeConversion } from "./NativeBindings";
 import NativeExpression from "./NativeExpression";
 import type Node from "../nodes/Node";
+import type Evaluation from "../runtime/Evaluation";
 
 export default function bootstrapMeasurement() {
 
@@ -37,7 +38,7 @@ export default function bootstrapMeasurement() {
             new NativeExpression(
                 new MeasurementType(),
                 (requestor, evaluation) => {
-                    const left = evaluation.getContext();
+                    const left: Value | Evaluation | undefined = evaluation.getContext();
                     const right = evaluation.resolve("number");
                     // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
                     if(!(left instanceof Measurement)) return new TypeException(evaluation.getEvaluator(), new MeasurementType(), left);

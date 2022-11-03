@@ -8,6 +8,8 @@ import IncompatibleInput from "../conflicts/IncompatibleInput";
 test("Test binary multiply, divide, exponent conflicts", () => {
 
     testConflict('1 · 5', '1 · ""', BinaryOperation, IncompatibleInput);
+    testConflict('(1ms % 5) = 1ms', '(1ms % 5) = 1', BinaryOperation, IncompatibleInput, 1);
+    testConflict('(5ms ÷ 5) = 1ms', '(1ms ÷ 5) = 1', BinaryOperation, IncompatibleInput, 1);
 
 });
 

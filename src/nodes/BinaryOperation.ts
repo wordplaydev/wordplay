@@ -108,9 +108,14 @@ export default class BinaryOperation extends Expression {
                 // Is the right operand the correct type?
                 else {
                     const firstInput = fun.inputs[0];
-                    const expectedType = firstInput.getType(context);
+                    let expectedType = firstInput.getType(context);
+
+                    // If the expected type is a measurement type with a derived type, give it this operation.
+                    if(expectedType instanceof MeasurementType && expectedType.hasDerivedUnit())
+                        expectedType = expectedType.withOp(this);
+
                     // Pass this binary operation to the measurement type so it can reason about units correctly.
-                    if(this.right instanceof Expression && rightType !== undefined && !(expectedType instanceof MeasurementType ? expectedType.accepts(rightType, context, this) : expectedType.accepts(rightType, context)))
+                    if(this.right instanceof Expression && rightType !== undefined && !expectedType.accepts(rightType, context))
                         conflicts.push(new IncompatibleInput(funType, this, this.right, rightType, expectedType));
                 }
             }
@@ -124,7 +129,12 @@ export default class BinaryOperation extends Expression {
 
         // The type of the expression is whatever the function definition says it is.
         const functionType = this.getFunctionDefinition(context)?.getTypeUnlessCycle(context);
-        return functionType instanceof FunctionType && functionType.output instanceof Type ? functionType.output : new UnknownType(this);
+        if(functionType instanceof FunctionType && functionType.output instanceof Type)
+            // If it's a measurement type and has a derived type, include this operation so it can compute it's derived type.
+            return functionType.output instanceof MeasurementType && functionType.output.unit instanceof Function ? 
+                functionType.output.withOp(this) : 
+                functionType.output;
+        return new UnknownType(this);
 
     }
 

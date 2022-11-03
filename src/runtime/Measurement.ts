@@ -4,12 +4,10 @@ import Unit from "../nodes/Unit";
 import Bool from "./Bool";
 import None from "./None";
 import Decimal from 'decimal.js';
-import Name from "../nodes/Name";
 import Primitive from "./Primitive";
 import MeasurementType from "../nodes/MeasurementType";
 import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Value from "./Value";
-import Names from "../nodes/Names";
 import type Node from "../nodes/Node";
 
 /** A decimal number with a unit.
@@ -125,7 +123,7 @@ export default class Measurement extends Primitive {
 
     remainder(requestor: Node, divisor: Measurement): Measurement | None {
         return divisor.num.isZero() ? 
-            new None(new Names([new Name("nan")])) : 
+            new None(requestor) : 
             new Measurement(requestor, this.num.modulo(divisor.num), this.unit);
     }
 

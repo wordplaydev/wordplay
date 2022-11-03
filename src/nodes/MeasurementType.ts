@@ -1,5 +1,5 @@
 import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
-import { MEASUREMENT_SYMBOL } from "../parser/Tokenizer";
+import { FUNCTION_SYMBOL, MEASUREMENT_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
@@ -7,8 +7,7 @@ import TokenType from "./TokenType";
 import type Type from "./Type";
 import Unit from "./Unit";
 import Unparsable from "./Unparsable";
-import type BinaryOperation from "./BinaryOperation";
-import Expression from "./Expression";
+import BinaryOperation from "./BinaryOperation";
 import NativeType from "./NativeType";
 import { getPossibleUnits } from "../transforms/getPossibleUnits";
 import type Transform from "../transforms/Transform";
@@ -16,42 +15,59 @@ import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import UnionType from "./UnionType";
+import type UnaryOperation from "./UnaryOperation";
 
 type UnitDeriver = (left: Unit, right: Unit, constant: number) => Unit;
 
 export default class MeasurementType extends NativeType {
     
     readonly number: Token;
-    readonly unit: Unit | Unparsable | UnitDeriver;
+    readonly unit: Unit | UnitDeriver;
+    readonly op: BinaryOperation | UnaryOperation | undefined;
 
-    constructor(number?: Token, unit?: Unit | Unparsable | UnitDeriver) {
+    constructor(number?: Token, unit?: Unit | UnitDeriver, op?: BinaryOperation | UnaryOperation) {
         super();
+
         this.number = number ?? new Token(MEASUREMENT_SYMBOL, TokenType.NUMBER_TYPE);
         this.unit = unit ?? new Unit();
+        this.op = op;
     }
 
     computeChildren() { 
         const children = [];
         children.push(this.number);
-        if(this.unit instanceof Unit || this.unit instanceof Unparsable) children.push(this.unit);
-        return children;   
+        if(this.unit instanceof Unit) children.push(this.unit);
+        return children;
     }
 
-    accepts(type: Type, context: Context, op?: BinaryOperation): boolean {
+    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+        return new MeasurementType(
+            this.cloneOrReplaceChild(pretty, [ Token ], "number", this.number, original, replacement), 
+            this.unit === undefined || this.unit instanceof Function ? this.unit : this.cloneOrReplaceChild(pretty, [ Unit, Unparsable ], "unit", this.unit, original, replacement)
+        ) as this; 
+    }
+
+    hasDerivedUnit() { return this.unit instanceof Function; }
+
+    withOp(op: BinaryOperation | UnaryOperation) {
+        return new MeasurementType(this.number.clone(false), this.unit, op);
+    }
+
+    accepts(type: Type, context: Context): boolean {
 
         const types = type instanceof MeasurementType ? [ type ] : type instanceof UnionType ? type.getTypes(context).list() : [];
         
         if(types.length === 0) return false;
 
         // Are the units compatible? First, get concrete units.
-        const thisUnit = this.concreteUnit(context, op);
+        const thisUnit = this.concreteUnit(context);
 
         // Not a measurement? Not compatible.
         for(const possibleType of types) {
         
             if(!(possibleType instanceof MeasurementType)) return false;
 
-            const thatUnit = possibleType.concreteUnit(context, op);
+            const thatUnit = possibleType.concreteUnit(context);
             
             // If this is a specific number, then the other must be specific too. Units must also be compatible.
             if(!((this.number.is(TokenType.NUMBER_TYPE) || this.number.getText() === possibleType.number.getText()) && thisUnit.accepts(thatUnit)))
@@ -61,31 +77,33 @@ export default class MeasurementType extends NativeType {
 
     }
 
-    concreteUnit(context: Context, op?: BinaryOperation): Unit {
+    concreteUnit(context: Context): Unit {
 
+        // If it's a concrete unit, just return it.
         if(this.unit instanceof Unit) return this.unit;
-        else if(op === undefined || this.unit instanceof Unparsable || !(op.left instanceof Expression) || !(op.right instanceof Expression)) return new Unit();
 
-        const leftType = op.left.getTypeUnlessCycle(context);
-        const rightType = op.right.getTypeUnlessCycle(context);
+        // If the unit is derived, then there must be an operation for it.
+        if(this.op === undefined) {
+            console.error("MeasurementType with derived unit didn't receive an operator, so unit can't be derived.");
+            return new Unit();
+        }
 
+        // If the operator doesn't have a type
+        const leftType = this.op instanceof BinaryOperation ? this.op.left.getTypeUnlessCycle(context) : this.op.operand.getTypeUnlessCycle(context);
+        const rightType = this.op instanceof BinaryOperation ? this.op.right.getTypeUnlessCycle(context) : new MeasurementType();
+
+        // If either type isn't a measurement type — which shouldn't be possible — then we just return a blank unit.
         if(!(leftType instanceof MeasurementType)) return new Unit();
         if(!(rightType instanceof MeasurementType)) return new Unit();
-        
-        return this.unit.call(undefined, leftType.concreteUnit(context), rightType.concreteUnit(context), 0);
+
+        // Recursively concretize the left and right units and pass them to the derive the concrete unit.
+        return this.unit(leftType.concreteUnit(context), rightType.concreteUnit(context), 0);
         
     }
 
     computeConflicts() {}
 
     getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }
-
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new MeasurementType(
-            this.cloneOrReplaceChild(pretty, [ Token ], "number", this.number, original, replacement), 
-            this.unit === undefined || this.unit instanceof Function ? this.unit : this.cloneOrReplaceChild(pretty, [ Unit, Unparsable ], "unit", this.unit, original, replacement)
-        ) as this; 
-    }
 
     getDescriptions(): Translations {
         return {
@@ -110,4 +128,6 @@ export default class MeasurementType extends NativeType {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.unit) return new Replace(context.source, child, new Unit());
     }
+
+    toWordplay() { return super.toWordplay() + (this.unit instanceof Function ? FUNCTION_SYMBOL : ""); }
 }

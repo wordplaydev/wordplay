@@ -539,7 +539,7 @@ function parseMeasurement(tokens: Tokens): MeasurementLiteral {
 }
 
 /** UNIT :: DIMENSION* (/ DIMENSION*)? */
-function parseUnit(tokens: Tokens): Unit | Unparsable {
+function parseUnit(tokens: Tokens): Unit {
     
     // A unit is just a series of names, carets, numbers, and product symbols not separated by spaces.
     const numerator: Dimension[] = [];
