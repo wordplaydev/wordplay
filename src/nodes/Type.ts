@@ -16,6 +16,9 @@ export default abstract class Type extends Node {
     abstract accepts(type: Type, context: Context, expression?: Expression): boolean;
     abstract getNativeTypeName(): string;
 
+    /** All types are concrete unless noted otherwise. */
+    isGeneric() { return false; }
+
     getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {
         return context.native?.getConversion(this.getNativeTypeName(), context, input, output);
     }

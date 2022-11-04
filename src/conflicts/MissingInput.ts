@@ -1,19 +1,19 @@
-import type StructureType from "../nodes/StructureType";
 import type Evaluate from "../nodes/Evaluate";
-import type FunctionType from "../nodes/FunctionType";
 import Conflict from "./Conflict";
 import type Bind from "../nodes/Bind";
 import type BinaryOperation from "../nodes/BinaryOperation";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
+import type FunctionDefinition from "../nodes/FunctionDefinition";
+import type StructureDefinition from "../nodes/StructureDefinition";
 
 
 export default class MissingInput extends Conflict {
-    readonly func: FunctionType | StructureType;
+    readonly func: FunctionDefinition | StructureDefinition;
     readonly evaluate: Evaluate | BinaryOperation;
     readonly input: Bind;
 
-    constructor(func: FunctionType | StructureType, evaluate: Evaluate | BinaryOperation, input: Bind) {
+    constructor(func: FunctionDefinition | StructureDefinition, evaluate: Evaluate | BinaryOperation, input: Bind) {
         super(false);
         this.func = func;
         this.evaluate = evaluate;

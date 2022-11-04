@@ -1,6 +1,4 @@
-import type StructureType from "../nodes/StructureType";
 import Evaluate from "../nodes/Evaluate";
-import type FunctionType from "../nodes/FunctionType";
 import Conflict from "./Conflict";
 import type Unparsable from "../nodes/Unparsable";
 import type Expression from "../nodes/Expression";
@@ -8,15 +6,17 @@ import type Bind from "../nodes/Bind";
 import type BinaryOperation from "../nodes/BinaryOperation";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
+import type StructureDefinition from "../nodes/StructureDefinition";
+import type FunctionDefinition from "../nodes/FunctionDefinition";
 
 
 export default class UnexpectedInputs extends Conflict {
 
-    readonly func: FunctionType | StructureType;
+    readonly func: FunctionDefinition | StructureDefinition;
     readonly evaluate: Evaluate | BinaryOperation;
     readonly inputs: (Expression|Bind|Unparsable)[];
 
-    constructor(func: FunctionType | StructureType, evaluate: Evaluate | BinaryOperation, inputs: (Expression|Bind|Unparsable)[]) {
+    constructor(func: FunctionDefinition | StructureDefinition, evaluate: Evaluate | BinaryOperation, inputs: (Expression|Bind|Unparsable)[]) {
         super(false);
         this.func = func;
         this.evaluate = evaluate;

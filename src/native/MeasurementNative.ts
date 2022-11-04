@@ -160,7 +160,7 @@ export default function bootstrapMeasurement() {
                 },
                 WRITE_DOCS,
                 new MeasurementType(), 
-                new MeasurementType(undefined, (left, right, constant) => right === right && constant === undefined ? new Unit() : left.power(constant)),
+                new MeasurementType(undefined, (left, right, constant) => { right; return constant === undefined ? new Unit() : left.power(constant); }),
                 (requestor, left, right) => left.power(requestor, right),
                 false
             ),
@@ -172,7 +172,7 @@ export default function bootstrapMeasurement() {
                 },
                 WRITE_DOCS,
                 new MeasurementType(),
-                new MeasurementType(undefined, (left, right, constant) => right === right && constant === undefined ? new Unit() : left.root(constant)),
+                new MeasurementType(undefined, (left, right, constant) => { right; return constant === undefined ? new Unit() : left.root(constant) }),
                 (requestor, left, right) => left.root(requestor, right),
                 false
             ),

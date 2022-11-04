@@ -16,13 +16,16 @@ export default class VariableType extends Type {
     computeChildren() { return []; }
     computeConflicts() {}
 
+    /** All types are concrete unless noted otherwise. */
+    isGeneric() { return true; }
+
     accepts(type: Type) { return type instanceof VariableType && type.definition == this.definition; }
 
     getNativeTypeName(): string { return "variable"; }
 
     getDefinitionOfName() { return undefined; }
 
-    toWordplay() { return this.definition.names.toWordplay(); }
+    toWordplay() { return this.definition.toWordplay(); }
 
     clone() { return new VariableType(this.definition) as this; }
 
@@ -37,6 +40,5 @@ export default class VariableType extends Type {
             "😀": `${TRANSLATE} •x?`
         }
     }
-
 
 }

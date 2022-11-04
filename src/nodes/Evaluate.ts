@@ -12,7 +12,6 @@ import FunctionType from "./FunctionType";
 import Token from "./Token";
 import type Node from "./Node";
 import Type from "./Type";
-import TypeVariable from "./TypeVariable";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
@@ -26,7 +25,6 @@ import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import type Context from "./Context";
 import Halt from "../runtime/Halt";
 import List from "../runtime/List";
-import NameType from "./NameType";
 import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
 import PropertyReference from "./PropertyReference";
@@ -50,6 +48,7 @@ import EvalOpenToken from "./EvalOpenToken";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Remove from "../transforms/Remove";
 import UnknownInput from "../conflicts/UnknownInput";
+import getConcreteExpectedType from "./Generics";
 
 type InputType = Unparsable | Bind | Expression;
 
@@ -94,37 +93,33 @@ export default class Evaluate extends Expression {
 
         if(this.func instanceof Unparsable) return [];
 
-        const functionType = this.func.getTypeUnlessCycle(context);
+        // Get the function this evaluate is trying to... evaluate.
+        const fun = this.getFunction(context);
 
         // The function must be a function or structure. If it's not, that's a conflict.
         // Then stop checking because we can't analyze anything.
-        if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
-            return [ new NotAFunction(this, this.func.getTypeUnlessCycle(context), functionType) ];
+        if(!(fun instanceof FunctionDefinition || fun instanceof StructureDefinition))
+            return [ new NotAFunction(this, this.func) ];
 
-        // Verify that all of the inputs provided are valid.
-        let candidateTargetInputs;
-        if(functionType instanceof FunctionType)
-            candidateTargetInputs = functionType.inputs;
-        else if(functionType instanceof StructureType) {
+        // If it's a structure definition, can we create it?
+        if(fun instanceof StructureDefinition) {
             // Can't create interfaces that don't have missing function definitions.
-            const abstractFunctions = functionType.structure.getAbstractFunctions();
+            const abstractFunctions = fun.getAbstractFunctions();
             if(abstractFunctions.length > 0)
-                return [ new NotInstantiable(this, functionType.structure, abstractFunctions) ];
-            // Get the types of all of the inputs.
-            candidateTargetInputs = functionType.structure.inputs;
+                return [ new NotInstantiable(this, fun, abstractFunctions) ];
         }
 
-        // If we somehow didn't get inputs, return nothing.
-        if(candidateTargetInputs === undefined) return [];
-
-        // If any of the expected inputs is unparsable, return nothing.
-        if(!candidateTargetInputs.every(i => i instanceof Bind)) return [];
-
-        // If any of the given inputs are unparsable, return nothing.
+        // If any of the this evaluate's inputs are unparsable, don't bother blabbing about conflicts.
         if(!this.inputs.every(i => !(i instanceof Unparsable))) return [];
 
+        // Verify that all of the inputs provided are valid.
+        const candidateInputs = fun.inputs;
+
+        // If any of the expected inputs is unparsable, return nothing.
+        if(!candidateInputs.every(i => i instanceof Bind)) return [];
+
         // We made it! Let's analyze the given and expected inputs and see if there are any problems.
-        const expectedInputs = candidateTargetInputs as Bind[];
+        const expectedInputs = candidateInputs as Bind[];
 
         // If the target inputs has conflicts with its names, defaults, or variable length inputs,
         // then we don't analyze this.
@@ -135,21 +130,19 @@ export default class Evaluate extends Expression {
         // that optional arguments have valid names and are the compatible type
         // and that all variable length inputs have compatible types.
         // To do this, we loop through target inputs and consume the given inputs according to matching rules.
-
-        const givenInputs = this.inputs.slice() as (Expression|Bind)[];
+        const givenInputs = this.inputs.slice() as (Expression | Bind)[];
 
         // Loop through each of the expected types and see if the given types match.
         for(const expectedInput of expectedInputs) {
 
             // Figure out what type this expected input is. Resolve any type variables to concrete values.
-            const expectedType = expectedInput.getType(context);
-            const concreteExpectedType = this.resolveTypeNames(expectedType, context);
+            const expectedType = getConcreteExpectedType(fun, expectedInput, this, context);
 
             if(expectedInput.isRequired()) {
                 const given = givenInputs.shift();
 
                 // No more inputs? Mark one missing and stop.
-                if(given === undefined) return [ new MissingInput(functionType, this, expectedInput) ];
+                if(given === undefined) return [ new MissingInput(fun, this, expectedInput) ];
                 
                 // If the given input is a named input, 
                 // 1) the given name should match the required input.
@@ -158,19 +151,19 @@ export default class Evaluate extends Expression {
                     // If we've already given the name...
                     // The given name has to match the required name.
                     if(!expectedInput.sharesName(given))
-                        return [ new UnexpectedInput(functionType, this, expectedInput, given) ];
+                        return [ new UnexpectedInput(fun, this, expectedInput, given) ];
                     // The types have to match
-                    if(concreteExpectedType !== undefined && given.value instanceof Expression) {
+                    if(expectedType !== undefined && given.value instanceof Expression) {
                         const givenType = given.value.getTypeUnlessCycle(context);
-                        if(!concreteExpectedType.accepts(givenType, context, given.value))
-                            conflicts.push(new IncompatibleInput(functionType, this, given.value, givenType, concreteExpectedType));
+                        if(!expectedType.accepts(givenType, context, given.value))
+                            conflicts.push(new IncompatibleInput(fun, this, given.value, givenType, expectedType));
                     }
                 }
                 // If the given value input isn't a bind, check the type of the input.
                 else {
                     const givenType = given.getType(context);
-                    if(concreteExpectedType !== undefined && !concreteExpectedType.accepts(givenType, context, given))
-                        conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteExpectedType));
+                    if(expectedType !== undefined && !expectedType.accepts(givenType, context, given))
+                        conflicts.push(new IncompatibleInput(fun, this, given, givenType, expectedType));
                 }
 
             }
@@ -182,10 +175,10 @@ export default class Evaluate extends Expression {
                         const given = givenInputs.shift();
                         if(given !== undefined && given instanceof Expression) {
                             const givenType = given.getTypeUnlessCycle(context);
-                            if(!(concreteExpectedType instanceof ListType))
-                                throw Error(`Expected list type on variable length input, but received ${concreteExpectedType.constructor.name}`);
-                            else if(concreteExpectedType.type instanceof Type && !concreteExpectedType.type.accepts(givenType, context, given))
-                                conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteExpectedType.type));
+                            if(!(expectedType instanceof ListType))
+                                throw Error(`Expected list type on variable length input, but received ${expectedType.constructor.name}`);
+                            else if(expectedType.type instanceof Type && !expectedType.type.accepts(givenType, context, given))
+                                conflicts.push(new IncompatibleInput(fun, this, given, givenType, expectedType.type));
                         }
                     }
                 }
@@ -197,8 +190,8 @@ export default class Evaluate extends Expression {
                         // If the types don't match, there's a conflict.
                         if(matchingBind.value !== undefined && matchingBind.value instanceof Expression) {
                             const givenType = matchingBind.value.getTypeUnlessCycle(context);
-                            if(!concreteExpectedType.accepts(givenType, context, matchingBind.value))
-                                conflicts.push(new IncompatibleInput(functionType, this, matchingBind.value, givenType, concreteExpectedType));
+                            if(!expectedType.accepts(givenType, context, matchingBind.value))
+                                conflicts.push(new IncompatibleInput(fun, this, matchingBind.value, givenType, expectedType));
                         }
                         // Remove it from the given inputs list.
                         givenInputs.splice(givenInputs.indexOf(matchingBind), 1);
@@ -210,8 +203,8 @@ export default class Evaluate extends Expression {
                         // If the given input is an expression, map it to the expected input, and see if there's a type error.
                         if(given instanceof Expression) {
                             const givenType = given.getTypeUnlessCycle(context);
-                            if(!concreteExpectedType.accepts(givenType, context, given))
-                                conflicts.push(new IncompatibleInput(functionType, this, given, givenType, concreteExpectedType));
+                            if(!expectedType.accepts(givenType, context, given))
+                                conflicts.push(new IncompatibleInput(fun, this, given, givenType, expectedType));
                             givenInputs.shift();
                         }
                     }
@@ -225,163 +218,47 @@ export default class Evaluate extends Expression {
         // See if any of the remaining given inputs are bound to unknown names.
         for(const given of givenInputs) {
             if(given instanceof Bind && expectedInputs.find(expected => expected.sharesName(given)) === undefined) {
-                conflicts.push(new UnknownInput(functionType, this, given));
+                conflicts.push(new UnknownInput(fun, this, given));
                 givenInputs.splice(givenInputs.indexOf(given), 1);
             }
         }
         
         // If there are remaining given inputs that didn't match anything, something's wrong.
         if(givenInputs.length > 0)
-            conflicts.push(new UnexpectedInputs(functionType, this, givenInputs));    
+            conflicts.push(new UnexpectedInputs(fun, this, givenInputs));    
     
         return conflicts;
     
     }
 
-    getDefinition(context: Context) {
+    getFunction(context: Context) {
 
-        const def = 
+        let def = 
             this.func instanceof Reference ? this.func.getDefinition(context) :
             this.func instanceof PropertyReference ? this.func.getDefinition(context) :
                 undefined;
-            
-        return def instanceof FunctionDefinition ? def : undefined;
+
+        if(def instanceof FunctionDefinition || def instanceof StructureDefinition)
+            return def;
+        if(def instanceof Bind && (def.value instanceof FunctionDefinition || def.value instanceof StructureDefinition))
+            return def.value;
+
+        return undefined;
 
     }
 
     computeType(context: Context): Type {
         
-        const funcType = this.func.getTypeUnlessCycle(context);
+        const fun = this.getFunction(context);
 
         // If it's a function type with an output type, then return the output type.
-        if(funcType instanceof FunctionType && funcType.output instanceof Type) return this.resolveTypeNames(funcType.output, context);
+        if(fun instanceof FunctionDefinition) return getConcreteExpectedType(fun, undefined, this, context);
         // If it's a structure, then this is an instantiation of the structure, so this evaluate resolves
         // to a value of the structure's type.
-        else if(funcType instanceof StructureType) return funcType;
+        else if(fun instanceof StructureDefinition) return new StructureType(fun);
         // Otherwise, who knows.
         else return new UnknownType(this);
 
-    }
-
-    resolveTypeNames(type: Type, context: Context) {
-
-        // Resolve name type if it isn't a type variable.
-        if(type instanceof NameType && !type.isTypeVariable(context))
-            return type.getType(context);
-
-        // Find any type variables or name types that refer to type variables in the given type.
-        // We do this in a loop because each time we revise the type, we clone everything in the
-        // type, and so the initial name types we're trying to resolve no longer exist.
-        let typeVariables = type.nodes(n => n instanceof NameType && n.isTypeVariable(context)) as NameType[];
-        let count = typeVariables.length;
-        let originalParents = typeVariables.map(n => n._parent);
-        let index = 0;
-        while(index < count) {
-        
-            const variableTypes = type.nodes(n => n instanceof NameType && n.isTypeVariable(context)) as NameType[];
-            if(variableTypes.length === 0) break;
-            const nameType = variableTypes[0];
-
-            // This will store whatever concrete type we find for the type variable.
-            let concreteType: Type | undefined = undefined;
-            // Find the definition of the type variable.
-            const typeVarDeclaration = nameType.resolve(context);
-            if(typeVarDeclaration instanceof TypeVariable) {
-                const def = typeVarDeclaration.getParent();
-                // If the type variable is declared in a structure or function definition (the only places where type variables are declared,
-                // then infer the type of the type variable from the structure on which this function is being called.
-                if(def instanceof StructureDefinition || def instanceof FunctionDefinition) {
-                    // First see if the type for the type variable was provided explicitly in this evaluate.
-                    const typeVarIndex = def.typeVars.findIndex(v => v === typeVarDeclaration);
-                    if(typeVarIndex >= 0 && typeVarIndex < this.typeInputs.length) {
-                        const typeInput = this.typeInputs[typeVarIndex];
-                        if(typeInput.type instanceof Type)
-                            concreteType = typeInput.type;
-                    }
-                    
-                    // If we didn't find it explicitly provided as an input, can we infer it from the structure on which this function is being called?
-                    // For example, if we're evaluating a function on a list of text [ "" ], then the list type can give us the type of the list item, "".
-                    if(concreteType === undefined && this.func instanceof PropertyReference) {
-                        const subjectType = this.func.structure.getType(context);
-                        concreteType = subjectType.resolveTypeVariable(nameType.getName());
-                    }
-                    
-                    // If the subject of the evaluation couldn't resolve the type, can we infer it from any of the inputs?
-                    // For example, if a function took input ƒ (# # T), and this evaluate is ƒ (1 2 3), then we can infer that T is #.
-                    // Or, if a function takes a function put ƒ (# # ƒ() T), and this evaluate is ƒ (1 2 ƒ() 1), then we can infer that T is #.
-                    // See if any of the function or structure's inputs have a type variable type corresponding to the name.
-                    if(concreteType === undefined) {
-                        // Is there an input whose type is the type variable we're trying to resolve?
-                        const indexOfInputWithVariableType = def.inputs.findIndex(i => 
-                            i instanceof Bind && i.type instanceof NameType && i.type.isTypeVariable(context) && typeVarDeclaration.hasName(i.type.getName())
-                        );
-                        const indexOfInputWithVariableOutputType = def.inputs.findIndex(i => 
-                            i instanceof Bind && i.type instanceof FunctionType && i.type.output instanceof NameType && i.type.output.isTypeVariable(context) && typeVarDeclaration.hasName(i.type.output.getName())
-                        );
-
-                        let inputFromWhichToInferType = -1;
-                        let inOutput = false;
-                        if(indexOfInputWithVariableType >= 0) {
-                            inputFromWhichToInferType = indexOfInputWithVariableType;
-                        }
-                        else if(indexOfInputWithVariableOutputType >= 0) {
-                            inputFromWhichToInferType = indexOfInputWithVariableOutputType;
-                            inOutput = true;
-                        }
-
-                        // If we found an input that has this type, then see if we can find the corresponding input in this evaluate.
-                        if(inputFromWhichToInferType >= 0) {
-
-                            const inputWithVariableType = def.inputs[inputFromWhichToInferType];
-                            if(inputWithVariableType instanceof Bind && inputFromWhichToInferType < this.inputs.length) {
-                                // Is this input specified by name?
-                                const namedInput = this.inputs.find(i => i instanceof Bind && inputWithVariableType.getNames().find(n => i.hasName(n)) !== undefined) as Bind | undefined;
-                                if(namedInput !== undefined) {
-                                    // Infer the type of the type variable from the input's value expression.
-                                    if(namedInput.value !== undefined) {
-                                        concreteType = namedInput.value.getType(context);
-                                        if(inOutput && concreteType instanceof FunctionType)
-                                            concreteType = concreteType.output instanceof Type ? concreteType.output : undefined;
-                                    }
-                                }
-                                // If it's not specified, get the input input at the corresponding index.
-                                else {
-                                    const inputByIndex = this.inputs[inputFromWhichToInferType];
-                                    if(inputByIndex instanceof Expression) {
-                                        concreteType = inputByIndex.getType(context);
-                                        if(inOutput && concreteType instanceof FunctionType)
-                                            concreteType = concreteType.output instanceof Type ? concreteType.output : undefined;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                
-                    // If we couldn't find it explicitly, in type of the value on which the function is being evaluated, or in an input, can we find it in the output type of an input function? 
-
-
-                }
-            }
-            // If we found a concrete type, refine the given type with the concrete type, then move on to the next type variable to resolve.
-            // Note: we have to do a somewhat kludgey thing here of caching the new type's parents and then 
-            // manually assigning the parent.
-            if(concreteType !== undefined) {
-                concreteType = concreteType.clone(false);
-                // Set the type to the concrete type, or replace within if it's a compound type.
-                // Crucially, we clone the concrete type before we cache its parents, otherwise the concrete type that
-                // might appear somewhere in a program is reparented.
-                type = type === nameType ? concreteType : type.clone(false, nameType, concreteType);
-                type.cacheParents();
-                type._parent = originalParents[index];
-            }
-
-            index++;
-
-        }
-
-        // Return the concretized type.
-        return type;
-        
     }
 
     compile(context: Context): Step[] {
@@ -686,7 +563,7 @@ export default class Evaluate extends Expression {
         }
 
         // Find the function on the left's type.
-        const fun = this.getDefinition(context);
+        const fun = this.getFunction(context);
         return fun !== undefined ? overrideWithDocs(descriptions, fun.docs) : descriptions;
         
     }

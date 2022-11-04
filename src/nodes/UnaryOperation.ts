@@ -1,7 +1,7 @@
 import type Conflict from "../conflicts/Conflict";
 import Expression from "./Expression";
 import Token from "./Token";
-import Type from "./Type";
+import type Type from "./Type";
 import type Node from "./Node";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
@@ -16,7 +16,6 @@ import type { TypeSet } from "./UnionType";
 import FunctionException from "../runtime/FunctionException";
 import FunctionDefinition from "./FunctionDefinition";
 import NotAFunction from "../conflicts/NotAFunction";
-import FunctionType from "./FunctionType";
 import Evaluation from "../runtime/Evaluation";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
@@ -26,6 +25,7 @@ import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type LanguageCode from "./LanguageCode";
+import getConcreteExpectedType from "./Generics";
 
 export default class UnaryOperation extends Expression {
 
@@ -41,7 +41,7 @@ export default class UnaryOperation extends Expression {
 
     getOperator() { return this.operator.text.toString(); }
 
-    getFunctionDefinition(context: Context) {
+    getFunction(context: Context) {
 
         // Find the function on the left's type.
         const expressionType = this.operand instanceof Expression ? this.operand.getTypeUnlessCycle(context) : undefined;
@@ -59,11 +59,11 @@ export default class UnaryOperation extends Expression {
         const conflicts = [];
 
         // Find the function on the left's type.
-        const fun = this.getFunctionDefinition(context);
+        const fun = this.getFunction(context);
 
         // Did we find nothing?
         if(fun === undefined)
-            conflicts.push(new NotAFunction(this, this.operand.getTypeUnlessCycle(context), undefined));
+            conflicts.push(new NotAFunction(this, this.operator));
 
         return conflicts;
     
@@ -71,9 +71,10 @@ export default class UnaryOperation extends Expression {
 
     computeType(context: Context): Type {
 
-        // The type of the expression is whatever the function definition says it is.
-        const functionType = this.getFunctionDefinition(context)?.getTypeUnlessCycle(context);
-        return functionType instanceof FunctionType && functionType.output instanceof Type ? functionType.output : new UnknownType(this);
+        const fun = this.getFunction(context);
+        return fun !== undefined ? 
+            getConcreteExpectedType(fun, undefined, this, context) :
+            new UnknownType(this);
 
     }
     
@@ -151,7 +152,7 @@ export default class UnaryOperation extends Expression {
         }
 
         // Find the function on the left's type.
-        const fun = this.getFunctionDefinition(context);
+        const fun = this.getFunction(context);
         if(fun !== undefined) {
             for(const doc of fun.docs.docs) {
                 const lang = doc.getLanguage();

@@ -15,17 +15,22 @@ import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import UnionType from "./UnionType";
-import type UnaryOperation from "./UnaryOperation";
+import UnaryOperation from "./UnaryOperation";
+import MeasurementLiteral from "./MeasurementLiteral";
+import Measurement from "../runtime/Measurement";
+import Evaluate from "./Evaluate";
+import PropertyReference from "./PropertyReference";
+import UnknownType from "./UnknownType";
 
-type UnitDeriver = (left: Unit, right: Unit, constant: number) => Unit;
+type UnitDeriver = (left: Unit, right: Unit, constant: number | undefined) => Unit;
 
 export default class MeasurementType extends NativeType {
     
     readonly number: Token;
     readonly unit: Unit | UnitDeriver;
-    readonly op: BinaryOperation | UnaryOperation | undefined;
+    readonly op: BinaryOperation | UnaryOperation | Evaluate | undefined;
 
-    constructor(number?: Token, unit?: Unit | UnitDeriver, op?: BinaryOperation | UnaryOperation) {
+    constructor(number?: Token, unit?: Unit | UnitDeriver, op?: BinaryOperation | UnaryOperation | Evaluate) {
         super();
 
         this.number = number ?? new Token(MEASUREMENT_SYMBOL, TokenType.NUMBER_TYPE);
@@ -49,9 +54,14 @@ export default class MeasurementType extends NativeType {
 
     hasDerivedUnit() { return this.unit instanceof Function; }
 
-    withOp(op: BinaryOperation | UnaryOperation) {
+    /** All types are concrete unless noted otherwise. */
+    isGeneric() { return this.hasDerivedUnit(); }
+
+    withOp(op: BinaryOperation | UnaryOperation | Evaluate) {
         return new MeasurementType(this.number.clone(false), this.unit, op);
     }
+
+    withUnit(unit: Unit): MeasurementType { return new MeasurementType(this.number.clone(false), unit); }
 
     accepts(type: Type, context: Context): boolean {
 
@@ -89,15 +99,25 @@ export default class MeasurementType extends NativeType {
         }
 
         // If the operator doesn't have a type
-        const leftType = this.op instanceof BinaryOperation ? this.op.left.getTypeUnlessCycle(context) : this.op.operand.getTypeUnlessCycle(context);
-        const rightType = this.op instanceof BinaryOperation ? this.op.right.getTypeUnlessCycle(context) : new MeasurementType();
+        const leftType = 
+            this.op instanceof BinaryOperation ? this.op.left.getTypeUnlessCycle(context) : 
+            this.op instanceof UnaryOperation ? this.op.operand.getTypeUnlessCycle(context) : 
+            this.op.func instanceof PropertyReference ? this.op.func.structure.getTypeUnlessCycle(context) :
+            new UnknownType(this);
+        const rightType = 
+            this.op instanceof BinaryOperation ? this.op.right.getTypeUnlessCycle(context) : 
+            this.op instanceof Evaluate && this.op.inputs.length > 0 ? this.op.inputs[0].getTypeUnlessCycle(context) :
+            new UnknownType(this);
 
         // If either type isn't a measurement type — which shouldn't be possible — then we just return a blank unit.
         if(!(leftType instanceof MeasurementType)) return new Unit();
         if(!(rightType instanceof MeasurementType)) return new Unit();
 
+        // Get the constant from the right if available.
+        const constant = this.op instanceof BinaryOperation && this.op.right instanceof MeasurementLiteral? new Measurement(this, this.op.right.number).toNumber() : undefined;
+        
         // Recursively concretize the left and right units and pass them to the derive the concrete unit.
-        return this.unit(leftType.concreteUnit(context), rightType.concreteUnit(context), 0);
+        return this.unit(leftType.concreteUnit(context), rightType.concreteUnit(context), constant);
         
     }
 

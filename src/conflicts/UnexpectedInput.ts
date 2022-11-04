@@ -1,18 +1,18 @@
-import type StructureType from "../nodes/StructureType";
 import type Evaluate from "../nodes/Evaluate";
-import type FunctionType from "../nodes/FunctionType";
 import Conflict from "./Conflict";
 import type Bind from "../nodes/Bind";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
+import type FunctionDefinition from "../nodes/FunctionDefinition";
+import type StructureDefinition from "../nodes/StructureDefinition";
 
 export default class UnexpectedInput extends Conflict {
-    readonly func: FunctionType | StructureType;
+    readonly func: FunctionDefinition | StructureDefinition;
     readonly evaluate: Evaluate;
     readonly expected: Bind;
     readonly given: Bind;
     
-    constructor(func: FunctionType | StructureType, evaluate: Evaluate, expected: Bind, given: Bind) {
+    constructor(func: FunctionDefinition | StructureDefinition, evaluate: Evaluate, expected: Bind, given: Bind) {
         super(false);
 
         this.func = func;

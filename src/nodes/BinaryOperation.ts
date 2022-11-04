@@ -1,7 +1,7 @@
 import type Conflict from "../conflicts/Conflict";
 import Expression from "./Expression";
 import Token from "./Token";
-import Type from "./Type";
+import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import type Evaluator from "src/runtime/Evaluator";
@@ -17,18 +17,15 @@ import type { TypeSet } from "./UnionType";
 import FunctionException from "../runtime/FunctionException";
 import JumpIf from "../runtime/JumpIf";
 import FunctionDefinition from "./FunctionDefinition";
-import FunctionType from "./FunctionType";
 import UnexpectedInputs from "../conflicts/UnexpectedInputs";
 import MissingInput from "../conflicts/MissingInput";
 import IncompatibleInput from "../conflicts/IncompatibleInput";
 import Evaluation from "../runtime/Evaluation";
 import SemanticException from "../runtime/SemanticException";
 import NotAFunction from "../conflicts/NotAFunction";
-import MeasurementType from "./MeasurementType";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
 import TokenType from "./TokenType";
-
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
@@ -36,6 +33,7 @@ import PlaceholderToken from "./PlaceholderToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type LanguageCode from "./LanguageCode";
+import getConcreteExpectedType from "./Generics";
 
 export default class BinaryOperation extends Expression {
 
@@ -65,7 +63,7 @@ export default class BinaryOperation extends Expression {
         return [ this.left, this.operator, this.right ];
     }
 
-    getFunctionDefinition(context: Context) {
+    getFunction(context: Context) {
 
         // Find the function on the left's type.
         const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
@@ -86,37 +84,34 @@ export default class BinaryOperation extends Expression {
         const rightType = this.right instanceof Expression ? this.right.getTypeUnlessCycle(context) : undefined;
 
         // Find the function on the left's type.
-        const fun = this.getFunctionDefinition(context);
+        const fun = this.getFunction(context);
 
         // Did we find nothing?
-        if(fun === undefined) {
-            conflicts.push(new NotAFunction(this, this.left.getTypeUnlessCycle(context), undefined));
-        }
-        // If it is a function, does the right match the expected input?
-        else {
-            const funType = fun.getType(context);
-            if(funType instanceof FunctionType) {
-                // Are there too many inputs?
-                if(fun.inputs.length === 0)
-                    conflicts.push(new UnexpectedInputs(funType, this, [ this.right ])); 
-                // Are there too few inputs?
-                else if(fun.inputs.length > 1) {
-                    const secondInput = fun.inputs[1];
-                    if(secondInput instanceof Bind)
-                        conflicts.push(new MissingInput(funType, this, secondInput));
-                }
-                // Is the right operand the correct type?
-                else {
-                    const firstInput = fun.inputs[0];
-                    let expectedType = firstInput.getType(context);
+        if(fun === undefined)
+            return [ new NotAFunction(this, this.operator) ]
 
-                    // If the expected type is a measurement type with a derived type, give it this operation.
-                    if(expectedType instanceof MeasurementType && expectedType.hasDerivedUnit())
-                        expectedType = expectedType.withOp(this);
+        // If it is a function, does the right match the expected input?
+        if(fun instanceof FunctionDefinition) {
+            // Are there too many inputs?
+            if(fun.inputs.length === 0)
+                conflicts.push(new UnexpectedInputs(fun, this, [ this.right ])); 
+            // Are there too few inputs?
+            else if(fun.inputs.length > 1) {
+                const secondInput = fun.inputs[1];
+                if(secondInput instanceof Bind)
+                    conflicts.push(new MissingInput(fun, this, secondInput));
+            }
+            // Is the right operand the correct type?
+            else {
+                const firstInput = fun.inputs[0];
+                if(firstInput instanceof Bind) {
+
+                    const expectedType = getConcreteExpectedType(fun, firstInput, this, context);
 
                     // Pass this binary operation to the measurement type so it can reason about units correctly.
                     if(this.right instanceof Expression && rightType !== undefined && !expectedType.accepts(rightType, context))
-                        conflicts.push(new IncompatibleInput(funType, this, this.right, rightType, expectedType));
+                        conflicts.push(new IncompatibleInput(fun, this, this.right, rightType, expectedType));
+
                 }
             }
         }
@@ -128,13 +123,10 @@ export default class BinaryOperation extends Expression {
     computeType(context: Context): Type {
 
         // The type of the expression is whatever the function definition says it is.
-        const functionType = this.getFunctionDefinition(context)?.getTypeUnlessCycle(context);
-        if(functionType instanceof FunctionType && functionType.output instanceof Type)
-            // If it's a measurement type and has a derived type, include this operation so it can compute it's derived type.
-            return functionType.output instanceof MeasurementType && functionType.output.unit instanceof Function ? 
-                functionType.output.withOp(this) : 
-                functionType.output;
-        return new UnknownType(this);
+        const fun = this.getFunction(context);
+        return fun !== undefined ? 
+            getConcreteExpectedType(fun, undefined, this, context) :
+            new UnknownType(this);
 
     }
 
@@ -221,7 +213,7 @@ export default class BinaryOperation extends Expression {
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
-        const expectedType = this.getFunctionDefinition(context)?.inputs[0]?.getType(context);
+        const expectedType = this.getFunction(context)?.inputs[0]?.getType(context);
 
         // Left can be anything
         if(child === this.left) {
@@ -257,7 +249,7 @@ export default class BinaryOperation extends Expression {
         }
         // If it's the right, find the name of the input.
         else if(child === this.right) {
-            const fun = this.getFunctionDefinition(context);
+            const fun = this.getFunction(context);
             if(fun) {
                 const firstInput = fun.inputs[0];
                 if(firstInput instanceof Bind)
@@ -274,7 +266,7 @@ export default class BinaryOperation extends Expression {
         }
 
         // Find the function on the left's type.
-        const fun = this.getFunctionDefinition(context);
+        const fun = this.getFunction(context);
         if(fun !== undefined) {
             for(const doc of fun.docs.docs) {
                 const lang = doc.getLanguage();

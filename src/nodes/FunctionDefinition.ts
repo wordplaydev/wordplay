@@ -17,7 +17,7 @@ import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import Name from "./Name";
-import { BinaryOpRegEx, FUNCTION_SYMBOL } from "../parser/Tokenizer";
+import { BinaryOpRegEx, FUNCTION_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import type Translations from "./Translations";
@@ -67,7 +67,7 @@ export default class FunctionDefinition extends Expression {
         this.open = open ?? new EvalOpenToken();
         this.inputs = inputs;
         this.close = close ?? new EvalCloseToken();
-        this.dot = dot;
+        this.dot = dot ?? (type !== undefined ? new Token(TYPE_SYMBOL, TokenType.TYPE) : undefined);
         this.type = type;
         this.expression = expression;
     }
@@ -163,6 +163,7 @@ export default class FunctionDefinition extends Expression {
             this.expression.getTypeUnlessCycle(context);
         return new FunctionType(this.inputs, outputType);
     }
+
 
     compile(): Step[] {
         return [ new Finish(this) ];

@@ -78,11 +78,14 @@ export default class PropertyReference extends Expression {
     }
 
     getDefinition(context: Context): Definition | undefined {
-        const structure = this.getSubjectType(context);
-        if(!(structure instanceof StructureType) || this.name === undefined) return;
-
-        return structure.getDefinitionOfName(this.name.getText(), context, this);
-
+        if(this.name === undefined) return undefined;
+        
+        const subjectType = this.getSubjectType(context);
+        
+        if(subjectType === undefined) return;
+        else if(subjectType instanceof StructureType) return subjectType.structure.getDefinition(this.name.getText());
+        else return subjectType.getDefinitionOfName(this.name.getText(), context, this);
+        
     }
 
     getSubjectType(context: Context): Type | undefined {
