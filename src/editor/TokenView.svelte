@@ -70,7 +70,7 @@
     }
 
     .editable .text:hover, .active .text {
-        outline: 1px solid var(--color-grey);
+        outline: 1px solid var(--wordplay-border-color);
     }
 
     .token-delimiter .text {
@@ -79,8 +79,10 @@
     }
 
     .placeholder .text {
+        font-family: var(--wordplay-font-face);
         color: var(--wordplay-disabled-color);
         background-color: var(--color-white);
+        padding: 2px;
     }
 
 </style>
