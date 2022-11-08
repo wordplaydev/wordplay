@@ -1,6 +1,7 @@
 <script lang="ts">
     import { getContext } from "svelte";
     import type Node from "../nodes/Node";
+    import Program from "../nodes/Program";
     import Token from "../nodes/Token";
     import { CaretSymbol, DraggedSymbol, type HighlightContext, HighlightSymbol, HoveredSymbol, LanguageSymbol, type CaretContext, type DraggedContext, type HoveredContext, type LanguageContext } from "./Contexts";
     import getNodeView from "./nodeToView";
@@ -34,9 +35,17 @@
         data-id={node.id}
         bind:this={element}
         on:mousedown={() => mouseDown = true }
-        on:mousemove={event => { if(node && !(node instanceof Token) && event.buttons === 1 && mouseDown) { dragged.set(node); event.stopPropagation()} } }
         on:mouseleave={() => mouseDown = false }
         on:mouseup={() => mouseDown = false }
+        on:mousemove={event => { 
+            // Only start dragging once the mouse moves with the primary button down after being clicked.
+            // The only nodes that can be dragged are those that are 1) in a program or 2) are root nodes not in a program.
+            if(node) {
+                const root = node?.getRoot();
+                const draggable = !(root instanceof Token) && (root === node || root instanceof Program);
+                if(draggable && event.buttons === 1 && mouseDown) { dragged.set(node); event.stopPropagation()} 
+            }
+        }}
     ><svelte:component this={getNodeView(node)} node={node} />{#if outline }<svg class={`selection selected`} style={`top: ${outline.miny}; left: ${outline.minx}; `} width={outline.maxx - outline.minx} height={outline.maxy - outline.miny} viewBox={`${outline.minx} ${outline.miny} ${outline.maxx - outline.minx} ${outline.maxy - outline.miny}`}><path d={outline.path}/></svg>{/if}{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation($languages[0])}</div>{/each}</div>{/if}</div>
 {/if}
 

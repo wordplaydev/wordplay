@@ -196,6 +196,11 @@ export default abstract class Node {
         return this._parent;
     }
 
+    /** Returns the root of this node. */
+    getRoot(): Node {
+        return this._parent ? this._parent.getRoot() : this;
+    }
+
     /** 
      * Recursively constructs a path to this node from it's parents. A path is just a sequence of node constructor and child index pairs. 
      * The node constructor name is for printing and error checking and the number is just the index of the child from getChildren().
