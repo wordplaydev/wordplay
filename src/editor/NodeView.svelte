@@ -42,7 +42,7 @@
             // The only nodes that can be dragged are those that are 1) in a program or 2) are root nodes not in a program.
             if(node) {
                 const root = node?.getRoot();
-                const draggable = !(root instanceof Token) && (root === node || root instanceof Program);
+                const draggable = !(node instanceof Token) && (root === node || root instanceof Program);
                 if(draggable && event.buttons === 1 && mouseDown) { dragged.set(node); event.stopPropagation()} 
             }
         }}

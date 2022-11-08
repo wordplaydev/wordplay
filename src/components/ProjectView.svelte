@@ -79,6 +79,7 @@
         position: absolute;
         cursor: none;
         z-index: 2;
+        white-space: nowrap;
     }
 
     .cursor {
