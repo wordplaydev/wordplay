@@ -118,6 +118,14 @@
         stroke-linejoin: round;
     }
 
+    /* Lowest priority; others below override. */
+    .exception .highlight path {
+        fill: var(--wordplay-error);
+        stroke: var(--wordplay-error);
+    }
+    /* When dragged, make text contrast visible */
+    :global(.exception .token-view) { color: var(--color-white) !important; }
+
     .hovered .highlight path {
         fill: var(--wordplay-highlight);
         opacity: 0.2;
@@ -141,13 +149,6 @@
     }
     /* When dragged, make text contrast visible */
     :global(.executing .token-view) { color: var(--color-white) !important; }
-
-    .exception .highlight path {
-        fill: var(--wordplay-error);
-        stroke: var(--wordplay-error);
-    }
-    /* When dragged, make text contrast visible */
-    :global(.exception .token-view) { color: var(--color-white) !important; }
 
     /* When beginning dragged in an editor, hide the node view contents to create a sense of spatial integrity. */
     :global(.editor .dragged .node-view) {
