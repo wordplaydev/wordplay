@@ -541,9 +541,10 @@
         width: 1px;
         pointer-events: none;
 
-        outline: 1px solid red;
+        /* Helpful for debugging */
+        /* outline: 1px solid red;
         opacity: 1;
-        width: 10px;
+        width: 10px; */
 
     }
 
