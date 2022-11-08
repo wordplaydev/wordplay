@@ -49,8 +49,6 @@
 
 <style>
     section {
-        position: sticky;
-        top: 0px;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         background: var(--wordplay-chrome);

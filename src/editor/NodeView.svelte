@@ -7,6 +7,8 @@
     import getNodeView from "./nodeToView";
     import createRowOutlineOf from "./outline";
 
+    const HIGHLIGHT_PADDING = 20;
+
     export let node: Node | undefined;
     export let block: boolean = false;
 
@@ -46,7 +48,7 @@
                 if(draggable && event.buttons === 1 && mouseDown) { dragged.set(node); event.stopPropagation()} 
             }
         }}
-    ><svelte:component this={getNodeView(node)} node={node} />{#if outline }<svg class={`highlight`} style={`top: ${outline.miny}; left: ${outline.minx}; `} width={outline.maxx - outline.minx} height={outline.maxy - outline.miny} viewBox={`${outline.minx} ${outline.miny} ${outline.maxx - outline.minx} ${outline.maxy - outline.miny}`}><path d={outline.path}/></svg>{/if}{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation($languages[0])}</div>{/each}</div>{/if}</div>
+    ><svelte:component this={getNodeView(node)} node={node} />{#if outline }<svg class={`highlight`} style={`top: ${outline.miny}; left: ${outline.minx}; `} width={outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2} height={outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2} viewBox={`${outline.minx} ${outline.miny} ${outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2} ${outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2}`}><path d={outline.path}/></svg>{/if}{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation($languages[0])}</div>{/each}</div>{/if}</div>
 {/if}
 
 <style>
