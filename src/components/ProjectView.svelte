@@ -49,7 +49,7 @@
     </div>
     <!-- Render the dragged node over the whole project -->
     {#if $dragged !== undefined}
-        <div class="dragged" style="left: {mouseX}px; top:{mouseY}px;"><NodeView node={$dragged}/><div class="cursor">🐲</div></div>
+        <div class="draggable" style="left: {mouseX}px; top:{mouseY}px;"><NodeView node={$dragged}/><div class="cursor">🐲</div></div>
     {/if}
 </div>
 
@@ -75,7 +75,7 @@
         gap: var(--wordplay-spacing);
     }
 
-    .dragged {
+    .draggable {
         position: absolute;
         cursor: none;
         z-index: 2;

@@ -19,7 +19,7 @@ export const LanguageSymbol = Symbol("language");
 export type ProjectContext = Writable<Project>;
 export const ProjectSymbol = Symbol("project");
 
-export type HighlightType = "selection" | "step" | "exception"
-export type Highlights = Map<Node, HighlightType>;
+export type HighlightType = "selected" | "executing" | "exception" | "hovered" | "dragged"
+export type Highlights = Map<Node, Set<HighlightType>>;
 export type HighlightContext = Writable<Highlights> | undefined;
 export const HighlightSymbol = Symbol("highlight");

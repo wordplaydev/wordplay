@@ -50,9 +50,6 @@
     .token-category-operator { color: var(--color-orange); }
     .token-category-unknown { color: var(--color-pink); }
 
-    /* Make the text visible when highlighted */
-    :global(.hovered .token-view, .dragged .token-view) { color: var(--color-white) !important; }
-
     .token-view.newline {
         display: block;
     }

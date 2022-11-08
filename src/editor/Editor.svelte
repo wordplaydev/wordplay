@@ -166,34 +166,53 @@
             }
         }
 
-        // If the program contains this node, scroll to it's view.
+        // If the program contains this node, scroll it's first token into view.
         if(executingNode instanceof Node && source.program.contains(executingNode)) {
-            const element = document.querySelector(`[data-id="${executingNode.id}"]`);
-            if(element !== null)
-                ensureElementIsVisible(element, false);
+            const element = document.querySelector(`[data-id="${executingNode.id}"] .token-view`);
+            if(element !== null) {
+                ensureElementIsVisible(element);
+            }
         }
 
     });
+
+    function addHighlight(map: Highlights, node: Node, type: HighlightType) {
+
+        if(!map.has(node))
+            map.set(node, new Set<HighlightType>());
+        map.get(node)?.add(type);
+
+    }
 
     function updateHighlights() {
 
         const currentStep = $caret.source.getEvaluator().currentStep();
         const latestValue = $caret.source.getEvaluator().getLatestResult();
 
-        // Build the current selections
-        const newHighlights = new Map<Node, HighlightType>();
-        if(currentStep?.node instanceof Node)
-            newHighlights.set(currentStep.node, "step");
-        if(latestValue instanceof Exception && latestValue.step !== undefined && latestValue.step.node instanceof Node)
-            newHighlights.set(latestValue.step.node, "exception");
-        // Add selection last, so it's always visible.
-        if($caret.position instanceof Node)
-            newHighlights.set($caret.position, "selection");
-        // Only highlight if not dragging.
-        if($dragged == undefined && $hovered instanceof Node)
-            newHighlights.set($hovered, "selection");
+        // Build a set of highlights to render.
+        const newHighlights = new Map<Node, Set<HighlightType>>();
 
-        // Update the store
+        // Is there a step we're actively executing? Highlight it!
+        if(currentStep?.node instanceof Node)
+            addHighlight(newHighlights, currentStep.node, "executing");
+
+        // Is there an exception on the last step? Highlight the node that created it!
+        if(latestValue instanceof Exception && latestValue.step !== undefined && latestValue.step.node instanceof Node)
+            addHighlight(newHighlights, latestValue.step.node, "exception");
+
+        // Is the caret selecting a node? Highlight it?
+        if($caret.position instanceof Node)
+            addHighlight(newHighlights, $caret.position, "selected");
+        
+        // Is the node hovered? Highlight it?
+        if($hovered instanceof Node)
+            addHighlight(newHighlights, $hovered, "hovered");
+
+        // Is the node hovered? Highlight it?
+        if($dragged instanceof Node)
+            addHighlight(newHighlights, $dragged, "dragged");
+
+        // Update the store, broadcasting the highlights to all node views for rendering.
         highlights.set(newHighlights);
 
     }
@@ -217,14 +236,12 @@
         return undefined;
     }
 
-    function ensureElementIsVisible(element: Element, center: boolean=false) {
+    function ensureElementIsVisible(element: Element) {
 
         const viewport = editor?.parentElement;
         if(viewport === null) return;
 
-        element.scrollIntoView(center ? 
-            { behavior: "smooth", block: "center", inline: "center"} :
-            { behavior: "auto", block: "nearest", inline: "nearest"});
+        element.scrollIntoView({ behavior: "smooth", block: "center", inline: "center"});
 
     }
 
