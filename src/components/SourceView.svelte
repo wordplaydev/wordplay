@@ -62,16 +62,14 @@
 
 <style>
     .source {
-        width: 100%;
         display: flex;
         flex-flow: column;
-        flex: 1; /* Have each document fill an equal amount of space in the window manager */
+        /* flex: 1; Have each document fill an equal amount of space in the window manager */
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
     }
 
     .source-title {
-        height: auto;
         background: var(--wordplay-chrome);
         padding: var(--wordplay-spacing);
         border-bottom: var(--wordplay-border-width) solid var(--wordplay-border-color);
@@ -79,11 +77,14 @@
 
     .split {
         display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        align-items: stretch;
+        min-width: 0;
     }
 
     .source-content {
         flex: 1; /* 50/50 split */
-        height: 100%;
         min-height: 20rem;
         max-height: 40rem;
         background: var(--wordplay-background);

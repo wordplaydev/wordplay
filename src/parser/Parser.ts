@@ -449,7 +449,6 @@ export function parseBinaryOperation(tokens: Tokens): Expression | Unparsable {
  *   FUNCTION | 
  *   CONVERSION |
  *   STREAM |
- *   CUSTOM |
  */
 function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
 

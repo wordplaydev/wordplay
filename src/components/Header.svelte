@@ -1,6 +1,6 @@
 <script lang="ts">
     import { getContext } from 'svelte';
-    import type { Writable } from 'svelte/store';
+    import { LanguageSymbol, type LanguageContext } from '../editor/Contexts';
     import { examples, makeProject, type Stuff } from '../examples/examples';
     import { updateProject } from '../models/stores';
     import type LanguageCode from '../nodes/LanguageCode';
@@ -8,7 +8,7 @@
 
     let example: Stuff;
     let language: LanguageCode;
-    $: languages = getContext<Writable<LanguageCode[]>>("languages")
+    $: languages = getContext<LanguageContext>(LanguageSymbol)
 
     function changeProject() {
         updateProject(makeProject(example));
@@ -20,7 +20,7 @@
 
 </script>
 
-<div>
+<div class="header">
     Wordplay
     <select bind:value={example} on:change={changeProject}>
         {#each examples as example }
@@ -35,8 +35,7 @@
 </div>
 
 <style>
-    div {
-        width: 100%;
+    .header {
         height: auto;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         padding: var(--wordplay-spacing);

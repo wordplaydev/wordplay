@@ -1,14 +1,13 @@
 <script lang="ts">
     import { getContext } from "svelte";
-    import type { Writable } from "svelte/store";
-    import type LanguageCode from "../nodes/LanguageCode";
+    import { LanguageSymbol, type LanguageContext } from "../editor/Contexts";
     import { TRANSLATE } from "../nodes/Translations";
     import type Evaluator from "../runtime/Evaluator";
     import EvaluationView from "./EvaluationView.svelte";
 
     export let evaluator: Evaluator;
 
-    $: languages = getContext<Writable<LanguageCode[]>>("languages");
+    $: languages = getContext<LanguageContext>(LanguageSymbol);
 
     $: ignoredStreams = Array.from(evaluator.streamsIgnoredDuringStepping).map(stream => stream.getTranslation($languages));
 

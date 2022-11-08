@@ -16,32 +16,54 @@ function bottommost(rects: Rect[], at?: number) {
     return Math.max.apply(undefined, rects.filter(rect => at === undefined || (rect.l < at && at < rect.r)).map(r => r.b));
 }
 
+function getEditorOffset(el: HTMLElement) {
+    let currentNode: HTMLElement | null = el;
+    var _x = 0;
+    var _y = 0;
+    while( currentNode && !isNaN( currentNode.offsetLeft ) && !isNaN( currentNode.offsetTop )) {
+        _x += currentNode.offsetLeft - currentNode.scrollLeft;
+        _y += currentNode.offsetTop - currentNode.scrollTop;
+        currentNode = currentNode.offsetParent instanceof HTMLElement ? currentNode.offsetParent : null;
+        // Stop when we reach the scroll box.
+        if(currentNode?.style.overflow === "scroll")
+            break;
 
-function getTokenRects(nodeView: Element, offsetX: number, offsetY: number) {
+    }
+    return { top: _y, left: _x };
+}
+
+function getTokenRects(nodeView: HTMLElement) {
 
     const rects: Rect[] = [];
 
-    // Get the rectangles of all of the tokens
+    const nodeViewportOffset = getEditorOffset(nodeView);
+    const viewport = nodeView.closest(".source-content");
+    let scrollLeft = viewport?.scrollLeft ?? 0;
+    let scrollTop = viewport?.scrollTop ?? 0;
+
+    // Get the rectangles of all of the tokens's text
     const tokenViews = nodeView.querySelectorAll(".Token .text");
     for(const view of tokenViews) {
         const rect = view.getBoundingClientRect();
+        const left = rect.left - nodeViewportOffset.left + scrollLeft;
+        const top = rect.top - nodeViewportOffset.top + scrollTop;
         rects.push({
-            l: rect.left + offsetX,
-            t: rect.top + offsetY,
-            r: rect.left + offsetX + rect.width,
-            b: rect.top + offsetY + rect.height,
+            l: left,
+            t: top,
+            r: left + rect.width,
+            b: top + rect.height,
             w: rect.width,
             h: rect.height
         });
-    }
+    }    
 
     return rects;
 
 }
 
-export function createRectangleOutlineOf(nodeView: Element, offsetX: number, offsetY: number): string {
+export function createRectangleOutlineOf(nodeView: HTMLElement): string {
 
-    const rects: Rect[] = getTokenRects(nodeView, offsetX, offsetY);
+    const rects: Rect[] = getTokenRects(nodeView);
     const PADDING = 5;
 
     // Start on the top left
@@ -55,14 +77,12 @@ export function createRectangleOutlineOf(nodeView: Element, offsetX: number, off
 
 }
 
-function lineTo(d: string, x: number, y: number) { return `${d} L ${x} ${y}`; }
+export default function createRowOutlineOf(nodeView: HTMLElement): {path: string, minx: number, miny: number, maxx: number, maxy: number } {
 
-export default function createRowOutlineOf(nodeView: Element, offsetX: number, offsetY: number): string {
-
-    const rects: Rect[] = getTokenRects(nodeView, offsetX, offsetY);
+    const rects: Rect[] = getTokenRects(nodeView);
 
     // The official way to render nothing...
-    if(rects.length === 0) return "";
+    if(rects.length === 0) return { path: "", minx: 0, miny: 0, maxx: 0, maxy: 0 };
 
     // Segment the rectangles into rows. We rely on document order to segment.
     const rows: Rect[][] = [[]];
@@ -88,27 +108,46 @@ export default function createRowOutlineOf(nodeView: Element, offsetX: number, o
         }
     });
 
-    const padding = 6;
+    const padding = 3;
 
     // Construct a path clockwise by moving through the rows.
     // Start with the top left of the first row.
-    let path = `M ${lines[0].l - padding} ${lines[0].t - padding}`;
+    type Pos = { x: number, y: number }
+    let path: Pos[] = [ { x: lines[0].l - padding, y: lines[0].t - padding } ];
     // Trace the right edge of the remaining rows.
     for(let i = 0; i < lines.length; i++) {
         // Right top, then right bottom, extending down to the below row's top if there is one.
         // Account for padding between lines if the next row moves left.
-        path = lineTo(path, lines[i].r + padding, lines[i].t - padding * (i > 0 && lines[i].r < lines[i - 1].r ? -1 : 1));
-        path = lineTo(path, lines[i].r + padding, i < lines.length - 1 ? lines[i + 1].t - padding * (lines[i + 1].r < lines[i].r ? -1 : 1) : lines[i].b + padding);
+        path.push({ 
+            x: lines[i].r + padding, 
+            y: lines[i].t - padding * (i > 0 && lines[i].r < lines[i - 1].r ? -1 : 1)
+        });
+        path.push({ 
+            x: lines[i].r + padding, 
+            y: i < lines.length - 1 ? lines[i + 1].t - padding * (lines[i + 1].r < lines[i].r ? -1 : 1) : lines[i].b + padding
+        });
     }
     // Trace the left edge of the rows in reverse.
     for(let i = lines.length - 1; i >= 0; i--) {
         // Bottom left, then top left, extending up to the above row's bottom if there is one.
         // Account for padding between lines if the next row moves right.
-        path = lineTo(path, lines[i].l - padding, lines[i].b + padding * (i < lines.length - 1 && lines[i].l > lines[i + 1].l ? -1 : 1));
-        path = lineTo(path, lines[i].l - padding, i > 0 ? lines[i - 1].b + padding * (lines[i - 1].l > lines[i].l ? -1 : 1) : lines[i].t + padding);
+        path.push({
+            x: lines[i].l - padding, 
+            y: lines[i].b + padding * (i < lines.length - 1 && lines[i].l > lines[i + 1].l ? -1 : 1)
+        });
+        path.push({
+            x: lines[i].l - padding, 
+            y: i > 0 ? lines[i - 1].b + padding * (lines[i - 1].l > lines[i].l ? -1 : 1) : lines[i].t + padding
+        });
     }
 
-    // That's it!
-    return path + "Z";
+    // Construct the path and bounding box
+    return { 
+        path: `M ${path.map(pos => `${pos.x} ${pos.y}`).join(" L ")} Z`, 
+        minx: Math.min.apply(Math, path.map(pos => pos.x)),
+        miny: Math.min.apply(Math, path.map(pos => pos.y)),
+        maxx: Math.max.apply(Math, path.map(pos => pos.x)),
+        maxy: Math.max.apply(Math, path.map(pos => pos.y))
+    };
 
 }

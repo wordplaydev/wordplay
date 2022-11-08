@@ -9,7 +9,7 @@ import type Source from "../models/Source";
 export default class Context {
 
     readonly source: Source;
-    readonly program: Program;
+    readonly program: Program; // This is optional, because sometimes nodes exist outside of programs.
     readonly shares?: Shares;
     readonly native?: NativeInterface;
     readonly stack: Node[] = [];

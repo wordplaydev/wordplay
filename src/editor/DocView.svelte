@@ -7,7 +7,7 @@
     
     export let node: Doc;
 
-    // let languages = getContext<Writable<LanguageCode[]>>("languages");
+    // let languages = getContext<LanguageContext>(LanguageSymbol);
 
     // $: caretIn = false;
     // $: lang = node.getLanguage();

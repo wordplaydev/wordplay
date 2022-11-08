@@ -1,11 +1,10 @@
 <script lang="ts">
     import { afterUpdate, getContext } from "svelte";
-    import type { Writable } from "svelte/store";
-    import type Caret from "../models/Caret";
     import Token, { TAB_WIDTH } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-
+    import { CaretSymbol, type CaretContext } from "./Contexts";
+    
     type CaretPosition = { top: string, left: string, height: string, bottom: number };
 
     export let blink: boolean;
@@ -14,20 +13,20 @@
     export let location: CaretPosition | undefined = undefined;
 
     // The caret of the editor that contains this view.
-    $: caret = getContext<Writable<Caret>>("caret");
+    let caret = getContext<CaretContext>(CaretSymbol);
 
     // The HTMLElement rendering this view.
     let caretElement: HTMLElement;
 
     // The current token we're on.
-    $: token = $caret.getToken();
+    $: token = $caret?.getToken();
 
     // The index we should render
     let caretIndex: number | undefined = undefined;
 
     // Whenever the caret changes, update the index we should render.
     $: {
-        if(token !== undefined) {
+        if(token !== undefined && $caret !== undefined) {
             // Get some of the token's metadata
             let spaceIndex = $caret.source.getTokenSpaceIndex(token);
             let lastIndex = $caret.source.getTokenLastIndex(token);
@@ -55,19 +54,19 @@
                     $caret.position - textIndex : 
                     undefined;
 
-        }
+            // Update the caret's location.
+            location = computeLocation();
 
-        // Update the caret's location.
-        location = computeLocation();
+        }
 
     }
 
     // After we render, update the caret position.
     afterUpdate(() => {
 
-        // Now that we've rendered the caret, scroll to it, if we're not executing.
-        if(caretElement && location && $caret.source.evaluator.isDone())
-            caretElement.scrollIntoView({ behavior: "auto", block: "nearest", inline: "nearest"});
+        // Now that we've rendered the caret, if it's out of the viewport and we're not executing, scroll to it.
+        if(caretElement && $caret?.source.evaluator.isDone())
+            caretElement.scrollIntoView({ block: "nearest" });
 
         // Update the caret's location, in case other things changed.
         location = computeLocation();
@@ -75,6 +74,8 @@
     });
 
     function computeLocation() {
+
+        if($caret === undefined) return;
 
         // Start assuming no position.
         location = undefined;

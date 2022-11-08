@@ -8,24 +8,17 @@
     import commands, { type Edit } from './Commands';
     import NodeView from './NodeView.svelte';
     import type Source from '../models/Source';
-    import { writable, type Writable } from 'svelte/store';
+    import { writable } from 'svelte/store';
     import Exception from '../runtime/Exception';
-    import createRowOutlineOf from './outline';
     import type Program from '../nodes/Program';
     import Menu from './Menu.svelte';
     import Token from '../nodes/Token';
     import KeyboardIdle from '../models/KeyboardIdle';
     import CaretView from './CaretView.svelte';
     import { PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
-    import type LanguageCode from '../nodes/LanguageCode';
+    import { CaretSymbol, type DraggedContext, DraggedSymbol, HoveredSymbol, LanguageSymbol, type LanguageContext, type HighlightType, type Highlights, HighlightSymbol } from './Contexts';
 
     export let source: Source;
-
-    type Selection = {
-        node: Node,
-        kind: "step" | "exception" | "selected",
-        path: string | undefined
-    };
 
     let editor: HTMLElement;
     let textInput: HTMLInputElement;
@@ -33,11 +26,14 @@
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     let caret = writable<Caret>(new Caret(source, 0));
 
-    let selections: Selection[] = [];
+    // A store of highlighted nodes, used by node views to highlight themselves.
+    // We store centrally since the logic that determines what's highlighted is in the Editor.
+    let highlights = writable<Highlights>(new Map());
+    setContext(HighlightSymbol, highlights);
 
-    // The width and height of the program
-    let programViewWidth = 0;
-    let programViewHeight = 0;
+    // A store of what node is hovered over, used in drag and drop.
+    let hovered = writable<Node|undefined>(undefined);
+    setContext(HoveredSymbol, hovered);
 
     // A shorthand for the current program.
     let program = source.program;
@@ -64,15 +60,8 @@
 
     let menuSelection: number = -1;
 
-    // When source changes, update various nested state from the source.
-    $: {
-        program = source.program;
-        caret.set($caret.withSource(source));
-        setContext("caret", caret);
-        executingNode = source.getEvaluator().currentStep()?.node;
-    }
-
-    $: languages = getContext<Writable<LanguageCode[]>>("languages")
+    $: languages = getContext<LanguageContext>(LanguageSymbol)
+    $: dragged = getContext<DraggedContext>(DraggedSymbol);
 
     // When keyboard idle changes to false, reset the menu if nothing is selected.
     const menuKeyboardIdleReset = KeyboardIdle.subscribe(idle => {
@@ -87,6 +76,14 @@
         hideMenu();
     });
     onDestroy(menuResetCaretChange);
+
+    // When source changes, update various nested state from the source.
+    $: {
+        program = source.program;
+        caret.set($caret.withSource(source));
+        setContext(CaretSymbol, caret);
+        executingNode = source.getEvaluator().currentStep()?.node;
+    }
 
     // When the caret changes or keyboard idle state changes, determine a new menu.
     $: {
@@ -131,16 +128,10 @@
     // When the caret location changes, position the menu and invisible input, and optionally scroll to the caret.
     $: {
         
-        if(caretLocation !== undefined && menuVisible) {
-
-            const keyboard = editor?.querySelector(".keyboard-input");
-            if(keyboard instanceof HTMLElement) {
-                keyboard.style.left = `${caretLocation.left}`;
-                keyboard.style.top = `${caretLocation.top}`;
-            }
+        if(caretLocation !== undefined) {
 
             // Position the menu at the cursor if it's an insertion.
-            if(menu !== undefined && $caret.isIndex())
+            if(menu !== undefined && menuVisible && $caret.isIndex())
                 menu = {
                     node: menu.node,
                     transforms: menu.transforms,
@@ -155,42 +146,6 @@
     // and make sure the text input field is in focus.
     afterUpdate(() => {
         if(editor === undefined || editor === null) return;
-
-        // GET MEASUREMENTS
-
-        const viewport = editor.parentElement;
-        if(viewport === null) return;
-
-        const viewportRect = viewport.getBoundingClientRect();
-        const rootView = editor.querySelector(".node-view");
-
-        if(rootView instanceof HTMLElement) {
-            // Add a generous amount of space to account for browser differences.
-            programViewWidth = rootView.offsetWidth + 20;
-            programViewHeight = rootView.offsetHeight + 20;
-        }
-
-        const currentStep = $caret.source.getEvaluator().currentStep();
-        const latestValue = $caret.source.getEvaluator().getLatestResult();
-
-        selections = [];
-
-        if(currentStep?.node instanceof Node)
-            selections.push({ node: currentStep.node, kind: "step", path: undefined });
-        if(latestValue instanceof Exception && latestValue.step !== undefined && latestValue.step.node instanceof Node)
-            selections.push({ node: latestValue.step.node, kind: "exception", path: undefined });
-        // Add selection last, so it's always visible.
-        if($caret.position instanceof Node)
-            selections.push({ node: $caret.position, kind: "selected", path: undefined });
-        
-        // Compute the paths of the selected nodes.
-        if(editor !== undefined) {
-            for(const sel of selections) {
-                const nodeView = getNodeView(sel.node);
-                if(nodeView !== undefined)
-                    sel.path = createRowOutlineOf(nodeView, -viewportRect.left + viewport.scrollLeft, -viewportRect.top + viewport.scrollTop);
-            }
-        }
 
         // Position the menu if a node is selected.
         if(menu !== undefined && editor !== undefined && $caret.isNode()) {
@@ -219,6 +174,35 @@
         }
 
     });
+
+    function updateHighlights() {
+
+        const currentStep = $caret.source.getEvaluator().currentStep();
+        const latestValue = $caret.source.getEvaluator().getLatestResult();
+
+        // Build the current selections
+        const newHighlights = new Map<Node, HighlightType>();
+        if(currentStep?.node instanceof Node)
+            newHighlights.set(currentStep.node, "step");
+        if(latestValue instanceof Exception && latestValue.step !== undefined && latestValue.step.node instanceof Node)
+            newHighlights.set(latestValue.step.node, "exception");
+        // Add selection last, so it's always visible.
+        if($caret.position instanceof Node)
+            newHighlights.set($caret.position, "selection");
+        // Only highlight if not dragging.
+        if($dragged == undefined && $hovered instanceof Node)
+            newHighlights.set($hovered, "selection");
+
+        // Update the store
+        highlights.set(newHighlights);
+
+    }
+
+    // Update the highlights when any of these stores change.
+    $: {
+        if($dragged || $caret || $hovered || executingNode)
+            updateHighlights();
+    }
 
     function getNodeView(node: Node): HTMLElement | undefined {
         const view = editor.querySelector(`.node-view[data-id="${node.id}"]`);
@@ -489,22 +473,30 @@
         menuSelection = -1;
     }
 
+    function getNodeAt(event: MouseEvent) {
+        const el = document.elementFromPoint(event.clientX, event.clientY);
+        if(el instanceof HTMLElement) {
+            const nonTokenElement = el.closest(".node-view:not(.Token)");
+            if(nonTokenElement instanceof HTMLElement && nonTokenElement.dataset.id) {
+                return source.program.getNodeByID(parseInt(nonTokenElement.dataset.id))
+            }
+        }
+        return undefined;
+    }
+
 </script>
 
 <div class="editor"
     bind:this={editor}
-    on:mousedown={handleClick}
+    on:mousedown|preventDefault={() => {}}
+    on:mouseup={handleClick}
+    on:mousemove={event => hovered.set(getNodeAt(event)) }
+    on:mouseleave={() => hovered.set(undefined)}
 >
     <!-- Render the program -->
     <NodeView node={program}/>
     <!-- Render the caret on top of the program -->
     <CaretView blink={$KeyboardIdle && focused} bind:location={caretLocation}/>
-    <!-- Do we have any selections to render? Render them! -->
-    {#each selections as selection }
-        <svg class={`selection ${selection.kind}`} width={programViewWidth} height={programViewHeight}>
-            <path d={selection.path}/>
-        </svg>
-    {/each}
     <!-- Are we on a placeholder? Show a menu! -->
     {#if menu !== undefined && menu.location !== undefined && menuVisible }
         <div class="menu" style={`left: ${menu.location.left}; top: ${menu.location.top};`}>
@@ -519,6 +511,7 @@
     <input 
         type="text"
         class="keyboard-input" 
+        style={`left: ${caretLocation?.left ?? 0}; top: ${caretLocation?.top ?? 0};`}
         bind:this={textInput}
         on:input={handleTextInput}
         on:keydown={handleKeyDown}
@@ -537,45 +530,21 @@
         line-height: var(--wordplay-code-line-height);
         padding: var(--wordplay-spacing);
         position: relative;
-
-        font-family: var(--wordplay-code-font-face);
-        font-size: var(--wordplay-font-size);
-        font-weight: 400;
+        user-select: none;
     }
 
     .keyboard-input {
         position: absolute;
         border: none;
         outline: none;
-        width: 1px;
         opacity: 0;
+        width: 1px;
         pointer-events: none;
-    }
 
-    .selection {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 0;
-    }
-    
-    .selection path {
-        fill: var(--wordplay-chrome);
-        stroke: var(--wordplay-border-color);
-        stroke-width: var(--wordplay-border-width);
-        stroke-linejoin: round;
-    }
+        outline: 1px solid red;
+        opacity: 1;
+        width: 10px;
 
-    .selection.step path {
-        stroke: var(--wordplay-highlight);
-    }
-
-    .selection.exception path {
-        stroke: var(--wordplay-error);
-    }
-
-    .selection.selected path {
-        stroke: var(--color-blue);
     }
 
     .menu {

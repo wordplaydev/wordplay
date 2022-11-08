@@ -7,7 +7,7 @@
     
     export let node: Alias;
 
-    // let languages = getContext<Writable<LanguageCode[]>>("languages");
+    // let languages = getContext<LanguageContext>(LanguageSymbol);
 
     // $: caretIn = false;
     // $: lang = node.getLanguage();

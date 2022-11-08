@@ -7,6 +7,8 @@
     import ProjectView from './ProjectView.svelte';
     import { writable } from 'svelte/store';
     import type LanguageCode from '../nodes/LanguageCode';
+    import Loading from './Loading.svelte';
+    import { LanguageSymbol } from '../editor/Contexts';
 
     // An interface-wide list of preferred languages.
     let languages = writable<LanguageCode[]>(["eng"]);
@@ -18,7 +20,7 @@
     onMount(() => document.fonts.ready.then(() => fontsLoaded = true));
 
     // Store in a context for easy access by components.
-    setContext("languages", languages);
+    setContext(LanguageSymbol, languages);
 
 </script>
 
@@ -27,6 +29,8 @@
         <Header></Header>
         <ProjectView project={$project} />
     </div>
+{:else}
+    <Loading/>
 {/if}
 
 <style>
@@ -36,6 +40,8 @@
         padding: 0;
         display: flex;
         flex-direction: column;
+        align-items: stretch;
         box-sizing: border-box;
+        gap: var(--wordplay-spacing);
     }
 </style>

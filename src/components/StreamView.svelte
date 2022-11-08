@@ -1,12 +1,11 @@
 <script lang="ts">
     import { getContext } from "svelte";
-    import type { Writable } from "svelte/store";
-    import type LanguageCode from "../nodes/LanguageCode";
+    import { LanguageSymbol, type LanguageContext } from "../editor/Contexts";
     import type Stream from "../runtime/Stream";
 
     export let value: Stream;
 
-    $: languages = getContext<Writable<LanguageCode[]>>("languages");
+    $: languages = getContext<LanguageContext>(LanguageSymbol);
 
 </script>
 

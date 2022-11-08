@@ -1,31 +1,31 @@
 <script lang="ts">
     import { getContext } from "svelte";
-    import type { Writable } from "svelte/store";
-    import type Caret from "../models/Caret";
     import type Token from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+    import { CaretSymbol, ProjectSymbol, type CaretContext, type ProjectContext } from "./Contexts";
     import { TokenCategories } from "./TokenCategories";
 
     export let node: Token;
 
     $: kind = TokenCategories.get(Array.isArray(node.types) ? node.types[0] ?? "default" : node.types);
-    $: caret = getContext<Writable<Caret>>("caret");
+    let caret = getContext<CaretContext>(CaretSymbol);
+    let project = getContext<ProjectContext>(ProjectSymbol);
     $: isPlaceholder = node.is(TokenType.PLACEHOLDER);
     $: showBox = 
-        ($caret.getTokenExcludingWhitespace() === node) || 
-        ($caret.tokenPrior === node && $caret.atBeginningOfToken() && $caret.token && $caret.token.space.length > 0) || 
+        ($caret?.getTokenExcludingWhitespace() === node) || 
+        ($caret?.tokenPrior === node && $caret.atBeginningOfToken() && $caret.token && $caret.token.space.length > 0) || 
         isPlaceholder;
     $: textToShow = 
-        isPlaceholder ? node.getParent()?.getChildPlaceholderLabel(node, $caret.source.getContext())?.eng ?? PLACEHOLDER_SYMBOL : 
+        isPlaceholder ? node.getParent()?.getChildPlaceholderLabel(node, $project.main.getContext())?.eng ?? PLACEHOLDER_SYMBOL : 
         node.text.getLength() === 0 ? "\u00A0" : 
         node.text.toString().replaceAll(" ", "&nbsp;")
 
 </script>
 
 {#if node.newlines > 0 ? "newline" : ""}{@html "<br/>".repeat(node.newlines)}{/if}<span 
-    class="token-view token-{kind} {showBox ? "active" : ""} {isPlaceholder ? "placeholder" : ""}" 
-    style="color: {`var(--token-category-${kind})`}; margin-left: {node.precedingSpaces}ch"
+    class="token-view token-{kind} {showBox ? "active" : ""} {isPlaceholder ? "placeholder" : ""} {$caret !== undefined ? "editable" : ""} {`token-category-${kind}`}" 
+    style="margin-left: {node.precedingSpaces}ch"
     data-id={node.id}
 >
     <span class="text">{@html textToShow }</span>
@@ -36,20 +36,22 @@
     .token-view {
         display: inline-block;
         position: relative;
-        cursor: text;
         z-index: 1;
-
-        --token-category-delimiter: var(--color-grey);
-        --token-category-relation: var(--color-orange);
-        --token-category-share: var(--color-orange);
-        --token-category-eval: var(--color-blue);
-        --token-category-docs: var(--color-purple);
-        --token-category-literal: var(--color-blue);
-        --token-category-name: var(--color-black);
-        --token-category-type: var(--color-orange);
-        --token-category-operator: var(--color-orange);
-        --token-category-unknown: var(--color-pink);
     }
+
+    .token-category-delimiter { color: var(--color-grey); }
+    .token-category-relation { color: var(--color-orange); }
+    .token-category-share { color: var(--color-orange); }
+    .token-category-eval { color: var(--color-blue); }
+    .token-category-docs { color: var(--color-purple); }
+    .token-category-literal { color: var(--color-blue); }
+    .token-category-name { color: var(--color-black); }
+    .token-category-type { color: var(--color-orange); }
+    .token-category-operator { color: var(--color-orange); }
+    .token-category-unknown { color: var(--color-pink); }
+
+    /* Make the text visible when highlighted */
+    :global(.hovered .token-view, .dragged .token-view) { color: var(--color-white) !important; }
 
     .token-view.newline {
         display: block;
@@ -68,7 +70,7 @@
         display: inline-block;
     }
 
-    .text:hover, .active .text {
+    .editable .text:hover, .active .text {
         outline: 1px solid var(--color-grey);
     }
 
@@ -79,6 +81,7 @@
 
     .placeholder .text {
         color: var(--wordplay-disabled-color);
+        background-color: var(--color-white);
     }
 
 </style>
