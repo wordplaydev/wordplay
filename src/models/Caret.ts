@@ -1,7 +1,7 @@
 import type { Edit } from "../editor/Commands";
 import Node from "../nodes/Node";
 import Token from "../nodes/Token";
-import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
+import { PLACEHOLDER_SYMBOL, PROPERTY_SYMBOL } from "../parser/Tokenizer";
 import type Source from "./Source";
 
 export type InsertionContext = { before: Node[], after: Node[] };
@@ -132,6 +132,12 @@ export default class Caret {
     isSpace(c: string) { return /[\t\n ]/.test(c); }
     isTab(c: string) { return /[\t]/.test(c); }
     isNode() { return this.position instanceof Node; }
+    isAccessor() {
+
+        if(this.position instanceof Node) return false;
+        return this.source.getCode().at(this.position - 1) === PROPERTY_SYMBOL;
+
+    }
 
     // Get the code position corresponding to the beginning of the given row.
     rowPosition(row: number): number | undefined {

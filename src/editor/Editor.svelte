@@ -284,6 +284,49 @@
 
     }
 
+    function showMenu() {
+
+        // Is the caret on a specific token or node?
+        const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
+        const between = $caret.getNodesBetween();
+
+        const transforms = 
+            between !== undefined ? 
+                [
+                    // Get all of the replacements possible immediately before the position.
+                    ... between.before.reduce((transforms: Transform[], child) =>
+                        [ ... transforms, ...(child.getParent()?.getInsertionBefore(child, source.getContext(), $caret.position as number) ?? []) ], []),
+                    // Get all of the replacements possible and the ends of the nodes just before the position.
+                    ... between.after.reduce((transforms: Transform[], child) => {
+                        return [ ...transforms, ...(child.getInsertionAfter(source.getContext(), $caret.position as number) ?? []) ]
+                    }, [])
+                ] :
+            node !== undefined ? node.getParent()?.getChildReplacement(node, source.getContext()) :
+                undefined;
+
+        if(node !== undefined && transforms !== undefined && transforms.length > 0) {
+            menu = {
+                node: node,
+                // Filter out duplicates
+                transforms: transforms.filter((item1, index1) => transforms.find((item2, index2) => index2 > index1 && item1.equals(item2)) === undefined),
+                location: undefined // This gets defined after rendering.
+            }
+
+            // Make it visible if a node is selected. Otherwise, wait for it to be triggered.
+            menuVisible = true;
+
+            // We made a menu! Return and show it rather than executing a command.
+        }
+
+    }
+
+    $: {
+
+        if($caret.isAccessor())
+            showMenu();
+
+    }
+
     function handleKeyDown(event: KeyboardEvent) {
 
         if(menu !== undefined && menuVisible) {
@@ -299,38 +342,9 @@
 
             if(menu === undefined && !menuVisible) {
 
-                // Is the caret on a specific token or node?
-                const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
-                const between = $caret.getNodesBetween();
-
-                const transforms = 
-                    between !== undefined ? 
-                        [
-                            // Get all of the replacements possible immediately before the position.
-                            ... between.before.reduce((transforms: Transform[], child) =>
-                                [ ... transforms, ...(child.getParent()?.getInsertionBefore(child, source.getContext(), $caret.position as number) ?? []) ], []),
-                            // Get all of the replacements possible and the ends of the nodes just before the position.
-                            ... between.after.reduce((transforms: Transform[], child) => {
-                                return [ ...transforms, ...(child.getInsertionAfter(source.getContext(), $caret.position as number) ?? []) ]
-                            }, [])
-                        ] :
-                    node !== undefined ? node.getParent()?.getChildReplacement(node, source.getContext()) :
-                        undefined;
-
-                if(node !== undefined && transforms !== undefined && transforms.length > 0) {
-                    menu = {
-                        node: node,
-                        // Filter out duplicates
-                        transforms: transforms.filter((item1, index1) => transforms.find((item2, index2) => index2 > index1 && item1.equals(item2)) === undefined),
-                        location: undefined // This gets defined after rendering.
-                    }
-
-                    // Make it visible if a node is selected. Otherwise, wait for it to be triggered.
-                    menuVisible = true;
-
-                    // We made a menu! Return and show it rather than executing a command.
-                    return;
-                }
+                showMenu();
+                // If we made a menu, return, and don't handle a command.
+                if(menu !== undefined) return;
             }
             // Ride of the menu and let the Escape key through for commands.
             else {
