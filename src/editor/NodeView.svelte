@@ -120,8 +120,12 @@
 
     .hovered .highlight path {
         fill: var(--wordplay-highlight);
-        stroke: var(--wordplay-highlight);
         opacity: 0.2;
+    }
+
+    .selected .highlight path {
+        stroke: var(--wordplay-highlight);
+        fill: var(--wordplay-highlight);
     }
 
     .dragged .highlight path {
