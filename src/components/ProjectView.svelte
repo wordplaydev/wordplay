@@ -82,6 +82,7 @@
         white-space: nowrap;
     }
 
+    /* A fancy dragon cursor for dragon drop! Get it? */
     .cursor {
         position: absolute;
         font-size: 2rem;

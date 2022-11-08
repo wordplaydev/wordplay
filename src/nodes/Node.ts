@@ -303,6 +303,15 @@ export default abstract class Node {
 
     }
 
+    getFirstLeaf(): Node | undefined {
+        const children = this.getChildren();
+        if(this.isLeaf()) return this;
+        else if(children.length === 0) return undefined;
+        else return children[0].getFirstLeaf();
+    }
+
+    isLeaf() { return false; }
+
     getFirstPlaceholder(): Node | undefined {
         for(const child of this.getChildren()) {
             const placeholder = child.getFirstPlaceholder();

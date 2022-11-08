@@ -3,7 +3,7 @@
     import type Token from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-    import { CaretSymbol, ProjectSymbol, type CaretContext, type ProjectContext } from "./Contexts";
+    import { CaretSymbol, type DraggedContext, DraggedSymbol, ProjectSymbol, type CaretContext, type ProjectContext } from "./Contexts";
     import { TokenCategories } from "./TokenCategories";
 
     export let node: Token;
@@ -11,6 +11,7 @@
     $: kind = TokenCategories.get(Array.isArray(node.types) ? node.types[0] ?? "default" : node.types);
     let caret = getContext<CaretContext>(CaretSymbol);
     let project = getContext<ProjectContext>(ProjectSymbol);
+    let dragged = getContext<DraggedContext>(DraggedSymbol);
     $: isPlaceholder = node.is(TokenType.PLACEHOLDER);
     $: showBox = 
         ($caret?.getTokenExcludingWhitespace() === node) || 
@@ -23,7 +24,8 @@
 
 </script>
 
-{#if node.newlines > 0 ? "newline" : ""}{@html "<br/>".repeat(node.newlines)}{/if}<span 
+<!-- Don't render preceding space if there's no caret -->
+{#if node.newlines > 0 && (caret !== undefined || $dragged?.getFirstLeaf() !== node)}<span class="space">{@html "<br/>".repeat(node.newlines)}</span>{/if}<span 
     class="token-view token-{kind} {showBox ? "active" : ""} {isPlaceholder ? "placeholder" : ""} {$caret !== undefined ? "editable" : ""} {`token-category-${kind}`}" 
     style="margin-left: {node.precedingSpaces}ch"
     data-id={node.id}

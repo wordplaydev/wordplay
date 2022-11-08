@@ -43,6 +43,7 @@ export default class Token extends Node {
     }
 
     getText() { return this.text.toString(); }
+    isLeaf() { return true; }
     computeChildren() { return []; }
     /* Property accounts for unicode codepoints */
     getTextLength() { return this.text.getLength(); }
