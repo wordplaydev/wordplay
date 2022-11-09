@@ -351,11 +351,10 @@
 
     }
 
+    // Always show the menu if the caret is immediately after a property reference.
     $: {
-
-        if($caret.isAccessor())
+        if($caret.isAtPropertyReference())
             showMenu();
-
     }
 
     function handleKeyDown(event: KeyboardEvent) {

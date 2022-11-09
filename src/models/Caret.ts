@@ -132,7 +132,7 @@ export default class Caret {
     isSpace(c: string) { return /[\t\n ]/.test(c); }
     isTab(c: string) { return /[\t]/.test(c); }
     isNode() { return this.position instanceof Node; }
-    isAccessor() {
+    isAtPropertyReference() {
 
         if(this.position instanceof Node) return false;
         return this.source.getCode().at(this.position - 1) === PROPERTY_SYMBOL;
