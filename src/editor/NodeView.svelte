@@ -108,8 +108,11 @@
     }
 
     /* When beginning dragged in an editor, hide the node view contents to create a sense of spatial integrity. */
-    :global(.editor .dragged .node-view) {
+    :global(.editor .dragged .token-view) {
         opacity: 0;
+    }
+    :global(.editor .dragged .highlight) {
+        opacity: .2;
     }
 
 </style>
