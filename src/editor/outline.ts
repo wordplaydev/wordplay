@@ -1,4 +1,5 @@
 type Rect = { l: number, t: number, r: number, b: number, w: number, h: number }
+export type Outline = {path: string, minx: number, miny: number, maxx: number, maxy: number };
 
 function leftmost(rects: Rect[], at?: number) {
     return Math.min.apply(undefined, rects.filter(rect => at === undefined || (rect.t < at && at < rect.b)).map(r => r.l));
@@ -89,12 +90,12 @@ export function createRectangleOutlineOf(nodeView: HTMLElement): string {
 
 }
 
-export default function createRowOutlineOf(nodeView: HTMLElement): {path: string, minx: number, miny: number, maxx: number, maxy: number } {
+function toRows(nodeView: HTMLElement): Rect[] {
 
     const rects: Rect[] = getTokenRects(nodeView);
 
     // The official way to render nothing...
-    if(rects.length === 0) return { path: "", minx: 0, miny: 0, maxx: 0, maxy: 0 };
+    if(rects.length === 0) return [];
 
     // Segment the rectangles into rows. We rely on document order to segment.
     const rows: Rect[][] = [[]];
@@ -109,7 +110,7 @@ export default function createRowOutlineOf(nodeView: HTMLElement): {path: string
     }
 
     // Create a single rectangle for each row.
-    const lines = rows.map((row) => {
+    return rows.map((row) => {
         return {
             l: leftmost(row),
             t: topmost(row),
@@ -119,6 +120,31 @@ export default function createRowOutlineOf(nodeView: HTMLElement): {path: string
             h: bottommost(row) - topmost(row)
         }
     });
+
+}
+
+export function getUnderlineOf(nodeView: HTMLElement) {
+
+    const rows = toRows(nodeView);
+
+    // Generate a path from the bottom edge of each line's rectangle.
+    // Each line starts with a move to, and then a single line to to the edge of the rectangle.
+    return {
+        path: rows.map(row => `M ${row.l} ${row.b} L ${row.r} ${row.b}`).join(" "),
+        minx: Math.min.apply(Math, rows.map(row => row.l)), 
+        miny: Math.min.apply(Math, rows.map(row => row.t)),
+        maxx: Math.max.apply(Math, rows.map(row => row.r)),
+        maxy: Math.max.apply(Math, rows.map(row => row.b))
+    }
+
+}
+
+export default function getOutlineOf(nodeView: HTMLElement): Outline {
+
+    const lines = toRows(nodeView);
+
+    if(lines.length === 0)
+        return { path: "", minx: 0, miny: 0, maxx: 0, maxy: 0 }
 
     const padding = 3;
 

@@ -1,13 +1,13 @@
 <script lang="ts">
-    import { getContext } from "svelte";
+    import { afterUpdate, getContext } from "svelte";
     import type Node from "../nodes/Node";
     import Program from "../nodes/Program";
     import Token from "../nodes/Token";
     import { CaretSymbol, DraggedSymbol, type HighlightContext, HighlightSymbol, LanguageSymbol, type CaretContext, type DraggedContext, type LanguageContext } from "./Contexts";
+    import type { HighlightType } from "./Highlights";
+    import NodeHighlight from "./NodeHighlight.svelte";
     import getNodeView from "./nodeToView";
-    import createRowOutlineOf from "./outline";
-
-    const HIGHLIGHT_PADDING = 20;
+    import getOutlineOf, { getUnderlineOf, type Outline } from "./outline";
 
     export let node: Node | undefined;
     export let block: boolean = false;
@@ -18,22 +18,29 @@
     let dragged = getContext<DraggedContext>(DraggedSymbol);
 
     $: primaryConflicts = node === undefined ? [] : $caret?.source.getPrimaryConflictsInvolvingNode(node) ?? [];
-    $: secondaryConflicts = node === undefined ? [] : $caret?.source.getSecondaryConflictsInvolvingNode(node) ?? [];
-    $: isBeingDragged = $dragged === node;
+    $: highlightTypes = (node ? $highlights?.get(node) : undefined) ?? new Set<HighlightType>($dragged === node ? [ "dragged"] : []);
 
     let element: HTMLElement | null = null;
+    let outline: Outline | undefined;
+    let underline: Outline | undefined;
+
+    // After each update, update the outlines if there's something to highlight.
+    afterUpdate(() => {
+        if(element && highlightTypes.size > 0) {
+            outline = getOutlineOf(element);
+            underline = getUnderlineOf(element);
+        }
+    });
 
     let mouseDown = false;
 
-    $: highlightTypes = (node ? $highlights?.get(node) : undefined) ?? new Set();
-    $: outline = node && element && (isBeingDragged || $highlights?.has(node)) ? createRowOutlineOf(element) : undefined;
 
 </script>
 
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     <div 
-        class="{node.constructor.name} node-view {block ? "block" : "inline"} {primaryConflicts.length > 0 ? "primary-conflict" : ""} {secondaryConflicts.length > 0 ? "secondary-conflict" : ""} {highlightTypes.size > 0 ? "highlighted" : ""} { Array.from(highlightTypes).join(" ") } { $dragged === node ? "dragged" : ""}"
+        class="{node.constructor.name} node-view {block ? "block" : "inline"} {highlightTypes.size > 0 ? "highlighted" : ""} { Array.from(highlightTypes).join(" ")}"
         data-id={node.id}
         bind:this={element}
         on:mousedown={() => mouseDown = true }
@@ -51,7 +58,7 @@
                 } 
             }
         }}
-    ><svelte:component this={getNodeView(node)} node={node} />{#if outline }<svg class={`highlight`} style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${outline.minx - HIGHLIGHT_PADDING}px; `} width={outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2} height={outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2} viewBox={`${outline.minx - HIGHLIGHT_PADDING} ${outline.miny - HIGHLIGHT_PADDING} ${outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2 - 1} ${outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2 - 1}`}><path d={outline.path}/></svg>{/if}{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation($languages[0])}</div>{/each}</div>{/if}</div>
+    ><svelte:component this={getNodeView(node)} node={node} />{#if outline && underline }<NodeHighlight {outline} {underline}/>{/if}{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation($languages[0])}</div>{/each}</div>{/if}</div>
 {/if}
 
 <style>
@@ -78,10 +85,6 @@
         cursor: pointer;
     }
 
-    .primary-conflict {
-        border-bottom: 2px solid var(--wordplay-error);
-    }
-
     .conflicts {
         position: absolute;
         top: 100%;
@@ -104,83 +107,9 @@
         opacity: 1.0;
     }
 
-    /* Position selections relative to the node view */
-    .highlight {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 0;
-        /* Pure visual indicator. No events. Otherwise it interferes with node view events. */
-        pointer-events: none;
-    }
-    
-    /* The default path is styled below by different types of highlights */
-    .highlight path {
-        fill: none;
-        stroke-width: var(--wordplay-border-width);
-        stroke-linejoin: round;
-    }
-
-    /* Lowest priority; others below override. */
-    .exception .highlight path {
-        fill: var(--wordplay-error);
-        stroke: var(--wordplay-error);
-    }
-    /* When dragged, make text contrast visible */
-    :global(.exception .token-view) { color: var(--color-white) !important; }
-
-    .hovered .highlight path {
-        fill: var(--wordplay-highlight);
-        opacity: 0.2;
-    }
-
-    .selected .highlight path {
-        stroke: var(--wordplay-highlight);
-        fill: var(--wordplay-highlight);
-    }
-
-    .dragged .highlight path {
-        fill: var(--wordplay-highlight);
-        stroke: var(--wordplay-highlight);
-    }
-    /* When dragged, make text contrast visible */
-    :global(.dragged .token-view) { color: var(--color-white) !important; }
-
-    .executing .highlight path {
-        fill: var(--wordplay-warning);
-        stroke: var(--wordplay-warning);
-    }
-    /* When dragged, make text contrast visible */
-    :global(.executing .token-view) { color: var(--color-white) !important; }
-
-    .target .highlight path {
-        stroke: var(--wordplay-highlight);
-        animation: pulse 1s infinite;
-        opacity: 1.0;
-    }
-
-    .match .highlight path {
-        stroke: var(--wordplay-highlight);
-        animation: pulse .2s infinite;
-    }
-
     /* When beginning dragged in an editor, hide the node view contents to create a sense of spatial integrity. */
     :global(.editor .dragged .node-view) {
         opacity: 0;
-    }
-
-    @keyframes pulse {
-        0% {
-            stroke-width: calc(var(--wordplay-border-width) * 4);
-        }
-
-        70% {
-            stroke-width: var(--wordplay-border-width);
-        }
-
-        100% {
-            stroke-width: calc(var(--wordplay-border-width) * 4);
-        }
     }
 
 </style>

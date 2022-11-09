@@ -16,7 +16,8 @@
     import KeyboardIdle from '../models/KeyboardIdle';
     import CaretView from './CaretView.svelte';
     import { PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
-    import { CaretSymbol, type DraggedContext, DraggedSymbol, HoveredSymbol, LanguageSymbol, type LanguageContext, type HighlightType, type Highlights, HighlightSymbol } from './Contexts';
+    import { CaretSymbol, type DraggedContext, DraggedSymbol, HoveredSymbol, LanguageSymbol, type LanguageContext, HighlightSymbol } from './Contexts';
+    import type { HighlightType, Highlights } from './Highlights'
     import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
     import Expression from '../nodes/Expression';
     import TypePlaceholder from '../nodes/TypePlaceholder';
@@ -175,16 +176,26 @@
             for(const placeholder of source.program.nodes(n => n instanceof ExpressionPlaceholder))
                 addHighlight(newHighlights, placeholder, "target");
 
+        // If the dragged node and hovered node are expressions, tag hovered node as a match a match.
         if($dragged instanceof Expression && $hovered instanceof Expression)
             addHighlight(newHighlights, $hovered, "match");
 
-        // Find all of the expression placeholders and highlight them sa drop target
+        // Find all of the type placeholders and highlight them sa drop target
         if($dragged instanceof Type)
             for(const placeholder of source.program.nodes(n => n instanceof TypePlaceholder))
                 addHighlight(newHighlights, placeholder, "target");
 
+        // If the dragged node and hovered nodes are types, tag hovered node as a match.
         if($dragged instanceof Type && $hovered instanceof Type)
             addHighlight(newHighlights, $hovered, "match");
+
+        // Tag all nodes with primary conflicts as primary
+        for(const primary of source.getPrimaryConflicts().keys())
+            addHighlight(newHighlights, primary, "primary");
+
+        // Tag all nodes with secondary conflicts as primary
+        for(const secondary of source.getPrimaryConflicts().keys())
+            addHighlight(newHighlights, secondary, "secondary");
 
         // Update the store, broadcasting the highlights to all node views for rendering.
         highlights.set(newHighlights);
@@ -534,7 +545,7 @@
     bind:this={editor}
     on:mousedown|preventDefault={() => {}}
     on:mouseup={handleClick}
-    on:mousemove={event => { hovered.set(getNodeAt(event)); console.log("Moving")} }
+    on:mousemove={event => hovered.set(getNodeAt(event)) }
     on:mouseleave={() => hovered.set(undefined)}
 >
     <!-- Render the program -->

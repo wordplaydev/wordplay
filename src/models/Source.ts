@@ -305,6 +305,9 @@ export default class Source {
 
     }
 
+    getPrimaryConflicts() { return this._primaryNodeConflicts; }
+    getSecondaryConflicts() { return this._secondaryNodeConflicts; }
+
     /** Given a node N, and the set of conflicts C in the program, determines the subset of C in which the given N is complicit. */
     getPrimaryConflictsInvolvingNode(node: Node) {
         return this._primaryNodeConflicts.get(node);

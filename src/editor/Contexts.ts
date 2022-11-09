@@ -3,6 +3,7 @@ import type Caret from "../models/Caret";
 import type Project from "../models/Project";
 import type LanguageCode from "../nodes/LanguageCode";
 import type Node from "../nodes/Node";
+import type { Highlights } from "./Highlights";
 
 export type CaretContext = Writable<Caret> | undefined;
 export const CaretSymbol = Symbol("caret");
@@ -19,7 +20,5 @@ export const LanguageSymbol = Symbol("language");
 export type ProjectContext = Writable<Project>;
 export const ProjectSymbol = Symbol("project");
 
-export type HighlightType = "selected" | "executing" | "exception" | "hovered" | "dragged" | "target" | "match"
-export type Highlights = Map<Node, Set<HighlightType>>;
 export type HighlightContext = Writable<Highlights> | undefined;
 export const HighlightSymbol = Symbol("highlight");
