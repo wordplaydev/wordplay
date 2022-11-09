@@ -22,6 +22,8 @@
     import Expression from '../nodes/Expression';
     import TypePlaceholder from '../nodes/TypePlaceholder';
     import Type from '../nodes/Type';
+    import Bind from '../nodes/Bind';
+    import Block from '../nodes/Block';
 
     export let source: Source;
 
@@ -185,7 +187,7 @@
                     addHighlight(newHighlights, placeholder, "target");
 
         // If we're hovered over a valid drop target, highlight the hovered node.
-        if($hovered && isOverValidDropTarget())
+        if($hovered && isValidDropTarget())
             addHighlight(newHighlights, $hovered, "match");
 
         // Tag all nodes with primary conflicts as primary
@@ -229,9 +231,12 @@
 
     }
 
-    function isOverValidDropTarget(): boolean {
+    function isValidDropTarget(): boolean {
 
         if($dragged instanceof Expression && $hovered instanceof Expression)
+            return true;
+
+        if($dragged instanceof Bind && $hovered?.getParent() instanceof Block)
             return true;
 
         if($dragged instanceof Type && $hovered instanceof Type)
@@ -244,7 +249,7 @@
     function handleClick(event: MouseEvent) {
 
         // Is the creator hovering over a valid drop target? If so, execute the edit.
-        if(isOverValidDropTarget())
+        if(isValidDropTarget())
             drop()
         // Otherwise, place the caret at the mouse position.
         else
