@@ -20,14 +20,15 @@
     $: textToShow = 
         isPlaceholder ? node.getParent()?.getChildPlaceholderLabel(node, $project.main.getContext())?.eng ?? PLACEHOLDER_SYMBOL : 
         node.text.getLength() === 0 ? "\u00A0" : 
-        node.text.toString().replaceAll(" ", "&nbsp;")
+        node.text.toString().replaceAll(" ", "&nbsp;");
+    $: showSpace = caret !== undefined || $dragged?.getFirstLeaf() !== node;
 
 </script>
 
 <!-- Don't render preceding space if there's no caret -->
-{#if node.newlines > 0 && (caret !== undefined || $dragged?.getFirstLeaf() !== node)}<span class="space">{@html "<br/>".repeat(node.newlines)}</span>{/if}<span 
+{#if node.newlines > 0 && showSpace}<span class="space">{@html "<br/>".repeat(node.newlines)}</span>{/if}<span 
     class="token-view token-{kind} {showBox ? "active" : ""} {isPlaceholder ? "placeholder" : ""} {$caret !== undefined ? "editable" : ""} {`token-category-${kind}`}" 
-    style="margin-left: {node.precedingSpaces}ch"
+    style={showSpace ? `margin-left: ${node.precedingSpaces}ch;` : ""}
     data-id={node.id}
 >
     <span class="text">{@html textToShow }</span>
