@@ -42,13 +42,16 @@
         on:mousemove={event => {
             // Only start dragging once the mouse moves with the primary button down after being clicked.
             // The only nodes that can be dragged are those that are 1) in a program or 2) are root nodes not in a program.
-            if(node) {
+            if(node && $dragged === undefined) {
                 const root = node?.getRoot();
                 const draggable = !(node instanceof Token) && (root === node || root instanceof Program);
-                if(draggable && event.buttons === 1 && mouseDown) { dragged.set(node); event.stopPropagation()} 
+                if(draggable && event.buttons === 1 && mouseDown) { 
+                    dragged.set(node); 
+                    event.stopPropagation();
+                } 
             }
         }}
-    ><svelte:component this={getNodeView(node)} node={node} />{#if outline }<svg class={`highlight`} style={`top: ${outline.miny}; left: ${outline.minx}; `} width={outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2} height={outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2} viewBox={`${outline.minx} ${outline.miny} ${outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2} ${outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2}`}><path d={outline.path}/></svg>{/if}{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation($languages[0])}</div>{/each}</div>{/if}</div>
+    ><svelte:component this={getNodeView(node)} node={node} />{#if outline }<svg class={`highlight`} style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${outline.minx - HIGHLIGHT_PADDING}px; `} width={outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2} height={outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2} viewBox={`${outline.minx - HIGHLIGHT_PADDING} ${outline.miny - HIGHLIGHT_PADDING} ${outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2 - 1} ${outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2 - 1}`}><path d={outline.path}/></svg>{/if}{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation($languages[0])}</div>{/each}</div>{/if}</div>
 {/if}
 
 <style>
@@ -150,9 +153,32 @@
     /* When dragged, make text contrast visible */
     :global(.executing .token-view) { color: var(--color-white) !important; }
 
+    .target .highlight path {
+        stroke: var(--wordplay-highlight);
+        animation: pulse 1s infinite;
+    }
+
+    .match .highlight path {
+        animation: pulse .2s infinite;
+    }
+
     /* When beginning dragged in an editor, hide the node view contents to create a sense of spatial integrity. */
     :global(.editor .dragged .node-view) {
         opacity: 0;
+    }
+
+    @keyframes pulse {
+        0% {
+            stroke-width: calc(var(--wordplay-border-width) * 4);
+        }
+
+        70% {
+            stroke-width: var(--wordplay-border-width);
+        }
+
+        100% {
+            stroke-width: calc(var(--wordplay-border-width) * 4);
+        }
     }
 
 </style>

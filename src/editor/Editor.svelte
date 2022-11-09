@@ -17,6 +17,8 @@
     import CaretView from './CaretView.svelte';
     import { PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
     import { CaretSymbol, type DraggedContext, DraggedSymbol, HoveredSymbol, LanguageSymbol, type LanguageContext, type HighlightType, type Highlights, HighlightSymbol } from './Contexts';
+    import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
+    import Expression from '../nodes/Expression';
 
     export let source: Source;
 
@@ -165,6 +167,14 @@
         // Is the node hovered? Highlight it?
         if($dragged instanceof Node)
             addHighlight(newHighlights, $dragged, "dragged");
+
+        // Find all of the expression placeholders and highlight them sa drop target
+        if($dragged instanceof Expression)
+            for(const placeholder of source.program.nodes(n => n instanceof ExpressionPlaceholder))
+                addHighlight(newHighlights, placeholder, "target");
+
+        if($dragged instanceof Expression && $hovered instanceof ExpressionPlaceholder)
+            addHighlight(newHighlights, $hovered, "match");
 
         // Update the store, broadcasting the highlights to all node views for rendering.
         highlights.set(newHighlights);
@@ -514,7 +524,7 @@
     bind:this={editor}
     on:mousedown|preventDefault={() => {}}
     on:mouseup={handleClick}
-    on:mousemove={event => hovered.set(getNodeAt(event)) }
+    on:mousemove={event => { hovered.set(getNodeAt(event)); console.log("Moving")} }
     on:mouseleave={() => hovered.set(undefined)}
 >
     <!-- Render the program -->

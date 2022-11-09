@@ -80,6 +80,7 @@
         cursor: none;
         z-index: 2;
         white-space: nowrap;
+        pointer-events: none;
     }
 
     /* A fancy dragon cursor for dragon drop! Get it? */
@@ -89,5 +90,6 @@
         top: -1.5rem;
         left: -1.5rem;
         font-family: "Noto Sans";
+        pointer-events: none;
     }
 </style>
