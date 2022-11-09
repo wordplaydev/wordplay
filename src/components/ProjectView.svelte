@@ -38,7 +38,7 @@
 <div 
     class="project" 
     on:mouseup={() => dragged.set(undefined)}
-    on:mousemove={event => { mouseX = event.clientX; mouseY = event.clientY; }}
+    on:mousemove={event => { mouseX = event.clientX + window.scrollX; mouseY = event.clientY + window.scrollY; }}
 >
     <Palette/>
     <div class="windows">

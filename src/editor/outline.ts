@@ -17,18 +17,32 @@ function bottommost(rects: Rect[], at?: number) {
 }
 
 function getEditorOffset(el: HTMLElement) {
+
     let currentNode: HTMLElement | null = el;
+
+    // Account for the editor's viewport
+    const editorViewport = el.closest(".source-content");
+    
     var _x = 0;
     var _y = 0;
-    while( currentNode && !isNaN( currentNode.offsetLeft ) && !isNaN( currentNode.offsetTop )) {
-        _x += currentNode.offsetLeft - currentNode.scrollLeft;
-        _y += currentNode.offsetTop - currentNode.scrollTop;
-        currentNode = currentNode.offsetParent instanceof HTMLElement ? currentNode.offsetParent : null;
-        // Stop when we reach the scroll box.
-        if(currentNode?.style.overflow === "scroll")
+    while(currentNode && !isNaN( currentNode.offsetLeft ) && !isNaN( currentNode.offsetTop )) {
+        // Stop if we reach the viewport, since outline's are rendered relative to the viewport.
+        if(currentNode === editorViewport)
             break;
-
+        _x += currentNode.offsetLeft;
+        _y += currentNode.offsetTop;
+        currentNode = currentNode.offsetParent instanceof HTMLElement ? currentNode.offsetParent : null;
     }
+
+    // Account for the viewport's scrolling.
+    if(editorViewport) {
+        _x -= editorViewport.scrollLeft;
+        _y -= editorViewport.scrollTop;
+    }
+    // Account for the document's scrolling.
+    _x -= document.documentElement.scrollLeft;
+    _y -= document.documentElement.scrollTop;
+
     return { top: _y, left: _x };
 }
 
@@ -36,17 +50,15 @@ function getTokenRects(nodeView: HTMLElement) {
 
     const rects: Rect[] = [];
 
+    // We do this instead of getBoundingClientRect() because the node view's position 
     const nodeViewportOffset = getEditorOffset(nodeView);
-    const viewport = nodeView.closest(".source-content");
-    let scrollLeft = viewport?.scrollLeft ?? 0;
-    let scrollTop = viewport?.scrollTop ?? 0;
 
     // Get the rectangles of all of the tokens's text
     const tokenViews = nodeView.querySelectorAll(".Token .text");
     for(const view of tokenViews) {
         const rect = view.getBoundingClientRect();
-        const left = rect.left - nodeViewportOffset.left + scrollLeft;
-        const top = rect.top - nodeViewportOffset.top + scrollTop;
+        const left = rect.left - nodeViewportOffset.left;
+        const top = rect.top - nodeViewportOffset.top;
         rects.push({
             l: left,
             t: top,
