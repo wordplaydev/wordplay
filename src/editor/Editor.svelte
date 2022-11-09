@@ -23,7 +23,7 @@
     import TypePlaceholder from '../nodes/TypePlaceholder';
     import Type from '../nodes/Type';
     import Bind from '../nodes/Bind';
-    import Block from '../nodes/Block';
+    import Block, { type Statement } from '../nodes/Block';
 
     export let source: Source;
 
@@ -236,8 +236,11 @@
         if($dragged instanceof Expression && $hovered instanceof Expression)
             return true;
 
-        if($dragged instanceof Bind && $hovered?.getParent() instanceof Block)
-            return true;
+        if($dragged instanceof Bind && $hovered) {
+            const hoverParent = $hovered.getParent();
+            if(hoverParent instanceof Block && hoverParent.statements.includes($hovered as Statement))
+                return true;
+        }
 
         if($dragged instanceof Type && $hovered instanceof Type)
             return true;
