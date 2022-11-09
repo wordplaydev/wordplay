@@ -297,17 +297,29 @@ export default abstract class Node {
 
     withPrecedingSpace(space: string=" ", exact: boolean=false): this {
 
+        // Get the first leaf in this node.
+        const firstLeaf = this.getFirstLeaf();
+        if(firstLeaf === undefined) return this;
+        // Clone this node, replacing the first leaf with one with space
+        else return this.clone(false, firstLeaf, firstLeaf.withPrecedingSpace(space, exact));
+
+    }
+
+    getPrecedingSpace(): string {
+
         const children = this.getChildren();
-        if(children.length === 0) return this;
-        return this.clone(false, children[0], children[0].withPrecedingSpace(space, exact));
+        if(children.length === 0) return "";
+        return children[0].getPrecedingSpace();
 
     }
 
     getFirstLeaf(): Node | undefined {
-        const children = this.getChildren();
         if(this.isLeaf()) return this;
-        else if(children.length === 0) return undefined;
-        else return children[0].getFirstLeaf();
+        for(const child of this.getChildren()) {
+            const leaf = child.getFirstLeaf();
+            if(leaf) return leaf;
+        }
+        return undefined;
     }
 
     isLeaf() { return false; }

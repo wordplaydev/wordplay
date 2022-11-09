@@ -10,7 +10,7 @@
     import type Source from '../models/Source';
     import { writable } from 'svelte/store';
     import Exception from '../runtime/Exception';
-    import type Program from '../nodes/Program';
+    import Program from '../nodes/Program';
     import Menu from './Menu.svelte';
     import Token from '../nodes/Token';
     import KeyboardIdle from '../models/KeyboardIdle';
@@ -171,22 +171,21 @@
         if($dragged instanceof Node)
             addHighlight(newHighlights, $dragged, "dragged");
 
-        // Find all of the expression placeholders and highlight them sa drop target
+        // Find all of the expression placeholders and highlight them as drop targets,
+        // unless they are dragged or contained in the dragged node
         if($dragged instanceof Expression)
             for(const placeholder of source.program.nodes(n => n instanceof ExpressionPlaceholder))
-                addHighlight(newHighlights, placeholder, "target");
-
-        // If the dragged node and hovered node are expressions, tag hovered node as a match a match.
-        if($dragged instanceof Expression && $hovered instanceof Expression)
-            addHighlight(newHighlights, $hovered, "match");
+                if(!$dragged.contains(placeholder))
+                    addHighlight(newHighlights, placeholder, "target");
 
         // Find all of the type placeholders and highlight them sa drop target
         if($dragged instanceof Type)
             for(const placeholder of source.program.nodes(n => n instanceof TypePlaceholder))
-                addHighlight(newHighlights, placeholder, "target");
+                if(!$dragged.contains(placeholder))
+                    addHighlight(newHighlights, placeholder, "target");
 
-        // If the dragged node and hovered nodes are types, tag hovered node as a match.
-        if($dragged instanceof Type && $hovered instanceof Type)
+        // If we're hovered over a valid drop target, highlight the hovered node.
+        if($hovered && isOverValidDropTarget())
             addHighlight(newHighlights, $hovered, "match");
 
         // Tag all nodes with primary conflicts as primary
@@ -230,10 +229,85 @@
 
     }
 
+    function isOverValidDropTarget(): boolean {
+
+        if($dragged instanceof Expression && $hovered instanceof Expression)
+            return true;
+
+        if($dragged instanceof Type && $hovered instanceof Type)
+            return true;
+
+        return false;
+
+    }
+
     function handleClick(event: MouseEvent) {
 
-        if($caret === undefined) return;
-        if(event.target === null) return;
+        // Is the creator hovering over a valid drop target? If so, execute the edit.
+        if(isOverValidDropTarget())
+            drop()
+        // Otherwise, place the caret at the mouse position.
+        else
+            placeCaretAtPosition(event);
+
+    }
+
+    function drop() {
+
+        if($dragged && $hovered) {
+
+            let editedProgram = source.program;
+            let draggedNode: Node = $dragged;
+            let hoveredNode: Node | undefined = $hovered;
+
+            const newSources: [Source, Source][] = [];
+
+            // If the dragged node is in a program, replace it with an expression placeholder.
+            const draggedRoot = $dragged.getRoot();
+            if(draggedRoot instanceof Program) {
+
+                // Make a placeholder to replace the hovered node.
+                const newPlaceholder = (new ExpressionPlaceholder()).withPrecedingSpace(draggedNode.getPrecedingSpace(), true);
+
+                // If it's from this program, then update this program.
+                if(draggedRoot === editedProgram) {
+                    // Remember where it is in the tree
+                    const pathToHoveredNode = hoveredNode.getPath();
+                    // Replace the dragged node with the placeholder.
+                    editedProgram = editedProgram.clone(false, draggedNode, newPlaceholder);
+                    // Update the node to replace to the cloned node.
+                    hoveredNode = editedProgram.resolvePath(pathToHoveredNode);
+                }
+                // If it's from another program, then update that program.
+                else if(draggedRoot instanceof Program) {
+                    // Find the source that contains the dragged root.
+                    const source = $project.getSourceWithProgram(draggedRoot);
+                    // If we found one, update the project with a new source with a new program that replaces the dragged node with the placeholder.
+                    if(source)
+                        newSources.push([ source, source.withProgram(draggedRoot.clone(false, draggedNode, newPlaceholder)) ]);
+                }
+            }
+
+            // Replace the hovered node with the dragged in the program, preserving preceding space.
+            if(hoveredNode) {
+                const dragClone = draggedNode.withPrecedingSpace(hoveredNode.getPrecedingSpace(), true);
+                editedProgram = editedProgram.clone(false, hoveredNode, dragClone);            
+                newSources.push([ source, source.withProgram(editedProgram) ]);
+
+                // Update the new sources in the project.
+
+                // Update this source file's caret.
+                $caret.withPosition(dragClone)
+            }
+
+            // Update the project with the new source files
+            updateProject($project.withSources(newSources));
+
+        }
+
+    }
+
+    function placeCaretAtPosition(event: MouseEvent) {
 
         // Prevent the OS from giving the document body focus.
         event.preventDefault();

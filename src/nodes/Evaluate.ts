@@ -84,7 +84,7 @@ export default class Evaluate extends Expression {
     }
 
     computeChildren() {
-        return [ ...this.typeInputs, this.func, this.open, ...this.inputs, this.close ].filter(n => n !== undefined) as Node[];
+        return [ this.func, ...this.typeInputs, this.open, ...this.inputs, this.close ].filter(n => n !== undefined) as Node[];
     }
 
     computeConflicts(context: Context): Conflict[] { 

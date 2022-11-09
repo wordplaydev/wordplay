@@ -1,5 +1,6 @@
 import Block from "../nodes/Block";
 import type Definition from "../nodes/Definition";
+import type Program from "../nodes/Program";
 import type Value from "../runtime/Value";
 import type Source from "./Source";
 
@@ -28,6 +29,7 @@ export default class Project {
     getSourcesExcept(source: Source) { return [ this.main, ...this.supplements].filter(s => s !== source); }
     getName() { return this.name; }
     getContext() { return this.main.getContext(); }
+    getSourceWithProgram(program: Program) { return this.getSources().find(source => source.program === program); }
 
     isEvaluating() {
         return this.getSources().some(source => source.evaluator.isEvaluating());
@@ -69,15 +71,29 @@ export default class Project {
     }
 
     withSource(oldSource: Source, newSource: Source) {
+        return this.withSources([[ oldSource, newSource ]]);
+        // // Note: we need to clone all of the unchanged sources in order to generate new Programs so that the views can
+        // // trigger an update. Without this, we'd have the same Source, Program, and Nodes, and the views would have no idea
+        // // that the conflicts in those same objects have changed.
+        // if(this.main === oldSource) return new Project(this.name, newSource, this.supplements.map(supplement => supplement.clone()));
+        // else if(this.supplements.includes(oldSource)) {
+        //     const index = this.supplements.indexOf(oldSource);
+        //     return new Project(this.name, this.main.clone(), [ ...this.supplements.slice(0, index).map(supplement => supplement.clone()), newSource, ...this.supplements.slice(index + 1).map(supplement => supplement.clone())]);
+        // }
+        // else return this;
+    }
+
+    withSources(replacements: [ Source, Source ][]) {
         // Note: we need to clone all of the unchanged sources in order to generate new Programs so that the views can
         // trigger an update. Without this, we'd have the same Source, Program, and Nodes, and the views would have no idea
         // that the conflicts in those same objects have changed.
-        if(this.main === oldSource) return new Project(this.name, newSource, this.supplements.map(supplement => supplement.clone()));
-        else if(this.supplements.includes(oldSource)) {
-            const index = this.supplements.indexOf(oldSource);
-            return new Project(this.name, this.main.clone(), [ ...this.supplements.slice(0, index).map(supplement => supplement.clone()), newSource, ...this.supplements.slice(index + 1).map(supplement => supplement.clone())]);
-        }
-        else return this;
+        const mainReplacement = replacements.find(replacement => replacement[0] === this.main);
+        const newMain = mainReplacement ? mainReplacement[1] : this.main.clone();
+        const newSupplements = this.supplements.map(supplement => {
+            const supplementReplacement = replacements.find(replacement => replacement[0] === supplement);
+            return supplementReplacement ? supplementReplacement[1] : supplement.clone();
+        });
+        return new Project(this.name, newMain, newSupplements);
     }
 
 }

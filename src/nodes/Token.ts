@@ -50,6 +50,7 @@ export default class Token extends Node {
     getWhitespace() { return this.space === undefined ? "" : this.space; }
     hasWhitespace() { return this.space === undefined ? false : this.space.length > 0; }
     hasNewline() { return this.newlines > 0; }
+    getPrecedingSpace(): string { return this.space; }
 
     hasPrecedingLineBreak() { return this.space === undefined ? false : this.space.includes("\n"); }
     isnt(type: TokenType) { return !this.is(type); }
