@@ -20,6 +20,8 @@ export default class Cell extends Node {
         this.value = expression;
     }
 
+    getChildNames() { return ["bar", "value"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Cell(
             this.cloneOrReplaceChild(pretty, [ Token ], "bar", this.bar, original, replacement), 
@@ -27,9 +29,7 @@ export default class Cell extends Node {
         ) as this; 
     }
 
-    computeChildren() {
-        return [ this.bar, this.value ];
-    }
+
     computeConflicts() {}
 
     getType(context: Context) {

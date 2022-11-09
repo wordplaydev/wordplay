@@ -8,7 +8,7 @@ import type { TypeSet } from "../nodes/UnionType";
 export default abstract class HOF extends Expression {
 
     computeConflicts() {}
-    computeChildren() { return []; }
+    getChildNames() { return []; }
     clone(): this { return this; }
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { context; bind; original; return current; }
 

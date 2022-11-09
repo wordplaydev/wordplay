@@ -35,20 +35,14 @@ export default class Name extends Node {
         this.lang = typeof lang === "string" ? new Language(lang) : lang;
     }
 
+    getChildNames() { return ["separator", "name", "lang"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Name(
             this.cloneOrReplaceChild(pretty, [ Token, undefined], "name", this.name, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Language, undefined], "lang", this.lang, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token, undefined], "separator", this.separator, original, replacement)
         ) as this;
-    }
-
-    computeChildren() { 
-        const children = [];
-        if(this.separator instanceof Token) children.push(this.separator);
-        if(this.name instanceof Token) children.push(this.name);
-        if(this.lang instanceof Language) children.push(this.lang);
-        return children;
     }
 
     computeConflicts(): Conflict[] {

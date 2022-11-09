@@ -47,6 +47,8 @@ export default class ConversionDefinition extends Expression {
         this.expression = expression;
     }
 
+    getChildNames() { return ["docs", "arrow", "input", "output", "expression"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ConversionDefinition(
             this.cloneOrReplaceChild(pretty, [ Docs ], "docs", this.docs, original, replacement), 
@@ -55,10 +57,6 @@ export default class ConversionDefinition extends Expression {
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "expression", this.expression, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "convert", this.arrow, original, replacement)
         ) as this; 
-    }
-
-    computeChildren() {
-        return [ this.docs, this.input, this.arrow, this.output, this.expression ];
     }
 
     convertsTypeTo(input: Type, output: Type, context: Context) {

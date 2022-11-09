@@ -33,15 +33,8 @@ export default class MapType extends NativeType {
         this.value = value;
     }
 
-    computeChildren() {
-        const children = [];
-        children.push(this.open);
-        if(this.key !== undefined) children.push(this.key);
-        children.push(this.bind);
-        if(this.value !== undefined) children.push(this.value);
-        children.push(this.close);
-        return children;
-    }
+    getChildNames() { return ["open", "bind", "close"]; }
+
     computeConflicts() {}
 
     accepts(type: Type, context: Context): boolean { 

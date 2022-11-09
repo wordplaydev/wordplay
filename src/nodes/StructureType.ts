@@ -1,4 +1,3 @@
-import Node from "./Node";
 import Type from "./Type";
 import type ConversionDefinition from "./ConversionDefinition";
 import type Context from "./Context";
@@ -21,12 +20,7 @@ export default class StructureType extends Type {
         this.structure = definition;
     }
 
-    computeChildren() {
-        if(this.structure instanceof Node)
-            return [ this.structure ];
-        else 
-            return [];
-    }
+    getChildNames() { return []; }
 
     computeConflicts() { return []; }
 

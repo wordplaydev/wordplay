@@ -45,6 +45,8 @@ export default class ListAccess extends Expression {
         this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
     }
 
+    getChildNames() { return ["list", "open", "index", "close" ]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ListAccess(
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "list", this.list, original, replacement), 
@@ -52,10 +54,6 @@ export default class ListAccess extends Expression {
             this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
         ) as this; 
-    }
-
-    computeChildren() {
-        return [ this.list, this.open, this.index, this.close ];
     }
 
     computeConflicts(context: Context): Conflict[] { 

@@ -42,7 +42,8 @@ export default class Is extends Expression {
         this.type = right;
     }
 
-    computeChildren() { return [ this.expression, this.operator, this.type ]; }
+    getChildNames() { return ["expression", "operator", "type"]; }
+
     computeType() { return new BooleanType(); }
     computeConflicts(context: Context) {
 

@@ -40,6 +40,8 @@ export default class ListLiteral extends Expression {
         this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
 
     }
+    
+    getChildNames() { return ["open", "values", "close"]; }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ListLiteral(

@@ -49,6 +49,8 @@ export default class BinaryOperation extends Expression {
         this.right = right;
     }
 
+    getChildNames() { return ["left", "operator", "right"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new BinaryOperation(
             this.cloneOrReplaceChild<Token>(pretty, [ Token ], "operator", this.operator, original, replacement).withPrecedingSpaceIfDesired(pretty), 
@@ -58,10 +60,6 @@ export default class BinaryOperation extends Expression {
     }
 
     getOperator() { return this.operator.text.toString(); }
-
-    computeChildren() {
-        return [ this.left, this.operator, this.right ];
-    }
 
     getFunction(context: Context) {
 

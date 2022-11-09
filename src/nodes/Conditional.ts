@@ -42,6 +42,8 @@ export default class Conditional extends Expression {
 
     }
 
+    getChildNames() { return ["condition", "conditional", "yes", "no"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Conditional(
             this.cloneOrReplaceChild(pretty, [ Expression ], "condition", this.condition, original, replacement), 
@@ -50,8 +52,6 @@ export default class Conditional extends Expression {
             this.cloneOrReplaceChild<Token>(pretty, [ Token ], "conditional", this.conditional, original, replacement).withPrecedingSpaceIfDesired(pretty)
         ) as this;
     }
-
-    computeChildren() { return [ this.condition, this.conditional, this.yes, this.no ]; }
 
     computeConflicts(context: Context): Conflict[] {
     

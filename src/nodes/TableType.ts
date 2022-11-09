@@ -24,6 +24,8 @@ export default class TableType extends Type {
         this.close = close ?? new Token(TABLE_CLOSE_SYMBOL, TokenType.TABLE_CLOSE);
     }
 
+    getChildNames() { return ["columns", "close"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TableType(
             this.cloneOrReplaceChild(pretty, [ Column ], "columns", this.columns, original, replacement),
@@ -31,7 +33,6 @@ export default class TableType extends Type {
         ) as this; 
     }
 
-    computeChildren() { return [ ...this.columns, this.close ]; }
     computeConflicts() {}
 
     getColumnNamed(name: string): ColumnType | undefined {

@@ -29,18 +29,13 @@ export default class TextType extends NativeType {
         this.format = format;
     }
 
+    getChildNames() { return ["text", "format"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TextType(
             this.cloneOrReplaceChild(pretty, [ Token ], "quote", this.text, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Language, undefined ], "format", this.format, original, replacement)
         ) as this; 
-    }
-
-    computeChildren() {
-        const children = [];
-        children.push(this.text);
-        if(this.format) children.push(this.format);
-        return children;
     }
 
     computeConflicts() {}

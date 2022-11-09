@@ -39,6 +39,8 @@ export default class UnaryOperation extends Expression {
         this.operand = operand;
     }
 
+    getChildNames() { return ["operator", "operand"]; }
+
     getOperator() { return this.operator.text.toString(); }
 
     getFunction(context: Context) {
@@ -48,10 +50,6 @@ export default class UnaryOperation extends Expression {
         const fun = expressionType?.getDefinitionOfName(this.getOperator(), context, this);
         return fun instanceof FunctionDefinition ? fun : undefined;
 
-    }
-
-    computeChildren() {
-        return [ this.operator, this.operand ];
     }
 
     computeConflicts(context: Context): Conflict[] { 

@@ -44,6 +44,8 @@ export default class Update extends Expression {
 
     }
 
+    getChildNames() { return ["table", "update", "row", "query"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) {
         return new Update(
             this.cloneOrReplaceChild(pretty, [ Expression ], "table", this.table, original, replacement), 
@@ -54,8 +56,6 @@ export default class Update extends Expression {
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query; }
-
-    computeChildren() { return [ this.table, this.update, this.row, this.query ]; }
 
     computeConflicts(context: Context): Conflict[] { 
         

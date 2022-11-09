@@ -38,12 +38,7 @@ export default class MeasurementType extends NativeType {
         this.op = op;
     }
 
-    computeChildren() { 
-        const children = [];
-        children.push(this.number);
-        if(this.unit instanceof Unit) children.push(this.unit);
-        return children;
-    }
+    getChildNames() { return ["number", "unit", "op"]; }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new MeasurementType(

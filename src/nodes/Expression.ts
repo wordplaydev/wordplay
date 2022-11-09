@@ -19,7 +19,6 @@ export default abstract class Expression extends Node implements Evaluable {
         super();
     }
 
-    abstract computeChildren(): Node[];
     abstract computeType(context: Context): Type;
 
     getType(context: Context) {

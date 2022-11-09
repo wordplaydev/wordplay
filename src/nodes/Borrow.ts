@@ -32,6 +32,8 @@ export default class Borrow extends Node implements Evaluable {
         this.version = version;
     }
 
+    getChildNames() { return ["borrow", "name", "version"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Borrow(
             this.cloneOrReplaceChild(pretty, [ Token ], "borrow", this.borrow, original, replacement), 
@@ -39,11 +41,7 @@ export default class Borrow extends Node implements Evaluable {
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "version", this.version, original, replacement)
         ) as this; 
     }
-
-    computeChildren() { 
-        return [ this.borrow, this.name, this.version ].filter(n => n !== undefined) as Node[];
-    }
-
+    
     computeConflicts(context: Context): Conflict[] { 
     
         const conflicts = [];

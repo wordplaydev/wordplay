@@ -20,9 +20,8 @@ export default class Column extends Node {
         this.bind = bind;
     }
 
-    computeChildren() {
-        return [ this.bar, this.bind ];
-    }
+    getChildNames() { return ["bar", "bind"]; }
+
     computeConflicts() {}
 
     hasDefault() { return this.bind instanceof Bind && this.bind.hasDefault(); }

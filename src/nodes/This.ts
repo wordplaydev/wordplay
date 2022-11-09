@@ -34,11 +34,11 @@ export default class This extends Expression {
         this.dis = dis;
     }
 
+    getChildNames() { return ["dis"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new This(this.cloneOrReplaceChild(pretty, [ Token ], "dis", this.dis, original, replacement)) as this; 
     }
-
-    computeChildren() { return [ this.dis ]; }
 
     getEnclosingStructure(): ThisStructure | undefined {
 

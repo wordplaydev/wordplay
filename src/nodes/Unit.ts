@@ -75,6 +75,8 @@ export default class Unit extends Type {
 
     }
 
+    getChildNames() { return ["numerator", "slash", "denominator"]; }
+
     static map(numerator: string[], denominator: string[]) {
 
         const exponents = new Map();
@@ -96,18 +98,6 @@ export default class Unit extends Type {
         return this.exponents.size === unit.exponents.size && Array.from(this.exponents.keys()).every(key => this.exponents.get(key) === unit.exponents.get(key))
     }
 
-    computeChildren() { 
-    
-        let children: Node[] = [];
-        if(this.numerator !== undefined)
-            children = children.concat(this.numerator);
-        if(this.slash !== undefined) children.push(this.slash);
-        if(this.denominator !== undefined)
-            children = children.concat(this.denominator);
-    
-        return children;
-    
-    }
     computeConflicts() {}
 
     accepts(unit: Unit): boolean {

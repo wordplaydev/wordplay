@@ -27,6 +27,8 @@ export default class Dimension extends Node {
 
     }
 
+    getChildNames() { return ["name", "caret", "exponent"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Dimension(
             this.cloneOrReplaceChild(pretty, [ Token ], "name", this.name, original, replacement), 
@@ -36,13 +38,6 @@ export default class Dimension extends Node {
     }
 
     getName() { return this.name.getText(); }
-
-    computeChildren() {
-        const children = [ this.name ];
-        if(this.caret) children.push(this.caret);
-        if(this.exponent) children.push(this.exponent);
-        return children;
-    }
 
     computeConflicts() {}
 

@@ -23,7 +23,7 @@ export default class Doc extends Node {
         this.lang = lang instanceof Language ? lang : lang === undefined ? undefined : new Language(lang ?? "");
     }
 
-    computeChildren() { return this.lang === undefined ? [ this.docs ] : [ this.docs, this.lang ]}
+    getChildNames() { return ["docs", "lang"]; }
 
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
     

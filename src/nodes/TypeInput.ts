@@ -22,15 +22,13 @@ export default class TypeInput extends Node {
         this.type = type;
     }
 
+    getChildNames() { return ["dot", "type"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TypeInput(
             this.cloneOrReplaceChild(pretty, [ Type, Unparsable ], "type", this.type, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token ], "dot", this.dot, original, replacement)
         ) as this; 
-    }
-
-    computeChildren() {
-        return [ this.dot, this.type ];
     }
 
     computeConflicts() {}

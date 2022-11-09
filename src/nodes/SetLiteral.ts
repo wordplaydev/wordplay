@@ -41,6 +41,8 @@ export default class SetLiteral extends Expression {
         
     }
 
+    getChildNames() { return ["open", "values", "close"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new SetLiteral(
             this.cloneOrReplaceChild<SetItem[]>(pretty, [ Expression, Unparsable ], "values", this.values, original, replacement)
@@ -50,9 +52,6 @@ export default class SetLiteral extends Expression {
         ) as this; 
     }
 
-    computeChildren() {
-        return [ this.open, ...this.values, this.close ];
-    }
     computeConflicts() {}
 
     computeType(context: Context): Type {

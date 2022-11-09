@@ -17,7 +17,7 @@ export default class Docs extends Node {
                     Object.keys(docs).map(lang => new Doc(docs[lang as LanguageCode], lang));
     }
 
-    computeChildren() { return this.docs.slice(); }
+    getChildNames() { return ["docs"]; }
 
     computeConflicts() {
 

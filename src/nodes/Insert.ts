@@ -42,6 +42,8 @@ export default class Insert extends Expression {
 
     }
     
+    getChildNames() { return ["table", "insert", "row"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Insert(
             this.cloneOrReplaceChild(pretty, [ Expression ], "table", this.table, original, replacement),
@@ -51,8 +53,6 @@ export default class Insert extends Expression {
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.row; }
-
-    computeChildren() { return [ this.table, this.insert, this.row ]; }
 
     computeConflicts(context: Context): Conflict[] { 
      

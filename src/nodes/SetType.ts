@@ -28,13 +28,8 @@ export default class SetType extends NativeType {
         this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
     }
 
-    computeChildren() {
-        const children = [];
-        children.push(this.open);
-        if(this.key) children.push(this.key);
-        children.push(this.close);
-        return children;
-    }
+    getChildNames() { return ["open", "key", "close"]; }
+
     computeConflicts() {}
 
     accepts(type: Type, context: Context): boolean { 

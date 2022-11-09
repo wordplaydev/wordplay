@@ -32,7 +32,8 @@ export default class TextLiteral extends Expression {
         this.format = format;
     }
 
-    computeChildren() { return this.format !== undefined ? [ this.text, this.format ] : [ this.text ]; }
+    getChildNames() { return ["text", "format"]; }
+
     computeConflicts() {}
 
     computeType(): Type {

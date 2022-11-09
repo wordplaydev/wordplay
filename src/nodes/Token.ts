@@ -42,9 +42,10 @@ export default class Token extends Node {
 
     }
 
+    getChildNames() { return []; }
+
     getText() { return this.text.toString(); }
     isLeaf() { return true; }
-    computeChildren() { return []; }
     /* Property accounts for unicode codepoints */
     getTextLength() { return this.text.getLength(); }
     getWhitespace() { return this.space === undefined ? "" : this.space; }

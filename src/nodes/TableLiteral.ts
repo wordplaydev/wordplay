@@ -40,7 +40,7 @@ export default class TableLiteral extends Expression {
     
     }
 
-    computeChildren() { return [ ...this.columns, this.close, ...this.rows ]; }
+    getChildNames() { return ["columns", "close", "rows"]; }
 
     computeConflicts(context: Context): Conflict[] { 
     

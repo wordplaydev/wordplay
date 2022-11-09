@@ -38,9 +38,8 @@ export default class Delete extends Expression {
 
     }
 
+    getChildNames() { return ["table", "del", "query"]; }
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query; }
-
-    computeChildren() { return [ this.table, this.del, this.query ]; }
 
     computeConflicts(context: Context): Conflict[] { 
 

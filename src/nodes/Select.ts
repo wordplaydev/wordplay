@@ -46,6 +46,8 @@ export default class Select extends Expression {
 
     }
 
+    getChildNames() { return ["table", "select", "row", "query"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Select(
             this.cloneOrReplaceChild(pretty, [ Expression ], "table", this.table, original, replacement), 
@@ -56,8 +58,6 @@ export default class Select extends Expression {
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query || child === this.row; }
-    
-    computeChildren() { return [ this.table, this.select, this.row, this.query ]; }
 
     computeConflicts(context: Context): Conflict[] { 
         

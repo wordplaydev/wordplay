@@ -78,6 +78,8 @@ export default class Bind extends Node implements Evaluable, Named {
         this.colon = colon !== undefined ? colon : value === undefined ? undefined : new BindToken(); 
         this.value = value;
     }
+    
+    getChildNames() { return ["docs", "share", "etc", "names", "dot", "type", "colon", "value"]; }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Bind(
@@ -104,19 +106,6 @@ export default class Bind extends Node implements Evaluable, Named {
 
     hasDefault() { return !this.isRequired(); }
     isRequired() { return this.value === undefined && !this.isVariableLength(); }
-
-    computeChildren() { 
-        return [
-            this.docs,
-            this.share,
-            this.etc,
-            this.names,
-            this.dot,
-            this.type,
-            this.colon,
-            this.value
-        ].filter(n => n !== undefined) as Node[];
-    }
 
     computeConflicts(context: Context): Conflict[] {
 

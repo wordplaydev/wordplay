@@ -72,6 +72,8 @@ export default class Evaluate extends Expression {
         this.close = close;
     }
 
+    getChildNames() { return ["func", "typeInputs", "open", "inputs", "close"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Evaluate(
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "func", this.func, original, replacement), 

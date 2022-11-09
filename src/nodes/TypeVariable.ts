@@ -19,6 +19,8 @@ export default class TypeVariable extends Node {
         this.names = names instanceof Names ? names : new Names(names);
     }
 
+    getChildNames() { return ["type", "names"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TypeVariable(
             this.cloneOrReplaceChild(pretty, [ Names ], "names", this.names, original, replacement), 
@@ -31,10 +33,6 @@ export default class TypeVariable extends Node {
     getTranslation(languages: LanguageCode[]) { return this.names.getTranslation(languages); }
 
     computeConflicts() {}
-
-    computeChildren() {
-        return [ this.type, this.names ];
-    }
 
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }

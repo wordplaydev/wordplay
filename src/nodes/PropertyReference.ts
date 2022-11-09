@@ -54,16 +54,14 @@ export default class PropertyReference extends Expression {
         this.name = name;
     }
 
+    getChildNames() { return ["structure", "dot", "name"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new PropertyReference(
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "subject", this.structure, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "name", this.name, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token ], "access", this.dot, original, replacement)
         ) as this;
-    }
-
-    computeChildren() {
-        return [ this.structure, this.dot, this.name ].filter(n => n !== undefined) as Node[];
     }
 
     computeConflicts(context: Context): Conflict[] {

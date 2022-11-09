@@ -33,12 +33,7 @@ export default class FunctionType extends Type {
         this.output = output;
     }
 
-    computeChildren() {
-        let children: Node[] = [ this.fun, this.open, ...this.inputs ];
-        children.push(this.close);
-        children.push(this.output);
-        return children;
-    }
+    getChildNames() { return ["fun", "open", "inputs", "close", "output"]; }
 
     accepts(type: Type, context: Context): boolean {
         if(!(type instanceof FunctionType)) return false;

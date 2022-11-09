@@ -25,16 +25,14 @@ export default class KeyValue extends Node {
         this.value = value;
     }
 
+    getChildNames() { return ["key", "bind", "value"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new KeyValue(
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "key", this.key, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "value", this.value, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token ], "bind", this.bind, original, replacement)
         ) as this; 
-    }
-
-    computeChildren() {
-        return [ this.key, this.bind, this.value ];
     }
 
     computeConflicts() {}

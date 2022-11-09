@@ -48,6 +48,8 @@ export default class SetOrMapAccess extends Expression {
         this.close = close ?? new SetCloseToken();
     }
 
+    getChildNames() { return ["setOrMap", "open", "key", "close"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new SetOrMapAccess(
             this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "setOrMap", this.setOrMap, original, replacement), 
@@ -55,10 +57,6 @@ export default class SetOrMapAccess extends Expression {
             this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
         ) as this; 
-    }
-
-    computeChildren() {
-        return [ this.setOrMap, this.open, this.key, this.close ];
     }
 
     computeConflicts(context: Context): Conflict[] { 

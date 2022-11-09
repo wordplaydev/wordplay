@@ -26,13 +26,14 @@ export default class NoneLiteral extends Expression {
         this.none = none ?? new Token(NONE_SYMBOL, TokenType.NONE);
     }
 
+    getChildNames() { return ["none"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new NoneLiteral(
             this.cloneOrReplaceChild(pretty, [ Token ], "none", this.none, original, replacement)
         ) as this; 
     }
 
-    computeChildren() { return [ this.none ]; }
     computeConflicts() {}
 
     computeType(): Type {

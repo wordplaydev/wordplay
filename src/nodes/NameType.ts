@@ -27,9 +27,9 @@ export default class NameType extends Type {
         this.type = typeof type === "string" ? new NameToken(type) : type;
     }
 
-    getName() { return this.type.text.toString() }
+    getChildNames() { return ["type"]; }
 
-    computeChildren() { return [ this.type ]; }
+    getName() { return this.type.text.toString() }
 
     computeConflicts(context: Context): Conflict[] { 
         

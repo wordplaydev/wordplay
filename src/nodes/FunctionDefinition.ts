@@ -72,6 +72,8 @@ export default class FunctionDefinition extends Expression {
         this.expression = expression;
     }
 
+    getChildNames() { return ["docs", "fun", "names", "typeVars", "open", "inputs", "close", "dot", "type", "expression"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new FunctionDefinition(
             this.cloneOrReplaceChild(pretty, [ Docs ], "docs", this.docs, original, replacement), 
@@ -114,21 +116,6 @@ export default class FunctionDefinition extends Expression {
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression || child === this.type || this.inputs.includes(child as Bind | Unparsable); }
-
-    computeChildren() {
-        let children: Node[] = [];
-        children = children.concat(this.docs);
-        children.push(this.fun);
-        children = children.concat(this.names);
-        if(this.typeVars) children = children.concat(this.typeVars);
-        children.push(this.open);
-        children = children.concat(this.inputs);
-        children.push(this.close);
-        if(this.dot) children.push(this.dot);
-        if(this.type) children.push(this.type);
-        children.push(this.expression);
-        return children;
-    }
 
     computeConflicts(): Conflict[] { 
 

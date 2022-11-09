@@ -47,6 +47,8 @@ export default class Reaction extends Expression {
 
     }
 
+    getChildNames() { return ["initial", "delta", "stream", "next"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Reaction(
             this.cloneOrReplaceChild(pretty, [ Expression ], "initial", this.initial, original, replacement), 
@@ -54,10 +56,6 @@ export default class Reaction extends Expression {
             this.cloneOrReplaceChild<Expression|Unparsable>(pretty, [ Expression, Unparsable ], "next", this.next, original, replacement).withPrecedingSpaceIfDesired(pretty),
             this.cloneOrReplaceChild<Token>(pretty, [ Token ], "delta", this.delta, original, replacement).withPrecedingSpaceIfDesired(pretty)
         ) as this; 
-    }
-
-    computeChildren() {
-        return [ this.initial, this.delta, this.stream, this.next ];
     }
 
     computeConflicts(context: Context): Conflict[] { 

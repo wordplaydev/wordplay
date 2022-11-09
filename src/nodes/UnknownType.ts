@@ -13,8 +13,9 @@ export default class UnknownType extends Type {
         this.node = node;
 
     }
+    
+    getChildNames() { return []; }
 
-    computeChildren(): Node[] { return []; }
     computeConflicts() {}
     accepts() { return false; }
     getNativeTypeName(): string { return "unknown"; }

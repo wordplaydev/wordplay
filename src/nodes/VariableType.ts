@@ -13,7 +13,8 @@ export default class VariableType extends Type {
         this.definition = definition;
     }
 
-    computeChildren() { return []; }
+    getChildNames() { return []; }
+
     computeConflicts() {}
 
     /** All types are concrete unless noted otherwise. */

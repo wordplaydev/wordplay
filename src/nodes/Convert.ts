@@ -44,6 +44,8 @@ export default class Convert extends Expression {
         this.type = type;
     }
 
+    getChildNames() { return ["expression", "convert", "type"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Convert(
             this.cloneOrReplaceChild(pretty, [ Expression ], "expression", this.expression, original, replacement), 
@@ -51,8 +53,6 @@ export default class Convert extends Expression {
             this.cloneOrReplaceChild(pretty, [ Token ], "convert", this.convert, original, replacement)
         ) as this; 
     }
-
-    computeChildren() { return [ this.expression, this.convert, this.type ]; }
 
     getConversionSequence(context: Context): ConversionDefinition[] | undefined {
 

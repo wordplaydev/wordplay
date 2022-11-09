@@ -41,6 +41,8 @@ export default class Template extends Expression {
         this.format = format;
     }
 
+    getChildNames() { return ["open", "expressions", "format"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Template(
             this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement),
@@ -48,8 +50,6 @@ export default class Template extends Expression {
             this.cloneOrReplaceChild(pretty, [ Language, undefined ], "format", this.format, original, replacement)
         ) as this; 
     }
-
-    computeChildren() { return [ this.open, ...this.expressions, this.format ].filter(n => n !== undefined) as Node[]; }
 
     computeConflicts() { return []; }
 

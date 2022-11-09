@@ -80,13 +80,11 @@ export default class Block extends Expression {
         ) as this; 
     }
 
+    getChildNames() { return ["docs", "open", "statements", "close"]; }
+
     getLast() { return this.statements.length === 0 ? undefined : this.statements[this.statements.length - 1]; }
 
     isBindingEnclosureOfChild(): boolean { return true; }
-
-    computeChildren() {
-        return [ this.docs, ...(this.open ? [ this.open ] : []), ...this.statements, ...(this.close ? [ this.close ] : [])];
-    }
 
     computeConflicts(): Conflict[] {
 

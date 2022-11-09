@@ -34,7 +34,7 @@ export default class ExpressionPlaceholder extends Expression {
         this.placeholder = etc ?? new PlaceholderToken();
     }
 
-    computeChildren() { return [ this.placeholder ]; }
+    getChildNames() { return ["placeholder"]; }
 
     computeConflicts(): Conflict[] { 
         return [ new Placeholder(this) ];

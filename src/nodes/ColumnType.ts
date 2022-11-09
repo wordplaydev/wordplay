@@ -23,6 +23,8 @@ export default class ColumnType extends Type {
         this.bind = bind;
     }
 
+    getChildNames() { return ["bar", "bind"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ColumnType(
             this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "bind", this.bind, original, replacement),
@@ -31,7 +33,7 @@ export default class ColumnType extends Type {
     }
 
     hasDefault() { return this.bind instanceof Bind && this.bind.hasDefault(); }
-    computeChildren() { return [ this.bar, this.bind ]; }
+
     computeConflicts() {}
 
     accepts(type: Type, context: Context): boolean {

@@ -27,7 +27,7 @@ export default class BooleanLiteral extends Expression {
     }
 
     computeConflicts() {}
-    computeChildren() { return [ this.value ]; }
+    getChildNames() { return ["value"]; }
 
     computeType(): Type {
         return new BooleanType();

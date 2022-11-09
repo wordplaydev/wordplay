@@ -26,8 +26,7 @@ export default class ConversionType extends Type {
         this.output = output;
 
     }
-
-    computeChildren() { return [ this.input, this.convert, this.output ]; }
+    getChildNames() { return ["input", "convert", "output"]; }
     computeConflicts() {}
 
     accepts(type: Type, context: Context): boolean {

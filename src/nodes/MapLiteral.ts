@@ -49,6 +49,8 @@ export default class MapLiteral extends Expression {
         
     }
 
+    getChildNames() { return ["open", "values", "close", "bind"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new MapLiteral(
             this.cloneOrReplaceChild<MapItem[]>(pretty, [ Unparsable, KeyValue ], "values", this.values, original, replacement)
@@ -60,10 +62,6 @@ export default class MapLiteral extends Expression {
     }
 
     notAMap() { return this.values.find(v => v instanceof Expression) !== undefined; }
-
-    computeChildren() {
-        return [ this.open, ...this.values, this.close, ... (this.bind ? [ this.bind ] : []) ];
-    }
 
     computeConflicts(): Conflict[] { 
     

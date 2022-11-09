@@ -28,15 +28,9 @@ export default class ListType extends NativeType {
         this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
     }
 
-    computeConflicts() {}
+    getChildNames() { return ["open", "type", "close"]; }
 
-    computeChildren() { 
-        const children = [];
-        children.push(this.open);
-        if(this.type !== undefined) children.push(this.type);
-        children.push(this.close);
-        return children;
-    }
+    computeConflicts() {}
 
     accepts(type: Type, context: Context): boolean {
         return type instanceof ListType && 

@@ -50,6 +50,8 @@ export default class Reference extends Expression {
 
     }
 
+    getChildNames() { return ["name"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Reference(
             this.cloneOrReplaceChild(pretty, [ Token ], "name", this.name, original, replacement)
@@ -57,7 +59,6 @@ export default class Reference extends Expression {
     }
 
     getName() { return this.name.getText(); }
-    computeChildren() { return [ this.name ]; }
 
     computeConflicts(context: Context): Conflict[] { 
 

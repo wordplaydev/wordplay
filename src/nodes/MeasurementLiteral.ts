@@ -36,6 +36,8 @@ export default class MeasurementLiteral extends Expression {
         this.unit = unit === undefined ? new Unit() : unit.withPrecedingSpace("", true);
     }
 
+    getChildNames() { return ["number", "unit"]; }
+    
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new MeasurementLiteral(
             this.cloneOrReplaceChild(pretty, [ Token ], "number", this.number, original, replacement), 
@@ -44,8 +46,6 @@ export default class MeasurementLiteral extends Expression {
     }
 
     isInteger() { return !isNaN(parseInt(this.number.text.toString())); }
-
-    computeChildren() { return this.unit === undefined ? [ this.number ] : [ this.number, this.unit ]; }
 
     computeConflicts(): Conflict[] { 
     

@@ -21,10 +21,11 @@ export default class Row extends Node {
         
     }
 
+    getChildNames() { return ["cells", "close"]; }
+
     allBinds() { return this.cells.every(cell => cell.value instanceof Bind ); }
     allExpressions() { return this.cells.every(cell => cell.value instanceof Expression ); }
 
-    computeChildren() { return [ ...this.cells, this.close ]; }
     computeConflicts() {}
 
     /**

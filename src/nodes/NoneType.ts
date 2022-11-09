@@ -18,11 +18,8 @@ export default class NoneType extends NativeType {
         this.none = none ?? new Token(NONE_SYMBOL, TokenType.NONE_TYPE);
     }
 
+    getChildNames() { return ["none"]; }
     computeConflicts() {}
-
-    computeChildren() {
-        return [ this.none ];
-    }
 
     accepts(type: Type): boolean { 
         return type instanceof NoneType;

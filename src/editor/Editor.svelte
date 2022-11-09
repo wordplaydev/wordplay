@@ -262,19 +262,26 @@
 
             const newSources: [Source, Source][] = [];
 
-            // If the dragged node is in a program, replace it with an expression placeholder.
-            const draggedRoot = $dragged.getRoot();
+            // If the dragged node is in a program, remove it if in a list or replace it with an expression placeholder if not.
+            // If it's not in a program, it's probably coming from a palette or the visual clipboard.
+            const draggedRoot = draggedNode.getRoot();
             if(draggedRoot instanceof Program) {
 
-                // Make a placeholder to replace the hovered node.
-                const newPlaceholder = (new ExpressionPlaceholder()).withPrecedingSpace(draggedNode.getPrecedingSpace(), true);
+                // Figure out what to replace the dragged node with. By default, we remove it.
+                let replacement = undefined;
+
+                // If the node isn't in a list, then we replace it with an expression placeholder, to preserve syntax.
+                if(!draggedNode.inList()) {
+                    // Make a placeholder to replace the hovered node.
+                    replacement = (new ExpressionPlaceholder()).withPrecedingSpace(draggedNode.getPrecedingSpace(), true);
+                }
 
                 // If it's from this program, then update this program.
                 if(draggedRoot === editedProgram) {
                     // Remember where it is in the tree
                     const pathToHoveredNode = hoveredNode.getPath();
                     // Replace the dragged node with the placeholder.
-                    editedProgram = editedProgram.clone(false, draggedNode, newPlaceholder);
+                    editedProgram = editedProgram.clone(false, draggedNode, replacement);
                     // Update the node to replace to the cloned node.
                     hoveredNode = editedProgram.resolvePath(pathToHoveredNode);
                 }
@@ -284,8 +291,9 @@
                     const source = $project.getSourceWithProgram(draggedRoot);
                     // If we found one, update the project with a new source with a new program that replaces the dragged node with the placeholder.
                     if(source)
-                        newSources.push([ source, source.withProgram(draggedRoot.clone(false, draggedNode, newPlaceholder)) ]);
+                        newSources.push([ source, source.withProgram(draggedRoot.clone(false, draggedNode, replacement)) ]);
                 }
+
             }
 
             // Replace the hovered node with the dragged in the program, preserving preceding space.

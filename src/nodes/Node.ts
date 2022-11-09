@@ -27,6 +27,12 @@ export default abstract class Node {
         this.id = NODE_ID_COUNTER++;
     }
 
+    /**
+     * A list of names that determine this node's children. Can't extract these through reflection, so they must be manually supplied 
+     * This is used to get lists of child nodes and to reflect on the role of a child in a parent's structure.
+     * */
+    abstract getChildNames(): string[];
+
     /* A recursive function that computes parents. Called by the root. Assumes the tree is immutable. */
     cacheParents() {
         for(const child of this.getChildren()) {
@@ -42,8 +48,22 @@ export default abstract class Node {
         return this._children;
     }
 
-    /** Construct a list of nodes in the sequence they are parsed, used for traversal. */
-    abstract computeChildren(): Node[];
+    /** Use the subclass's child name list to construct a flat list of nodes. We use this list for tree traversal. */
+    computeChildren(): Node[] {
+        const children: Node[] = [];
+        for(const name of this.getChildNames()) {
+            const field = (this as any)[name] as (Node | Node[] | undefined);
+            if(Array.isArray(field)) {
+                for(const item of field) {
+                    if(item instanceof Node)
+                        children.push(item);
+                }
+            }
+            else if(field instanceof Node)
+                children.push(field);
+        }
+        return children;
+    }
 
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
     abstract computeConflicts(context: Context): Conflict[] | void;
@@ -323,6 +343,20 @@ export default abstract class Node {
     }
 
     isLeaf() { return false; }
+
+    /** A node is in a list if it's parent says so. */
+    inList() {
+        const parent = this.getParent();
+        if(parent) {
+            for(const name of parent.getChildNames()) {
+                const field = (parent as any)[name] as (Node | Node[]);
+                if(Array.isArray(field) && field.includes(this))
+                    return true;
+            }
+            return false;
+        }
+        return false;
+    }
 
     getFirstPlaceholder(): Node | undefined {
         for(const child of this.getChildren()) {

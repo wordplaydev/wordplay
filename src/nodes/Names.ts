@@ -18,14 +18,14 @@ export default class Names extends Node {
                     Object.keys(names).map(lang => new Name(names[lang as LanguageCode], lang));
     }
 
+    getChildNames() { return ["names"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Names(
             this.cloneOrReplaceChild<Name[]>(pretty, [ Name ], "names", this.names, original, replacement)
                 .map((alias: Name, index: number) => alias.withPrecedingSpaceIfDesired(pretty && index === 0)), 
         ) as this; 
     }
-
-    computeChildren() { return this.names.slice(); }
 
     computeConflicts() {
 

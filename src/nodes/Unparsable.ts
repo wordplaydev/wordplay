@@ -31,6 +31,8 @@ export default class Unparsable extends Node implements Evaluable {
         this.unparsableTokens = unparsableTokens.slice();
     }
 
+    getChildNames() { return ["parsedNodes", "unparsableTokens"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Unparsable(
             this.reason, 
@@ -39,7 +41,7 @@ export default class Unparsable extends Node implements Evaluable {
         ) as this; 
     }
 
-    computeChildren() { return [...this.parsedNodes, ...this.unparsableTokens ] }
+
     computeConflicts() {}
     getType() { return new UnknownType(this); }
     getTypeUnlessCycle() { return new UnknownType(this); }

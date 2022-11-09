@@ -25,9 +25,8 @@ export default class StreamType extends Type {
         this.type = type;
     }
 
-    computeChildren() {
-        return [ this.stream, this.type ];
-    }
+    getChildNames() { return ["stream", "type"]; }
+
     computeConflicts() {}
 
     accepts(type: Type, context: Context): boolean {

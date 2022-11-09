@@ -75,6 +75,8 @@ export default class StructureDefinition extends Expression {
         this.block = block;
     }
 
+    getChildNames() { return ["docs", "type", "names", "interfaces", "typeVars", "open", "inputs", "close", "block"]; }
+
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) {
         return new StructureDefinition(
             this.cloneOrReplaceChild(pretty, [ Docs ], "docs", this.docs, original, replacement),
@@ -114,15 +116,6 @@ export default class StructureDefinition extends Expression {
             undefined
         ).filter(s => s !== undefined && (implemented === undefined || (implemented === true && !s.isAbstract()) || (implemented === false && s.isAbstract()))) as FunctionDefinition[];
 
-    }
-
-    computeChildren() {
-        let children: Node[] = [ this.docs, this.type, this.names, ...this.interfaces, ...this.typeVars ];
-        if(this.open) children.push(this.open);
-        children = children.concat(this.inputs);
-        if(this.close) children.push(this.close);
-        if(this.block) children.push(this.block);
-        return children;
     }
 
     computeConflicts(context: Context): Conflict[] { 
