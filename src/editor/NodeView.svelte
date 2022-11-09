@@ -156,9 +156,11 @@
     .target .highlight path {
         stroke: var(--wordplay-highlight);
         animation: pulse 1s infinite;
+        opacity: 1.0;
     }
 
     .match .highlight path {
+        stroke: var(--wordplay-highlight);
         animation: pulse .2s infinite;
     }
 

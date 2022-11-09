@@ -19,6 +19,8 @@
     import { CaretSymbol, type DraggedContext, DraggedSymbol, HoveredSymbol, LanguageSymbol, type LanguageContext, type HighlightType, type Highlights, HighlightSymbol } from './Contexts';
     import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
     import Expression from '../nodes/Expression';
+    import TypePlaceholder from '../nodes/TypePlaceholder';
+    import Type from '../nodes/Type';
 
     export let source: Source;
 
@@ -173,7 +175,15 @@
             for(const placeholder of source.program.nodes(n => n instanceof ExpressionPlaceholder))
                 addHighlight(newHighlights, placeholder, "target");
 
-        if($dragged instanceof Expression && $hovered instanceof ExpressionPlaceholder)
+        if($dragged instanceof Expression && $hovered instanceof Expression)
+            addHighlight(newHighlights, $hovered, "match");
+
+        // Find all of the expression placeholders and highlight them sa drop target
+        if($dragged instanceof Type)
+            for(const placeholder of source.program.nodes(n => n instanceof TypePlaceholder))
+                addHighlight(newHighlights, placeholder, "target");
+
+        if($dragged instanceof Type && $hovered instanceof Type)
             addHighlight(newHighlights, $hovered, "match");
 
         // Update the store, broadcasting the highlights to all node views for rendering.
