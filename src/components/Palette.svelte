@@ -2,12 +2,13 @@
     import { getContext } from "svelte";
     import { DraggedSymbol, type DraggedContext } from "../editor/Contexts";
     import NodeView from "../editor/NodeView.svelte";
-    import { parseExpression, parseType, tokens } from "../parser/Parser";
+    import { parseBind, parseExpression, parseType, tokens } from "../parser/Parser";
     import { project, updateProject } from "../models/stores";
     import Program from "../nodes/Program";
     import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
+    import type { Statement } from "../nodes/Block";
 
-    const expressions = [
+    const expressions: Statement[] = [
         "_[ _ ]",
         "_{ _ }",
         "_._",
@@ -18,6 +19,7 @@
         "ƒ _() _",
         "_ → _"
     ].map(code => parseExpression(tokens(code)));
+    expressions.push(parseBind(tokens("_: _") ));
     expressions.forEach(node => node.cacheParents());
 
     const types = [
