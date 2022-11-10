@@ -1,6 +1,11 @@
 <script lang="ts">
+    import { getContext } from "svelte";
+    import { DraggedSymbol, type DraggedContext } from "../editor/Contexts";
     import NodeView from "../editor/NodeView.svelte";
     import { parseExpression, parseType, tokens } from "../parser/Parser";
+    import { project, updateProject } from "../models/stores";
+    import Program from "../nodes/Program";
+    import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
 
     const expressions = [
         "_[ _ ]",
@@ -27,9 +32,32 @@
     ].map(code => parseType(tokens(code)));
     types.forEach(node => node.cacheParents());
 
+    let dragged = getContext<DraggedContext>(DraggedSymbol);
+
+    function handleDrop() {
+
+        if($dragged === undefined) return;
+
+        const program = $dragged.getRoot();
+        if(!(program instanceof Program)) return;
+
+        // Find the source that contains the dragged root.
+        const source = $project.getSourceWithProgram(program);
+        if(source === undefined) return;
+
+        // Figure out what to replace the dragged node with. By default, we remove it.
+        let replacement = $dragged.inList() ? 
+            undefined :
+            (new ExpressionPlaceholder()).withPrecedingSpace($dragged.getPrecedingSpace(), true);
+
+        // Update the project with the new source files
+        updateProject($project.withSource(source, source.withProgram(program.clone(false, $dragged, replacement))));
+
+    }
+
 </script>
 
-<section>
+<section on:mouseup={handleDrop}>
     <h2>Palette</h2>
 
     <h3>Expressions</h3>

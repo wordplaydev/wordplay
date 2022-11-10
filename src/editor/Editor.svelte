@@ -249,11 +249,11 @@
 
     }
 
-    function handleClick(event: MouseEvent) {
+    function handleMouseUp(event: MouseEvent) {
 
         // Is the creator hovering over a valid drop target? If so, execute the edit.
         if(isValidDropTarget())
-            drop()
+            drop();
         // Otherwise, place the caret at the mouse position.
         else
             placeCaretAtPosition(event);
@@ -633,7 +633,7 @@
 <div class="editor"
     bind:this={editor}
     on:mousedown|preventDefault={() => {}}
-    on:mouseup={handleClick}
+    on:mouseup={handleMouseUp}
     on:mousemove={event => hovered.set(getNodeAt(event)) }
     on:mouseleave={() => hovered.set(undefined)}
 >
