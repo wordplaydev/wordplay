@@ -34,7 +34,11 @@ export default class This extends Expression {
         this.dis = dis;
     }
 
-    getChildNames() { return ["dis"]; }
+    getGrammar() { 
+        return [
+            { name: "dis", types:[ Token ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new This(this.cloneOrReplaceChild(pretty, [ Token ], "dis", this.dis, original, replacement)) as this; 

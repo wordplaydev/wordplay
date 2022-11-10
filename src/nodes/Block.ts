@@ -42,10 +42,11 @@ export type Statement = Expression | Unparsable | Bind;
 
 export default class Block extends Expression {
 
+    readonly docs: Docs;
     readonly open?: Token | Unparsable;
     readonly statements: Statement[];
     readonly close?: Token | Unparsable;
-    readonly docs: Docs;
+
     readonly root: boolean;
     readonly creator: boolean;
 
@@ -59,6 +60,15 @@ export default class Block extends Expression {
         this.docs = docs instanceof Docs ? docs : new Docs(docs);
         this.root = root;
         this.creator = creator;
+    }
+
+    getGrammar() { 
+        return [
+            { name: "docs", types:[ Docs ] },
+            { name: "open", types:[ Token, Unparsable, undefined ] },
+            { name: "statements", types:[[ Expression, Unparsable, Bind ]] },
+            { name: "close", types:[ Token, undefined ] },
+        ];
     }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
@@ -79,8 +89,6 @@ export default class Block extends Expression {
             this.cloneOrReplaceChild(pretty, [ Docs ], "docs", this.docs, original, replacement),
         ) as this; 
     }
-
-    getChildNames() { return ["docs", "open", "statements", "close"]; }
 
     getLast() { return this.statements.length === 0 ? undefined : this.statements[this.statements.length - 1]; }
 

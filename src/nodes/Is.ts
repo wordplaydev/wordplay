@@ -30,8 +30,8 @@ import { TRANSLATE } from "./Translations"
 
 export default class Is extends Expression {
 
-    readonly operator: Token;
     readonly expression: Expression | Unparsable;
+    readonly operator: Token;
     readonly type: Type | Unparsable;
 
     constructor(left: Expression | Unparsable, operator: Token, right: Type | Unparsable, ) {
@@ -42,7 +42,13 @@ export default class Is extends Expression {
         this.type = right;
     }
 
-    getChildNames() { return ["expression", "operator", "type"]; }
+    getGrammar() { 
+        return [
+            { name: "expression", types:[ Expression, Unparsable ] },
+            { name: "operator", types:[ Token ] },
+            { name: "type", types:[ Type, Unparsable ] },
+        ]; 
+    }
 
     computeType() { return new BooleanType(); }
     computeConflicts(context: Context) {

@@ -22,7 +22,7 @@ export default class FunctionType extends Type {
     readonly inputs: (Bind|Unparsable)[];
     readonly close: Token;
     readonly output: Type | Unparsable;
-    
+
     constructor(inputs: (Bind|Unparsable)[], output: Type | Unparsable, fun?: Token, open?: Token, close?: Token) {
         super();
 
@@ -32,8 +32,16 @@ export default class FunctionType extends Type {
         this.close = close ?? new EvalCloseToken();;
         this.output = output;
     }
-
-    getChildNames() { return ["fun", "open", "inputs", "close", "output"]; }
+    
+    getGrammar() { 
+        return [
+            { name: "fun", types:[ Token ] },
+            { name: "open", types:[ Token ] },
+            { name: "inputs", types:[[ Bind, Unparsable ]] },
+            { name: "close", types:[ Token] },
+            { name: "output", types:[ Type, Unparsable ] },
+        ]; 
+    }
 
     accepts(type: Type, context: Context): boolean {
         if(!(type instanceof FunctionType)) return false;

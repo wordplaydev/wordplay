@@ -41,8 +41,8 @@ import Names from "./Names";
 
 export default class StructureDefinition extends Expression {
 
-    readonly type: Token;
     readonly docs: Docs;
+    readonly type: Token;
     readonly names: Names;
     readonly interfaces: TypeInput[];
     readonly typeVars: (TypeVariable|Unparsable)[];
@@ -75,7 +75,19 @@ export default class StructureDefinition extends Expression {
         this.block = block;
     }
 
-    getChildNames() { return ["docs", "type", "names", "interfaces", "typeVars", "open", "inputs", "close", "block"]; }
+    getGrammar() { 
+        return [
+            { name: "docs", types:[ Docs ] },
+            { name: "type", types:[ Token ] },
+            { name: "names", types:[ Names ] },
+            { name: "interfaces", types:[[ TypeInput ] ] },
+            { name: "typeVars", types:[[ TypeVariable, Unparsable ]] },
+            { name: "open", types:[ Token, undefined ] },
+            { name: "inputs", types:[[ Bind, Unparsable ]] },
+            { name: "close", types:[ Token, undefined ] },
+            { name: "block", types:[ Block, Unparsable, undefined ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) {
         return new StructureDefinition(

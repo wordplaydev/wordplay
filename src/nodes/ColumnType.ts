@@ -23,7 +23,12 @@ export default class ColumnType extends Type {
         this.bind = bind;
     }
 
-    getChildNames() { return ["bar", "bind"]; }
+    getGrammar() { 
+        return [
+            { name: "bar", types:[ Token ] },
+            { name: "bind", types:[ Bind, Unparsable ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ColumnType(

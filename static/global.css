@@ -55,7 +55,7 @@
 
 @keyframes pulse {
     0% {
-        stroke-width: calc(var(--wordplay-border-width) * 4);
+        stroke-width: calc(var(--wordplay-border-width) * 2);
     }
 
     70% {
@@ -63,7 +63,7 @@
     }
 
     100% {
-        stroke-width: calc(var(--wordplay-border-width) * 4);
+        stroke-width: calc(var(--wordplay-border-width) * 2);
     }
 }
 

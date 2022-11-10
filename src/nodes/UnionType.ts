@@ -30,7 +30,13 @@ export default class UnionType extends Type {
         this.right = right;
     }
 
-    getChildNames() { return ["left", "or", "right"]; }
+    getGrammar() { 
+        return [
+            { name: "left", types:[ Type ] },
+            { name: "or", types:[ Token ] },
+            { name: "right", types:[ Type, Unparsable ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new UnionType(

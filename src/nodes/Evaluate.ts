@@ -72,7 +72,15 @@ export default class Evaluate extends Expression {
         this.close = close;
     }
 
-    getChildNames() { return ["func", "typeInputs", "open", "inputs", "close"]; }
+    getGrammar() { 
+        return [
+            { name: "func", types:[ Expression, Unparsable ] },
+            { name: "typeInputs", types:[[ TypeInput ]] },
+            { name: "open", types:[ Token ] },
+            { name: "inputs", types:[[ Unparsable, Bind, Expression ]] },
+            { name: "close", types:[ Token, undefined ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Evaluate(

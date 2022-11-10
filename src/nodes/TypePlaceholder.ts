@@ -17,7 +17,11 @@ export default class TypePlaceholder extends Type {
         this.placeholder = etc ?? new PlaceholderToken();
     }
 
-    getChildNames() { return ["placeholder"]; }
+    getGrammar() { 
+        return [
+            { name: "placeholder", types:[ Token ] },
+        ]; 
+    }
 
     computeConflicts(): Conflict[] { return [ new Placeholder(this) ]; }
 

@@ -23,8 +23,8 @@ export const NameLabels: Translations = {
 
 export default class Name extends Node {
 
-    readonly separator?: Token;
     readonly name?: Token;
+    readonly separator?: Token;
     readonly lang?: Language;
 
     constructor(name?: Token | string, lang?: Language | string, separator?: Token) {
@@ -35,7 +35,13 @@ export default class Name extends Node {
         this.lang = typeof lang === "string" ? new Language(lang) : lang;
     }
 
-    getChildNames() { return ["separator", "name", "lang"]; }
+    getGrammar() { 
+        return [
+            { name: "separator", types:[ Token, undefined ] },
+            { name: "name", types:[ Token, undefined ] },
+            { name: "lang", types:[ Token, undefined ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Name(

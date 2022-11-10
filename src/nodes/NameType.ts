@@ -27,7 +27,11 @@ export default class NameType extends Type {
         this.type = typeof type === "string" ? new NameToken(type) : type;
     }
 
-    getChildNames() { return ["type"]; }
+    getGrammar() { 
+        return [
+            { name: "type", types:[ Token ] },
+        ];
+    }
 
     getName() { return this.type.text.toString() }
 

@@ -24,7 +24,12 @@ export default class Language extends Node {
         this.lang = typeof lang === "string" ? new NameToken(lang) : lang;
     }
 
-    getChildNames() { return ["slash", "lang"]; }
+    getGrammar() { 
+        return [
+            { name: "slash", types:[ Token, undefined ] },
+            { name: "lang", types:[ Token, undefined ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Language(

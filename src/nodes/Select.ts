@@ -46,7 +46,14 @@ export default class Select extends Expression {
 
     }
 
-    getChildNames() { return ["table", "select", "row", "query"]; }
+    getGrammar() { 
+        return [
+            { name: "table", types:[ Expression ] },
+            { name: "select", types:[ Token] },
+            { name: "row", types:[ Row ] },
+            { name: "query", types:[ Expression, Unparsable ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Select(

@@ -42,7 +42,14 @@ export default class Conditional extends Expression {
 
     }
 
-    getChildNames() { return ["condition", "conditional", "yes", "no"]; }
+    getGrammar() { 
+        return [
+            { name: "condition", types:[ Expression ] },
+            { name: "conditional", types:[ Token ] },
+            { name: "yes", types:[ Expression, Unparsable ] },
+            { name: "no", types:[ Expression, Unparsable ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Conditional(

@@ -19,6 +19,7 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
 export default class BooleanLiteral extends Expression {
+
     readonly value: Token;
 
     constructor(value: Token | boolean) {
@@ -26,8 +27,13 @@ export default class BooleanLiteral extends Expression {
         this.value = value === true || value === false ? new Token(value ? TRUE_SYMBOL : FALSE_SYMBOL, TokenType.BOOLEAN) : value;
     }
 
+    getGrammar() { 
+        return [
+            { name: "value", types:[ Token ] },
+        ]; 
+    }
+
     computeConflicts() {}
-    getChildNames() { return ["value"]; }
 
     computeType(): Type {
         return new BooleanType();

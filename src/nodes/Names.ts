@@ -18,7 +18,11 @@ export default class Names extends Node {
                     Object.keys(names).map(lang => new Name(names[lang as LanguageCode], lang));
     }
 
-    getChildNames() { return ["names"]; }
+    getGrammar() { 
+        return [
+            { name: "names", types:[[ Name ]] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Names(

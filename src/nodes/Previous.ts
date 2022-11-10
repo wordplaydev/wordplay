@@ -25,7 +25,6 @@ import Reference from "./Reference";
 import TokenType from "./TokenType";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import { PREVIOUS_SYMBOL } from "../parser/Tokenizer";
-
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
@@ -46,7 +45,13 @@ export default class Previous extends Expression {
         this.index = index;
     }
 
-    getChildNames() { return ["stream", "previous", "index"]; }
+    getGrammar() { 
+        return [
+            { name: "stream", types:[ Expression, Unparsable ] },
+            { name: "previous", types:[ Token ] },
+            { name: "index", types:[ Expression, Unparsable ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Previous(

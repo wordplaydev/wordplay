@@ -28,7 +28,13 @@ export default class ListType extends NativeType {
         this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
     }
 
-    getChildNames() { return ["open", "type", "close"]; }
+    getGrammar() { 
+        return [
+            { name: "open", types:[ Token ] },
+            { name: "type", types:[ Type, undefined ] },
+            { name: "close", types:[ Token ] },
+        ];
+    }
 
     computeConflicts() {}
 

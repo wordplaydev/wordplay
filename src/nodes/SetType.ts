@@ -28,7 +28,13 @@ export default class SetType extends NativeType {
         this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
     }
 
-    getChildNames() { return ["open", "key", "close"]; }
+    getGrammar() { 
+        return [
+            { name: "open", types:[ Token ] },
+            { name: "key", types:[ Type, Unparsable, undefined ] },
+            { name: "close", types:[ Token ] },
+        ];
+    }
 
     computeConflicts() {}
 

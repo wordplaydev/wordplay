@@ -27,7 +27,13 @@ export default class Dimension extends Node {
 
     }
 
-    getChildNames() { return ["name", "caret", "exponent"]; }
+    getGrammar() { 
+        return [
+            { name: "name", types:[ Token ] },
+            { name: "caret", types:[ Token, undefined ] },
+            { name: "exponent", types:[ Token, undefined ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Dimension(

@@ -54,7 +54,13 @@ export default class PropertyReference extends Expression {
         this.name = name;
     }
 
-    getChildNames() { return ["structure", "dot", "name"]; }
+    getGrammar() { 
+        return [
+            { name: "structure", types:[ Expression, Unparsable ] },
+            { name: "dot", types:[ Token ] },
+            { name: "name", types:[ Token, undefined ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new PropertyReference(

@@ -42,7 +42,7 @@ export default class Token extends Node {
 
     }
 
-    getChildNames() { return []; }
+    getGrammar() { return []; }
 
     getText() { return this.text.toString(); }
     isLeaf() { return true; }

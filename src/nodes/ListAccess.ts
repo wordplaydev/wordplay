@@ -31,6 +31,7 @@ import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import { NotAList } from "../conflicts/NotAList";
 
 export default class ListAccess extends Expression {
+    
     readonly list: Expression | Unparsable;
     readonly open: Token;
     readonly index: Expression | Unparsable;
@@ -45,7 +46,14 @@ export default class ListAccess extends Expression {
         this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
     }
 
-    getChildNames() { return ["list", "open", "index", "close" ]; }
+    getGrammar() { 
+        return [
+            { name: "list", types:[ Expression, Unparsable ] },
+            { name: "open", types:[ Token ] },
+            { name: "index", types:[ Expression, Unparsable ] },
+            { name: "close", types:[ Token ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ListAccess(

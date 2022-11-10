@@ -15,7 +15,7 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type Context from "./Context";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 import Token from "./Token";
 import type { TypeSet } from "./UnionType";
 import { analyzeRow } from "./util";
@@ -40,7 +40,13 @@ export default class TableLiteral extends Expression {
     
     }
 
-    getChildNames() { return ["columns", "close", "rows"]; }
+    getGrammar() { 
+        return [
+            { name: "columns", types:[[ Column ]] },
+            { name: "close", types:[ Token, Unparsable ] },
+            { name: "rows", types:[[ Row ]] },
+        ]; 
+    }
 
     computeConflicts(context: Context): Conflict[] { 
     

@@ -75,7 +75,13 @@ export default class Unit extends Type {
 
     }
 
-    getChildNames() { return ["numerator", "slash", "denominator"]; }
+    getGrammar() { 
+        return [
+            { name: "numerator", types:[[ Dimension ]] },
+            { name: "slash", types:[ Token, undefined ] },
+            { name: "denominator", types:[[ Dimension ]] },
+        ]; 
+    }
 
     static map(numerator: string[], denominator: string[]) {
 

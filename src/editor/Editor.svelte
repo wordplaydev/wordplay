@@ -2,7 +2,7 @@
     import { project, updateProject } from '../models/stores';
     import type Transform from "../transforms/Transform";
     import Node from '../nodes/Node';
-    import Caret from '../models/Caret';
+    import Caret, { type InsertionPoint } from '../models/Caret';
     import { afterUpdate, getContext, onDestroy, setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
     import commands, { type Edit } from './Commands';
@@ -16,7 +16,7 @@
     import KeyboardIdle from '../models/KeyboardIdle';
     import CaretView from './CaretView.svelte';
     import { PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
-    import { CaretSymbol, type DraggedContext, DraggedSymbol, HoveredSymbol, LanguageSymbol, type LanguageContext, HighlightSymbol } from './Contexts';
+    import { CaretSymbol, type DraggedContext, DraggedSymbol, HoveredSymbol, LanguageSymbol, type LanguageContext, HighlightSymbol, InsertionPointsSymbol } from './Contexts';
     import type { HighlightType, Highlights } from './Highlights'
     import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
     import Expression from '../nodes/Expression';
@@ -41,6 +41,9 @@
     // A store of what node is hovered over, used in drag and drop.
     let hovered = writable<Node|undefined>(undefined);
     setContext(HoveredSymbol, hovered);
+
+    let insertions = writable<Map<Node[],InsertionPoint>>(new Map());
+    setContext(InsertionPointsSymbol, insertions);
 
     // A shorthand for the current program.
     let program = source.program;
@@ -161,34 +164,43 @@
         if(latestValue instanceof Exception && latestValue.step !== undefined && latestValue.step.node instanceof Node)
             addHighlight(newHighlights, latestValue.step.node, "exception");
 
-        // Is the caret selecting a node? Highlight it?
+        // Is the caret selecting a node? Highlight it.
         if($caret.position instanceof Node)
             addHighlight(newHighlights, $caret.position, "selected");
-        
-        // Is the node hovered? Highlight it?
-        if($hovered instanceof Node)
-            addHighlight(newHighlights, $hovered, "hovered");
 
-        // Is the node hovered? Highlight it?
-        if($dragged instanceof Node)
+        // Is a node being dragged? 
+        if($dragged instanceof Node) {
+
+            // Highlight the node.
             addHighlight(newHighlights, $dragged, "dragged");
 
-        // Find all of the expression placeholders and highlight them as drop targets,
-        // unless they are dragged or contained in the dragged node
-        if($dragged instanceof Expression)
-            for(const placeholder of source.program.nodes(n => n instanceof ExpressionPlaceholder))
-                if(!$dragged.contains(placeholder))
-                    addHighlight(newHighlights, placeholder, "target");
+            // If there's an insertion point, let the nodes render them
+            if($insertions.size === 0) {
 
-        // Find all of the type placeholders and highlight them sa drop target
-        if($dragged instanceof Type)
-            for(const placeholder of source.program.nodes(n => n instanceof TypePlaceholder))
-                if(!$dragged.contains(placeholder))
-                    addHighlight(newHighlights, placeholder, "target");
+                // If we're hovered over a valid drop target, highlight the hovered node.
+                if($hovered && isValidDropTarget())
+                    addHighlight(newHighlights, $hovered, "match");
+                // Otherwise, highlight targets.
+                else {                
+                    // Find all of the expression placeholders and highlight them as drop targets,
+                    // unless they are dragged or contained in the dragged node
+                    if($dragged instanceof Expression)
+                        for(const placeholder of source.program.nodes(n => n instanceof ExpressionPlaceholder))
+                            if(!$dragged.contains(placeholder))
+                                addHighlight(newHighlights, placeholder, "target");
 
-        // If we're hovered over a valid drop target, highlight the hovered node.
-        if($hovered && isValidDropTarget())
-            addHighlight(newHighlights, $hovered, "match");
+                    // Find all of the type placeholders and highlight them sa drop target
+                    if($dragged instanceof Type)
+                        for(const placeholder of source.program.nodes(n => n instanceof TypePlaceholder))
+                            if(!$dragged.contains(placeholder))
+                                addHighlight(newHighlights, placeholder, "target");
+                }
+            }
+
+        }
+        // Otherwise, is a node hovered over? Highlight it.
+        else if($hovered instanceof Node)
+            addHighlight(newHighlights, $hovered, "hovered");
 
         // Tag all nodes with primary conflicts as primary
         for(const primary of source.getPrimaryConflicts().keys())
@@ -257,6 +269,9 @@
         // Otherwise, place the caret at the mouse position.
         else
             placeCaretAtPosition(event);
+
+        // Reset the insertion points.
+        insertions.set(new Map());
 
     }
 
@@ -328,6 +343,27 @@
         // Prevent the OS from giving the document body focus.
         event.preventDefault();
 
+        const newPosition = getCaretPositionAt(event);
+        if(newPosition !== undefined)
+            caret.set($caret.withPosition(newPosition));
+
+        // After we place the caret, focus on keyboard input, in case it's not focused.
+        textInput.focus();
+
+    }
+    
+    function getNodeAt(event: MouseEvent) {
+        const el = document.elementFromPoint(event.clientX, event.clientY);
+        if(el instanceof HTMLElement) {
+            const nonTokenElement = el.closest(".node-view:not(.Token)");
+            if(nonTokenElement instanceof HTMLElement && nonTokenElement.dataset.id)
+                return source.program.getNodeByID(parseInt(nonTokenElement.dataset.id))
+        }
+        return undefined;
+    }
+
+    function getCaretPositionAt(event: MouseEvent): number | undefined {
+
         // Then, place the caret. Find the tokens that contain the vertical mouse position.
         const tokenViews = editor.querySelectorAll(".token-view");
         const line: Element[] = [];
@@ -391,17 +427,96 @@
                     const tokenRect = closest.getBoundingClientRect();
                     const offset = event.offsetX + (targetRect.left - tokenRect.left);
                     const newPosition = Math.max(textIndex, Math.min(lastIndex, textIndex + (tokenRect.width === 0 ? 0 : Math.round(token.getTextLength() * (offset / tokenRect.width)))));
-                    caret.set($caret.withPosition(newPosition));
+                    return newPosition;
                 }
 
             }
         }
-        else if(whitespacePosition !== undefined) {
-            caret.set($caret.withPosition(whitespacePosition));
+        else if(whitespacePosition !== undefined)
+            return whitespacePosition;
+
+        return undefined;
+
+    }
+
+    function getInsertionPoint(node: Node, before: boolean) {
+
+        const parent = node.getParent();
+        const field = node.getContainingParentList();
+        if(parent === undefined || parent === null || field === undefined) return undefined;
+        const list = parent.getField(field);
+        if(!Array.isArray(list)) return undefined;
+        return {
+            node: parent,
+            field: field,
+            list: list,
+            index: list.indexOf(node) + (before ? 0 : 1)
+        };
+
+    }
+
+    function getInsertionPointsAt(event: MouseEvent) {
+
+        // Is the caret position between tokens? If so, are any of the token's parents inside a list in which we could insert something?
+        const position = getCaretPositionAt(event);
+        if(position) {
+            const caret = new Caret(source, position);
+            const between = caret.getNodesBetween();
+            // If there are nodes between the point, construct insertion points
+            // that exist in lists.
+            return between === undefined ? [] :
+                [
+                    ...between.before.map(node => getInsertionPoint(node, true)).filter(insertion => insertion !== undefined) as InsertionPoint[],
+                    ...between.after.map(node => getInsertionPoint(node, false)).filter(insertion => insertion !== undefined) as InsertionPoint[]
+                ]
+                // Filter out duplicates
+                .filter((insertion1, i1, insertions) => 
+                    insertions.find((insertion2, i2) => 
+                        i2 > i1 && 
+                        insertion1.node === insertion2.node && 
+                        insertion1.list === insertion2.list && 
+                        insertion1.index === insertion2.index) === undefined)
+        }
+        return [];
+
+    }
+
+    function handleMouseMove(event: MouseEvent) {
+
+        // If there are no insertions, set the hovered state to whatever node is under the mouse.
+        hovered.set(getNodeAt(event));
+
+        // If something is being dragged, Set the insertion points to whatever points are under the mouse.
+        if($dragged) {
+            // Get the insertion points at the current mouse position
+            // And filter them by kinds that match, getting the field's allowed types,
+            // and seeing if the dragged node is an instance of any of the dragged types.
+            // This only works if the types list contains a single item that is a list of types.
+            const newInsertionPoints = getInsertionPointsAt(event).filter(insertion => {
+                const types = insertion.node.getAllowedFieldNodeTypes(insertion.field);
+                return $dragged && Array.isArray(types) && Array.isArray(types[0]) && types[0].some(kind => $dragged instanceof kind);
+            });
+
+            // Did they change? We keep them the same to avoid UI updates, especially with animations.
+            if(newInsertionPoints.length === 0 || !newInsertionPoints.every(point => {
+                const current = $insertions.get(point.list);
+                if(current === undefined) return false;
+                return point.node === current.node && point.index === current.index;
+            })) {
+                const insertionPointsMap = new Map<Node[], InsertionPoint>();
+                for(const point of newInsertionPoints)
+                    insertionPointsMap.set(point.list, point);
+                insertions.set(insertionPointsMap);
+            }
+
         }
 
-        // After we place the caret, focus on keyboard input, in case it's not focused.
-        textInput.focus();
+    }
+
+    function handleMouseLeave() {
+
+        hovered.set(undefined);
+        insertions.set(new Map());
 
     }
 
@@ -617,25 +732,14 @@
         menuSelection = -1;
     }
 
-    function getNodeAt(event: MouseEvent) {
-        const el = document.elementFromPoint(event.clientX, event.clientY);
-        if(el instanceof HTMLElement) {
-            const nonTokenElement = el.closest(".node-view:not(.Token)");
-            if(nonTokenElement instanceof HTMLElement && nonTokenElement.dataset.id) {
-                return source.program.getNodeByID(parseInt(nonTokenElement.dataset.id))
-            }
-        }
-        return undefined;
-    }
-
 </script>
 
 <div class="editor"
     bind:this={editor}
     on:mousedown|preventDefault={() => {}}
     on:mouseup={handleMouseUp}
-    on:mousemove={event => hovered.set(getNodeAt(event)) }
-    on:mouseleave={() => hovered.set(undefined)}
+    on:mousemove={handleMouseMove}
+    on:mouseleave={handleMouseLeave}
 >
     <!-- Render the program -->
     <NodeView node={program}/>

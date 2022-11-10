@@ -44,7 +44,13 @@ export default class Convert extends Expression {
         this.type = type;
     }
 
-    getChildNames() { return ["expression", "convert", "type"]; }
+    getGrammar() { 
+        return [
+            { name: "expression", types:[ Expression ] },
+            { name: "convert", types:[ Token ] },
+            { name: "type", types:[ Type, Unparsable ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Convert(

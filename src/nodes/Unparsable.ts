@@ -31,7 +31,12 @@ export default class Unparsable extends Node implements Evaluable {
         this.unparsableTokens = unparsableTokens.slice();
     }
 
-    getChildNames() { return ["parsedNodes", "unparsableTokens"]; }
+    getGrammar() { 
+        return [
+            { name: "parsedNodes", types:[[ Node ]] },
+            { name: "unparsableTokens", types:[[ Token ]] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Unparsable(

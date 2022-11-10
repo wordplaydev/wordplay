@@ -32,7 +32,13 @@ export default class Borrow extends Node implements Evaluable {
         this.version = version;
     }
 
-    getChildNames() { return ["borrow", "name", "version"]; }
+    getGrammar() { 
+        return [
+            { name: "borrow", types:[ Token ] },
+            { name: "name", types:[ Token, undefined ] },
+            { name: "version", types:[ Token, undefined ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Borrow(

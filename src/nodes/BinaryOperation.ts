@@ -37,9 +37,10 @@ import getConcreteExpectedType from "./Generics";
 
 export default class BinaryOperation extends Expression {
 
-    readonly operator: Token;
     readonly left: Expression | Unparsable;
+    readonly operator: Token;
     readonly right: Expression | Unparsable;
+
 
     constructor(operator: Token | string, left: Expression | Unparsable, right: Expression | Unparsable) {
         super();
@@ -49,7 +50,13 @@ export default class BinaryOperation extends Expression {
         this.right = right;
     }
 
-    getChildNames() { return ["left", "operator", "right"]; }
+    getGrammar() { 
+        return [
+            { name: "left", types:[ Expression, Unparsable ] },
+            { name: "operator", types:[ Token ] },
+            { name: "right", types:[ Expression, Unparsable ] }
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new BinaryOperation(

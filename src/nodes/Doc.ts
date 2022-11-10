@@ -22,8 +22,12 @@ export default class Doc extends Node {
         this.docs = docs instanceof Token ? docs : new DocToken(docs ?? "");
         this.lang = lang instanceof Language ? lang : lang === undefined ? undefined : new Language(lang ?? "");
     }
-
-    getChildNames() { return ["docs", "lang"]; }
+    getGrammar() { 
+        return [
+            { name: "docs", types:[ Token ] },
+            { name: "lang", types:[ Language, undefined ] },
+        ];
+    }
 
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
     

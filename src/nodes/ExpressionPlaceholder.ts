@@ -34,7 +34,11 @@ export default class ExpressionPlaceholder extends Expression {
         this.placeholder = etc ?? new PlaceholderToken();
     }
 
-    getChildNames() { return ["placeholder"]; }
+    getGrammar() { 
+        return [
+            { name: "placeholder", types:[ Token ] },
+        ];
+    }
 
     computeConflicts(): Conflict[] { 
         return [ new Placeholder(this) ];

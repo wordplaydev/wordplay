@@ -29,6 +29,7 @@ export default class Delete extends Expression {
     readonly del: Token;
     readonly query: Expression | Unparsable;
 
+
     constructor(table: Expression, del: Token, query: Expression | Unparsable) {
         super();
 
@@ -38,7 +39,14 @@ export default class Delete extends Expression {
 
     }
 
-    getChildNames() { return ["table", "del", "query"]; }
+    getGrammar() { 
+        return [
+            { name: "table", types:[ Expression ] },
+            { name: "del", types:[ Token ] },
+            { name: "query", types:[ Expression, Unparsable ] },
+        ];
+    }
+
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query; }
 
     computeConflicts(context: Context): Conflict[] { 

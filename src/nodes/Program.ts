@@ -43,7 +43,14 @@ export default class Program extends Node implements Evaluable {
 
     }
 
-    getChildNames() { return ["docs", "borrows", "block", "end"]; }
+    getGrammar() { 
+        return [
+            { name: "docs", types:[ Docs ] },
+            { name: "borrows", types:[[ Borrow, Unparsable ]] },
+            { name: "block", types:[ Block, Unparsable ] },
+            { name: "end", types:[ Token, Unparsable ] },
+        ]; 
+    }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }
 

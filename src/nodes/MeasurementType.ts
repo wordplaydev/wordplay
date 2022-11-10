@@ -28,6 +28,7 @@ export default class MeasurementType extends NativeType {
     
     readonly number: Token;
     readonly unit: Unit | UnitDeriver;
+
     readonly op: BinaryOperation | UnaryOperation | Evaluate | undefined;
 
     constructor(number?: Token, unit?: Unit | UnitDeriver, op?: BinaryOperation | UnaryOperation | Evaluate) {
@@ -38,7 +39,12 @@ export default class MeasurementType extends NativeType {
         this.op = op;
     }
 
-    getChildNames() { return ["number", "unit", "op"]; }
+    getGrammar() { 
+        return [
+            { name: "number", types:[ Token ] },
+            { name: "unit", types:[ Unit ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new MeasurementType(

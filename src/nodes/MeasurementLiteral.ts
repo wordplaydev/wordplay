@@ -35,14 +35,19 @@ export default class MeasurementLiteral extends Expression {
         this.number = number === undefined ? new PlaceholderToken() : number instanceof Token ? number : new Token("" + number, TokenType.DECIMAL);
         this.unit = unit === undefined ? new Unit() : unit.withPrecedingSpace("", true);
     }
-
-    getChildNames() { return ["number", "unit"]; }
     
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new MeasurementLiteral(
             this.cloneOrReplaceChild(pretty, [ Token ], "number", this.number, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Unit, Unparsable ], "unit", this.unit, original, replacement)
         ) as this;
+    }
+
+    getGrammar() { 
+        return [
+            { name: "number", types:[ Token ] },
+            { name: "unit", types:[ Unit, Unparsable ] },
+        ];
     }
 
     isInteger() { return !isNaN(parseInt(this.number.text.toString())); }

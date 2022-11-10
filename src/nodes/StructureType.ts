@@ -20,7 +20,7 @@ export default class StructureType extends Type {
         this.structure = definition;
     }
 
-    getChildNames() { return []; }
+    getGrammar() { return []; }
 
     computeConflicts() { return []; }
 

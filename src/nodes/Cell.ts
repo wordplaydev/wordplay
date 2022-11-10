@@ -20,7 +20,12 @@ export default class Cell extends Node {
         this.value = expression;
     }
 
-    getChildNames() { return ["bar", "value"]; }
+    getGrammar() { 
+        return [
+            { name: "bar", types:[ Token ] },
+            { name: "value", types:[ Expression, Unparsable, Bind ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Cell(

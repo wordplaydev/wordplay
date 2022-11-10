@@ -18,15 +18,20 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
 export default class NoneLiteral extends Expression {
-    readonly none: Token;
 
+    readonly none: Token;
+ 
     constructor(none?: Token) {
         super();
 
         this.none = none ?? new Token(NONE_SYMBOL, TokenType.NONE);
     }
 
-    getChildNames() { return ["none"]; }
+    getGrammar() { 
+        return [
+            { name: "none", types:[ Token ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new NoneLiteral(

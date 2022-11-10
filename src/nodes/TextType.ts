@@ -29,7 +29,12 @@ export default class TextType extends NativeType {
         this.format = format;
     }
 
-    getChildNames() { return ["text", "format"]; }
+    getGrammar() { 
+        return [
+            { name: "text", types:[ Token ] },
+            { name: "format", types:[ Language, undefined ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TextType(

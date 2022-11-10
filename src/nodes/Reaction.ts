@@ -47,7 +47,14 @@ export default class Reaction extends Expression {
 
     }
 
-    getChildNames() { return ["initial", "delta", "stream", "next"]; }
+    getGrammar() { 
+        return [
+            { name: "initial", types:[ Expression ] },
+            { name: "delta", types:[ Token ] },
+            { name: "stream", types:[ Expression, Unparsable ] },
+            { name: "next", types:[ Expression, Unparsable ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Reaction(

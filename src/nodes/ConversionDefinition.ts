@@ -47,7 +47,15 @@ export default class ConversionDefinition extends Expression {
         this.expression = expression;
     }
 
-    getChildNames() { return ["docs", "arrow", "input", "output", "expression"]; }
+    getGrammar() { 
+        return [
+            { name: "docs", types:[ Docs ] },
+            { name: "arrow", types:[ Token ] },
+            { name: "input", types:[ Type, Unparsable ] },
+            { name: "output", types:[ Type, Unparsable ] },
+            { name: "expression", types:[ Expression, Unparsable ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ConversionDefinition(

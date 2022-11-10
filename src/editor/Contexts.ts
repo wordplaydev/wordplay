@@ -1,4 +1,5 @@
 import type { Writable } from "svelte/store";
+import type { InsertionPoint } from "../models/Caret";
 import type Caret from "../models/Caret";
 import type Project from "../models/Project";
 import type LanguageCode from "../nodes/LanguageCode";
@@ -10,6 +11,9 @@ export const CaretSymbol = Symbol("caret");
 
 export type HoveredContext = Writable<Node | undefined> | undefined;
 export const HoveredSymbol = Symbol("hovered");
+
+export type InsertionPointsContext = Writable<Map<Node[],InsertionPoint>> | undefined;
+export const InsertionPointsSymbol = Symbol("insertions");
 
 export type DraggedContext = Writable<Node | undefined>;
 export const DraggedSymbol = Symbol("dragged");

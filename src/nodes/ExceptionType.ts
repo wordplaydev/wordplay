@@ -15,7 +15,7 @@ export default class ExceptionType extends Type {
 
     }
 
-    getChildNames() { return []; }
+    getGrammar() { return []; }
 
     computeConflicts() {}
     accepts(type: Type): boolean {

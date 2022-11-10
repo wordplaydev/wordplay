@@ -48,7 +48,14 @@ export default class SetOrMapAccess extends Expression {
         this.close = close ?? new SetCloseToken();
     }
 
-    getChildNames() { return ["setOrMap", "open", "key", "close"]; }
+    getGrammar() { 
+        return [
+            { name: "setOrMap", types:[ Expression, Unparsable ] },
+            { name: "open", types:[ Token ] },
+            { name: "key", types:[ Expression, Unparsable ] },
+            { name: "close", types:[ Token ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new SetOrMapAccess(

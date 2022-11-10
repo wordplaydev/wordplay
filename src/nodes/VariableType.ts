@@ -13,7 +13,7 @@ export default class VariableType extends Type {
         this.definition = definition;
     }
 
-    getChildNames() { return []; }
+    getGrammar() { return []; }
 
     computeConflicts() {}
 

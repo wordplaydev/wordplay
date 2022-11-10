@@ -25,7 +25,13 @@ export default class KeyValue extends Node {
         this.value = value;
     }
 
-    getChildNames() { return ["key", "bind", "value"]; }
+    getGrammar() { 
+        return [
+            { name: "key", types:[ Expression, Unparsable ] },
+            { name: "bind", types:[ Token ] },
+            { name: "value", types:[ Expression, Unparsable ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new KeyValue(

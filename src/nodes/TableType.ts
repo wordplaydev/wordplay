@@ -1,4 +1,4 @@
-import type ColumnType from "./ColumnType";
+import ColumnType from "./ColumnType";
 import Type from "./Type";
 import type Node from "./Node";
 import Bind from "../nodes/Bind";
@@ -24,7 +24,12 @@ export default class TableType extends Type {
         this.close = close ?? new Token(TABLE_CLOSE_SYMBOL, TokenType.TABLE_CLOSE);
     }
 
-    getChildNames() { return ["columns", "close"]; }
+    getGrammar() { 
+        return [
+            { name: "columns", types:[[ ColumnType ]] },
+            { name: "close", types:[ Type, Unparsable ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TableType(

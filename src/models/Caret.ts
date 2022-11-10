@@ -6,6 +6,14 @@ import type Source from "./Source";
 
 export type InsertionContext = { before: Node[], after: Node[] };
 
+// Represents a node, list on the node, and index in the list at which to insert a node.
+export type InsertionPoint = {
+    node: Node,
+    field: string,
+    list: Node[],
+    index: number
+}
+
 export default class Caret {
 
     readonly time: number;

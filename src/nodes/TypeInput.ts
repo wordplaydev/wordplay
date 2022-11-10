@@ -22,7 +22,12 @@ export default class TypeInput extends Node {
         this.type = type;
     }
 
-    getChildNames() { return ["dot", "type"]; }
+    getGrammar() { 
+        return [
+            { name: "dot", types:[ Token ] },
+            { name: "type", types:[ Type, Unparsable ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TypeInput(

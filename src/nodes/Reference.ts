@@ -50,7 +50,11 @@ export default class Reference extends Expression {
 
     }
 
-    getChildNames() { return ["name"]; }
+    getGrammar() { 
+        return [
+            { name: "name", types:[ Token ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Reference(

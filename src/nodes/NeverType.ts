@@ -10,7 +10,7 @@ export default class NeverType extends Type {
 
     }
 
-    getChildNames() { return []; }
+    getGrammar() { return []; }
 
     accepts() { return false; }
     getNativeTypeName(): string { return NEVER_NATIVE_TYPE_NAME; }

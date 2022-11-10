@@ -39,7 +39,7 @@ export default class NativeExpression extends Expression {
     }
     
     computeConflicts() {}
-    getChildNames() { return []; }
+    getGrammar() { return []; }
     computeType(): Type { return this.type; }
     compile(): Step[] { return [ new Finish(this) ]; }
     evaluate(evaluator: Evaluator): Value | undefined {

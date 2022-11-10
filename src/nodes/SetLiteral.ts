@@ -41,7 +41,13 @@ export default class SetLiteral extends Expression {
         
     }
 
-    getChildNames() { return ["open", "values", "close"]; }
+    getGrammar() { 
+        return [
+            { name: "open", types:[ Token ] },
+            { name: "values", types:[[ Expression, Unparsable ]] },
+            { name: "close", types:[ Token, Unparsable ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new SetLiteral(

@@ -1,3 +1,4 @@
+import Unparsable from "./Unparsable";
 import { REACTION_SYMBOL } from "../parser/Tokenizer";
 import Replace from "../transforms/Replace";
 import type Transform from "../transforms/Transform";
@@ -9,7 +10,6 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Type from "./Type";
 import TypePlaceholder from "./TypePlaceholder";
-import Unparsable from "./Unparsable";
 
 export const STREAM_NATIVE_TYPE_NAME = "stream";
 
@@ -25,7 +25,12 @@ export default class StreamType extends Type {
         this.type = type;
     }
 
-    getChildNames() { return ["stream", "type"]; }
+    getGrammar() { 
+        return [
+            { name: "stream", types:[ Token ] },
+            { name: "type", types:[ Type, Unparsable ] },
+        ]; 
+    }
 
     computeConflicts() {}
 

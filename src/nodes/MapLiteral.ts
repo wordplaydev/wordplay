@@ -49,7 +49,14 @@ export default class MapLiteral extends Expression {
         
     }
 
-    getChildNames() { return ["open", "values", "close", "bind"]; }
+    getGrammar() { 
+        return [
+            { name: "open", types:[ Token ] },
+            { name: "values", types:[[ KeyValue, Unparsable ]] },
+            { name: "close", types:[ Token ] },
+            { name: "bind", types:[ Token, undefined ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new MapLiteral(

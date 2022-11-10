@@ -33,7 +33,15 @@ export default class MapType extends NativeType {
         this.value = value;
     }
 
-    getChildNames() { return ["open", "bind", "close"]; }
+    getGrammar() { 
+        return [
+            { name: "open", types:[ Token ] },
+            { name: "key", types:[ Type, Unparsable, undefined ] },
+            { name: "bind", types:[ Token ] },
+            { name: "value", types:[ Type, Unparsable, undefined ] },
+            { name: "close", types:[ Token ] },
+        ];
+    }
 
     computeConflicts() {}
 

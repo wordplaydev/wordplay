@@ -19,7 +19,11 @@ export default class BooleanType extends NativeType {
         this.type = type ?? new Token(BOOLEAN_TYPE_SYMBOL, TokenType.BOOLEAN_TYPE);
     }
 
-    getChildNames() { return ["type"]; }
+    getGrammar() { 
+        return [
+            { name: "type", types:[ Token ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new BooleanType(

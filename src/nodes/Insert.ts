@@ -41,8 +41,14 @@ export default class Insert extends Expression {
         this.row = row;
 
     }
-    
-    getChildNames() { return ["table", "insert", "row"]; }
+
+    getGrammar() { 
+        return [
+            { name: "table", types:[ Expression ] },
+            { name: "insert", types:[ Token ] },
+            { name: "row", types:[ Row ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Insert(

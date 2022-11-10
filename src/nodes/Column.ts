@@ -20,7 +20,12 @@ export default class Column extends Node {
         this.bind = bind;
     }
 
-    getChildNames() { return ["bar", "bind"]; }
+    getGrammar() { 
+        return [
+            { name: "bar", types:[ Token ] },
+            { name: "bind", types:[ Bind, Unparsable ] },
+        ]; 
+    }
 
     computeConflicts() {}
 

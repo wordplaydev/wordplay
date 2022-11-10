@@ -19,7 +19,12 @@ export default class TypeVariable extends Node {
         this.names = names instanceof Names ? names : new Names(names);
     }
 
-    getChildNames() { return ["type", "names"]; }
+    getGrammar() { 
+        return [
+            { name: "type", types:[ Token ] },
+            { name: "names", types:[ Names ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new TypeVariable(

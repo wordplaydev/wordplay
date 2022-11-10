@@ -14,7 +14,7 @@ export default class UnknownType extends Type {
 
     }
     
-    getChildNames() { return []; }
+    getGrammar() { return []; }
 
     computeConflicts() {}
     accepts() { return false; }

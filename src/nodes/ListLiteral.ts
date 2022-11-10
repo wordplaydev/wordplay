@@ -40,8 +40,14 @@ export default class ListLiteral extends Expression {
         this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
 
     }
-    
-    getChildNames() { return ["open", "values", "close"]; }
+
+    getGrammar() { 
+        return [
+            { name: "open", types:[ Token ] },
+            { name: "values", types:[[ Expression, Unparsable ]] },
+            { name: "close", types:[ Token ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new ListLiteral(

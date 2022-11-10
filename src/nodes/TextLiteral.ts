@@ -32,7 +32,12 @@ export default class TextLiteral extends Expression {
         this.format = format;
     }
 
-    getChildNames() { return ["text", "format"]; }
+    getGrammar() { 
+        return [
+            { name: "text", types:[ Token ] },
+            { name: "format", types:[ Language, undefined ] },
+        ];
+    }
 
     computeConflicts() {}
 

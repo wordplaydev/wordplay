@@ -72,7 +72,20 @@ export default class FunctionDefinition extends Expression {
         this.expression = expression;
     }
 
-    getChildNames() { return ["docs", "fun", "names", "typeVars", "open", "inputs", "close", "dot", "type", "expression"]; }
+    getGrammar() { 
+        return [
+            { name: "docs", types:[ Docs ] },
+            { name: "fun", types:[ Token ] },
+            { name: "names", types:[ Names ] },
+            { name: "typeVars", types:[[ TypeVariable, Unparsable ]] },
+            { name: "open", types:[ Token ] },
+            { name: "inputs", types:[[ Bind, Unparsable ]] },
+            { name: "close", types:[ Token] },
+            { name: "dot", types:[ Token, undefined ] },
+            { name: "type", types:[ Type, Unparsable, undefined ] },
+            { name: "expression", types:[ Expression, Unparsable, Token ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new FunctionDefinition(

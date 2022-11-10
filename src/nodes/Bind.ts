@@ -78,8 +78,19 @@ export default class Bind extends Node implements Evaluable, Named {
         this.colon = colon !== undefined ? colon : value === undefined ? undefined : new BindToken(); 
         this.value = value;
     }
-    
-    getChildNames() { return ["docs", "share", "etc", "names", "dot", "type", "colon", "value"]; }
+
+    getGrammar() { 
+        return [
+            { name: "docs", types:[ Docs ] },
+            { name: "share", types:[ Token, undefined ] },
+            { name: "etc", types:[ Token, undefined ] },
+            { name: "names", types:[ Names ] },
+            { name: "dot", types:[ Token, undefined ] },
+            { name: "type", types:[ Type, Unparsable, undefined ] },
+            { name: "colon", types:[ Token, undefined ] },
+            { name: "value", types:[ Expression, Unparsable, undefined ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Bind(

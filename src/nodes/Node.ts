@@ -8,6 +8,8 @@ import type Translations from "./Translations";
 let NODE_ID_COUNTER = 0;
 
 export type Path = [ string, number ][];
+export type NodeType = (undefined | Function | Function[]);
+export type Field = { name: string, types: NodeType[] }
 
 export default abstract class Node {
 
@@ -28,10 +30,15 @@ export default abstract class Node {
     }
 
     /**
+     * A list of fields that represent this node's sequence of nodes and the types of nodes allowed on each field.
+     */
+    abstract getGrammar(): Field[];
+
+    /**
      * A list of names that determine this node's children. Can't extract these through reflection, so they must be manually supplied 
      * This is used to get lists of child nodes and to reflect on the role of a child in a parent's structure.
      * */
-    abstract getChildNames(): string[];
+    getChildNames(): string[] { return this.getGrammar().map(field => field.name )}
 
     /* A recursive function that computes parents. Called by the root. Assumes the tree is immutable. */
     cacheParents() {
@@ -344,19 +351,37 @@ export default abstract class Node {
 
     isLeaf() { return false; }
 
-    /** A node is in a list if it's parent says so. */
-    inList() {
+    getContainingParentList(): string | undefined {
         const parent = this.getParent();
         if(parent) {
             for(const name of parent.getChildNames()) {
                 const field = (parent as any)[name] as (Node | Node[]);
                 if(Array.isArray(field) && field.includes(this))
-                    return true;
+                    return name;
             }
-            return false;
         }
-        return false;
     }
+
+    hasField(field: string): boolean {
+        return this.getChildNames().includes(field);
+    }
+
+    getField(field: string): Node | Node[] | undefined {
+
+        if(!this.hasField(field)) return undefined;
+        return (this as any)[field] as Node | Node[] | undefined;
+
+    }
+
+
+    getAllowedFieldNodeTypes(name: string): NodeType[] | undefined {
+        let field = this.getGrammar().find(field => field.name === name);
+        if(field === undefined) return undefined;
+        else return field.types;
+    }
+
+    /** A node is in a list if it's parent says so. */
+    inList() { return this.getContainingParentList() !== undefined }
 
     getFirstPlaceholder(): Node | undefined {
         for(const child of this.getChildren()) {

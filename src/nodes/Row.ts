@@ -1,6 +1,6 @@
 import Node from "./Node";
 import Cell from "./Cell";
-import type Unparsable from "./Unparsable";
+import Unparsable from "./Unparsable";
 import Token from "./Token";
 import Bind from "./Bind";
 import Expression from "./Expression";
@@ -21,7 +21,12 @@ export default class Row extends Node {
         
     }
 
-    getChildNames() { return ["cells", "close"]; }
+    getGrammar() { 
+        return [
+            { name: "cells", types:[[ Cell ]] },
+            { name: "close", types:[ Token, Unparsable ] },
+        ]; 
+    }
 
     allBinds() { return this.cells.every(cell => cell.value instanceof Bind ); }
     allExpressions() { return this.cells.every(cell => cell.value instanceof Expression ); }

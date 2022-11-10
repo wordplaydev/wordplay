@@ -41,7 +41,13 @@ export default class Template extends Expression {
         this.format = format;
     }
 
-    getChildNames() { return ["open", "expressions", "format"]; }
+    getGrammar() { 
+        return [
+            { name: "open", types:[ Token ] },
+            { name: "expressions", types:[[ Expression, Unparsable, Token ]] },
+            { name: "format", types:[ Language, undefined ] },
+        ];
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Template(

@@ -44,7 +44,14 @@ export default class Update extends Expression {
 
     }
 
-    getChildNames() { return ["table", "update", "row", "query"]; }
+    getGrammar() { 
+        return [
+            { name: "table", types:[ Expression ] },
+            { name: "update", types:[ Token ] },
+            { name: "row", types:[ Row ] },
+            { name: "query", types:[ Expression, Unparsable ] },
+        ]; 
+    }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) {
         return new Update(

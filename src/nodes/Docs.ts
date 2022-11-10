@@ -17,7 +17,11 @@ export default class Docs extends Node {
                     Object.keys(docs).map(lang => new Doc(docs[lang as LanguageCode], lang));
     }
 
-    getChildNames() { return ["docs"]; }
+    getGrammar() { 
+        return [
+            { name: "docs", types:[[Doc]] },
+        ];
+    }
 
     computeConflicts() {
 

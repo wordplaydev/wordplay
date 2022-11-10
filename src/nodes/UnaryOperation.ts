@@ -39,7 +39,12 @@ export default class UnaryOperation extends Expression {
         this.operand = operand;
     }
 
-    getChildNames() { return ["operator", "operand"]; }
+    getGrammar() { 
+        return [
+            { name: "operator", types:[ Token ] },
+            { name: "operand", types:[ Expression, Unparsable ] },
+        ]; 
+    }
 
     getOperator() { return this.operator.text.toString(); }
 
