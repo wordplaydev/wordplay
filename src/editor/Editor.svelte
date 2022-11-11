@@ -182,7 +182,6 @@
 
                 // If we're hovered over a valid drop target, highlight the hovered node.
                 if($hovered && isValidDropTarget()) {
-                    console.log($hovered);
                     addHighlight(newHighlights, $hovered, "match");
                 }
                 // Otherwise, highlight targets.
