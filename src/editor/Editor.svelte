@@ -148,6 +148,9 @@
 
     }
 
+    // We should replace if there are no insertions or we're hovered over a placeholder.
+    function shouldReplace() { return $insertions.size === 0 || $hovered instanceof ExpressionPlaceholder || $hovered instanceof TypePlaceholder; }
+
     function updateHighlights() {
 
         const currentStep = $caret.source.getEvaluator().currentStep();
@@ -175,11 +178,13 @@
             addHighlight(newHighlights, $dragged, "dragged");
 
             // If there's an insertion point, let the nodes render them
-            if($insertions.size === 0) {
+            if(shouldReplace()) {
 
                 // If we're hovered over a valid drop target, highlight the hovered node.
-                if($hovered && isValidDropTarget())
+                if($hovered && isValidDropTarget()) {
+                    console.log($hovered);
                     addHighlight(newHighlights, $hovered, "match");
+                }
                 // Otherwise, highlight targets.
                 else {                
                     // Find all of the expression placeholders and highlight them as drop targets,
@@ -384,6 +389,7 @@
                     // // If the mouse's vertical is within the top and bottom of this token view, include the token in the line.
                     if(tokenTop <= mouseY && tokenBottom >= mouseY)
                         line.push(view);
+                    // If the mouse is within the whitespace of this line, find the beginning of the whitespace line.
                     else if(tokenWhitespaceTop <= mouseY && tokenBottom >= mouseY && whitespacePosition === undefined) {
                         // This token's whitespace contains the click.
                         // Place it at the beginning of one of the whitespace lines.
@@ -462,6 +468,7 @@
         if(position) {
             const caret = new Caret(source, position);
             const between = caret.getNodesBetween();
+
             // If there are nodes between the point, construct insertion points
             // that exist in lists.
             return between === undefined ? [] :
@@ -472,7 +479,8 @@
                 // Filter out duplicates
                 .filter((insertion1, i1, insertions) => 
                     insertions.find((insertion2, i2) => 
-                        i2 > i1 && 
+                        i1 > i2 &&
+                        insertion1 !== insertion2 &&
                         insertion1.node === insertion2.node && 
                         insertion1.list === insertion2.list && 
                         insertion1.index === insertion2.index) === undefined)
@@ -488,6 +496,7 @@
 
         // If something is being dragged, Set the insertion points to whatever points are under the mouse.
         if($dragged) {
+
             // Get the insertion points at the current mouse position
             // And filter them by kinds that match, getting the field's allowed types,
             // and seeing if the dragged node is an instance of any of the dragged types.
