@@ -249,17 +249,25 @@
 
     function isValidDropTarget(): boolean {
 
+        if($dragged === undefined) return false;
+
+        // Allow expressions ot be dropped on expressions.
         if($dragged instanceof Expression && $hovered instanceof Expression)
             return true;
 
+        // Allow binds to be dropped on children of blocks.
         if($dragged instanceof Bind && $hovered) {
             const hoverParent = $hovered.getParent();
             if(hoverParent instanceof Block && hoverParent.statements.includes($hovered as Statement))
                 return true;
         }
 
+        // Allow types to be dropped on types.
         if($dragged instanceof Type && $hovered instanceof Type)
             return true;
+
+        // Allow inserts to be inserted.
+        if($insertions.size > 0) return true;
 
         return false;
 
@@ -281,64 +289,91 @@
 
     function drop() {
 
-        if($dragged && $hovered) {
+        if($dragged === undefined) return;
 
-            let editedProgram = source.program;
-            let draggedNode: Node = $dragged;
-            let hoveredNode: Node | undefined = $hovered;
 
-            const newSources: [Source, Source][] = [];
+        let editedProgram = source.program;
+        let draggedNode: Node = $dragged;
+        const insertion = Array.from($insertions.values())[0];
 
-            // If the dragged node is in a program, remove it if in a list or replace it with an expression placeholder if not.
-            // If it's not in a program, it's probably coming from a palette or the visual clipboard.
-            const draggedRoot = draggedNode.getRoot();
-            if(draggedRoot instanceof Program) {
+        // This is the node that will either be replaced or contains the list in which we will insert the dragged node.
+        // For replacements its the node that the creator is hovered over, and for insertions its the node that contains the list we're inserting into.
+        let replacedOrListContainingNode: Node | undefined = shouldReplace() ? $hovered : insertion.node;
 
-                // Figure out what to replace the dragged node with. By default, we remove it.
-                let replacement = undefined;
+        const newSources: [Source, Source][] = [];
 
-                // If the node isn't in a list, then we replace it with an expression placeholder, to preserve syntax.
-                if(!draggedNode.inList()) {
-                    // Make a placeholder to replace the hovered node.
-                    replacement = (new ExpressionPlaceholder()).withPrecedingSpace(draggedNode.getPrecedingSpace(), true);
-                }
+        // If the dragged node is in a program, remove it if in a list or replace it with an expression placeholder if not.
+        // If it's not in a program, it's probably coming from a palette or the visual clipboard.
+        const draggedRoot = draggedNode.getRoot();
+        if(draggedRoot instanceof Program) {
 
-                // If it's from this program, then update this program.
-                if(draggedRoot === editedProgram) {
-                    // Remember where it is in the tree
-                    const pathToHoveredNode = hoveredNode.getPath();
-                    // Replace the dragged node with the placeholder.
-                    editedProgram = editedProgram.clone(false, draggedNode, replacement);
-                    // Update the node to replace to the cloned node.
-                    hoveredNode = editedProgram.resolvePath(pathToHoveredNode);
-                }
-                // If it's from another program, then update that program.
-                else if(draggedRoot instanceof Program) {
-                    // Find the source that contains the dragged root.
-                    const source = $project.getSourceWithProgram(draggedRoot);
-                    // If we found one, update the project with a new source with a new program that replaces the dragged node with the placeholder.
-                    if(source)
-                        newSources.push([ source, source.withProgram(draggedRoot.clone(false, draggedNode, replacement)) ]);
-                }
+            // Figure out what to replace the dragged node with. By default, we remove it.
+            let replacement = undefined;
 
+            // If the node isn't in a list, then we replace it with an expression placeholder, to preserve syntax.
+            if(!draggedNode.inList()) {
+                // Make a placeholder to replace the hovered node.
+                replacement = (new ExpressionPlaceholder()).withPrecedingSpace(draggedNode.getPrecedingSpace(), true);
             }
 
-            // Replace the hovered node with the dragged in the program, preserving preceding space.
-            if(hoveredNode) {
-                const dragClone = draggedNode.withPrecedingSpace(hoveredNode.getPrecedingSpace(), true);
-                editedProgram = editedProgram.clone(false, hoveredNode, dragClone);            
-                newSources.push([ source, source.withProgram(editedProgram) ]);
+            // If it's from this program, then update this program.
+            if(draggedRoot === editedProgram) {
+                // Remember where it is in the tree
+                const pathToReplacedOrListContainingNode = replacedOrListContainingNode?.getPath();
+                // Replace the dragged node with the placeholder.
+                editedProgram = editedProgram.clone(false, draggedNode, replacement);
+                // Update the node to replace to the cloned node.
+                replacedOrListContainingNode = pathToReplacedOrListContainingNode === undefined ? undefined : editedProgram.resolvePath(pathToReplacedOrListContainingNode);
+            }
+            // If it's from another program, then update that program.
+            else if(draggedRoot instanceof Program) {
+                // Find the source that contains the dragged root.
+                const source = $project.getSourceWithProgram(draggedRoot);
+                // If we found one, update the project with a new source with a new program that replaces the dragged node with the placeholder.
+                if(source)
+                    newSources.push([ source, source.withProgram(draggedRoot.clone(false, draggedNode, replacement)) ]);
+            }
+            // If it was from a palette, do nothing, since there's nothing to remove.
 
-                // Update the new sources in the project.
+        }
+
+        // If we should replace and we still have a hovered node, replace the hovered node with the dragged node, preserving preceding space.
+        if(replacedOrListContainingNode) {
+            if(shouldReplace()) {
+                const dragClone = draggedNode.withPrecedingSpace(replacedOrListContainingNode.getPrecedingSpace(), true);
+                editedProgram = editedProgram.clone(false, replacedOrListContainingNode, dragClone);            
+                newSources.push([ source, source.withProgram(editedProgram) ]);
 
                 // Update this source file's caret.
                 $caret.withPosition(dragClone)
             }
+            // If we're not replacing, and there's something to insert, insert!
+            else if($insertions.size > 0) {
+
+                const listToUpdate = replacedOrListContainingNode.getField(insertion.field);
+                if(Array.isArray(listToUpdate)) {
+
+                    // Get the item after the 
+                    const itemAfter = listToUpdate[insertion.index];
+                    // Clone the dragged node, but add to it the space preceding the node after, if there is one.
+                    const dragClone = draggedNode.withPrecedingSpace(itemAfter?.getPrecedingSpace() ?? "", true);
+                    // Replace the list with a new list that has the dragged node inserted.
+                    const clonedListParent = replacedOrListContainingNode.clone(false, listToUpdate, [ ...listToUpdate.slice(0, insertion.index), dragClone, ...listToUpdate.slice(insertion.index) ]);
+                    editedProgram = editedProgram.clone(false, replacedOrListContainingNode, clonedListParent);
+                    const newList = clonedListParent.getField(insertion.field);
+
+                    newSources.push([ source, source.withProgram(editedProgram)]);
+
+                    if(Array.isArray(newList))
+                        $caret.withPosition(newList[insertion.index]);
+                }
+
+            }
 
             // Update the project with the new source files
             updateProject($project.withSources(newSources));
-
         }
+        else console.error("For some reason, we were unable to track the modified node and make the edit.");
 
     }
 
