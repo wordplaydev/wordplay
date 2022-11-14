@@ -45,6 +45,9 @@ export default class ConversionDefinition extends Expression {
         this.input = typeof input === "string" ? parseType(tokens(input)) : input;
         this.output = typeof output === "string" ? parseType(tokens(output)) : output;
         this.expression = expression;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

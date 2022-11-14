@@ -8,7 +8,6 @@ import NotInstantiable from "../conflicts/NotInstantiable";
 import NotAFunction from "../conflicts/NotAFunction";
 import StructureType from "./StructureType";
 import Expression from "./Expression";
-import FunctionType from "./FunctionType";
 import Token from "./Token";
 import type Node from "./Node";
 import Type from "./Type";
@@ -49,6 +48,7 @@ import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Remove from "../transforms/Remove";
 import UnknownInput from "../conflicts/UnknownInput";
 import getConcreteExpectedType from "./Generics";
+import FunctionDefinitionType from "./FunctionDefinitionType";
 
 type InputType = Unparsable | Bind | Expression;
 
@@ -70,6 +70,9 @@ export default class Evaluate extends Expression {
         this.inputs = inputs.map((value: InputType, index) => 
             value.withPrecedingSpaceIfDesired(index > 0 && endsWithName(inputs[index - 1]) && startsWithName(value)));
         this.close = close;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 
@@ -91,10 +94,6 @@ export default class Evaluate extends Expression {
             this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "close", this.close, original, replacement)
         ) as this;
-    }
-
-    computeChildren() {
-        return [ this.func, ...this.typeInputs, this.open, ...this.inputs, this.close ].filter(n => n !== undefined) as Node[];
     }
 
     computeConflicts(context: Context): Conflict[] { 
@@ -277,7 +276,7 @@ export default class Evaluate extends Expression {
         // order of the function's declaration. This requires getting the function/structure definition
         // and finding an expression to compile for each input.
         const funcType = this.func.getTypeUnlessCycle(context);
-        const candidateExpectedInputs = funcType instanceof FunctionType ? funcType.inputs :
+        const candidateExpectedInputs = funcType instanceof FunctionDefinitionType ? funcType.fun.inputs :
             funcType instanceof StructureType ? funcType.structure.inputs :
             undefined;
 
@@ -475,7 +474,7 @@ export default class Evaluate extends Expression {
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
         
         const functionType = this.func.getTypeUnlessCycle(context);
-        if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
+        if(!(functionType instanceof FunctionDefinitionType || functionType instanceof StructureType))
             return;
 
         // Type inputs can be any type
@@ -494,7 +493,7 @@ export default class Evaluate extends Expression {
             const input = this.inputs[index];
             if(input instanceof Expression) {
 
-                const bind = functionType instanceof FunctionType ? functionType.inputs[index] : functionType.structure.inputs[index];
+                const bind = functionType instanceof FunctionDefinitionType ? functionType.fun.inputs[index] : functionType.structure.inputs[index];
                 if(bind === undefined || bind instanceof Unparsable)
                     return [];
 
@@ -509,7 +508,7 @@ export default class Evaluate extends Expression {
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
         
         const functionType = this.func.getTypeUnlessCycle(context);
-        if(!(functionType instanceof FunctionType || functionType instanceof StructureType))
+        if(!(functionType instanceof FunctionDefinitionType || functionType instanceof StructureType))
             return;
 
         // If before a type input or the open paren, offer valid type inputs.
@@ -522,7 +521,7 @@ export default class Evaluate extends Expression {
             const index = this.inputs.length;
 
             const bind = 
-                functionType instanceof FunctionType ? functionType.inputs[index] : 
+                functionType instanceof FunctionDefinitionType ? functionType.fun.inputs[index] : 
                 functionType.structure.inputs[index];
 
             if(bind instanceof Unparsable || bind === undefined)
@@ -550,8 +549,8 @@ export default class Evaluate extends Expression {
             const index = this.inputs.indexOf(child as InputType);
             if(index >= 0) {
                 const funType = this.func.getTypeUnlessCycle(context);
-                if(funType instanceof FunctionType && index < funType.inputs.length) {
-                    const bind = funType.inputs[index];
+                if(funType instanceof FunctionDefinitionType && index < funType.fun.inputs.length) {
+                    const bind = funType.fun.inputs[index];
                     if(bind instanceof Bind) {
                         return bind.names.getTranslations();
                     }

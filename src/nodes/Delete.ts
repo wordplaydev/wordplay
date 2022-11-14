@@ -37,6 +37,8 @@ export default class Delete extends Expression {
         this.del = del;
         this.query = query;
 
+        this.computeChildren();
+
     }
 
     getGrammar() { 

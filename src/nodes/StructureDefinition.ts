@@ -73,6 +73,9 @@ export default class StructureDefinition extends Expression {
         this.inputs = inputs;
         this.close = close == undefined && inputs.length > 0 ?new EvalCloseToken() : close;
         this.block = block;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

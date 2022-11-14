@@ -25,6 +25,9 @@ export default class NameType extends Type {
         super();
 
         this.type = typeof type === "string" ? new NameToken(type) : type;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

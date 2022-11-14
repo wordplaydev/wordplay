@@ -26,6 +26,9 @@ export default class SetType extends NativeType {
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
         this.key = key;
         this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

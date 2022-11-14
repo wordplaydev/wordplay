@@ -77,6 +77,8 @@ export default class Bind extends Node implements Evaluable, Named {
         this.type = type;
         this.colon = colon !== undefined ? colon : value === undefined ? undefined : new BindToken(); 
         this.value = value;
+
+        this.computeChildren();
     }
 
     getGrammar() { 

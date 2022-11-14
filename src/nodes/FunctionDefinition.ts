@@ -7,8 +7,6 @@ import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import Unparsable from "./Unparsable";
 import type Conflict from "../conflicts/Conflict";
-import FunctionType from "./FunctionType";
-import UnknownType from "./UnknownType";
 import { typeVarsAreUnique, getEvaluationInputConflicts } from "./util";
 import type Evaluator from "../runtime/Evaluator";
 import FunctionValue from "../runtime/FunctionValue";
@@ -36,6 +34,8 @@ import StructureDefinition from "./StructureDefinition";
 import Docs from "./Docs";
 import Names from "./Names";
 import type LanguageCode from "./LanguageCode";
+import FunctionDefinitionType from "./FunctionDefinitionType";
+import UnknownType from "./UnknownType";
 
 export default class FunctionDefinition extends Expression {
 
@@ -47,7 +47,7 @@ export default class FunctionDefinition extends Expression {
     readonly inputs: (Bind|Unparsable)[];
     readonly close: Token;
     readonly dot?: Token;
-    readonly type?: Type | Unparsable;
+    readonly output?: Type | Unparsable;
     readonly expression: Expression | Unparsable | Token;
 
     constructor(
@@ -56,7 +56,7 @@ export default class FunctionDefinition extends Expression {
         typeVars: (TypeVariable|Unparsable)[], 
         inputs: (Bind|Unparsable)[], 
         expression: Expression | Token | Unparsable, 
-        type?: Type | Unparsable, 
+        output?: Type | Unparsable, 
         fun?: Token, dot?: Token, open?: Token, close?: Token) {
         super();
 
@@ -67,9 +67,12 @@ export default class FunctionDefinition extends Expression {
         this.open = open ?? new EvalOpenToken();
         this.inputs = inputs;
         this.close = close ?? new EvalCloseToken();
-        this.dot = dot ?? (type !== undefined ? new Token(TYPE_SYMBOL, TokenType.TYPE) : undefined);
-        this.type = type;
+        this.dot = dot ?? (output !== undefined ? new Token(TYPE_SYMBOL, TokenType.TYPE) : undefined);
+        this.output = output;
         this.expression = expression;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 
@@ -82,7 +85,7 @@ export default class FunctionDefinition extends Expression {
             { name: "inputs", types:[[ Bind, Unparsable ]] },
             { name: "close", types:[ Token] },
             { name: "dot", types:[ Token, undefined ] },
-            { name: "type", types:[ Type, Unparsable, undefined ] },
+            { name: "output", types:[ Type, Unparsable, undefined ] },
             { name: "expression", types:[ Expression, Unparsable, Token ] },
         ];
     }
@@ -94,7 +97,7 @@ export default class FunctionDefinition extends Expression {
             this.cloneOrReplaceChild(pretty, [ TypeVariable, Unparsable ], "typeVars", this.typeVars, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "inputs", this.inputs, original, replacement), 
             this.cloneOrReplaceChild<Expression|Unparsable|Token>(pretty, [ Expression, Unparsable, Token ], "expression", this.expression, original, replacement).withPrecedingSpaceIfDesired(pretty), 
-            this.cloneOrReplaceChild(pretty, [ Unparsable, Type, undefined ], "type", this.type, original, replacement), 
+            this.cloneOrReplaceChild(pretty, [ Unparsable, Type, undefined ], "type", this.output, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token ], "fun", this.fun, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token, undefined ], "dot", this.dot, original, replacement), 
             this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
@@ -124,11 +127,11 @@ export default class FunctionDefinition extends Expression {
             if(i >= fun.inputs.length) return false;
             if(!this.inputs[i].getTypeUnlessCycle(context).accepts(fun.inputs[i].getTypeUnlessCycle(context), context)) return false;
         }
-        return this.getTypeUnlessCycle(context).accepts(fun.getTypeUnlessCycle(context), context);
+        return this.getOutputType(context).accepts(fun.getOutputType(context), context);
 
     }
 
-    isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression || child === this.type || this.inputs.includes(child as Bind | Unparsable); }
+    isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression || child === this.output || this.inputs.includes(child as Bind | Unparsable); }
 
     computeConflicts(): Conflict[] { 
 
@@ -155,15 +158,15 @@ export default class FunctionDefinition extends Expression {
         
     }
 
-    computeType(context: Context): Type {
-        // The type is equivalent to the signature.
-        const outputType = 
-            this.type instanceof Type ? this.type : 
-            !(this.expression instanceof Expression) ? new UnknownType(this.expression instanceof Unparsable ? this.expression : { placeholder: this.expression }) : 
-            this.expression.getTypeUnlessCycle(context);
-        return new FunctionType(this.inputs, outputType);
+    computeType(): Type {
+        return new FunctionDefinitionType(this);
     }
 
+    getOutputType(context: Context) {
+        return this.output instanceof Type ? this.output : 
+            !(this.expression instanceof Expression) ? new UnknownType(this.expression instanceof Unparsable ? this.expression : { placeholder: this.expression }) : 
+            this.expression.getTypeUnlessCycle(context);
+    }
 
     compile(): Step[] {
         return [ new Finish(this) ];
@@ -217,11 +220,11 @@ export default class FunctionDefinition extends Expression {
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
-        if(child === this.type)
+        if(child === this.output)
             return getPossibleTypeReplacements(child, context);
         // Expression must be of output type, or any type if there isn't one.
         else if(child === this.expression && this.expression instanceof Expression)
-            return getExpressionReplacements(context.source, this, this.expression, context, this.type === undefined || this.type instanceof Unparsable ? new AnyType() : this.type);
+            return getExpressionReplacements(context.source, this, this.expression, context, this.output === undefined || this.output instanceof Unparsable ? new AnyType() : this.output);
 
     }
 
@@ -242,7 +245,7 @@ export default class FunctionDefinition extends Expression {
         if( this.typeVars.includes(child as TypeVariable) || 
             this.inputs.includes(child as Bind | Unparsable))
             return new Remove(context.source, this, child);
-        else if(child === this.type && this.dot) return new Remove(context.source, this, this.dot, this.type);
+        else if(child === this.output && this.dot) return new Remove(context.source, this, this.dot, this.output);
         else if(child === this.expression) return new Replace(context.source, child, new ExpressionPlaceholder());    
     }
 

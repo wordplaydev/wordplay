@@ -44,6 +44,8 @@ export default class Select extends Expression {
         this.row = row;
         this.query = query;
 
+        this.computeChildren();
+
     }
 
     getGrammar() { 

@@ -48,6 +48,8 @@ export default class Reference extends Expression {
 
         this.name = typeof name ==="string" ? new NameToken(name) : name;
 
+        this.computeChildren();
+
     }
 
     getGrammar() { 

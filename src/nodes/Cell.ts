@@ -18,6 +18,8 @@ export default class Cell extends Node {
 
         this.bar = bar;
         this.value = expression;
+
+        this.computeChildren();
     }
 
     getGrammar() { 

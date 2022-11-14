@@ -25,6 +25,9 @@ export default class NoneLiteral extends Expression {
         super();
 
         this.none = none ?? new Token(NONE_SYMBOL, TokenType.NONE);
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

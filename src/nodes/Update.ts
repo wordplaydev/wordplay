@@ -42,6 +42,8 @@ export default class Update extends Expression {
         this.row = row;
         this.query = query;
 
+        this.computeChildren();
+
     }
 
     getGrammar() { 

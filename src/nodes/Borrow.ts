@@ -30,6 +30,8 @@ export default class Borrow extends Node implements Evaluable {
         this.borrow = borrow ?? new Token(BORROW_SYMBOL, TokenType.BORROW);
         this.name = name;
         this.version = version;
+
+        this.computeChildren();
     }
 
     getGrammar() { 

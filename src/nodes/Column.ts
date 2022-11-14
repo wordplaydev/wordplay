@@ -18,6 +18,8 @@ export default class Column extends Node {
 
         this.bar = bar;
         this.bind = bind;
+
+        this.computeChildren();
     }
 
     getGrammar() { 

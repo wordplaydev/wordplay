@@ -42,6 +42,9 @@ export default class Convert extends Expression {
         this.expression = expression;
         this.convert = convert ?? new Token(CONVERT_SYMBOL, TokenType.CONVERT);
         this.type = type;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

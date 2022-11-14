@@ -37,6 +37,9 @@ export default class UnaryOperation extends Expression {
 
         this.operator = operator;
         this.operand = operand;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

@@ -40,6 +40,9 @@ export default class Is extends Expression {
         this.operator = operator.withPrecedingSpace("", true);
         this.expression = left;
         this.type = right;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

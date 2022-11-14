@@ -29,6 +29,9 @@ export default class Unparsable extends Node implements Evaluable {
         this.reason = reason;
         this.parsedNodes = parsedNodes.slice();
         this.unparsableTokens = unparsableTokens.slice();
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

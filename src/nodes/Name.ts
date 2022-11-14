@@ -33,6 +33,9 @@ export default class Name extends Node {
         this.separator = separator;
         this.name = typeof name === "string" ? new NameToken(name) : name instanceof Token ? name : new PlaceholderToken();
         this.lang = typeof lang === "string" ? new Language(lang) : lang;
+
+        this.computeChildren();
+        
     }
 
     getGrammar() { 

@@ -22,6 +22,9 @@ export default class Language extends Node {
 
         this.slash = lang instanceof Token ? slash : new LanguageToken();
         this.lang = typeof lang === "string" ? new NameToken(lang) : lang;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

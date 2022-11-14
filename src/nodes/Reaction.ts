@@ -45,6 +45,8 @@ export default class Reaction extends Expression {
         this.stream = stream;
         this.next = next;
 
+        this.computeChildren();
+
     }
 
     getGrammar() { 

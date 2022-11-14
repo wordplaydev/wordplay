@@ -7,7 +7,6 @@ export default class AnyType extends Type {
 
     constructor() {
         super();
-
     }
 
     getGrammar() { return []; }

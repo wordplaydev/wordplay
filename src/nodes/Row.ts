@@ -19,6 +19,8 @@ export default class Row extends Node {
         this.cells = cells;
         this.close = close;
         
+        this.computeChildren();
+
     }
 
     getGrammar() { 

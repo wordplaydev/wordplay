@@ -16,6 +16,9 @@ export default class Names extends Node {
         this.names = names === undefined ? [] : 
                     Array.isArray(names) ? names : 
                     Object.keys(names).map(lang => new Name(names[lang as LanguageCode], lang));
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

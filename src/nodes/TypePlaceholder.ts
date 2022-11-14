@@ -15,6 +15,9 @@ export default class TypePlaceholder extends Type {
         super();
 
         this.placeholder = etc ?? new PlaceholderToken();
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

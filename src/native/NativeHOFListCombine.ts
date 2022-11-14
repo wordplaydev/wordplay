@@ -30,7 +30,6 @@ export default class NativeHOFListCombine extends HOF {
         this.hofType = hofType;
     }
 
-    computeChildren() { return [] };
     computeType(): Type { return new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)); }
 
     compile(): Step[] { 

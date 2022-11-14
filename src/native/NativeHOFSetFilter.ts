@@ -26,12 +26,12 @@ import { SET_TYPE_VAR_NAMES } from "./NativeConstants";
 export default class NativeHOFSetFilter extends HOF {
 
     readonly hofType: FunctionType;
+
     constructor(hofType: FunctionType) {
         super();        
-        this.hofType = hofType;
+        this.hofType = hofType
     }
 
-    computeChildren() { return [] };
     computeType(): Type { return new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)); }
 
     compile(): Step[] { 

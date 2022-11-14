@@ -24,11 +24,10 @@ export default class NativeHOFListAll extends HOF {
 
     readonly hofType: FunctionType;
     constructor(hofType: FunctionType) {
-        super();        
+        super();
         this.hofType = hofType;
     }
 
-    computeChildren() { return [] };
     computeType() { return new BooleanType(); }
 
     compile(): Step[] { 

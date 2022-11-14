@@ -20,6 +20,9 @@ export default class TypeInput extends Node {
 
         this.dot = dot ?? new TypeToken();
         this.type = type;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

@@ -14,6 +14,7 @@ import type Transform from "../transforms/Transform";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import FunctionDefinitionType from "./FunctionDefinitionType";
 
 export default class FunctionType extends Type {
 
@@ -31,6 +32,9 @@ export default class FunctionType extends Type {
         this.inputs = inputs;
         this.close = close ?? new EvalCloseToken();;
         this.output = output;
+
+        this.computeChildren();
+
     }
     
     getGrammar() { 
@@ -44,14 +48,17 @@ export default class FunctionType extends Type {
     }
 
     accepts(type: Type, context: Context): boolean {
-        if(!(type instanceof FunctionType)) return false;
+        if(!(type instanceof FunctionType || type instanceof FunctionDefinitionType)) return false;
+        let inputsToCheck: (Bind|Unparsable)[] = type instanceof FunctionDefinitionType ? type.fun.inputs : type.inputs;
+        let outputToCheck = type instanceof FunctionDefinitionType ? type.fun.getOutputType(context) : type.output;
+
         if(!(this.output instanceof Type)) return false;
-        if(!(type.output instanceof Type)) return false;
-        if(!this.output.accepts(type.output, context)) return false;
-        if(this.inputs.length != type.inputs.length) return false;
+        if(!(outputToCheck instanceof Type)) return false;
+        if(!this.output.accepts(outputToCheck, context)) return false;
+        if(this.inputs.length != inputsToCheck.length) return false;
         for(let i = 0; i < this.inputs.length; i++) {
             const thisBind = this.inputs[i];
-            const thatBind = type.inputs[i];
+            const thatBind = inputsToCheck[i];
             if(thisBind instanceof Unparsable) return false;
             if(thatBind instanceof Unparsable) return false;
             if(thisBind.type instanceof Type && thatBind.type instanceof Type && !thisBind.type.accepts(thatBind.type, context)) return false;

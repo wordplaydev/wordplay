@@ -25,6 +25,8 @@ export default class ConversionType extends Type {
         this.convert = convert ?? new Token(CONVERT_SYMBOL, TokenType.CONVERT);
         this.output = output;
 
+        this.computeChildren();
+
     }
     getGrammar() { 
         return [

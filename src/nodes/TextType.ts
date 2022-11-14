@@ -27,6 +27,9 @@ export default class TextType extends NativeType {
 
         this.text = text ?? new Token(TEXT_SYMBOL, TokenType.TEXT);
         this.format = format;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

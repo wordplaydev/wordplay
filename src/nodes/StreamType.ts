@@ -23,6 +23,9 @@ export default class StreamType extends Type {
 
         this.stream = stream ?? new Token(REACTION_SYMBOL, TokenType.REACTION);
         this.type = type;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

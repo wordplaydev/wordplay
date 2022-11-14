@@ -37,6 +37,9 @@ export default class MeasurementType extends NativeType {
         this.number = number ?? new Token(MEASUREMENT_SYMBOL, TokenType.NUMBER_TYPE);
         this.unit = unit ?? new Unit();
         this.op = op;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

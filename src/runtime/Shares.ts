@@ -80,8 +80,6 @@ export default class Shares {
 
         if(def instanceof Unparsable) throw Error(`Couldn't add unparsable ${def.toWordplay()}`);
 
-        def.cacheParents();
-
         const val = new StructureDefinitionValue(this.evaluator.getProgram(), def);
         def.names.names.forEach(a => {
             const name = a.getName();

@@ -31,7 +31,11 @@ export default class ExpressionPlaceholder extends Expression {
 
     constructor(etc?: Token) {
         super();
+
         this.placeholder = etc ?? new PlaceholderToken();
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

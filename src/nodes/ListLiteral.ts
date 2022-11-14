@@ -39,6 +39,8 @@ export default class ListLiteral extends Expression {
             value.withPrecedingSpaceIfDesired(index > 0 && endsWithName(values[index - 1]) && startsWithName(value)," ", false))
         this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
 
+        this.computeChildren();
+
     }
 
     getGrammar() { 
@@ -56,10 +58,6 @@ export default class ListLiteral extends Expression {
             this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement),
             this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
          ) as this; 
-    }
-
-    computeChildren() {
-        return [ this.open, ...this.values, this.close ];
     }
 
     computeType(context: Context): Type {

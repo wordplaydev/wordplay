@@ -36,6 +36,9 @@ export default class NativeExpression extends Expression {
         this.evaluator = evaluator;
         this.explanations = explanations;
 
+        // Claim the type so that it's part 
+        this.type._parent = this;
+
     }
     
     computeConflicts() {}

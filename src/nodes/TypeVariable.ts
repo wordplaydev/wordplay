@@ -17,6 +17,9 @@ export default class TypeVariable extends Node {
 
         this.type = type ?? new Token(TYPE_VAR_SYMBOL, TokenType.TYPE_VAR);
         this.names = names instanceof Names ? names : new Names(names);
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

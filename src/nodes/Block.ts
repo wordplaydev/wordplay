@@ -60,6 +60,9 @@ export default class Block extends Expression {
         this.docs = docs instanceof Docs ? docs : new Docs(docs);
         this.root = root;
         this.creator = creator;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

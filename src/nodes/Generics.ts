@@ -4,6 +4,7 @@ import type Context from "./Context";
 import Evaluate from "./Evaluate";
 import Expression from "./Expression";
 import type FunctionDefinition from "./FunctionDefinition";
+import FunctionDefinitionType from "./FunctionDefinitionType";
 import FunctionType from "./FunctionType";
 import MeasurementType from "./MeasurementType";
 import NameType from "./NameType";
@@ -35,9 +36,9 @@ export default function getConcreteExpectedType(definition: FunctionDefinition |
         if(definition instanceof StructureDefinition) return new StructureType(definition);
         const functionType = definition.getTypeUnlessCycle(context);
         if(functionType instanceof Unparsable) return new UnknownType(functionType);
-        if(!(functionType instanceof FunctionType)) return new UnknownType({ typeVar: definition });
-        if(functionType.output instanceof Unparsable) return new UnknownType(functionType.output);
-        type = functionType.output;
+        if(!(functionType instanceof FunctionDefinitionType)) return new UnknownType({ typeVar: definition });
+        if(functionType.fun.output instanceof Unparsable) return new UnknownType(functionType.fun.output);
+        type = functionType.fun.getOutputType(context);
     }
     // Otherwise, check that the bind actually exists 
     else {
@@ -70,8 +71,6 @@ export default function getConcreteExpectedType(definition: FunctionDefinition |
                 getConcreteMeasurementInput(nextAbstractType, evaluation, context);
             // Clone the current type, replacing the abstract type with the concrete type.
             type = type.clone(false, nextAbstractType, concreteType);
-            // Build parent links
-            type.cacheParents();
             // Point the type back to it's original parent for subsequent analysis in the same context.
             type._parent = originalParent;
         }
@@ -141,7 +140,7 @@ function getConcreteTypeVariable(type: NameType, definition: FunctionDefinition 
         const indexOfInputWithVariableType = definition.inputs.findIndex(i => 
             i instanceof Bind && i.type instanceof NameType && i.type.isTypeVariable(context) && typeVariable.hasName(i.type.getName())
         );
-        const indexOfInputWithVariableOutputType = definition.inputs.findIndex(i => 
+        const indexOfInputWithVariableOutputType = definition.inputs.findIndex(i =>
             i instanceof Bind && i.type instanceof FunctionType && i.type.output instanceof NameType && i.type.output.isTypeVariable(context) && typeVariable.hasName(i.type.output.getName())
         );
 
@@ -174,8 +173,8 @@ function getConcreteTypeVariable(type: NameType, definition: FunctionDefinition 
                     concreteType = inputByIndex.getType(context);
             }
             // Finally, if we're extracting the output type of a function input, get the function type's output.
-            if(inOutput && concreteType instanceof FunctionType)
-                concreteType = concreteType.output instanceof Type ? concreteType.output : undefined;
+            if(inOutput && concreteType instanceof FunctionDefinitionType)
+                concreteType = concreteType.fun.getOutputType(context);
 
             // If we found a type, return it!
             if(concreteType !== undefined) return concreteType;

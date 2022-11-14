@@ -38,6 +38,8 @@ export default class SetLiteral extends Expression {
         this.values = values.map((value: SetItem, index) => 
             value.withPrecedingSpaceIfDesired(index > 0 && endsWithName(values[index - 1]) && startsWithName(value), " ", false))
         this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
+
+        this.computeChildren();
         
     }
 

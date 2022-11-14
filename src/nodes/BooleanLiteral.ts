@@ -24,7 +24,11 @@ export default class BooleanLiteral extends Expression {
 
     constructor(value: Token | boolean) {
         super();
+     
         this.value = value === true || value === false ? new Token(value ? TRUE_SYMBOL : FALSE_SYMBOL, TokenType.BOOLEAN) : value;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

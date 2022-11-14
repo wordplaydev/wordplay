@@ -40,6 +40,8 @@ export default class Insert extends Expression {
         this.insert = insert;
         this.row = row;
 
+        this.computeChildren();
+
     }
 
     getGrammar() { 

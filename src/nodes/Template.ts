@@ -39,6 +39,9 @@ export default class Template extends Expression {
         this.open = open;
         this.expressions = expressions ?? [ new Token("'\\", TokenType.TEXT_OPEN), new ExpressionPlaceholder(), new Token("\\'", TokenType.TEXT_CLOSE )];
         this.format = format;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

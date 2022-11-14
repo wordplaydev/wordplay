@@ -23,6 +23,9 @@ export default class KeyValue extends Node {
         this.key = key;
         this.bind = bind ?? new BindToken();
         this.value = value;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

@@ -38,6 +38,8 @@ export default class TableLiteral extends Expression {
         this.close = close;
         this.rows = rows;
     
+        this.computeChildren();
+
     }
 
     getGrammar() { 

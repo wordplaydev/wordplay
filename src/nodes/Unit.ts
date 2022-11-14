@@ -73,6 +73,8 @@ export default class Unit extends Type {
             this.denominator = [];
         }
 
+        this.computeChildren();
+
     }
 
     getGrammar() { 

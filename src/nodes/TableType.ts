@@ -22,6 +22,9 @@ export default class TableType extends Type {
 
         this.columns = columns;
         this.close = close ?? new Token(TABLE_CLOSE_SYMBOL, TokenType.TABLE_CLOSE);
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

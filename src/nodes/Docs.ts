@@ -15,6 +15,9 @@ export default class Docs extends Node {
         this.docs = docs === undefined ? [] : 
                     Array.isArray(docs) ? docs : 
                     Object.keys(docs).map(lang => new Doc(docs[lang as LanguageCode], lang));
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

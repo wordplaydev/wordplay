@@ -267,7 +267,7 @@ test("Parse expressions", () => {
 
     const withOutputType = parseExpression(tokens("ƒ() •# …"));
     expect(withOutputType).toBeInstanceOf(FunctionDefinition);
-    expect((withOutputType as FunctionDefinition).type).toBeInstanceOf(MeasurementType);
+    expect((withOutputType as FunctionDefinition).output).toBeInstanceOf(MeasurementType);
 
     const withBody = parseExpression(tokens("ƒ(a b) •# a + b"));
     expect(withBody).toBeInstanceOf(FunctionDefinition);

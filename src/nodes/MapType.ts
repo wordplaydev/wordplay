@@ -31,6 +31,9 @@ export default class MapType extends NativeType {
         this.bind = bind ?? new BindToken();
         this.key = key;
         this.value = value;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

@@ -45,8 +45,6 @@ export class NativeBindings implements NativeInterface {
                 this.functionsByType[kind][name] = fun
         });
 
-        fun.cacheParents();
-
     }
 
     addConversion(kind: string, conversion: ConversionDefinition) {
@@ -56,15 +54,12 @@ export class NativeBindings implements NativeInterface {
 
         this.conversionsByType[kind].push(conversion);
 
-        conversion.cacheParents();
-
     }
 
     addStructure(kind: string, structure: StructureDefinition) {
 
         // Cache the parents of the nodes, "crystalizing" it.
         // This means there should be no future changes to the native structure definition.
-        structure.cacheParents();
         this.structureDefinitionsByName[kind] = structure;
 
         if(structure.block instanceof Block) {
@@ -75,8 +70,6 @@ export class NativeBindings implements NativeInterface {
                     this.addConversion(kind, statement);
             }
         }
-
-        structure.cacheParents();
 
     }
     

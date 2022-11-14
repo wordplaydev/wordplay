@@ -16,6 +16,9 @@ export default class NoneType extends NativeType {
         super();
 
         this.none = none ?? new Token(NONE_SYMBOL, TokenType.NONE_TYPE);
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

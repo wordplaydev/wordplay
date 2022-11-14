@@ -32,8 +32,12 @@ export default class MeasurementLiteral extends Expression {
 
     constructor(number?: Token | number, unit?: Unit | Unparsable) {
         super();
+        
         this.number = number === undefined ? new PlaceholderToken() : number instanceof Token ? number : new Token("" + number, TokenType.DECIMAL);
         this.unit = unit === undefined ? new Unit() : unit.withPrecedingSpace("", true);
+
+        this.computeChildren();
+
     }
     
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 

@@ -43,6 +43,9 @@ export default class Previous extends Expression {
         this.stream = stream;
         this.previous = previous ?? new Token(PREVIOUS_SYMBOL, TokenType.PREVIOUS);
         this.index = index;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

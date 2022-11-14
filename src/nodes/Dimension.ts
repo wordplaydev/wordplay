@@ -25,6 +25,8 @@ export default class Dimension extends Node {
         this.caret = caret === undefined ? undefined : caret.withPrecedingSpace("", true);
         this.exponent = exponent === undefined ? undefined : exponent.withPrecedingSpace("", true);
 
+        this.computeChildren();
+
     }
 
     getGrammar() { 

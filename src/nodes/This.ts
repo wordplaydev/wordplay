@@ -32,6 +32,9 @@ export default class This extends Expression {
     constructor(dis: Token) {
         super();
         this.dis = dis;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

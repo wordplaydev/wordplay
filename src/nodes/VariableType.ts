@@ -11,6 +11,7 @@ export default class VariableType extends Type {
         super();
 
         this.definition = definition;
+        
     }
 
     getGrammar() { return []; }

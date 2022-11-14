@@ -20,7 +20,6 @@
         "_ → _"
     ].map(code => parseExpression(tokens(code)));
     expressions.push(parseBind(tokens("_: _") ));
-    expressions.forEach(node => node.cacheParents());
 
     const types = [
         "?",
@@ -32,7 +31,6 @@
         "{ _ : _ }",
         "_ • _"
     ].map(code => parseType(tokens(code)));
-    types.forEach(node => node.cacheParents());
 
     let dragged = getContext<DraggedContext>(DraggedSymbol);
 

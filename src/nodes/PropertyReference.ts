@@ -52,6 +52,9 @@ export default class PropertyReference extends Expression {
         this.structure = subject;
         this.dot = dot ?? new Token(PROPERTY_SYMBOL, TokenType.ACCESS);
         this.name = name;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

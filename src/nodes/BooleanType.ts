@@ -17,6 +17,9 @@ export default class BooleanType extends NativeType {
         super();
 
         this.type = type ?? new Token(BOOLEAN_TYPE_SYMBOL, TokenType.BOOLEAN_TYPE);
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

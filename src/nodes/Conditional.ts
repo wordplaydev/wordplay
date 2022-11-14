@@ -40,6 +40,8 @@ export default class Conditional extends Expression {
         // Must have a preciding space if yes ends with a name and no starts with one.
         this.no = no.withPrecedingSpaceIfDesired(endsWithName(yes) && startsWithName(no));
 
+        this.computeChildren();
+
     }
 
     getGrammar() { 

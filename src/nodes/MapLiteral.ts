@@ -46,6 +46,8 @@ export default class MapLiteral extends Expression {
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
         this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
         this.bind = bind;
+
+        this.computeChildren();
         
     }
 

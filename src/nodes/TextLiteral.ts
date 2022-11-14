@@ -30,6 +30,9 @@ export default class TextLiteral extends Expression {
         super();
         this.text = text instanceof Token ? text : new Token(`'${text ?? ""}'`, TokenType.TEXT);
         this.format = format;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

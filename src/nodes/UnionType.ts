@@ -28,6 +28,9 @@ export default class UnionType extends Type {
         this.left = left;
         this.or = or ?? new Token(TYPE_SYMBOL, TokenType.UNION);
         this.right = right;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 

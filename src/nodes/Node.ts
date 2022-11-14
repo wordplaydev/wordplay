@@ -20,7 +20,7 @@ export default abstract class Node {
     _children: undefined | Node[] = undefined;
 
     /* A cache of this node's parent. Undefined means no cache, null means no parent. */
-    _parent: undefined | null | Node = undefined;
+    _parent: undefined | Node = undefined;
 
     /** A cache of conflicts on this node. Undefined means no cache. */
     _conflicts: undefined | Conflict[] = undefined;
@@ -40,14 +40,6 @@ export default abstract class Node {
      * */
     getChildNames(): string[] { return this.getGrammar().map(field => field.name )}
 
-    /* A recursive function that computes parents. Called by the root. Assumes the tree is immutable. */
-    cacheParents() {
-        for(const child of this.getChildren()) {
-            child._parent = this;
-            child.cacheParents();
-        }
-    }
-
     /** Returns the children in the node, in order. Needed for batch operations on trees. Cache children to avoid recomputation. */
     getChildren(): Node[] {
         if(this._children === undefined)
@@ -57,6 +49,7 @@ export default abstract class Node {
 
     /** Use the subclass's child name list to construct a flat list of nodes. We use this list for tree traversal. */
     computeChildren(): Node[] {
+
         const children: Node[] = [];
         for(const name of this.getChildNames()) {
             const field = (this as any)[name] as (Node | Node[] | undefined);
@@ -69,6 +62,14 @@ export default abstract class Node {
             else if(field instanceof Node)
                 children.push(field);
         }
+
+        // Claim each child
+        for(const child of children)
+            child._parent = this;
+
+        // Assign the children.
+        this._children = children;
+
         return children;
     }
 
@@ -218,8 +219,8 @@ export default abstract class Node {
         return this.getAncestors()?.find(n => n instanceof type) as T ?? undefined;
     }
 
-    /** Returns the cached parent of the given node. Assumes the root of this node has called cacheParents(). */
-    getParent(): Node | null | undefined {
+    /** Returns the cached parent of the given node, set by computeChildren after each node is constructed. */
+    getParent(): Node | undefined {
         return this._parent;
     }
 

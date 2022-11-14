@@ -41,13 +41,15 @@ export default class BinaryOperation extends Expression {
     readonly operator: Token;
     readonly right: Expression | Unparsable;
 
-
     constructor(operator: Token | string, left: Expression | Unparsable, right: Expression | Unparsable) {
         super();
 
         this.operator = operator instanceof Token ? operator : new Token(operator, TokenType.BINARY_OP);
         this.left = left;
         this.right = right;
+
+        this.computeChildren();
+
     }
 
     getGrammar() { 
