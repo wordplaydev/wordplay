@@ -81,11 +81,9 @@ export default class Source {
     }
 
     getProject() { return this._project; }
-    setProject(project: Project) {
-        
-        this._project = project; 
+    setProject(project: Project) { this._project = project; }
 
-        // Now that we have a project, we can get conflicts (to enable cross-Source borrows).
+    computeConflicts() {
 
         this.conflicts = this.program.getAllConflicts(this.getContext());
 
@@ -102,7 +100,7 @@ export default class Source {
                 this._secondaryNodeConflicts.set(node, [ ... nodeConflicts, conflict ]);
             });
         });
-    
+
     }
 
     getContext() {

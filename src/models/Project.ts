@@ -19,9 +19,13 @@ export default class Project {
         this.main = main;
         this.supplements = supplements.slice();
 
-        // Assign this as the project, indirectly triggering conflict analyses.
+        // Assign this as the project
         main.setProject(this);
         supplements.forEach(supp => supp.setProject(this));
+
+        // Analyze conflicts now that all source is set.
+        main.computeConflicts();
+        supplements.forEach(supp => supp.computeConflicts());
 
     }
 
@@ -72,15 +76,6 @@ export default class Project {
 
     withSource(oldSource: Source, newSource: Source) {
         return this.withSources([[ oldSource, newSource ]]);
-        // // Note: we need to clone all of the unchanged sources in order to generate new Programs so that the views can
-        // // trigger an update. Without this, we'd have the same Source, Program, and Nodes, and the views would have no idea
-        // // that the conflicts in those same objects have changed.
-        // if(this.main === oldSource) return new Project(this.name, newSource, this.supplements.map(supplement => supplement.clone()));
-        // else if(this.supplements.includes(oldSource)) {
-        //     const index = this.supplements.indexOf(oldSource);
-        //     return new Project(this.name, this.main.clone(), [ ...this.supplements.slice(0, index).map(supplement => supplement.clone()), newSource, ...this.supplements.slice(index + 1).map(supplement => supplement.clone())]);
-        // }
-        // else return this;
     }
 
     withSources(replacements: [ Source, Source ][]) {

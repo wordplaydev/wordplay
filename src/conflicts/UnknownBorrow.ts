@@ -22,7 +22,7 @@ export class UnknownBorrow extends Conflict {
     getExplanations(): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `I don't know who I am!`
+            eng: `I don't know who this is, can't borrow!`
         }
     }
 
