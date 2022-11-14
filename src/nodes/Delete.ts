@@ -49,6 +49,14 @@ export default class Delete extends Expression {
         ];
     }
 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+        return new Delete(
+            this.cloneOrReplaceChild(pretty, "table", this.table, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "del", this.del, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "query", this.query, original, replacement)
+        ) as this; 
+    }
+
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query; }
 
     computeConflicts(context: Context): Conflict[] { 
@@ -92,14 +100,6 @@ export default class Delete extends Expression {
 
     evaluate(evaluator: Evaluator): Value {
         return new UnimplementedException(evaluator);
-    }
-
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new Delete(
-            this.cloneOrReplaceChild(pretty, [ Expression ], "table", this.table, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "del", this.del, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "query", this.query, original, replacement)
-        ) as this; 
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 

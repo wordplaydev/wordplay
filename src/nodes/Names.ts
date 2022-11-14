@@ -27,9 +27,9 @@ export default class Names extends Node {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Names(
-            this.cloneOrReplaceChild<Name[]>(pretty, [ Name ], "names", this.names, original, replacement)
+            this.cloneOrReplaceChild<Name[]>(pretty, "names", this.names, original, replacement)
                 .map((alias: Name, index: number) => alias.withPrecedingSpaceIfDesired(pretty && index === 0)), 
         ) as this; 
     }

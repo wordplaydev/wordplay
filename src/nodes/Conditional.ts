@@ -53,12 +53,12 @@ export default class Conditional extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Conditional(
-            this.cloneOrReplaceChild(pretty, [ Expression ], "condition", this.condition, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, [ Expression, Unparsable ], "yes", this.yes, original, replacement).withPrecedingSpaceIfDesired(pretty), 
-            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, [ Expression, Unparsable ], "no", this.no, original, replacement).withPrecedingSpaceIfDesired(pretty),
-            this.cloneOrReplaceChild<Token>(pretty, [ Token ], "conditional", this.conditional, original, replacement).withPrecedingSpaceIfDesired(pretty)
+            this.cloneOrReplaceChild(pretty, "condition", this.condition, original, replacement), 
+            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "yes", this.yes, original, replacement).withPrecedingSpaceIfDesired(pretty), 
+            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "no", this.no, original, replacement).withPrecedingSpaceIfDesired(pretty),
+            this.cloneOrReplaceChild<Token>(pretty, "conditional", this.conditional, original, replacement).withPrecedingSpaceIfDesired(pretty)
         ) as this;
     }
 

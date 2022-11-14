@@ -60,11 +60,11 @@ export default class BinaryOperation extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new BinaryOperation(
-            this.cloneOrReplaceChild<Token>(pretty, [ Token ], "operator", this.operator, original, replacement).withPrecedingSpaceIfDesired(pretty), 
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "left", this.left, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, [ Expression, Unparsable ], "right", this.right, original, replacement).withPrecedingSpaceIfDesired(pretty)
+            this.cloneOrReplaceChild<Token>(pretty, "operator", this.operator, original, replacement).withPrecedingSpaceIfDesired(pretty), 
+            this.cloneOrReplaceChild(pretty, "left", this.left, original, replacement), 
+            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "right", this.right, original, replacement).withPrecedingSpaceIfDesired(pretty)
         ) as this; 
     }
 

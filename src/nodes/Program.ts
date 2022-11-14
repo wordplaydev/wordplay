@@ -50,6 +50,15 @@ export default class Program extends Node implements Evaluable {
         ]; 
     }
 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+        return new Program(
+            this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement),
+            this.cloneOrReplaceChild(pretty, "borrows", this.borrows, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "block", this.block, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "end", this.end, original, replacement)
+        ) as this; 
+    }
+
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }
 
     computeConflicts() {}
@@ -92,15 +101,6 @@ export default class Program extends Node implements Evaluable {
         // Return whatever the block computed, if there is anything.
         return evaluator.popValue(undefined);
 
-    }
-
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new Program(
-            this.cloneOrReplaceChild(pretty, [ Docs ], "docs", this.docs, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Borrow, Unparsable ], "borrows", this.borrows, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Block, Unparsable ], "block", this.block, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "end", this.end, original, replacement)
-        ) as this; 
     }
 
     getChildReplacement() { return undefined; }

@@ -56,11 +56,11 @@ export default class Previous extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Previous(
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "stream", this.stream, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "index", this.index, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "previous", this.previous, original, replacement)
+            this.cloneOrReplaceChild(pretty, "stream", this.stream, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "index", this.index, original, replacement),
+            this.cloneOrReplaceChild(pretty, "previous", this.previous, original, replacement)
         ) as this; 
     }
 

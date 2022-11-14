@@ -65,11 +65,11 @@ export default class PropertyReference extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new PropertyReference(
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "subject", this.structure, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "name", this.name, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "access", this.dot, original, replacement)
+            this.cloneOrReplaceChild(pretty, "subject", this.structure, original, replacement),
+            this.cloneOrReplaceChild(pretty, "name", this.name, original, replacement),
+            this.cloneOrReplaceChild(pretty, "access", this.dot, original, replacement)
         ) as this;
     }
 

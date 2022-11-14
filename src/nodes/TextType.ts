@@ -39,10 +39,10 @@ export default class TextType extends NativeType {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new TextType(
-            this.cloneOrReplaceChild(pretty, [ Token ], "quote", this.text, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Language, undefined ], "format", this.format, original, replacement)
+            this.cloneOrReplaceChild(pretty, "quote", this.text, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "format", this.format, original, replacement)
         ) as this; 
     }
 

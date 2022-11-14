@@ -39,6 +39,14 @@ export default class SetType extends NativeType {
         ];
     }
 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+        return new SetType(
+            this.cloneOrReplaceChild(pretty, "key", this.key, original, replacement),
+            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
+        ) as this; 
+    }
+
     computeConflicts() {}
 
     accepts(type: Type, context: Context): boolean { 
@@ -56,14 +64,6 @@ export default class SetType extends NativeType {
     }
 
     getNativeTypeName(): string { return SET_NATIVE_TYPE_NAME; }
-
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new SetType(
-            this.cloneOrReplaceChild(pretty, [ Type, Unparsable, undefined ], "key", this.key, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
-        ) as this; 
-    }
 
     resolveTypeVariable(name: string): Type | undefined { 
         return Object.values(SET_TYPE_VAR_NAMES).includes(name) && this.key instanceof Type ? this.key : undefined;

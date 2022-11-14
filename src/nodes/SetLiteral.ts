@@ -51,12 +51,12 @@ export default class SetLiteral extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new SetLiteral(
-            this.cloneOrReplaceChild<SetItem[]>(pretty, [ Expression, Unparsable ], "values", this.values, original, replacement)
+            this.cloneOrReplaceChild<SetItem[]>(pretty, "values", this.values, original, replacement)
                 .map((value: SetItem, index: number) => value.withPrecedingSpaceIfDesired(pretty && index > 0)),
-            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
         ) as this; 
     }
 

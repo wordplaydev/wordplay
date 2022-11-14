@@ -280,16 +280,36 @@ export default abstract class Node {
     /** Creates a deep clone of this node and it's descendants. If it encounters replacement along the way, it uses that instead of the existing node. */
     abstract clone(pretty: boolean, original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
 
-    cloneOrReplaceChild<ExpectedTypes>(pretty: boolean, types: (Function | undefined)[], name: string, child: Node | Node[] | undefined, original: Node | string | undefined, replacement: Node | undefined): ExpectedTypes {
+    cloneOrReplaceChild<ExpectedTypes>(pretty: boolean, field: string, child: Node | Node[] | undefined, original: Node | string | undefined, replacement: Node | undefined): ExpectedTypes {
 
-        // If the original we're replacing matches this field name or the child node, then try to update it.then check it's type and if it's valid, return it.
-        if((typeof original === "string" && original === name) || child === original || (Array.isArray(child) && original instanceof Node && child.includes(original))) {
-            if( Array.isArray(child) && Array.isArray(replacement)) {
-                if(!replacement.every(node => types.findIndex(type => type !== undefined && node instanceof type) >= 0))
-                    throw Error(`Replacement list contains an element of an invalid type. Expected ${types.map(type => type?.name).join(" | ")}, but received ${replacement.map(n => n.constructor.name).join(", ")}`);
+        function allowedToString(allowedTypes: (Function | Function[] | undefined)[]) {
+            return `[${allowedTypes.map(type => type instanceof Function ? type.name : Array.isArray(type) ? type.map(type => type.name) : "undefined").join(", ")}]`;
+        }
+
+        function isAllowed(node: Node | undefined, allowedTypes: (Function | Function[] | undefined)[]) {
+            return allowedTypes.some(type => 
+                (type instanceof Function && node instanceof type) || 
+                (type === undefined && node === undefined) || 
+                (Array.isArray(type) && type.some(listType => node instanceof listType)));
+        }
+
+        // If we're replacing something --- defined by either the original or replacement being undefined ---
+        // and one of three cases is true: 1) we're replacing the field name, 2) we're replacing a child of this onde, 3) we're replacing a child in a list of this node
+        // then verify the replacemen type and return the replacement instead of a clone of the original child.
+        if((original !== undefined || replacement !== undefined) && (typeof original === "string" && original === field) || child === original || (Array.isArray(child) && original instanceof Node && child.includes(original))) {
+
+            // Find the types expected for this field
+            const allowedTypes = this.getGrammar().find(child => child.name === field)?.types;
+
+            if(allowedTypes === undefined)
+                throw Error(`Couldn't find allowed types of field ${field}`);
+            else if(Array.isArray(child) && Array.isArray(replacement) && Array.isArray(allowedTypes[0])) {
+                const listTypes = allowedTypes[0];
+                if(Array.isArray(listTypes) && !replacement.every(node => listTypes.find(type => type !== undefined && node instanceof type) !== undefined))
+                    throw Error(`Replacement list contains an element of an invalid type. Expected ${allowedToString(allowedTypes)}, but received ${replacement.map(n => n.constructor.name).join(", ")}`);
             }
-            else if((!Array.isArray(child) || replacement !== undefined) && types.findIndex(type => type === undefined ? replacement === undefined : replacement instanceof type) < 0)
-                throw Error(`Replacement isn't of a valid type. Received ${replacement}, of type ${replacement?.constructor.name}, expected ${types.map(type => type?.name).join(" | ")}`);
+            else if((!Array.isArray(child) || replacement !== undefined) && !isAllowed(replacement, allowedTypes))
+                throw Error(`Replacement isn't of a valid type. Received ${replacement?.constructor.name}, expected ${allowedToString(allowedTypes)}`);
             
             // If the child we're replacing is an array but the original is a single node, either replace or remove the original.
             if(Array.isArray(child) && original instanceof Node) {
@@ -309,9 +329,9 @@ export default abstract class Node {
                 
             }
             else return replacement as ExpectedTypes;
-       }
+        }
 
-       // Otherwise, just clone the child. If it's a list, clone the list items.
+        // Otherwise, just clone the child. If it's a list, clone the list items.
         if(Array.isArray(child))
             return child.map(n => n.clone(pretty, original, replacement)) as ExpectedTypes
         else       

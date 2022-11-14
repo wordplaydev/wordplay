@@ -46,11 +46,11 @@ export default class Name extends Node {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Name(
-            this.cloneOrReplaceChild(pretty, [ Token, undefined], "name", this.name, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Language, undefined], "lang", this.lang, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token, undefined], "separator", this.separator, original, replacement)
+            this.cloneOrReplaceChild(pretty, "name", this.name, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "lang", this.lang, original, replacement),
+            this.cloneOrReplaceChild(pretty, "separator", this.separator, original, replacement)
         ) as this;
     }
 

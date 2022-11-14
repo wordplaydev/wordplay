@@ -40,10 +40,10 @@ export default class MeasurementLiteral extends Expression {
 
     }
     
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new MeasurementLiteral(
-            this.cloneOrReplaceChild(pretty, [ Token ], "number", this.number, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Unit, Unparsable ], "unit", this.unit, original, replacement)
+            this.cloneOrReplaceChild(pretty, "number", this.number, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "unit", this.unit, original, replacement)
         ) as this;
     }
 

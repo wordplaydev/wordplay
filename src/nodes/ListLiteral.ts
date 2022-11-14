@@ -51,12 +51,12 @@ export default class ListLiteral extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new ListLiteral(
-            this.cloneOrReplaceChild<ListItem[]>(pretty, [ Expression, Unparsable ], "values", this.values, original, replacement)
+            this.cloneOrReplaceChild<ListItem[]>(pretty, "values", this.values, original, replacement)
                 .map((value: ListItem, index) => value.withPrecedingSpaceIfDesired(pretty && index > 0)),
-            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
+            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
          ) as this; 
     }
 

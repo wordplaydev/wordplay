@@ -32,10 +32,10 @@ export default class TypeInput extends Node {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new TypeInput(
-            this.cloneOrReplaceChild(pretty, [ Type, Unparsable ], "type", this.type, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "dot", this.dot, original, replacement)
+            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement),
+            this.cloneOrReplaceChild(pretty, "dot", this.dot, original, replacement)
         ) as this; 
     }
 

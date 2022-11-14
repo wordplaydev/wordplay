@@ -29,10 +29,10 @@ export default class Cell extends Node {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Cell(
-            this.cloneOrReplaceChild(pretty, [ Token ], "bar", this.bar, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable, Bind ], "value", this.value, original, replacement)
+            this.cloneOrReplaceChild(pretty, "bar", this.bar, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "value", this.value, original, replacement)
         ) as this; 
     }
 

@@ -92,17 +92,17 @@ export default class StructureDefinition extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) {
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) {
         return new StructureDefinition(
-            this.cloneOrReplaceChild(pretty, [ Docs ], "docs", this.docs, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Names ], "names", this.names, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ TypeInput ], "interfaces", this.interfaces, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ TypeVariable, Unparsable ], "typeVars", this.typeVars, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "inputs", this.inputs, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Block, Unparsable, undefined ], "block", this.block, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "type", this.type, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "open", this.open, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement),
+            this.cloneOrReplaceChild(pretty, "names", this.names, original, replacement),
+            this.cloneOrReplaceChild(pretty, "interfaces", this.interfaces, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "typeVars", this.typeVars, original, replacement),
+            this.cloneOrReplaceChild(pretty, "inputs", this.inputs, original, replacement),
+            this.cloneOrReplaceChild(pretty, "block", this.block, original, replacement),
+            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement),
+            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
+            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
         ) as this;
     }
 

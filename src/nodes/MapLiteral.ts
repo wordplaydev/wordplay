@@ -60,13 +60,13 @@ export default class MapLiteral extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new MapLiteral(
-            this.cloneOrReplaceChild<MapItem[]>(pretty, [ Unparsable, KeyValue ], "values", this.values, original, replacement)
+            this.cloneOrReplaceChild<MapItem[]>(pretty, "values", this.values, original, replacement)
                 .map((value: MapItem, index: number) => value.withPrecedingSpaceIfDesired(pretty && index > 0)),
-            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "bind", this.bind, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "bind", this.bind, original, replacement),
+            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
         ) as this; 
     }
 

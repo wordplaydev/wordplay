@@ -28,9 +28,9 @@ export default class BooleanType extends NativeType {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new BooleanType(
-            this.cloneOrReplaceChild(pretty, [ Token ], "type", this.type, original, replacement)
+            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement)
         ) as this; 
     }
 

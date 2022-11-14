@@ -41,11 +41,11 @@ export default class UnionType extends Type {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new UnionType(
-            this.cloneOrReplaceChild(pretty, [ Type ], "left", this.left, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Type, Unparsable ], "right", this.right, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "or", this.or, original, replacement)
+            this.cloneOrReplaceChild(pretty, "left", this.left, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "right", this.right, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "or", this.or, original, replacement)
         ) as this; 
     }
 

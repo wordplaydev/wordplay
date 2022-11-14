@@ -43,8 +43,8 @@ export default class This extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new This(this.cloneOrReplaceChild(pretty, [ Token ], "dis", this.dis, original, replacement)) as this; 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+        return new This(this.cloneOrReplaceChild(pretty, "dis", this.dis, original, replacement)) as this; 
     }
 
     getEnclosingStructure(): ThisStructure | undefined {

@@ -49,6 +49,13 @@ export default class UnaryOperation extends Expression {
         ]; 
     }
 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+        return new UnaryOperation(
+            this.cloneOrReplaceChild(pretty, "operator", this.operator, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "operand", this.operand, original, replacement)
+        ) as this; 
+    }
+
     getOperator() { return this.operator.text.toString(); }
 
     getFunction(context: Context) {
@@ -107,13 +114,6 @@ export default class UnaryOperation extends Expression {
         // No values to return, the evaluation will compute it.
         return undefined;
 
-    }
-
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new UnaryOperation(
-            this.cloneOrReplaceChild(pretty, [ Token ], "operator", this.operator, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "operand", this.operand, original, replacement)
-        ) as this; 
     }
 
     /** 

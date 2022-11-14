@@ -46,6 +46,16 @@ export default class MapType extends NativeType {
         ];
     }
 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+        return new MapType(
+            this.cloneOrReplaceChild(pretty, "key", this.key, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "value", this.value, original, replacement),
+            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
+            this.cloneOrReplaceChild(pretty, "bind", this.bind, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement) 
+        ) as this; 
+    }
+
     computeConflicts() {}
 
     accepts(type: Type, context: Context): boolean { 
@@ -72,16 +82,6 @@ export default class MapType extends NativeType {
     }
 
     getNativeTypeName(): string { return MAP_NATIVE_TYPE_NAME; }
-
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new MapType(
-            this.cloneOrReplaceChild(pretty, [ Type, Unparsable, undefined ], "key", this.key, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Type, Unparsable ], "value", this.value, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "bind", this.bind, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token], "close", this.close, original, replacement) 
-        ) as this; 
-    }
 
     resolveTypeVariable(name: string): Type | undefined { 
         return Object.values(MAP_KEY_TYPE_VAR_NAMES).includes(name) && this.key instanceof Type ? this.key : 

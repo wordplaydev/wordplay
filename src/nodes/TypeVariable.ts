@@ -29,10 +29,10 @@ export default class TypeVariable extends Node {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new TypeVariable(
-            this.cloneOrReplaceChild(pretty, [ Names ], "names", this.names, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "type", this.type, original, replacement)
+            this.cloneOrReplaceChild(pretty, "names", this.names, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement)
         ) as this; 
     }
 

@@ -47,6 +47,16 @@ export default class FunctionType extends Type {
         ]; 
     }
 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+        return new FunctionType(
+            this.cloneOrReplaceChild(pretty, "inputs", this.inputs, original, replacement),
+            this.cloneOrReplaceChild(pretty, "output", this.output, original, replacement),
+            this.cloneOrReplaceChild(pretty, "fun", this.fun, original, replacement),
+            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
+            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
+        ) as this;
+    }
+
     accepts(type: Type, context: Context): boolean {
         if(!(type instanceof FunctionType || type instanceof FunctionDefinitionType)) return false;
         let inputsToCheck: (Bind|Unparsable)[] = type instanceof FunctionDefinitionType ? type.fun.inputs : type.inputs;
@@ -70,13 +80,6 @@ export default class FunctionType extends Type {
 
     getNativeTypeName(): string { return FUNCTION_NATIVE_TYPE_NAME; }
     
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new FunctionType(
-            this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "inputs", this.inputs, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Type, Unparsable ], "output", this.output, original, replacement)
-        ) as this;
-    }
-
     computeConflicts() {
 
         // Make sure the inputs are valid.

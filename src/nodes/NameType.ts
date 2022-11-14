@@ -77,9 +77,9 @@ export default class NameType extends Type {
 
     getNativeTypeName(): string { return NAME_NATIVE_TYPE_NAME; }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new NameType(
-            this.cloneOrReplaceChild(pretty, [ Token ], "type", this.type, original, replacement)
+            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement)
         ) as this; 
     }
 

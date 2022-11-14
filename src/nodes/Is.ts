@@ -53,6 +53,14 @@ export default class Is extends Expression {
         ]; 
     }
 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+        return new Is(
+            this.cloneOrReplaceChild(pretty, "expression", this.expression, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "operator", this.operator, original, replacement),
+            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement)
+        ) as this; 
+    }
+
     computeType() { return new BooleanType(); }
     computeConflicts(context: Context) {
 
@@ -87,14 +95,6 @@ export default class Is extends Expression {
             new SemanticException(evaluator, this.type) : 
             new Bool(this, this.type.accepts(value.getType(evaluator.getContext()), evaluator.getContext()));
 
-    }
-
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new Is(
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "expression", this.expression, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "operator", this.operator, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Unparsable, Type ], "type", this.type, original, replacement)
-        ) as this; 
     }
 
     /** 

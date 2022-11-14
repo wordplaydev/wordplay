@@ -46,9 +46,9 @@ export default class Docs extends Node {
     
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Docs(
-            this.cloneOrReplaceChild<Doc[]>(pretty, [ Doc ], "docs", this.docs, original, replacement), 
+            this.cloneOrReplaceChild<Doc[]>(pretty, "docs", this.docs, original, replacement), 
         ) as this; 
     }
 

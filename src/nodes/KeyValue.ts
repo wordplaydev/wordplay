@@ -36,11 +36,11 @@ export default class KeyValue extends Node {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new KeyValue(
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "key", this.key, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "value", this.value, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "bind", this.bind, original, replacement)
+            this.cloneOrReplaceChild(pretty, "key", this.key, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "value", this.value, original, replacement),
+            this.cloneOrReplaceChild(pretty, "bind", this.bind, original, replacement)
         ) as this; 
     }
 

@@ -94,16 +94,16 @@ export default class Bind extends Node implements Evaluable, Named {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Bind(
-            this.cloneOrReplaceChild(pretty, [ Docs ], "docs", this.docs, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Names ], "names", this.names, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Type, Unparsable, undefined ], "type", this.type, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable|undefined>(pretty, [ Expression, Unparsable, undefined ], "value", this.value, original, replacement)?.withPrecedingSpaceIfDesired(pretty),
-            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "share", this.share, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token, undefined], "etc", this.etc, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "dot", this.dot, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "colon", this.colon, original, replacement)
+            this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "names", this.names, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement), 
+            this.cloneOrReplaceChild<Expression|Unparsable|undefined>(pretty, "value", this.value, original, replacement)?.withPrecedingSpaceIfDesired(pretty),
+            this.cloneOrReplaceChild(pretty, "share", this.share, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "etc", this.etc, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "dot", this.dot, original, replacement),
+            this.cloneOrReplaceChild(pretty, "colon", this.colon, original, replacement)
         ) as this;
     }
 

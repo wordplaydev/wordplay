@@ -41,14 +41,13 @@ export default class Unparsable extends Node implements Evaluable {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Unparsable(
             this.reason, 
-            this.cloneOrReplaceChild(pretty, [ Node ], "parsedNodes", this.parsedNodes, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "unparseableTokens", this.unparsableTokens, original, replacement)
+            this.cloneOrReplaceChild(pretty, "parsedNodes", this.parsedNodes, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "unparseableTokens", this.unparsableTokens, original, replacement)
         ) as this; 
     }
-
 
     computeConflicts() {}
     getType() { return new UnknownType(this); }

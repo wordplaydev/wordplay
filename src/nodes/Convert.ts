@@ -55,11 +55,11 @@ export default class Convert extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Convert(
-            this.cloneOrReplaceChild(pretty, [ Expression ], "expression", this.expression, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Type, Unparsable ], "type", this.type, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "convert", this.convert, original, replacement)
+            this.cloneOrReplaceChild(pretty, "expression", this.expression, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement),
+            this.cloneOrReplaceChild(pretty, "convert", this.convert, original, replacement)
         ) as this; 
     }
 

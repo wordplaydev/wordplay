@@ -42,6 +42,13 @@ export default class TextLiteral extends Expression {
         ];
     }
 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+        return new TextLiteral(
+            this.cloneOrReplaceChild(pretty, "text", this.text, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "format", this.format, original, replacement)
+        ) as this; 
+    }
+
     computeConflicts() {}
 
     computeType(): Type {
@@ -57,13 +64,6 @@ export default class TextLiteral extends Expression {
         const lastChar = this.text.text.toString().length === 0 ? undefined : this.text.text.toString().charAt(this.text.text.toString().length - 1);
         const lastCharIsQuote = lastChar === undefined ? false : ["』", "」", "»", "›", "'", "’", "”", '"'].includes(lastChar);    
         return new Text(this, this.text.text.toString().substring(1, this.text.text.toString().length - (lastCharIsQuote ? 1 : 0)), this.format === undefined ? undefined : this.format.getLanguage());
-    }
-
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new TextLiteral(
-            this.cloneOrReplaceChild(pretty, [ Token ], "text", this.text, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Language, undefined ], "format", this.format, original, replacement)
-        ) as this; 
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }

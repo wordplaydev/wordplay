@@ -6,7 +6,6 @@ import type Context from "./Context";
 import Unparsable from "./Unparsable";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import Column from "./Column";
 import { TABLE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { TABLE_CLOSE_SYMBOL } from "../parser/Tokenizer";
 import type Translations from "./Translations";
@@ -34,10 +33,10 @@ export default class TableType extends Type {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new TableType(
-            this.cloneOrReplaceChild(pretty, [ Column ], "columns", this.columns, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token, Unparsable ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, "columns", this.columns, original, replacement),
+            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
         ) as this; 
     }
 

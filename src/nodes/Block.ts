@@ -74,9 +74,9 @@ export default class Block extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Block(
-            this.cloneOrReplaceChild<Statement[]>(pretty, [ Expression, Unparsable, Bind ], "statements", this.statements, original, replacement)
+            this.cloneOrReplaceChild<Statement[]>(pretty, "statements", this.statements, original, replacement)
                 .map((statement: Statement, index, statements) => {
                     index;
                     // If there are more than one expressions in the block, then pretty print with newlines and tabs.
@@ -87,9 +87,9 @@ export default class Block extends Expression {
                 }),
             this.root,
             this.creator, 
-            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token, undefined], "close", this.close, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Docs ], "docs", this.docs, original, replacement),
+            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement),
+            this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement),
         ) as this; 
     }
 

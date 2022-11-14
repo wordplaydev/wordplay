@@ -57,12 +57,12 @@ export default class Select extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Select(
-            this.cloneOrReplaceChild(pretty, [ Expression ], "table", this.table, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "select", this.select, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Row ], "row", this.row, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "query", this.query, original, replacement)
+            this.cloneOrReplaceChild(pretty, "table", this.table, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "select", this.select, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "row", this.row, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "query", this.query, original, replacement)
         ) as this; 
     }
 

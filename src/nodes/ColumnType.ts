@@ -33,10 +33,10 @@ export default class ColumnType extends Type {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new ColumnType(
-            this.cloneOrReplaceChild(pretty, [ Bind, Unparsable ], "bind", this.bind, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "bar", this.bar, original, replacement)
+            this.cloneOrReplaceChild(pretty, "bind", this.bind, original, replacement),
+            this.cloneOrReplaceChild(pretty, "bar", this.bar, original, replacement)
         ) as this; 
     }
 

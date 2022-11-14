@@ -60,13 +60,13 @@ export default class ConversionDefinition extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new ConversionDefinition(
-            this.cloneOrReplaceChild(pretty, [ Docs ], "docs", this.docs, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Type, Unparsable ], "input", this.input, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Type, Unparsable ], "output", this.output, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "expression", this.expression, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "convert", this.arrow, original, replacement)
+            this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "input", this.input, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "output", this.output, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "expression", this.expression, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "convert", this.arrow, original, replacement)
         ) as this; 
     }
 

@@ -34,9 +34,17 @@ export default class ListType extends NativeType {
     getGrammar() { 
         return [
             { name: "open", types:[ Token ] },
-            { name: "type", types:[ Type, undefined ] },
+            { name: "type", types:[ Type, Unparsable, undefined ] },
             { name: "close", types:[ Token ] },
         ];
+    }
+
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+        return new ListType(
+            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement),
+            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
+            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
+        ) as this; 
     }
 
     computeConflicts() {}
@@ -53,14 +61,6 @@ export default class ListType extends NativeType {
     }
 
     getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }
-
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new ListType(
-            this.cloneOrReplaceChild(pretty, [ Type, Unparsable, undefined ], "type", this.type, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
-        ) as this; 
-    }
 
     resolveTypeVariable(name: string): Type | undefined { 
         return Object.values(LIST_TYPE_VAR_NAMES).includes(name) && this.type instanceof Type ? this.type : undefined;

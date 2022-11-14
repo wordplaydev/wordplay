@@ -32,9 +32,9 @@ export default class TypePlaceholder extends Type {
 
     getNativeTypeName(): string { return "type_placeholder"; }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new TypePlaceholder(
-            this.cloneOrReplaceChild(pretty, [ Token ], "etc", this.placeholder, original, replacement)
+            this.cloneOrReplaceChild(pretty, "etc", this.placeholder, original, replacement)
         ) as this; 
     }
 

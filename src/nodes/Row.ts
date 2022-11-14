@@ -40,10 +40,10 @@ export default class Row extends Node {
      * */ 
     isBindingEnclosureOfChild(child: Node): boolean { return this.cells.includes(child as Cell); }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Row(
-            this.cloneOrReplaceChild(pretty, [ Cell ], "cells", this.cells, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, "cells", this.cells, original, replacement),
+            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
         ) as this; 
     }
 

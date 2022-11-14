@@ -36,10 +36,10 @@ export default class Doc extends Node {
     
     computeConflicts() {}
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Doc(
-            this.cloneOrReplaceChild(pretty, [ Token ], "docs", this.docs, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Language, undefined ], "lang", this.lang, original, replacement)
+            this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "lang", this.lang, original, replacement)
         ) as this; 
     }
 

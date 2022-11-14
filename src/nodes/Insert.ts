@@ -52,11 +52,11 @@ export default class Insert extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Insert(
-            this.cloneOrReplaceChild(pretty, [ Expression ], "table", this.table, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Token ], "insert", this.insert, original, replacement),
-            this.cloneOrReplaceChild(pretty, [ Row ], "row", this.row, original, replacement)
+            this.cloneOrReplaceChild(pretty, "table", this.table, original, replacement),
+            this.cloneOrReplaceChild(pretty, "insert", this.insert, original, replacement),
+            this.cloneOrReplaceChild(pretty, "row", this.row, original, replacement)
         ) as this; 
     }
 

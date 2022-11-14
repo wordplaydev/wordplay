@@ -44,6 +44,12 @@ export default class ExpressionPlaceholder extends Expression {
         ];
     }
 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+        return new ExpressionPlaceholder(
+            this.cloneOrReplaceChild(pretty, "placeholder", this.placeholder, original, replacement)
+        ) as this; 
+    }
+
     computeConflicts(): Conflict[] { 
         return [ new Placeholder(this) ];
     }
@@ -56,12 +62,6 @@ export default class ExpressionPlaceholder extends Expression {
 
     evaluate(evaluator: Evaluator): Value {
         return new SemanticException(evaluator, this);
-    }
-
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
-        return new ExpressionPlaceholder(
-            this.cloneOrReplaceChild(pretty, [ Token ], "etc", this.placeholder, original, replacement)
-        ) as this; 
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }

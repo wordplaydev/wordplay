@@ -85,6 +85,15 @@ export default class Unit extends Type {
         ]; 
     }
 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+        return new Unit(
+            this.exponents === undefined ? undefined : new Map(this.exponents),
+            this.cloneOrReplaceChild(pretty, "numerator", this.numerator, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "slash", this.slash, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "denominator", this.denominator, original, replacement), 
+        ) as this; 
+    }
+
     static map(numerator: string[], denominator: string[]) {
 
         const exponents = new Map();
@@ -125,16 +134,6 @@ export default class Unit extends Type {
             numerator.map(unit => `${unit}${(this.exponents.get(unit) ?? 0) > 1 ? `${EXPONENT_SYMBOL}${this.exponents.get(unit)}` : ""}`).join(PRODUCT_SYMBOL) +
             (denominator.length > 0 ? LANGUAGE_SYMBOL : "") + 
             denominator.map(unit => `${unit}${(this.exponents.get(unit) ?? 0) < -1 ? `${EXPONENT_SYMBOL}${Math.abs(this.exponents.get(unit) ?? 0)}` : ""}`).join(PRODUCT_SYMBOL);
-
-    }
-
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
-        return new Unit(
-            this.exponents === undefined ? undefined : new Map(this.exponents),
-            this.cloneOrReplaceChild(pretty, [ Dimension ], "numerator", this.numerator, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "slash", this.slash, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "denominator", this.denominator, original, replacement), 
-        ) as this; 
 
     }
 

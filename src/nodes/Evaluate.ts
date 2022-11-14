@@ -85,14 +85,14 @@ export default class Evaluate extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
+    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Evaluate(
-            this.cloneOrReplaceChild(pretty, [ Expression, Unparsable ], "func", this.func, original, replacement), 
-            this.cloneOrReplaceChild<InputType[]>(pretty, [ Expression, Unparsable, Bind ], "inputs", this.inputs, original, replacement)
+            this.cloneOrReplaceChild(pretty, "func", this.func, original, replacement), 
+            this.cloneOrReplaceChild<InputType[]>(pretty, "inputs", this.inputs, original, replacement)
                 .map((value: InputType, index: number) => value.withPrecedingSpaceIfDesired(pretty && index > 0)),
-            this.cloneOrReplaceChild(pretty, [ TypeInput ], "typeInputs", this.typeInputs, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token ], "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild(pretty, [ Token, undefined ], "close", this.close, original, replacement)
+            this.cloneOrReplaceChild(pretty, "typeInputs", this.typeInputs, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
         ) as this;
     }
 
