@@ -73,15 +73,21 @@ export default class MeasurementType extends NativeType {
         // Are the units compatible? First, get concrete units.
         const thisUnit = this.concreteUnit(context);
 
-        // Not a measurement? Not compatible.
+        // See if all of the possible types are compatible.
         for(const possibleType of types) {
-        
+
+            // Not a measurement type? Not compatible.
             if(!(possibleType instanceof MeasurementType)) return false;
 
+            // If it is a measurement type, get it's unit.
             const thatUnit = possibleType.concreteUnit(context);
             
-            // If this is a specific number, then the other must be specific too. Units must also be compatible.
-            if(!((this.number.is(TokenType.NUMBER_TYPE) || this.number.getText() === possibleType.number.getText()) && thisUnit.accepts(thatUnit)))
+            // If this is a specific number, then all other possible type must be the same specific number.
+            if(!this.number.is(TokenType.NUMBER_TYPE) && this.number.getText() !== possibleType.number.getText())
+                return false;
+
+            // If the units aren't compatible, then the the types aren't compatible.
+            if(!thisUnit.accepts(thatUnit))
                 return false;
         }
         return true;

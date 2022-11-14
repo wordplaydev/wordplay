@@ -76,7 +76,7 @@ export default class ListAccess extends Expression {
 
         const indexType = this.index.getTypeUnlessCycle(context);
 
-        if(!(indexType instanceof MeasurementType) || (indexType.unit instanceof Unit && !indexType.unit.isEmpty()))
+        if(!(indexType instanceof MeasurementType) || (indexType.unit instanceof Unit && !indexType.unit.isUnitless()))
             conflicts.push(new NotAListIndex(this, indexType));
 
         return conflicts; 

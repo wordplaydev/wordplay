@@ -98,7 +98,7 @@ export default class Unit extends Type {
         return new Unit(Unit.map(numerator, denominator));
     }
 
-    isEmpty() { return this.exponents.size === 0; }
+    isUnitless() { return this.exponents.size === 0; }
 
     isEqualTo(unit: Unit) {
         return this.exponents.size === unit.exponents.size && Array.from(this.exponents.keys()).every(key => this.exponents.get(key) === unit.exponents.get(key))
@@ -108,7 +108,7 @@ export default class Unit extends Type {
 
     accepts(unit: Unit): boolean {
         // Every key in this exists in the given unit and they have the same exponents.
-        return this.isEqualTo(unit);
+        return this.isUnitless() || this.isEqualTo(unit);
     }
 
     getNativeTypeName(): string { return "unit"; }
