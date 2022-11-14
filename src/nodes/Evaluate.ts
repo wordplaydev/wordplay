@@ -152,7 +152,7 @@ export default class Evaluate extends Expression {
                 const given = givenInputs.shift();
 
                 // No more inputs? Mark one missing and stop.
-                if(given === undefined) return [ new MissingInput(fun, this, expectedInput) ];
+                if(given === undefined) return [ new MissingInput(fun, this, this.close ?? this.inputs[this.inputs.length - 1] ?? this.open, expectedInput) ];
                 
                 // If the given input is a named input, 
                 // 1) the given name should match the required input.

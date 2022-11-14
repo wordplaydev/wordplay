@@ -1,5 +1,6 @@
 import type Evaluate from "../nodes/Evaluate";
 import Conflict from "./Conflict";
+import type Node from "../nodes/Node";
 import type Bind from "../nodes/Bind";
 import type BinaryOperation from "../nodes/BinaryOperation";
 import type Translations from "../nodes/Translations";
@@ -11,17 +12,19 @@ import type StructureDefinition from "../nodes/StructureDefinition";
 export default class MissingInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition;
     readonly evaluate: Evaluate | BinaryOperation;
+    readonly last: Node;
     readonly input: Bind;
 
-    constructor(func: FunctionDefinition | StructureDefinition, evaluate: Evaluate | BinaryOperation, input: Bind) {
+    constructor(func: FunctionDefinition | StructureDefinition, evaluate: Evaluate | BinaryOperation, last: Node, expected: Bind) {
         super(false);
         this.func = func;
         this.evaluate = evaluate;
-        this.input = input;
+        this.last = last;
+        this.input = expected;
     }
 
     getConflictingNodes() {
-        return { primary: this.input.names.names };
+        return { primary: [ this.last ], secondary: this.input.names.names };
     }
 
     getExplanations(): Translations { 

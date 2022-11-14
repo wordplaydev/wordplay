@@ -104,7 +104,7 @@ export default class BinaryOperation extends Expression {
             else if(fun.inputs.length > 1) {
                 const secondInput = fun.inputs[1];
                 if(secondInput instanceof Bind)
-                    conflicts.push(new MissingInput(fun, this, secondInput));
+                    conflicts.push(new MissingInput(fun, this, this.operator, secondInput));
             }
             // Is the right operand the correct type?
             else {
