@@ -76,7 +76,7 @@ export default class Conditional extends Expression {
         // Whatever type the yes/no returns.
         if(this.yes instanceof Unparsable) {
             if(this.no instanceof Unparsable)
-                return new UnknownType(this);
+                return new UnknownType(this.no);
             else 
                 return this.no.getTypeUnlessCycle(context);
         }

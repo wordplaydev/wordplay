@@ -87,12 +87,11 @@ export default class SetOrMapAccess extends Expression {
 
     computeType(context: Context): Type {
         // Either a set or map type, and if so, the key or value's type.
-        if(this.setOrMap instanceof Unparsable) return new UnknownType(this);
+        if(this.setOrMap instanceof Unparsable) return new UnknownType(this.setOrMap);
         const setOrMapType = this.setOrMap.getTypeUnlessCycle(context);
-        if(!(setOrMapType instanceof SetType || setOrMapType instanceof MapType)) return new UnknownType(this);
         if(setOrMapType instanceof MapType && setOrMapType.value instanceof Type) return setOrMapType.value;
-        if(setOrMapType instanceof SetType) return new BooleanType();
-        return new UnknownType(this);
+        else if(setOrMapType instanceof SetType) return new BooleanType();
+        else return new UnknownType(this);
     }
 
     compile(context: Context):Step[] {

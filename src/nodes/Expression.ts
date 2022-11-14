@@ -30,7 +30,7 @@ export default abstract class Expression extends Node implements Evaluable {
     getTypeUnlessCycle(context: Context): Type {
 
         // If the context includes this node, we're in a cycle.
-        if(context.visited(this)) return new UnknownType(this);
+        if(context.visited(this)) return new UnknownType({ cycle: this });
 
         context.visit(this);
         const type = this.getType(context);

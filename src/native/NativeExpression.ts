@@ -28,7 +28,7 @@ export default class NativeExpression extends Expression {
         if(typeof type === "string") {
             let possibleType = parseType(tokens(type));
             if(possibleType instanceof Unparsable)
-                possibleType = new UnknownType(this);
+                possibleType = new UnknownType(possibleType);
             this.type = possibleType;
         }
         else this.type = type;

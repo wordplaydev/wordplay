@@ -34,7 +34,9 @@ export default function getConcreteExpectedType(definition: FunctionDefinition |
     if(input === undefined) {
         if(definition instanceof StructureDefinition) return new StructureType(definition);
         const functionType = definition.getTypeUnlessCycle(context);
-        if(!(functionType instanceof FunctionType) || functionType.output instanceof Unparsable) return new UnknownType(definition);
+        if(functionType instanceof Unparsable) return new UnknownType(functionType);
+        if(!(functionType instanceof FunctionType)) return new UnknownType({ typeVar: definition });
+        if(functionType.output instanceof Unparsable) return new UnknownType(functionType.output);
         type = functionType.output;
     }
     // Otherwise, check that the bind actually exists 
@@ -105,7 +107,7 @@ function getConcreteTypeVariable(type: NameType, definition: FunctionDefinition 
     const typeVariable = type.resolve(context);
 
     // If we didn't find one, we don't know the type.
-    if(!(typeVariable instanceof TypeVariable)) return new UnknownType(evaluation);
+    if(!(typeVariable instanceof TypeVariable)) return new UnknownType({ typeVar: definition });
     
     // First, the easy case: let's see if the evaluate has a type input that defines this type variable.  see if the type for the type variable was provided explicitly in the evaluation.
     // What is the index of the type variable in the definition?
@@ -182,6 +184,6 @@ function getConcreteTypeVariable(type: NameType, definition: FunctionDefinition 
     }
 
     // We failed to find the type! Who knows what this type variable refers to.
-    return new UnknownType(evaluation);
+    return new UnknownType({ typeVar: definition });
 
 }

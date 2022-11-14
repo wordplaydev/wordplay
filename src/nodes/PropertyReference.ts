@@ -100,12 +100,13 @@ export default class PropertyReference extends Expression {
     }
 
     computeType(context: Context): Type {
-        let subjectType = this.getSubjectType(context);
+        if(this.structure instanceof Unparsable) return new UnknownType(this.structure);
+        let subjectType = this.structure.getTypeUnlessCycle(context);
         if(subjectType === undefined) return new UnknownType(this);
 
         if(subjectType instanceof StreamType) {
             if(subjectType.type instanceof Unparsable)
-                return new UnknownType(this);
+                return new UnknownType(subjectType.type);
             subjectType = subjectType.type;
         }
 

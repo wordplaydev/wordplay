@@ -85,7 +85,7 @@ export default class ListAccess extends Expression {
 
     computeType(context: Context): Type {
         // The type is the list's value type, or unknown otherwise.
-        if(this.list instanceof Unparsable) return new UnknownType(this);
+        if(this.list instanceof Unparsable) return new UnknownType(this.list);
         const listType = this.list.getTypeUnlessCycle(context);
         if(listType instanceof ListType && listType.type instanceof Type) 
             return new UnionType(listType.type, new NoneType());

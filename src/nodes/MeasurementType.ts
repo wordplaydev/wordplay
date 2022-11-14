@@ -104,11 +104,12 @@ export default class MeasurementType extends NativeType {
             this.op instanceof BinaryOperation ? this.op.left.getTypeUnlessCycle(context) : 
             this.op instanceof UnaryOperation ? this.op.operand.getTypeUnlessCycle(context) : 
             this.op.func instanceof PropertyReference ? this.op.func.structure.getTypeUnlessCycle(context) :
-            new UnknownType(this);
+            this.op.func instanceof Unparsable ? new UnknownType(this.op.func) :
+            new UnknownType({ typeVar: this.op });
         const rightType = 
             this.op instanceof BinaryOperation ? this.op.right.getTypeUnlessCycle(context) : 
             this.op instanceof Evaluate && this.op.inputs.length > 0 ? this.op.inputs[0].getTypeUnlessCycle(context) :
-            new UnknownType(this);
+            new UnknownType({ typeVar: this.op });
 
         // If either type isn't a measurement type — which shouldn't be possible — then we just return a blank unit.
         if(!(leftType instanceof MeasurementType)) return new Unit();

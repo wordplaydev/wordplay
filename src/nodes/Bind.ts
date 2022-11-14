@@ -227,25 +227,12 @@ export default class Bind extends Node implements Evaluable, Named {
     getTypeUnlessCycle(context: Context): Type {
 
         // If the context includes this node, we're in a cycle.
-        if(context.visited(this)) return new UnknownType(this);
+        if(context.visited(this)) return new UnknownType({ cycle: this });
 
         context.visit(this);
         const type = this.getType(context);
         context.unvisit();
         return type;   
-
-    }
-
-    resolveTypeName(context: Context, name: string) {
-
-        // Find the name, using the binding enclosure, or the program.
-        const enclosure = this.getBindingEnclosureOf();
-        const definition = enclosure !== undefined ? enclosure.getDefinitionOfName(name, context, this) : context.program.getDefinitionOfName(name, context, this);
-        if(definition === undefined) return new UnknownType(this);
-        else if(definition instanceof Bind) return definition.getTypeUnlessCycle(context);
-        else if(definition instanceof TypeVariable) return new UnknownType(this);
-        else if(definition instanceof StructureDefinition) return new StructureType(definition);
-        else return new UnknownType(this);
 
     }
 

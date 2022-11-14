@@ -267,7 +267,7 @@ export default class Evaluate extends Expression {
         // to a value of the structure's type.
         else if(fun instanceof StructureDefinition) return new StructureType(fun);
         // Otherwise, who knows.
-        else return new UnknownType(this);
+        else return new UnknownType(this.func instanceof Unparsable ? this.func : { definition: this, name: this.func });
 
     }
 

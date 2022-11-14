@@ -102,7 +102,7 @@ export default class Convert extends Expression {
         const conversions = this.getConversionSequence(context);
         if(conversions === undefined || conversions.length === 0) return new UnknownType(this);
         const lastConversion = conversions[conversions.length - 1];
-        return !(lastConversion.output instanceof Type) ? new UnknownType(this) : lastConversion.output; 
+        return lastConversion.output instanceof Unparsable ? new UnknownType(lastConversion.output) : lastConversion.output; 
 
     }
 

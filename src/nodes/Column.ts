@@ -30,7 +30,7 @@ export default class Column extends Node {
     computeConflicts() {}
 
     hasDefault() { return this.bind instanceof Bind && this.bind.hasDefault(); }
-    getType(context: Context) { return this.bind instanceof Unparsable ? new UnknownType(this) : this.bind.getTypeUnlessCycle(context); }
+    getType(context: Context) { return this.bind instanceof Unparsable ? new UnknownType(this.bind) : this.bind.getTypeUnlessCycle(context); }
 
     clone(pretty: boolean=false, original?: Node | string, replacement?: Node) { 
         return new Column(

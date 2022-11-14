@@ -77,7 +77,7 @@ export default class UnaryOperation extends Expression {
         const fun = this.getFunction(context);
         return fun !== undefined ? 
             getConcreteExpectedType(fun, undefined, this, context) :
-            new UnknownType(this);
+            new UnknownType({ definition: this, name: this.operator });
 
     }
     

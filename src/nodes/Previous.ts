@@ -81,7 +81,7 @@ export default class Previous extends Expression {
     computeType(context: Context): Type {
         // The type is the stream's type.
         const streamType = this.stream instanceof Unparsable ? new UnknownType(this.stream) : this.stream.getTypeUnlessCycle(context);
-        return streamType instanceof StreamType && !(streamType.type instanceof Unparsable)? streamType.type : new UnknownType(this);
+        return streamType instanceof StreamType && !(streamType.type instanceof Unparsable) ? streamType.type : new UnknownType(this);
     }
 
     compile(context: Context): Step[] {

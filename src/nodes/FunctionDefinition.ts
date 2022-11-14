@@ -159,7 +159,7 @@ export default class FunctionDefinition extends Expression {
         // The type is equivalent to the signature.
         const outputType = 
             this.type instanceof Type ? this.type : 
-            !(this.expression instanceof Expression) ? new UnknownType(this) : 
+            !(this.expression instanceof Expression) ? new UnknownType(this.expression instanceof Unparsable ? this.expression : { placeholder: this.expression }) : 
             this.expression.getTypeUnlessCycle(context);
         return new FunctionType(this.inputs, outputType);
     }
