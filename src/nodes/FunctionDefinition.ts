@@ -97,12 +97,12 @@ export default class FunctionDefinition extends Expression {
             this.cloneOrReplaceChild(pretty, "typeVars", this.typeVars, original, replacement), 
             this.cloneOrReplaceChild(pretty, "inputs", this.inputs, original, replacement), 
             this.cloneOrReplaceChild<Expression|Unparsable|Token>(pretty, "expression", this.expression, original, replacement).withPrecedingSpaceIfDesired(pretty), 
-            this.cloneOrReplaceChild(pretty, "type", this.output, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "output", this.output, original, replacement), 
             this.cloneOrReplaceChild(pretty, "fun", this.fun, original, replacement), 
             this.cloneOrReplaceChild(pretty, "dot", this.dot, original, replacement), 
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ) as this; 
+        ) as this;
     }
 
     sharesName(fun: FunctionDefinition) { return this.names.sharesName(fun.names); }
