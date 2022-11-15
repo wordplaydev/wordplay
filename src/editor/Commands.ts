@@ -212,7 +212,7 @@ const commands: Command[] = [
             if(navigator.clipboard) {
                 await navigator.clipboard.write([
                     new ClipboardItem({
-                        "text/plain": new Blob([ caret.position.toWordplay() ], { type: "text/plain" })
+                        "text/plain": new Blob([ caret.position.withPrecedingSpace("", true).toWordplay() ], { type: "text/plain" })
                     })
                 ]);
             }
