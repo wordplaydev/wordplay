@@ -10,7 +10,6 @@
     import getOutlineOf, { getUnderlineOf, type Outline } from "./outline";
 
     export let node: Node | undefined;
-    export let block: boolean = false;
 
     let caret = getCaret();
     let languages = getLanguages();
@@ -40,7 +39,7 @@
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     <div 
-        class="{node.constructor.name} node-view {block ? "block" : "inline"} {highlightTypes.size > 0 ? "highlighted" : ""} { Array.from(highlightTypes).join(" ")}"
+        class="{node.constructor.name} node-view {highlightTypes.size > 0 ? "highlighted" : ""} { Array.from(highlightTypes).join(" ")}"
         data-id={node.id}
         bind:this={element}
         on:mousedown={() => mouseDown = true }
@@ -67,18 +66,11 @@
         border-top-left-radius: var(--wordplay-editor-radius);
         border-bottom-right-radius: var(--wordplay-editor-radius);
         position: relative;
+        display: inline;
 
         font-family: var(--wordplay-code-font-face);
         font-size: var(--wordplay-font-size);
         font-weight: 400;
-    }
-
-    .node-view.inline {
-        display: inline;
-    }
-
-    .node-view.block {
-        display: inline-block;
     }
 
     .node-view.hovered {
@@ -108,10 +100,10 @@
     }
 
     /* When beginning dragged in an editor, hide the node view contents to create a sense of spatial integrity. */
-    :global(.editor .dragged .token-view) {
+    .dragged :global(.token-view) {
         opacity: 0;
     }
-    :global(.editor .dragged .highlight) {
+    .dragged :global(.highlight) {
         opacity: .2;
     }
 

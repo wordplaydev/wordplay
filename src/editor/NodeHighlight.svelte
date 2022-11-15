@@ -97,9 +97,4 @@
         stroke: var(--wordplay-warning);
     }
 
-    /* Runtime exceptions shake */
-    :global(.exception) > .underline path {
-        animation: shake .8s cubic-bezier(.36,.07,.19,.97) infinite;
-    }
-
 </style>
