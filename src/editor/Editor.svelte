@@ -24,8 +24,6 @@
     import Type from '../nodes/Type';
     import Bind from '../nodes/Bind';
     import Block, { type Statement } from '../nodes/Block';
-    import ExpressionPlaceholderView from './ExpressionPlaceholderView.svelte';
-    import TypePlaceholderView from './TypePlaceholderView.svelte';
     import TokenType from '../nodes/TokenType';
 
     export let source: Source;
