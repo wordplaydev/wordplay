@@ -204,17 +204,17 @@ const commands: Command[] = [
         description: "Copy",
         control: true,
         key: "KeyC",
-        execute: async (caret: Caret) => {
+        execute: (caret: Caret) => {
 
             if(!(caret.position instanceof Node)) return undefined;
 
             // Set the OS clipboard.
             if(navigator.clipboard) {
-                await navigator.clipboard.write([
+                return navigator.clipboard.write([
                     new ClipboardItem({
                         "text/plain": new Blob([ caret.position.withPrecedingSpace("", true).toWordplay() ], { type: "text/plain" })
                     })
-                ]);
+                ]).then(() => undefined);
             }
             return undefined;
         }

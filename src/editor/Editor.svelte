@@ -55,6 +55,9 @@
     // Focused when the active element is the text input.
     let focused = false;
 
+    // True if the last keyboard input was not handled by a command.
+    let lastKeyDownIgnored = false;
+
     // Caret location comes from the caret
     let caretLocation: { top: string, left: string, height: string, bottom: number } | undefined = undefined;
 
@@ -615,6 +618,9 @@
 
     function handleKeyDown(event: KeyboardEvent) {
 
+        // Assume we'll handle it.
+        lastKeyDownIgnored = false;
+
         if(menu !== undefined && menuVisible) {
             if(event.key === "ArrowDown" && menuSelection < menu.transforms.length - 1) { menuSelection += 1; return; }
             else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
@@ -632,7 +638,7 @@
                 // If we made a menu, return, and don't handle a command.
                 if(menu !== undefined) return;
             }
-            // Ride of the menu and let the Escape key through for commands.
+            // Ride of the menu and let the commands process the Escape key.
             else {
                 menuVisible = false;
                 menu = undefined;
@@ -669,13 +675,16 @@
                         result.then(edit => handleEdit(edit));
                     else
                         handleEdit(result);
-                }
 
-                // Stop looking for commands, we found one and tried it!
-                break;
-                
+                    // Stop looking for commands, we found one and tried it!
+                    return;
+                }                
             }
         }
+
+        // Give feedback that we didn't execute a command.
+        if(!/^(Shift|Control|Alt|Meta)$/.test(event.key))
+            lastKeyDownIgnored = true;
 
     }
 
@@ -703,6 +712,8 @@
     let lastKeyboardInputValue: undefined | UnicodeString = undefined;
 
     function handleTextInput(event: Event) {
+
+        lastKeyDownIgnored = false;
 
         let edit: Edit | undefined = undefined;
 
@@ -765,6 +776,8 @@
         // Did we make an update?
         if(edit)
             handleEdit(edit);
+        else
+            lastKeyDownIgnored = true;
 
     }
 
@@ -795,7 +808,7 @@
     <!-- Render the program -->
     <NodeView node={program}/>
     <!-- Render the caret on top of the program -->
-    <CaretView blink={$KeyboardIdle && focused} bind:location={caretLocation}/>
+    <CaretView blink={$KeyboardIdle && focused} ignored={lastKeyDownIgnored} bind:location={caretLocation}/>
     <!-- Are we on a placeholder? Show a menu! -->
     {#if menu !== undefined && menu.location !== undefined && menuVisible }
         <div class="menu" style={`left: ${menu.location.left}; top: ${menu.location.top};`}>

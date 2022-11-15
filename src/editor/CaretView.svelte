@@ -8,6 +8,7 @@
     type CaretPosition = { top: string, left: string, height: string, bottom: number };
 
     export let blink: boolean;
+    export let ignored: boolean;
 
     // The current location of the caret.
     export let location: CaretPosition | undefined = undefined;
@@ -262,7 +263,7 @@
 </script>
 
 <span 
-    class="caret {blink ? "blink" : ""}"
+    class="caret {blink ? "blink" : ""} {ignored ? "ignored" : ""}"
     style={location === undefined ? "display:none" : `left: ${location.left}; top: ${location.top}; height: ${location.height};`}
     bind:this={caretElement}
 />
@@ -277,6 +278,10 @@
 
     .caret.blink {
         animation: blink-animation 1s steps(2, start) infinite;
+    }
+
+    .caret.ignored {
+        animation: shake .25s 1;
     }
 
     @keyframes blink-animation {
