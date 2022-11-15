@@ -3,7 +3,7 @@
     import type Transform from "../transforms/Transform";
     import Node from '../nodes/Node';
     import Caret, { type InsertionPoint } from '../models/Caret';
-    import { afterUpdate, getContext, onDestroy, setContext } from 'svelte';
+    import { afterUpdate, onDestroy, setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
     import commands, { type Edit } from './Commands';
     import NodeView from './NodeView.svelte';
@@ -16,7 +16,7 @@
     import KeyboardIdle from '../models/KeyboardIdle';
     import CaretView from './CaretView.svelte';
     import { PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
-    import { CaretSymbol, type DraggedContext, DraggedSymbol, HoveredSymbol, LanguageSymbol, type LanguageContext, HighlightSymbol, InsertionPointsSymbol } from './Contexts';
+    import { CaretSymbol, HoveredSymbol, HighlightSymbol, InsertionPointsSymbol, getLanguages, getDragged } from './Contexts';
     import type { HighlightType, Highlights } from './Highlights'
     import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
     import Expression from '../nodes/Expression';
@@ -69,8 +69,8 @@
 
     let menuSelection: number = -1;
 
-    $: languages = getContext<LanguageContext>(LanguageSymbol)
-    $: dragged = getContext<DraggedContext>(DraggedSymbol);
+    $: languages = getLanguages();
+    $: dragged = getDragged();
 
     // When keyboard idle changes to false, reset the menu if nothing is selected.
     const menuKeyboardIdleReset = KeyboardIdle.subscribe(idle => {

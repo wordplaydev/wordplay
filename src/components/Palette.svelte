@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { getContext } from "svelte";
-    import { DraggedSymbol, type DraggedContext } from "../editor/Contexts";
+    import { getDragged } from "../editor/Contexts";
     import NodeView from "../editor/NodeView.svelte";
     import { parseBind, parseExpression, parseType, tokens } from "../parser/Parser";
     import { project, updateProject } from "../models/stores";
@@ -32,7 +31,7 @@
         "_ • _"
     ].map(code => parseType(tokens(code)));
 
-    let dragged = getContext<DraggedContext>(DraggedSymbol);
+    let dragged = getDragged();
 
     function handleDrop() {
 

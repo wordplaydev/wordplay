@@ -7,7 +7,7 @@
     
     export let node: Alias;
 
-    // let languages = getContext<LanguageContext>(LanguageSymbol);
+    // let languages = getLanguages();
 
     // $: caretIn = false;
     // $: lang = node.getLanguage();

@@ -1,9 +1,8 @@
 <script lang="ts">
-    import { getContext } from "svelte";
     import type Token from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-    import { CaretSymbol, type DraggedContext, DraggedSymbol, ProjectSymbol, type CaretContext, type ProjectContext, getLanguages } from "./Contexts";
+    import { getLanguages, getDragged, getProject, getCaret } from "./Contexts";
     import { TokenCategories } from "./TokenCategories";
 
     export let node: Token;
@@ -17,10 +16,10 @@
     }
 
     $: kind = TokenCategories.get(Array.isArray(node.types) ? node.types[0] ?? "default" : node.types);
-    let caret = getContext<CaretContext>(CaretSymbol);
-    let project = getContext<ProjectContext>(ProjectSymbol);
+    let caret = getCaret();
+    let project = getProject();
     let languages = getLanguages();
-    let dragged = getContext<DraggedContext>(DraggedSymbol);
+    let dragged = getDragged();
     $: isPlaceholder = node.is(TokenType.PLACEHOLDER);
     $: showBox = 
         ($caret?.getTokenExcludingWhitespace() === node) || 

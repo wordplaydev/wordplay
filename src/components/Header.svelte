@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { getContext } from 'svelte';
-    import { LanguageSymbol, type LanguageContext } from '../editor/Contexts';
+    import { getLanguages } from '../editor/Contexts';
     import { examples, makeProject, type Stuff } from '../examples/examples';
     import { updateProject } from '../models/stores';
     import type LanguageCode from '../nodes/LanguageCode';
@@ -8,7 +7,7 @@
 
     let example: Stuff;
     let language: LanguageCode;
-    $: languages = getContext<LanguageContext>(LanguageSymbol)
+    let languages = getLanguages();
 
     function changeProject() {
         updateProject(makeProject(example));

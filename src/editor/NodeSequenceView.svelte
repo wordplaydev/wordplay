@@ -1,13 +1,12 @@
 <script lang="ts">
-    import { getContext } from "svelte";
     import type Node from "../nodes/Node";
-    import { InsertionPointsSymbol, type InsertionPointsContext } from "./Contexts";
+    import { getInsertionPoints } from "./Contexts";
     import InsertionPoint from "./InsertionPoint.svelte";
     import NodeView from "./NodeView.svelte";
     
     export let nodes: Node[];
 
-    let insertionPoints = getContext<InsertionPointsContext>(InsertionPointsSymbol);
+    let insertionPoints = getInsertionPoints();
     $: insertion = $insertionPoints?.get(nodes);
 
 </script>

@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { getContext } from "svelte";
     import type Transform from "../transforms/Transform";
-    import { LanguageSymbol, type LanguageContext } from "./Contexts";
+    import { getLanguages } from "./Contexts";
     import getNodeView from "./nodeToView";
 
     export let transforms: Transform[];
@@ -22,7 +21,7 @@
         maxItem = selection + WINDOW + Math.max(0, WINDOW - selection);
     }
 
-    $: languages = getContext<LanguageContext>(LanguageSymbol);
+    let languages = getLanguages();
 
 </script>
 

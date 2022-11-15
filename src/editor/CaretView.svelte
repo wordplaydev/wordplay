@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { afterUpdate, getContext } from "svelte";
+    import { afterUpdate } from "svelte";
     import Token, { TAB_WIDTH } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-    import { CaretSymbol, type CaretContext } from "./Contexts";
+    import { getCaret } from "./Contexts";
     
     type CaretPosition = { top: string, left: string, height: string, bottom: number };
 
@@ -13,7 +13,7 @@
     export let location: CaretPosition | undefined = undefined;
 
     // The caret of the editor that contains this view.
-    let caret = getContext<CaretContext>(CaretSymbol);
+    let caret = getCaret();
 
     // The HTMLElement rendering this view.
     let caretElement: HTMLElement;

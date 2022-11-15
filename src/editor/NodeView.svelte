@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { afterUpdate, getContext } from "svelte";
+    import { afterUpdate } from "svelte";
     import type Node from "../nodes/Node";
     import Program from "../nodes/Program";
     import Token from "../nodes/Token";
-    import { CaretSymbol, DraggedSymbol, type HighlightContext, HighlightSymbol, LanguageSymbol, type CaretContext, type DraggedContext, type LanguageContext } from "./Contexts";
+    import { getDragged, getLanguages, getHighlights, getCaret } from "./Contexts";
     import type { HighlightType } from "./Highlights";
     import NodeHighlight from "./NodeHighlight.svelte";
     import getNodeView from "./nodeToView";
@@ -12,10 +12,10 @@
     export let node: Node | undefined;
     export let block: boolean = false;
 
-    let caret = getContext<CaretContext>(CaretSymbol);
-    let languages = getContext<LanguageContext>(LanguageSymbol);
-    let highlights = getContext<HighlightContext>(HighlightSymbol);
-    let dragged = getContext<DraggedContext>(DraggedSymbol);
+    let caret = getCaret();
+    let languages = getLanguages();
+    let highlights = getHighlights();
+    let dragged = getDragged();
 
     $: primaryConflicts = node === undefined ? [] : $caret?.source.getPrimaryConflictsInvolvingNode(node) ?? [];
     $: highlightTypes = (node ? $highlights?.get(node) : undefined) ?? new Set<HighlightType>($dragged === node ? [ "dragged"] : []);
