@@ -130,19 +130,11 @@ const patterns = [
     { pattern: /^「[^\\]*?(」|(?=\n))/u, types: [ TokenType.TEXT ] },
     { pattern: /^『[^\\]*?(』|(?=\n))/u, types: [ TokenType.TEXT ] },
     // Lazily match open template strings that aren't opened with a preceding scape.
-    { pattern: /^".*?(\\|(?=\n))/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^“.*?(\\|(?=\n))/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^„.*?(\\|(?=\n))/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^'.*?(\\|(?=\n))/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^‘.*?(\\|(?=\n))/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^‹.*?(\\|(?=\n))/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^«.*?(\\|(?=\n))/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^「.*?(\\|(?=\n))/u, types: [ TokenType.TEXT_OPEN ] },
-    { pattern: /^『.*?(\\|(?=\n))/u, types: [ TokenType.TEXT_OPEN ] },
-    // Lazily match closing strings that don't contain another opening string. This alllows betweens to match.
+    { pattern: /^["“„'‘‹«「『].*?(\\|(?=\n))/u, types: [ TokenType.TEXT_OPEN ] },
+    // Lazily match closing strings that don't contain another opening string. This allows betweens to match.
     { pattern: /^\\[^\\]*?("|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
     { pattern: /^\\[^\\]*?(”|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
-    { pattern: /^\\[^\\]*?('|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
+    { pattern: /^\\[^\\]*?([']|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
     { pattern: /^\\[^\\]*?(’|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
     { pattern: /^\\[^\\]*?(›|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
     { pattern: /^\\[^\\]*?(»|(?=\n))/u, types: [ TokenType.TEXT_CLOSE ] },
@@ -174,14 +166,35 @@ const patterns = [
     }
 ];
 
+const TEXT_DELIMITERS: Record<string,string> = { 
+    '"': '"',
+    '“': '”',
+    '„': '“',
+    "'": "'",
+    '‘': '’',
+    '‹': '›',
+    '«': '»',
+    '「': '」',
+    '『': '』'
+}
+
 export function tokenize(source: string): Token[] {
     const tokens: Token[] = [];
+    // A stack, top at 0, of TEXT_OPEN tokens, helping us decide when to tokenize TEXT_CLOSE.
+    const openTemplates: Token[] = [];
     while(source.length > 0) {
-        const nextToken = getNextToken(source);
+        const nextToken = getNextToken(source, openTemplates);
         if(nextToken === undefined) break;
         // Trim the token off the source.
-        source = source.substring(nextToken.text.toString().length + nextToken.getWhitespace().length);
+        source = source.substring(nextToken.text.toString().length + nextToken.getPrecedingSpace().length);
         tokens.push(nextToken);
+
+        // If the token was a text open, push it on the stack.
+        if(nextToken.is(TokenType.TEXT_OPEN))
+            openTemplates.unshift(nextToken);
+        // If the token was a close, pop
+        else if(nextToken.is(TokenType.TEXT_CLOSE))
+            openTemplates.shift();
     }
 
     // If there's nothing left -- or nothing but whitespace -- and the last token isn't a already end token, add one.
@@ -191,7 +204,7 @@ export function tokenize(source: string): Token[] {
     return tokens;
 }
 
-function getNextToken(source: string): Token | undefined {
+function getNextToken(source: string, openTemplates: Token[]): Token | undefined {
 
     // Is there a series of space or tabs?
     const spaceMatch = source.match(/^[ \t\n]+/);
@@ -209,13 +222,16 @@ function getNextToken(source: string): Token | undefined {
             return new Token(pattern.pattern, pattern.types, space);
         else if(pattern.pattern instanceof RegExp) {
             const match = trimmedSource.match(pattern.pattern);
-            // If we found a match, then return it.
-            if(match !== null)
+            // If we found a match, return it if
+            // 1) It's _not_ a text close, or
+            // 2) It is, but there are either no open templates (syntax error!), or
+            // 3) There is an open template and it's the closing delimiter matches the current open text delimiter.
+            if(match !== null && (!pattern.types.includes(TokenType.TEXT_CLOSE) || openTemplates.length === 0 || (match[0].endsWith(TEXT_DELIMITERS[openTemplates[0].getText().charAt(0)]))))
                 return new Token(match[0], pattern.types, space);
         }
     }
     
-    // Otherwise, we fail and return an error token that contains all of the text until the next whitespace.
+    // Otherwise, we fail and return an error token that contains all of the text until the next space.
     let nextSpace = 0;
     for(; nextSpace < trimmedSource.length; nextSpace++) {
         const char = trimmedSource.charAt(nextSpace);

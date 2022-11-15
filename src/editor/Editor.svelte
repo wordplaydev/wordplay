@@ -417,7 +417,7 @@
                 const tokenTop = tokenBounds.top;
                 const tokenWhitespaceTop = tokenBounds.top - token.newlines * tokenBounds.height;
                 const tokenBottom = tokenBounds.bottom;
-                const whitespace = token.getWhitespace();
+                const space = token.getPrecedingSpace();
                 const tokenIndex = $caret.source.getTokenTextIndex(token);
                 if(tokenIndex !== undefined) {
                     // // If the mouse's vertical is within the top and bottom of this token view, include the token in the line.
@@ -430,13 +430,13 @@
                         const mouseLine = Math.round((mouseY - tokenWhitespaceTop) / tokenBounds.height);
                         let index = 0;
                         let line = 0;
-                        while(index < whitespace.length) { 
+                        while(index < space.length) { 
                             if(line === mouseLine) break;
-                            if(whitespace.charAt(index) === "\n")
+                            if(space.charAt(index) === "\n")
                                 line++;
                             index++;
                         }
-                        whitespacePosition = tokenIndex - whitespace.length + index;
+                        whitespacePosition = tokenIndex - space.length + index;
                     }
                 }
             }

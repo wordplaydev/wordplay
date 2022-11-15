@@ -44,14 +44,13 @@ export default class Token extends Node {
 
     getGrammar() { return []; }
 
-    getText() { return this.text.toString(); }
     isLeaf() { return true; }
     /* Property accounts for unicode codepoints */
-    getTextLength() { return this.text.getLength(); }
-    getWhitespace() { return this.space === undefined ? "" : this.space; }
-    hasWhitespace() { return this.space === undefined ? false : this.space.length > 0; }
+    getText() { return this.text.toString(); }
     hasNewline() { return this.newlines > 0; }
+    hasPrecedingSpace() { return this.space.length > 0; }
     getPrecedingSpace(): string { return this.space; }
+    getTextLength() { return this.text.getLength(); }
 
     hasPrecedingLineBreak() { return this.space === undefined ? false : this.space.includes("\n"); }
     isnt(type: TokenType) { return !this.is(type); }
@@ -64,7 +63,7 @@ export default class Token extends Node {
             throw Error(`Invalid narrowing of token from ${this.types} to ${type}`);
     }
     toString(depth: number=0){ return `${"\t".repeat(depth)}${Array.isArray(this.types) ? this.types.map(t => TokenType[t]).join('/') : TokenType[this.types]}(${this.space.length}): ${this.text.toString().replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
-    toWordplay() { return this.getWhitespace() + this.text.toString(); }
+    toWordplay() { return this.getPrecedingSpace() + this.text.toString(); }
     computeConflicts() {}
     clone(pretty: boolean, original?: Node, replacement?: Node): this {
         pretty;

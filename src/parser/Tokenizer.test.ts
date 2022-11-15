@@ -72,5 +72,7 @@ test("Tokenize betweens", () => {
 
     expect(tokenize("'I am \\between\\ us'").map(t => t.toWordplay()).join("\n")).toBe("'I am \\\nbetween\n\\ us'\n");
     expect(tokenize("\"hi \\'hello'\\ and \\'hey'\\\"").map(t => t.toWordplay()).join("\n")).toBe("\"hi \\\n'hello'\n\\ and \\\n'hey'\n\\\"\n");
+    expect(tokenize("['\\hi\\' \"hello\"]").map(t => t.toWordplay()).join("\n")).toBe("[\n'\\\nhi\n\\'\n \"hello\"\n]\n");
+    expect(tokenize("«hello \\name\\, I 'am' Amy»").map(t => t.toWordplay()).join("\n")).toBe("«hello \\\nname\n\\, I 'am' Amy»\n");
 
 })

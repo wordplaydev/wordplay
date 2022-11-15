@@ -177,7 +177,7 @@ export class Tokens {
 
     /** Returns true if and only if the next token is the specified type. */
     nextLacksPrecedingSpace(): boolean {
-        return this.hasNext() && !this.#unread[0].hasWhitespace();
+        return this.hasNext() && !this.#unread[0].hasPrecedingSpace();
     }
 
     /** Returns true if and only if the next token has a preceding line break. */
