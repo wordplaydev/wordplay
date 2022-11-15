@@ -98,7 +98,7 @@
         display: inline-block;
         white-space: nowrap;
         color: var(--wordplay-error);
-        animation: squish .8s cubic-bezier(.36,.07,.19,.97) infinite;
+        animation: squish .8s cubic-bezier(.36,.07,.19,.97) 1;
     }
 
 </style>

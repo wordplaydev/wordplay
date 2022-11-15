@@ -24,6 +24,9 @@
     import Type from '../nodes/Type';
     import Bind from '../nodes/Bind';
     import Block, { type Statement } from '../nodes/Block';
+    import ExpressionPlaceholderView from './ExpressionPlaceholderView.svelte';
+    import TypePlaceholderView from './TypePlaceholderView.svelte';
+    import TokenType from '../nodes/TokenType';
 
     export let source: Source;
 
@@ -391,17 +394,21 @@
 
     }
     
-    function getNodeAt(event: MouseEvent) {
+    function getNodeAt(event: MouseEvent, includeTokens: boolean) {
         const el = document.elementFromPoint(event.clientX, event.clientY);
         if(el instanceof HTMLElement) {
-            const nonTokenElement = el.closest(".node-view:not(.Token)");
+            const nonTokenElement = el.closest(`.node-view${includeTokens ? "" : ":not(.Token)"}`);
             if(nonTokenElement instanceof HTMLElement && nonTokenElement.dataset.id)
                 return source.program.getNodeByID(parseInt(nonTokenElement.dataset.id))
         }
         return undefined;
     }
 
-    function getCaretPositionAt(event: MouseEvent): number | undefined {
+    function getCaretPositionAt(event: MouseEvent): Node | number | undefined {
+
+        const node = getNodeAt(event, true);
+        if(node instanceof Token && node.is(TokenType.PLACEHOLDER))
+            return node;
 
         // Then, place the caret. Find the tokens that contain the vertical mouse position.
         const tokenViews = editor.querySelectorAll(".token-view");
@@ -526,7 +533,7 @@
     function handleMouseMove(event: MouseEvent) {
 
         // If there are no insertions, set the hovered state to whatever node is under the mouse.
-        hovered.set(getNodeAt(event));
+        hovered.set(getNodeAt(event, false));
 
         // If something is being dragged, Set the insertion points to whatever points are under the mouse.
         if($dragged) {
