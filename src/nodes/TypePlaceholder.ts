@@ -34,7 +34,7 @@ export default class TypePlaceholder extends Type {
 
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new TypePlaceholder(
-            this.cloneOrReplaceChild(pretty, "etc", this.placeholder, original, replacement)
+            this.cloneOrReplaceChild(pretty, "placeholder", this.placeholder, original, replacement)
         ) as this; 
     }
 

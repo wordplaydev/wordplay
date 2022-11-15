@@ -66,7 +66,7 @@ export default class ConversionDefinition extends Expression {
             this.cloneOrReplaceChild(pretty, "input", this.input, original, replacement), 
             this.cloneOrReplaceChild(pretty, "output", this.output, original, replacement), 
             this.cloneOrReplaceChild(pretty, "expression", this.expression, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "convert", this.arrow, original, replacement)
+            this.cloneOrReplaceChild(pretty, "arrow", this.arrow, original, replacement)
         ) as this; 
     }
 

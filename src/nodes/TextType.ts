@@ -41,7 +41,7 @@ export default class TextType extends NativeType {
 
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new TextType(
-            this.cloneOrReplaceChild(pretty, "quote", this.text, original, replacement), 
+            this.cloneOrReplaceChild(pretty, "text", this.text, original, replacement), 
             this.cloneOrReplaceChild(pretty, "format", this.format, original, replacement)
         ) as this; 
     }

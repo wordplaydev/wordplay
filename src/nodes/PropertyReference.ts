@@ -67,9 +67,9 @@ export default class PropertyReference extends Expression {
 
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new PropertyReference(
-            this.cloneOrReplaceChild(pretty, "subject", this.structure, original, replacement),
+            this.cloneOrReplaceChild(pretty, "structure", this.structure, original, replacement),
             this.cloneOrReplaceChild(pretty, "name", this.name, original, replacement),
-            this.cloneOrReplaceChild(pretty, "access", this.dot, original, replacement)
+            this.cloneOrReplaceChild(pretty, "dot", this.dot, original, replacement)
         ) as this;
     }
 

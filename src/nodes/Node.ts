@@ -280,7 +280,7 @@ export default abstract class Node {
     /** Creates a deep clone of this node and it's descendants. If it encounters replacement along the way, it uses that instead of the existing node. */
     abstract clone(pretty: boolean, original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
 
-    cloneOrReplaceChild<ExpectedTypes>(pretty: boolean, field: string, child: Node | Node[] | undefined, original: Node | string | undefined, replacement: Node | undefined): ExpectedTypes {
+    cloneOrReplaceChild<ExpectedTypes>(pretty: boolean, field: keyof this, child: Node | Node[] | undefined, original: Node | string | undefined, replacement: Node | undefined): ExpectedTypes {
 
         function allowedToString(allowedTypes: (Function | Function[] | undefined)[]) {
             return `[${allowedTypes.map(type => type instanceof Function ? type.name : Array.isArray(type) ? type.map(type => type.name) : "undefined").join(", ")}]`;
@@ -302,7 +302,7 @@ export default abstract class Node {
             const allowedTypes = this.getGrammar().find(child => child.name === field)?.types;
 
             if(allowedTypes === undefined)
-                throw Error(`Couldn't find allowed types of field ${field}`);
+                throw Error(`Couldn't find allowed types of field ${field.toString()}`);
             else if(Array.isArray(child) && Array.isArray(replacement) && Array.isArray(allowedTypes[0])) {
                 const listTypes = allowedTypes[0];
                 if(Array.isArray(listTypes) && !replacement.every(node => listTypes.find(type => type !== undefined && node instanceof type) !== undefined))
