@@ -1,6 +1,6 @@
 <script lang="ts">
     import { afterUpdate } from "svelte";
-    import Token, { TAB_WIDTH } from "../nodes/Token";
+    import Token, { spaceToHTML, tabToHTML, TAB_WIDTH } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
     import { getCaret } from "./Contexts";
@@ -17,7 +17,7 @@
     let caret = getCaret();
 
     // The HTMLElement rendering this view.
-    let caretElement: HTMLElement;
+    let element: HTMLElement;
 
     // The current token we're on.
     $: token = $caret?.getToken();
@@ -66,8 +66,8 @@
     afterUpdate(() => {
 
         // Now that we've rendered the caret, if it's out of the viewport and we're not executing, scroll to it.
-        if(caretElement && $caret?.source.evaluator.isDone())
-            caretElement.scrollIntoView({ block: "nearest" });
+        if(element && $caret?.source.evaluator.isDone())
+            element.scrollIntoView({ block: "nearest" });
 
         // Update the caret's location, in case other things changed.
         location = computeLocation();
@@ -82,10 +82,10 @@
         location = undefined;
 
         // No caret view? No caret.
-        if(caretElement === undefined) return;
+        if(element === undefined) return;
 
         // Find views, and if any are missing, bail.
-        const editorView = caretElement.parentElement;
+        const editorView = element.parentElement;
         if(editorView === null) return;
 
         const viewport = editorView.parentElement;
@@ -157,7 +157,7 @@
             lineHeight = tokenViewRect.height;
         }
 
-        // Is the caret in the text, and not the whitespace?
+        // Is the caret in the text, and not the space?
         if(caretIndex > 0) {
 
             // Measure the width of the text at this index, if we haven't already.
@@ -183,7 +183,7 @@
                 bottom: tokenTop + tokenViewRect.height
             }
         }
-        // If the caret is in the preceding space, compute the top/left.
+        // If the caret is in the preceding space, compute the top/left of the space position.
         else {
 
             // Three cases to handle...
@@ -196,11 +196,21 @@
             const spaceBefore = token.space.substring(0, spaceIndex);
             const spaceAfter = token.space.substring(spaceIndex);
 
-            let spaceLeft: string;
             let spaceTop: number;
 
+            // Get some measurements about the viewport.
             const editorPaddingLeft = parseInt(window.getComputedStyle(editorView).getPropertyValue('padding-left').replace("px", ""));
             const editorPaddingTop = parseInt(window.getComputedStyle(editorView).getPropertyValue('padding-top').replace("px", ""))
+
+            // Get some measurements on spaces and tab.
+            const spaceElement = editorView.querySelector(`.Token[data-id="${token.id}"] .space`);
+            if(spaceElement === null) return;
+            const spaceText = spaceElement.innerHTML;
+            spaceElement.innerHTML = spaceToHTML();
+            const spaceWidth = spaceElement.getBoundingClientRect().width;
+            spaceElement.innerHTML = tabToHTML();
+            const tabWidth = spaceElement.getBoundingClientRect().width;
+            spaceElement.innerHTML = spaceText;
 
             // Find the right side of token just prior to the current one that has this space.
             const priorToken = $caret.source.getNextToken(token, -1);
@@ -213,13 +223,19 @@
                 editorPaddingTop : 
                 priorTokenViewRect.top - viewportRect.top + viewport.scrollTop;
 
+            let spaces: undefined | number;
+            let tabs: undefined | number;
+
+            let leftOffset = 0;
+
             // 1) Trailing space (the caret is before the first newline)
             if(spaceBefore.indexOf("\n") < 0) {
                 // Count the number of spaces prior to the next newline.
-                const spaces = spaceBefore.split(" ").length - 1 + (spaceBefore.split("\t").length - 1) * TAB_WIDTH;
+                spaces = spaceBefore.split(" ").length - 1;
+                tabs = spaceBefore.split("\t").length - 1;
 
                 // Place the caret to the right of the prior token, {spaces} after.
-                spaceLeft = `calc(${priorTokenRight}px + ${spaces}ch)`;
+                leftOffset = priorTokenRight;
                 spaceTop = priorTokenTop;
 
             }
@@ -231,10 +247,9 @@
                 // Place the caret's left the number of spaces on this line
                 const beforeLines = spaceBefore.split("\n");
                 const spaceOnLine = beforeLines[beforeLines.length - 1];
-                const spaces = spaceOnLine.split(" ").length - 1 + (spaceOnLine.split("\t").length - 1) * TAB_WIDTH;
 
-                spaceLeft = `calc(${editorPaddingLeft}px + ${spaces}ch)`;
-
+                spaces = spaceOnLine.split(" ").length - 1;
+                tabs = spaceOnLine.split("\t").length - 1;
             }
             // 3) Preceding space (the caret is after the last newline)
             else {
@@ -244,14 +259,14 @@
                 // Truncate the last line of spaces after the current position of the caret.
                 spaceOnLastLine = spaceOnLastLine.substring(0, spaceOnLastLine.length - (token.space.length - spaceIndex));
                 // Compute the spaces prior to the caret on this line.
-                const spaces = spaceOnLastLine.split(" ").length - 1 + (spaceOnLastLine.split("\t").length - 1) * TAB_WIDTH;
+                spaces = spaceOnLastLine.split(" ").length - 1;
+                tabs = spaceOnLastLine.split("\t").length - 1;
 
                 spaceTop = tokenTop;
-                spaceLeft = `calc(${editorPaddingLeft}px + ${spaces}ch)`;
             }
 
             return {
-                left: spaceLeft,
+                left: `${(leftOffset === 0 ? editorPaddingLeft : leftOffset) + spaces * spaceWidth + tabs * tabWidth}px`,
                 top: `${spaceTop}px`,
                 height: `${tokenHeight}px`,
                 bottom: spaceTop + tokenHeight
@@ -265,7 +280,7 @@
 <span 
     class="caret {blink ? "blink" : ""} {ignored ? "ignored" : ""}"
     style={location === undefined ? "display:none" : `left: ${location.left}; top: ${location.top}; height: ${location.height};`}
-    bind:this={caretElement}
+    bind:this={element}
 />
 
 <style>

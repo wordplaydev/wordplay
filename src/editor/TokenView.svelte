@@ -1,5 +1,6 @@
 <script lang="ts">
     import type Token from "../nodes/Token";
+    import { spaceToHTML, tabToHTML } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
     import { getLanguages, getDragged, getProject, getCaret } from "./Contexts";
@@ -34,9 +35,9 @@
 </script>
 
 <!-- Don't render preceding space if there's no caret -->
-{#if node.newlines > 0 && showSpace}<span class="space">{@html "<br/>".repeat(node.newlines)}</span>{/if}<span 
+{#if showSpace}<span class="space">{@html node.space.replaceAll("\n", "<br/>").replaceAll(" ", spaceToHTML()).replaceAll("\t", tabToHTML())}</span>{/if}<span 
     class="token-view token-{kind} {showBox ? "active" : ""} {isPlaceholder ? "placeholder" : ""} {$caret !== undefined ? "editable" : ""} {`token-category-${kind}`}" 
-    style={showSpace ? `margin-left: ${node.precedingSpaces}ch;` : ""}
+    
     data-id={node.id}
 >
     <span class="text">{@html textToShow }</span>
@@ -65,8 +66,9 @@
         display: block;
     }
 
+    /* Make space visible, but just so. */
     .space {
-        visibility: hidden;
+        color: var(--wordplay-disabled-color);
     }
 
     .space.visible {

@@ -4,7 +4,10 @@ import TokenType from "./TokenType";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
-export const TAB_WIDTH = 2;
+export const TAB_WIDTH = 3;
+
+export function spaceToHTML() { return "&middot;"; }
+export function tabToHTML() { return "-".repeat(TAB_WIDTH - 1) + "|"; }
 
 export default class Token extends Node {
     
