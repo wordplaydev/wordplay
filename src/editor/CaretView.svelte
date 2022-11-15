@@ -1,6 +1,6 @@
 <script lang="ts">
     import { afterUpdate } from "svelte";
-    import Token, { spaceToHTML, tabToHTML, TAB_WIDTH } from "../nodes/Token";
+    import Token, { spaceToHTML, tabToHTML } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
     import { getCaret } from "./Contexts";
