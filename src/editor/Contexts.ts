@@ -1,3 +1,4 @@
+import { getContext } from "svelte";
 import type { Writable } from "svelte/store";
 import type { InsertionPoint } from "../models/Caret";
 import type Caret from "../models/Caret";
@@ -20,6 +21,7 @@ export const DraggedSymbol = Symbol("dragged");
 
 export type LanguageContext = Writable<LanguageCode[]>;
 export const LanguageSymbol = Symbol("language");
+export function getLanguages() { return getContext<LanguageContext>(LanguageSymbol); }
 
 export type ProjectContext = Writable<Project>;
 export const ProjectSymbol = Symbol("project");

@@ -3,14 +3,23 @@
     import type Token from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-    import { CaretSymbol, type DraggedContext, DraggedSymbol, ProjectSymbol, type CaretContext, type ProjectContext } from "./Contexts";
+    import { CaretSymbol, type DraggedContext, DraggedSymbol, ProjectSymbol, type CaretContext, type ProjectContext, getLanguages } from "./Contexts";
     import { TokenCategories } from "./TokenCategories";
 
     export let node: Token;
 
+    function choosePlaceholder() {
+        const labels = node.getParent()?.getChildPlaceholderLabel(node, $project.main.getContext());
+        if(labels === undefined) return PLACEHOLDER_SYMBOL;
+        for(const lang of $languages)
+            if(lang in labels) return labels[lang];
+        return (labels as Record<string, string>)[""] ?? PLACEHOLDER_SYMBOL;
+    }
+
     $: kind = TokenCategories.get(Array.isArray(node.types) ? node.types[0] ?? "default" : node.types);
     let caret = getContext<CaretContext>(CaretSymbol);
     let project = getContext<ProjectContext>(ProjectSymbol);
+    let languages = getLanguages();
     let dragged = getContext<DraggedContext>(DraggedSymbol);
     $: isPlaceholder = node.is(TokenType.PLACEHOLDER);
     $: showBox = 
@@ -18,7 +27,7 @@
         ($caret?.tokenPrior === node && $caret.atBeginningOfToken() && $caret.token && $caret.token.space.length > 0) || 
         isPlaceholder;
     $: textToShow = 
-        isPlaceholder ? node.getParent()?.getChildPlaceholderLabel(node, $project.main.getContext())?.eng ?? PLACEHOLDER_SYMBOL : 
+        isPlaceholder ? choosePlaceholder() : 
         node.text.getLength() === 0 ? "\u00A0" : 
         node.text.toString().replaceAll(" ", "&nbsp;");
     $: showSpace = caret !== undefined || $dragged?.getFirstLeaf() !== node;
