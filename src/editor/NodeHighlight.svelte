@@ -47,7 +47,7 @@
     }
 
     /* Selections do stroke and background of different colors to give the node a sense of shape */
-    :global(.hovered) > .outline path {
+    :global(.hovered:not(.selected)) > .outline path {
         stroke: var(--wordplay-highlight);
         fill: var(--wordplay-highlight);
         opacity: 0.2;

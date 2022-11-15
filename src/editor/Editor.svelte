@@ -404,9 +404,12 @@
 
     function getCaretPositionAt(event: MouseEvent): Node | number | undefined {
 
-        const node = getNodeAt(event, true);
-        if(node instanceof Token && node.is(TokenType.PLACEHOLDER))
-            return node;
+        if(event.shiftKey) return getNodeAt(event, false);
+        else {
+            const node = getNodeAt(event, true);
+            if(node instanceof Token && (node.is(TokenType.PLACEHOLDER) || event.shiftKey))
+                return node;
+        }
 
         // Then, place the caret. Find the tokens that contain the vertical mouse position.
         const tokenViews = editor.querySelectorAll(".token-view");
