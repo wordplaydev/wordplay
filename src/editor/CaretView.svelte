@@ -222,7 +222,7 @@
                 editorPaddingLeft : 
                 priorTokenViewRect.right - viewportRect.left + viewport.scrollLeft;
             let priorTokenTop = priorTokenViewRect === undefined ? 
-                editorPaddingTop : 
+                tokenTop : 
                 priorTokenViewRect.top - viewportRect.top + viewport.scrollTop;
 
             let spaces: undefined | number;
