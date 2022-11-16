@@ -1,8 +1,6 @@
 <script lang="ts">
     import { afterUpdate } from "svelte";
     import type Node from "../nodes/Node";
-    import Program from "../nodes/Program";
-    import Token from "../nodes/Token";
     import { getDragged, getLanguages, getHighlights, getCaret } from "./Contexts";
     import type { HighlightType } from "./Highlights";
     import NodeHighlight from "./NodeHighlight.svelte";
@@ -17,7 +15,7 @@
     let dragged = getDragged();
 
     $: primaryConflicts = node === undefined ? [] : $caret?.source.getPrimaryConflictsInvolvingNode(node) ?? [];
-    $: highlightTypes = (node ? $highlights?.get(node) : undefined) ?? new Set<HighlightType>($dragged === node ? [ "dragged"] : []);
+    $: highlightTypes = (node ? $highlights?.get(node) : undefined) ?? new Set();
 
     let element: HTMLElement | null = null;
     let outline: Outline | undefined;
@@ -31,9 +29,6 @@
         }
     });
 
-    let mouseDown = false;
-
-
 </script>
 
 <!-- Don't render anything if we weren't given a node. -->
@@ -42,21 +37,6 @@
         class="{node.constructor.name} node-view {highlightTypes.size > 0 ? "highlighted" : ""} { Array.from(highlightTypes).join(" ")}"
         data-id={node.id}
         bind:this={element}
-        on:mousedown={() => mouseDown = true }
-        on:mouseleave={() => mouseDown = false }
-        on:mouseup={() => mouseDown = false }
-        on:mousemove={event => {
-            // Only start dragging once the mouse moves with the primary button down after being clicked.
-            // The only nodes that can be dragged are those that are 1) in a program or 2) are root nodes not in a program.
-            if(node && $dragged === undefined) {
-                const root = node?.getRoot();
-                const draggable = !(node instanceof Token) && (root === node || root instanceof Program);
-                if(draggable && event.buttons === 1 && mouseDown) { 
-                    dragged.set(node); 
-                    event.stopPropagation();
-                } 
-            }
-        }}
     ><svelte:component this={getNodeView(node)} node={node} />{#if outline && underline }<NodeHighlight {outline} {underline}/>{/if}{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation($languages[0])}</div>{/each}</div>{/if}</div>
 {/if}
 

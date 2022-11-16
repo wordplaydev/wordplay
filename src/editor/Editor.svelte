@@ -399,9 +399,10 @@
         const el = document.elementFromPoint(event.clientX, event.clientY);
         // Only return a node if hovering over its text. Space isn't eligible.
         if(el instanceof HTMLElement && el.classList.contains("text")) {
-            const nonTokenElement = el.closest(`.node-view${includeTokens ? "" : ":not(.Token)"}`);
-            if(nonTokenElement instanceof HTMLElement && nonTokenElement.dataset.id)
-                return source.program.getNodeByID(parseInt(nonTokenElement.dataset.id))
+            const nodeView = el.closest(`.node-view${includeTokens ? "" : ":not(.Token)"}`);
+            if(nodeView instanceof HTMLElement && nodeView.dataset.id) {
+                return source.program.getNodeByID(parseInt(nodeView.dataset.id))
+            }
         }
         return undefined;
     }
@@ -537,10 +538,14 @@
 
     function handleMouseMove(event: MouseEvent) {
 
-        // If there are no insertions, set the hovered state to whatever node is under the mouse.
+        // By default, set the hovered state to whatever node is under the mouse.
         hovered.set(getNodeAt(event, false));
 
-        // If something is being dragged, Set the insertion points to whatever points are under the mouse.
+        // If the primary mouse button is down, start dragging and set insertion 
+        if($hovered && event.buttons === 1 && $dragged === undefined)
+            dragged.set($hovered);
+
+        // If something is being dragged, set the insertion points to whatever points are under the mouse.
         if($dragged) {
 
             // Get the insertion points at the current mouse position
