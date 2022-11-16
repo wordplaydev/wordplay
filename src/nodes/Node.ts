@@ -65,8 +65,10 @@ export default abstract class Node {
 
         // Claim each child
         for(const child of children) {
-            // if(child._parent !== undefined)
-            //     console.error(child.toWordplay() + " already has parent, " + child._parent.toWordplay());
+            if(child._parent !== undefined) {
+                console.error(`${child.constructor.name} already has parent of type ${child._parent.constructor.name}, but setting to ${this.constructor.name}. Clone before setting.`);
+                console.trace();
+            }
             child._parent = this;
         }
 

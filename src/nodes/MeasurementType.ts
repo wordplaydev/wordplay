@@ -65,7 +65,7 @@ export default class MeasurementType extends NativeType {
         return new MeasurementType(this.number.clone(false), this.unit, op);
     }
 
-    withUnit(unit: Unit): MeasurementType { return new MeasurementType(this.number.clone(false), unit); }
+    withUnit(unit: Unit): MeasurementType { return new MeasurementType(this.number.clone(false), unit.clone(false)); }
 
     accepts(type: Type, context: Context): boolean {
 

@@ -29,7 +29,7 @@ export default class Unit extends Type {
         super();
 
         // Did we parse it? Convert to exponents.
-        if(numerator !== undefined || denominator !== undefined) {
+        if(exponents === undefined) {
 
             this.numerator = numerator ?? [];
             this.slash = slash;

@@ -241,8 +241,11 @@ export class Tokens {
     unreadTo(token: Token) {
         while(this.#read.length > 0 && this.#unread[0] !== token) {
             const unreadToken = this.#read.pop();
-            if(unreadToken !== undefined)
+            if(unreadToken !== undefined) {
                 this.#unread.unshift(unreadToken);
+                // Reset the parent to avoid complaints.
+                unreadToken._parent = undefined;
+            }
         }
     }
 
@@ -1040,7 +1043,7 @@ function parseTableType(tokens: Tokens): TableType | Unparsable {
 
     const close = tokens.nextIs(TokenType.TABLE_CLOSE) ? 
         tokens.read(TokenType.TABLE_CLOSE) : 
-        tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TABLE_CLOSE, [ ... columns ]);
+        tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TABLE_CLOSE, []);
 
     return new TableType(columns, close);
 

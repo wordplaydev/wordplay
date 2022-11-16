@@ -113,7 +113,7 @@ export default class Select extends Expression {
         const columnTypes = this.row.cells.map(cell => {
             const column = cell.value instanceof Reference ? tableType.getColumnNamed(cell.value.name.text.toString()) : undefined; 
             return column === undefined ? undefined : column;
-        });
+        }).map(column => column?.clone(false));
         if(columnTypes.find(t => t === undefined)) return new UnknownType(this);
 
         return new TableType(columnTypes as ColumnType[]);

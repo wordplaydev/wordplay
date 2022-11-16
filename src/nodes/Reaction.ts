@@ -86,7 +86,7 @@ export default class Reaction extends Expression {
         if(initialType.accepts(nextType, context))
             return initialType;
         else
-            return new UnionType(initialType, nextType);
+            return new UnionType(initialType.clone(false), nextType.clone(false));
     }
 
     compile(context: Context): Step[] {

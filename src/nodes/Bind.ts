@@ -213,7 +213,7 @@ export default class Bind extends Node implements Evaluable, Named {
                 // Account for variable length arguments
                 (
                     this.isVariableLength() ? 
-                    new ListType(this.type) : 
+                    new ListType(this.type.clone(false)) : 
                     this.type
                 ) :
             // If the value is a structure definition, make a structure type.

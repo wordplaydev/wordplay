@@ -157,7 +157,7 @@ export default class Token extends Node {
 
         if(exact ? this.space !== space : this.space.length === 0)
             return this.withSpace(space) as this;
-        else return this;
+        else return this.clone(false);
 
     }
 

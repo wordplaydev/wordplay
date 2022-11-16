@@ -98,7 +98,7 @@ export default class Conditional extends Expression {
                 if(yesType.accepts(noType, context))
                     return yesType;
                 else 
-                return new UnionType(yesType, noType);
+                return new UnionType(yesType.clone(false), noType.clone(false));
             }
         }
     }

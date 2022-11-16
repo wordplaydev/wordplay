@@ -72,7 +72,7 @@ export default class TableLiteral extends Expression {
     }
 
     computeType(): TableType {
-        const columnTypes = this.columns.map(c => new ColumnType(c.bind));
+        const columnTypes = this.columns.map(c => new ColumnType(c.bind.clone(false)));
         return new TableType(columnTypes);
     }
 

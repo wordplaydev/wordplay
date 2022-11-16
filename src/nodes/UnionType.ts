@@ -136,7 +136,7 @@ export function getPossibleUnionType(context: Context, types: Type[]): Type | un
     const uniqueTypes: Type[] = [];
     types.forEach(type => {
         if(uniqueTypes.length === 0 || uniqueTypes.every(t => !t.accepts(type, context)))
-            uniqueTypes.push(type);
+            uniqueTypes.push(type.clone(false));
     })
 
     // If there's just one, return it.
@@ -208,11 +208,11 @@ export class TypeSet {
         let next = types.shift();
         let union = undefined;
         if(cur !== undefined && next !== undefined)
-            union = new UnionType(cur, next);
+            union = new UnionType(cur.clone(false), next.clone(false));
         while(types.length > 0 && union !== undefined) {
             let next = types.shift();
             if(next !== undefined)
-                union = new UnionType(union, next);
+                union = new UnionType(union.clone(false), next.clone(false));
         }
         return union === undefined ? new NeverType() : union;
 
