@@ -4,10 +4,10 @@ import TokenType from "./TokenType";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
-export const TAB_WIDTH = 3;
+export const TAB_WIDTH = 2;
 
 export function spaceToHTML() { return "&middot;"; }
-export function tabToHTML() { return "-".repeat(TAB_WIDTH - 1) + "|"; }
+export function tabToHTML() { return "&nbsp;".repeat(TAB_WIDTH - 1) + "→"; }
 
 export default class Token extends Node {
     
@@ -53,6 +53,71 @@ export default class Token extends Node {
     hasNewline() { return this.newlines > 0; }
     hasPrecedingSpace() { return this.space.length > 0; }
     getPrecedingSpace(): string { return this.space; }
+
+    /** Walk the ancestors, constructing preferred preceding space. */
+    getPreferredPrecedingSpace(): string {
+        let child: Node = this;
+        let parent = this._parent;
+        let preferredSpace = "";
+        while(parent) {
+            // If the current child's first token is still this, prepend some more space.
+            if(child.getFirstLeaf() === this) {
+                // See what space the parent would prefer based on the current space in place.
+                preferredSpace = parent.getPreferredPrecedingSpace(child, this.space) + preferredSpace;
+                child = parent;
+                parent = parent.getParent();
+            }
+            // Otherwise, the child was the last parent that could influence space.
+            else break;
+        }
+        return preferredSpace;
+    }
+
+    getAdditionalSpace(): string {
+
+        const preferredSpace = this.getPreferredPrecedingSpace();
+
+        if(preferredSpace.length === 0) return "";
+
+        // Now that we have preferred space, reconcile it with the actual space.
+        // 1) iterate through the explicit space
+        // 2) each time we find a preferred space character (a space, a new line, a tab), consume it
+        // 3) append whatever we didn't find to the end.
+        let preferredSpaceChars = preferredSpace.split("");
+        let additionalSpace = "";
+        let index = 0;
+        while(index < this.space.length) {
+            let c = this.space.charAt(index);
+
+            const lastLine = this.space.substring(index + 1).indexOf("\n") < 0;
+
+            // If we expect a newline, space, or time, and we found one, remove it.
+            if(c === preferredSpaceChars[0])
+                preferredSpaceChars.shift();
+
+            // If we expect a tab, and the current character is a space, read enough
+            // spaces to account for a tab, and insert ones as needed.
+            if(lastLine && preferredSpaceChars[0] === "\t" && c === " ") {
+                let spacesRemaining = TAB_WIDTH;
+                do {
+                    spacesRemaining--;
+                    index++;
+                    c = this.space.charAt(index);
+                } while(c === " " && spacesRemaining > 0);
+                // Add any spaces remaining that we didn't find to make up for a tab.
+                additionalSpace += " ".repeat(spacesRemaining);
+                // Remove the tab.
+                preferredSpaceChars.shift();
+            }
+            else
+                index++;
+        }
+        // If we have any preferred space remaining, append it.
+        additionalSpace += preferredSpaceChars.join("");
+        return additionalSpace;
+
+    }
+
     getTextLength() { return this.text.getLength(); }
 
     hasPrecedingLineBreak() { return this.space === undefined ? false : this.space.includes("\n"); }
@@ -69,9 +134,8 @@ export default class Token extends Node {
     toWordplay() { return this.getPrecedingSpace() + this.text.toString(); }
     computeConflicts() {}
     clone(pretty: boolean, original?: Node, replacement?: Node): this {
-        pretty;
         if(original === this && replacement instanceof Token) return replacement as this;
-        else return new Token(this.text, this.types, this.space) as this; 
+        else return new Token(this.text, this.types, `${this.space}${pretty ? this.getAdditionalSpace() : ""}`) as this; 
     }
 
     getDescriptions(): Translations {

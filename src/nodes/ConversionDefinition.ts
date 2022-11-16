@@ -70,6 +70,8 @@ export default class ConversionDefinition extends Expression {
         ) as this; 
     }
 
+    isBlock() { return true; }
+
     convertsTypeTo(input: Type, output: Type, context: Context) {
         return  !(this.input instanceof Unparsable) && this.input.accepts(input, context) &&
                 !(this.output instanceof Unparsable) && this.output.accepts(output, context);

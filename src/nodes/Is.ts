@@ -37,7 +37,7 @@ export default class Is extends Expression {
     constructor(left: Expression | Unparsable, operator: Token, right: Type | Unparsable, ) {
         super();
 
-        this.operator = operator.withPrecedingSpace("", true);
+        this.operator = operator;
         this.expression = left;
         this.type = right;
 

@@ -28,7 +28,7 @@ import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
 import PropertyReference from "./PropertyReference";
 import TypeInput from "./TypeInput";
-import { endsWithName, getEvaluationInputConflicts, startsWithName } from "./util";
+import { getEvaluationInputConflicts } from "./util";
 import ListType from "./ListType";
 import type { TypeSet } from "./UnionType";
 import SemanticException from "../runtime/SemanticException";
@@ -67,8 +67,7 @@ export default class Evaluate extends Expression {
         this.open = open ?? new EvalOpenToken();
         this.func = func;
         // Inputs must have space between them if they have adjacent names.
-        this.inputs = inputs.map((value: InputType, index) => 
-            value.withPrecedingSpaceIfDesired(index > 0 && endsWithName(inputs[index - 1]) && startsWithName(value)));
+        this.inputs = inputs;
         this.close = close;
 
         this.computeChildren();
@@ -88,13 +87,19 @@ export default class Evaluate extends Expression {
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Evaluate(
             this.cloneOrReplaceChild(pretty, "func", this.func, original, replacement), 
-            this.cloneOrReplaceChild<InputType[]>(pretty, "inputs", this.inputs, original, replacement)
-                .map((value: InputType, index: number) => value.withPrecedingSpaceIfDesired(pretty && index > 0)),
+            this.cloneOrReplaceChild<InputType[]>(pretty, "inputs", this.inputs, original, replacement),
             this.cloneOrReplaceChild(pretty, "typeInputs", this.typeInputs, original, replacement), 
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
         ) as this;
     }
+
+    getPreferredPrecedingSpace(child: Node, space: string): string {
+        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
+        return (this.inputs.includes(child as InputType)) && space.indexOf("\n") >= 0 ? `\n${"\t".repeat(child.getDepth())}` : "";
+    }
+
+    isBlock() { return true; }
 
     computeConflicts(context: Context): Conflict[] { 
     

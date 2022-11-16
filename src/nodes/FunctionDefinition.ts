@@ -90,13 +90,20 @@ export default class FunctionDefinition extends Expression {
         ];
     }
 
+    isBlock() { return true; }
+
+    getPreferredPrecedingSpace(child: Node, space: string): string {
+        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
+        return this.expression === child && space.indexOf("\n") >= 0 ? `\n${"\t".repeat(child.getDepth())}` : "";
+    }
+
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new FunctionDefinition(
             this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement), 
             this.cloneOrReplaceChild<Names>(pretty, "names", this.names, original, replacement),
             this.cloneOrReplaceChild(pretty, "typeVars", this.typeVars, original, replacement), 
             this.cloneOrReplaceChild(pretty, "inputs", this.inputs, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable|Token>(pretty, "expression", this.expression, original, replacement).withPrecedingSpaceIfDesired(pretty), 
+            this.cloneOrReplaceChild<Expression|Unparsable|Token>(pretty, "expression", this.expression, original, replacement),
             this.cloneOrReplaceChild(pretty, "output", this.output, original, replacement), 
             this.cloneOrReplaceChild(pretty, "fun", this.fun, original, replacement), 
             this.cloneOrReplaceChild(pretty, "dot", this.dot, original, replacement), 

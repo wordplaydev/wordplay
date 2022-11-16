@@ -18,7 +18,6 @@ import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix 
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
-import { endsWithName, startsWithName } from "./util";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
@@ -35,8 +34,7 @@ export default class SetLiteral extends Expression {
         super();
 
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
-        this.values = values.map((value: SetItem, index) => 
-            value.withPrecedingSpaceIfDesired(index > 0 && endsWithName(values[index - 1]) && startsWithName(value), " ", false))
+        this.values = values;
         this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
 
         this.computeChildren();
@@ -53,11 +51,15 @@ export default class SetLiteral extends Expression {
 
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new SetLiteral(
-            this.cloneOrReplaceChild<SetItem[]>(pretty, "values", this.values, original, replacement)
-                .map((value: SetItem, index: number) => value.withPrecedingSpaceIfDesired(pretty && index > 0)),
+            this.cloneOrReplaceChild<SetItem[]>(pretty, "values", this.values, original, replacement),
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
         ) as this; 
+    }
+
+    getPreferredPrecedingSpace(child: Node, space: string): string {
+        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
+        return (this.values.includes(child as SetItem)) && space.indexOf("\n") >= 0 ? `\n${"\t".repeat(child.getDepth() + 1)}` : "";
     }
 
     computeConflicts() {}

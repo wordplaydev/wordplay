@@ -52,7 +52,7 @@ export default class TextLiteral extends Expression {
     computeConflicts() {}
 
     computeType(): Type {
-        return new TextType(this.text.withPrecedingSpace("", true), this.format);
+        return new TextType(this.text.clone(false), this.format?.clone(false));
     }
 
     compile(): Step[] {

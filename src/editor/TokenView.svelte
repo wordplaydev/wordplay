@@ -1,6 +1,6 @@
 <script lang="ts">
     import type Token from "../nodes/Token";
-    import { spaceToHTML, tabToHTML } from "../nodes/Token";
+    import { spaceToHTML, tabToHTML, TAB_WIDTH } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
     import { getLanguages, getDragged, getProject, getCaret } from "./Contexts";
@@ -30,12 +30,13 @@
         isPlaceholder ? choosePlaceholder() : 
         node.text.getLength() === 0 ? "\u00A0" : 
         node.text.toString().replaceAll(" ", "&nbsp;");
+    $: additionalSpace = node.getAdditionalSpace();
     $: showSpace = caret !== undefined || $dragged?.getFirstLeaf() !== node;
 
 </script>
 
 <!-- Don't render preceding space if there's no caret -->
-{#if showSpace}<span class="space">{@html node.space.replaceAll("\n", "<br/>").replaceAll(" ", spaceToHTML()).replaceAll("\t", tabToHTML())}</span>{/if}<span 
+{#if showSpace}<span class="space">{@html node.space.replaceAll("\n", "<br/>").replaceAll(" ", spaceToHTML()).replaceAll("\t", tabToHTML()) + additionalSpace.replaceAll("\n", "<br/>").replaceAll(" ", "&nbsp;").replaceAll("\t", "&nbsp;".repeat(TAB_WIDTH))}</span>{/if}<span 
     class="token-view token-{kind} {showBox ? "active" : ""} {isPlaceholder ? "placeholder" : ""} {$caret !== undefined ? "editable" : ""} {`token-category-${kind}`}" 
     
     data-id={node.id}

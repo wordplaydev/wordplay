@@ -43,7 +43,7 @@ export default class SetOrMapAccess extends Expression {
         super();
 
         this.setOrMap = setOrMap;
-        this.open = open === undefined ? new SetOpenToken() : open.withPrecedingSpace("", true);
+        this.open = open === undefined ? new SetOpenToken() : open;
         this.key = key;
         this.close = close ?? new SetCloseToken();
 

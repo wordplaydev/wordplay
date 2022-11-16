@@ -41,7 +41,7 @@ export default class ListAccess extends Expression {
         super();
 
         this.list = list;
-        this.open = open === undefined ? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN) : open.withPrecedingSpace("", true);
+        this.open = open === undefined ? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN) : open;
         this.index = index;
         this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
 

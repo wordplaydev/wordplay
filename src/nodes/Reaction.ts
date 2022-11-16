@@ -61,9 +61,9 @@ export default class Reaction extends Expression {
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Reaction(
             this.cloneOrReplaceChild(pretty, "initial", this.initial, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "stream", this.stream, original, replacement).withPrecedingSpaceIfDesired(pretty),
-            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "next", this.next, original, replacement).withPrecedingSpaceIfDesired(pretty),
-            this.cloneOrReplaceChild<Token>(pretty, "delta", this.delta, original, replacement).withPrecedingSpaceIfDesired(pretty)
+            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "stream", this.stream, original, replacement),
+            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "next", this.next, original, replacement),
+            this.cloneOrReplaceChild<Token>(pretty, "delta", this.delta, original, replacement)
         ) as this; 
     }
 

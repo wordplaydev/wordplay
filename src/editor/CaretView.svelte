@@ -192,9 +192,11 @@
             //   3) The caret is in the space preceding a token.
             // Figure out which three of this is the case, then position accordingly.
 
-            const spaceIndex = token.space.length + caretIndex;
-            const spaceBefore = token.space.substring(0, spaceIndex);
-            const spaceAfter = token.space.substring(spaceIndex);
+            const explicitSpace = token.space;
+
+            const spaceIndex = explicitSpace.length + caretIndex;
+            const spaceBefore = explicitSpace.substring(0, spaceIndex);
+            const spaceAfter = explicitSpace.substring(spaceIndex);
 
             let spaceTop: number;
 
@@ -254,10 +256,15 @@
             // 3) Preceding space (the caret is after the last newline)
             else {
                 // Get the last line of spaces.
-                const spaceLines = token.space.split("\n");
+                const spaceLines = explicitSpace.split("\n");
                 let spaceOnLastLine = spaceLines[spaceLines.length - 1];
-                // Truncate the last line of spaces after the current position of the caret.
-                spaceOnLastLine = spaceOnLastLine.substring(0, spaceOnLastLine.length - (token.space.length - spaceIndex));
+                // Truncate everything on the last line of spaces after the current position of the caret.
+                spaceOnLastLine = spaceOnLastLine.substring(0, spaceOnLastLine.length - (explicitSpace.length - spaceIndex));
+
+                // If there's preferred space after the explicit space, and we're on the last line of explicit space, include it.
+                if(explicitSpace.length - spaceIndex === 0)
+                    spaceOnLastLine += token.getAdditionalSpace();
+
                 // Compute the spaces prior to the caret on this line.
                 spaces = spaceOnLastLine.split(" ").length - 1;
                 tabs = spaceOnLastLine.split("\t").length - 1;

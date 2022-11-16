@@ -64,8 +64,11 @@ export default abstract class Node {
         }
 
         // Claim each child
-        for(const child of children)
+        for(const child of children) {
+            // if(child._parent !== undefined)
+            //     console.error(child.toWordplay() + " already has parent, " + child._parent.toWordplay());
             child._parent = this;
+        }
 
         // Assign the children.
         this._children = children;
@@ -202,7 +205,7 @@ export default abstract class Node {
     }
 
     /** Returns a list of ancestors, with the parent as the first item in the list and the root as the last. */
-    getAncestors(): Node[] | undefined {
+    getAncestors(): Node[] {
 
         const ancestors = [];
         let parent = this._parent;
@@ -354,12 +357,13 @@ export default abstract class Node {
     }
 
     getPrecedingSpace(): string {
-
         const children = this.getChildren();
         if(children.length === 0) return "";
         return children[0].getPrecedingSpace();
-
     }
+
+    /** By default, there is no preferred space for a node. */
+    getPreferredPrecedingSpace(child: Node, space: string): string { child; space; return ""; }
 
     getFirstLeaf(): Node | undefined {
         if(this.isLeaf()) return this;
@@ -371,6 +375,11 @@ export default abstract class Node {
     }
 
     isLeaf() { return false; }
+    isBlock() { return false; }
+
+    getDepth() { 
+        return this.getAncestors().filter(node => node.isBlock()).length;
+    }
 
     getContainingParentList(): string | undefined {
         const parent = this.getParent();
@@ -393,7 +402,6 @@ export default abstract class Node {
         return (this as any)[field] as Node | Node[] | undefined;
 
     }
-
 
     getAllowedFieldNodeTypes(name: string): NodeType[] | undefined {
         let field = this.getGrammar().find(field => field.name === name);

@@ -99,13 +99,20 @@ export default class Bind extends Node implements Evaluable, Named {
             this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement), 
             this.cloneOrReplaceChild(pretty, "names", this.names, original, replacement), 
             this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable|undefined>(pretty, "value", this.value, original, replacement)?.withPrecedingSpaceIfDesired(pretty),
+            this.cloneOrReplaceChild<Expression|Unparsable|undefined>(pretty, "value", this.value, original, replacement),
             this.cloneOrReplaceChild(pretty, "share", this.share, original, replacement), 
             this.cloneOrReplaceChild(pretty, "etc", this.etc, original, replacement), 
             this.cloneOrReplaceChild(pretty, "dot", this.dot, original, replacement),
             this.cloneOrReplaceChild(pretty, "colon", this.colon, original, replacement)
         ) as this;
     }
+
+    getPreferredPrecedingSpace(child: Node, space: string): string {
+        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
+        return (child === this.value) && space.indexOf("\n") >= 0 ? `\n${"\t".repeat(child.getDepth())}` : "";
+    }
+
+    isBlock() { return true; }
 
     hasName(name: string) { return this.names.hasName(name); }
     sharesName(bind: Bind) { return this.names.sharesName(bind.names); }

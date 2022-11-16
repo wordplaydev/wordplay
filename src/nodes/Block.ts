@@ -8,7 +8,6 @@ import Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
-import { endsWithName, startsWithName } from "./util";
 import type Evaluator from "../runtime/Evaluator";
 import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
@@ -54,8 +53,7 @@ export default class Block extends Expression {
         super();
 
         this.open = !root && open === undefined ? new EvalOpenToken() : open;
-        this.statements = statements.map((value: Statement, index) => 
-            value.withPrecedingSpaceIfDesired(index > 0 && endsWithName(statements[index - 1]) && startsWithName(value)));
+        this.statements = statements;
         this.close = !root && close === undefined ? new EvalCloseToken() : close;
         this.docs = docs instanceof Docs ? docs : new Docs(docs);
         this.root = root;
@@ -74,17 +72,16 @@ export default class Block extends Expression {
         ];
     }
 
+    getPreferredPrecedingSpace(child: Node): string {
+        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
+        return this.statements.length > 1 && this.statements.includes(child as Statement) ? `\n${"\t".repeat(child.getDepth())}` : "";
+    }
+
+    isBlock() { return !this.root; }
+
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Block(
-            this.cloneOrReplaceChild<Statement[]>(pretty, "statements", this.statements, original, replacement)
-                .map((statement: Statement, index, statements) => {
-                    index;
-                    // If there are more than one expressions in the block, then pretty print with newlines and tabs.
-                    if(!pretty || statements.length <= 1) return statement;
-                    // Otherwise, put a newline before the block and a number of tabs equal to the number of ancestor blocks, functions, and types.
-                    const blocks = this.getAncestors()?.filter(node => node instanceof Block || node instanceof FunctionDefinition || node instanceof StructureDefinition || node instanceof ConversionDefinition)?.length ?? 0;
-                    return statement.withPrecedingSpace("\n" + "\t".repeat(blocks), false);
-                }),
+            this.cloneOrReplaceChild<Statement[]>(pretty, "statements", this.statements, original, replacement),
             this.root,
             this.creator, 
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 

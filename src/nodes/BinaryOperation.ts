@@ -62,10 +62,15 @@ export default class BinaryOperation extends Expression {
 
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new BinaryOperation(
-            this.cloneOrReplaceChild<Token>(pretty, "operator", this.operator, original, replacement).withPrecedingSpaceIfDesired(pretty), 
+            this.cloneOrReplaceChild<Token>(pretty, "operator", this.operator, original, replacement), 
             this.cloneOrReplaceChild(pretty, "left", this.left, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "right", this.right, original, replacement).withPrecedingSpaceIfDesired(pretty)
+            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "right", this.right, original, replacement)
         ) as this; 
+    }
+
+    getPreferredPrecedingSpace(child: Node): string {
+        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
+        return child === this.operator || child === this.right ? " " : "";
     }
 
     getOperator() { return this.operator.text.toString(); }

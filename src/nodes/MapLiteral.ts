@@ -22,7 +22,6 @@ import type Bind from "./Bind";
 import SemanticException from "../runtime/SemanticException";
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import { endsWithName, startsWithName } from "./util";
 import type Transform from "../transforms/Transform";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Remove from "../transforms/Remove";
@@ -41,8 +40,7 @@ export default class MapLiteral extends Expression {
     constructor(values: MapItem[], open?: Token, bind?: Token, close?: Token | Unparsable) {
         super();
 
-        this.values = values.map((value: MapItem, index) => 
-            value.withPrecedingSpaceIfDesired(index > 0 && endsWithName(values[index - 1]) && startsWithName(value), " ", false))
+        this.values = values;
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
         this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
         this.bind = bind;
@@ -62,12 +60,16 @@ export default class MapLiteral extends Expression {
 
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new MapLiteral(
-            this.cloneOrReplaceChild<MapItem[]>(pretty, "values", this.values, original, replacement)
-                .map((value: MapItem, index: number) => value.withPrecedingSpaceIfDesired(pretty && index > 0)),
+            this.cloneOrReplaceChild<MapItem[]>(pretty, "values", this.values, original, replacement),
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, "bind", this.bind, original, replacement),
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
         ) as this; 
+    }
+
+    getPreferredPrecedingSpace(child: Node, space: string): string {
+        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
+        return (this.values.includes(child as MapItem)) && space.indexOf("\n") >= 0 ? `\n${"\t".repeat(child.getDepth() + 1)}` : "";
     }
 
     notAMap() { return this.values.find(v => v instanceof Expression) !== undefined; }

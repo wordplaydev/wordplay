@@ -32,16 +32,21 @@ export default class Doc extends Node {
         ];
     }
 
-    getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
-    
-    computeConflicts() {}
-
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Doc(
             this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement), 
             this.cloneOrReplaceChild(pretty, "lang", this.lang, original, replacement)
         ) as this; 
     }
+
+    getPreferredPrecedingSpace(child: Node): string {
+        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
+        return child === this.docs ? "\n" : "";
+    }
+
+    getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
+    
+    computeConflicts() {}
 
     getDescriptions(): Translations {
         return {

@@ -34,7 +34,7 @@ export default class MeasurementLiteral extends Expression {
         super();
         
         this.number = number === undefined ? new PlaceholderToken() : number instanceof Token ? number : new Token("" + number, TokenType.DECIMAL);
-        this.unit = unit === undefined ? new Unit() : unit.withPrecedingSpace("", true);
+        this.unit = unit === undefined ? new Unit() : unit;
 
         this.computeChildren();
 
@@ -66,7 +66,7 @@ export default class MeasurementLiteral extends Expression {
     }
 
     computeType(): Type {
-        return new MeasurementType(this.number.withPrecedingSpace("", true), this.unit instanceof Unparsable ? undefined : this.unit);
+        return new MeasurementType(this.number.clone(false), this.unit instanceof Unparsable ? undefined : this.unit.clone(false));
     }
 
     compile():Step[] {

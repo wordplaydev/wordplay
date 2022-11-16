@@ -37,7 +37,7 @@ export default class Conditional extends Expression {
         this.condition = condition;
         this.conditional = conditional ?? new Token(BOOLEAN_TYPE_SYMBOL, TokenType.BOOLEAN_TYPE, " ");
         this.yes = yes;
-        // Must have a preciding space if yes ends with a name and no starts with one.
+        // Must have a preceding space if yes ends with a name and no starts with one.
         this.no = no.withPrecedingSpaceIfDesired(endsWithName(yes) && startsWithName(no));
 
         this.computeChildren();
@@ -56,10 +56,17 @@ export default class Conditional extends Expression {
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Conditional(
             this.cloneOrReplaceChild(pretty, "condition", this.condition, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "yes", this.yes, original, replacement).withPrecedingSpaceIfDesired(pretty), 
-            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "no", this.no, original, replacement).withPrecedingSpaceIfDesired(pretty),
-            this.cloneOrReplaceChild<Token>(pretty, "conditional", this.conditional, original, replacement).withPrecedingSpaceIfDesired(pretty)
+            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "yes", this.yes, original, replacement), 
+            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "no", this.no, original, replacement),
+            this.cloneOrReplaceChild<Token>(pretty, "conditional", this.conditional, original, replacement)
         ) as this;
+    }
+
+    isBlock() { return true; }
+
+    getPreferredPrecedingSpace(child: Node, space: string): string {
+        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
+        return child === this.conditional ? " " : (child === this.yes || child === this.no) && space.indexOf("\n") >= 0 ? `\n${"\t".repeat(child.getDepth())}` : "";
     }
 
     computeConflicts(context: Context): Conflict[] {
