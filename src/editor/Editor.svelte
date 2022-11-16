@@ -386,7 +386,17 @@
         // Prevent the OS from giving the document body focus.
         event.preventDefault();
 
-        const newPosition = getCaretPositionAt(event);
+        const tokenUnderMouse = getNodeAt(event, true);
+        const nonTokenNodeUnderMouse = getNodeAt(event, false);
+        const newPosition = 
+                // If shift is down, select the non-token node at the position.
+                event.shiftKey && nonTokenNodeUnderMouse !== undefined ? nonTokenNodeUnderMouse :
+                // If the node is a placeholder token, select it
+                tokenUnderMouse instanceof Token && tokenUnderMouse.is(TokenType.PLACEHOLDER) ? tokenUnderMouse :
+                // Otherwise choose an index position under the mouse
+                getCaretPositionAt(event);
+
+        // If we found a position, set it.
         if(newPosition !== undefined)
             caret.set($caret.withPosition(newPosition));
 
@@ -408,13 +418,6 @@
     }
 
     function getCaretPositionAt(event: MouseEvent): Node | number | undefined {
-
-        if(event.shiftKey) return getNodeAt(event, false);
-        else {
-            const node = getNodeAt(event, true);
-            if(node instanceof Token && (node.is(TokenType.PLACEHOLDER) || event.shiftKey))
-                return node;
-        }
 
         // Then, place the caret. Find the tokens that contain the vertical mouse position.
         const tokenViews = editor.querySelectorAll(".token-view");
