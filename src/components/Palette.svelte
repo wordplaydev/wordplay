@@ -5,7 +5,6 @@
     import { project, updateProject } from "../models/stores";
     import Program from "../nodes/Program";
     import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
-    import type { Statement } from "../nodes/Block";
     import type Node from "../nodes/Node";
 
     const expressions: Node[] = [
@@ -35,6 +34,7 @@
     const nodes = expressions.concat(types);
 
     let dragged = getDragged();
+    let expanded = false;
 
     function handleDrop() {
 
@@ -58,6 +58,9 @@
     }
 
     function handleDrag(event: MouseEvent) {
+
+        expanded = true;
+
         if(event.buttons !== 1) return;
 
         const root = document.elementFromPoint(event.clientX, event.clientY)?.closest(".root");
@@ -74,35 +77,46 @@
 </script>
 
 <section 
+    class={`palette ${expanded ? "expanded" : ""}`}
     on:mouseup={handleDrop}
     on:mousemove={handleDrag}
+    on:mouseleave={() => expanded = false }
 >
     <h2>Palette</h2>
 
-    <h3>Expressions</h3>
+    <section class="options">
+        <h3>Expressions</h3>
 
-    {#each expressions as expression}
-        <div class="item"><NodeView node={expression}/></div>
-        <br/>
-    {/each}
+        {#each expressions as expression}
+            <div class="item"><NodeView node={expression}/></div>
+            <br/>
+        {/each}
 
-    <h3>Types</h3>
+        <h3>Types</h3>
 
-    {#each types as type}
-        <div class="item"><NodeView node={type}/></div>
-        <br/>
-    {/each}
+        {#each types as type}
+            <div class="item"><NodeView node={type}/></div>
+            <br/>
+        {/each}
+    </section>
 </section>
 
 <style>
-    section {
-        max-width: 15em;
-        min-width: 15em;
+    .palette {
+        min-width: 3em;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         background: var(--wordplay-chrome);
         padding: var(--wordplay-spacing);
         user-select: none;
+        transition: min-width 0.25s ease, opacity 0.25s ease, overflow 0.25s;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .palette.expanded {
+        min-width: 12em;
+        overflow: auto;
     }
 
     .item {
