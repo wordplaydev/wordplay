@@ -6,8 +6,9 @@
     import Program from "../nodes/Program";
     import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
     import type { Statement } from "../nodes/Block";
+    import type Node from "../nodes/Node";
 
-    const expressions: Statement[] = [
+    const expressions: Node[] = [
         "_[ _ ]",
         "_{ _ }",
         "_._",
@@ -20,7 +21,7 @@
     ].map(code => parseExpression(tokens(code)));
     expressions.push(parseBind(tokens("_: _") ));
 
-    const types = [
+    const types: Node[] = [
         "?",
         "#",
         "''",
@@ -30,6 +31,8 @@
         "{ _ : _ }",
         "_ • _"
     ].map(code => parseType(tokens(code)));
+
+    const nodes = expressions.concat(types);
 
     let dragged = getDragged();
 
@@ -54,9 +57,26 @@
 
     }
 
+    function handleDrag(event: MouseEvent) {
+        if(event.buttons !== 1) return;
+
+        const root = document.elementFromPoint(event.clientX, event.clientY)?.closest(".root");
+        if(root instanceof HTMLElement) {
+            const id = parseInt(root.dataset.id ?? "");
+            const node = nodes.find(node => node.id === id);
+            if(node !== undefined) {
+                dragged.set(node);
+            }
+        }
+
+    }
+
 </script>
 
-<section on:mouseup={handleDrop}>
+<section 
+    on:mouseup={handleDrop}
+    on:mousemove={handleDrag}
+>
     <h2>Palette</h2>
 
     <h3>Expressions</h3>
