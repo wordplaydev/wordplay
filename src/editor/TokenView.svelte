@@ -38,7 +38,6 @@
 <!-- Don't render preceding space if there's no caret -->
 {#if showSpace}<span class="space">{@html node.space.replaceAll("\n", "<br/>").replaceAll(" ", spaceToHTML()).replaceAll("\t", tabToHTML()) + additionalSpace.replaceAll("\n", "<br/>").replaceAll(" ", "&nbsp;").replaceAll("\t", "&nbsp;".repeat(TAB_WIDTH))}</span>{/if}<span 
     class="token-view token-{kind} {showBox ? "active" : ""} {isPlaceholder ? "placeholder" : ""} {$caret !== undefined ? "editable" : ""} {`token-category-${kind}`}" 
-    
     data-id={node.id}
 >
     <span class="text">{@html textToShow }</span>

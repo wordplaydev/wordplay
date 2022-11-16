@@ -25,6 +25,7 @@
     import Bind from '../nodes/Bind';
     import Block, { type Statement } from '../nodes/Block';
     import TokenType from '../nodes/TokenType';
+    import { space } from 'svelte/internal';
 
     export let source: Source;
 
@@ -417,82 +418,101 @@
         return undefined;
     }
 
-    function getCaretPositionAt(event: MouseEvent): Node | number | undefined {
+    function getTokenFromElement(textOrSpace: Element): [ Token, Element ] | undefined {
+        const tokenView = textOrSpace.closest(".Token");
+        const token = tokenView === null ? undefined : getTokenByView($caret.getProgram(), tokenView)
+        return tokenView === null || token === undefined ? undefined : [ token, tokenView ];
+    }
 
-        // Then, place the caret. Find the tokens that contain the vertical mouse position.
-        const tokenViews = editor.querySelectorAll(".token-view");
-        const line: Element[] = [];
-        const mouseY = event.clientY;
-        const mouseX = event.clientX;
-        let whitespacePosition: undefined | number = undefined;
-        tokenViews.forEach(view => {
-            if($caret === undefined) return;
-            const token = getTokenByView($caret.getProgram(), view);
-            if(token instanceof Token) {
-                const tokenBounds = view.getBoundingClientRect();
-                const tokenTop = tokenBounds.top;
-                const tokenWhitespaceTop = tokenBounds.top - token.newlines * tokenBounds.height;
-                const tokenBottom = tokenBounds.bottom;
-                const space = token.getPrecedingSpace();
-                const tokenIndex = $caret.source.getTokenTextIndex(token);
-                if(tokenIndex !== undefined) {
-                    // // If the mouse's vertical is within the top and bottom of this token view, include the token in the line.
-                    if(tokenTop <= mouseY && tokenBottom >= mouseY)
-                        line.push(view);
-                    // If the mouse is within the whitespace of this line, find the beginning of the whitespace line.
-                    else if(tokenWhitespaceTop <= mouseY && tokenBottom >= mouseY && whitespacePosition === undefined) {
-                        // This token's whitespace contains the click.
-                        // Place it at the beginning of one of the whitespace lines.
-                        const mouseLine = Math.round((mouseY - tokenWhitespaceTop) / tokenBounds.height);
-                        let index = 0;
-                        let line = 0;
-                        while(index < space.length) { 
-                            if(line === mouseLine) break;
-                            if(space.charAt(index) === "\n")
-                                line++;
-                            index++;
-                        }
-                        whitespacePosition = tokenIndex - space.length + index;
-                    }
-                }
-            }
-        });
+    function getCaretPositionAt(event: MouseEvent): number | undefined {
 
-        // Of those aligned vertically, find the closest horizontally.
-        let closestDistance: number | undefined = undefined;
-        let closest: Element | undefined = undefined;
-        for(let i = 0; i < line.length; i++) {
-            const tokenBounds = line[i].getBoundingClientRect();
-            const tokenLeftDistance = Math.abs(tokenBounds.left - mouseX);
-            const tokenRightDistance = Math.abs(tokenBounds.right - mouseX);
-            const tokenDistance = Math.min(tokenLeftDistance, tokenRightDistance);
-            if(closestDistance === undefined || tokenDistance < closestDistance) {
-                closest = line[i];
-                closestDistance = tokenDistance;
-            }
-        };
+        // What element is under the mouse?
+        const elementAtCursor = document.elementFromPoint(event.clientX, event.clientY);
 
-        if(closest !== undefined) {
-            const token = getTokenByView($caret.getProgram(), closest);
-            if(token instanceof Token && event.target instanceof Element) {
-                const textIndex = $caret.source.getTokenTextIndex(token);
+        // If there's no element (which should be impossible), return nothing.
+        if(elementAtCursor === null) return undefined;
+
+        // If there's text, figure out what position in the text to place the caret.
+        if(elementAtCursor.classList.contains("text")) {
+            // Find the token this corresponds to.
+            const [ token, tokenView ] = getTokenFromElement(elementAtCursor) ?? [];
+            // If we found a token, find the position in it corresponding to the mouse position.
+            if(token instanceof Token && tokenView instanceof Element && event.target instanceof Element) {
+                const startIndex = $caret.source.getTokenTextIndex(token);
                 const lastIndex = $caret.source.getTokenLastIndex(token);
-                if(textIndex !== undefined && lastIndex !== undefined) {
+                if(startIndex !== undefined && lastIndex !== undefined) {
                     // The mouse event's offset is relative to what was clicked on, not the element handling the click, so we have to compute the real offset.
                     const targetRect = event.target.getBoundingClientRect();
-                    const tokenRect = closest.getBoundingClientRect();
+                    const tokenRect = tokenView.getBoundingClientRect();
                     const offset = event.offsetX + (targetRect.left - tokenRect.left);
-                    const newPosition = Math.max(textIndex, Math.min(lastIndex, textIndex + (tokenRect.width === 0 ? 0 : Math.round(token.getTextLength() * (offset / tokenRect.width)))));
+                    const newPosition = Math.max(startIndex, Math.min(lastIndex, startIndex + (tokenRect.width === 0 ? 0 : Math.round(token.getTextLength() * (offset / tokenRect.width)))));
                     return newPosition;
                 }
-
             }
         }
-        else if(whitespacePosition !== undefined)
-            return whitespacePosition;
+        // If its the editor, find the closest text and choose either it's right or left side.
+        // Map the token text to a list of vertical and horizontal distances
+        const closestText = Array.from(editor.querySelectorAll(".token-view")).map(tokenView => {
+            const textView = tokenView.querySelector(".text");
+            const textRect = textView?.getBoundingClientRect();
+            return {
+                view: tokenView,
+                textDistance: textRect === undefined ? Number.POSITIVE_INFINITY : Math.abs(event.clientY - (textRect.top + textRect.height / 2)),
+                textTop: textRect === undefined ? Number.POSITIVE_INFINITY : textRect.top,
+                textBottom: textRect === undefined ? Number.POSITIVE_INFINITY : textRect.bottom,
+                leftDistance: textRect === undefined ? Number.POSITIVE_INFINITY : Math.abs(event.clientX - textRect.left),
+                rightDistance: textRect === undefined ? Number.POSITIVE_INFINITY : Math.abs(event.clientX - textRect.right)
+            };
+        })
+        // Sort by increasing horizontal distance from the smaller of view's left and right
+        .sort((a, b) => Math.min(a.leftDistance, a.rightDistance) - Math.min(b.leftDistance, b.rightDistance))
+        // Sort by increasing vertical distance from the smaller of view's space top and text middle.
+        .sort((a, b) => a.textDistance - b.textDistance)
+        // Choose the closest.
+        [0];
 
+        // If we found one, choose either 1) the nearest empty line or 2) its left or right side of text.
+        if(closestText) {
+            const [ token ] = getTokenFromElement(closestText.view) ?? [];
+            if(token === undefined) return undefined;
+            // If the mouse was within the vertical bounds of the text, choose its left or right.
+            if(event.clientY < closestText.textBottom && event.clientY >= closestText.textTop) {
+                return closestText.leftDistance < closestText.rightDistance ? 
+                    $caret.source.getTokenTextIndex(token) : 
+                    $caret.source.getTokenLastIndex(token)
+            }
+        }
+
+        // Otherwise, if the mouse wasn't within the vertical bounds of the nearest token text, choose the nearest empty line.
+        type BreakInfo = { token: Token, offset: number, index: number};
+        // Find all tokens with empty lines and choose the nearest.
+        const closestLine = 
+            // Find all of the token line breaks
+            Array.from(editor.querySelectorAll(".space br"))
+            // Map each one to 1) the token, 2) token view, 3) line break top, 4) index within each token's space
+            .map(br => {
+                const [ token ] = getTokenFromElement(br) ?? [];
+                const rect = br.getBoundingClientRect();
+                return br.parentElement === null || token === undefined ? 
+                    undefined :
+                    {
+                        token,
+                        offset: Math.abs((rect.top + rect.height / 2) - event.clientY),
+                        index: Array.from(br.parentElement.querySelectorAll("br")).indexOf(br as HTMLBRElement)
+                    }
+            })
+            // Filter out any empty breaks that we couldn't find
+            .filter<BreakInfo>((br: BreakInfo | undefined): br is BreakInfo => br !== undefined)
+            // Sort by increasing offset from mouse y
+            .sort((a, b) => a.offset - b.offset)
+            // Chose the closest
+            [0];
+            
+        if(closestLine)
+            return $caret.source.getTokenSpaceIndex(closestLine.token) + closestLine.token.space.split("\n", closestLine.index).join("\n").length + 1;
+
+        // Otherwise, choose nothing.
         return undefined;
-
     }
 
     function getInsertionPoint(node: Node, before: boolean) {
