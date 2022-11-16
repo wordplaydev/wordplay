@@ -25,7 +25,6 @@
     import Bind from '../nodes/Bind';
     import Block, { type Statement } from '../nodes/Block';
     import TokenType from '../nodes/TokenType';
-    import { space } from 'svelte/internal';
 
     export let source: Source;
 
@@ -363,7 +362,14 @@
                     // Clone the dragged node, but add to it the space preceding the node after, if there is one.
                     const dragClone = draggedNode.withPrecedingSpace(itemAfter?.getPrecedingSpace() ?? "", true);
                     // Replace the list with a new list that has the dragged node inserted.
-                    const clonedListParent = replacedOrListContainingNode.clone(false, listToUpdate, [ ...listToUpdate.slice(0, insertion.index), dragClone, ...listToUpdate.slice(insertion.index) ]);
+                    const clonedListParent = replacedOrListContainingNode.clone(
+                        false, 
+                        listToUpdate, [ 
+                            ...listToUpdate.slice(0, insertion.index).map(n => n.clone(false)), 
+                            dragClone, 
+                            ...listToUpdate.slice(insertion.index).map(n => n.clone(false))
+                        ]
+                    );
                     editedProgram = editedProgram.clone(false, replacedOrListContainingNode, clonedListParent);
                     const newList = clonedListParent.getField(insertion.field);
 
