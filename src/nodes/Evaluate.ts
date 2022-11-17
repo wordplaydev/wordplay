@@ -551,6 +551,11 @@ export default class Evaluate extends Expression {
 
     getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined {
         // Find the corresponding input's definition, getting names from the Binds.
+        if(child === this.func) 
+            return {
+                "😀": TRANSLATE,
+                eng: "function"    
+            }
         if(this.inputs.includes(child as InputType)) {
             const index = this.inputs.indexOf(child as InputType);
             if(index >= 0) {
