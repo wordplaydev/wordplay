@@ -627,13 +627,13 @@
             // that exist in lists.
             return between === undefined ? [] :
                 [
-                    ...between.before.map(node => getInsertionPoint(node, true, token, line)).filter(insertion => insertion !== undefined) as InsertionPoint[],
-                    ...between.after.map(node => getInsertionPoint(node, false, token, line)).filter(insertion => insertion !== undefined) as InsertionPoint[]
+                    ...between.before.map(node => getInsertionPoint(node, true, token, line)),
+                    ...between.after.map(node => getInsertionPoint(node, false, token, line))
                 ]
-                // Filter out duplicates
-                .filter((insertion1, i1, insertions) => 
-                    insertions.find((insertion2, i2) => 
-                        i1 > i2 && insertion1 !== insertion2 && insertionPointsEqual(insertion1, insertion2)) === undefined)
+                // Filter out duplicates and undefineds
+                .filter<InsertionPoint>((insertion1: InsertionPoint | undefined, i1, insertions): insertion1 is InsertionPoint => 
+                    insertion1 !== undefined && insertions.find((insertion2, i2) => 
+                        i1 > i2 && insertion1 !== insertion2 && insertion2 !== undefined && insertionPointsEqual(insertion1, insertion2)) === undefined)
         }
         return [];
 
