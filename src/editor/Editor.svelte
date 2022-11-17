@@ -611,7 +611,7 @@
 
         // If the primary mouse button is down, start dragging and set insertion.
         // We only allow expressions and types to be inserted.
-        if($hovered && event.buttons === 1 && $dragged === undefined && ($hovered instanceof Expression || $hovered instanceof Type))
+        if($hovered && event.buttons === 1 && $dragged === undefined)
             dragged.set($hovered);
 
         // If something is being dragged, set the insertion points to whatever points are under the mouse.
