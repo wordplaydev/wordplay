@@ -1,9 +1,9 @@
 <script lang="ts">
     import type Token from "../nodes/Token";
-    import { spaceToHTML, tabToHTML, TAB_WIDTH } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
     import { getLanguages, getDragged, getProject, getCaret } from "./Contexts";
+    import Space from "./Space.svelte";
     import { TokenCategories } from "./TokenCategories";
 
     export let node: Token;
@@ -21,6 +21,7 @@
     let project = getProject();
     let languages = getLanguages();
     let dragged = getDragged();
+
     $: isPlaceholder = node.is(TokenType.PLACEHOLDER);
     $: showBox = 
         ($caret?.getTokenExcludingWhitespace() === node) || 
@@ -30,18 +31,14 @@
         isPlaceholder ? choosePlaceholder() : 
         node.text.getLength() === 0 ? "\u00A0" : 
         node.text.toString().replaceAll(" ", "&nbsp;");
-    $: additionalSpace = node.getAdditionalSpace();
+    
+    // Don't render preceding space if there's no caret or this is the first leaf in a dragged node.
     $: showSpace = caret !== undefined || $dragged?.getFirstLeaf() !== node;
+    $: additional = node.getAdditionalSpace();
 
 </script>
 
-<!-- Don't render preceding space if there's no caret -->
-{#if showSpace}<span class="space">{@html node.space.replaceAll("\n", "<br/>").replaceAll(" ", spaceToHTML()).replaceAll("\t", tabToHTML()) + additionalSpace.replaceAll("\n", "<br/>").replaceAll(" ", "&nbsp;").replaceAll("\t", "&nbsp;".repeat(TAB_WIDTH))}</span>{/if}<span 
-    class="token-view token-{kind} {showBox ? "active" : ""} {isPlaceholder ? "placeholder" : ""} {$caret !== undefined ? "editable" : ""} {`token-category-${kind}`}" 
-    data-id={node.id}
->
-    <span class="text">{@html textToShow }</span>
-</span>
+{#if showSpace}<Space token={node} space={node.space} {additional}/>{/if}<span class="token-view token-{kind} {showBox ? "active" : ""} {isPlaceholder ? "placeholder" : ""} {$caret !== undefined ? "editable" : ""} {`token-category-${kind}`}" data-id={node.id}><span class="text">{@html textToShow }</span></span>
 
 <style>
 
@@ -64,16 +61,6 @@
 
     .token-view.newline {
         display: block;
-    }
-
-    /* Make space visible, but just so. */
-    .space {
-        color: var(--wordplay-disabled-color);
-    }
-
-    .space.visible {
-        visibility: visible;
-        color: var(--color-lightgrey);
     }
 
     .text {

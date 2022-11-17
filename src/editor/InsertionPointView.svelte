@@ -1,30 +1,16 @@
-<script lang="ts">
-    export let linebreak: boolean;
-
-</script>
-
-{#if linebreak}<br/>{/if}<span class="line"></span>
+<span class="insertion-point"></span>
 
 <style>
-    .line {
-        display: inline-block;
+    .insertion-point {
+        display: inline;
         vertical-align: middle;
         height: 2em;
         width: 0;
         outline: 2px solid var(--wordplay-highlight);
-        animation-name: grow;
+        /* animation-name: grow; */
         animation-duration: 0.25s;
         animation-iteration-count: 1;
         z-index: 2;
-    }
-
-    br {
-        display: block;
-        content: "";
-        margin-top: 1em;
-        animation-name: grow-top;
-        animation-duration: 0.25s;
-        animation-iteration-count: 1;
     }
 
     @keyframes grow {

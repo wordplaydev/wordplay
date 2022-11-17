@@ -2,7 +2,7 @@
     import { project, updateProject } from '../models/stores';
     import type Transform from "../transforms/Transform";
     import Node from '../nodes/Node';
-    import Caret, { type InsertionPoint } from '../models/Caret';
+    import Caret, { insertionPointsEqual, type InsertionPoint } from '../models/Caret';
     import { afterUpdate, onDestroy, setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
     import commands, { type Edit } from './Commands';
@@ -25,7 +25,6 @@
     import Bind from '../nodes/Bind';
     import Block, { type Statement } from '../nodes/Block';
     import TokenType from '../nodes/TokenType';
-    import TypePlaceholderView from './TypePlaceholderView.svelte';
     import StructureDefinition from '../nodes/StructureDefinition';
 
     export let source: Source;
@@ -45,7 +44,7 @@
     let hovered = writable<Node|undefined>(undefined);
     setContext(HoveredSymbol, hovered);
 
-    let insertions = writable<Map<Node[],InsertionPoint>>(new Map());
+    let insertions = writable<Map<Token,InsertionPoint>>(new Map());
     setContext(InsertionPointsSymbol, insertions);
 
     // A shorthand for the current program.
@@ -362,10 +361,18 @@
                 const listToUpdate = replacedOrListContainingNode.getField(insertion.field);
                 if(Array.isArray(listToUpdate)) {
 
-                    // Get the item after the place we're inserting
-                    const itemAfter = listToUpdate[insertion.index];
-                    // Clone the dragged node, but add to it the space preceding the node after, if there is one.
-                    const dragClone = draggedNode.withPrecedingSpace(itemAfter?.getPrecedingSpace() ?? "", true);
+                    // Get the index at which to split space.
+                    const spaceToSplit = insertion.token.getPrecedingSpace();
+                    const spaceInsertionIndex = spaceToSplit.split("\n", insertion.line).join("\n").length + 1;
+                    const spaceBefore = spaceToSplit.substring(0, spaceInsertionIndex);
+                    const spaceAfter = spaceToSplit.substring(spaceInsertionIndex);
+
+                    // Remember the index of the token inserted before.
+                    const indexOfTokenInsertedBefore = source.program.nodes(n => n instanceof Token).indexOf(insertion.token);
+
+                    // Clone the dragged node, but add to it the space preceding the token we're inserting before.
+                    const dragClone = draggedNode.withPrecedingSpace(spaceBefore, true);
+
                     // If we're inserting into the same list the dragged node is from, then it was already removed from the list above.
                     // If we're inserting after it's prior location, then the index is now 1 position to high, because everything shifted down.
                     // Therefore, if the node of the insertion is in the list inserted, we add one.
@@ -376,17 +383,21 @@
                         listToUpdate, 
                         [ 
                             ...listToUpdate.slice(0, insertionIndex).map(n => n.clone(false)), 
-                            dragClone, 
+                            dragClone,
                             ...listToUpdate.slice(insertionIndex).map(n => n.clone(false))
                         ]
                     );
+
                     editedProgram = editedProgram.clone(false, replacedOrListContainingNode, clonedListParent);
-                    const newList = clonedListParent.getField(insertion.field);
 
-                    newSources.push([ source, source.withProgram(editedProgram)]);
+                    // Find the token after the last token of the node we inserted and give it the original space after the insertion point.
+                    let tokenInsertedBefore = editedProgram.nodes(n => n instanceof Token)[indexOfTokenInsertedBefore + dragClone.nodes(n => n instanceof Token).length] as Token;
+                    if(tokenInsertedBefore)
+                        editedProgram = editedProgram.clone(false, tokenInsertedBefore, tokenInsertedBefore.withPrecedingSpace(spaceAfter, true));
 
-                    if(Array.isArray(newList))
-                        $caret.withPosition(newList[insertionIndex]);
+                    const newSource = source.withProgram(editedProgram);
+                    newSources.push([ source, newSource]);
+
                 }
 
             }
@@ -501,20 +512,22 @@
 
         // Otherwise, if the mouse wasn't within the vertical bounds of the nearest token text, choose the nearest empty line.
         type BreakInfo = { token: Token, offset: number, index: number};
+
         // Find all tokens with empty lines and choose the nearest.
         const closestLine = 
             // Find all of the token line breaks
             Array.from(editor.querySelectorAll(".space br"))
             // Map each one to 1) the token, 2) token view, 3) line break top, 4) index within each token's space
             .map(br => {
-                const [ token ] = getTokenFromElement(br) ?? [];
-                const rect = br.getBoundingClientRect();
-                return br.parentElement === null || token === undefined ? 
+                const [ token, tokenView ] = getTokenFromElement(br) ?? [];
+                // Check the br container, which gives us a more accurate bounding client rect.
+                const rect = (br.parentElement as HTMLElement).getBoundingClientRect();
+                return tokenView === undefined || token === undefined ? 
                     undefined :
                     {
                         token,
-                        offset: Math.abs((rect.top + rect.height / 2) - event.clientY),
-                        index: Array.from(br.parentElement.querySelectorAll("br")).indexOf(br as HTMLBRElement)
+                        offset: Math.abs((rect.bottom - rect.height / 2) - event.clientY),
+                        index: Array.from(tokenView.querySelectorAll("br")).indexOf(br as HTMLBRElement) + 1
                     }
             })
             // Filter out any empty breaks that we couldn't find
@@ -523,7 +536,8 @@
             .sort((a, b) => a.offset - b.offset)
             // Chose the closest
             [0];
-            
+
+        // If we have a closest line, find the line number
         if(closestLine)
             return $caret.source.getTokenSpaceIndex(closestLine.token) + closestLine.token.space.split("\n", closestLine.index).join("\n").length + 1;
 
@@ -531,7 +545,7 @@
         return undefined;
     }
 
-    function getInsertionPoint(node: Node, before: boolean) {
+    function getInsertionPoint(node: Node, before: boolean, token: Token, line: number) {
 
         const parent = node.getParent();
         if(parent === undefined) return;
@@ -546,6 +560,8 @@
             node: parent,
             field: field,
             list: list,
+            token: token,
+            line: line,
             // Account empty lists
             index: index < 0 ? 0 : index + (before ? 0 : 1)
         };
@@ -556,25 +572,30 @@
 
         // Is the caret position between tokens? If so, are any of the token's parents inside a list in which we could insert something?
         const position = getCaretPositionAt(event);
-        if(position) {
+        if(position) {            
             const caret = new Caret(source, position);
+            const token = caret.getToken();
+            if(token === undefined) return [];
+            // What is the space prior to this insertion point?
+            const spacePrior = token === undefined ? "" : token.space.substring(0, position - source.getTokenSpaceIndex(token));
+
+            // How many lines does the space prior include?
+            const line = spacePrior.split("\n").length - 1;
+
+            // What nodes are between this and are any of them insertion points?
             const between = caret.getNodesBetween();
 
             // If there are nodes between the point, construct insertion points
             // that exist in lists.
             return between === undefined ? [] :
                 [
-                    ...between.before.map(node => getInsertionPoint(node, true)).filter(insertion => insertion !== undefined) as InsertionPoint[],
-                    ...between.after.map(node => getInsertionPoint(node, false)).filter(insertion => insertion !== undefined) as InsertionPoint[]
+                    ...between.before.map(node => getInsertionPoint(node, true, token, line)).filter(insertion => insertion !== undefined) as InsertionPoint[],
+                    ...between.after.map(node => getInsertionPoint(node, false, token, line)).filter(insertion => insertion !== undefined) as InsertionPoint[]
                 ]
                 // Filter out duplicates
                 .filter((insertion1, i1, insertions) => 
                     insertions.find((insertion2, i2) => 
-                        i1 > i2 &&
-                        insertion1 !== insertion2 &&
-                        insertion1.node === insertion2.node && 
-                        insertion1.list === insertion2.list && 
-                        insertion1.index === insertion2.index) === undefined)
+                        i1 > i2 && insertion1 !== insertion2 && insertionPointsEqual(insertion1, insertion2)) === undefined)
         }
         return [];
 
@@ -603,14 +624,10 @@
             });
 
             // Did they change? We keep them the same to avoid UI updates, especially with animations.
-            if(newInsertionPoints.length === 0 || !newInsertionPoints.every(point => {
-                const current = $insertions.get(point.list);
-                if(current === undefined) return false;
-                return point.node === current.node && point.index === current.index;
-            })) {
-                const insertionPointsMap = new Map<Node[], InsertionPoint>();
+            if(newInsertionPoints.length === 0 || !newInsertionPoints.every(point => Object.values($insertions).some(point2 => insertionPointsEqual(point, point2)))) {
+                const insertionPointsMap = new Map<Token, InsertionPoint>();
                 for(const point of newInsertionPoints)
-                    insertionPointsMap.set(point.list, point);
+                    insertionPointsMap.set(point.token, point);
                 insertions.set(insertionPointsMap);
             }
 

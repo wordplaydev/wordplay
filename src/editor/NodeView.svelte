@@ -1,8 +1,7 @@
 <script lang="ts">
     import { afterUpdate } from "svelte";
     import type Node from "../nodes/Node";
-    import { getDragged, getLanguages, getHighlights, getCaret } from "./Contexts";
-    import type { HighlightType } from "./Highlights";
+    import { getLanguages, getHighlights, getCaret } from "./Contexts";
     import NodeHighlight from "./NodeHighlight.svelte";
     import getNodeView from "./nodeToView";
     import getOutlineOf, { getUnderlineOf, type Outline } from "./outline";
@@ -12,7 +11,6 @@
     let caret = getCaret();
     let languages = getLanguages();
     let highlights = getHighlights();
-    let dragged = getDragged();
 
     $: primaryConflicts = node === undefined ? [] : $caret?.source.getPrimaryConflictsInvolvingNode(node) ?? [];
     $: highlightTypes = (node ? $highlights?.get(node) : undefined) ?? new Set();

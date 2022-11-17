@@ -11,7 +11,17 @@ export type InsertionPoint = {
     node: Node,
     field: string,
     list: Node[],
+    token: Token,
+    line: number,
     index: number
+}
+
+export function insertionPointsEqual(insertion1: InsertionPoint, insertion2: InsertionPoint) {
+    return insertion1.node === insertion2.node && 
+            insertion1.list === insertion2.list && 
+            insertion1.token === insertion2.token &&
+            insertion1.line === insertion2.line && 
+            insertion1.index === insertion2.index;
 }
 
 export default class Caret {

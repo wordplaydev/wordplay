@@ -1,6 +1,6 @@
 <script lang="ts">
     import { afterUpdate } from "svelte";
-    import Token, { spaceToHTML, tabToHTML } from "../nodes/Token";
+    import Token, { SPACE_HTML, tabToHTML } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
     import { getCaret } from "./Contexts";
@@ -202,13 +202,12 @@
 
             // Get some measurements about the viewport.
             const editorPaddingLeft = parseInt(window.getComputedStyle(editorView).getPropertyValue('padding-left').replace("px", ""));
-            const editorPaddingTop = parseInt(window.getComputedStyle(editorView).getPropertyValue('padding-top').replace("px", ""))
 
             // Get some measurements on spaces and tab.
             const spaceElement = editorView.querySelector(`.Token[data-id="${token.id}"] .space`);
             if(spaceElement === null) return;
             const spaceText = spaceElement.innerHTML;
-            spaceElement.innerHTML = spaceToHTML();
+            spaceElement.innerHTML = SPACE_HTML;
             const spaceWidth = spaceElement.getBoundingClientRect().width;
             spaceElement.innerHTML = tabToHTML();
             const tabWidth = spaceElement.getBoundingClientRect().width;

@@ -6,7 +6,7 @@ import { TRANSLATE } from "./Translations"
 
 export const TAB_WIDTH = 2;
 
-export function spaceToHTML() { return "&middot;"; }
+export const SPACE_HTML = "&middot;";
 export function tabToHTML() { return "&nbsp;".repeat(TAB_WIDTH - 1) + "→"; }
 
 export default class Token extends Node {

@@ -5,6 +5,7 @@ import type Caret from "../models/Caret";
 import type Project from "../models/Project";
 import type LanguageCode from "../nodes/LanguageCode";
 import type Node from "../nodes/Node";
+import type Token from "../nodes/Token";
 import type { Highlights } from "./Highlights";
 
 export type CaretContext = Writable<Caret> | undefined;
@@ -15,7 +16,7 @@ export type HoveredContext = Writable<Node | undefined> | undefined;
 export const HoveredSymbol = Symbol("hovered");
 export function getHovered() { return getContext<HoveredContext>(HoveredSymbol); }
 
-export type InsertionPointsContext = Writable<Map<Node[],InsertionPoint>> | undefined;
+export type InsertionPointsContext = Writable<Map<Token,InsertionPoint>> | undefined;
 export const InsertionPointsSymbol = Symbol("insertions");
 export function getInsertionPoints() { return getContext<InsertionPointsContext>(InsertionPointsSymbol); }
 
