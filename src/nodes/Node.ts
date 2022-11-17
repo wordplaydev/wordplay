@@ -3,7 +3,6 @@ import type Definition from "./Definition";
 import type Context from "./Context";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
-import { space } from "svelte/internal";
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
