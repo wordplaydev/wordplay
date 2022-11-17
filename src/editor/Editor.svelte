@@ -476,7 +476,7 @@
                 if(startIndex !== undefined && lastIndex !== undefined) {
                     // The mouse event's offset is relative to what was clicked on, not the element handling the click, so we have to compute the real offset.
                     const targetRect = event.target.getBoundingClientRect();
-                    const tokenRect = tokenView.getBoundingClientRect();
+                    const tokenRect = elementAtCursor.getBoundingClientRect();
                     const offset = event.offsetX + (targetRect.left - tokenRect.left);
                     const newPosition = Math.max(startIndex, Math.min(lastIndex, startIndex + (tokenRect.width === 0 ? 0 : Math.round(token.getTextLength() * (offset / tokenRect.width)))));
                     return newPosition;
