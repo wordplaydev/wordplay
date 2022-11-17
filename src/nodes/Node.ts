@@ -3,6 +3,7 @@ import type Definition from "./Definition";
 import type Context from "./Context";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
+import { space } from "svelte/internal";
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -378,10 +379,16 @@ export default abstract class Node {
 
     }
 
-    getPrecedingSpace(): string {
+    getPrecedingSpace(): string | undefined {
+        // Find the first child with space.
         const children = this.getChildren();
-        if(children.length === 0) return "";
-        return children[0].getPrecedingSpace();
+        if(children.length === 0) return undefined;
+        for(const child of children) {
+            const space = child.getPrecedingSpace();
+            if(space !== undefined) return space;
+        }
+        return undefined;
+
     }
 
     /** By default, there is no preferred space for a node. */
