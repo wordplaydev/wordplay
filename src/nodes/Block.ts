@@ -74,7 +74,7 @@ export default class Block extends Expression {
 
     getPreferredPrecedingSpace(child: Node): string {
         // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return this.statements.length > 1 && this.statements.includes(child as Statement) ? `\n${"\t".repeat(child.getDepth())}` : "";
+        return this.statements.length > 1 && this.statements.includes(child as Statement) && !this.root ? `\n${"\t".repeat(child.getDepth())}` : "";
     }
 
     isBlock() { return !this.root; }

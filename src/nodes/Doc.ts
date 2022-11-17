@@ -39,11 +39,6 @@ export default class Doc extends Node {
         ) as this; 
     }
 
-    getPreferredPrecedingSpace(child: Node): string {
-        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return child === this.docs ? "\n" : "";
-    }
-
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
     
     computeConflicts() {}
