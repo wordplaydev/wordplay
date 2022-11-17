@@ -880,7 +880,8 @@
 
 <div class="editor"
     bind:this={editor}
-    on:mousedown|preventDefault={handleMouseDown}
+    on:mousedown|preventDefault={event => placeCaretAtPosition(event)}
+    on:dblclick={event => { let node = getNodeAt(event, false); if(node) caret.set($caret.withPosition(node)); }}
     on:mouseup={handleMouseUp}
     on:mousemove={handleMouseMove}
     on:mouseleave={handleMouseLeave}
