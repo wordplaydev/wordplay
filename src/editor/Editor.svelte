@@ -515,7 +515,8 @@
 
         // Find all tokens with empty lines and choose the nearest.
         const closestLine = 
-            // Find all of the token line breaks
+            // Find all of the token line breaks, which are wrapped in spans to enable consistent measurement.
+            // This is because line breaks and getBoundingClientRect() are jumpy depending on what's around them.
             Array.from(editor.querySelectorAll(".space br"))
             // Map each one to 1) the token, 2) token view, 3) line break top, 4) index within each token's space
             .map(br => {
@@ -526,7 +527,9 @@
                     undefined :
                     {
                         token,
-                        offset: Math.abs((rect.bottom - rect.height / 2) - event.clientY),
+                        offset: Math.abs((rect.top - rect.height / 2) - event.clientY),
+                        // We add one because the position of the span that contains the <br/> is one line above the br,
+                        // but we actually want to measure the line after the br.
                         index: Array.from(tokenView.querySelectorAll("br")).indexOf(br as HTMLBRElement) + 1
                     }
             })
@@ -539,7 +542,7 @@
 
         // If we have a closest line, find the line number
         if(closestLine)
-            return $caret.source.getTokenSpaceIndex(closestLine.token) + closestLine.token.space.split("\n", closestLine.index).join("\n").length + 1;
+            return $caret.source.getTokenSpaceIndex(closestLine.token) + closestLine.token.space.split("\n", closestLine.index).join("\n").length;
 
         // Otherwise, choose nothing.
         return undefined;

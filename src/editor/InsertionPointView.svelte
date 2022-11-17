@@ -2,12 +2,12 @@
 
 <style>
     .insertion-point {
-        display: inline;
+        display: inline-block;
         vertical-align: middle;
         height: 2em;
         width: 0;
         outline: 2px solid var(--wordplay-highlight);
-        /* animation-name: grow; */
+        animation-name: grow;
         animation-duration: 0.25s;
         animation-iteration-count: 1;
         z-index: 2;
