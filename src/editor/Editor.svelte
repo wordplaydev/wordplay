@@ -278,14 +278,7 @@
 
     }
 
-    function handleMouseDown(event: MouseEvent) {
-
-        // Otherwise, place the caret at the mouse position.
-        placeCaretAtPosition(event);
-
-    }
-
-    function handleMouseUp(event: MouseEvent) {
+    function handleMouseUp() {
 
         // Is the creator hovering over a valid drop target? If so, execute the edit.
         if(isValidDropTarget())
