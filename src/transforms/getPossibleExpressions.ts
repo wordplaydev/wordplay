@@ -56,7 +56,7 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
         ...(child === undefined ? [] : [ new Block([ child.clone(false).withPrecedingSpace("", true) ], false, false) ]),
         new BooleanLiteral(true),
         new BooleanLiteral(false),
-        ...[ new MeasurementLiteral(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => new MeasurementLiteral(undefined, u))) ],
+        ...[ new MeasurementLiteral(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => new MeasurementLiteral(undefined, u.clone(false)))) ],
         ...[ new TextLiteral(), ... (project === undefined ? [] : getPossibleLanguages(project).map(l => new TextLiteral(undefined, new Language(l)))) ],
         new Template(new Token('"\\', TokenType.TEXT_OPEN), [ new ExpressionPlaceholder(), new Token('\\"', TokenType.TEXT_CLOSE)]),
         ...(child instanceof Expression && child.getType(context) instanceof BooleanType ? [ new Conditional( child, new ExpressionPlaceholder(), new ExpressionPlaceholder()) ] : [] ),

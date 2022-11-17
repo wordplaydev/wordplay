@@ -534,15 +534,20 @@
     function getInsertionPoint(node: Node, before: boolean) {
 
         const parent = node.getParent();
-        const field = node.getContainingParentList();
-        if(parent === undefined || parent === null || field === undefined) return undefined;
+        if(parent === undefined) return;
+
+        // Find the list this node is either in or delimits.
+        let field = node.getContainingParentList(before);
+        if(field === undefined) return;
         const list = parent.getField(field);
         if(!Array.isArray(list)) return undefined;
+        const index = list.indexOf(node);
         return {
             node: parent,
             field: field,
             list: list,
-            index: list.indexOf(node) + (before ? 0 : 1)
+            // Account empty lists
+            index: index < 0 ? 0 : index + (before ? 0 : 1)
         };
 
     }

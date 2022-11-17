@@ -385,14 +385,25 @@ export default abstract class Node {
         return this.getAncestors().filter(node => node.isBlock()).length;
     }
 
-    getContainingParentList(): string | undefined {
+    getContainingParentList(before?: boolean): string | undefined {
         const parent = this.getParent();
-        if(parent) {
-            for(const name of parent.getChildNames()) {
-                const field = (parent as any)[name] as (Node | Node[]);
-                if(Array.isArray(field) && field.includes(this))
-                    return name;
-            }
+        if(parent === undefined) return;
+        // Loop through each of the fields and see if it contains this node or is delimited by this node.
+        // If we find a match, return the field name.
+        let previousField = undefined;
+        let previousWasList = false;
+        for(const name of parent.getChildNames()) {
+            const field = (parent as any)[name] as (Node | Node[]);
+            // If this field is an array and the field includes this node, we found it!
+            if(Array.isArray(field) && field.includes(this))
+                return name;
+            // If this field is this node and the next field is an array, we found it!
+            if(before === true && field === this && previousWasList)
+                return previousField;
+
+            // Remember the last 
+            previousField = name;
+            previousWasList = Array.isArray(field);
         }
     }
 

@@ -10,9 +10,9 @@
     let insertionPoints = getInsertionPoints();
     $: insertion = $insertionPoints?.get(nodes);
  
-    function needsLineBreak(insertion: InsertionPoint, node: Node) {
-        const prefersLineBreak = insertion.node.getPreferredPrecedingSpace(node, "").indexOf("\n") >= 0;
-        const hasEmptyLineBreak = node.getPrecedingSpace().split("\n").length - 1 > 1;
+    function needsLineBreak(insertion: InsertionPoint, node: Node | undefined) {
+        const prefersLineBreak = node === undefined ? false : insertion.node.getPreferredPrecedingSpace(node, "").indexOf("\n") >= 0;
+        const hasEmptyLineBreak = node === undefined ? false : node.getPrecedingSpace().split("\n").length - 1 > 1;
         return prefersLineBreak && !hasEmptyLineBreak;
     }
 
