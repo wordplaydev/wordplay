@@ -75,7 +75,12 @@
     let menuSelection: number = -1;
 
     $: languages = getLanguages();
-    $: dragged = getDragged();
+
+    // The store the contains the current node being dragged.
+    let dragged = getDragged();
+
+    // The point at which a drag started.
+    let dragPoint: { x: number, y: number} | undefined = undefined;
 
     // When keyboard idle changes to false, reset the menu if nothing is selected.
     const menuKeyboardIdleReset = KeyboardIdle.subscribe(idle => {
@@ -278,14 +283,19 @@
 
     }
 
-    function handleMouseUp() {
+    function handleRelease() {
 
         // Is the creator hovering over a valid drop target? If so, execute the edit.
         if(isValidDropTarget())
             drop();
+        else
+            dragged.set(undefined);
 
         // Reset the insertion points.
         insertions.set(new Map());
+
+        // Reset the drag point
+        dragPoint = undefined;
 
     }
 
@@ -635,9 +645,13 @@
         hovered.set(getNodeAt(event, false));
 
         // If the primary mouse button is down, start dragging and set insertion.
-        // We only allow expressions and types to be inserted.
-        if($hovered && event.buttons === 1 && $dragged === undefined)
-            dragged.set($hovered);
+        // We only start dragging if the cursor has moved more than a certain amount since last click.
+        if($hovered && event.buttons === 1 && $dragged === undefined) {
+            if(dragPoint === undefined)
+                dragPoint = { x: event.clientX, y: event.clientY };
+            else if(Math.sqrt(Math.pow(event.clientX - dragPoint.x, 2) + Math.pow(event.clientY - dragPoint.y, 2)) >= 5)
+                dragged.set($hovered);
+        }
 
         // If something is being dragged, set the insertion points to whatever points are under the mouse.
         if($dragged) {
@@ -895,13 +909,13 @@
 </script>
 
 <!-- Drop what's being dragged if the window loses focus. -->
-<svelte:window on:blur={ () => dragged.set(undefined) } />
+<svelte:window on:blur={handleRelease} />
 
 <div class="editor"
     bind:this={editor}
     on:mousedown|preventDefault={event => placeCaretAtPosition(event)}
     on:dblclick={event => { let node = getNodeAt(event, false); if(node) caret.set($caret.withPosition(node)); }}
-    on:mouseup={handleMouseUp}
+    on:mouseup={handleRelease}
     on:mousemove={handleMouseMove}
     on:mouseleave={handleMouseLeave}
 >
