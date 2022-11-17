@@ -546,7 +546,7 @@
                     undefined :
                     {
                         token,
-                        offset: Math.abs((rect.top - rect.height / 2) - event.clientY),
+                        offset: Math.abs((rect.top + rect.height / 2) - event.clientY),
                         // We add one because the position of the span that contains the <br/> is one line above the br,
                         // but we actually want to measure the line after the br.
                         index: Array.from(tokenView.querySelectorAll("br")).indexOf(br as HTMLBRElement) + 1
