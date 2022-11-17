@@ -66,7 +66,7 @@ export default abstract class Node {
         // Claim each child
         for(const child of children) {
             if(child._parent !== undefined) {
-                console.error(`${child.constructor.name} already has parent of type ${child._parent.constructor.name}, but setting to ${this.constructor.name}. Clone before setting.`);
+                console.error(`${child.constructor.name} already has parent of type ${child._parent.constructor.name} ${child._parent.id}, but setting to ${this.constructor.name} ${this.id}. Clone before setting.`);
                 console.trace();
             }
             child._parent = this;
@@ -327,7 +327,9 @@ export default abstract class Node {
                     // Otherwise replace it.
                     else 
                         newList[index] = replacement;
-                    return newList as ExpectedTypes;
+
+                    // Clone everything in the list except for the replacement to ensure that the tree is fresh
+                    return newList.map(child => child === replacement ? replacement : child.clone(false)) as ExpectedTypes;
 
                 }
                 else throw Error(`Somehow didn't find index of original in child. This shouldn't be possibe.`);

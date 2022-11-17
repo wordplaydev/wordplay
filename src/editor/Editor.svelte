@@ -324,7 +324,7 @@
             if(draggedRoot === editedProgram) {
                 // Remember where it is in the tree
                 const pathToReplacedOrListContainingNode = replacedOrListContainingNode?.getPath();
-                // Replace the dragged node with the placeholder.
+                // Replace the dragged node with the placeholder or nothing, effectively removing the node we're moving from the program.
                 editedProgram = editedProgram.clone(false, draggedNode, replacement);
                 // Update the node to replace to the cloned node.
                 replacedOrListContainingNode = pathToReplacedOrListContainingNode === undefined ? undefined : editedProgram.resolvePath(pathToReplacedOrListContainingNode);
