@@ -55,7 +55,7 @@ export default class FunctionType extends Type {
             this.cloneOrReplaceChild(pretty, "fun", this.fun, original, replacement),
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ) as this;
+        ).label(this._label) as this;
     }
 
     accepts(type: Type, context: Context): boolean {

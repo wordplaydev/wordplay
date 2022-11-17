@@ -38,7 +38,7 @@ export default class Language extends Node {
         return new Language(
             this.cloneOrReplaceChild(pretty, "lang", this.lang, original, replacement), 
             this.cloneOrReplaceChild(pretty, "slash", this.slash, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts() {

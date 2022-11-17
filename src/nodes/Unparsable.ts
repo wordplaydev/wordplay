@@ -46,7 +46,7 @@ export default class Unparsable extends Node implements Evaluable {
             this.reason, 
             this.cloneOrReplaceChild(pretty, "parsedNodes", this.parsedNodes, original, replacement), 
             this.cloneOrReplaceChild(pretty, "unparsableTokens", this.unparsableTokens, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts() {}

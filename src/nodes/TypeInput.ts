@@ -36,7 +36,7 @@ export default class TypeInput extends Node {
         return new TypeInput(
             this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement),
             this.cloneOrReplaceChild(pretty, "dot", this.dot, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts() {}

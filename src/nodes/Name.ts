@@ -51,7 +51,7 @@ export default class Name extends Node {
             this.cloneOrReplaceChild(pretty, "name", this.name, original, replacement), 
             this.cloneOrReplaceChild(pretty, "lang", this.lang, original, replacement),
             this.cloneOrReplaceChild(pretty, "separator", this.separator, original, replacement)
-        ) as this;
+        ).label(this._label) as this;
     }
 
     computeConflicts(): Conflict[] {

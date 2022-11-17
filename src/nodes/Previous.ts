@@ -61,7 +61,7 @@ export default class Previous extends Expression {
             this.cloneOrReplaceChild(pretty, "stream", this.stream, original, replacement), 
             this.cloneOrReplaceChild(pretty, "index", this.index, original, replacement),
             this.cloneOrReplaceChild(pretty, "previous", this.previous, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts(context: Context): Conflict[] { 

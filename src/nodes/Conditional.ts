@@ -59,7 +59,7 @@ export default class Conditional extends Expression {
             this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "yes", this.yes, original, replacement), 
             this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "no", this.no, original, replacement),
             this.cloneOrReplaceChild<Token>(pretty, "conditional", this.conditional, original, replacement)
-        ) as this;
+        ).label(this._label) as this;
     }
 
     isBlock() { return true; }

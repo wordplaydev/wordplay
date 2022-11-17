@@ -47,7 +47,7 @@ export default class ExpressionPlaceholder extends Expression {
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new ExpressionPlaceholder(
             this.cloneOrReplaceChild(pretty, "placeholder", this.placeholder, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts(): Conflict[] { 

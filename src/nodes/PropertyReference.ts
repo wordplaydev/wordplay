@@ -70,7 +70,7 @@ export default class PropertyReference extends Expression {
             this.cloneOrReplaceChild(pretty, "structure", this.structure, original, replacement),
             this.cloneOrReplaceChild(pretty, "name", this.name, original, replacement),
             this.cloneOrReplaceChild(pretty, "dot", this.dot, original, replacement)
-        ) as this;
+        ).label(this._label) as this;
     }
 
     computeConflicts(context: Context): Conflict[] {

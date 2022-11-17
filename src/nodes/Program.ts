@@ -56,7 +56,7 @@ export default class Program extends Node implements Evaluable {
             this.cloneOrReplaceChild(pretty, "borrows", this.borrows, original, replacement), 
             this.cloneOrReplaceChild(pretty, "block", this.block, original, replacement), 
             this.cloneOrReplaceChild(pretty, "end", this.end, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }

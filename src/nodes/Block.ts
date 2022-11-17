@@ -89,7 +89,7 @@ export default class Block extends Expression {
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement),
             this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement),
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     getLast() { return this.statements.length === 0 ? undefined : this.statements[this.statements.length - 1]; }

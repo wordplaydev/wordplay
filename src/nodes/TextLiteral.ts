@@ -46,7 +46,7 @@ export default class TextLiteral extends Expression {
         return new TextLiteral(
             this.cloneOrReplaceChild(pretty, "text", this.text, original, replacement), 
             this.cloneOrReplaceChild(pretty, "format", this.format, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts() {}

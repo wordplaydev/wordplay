@@ -60,7 +60,7 @@ export default class Convert extends Expression {
             this.cloneOrReplaceChild(pretty, "expression", this.expression, original, replacement), 
             this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement),
             this.cloneOrReplaceChild(pretty, "convert", this.convert, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     getConversionSequence(context: Context): ConversionDefinition[] | undefined {

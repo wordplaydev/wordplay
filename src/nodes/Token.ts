@@ -135,7 +135,7 @@ export default class Token extends Node {
     computeConflicts() {}
     clone(pretty: boolean, original?: Node, replacement?: Node): this {
         if(original === this && replacement instanceof Token) return replacement as this;
-        else return new Token(this.text, this.types, `${this.space}${pretty ? this.getAdditionalSpace() : ""}`) as this; 
+        else return new Token(this.text, this.types, `${this.space}${pretty ? this.getAdditionalSpace() : ""}`).label(this._label) as this; 
     }
 
     getDescriptions(): Translations {
@@ -156,7 +156,7 @@ export default class Token extends Node {
     withPrecedingSpace(space: string=" ", exact: boolean=false): this {
 
         if(exact ? this.space !== space : this.space.length === 0)
-            return this.withSpace(space) as this;
+            return this.withSpace(space).label(this._label) as this;
         else return this.clone(false);
 
     }

@@ -37,7 +37,7 @@ export default class TableType extends Type {
         return new TableType(
             this.cloneOrReplaceChild(pretty, "columns", this.columns, original, replacement),
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts() {}

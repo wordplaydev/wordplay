@@ -54,7 +54,7 @@ export default class Delete extends Expression {
             this.cloneOrReplaceChild(pretty, "table", this.table, original, replacement), 
             this.cloneOrReplaceChild(pretty, "del", this.del, original, replacement), 
             this.cloneOrReplaceChild(pretty, "query", this.query, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query; }

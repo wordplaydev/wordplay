@@ -41,7 +41,7 @@ export default class KeyValue extends Node {
             this.cloneOrReplaceChild(pretty, "key", this.key, original, replacement), 
             this.cloneOrReplaceChild(pretty, "value", this.value, original, replacement),
             this.cloneOrReplaceChild(pretty, "bind", this.bind, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts() {}

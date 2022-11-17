@@ -46,7 +46,7 @@ export default class UnionType extends Type {
             this.cloneOrReplaceChild(pretty, "left", this.left, original, replacement), 
             this.cloneOrReplaceChild(pretty, "right", this.right, original, replacement), 
             this.cloneOrReplaceChild(pretty, "or", this.or, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     accepts(type: Type, context: Context): boolean {

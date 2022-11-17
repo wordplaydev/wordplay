@@ -53,7 +53,7 @@ export default class UnaryOperation extends Expression {
         return new UnaryOperation(
             this.cloneOrReplaceChild(pretty, "operator", this.operator, original, replacement), 
             this.cloneOrReplaceChild(pretty, "operand", this.operand, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     getOperator() { return this.operator.text.toString(); }

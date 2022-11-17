@@ -67,7 +67,7 @@ export default class ConversionDefinition extends Expression {
             this.cloneOrReplaceChild(pretty, "output", this.output, original, replacement), 
             this.cloneOrReplaceChild(pretty, "expression", this.expression, original, replacement), 
             this.cloneOrReplaceChild(pretty, "arrow", this.arrow, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     isBlock() { return true; }

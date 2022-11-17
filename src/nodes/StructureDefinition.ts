@@ -103,7 +103,7 @@ export default class StructureDefinition extends Expression {
             this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement),
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ) as this;
+        ).label(this._label) as this;
     }
 
     getNames() { return this.names.getNames(); }

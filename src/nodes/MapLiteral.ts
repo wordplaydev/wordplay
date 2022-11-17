@@ -65,7 +65,7 @@ export default class MapLiteral extends Expression {
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, "bind", this.bind, original, replacement),
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     getPreferredPrecedingSpace(child: Node, space: string): string {

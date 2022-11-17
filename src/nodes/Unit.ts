@@ -91,7 +91,7 @@ export default class Unit extends Type {
             this.cloneOrReplaceChild(pretty, "numerator", this.numerator, original, replacement), 
             this.cloneOrReplaceChild(pretty, "slash", this.slash, original, replacement), 
             this.cloneOrReplaceChild(pretty, "denominator", this.denominator, original, replacement), 
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     static map(numerator: string[], denominator: string[]) {

@@ -50,7 +50,7 @@ export default class StreamType extends Type {
         return new StreamType(
             this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement), 
             this.cloneOrReplaceChild(pretty, "stream", this.stream, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     getChildReplacement() { return undefined; }

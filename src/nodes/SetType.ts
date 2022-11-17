@@ -44,7 +44,7 @@ export default class SetType extends NativeType {
             this.cloneOrReplaceChild(pretty, "key", this.key, original, replacement),
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts() {}

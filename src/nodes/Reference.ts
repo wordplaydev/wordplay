@@ -61,7 +61,7 @@ export default class Reference extends Expression {
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Reference(
             this.cloneOrReplaceChild(pretty, "name", this.name, original, replacement)
-        ) as this;
+        ).label(this._label) as this;
     }
 
     getName() { return this.name.getText(); }

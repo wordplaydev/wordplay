@@ -30,7 +30,7 @@ export default class Names extends Node {
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Names(
             this.cloneOrReplaceChild<Name[]>(pretty, "names", this.names, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts() {

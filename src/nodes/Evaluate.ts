@@ -92,7 +92,7 @@ export default class Evaluate extends Expression {
             this.cloneOrReplaceChild(pretty, "typeInputs", this.typeInputs, original, replacement), 
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ) as this;
+        ).label(this._label) as this;
     }
 
     getPreferredPrecedingSpace(child: Node, space: string): string {

@@ -63,7 +63,7 @@ export default class Select extends Expression {
             this.cloneOrReplaceChild(pretty, "select", this.select, original, replacement), 
             this.cloneOrReplaceChild(pretty, "row", this.row, original, replacement), 
             this.cloneOrReplaceChild(pretty, "query", this.query, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query || child === this.row; }

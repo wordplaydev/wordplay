@@ -31,7 +31,7 @@ export default class BooleanType extends NativeType {
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new BooleanType(
             this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts() {}

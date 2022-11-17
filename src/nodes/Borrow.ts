@@ -47,7 +47,7 @@ export default class Borrow extends Node implements Evaluable {
             this.cloneOrReplaceChild(pretty, "borrow", this.borrow, original, replacement), 
             this.cloneOrReplaceChild(pretty, "name", this.name, original, replacement),
             this.cloneOrReplaceChild(pretty, "version", this.version, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
     
     computeConflicts(context: Context): Conflict[] { 

@@ -33,7 +33,7 @@ export default class Cell extends Node {
         return new Cell(
             this.cloneOrReplaceChild(pretty, "bar", this.bar, original, replacement), 
             this.cloneOrReplaceChild(pretty, "value", this.value, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
 

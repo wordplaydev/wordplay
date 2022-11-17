@@ -37,7 +37,7 @@ export default class ColumnType extends Type {
         return new ColumnType(
             this.cloneOrReplaceChild(pretty, "bind", this.bind, original, replacement),
             this.cloneOrReplaceChild(pretty, "bar", this.bar, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     hasDefault() { return this.bind instanceof Bind && this.bind.hasDefault(); }

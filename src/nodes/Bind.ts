@@ -104,7 +104,7 @@ export default class Bind extends Node implements Evaluable, Named {
             this.cloneOrReplaceChild(pretty, "etc", this.etc, original, replacement), 
             this.cloneOrReplaceChild(pretty, "dot", this.dot, original, replacement),
             this.cloneOrReplaceChild(pretty, "colon", this.colon, original, replacement)
-        ) as this;
+        ).label(this._label) as this;
     }
 
     getPreferredPrecedingSpace(child: Node, space: string): string {

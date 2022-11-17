@@ -36,7 +36,7 @@ export default class Doc extends Node {
         return new Doc(
             this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement), 
             this.cloneOrReplaceChild(pretty, "lang", this.lang, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }

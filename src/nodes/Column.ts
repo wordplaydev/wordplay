@@ -38,7 +38,7 @@ export default class Column extends Node {
         return new Column(
             this.cloneOrReplaceChild(pretty, "bar", this.bar, original, replacement), 
             this.cloneOrReplaceChild(pretty, "bind", this.bind, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     getDescriptions(): Translations {

@@ -32,7 +32,7 @@ export default class ExceptionType extends Type {
         return this.exception.toString();
     }
 
-    clone() { return new ExceptionType(this.exception) as this; }
+    clone() { return new ExceptionType(this.exception).label(this._label) as this; }
 
     getDescriptions(): Translations {
         return {

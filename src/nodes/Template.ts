@@ -57,7 +57,7 @@ export default class Template extends Expression {
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
             this.cloneOrReplaceChild(pretty, "expressions", this.expressions, original, replacement),
             this.cloneOrReplaceChild(pretty, "format", this.format, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts() { return []; }

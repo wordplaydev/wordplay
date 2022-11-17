@@ -44,7 +44,7 @@ export default class MeasurementLiteral extends Expression {
         return new MeasurementLiteral(
             this.cloneOrReplaceChild(pretty, "number", this.number, original, replacement), 
             this.cloneOrReplaceChild(pretty, "unit", this.unit, original, replacement)
-        ) as this;
+        ).label(this._label) as this;
     }
 
     getGrammar() { 

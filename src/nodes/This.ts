@@ -44,7 +44,7 @@ export default class This extends Expression {
     }
 
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
-        return new This(this.cloneOrReplaceChild(pretty, "dis", this.dis, original, replacement)) as this; 
+        return new This(this.cloneOrReplaceChild(pretty, "dis", this.dis, original, replacement)).label(this._label) as this; 
     }
 
     getEnclosingStructure(): ThisStructure | undefined {

@@ -64,7 +64,7 @@ export default class ListAccess extends Expression {
             this.cloneOrReplaceChild(pretty, "index", this.index, original, replacement), 
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts(context: Context): Conflict[] { 

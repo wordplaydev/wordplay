@@ -49,7 +49,7 @@ export default class ConversionType extends Type {
             this.cloneOrReplaceChild(pretty, "input", this.input, original, replacement), 
             this.cloneOrReplaceChild(pretty, "convert", this.convert, original, replacement),
             this.cloneOrReplaceChild(pretty, "output", this.output, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     getDescriptions(): Translations {

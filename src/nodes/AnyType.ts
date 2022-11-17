@@ -17,7 +17,7 @@ export default class AnyType extends Type {
 
     toWordplay() { return "*"; }
 
-    clone() { return new AnyType() as this; }
+    clone() { return new AnyType().label(this._label) as this; }
 
     getDescriptions(): Translations {
         return {

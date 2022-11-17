@@ -58,7 +58,7 @@ export default class Is extends Expression {
             this.cloneOrReplaceChild(pretty, "expression", this.expression, original, replacement), 
             this.cloneOrReplaceChild(pretty, "operator", this.operator, original, replacement),
             this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeType() { return new BooleanType(); }

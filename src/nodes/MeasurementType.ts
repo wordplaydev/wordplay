@@ -53,7 +53,7 @@ export default class MeasurementType extends NativeType {
         return new MeasurementType(
             this.cloneOrReplaceChild(pretty, "number", this.number, original, replacement), 
             this.unit === undefined || this.unit instanceof Function ? this.unit : this.cloneOrReplaceChild(pretty, "unit", this.unit, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     hasDerivedUnit() { return this.unit instanceof Function; }

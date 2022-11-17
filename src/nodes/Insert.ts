@@ -57,7 +57,7 @@ export default class Insert extends Expression {
             this.cloneOrReplaceChild(pretty, "table", this.table, original, replacement),
             this.cloneOrReplaceChild(pretty, "insert", this.insert, original, replacement),
             this.cloneOrReplaceChild(pretty, "row", this.row, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.row; }

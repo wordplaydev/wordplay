@@ -25,6 +25,9 @@ export default abstract class Node {
     /** A cache of conflicts on this node. Undefined means no cache. */
     _conflicts: undefined | Conflict[] = undefined;
 
+    /** A temporary label useful for editing, as every edit clones. It persists across cloning until erased. */
+    _label: string | undefined = undefined;
+
     constructor() {
         this.id = NODE_ID_COUNTER++;
     }
@@ -33,6 +36,21 @@ export default abstract class Node {
      * A list of fields that represent this node's sequence of nodes and the types of nodes allowed on each field.
      */
     abstract getGrammar(): Field[];
+
+    /**
+     * Remove all labels from this node and all of its descendants.
+     */
+    unlabelAll() { this.nodes().forEach(node => node._label = undefined); }
+
+    /**
+     * Add a label to this node
+     */
+    label(label: string | undefined) { this._label = label; return this; }
+
+    /**
+     * Retrieve a node with the given label.
+     */
+    findNodeWithLabel(label: string) { return this.nodes().find(node => node._label === label); }
 
     /**
      * A list of names that determine this node's children. Can't extract these through reflection, so they must be manually supplied 
@@ -338,7 +356,7 @@ export default abstract class Node {
             else return replacement as ExpectedTypes;
         }
 
-        // Otherwise, just clone the child. If it's a list, clone the list items.
+        // If it's a list, return a list of cloned list items, propagating labels
         if(Array.isArray(child))
             return child.map(n => n.clone(pretty, original, replacement)) as ExpectedTypes
         else       

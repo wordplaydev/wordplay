@@ -61,7 +61,7 @@ export default class UnknownType extends Type {
 
     toWordplay() { return "�"; }
 
-    clone() { return new UnknownType(this.reason) as this; }
+    clone() { return new UnknownType(this.reason).label(this._label) as this; }
     
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }

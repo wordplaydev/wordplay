@@ -109,7 +109,7 @@ export default class FunctionDefinition extends Expression {
             this.cloneOrReplaceChild(pretty, "dot", this.dot, original, replacement), 
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ) as this;
+        ).label(this._label) as this;
     }
 
     sharesName(fun: FunctionDefinition) { return this.names.sharesName(fun.names); }

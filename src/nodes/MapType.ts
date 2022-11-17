@@ -53,7 +53,7 @@ export default class MapType extends NativeType {
             this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
             this.cloneOrReplaceChild(pretty, "bind", this.bind, original, replacement), 
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement) 
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts() {}

@@ -64,7 +64,7 @@ export default class Reaction extends Expression {
             this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "stream", this.stream, original, replacement),
             this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "next", this.next, original, replacement),
             this.cloneOrReplaceChild<Token>(pretty, "delta", this.delta, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     computeConflicts(context: Context): Conflict[] { 

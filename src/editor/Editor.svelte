@@ -297,6 +297,9 @@
         const draggedNode: Node = $dragged;
         const insertion = Array.from($insertions.values())[0];
 
+        // Label the dragged node so we can find it later.
+        draggedNode.label("dragged");
+
         // This is the node that will either be replaced or contains the list in which we will insert the dragged node.
         // For replacements its the node that the creator is hovered over, and for insertions its the node that contains the list we're inserting into.
         let replacedOrListContainingNode: Node | undefined = shouldReplace() ? $hovered : insertion.node;
@@ -348,9 +351,6 @@
                 const dragClone = draggedNode.withPrecedingSpace(replacedOrListContainingNode.getPrecedingSpace(), true);
                 editedProgram = editedProgram.clone(false, replacedOrListContainingNode, dragClone);            
                 newSources.push([ source, source.withProgram(editedProgram) ]);
-
-                // Update this source file's caret.
-                $caret.withPosition(dragClone)
             }
             // If we're not replacing, and there's something to insert, insert!
             else if($insertions.size > 0) {
@@ -401,10 +401,20 @@
 
             }
 
+            // Using the label, set the cursor to the dragged node, then unlabel the sources.
+            for(const source of newSources) {
+                const newDragged = source[1].program.findNodeWithLabel("dragged");
+                if(newDragged) {
+                    caret.set($caret.withPosition(newDragged));
+                    break;
+                }
+                source[1].program.unlabelAll();
+            }
+
             // Update the project with the new source files
             updateProject($project.withSources(newSources));
+
         }
-        else console.error("For some reason, we were unable to track the modified node and make the edit.");
 
     }
 

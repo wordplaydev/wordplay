@@ -42,7 +42,7 @@ export default class Dimension extends Node {
             this.cloneOrReplaceChild(pretty, "name", this.name, original, replacement), 
             this.cloneOrReplaceChild(pretty, "caret", this.caret, original, replacement),
             this.cloneOrReplaceChild(pretty, "exponent", this.exponent, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     getName() { return this.name.getText(); }

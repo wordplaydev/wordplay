@@ -58,7 +58,7 @@ export default class BooleanLiteral extends Expression {
     clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new BooleanLiteral(
             this.cloneOrReplaceChild(pretty, "value", this.value, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }

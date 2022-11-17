@@ -44,7 +44,7 @@ export default class Row extends Node {
         return new Row(
             this.cloneOrReplaceChild(pretty, "cells", this.cells, original, replacement),
             this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     getChildReplacement() { return undefined; }

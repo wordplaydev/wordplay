@@ -33,7 +33,7 @@ export default class TypeVariable extends Node {
         return new TypeVariable(
             this.cloneOrReplaceChild(pretty, "names", this.names, original, replacement), 
             this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement)
-        ) as this; 
+        ).label(this._label) as this; 
     }
 
     getNames() { return this.names.getNames(); }
