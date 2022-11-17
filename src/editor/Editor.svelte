@@ -25,6 +25,8 @@
     import Bind from '../nodes/Bind';
     import Block, { type Statement } from '../nodes/Block';
     import TokenType from '../nodes/TokenType';
+    import TypePlaceholderView from './TypePlaceholderView.svelte';
+    import StructureDefinition from '../nodes/StructureDefinition';
 
     export let source: Source;
 
@@ -295,7 +297,6 @@
 
         if($dragged === undefined) return;
 
-
         let editedProgram = source.program;
         const draggedNode: Node = $dragged;
         const insertion = Array.from($insertions.values())[0];
@@ -317,7 +318,11 @@
             // If the node isn't in a list, then we replace it with an expression placeholder, to preserve syntax.
             if(!draggedNode.inList()) {
                 // Make a placeholder to replace the hovered node.
-                replacement = (new ExpressionPlaceholder()).withPrecedingSpace(draggedNode.getPrecedingSpace(), true);
+                replacement = 
+                    draggedNode instanceof Block && draggedNode.getParent() instanceof StructureDefinition ? undefined :
+                    draggedNode instanceof Expression ? (new ExpressionPlaceholder()).withPrecedingSpace(draggedNode.getPrecedingSpace(), true) :
+                    draggedNode instanceof Type ? (new TypePlaceholder()).withPrecedingSpace(draggedNode.getPrecedingSpace(), true) :
+                    undefined;
             }
 
             // If it's from this program, then update this program.
@@ -575,8 +580,9 @@
         // By default, set the hovered state to whatever node is under the mouse.
         hovered.set(getNodeAt(event, false));
 
-        // If the primary mouse button is down, start dragging and set insertion 
-        if($hovered && event.buttons === 1 && $dragged === undefined)
+        // If the primary mouse button is down, start dragging and set insertion.
+        // We only allow expressions and types to be inserted.
+        if($hovered && event.buttons === 1 && $dragged === undefined && ($hovered instanceof Expression || $hovered instanceof Type))
             dragged.set($hovered);
 
         // If something is being dragged, set the insertion points to whatever points are under the mouse.
