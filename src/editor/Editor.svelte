@@ -278,14 +278,18 @@
 
     }
 
+    function handleMouseDown(event: MouseEvent) {
+
+        // Otherwise, place the caret at the mouse position.
+        placeCaretAtPosition(event);
+
+    }
+
     function handleMouseUp(event: MouseEvent) {
 
         // Is the creator hovering over a valid drop target? If so, execute the edit.
         if(isValidDropTarget())
             drop();
-        // Otherwise, place the caret at the mouse position.
-        else
-            placeCaretAtPosition(event);
 
         // Reset the insertion points.
         insertions.set(new Map());
@@ -389,6 +393,7 @@
                         ]
                     );
 
+                    // Update the program with the new list parent.
                     editedProgram = editedProgram.clone(false, replacedOrListContainingNode, clonedListParent);
 
                     // Find the token after the last token of the node we inserted and give it the original space after the insertion point.
@@ -875,7 +880,7 @@
 
 <div class="editor"
     bind:this={editor}
-    on:mousedown|preventDefault={() => {}}
+    on:mousedown|preventDefault={handleMouseDown}
     on:mouseup={handleMouseUp}
     on:mousemove={handleMouseMove}
     on:mouseleave={handleMouseLeave}

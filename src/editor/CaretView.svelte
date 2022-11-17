@@ -298,7 +298,7 @@
     }
 
     .caret.blink {
-        animation: blink-animation 1s steps(2, start) infinite;
+        animation: blink-animation .5s steps(2, start) infinite;
     }
 
     .caret.ignored {
@@ -306,6 +306,6 @@
     }
 
     @keyframes blink-animation {
-        to { visibility: hidden; }       
+        to { visibility: hidden; }
     }
 </style>
