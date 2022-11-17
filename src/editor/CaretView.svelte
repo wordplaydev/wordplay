@@ -124,7 +124,7 @@
         if(textElement === null) return;
 
         // Figure out where the token view is, so we can properly offset the caret position in the editor.
-        const tokenViewRect = tokenView.getBoundingClientRect();
+        const tokenViewRect = (tokenView.querySelector(".text") as Element).getBoundingClientRect();
 
         let tokenLeft = tokenViewRect.left + viewportXOffset;
         let tokenTop = tokenViewRect.top + viewportYOffset;
@@ -151,7 +151,7 @@
         let lineHeight;
 
         if(firstTokenView && firstTokenViewAfterLineBreak && lineBreakCount) {
-            lineHeight = (firstTokenViewAfterLineBreak.getBoundingClientRect().top - firstTokenView.getBoundingClientRect().top ) / lineBreakCount;
+            lineHeight = ((firstTokenViewAfterLineBreak.querySelector(".text") as Element).getBoundingClientRect().top - (firstTokenView.querySelector(".text") as Element).getBoundingClientRect().top ) / lineBreakCount;
         }
         else {
             lineHeight = tokenViewRect.height;
@@ -202,6 +202,7 @@
 
             // Get some measurements about the viewport.
             const editorPaddingLeft = parseInt(window.getComputedStyle(editorView).getPropertyValue('padding-left').replace("px", ""));
+            const editorPaddingTop = parseInt(window.getComputedStyle(editorView).getPropertyValue('padding-top').replace("px", "")) + 4;
 
             // Get some measurements on spaces and tab.
             const spaceElement = editorView.querySelector(`.Token[data-id="${token.id}"] .space`);
@@ -221,7 +222,7 @@
                 editorPaddingLeft : 
                 priorTokenViewRect.right - viewportRect.left + viewport.scrollLeft;
             let priorTokenTop = priorTokenViewRect === undefined ? 
-                tokenTop : 
+                editorPaddingTop : 
                 priorTokenViewRect.top - viewportRect.top + viewport.scrollTop;
 
             let spaces: undefined | number;
