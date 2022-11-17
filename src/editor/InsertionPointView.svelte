@@ -1,14 +1,9 @@
 <script lang="ts">
-    import type { InsertionPoint } from "../models/Caret";
-    import Block from "../nodes/Block";
-    import Docs from "../nodes/Docs";
-    import Program from "../nodes/Program";
-
-    export let insertion: InsertionPoint;
+    export let linebreak: boolean;
 
 </script>
 
-{#if insertion.node instanceof Block || insertion.node instanceof Docs || insertion.node instanceof Program}<br/>{/if}<span class="line"></span>
+{#if linebreak}<br/>{/if}<span class="line"></span>
 
 <style>
     .line {
