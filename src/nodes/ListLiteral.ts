@@ -20,6 +20,7 @@ import type Transform from "../transforms/Transform"
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import { withSpaces } from "./spacing";
 
 export type ListItem = Expression | Unparsable;
 
@@ -33,8 +34,8 @@ export default class ListLiteral extends Expression {
         super();
 
         this.open = open ?? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN);
-        // There must be spaces between list items if a previous item ends with a name and the next item starts with a name.
-        this.values = values;
+        // There must be spaces between list items. There are too many things that won't parse correctly if there isn't. Apply it if there's no space present.
+        this.values = withSpaces(values);
         this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
 
         this.computeChildren();

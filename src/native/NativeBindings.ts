@@ -130,8 +130,10 @@ export function createNativeConversion<ValueType extends Value>(docs: Translatio
             outputTypeString,
             (requestor, evaluation) => {
                 const val = evaluation.getContext();
-                if(val instanceof Value && inputType.accepts(val.getType(evaluation.getEvaluator().getContext()), evaluation.getEvaluator().getContext())) return convert(requestor, val as ValueType);
-                else return new TypeException(evaluation.getEvaluator(), inputType, val); 
+                if(val instanceof Value && inputType.accepts(val.getType(evaluation.getEvaluator().getContext()), evaluation.getEvaluator().getContext())) 
+                    return convert(requestor, val as ValueType);
+                else 
+                    return new TypeException(evaluation.getEvaluator(), inputType, val); 
             },
             docs
         )

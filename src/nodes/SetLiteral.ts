@@ -21,6 +21,7 @@ import type Transform from "../transforms/Transform"
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import { withSpaces } from "./spacing";
 
 export type SetItem = Expression | Unparsable;
 
@@ -34,7 +35,7 @@ export default class SetLiteral extends Expression {
         super();
 
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
-        this.values = values;
+        this.values = withSpaces(values);
         this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
 
         this.computeChildren();

@@ -15,6 +15,7 @@ import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import FunctionDefinitionType from "./FunctionDefinitionType";
+import { withSpaces } from "./spacing";
 
 export default class FunctionType extends Type {
 
@@ -29,7 +30,7 @@ export default class FunctionType extends Type {
 
         this.fun = fun ?? new Token(FUNCTION_SYMBOL, TokenType.FUNCTION);
         this.open = open ?? new EvalOpenToken();
-        this.inputs = inputs;
+        this.inputs = withSpaces(inputs);
         this.close = close ?? new EvalCloseToken();;
         this.output = output;
 

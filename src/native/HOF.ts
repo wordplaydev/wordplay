@@ -11,7 +11,9 @@ export default abstract class HOF extends Expression {
 
     computeConflicts() {}
     
-    clone(): this { return this; }
+    // We don't clone these, we just erase their parent, since there's only one of them.
+    clone() { this._parent = undefined; return this; }
+    
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { context; bind; original; return current; }
 
     getDescriptions(): Translations {

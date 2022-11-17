@@ -27,6 +27,7 @@ import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import { withSpaces } from "./spacing";
 
 export type MapItem = Unparsable | KeyValue;
 
@@ -40,10 +41,10 @@ export default class MapLiteral extends Expression {
     constructor(values: MapItem[], open?: Token, bind?: Token, close?: Token | Unparsable) {
         super();
 
-        this.values = values;
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
-        this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
+        this.values = withSpaces(values);
         this.bind = bind;
+        this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
 
         this.computeChildren();
         

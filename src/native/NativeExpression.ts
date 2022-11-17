@@ -49,8 +49,8 @@ export default class NativeExpression extends Expression {
         return evaluation === undefined ? undefined : this.evaluator(requestor, evaluation);
     }
 
-    /** Can't clone native expressions, there's only one of them! */
-    clone() { return this; }
+    /** Can't clone native expressions, there's only one of them! We just erase their parent and let whatever wants them claim them. */
+    clone() { this._parent = undefined; return this; }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { context; bind; original; return current; }
 

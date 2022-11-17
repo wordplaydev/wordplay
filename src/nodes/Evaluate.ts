@@ -49,6 +49,7 @@ import Remove from "../transforms/Remove";
 import UnknownInput from "../conflicts/UnknownInput";
 import getConcreteExpectedType from "./Generics";
 import FunctionDefinitionType from "./FunctionDefinitionType";
+import { withSpaces } from "./spacing";
 
 type InputType = Unparsable | Bind | Expression;
 
@@ -67,7 +68,7 @@ export default class Evaluate extends Expression {
         this.open = open ?? new EvalOpenToken();
         this.func = func;
         // Inputs must have space between them if they have adjacent names.
-        this.inputs = inputs;
+        this.inputs = withSpaces(inputs);
         this.close = close;
 
         this.computeChildren();

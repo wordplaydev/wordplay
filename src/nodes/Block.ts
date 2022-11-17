@@ -36,6 +36,7 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
+import { withSpaces } from "./spacing";
 
 export type Statement = Expression | Unparsable | Bind;
 
@@ -53,7 +54,7 @@ export default class Block extends Expression {
         super();
 
         this.open = !root && open === undefined ? new EvalOpenToken() : open;
-        this.statements = statements;
+        this.statements = withSpaces(statements, statements.length > 1);
         this.close = !root && close === undefined ? new EvalCloseToken() : close;
         this.docs = docs instanceof Docs ? docs : new Docs(docs);
         this.root = root;
