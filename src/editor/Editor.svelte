@@ -375,8 +375,9 @@
 
                     // If we're inserting into the same list the dragged node is from, then it was already removed from the list above.
                     // If we're inserting after it's prior location, then the index is now 1 position to high, because everything shifted down.
-                    // Therefore, if the node of the insertion is in the list inserted, we add one.
-                    const insertionIndex = insertion.index + (insertion.list.includes(draggedNode) ? -1 : 0);
+                    // Therefore, if the node of the insertion is in the list inserted, we adjust the insertion index.
+                    const indexOfDraggedNodeInList = insertion.list.indexOf(draggedNode);
+                    const insertionIndex = insertion.index + (indexOfDraggedNodeInList >= 0 && insertion.index > indexOfDraggedNodeInList ? 1 : 0);
                     // Replace the list with a new list that has the dragged node inserted.
                     const clonedListParent = replacedOrListContainingNode.clone(
                         false, 
