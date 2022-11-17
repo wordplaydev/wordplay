@@ -102,7 +102,7 @@ export default class Caret {
         // and deduce that it could insert another ALIAS, or a type and type symbol.
         // All of this logic would have to be in nodes, since only the nodes (and the grammar) know what insertions are valid.
 
-        // Find the token whose whitespace contains the current position. This is the token text to the right of the caret.
+        // Find the token whose space contains the current position. This is the token text to the right of the caret.
         const tokens = this.getProgram().nodes().filter(token => token instanceof Token) as Token[];
         const tokenAfter = this.source.getTokenWithSpaceAt(this.position);
         if(tokenAfter === undefined) return undefined;
@@ -115,7 +115,7 @@ export default class Caret {
             after: []
         };
 
-        // Start with the token after and find all nodes that contain this token's whitespace.
+        // Start with the token after and find all nodes that contain this token's space.
         let node: Node | undefined | null = tokenAfter;
         while(node instanceof Node) {
             const firstToken = this.source.getFirstToken(node);

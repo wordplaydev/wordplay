@@ -562,6 +562,22 @@
         const parent = node.getParent();
         if(parent === undefined) return;
 
+        // Special case the end token of the Program, since it's block has no delimters.
+        if(node instanceof Token && node.is(TokenType.END)) {
+            const program = node.getParent();
+            if(program instanceof Program && program.block instanceof Block) {
+                return {
+                    node: program.block,
+                    field: "statements",
+                    list: program.block.statements,
+                    token: node,
+                    line: line,
+                    // Account empty lists
+                    index: 0
+                };
+            }
+        }
+        
         // Find the list this node is either in or delimits.
         let field = node.getContainingParentList(before);
         if(field === undefined) return;
@@ -574,7 +590,7 @@
             list: list,
             token: token,
             line: line,
-            // Account empty lists
+            // Account for empty lists
             index: index < 0 ? 0 : index + (before ? 0 : 1)
         };
 
@@ -584,7 +600,7 @@
 
         // Is the caret position between tokens? If so, are any of the token's parents inside a list in which we could insert something?
         const position = getCaretPositionAt(event);
-        if(position) {            
+        if(position !== undefined) {            
             const caret = new Caret(source, position);
             const token = caret.getToken();
             if(token === undefined) return [];
