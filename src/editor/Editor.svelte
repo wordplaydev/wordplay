@@ -297,7 +297,7 @@
 
 
         let editedProgram = source.program;
-        let draggedNode: Node = $dragged;
+        const draggedNode: Node = $dragged;
         const insertion = Array.from($insertions.values())[0];
 
         // This is the node that will either be replaced or contains the list in which we will insert the dragged node.
@@ -357,17 +357,22 @@
                 const listToUpdate = replacedOrListContainingNode.getField(insertion.field);
                 if(Array.isArray(listToUpdate)) {
 
-                    // Get the item after the 
+                    // Get the item after the place we're inserting
                     const itemAfter = listToUpdate[insertion.index];
                     // Clone the dragged node, but add to it the space preceding the node after, if there is one.
                     const dragClone = draggedNode.withPrecedingSpace(itemAfter?.getPrecedingSpace() ?? "", true);
+                    // If we're inserting into the same list the dragged node is from, then it was already removed from the list above.
+                    // If we're inserting after it's prior location, then the index is now 1 position to high, because everything shifted down.
+                    // Therefore, if the node of the insertion is in the list inserted, we add one.
+                    const insertionIndex = insertion.index + (insertion.list.includes(draggedNode) ? -1 : 0);
                     // Replace the list with a new list that has the dragged node inserted.
                     const clonedListParent = replacedOrListContainingNode.clone(
                         false, 
-                        listToUpdate, [ 
-                            ...listToUpdate.slice(0, insertion.index).map(n => n.clone(false)), 
+                        listToUpdate, 
+                        [ 
+                            ...listToUpdate.slice(0, insertionIndex).map(n => n.clone(false)), 
                             dragClone, 
-                            ...listToUpdate.slice(insertion.index).map(n => n.clone(false))
+                            ...listToUpdate.slice(insertionIndex).map(n => n.clone(false))
                         ]
                     );
                     editedProgram = editedProgram.clone(false, replacedOrListContainingNode, clonedListParent);
@@ -376,7 +381,7 @@
                     newSources.push([ source, source.withProgram(editedProgram)]);
 
                     if(Array.isArray(newList))
-                        $caret.withPosition(newList[insertion.index]);
+                        $caret.withPosition(newList[insertionIndex]);
                 }
 
             }
