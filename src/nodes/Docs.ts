@@ -32,11 +32,6 @@ export default class Docs extends Node {
         ).label(this._label) as this; 
     }
 
-    getPreferredPrecedingSpace(child: Node): string {
-        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return this.docs.length > 0 && this.docs.includes(child as Doc) ? "\n" : "";
-    }
-
     computeConflicts() {
 
         // Docs must have unique language tags
