@@ -61,7 +61,7 @@
 
         expanded = true;
 
-        if(event.buttons !== 1) return;
+        if(event.buttons !== 1 || $dragged) return;
 
         const root = document.elementFromPoint(event.clientX, event.clientY)?.closest(".root");
         if(root instanceof HTMLElement) {
