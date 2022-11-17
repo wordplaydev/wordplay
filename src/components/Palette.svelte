@@ -76,6 +76,9 @@
 
 </script>
 
+<!-- Drop what's being dragged if the window loses focus. -->
+<svelte:window on:blur={ () => dragged.set(undefined) } />
+
 <section 
     class={`palette ${expanded ? "expanded" : ""}`}
     on:mouseup={handleDrop}

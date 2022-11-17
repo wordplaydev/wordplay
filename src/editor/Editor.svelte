@@ -849,6 +849,9 @@
 
 </script>
 
+<!-- Drop what's being dragged if the window loses focus. -->
+<svelte:window on:blur={ () => dragged.set(undefined) } />
+
 <div class="editor"
     bind:this={editor}
     on:mousedown|preventDefault={() => {}}
