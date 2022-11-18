@@ -38,7 +38,7 @@
 
 </script>
 
-{#if showSpace}<Space token={node} space={node.space} {additional}/>{/if}<span class="token-view token-{kind} {showBox ? "active" : ""} {isPlaceholder ? "placeholder" : ""} {$caret !== undefined ? "editable" : ""} {`token-category-${kind}`}" data-id={node.id}><span class="text">{@html textToShow }</span></span>
+{#if showSpace}<Space token={node} space={node.space} {additional}/>{/if}<span class="token-view token-{kind} {node.is(TokenType.NAME_SEPARATOR) ? "comma" : ""} {showBox ? "active" : ""} {isPlaceholder ? "placeholder" : ""} {$caret !== undefined ? "editable" : ""} {`token-category-${kind}`}" data-id={node.id}><span class="text">{@html textToShow }</span></span>
 
 <style>
 
