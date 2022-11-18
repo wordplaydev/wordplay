@@ -93,6 +93,8 @@ export class NativeBindings implements NativeInterface {
         return this.structureDefinitionsByName[kind];
     }
 
+    getAllStructureDefinitions() { return Object.values(this.structureDefinitionsByName); }
+
 }
 
 export function createNativeFunction(
@@ -142,12 +144,20 @@ export function createNativeConversion<ValueType extends Value>(docs: Translatio
 
 const Native = new NativeBindings();
 
-Native.addStructure(NONE_NATIVE_TYPE_NAME, bootstrapNone());
-Native.addStructure(BOOLEAN_NATIVE_TYPE_NAME, bootstrapBool());
-Native.addStructure(TEXT_NATIVE_TYPE_NAME, bootstrapText());
-Native.addStructure(LIST_NATIVE_TYPE_NAME, bootstrapList());
-Native.addStructure(MEASUREMENT_NATIVE_TYPE_NAME, bootstrapMeasurement());
-Native.addStructure(SET_NATIVE_TYPE_NAME, bootstrapSet());
-Native.addStructure(MAP_NATIVE_TYPE_NAME, bootstrapMap());
+export const NoneDefinition = bootstrapNone();
+export const BoolDefinition = bootstrapBool();
+export const TextDefinition = bootstrapText();
+export const ListDefinition = bootstrapList();
+export const MeasurementDefinition = bootstrapMeasurement();
+export const SetDefinition = bootstrapSet();
+export const MapDefinition = bootstrapMap()
+
+Native.addStructure(NONE_NATIVE_TYPE_NAME, NoneDefinition);
+Native.addStructure(BOOLEAN_NATIVE_TYPE_NAME, BoolDefinition);
+Native.addStructure(TEXT_NATIVE_TYPE_NAME, TextDefinition);
+Native.addStructure(LIST_NATIVE_TYPE_NAME, ListDefinition);
+Native.addStructure(MEASUREMENT_NATIVE_TYPE_NAME, MeasurementDefinition);
+Native.addStructure(SET_NATIVE_TYPE_NAME, SetDefinition);
+Native.addStructure(MAP_NATIVE_TYPE_NAME, MapDefinition);
 
 export default Native;

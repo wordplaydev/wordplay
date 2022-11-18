@@ -42,7 +42,7 @@
 
 <div class="source">
     <div class="source-title">
-        {source.getName()}
+        <h2>{source.getName()}</h2>
         <small>
             <!-- If it's output, show controls -->
             <span on:click={playPause}>{autoplay ? "⏸" : "▶️"}</span>
@@ -100,6 +100,10 @@
     .source-content:focus-within {
         outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
         outline-offset: calc(-1 * var(--wordplay-border-width));
+    }
+
+    .source h2 {
+        display: inline;
     }
 
 </style>

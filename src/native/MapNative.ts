@@ -83,7 +83,7 @@ export default function bootstrapMap() {
             "😀": WRITE
         },
         {
-            eng: "structure",
+            eng: "map",
             "😀": `${TRANSLATE}structure`
         },
         // No interfaces

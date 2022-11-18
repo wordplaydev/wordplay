@@ -20,7 +20,7 @@
 </script>
 
 <div class="header">
-    Wordplay
+    <h1>Wordplay</h1>
     <select bind:value={example} on:change={changeProject}>
         {#each examples as example }
             <option value={example}>{example.name}</option>
@@ -43,4 +43,9 @@
         border-bottom-right-radius: var(--wordplay-border-radius);
         box-sizing: border-box;
     }
+
+    h1 {
+        display: inline;
+    }
+
 </style>

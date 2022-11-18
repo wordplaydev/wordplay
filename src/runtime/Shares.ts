@@ -18,6 +18,22 @@ import Unparsable from "../nodes/Unparsable";
 import Style from "../native/Style";
 import type Definition from "../nodes/Definition";
 
+export const DefaultStructures = [
+    Verse,
+    Phrase,
+    Style,
+    Group,
+    Vertical,
+    Layout,
+    Transition,
+    Fade,
+    Scale,
+    Animation,
+    Wobble,
+    Throb,
+    Bounce
+];
+
 export default class Shares {
 
     readonly values: Map<string, Value>;
@@ -38,21 +54,8 @@ export default class Shares {
         if(bindings)
             Object.keys(bindings).forEach(name => this.bind(name, bindings[name]));
 
-        this.addStructureDefinition(Verse);
-        this.addStructureDefinition(Phrase);
-        this.addStructureDefinition(Style);
-        this.addStructureDefinition(Group);
-        this.addStructureDefinition(Vertical);
-        this.addStructureDefinition(Layout);
-        
-        this.addStructureDefinition(Transition);
-        this.addStructureDefinition(Fade);
-        this.addStructureDefinition(Scale);
-        
-        this.addStructureDefinition(Animation);
-        this.addStructureDefinition(Wobble);
-        this.addStructureDefinition(Throb);
-        this.addStructureDefinition(Bounce);
+        // Add the default structure definitions.
+        DefaultStructures.forEach(def => this.addStructureDefinition(def));
 
         // Share a timer stream for programs to listen to.
         this.time = new Time(evaluator);

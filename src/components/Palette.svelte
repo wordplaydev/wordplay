@@ -1,41 +1,135 @@
 <script lang="ts">
     import { getDragged } from "../editor/Contexts";
     import NodeView from "../editor/NodeView.svelte";
-    import { parseBind, parseExpression, parseType, tokens } from "../parser/Parser";
+    import { parseExpression, parseType, tokens } from "../parser/Parser";
     import { project, updateProject } from "../models/stores";
     import Program from "../nodes/Program";
     import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
+    import { BoolDefinition, ListDefinition, MapDefinition, MeasurementDefinition, NoneDefinition, SetDefinition, TextDefinition } from "../native/NativeBindings";
+    import { DefaultStructures } from "../runtime/Shares";
+    import StructureDefinition from "../nodes/StructureDefinition";
+    import type Type from "../nodes/Type";
+    import type Expression from "../nodes/Expression";
+    import NameType from "../nodes/NameType";
     import type Node from "../nodes/Node";
+    import Evaluate from "../nodes/Evaluate";
+    import PropertyReference from "../nodes/PropertyReference";
+    import Token from "../nodes/Token";
+    import TokenType from "../nodes/TokenType";
+    import Bind from "../nodes/Bind";
+    import EvalCloseToken from "../nodes/EvalCloseToken";
+    import Reference from "../nodes/Reference";
 
-    const expressions: Node[] = [
-        "_[ _ ]",
-        "_{ _ }",
-        "_._",
-        "(_)",
-        "_()",
-        "'\\_\\'",
-        "_ ∆ _ _",
-        "_ ? _ _",
-        "ƒ _() _",
-        "_ → _"
-    ].map(code => parseExpression(tokens(code)));
-    expressions.push(parseBind(tokens("_: _") ));
+    /**
+     * The palette is hybrid documentation/drag and drop palette, organized by types.
+     * Each type has a dedicated page that lists 1) language constructs associated with the type,
+     * 2) functions on the type. It includes any creator-defined types and borrowed types in the active project.
+     */
 
-    const types: Node[] = [
-        "?",
-        "#",
-        "''",
-        "!",
-        "[ _ ]",
-        "{ _ }",
-        "{ _ : _ }",
-        "_ • _"
-    ].map(code => parseType(tokens(code)));
+    type TypeEntry = {
+        definition: StructureDefinition, 
+        creators: Expression[],
+        name: Type,
+        constructs: Expression[],
+        functions: Evaluate[]
+    }
 
-    const nodes = expressions.concat(types);
+    function structureToEntry(literals: Expression[] | undefined, def: StructureDefinition, name: Type, constructs: Expression[]): TypeEntry {
+        return { 
+            definition: def,
+            creators: literals ?? [ new Evaluate(
+                new Reference(def.names.names[0].name.getText()),
+                def.inputs.filter(input => input instanceof Bind && !input.hasDefault()).map(() => new ExpressionPlaceholder()),
+                [],
+                undefined,
+                new EvalCloseToken()
+            ) ],
+            name: name,
+            constructs: constructs,
+            // Map each function to an Evaluate with placeholders for the structure and required arguments
+            functions: def.getFunctions(true).map(fun => 
+                new Evaluate(
+                    new PropertyReference(new ExpressionPlaceholder(), new Token(fun.names.names[0].name.getText(), TokenType.NAME)),
+                    fun.inputs.filter(input => input instanceof Bind && !input.hasDefault()).map(() => new ExpressionPlaceholder()),
+                    [],
+                    undefined,
+                    new EvalCloseToken()
+                )
+            )
+        };
+    }
+
+    function nativeStructureToEntry(def: StructureDefinition, literals: string[], type: string, constructs: string[]): TypeEntry {
+        return structureToEntry(
+            literals.map(literal => parseExpression(tokens(literal)) as Expression),
+            def, 
+            parseType(tokens(type)) as Type,
+            constructs.map(construct => parseExpression(tokens(construct)) as Expression)
+        );
+    }
+
+    function nonNativeStructureToEntry(def: StructureDefinition): TypeEntry {
+        return structureToEntry(
+            undefined,
+            def, 
+            new NameType(def.names.names[0].name.getText()),
+            []
+        );
+    }
+
+    let entries: TypeEntry[] = [
+        nativeStructureToEntry(BoolDefinition, [ "⊤", "⊥" ], "?", [ "_ ? _ _" ]),
+        nativeStructureToEntry(TextDefinition, [ '""' ], '""', [ "'\\_\\'" ]),
+        nativeStructureToEntry(MeasurementDefinition, [ "0", "π", "∞" ], '#', [ "_[ _ ]" ]),
+        nativeStructureToEntry(ListDefinition, [ '[]' ], '[]', [ "_[ _ ]" ]),
+        nativeStructureToEntry(SetDefinition, [ '{}' ], '{}', [ "_{ _ }" ]),
+        nativeStructureToEntry(MapDefinition, [ '{:}' ], '{:}', [ "_{ _ }" ]),
+        nativeStructureToEntry(NoneDefinition, [ "!" ], "!", [ "_ ? _ _" ]),
+        
+        ...(DefaultStructures as StructureDefinition[]).map(def => nonNativeStructureToEntry(def)),
+
+        ...[ $project.main, ...$project.supplements ]
+            .map(source => 
+                (source.program.nodes(n => n instanceof StructureDefinition) as StructureDefinition[])
+                .map(def => nonNativeStructureToEntry(def))).flat()
+
+    ];
 
     let dragged = getDragged();
     let expanded = false;
+    let selected: TypeEntry | undefined = undefined;
+
+    /** Search through the entries to find a corresponding node */
+    function idToNode(id: number): Node | undefined {
+        // Search all entries for a matching node.
+        for(const entry of entries) {
+            if(entry.name.id === id) return entry.name;
+            for(const literal of entry.creators)
+                if(literal.id === id) return literal;
+            for(const construct of entry.constructs)
+                if(construct.id === id) return construct;
+            for(const fun of entry.functions)
+                if(fun.id === id) return fun;
+        }
+        return undefined;
+    }
+
+    function handleDrag(event: MouseEvent) {
+
+        expanded = true;
+
+        if(event.buttons !== 1 || $dragged) return;
+
+        // Map the element to the coresponding node in the palette.
+        const root = document.elementFromPoint(event.clientX, event.clientY)?.closest(".root");
+        if(root instanceof HTMLElement) {
+            const node = idToNode(parseInt(root.dataset.id ?? ""));
+            if(node !== undefined) {
+                dragged.set(node);
+            }
+        }
+
+    }
 
     function handleDrop() {
 
@@ -58,22 +152,6 @@
 
     }
 
-    function handleDrag(event: MouseEvent) {
-
-        expanded = true;
-
-        if(event.buttons !== 1 || $dragged) return;
-
-        const root = document.elementFromPoint(event.clientX, event.clientY)?.closest(".root");
-        if(root instanceof HTMLElement) {
-            const id = parseInt(root.dataset.id ?? "");
-            const node = nodes.find(node => node.id === id);
-            if(node !== undefined) {
-                dragged.set(node);
-            }
-        }
-
-    }
 
 </script>
 
@@ -86,23 +164,29 @@
     on:mousemove={handleDrag}
     on:mouseleave={() => expanded = false }
 >
-    <h2>Palette</h2>
+    {#if selected }
+        <section class="type">
+            <button on:click={() => selected = undefined }>◀</button>
+            <h3>{#each selected.creators as creator, index}{#if index > 0}, {/if}<NodeView node={creator}/>{/each}</h3>
 
-    <section class="options">
-        <h3>Expressions</h3>
+            {#each selected.constructs as node }
+                <p><NodeView {node}/></p>
+            {/each}
 
-        {#each expressions as expression}
-            <div class="item"><NodeView node={expression}/></div>
-            <br/>
-        {/each}
+            {#each selected.functions as node }
+                <p><NodeView {node}/></p>
+            {/each}
 
-        <h3>Types</h3>
+        </section>
+    {:else}
+        <section class="types">
+            <h3>Types</h3>
 
-        {#each types as type}
-            <div class="item"><NodeView node={type}/></div>
-            <br/>
-        {/each}
-    </section>
+            {#each entries as type}
+                <p on:mousedown={() => selected = type}><NodeView node={type.name}/></p>
+            {/each}
+        </section>
+    {/if}
 </section>
 
 <style>
@@ -123,10 +207,8 @@
         overflow: auto;
     }
 
-    .item {
-        display: inline-block;
-        margin-block-start: var(--wordplay-spacing);
-        margin-block-end: var(--wordplay-spacing);
+    p {
         cursor: pointer;
     }
+
 </style>

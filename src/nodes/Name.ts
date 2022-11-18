@@ -23,7 +23,7 @@ export const NameLabels: Translations = {
 
 export default class Name extends Node {
 
-    readonly name?: Token;
+    readonly name: Token;
     readonly separator?: Token;
     readonly lang?: Language;
 
