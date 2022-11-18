@@ -71,11 +71,6 @@
         outline: 1px solid var(--wordplay-border-color);
     }
 
-    .token-delimiter .text {
-        transform-origin: center;
-        transform: scale(1.3, 1.3);
-    }
-
     .placeholder .text {
         font-family: var(--wordplay-font-face);
         color: var(--wordplay-disabled-color);

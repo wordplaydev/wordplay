@@ -484,8 +484,8 @@
             const [ token, tokenView ] = getTokenFromElement(elementAtCursor) ?? [];
             // If we found a token, find the position in it corresponding to the mouse position.
             if(token instanceof Token && tokenView instanceof Element && event.target instanceof Element) {
-                const startIndex = $caret.source.getTokenTextIndex(token);
-                const lastIndex = $caret.source.getTokenLastIndex(token);
+                const startIndex = $caret.source.getTokenTextPosition(token);
+                const lastIndex = $caret.source.getTokenLastPosition(token);
                 if(startIndex !== undefined && lastIndex !== undefined) {
                     // The mouse event's offset is relative to what was clicked on, not the element handling the click, so we have to compute the real offset.
                     const targetRect = event.target.getBoundingClientRect();
@@ -524,8 +524,8 @@
             // If the mouse was within the vertical bounds of the text, choose its left or right.
             if(event.clientY < closestText.textBottom && event.clientY >= closestText.textTop) {
                 return closestText.leftDistance < closestText.rightDistance ? 
-                    $caret.source.getTokenTextIndex(token) : 
-                    $caret.source.getTokenLastIndex(token)
+                    $caret.source.getTokenTextPosition(token) : 
+                    $caret.source.getTokenLastPosition(token)
             }
         }
 
@@ -561,7 +561,7 @@
 
         // If we have a closest line, find the line number
         if(closestLine)
-            return $caret.source.getTokenSpaceIndex(closestLine.token) + closestLine.token.space.split("\n", closestLine.index).join("\n").length;
+            return $caret.source.getTokenSpacePosition(closestLine.token) + closestLine.token.space.split("\n", closestLine.index).join("\n").length;
 
         // Otherwise, choose nothing.
         return undefined;
@@ -615,7 +615,7 @@
             const token = caret.getToken();
             if(token === undefined) return [];
             // What is the space prior to this insertion point?
-            const spacePrior = token === undefined ? "" : token.space.substring(0, position - source.getTokenSpaceIndex(token));
+            const spacePrior = token === undefined ? "" : token.space.substring(0, position - source.getTokenSpacePosition(token));
 
             // How many lines does the space prior include?
             const line = spacePrior.split("\n").length - 1;
@@ -840,7 +840,7 @@
 
             const position = 
                 typeof $caret.position === "number" ? $caret.position :
-                isPlaceholder ? source.getTokenTextIndex($caret.position as Token) :
+                isPlaceholder ? source.getTokenTextPosition($caret.position as Token) :
                 undefined;
 
             if(position !== undefined) {

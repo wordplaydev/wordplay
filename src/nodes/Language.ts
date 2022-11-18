@@ -11,6 +11,7 @@ import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import LanguageToken from "./LanguageToken";
+import type LanguageCode from "./LanguageCode";
 
 export default class Language extends Node {
     
@@ -48,7 +49,8 @@ export default class Language extends Node {
         return [];
     }
 
-    getLanguage() { return this.lang instanceof Token ? this.lang.text.toString() : undefined; }
+    getLanguage() { return this.lang instanceof Token ? this.lang.text.toString() : ""; }
+    getLanguageCode() { return this.getLanguage() as LanguageCode }
 
     equals(lang: Language) {
         return this.getLanguage() === lang.getLanguage();

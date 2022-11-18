@@ -31,7 +31,7 @@ export default class Remove extends Transform {
         if(nodes.length === 0) return;
 
         // Get the position of the first node we're removing.
-        const position = this.source.getNodeFirstIndex(nodes[0]);
+        const position = this.source.getNodeFirstPosition(nodes[0]);
         if(position === undefined) return;
 
         // Get the new parent without the nodes.

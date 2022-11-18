@@ -41,7 +41,7 @@ export default class Append<NodeType extends Node> extends Transform {
         let afterSpace = undefined;
         if(spaceNode !== undefined) {
             const space = spaceNode.space;
-            const spaceIndex = this.source.getTokenSpaceIndex(spaceNode);
+            const spaceIndex = this.source.getTokenSpacePosition(spaceNode);
             const splitIndex = spaceIndex === undefined ? undefined : this.position - spaceIndex;
             if(space !== undefined && splitIndex !== undefined) {
                 const beforeSpace = space?.substring(0, splitIndex);
@@ -98,7 +98,7 @@ export default class Append<NodeType extends Node> extends Transform {
         if(finalNewNode === undefined) return;
 
         // Find it's last token index.
-        let newCaretPosition: Node | number | undefined = newSource.getNodeLastIndex(finalNewNode);
+        let newCaretPosition: Node | number | undefined = newSource.getNodeLastPosition(finalNewNode);
         if(newCaretPosition === undefined) return;
 
         // Does the insertion have a placeholder token? If so, place the caret at it's first placeholder instead of the end.

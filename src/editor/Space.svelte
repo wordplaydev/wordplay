@@ -12,10 +12,10 @@
     // Is there an insertion point before this token? Show one!
     $: insertion = $insertionPoints?.get(token);
     $: insertionIndex = insertion !== undefined ? space.split("\n", insertion.line).join("\n").length + 1 : undefined;
-    $: spaceBeforeHTML = (insertionIndex === undefined ? "" : space.substring(0, insertionIndex)).replaceAll(" ", SPACE_HTML).replaceAll("\t", tabToHTML()).replaceAll("\n", "<span><br/></span>");
+    $: spaceBeforeHTML = (insertionIndex === undefined ? "" : space.substring(0, insertionIndex)).replaceAll(" ", SPACE_HTML).replaceAll("\t", tabToHTML()).replaceAll("\n", "<span class='break'><br/></span>");
     $: spaceAfterHTML = 
-        (insertionIndex === undefined ? space : space.substring(insertionIndex)).replaceAll(" ", SPACE_HTML).replaceAll("\t", tabToHTML()).replaceAll("\n", "<span><br/></span>") +
-        additional.replaceAll(" ", "&nbsp;").replaceAll("\t", "&nbsp;".repeat(TAB_WIDTH)).replaceAll("\n", "<span><br/></span>");
+        (insertionIndex === undefined ? space : space.substring(insertionIndex)).replaceAll(" ", SPACE_HTML).replaceAll("\t", tabToHTML()).replaceAll("\n", "<span class='break'><br/></span>") +
+        additional.replaceAll(" ", "&nbsp;").replaceAll("\t", "&nbsp;".repeat(TAB_WIDTH)).replaceAll("\n", "<span class='break'><br/></span>");
 
 </script>
 

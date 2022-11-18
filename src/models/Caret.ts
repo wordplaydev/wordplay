@@ -43,7 +43,7 @@ export default class Caret {
 
         this.token = (typeof this.position === "number") ? this.source.getTokenAt(this.position) : undefined;
         this.tokenPrior = (typeof this.position === "number") ? this.source.getTokenAt(this.position - 1) : undefined;
-        this.tokenSpaceIndex = this.token === undefined ? undefined : this.source.getTokenSpaceIndex(this.token);
+        this.tokenSpaceIndex = this.token === undefined ? undefined : this.source.getTokenSpacePosition(this.token);
         this.tokenExcludingWhitespace = (typeof this.position === "number") ? this.source.getTokenAt(this.position, false) : undefined;
 
     }
@@ -157,6 +157,20 @@ export default class Caret {
 
     }
 
+    /** True if this caret's position is or is inside of the given node. */
+    isIn(node: Node) {
+        
+        if(this.position instanceof Node)
+            return this.position === node || node.contains(this.position);
+        
+        if(!this.source.program.contains(node)) return false;
+
+        const start = this.source.getNodeFirstPosition(node);
+        const end = this.source.getNodeLastPosition(node);
+        return start !== undefined && end !== undefined && start <= this.position && this.position <= end;
+
+    }
+
     // Get the code position corresponding to the beginning of the given row.
     rowPosition(row: number): number | undefined {
 
@@ -202,7 +216,7 @@ export default class Caret {
             // Get the first or last token of the given node.
             const tokens = this.position.nodes(n => n instanceof Token) as Token[];
             const last = tokens[tokens.length - 1];
-            const index = direction < 0 ? this.source.getTokenTextIndex(tokens[0]) : this.source.getTokenTextIndex(last) === undefined ? undefined : this.source.getTokenTextIndex(last) + tokens[tokens.length - 1].getTextLength();
+            const index = direction < 0 ? this.source.getTokenTextPosition(tokens[0]) : this.source.getTokenTextPosition(last) === undefined ? undefined : this.source.getTokenTextPosition(last) + tokens[tokens.length - 1].getTextLength();
             if(index !== undefined)
                 return tokens.length === 0 ? this : this.withPosition(index);
             else
@@ -237,7 +251,7 @@ export default class Caret {
             return newSource === undefined ? undefined : [ newSource, new Caret(newSource, this.position + text.length) ];
         }
         else if(this.position instanceof Token && this.position.getText() === PLACEHOLDER_SYMBOL) {
-            const indexOfPlaceholder = this.source.getTokenTextIndex(this.position);
+            const indexOfPlaceholder = this.source.getTokenTextPosition(this.position);
             let newSource = this.source.withoutGraphemeAt(indexOfPlaceholder);
             newSource = newSource?.withGraphemesAt(text, indexOfPlaceholder);
             return newSource === undefined ? undefined : [ newSource, new Caret(newSource, indexOfPlaceholder + text.length)]
@@ -250,8 +264,8 @@ export default class Caret {
         const tokens = node.nodes(t => t instanceof Token) as Token[];
         const first = tokens[0];
         const last = tokens[tokens.length - 1];
-        const firstIndex = this.source.getTokenTextIndex(first);
-        const lastIndex = this.source.getTokenLastIndex(last);
+        const firstIndex = this.source.getTokenTextPosition(first);
+        const lastIndex = this.source.getTokenLastPosition(last);
         return firstIndex === undefined || lastIndex === undefined ? undefined : [ firstIndex, lastIndex ];
     }
 
@@ -325,7 +339,7 @@ export default class Caret {
         let currentToken = this.source.getTokenAt(position);
         if(currentToken === undefined) return;
     
-        const index = this.source.getTokenTextIndex(currentToken);
+        const index = this.source.getTokenTextPosition(currentToken);
         // If the position is on a different line from the current token, just move to the line.
         if(index !== undefined && position < index - currentToken.precedingSpaces) {
             return this.withPosition(position);
@@ -361,7 +375,7 @@ export default class Caret {
             if(sorted.length > 0) {
                 const choice = sorted[0];
                 const length = choice.token.getTextLength();
-                const startPosition = this.source.getTokenTextIndex(choice.token);
+                const startPosition = this.source.getTokenTextPosition(choice.token);
                 if(startPosition !== undefined && length !== undefined) {
                     // Choose the offset based on whether the caret is to the left, right, or in between the horizontal axis of the chosen token.
                     const offset = 

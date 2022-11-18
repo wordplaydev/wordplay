@@ -30,7 +30,7 @@ export default class Replace<NodeType extends Node> extends Transform {
         if(space === undefined) return;
 
         // Get the position of the node we're replacing.
-        const position = this.source.getNodeFirstIndex(this.node);
+        const position = this.source.getNodeFirstPosition(this.node);
         if(position === undefined) return;
 
         // Get or create the replacement with the original node's space.
@@ -46,7 +46,7 @@ export default class Replace<NodeType extends Node> extends Transform {
         // Find the replacement child and it's last index.
         const newChild = newSource.program.resolvePath(path);
         if(newChild === undefined) return;
-        let newCaretPosition: Node | number | undefined = newSource.getNodeLastIndex(newChild);
+        let newCaretPosition: Node | number | undefined = newSource.getNodeLastPosition(newChild);
         if(newCaretPosition === undefined) return;
 
         // Does the new child have a placeholder token? If so, place the caret at that instead of the end.

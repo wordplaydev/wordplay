@@ -1,9 +1,9 @@
 <script lang="ts">
     import type Names from "../nodes/Names";
-    import NodeSequenceView from "./NodeSequenceView.svelte";
+    import LanguageTaggedNodeSequence from "./LanguageTaggedNodeSequence.svelte";
 
     export let node: Names;
 
 </script>
 
-<NodeSequenceView nodes={node.names}/>
+<LanguageTaggedNodeSequence {node} list={node.names} />

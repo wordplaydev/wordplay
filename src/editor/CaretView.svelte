@@ -29,9 +29,9 @@
     $: {
         if(token !== undefined && $caret !== undefined) {
             // Get some of the token's metadata
-            let spaceIndex = $caret.source.getTokenSpaceIndex(token);
-            let lastIndex = $caret.source.getTokenLastIndex(token);
-            let textIndex = $caret.source.getTokenTextIndex(token);
+            let spaceIndex = $caret.source.getTokenSpacePosition(token);
+            let lastIndex = $caret.source.getTokenLastPosition(token);
+            let textIndex = $caret.source.getTokenTextPosition(token);
 
             // Compute where the caret should be placed. Place it if...
             caretIndex = 

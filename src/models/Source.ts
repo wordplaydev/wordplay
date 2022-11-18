@@ -44,7 +44,7 @@ export default class Source {
     readonly observers: Set<() => void> = new Set();
 
     /** An index of token positions in the source file. */
-    readonly indicies: Map<Token, number> = new Map();
+    readonly tokenPositions: Map<Token, number> = new Map();
 
     constructor(name: string, code: string | UnicodeString | Program, observers?: Set<() => void>) {
 
@@ -66,7 +66,7 @@ export default class Source {
         let index = 0;
         for(const token of this.program.nodes(n => n instanceof Token) as Token[]) {
             index += token.space.length;
-            this.indicies.set(token, index);
+            this.tokenPositions.set(token, index);
             index += token.text.getLength();
         }
 
@@ -207,19 +207,19 @@ export default class Source {
         return new Source(this.name, this.code, this.observers);
     }
 
-    getTokenTextIndex(token: Token) {
-        const index = this.indicies.get(token);
+    getTokenTextPosition(token: Token) {
+        const index = this.tokenPositions.get(token);
         if(index === undefined) 
-            throw Error("No index for the given token; it must not be in this source, which means there's a defect somewhere.");
+            throw Error(`No index for ${token.toWordplay()}; it must not be in this source, which means there's a defect somewhere.`);
         return index;
     }
 
-    getTokenSpaceIndex(token: Token) { return this.getTokenTextIndex(token) - token.space.length; }
-    getTokenLastIndex(token: Token) { return this.getTokenTextIndex(token) + token.getTextLength(); }
+    getTokenSpacePosition(token: Token) { return this.getTokenTextPosition(token) - token.space.length; }
+    getTokenLastPosition(token: Token) { return this.getTokenTextPosition(token) + token.getTextLength(); }
 
     getTokenAt(position: number, includingWhitespace: boolean = true) {
         // This could be faster with binary search, but let's not prematurely optimize.
-        for(const [token, index] of this.indicies) {
+        for(const [token, index] of this.tokenPositions) {
             if(position >= index - (includingWhitespace ? token.space.length : 0) && (position < index + token.getTextLength() || token.is(TokenType.END)))
                 return token;
         }
@@ -228,14 +228,14 @@ export default class Source {
 
     getTokenWithSpaceAt(position: number) {
         // This could be faster with binary search, but let's not prematurely optimize.
-        for(const [token] of this.indicies)
+        for(const [token] of this.tokenPositions)
             if(this.tokenSpaceContains(token, position))
                 return token;
         return undefined;
     }
 
     tokenSpaceContains(token: Token, position: number) {
-        const index = this.getTokenTextIndex(token);
+        const index = this.getTokenTextPosition(token);
         return position >= index - token.space.length && position <= index;     
     }
 
@@ -250,14 +250,14 @@ export default class Source {
 
     }
 
-    getNodeFirstIndex(node: Node) {
+    getNodeFirstPosition(node: Node) {
         const firstToken = this.getFirstToken(node);
-        return firstToken === undefined ? undefined : this.getTokenTextIndex(firstToken);
+        return firstToken === undefined ? undefined : this.getTokenTextPosition(firstToken);
     }
 
-    getNodeLastIndex(node: Node) {
+    getNodeLastPosition(node: Node) {
         const lastToken = this.getLastToken(node);
-        return lastToken === undefined ? undefined : this.getTokenLastIndex(lastToken);
+        return lastToken === undefined ? undefined : this.getTokenLastPosition(lastToken);
     }
 
     getFirstToken(node: Node): Token | undefined {

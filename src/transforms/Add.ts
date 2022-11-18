@@ -47,7 +47,7 @@ export default class Add<NodeType extends Node> extends Transform {
         const finalNewNode = newSource.program.resolvePath(finalNewNodePath);
         if(finalNewNode === undefined) return;
 
-        let newCaretPosition: Node | number | undefined = newSource.getNodeLastIndex(finalNewNode);
+        let newCaretPosition: Node | number | undefined = newSource.getNodeLastPosition(finalNewNode);
         if(newCaretPosition === undefined) return;
 
         const firstPlaceholder = finalNewNode.getFirstPlaceholder();

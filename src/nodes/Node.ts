@@ -295,11 +295,6 @@ export default abstract class Node {
 
     }
 
-    whitespaceContainsPosition(index: number): boolean {
-        const children = this.getChildren();
-        return children.length > 0 && children[0].whitespaceContainsPosition(index);
-    }
-
     /** Creates a deep clone of this node and it's descendants. If it encounters replacement along the way, it uses that instead of the existing node. */
     abstract clone(pretty: boolean, original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
 
