@@ -6,7 +6,6 @@ import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import Unparsable from "./Unparsable";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
 import TypePlaceholder from "./TypePlaceholder";
@@ -17,10 +16,10 @@ import { TRANSLATE } from "./Translations"
 export default class ListType extends NativeType {
 
     readonly open: Token;
-    readonly type?: Type | Unparsable;
+    readonly type?: Type;
     readonly close: Token;
 
-    constructor(type?: Type | Unparsable, open?: Token, close?: Token) {
+    constructor(type?: Type, open?: Token, close?: Token) {
         super();
 
         this.open = open ?? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN);
@@ -34,7 +33,7 @@ export default class ListType extends NativeType {
     getGrammar() { 
         return [
             { name: "open", types:[ Token ] },
-            { name: "type", types:[ Type, Unparsable, undefined ] },
+            { name: "type", types:[ Type, undefined ] },
             { name: "close", types:[ Token ] },
         ];
     }
@@ -56,14 +55,14 @@ export default class ListType extends NativeType {
                 this.type === undefined || 
                 // If the given type has no type specified, any will do
                 type.type === undefined ||
-                (this.type instanceof Type && type.type instanceof Type && this.type.accepts(type.type, context))
+                this.type.accepts(type.type, context)
             );
     }
 
     getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }
 
     resolveTypeVariable(name: string): Type | undefined { 
-        return Object.values(LIST_TYPE_VAR_NAMES).includes(name) && this.type instanceof Type ? this.type : undefined;
+        return Object.values(LIST_TYPE_VAR_NAMES).includes(name) ? this.type : undefined;
     };
 
     getDescriptions(): Translations {

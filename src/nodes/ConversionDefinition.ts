@@ -4,7 +4,6 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import type Conflict from "../conflicts/Conflict";
 import { MisplacedConversion } from "../conflicts/MisplacedConversion";
-import UnknownType from "./UnknownType";
 import Unparsable from "./Unparsable";
 import Block from "./Block";
 import ConversionType from "./ConversionType";
@@ -33,11 +32,11 @@ export default class ConversionDefinition extends Expression {
 
     readonly docs: Docs;
     readonly arrow: Token;
-    readonly input: Type | Unparsable;
-    readonly output: Type | Unparsable;
+    readonly input: Type;
+    readonly output: Type;
     readonly expression: Expression | Unparsable;
 
-    constructor(docs: Docs | Translations, input: Type | Unparsable | string, output: Type | Unparsable | string, expression: Expression | Unparsable, convert?: Token) {
+    constructor(docs: Docs | Translations, input: Type | string, output: Type | string, expression: Expression | Unparsable, convert?: Token) {
         super();
 
         this.docs = docs instanceof Docs ? docs : new Docs(docs);
@@ -54,8 +53,8 @@ export default class ConversionDefinition extends Expression {
         return [
             { name: "docs", types:[ Docs ] },
             { name: "arrow", types:[ Token ] },
-            { name: "input", types:[ Type, Unparsable ] },
-            { name: "output", types:[ Type, Unparsable ] },
+            { name: "input", types:[ Type ] },
+            { name: "output", types:[ Type ] },
             { name: "expression", types:[ Expression, Unparsable ] },
         ]; 
     }
@@ -73,12 +72,11 @@ export default class ConversionDefinition extends Expression {
     isBlock(child: Node) { return child === this.expression; }
 
     convertsTypeTo(input: Type, output: Type, context: Context) {
-        return  !(this.input instanceof Unparsable) && this.input.accepts(input, context) &&
-                !(this.output instanceof Unparsable) && this.output.accepts(output, context);
+        return  this.input.accepts(input, context) && this.output.accepts(output, context);
     }
 
     convertsType(input: Type, context: Context) {
-        return !(this.input instanceof Unparsable) && this.input.accepts(input, context);
+        return this.input.accepts(input, context);
     }
 
     computeConflicts(context: Context): Conflict[] { 
@@ -95,7 +93,7 @@ export default class ConversionDefinition extends Expression {
     }
 
     computeType(): Type {
-        return this.input instanceof Unparsable ? new UnknownType(this.input) : new ConversionType(this.input, undefined, this.output);
+        return new ConversionType(this.input, undefined, this.output);
     }
 
     compile(): Step[] {

@@ -46,7 +46,7 @@ export default class FunctionDefinition extends Expression {
     readonly inputs: (Bind|Unparsable)[];
     readonly close: Token;
     readonly dot?: Token;
-    readonly output?: Type | Unparsable;
+    readonly output?: Type;
     readonly expression: Expression | Unparsable | Token;
 
     constructor(
@@ -55,7 +55,7 @@ export default class FunctionDefinition extends Expression {
         typeVars: (TypeVariable|Unparsable)[], 
         inputs: (Bind|Unparsable)[], 
         expression: Expression | Token | Unparsable, 
-        output?: Type | Unparsable, 
+        output?: Type, 
         fun?: Token, dot?: Token, open?: Token, close?: Token) {
         super();
 
@@ -84,7 +84,7 @@ export default class FunctionDefinition extends Expression {
             { name: "inputs", types:[[ Bind, Unparsable ]] },
             { name: "close", types:[ Token] },
             { name: "dot", types:[ Token, undefined ] },
-            { name: "output", types:[ Type, Unparsable, undefined ] },
+            { name: "output", types:[ Type, undefined ] },
             { name: "expression", types:[ Expression, Unparsable, Token ] },
         ];
     }
@@ -226,7 +226,7 @@ export default class FunctionDefinition extends Expression {
             return getPossibleTypeReplacements(child, context);
         // Expression must be of output type, or any type if there isn't one.
         else if(child === this.expression && this.expression instanceof Expression)
-            return getExpressionReplacements(context.source, this, this.expression, context, this.output === undefined || this.output instanceof Unparsable ? new AnyType() : this.output);
+            return getExpressionReplacements(context.source, this, this.expression, context, this.output === undefined ? new AnyType() : this.output);
 
     }
 

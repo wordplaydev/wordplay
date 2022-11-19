@@ -62,11 +62,11 @@ export default class Bind extends Node implements Evaluable, Named {
     readonly etc: Token | undefined;
     readonly names: Names;
     readonly dot?: Token;
-    readonly type?: Type | Unparsable;
+    readonly type?: Type;
     readonly colon?: Token;
     readonly value?: Expression | Unparsable;
 
-    constructor(docs: Docs | Translations | undefined, names: Names | Translations | undefined, type?: Type | Unparsable, value?: Expression | Unparsable, share?: Token | undefined, etc?: Token | undefined, dot?: Token, colon?: Token) {
+    constructor(docs: Docs | Translations | undefined, names: Names | Translations | undefined, type?: Type, value?: Expression | Unparsable, share?: Token | undefined, etc?: Token | undefined, dot?: Token, colon?: Token) {
         super();
 
         this.docs = docs instanceof Docs ? docs : new Docs(docs);
@@ -88,7 +88,7 @@ export default class Bind extends Node implements Evaluable, Named {
             { name: "etc", types:[ Token, undefined ] },
             { name: "names", types:[ Names ] },
             { name: "dot", types:[ Token, undefined ] },
-            { name: "type", types:[ Type, Unparsable, undefined ] },
+            { name: "type", types:[ Type, undefined ] },
             { name: "colon", types:[ Token, undefined ] },
             { name: "value", types:[ Expression, Unparsable, undefined ] },
         ]; 

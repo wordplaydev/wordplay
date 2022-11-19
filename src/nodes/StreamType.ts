@@ -1,4 +1,3 @@
-import Unparsable from "./Unparsable";
 import { REACTION_SYMBOL } from "../parser/Tokenizer";
 import Replace from "../transforms/Replace";
 import type Transform from "../transforms/Transform";
@@ -16,9 +15,9 @@ export const STREAM_NATIVE_TYPE_NAME = "stream";
 export default class StreamType extends Type {
 
     readonly stream: Token;
-    readonly type: Type | Unparsable;
+    readonly type: Type;
 
-    constructor(type: Type | Unparsable, stream?: Token) {
+    constructor(type: Type, stream?: Token) {
         super();
 
         this.stream = stream ?? new Token(REACTION_SYMBOL, TokenType.REACTION);
@@ -31,7 +30,7 @@ export default class StreamType extends Type {
     getGrammar() { 
         return [
             { name: "stream", types:[ Token ] },
-            { name: "type", types:[ Type, Unparsable ] },
+            { name: "type", types:[ Type ] },
         ]; 
     }
 
@@ -39,8 +38,6 @@ export default class StreamType extends Type {
 
     accepts(type: Type, context: Context): boolean {
         return type instanceof StreamType && 
-            this.type instanceof Type && 
-            type.type instanceof Type && 
             this.type.accepts(type.type, context);
     }
 

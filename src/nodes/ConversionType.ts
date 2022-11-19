@@ -6,7 +6,6 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform";
 import Type from "./Type";
-import Unparsable from "./Unparsable";
 import TypePlaceholder from "./TypePlaceholder";
 import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
@@ -16,9 +15,9 @@ export default class ConversionType extends Type {
 
     readonly input: Type;
     readonly convert: Token;
-    readonly output: Type | Unparsable;
+    readonly output: Type;
     
-    constructor(input: Type, convert: Token | undefined, output: Type | Unparsable) {
+    constructor(input: Type, convert: Token | undefined, output: Type) {
         super();
         
         this.input = input;
@@ -32,7 +31,7 @@ export default class ConversionType extends Type {
         return [
             { name: "input", types:[ Type ] },
             { name: "convert", types:[ Token ] },
-            { name: "output", types:[ Type, Unparsable ] },
+            { name: "output", types:[ Type ] },
         ]; 
     }
 

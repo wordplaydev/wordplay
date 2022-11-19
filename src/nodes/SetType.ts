@@ -6,7 +6,6 @@ import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import Unparsable from "./Unparsable";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
@@ -17,10 +16,10 @@ import { TRANSLATE } from "./Translations"
 export default class SetType extends NativeType {
 
     readonly open: Token;
-    readonly key?: Type | Unparsable;
+    readonly key?: Type;
     readonly close: Token;
 
-    constructor(key?: Type | Unparsable, open?: Token, close?: Token) {
+    constructor(key?: Type, open?: Token, close?: Token) {
         super();
 
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
@@ -34,7 +33,7 @@ export default class SetType extends NativeType {
     getGrammar() { 
         return [
             { name: "open", types:[ Token ] },
-            { name: "key", types:[ Type, Unparsable, undefined ] },
+            { name: "key", types:[ Type, undefined ] },
             { name: "close", types:[ Token ] },
         ];
     }
@@ -56,9 +55,9 @@ export default class SetType extends NativeType {
                     // If the key type isn't specified, any will do.
                     this.key === undefined ||
                     (
-                    this.key instanceof Type &&
-                    type.key instanceof Type &&
-                    this.key.accepts(type.key, context)
+                        this.key instanceof Type &&
+                        type.key instanceof Type &&
+                        this.key.accepts(type.key, context)
                     )
                 );
     }

@@ -23,9 +23,9 @@ export default class FunctionType extends Type {
     readonly open: Token;
     readonly inputs: (Bind|Unparsable)[];
     readonly close: Token;
-    readonly output: Type | Unparsable;
+    readonly output: Type;
 
-    constructor(inputs: (Bind|Unparsable)[], output: Type | Unparsable, fun?: Token, open?: Token, close?: Token) {
+    constructor(inputs: (Bind|Unparsable)[], output: Type, fun?: Token, open?: Token, close?: Token) {
         super();
 
         this.fun = fun ?? new Token(FUNCTION_SYMBOL, TokenType.FUNCTION);
@@ -44,7 +44,7 @@ export default class FunctionType extends Type {
             { name: "open", types:[ Token ] },
             { name: "inputs", types:[[ Bind, Unparsable ]] },
             { name: "close", types:[ Token] },
-            { name: "output", types:[ Type, Unparsable ] },
+            { name: "output", types:[ Type ] },
         ]; 
     }
 
@@ -63,7 +63,6 @@ export default class FunctionType extends Type {
         let inputsToCheck: (Bind|Unparsable)[] = type instanceof FunctionDefinitionType ? type.fun.inputs : type.inputs;
         let outputToCheck = type instanceof FunctionDefinitionType ? type.fun.getOutputType(context) : type.output;
 
-        if(!(this.output instanceof Type)) return false;
         if(!(outputToCheck instanceof Type)) return false;
         if(!this.output.accepts(outputToCheck, context)) return false;
         if(this.inputs.length != inputsToCheck.length) return false;

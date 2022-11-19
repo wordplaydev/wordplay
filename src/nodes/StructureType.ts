@@ -3,7 +3,6 @@ import type ConversionDefinition from "./ConversionDefinition";
 import type Context from "./Context";
 import type StructureDefinition from "./StructureDefinition";
 import NameType from "./NameType";
-import Unparsable from "./Unparsable";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
@@ -38,7 +37,6 @@ export default class StructureType extends Type {
         // Are any of the given type's interfaces compatible with this?
         return type.structure.interfaces.find(int => {
             let interfaceType = int.type;
-            if(interfaceType instanceof Unparsable) return false;
             if(interfaceType instanceof NameType) interfaceType = interfaceType.getType(context);
             return this.accepts(interfaceType, context);
         }) !== undefined;

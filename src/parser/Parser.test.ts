@@ -11,7 +11,7 @@ import MeasurementLiteral from "../nodes/MeasurementLiteral";
 import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
 import NoneType from "../nodes/NoneType";
-import { SyntacticConflict, parse, parseBind, parseBlock, parseExpression, parseType, tokens } from "./Parser";
+import { parse, parseBind, parseBlock, parseExpression, parseType, tokens } from "./Parser";
 import Program from "../nodes/Program";
 import StreamType from "../nodes/StreamType";
 import TableType from "../nodes/TableType";
@@ -50,6 +50,7 @@ import MapLiteral from "../nodes/MapLiteral";
 import SetType from "../nodes/SetType";
 import MapType from "../nodes/MapType";
 import { NONE_SYMBOL, PLACEHOLDER_SYMBOL } from "./Tokenizer";
+import UnparsableType from "../nodes/UnparsableType";
 
 test("Parse programs", () => {
 
@@ -420,7 +421,6 @@ test("Types", () => {
     expect((union as UnionType).right).toBeInstanceOf(MeasurementType);
 
     const hmm = parseType(tokens("/"))
-    expect(hmm).toBeInstanceOf(Unparsable);
-    expect((hmm as Unparsable).reason).toBe(SyntacticConflict.EXPECTED_TYPE);
+    expect(hmm).toBeInstanceOf(UnparsableType);
 
 })

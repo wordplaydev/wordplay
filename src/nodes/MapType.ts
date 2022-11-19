@@ -6,7 +6,6 @@ import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import Unparsable from "./Unparsable";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
 import BindToken from "./BindToken";
@@ -18,12 +17,12 @@ import { TRANSLATE } from "./Translations"
 export default class MapType extends NativeType {
 
     readonly open: Token;
-    readonly key?: Type | Unparsable;
+    readonly key?: Type;
     readonly bind: Token;
-    readonly value?: Type | Unparsable;
+    readonly value?: Type;
     readonly close: Token;
 
-    constructor(key?: Type | Unparsable, value?: Type | Unparsable, open?: Token, bind?: Token, close?: Token) {
+    constructor(key?: Type, value?: Type, open?: Token, bind?: Token, close?: Token) {
         super();
 
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
@@ -39,9 +38,9 @@ export default class MapType extends NativeType {
     getGrammar() { 
         return [
             { name: "open", types:[ Token ] },
-            { name: "key", types:[ Type, Unparsable, undefined ] },
+            { name: "key", types:[ Type, undefined ] },
             { name: "bind", types:[ Token ] },
-            { name: "value", types:[ Type, Unparsable, undefined ] },
+            { name: "value", types:[ Type, undefined ] },
             { name: "close", types:[ Token ] },
         ];
     }

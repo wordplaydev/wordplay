@@ -1,4 +1,3 @@
-import type Node from "../nodes/Node";
 import UnparsableView from "./UnparsableView.svelte";
 import BlockView from "./BlockView.svelte";
 import BorrowView from "./BorrowView.svelte";
@@ -55,7 +54,6 @@ import CellView from "./CellView.svelte";
 import FunctionTypeView from "./FunctionTypeView.svelte";
 import ThisView from "./ThisView.svelte";
 import UnknownNodeView from "./UnknownNodeView.svelte";
-
 import InsertView from "./InsertView.svelte";
 import DeleteView from "./DeleteView.svelte";
 import UpdateView from "./UpdateView.svelte";
@@ -63,6 +61,10 @@ import SelectView from "./SelectView.svelte";
 import TokenView from "./TokenView.svelte";
 import ProgramView from "./ProgramView.svelte";
 import TypeInputView from "./TypeInputView.svelte";
+import UnparsableTypeView from "./UnparsableTypeView.svelte";
+import DimensionView from "./DimensionView.svelte";
+
+import type Node from "../nodes/Node";
 import Program from "../nodes/Program";
 import Token from "../nodes/Token";
 import Unparsable from "../nodes/Unparsable";
@@ -124,9 +126,9 @@ import TypePlaceholder from "../nodes/TypePlaceholder";
 import Is from "../nodes/Is";
 import This from "../nodes/This";
 import Dimension from "../nodes/Dimension";
-import DimensionView from "./DimensionView.svelte";
 import Names from "../nodes/Names";
 import Docs from "../nodes/Docs";
+import UnparsableType from "../nodes/UnparsableType";
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Program, ProgramView);
@@ -205,6 +207,7 @@ nodeToView.set(Select, SelectView);
 nodeToView.set(Reaction, ReactionView);
 nodeToView.set(Previous, PreviousView);
 nodeToView.set(StreamType, StreamTypeView);
+nodeToView.set(UnparsableType, UnparsableTypeView);
 
 nodeToView.set(UnionType, UnionTypeView);
 nodeToView.set(TypePlaceholder, TypePlaceholderView);

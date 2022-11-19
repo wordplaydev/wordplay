@@ -5,7 +5,6 @@ import Token from "./Token";
 import type Node from "./Node";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import Unparsable from "./Unparsable";
 import { TYPE_SYMBOL } from "../parser/Tokenizer";
 import NeverType from "./NeverType";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
@@ -20,9 +19,9 @@ export default class UnionType extends Type {
 
     readonly left: Type;
     readonly or: Token;
-    readonly right: Type | Unparsable;
+    readonly right: Type;
 
-    constructor(left: Type, right: Type | Unparsable, or?: Token) {
+    constructor(left: Type, right: Type, or?: Token) {
         super();
 
         this.left = left;
@@ -37,7 +36,7 @@ export default class UnionType extends Type {
         return [
             { name: "left", types:[ Type ] },
             { name: "or", types:[ Token ] },
-            { name: "right", types:[ Type, Unparsable ] },
+            { name: "right", types:[ Type ] },
         ];
     }
 
@@ -62,7 +61,7 @@ export default class UnionType extends Type {
 
         // A union type accepts a type if it's right or left accepts the type.
         return type instanceof UnionType ?
-            (this.containsType(type.left, context) && (type.right instanceof Unparsable || this.containsType(type.right, context))) :
+            (this.containsType(type.left, context) || this.containsType(type.right, context)) :
             this.containsType(type, context);
     }
 
@@ -90,7 +89,7 @@ export default class UnionType extends Type {
         // Return the union of the left and right type sets.
         return (this.left instanceof UnionType ? this.left.getTypes(context) : new TypeSet([ this.left ], context))
             .union(
-                this.right instanceof UnionType ? this.right.getTypes(context) : new TypeSet(this.right instanceof Unparsable ? [] : [ this.right ], context),
+                this.right instanceof UnionType ? this.right.getTypes(context) : new TypeSet([ this.right ], context),
                 context
             );
     }

@@ -4,7 +4,6 @@ import Expression from "./Expression";
 import Type from "./Type";
 import type Node from "./Node";
 import UnknownType from "./UnknownType";
-import Unparsable from "./Unparsable";
 import Token from "./Token";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
@@ -13,7 +12,6 @@ import Evaluation from "../runtime/Evaluation";
 import type Context from "./Context";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
-import SemanticException from "../runtime/SemanticException";
 import FunctionException from "../runtime/FunctionException";
 import Exception from "../runtime/Exception";
 import ConversionDefinition from "./ConversionDefinition";
@@ -34,9 +32,9 @@ export default class Convert extends Expression {
     
     readonly expression: Expression;
     readonly convert: Token;
-    readonly type: Type | Unparsable;
+    readonly type: Type;
 
-    constructor(expression: Expression, type: Type | Unparsable, convert?: Token) {
+    constructor(expression: Expression, type: Type, convert?: Token) {
         super();
 
         this.expression = expression;
@@ -51,7 +49,7 @@ export default class Convert extends Expression {
         return [
             { name: "expression", types:[ Expression ] },
             { name: "convert", types:[ Token ] },
-            { name: "type", types:[ Type, Unparsable ] },
+            { name: "type", types:[ Type ] },
         ];
     }
 
@@ -67,8 +65,6 @@ export default class Convert extends Expression {
 
         // What's the input type?
         const inputType = this.expression.getTypeUnlessCycle(context);
-
-        if(this.type instanceof Unparsable) return undefined;
 
         // Find all the type's conversions
         const typeConversions = inputType.getAllConversions(context);
@@ -90,7 +86,7 @@ export default class Convert extends Expression {
         // If we know the expression's type, there must be a corresponding conversion on that type.
         const exprType = this.expression.getTypeUnlessCycle(context);
         const conversionPath = this.getConversionSequence(context);
-        if(!(exprType instanceof UnknownType) && this.type instanceof Type && !this.type.accepts(exprType, context) && (conversionPath === undefined || conversionPath.length === 0))
+        if(!(exprType instanceof UnknownType) && !this.type.accepts(exprType, context) && (conversionPath === undefined || conversionPath.length === 0))
             return [ new UnknownConversion(this, this.type) ];
         
         return [];
@@ -105,14 +101,11 @@ export default class Convert extends Expression {
         const conversions = this.getConversionSequence(context);
         if(conversions === undefined || conversions.length === 0) return new UnknownType(this);
         const lastConversion = conversions[conversions.length - 1];
-        return lastConversion.output instanceof Unparsable ? new UnknownType(lastConversion.output) : lastConversion.output; 
+        return lastConversion.output; 
 
     }
 
     compile(context: Context): Step[] {
-
-        // If there's no type, then halt.
-        if(this.type instanceof Unparsable) return [ new Halt(evaluator => new SemanticException(evaluator, this.type), this) ];
 
         // If the type of value is already the type of the requested conversion, then just leave the value on the stack and do nothing.
         // Otherwise, identify the series of conversions that will achieve the right output type.

@@ -3,7 +3,6 @@ import Type from "./Type";
 import type Node from "./Node";
 import Bind from "../nodes/Bind";
 import type Context from "./Context";
-import Unparsable from "./Unparsable";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import { TABLE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
@@ -14,9 +13,9 @@ import { TRANSLATE } from "./Translations"
 export default class TableType extends Type {
     
     readonly columns: ColumnType[];
-    readonly close: Token | Unparsable;
+    readonly close: Token;
 
-    constructor(columns: ColumnType[], close?: Token | Unparsable) {
+    constructor(columns: ColumnType[], close?: Token) {
         super();
 
         this.columns = columns;
@@ -29,7 +28,7 @@ export default class TableType extends Type {
     getGrammar() { 
         return [
             { name: "columns", types:[[ ColumnType ]] },
-            { name: "close", types:[ Type, Unparsable ] },
+            { name: "close", types:[ Type ] },
         ];
     }
 

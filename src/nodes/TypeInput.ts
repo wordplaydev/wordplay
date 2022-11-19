@@ -8,14 +8,13 @@ import { TRANSLATE } from "./Translations"
 import Type from "./Type";
 import TypePlaceholder from "./TypePlaceholder";
 import TypeToken from "./TypeToken";
-import Unparsable from "./Unparsable";
 
 export default class TypeInput extends Node {
 
     readonly dot: Token;
-    readonly type: Type | Unparsable;
+    readonly type: Type;
 
-    constructor(type: Type | Unparsable, dot?: Token) {
+    constructor(type: Type, dot?: Token) {
         super();
 
         this.dot = dot ?? new TypeToken();
@@ -28,7 +27,7 @@ export default class TypeInput extends Node {
     getGrammar() { 
         return [
             { name: "dot", types:[ Token ] },
-            { name: "type", types:[ Type, Unparsable ] },
+            { name: "type", types:[ Type ] },
         ];
     }
 

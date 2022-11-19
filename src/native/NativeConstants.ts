@@ -2,6 +2,7 @@ import type Translations from "../nodes/Translations";
 
 export const VALUE_SYMBOL = "◇";
 
+export const UNPARSABLE_NATIVE_TYPE_NAME = "unparsable_type";
 export const ANY_NATIVE_TYPE_NAME = "any";
 export const NEVER_NATIVE_TYPE_NAME = "never";
 export const NONE_NATIVE_TYPE_NAME = "none";
