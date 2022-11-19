@@ -4,7 +4,6 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import type Conflict from "../conflicts/Conflict";
 import { MisplacedConversion } from "../conflicts/MisplacedConversion";
-import Unparsable from "./Unparsable";
 import Block from "./Block";
 import ConversionType from "./ConversionType";
 import Type from "./Type";
@@ -34,9 +33,9 @@ export default class ConversionDefinition extends Expression {
     readonly arrow: Token;
     readonly input: Type;
     readonly output: Type;
-    readonly expression: Expression | Unparsable;
+    readonly expression: Expression;
 
-    constructor(docs: Docs | Translations, input: Type | string, output: Type | string, expression: Expression | Unparsable, convert?: Token) {
+    constructor(docs: Docs | Translations, input: Type | string, output: Type | string, expression: Expression, convert?: Token) {
         super();
 
         this.docs = docs instanceof Docs ? docs : new Docs(docs);
@@ -55,7 +54,7 @@ export default class ConversionDefinition extends Expression {
             { name: "arrow", types:[ Token ] },
             { name: "input", types:[ Type ] },
             { name: "output", types:[ Type ] },
-            { name: "expression", types:[ Expression, Unparsable ] },
+            { name: "expression", types:[ Expression ] },
         ]; 
     }
 

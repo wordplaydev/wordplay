@@ -8,7 +8,6 @@ import NonBooleanQuery from "../conflicts/NonBooleanQuery";
 import NotATable from "../conflicts/NotATable";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
-import Unparsable from "./Unparsable";
 import Reference from "./Reference";
 import TableType from "./TableType";
 import type ColumnType from "./ColumnType";
@@ -34,9 +33,9 @@ export default class Select extends Expression {
     readonly table: Expression;
     readonly select: Token;
     readonly row: Row;
-    readonly query: Expression | Unparsable;
+    readonly query: Expression;
 
-    constructor(table: Expression, select: Token, row: Row, query: Expression | Unparsable) {
+    constructor(table: Expression, select: Token, row: Row, query: Expression) {
         super();
 
         this.table = table;
@@ -53,7 +52,7 @@ export default class Select extends Expression {
             { name: "table", types:[ Expression ] },
             { name: "select", types:[ Token] },
             { name: "row", types:[ Row ] },
-            { name: "query", types:[ Expression, Unparsable ] },
+            { name: "query", types:[ Expression ] },
         ]; 
     }
 

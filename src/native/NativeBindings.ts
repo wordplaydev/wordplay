@@ -11,7 +11,6 @@ import type Evaluation from "../runtime/Evaluation";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import TypeException from "../runtime/TypeException";
 import { parseType, tokens } from "../parser/Parser";
-import Unparsable from "../nodes/Unparsable";
 import bootstrapNone from "./NoneNative";
 import bootstrapBool from "./BoolNative";
 import bootstrapText from "./TextNative";
@@ -129,8 +128,6 @@ export function createNativeConversion<ValueType extends Value>(docs: Translatio
 
     // Parse the expected type.
     const inputType = parseType(tokens(inputTypeString));
-    if(inputType instanceof Unparsable)
-        throw new Error(`Native conversion has unparsable output type: ${inputTypeString}`);
     
     return new ConversionDefinition(
         docs, inputType, outputTypeString,

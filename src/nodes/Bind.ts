@@ -4,7 +4,6 @@ import type Transform from "../transforms/Transform"
 import type Context from "./Context";
 import Token from "./Token";
 import Type from "./Type";
-import Unparsable from "./Unparsable";
 import type Conflict from "../conflicts/Conflict";
 import UnusedBind from "../conflicts/UnusedBind";
 import DuplicateBinds from "../conflicts/DuplicateBinds";
@@ -64,9 +63,9 @@ export default class Bind extends Node implements Evaluable, Named {
     readonly dot?: Token;
     readonly type?: Type;
     readonly colon?: Token;
-    readonly value?: Expression | Unparsable;
+    readonly value?: Expression;
 
-    constructor(docs: Docs | Translations | undefined, names: Names | Translations | undefined, type?: Type, value?: Expression | Unparsable, share?: Token | undefined, etc?: Token | undefined, dot?: Token, colon?: Token) {
+    constructor(docs: Docs | Translations | undefined, names: Names | Translations | undefined, type?: Type, value?: Expression, share?: Token | undefined, etc?: Token | undefined, dot?: Token, colon?: Token) {
         super();
 
         this.docs = docs instanceof Docs ? docs : new Docs(docs);
@@ -90,7 +89,7 @@ export default class Bind extends Node implements Evaluable, Named {
             { name: "dot", types:[ Token, undefined ] },
             { name: "type", types:[ Type, undefined ] },
             { name: "colon", types:[ Token, undefined ] },
-            { name: "value", types:[ Expression, Unparsable, undefined ] },
+            { name: "value", types:[ Expression, undefined ] },
         ]; 
     }
 
@@ -99,7 +98,7 @@ export default class Bind extends Node implements Evaluable, Named {
             this.replaceChild(pretty, "docs", this.docs, original, replacement), 
             this.replaceChild(pretty, "names", this.names, original, replacement), 
             this.replaceChild(pretty, "type", this.type, original, replacement), 
-            this.replaceChild<Expression|Unparsable|undefined>(pretty, "value", this.value, original, replacement),
+            this.replaceChild<Expression|undefined>(pretty, "value", this.value, original, replacement),
             this.replaceChild(pretty, "share", this.share, original, replacement), 
             this.replaceChild(pretty, "etc", this.etc, original, replacement), 
             this.replaceChild(pretty, "dot", this.dot, original, replacement),
@@ -136,7 +135,7 @@ export default class Bind extends Node implements Evaluable, Named {
             conflicts.push(new UnexpectedEtc(this));
 
         // If there's a type, the value must match.
-        if(this.type instanceof Type && this.value && this.value instanceof Expression) {
+        if(this.type !== undefined && this.value && this.value instanceof Expression) {
             const valueType = this.value.getTypeUnlessCycle(context);
             if(!this.type.accepts(valueType, context))
                 conflicts.push(new IncompatibleBind(this.type, this.value, valueType));

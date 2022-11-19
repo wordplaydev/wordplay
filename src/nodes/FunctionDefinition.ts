@@ -41,20 +41,20 @@ export default class FunctionDefinition extends Expression {
     readonly docs: Docs;
     readonly fun: Token;
     readonly names: Names;
-    readonly typeVars: (TypeVariable|Unparsable)[];
+    readonly typeVars: (TypeVariable)[];
     readonly open: Token;
     readonly inputs: (Bind|Unparsable)[];
     readonly close: Token;
     readonly dot?: Token;
     readonly output?: Type;
-    readonly expression: Expression | Unparsable | Token;
+    readonly expression: Expression | Token;
 
     constructor(
         docs: Docs | Translations | undefined, 
         names: Names | Translations | undefined, 
-        typeVars: (TypeVariable|Unparsable)[], 
+        typeVars: (TypeVariable)[], 
         inputs: (Bind|Unparsable)[], 
-        expression: Expression | Token | Unparsable, 
+        expression: Expression | Token, 
         output?: Type, 
         fun?: Token, dot?: Token, open?: Token, close?: Token) {
         super();
@@ -79,13 +79,13 @@ export default class FunctionDefinition extends Expression {
             { name: "docs", types:[ Docs ] },
             { name: "fun", types:[ Token ] },
             { name: "names", types:[ Names ] },
-            { name: "typeVars", types:[[ TypeVariable, Unparsable ]] },
+            { name: "typeVars", types:[[ TypeVariable ]] },
             { name: "open", types:[ Token ] },
             { name: "inputs", types:[[ Bind, Unparsable ]] },
             { name: "close", types:[ Token] },
             { name: "dot", types:[ Token, undefined ] },
             { name: "output", types:[ Type, undefined ] },
-            { name: "expression", types:[ Expression, Unparsable, Token ] },
+            { name: "expression", types:[ Expression, Token ] },
         ];
     }
 
@@ -102,7 +102,7 @@ export default class FunctionDefinition extends Expression {
             this.replaceChild<Names>(pretty, "names", this.names, original, replacement),
             this.replaceChild(pretty, "typeVars", this.typeVars, original, replacement), 
             this.replaceChild(pretty, "inputs", this.inputs, original, replacement), 
-            this.replaceChild<Expression|Unparsable|Token>(pretty, "expression", this.expression, original, replacement),
+            this.replaceChild<Expression|Token>(pretty, "expression", this.expression, original, replacement),
             this.replaceChild(pretty, "output", this.output, original, replacement), 
             this.replaceChild(pretty, "fun", this.fun, original, replacement), 
             this.replaceChild(pretty, "dot", this.dot, original, replacement), 
@@ -170,7 +170,7 @@ export default class FunctionDefinition extends Expression {
 
     getOutputType(context: Context) {
         return this.output instanceof Type ? this.output : 
-            !(this.expression instanceof Expression) ? new UnknownType(this.expression instanceof Unparsable ? this.expression : { placeholder: this.expression }) : 
+            !(this.expression instanceof Expression) ? new UnknownType({ placeholder: this.expression }) : 
             this.expression.getTypeUnlessCycle(context);
     }
 

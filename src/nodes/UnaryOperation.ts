@@ -4,7 +4,6 @@ import Token from "./Token";
 import type Type from "./Type";
 import type Node from "./Node";
 import UnknownType from "./UnknownType";
-import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
@@ -30,9 +29,9 @@ import getConcreteExpectedType from "./Generics";
 export default class UnaryOperation extends Expression {
 
     readonly operator: Token;
-    readonly operand: Expression | Unparsable;
+    readonly operand: Expression;
 
-    constructor(operator: Token, operand: Expression|Unparsable) {
+    constructor(operator: Token, operand: Expression) {
         super();
 
         this.operator = operator;
@@ -45,7 +44,7 @@ export default class UnaryOperation extends Expression {
     getGrammar() { 
         return [
             { name: "operator", types:[ Token ] },
-            { name: "operand", types:[ Expression, Unparsable ] },
+            { name: "operand", types:[ Expression ] },
         ]; 
     }
 
@@ -122,7 +121,7 @@ export default class UnaryOperation extends Expression {
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
 
         // We only manipulate possible types for logical negation operators.
-        if(this.operator.getText() !== NOT_SYMBOL || this.operand instanceof Unparsable) return current;
+        if(this.operator.getText() !== NOT_SYMBOL) return current;
 
         // Get the possible types of the operand.
         const possible = this.operand.evaluateTypeSet(bind, original, current, context);

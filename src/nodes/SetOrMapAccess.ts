@@ -5,7 +5,6 @@ import Token from "./Token";
 import Type from "./Type";
 import type Node from "./Node";
 import UnknownType from "./UnknownType";
-import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Set from "../runtime/Set";
@@ -34,12 +33,12 @@ import { NotASetOrMap } from "../conflicts/NotASetOrMap";
 
 export default class SetOrMapAccess extends Expression {
 
-    readonly setOrMap: Expression | Unparsable;
+    readonly setOrMap: Expression;
     readonly open: Token;
-    readonly key: Expression | Unparsable;
+    readonly key: Expression;
     readonly close: Token;
 
-    constructor(setOrMap: Expression | Unparsable, key: Expression | Unparsable, open?: Token, close?: Token) {
+    constructor(setOrMap: Expression, key: Expression, open?: Token, close?: Token) {
         super();
 
         this.setOrMap = setOrMap;
@@ -53,9 +52,9 @@ export default class SetOrMapAccess extends Expression {
 
     getGrammar() { 
         return [
-            { name: "setOrMap", types:[ Expression, Unparsable ] },
+            { name: "setOrMap", types:[ Expression ] },
             { name: "open", types:[ Token ] },
-            { name: "key", types:[ Expression, Unparsable ] },
+            { name: "key", types:[ Expression ] },
             { name: "close", types:[ Token ] },
         ];
     }
@@ -70,8 +69,6 @@ export default class SetOrMapAccess extends Expression {
     }
 
     computeConflicts(context: Context): Conflict[] { 
-    
-        if(this.setOrMap instanceof Unparsable || this.key instanceof Unparsable) return [];
 
         const setMapType = this.setOrMap.getTypeUnlessCycle(context);
         const keyType = this.key.getTypeUnlessCycle(context);
@@ -90,7 +87,6 @@ export default class SetOrMapAccess extends Expression {
 
     computeType(context: Context): Type {
         // Either a set or map type, and if so, the key or value's type.
-        if(this.setOrMap instanceof Unparsable) return new UnknownType(this.setOrMap);
         const setOrMapType = this.setOrMap.getTypeUnlessCycle(context);
         if(setOrMapType instanceof MapType && setOrMapType.value instanceof Type) return setOrMapType.value;
         else if(setOrMapType instanceof SetType) return new BooleanType();

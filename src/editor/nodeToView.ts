@@ -63,6 +63,7 @@ import ProgramView from "./ProgramView.svelte";
 import TypeInputView from "./TypeInputView.svelte";
 import UnparsableTypeView from "./UnparsableTypeView.svelte";
 import DimensionView from "./DimensionView.svelte";
+import UnparsableExpressionView from "./UnparsableExpressionView.svelte";
 
 import type Node from "../nodes/Node";
 import Program from "../nodes/Program";
@@ -129,6 +130,7 @@ import Dimension from "../nodes/Dimension";
 import Names from "../nodes/Names";
 import Docs from "../nodes/Docs";
 import UnparsableType from "../nodes/UnparsableType";
+import UnparsableExpression from "../nodes/UnparsableExpression";
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Program, ProgramView);
@@ -208,6 +210,7 @@ nodeToView.set(Reaction, ReactionView);
 nodeToView.set(Previous, PreviousView);
 nodeToView.set(StreamType, StreamTypeView);
 nodeToView.set(UnparsableType, UnparsableTypeView);
+nodeToView.set(UnparsableExpression, UnparsableExpressionView);
 
 nodeToView.set(UnionType, UnionTypeView);
 nodeToView.set(TypePlaceholder, TypePlaceholderView);

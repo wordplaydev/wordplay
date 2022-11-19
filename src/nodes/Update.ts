@@ -9,7 +9,6 @@ import ExpectedUpdateBind from "../conflicts/ExpectedUpdateBind";
 import NonBooleanQuery from "../conflicts/NonBooleanQuery";
 import NotATable from "../conflicts/NotATable";
 import type Type from "./Type";
-import Unparsable from "./Unparsable";
 import Bind from "../nodes/Bind";
 import TableType from "./TableType";
 import BooleanType from "./BooleanType";
@@ -32,9 +31,9 @@ export default class Update extends Expression {
     readonly table: Expression;
     readonly update: Token;
     readonly row: Row;
-    readonly query: Expression | Unparsable;
+    readonly query: Expression;
 
-    constructor(table: Expression, update: Token, row: Row, query: Expression | Unparsable) {
+    constructor(table: Expression, update: Token, row: Row, query: Expression) {
         super();
 
         this.table = table;
@@ -51,7 +50,7 @@ export default class Update extends Expression {
             { name: "table", types:[ Expression ] },
             { name: "update", types:[ Token ] },
             { name: "row", types:[ Row ] },
-            { name: "query", types:[ Expression, Unparsable ] },
+            { name: "query", types:[ Expression ] },
         ]; 
     }
 

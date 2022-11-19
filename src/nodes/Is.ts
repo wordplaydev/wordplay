@@ -9,7 +9,6 @@ import type Context from "./Context";
 import Token from "./Token";
 import Type from "./Type";
 import type Node from "./Node";
-import Unparsable from "./Unparsable";
 import type Bind from "./Bind";
 import Reference from "./Reference";
 import PropertyReference from "./PropertyReference";
@@ -28,11 +27,11 @@ import { TRANSLATE } from "./Translations"
 
 export default class Is extends Expression {
 
-    readonly expression: Expression | Unparsable;
+    readonly expression: Expression;
     readonly operator: Token;
     readonly type: Type;
 
-    constructor(left: Expression | Unparsable, operator: Token, right: Type, ) {
+    constructor(left: Expression, operator: Token, right: Type, ) {
         super();
 
         this.operator = operator;
@@ -45,7 +44,7 @@ export default class Is extends Expression {
 
     getGrammar() { 
         return [
-            { name: "expression", types:[ Expression, Unparsable ] },
+            { name: "expression", types:[ Expression ] },
             { name: "operator", types:[ Token ] },
             { name: "type", types:[ Type ] },
         ]; 

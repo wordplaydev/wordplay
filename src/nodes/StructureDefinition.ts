@@ -49,7 +49,7 @@ export default class StructureDefinition extends Expression {
     readonly open?: Token;
     readonly inputs: (Bind | Unparsable)[];
     readonly close?: Token;
-    readonly block?: Block | Unparsable;
+    readonly block?: Block;
 
     constructor(
         docs: Docs | Translations | undefined, 
@@ -57,7 +57,7 @@ export default class StructureDefinition extends Expression {
         interfaces: TypeInput[], 
         typeVars: (TypeVariable|Unparsable)[], 
         inputs: (Bind|Unparsable)[], 
-        block?: Block | Unparsable, 
+        block?: Block, 
         type?: Token, 
         open?: Token, 
         close?: Token) {

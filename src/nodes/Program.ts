@@ -20,22 +20,23 @@ import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
+import TokenType from "./TokenType";
 
 export default class Program extends Node implements Evaluable {
     
     readonly docs: Docs;
     readonly borrows: (Borrow | Unparsable)[];
-    readonly block: Block | Unparsable;
-    readonly end: Token | Unparsable;
+    readonly block: Block;
+    readonly end: Token;
 
-    constructor(docs: Docs, borrows: (Borrow|Unparsable)[], block: Block | Unparsable, end: Token | Unparsable) {
+    constructor(docs: Docs, borrows: (Borrow|Unparsable)[], block: Block, end?: Token) {
 
         super();
 
         this.docs = docs;
         this.borrows = borrows.slice();
         this.block = block;
-        this.end = end;
+        this.end = end ?? new Token("", TokenType.END);
         
         this.computeChildren();
 
@@ -45,8 +46,8 @@ export default class Program extends Node implements Evaluable {
         return [
             { name: "docs", types:[ Docs ] },
             { name: "borrows", types:[[ Borrow, Unparsable ]] },
-            { name: "block", types:[ Block, Unparsable ] },
-            { name: "end", types:[ Token, Unparsable ] },
+            { name: "block", types:[ Block ] },
+            { name: "end", types:[ Token ] },
         ]; 
     }
 

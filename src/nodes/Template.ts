@@ -10,7 +10,6 @@ import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import type Context from "./Context";
 import Language from "./Language";
-import Unparsable from "./Unparsable";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import Start from "../runtime/Start";
@@ -25,7 +24,7 @@ import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
-export type TemplatePart = Expression | Unparsable | Token;
+export type TemplatePart = Expression | Token;
 
 export default class Template extends Expression {
     
@@ -47,7 +46,7 @@ export default class Template extends Expression {
     getGrammar() { 
         return [
             { name: "open", types:[ Token ] },
-            { name: "expressions", types:[[ Expression, Unparsable, Token ]] },
+            { name: "expressions", types:[[ Expression, Token ]] },
             { name: "format", types:[ Language, undefined ] },
         ];
     }

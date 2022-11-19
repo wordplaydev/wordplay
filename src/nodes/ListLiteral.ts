@@ -3,7 +3,6 @@ import ListType from "./ListType";
 import Token from "./Token";
 import type Type from "./Type";
 import type Node from "./Node";
-import Unparsable from "./Unparsable";
 import List from "../runtime/List";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
@@ -22,15 +21,13 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import { withSpaces } from "./spacing";
 
-export type ListItem = Expression | Unparsable;
-
 export default class ListLiteral extends Expression {
 
     readonly open: Token;
-    readonly values: ListItem[];
+    readonly values: Expression[];
     readonly close: Token;
 
-    constructor(values: ListItem[], open?: Token, close?: Token) {
+    constructor(values: Expression[], open?: Token, close?: Token) {
         super();
 
         this.open = open ?? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN);
@@ -45,14 +42,14 @@ export default class ListLiteral extends Expression {
     getGrammar() { 
         return [
             { name: "open", types:[ Token ] },
-            { name: "values", types:[[ Expression, Unparsable ]] },
+            { name: "values", types:[[ Expression ]] },
             { name: "close", types:[ Token ] },
         ];
     }
 
     replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new ListLiteral(
-            this.replaceChild<ListItem[]>(pretty, "values", this.values, original, replacement),
+            this.replaceChild<Expression[]>(pretty, "values", this.values, original, replacement),
             this.replaceChild(pretty, "open", this.open, original, replacement),
             this.replaceChild(pretty, "close", this.close, original, replacement)
          ) as this; 
@@ -60,7 +57,7 @@ export default class ListLiteral extends Expression {
 
     getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
         // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return (this.values.includes(child as ListItem)) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth + 1)}` : "";
+        return (this.values.includes(child as Expression)) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth + 1)}` : "";
     }
 
     computeType(context: Context): Type {
@@ -98,13 +95,13 @@ export default class ListLiteral extends Expression {
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
 
-        if(this.values.includes(child as ListItem))
-            return getExpressionReplacements(context.source, this, child as ListItem, context);
+        if(this.values.includes(child as Expression))
+            return getExpressionReplacements(context.source, this, child as Expression, context);
 
     }
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined { 
 
-        const index = this.values.indexOf(child as ListItem);
+        const index = this.values.indexOf(child as Expression);
         if(index >= 0)
             return getExpressionInsertions(context.source, position, this, this.values, child, context);
         else if(child === this.close)
@@ -115,7 +112,7 @@ export default class ListLiteral extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.values.includes(child as ListItem)) return new Remove(context.source, this, child);
+        if(this.values.includes(child as Expression)) return new Remove(context.source, this, child);
     }
 
     getDescriptions(): Translations {

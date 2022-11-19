@@ -15,7 +15,6 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type Context from "./Context";
-import Unparsable from "./Unparsable";
 import Token from "./Token";
 import type { TypeSet } from "./UnionType";
 import { analyzeRow } from "./util";
@@ -24,18 +23,20 @@ import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import { TABLE_CLOSE_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
 
 export default class TableLiteral extends Expression {
     
     readonly columns: Column[];
-    readonly close: Token | Unparsable;
+    readonly close: Token;
     readonly rows: Row[];
 
-    constructor(columns: Column[], rows: Row[], close: Token | Unparsable) {
+    constructor(columns: Column[], rows: Row[], close?: Token) {
         super();
 
         this.columns = columns;
-        this.close = close;
+        this.close = close ?? new Token(TABLE_CLOSE_SYMBOL, [ TokenType.TABLE_CLOSE ]);
         this.rows = rows;
     
         this.computeChildren();
@@ -45,7 +46,7 @@ export default class TableLiteral extends Expression {
     getGrammar() { 
         return [
             { name: "columns", types:[[ Column ]] },
-            { name: "close", types:[ Token, Unparsable ] },
+            { name: "close", types:[ Token ] },
             { name: "rows", types:[[ Row ]] },
         ]; 
     }

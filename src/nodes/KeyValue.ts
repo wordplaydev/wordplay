@@ -4,7 +4,6 @@ import { getExpressionReplacements } from "../transforms/getPossibleExpressions"
 import Node from "./Node";
 import type Transform from "../transforms/Transform"
 import Token from "./Token";
-import Unparsable from "./Unparsable";
 import BindToken from "./BindToken";
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
@@ -13,11 +12,11 @@ import { TRANSLATE } from "./Translations"
 
 export default class KeyValue extends Node {
 
-    readonly key: Expression | Unparsable;
+    readonly key: Expression;
     readonly bind: Token;
-    readonly value: Expression | Unparsable;
+    readonly value: Expression;
 
-    constructor(key: Expression | Unparsable, value: Expression | Unparsable, bind?: Token) {
+    constructor(key: Expression, value: Expression, bind?: Token) {
         super();
 
         this.key = key;
@@ -30,9 +29,9 @@ export default class KeyValue extends Node {
 
     getGrammar() { 
         return [
-            { name: "key", types:[ Expression, Unparsable ] },
+            { name: "key", types:[ Expression ] },
             { name: "bind", types:[ Token ] },
-            { name: "value", types:[ Expression, Unparsable ] },
+            { name: "value", types:[ Expression ] },
         ];
     }
 

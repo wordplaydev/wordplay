@@ -57,8 +57,8 @@ import Is from "../nodes/Is";
 import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
 import TypePlaceholder from "../nodes/TypePlaceholder";
 import Previous from "../nodes/Previous";
-import MapLiteral, { type MapItem } from "../nodes/MapLiteral";
-import SetLiteral, { type SetItem } from "../nodes/SetLiteral";
+import MapLiteral from "../nodes/MapLiteral";
+import SetLiteral from "../nodes/SetLiteral";
 import MapType from "../nodes/MapType";
 import SetType from "../nodes/SetType";
 import TypeInput from "../nodes/TypeInput";
@@ -68,6 +68,7 @@ import Dimension from "../nodes/Dimension";
 import Docs from "../nodes/Docs";
 import Names from "../nodes/Names";
 import UnparsableType from "../nodes/UnparsableType";
+import UnparsableExpression from "../nodes/UnparsableExpression";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -279,9 +280,7 @@ export function parseProgram(tokens: Tokens): Program {
 
     // If the next token is the end, we're done! Otherwise, read all of the remaining 
     // tokens and bundle them into an unparsable.
-    const end = tokens.nextIs(TokenType.END) ? 
-        tokens.read(TokenType.END) :
-        tokens.readUnparsableLine(SyntacticConflict.EXPECTED_END, []);
+    const end = tokens.nextIs(TokenType.END) ? tokens.read(TokenType.END) : undefined;
 
     return new Program(docs, borrows, block, end);
 
@@ -303,7 +302,7 @@ export function parseBorrow(tokens: Tokens): Borrow | Unparsable {
 }
 
 /** BLOCK :: DOCS ? ( [BIND|EXPRESSION]+ )  */
-export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean=false): Block | Unparsable {
+export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean=false): Block {
 
    // Grab any documentation if this isn't a root.
     let docs = root ? undefined : parseDocumentation(tokens);
@@ -312,7 +311,7 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
         undefined :
         tokens.nextIs(TokenType.EVAL_OPEN) ? 
             tokens.read(TokenType.EVAL_OPEN) :
-            tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN, []);
+            undefined;
 
     const statements = [];
     while(tokens.nextIsnt(TokenType.END) && (root || tokens.nextIsnt(TokenType.EVAL_CLOSE)))
@@ -325,7 +324,7 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
         undefined :
         tokens.nextIs(TokenType.EVAL_CLOSE) ? 
             tokens.read(TokenType.EVAL_CLOSE) :
-            tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, []);
+            undefined;
 
     return new Block(statements, root, creator, open, close, docs);
 
@@ -340,7 +339,7 @@ function nextIsBind(tokens: Tokens, requireValue=false): boolean {
     const expression = parseExpression(tokens);
     tokens.unreadTo(rollbackToken);
     const bindUnparsableCount = bind.nodes(n => n instanceof Unparsable).length;
-    const expressionUnparsableCount = expression.nodes(n => n instanceof Unparsable).length;
+    const expressionUnparsableCount = expression.nodes(n => n instanceof UnparsableExpression).length;
     return bind instanceof Bind && (bind.dot !== undefined || bind.colon !== undefined) && bindUnparsableCount <= expressionUnparsableCount && (requireValue === false || bind.value !== undefined);
 
 }
@@ -351,7 +350,7 @@ function nextIsConversion(tokens: Tokens): boolean {
     if(rollbackToken === undefined) return false;
     const conversion = parseConversion(tokens);
     tokens.unreadTo(rollbackToken);
-    return conversion instanceof ConversionDefinition && conversion.nodes().find(n => n instanceof Unparsable) === undefined;
+    return conversion instanceof ConversionDefinition && conversion.nodes().find(n => n instanceof UnparsableExpression) === undefined;
 
 }
 
@@ -411,12 +410,12 @@ export function parseLanguage(tokens: Tokens): Language {
 }
 
 /** EXPRESSION :: BINARY_OPERATION [ conditional EXPRESSION EXPRESSION ]? */
-export function parseExpression(tokens: Tokens): Expression | Unparsable {
+export function parseExpression(tokens: Tokens): Expression {
 
     const left = parseBinaryOperation(tokens);
 
     // Is it conditional statement?
-    if(!(left instanceof Unparsable) && tokens.nextIs(TokenType.CONDITIONAL)) {
+    if(tokens.nextIs(TokenType.CONDITIONAL)) {
         const conditional = tokens.read(TokenType.CONDITIONAL);
         const yes = parseExpression(tokens);
         const no = parseExpression(tokens);
@@ -427,7 +426,7 @@ export function parseExpression(tokens: Tokens): Expression | Unparsable {
 }
 
 /** BINARY_OPERATION :: ATOMIC_EXPRESSION [ binary_op ATOMIC_EXPRESSION ]* */
-export function parseBinaryOperation(tokens: Tokens): Expression | Unparsable {
+export function parseBinaryOperation(tokens: Tokens): Expression {
 
     let left = parseAtomicExpression(tokens);
 
@@ -458,10 +457,10 @@ export function parseBinaryOperation(tokens: Tokens): Expression | Unparsable {
  *   CONVERSION |
  *   STREAM |
  */
-function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
+function parseAtomicExpression(tokens: Tokens): Expression {
 
     // All expressions must start with one of the following
-    let left: Expression | Unparsable = (
+    let left: Expression = (
         // This
         tokens.nextIs(TokenType.THIS) ? new This(tokens.read(TokenType.THIS)) :
         // Placeholder
@@ -494,12 +493,12 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
         tokens.nextAreDocsThen(TokenType.FUNCTION) ? parseFunction(tokens) :
         // Unary expressions!
         tokens.nextIs(TokenType.UNARY_OP) ? new UnaryOperation(tokens.read(TokenType.UNARY_OP), parseAtomicExpression(tokens)) :
-        // Anything that doesn't is unparsable.
-        tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EXPRESSION, [])
+        // Unknown expression
+        new UnparsableExpression(tokens.readLine())
     );
 
     // But wait! Is it one or more accessors? Slurp them up.
-    while(!(left instanceof Unparsable)) {
+    while(true) {
         if(tokens.nextIs(TokenType.ACCESS))
             left = parseAccess(left, tokens);
         else if(tokens.nextIs(TokenType.LIST_OPEN) && tokens.nextLacksPrecedingSpace())
@@ -529,7 +528,7 @@ function parseAtomicExpression(tokens: Tokens): Expression | Unparsable {
 }
 
 /** NONE :: ! ALIASES */
-function parseNone(tokens: Tokens): NoneLiteral | Unparsable {
+function parseNone(tokens: Tokens): NoneLiteral {
 
     const error = tokens.read(TokenType.NONE);
     return new NoneLiteral(error);
@@ -589,10 +588,10 @@ function parseText(tokens: Tokens): TextLiteral {
 }
 
 /** TEMPLATE :: text_open ( EXPRESSION text_between )* EXPRESSION text_close name? */
-function parseTemplate(tokens: Tokens): Template | Unparsable {
+function parseTemplate(tokens: Tokens): Template {
 
     const open = tokens.read(TokenType.TEXT_OPEN);
-    const expressions: (Expression | Unparsable | Token)[] = [];
+    const expressions: (Expression | Token)[] = [];
 
     do {
         expressions.push(parseExpression(tokens));
@@ -614,33 +613,28 @@ function parseTemplate(tokens: Tokens): Template | Unparsable {
 }
 
 /** LIST :: [ EXPRESSION* ] */
-function parseList(tokens: Tokens): ListLiteral | Unparsable {
+function parseList(tokens: Tokens): ListLiteral {
 
     let open = tokens.read(TokenType.LIST_OPEN);
-    let values: (Expression|Unparsable)[] = [];
+    let values: Expression[] = [];
     let close;
 
     while(tokens.nextIsnt(TokenType.LIST_CLOSE))
         values.push(parseExpression(tokens));
 
-    if(tokens.nextIs(TokenType.LIST_CLOSE))
-        close = tokens.read(TokenType.LIST_CLOSE);
-    else
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_LIST_CLOSE, [ open, values ]);
+    close = tokens.nextIs(TokenType.LIST_CLOSE) ? tokens.read(TokenType.LIST_CLOSE) : undefined;
 
     return new ListLiteral(values, open, close);
 
 }
 
 /** LIST_ACCESS :: EXPRESSION ([ EXPRESSION ])+ */
-function parseListAccess(left: Expression | Unparsable, tokens: Tokens): Expression | Unparsable {
+function parseListAccess(left: Expression, tokens: Tokens): Expression {
     do {
 
         const open = tokens.read(TokenType.LIST_OPEN);
         const index = parseExpression(tokens);
-        if(tokens.nextIsnt(TokenType.LIST_CLOSE))
-            return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_LIST_CLOSE, [ left, open, index ]);
-        const close = tokens.read(TokenType.LIST_CLOSE);
+        const close = tokens.nextIs(TokenType.LIST_CLOSE) ? tokens.read(TokenType.LIST_CLOSE) : undefined;
 
         left = new ListAccess(left, index, open, close);
 
@@ -655,7 +649,7 @@ function parseListAccess(left: Expression | Unparsable, tokens: Tokens): Express
 }
 
 /** SET :: { EXPRESSION* } | { (EXPRESSION:EXPRESSION)* } | {:} */
-function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral | Unparsable {
+function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
 
     let open = tokens.read(TokenType.SET_OPEN);
     const values: (Expression|KeyValue|Unparsable)[] = [];
@@ -676,25 +670,23 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral | Unparsable {
         else values.push(key);
     }
 
-    const close = tokens.nextIs(TokenType.SET_CLOSE) ? tokens.read(TokenType.SET_CLOSE) : tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE, []);
+    const close = tokens.nextIs(TokenType.SET_CLOSE) ? tokens.read(TokenType.SET_CLOSE) : undefined;
 
     // Make a map
     return values.find(v => v instanceof KeyValue) !== undefined ? 
-        new MapLiteral(values as MapItem[], open, undefined, close) :
-        new SetLiteral(values as SetItem[], open, close);
+        new MapLiteral(values as KeyValue[], open, undefined, close) :
+        new SetLiteral(values as Expression[], open, close);
 
 }
 
 /** SET_ACCESS :: EXPRESSION ([ EXPRESSION ])+ */
-function parseSetOrMapAccess(left: Expression | Unparsable, tokens: Tokens): Expression | Unparsable {
+function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression {
     do {
 
         const open = tokens.read(TokenType.SET_OPEN);
         const key = parseExpression(tokens);
 
-        if(tokens.nextIsnt(TokenType.SET_CLOSE))
-            return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_SET_CLOSE, [ left, open, key ]);
-        const close = tokens.read(TokenType.SET_CLOSE);
+        const close = tokens.nextIs(TokenType.SET_CLOSE) ? tokens.read(TokenType.SET_CLOSE) : undefined;
 
         left = new SetOrMapAccess(left, key, open, close);
 
@@ -709,7 +701,7 @@ function parseSetOrMapAccess(left: Expression | Unparsable, tokens: Tokens): Exp
 }
 
 /** PREVIOUS :: EXPRESSION @ EXPRESSION */
-function parsePrevious(stream: Expression, tokens: Tokens): Previous | Unparsable {
+function parsePrevious(stream: Expression, tokens: Tokens): Previous {
 
     const previous = tokens.read(TokenType.PREVIOUS);
     const index = parseExpression(tokens);
@@ -729,8 +721,7 @@ function parseTable(tokens: Tokens): TableLiteral {
     }
 
     // Read the table close.
-    const close = tokens.nextIs(TokenType.TABLE_CLOSE) ? 
-        tokens.read(TokenType.TABLE_CLOSE) : tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TABLE_CLOSE, []);    
+    const close = tokens.nextIs(TokenType.TABLE_CLOSE) ? tokens.read(TokenType.TABLE_CLOSE) : undefined;
 
     // Read the rows.
     const rows = [];
@@ -753,9 +744,7 @@ function parseRow(tokens: Tokens): Row {
     }
 
     // Read the closing row marker.
-    const close = tokens.nextIs(TokenType.TABLE_CLOSE) ?
-        tokens.read(TokenType.TABLE_CLOSE) : 
-        new Unparsable(SyntacticConflict.EXPECTED_TABLE_CLOSE, [], []);
+    const close = tokens.nextIs(TokenType.TABLE_CLOSE) ? tokens.read(TokenType.TABLE_CLOSE) : undefined;
     
     return new Row(cells, close);
 
@@ -812,11 +801,12 @@ function parseReaction(initial: Expression, tokens: Tokens): Reaction {
 }
 
 /** FUNCTION :: DOCS? (ƒ | ALIASES) TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
-function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
+function parseFunction(tokens: Tokens): FunctionDefinition | UnparsableExpression {
 
     const docs = parseDocumentation(tokens);
 
-    if(tokens.nextIsnt(TokenType.FUNCTION)) return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_FUNCTION, [ docs ]);
+    if(tokens.nextIsnt(TokenType.FUNCTION)) 
+        return new UnparsableExpression([ docs ]);
 
     const fun = tokens.read(TokenType.FUNCTION);
 
@@ -825,16 +815,14 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
     const typeVars = parseTypeVariables(tokens);
 
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN, [ docs, fun, names, typeVars ]);
+        return new UnparsableExpression([ docs, fun, ...(names ? [names] : []), ...typeVars ]);
     const open = tokens.read(TokenType.EVAL_OPEN);
 
     const inputs: (Bind|Unparsable)[] = [];
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
         inputs.push(parseBind(tokens));
 
-    if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ docs, fun, names, typeVars, open, inputs ]);
-    const close = tokens.read(TokenType.EVAL_CLOSE);
+    const close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;
 
     let dot;
     let output;
@@ -850,7 +838,7 @@ function parseFunction(tokens: Tokens): FunctionDefinition | Unparsable {
 }
 
 /** EVAL :: EXPRESSION (∘TYPE)* (EXPRESSION*) */
-function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate | Unparsable {
+function parseEvaluate(left: Expression, tokens: Tokens): Evaluate | UnparsableExpression {
 
     const typeInputs: TypeInput[] = [];
 
@@ -861,7 +849,7 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
     }
     
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_OPEN, [ left, typeInputs ]);
+        return new UnparsableExpression([ left, ...typeInputs ]);
 
     const open = tokens.read(TokenType.EVAL_OPEN);
     const inputs: (Bind|Expression|Unparsable)[] = [];
@@ -878,12 +866,12 @@ function parseEvaluate(left: Expression | Unparsable, tokens: Tokens): Evaluate 
 }
 
 /** CONVERSION :: DOCS? TYPE → TYPE EXPRESSION */
-function parseConversion(tokens: Tokens): ConversionDefinition | Unparsable {
+function parseConversion(tokens: Tokens): ConversionDefinition | UnparsableExpression {
 
     const docs = parseDocumentation(tokens);
     const input = parseType(tokens, true);
     if(!tokens.nextIs(TokenType.CONVERT))
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_CONVERT, [ docs, input ]);
+        return new UnparsableExpression([ docs, input ]);
     const convert = tokens.read(TokenType.CONVERT);
     const output = parseType(tokens, true);
     const expression = parseExpression(tokens);
@@ -903,7 +891,7 @@ function parseConvert(expression: Expression, tokens: Tokens): Convert {
 }
 
 /** TYPE_VARS :: (∘NAME)* */
-function parseTypeVariables(tokens: Tokens): (TypeVariable|Unparsable)[] {
+function parseTypeVariables(tokens: Tokens): (TypeVariable)[] {
 
     const vars = [];
     while(tokens.nextIs(TokenType.TYPE_VAR)) {
@@ -916,7 +904,7 @@ function parseTypeVariables(tokens: Tokens): (TypeVariable|Unparsable)[] {
 }
 
 /** ACCESS :: EXPRESSION (.NAME)+ */
-function parseAccess(left: Expression | Unparsable, tokens: Tokens): Expression | Unparsable {
+function parseAccess(left: Expression, tokens: Tokens): Expression {
     if(!tokens.nextIs(TokenType.ACCESS))
         return left;
     do {
@@ -961,7 +949,7 @@ export function parseType(tokens: Tokens, isExpression:boolean=false): Type {
     if(!isExpression && tokens.nextIs(TokenType.CONVERT))
         left = parseConversionType(left, tokens);
 
-    while(!(left instanceof Unparsable) && tokens.nextIs(TokenType.UNION)) {
+    while(tokens.nextIs(TokenType.UNION)) {
         const or = tokens.read(TokenType.UNION);
         left = new UnionType(left, parseType(tokens), or);
     }
@@ -1077,23 +1065,19 @@ function parseConversionType(left: Type, tokens: Tokens): ConversionType {
 }
 
 /** CUSTOM_TYPE :: DOCS? • ALIASES (•NAME)* TYPE_VARS ( BIND* ) BLOCK? */
-export function parseStructure(tokens: Tokens): StructureDefinition | Unparsable {
+export function parseStructure(tokens: Tokens): StructureDefinition {
 
     const docs = parseDocumentation(tokens);
 
-    if(tokens.nextIsnt(TokenType.TYPE)) return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_TYPE, [ docs ]);
-
-    const type = tokens.read(TokenType.TYPE);
+    const type = tokens.nextIs(TokenType.TYPE) ? tokens.read(TokenType.TYPE) : undefined;
 
     const aliases = parseNames(tokens);
 
     const interfaces: TypeInput[] = [];
     while(tokens.nextIs(TokenType.TYPE)) {
         const dot = tokens.read(TokenType.TYPE);
-        if(tokens.nextIsnt(TokenType.NAME))
-            return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_STRUCTURE_NAME, [ docs, type, aliases, dot ]);
-        const name = tokens.read(TokenType.NAME);
-        interfaces.push(new TypeInput(new NameType(name), dot));
+        const name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : undefined;
+        interfaces.push(new TypeInput(name ? new NameType(name) : new UnparsableType([]), dot));
     }
 
     const typeVars = parseTypeVariables(tokens);
@@ -1105,9 +1089,7 @@ export function parseStructure(tokens: Tokens): StructureDefinition | Unparsable
         open = tokens.read(TokenType.EVAL_OPEN);
         while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && (nextIsBind(tokens, false) || tokens.nextIs(TokenType.NAME)))
             inputs.push(parseBind(tokens));
-        if(tokens.nextIsnt(TokenType.EVAL_CLOSE))
-            return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_EVAL_CLOSE, [ docs, type, aliases, interfaces, typeVars, open, inputs  ]);
-        close = tokens.read(TokenType.EVAL_CLOSE);
+        close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;
     }
 
     const block = tokens.nextAreDocsThen(TokenType.EVAL_OPEN) ? parseBlock(tokens, false, true) : undefined;

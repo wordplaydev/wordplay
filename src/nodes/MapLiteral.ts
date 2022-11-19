@@ -3,8 +3,6 @@ import KeyValue from "./KeyValue";
 import Token from "./Token";
 import type Type from "./Type";
 import type Node from "./Node";
-import UnknownType from "./UnknownType";
-import Unparsable from "./Unparsable";
 import type Conflict from "../conflicts/Conflict";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
@@ -29,16 +27,14 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import { withSpaces } from "./spacing";
 
-export type MapItem = Unparsable | KeyValue;
-
 export default class MapLiteral extends Expression {
 
     readonly open: Token;
-    readonly values: MapItem[];
-    readonly close: Token | Unparsable;
+    readonly values: KeyValue[];
+    readonly close: Token;
     readonly bind?: Token;
 
-    constructor(values: MapItem[], open?: Token, bind?: Token, close?: Token | Unparsable) {
+    constructor(values: KeyValue[], open?: Token, bind?: Token, close?: Token) {
         super();
 
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
@@ -53,7 +49,7 @@ export default class MapLiteral extends Expression {
     getGrammar() { 
         return [
             { name: "open", types:[ Token ] },
-            { name: "values", types:[[ KeyValue, Unparsable ]] },
+            { name: "values", types:[[ KeyValue ]] },
             { name: "close", types:[ Token ] },
             { name: "bind", types:[ Token, undefined ] },
         ];
@@ -61,7 +57,7 @@ export default class MapLiteral extends Expression {
 
     replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new MapLiteral(
-            this.replaceChild<MapItem[]>(pretty, "values", this.values, original, replacement),
+            this.replaceChild<KeyValue[]>(pretty, "values", this.values, original, replacement),
             this.replaceChild(pretty, "open", this.open, original, replacement), 
             this.replaceChild(pretty, "bind", this.bind, original, replacement),
             this.replaceChild(pretty, "close", this.close, original, replacement)
@@ -70,7 +66,7 @@ export default class MapLiteral extends Expression {
 
     getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
         // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return (this.values.includes(child as MapItem)) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth + 1)}` : "";
+        return (this.values.includes(child as KeyValue)) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth + 1)}` : "";
     }
 
     notAMap() { return this.values.find(v => v instanceof Expression) !== undefined; }
@@ -82,8 +78,8 @@ export default class MapLiteral extends Expression {
     }
 
     computeType(context: Context): Type {
-        let keyType = getPossibleUnionType(context, this.values.map(v => v instanceof Unparsable ? new UnknownType(v) : v.key.getTypeUnlessCycle(context)));
-        let valueType = getPossibleUnionType(context, this.values.map(v => v instanceof Unparsable ? new UnknownType(v) : v.value.getTypeUnlessCycle(context)));
+        let keyType = getPossibleUnionType(context, this.values.map(v => v.key.getTypeUnlessCycle(context)));
+        let valueType = getPossibleUnionType(context, this.values.map(v => v.value.getTypeUnlessCycle(context)));
         if(keyType === undefined) keyType = new AnyType();
         else if(valueType === undefined) valueType = new AnyType();
         
@@ -100,7 +96,7 @@ export default class MapLiteral extends Expression {
                 ...this.values.reduce(
                     (steps: Step[], item) => [
                         ...steps, 
-                        ...( item instanceof Unparsable ? item.compile() : [...(item as KeyValue).key.compile(context), ...(item as KeyValue).value.compile(context)])
+                        ...[...(item as KeyValue).key.compile(context), ...(item as KeyValue).value.compile(context)]
                     ], []),
                 // Then build the set or map.
                 new Finish(this)
@@ -131,7 +127,7 @@ export default class MapLiteral extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.values.includes(child as MapItem)) return new Remove(context.source, this, child);
+        if(this.values.includes(child as KeyValue)) return new Remove(context.source, this, child);
     }
 
     getDescriptions(): Translations {

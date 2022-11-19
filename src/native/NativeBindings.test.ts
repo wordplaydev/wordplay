@@ -13,6 +13,8 @@ import StructureDefinition from "../nodes/StructureDefinition";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import { SupportedLanguages } from "../nodes/LanguageCode";
 import Bind from "../nodes/Bind";
+import UnparsableType from "../nodes/UnparsableType";
+import UnparsableExpression from "../nodes/UnparsableExpression";
 
 const source = new Source("native", "");
 const context = new Context(source, source.program, undefined);
@@ -21,7 +23,7 @@ const shares = new Shares(new Evaluator(source));
 function checkNativeNodes(nodes: Node[]) {
 
     // Check for syntax errors
-    const unparsables = nodes.reduce((unparsables: Unparsable[], def) => [ ... unparsables, ...(def.nodes(n => n instanceof Unparsable) as Unparsable[])], []);
+    const unparsables = nodes.reduce((unparsables: (Unparsable|UnparsableExpression|UnparsableType)[], def) => [ ... unparsables, ...(def.nodes(n => n instanceof Unparsable || n instanceof UnparsableExpression || n instanceof UnparsableType) as Unparsable[])], []);
 
     if(unparsables.length > 0)
         for(const unparsable of unparsables)

@@ -40,13 +40,13 @@ import type Definition from "./Definition";
 
 export default class PropertyReference extends Expression {
 
-    readonly structure: Expression | Unparsable;
+    readonly structure: Expression;
     readonly dot: Token;
     readonly name?: Token;
 
     _unionType: Type | undefined;
 
-    constructor(subject: Expression | Unparsable, name?: Token, dot?: Token) {
+    constructor(subject: Expression, name?: Token, dot?: Token) {
         super();
 
         this.structure = subject;
@@ -59,7 +59,7 @@ export default class PropertyReference extends Expression {
 
     getGrammar() { 
         return [
-            { name: "structure", types:[ Expression, Unparsable ] },
+            { name: "structure", types:[ Expression ] },
             { name: "dot", types:[ Token ] },
             { name: "name", types:[ Token, undefined ] },
         ];
@@ -96,20 +96,14 @@ export default class PropertyReference extends Expression {
     }
 
     getSubjectType(context: Context): Type | undefined {
-
-        if(this.structure instanceof Unparsable) return;
         return this.structure.getTypeUnlessCycle(context);
-
     }
 
     computeType(context: Context): Type {
-        if(this.structure instanceof Unparsable) return new UnknownType(this.structure);
         let subjectType = this.structure.getTypeUnlessCycle(context);
         if(subjectType === undefined) return new UnknownType(this);
 
         if(subjectType instanceof StreamType) {
-            if(subjectType.type instanceof Unparsable)
-                return new UnknownType(subjectType.type);
             subjectType = subjectType.type;
         }
 

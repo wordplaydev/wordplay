@@ -55,13 +55,13 @@ type InputType = Unparsable | Bind | Expression;
 
 export default class Evaluate extends Expression {
 
-    readonly func: Expression | Unparsable;
+    readonly func: Expression;
     readonly typeInputs: TypeInput[];
     readonly open: Token;
     readonly inputs: InputType[];
     readonly close?: Token;
 
-    constructor(func: Expression | Unparsable, inputs: InputType[], typeInputs?: TypeInput[], open?: Token, close?: Token) {
+    constructor(func: Expression, inputs: InputType[], typeInputs?: TypeInput[], open?: Token, close?: Token) {
         super();
 
         this.typeInputs = typeInputs ?? [];
@@ -77,10 +77,10 @@ export default class Evaluate extends Expression {
 
     getGrammar() { 
         return [
-            { name: "func", types:[ Expression, Unparsable ] },
+            { name: "func", types:[ Expression ] },
             { name: "typeInputs", types:[[ TypeInput ]] },
             { name: "open", types:[ Token ] },
-            { name: "inputs", types:[[ Unparsable, Bind, Expression ]] },
+            { name: "inputs", types:[[ Bind, Expression ]] },
             { name: "close", types:[ Token, undefined ] },
         ];
     }
@@ -106,8 +106,6 @@ export default class Evaluate extends Expression {
     
         const conflicts = [];
 
-        if(this.func instanceof Unparsable) return [];
-
         // Get the function this evaluate is trying to... evaluate.
         const fun = this.getFunction(context);
 
@@ -123,9 +121,6 @@ export default class Evaluate extends Expression {
             if(abstractFunctions.length > 0)
                 return [ new NotInstantiable(this, fun, abstractFunctions) ];
         }
-
-        // If any of the this evaluate's inputs are unparsable, don't bother blabbing about conflicts.
-        if(!this.inputs.every(i => !(i instanceof Unparsable))) return [];
 
         // Verify that all of the inputs provided are valid.
         const candidateInputs = fun.inputs;
@@ -272,7 +267,7 @@ export default class Evaluate extends Expression {
         // to a value of the structure's type.
         else if(fun instanceof StructureDefinition) return new StructureType(fun);
         // Otherwise, who knows.
-        else return new UnknownType(this.func instanceof Unparsable ? this.func : { definition: this, name: this.func });
+        else return new UnknownType({ definition: this, name: this.func });
 
     }
 

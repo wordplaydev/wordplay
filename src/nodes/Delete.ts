@@ -5,7 +5,6 @@ import type Conflict from "../conflicts/Conflict";
 import NonBooleanQuery from "../conflicts/NonBooleanQuery";
 import NotATable from "../conflicts/NotATable";
 import type Type from "./Type";
-import Unparsable from "./Unparsable";
 import BooleanType from "./BooleanType";
 import TableType from "./TableType";
 import Bind from "../nodes/Bind";
@@ -27,10 +26,10 @@ export default class Delete extends Expression {
     
     readonly table: Expression;
     readonly del: Token;
-    readonly query: Expression | Unparsable;
+    readonly query: Expression;
 
 
-    constructor(table: Expression, del: Token, query: Expression | Unparsable) {
+    constructor(table: Expression, del: Token, query: Expression) {
         super();
 
         this.table = table;
@@ -45,7 +44,7 @@ export default class Delete extends Expression {
         return [
             { name: "table", types:[ Expression ] },
             { name: "del", types:[ Token ] },
-            { name: "query", types:[ Expression, Unparsable ] },
+            { name: "query", types:[ Expression ] },
         ];
     }
 

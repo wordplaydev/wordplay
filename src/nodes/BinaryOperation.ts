@@ -3,7 +3,6 @@ import Expression from "./Expression";
 import Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
-import Unparsable from "./Unparsable";
 import type Evaluator from "src/runtime/Evaluator";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
@@ -37,11 +36,11 @@ import getConcreteExpectedType from "./Generics";
 
 export default class BinaryOperation extends Expression {
 
-    readonly left: Expression | Unparsable;
+    readonly left: Expression;
     readonly operator: Token;
-    readonly right: Expression | Unparsable;
+    readonly right: Expression;
 
-    constructor(operator: Token | string, left: Expression | Unparsable, right: Expression | Unparsable) {
+    constructor(operator: Token | string, left: Expression, right: Expression) {
         super();
 
         this.operator = operator instanceof Token ? operator : new Token(operator, TokenType.BINARY_OP);
@@ -54,9 +53,9 @@ export default class BinaryOperation extends Expression {
 
     getGrammar() { 
         return [
-            { name: "left", types:[ Expression, Unparsable ] },
+            { name: "left", types:[ Expression ] },
             { name: "operator", types:[ Token ] },
-            { name: "right", types:[ Expression, Unparsable ] }
+            { name: "right", types:[ Expression ] }
         ]; 
     }
 
@@ -64,7 +63,7 @@ export default class BinaryOperation extends Expression {
         return new BinaryOperation(
             this.replaceChild<Token>(pretty, "operator", this.operator, original, replacement), 
             this.replaceChild(pretty, "left", this.left, original, replacement), 
-            this.replaceChild<Expression|Unparsable>(pretty, "right", this.right, original, replacement)
+            this.replaceChild<Expression>(pretty, "right", this.right, original, replacement)
         ) as this; 
     }
 
@@ -203,21 +202,21 @@ export default class BinaryOperation extends Expression {
         // If conjunction, then we compute the intersection of the left and right's possible types.
         // Note that we pass the left's possible types because we don't evaluate the right if the left isn't true.
         if(this.operator.getText() === AND_SYMBOL) {
-            const left = this.left instanceof Unparsable ? current : this.left.evaluateTypeSet(bind, original, current, context);
-            const right = this.right instanceof Unparsable ? current : this.right.evaluateTypeSet(bind, original, left, context);
+            const left = this.left.evaluateTypeSet(bind, original, current, context);
+            const right = this.right.evaluateTypeSet(bind, original, left, context);
             return left.intersection(right, context);
         }
         // If disjunction of type checks, then we return the union.
         // Note that we pass the left's possible types because we don't evaluate the right if the left is true.
         else if(this.operator.getText() === OR_SYMBOL) {
-            const left = this.left instanceof Unparsable ? current : this.left.evaluateTypeSet(bind, original, current, context);
-            const right = this.right instanceof Unparsable ? current : this.right.evaluateTypeSet(bind, original, left, context);
+            const left = this.left.evaluateTypeSet(bind, original, current, context);
+            const right = this.right.evaluateTypeSet(bind, original, left, context);
             return left.union(right, context);
         }
         // Otherwise, just pass the types down and return the original types.
         else {
-            if(!(this.left instanceof Unparsable)) this.left.evaluateTypeSet(bind, original, current, context);
-            if(!(this.right instanceof Unparsable)) this.right.evaluateTypeSet(bind, original, current, context);
+            this.left.evaluateTypeSet(bind, original, current, context);
+            this.right.evaluateTypeSet(bind, original, current, context);
             return current;
         }
     

@@ -5,7 +5,6 @@ import Token from "./Token";
 import type Type from "./Type";
 import type Node from "./Node";
 import UnknownType from "./UnknownType";
-import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Measurement from "../runtime/Measurement";
@@ -33,11 +32,11 @@ import { TRANSLATE } from "./Translations"
 
 export default class Previous extends Expression {
 
-    readonly stream: Expression | Unparsable;
+    readonly stream: Expression;
     readonly previous: Token;
-    readonly index: Expression | Unparsable;
+    readonly index: Expression;
 
-    constructor(stream: Expression | Unparsable, index: Expression | Unparsable, previous?: Token) {
+    constructor(stream: Expression, index: Expression, previous?: Token) {
         super();
 
         this.stream = stream;
@@ -50,9 +49,9 @@ export default class Previous extends Expression {
 
     getGrammar() { 
         return [
-            { name: "stream", types:[ Expression, Unparsable ] },
+            { name: "stream", types:[ Expression ] },
             { name: "previous", types:[ Token ] },
-            { name: "index", types:[ Expression, Unparsable ] },
+            { name: "index", types:[ Expression ] },
         ];
     }
 
@@ -65,8 +64,6 @@ export default class Previous extends Expression {
     }
 
     computeConflicts(context: Context): Conflict[] { 
-    
-        if(this.stream instanceof Unparsable || this.index instanceof Unparsable) return [];
 
         const streamType = this.stream.getTypeUnlessCycle(context);
 
@@ -83,8 +80,8 @@ export default class Previous extends Expression {
 
     computeType(context: Context): Type {
         // The type is the stream's type.
-        const streamType = this.stream instanceof Unparsable ? new UnknownType(this.stream) : this.stream.getTypeUnlessCycle(context);
-        return streamType instanceof StreamType && !(streamType.type instanceof Unparsable) ? streamType.type : new UnknownType(this);
+        const streamType = this.stream.getTypeUnlessCycle(context);
+        return streamType instanceof StreamType ? streamType.type : new UnknownType(this);
     }
 
     compile(context: Context): Step[] {

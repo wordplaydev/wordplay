@@ -88,11 +88,6 @@ test("Parse block", () => {
     expect(documented).toBeInstanceOf(Block);
     expect((documented as Block).docs.docs).toHaveLength(1);
 
-    const bad = parse("(\nhi");
-    expect(bad.block).toBeInstanceOf(Block);
-    expect(((bad.block as Block).statements[0] as Block).statements).toHaveLength(1);
-    expect(((bad.block as Block).statements[0] as Block).close).toBeInstanceOf(Unparsable);
-
 })
 
 test("Parse binds", () => {

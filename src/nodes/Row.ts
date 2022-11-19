@@ -1,23 +1,24 @@
 import Node from "./Node";
 import Cell from "./Cell";
-import Unparsable from "./Unparsable";
 import Token from "./Token";
 import Bind from "./Bind";
 import Expression from "./Expression";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import { TABLE_CLOSE_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
 
 export default class Row extends Node {
 
     readonly cells: Cell[];
-    readonly close: Token | Unparsable;
+    readonly close: Token;
 
-    constructor(cells: Cell[], close: Token | Unparsable) {
+    constructor(cells: Cell[], close?: Token) {
 
         super();
 
         this.cells = cells;
-        this.close = close;
+        this.close = close ?? new Token(TABLE_CLOSE_SYMBOL, [ TokenType.TABLE_CLOSE ]);
         
         this.computeChildren();
 
@@ -26,7 +27,7 @@ export default class Row extends Node {
     getGrammar() { 
         return [
             { name: "cells", types:[[ Cell ]] },
-            { name: "close", types:[ Token, Unparsable ] },
+            { name: "close", types:[ Token ] },
         ]; 
     }
 

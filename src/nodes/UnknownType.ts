@@ -24,9 +24,11 @@ import Type from "./Type";
 import type TypePlaceholder from "./TypePlaceholder";
 import type UnaryOperation from "./UnaryOperation";
 import type Unparsable from "./Unparsable";
+import type UnparsableExpression from "./UnparsableExpression";
 
 export type UnknownTypeReason = 
     Unparsable |        // Couldn't parse something
+    UnparsableExpression | // Couldn't parse something
     Bind |              // Couldn't infer type of name
     Block |             // Block didn't have an expression
     Convert |           // Conversion didn't exist

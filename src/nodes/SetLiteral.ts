@@ -2,7 +2,6 @@ import Expression from "./Expression";
 import Token from "./Token";
 import type Type from "./Type";
 import type Node from "./Node";
-import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Set from "../runtime/Set";
@@ -23,15 +22,13 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import { withSpaces } from "./spacing";
 
-export type SetItem = Expression | Unparsable;
-
 export default class SetLiteral extends Expression {
 
     readonly open: Token;
-    readonly values: SetItem[];
-    readonly close: Token | Unparsable;
+    readonly values: Expression[];
+    readonly close: Token;
 
-    constructor(values: SetItem[], open?: Token, close?: Token | Unparsable) {
+    constructor(values: Expression[], open?: Token, close?: Token) {
         super();
 
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
@@ -45,14 +42,14 @@ export default class SetLiteral extends Expression {
     getGrammar() { 
         return [
             { name: "open", types:[ Token ] },
-            { name: "values", types:[[ Expression, Unparsable ]] },
-            { name: "close", types:[ Token, Unparsable ] },
+            { name: "values", types:[[ Expression ]] },
+            { name: "close", types:[ Token ] },
         ];
     }
 
     replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new SetLiteral(
-            this.replaceChild<SetItem[]>(pretty, "values", this.values, original, replacement),
+            this.replaceChild<Expression[]>(pretty, "values", this.values, original, replacement),
             this.replaceChild(pretty, "open", this.open, original, replacement), 
             this.replaceChild(pretty, "close", this.close, original, replacement)
         ) as this; 
@@ -60,13 +57,13 @@ export default class SetLiteral extends Expression {
 
     getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
         // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return (this.values.includes(child as SetItem)) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth + 1)}` : "";
+        return (this.values.includes(child as Expression)) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth + 1)}` : "";
     }
 
     computeConflicts() {}
 
     computeType(context: Context): Type {
-        let type = getPossibleUnionType(context, this.values.map(v => (v as Expression | Unparsable).getTypeUnlessCycle(context)));
+        let type = getPossibleUnionType(context, this.values.map(v => (v as Expression).getTypeUnlessCycle(context)));
         if(type === undefined) type = new AnyType();        
         return new SetType(type);
     }
@@ -102,7 +99,7 @@ export default class SetLiteral extends Expression {
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined  {
 
-        const index = this.values.indexOf(child as SetItem);
+        const index = this.values.indexOf(child as Expression);
         if(index >= 0)
             return getExpressionReplacements(context.source, this, this.values[index], context);
 
@@ -110,7 +107,7 @@ export default class SetLiteral extends Expression {
 
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined { 
 
-        const index = this.values.indexOf(child as SetItem);
+        const index = this.values.indexOf(child as Expression);
         if(index >= 0 || child === this.close)
             return getExpressionInsertions(context.source, position, this, this.values, child, context);
     
@@ -119,7 +116,7 @@ export default class SetLiteral extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.values.includes(child as SetItem)) return new Remove(context.source, this, child);
+        if(this.values.includes(child as Expression)) return new Remove(context.source, this, child);
     }
 
     getDescriptions(): Translations {

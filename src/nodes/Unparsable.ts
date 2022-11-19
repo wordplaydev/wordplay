@@ -82,6 +82,7 @@ export default class Unparsable extends Node implements Evaluable {
             "😀": `${TRANSLATE} 🤔`
         }
     }
+
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 
     getFinishExplanations(): Translations {

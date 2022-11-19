@@ -7,7 +7,6 @@ import Expression from "./Expression";
 import Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
-import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
@@ -36,20 +35,21 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
+import type Unparsable from "./Unparsable";
 
-export type Statement = Expression | Unparsable | Bind;
+export type Statement = Expression | Bind | Unparsable;
 
 export default class Block extends Expression {
 
     readonly docs: Docs;
-    readonly open?: Token | Unparsable;
+    readonly open?: Token;
     readonly statements: Statement[];
-    readonly close?: Token | Unparsable;
+    readonly close?: Token;
 
     readonly root: boolean;
     readonly creator: boolean;
 
-    constructor(statements: Statement[], root: boolean, creator: boolean, open?: Token | Unparsable, close?: Token | Unparsable, docs?: Docs | Translations) {
+    constructor(statements: Statement[], root: boolean, creator: boolean, open?: Token, close?: Token, docs?: Docs | Translations) {
         super();
 
         this.open = !root && open === undefined ? new EvalOpenToken() : open;
@@ -66,8 +66,8 @@ export default class Block extends Expression {
     getGrammar() { 
         return [
             { name: "docs", types:[ Docs ] },
-            { name: "open", types:[ Token, Unparsable, undefined ] },
-            { name: "statements", types:[[ Expression, Unparsable, Bind ]] },
+            { name: "open", types:[ Token, undefined ] },
+            { name: "statements", types:[[ Expression, Bind ]] },
             { name: "close", types:[ Token, undefined ] },
         ];
     }

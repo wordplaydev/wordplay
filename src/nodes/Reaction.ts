@@ -5,7 +5,6 @@ import StreamType from "./StreamType";
 import Token from "./Token";
 import type Type from "./Type";
 import type Node from "./Node";
-import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
@@ -17,7 +16,6 @@ import JumpIfStreamExists from "../runtime/JumpIfStreamExists";
 import Bind from "./Bind";
 import type Context from "./Context";
 import UnionType, { TypeSet } from "./UnionType";
-import UnknownType from "./UnknownType";
 import Exception from "../runtime/Exception";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Stream from "../runtime/Stream";
@@ -34,10 +32,10 @@ export default class Reaction extends Expression {
 
     readonly initial: Expression;
     readonly delta: Token;
-    readonly stream: Expression | Unparsable;
-    readonly next: Expression | Unparsable;
+    readonly stream: Expression;
+    readonly next: Expression;
 
-    constructor(initial: Expression, stream: Expression | Unparsable, next: Expression | Unparsable, delta?: Token) {
+    constructor(initial: Expression, stream: Expression, next: Expression, delta?: Token) {
         super();
 
         this.initial = initial;
@@ -53,16 +51,16 @@ export default class Reaction extends Expression {
         return [
             { name: "initial", types:[ Expression ] },
             { name: "delta", types:[ Token ] },
-            { name: "stream", types:[ Expression, Unparsable ] },
-            { name: "next", types:[ Expression, Unparsable ] },
+            { name: "stream", types:[ Expression ] },
+            { name: "next", types:[ Expression ] },
         ]; 
     }
 
     replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Reaction(
             this.replaceChild(pretty, "initial", this.initial, original, replacement), 
-            this.replaceChild<Expression|Unparsable>(pretty, "stream", this.stream, original, replacement),
-            this.replaceChild<Expression|Unparsable>(pretty, "next", this.next, original, replacement),
+            this.replaceChild<Expression>(pretty, "stream", this.stream, original, replacement),
+            this.replaceChild<Expression>(pretty, "next", this.next, original, replacement),
             this.replaceChild<Token>(pretty, "delta", this.delta, original, replacement)
         ) as this; 
     }
@@ -82,7 +80,7 @@ export default class Reaction extends Expression {
 
     computeType(context: Context): Type {
         const initialType = this.initial.getTypeUnlessCycle(context);
-        const nextType = this.next instanceof Unparsable ? new UnknownType(this.next) : this.next.getTypeUnlessCycle(context);
+        const nextType = this.next.getTypeUnlessCycle(context);
         if(initialType.accepts(nextType, context))
             return initialType;
         else

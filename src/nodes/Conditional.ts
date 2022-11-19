@@ -5,8 +5,6 @@ import Expression from "./Expression";
 import Token from "./Token";
 import type Node from "./Node";
 import type Type from "./Type";
-import UnknownType from "./UnknownType";
-import Unparsable from "./Unparsable";
 import type Step from "../runtime/Step";
 import JumpIf from "../runtime/JumpIf";
 import Jump from "../runtime/Jump";
@@ -28,10 +26,10 @@ export default class Conditional extends Expression {
     
     readonly condition: Expression;
     readonly conditional: Token;
-    readonly yes: Expression | Unparsable;
-    readonly no: Expression | Unparsable;
+    readonly yes: Expression;
+    readonly no: Expression;
 
-    constructor(condition: Expression, yes: Expression | Unparsable, no: Expression | Unparsable, conditional?: Token) {
+    constructor(condition: Expression, yes: Expression, no: Expression, conditional?: Token) {
         super();
 
         this.condition = condition;
@@ -48,16 +46,16 @@ export default class Conditional extends Expression {
         return [
             { name: "condition", types:[ Expression ] },
             { name: "conditional", types:[ Token ] },
-            { name: "yes", types:[ Expression, Unparsable ] },
-            { name: "no", types:[ Expression, Unparsable ] },
+            { name: "yes", types:[ Expression ] },
+            { name: "no", types:[ Expression ] },
         ]; 
     }
 
     replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Conditional(
             this.replaceChild(pretty, "condition", this.condition, original, replacement), 
-            this.replaceChild<Expression|Unparsable>(pretty, "yes", this.yes, original, replacement), 
-            this.replaceChild<Expression|Unparsable>(pretty, "no", this.no, original, replacement),
+            this.replaceChild<Expression>(pretty, "yes", this.yes, original, replacement), 
+            this.replaceChild<Expression>(pretty, "no", this.no, original, replacement),
             this.replaceChild<Token>(pretty, "conditional", this.conditional, original, replacement)
         ) as this;
     }
@@ -83,24 +81,12 @@ export default class Conditional extends Expression {
 
     computeType(context: Context): Type {
         // Whatever type the yes/no returns.
-        if(this.yes instanceof Unparsable) {
-            if(this.no instanceof Unparsable)
-                return new UnknownType(this.no);
-            else 
-                return this.no.getTypeUnlessCycle(context);
-        }
-        else {
-            if(this.no instanceof Unparsable)
-                return this.yes.getTypeUnlessCycle(context);
-            else {
-                const yesType = this.yes.getTypeUnlessCycle(context);
-                const noType = this.no.getTypeUnlessCycle(context);
-                if(yesType.accepts(noType, context))
-                    return yesType;
-                else 
-                return new UnionType(yesType, noType);
-            }
-        }
+        const yesType = this.yes.getTypeUnlessCycle(context);
+        const noType = this.no.getTypeUnlessCycle(context);
+        if(yesType.accepts(noType, context))
+            return yesType;
+        else 
+            return new UnionType(yesType, noType);
     }
 
     compile(context: Context):Step[] {

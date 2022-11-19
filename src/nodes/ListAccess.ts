@@ -6,7 +6,6 @@ import MeasurementType from "./MeasurementType";
 import Token from "./Token";
 import Type from "./Type";
 import UnknownType from "./UnknownType";
-import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import List from "../runtime/List";
@@ -32,12 +31,12 @@ import { NotAList } from "../conflicts/NotAList";
 
 export default class ListAccess extends Expression {
     
-    readonly list: Expression | Unparsable;
+    readonly list: Expression;
     readonly open: Token;
-    readonly index: Expression | Unparsable;
+    readonly index: Expression;
     readonly close: Token;
 
-    constructor(list: Expression | Unparsable, index: Expression | Unparsable, open?: Token, close?: Token) {
+    constructor(list: Expression, index: Expression, open?: Token, close?: Token) {
         super();
 
         this.list = list;
@@ -51,9 +50,9 @@ export default class ListAccess extends Expression {
 
     getGrammar() { 
         return [
-            { name: "list", types:[ Expression, Unparsable ] },
+            { name: "list", types:[ Expression ] },
             { name: "open", types:[ Token ] },
-            { name: "index", types:[ Expression, Unparsable ] },
+            { name: "index", types:[ Expression ] },
             { name: "close", types:[ Token ] },
         ];
     }
@@ -68,8 +67,6 @@ export default class ListAccess extends Expression {
     }
 
     computeConflicts(context: Context): Conflict[] { 
-    
-        if(this.list instanceof Unparsable || this.index instanceof Unparsable) return [];
 
         const conflicts = [];
 
@@ -88,7 +85,6 @@ export default class ListAccess extends Expression {
 
     computeType(context: Context): Type {
         // The type is the list's value type, or unknown otherwise.
-        if(this.list instanceof Unparsable) return new UnknownType(this.list);
         const listType = this.list.getTypeUnlessCycle(context);
         if(listType instanceof ListType && listType.type instanceof Type) 
             return new UnionType(listType.type, new NoneType());

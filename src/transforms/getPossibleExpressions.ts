@@ -21,7 +21,6 @@ import Template from "../nodes/Template";
 import TextLiteral from "../nodes/TextLiteral";
 import Type from "../nodes/Type";
 import TypePlaceholder from "../nodes/TypePlaceholder";
-import type Unparsable from "../nodes/Unparsable";
 import type Node from "../nodes/Node";
 import Name from "../nodes/Name";
 import type Definition from "../nodes/Definition";
@@ -47,7 +46,7 @@ import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
 
 /** Offer possible expressions compatible with the given type, or if none was given, any possible expression */
-export default function getPossibleExpressions(parent: Node, child: Expression | Unparsable | undefined, context: Context, type: Type=new AnyType()): (Expression | Definition)[] {
+export default function getPossibleExpressions(parent: Node, child: Expression | undefined, context: Context, type: Type=new AnyType()): (Expression | Definition)[] {
 
     const project = context.source.getProject();
 
@@ -73,7 +72,7 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
     ].filter(expr => expr instanceof TypeVariable ? type instanceof AnyType : type.accepts(expr.getType(context), context))
 }
 
-export function getExpressionReplacements(source: Source, parent: Node, child: Expression | Unparsable, context: Context, type: Type=new AnyType()): Replace<Expression>[] {
+export function getExpressionReplacements(source: Source, parent: Node, child: Expression, context: Context, type: Type=new AnyType()): Replace<Expression>[] {
 
     return getPossibleExpressions(parent, child, context, type)
         .map(expr => new Replace(
