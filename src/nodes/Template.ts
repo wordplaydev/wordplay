@@ -52,12 +52,12 @@ export default class Template extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Template(
-            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
-            this.cloneOrReplaceChild(pretty, "expressions", this.expressions, original, replacement),
-            this.cloneOrReplaceChild(pretty, "format", this.format, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "open", this.open, original, replacement),
+            this.replaceChild(pretty, "expressions", this.expressions, original, replacement),
+            this.replaceChild(pretty, "format", this.format, original, replacement)
+        ) as this; 
     }
 
     computeConflicts() { return []; }

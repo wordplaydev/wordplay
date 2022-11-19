@@ -42,17 +42,17 @@ export default class TextLiteral extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new TextLiteral(
-            this.cloneOrReplaceChild(pretty, "text", this.text, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "format", this.format, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "text", this.text, original, replacement), 
+            this.replaceChild(pretty, "format", this.format, original, replacement)
+        ) as this; 
     }
 
     computeConflicts() {}
 
     computeType(): Type {
-        return new TextType(this.text.clone(false), this.format?.clone(false));
+        return new TextType(this.text, this.format);
     }
 
     compile(): Step[] {

@@ -48,14 +48,14 @@ export default class FunctionType extends Type {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new FunctionType(
-            this.cloneOrReplaceChild(pretty, "inputs", this.inputs, original, replacement),
-            this.cloneOrReplaceChild(pretty, "output", this.output, original, replacement),
-            this.cloneOrReplaceChild(pretty, "fun", this.fun, original, replacement),
-            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
-            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ).label(this._label) as this;
+            this.replaceChild(pretty, "inputs", this.inputs, original, replacement),
+            this.replaceChild(pretty, "output", this.output, original, replacement),
+            this.replaceChild(pretty, "fun", this.fun, original, replacement),
+            this.replaceChild(pretty, "open", this.open, original, replacement),
+            this.replaceChild(pretty, "close", this.close, original, replacement)
+        ) as this;
     }
 
     accepts(type: Type, context: Context): boolean {

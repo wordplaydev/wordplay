@@ -60,13 +60,13 @@ export default class SetOrMapAccess extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new SetOrMapAccess(
-            this.cloneOrReplaceChild(pretty, "setOrMap", this.setOrMap, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "key", this.key, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
-            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "setOrMap", this.setOrMap, original, replacement), 
+            this.replaceChild(pretty, "key", this.key, original, replacement), 
+            this.replaceChild(pretty, "open", this.open, original, replacement),
+            this.replaceChild(pretty, "close", this.close, original, replacement)
+        ) as this; 
     }
 
     computeConflicts(context: Context): Conflict[] { 

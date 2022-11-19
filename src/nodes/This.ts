@@ -43,31 +43,31 @@ export default class This extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
-        return new This(this.cloneOrReplaceChild(pretty, "dis", this.dis, original, replacement)).label(this._label) as this; 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+        return new This(this.replaceChild(pretty, "dis", this.dis, original, replacement)) as this; 
     }
 
-    getEnclosingStructure(): ThisStructure | undefined {
+    getEnclosingStructure(context: Context): ThisStructure | undefined {
 
-        return this.getAncestors()?.find(a => 
+        return context.get(this)?.getAncestors()?.find(a => 
             a instanceof StructureDefinition || 
             a instanceof ConversionDefinition) as ThisStructure | undefined;
 
     }
 
-    computeConflicts(): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
 
         // This can only be referenced in the context of a structure or reaction.
-        if(this.getEnclosingStructure() === undefined)
+        if(this.getEnclosingStructure(context) === undefined)
             return [ new MisplacedThis(this) ];
 
         return [];
     }
 
-    computeType(): Type { 
+    computeType(context: Context): Type { 
     
         // The type of this is the structure definition in which this is evaluating.
-        const structure = this.getEnclosingStructure();
+        const structure = this.getEnclosingStructure(context);
         return structure === undefined ? new UnknownType(this) : 
             structure instanceof StructureDefinition ? new StructureType(structure) :
             // We strip the unit from this in order to provide a scalar for conversion.

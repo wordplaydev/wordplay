@@ -58,13 +58,13 @@ export default class Reaction extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Reaction(
-            this.cloneOrReplaceChild(pretty, "initial", this.initial, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "stream", this.stream, original, replacement),
-            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "next", this.next, original, replacement),
-            this.cloneOrReplaceChild<Token>(pretty, "delta", this.delta, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "initial", this.initial, original, replacement), 
+            this.replaceChild<Expression|Unparsable>(pretty, "stream", this.stream, original, replacement),
+            this.replaceChild<Expression|Unparsable>(pretty, "next", this.next, original, replacement),
+            this.replaceChild<Token>(pretty, "delta", this.delta, original, replacement)
+        ) as this; 
     }
 
     computeConflicts(context: Context): Conflict[] { 
@@ -86,7 +86,7 @@ export default class Reaction extends Expression {
         if(initialType.accepts(nextType, context))
             return initialType;
         else
-            return new UnionType(initialType.clone(false), nextType.clone(false));
+            return new UnionType(initialType, nextType);
     }
 
     compile(context: Context): Step[] {
@@ -106,7 +106,7 @@ export default class Reaction extends Expression {
                 if(latest) {
                     // If this reaction is bound, bind the latest value to the bind's names
                     // so we can access the previous value.
-                    const bind = this.getNearestAncestor<Bind>(Bind);
+                    const bind = context.get(this)?.getNearestAncestor<Bind>(Bind);
                     if(bind !== undefined)
                         bind.getNames().forEach(name => evaluator.bind(name, latest))
                 }

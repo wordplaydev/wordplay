@@ -263,7 +263,7 @@
 
                 // If there's preferred space after the explicit space, and we're on the last line of explicit space, include it.
                 if(explicitSpace.length - spaceIndex === 0)
-                    spaceOnLastLine += token.getAdditionalSpace();
+                    spaceOnLastLine += token.getAdditionalSpace($caret.source.get(token)?.getPreferredPrecedingSpace() ?? "");
 
                 // Compute the spaces prior to the caret on this line.
                 spaces = spaceOnLastLine.split(" ").length - 1;

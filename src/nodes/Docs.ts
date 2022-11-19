@@ -26,10 +26,10 @@ export default class Docs extends Node {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Docs(
-            this.cloneOrReplaceChild<Doc[]>(pretty, "docs", this.docs, original, replacement), 
-        ).label(this._label) as this; 
+            this.replaceChild<Doc[]>(pretty, "docs", this.docs, original, replacement), 
+        ) as this;
     }
 
     computeConflicts() {

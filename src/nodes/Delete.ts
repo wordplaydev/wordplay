@@ -49,12 +49,12 @@ export default class Delete extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Delete(
-            this.cloneOrReplaceChild(pretty, "table", this.table, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "del", this.del, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "query", this.query, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "table", this.table, original, replacement), 
+            this.replaceChild(pretty, "del", this.del, original, replacement), 
+            this.replaceChild(pretty, "query", this.query, original, replacement)
+        ) as this; 
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query; }

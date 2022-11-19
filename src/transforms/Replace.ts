@@ -22,7 +22,7 @@ export default class Replace<NodeType extends Node> extends Transform {
 
     getEdit(lang: LanguageCode[]): Edit {
         
-        const parent = this.node.getParent();
+        const parent = this.source.get(this.node)?.getParent();
         if(parent === undefined || parent === null) return;
 
         // Get the space prior to the current node.
@@ -36,22 +36,12 @@ export default class Replace<NodeType extends Node> extends Transform {
         // Get or create the replacement with the original node's space.
         const replacement = this.getPrettyNewNode(lang).withPrecedingSpace(space, true);
 
-        // Get a path to the node we're replacing, so we can find it's replacement and position the cursor.
-        const path = this.node.getPath();
-
         // Replace the child in the parent, pretty printing it, then clone the program with the new parent, and create a new source from it.
-        const newParent = parent.clone(true, this.node, replacement);
-        const newSource = this.source.withProgram(this.source.program.clone(false, parent, newParent));
+        const newParent = parent.replace(true, this.node, replacement);
+        const newSource = this.source.withProgram(this.source.program.replace(false, parent, newParent));
 
-        // Find the replacement child and it's last index.
-        const newChild = newSource.program.resolvePath(path);
-        if(newChild === undefined) return;
-        let newCaretPosition: Node | number | undefined = newSource.getNodeLastPosition(newChild);
+        let newCaretPosition = replacement.getFirstPlaceholder() ?? newSource.getNodeLastPosition(replacement);
         if(newCaretPosition === undefined) return;
-
-        // Does the new child have a placeholder token? If so, place the caret at that instead of the end.
-        const firstPlaceholder = newChild.getFirstPlaceholder();
-        if(firstPlaceholder) newCaretPosition = firstPlaceholder;
 
         // Return the new source and place the caret after the replacement.
         return [ newSource, new Caret(newSource, newCaretPosition ?? position) ];

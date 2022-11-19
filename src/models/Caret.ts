@@ -121,7 +121,7 @@ export default class Caret {
             const firstToken = this.source.getFirstToken(node);
             if(firstToken === undefined || !this.source.tokenSpaceContains(firstToken, this.position))
                 break;
-            const parent = node.getParent();
+            const parent: Node | undefined = this.source.get(node)?.getParent();
             if(parent)
                 pairs.before.push(node);
             node = parent;
@@ -131,7 +131,7 @@ export default class Caret {
         if(tokenBefore !== undefined) {
             let node: Node | undefined | null = tokenBefore;
             while(node instanceof Node) {
-                const parent = node.getParent();
+                const parent: Node | undefined = this.source.get(node)?.getParent();
                 const nodesTokens = node.nodes(t => t instanceof Token);
                 if(parent && nodesTokens.length > 0 && nodesTokens[nodesTokens.length - 1] === tokenBefore)
                     pairs.after.push(node);
@@ -294,14 +294,14 @@ export default class Caret {
         // If it's a node, see if there's a removal transform.
         else {
 
-            const removal = this.position.getParent()?.getChildRemoval(this.position, this.source.getContext());
+            const removal = this.source.get(this.position)?.getParent()?.getChildRemoval(this.position, this.source.getContext());
             if(removal) return removal.getEdit(["eng"]);
             else {
                 // Delete the text between the first and last token and replace it with a placeholder.
                 const range = this.getRange(this.position);
                 if(range === undefined) return; 
-                const newProject = this.source.withoutGraphemesBetween(range[0], range[1]);
-                return newProject === undefined ? undefined : [ newProject , new Caret(newProject, range[0]) ];
+                const newSource = this.source.withoutGraphemesBetween(range[0], range[1]);
+                return newSource === undefined ? undefined : [ newSource , new Caret(newSource, range[0]) ];
             }
         }
     }

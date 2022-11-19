@@ -8,8 +8,8 @@
     import type Project from "../models/Project";
     import Palette from "./Palette.svelte";
     import SourceView from "./SourceView.svelte";
-    import type Node from "../nodes/Node";
     import NodeView from "../editor/NodeView.svelte";
+    import type Tree from "../nodes/Tree";
 
     export let project: Project;
 
@@ -22,7 +22,7 @@
     }
 
     // Create a global context for a node being dragged
-    let dragged = writable<Node | undefined>(undefined);
+    let dragged = writable<Tree | undefined>(undefined);
     setContext<DraggedContext>(DraggedSymbol, dragged);
 
     // Create a global context for the project
@@ -38,7 +38,7 @@
 <div 
     class="project" 
     on:mouseup={() => dragged.set(undefined)}
-    on:mousemove={event => { mouseX = event.clientX + window.scrollX; mouseY = event.clientY + window.scrollY; }}
+    on:mousemove={event => { if($dragged) { mouseX = event.clientX + window.scrollX; mouseY = event.clientY + window.scrollY; } }}
 >
     <Palette/>
     <div class="windows">
@@ -49,7 +49,7 @@
     </div>
     <!-- Render the dragged node over the whole project -->
     {#if $dragged !== undefined}
-        <div class="draggable" style="left: {mouseX}px; top:{mouseY}px;"><NodeView node={$dragged}/><div class="cursor">🐲</div></div>
+        <div class="draggable" style="left: {mouseX}px; top:{mouseY}px;"><NodeView node={$dragged.node}/><div class="cursor">🐲</div></div>
     {/if}
 </div>
 

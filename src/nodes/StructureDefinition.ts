@@ -92,18 +92,18 @@ export default class StructureDefinition extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) {
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) {
         return new StructureDefinition(
-            this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement),
-            this.cloneOrReplaceChild(pretty, "names", this.names, original, replacement),
-            this.cloneOrReplaceChild(pretty, "interfaces", this.interfaces, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "typeVars", this.typeVars, original, replacement),
-            this.cloneOrReplaceChild(pretty, "inputs", this.inputs, original, replacement),
-            this.cloneOrReplaceChild(pretty, "block", this.block, original, replacement),
-            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement),
-            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
-            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ).label(this._label) as this;
+            this.replaceChild(pretty, "docs", this.docs, original, replacement),
+            this.replaceChild(pretty, "names", this.names, original, replacement),
+            this.replaceChild(pretty, "interfaces", this.interfaces, original, replacement), 
+            this.replaceChild(pretty, "typeVars", this.typeVars, original, replacement),
+            this.replaceChild(pretty, "inputs", this.inputs, original, replacement),
+            this.replaceChild(pretty, "block", this.block, original, replacement),
+            this.replaceChild(pretty, "type", this.type, original, replacement),
+            this.replaceChild(pretty, "open", this.open, original, replacement),
+            this.replaceChild(pretty, "close", this.close, original, replacement)
+        ) as this;
     }
 
     getNames() { return this.names.getNames(); }

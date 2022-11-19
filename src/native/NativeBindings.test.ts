@@ -15,7 +15,7 @@ import { SupportedLanguages } from "../nodes/LanguageCode";
 import Bind from "../nodes/Bind";
 
 const source = new Source("native", "");
-const context = new Context(source, source.program, undefined, Native);
+const context = new Context(source, source.program, undefined);
 const shares = new Shares(new Evaluator(source));
 
 function checkNativeNodes(nodes: Node[]) {

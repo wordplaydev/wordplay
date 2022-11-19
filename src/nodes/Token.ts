@@ -55,27 +55,9 @@ export default class Token extends Node {
     getPrecedingSpace(): string { return this.space; }
 
     /** Walk the ancestors, constructing preferred preceding space. */
-    getPreferredPrecedingSpace(): string {
-        let child: Node = this;
-        let parent = this._parent;
-        let preferredSpace = "";
-        while(parent) {
-            // If the current child's first token is still this, prepend some more space.
-            if(child.getFirstLeaf() === this) {
-                // See what space the parent would prefer based on the current space in place.
-                preferredSpace = parent.getPreferredPrecedingSpace(child, this.space) + preferredSpace;
-                child = parent;
-                parent = parent.getParent();
-            }
-            // Otherwise, the child was the last parent that could influence space.
-            else break;
-        }
-        return preferredSpace;
-    }
+    getPreferredPrecedingSpace() { return ""; }
 
-    getAdditionalSpace(): string {
-
-        const preferredSpace = this.getPreferredPrecedingSpace();
+    getAdditionalSpace(preferredSpace: string): string {
 
         if(preferredSpace.length === 0) return "";
 
@@ -133,9 +115,10 @@ export default class Token extends Node {
     toString(depth: number=0){ return `${"\t".repeat(depth)}${Array.isArray(this.types) ? this.types.map(t => TokenType[t]).join('/') : TokenType[this.types]}(${this.space.length}): ${this.text.toString().replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }
     toWordplay() { return this.getPrecedingSpace() + this.text.toString(); }
     computeConflicts() {}
-    clone(pretty: boolean, original?: Node, replacement?: Node): this {
+
+    replace(pretty: boolean, original?: Node, replacement?: Node): this {
         if(original === this && replacement instanceof Token) return replacement as this;
-        else return new Token(this.text, this.types, `${this.space}${pretty ? this.getAdditionalSpace() : ""}`).label(this._label) as this; 
+        else return new Token(this.text, this.types, `${this.space}${pretty ? this.getAdditionalSpace("") : ""}`) as this; 
     }
 
     getDescriptions(): Translations {
@@ -156,8 +139,8 @@ export default class Token extends Node {
     withPrecedingSpace(space: string=" ", exact: boolean=false): this {
 
         if(exact ? this.space !== space : this.space.length === 0)
-            return this.withSpace(space).label(this._label) as this;
-        else return this.clone(false);
+            return this.withSpace(space) as this;
+        else return this;
 
     }
 

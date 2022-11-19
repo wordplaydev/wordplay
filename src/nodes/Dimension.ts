@@ -37,12 +37,12 @@ export default class Dimension extends Node {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Dimension(
-            this.cloneOrReplaceChild(pretty, "name", this.name, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "caret", this.caret, original, replacement),
-            this.cloneOrReplaceChild(pretty, "exponent", this.exponent, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "name", this.name, original, replacement), 
+            this.replaceChild(pretty, "caret", this.caret, original, replacement),
+            this.replaceChild(pretty, "exponent", this.exponent, original, replacement)
+        ) as this; 
     }
 
     getName() { return this.name.getText(); }

@@ -7,7 +7,6 @@ import type Translations from "./Translations";
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
 
-export type Path = [ string, number ][];
 export type NodeType = (undefined | Function | Function[]);
 export type Field = { name: string, types: NodeType[] }
 
@@ -19,14 +18,8 @@ export default abstract class Node {
     /* A cache of the children of this node, in parse order. */
     _children: undefined | Node[] = undefined;
 
-    /* A cache of this node's parent. Undefined means no cache, null means no parent. */
-    _parent: undefined | Node = undefined;
-
     /** A cache of conflicts on this node. Undefined means no cache. */
     _conflicts: undefined | Conflict[] = undefined;
-
-    /** A temporary label useful for editing, as every edit clones. It persists across cloning until erased. */
-    _label: string | undefined = undefined;
 
     constructor() {
         this.id = NODE_ID_COUNTER++;
@@ -36,21 +29,6 @@ export default abstract class Node {
      * A list of fields that represent this node's sequence of nodes and the types of nodes allowed on each field.
      */
     abstract getGrammar(): Field[];
-
-    /**
-     * Remove all labels from this node and all of its descendants.
-     */
-    unlabelAll() { this.nodes().forEach(node => node._label = undefined); }
-
-    /**
-     * Add a label to this node
-     */
-    label(label: string | undefined) { this._label = label; return this; }
-
-    /**
-     * Retrieve a node with the given label.
-     */
-    findNodeWithLabel(label: string) { return this.nodes().find(node => node._label === label); }
 
     /**
      * A list of names that determine this node's children. Can't extract these through reflection, so they must be manually supplied 
@@ -81,15 +59,6 @@ export default abstract class Node {
                 children.push(field);
         }
 
-        // Claim each child
-        for(const child of children) {
-            if(child._parent !== undefined) {
-                console.error(`${child.constructor.name} already has parent of type ${child._parent.constructor.name} ${child._parent.id}, but setting to ${this.constructor.name} ${this.id}. Clone before setting.`);
-                console.trace();
-            }
-            child._parent = this;
-        }
-
         // Assign the children.
         this._children = children;
 
@@ -111,7 +80,7 @@ export default abstract class Node {
         let current: Node | undefined = this;
         while(current !== undefined) {
             definitions = [ ...current.getDefinitions(node, context), ...definitions ];
-            current = current.getBindingEnclosureOf();
+            current = context.get(current)?.getBindingScope();
         }
 
         definitions = [ ...context.shares?.getDefinitions() ?? [], ...definitions ];
@@ -128,7 +97,7 @@ export default abstract class Node {
         while(current !== undefined) {
             const def = current.getDefinitions(node, context).find(def => def.hasName(name));
             if(def !== undefined) return def;
-            current = current.getBindingEnclosureOf();
+            current = context.get(current)?.getBindingScope();
         }
 
         // Check the defaults.
@@ -147,7 +116,7 @@ export default abstract class Node {
             const definition = current.getDefinitionOfName(name, context, node);
             if(definition !== undefined)
                 definitions.unshift(definition);
-            current = current.getBindingEnclosureOf();
+            current = context.get(current)?.getBindingScope();
         }
         return definitions;
 
@@ -172,13 +141,6 @@ export default abstract class Node {
             return true;
         });
         return conflicts;
-    }
-
-    /** Get the binding enclosure of this node by recursively asking ancestors if they are binding enclosures of the given node. */
-    getBindingEnclosureOf(): Node | undefined {
-        return this._parent instanceof Node ?
-            (this._parent.isBindingEnclosureOfChild(this) ? this._parent : this._parent.getBindingEnclosureOf()) :
-            undefined;
     }
 
     /** True if the given node is a child of this node and this node should act as a binding enclosure of it. */
@@ -224,81 +186,18 @@ export default abstract class Node {
 
     }
 
-    /** Returns a list of ancestors, with the parent as the first item in the list and the root as the last. */
-    getAncestors(): Node[] {
-
-        const ancestors = [];
-        let parent = this._parent;
-        while(parent) {
-            ancestors.push(parent);
-            parent = parent._parent;
-        }
-        return ancestors;
-
-    }
-
-    /** Finds the nearest ancestor of the given type. */
-    getNearestAncestor<T extends Node>(type: Function): T | undefined {
-        return this.getAncestors()?.find(n => n instanceof type) as T ?? undefined;
-    }
-
-    /** Returns the cached parent of the given node, set by computeChildren after each node is constructed. */
-    getParent(): Node | undefined {
-        return this._parent;
-    }
-
-    /** Returns the root of this node. */
-    getRoot(): Node {
-        return this._parent ? this._parent.getRoot() : this;
-    }
-
-    /** 
-     * Recursively constructs a path to this node from it's parents. A path is just a sequence of node constructor and child index pairs. 
-     * The node constructor name is for printing and error checking and the number is just the index of the child from getChildren().
-     * This is useful for finding corresponding nodes during tree manipulation, where a lot of cloning and reformatting happens.
-    */
-    getPath(): Path {
-
-        let parent = this.getParent();
-        if(parent) return [ ... parent.getPath(), [ parent.constructor.name, parent.getChildren().indexOf(this), ] ]
-        else return [];
-
-    }
-
-    /**
-     * Attempts to recursively resolve a path by traversing children.
-     */
-    resolvePath(path: Path): Node | undefined {
-
-        if(path.length === 0) return this;
-
-        const [ type, index ] = path[0];
-
-        // If the type of node doesn't match, this path doesn't resolve.
-        return  this.constructor.name !== type ? undefined :
-                // Otherwise, ask the corresponding child to continue resolving the path, unless there isn't one,
-                // in which case the path doesn't resolve.
-                this.getChildren()[index]?.resolvePath(path.slice(1));
-        
-    }
-
     /** True if the given nodes appears in this tree. */
-    contains(node: Node) {
+    contains(node: Node): boolean {
 
-        // Strategy: scan the given node's ancestors to see if this is one.
-        let parent: undefined | null | Node = node;
-        while(parent !== null && parent !== undefined) {
-            if(parent === this) return true;
-            parent = parent._parent;
-        }
-        return false;
+        // Search for this node.
+        return this === node || this.getChildren().some(child => child.contains(node));
 
     }
 
     /** Creates a deep clone of this node and it's descendants. If it encounters replacement along the way, it uses that instead of the existing node. */
-    abstract clone(pretty: boolean, original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
+    abstract replace(pretty: boolean, original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
 
-    cloneOrReplaceChild<ExpectedTypes>(pretty: boolean, field: keyof this, child: Node | Node[] | undefined, original: Node | string | undefined, replacement: Node | undefined): ExpectedTypes {
+    replaceChild<ExpectedTypes>(pretty: boolean, field: keyof this, child: Node | Node[] | undefined, original: Node | string | undefined, replacement: Node | undefined): ExpectedTypes {
 
         function allowedToString(allowedTypes: (Function | Function[] | undefined)[]) {
             return `[${allowedTypes.map(type => type instanceof Function ? type.name : Array.isArray(type) ? type.map(type => type.name) : "undefined").join(", ")}]`;
@@ -341,8 +240,8 @@ export default abstract class Node {
                     else 
                         newList[index] = replacement;
 
-                    // Clone everything in the list except for the replacement to ensure that the tree is fresh
-                    return newList.map(child => child === replacement ? replacement : child.clone(false)) as ExpectedTypes;
+                    // Replace the item in the list.
+                    return newList.map(child => child === replacement ? replacement : child) as ExpectedTypes;
 
                 }
                 else throw Error(`Somehow didn't find index of original in child. This shouldn't be possibe.`);
@@ -351,11 +250,11 @@ export default abstract class Node {
             else return replacement as ExpectedTypes;
         }
 
-        // If it's a list, return a list of cloned list items, propagating labels
+        // If we didn't find a match above, just return the existing list or child.
         if(Array.isArray(child))
-            return child.map(n => n.clone(pretty, original, replacement)) as ExpectedTypes
-        else       
-            return child?.clone(pretty, original, replacement) as ExpectedTypes;
+            return child.map(n => original !== undefined && (typeof original === "string" || n.contains(original)) ? n.replace(pretty, original, replacement) : n) as ExpectedTypes
+        else
+            return (child && original !== undefined && (typeof original === "string" || child.contains(original)) ? child.replace(pretty, original, replacement) : child) as ExpectedTypes;
 
     }
 
@@ -369,7 +268,7 @@ export default abstract class Node {
         const firstLeaf = this.getFirstLeaf();
         if(firstLeaf === undefined) return this;
         // Clone this node, replacing the first leaf with one with space
-        else return this.clone(false, firstLeaf, firstLeaf.withPrecedingSpace(space, exact));
+        else return this.replace(false, firstLeaf, firstLeaf.withPrecedingSpace(space, exact));
 
     }
 
@@ -386,7 +285,7 @@ export default abstract class Node {
     }
 
     /** By default, there is no preferred space for a node. */
-    getPreferredPrecedingSpace(child: Node, space: string): string { child; space; return ""; }
+    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string { child; space; depth; return ""; }
 
     getFirstLeaf(): Node | undefined {
         if(this.isLeaf()) return this;
@@ -398,33 +297,7 @@ export default abstract class Node {
     }
 
     isLeaf() { return false; }
-    isBlock() { return false; }
-
-    getDepth() { 
-        return this.getAncestors().filter(node => node.isBlock()).length;
-    }
-
-    getContainingParentList(before?: boolean): string | undefined {
-        const parent = this.getParent();
-        if(parent === undefined) return;
-        // Loop through each of the fields and see if it contains this node or is delimited by this node.
-        // If we find a match, return the field name.
-        let previousField = undefined;
-        let previousWasList = false;
-        for(const name of parent.getChildNames()) {
-            const field = (parent as any)[name] as (Node | Node[]);
-            // If this field is an array and the field includes this node, we found it!
-            if(Array.isArray(field) && field.includes(this))
-                return name;
-            // If this field is this node and the next field is an array, we found it!
-            if(before === true && field === this && previousWasList)
-                return previousField;
-
-            // Remember the last 
-            previousField = name;
-            previousWasList = Array.isArray(field);
-        }
-    }
+    isBlockFor(_: Node) { return false; }
 
     hasField(field: string): boolean {
         return this.getChildNames().includes(field);
@@ -442,9 +315,6 @@ export default abstract class Node {
         if(field === undefined) return undefined;
         else return field.types;
     }
-
-    /** A node is in a list if it's parent says so. */
-    inList() { return this.getContainingParentList() !== undefined }
 
     getFirstPlaceholder(): Node | undefined {
         for(const child of this.getChildren()) {

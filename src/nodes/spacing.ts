@@ -1,7 +1,7 @@
 import type Node from "./Node";
 
-export function withSpaces<NodeType extends Node>(list: NodeType[], newline?: boolean) {
-    const preferredSpace = newline === true ? "\n" : " ";
+export function withSpaces<NodeType extends Node>(list: NodeType[]) {
+    const preferredSpace = " ";
     return list.map((value, index) => {
         const currentSpace = value.getPrecedingSpace() ?? "";
         return index > 0 && (currentSpace.length === 0 || currentSpace.indexOf(preferredSpace) < 0) ? 

@@ -58,10 +58,10 @@ export default class Reference extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Reference(
-            this.cloneOrReplaceChild(pretty, "name", this.name, original, replacement)
-        ).label(this._label) as this;
+            this.replaceChild(pretty, "name", this.name, original, replacement)
+        ) as this;
     }
 
     getName() { return this.name.getText(); }
@@ -83,14 +83,14 @@ export default class Reference extends Expression {
         // Is this name referred to in its bind?
         if(bindOrTypeVar instanceof Bind && bindOrTypeVar.contains(this)) {
             // Does this name have a parent that's a reaction, and is the bind a parent of that reaction?
-            const reaction = this.getAncestors()?.find(n => n instanceof Reaction);
-            const validCircularReference = reaction !== undefined && reaction.getAncestors()?.includes(bindOrTypeVar);
+            const reaction = context.get(this)?.getAncestors()?.find(n => n instanceof Reaction);
+            const validCircularReference = reaction !== undefined && context.get(reaction)?.getAncestors()?.includes(bindOrTypeVar);
             if(!validCircularReference)
                 conflicts.push(new CircularReference(this));
         }
 
         // Is there match with the other case? Warn about it.
-        const caseCollision = getCaseCollision(name, this.getBindingEnclosureOf(), context, this);
+        const caseCollision = getCaseCollision(name, context.get(this)?.getBindingScope(), context, this);
         if(caseCollision) conflicts.push(caseCollision);
 
         return conflicts;
@@ -100,7 +100,7 @@ export default class Reference extends Expression {
     getDefinition(context: Context): Definition | undefined {
 
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
-        return this.getBindingEnclosureOf()?.getDefinitionOfName(this.getName(), context, this);
+        return context.get(this)?.getBindingScope()?.getDefinitionOfName(this.getName(), context, this);
 
     }
 
@@ -120,10 +120,10 @@ export default class Reference extends Expression {
 
             // Find any conditionals with type checks that refer to the value bound to this name.
             // Reverse them so they are in furthest to nearest ancestor, so we narrow types in execution order.
-            const guards = this.getAncestors()?.filter(a => 
+            const guards = context.get(this)?.getAncestors()?.filter(a => 
                     a instanceof Conditional &&
                     a.condition.nodes(
-                        n =>    n.getParent() instanceof Is && 
+                        n =>    context.get(n)?.getParent() instanceof Is && 
                                 n instanceof Reference && definition === n.getDefinition(context)
                     )
                 ).reverse() as Conditional[];

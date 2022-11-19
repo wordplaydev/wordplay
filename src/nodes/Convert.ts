@@ -55,12 +55,12 @@ export default class Convert extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Convert(
-            this.cloneOrReplaceChild(pretty, "expression", this.expression, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement),
-            this.cloneOrReplaceChild(pretty, "convert", this.convert, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "expression", this.expression, original, replacement), 
+            this.replaceChild(pretty, "type", this.type, original, replacement),
+            this.replaceChild(pretty, "convert", this.convert, original, replacement)
+        ) as this; 
     }
 
     getConversionSequence(context: Context): ConversionDefinition[] | undefined {
@@ -75,7 +75,7 @@ export default class Convert extends Expression {
 
         // Find all the conversions in enclosing blocks.
         const scopeConversions = 
-            (this.getAncestors()?.filter(a => a instanceof Block) as Block[])
+            (context.get(this)?.getAncestors()?.filter(a => a instanceof Block) as Block[])
                 .reduce((list: ConversionDefinition[], block) => 
                     [...list, ...(block.statements.filter(s => s instanceof ConversionDefinition) as ConversionDefinition[])], [])
              ?? [];

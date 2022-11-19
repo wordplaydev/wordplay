@@ -41,12 +41,12 @@ export default class UnionType extends Type {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new UnionType(
-            this.cloneOrReplaceChild(pretty, "left", this.left, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "right", this.right, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "or", this.or, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "left", this.left, original, replacement), 
+            this.replaceChild(pretty, "right", this.right, original, replacement), 
+            this.replaceChild(pretty, "or", this.or, original, replacement)
+        ) as this; 
     }
 
     accepts(type: Type, context: Context): boolean {
@@ -136,7 +136,7 @@ export function getPossibleUnionType(context: Context, types: Type[]): Type | un
     const uniqueTypes: Type[] = [];
     types.forEach(type => {
         if(uniqueTypes.length === 0 || uniqueTypes.every(t => !t.accepts(type, context)))
-            uniqueTypes.push(type.clone(false));
+            uniqueTypes.push(type);
     })
 
     // If there's just one, return it.
@@ -208,11 +208,11 @@ export class TypeSet {
         let next = types.shift();
         let union = undefined;
         if(cur !== undefined && next !== undefined)
-            union = new UnionType(cur.clone(false), next.clone(false));
+            union = new UnionType(cur, next);
         while(types.length > 0 && union !== undefined) {
             let next = types.shift();
             if(next !== undefined)
-                union = new UnionType(union.clone(false), next.clone(false));
+                union = new UnionType(union, next);
         }
         return union === undefined ? new NeverType() : union;
 

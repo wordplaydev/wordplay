@@ -27,10 +27,10 @@ export default class Names extends Node {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Names(
-            this.cloneOrReplaceChild<Name[]>(pretty, "names", this.names, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild<Name[]>(pretty, "names", this.names, original, replacement)
+        ) as this; 
     }
 
     computeConflicts() {

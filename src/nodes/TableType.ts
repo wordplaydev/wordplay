@@ -33,11 +33,11 @@ export default class TableType extends Type {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new TableType(
-            this.cloneOrReplaceChild(pretty, "columns", this.columns, original, replacement),
-            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "columns", this.columns, original, replacement),
+            this.replaceChild(pretty, "close", this.close, original, replacement)
+        ) as this; 
     }
 
     computeConflicts() {}

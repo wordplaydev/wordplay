@@ -39,12 +39,12 @@ export default class SetType extends NativeType {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new SetType(
-            this.cloneOrReplaceChild(pretty, "key", this.key, original, replacement),
-            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "key", this.key, original, replacement),
+            this.replaceChild(pretty, "open", this.open, original, replacement), 
+            this.replaceChild(pretty, "close", this.close, original, replacement)
+        ) as this; 
     }
 
     computeConflicts() {}

@@ -36,12 +36,12 @@ export default class KeyValue extends Node {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new KeyValue(
-            this.cloneOrReplaceChild(pretty, "key", this.key, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "value", this.value, original, replacement),
-            this.cloneOrReplaceChild(pretty, "bind", this.bind, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "key", this.key, original, replacement), 
+            this.replaceChild(pretty, "value", this.value, original, replacement),
+            this.replaceChild(pretty, "bind", this.bind, original, replacement)
+        ) as this; 
     }
 
     computeConflicts() {}

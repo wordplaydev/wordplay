@@ -28,10 +28,10 @@ export default class BooleanType extends NativeType {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new BooleanType(
-            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "type", this.type, original, replacement)
+        ) as this; 
     }
 
     computeConflicts() {}

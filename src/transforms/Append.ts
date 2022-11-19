@@ -32,7 +32,7 @@ export default class Append<NodeType extends Node> extends Transform {
     getEdit(lang: LanguageCode[]): Edit {
 
         // Get the node to insert, prettied.
-        let newChild = this.getPrettyNewNode(lang).clone(true);
+        let newChild = this.getPrettyNewNode(lang).replace(true);
 
         // Find the space before the insertion by finding the token that contains the index.
         // Insert the space we find before it.
@@ -53,7 +53,7 @@ export default class Append<NodeType extends Node> extends Transform {
         }
 
         // Clone the list.
-        let newList = this.list.map(item => item.clone(false));
+        let newList = this.list.map(item => item.replace(false));
 
         // Insert the new child in the list. 
         // If its unspecified or it is but it's not in the list, then it's at the end of the list.
@@ -63,15 +63,12 @@ export default class Append<NodeType extends Node> extends Transform {
 
         // Remember the child index in the parent, so we can find the new child we insert after it.
         const childIndex = this.before === undefined ? this.parent.getChildren().length : this.parent.getChildren().indexOf(this.before);
-        
-        // Get a path to the parent so we can find it later.
-        const parentPath = this.parent.getPath();
 
         // Clone the parent with the new list, pretty printing.
-        const newParent = this.parent.clone(true, this.list, newList);
+        const newParent = this.parent.replace(true, this.list, newList);
         
         // Make a new program with the new parent
-        let newProgram = this.source.program.clone(false, this.parent, newParent);
+        let newProgram = this.source.program.replace(false, this.parent, newParent);
 
         // Finally, if there's after space, find the first token after the last token in the new list and update it's space.
         if(afterSpace !== undefined && spaceNodeIndex !== undefined) {
@@ -81,20 +78,14 @@ export default class Append<NodeType extends Node> extends Transform {
             const newProgramTokens = newProgram.nodes(n => n instanceof Token) as Token[];
             const newSpaceNode = newProgramTokens[newSpaceNodeIndex];
             if(newSpaceNode !== undefined)
-                newProgram = newProgram.clone(false, newSpaceNode, newSpaceNode.withSpace(afterSpace));
+                newProgram = newProgram.replace(false, newSpaceNode, newSpaceNode.withSpace(afterSpace));
         }
 
         // Clone the source with the new parent.
         const newSource = this.source.withProgram(newProgram);
 
-        // Resolve the parent path so we can find the location of the insertion.
-        const finalParent = newProgram.resolvePath(parentPath);
-
-        // Bail if we couldn't find the parent
-        if(finalParent === undefined) return;
-
         // Find the new child we inserted. It's at the same index that we inserted before.
-        const finalNewNode = finalParent.getChildren()[childIndex];
+        const finalNewNode = newParent.getChildren()[childIndex];
         if(finalNewNode === undefined) return;
 
         // Find it's last token index.

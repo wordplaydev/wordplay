@@ -52,12 +52,12 @@ export default class Insert extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Insert(
-            this.cloneOrReplaceChild(pretty, "table", this.table, original, replacement),
-            this.cloneOrReplaceChild(pretty, "insert", this.insert, original, replacement),
-            this.cloneOrReplaceChild(pretty, "row", this.row, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "table", this.table, original, replacement),
+            this.replaceChild(pretty, "insert", this.insert, original, replacement),
+            this.replaceChild(pretty, "row", this.row, original, replacement)
+        ) as this; 
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.row; }

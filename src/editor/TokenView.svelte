@@ -9,7 +9,7 @@
     export let node: Token;
 
     function choosePlaceholder() {
-        const labels = node.getParent()?.getChildPlaceholderLabel(node, $project.main.getContext());
+        const labels = $caret?.source.get(node)?.getParent()?.getChildPlaceholderLabel(node, $project.main.getContext());
         if(labels === undefined) return PLACEHOLDER_SYMBOL;
         for(const lang of $languages)
             if(lang in labels) return labels[lang];
@@ -33,8 +33,8 @@
         node.text.toString().replaceAll(" ", "&nbsp;");
     
     // Don't render preceding space if there's no caret or this is the first leaf in a dragged node.
-    $: showSpace = caret !== undefined || $dragged?.getFirstLeaf() !== node;
-    $: additional = node.getAdditionalSpace();
+    $: showSpace = caret !== undefined || $dragged?.node.getFirstLeaf() !== node;
+    $: additional = node.getAdditionalSpace($caret?.source.get(node)?.getPreferredPrecedingSpace() ?? "");
 
 </script>
 

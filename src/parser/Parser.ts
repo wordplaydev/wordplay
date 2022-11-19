@@ -241,11 +241,8 @@ export class Tokens {
     unreadTo(token: Token) {
         while(this.#read.length > 0 && this.#unread[0] !== token) {
             const unreadToken = this.#read.pop();
-            if(unreadToken !== undefined) {
+            if(unreadToken !== undefined)
                 this.#unread.unshift(unreadToken);
-                // Reset the parent to avoid complaints.
-                unreadToken._parent = undefined;
-            }
         }
     }
 

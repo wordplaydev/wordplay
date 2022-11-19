@@ -56,12 +56,12 @@ export default class Previous extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Previous(
-            this.cloneOrReplaceChild(pretty, "stream", this.stream, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "index", this.index, original, replacement),
-            this.cloneOrReplaceChild(pretty, "previous", this.previous, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "stream", this.stream, original, replacement), 
+            this.replaceChild(pretty, "index", this.index, original, replacement),
+            this.replaceChild(pretty, "previous", this.previous, original, replacement)
+        ) as this; 
     }
 
     computeConflicts(context: Context): Conflict[] { 

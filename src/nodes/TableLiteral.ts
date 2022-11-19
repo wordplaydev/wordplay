@@ -72,7 +72,7 @@ export default class TableLiteral extends Expression {
     }
 
     computeType(): TableType {
-        const columnTypes = this.columns.map(c => new ColumnType(c.bind.clone(false)));
+        const columnTypes = this.columns.map(c => new ColumnType(c.bind));
         return new TableType(columnTypes);
     }
 
@@ -105,12 +105,12 @@ export default class TableLiteral extends Expression {
 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new TableLiteral(
-            this.cloneOrReplaceChild(pretty, "columns", this.columns, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "rows", this.rows, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "columns", this.columns, original, replacement), 
+            this.replaceChild(pretty, "rows", this.rows, original, replacement), 
+            this.replaceChild(pretty, "close", this.close, original, replacement)
+        ) as this; 
     }
 
     /**

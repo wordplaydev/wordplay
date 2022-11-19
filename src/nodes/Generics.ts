@@ -59,7 +59,6 @@ export default function getConcreteExpectedType(definition: FunctionDefinition |
     // If the type is some other type, but contains one of the above, concretize them and construct a new compound type.
     // We do this in a loop since each time we clone the type, the abstract types that have yet to be concretized
     // are cloned too, so we can't just get a list and loop through it.
-    const originalParent = type.getParent();
     do {
         const abstractTypes = type.nodes(n => (n instanceof NameType && n.isTypeVariable(context)) || (n instanceof MeasurementType && n.hasDerivedUnit())) as (NameType | MeasurementType)[];
         const nextAbstractType = abstractTypes[0];
@@ -70,9 +69,7 @@ export default function getConcreteExpectedType(definition: FunctionDefinition |
                 getConcreteTypeVariable(nextAbstractType, definition, evaluation, context) :
                 getConcreteMeasurementInput(nextAbstractType, evaluation, context);
             // Clone the current type, replacing the abstract type with the concrete type.
-            type = type.clone(false, nextAbstractType, concreteType.clone(false));
-            // Point the type back to it's original parent for subsequent analysis in the same context.
-            type._parent = originalParent;
+            type = type.replace(false, nextAbstractType, concreteType);
         }
         // If there isn't another abstract type, we have our type!
         else break;

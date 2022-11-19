@@ -18,7 +18,7 @@ export default class NeverType extends Type {
 
     toWordplay() { return "-"; }
 
-    clone() { return new NeverType().label(this._label) as this; }
+    replace() { return new NeverType() as this; }
 
     getDescriptions(): Translations {
         return {

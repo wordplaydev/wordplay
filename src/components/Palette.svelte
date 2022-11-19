@@ -1,6 +1,5 @@
 <script lang="ts">
     import { getDragged } from "../editor/Contexts";
-    import NodeView from "../editor/NodeView.svelte";
     import { parseExpression, parseType, tokens } from "../parser/Parser";
     import { project, updateProject } from "../models/stores";
     import Program from "../nodes/Program";
@@ -19,6 +18,8 @@
     import Bind from "../nodes/Bind";
     import EvalCloseToken from "../nodes/EvalCloseToken";
     import Reference from "../nodes/Reference";
+    import Tree from "../nodes/Tree";
+    import RootView from "../editor/RootView.svelte";
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
@@ -121,11 +122,11 @@
         if(event.buttons !== 1 || $dragged) return;
 
         // Map the element to the coresponding node in the palette.
-        const root = document.elementFromPoint(event.clientX, event.clientY)?.closest(".root");
+        const root = document.elementFromPoint(event.clientX, event.clientY)?.closest(".root")?.querySelector(".node-view");
         if(root instanceof HTMLElement) {
             const node = idToNode(parseInt(root.dataset.id ?? ""));
             if(node !== undefined) {
-                dragged.set(node);
+                dragged.set(new Tree(node));
             }
         }
 
@@ -145,10 +146,10 @@
         // Figure out what to replace the dragged node with. By default, we remove it.
         let replacement = $dragged.inList() ? 
             undefined :
-            (new ExpressionPlaceholder()).withPrecedingSpace($dragged.getPrecedingSpace(), true);
+            (new ExpressionPlaceholder()).withPrecedingSpace($dragged.node.getPrecedingSpace(), true);
 
         // Update the project with the new source files
-        updateProject($project.withSource(source, source.withProgram(program.clone(false, $dragged, replacement))));
+        updateProject($project.withSource(source, source.withProgram(program.replace(false, $dragged.node, replacement))));
 
     }
 
@@ -167,14 +168,14 @@
     {#if selected }
         <section class="type">
             <button on:click={() => selected = undefined }>◀</button>
-            <h3>{#each selected.creators as creator, index}{#if index > 0}, {/if}<NodeView node={creator}/>{/each}</h3>
+            <h3>{#each selected.creators as creator, index}{#if index > 0}, {/if}<RootView node={creator}/>{/each}</h3>
 
             {#each selected.constructs as node }
-                <p><NodeView {node}/></p>
+                <p><RootView {node}/></p>
             {/each}
 
             {#each selected.functions as node }
-                <p><NodeView {node}/></p>
+                <p><RootView {node}/></p>
             {/each}
 
         </section>
@@ -183,7 +184,7 @@
             <h3>Types</h3>
 
             {#each entries as type}
-                <p on:mousedown={() => selected = type}><NodeView node={type.name}/></p>
+                <p on:mousedown={() => selected = type}><RootView node={type.name}/></p>
             {/each}
         </section>
     {/if}

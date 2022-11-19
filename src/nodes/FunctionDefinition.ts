@@ -30,7 +30,6 @@ import EvalCloseToken from "./EvalCloseToken";
 import EvalOpenToken from "./EvalOpenToken";
 import Remove from "../transforms/Remove";
 import Replace from "../transforms/Replace";
-import StructureDefinition from "./StructureDefinition";
 import Docs from "./Docs";
 import Names from "./Names";
 import type LanguageCode from "./LanguageCode";
@@ -90,26 +89,26 @@ export default class FunctionDefinition extends Expression {
         ];
     }
 
-    isBlock() { return true; }
+    isBlockFor(child: Node) { return child === this.expression; }
 
-    getPreferredPrecedingSpace(child: Node, space: string): string {
+    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
         // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return this.expression === child && space.indexOf("\n") >= 0 ? `\n${"\t".repeat(child.getDepth())}` : "";
+        return this.expression === child && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new FunctionDefinition(
-            this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement), 
-            this.cloneOrReplaceChild<Names>(pretty, "names", this.names, original, replacement),
-            this.cloneOrReplaceChild(pretty, "typeVars", this.typeVars, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "inputs", this.inputs, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable|Token>(pretty, "expression", this.expression, original, replacement),
-            this.cloneOrReplaceChild(pretty, "output", this.output, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "fun", this.fun, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "dot", this.dot, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ).label(this._label) as this;
+            this.replaceChild(pretty, "docs", this.docs, original, replacement), 
+            this.replaceChild<Names>(pretty, "names", this.names, original, replacement),
+            this.replaceChild(pretty, "typeVars", this.typeVars, original, replacement), 
+            this.replaceChild(pretty, "inputs", this.inputs, original, replacement), 
+            this.replaceChild<Expression|Unparsable|Token>(pretty, "expression", this.expression, original, replacement),
+            this.replaceChild(pretty, "output", this.output, original, replacement), 
+            this.replaceChild(pretty, "fun", this.fun, original, replacement), 
+            this.replaceChild(pretty, "dot", this.dot, original, replacement), 
+            this.replaceChild(pretty, "open", this.open, original, replacement), 
+            this.replaceChild(pretty, "close", this.close, original, replacement)
+        ) as this;
     }
 
     sharesName(fun: FunctionDefinition) { return this.names.sharesName(fun.names); }
@@ -209,10 +208,6 @@ export default class FunctionDefinition extends Expression {
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.expression instanceof Expression) this.expression.evaluateTypeSet(bind, original, current, context);
         return current;
-    }
-
-    getStructure() {
-        return this._parent instanceof StructureDefinition ? this._parent : undefined;
     }
 
     getDescriptions(): Translations {

@@ -58,7 +58,7 @@ export default class NameType extends Type {
 
     resolve(context: Context): Definition | undefined {
 
-        const enclosure = this.getBindingEnclosureOf() ?? context.program;
+        const enclosure = context.get(this)?.getBindingScope() ?? context.program;
         return enclosure.getDefinitionOfName(this.getName(), context, this);
 
     }
@@ -77,10 +77,10 @@ export default class NameType extends Type {
 
     getNativeTypeName(): string { return NAME_NATIVE_TYPE_NAME; }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new NameType(
-            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "type", this.type, original, replacement)
+        ) as this;
     }
 
     getDescriptions(): Translations {

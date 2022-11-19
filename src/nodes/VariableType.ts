@@ -29,7 +29,7 @@ export default class VariableType extends Type {
 
     toWordplay() { return this.definition.toWordplay(); }
 
-    clone() { return new VariableType(this.definition).label(this._label) as this; }
+    replace() { return new VariableType(this.definition) as this; }
 
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }

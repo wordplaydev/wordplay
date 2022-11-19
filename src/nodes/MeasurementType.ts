@@ -49,11 +49,11 @@ export default class MeasurementType extends NativeType {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new MeasurementType(
-            this.cloneOrReplaceChild(pretty, "number", this.number, original, replacement), 
-            this.unit === undefined || this.unit instanceof Function ? this.unit : this.cloneOrReplaceChild(pretty, "unit", this.unit, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "number", this.number, original, replacement), 
+            this.unit === undefined || this.unit instanceof Function ? this.unit : this.replaceChild(pretty, "unit", this.unit, original, replacement)
+        ) as this; 
     }
 
     hasDerivedUnit() { return this.unit instanceof Function; }
@@ -62,10 +62,10 @@ export default class MeasurementType extends NativeType {
     isGeneric() { return this.hasDerivedUnit(); }
 
     withOp(op: BinaryOperation | UnaryOperation | Evaluate) {
-        return new MeasurementType(this.number.clone(false), this.unit, op);
+        return new MeasurementType(this.number, this.unit, op);
     }
 
-    withUnit(unit: Unit): MeasurementType { return new MeasurementType(this.number.clone(false), unit.clone(false)); }
+    withUnit(unit: Unit): MeasurementType { return new MeasurementType(this.number, unit); }
 
     accepts(type: Type, context: Context): boolean {
 

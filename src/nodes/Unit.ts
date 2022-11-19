@@ -85,13 +85,13 @@ export default class Unit extends Type {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Unit(
             this.exponents === undefined ? undefined : new Map(this.exponents),
-            this.cloneOrReplaceChild(pretty, "numerator", this.numerator, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "slash", this.slash, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "denominator", this.denominator, original, replacement), 
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "numerator", this.numerator, original, replacement), 
+            this.replaceChild(pretty, "slash", this.slash, original, replacement), 
+            this.replaceChild(pretty, "denominator", this.denominator, original, replacement), 
+        ) as this; 
     }
 
     static map(numerator: string[], denominator: string[]) {

@@ -53,12 +53,12 @@ export default class Is extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Is(
-            this.cloneOrReplaceChild(pretty, "expression", this.expression, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "operator", this.operator, original, replacement),
-            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "expression", this.expression, original, replacement), 
+            this.replaceChild(pretty, "operator", this.operator, original, replacement),
+            this.replaceChild(pretty, "type", this.type, original, replacement)
+        ) as this; 
     }
 
     computeType() { return new BooleanType(); }

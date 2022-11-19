@@ -55,10 +55,10 @@ export default class BooleanLiteral extends Expression {
         return this.value.text.toString() === TRUE_SYMBOL;
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new BooleanLiteral(
-            this.cloneOrReplaceChild(pretty, "value", this.value, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "value", this.value, original, replacement)
+        ) as this; 
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }

@@ -53,20 +53,20 @@ export default class Conditional extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Conditional(
-            this.cloneOrReplaceChild(pretty, "condition", this.condition, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "yes", this.yes, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "no", this.no, original, replacement),
-            this.cloneOrReplaceChild<Token>(pretty, "conditional", this.conditional, original, replacement)
-        ).label(this._label) as this;
+            this.replaceChild(pretty, "condition", this.condition, original, replacement), 
+            this.replaceChild<Expression|Unparsable>(pretty, "yes", this.yes, original, replacement), 
+            this.replaceChild<Expression|Unparsable>(pretty, "no", this.no, original, replacement),
+            this.replaceChild<Token>(pretty, "conditional", this.conditional, original, replacement)
+        ) as this;
     }
 
-    isBlock() { return true; }
+    isBlockFor(child: Node) { return child === this.yes || child === this.no; }
 
-    getPreferredPrecedingSpace(child: Node, space: string): string {
+    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
         // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return child === this.conditional ? " " : (child === this.yes || child === this.no) && space.indexOf("\n") >= 0 ? `\n${"\t".repeat(child.getDepth())}` : "";
+        return child === this.conditional ? " " : (child === this.yes || child === this.no) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
     }
 
     computeConflicts(context: Context): Conflict[] {
@@ -98,7 +98,7 @@ export default class Conditional extends Expression {
                 if(yesType.accepts(noType, context))
                     return yesType;
                 else 
-                return new UnionType(yesType.clone(false), noType.clone(false));
+                return new UnionType(yesType, noType);
             }
         }
     }

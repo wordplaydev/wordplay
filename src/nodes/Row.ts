@@ -40,11 +40,11 @@ export default class Row extends Node {
      * */ 
     isBindingEnclosureOfChild(child: Node): boolean { return this.cells.includes(child as Cell); }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Row(
-            this.cloneOrReplaceChild(pretty, "cells", this.cells, original, replacement),
-            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "cells", this.cells, original, replacement),
+            this.replaceChild(pretty, "close", this.close, original, replacement)
+        ) as this; 
     }
 
     getChildReplacement() { return undefined; }

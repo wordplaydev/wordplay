@@ -94,25 +94,25 @@ export default class Bind extends Node implements Evaluable, Named {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Bind(
-            this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "names", this.names, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable|undefined>(pretty, "value", this.value, original, replacement),
-            this.cloneOrReplaceChild(pretty, "share", this.share, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "etc", this.etc, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "dot", this.dot, original, replacement),
-            this.cloneOrReplaceChild(pretty, "colon", this.colon, original, replacement)
-        ).label(this._label) as this;
+            this.replaceChild(pretty, "docs", this.docs, original, replacement), 
+            this.replaceChild(pretty, "names", this.names, original, replacement), 
+            this.replaceChild(pretty, "type", this.type, original, replacement), 
+            this.replaceChild<Expression|Unparsable|undefined>(pretty, "value", this.value, original, replacement),
+            this.replaceChild(pretty, "share", this.share, original, replacement), 
+            this.replaceChild(pretty, "etc", this.etc, original, replacement), 
+            this.replaceChild(pretty, "dot", this.dot, original, replacement),
+            this.replaceChild(pretty, "colon", this.colon, original, replacement)
+        ) as this;
     }
 
-    getPreferredPrecedingSpace(child: Node, space: string): string {
+    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
         // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return (child === this.value) && space.indexOf("\n") >= 0 ? `\n${"\t".repeat(child.getDepth())}` : "";
+        return (child === this.value) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
     }
 
-    isBlock() { return true; }
+    isBlockFor(child: Node) { return child === this.value; }
 
     hasName(name: string) { return this.names.hasName(name); }
     sharesName(bind: Bind) { return this.names.sharesName(bind.names); }
@@ -132,7 +132,7 @@ export default class Bind extends Node implements Evaluable, Named {
         const conflicts = [];
 
         // Etc tokens can't appear in block bindings, just structure and function definitions.
-        if(this.isVariableLength() && this.getParent() instanceof Block)
+        if(this.isVariableLength() && context.get(this)?.getParent() instanceof Block)
             conflicts.push(new UnexpectedEtc(this));
 
         // If there's a type, the value must match.
@@ -142,7 +142,8 @@ export default class Bind extends Node implements Evaluable, Named {
                 conflicts.push(new IncompatibleBind(this.type, this.value, valueType));
         }
 
-        const enclosure = this.getBindingEnclosureOf();
+        // Find the scoping enclosure for this bind.
+        const enclosure = context.get(this)?.getBindingScope();
 
         // It can't already be defined.
         if(enclosure !== undefined) {
@@ -168,7 +169,7 @@ export default class Bind extends Node implements Evaluable, Named {
         }
 
         // If this bind isn't part of an Evaluate, it should be used in some expression in its parent.
-        const parent = this.getParent();
+        const parent = context.get(this)?.getParent();
         if(enclosure && !this.isShared() && !(parent instanceof Column || parent instanceof ColumnType || parent instanceof Cell || parent instanceof Evaluate)) {
             const uses = enclosure.nodes(n => n instanceof Reference && this.names.names.find(name => name.getName() === n.name.text.toString()) !== undefined);
             if(uses.length === 0)
@@ -213,7 +214,7 @@ export default class Bind extends Node implements Evaluable, Named {
                 // Account for variable length arguments
                 (
                     this.isVariableLength() ? 
-                    new ListType(this.type.clone(false)) : 
+                    new ListType(this.type) : 
                     this.type
                 ) :
             // If the value is a structure definition, make a structure type.
@@ -319,7 +320,7 @@ export default class Bind extends Node implements Evaluable, Named {
 
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
         
-        const parent = this.getParent();
+        const parent = context.get(this)?.getParent();
         // Before the first name? a name? Offer an etc or a documentation
         if(child === this.names) {
             if(this.etc === undefined) {

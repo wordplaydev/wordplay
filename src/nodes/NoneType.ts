@@ -35,10 +35,10 @@ export default class NoneType extends NativeType {
 
     getNativeTypeName(): string { return NONE_NATIVE_TYPE_NAME; }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new NoneType(
-            this.cloneOrReplaceChild(pretty, "none", this.none, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "none", this.none, original, replacement)
+        ) as this; 
     }
 
     getChildReplacement() { return undefined; }

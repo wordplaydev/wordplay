@@ -60,17 +60,17 @@ export default class ConversionDefinition extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new ConversionDefinition(
-            this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "input", this.input, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "output", this.output, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "expression", this.expression, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "arrow", this.arrow, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "docs", this.docs, original, replacement), 
+            this.replaceChild(pretty, "input", this.input, original, replacement), 
+            this.replaceChild(pretty, "output", this.output, original, replacement), 
+            this.replaceChild(pretty, "expression", this.expression, original, replacement), 
+            this.replaceChild(pretty, "arrow", this.arrow, original, replacement)
+        ) as this; 
     }
 
-    isBlock() { return true; }
+    isBlock(child: Node) { return child === this.expression; }
 
     convertsTypeTo(input: Type, output: Type, context: Context) {
         return  !(this.input instanceof Unparsable) && this.input.accepts(input, context) &&
@@ -81,13 +81,13 @@ export default class ConversionDefinition extends Expression {
         return !(this.input instanceof Unparsable) && this.input.accepts(input, context);
     }
 
-    computeConflicts(): Conflict[] { 
+    computeConflicts(context: Context): Conflict[] { 
         
         const conflicts: Conflict[] = [];
     
-        // Can only appear in a block.
-        const enclosure = this.getBindingEnclosureOf();
-        if(!(enclosure instanceof Block))
+        // Can only appear in a block, or not in the program (native)
+        const enclosure = context.get(this)?.getBindingScope();
+        if(enclosure !== undefined && !(enclosure instanceof Block))
             conflicts.push(new MisplacedConversion(this));
     
         return conflicts; 
@@ -95,7 +95,7 @@ export default class ConversionDefinition extends Expression {
     }
 
     computeType(): Type {
-        return this.input instanceof Unparsable ? new UnknownType(this.input) : new ConversionType(this.input.clone(false), undefined, this.output.clone(false));
+        return this.input instanceof Unparsable ? new UnknownType(this.input) : new ConversionType(this.input, undefined, this.output);
     }
 
     compile(): Step[] {

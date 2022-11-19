@@ -40,11 +40,11 @@ export default class MeasurementLiteral extends Expression {
 
     }
     
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new MeasurementLiteral(
-            this.cloneOrReplaceChild(pretty, "number", this.number, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "unit", this.unit, original, replacement)
-        ).label(this._label) as this;
+            this.replaceChild(pretty, "number", this.number, original, replacement), 
+            this.replaceChild(pretty, "unit", this.unit, original, replacement)
+        ) as this;
     }
 
     getGrammar() { 
@@ -66,7 +66,7 @@ export default class MeasurementLiteral extends Expression {
     }
 
     computeType(): Type {
-        return new MeasurementType(this.number.clone(false), this.unit instanceof Unparsable ? undefined : this.unit.clone(false));
+        return new MeasurementType(this.number, this.unit instanceof Unparsable ? undefined : this.unit);
     }
 
     compile():Step[] {

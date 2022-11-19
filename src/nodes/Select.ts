@@ -57,13 +57,13 @@ export default class Select extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Select(
-            this.cloneOrReplaceChild(pretty, "table", this.table, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "select", this.select, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "row", this.row, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "query", this.query, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "table", this.table, original, replacement), 
+            this.replaceChild(pretty, "select", this.select, original, replacement), 
+            this.replaceChild(pretty, "row", this.row, original, replacement), 
+            this.replaceChild(pretty, "query", this.query, original, replacement)
+        ) as this; 
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query || child === this.row; }
@@ -113,7 +113,7 @@ export default class Select extends Expression {
         const columnTypes = this.row.cells.map(cell => {
             const column = cell.value instanceof Reference ? tableType.getColumnNamed(cell.value.name.text.toString()) : undefined; 
             return column === undefined ? undefined : column;
-        }).map(column => column?.clone(false));
+        });
         if(columnTypes.find(t => t === undefined)) return new UnknownType(this);
 
         return new TableType(columnTypes as ColumnType[]);

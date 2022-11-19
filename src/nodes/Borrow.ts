@@ -42,12 +42,12 @@ export default class Borrow extends Node implements Evaluable {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Borrow(
-            this.cloneOrReplaceChild(pretty, "borrow", this.borrow, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "name", this.name, original, replacement),
-            this.cloneOrReplaceChild(pretty, "version", this.version, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "borrow", this.borrow, original, replacement), 
+            this.replaceChild(pretty, "name", this.name, original, replacement),
+            this.replaceChild(pretty, "version", this.version, original, replacement)
+        ) as this; 
     }
     
     computeConflicts(context: Context): Conflict[] { 

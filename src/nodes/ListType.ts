@@ -39,12 +39,12 @@ export default class ListType extends NativeType {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new ListType(
-            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement),
-            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
-            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "type", this.type, original, replacement),
+            this.replaceChild(pretty, "open", this.open, original, replacement),
+            this.replaceChild(pretty, "close", this.close, original, replacement)
+        ) as this; 
     }
 
     computeConflicts() {}

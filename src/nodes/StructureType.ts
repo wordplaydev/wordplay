@@ -54,7 +54,7 @@ export default class StructureType extends Type {
   
     getNativeTypeName(): string { return STRUCTURE_NATIVE_TYPE_NAME; }
 
-    clone() { return new StructureType(this.structure).label(this._label) as this; }
+    replace() { return new StructureType(this.structure) as this; }
 
     toWordplay() { return this.structure.getNames()[0]; }
 

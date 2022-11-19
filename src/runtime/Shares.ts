@@ -17,6 +17,7 @@ import Animation, { Bounce, Throb, Wobble } from "../native/Animation";
 import Unparsable from "../nodes/Unparsable";
 import Style from "../native/Style";
 import type Definition from "../nodes/Definition";
+import Tree from "../nodes/Tree";
 
 export const DefaultStructures = [
     Verse,
@@ -33,6 +34,8 @@ export const DefaultStructures = [
     Throb,
     Bounce
 ];
+
+export const DefaultTrees = DefaultStructures.map(def => new Tree(def));
 
 export default class Shares {
 
@@ -101,7 +104,14 @@ export default class Shares {
     getDefinitions() { 
         return  Array.from(this.values.values())
                 .filter(v => v instanceof StructureDefinitionValue || v instanceof Stream)
-                .map(v => v instanceof StructureDefinitionValue ? v.definition : v) as (Stream | StructureDefinition)[] }
+                .map(v => v instanceof StructureDefinitionValue ? v.definition : v) as (Stream | StructureDefinition)[] 
+    }
+
+    getAllStructureDefinitions() { 
+        return  (Array.from(this.values.values())
+                .filter(v => v instanceof StructureDefinitionValue) as StructureDefinitionValue[])
+                .map(v => v.definition) as StructureDefinition[]
+    }
 
     getStreams(): Stream[] {
         return Array.from(this.values.values()).filter(v => v instanceof Stream) as Stream[];

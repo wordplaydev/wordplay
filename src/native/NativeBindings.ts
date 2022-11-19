@@ -24,12 +24,14 @@ import { BOOLEAN_NATIVE_TYPE_NAME, LIST_NATIVE_TYPE_NAME, MAP_NATIVE_TYPE_NAME, 
 import { TRANSLATE } from "../nodes/Translations";
 import type Translations from "../nodes/Translations";
 import type Node from "../nodes/Node";
+import Tree from "../nodes/Tree";
 
 export class NativeBindings implements NativeInterface {
 
     readonly functionsByType: Record<string, Record<string, FunctionDefinition>> = {};
     readonly conversionsByType: Record<string, ConversionDefinition[]> = {};
     readonly structureDefinitionsByName: Record<string, StructureDefinition> = {};
+    readonly structureDefinitionTrees: Tree[] = [];
 
     addFunction(
         kind: string,
@@ -71,6 +73,8 @@ export class NativeBindings implements NativeInterface {
             }
         }
 
+        this.structureDefinitionTrees.push(new Tree(structure));
+
     }
     
     getConversion(kind: string, context: Context, input: Type, output: Type): ConversionDefinition | undefined {
@@ -94,6 +98,8 @@ export class NativeBindings implements NativeInterface {
     }
 
     getAllStructureDefinitions() { return Object.values(this.structureDefinitionsByName); }
+
+    getStructureDefinitionTrees() { return this.structureDefinitionTrees; }
 
 }
 

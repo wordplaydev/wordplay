@@ -36,10 +36,10 @@ export default class NoneLiteral extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new NoneLiteral(
-            this.cloneOrReplaceChild(pretty, "none", this.none, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "none", this.none, original, replacement)
+        ) as this; 
     }
 
     computeConflicts() {}

@@ -32,11 +32,11 @@ export default class TypeInput extends Node {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new TypeInput(
-            this.cloneOrReplaceChild(pretty, "type", this.type, original, replacement),
-            this.cloneOrReplaceChild(pretty, "dot", this.dot, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "type", this.type, original, replacement),
+            this.replaceChild(pretty, "dot", this.dot, original, replacement)
+        ) as this; 
     }
 
     computeConflicts() {}

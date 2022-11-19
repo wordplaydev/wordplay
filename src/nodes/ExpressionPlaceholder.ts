@@ -44,10 +44,10 @@ export default class ExpressionPlaceholder extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new ExpressionPlaceholder(
-            this.cloneOrReplaceChild(pretty, "placeholder", this.placeholder, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "placeholder", this.placeholder, original, replacement)
+        ) as this; 
     }
 
     computeConflicts(): Conflict[] { 
@@ -73,7 +73,7 @@ export default class ExpressionPlaceholder extends Expression {
     
     getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined {
         if(child === this.placeholder) {
-            const parent = this.getParent();
+            const parent = context.get(this)?.getParent();
             // See if the parent has a label.
             return parent?.getChildPlaceholderLabel(this, context) ?? ExpressionLabels;
         }

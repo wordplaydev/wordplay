@@ -6,7 +6,6 @@
     import { afterUpdate, onDestroy, setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
     import commands, { type Edit } from './Commands';
-    import NodeView from './NodeView.svelte';
     import type Source from '../models/Source';
     import { writable } from 'svelte/store';
     import Exception from '../runtime/Exception';
@@ -26,6 +25,8 @@
     import Block, { type Statement } from '../nodes/Block';
     import TokenType from '../nodes/TokenType';
     import StructureDefinition from '../nodes/StructureDefinition';
+    import Tree from '../nodes/Tree';
+    import RootView from './RootView.svelte';
 
     export let source: Source;
 
@@ -48,7 +49,7 @@
     setContext(InsertionPointsSymbol, insertions);
 
     // A shorthand for the current program.
-    let program = source.program;
+    $: program = source.program;
 
     // A shorthand for the currently evaluating step, if there is one.
     let executingNode = source.getEvaluator().currentStep()?.node;
@@ -98,7 +99,6 @@
 
     // When source changes, update various nested state from the source.
     $: {
-        program = source.program;
         caret.set($caret.withSource(source));
         setContext(CaretSymbol, caret);
         executingNode = source.getEvaluator().currentStep()?.node;
@@ -267,7 +267,7 @@
 
         // Allow binds to be dropped on children of blocks.
         if($dragged instanceof Bind && $hovered) {
-            const hoverParent = $hovered.getParent();
+            const hoverParent = $caret.source.get($hovered)?.getParent();
             if(hoverParent instanceof Block && hoverParent.statements.includes($hovered as Statement))
                 return true;
         }
@@ -288,8 +288,9 @@
         // Is the creator hovering over a valid drop target? If so, execute the edit.
         if(isValidDropTarget())
             drop();
-        else
-            dragged.set(undefined);
+            
+        // Release the dragged node.
+        dragged.set(undefined);
 
         // Reset the insertion points.
         insertions.set(new Map());
@@ -304,11 +305,8 @@
         if($dragged === undefined) return;
 
         let editedProgram = source.program;
-        const draggedNode: Node = $dragged;
+        const draggedNode: Node = $dragged.node;
         const insertion = Array.from($insertions.values())[0];
-
-        // Label the dragged node so we can find it later.
-        draggedNode.label("dragged");
 
         // This is the node that will either be replaced or contains the list in which we will insert the dragged node.
         // For replacements its the node that the creator is hovered over, and for insertions its the node that contains the list we're inserting into.
@@ -318,17 +316,17 @@
 
         // If the dragged node is in a program, remove it if in a list or replace it with an expression placeholder if not.
         // If it's not in a program, it's probably coming from a palette or the visual clipboard.
-        const draggedRoot = draggedNode.getRoot();
+        const draggedRoot = $dragged.getRoot();
         if(draggedRoot instanceof Program) {
 
             // Figure out what to replace the dragged node with. By default, we remove it.
             let replacement = undefined;
 
             // If the node isn't in a list, then we replace it with an expression placeholder, to preserve syntax.
-            if(!draggedNode.inList()) {
+            if(!$dragged.inList()) {
                 // Make a placeholder to replace the hovered node.
                 replacement = 
-                    draggedNode instanceof Block && draggedNode.getParent() instanceof StructureDefinition ? undefined :
+                    draggedNode instanceof Block && $dragged.getParent() instanceof StructureDefinition ? undefined :
                     draggedNode instanceof Expression ? (new ExpressionPlaceholder()).withPrecedingSpace(draggedNode.getPrecedingSpace(), true) :
                     draggedNode instanceof Type ? (new TypePlaceholder()).withPrecedingSpace(draggedNode.getPrecedingSpace(), true) :
                     undefined;
@@ -337,11 +335,11 @@
             // If it's from this program, then update this program.
             if(draggedRoot === editedProgram) {
                 // Remember where it is in the tree
-                const pathToReplacedOrListContainingNode = replacedOrListContainingNode?.getPath();
+                const pathToReplacedOrListContainingNode = replacedOrListContainingNode === undefined ? undefined : $caret.source.get(replacedOrListContainingNode)?.getPath();
                 // Replace the dragged node with the placeholder or nothing, effectively removing the node we're moving from the program.
-                editedProgram = editedProgram.clone(false, draggedNode, replacement);
+                editedProgram = editedProgram.replace(false, draggedNode, replacement);
                 // Update the node to replace to the cloned node.
-                replacedOrListContainingNode = pathToReplacedOrListContainingNode === undefined ? undefined : editedProgram.resolvePath(pathToReplacedOrListContainingNode);
+                replacedOrListContainingNode = pathToReplacedOrListContainingNode === undefined ? undefined : new Tree(editedProgram).resolvePath(pathToReplacedOrListContainingNode);
             }
             // If it's from another program, then update that program.
             else if(draggedRoot instanceof Program) {
@@ -349,7 +347,7 @@
                 const source = $project.getSourceWithProgram(draggedRoot);
                 // If we found one, update the project with a new source with a new program that replaces the dragged node with the placeholder.
                 if(source)
-                    newSources.push([ source, source.withProgram(draggedRoot.clone(false, draggedNode, replacement)) ]);
+                    newSources.push([ source, source.withProgram(draggedRoot.replace(false, draggedNode, replacement)) ]);
             }
             // If it was from a palette, do nothing, since there's nothing to remove.
 
@@ -359,7 +357,7 @@
         if(replacedOrListContainingNode) {
             if(shouldReplace()) {
                 const dragClone = draggedNode.withPrecedingSpace(replacedOrListContainingNode.getPrecedingSpace(), true);
-                editedProgram = editedProgram.clone(false, replacedOrListContainingNode, dragClone);            
+                editedProgram = editedProgram.replace(false, replacedOrListContainingNode, dragClone);            
                 newSources.push([ source, source.withProgram(editedProgram) ]);
             }
             // If we're not replacing, and there's something to insert, insert!
@@ -386,23 +384,23 @@
                     const indexOfDraggedNodeInList = insertion.list.indexOf(draggedNode);
                     const insertionIndex = insertion.index + (indexOfDraggedNodeInList >= 0 && insertion.index > indexOfDraggedNodeInList ? 1 : 0);
                     // Replace the list with a new list that has the dragged node inserted.
-                    const clonedListParent = replacedOrListContainingNode.clone(
+                    const clonedListParent = replacedOrListContainingNode.replace(
                         false, 
                         listToUpdate, 
                         [ 
-                            ...listToUpdate.slice(0, insertionIndex).map(n => n.clone(false)), 
+                            ...listToUpdate.slice(0, insertionIndex), 
                             dragClone,
-                            ...listToUpdate.slice(insertionIndex).map(n => n.clone(false))
+                            ...listToUpdate.slice(insertionIndex)
                         ]
                     );
 
                     // Update the program with the new list parent.
-                    editedProgram = editedProgram.clone(false, replacedOrListContainingNode, clonedListParent);
+                    editedProgram = editedProgram.replace(false, replacedOrListContainingNode, clonedListParent);
 
                     // Find the token after the last token of the node we inserted and give it the original space after the insertion point.
                     let tokenInsertedBefore = editedProgram.nodes(n => n instanceof Token)[indexOfTokenInsertedBefore + dragClone.nodes(n => n instanceof Token).length] as Token;
                     if(tokenInsertedBefore)
-                        editedProgram = editedProgram.clone(false, tokenInsertedBefore, tokenInsertedBefore.withPrecedingSpace(spaceAfter, true));
+                        editedProgram = editedProgram.replace(false, tokenInsertedBefore, tokenInsertedBefore.withPrecedingSpace(spaceAfter, true));
 
                     const newSource = source.withProgram(editedProgram);
                     newSources.push([ source, newSource]);
@@ -412,14 +410,7 @@
             }
 
             // Using the label, set the cursor to the dragged node, then unlabel the sources.
-            for(const source of newSources) {
-                const newDragged = source[1].program.findNodeWithLabel("dragged");
-                if(newDragged) {
-                    caret.set($caret.withPosition(newDragged));
-                    break;
-                }
-                source[1].program.unlabelAll();
-            }
+            caret.set($caret.withPosition(draggedNode));
 
             // Update the project with the new source files
             updateProject($project.withSources(newSources));
@@ -569,12 +560,15 @@
 
     function getInsertionPoint(node: Node, before: boolean, token: Token, line: number) {
 
-        const parent = node.getParent();
+        const tree = $caret.source.get(node);
+        if(tree === undefined) return;
+
+        const parent = tree.getParent();
         if(parent === undefined) return;
 
         // Special case the end token of the Program, since it's block has no delimters.
         if(node instanceof Token && node.is(TokenType.END)) {
-            const program = node.getParent();
+            const program = tree.getParent();
             if(program instanceof Program && program.block instanceof Block) {
                 return {
                     node: program.block,
@@ -589,7 +583,7 @@
         }
         
         // Find the list this node is either in or delimits.
-        let field = node.getContainingParentList(before);
+        let field = tree.getContainingParentList(before);
         if(field === undefined) return;
         const list = parent.getField(field);
         if(!Array.isArray(list)) return undefined;
@@ -639,6 +633,10 @@
 
     }
 
+    function exceededDragThreshold(event: MouseEvent) {
+        return dragPoint === undefined || Math.sqrt(Math.pow(event.clientX - dragPoint.x, 2) + Math.pow(event.clientY - dragPoint.y, 2)) >= 5;
+    }
+
     function handleMouseMove(event: MouseEvent) {
 
         // By default, set the hovered state to whatever node is under the mouse.
@@ -647,14 +645,12 @@
         // If the primary mouse button is down, start dragging and set insertion.
         // We only start dragging if the cursor has moved more than a certain amount since last click.
         if($hovered && event.buttons === 1 && $dragged === undefined) {
-            if(dragPoint === undefined)
-                dragPoint = { x: event.clientX, y: event.clientY };
-            else if(Math.sqrt(Math.pow(event.clientX - dragPoint.x, 2) + Math.pow(event.clientY - dragPoint.y, 2)) >= 5)
-                dragged.set($hovered);
+            dragged.set($caret.source.get($hovered));
+            dragPoint = { x: event.clientX, y: event.clientY };
         }
 
-        // If something is being dragged, set the insertion points to whatever points are under the mouse.
-        if($dragged) {
+        // If something is being dragged and is past 5 pixels from the start point, set the insertion points to whatever points are under the mouse.
+        if($dragged && exceededDragThreshold(event)) {
 
             // Get the insertion points at the current mouse position
             // And filter them by kinds that match, getting the field's allowed types,
@@ -662,7 +658,7 @@
             // This only works if the types list contains a single item that is a list of types.
             const newInsertionPoints = getInsertionPointsAt(event).filter(insertion => {
                 const types = insertion.node.getAllowedFieldNodeTypes(insertion.field);
-                return $dragged && Array.isArray(types) && Array.isArray(types[0]) && types[0].some(kind => $dragged instanceof kind);
+                return $dragged && Array.isArray(types) && Array.isArray(types[0]) && types[0].some(kind => $dragged?.node instanceof kind);
             });
 
             // Did they change? We keep them the same to avoid UI updates, especially with animations.
@@ -695,13 +691,13 @@
                 [
                     // Get all of the replacements possible immediately before the position.
                     ... between.before.reduce((transforms: Transform[], child) =>
-                        [ ... transforms, ...(child.getParent()?.getInsertionBefore(child, source.getContext(), $caret.position as number) ?? []) ], []),
+                        [ ... transforms, ...($caret.source.get(child)?.getParent()?.getInsertionBefore(child, source.getContext(), $caret.position as number) ?? []) ], []),
                     // Get all of the replacements possible and the ends of the nodes just before the position.
                     ... between.after.reduce((transforms: Transform[], child) => {
                         return [ ...transforms, ...(child.getInsertionAfter(source.getContext(), $caret.position as number) ?? []) ]
                     }, [])
                 ] :
-            node !== undefined ? node.getParent()?.getChildReplacement(node, source.getContext()) :
+            node !== undefined ? $caret.source.get(node)?.getParent()?.getChildReplacement(node, source.getContext()) :
                 undefined;
 
         if(node !== undefined && transforms !== undefined && transforms.length > 0) {
@@ -920,7 +916,7 @@
     on:mouseleave={handleMouseLeave}
 >
     <!-- Render the program -->
-    <NodeView node={program}/>
+    <RootView node={program}/>
     <!-- Render the caret on top of the program -->
     <CaretView blink={$KeyboardIdle && focused} ignored={lastKeyDownIgnored} bind:location={caretLocation}/>
     <!-- Are we on a placeholder? Show a menu! -->

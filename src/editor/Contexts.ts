@@ -6,6 +6,7 @@ import type Project from "../models/Project";
 import type LanguageCode from "../nodes/LanguageCode";
 import type Node from "../nodes/Node";
 import type Token from "../nodes/Token";
+import type Tree from "../nodes/Tree";
 import type { Highlights } from "./Highlights";
 
 export type CaretContext = Writable<Caret> | undefined;
@@ -20,7 +21,7 @@ export type InsertionPointsContext = Writable<Map<Token,InsertionPoint>> | undef
 export const InsertionPointsSymbol = Symbol("insertions");
 export function getInsertionPoints() { return getContext<InsertionPointsContext>(InsertionPointsSymbol); }
 
-export type DraggedContext = Writable<Node | undefined>;
+export type DraggedContext = Writable<Tree | undefined>;
 export const DraggedSymbol = Symbol("dragged");
 export function getDragged() { return getContext<DraggedContext>(DraggedSymbol); }
 

@@ -38,7 +38,7 @@ export default class Remove extends Transform {
         const newParent = this.getNewNode();
 
         // Replace the child in the parent, pretty printing it, then clone the program with the new parent, and create a new source from it.
-        const newSource = this.source.withProgram(this.source.program.clone(false, this.parent, newParent));
+        const newSource = this.source.withProgram(this.source.program.replace(false, this.parent, newParent));
 
         // Return the new source and place the caret after the replacement.
         return [ newSource, new Caret(newSource, position) ];
@@ -76,7 +76,7 @@ export default class Remove extends Transform {
             // Get the correponding child.
             const node = parent.getChildren()[indicies[0]];
             // Remove the child
-            parent = parent.clone(false, node, undefined);
+            parent = parent.replace(false, node, undefined);
             // Drop the index we just removed.
             indicies.shift(); 
         }
@@ -84,7 +84,7 @@ export default class Remove extends Transform {
         // Add the space to the child after the last one we removed.
         const childAfterLastRemoved = parent.getChildren()[lastChildIndex + 1 - childCount];
         if(childAfterLastRemoved !== undefined)
-            parent = parent.clone(false, childAfterLastRemoved, childAfterLastRemoved.withPrecedingSpace(space, true));
+            parent = parent.replace(false, childAfterLastRemoved, childAfterLastRemoved.withPrecedingSpace(space, true));
 
         // Return the new parent.
         return parent;

@@ -32,11 +32,11 @@ export default class Doc extends Node {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Doc(
-            this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "lang", this.lang, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "docs", this.docs, original, replacement), 
+            this.replaceChild(pretty, "lang", this.lang, original, replacement)
+        ) as this; 
     }
 
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }

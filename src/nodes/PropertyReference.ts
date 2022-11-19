@@ -65,12 +65,12 @@ export default class PropertyReference extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new PropertyReference(
-            this.cloneOrReplaceChild(pretty, "structure", this.structure, original, replacement),
-            this.cloneOrReplaceChild(pretty, "name", this.name, original, replacement),
-            this.cloneOrReplaceChild(pretty, "dot", this.dot, original, replacement)
-        ).label(this._label) as this;
+            this.replaceChild(pretty, "structure", this.structure, original, replacement),
+            this.replaceChild(pretty, "name", this.name, original, replacement),
+            this.replaceChild(pretty, "dot", this.dot, original, replacement)
+        ) as this;
     }
 
     computeConflicts(context: Context): Conflict[] {
@@ -128,11 +128,11 @@ export default class PropertyReference extends Expression {
 
                 // Find any conditionals with type checks that refer to the value bound to this name.
                 // Reverse them so they are in furthest to nearest ancestor, so we narrow types in execution order.
-                const guards = this.getAncestors()?.filter(a => 
+                const guards = context.get(this)?.getAncestors()?.filter(a => 
                         a instanceof Conditional &&
                         a.condition.nodes(
                             n =>    this.name !== undefined &&
-                                    n.getParent() instanceof Is && 
+                                    context.get(n)?.getParent() instanceof Is && 
                                     n instanceof PropertyReference && n.getSubjectType(context) instanceof StructureType && bind === (n.getSubjectType(context) as StructureType).getDefinition(this.name.getText())
                         )
                     ).reverse() as Conditional[];

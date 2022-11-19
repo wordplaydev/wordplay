@@ -7,6 +7,7 @@
     import getOutlineOf, { getUnderlineOf, type Outline } from "./outline";
 
     export let node: Node | undefined;
+    export let root: boolean = false;
 
     let caret = getCaret();
     let languages = getLanguages();
@@ -32,7 +33,7 @@
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     <div 
-        class="{node.constructor.name} node-view {node !== undefined && node._parent === undefined ? "root" : ""} {highlightTypes.size > 0 ? "highlighted" : ""} { Array.from(highlightTypes).join(" ")}"
+        class="{node.constructor.name} node-view {root ? "root" : ""} {highlightTypes.size > 0 ? "highlighted" : ""} { Array.from(highlightTypes).join(" ")}"
         data-id={node.id}
         bind:this={element}
     ><svelte:component this={getNodeView(node)} node={node} />{#if outline && underline }<NodeHighlight {outline} {underline}/>{/if}{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation($languages[0])}</div>{/each}</div>{/if}</div>

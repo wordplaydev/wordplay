@@ -143,7 +143,7 @@ export default class Measurement extends Primitive {
         return new Measurement(requestor, this.num.pow(operand.num), this.unit.power(operand.num.toNumber()));
     }
 
-    getType() { return new MeasurementType(undefined, this.unit.clone(false)); }
+    getType() { return new MeasurementType(undefined, this.unit); }
     
     getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }
 

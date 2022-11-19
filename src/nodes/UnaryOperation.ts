@@ -49,11 +49,11 @@ export default class UnaryOperation extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new UnaryOperation(
-            this.cloneOrReplaceChild(pretty, "operator", this.operator, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "operand", this.operand, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "operator", this.operator, original, replacement), 
+            this.replaceChild(pretty, "operand", this.operand, original, replacement)
+        ) as this; 
     }
 
     getOperator() { return this.operator.text.toString(); }

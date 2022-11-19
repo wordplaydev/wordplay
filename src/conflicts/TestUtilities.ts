@@ -1,5 +1,4 @@
 import { expect } from "vitest";
-import Native from "../native/NativeBindings";
 import Block from "../nodes/Block";
 import Expression from "../nodes/Expression";
 import Context from "../nodes/Context";
@@ -11,13 +10,13 @@ export function testConflict(goodCode: string, badCode: string, nodeType: Functi
     const goodProgram = goodSource.program;
     const goodOp = goodProgram.nodes().filter(n => n instanceof nodeType)[nodeIndex];
     expect(goodOp).toBeInstanceOf(nodeType);
-    expect(goodOp?.getConflicts(new Context(goodSource, goodProgram, undefined, Native)).filter(n => n instanceof conflictType)).toHaveLength(0);
+    expect(goodOp?.getConflicts(new Context(goodSource, goodProgram, undefined)).filter(n => n instanceof conflictType)).toHaveLength(0);
 
     const badSource = new Source("test", badCode);
     const badProgram = badSource.program;
     const badOp = badProgram.nodes().filter(n => n instanceof nodeType)[nodeIndex];
     expect(badOp).toBeInstanceOf(nodeType);
-    const conflicts = badOp?.getConflicts(new Context(badSource, badProgram, undefined, Native));
+    const conflicts = badOp?.getConflicts(new Context(badSource, badProgram, undefined));
     expect(conflicts?.find(c => c instanceof conflictType)).toBeInstanceOf(conflictType);
 
 }
@@ -29,7 +28,7 @@ export function testTypes(code: string, typeExpected: Function) {
     const last = source.program.block instanceof Block ? source.program.block.getLast() : undefined;
     const lastIsExpression = last instanceof Expression;
     if(last instanceof Expression) {
-        const type = last.getType(new Context(source, source.program, undefined, Native))
+        const type = last.getType(new Context(source, source.program, undefined))
         const match = type instanceof typeExpected;
         if(!match)
             console.log(`Expression's type is ${type.constructor.name}`);

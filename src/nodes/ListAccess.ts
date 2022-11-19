@@ -58,13 +58,13 @@ export default class ListAccess extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new ListAccess(
-            this.cloneOrReplaceChild(pretty, "list", this.list, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "index", this.index, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "list", this.list, original, replacement), 
+            this.replaceChild(pretty, "index", this.index, original, replacement), 
+            this.replaceChild(pretty, "open", this.open, original, replacement), 
+            this.replaceChild(pretty, "close", this.close, original, replacement)
+        ) as this; 
     }
 
     computeConflicts(context: Context): Conflict[] { 
@@ -91,7 +91,7 @@ export default class ListAccess extends Expression {
         if(this.list instanceof Unparsable) return new UnknownType(this.list);
         const listType = this.list.getTypeUnlessCycle(context);
         if(listType instanceof ListType && listType.type instanceof Type) 
-            return new UnionType(listType.type.clone(false), new NoneType());
+            return new UnionType(listType.type, new NoneType());
         else return new UnknownType(this);
     }
 

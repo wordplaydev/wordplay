@@ -60,12 +60,12 @@ export default class BinaryOperation extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new BinaryOperation(
-            this.cloneOrReplaceChild<Token>(pretty, "operator", this.operator, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "left", this.left, original, replacement), 
-            this.cloneOrReplaceChild<Expression|Unparsable>(pretty, "right", this.right, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild<Token>(pretty, "operator", this.operator, original, replacement), 
+            this.replaceChild(pretty, "left", this.left, original, replacement), 
+            this.replaceChild<Expression|Unparsable>(pretty, "right", this.right, original, replacement)
+        ) as this; 
     }
 
     getPreferredPrecedingSpace(child: Node): string {

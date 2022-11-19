@@ -35,7 +35,7 @@ export default class FunctionDefinitionType extends Type {
 
     getNativeTypeName(): string { return FUNCTION_NATIVE_TYPE_NAME; }
 
-    clone() { return new FunctionDefinitionType(this.fun).label(this._label) as this; }
+    replace() { return new FunctionDefinitionType(this.fun) as this; }
 
     toWordplay() { return this.fun.toWordplay(); }
 

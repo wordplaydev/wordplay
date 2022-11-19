@@ -1,7 +1,6 @@
 import type Node from "../nodes/Node";
 import Token from "../nodes/Token";
 import Program from "../nodes/Program";
-import Native from "../native/NativeBindings";
 import type Conflict from "../conflicts/Conflict";
 import { parseProgram, Tokens } from "../parser/Parser";
 import { tokenize } from "../parser/Tokenizer";
@@ -21,6 +20,7 @@ import type Project from "./Project";
 import Context from "../nodes/Context";
 import TokenType from "../nodes/TokenType";
 import type StructureDefinition from "../nodes/StructureDefinition";
+import Tree from "../nodes/Tree";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source {
@@ -46,6 +46,11 @@ export default class Source {
     /** An index of token positions in the source file. */
     readonly tokenPositions: Map<Token, number> = new Map();
 
+    readonly tree: Tree;
+
+    /** An index of Trees by Node, for fast retrieval of tree structure by a Node. */
+    _index: Map<Node, Tree | undefined> = new Map();
+
     constructor(name: string, code: string | UnicodeString | Program, observers?: Set<() => void>) {
 
         this.name = name;
@@ -58,6 +63,9 @@ export default class Source {
             // Generate the AST.
             this.program = parseProgram(new Tokens(tokenize(code instanceof UnicodeString ? code.getText() : code)));
         }
+
+        // A facade for analyzing the tree.
+        this.tree = new Tree(this.program);
 
         // Generate the text from the AST, which is responsible for pretty printing.
         this.code = new UnicodeString(this.program.toWordplay());
@@ -78,6 +86,13 @@ export default class Source {
         // Start a cache of conflicts in the program.
         this.conflicts = [];
 
+    }
+
+    get(node: Node) { 
+        // See if the cache has it.
+        if(!this._index.has(node))
+            this._index.set(node, this.tree.get(node));
+        return this._index.get(node);    
     }
 
     getProject() { return this._project; }
@@ -104,7 +119,7 @@ export default class Source {
     }
 
     getContext() {
-        return new Context(this, this.program, this.evaluator.getShares(), Native);
+        return new Context(this, this.program, this.evaluator.getShares());
     }
 
     getName() { return this.name; }
@@ -203,7 +218,7 @@ export default class Source {
         return new Source(this.name, program, this.observers);
     }
 
-    clone() {
+    replace() {
         return new Source(this.name, this.code, this.observers);
     }
 

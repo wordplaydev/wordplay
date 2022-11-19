@@ -6,7 +6,7 @@
     export let node: Language;
 
     let caret = getCaret();
-    $: parent = node.getParent();
+    $: parent = $caret?.source.get(node)?.getParent();
     $: inside = parent && $caret && $caret.isIn(parent)
 
 </script>

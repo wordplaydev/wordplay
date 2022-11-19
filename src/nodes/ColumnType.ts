@@ -33,11 +33,11 @@ export default class ColumnType extends Type {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new ColumnType(
-            this.cloneOrReplaceChild(pretty, "bind", this.bind, original, replacement),
-            this.cloneOrReplaceChild(pretty, "bar", this.bar, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "bind", this.bind, original, replacement),
+            this.replaceChild(pretty, "bar", this.bar, original, replacement)
+        ) as this; 
     }
 
     hasDefault() { return this.bind instanceof Bind && this.bind.hasDefault(); }

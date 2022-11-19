@@ -55,13 +55,13 @@ export default class Update extends Expression {
         ]; 
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) {
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) {
         return new Update(
-            this.cloneOrReplaceChild(pretty, "table", this.table, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "update", this.update, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "row", this.row, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "query", this.query, original, replacement)
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "table", this.table, original, replacement), 
+            this.replaceChild(pretty, "update", this.update, original, replacement), 
+            this.replaceChild(pretty, "row", this.row, original, replacement), 
+            this.replaceChild(pretty, "query", this.query, original, replacement)
+        ) as this; 
     }
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.query; }

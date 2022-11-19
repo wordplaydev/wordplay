@@ -53,10 +53,10 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
 
     return [
         ...parent.getAllDefinitions(parent, context),
-        ...(child === undefined ? [] : [ new Block([ child.clone(false).withPrecedingSpace("", true) ], false, false) ]),
+        ...(child === undefined ? [] : [ new Block([ child.withPrecedingSpace("", true) ], false, false) ]),
         new BooleanLiteral(true),
         new BooleanLiteral(false),
-        ...[ new MeasurementLiteral(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => new MeasurementLiteral(undefined, u.clone(false)))) ],
+        ...[ new MeasurementLiteral(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => new MeasurementLiteral(undefined, u))) ],
         ...[ new TextLiteral(), ... (project === undefined ? [] : getPossibleLanguages(project).map(l => new TextLiteral(undefined, new Language(l)))) ],
         new Template(new Token('"\\', TokenType.TEXT_OPEN), [ new ExpressionPlaceholder(), new Token('\\"', TokenType.TEXT_CLOSE)]),
         ...(child instanceof Expression && child.getType(context) instanceof BooleanType ? [ new Conditional( child, new ExpressionPlaceholder(), new ExpressionPlaceholder()) ] : [] ),
@@ -126,7 +126,7 @@ export function getPossiblePostfix(context: Context, node: Expression, type?: Ty
         ...(type === undefined ? [] :
                 type.getAllConversions(context)
                     .filter(conversion => conversion.input instanceof Type && type.accepts(conversion.input, context))
-                    .map(conversion => new Replace(context.source, node, new Convert(node.withPrecedingSpace("", true), conversion.output.clone(true)))))
+                    .map(conversion => new Replace(context.source, node, new Convert(node.withPrecedingSpace("", true), conversion.output.replace(true)))))
 
     ];
 

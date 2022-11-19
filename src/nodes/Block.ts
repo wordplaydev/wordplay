@@ -36,7 +36,6 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
-import { withSpaces } from "./spacing";
 
 export type Statement = Expression | Unparsable | Bind;
 
@@ -54,7 +53,7 @@ export default class Block extends Expression {
         super();
 
         this.open = !root && open === undefined ? new EvalOpenToken() : open;
-        this.statements = withSpaces(statements, statements.length > 1);
+        this.statements = statements;
         this.close = !root && close === undefined ? new EvalCloseToken() : close;
         this.docs = docs instanceof Docs ? docs : new Docs(docs);
         this.root = root;
@@ -73,23 +72,23 @@ export default class Block extends Expression {
         ];
     }
 
-    getPreferredPrecedingSpace(child: Node): string {
-        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
+    getPreferredPrecedingSpace(child: Node, space: "", depth: number): string {
+        // If the child has a new line, indent it.
         const childIndex = this.statements.indexOf(child as Statement);
-        return this.statements.length > 1 && childIndex >= 0 ? `${childIndex > 0 || !this.root ? "\n" : ""}${"\t".repeat(child.getDepth())}` : "";
+        return childIndex >= 0 && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
     }
 
-    isBlock() { return !this.root; }
+    isBlockFor(child: Node) { return !this.root && this.statements.includes(child as Statement); }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Block(
-            this.cloneOrReplaceChild<Statement[]>(pretty, "statements", this.statements, original, replacement),
+            this.replaceChild<Statement[]>(pretty, "statements", this.statements, original, replacement),
             this.root,
             this.creator, 
-            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement), 
-            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement),
-            this.cloneOrReplaceChild(pretty, "docs", this.docs, original, replacement),
-        ).label(this._label) as this; 
+            this.replaceChild(pretty, "open", this.open, original, replacement), 
+            this.replaceChild(pretty, "close", this.close, original, replacement),
+            this.replaceChild(pretty, "docs", this.docs, original, replacement),
+        ) as this; 
     }
 
     getLast() { return this.statements.length === 0 ? undefined : this.statements[this.statements.length - 1]; }

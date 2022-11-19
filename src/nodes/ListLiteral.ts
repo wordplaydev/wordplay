@@ -50,17 +50,17 @@ export default class ListLiteral extends Expression {
         ];
     }
 
-    clone(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new ListLiteral(
-            this.cloneOrReplaceChild<ListItem[]>(pretty, "values", this.values, original, replacement),
-            this.cloneOrReplaceChild(pretty, "open", this.open, original, replacement),
-            this.cloneOrReplaceChild(pretty, "close", this.close, original, replacement)
-         ).label(this._label) as this; 
+            this.replaceChild<ListItem[]>(pretty, "values", this.values, original, replacement),
+            this.replaceChild(pretty, "open", this.open, original, replacement),
+            this.replaceChild(pretty, "close", this.close, original, replacement)
+         ) as this; 
     }
 
-    getPreferredPrecedingSpace(child: Node, space: string): string {
+    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
         // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return (this.values.includes(child as ListItem)) && space.indexOf("\n") >= 0 ? `\n${"\t".repeat(child.getDepth() + 1)}` : "";
+        return (this.values.includes(child as ListItem)) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth + 1)}` : "";
     }
 
     computeType(context: Context): Type {
