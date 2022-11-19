@@ -6,8 +6,6 @@ import Finish from "../runtime/Finish";
 import Expression from "../nodes/Expression";
 import Node from "../nodes/Node";
 import { parseType, tokens } from "../parser/Parser";
-import Unparsable from "../nodes/Unparsable";
-import UnknownType from "../nodes/UnknownType";
 import type Evaluation from "../runtime/Evaluation";
 import type Bind from "../nodes/Bind";
 import type Context from "../nodes/Context";
@@ -27,8 +25,6 @@ export default class NativeExpression extends Expression {
 
         if(typeof type === "string") {
             let possibleType = parseType(tokens(type));
-            if(possibleType instanceof Unparsable)
-                possibleType = new UnknownType(possibleType);
             this.type = possibleType;
         }
         else this.type = type;

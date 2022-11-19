@@ -15,7 +15,6 @@ import Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import type UnaryOperation from "./UnaryOperation";
 import UnknownType from "./UnknownType";
-import Unparsable from "./Unparsable";
 
 type EvaluationType = Evaluate | BinaryOperation | UnaryOperation;
 
@@ -35,9 +34,7 @@ export default function getConcreteExpectedType(definition: FunctionDefinition |
     if(input === undefined) {
         if(definition instanceof StructureDefinition) return new StructureType(definition);
         const functionType = definition.getTypeUnlessCycle(context);
-        if(functionType instanceof Unparsable) return new UnknownType(functionType);
         if(!(functionType instanceof FunctionDefinitionType)) return new UnknownType({ typeVar: definition });
-        if(functionType.fun.output instanceof Unparsable) return new UnknownType(functionType.fun.output);
         type = functionType.fun.getOutputType(context);
     }
     // Otherwise, check that the bind actually exists 

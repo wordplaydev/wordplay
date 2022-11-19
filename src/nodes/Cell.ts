@@ -6,14 +6,13 @@ import Token from "./Token";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import Unparsable from "./Unparsable";
 
 export default class Cell extends Node {
 
     readonly bar: Token;
-    readonly value: Expression | Bind | Unparsable;
+    readonly value: Expression | Bind;
 
-    constructor(bar: Token, expression: Expression | Bind | Unparsable) {
+    constructor(bar: Token, expression: Expression | Bind) {
         super();
 
         this.bar = bar;
@@ -25,7 +24,7 @@ export default class Cell extends Node {
     getGrammar() { 
         return [
             { name: "bar", types:[ Token ] },
-            { name: "value", types:[ Expression, Bind, Unparsable ] },
+            { name: "value", types:[ Expression, Bind ] },
         ]; 
     }
 

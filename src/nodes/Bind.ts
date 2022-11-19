@@ -122,6 +122,7 @@ export default class Bind extends Node implements Evaluable, Named {
     }
 
     isVariableLength() { return this.etc !== undefined; }
+    hasValue() { return this.value !== undefined; }
 
     hasDefault() { return !this.isRequired(); }
     isRequired() { return this.value === undefined && !this.isVariableLength(); }

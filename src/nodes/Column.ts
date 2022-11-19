@@ -2,18 +2,17 @@ import Node from "./Node";
 import type Context from "./Context";
 import Bind from "../nodes/Bind";
 import Token from "./Token";
-import Unparsable from "./Unparsable";
-import UnknownType from "./UnknownType";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import UnknownType from "./UnknownType";
 
 export default class Column extends Node {
 
     readonly bar: Token;
-    readonly bind: Bind | Unparsable;
+    readonly bind?: Bind;
 
-    constructor(bar: Token, bind: Bind | Unparsable) {
+    constructor(bar: Token, bind?: Bind) {
         super();
 
         this.bar = bar;
@@ -24,15 +23,15 @@ export default class Column extends Node {
 
     getGrammar() { 
         return [
-            { name: "bar", types:[ Token ] },
-            { name: "bind", types:[ Bind, Unparsable ] },
+            { name: "bar", types: [ Token ] },
+            { name: "bind", types: [ Bind, undefined ] },
         ]; 
     }
 
     computeConflicts() {}
 
     hasDefault() { return this.bind instanceof Bind && this.bind.hasDefault(); }
-    getType(context: Context) { return this.bind instanceof Unparsable ? new UnknownType(this.bind) : this.bind.getTypeUnlessCycle(context); }
+    getType(context: Context) { return this.bind === undefined ? new UnknownType(this) : this.bind.getTypeUnlessCycle(context); }
 
     replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Column(

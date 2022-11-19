@@ -6,7 +6,6 @@ import type Name from "./Name";
 import Bind from "./Bind";
 import type Context from "./Context";
 import TypeVariable from "./TypeVariable";
-import type Unparsable from "./Unparsable";
 import type Node from "./Node";
 import type Reference from "./Reference";
 import type TableType from "./TableType";
@@ -20,7 +19,7 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import DuplicateBinds from "../conflicts/DuplicateBinds";
 
-export function typeVarsAreUnique(vars: (TypeVariable|Unparsable)[]): DuplicateTypeVariables | undefined {
+export function typeVarsAreUnique(vars: TypeVariable[]): DuplicateTypeVariables | undefined {
     const duplicateTypeVars = 
         vars.filter(tv1 => 
             tv1 instanceof TypeVariable && 
@@ -31,7 +30,7 @@ export function typeVarsAreUnique(vars: (TypeVariable|Unparsable)[]): DuplicateT
 
 }
 
-export function requiredBindAfterOptional(inputs: (Bind|Unparsable)[]): RequiredAfterOptional | undefined {
+export function requiredBindAfterOptional(inputs: Bind[]): RequiredAfterOptional | undefined {
 
     const binds = inputs.filter(i => i instanceof Bind) as Bind[];
     let foundOptional = false;
@@ -48,7 +47,7 @@ export function requiredBindAfterOptional(inputs: (Bind|Unparsable)[]): Required
 
 }
 
-export function restIsNotLast(inputs: (Bind|Unparsable)[]) {
+export function restIsNotLast(inputs: Bind[]) {
 
     const rest = inputs.find(i => i instanceof Bind && i.isVariableLength()) as Bind | undefined;
     return rest !== undefined && inputs.indexOf(rest) !== inputs.length - 1 ?
@@ -56,7 +55,7 @@ export function restIsNotLast(inputs: (Bind|Unparsable)[]) {
 
 }
 
-export function getEvaluationInputConflicts(inputs: (Bind|Unparsable)[]) {
+export function getEvaluationInputConflicts(inputs: Bind[]) {
 
     const conflicts = [];
 

@@ -1,13 +1,12 @@
 import { EXPONENT_SYMBOL, tokenize } from "./Tokenizer";
-import Node from "../nodes/Node";
+import type Node from "../nodes/Node";
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
 import type Expression from "../nodes/Expression";
 import type Type from "../nodes/Type";
 import Program from "../nodes/Program";
 import Borrow from "../nodes/Borrow";
-import Unparsable from "../nodes/Unparsable";
-import Block from "../nodes/Block";
+import Block, { type Statement } from "../nodes/Block";
 import ListLiteral from "../nodes/ListLiteral";
 import Bind from "../nodes/Bind";
 import Evaluate from "../nodes/Evaluate";
@@ -213,32 +212,6 @@ export class Tokens {
             return new Token("", TokenType.END);
     }
 
-    /** Returns a node annotated with an error message, as well as all surrounding tokens. */
-    readUnparsableLine(reason: SyntacticConflict, before: (Node|Node[]|undefined)[]): Unparsable {
-
-        // Take the list of nodes and convert it into a flat list.
-        let nodesBefore: Node[] = [];
-        before.forEach(node => {
-            if(node instanceof Node) nodesBefore.push(node);
-            else if(Array.isArray(node)) nodesBefore = nodesBefore.concat(node);
-        });
-
-        // Find all of the tokens before the next line break, include them
-        const indexOfNextAfter = this.#unread.findIndex(t => t.hasPrecedingLineBreak());
-        const tokensAfter = this.#unread.splice(0, indexOfNextAfter < 1 ? 1 : indexOfNextAfter);
-
-        // Create an unparsable node.
-        const unparsable = new Unparsable(reason, nodesBefore, tokensAfter);
-
-        // Put the unparsable tokens in the read list.
-        while(tokensAfter.length > 0) {
-            const next = tokensAfter.shift();
-            if(next)
-                this.#read.push(next);
-        }
-        return unparsable;
-    }
-
     readLine() {
         const nodes: Node[] = [];
         while(this.peek()?.hasPrecedingLineBreak() === false)
@@ -287,16 +260,10 @@ export function parseProgram(tokens: Tokens): Program {
 }
 
 // BORROW :: ↓ name number?
-export function parseBorrow(tokens: Tokens): Borrow | Unparsable {
+export function parseBorrow(tokens: Tokens): Borrow {
     let borrow = tokens.read(TokenType.BORROW);
-    let name;
-    let version;
-
-    if(tokens.nextIs(TokenType.NAME))
-        name = tokens.read(TokenType.NAME);
-
-    if(tokens.nextIs(TokenType.NUMBER) && !tokens.nextHasPrecedingLineBreak())
-        version = tokens.read(TokenType.NUMBER);
+    let name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : undefined;
+    let version = tokens.nextIs(TokenType.NUMBER) && !tokens.nextHasPrecedingLineBreak() ? tokens.read(TokenType.NUMBER) : undefined;
 
     return new Borrow(borrow, name, version);
 }
@@ -316,8 +283,7 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
     const statements = [];
     while(tokens.nextIsnt(TokenType.END) && (root || tokens.nextIsnt(TokenType.EVAL_CLOSE)))
         statements.push(
-            nextIsBind(tokens, true) ? parseBind(tokens) :
-            parseExpression(tokens)
+            nextIsBind(tokens, true) ? parseBind(tokens) : parseExpression(tokens)
         );
 
     const close = root ?
@@ -330,17 +296,18 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
 
 }
 
-function nextIsBind(tokens: Tokens, requireValue=false): boolean {
+function nextIsBind(tokens: Tokens, expectValue: boolean): boolean {
 
     const rollbackToken = tokens.peek();
     if(rollbackToken === undefined) return false;
     const bind = parseBind(tokens);
+    if(tokens.peek() === rollbackToken) return false;
+
+    // Rollback
     tokens.unreadTo(rollbackToken);
-    const expression = parseExpression(tokens);
-    tokens.unreadTo(rollbackToken);
-    const bindUnparsableCount = bind.nodes(n => n instanceof Unparsable).length;
-    const expressionUnparsableCount = expression.nodes(n => n instanceof UnparsableExpression).length;
-    return bind instanceof Bind && (bind.dot !== undefined || bind.colon !== undefined) && bindUnparsableCount <= expressionUnparsableCount && (requireValue === false || bind.value !== undefined);
+
+    // It's a bind if it has a name and a bind symbol.
+    return bind.names.names.length > 0 && (!expectValue || bind.hasValue());
 
 }
 
@@ -355,7 +322,7 @@ function nextIsConversion(tokens: Tokens): boolean {
 }
 
 /** BIND :: NAMES TYPE? (: EXPRESSION)? */
-export function parseBind(tokens: Tokens): Bind | Unparsable {
+export function parseBind(tokens: Tokens): Bind {
 
     let docs = parseDocumentation(tokens);
     const share = tokens.nextIs(TokenType.SHARE) ? tokens.read(TokenType.SHARE) : undefined;
@@ -366,16 +333,13 @@ export function parseBind(tokens: Tokens): Bind | Unparsable {
     let dot;
     let type;
 
-    if(names.names.length === 0)
-        return tokens.readUnparsableLine(SyntacticConflict.EXPECTED_BIND_NAME, [ docs ]);
-
     if(tokens.nextIs(TokenType.TYPE)) {
         dot = tokens.read(TokenType.TYPE);
         type = parseType(tokens);
     }
 
     if(tokens.nextIs(TokenType.BIND)) {
-        colon = tokens.read(TokenType.BIND); 
+        colon = tokens.read(TokenType.BIND);
         value = parseExpression(tokens);
     }
 
@@ -652,7 +616,7 @@ function parseListAccess(left: Expression, tokens: Tokens): Expression {
 function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
 
     let open = tokens.read(TokenType.SET_OPEN);
-    const values: (Expression|KeyValue|Unparsable)[] = [];
+    const values: (Expression|KeyValue)[] = [];
 
     // Is this an empty map?
     if(tokens.nextAre(TokenType.BIND, TokenType.SET_CLOSE)) {
@@ -712,11 +676,11 @@ function parsePrevious(stream: Expression, tokens: Tokens): Previous {
 
 function parseTable(tokens: Tokens): TableLiteral {
 
-    // Read the column definitions. Stop when we see a newline.
+    // Read the column definitions.
     const columns = [];
     while(tokens.nextIs(TokenType.TABLE_OPEN)) {
         const cell = tokens.read(TokenType.TABLE_OPEN);
-        const bind = parseBind(tokens);
+        const bind = nextIsBind(tokens, false) ? parseBind(tokens) : undefined;
         columns.push(new Column(cell, bind));
     }
 
@@ -739,7 +703,7 @@ function parseRow(tokens: Tokens): Row {
     // Read the cells.
     while(tokens.nextIs(TokenType.TABLE_OPEN)) {
         const cell = tokens.read(TokenType.TABLE_OPEN);
-        const value = nextIsBind(tokens) ? parseBind(tokens) : parseExpression(tokens);
+        const value = nextIsBind(tokens, true) ? parseBind(tokens) : parseExpression(tokens);
         cells.push(new Cell(cell, value));
     }
 
@@ -818,8 +782,8 @@ function parseFunction(tokens: Tokens): FunctionDefinition | UnparsableExpressio
         return new UnparsableExpression([ docs, fun, ...(names ? [names] : []), ...typeVars ]);
     const open = tokens.read(TokenType.EVAL_OPEN);
 
-    const inputs: (Bind|Unparsable)[] = [];
-    while(tokens.nextIsnt(TokenType.EVAL_CLOSE))
+    const inputs: Bind[] = [];
+    while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && nextIsBind(tokens, false))
         inputs.push(parseBind(tokens));
 
     const close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;
@@ -852,14 +816,13 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate | UnparsableE
         return new UnparsableExpression([ left, ...typeInputs ]);
 
     const open = tokens.read(TokenType.EVAL_OPEN);
-    const inputs: (Bind|Expression|Unparsable)[] = [];
-    let close;
+    const inputs: Statement[] = [];
     
+    // This little peek at space just prevents runaway parsing. It uses space to make an assumption that everything below isn't part of the evaluate.
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && (tokens.peekSpace() ?? "").split("\n").length - 1 < 2)
         inputs.push(nextIsBind(tokens, true) ? parseBind(tokens) : parseExpression(tokens));
     
-    if(tokens.nextIs(TokenType.EVAL_CLOSE))
-        close = tokens.read(TokenType.EVAL_CLOSE);
+    let close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;
     
     return new Evaluate(left, inputs, typeInputs, open, close);
 
@@ -1026,7 +989,7 @@ function parseTableType(tokens: Tokens): TableType {
     const columns = [];
     while(tokens.nextIs(TokenType.TABLE_OPEN)) {
         const bar = tokens.read(TokenType.TABLE_OPEN);
-        const bind = parseBind(tokens);
+        const bind = nextIsBind(tokens, false) ? parseBind(tokens) : undefined;
         columns.push(new ColumnType(bind, bar))
     }
     const close = tokens.nextIs(TokenType.TABLE_CLOSE) ? tokens.read(TokenType.TABLE_CLOSE) : undefined;
@@ -1042,11 +1005,11 @@ function parseFunctionType(tokens: Tokens): FunctionType | UnparsableType {
         return new UnparsableType([ fun, ... tokens.readLine() ]);
     const open = tokens.read(TokenType.EVAL_OPEN);
 
-    const inputs: (Bind|Unparsable)[] = [];
-    while(tokens.hasNext() && tokens.nextIsnt(TokenType.EVAL_CLOSE))
+    const inputs: Bind[] = [];
+    while(nextIsBind(tokens, true))
         inputs.push(parseBind(tokens));
 
-    const close = tokens.read(TokenType.EVAL_CLOSE);
+    const close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;
 
     const output = parseType(tokens);
 
@@ -1082,12 +1045,12 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
 
     const typeVars = parseTypeVariables(tokens);
 
-    const inputs: (Bind|Unparsable)[] = [];
+    const inputs: Bind[] = [];
     let open;
     let close;
     if(tokens.nextIs(TokenType.EVAL_OPEN)) {
         open = tokens.read(TokenType.EVAL_OPEN);
-        while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && (nextIsBind(tokens, false) || tokens.nextIs(TokenType.NAME)))
+        while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && nextIsBind(tokens, false))
             inputs.push(parseBind(tokens));
         close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;
     }

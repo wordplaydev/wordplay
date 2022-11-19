@@ -1,6 +1,8 @@
 import type BinaryOperation from "./BinaryOperation";
 import type Bind from "./Bind";
 import type Block from "./Block";
+import type Column from "./Column";
+import type ColumnType from "./ColumnType";
 import type Convert from "./Convert";
 import type Evaluate from "./Evaluate";
 import type Expression from "./Expression";
@@ -23,17 +25,16 @@ import { TRANSLATE } from "./Translations"
 import Type from "./Type";
 import type TypePlaceholder from "./TypePlaceholder";
 import type UnaryOperation from "./UnaryOperation";
-import type Unparsable from "./Unparsable";
 import type UnparsableExpression from "./UnparsableExpression";
 
 export type UnknownTypeReason = 
-    Unparsable |        // Couldn't parse something
     UnparsableExpression | // Couldn't parse something
     Bind |              // Couldn't infer type of name
     Block |             // Block didn't have an expression
     Convert |           // Conversion didn't exist
     ListAccess |        // List type couldn't be determined
     SetOrMapAccess |    // Set or map type couldn't be determined
+    Column | ColumnType | // No bind in column
     Previous |          // Stream type couldn't be determined
     PropertyReference | // Reference couldn't be resolved
     Reference |         // Reference couldn't be resolved

@@ -1,7 +1,6 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
 import StructureType, { STRUCTURE_NATIVE_TYPE_NAME } from "../nodes/StructureType";
 import type Type from "../nodes/Type";
-import Unparsable from "../nodes/Unparsable";
 import type Conversion from "./Conversion";
 import Evaluation from "./Evaluation";
 import type Evaluator from "./Evaluator";
@@ -81,14 +80,10 @@ export default class Structure extends Value {
     }
 
     toString(): string {
-        return `${this.type.names.names[0].getName()}(${this.type.inputs.map(bind => {
-            
-            if(bind instanceof Unparsable) return "";
-            
+        return `${this.type.names.names[0].getName()}(${this.type.inputs.map(bind => {            
             const name = bind.names.names[0].getName();
             const value = name == undefined ? undefined : this.resolve(name);
             return value === undefined ? "" : `${name}: ${value}`;
-        
         }).join(" ")})`;
     }
 

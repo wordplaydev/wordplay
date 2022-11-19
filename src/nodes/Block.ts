@@ -35,9 +35,8 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
-import type Unparsable from "./Unparsable";
 
-export type Statement = Expression | Bind | Unparsable;
+export type Statement = Expression | Bind;
 
 export default class Block extends Expression {
 

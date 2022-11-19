@@ -4,7 +4,6 @@ import Expression from "./Expression";
 import Token from "./Token";
 import type Type from "./Type";
 import UnknownType from "./UnknownType";
-import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import Exception from "../runtime/Exception";
 import type Step from "../runtime/Step";
@@ -208,7 +207,7 @@ export default class PropertyReference extends Expression {
                         // Include 
                         new Replace(context.source, this, [ name => new Evaluate(
                             new PropertyReference(this.structure.withPrecedingSpace("", true), new NameToken(name)), 
-                            def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder())
+                            def.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())
                         ), def ]) : 
                         new Replace(context.source, this, [ name => new PropertyReference(this.structure.withPrecedingSpace("", true), new NameToken(name)), def ])
                     )

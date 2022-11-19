@@ -1,6 +1,5 @@
 import type Definition from "./Definition";
 import Borrow from "./Borrow";
-import Unparsable from "./Unparsable";
 import Block from "../nodes/Block";
 import type Evaluator from "../runtime/Evaluator";
 import type Evaluable from "../runtime/Evaluable";
@@ -25,11 +24,11 @@ import TokenType from "./TokenType";
 export default class Program extends Node implements Evaluable {
     
     readonly docs: Docs;
-    readonly borrows: (Borrow | Unparsable)[];
+    readonly borrows: Borrow[];
     readonly block: Block;
     readonly end: Token;
 
-    constructor(docs: Docs, borrows: (Borrow|Unparsable)[], block: Block, end?: Token) {
+    constructor(docs: Docs, borrows: Borrow[], block: Block, end?: Token) {
 
         super();
 
@@ -45,7 +44,7 @@ export default class Program extends Node implements Evaluable {
     getGrammar() { 
         return [
             { name: "docs", types:[ Docs ] },
-            { name: "borrows", types:[[ Borrow, Unparsable ]] },
+            { name: "borrows", types:[[ Borrow ]] },
             { name: "block", types:[ Block ] },
             { name: "end", types:[ Token ] },
         ]; 

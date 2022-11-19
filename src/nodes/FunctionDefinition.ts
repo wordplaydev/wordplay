@@ -5,7 +5,6 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import TypeVariable from "./TypeVariable";
-import Unparsable from "./Unparsable";
 import type Conflict from "../conflicts/Conflict";
 import { typeVarsAreUnique, getEvaluationInputConflicts } from "./util";
 import type Evaluator from "../runtime/Evaluator";
@@ -43,7 +42,7 @@ export default class FunctionDefinition extends Expression {
     readonly names: Names;
     readonly typeVars: (TypeVariable)[];
     readonly open: Token;
-    readonly inputs: (Bind|Unparsable)[];
+    readonly inputs: Bind[];
     readonly close: Token;
     readonly dot?: Token;
     readonly output?: Type;
@@ -53,9 +52,9 @@ export default class FunctionDefinition extends Expression {
         docs: Docs | Translations | undefined, 
         names: Names | Translations | undefined, 
         typeVars: (TypeVariable)[], 
-        inputs: (Bind|Unparsable)[], 
+        inputs: Bind[], 
         expression: Expression | Token, 
-        output?: Type, 
+        output?: Type,
         fun?: Token, dot?: Token, open?: Token, close?: Token) {
         super();
 
@@ -81,7 +80,7 @@ export default class FunctionDefinition extends Expression {
             { name: "names", types:[ Names ] },
             { name: "typeVars", types:[[ TypeVariable ]] },
             { name: "open", types:[ Token ] },
-            { name: "inputs", types:[[ Bind, Unparsable ]] },
+            { name: "inputs", types:[[ Bind ]] },
             { name: "close", types:[ Token] },
             { name: "dot", types:[ Token, undefined ] },
             { name: "output", types:[ Type, undefined ] },
@@ -137,7 +136,7 @@ export default class FunctionDefinition extends Expression {
 
     }
 
-    isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression || child === this.output || this.inputs.includes(child as Bind | Unparsable); }
+    isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression || child === this.output || this.inputs.includes(child as Bind); }
 
     computeConflicts(): Conflict[] { 
 
@@ -245,7 +244,7 @@ export default class FunctionDefinition extends Expression {
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if( this.typeVars.includes(child as TypeVariable) || 
-            this.inputs.includes(child as Bind | Unparsable))
+            this.inputs.includes(child as Bind))
             return new Remove(context.source, this, child);
         else if(child === this.output && this.dot) return new Remove(context.source, this, this.dot, this.output);
         else if(child === this.expression) return new Replace(context.source, child, new ExpressionPlaceholder());    

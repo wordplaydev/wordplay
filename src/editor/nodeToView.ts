@@ -1,4 +1,3 @@
-import UnparsableView from "./UnparsableView.svelte";
 import BlockView from "./BlockView.svelte";
 import BorrowView from "./BorrowView.svelte";
 import BindView from "./BindView.svelte";
@@ -68,7 +67,6 @@ import UnparsableExpressionView from "./UnparsableExpressionView.svelte";
 import type Node from "../nodes/Node";
 import Program from "../nodes/Program";
 import Token from "../nodes/Token";
-import Unparsable from "../nodes/Unparsable";
 import Doc from "../nodes/Doc";
 import Borrow from "../nodes/Borrow";
 import Block from "../nodes/Block";
@@ -135,7 +133,6 @@ import UnparsableExpression from "../nodes/UnparsableExpression";
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Program, ProgramView);
 nodeToView.set(Token, TokenView);
-nodeToView.set(Unparsable, UnparsableView);
 nodeToView.set(Doc, DocView);
 nodeToView.set(Docs, DocsView);
 

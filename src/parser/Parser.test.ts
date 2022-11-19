@@ -19,7 +19,6 @@ import TextType from "../nodes/TextType";
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
 import UnionType from "../nodes/UnionType";
-import Unparsable from "../nodes/Unparsable";
 import TextLiteral from "../nodes/TextLiteral";
 import NoneLiteral from "../nodes/NoneLiteral";
 import Template from "../nodes/Template";
@@ -125,12 +124,6 @@ test("Parse binds", () => {
     expect((documentedName as Bind).docs.docs).toHaveLength(1);
     expect((documentedName as Bind).docs.docs[0]).toBeInstanceOf(Doc);
     expect((documentedName as Bind).docs.docs[0].getLanguage()).toBe("eng");
-
-    const missingName = parseBind(tokens(": 1"));
-    expect(missingName).toBeInstanceOf(Unparsable);
-
-    const invalidName = parseBind(tokens("1•#: 1"));
-    expect(invalidName).toBeInstanceOf(Unparsable);
 
 })
 

@@ -2,7 +2,6 @@ import type Node from "./Node";
 import Bind from "./Bind";
 import Expression from "./Expression";
 import TypeVariable from "./TypeVariable";
-import Unparsable from "./Unparsable";
 import type Conflict from "../conflicts/Conflict";
 import Type from "./Type";
 import Block from "./Block";
@@ -45,9 +44,9 @@ export default class StructureDefinition extends Expression {
     readonly type: Token;
     readonly names: Names;
     readonly interfaces: TypeInput[];
-    readonly typeVars: (TypeVariable|Unparsable)[];
+    readonly typeVars: TypeVariable[];
     readonly open?: Token;
-    readonly inputs: (Bind | Unparsable)[];
+    readonly inputs: Bind[];
     readonly close?: Token;
     readonly block?: Block;
 
@@ -55,8 +54,8 @@ export default class StructureDefinition extends Expression {
         docs: Docs | Translations | undefined, 
         names: Names | Translations | undefined, 
         interfaces: TypeInput[], 
-        typeVars: (TypeVariable|Unparsable)[], 
-        inputs: (Bind|Unparsable)[], 
+        typeVars: TypeVariable[], 
+        inputs: Bind[], 
         block?: Block, 
         type?: Token, 
         open?: Token, 
@@ -84,11 +83,11 @@ export default class StructureDefinition extends Expression {
             { name: "type", types:[ Token ] },
             { name: "names", types:[ Names ] },
             { name: "interfaces", types:[[ TypeInput ] ] },
-            { name: "typeVars", types:[[ TypeVariable, Unparsable ]] },
+            { name: "typeVars", types:[[ TypeVariable ]] },
             { name: "open", types:[ Token, undefined ] },
-            { name: "inputs", types:[[ Bind, Unparsable ]] },
+            { name: "inputs", types:[[ Bind ]] },
             { name: "close", types:[ Token, undefined ] },
-            { name: "block", types:[ Block, Unparsable, undefined ] },
+            { name: "block", types:[ Block, undefined ] },
         ];
     }
 
@@ -124,7 +123,7 @@ export default class StructureDefinition extends Expression {
 
     getFunctions(implemented?: boolean): FunctionDefinition[] {
 
-        if(this.block instanceof Unparsable || this.block === undefined) return [];
+        if(this.block === undefined) return [];
         return this.block.statements.map(s => 
             s instanceof FunctionDefinition ? s :
             (s instanceof Bind && s.value instanceof FunctionDefinition) ? s.value :
@@ -265,7 +264,7 @@ export default class StructureDefinition extends Expression {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if( this.typeVars.includes(child as TypeVariable) || 
             this.interfaces.includes(child as TypeInput) || 
-            this.inputs.includes(child as Bind | Unparsable))
+            this.inputs.includes(child as Bind))
             return new Remove(context.source, this, child);
         else if(child === this.block) return new Remove(context.source, this, child);
     

@@ -12,7 +12,7 @@ export default class ExpectedColumnType extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.column.bind ] };
+        return { primary: [ this.column.bind ?? this.column ] };
     }
 
     getExplanations(): Translations { 

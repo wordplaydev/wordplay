@@ -6,7 +6,6 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import type Type from "./Type";
 import Unit from "./Unit";
-import Unparsable from "./Unparsable";
 import BinaryOperation from "./BinaryOperation";
 import NativeType from "./NativeType";
 import { getPossibleUnits } from "../transforms/getPossibleUnits";
@@ -113,7 +112,6 @@ export default class MeasurementType extends NativeType {
             this.op instanceof BinaryOperation ? this.op.left.getTypeUnlessCycle(context) : 
             this.op instanceof UnaryOperation ? this.op.operand.getTypeUnlessCycle(context) : 
             this.op.func instanceof PropertyReference ? this.op.func.structure.getTypeUnlessCycle(context) :
-            this.op.func instanceof Unparsable ? new UnknownType(this.op.func) :
             new UnknownType({ typeVar: this.op });
         const rightType = 
             this.op instanceof BinaryOperation ? this.op.right.getTypeUnlessCycle(context) : 

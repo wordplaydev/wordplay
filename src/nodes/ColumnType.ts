@@ -1,6 +1,5 @@
 import Token from "./Token";
 import TokenType from "./TokenType";
-import Unparsable from "./Unparsable";
 import Bind from "../nodes/Bind";
 import type Node from "../nodes/Node";
 import Type from "./Type";
@@ -10,13 +9,14 @@ import { TABLE_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import UnknownType from "./UnknownType";
 
 export default class ColumnType extends Type {
 
     readonly bar: Token;
-    readonly bind: Bind | Unparsable;
+    readonly bind?: Bind;
 
-    constructor(bind: Bind | Unparsable, bar?: Token) {
+    constructor(bind?: Bind, bar?: Token) {
         super();
 
         this.bar = bar ?? new Token(TABLE_OPEN_SYMBOL, TokenType.TABLE_OPEN);
@@ -29,7 +29,7 @@ export default class ColumnType extends Type {
     getGrammar() { 
         return [
             { name: "bar", types:[ Token ] },
-            { name: "bind", types:[ Bind, Unparsable ] },
+            { name: "bind", types:[ Bind, undefined ] },
         ]; 
     }
 
@@ -51,7 +51,7 @@ export default class ColumnType extends Type {
             this.bind.getTypeUnlessCycle(context).accepts(type.bind.getTypeUnlessCycle(context), context);
     }
 
-    getValueType(context: Context) { return this.bind.getType(context); }
+    getValueType(context: Context) { return this.bind === undefined ? new UnknownType(this) : this.bind.getType(context); }
 
     getNativeTypeName(): string { return COLUMN_NATIVE_TYPE_NAME; }
 

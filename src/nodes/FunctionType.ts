@@ -2,7 +2,6 @@ import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import Unparsable from "./Unparsable";
 import type Context from "./Context";
 import { FUNCTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { FUNCTION_SYMBOL } from "../parser/Tokenizer";
@@ -21,11 +20,11 @@ export default class FunctionType extends Type {
 
     readonly fun: Token;
     readonly open: Token;
-    readonly inputs: (Bind|Unparsable)[];
+    readonly inputs: Bind[];
     readonly close: Token;
     readonly output: Type;
 
-    constructor(inputs: (Bind|Unparsable)[], output: Type, fun?: Token, open?: Token, close?: Token) {
+    constructor(inputs: Bind[], output: Type, fun?: Token, open?: Token, close?: Token) {
         super();
 
         this.fun = fun ?? new Token(FUNCTION_SYMBOL, TokenType.FUNCTION);
@@ -42,7 +41,7 @@ export default class FunctionType extends Type {
         return [
             { name: "fun", types:[ Token ] },
             { name: "open", types:[ Token ] },
-            { name: "inputs", types:[[ Bind, Unparsable ]] },
+            { name: "inputs", types:[[ Bind ]] },
             { name: "close", types:[ Token] },
             { name: "output", types:[ Type ] },
         ]; 
@@ -60,7 +59,7 @@ export default class FunctionType extends Type {
 
     accepts(type: Type, context: Context): boolean {
         if(!(type instanceof FunctionType || type instanceof FunctionDefinitionType)) return false;
-        let inputsToCheck: (Bind|Unparsable)[] = type instanceof FunctionDefinitionType ? type.fun.inputs : type.inputs;
+        let inputsToCheck: Bind[] = type instanceof FunctionDefinitionType ? type.fun.inputs : type.inputs;
         let outputToCheck = type instanceof FunctionDefinitionType ? type.fun.getOutputType(context) : type.output;
 
         if(!(outputToCheck instanceof Type)) return false;
@@ -69,8 +68,6 @@ export default class FunctionType extends Type {
         for(let i = 0; i < this.inputs.length; i++) {
             const thisBind = this.inputs[i];
             const thatBind = inputsToCheck[i];
-            if(thisBind instanceof Unparsable) return false;
-            if(thatBind instanceof Unparsable) return false;
             if(thisBind.type instanceof Type && thatBind.type instanceof Type && !thisBind.type.accepts(thatBind.type, context)) return false;
             if(thisBind.isVariableLength() !== thatBind.isVariableLength()) return false;
             if(thisBind.hasDefault() !== thatBind.hasDefault()) return false;
@@ -99,7 +96,7 @@ export default class FunctionType extends Type {
     getInsertionAfter() { return undefined; }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.inputs.includes(child as Bind | Unparsable))
+        if(this.inputs.includes(child as Bind))
             return new Remove(context.source, this, child);
         else if(child === this.output) return new Remove(context.source, this, this.output);
     }

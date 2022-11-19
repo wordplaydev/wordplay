@@ -7,15 +7,12 @@ import Token from "./Token";
 import type Type from "./Type";
 import type Node from "./Node";
 import Unit from "./Unit";
-import Unparsable from "./Unparsable";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import { NotANumber } from "../conflicts/NotANumber";
 import type Bind from "./Bind";
 import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
-import type Evaluator from "../runtime/Evaluator";
-import SemanticException from "../runtime/SemanticException";
 import { getPossibleUnits } from "../transforms/getPossibleUnits";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
@@ -28,9 +25,9 @@ import TokenType from "./TokenType";
 export default class MeasurementLiteral extends Expression {
     
     readonly number: Token;
-    readonly unit: Unit | Unparsable;
+    readonly unit: Unit;
 
-    constructor(number?: Token | number, unit?: Unit | Unparsable) {
+    constructor(number?: Token | number, unit?: Unit) {
         super();
         
         this.number = number === undefined ? new PlaceholderToken() : number instanceof Token ? number : new Token("" + number, TokenType.DECIMAL);
@@ -50,7 +47,7 @@ export default class MeasurementLiteral extends Expression {
     getGrammar() { 
         return [
             { name: "number", types:[ Token ] },
-            { name: "unit", types:[ Unit, Unparsable ] },
+            { name: "unit", types:[ Unit ] },
         ];
     }
 
@@ -66,18 +63,16 @@ export default class MeasurementLiteral extends Expression {
     }
 
     computeType(): Type {
-        return new MeasurementType(this.number, this.unit instanceof Unparsable ? undefined : this.unit);
+        return new MeasurementType(this.number, this.unit);
     }
 
     compile():Step[] {
         return [ new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(): Value {
 
-        if(this.unit instanceof Unparsable) return new SemanticException(evaluator, this.unit);
-        // This needs to translate between different number formats.
-        else return new Measurement(this, this.number, this.unit);
+        return new Measurement(this, this.number, this.unit);
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }

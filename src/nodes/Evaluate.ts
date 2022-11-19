@@ -12,7 +12,6 @@ import Token from "./Token";
 import type Node from "./Node";
 import Type from "./Type";
 import UnknownType from "./UnknownType";
-import Unparsable from "./Unparsable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Evaluation from "../runtime/Evaluation";
@@ -51,7 +50,7 @@ import getConcreteExpectedType from "./Generics";
 import FunctionDefinitionType from "./FunctionDefinitionType";
 import { withSpaces } from "./spacing";
 
-type InputType = Unparsable | Bind | Expression;
+type InputType = Bind | Expression;
 
 export default class Evaluate extends Expression {
 
@@ -285,16 +284,6 @@ export default class Evaluate extends Expression {
         if(candidateExpectedInputs === undefined)
             return [ new Halt(evaluator => new FunctionException(evaluator, this, undefined, this.func.toWordplay()), this) ];
 
-        // Halt if any of the function's binds are unparsable.
-        const unparsableExpected = candidateExpectedInputs.find(i => i instanceof Unparsable);
-        if(unparsableExpected !== undefined)
-            return [ new Halt(evaluator => new SemanticException(evaluator, unparsableExpected), this) ];
-
-        // Halt if any of the function's inputs are unparsable.
-        const unparsableGiven = this.inputs.find(i => i instanceof Unparsable);
-        if(unparsableGiven !== undefined)
-            return [ new Halt(evaluator => new SemanticException(evaluator, unparsableGiven), this) ];
-
         // Make typescript happy now that we've guarded against unparsables.
         const expectedInputs = candidateExpectedInputs as Bind[];
         const givenInputs = this.inputs.slice() as (Expression|Bind)[];
@@ -442,14 +431,13 @@ export default class Evaluate extends Expression {
 
     }
 
-    buildBindings(evaluator: Evaluator, inputs: (Bind | Unparsable)[], values: Value[], ): Map<string, Value> | Exception {
+    buildBindings(evaluator: Evaluator, inputs: Bind[], values: Value[], ): Map<string, Value> | Exception {
 
         // Build the bindings, backwards because they are in reverse on the stack.
         const bindings = new Map<string, Value>();
         for(let i = 0; i < inputs.length; i++) {
             const bind = inputs[i];
-            if(bind instanceof Unparsable) return new SemanticException(evaluator, bind);
-            else if(i >= values.length) 
+            if(i >= values.length) 
                 return new ValueException(evaluator);
             bind.names.names.forEach(name => {
                 const n = name.getName();
@@ -495,7 +483,7 @@ export default class Evaluate extends Expression {
             if(input instanceof Expression) {
 
                 const bind = functionType instanceof FunctionDefinitionType ? functionType.fun.inputs[index] : functionType.structure.inputs[index];
-                if(bind === undefined || bind instanceof Unparsable)
+                if(bind === undefined)
                     return [];
 
                 const expectedType = bind.getType(context);
@@ -525,7 +513,7 @@ export default class Evaluate extends Expression {
                 functionType instanceof FunctionDefinitionType ? functionType.fun.inputs[index] : 
                 functionType.structure.inputs[index];
 
-            if(bind instanceof Unparsable || bind === undefined)
+            if(bind === undefined)
                 return [];
 
             const expectedType = bind.getType(context);

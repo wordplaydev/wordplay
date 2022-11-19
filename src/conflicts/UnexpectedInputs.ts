@@ -1,6 +1,5 @@
 import Evaluate from "../nodes/Evaluate";
 import Conflict from "./Conflict";
-import type Unparsable from "../nodes/Unparsable";
 import type Expression from "../nodes/Expression";
 import type Bind from "../nodes/Bind";
 import type BinaryOperation from "../nodes/BinaryOperation";
@@ -14,9 +13,9 @@ export default class UnexpectedInputs extends Conflict {
 
     readonly func: FunctionDefinition | StructureDefinition;
     readonly evaluate: Evaluate | BinaryOperation;
-    readonly inputs: (Expression|Bind|Unparsable)[];
+    readonly inputs: (Expression|Bind)[];
 
-    constructor(func: FunctionDefinition | StructureDefinition, evaluate: Evaluate | BinaryOperation, inputs: (Expression|Bind|Unparsable)[]) {
+    constructor(func: FunctionDefinition | StructureDefinition, evaluate: Evaluate | BinaryOperation, inputs: (Expression|Bind)[]) {
         super(false);
         this.func = func;
         this.evaluate = evaluate;

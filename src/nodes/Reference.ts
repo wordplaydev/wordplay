@@ -27,7 +27,6 @@ import Evaluate from "./Evaluate";
 import FunctionDefinition from "./FunctionDefinition";
 import StructureDefinition from "./StructureDefinition";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import Unparsable from "./Unparsable";
 import NameToken from "./NameToken";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
@@ -202,7 +201,7 @@ export default class Reference extends Expression {
                 .filter(def => def.getNames().find(name => name.startsWith(this.getName())) !== undefined)
                 .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
                                 // Include 
-                                new Replace(context.source, this, [ name => new Evaluate(new Reference(name), def.inputs.filter(input => input instanceof Unparsable || !input.hasDefault()).map(() => new ExpressionPlaceholder())), def ]) : 
+                                new Replace(context.source, this, [ name => new Evaluate(new Reference(name), def.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())), def ]) : 
                                 new Replace(context.source, this, [ name => new Reference(name), def ])
                 )
         ];

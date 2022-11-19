@@ -2,7 +2,6 @@ import { test, expect } from "vitest";
 import type Conflict from "../conflicts/Conflict";
 import Source from "../models/Source";
 import Context from "../nodes/Context";
-import Unparsable from "../nodes/Unparsable";
 import Evaluator from "../runtime/Evaluator";
 import Shares from "../runtime/Shares";
 import Native from "./NativeBindings";
@@ -23,7 +22,7 @@ const shares = new Shares(new Evaluator(source));
 function checkNativeNodes(nodes: Node[]) {
 
     // Check for syntax errors
-    const unparsables = nodes.reduce((unparsables: (Unparsable|UnparsableExpression|UnparsableType)[], def) => [ ... unparsables, ...(def.nodes(n => n instanceof Unparsable || n instanceof UnparsableExpression || n instanceof UnparsableType) as Unparsable[])], []);
+    const unparsables = nodes.reduce((unparsables: (UnparsableExpression|UnparsableType)[], def) => [ ... unparsables, ...(def.nodes(n => n instanceof UnparsableExpression || n instanceof UnparsableType) as (UnparsableExpression|UnparsableType)[])], []);
 
     if(unparsables.length > 0)
         for(const unparsable of unparsables)
