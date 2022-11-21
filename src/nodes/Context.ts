@@ -1,6 +1,5 @@
 import type Node from "./Node";
 import type NativeInterface from "../native/NativeInterface";
-import type Program from "./Program"
 import type Type from "./Type";
 import type Shares from "../runtime/Shares"
 import type Source from "../models/Source";
@@ -12,7 +11,6 @@ import Native from "../native/NativeBindings";
 export default class Context {
 
     readonly source: Source;
-    readonly program: Program; // This is optional, because sometimes nodes exist outside of programs.
     readonly native: NativeInterface;
     readonly shares?: Shares;
 
@@ -22,15 +20,14 @@ export default class Context {
     
     readonly _index: Map<Node,Tree | undefined> = new Map();
 
-    constructor(source: Source, program: Program, shares?: Shares) {
+    constructor(source: Source, shares?: Shares) {
 
         this.source = source;
-        this.program = program;
         this.native = Native;
         this.shares = shares;
 
         this.trees = [
-            new Tree(program),
+            new Tree(source.program),
             ...Native.getStructureDefinitionTrees(),
             ...DefaultTrees
         ]

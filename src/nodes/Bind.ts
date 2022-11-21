@@ -185,7 +185,7 @@ export default class Bind extends Expression {
 
         // Shares can only appear in the program's root block.
         if(this.share !== undefined) {
-            if(!context.program.block.getChildren().includes(this))
+            if(!context.source.program.block.getChildren().includes(this))
                 conflicts.push(new MisplacedShare(this, this.share));
 
             // Bindings must have language tags on all names to clarify what langauge they're written in.

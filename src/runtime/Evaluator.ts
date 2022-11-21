@@ -77,7 +77,7 @@ export default class Evaluator {
         this.source = source;
         this.evaluations = [];
         this.shares = new Shares(this);
-        this.context = new Context(this.source, this.source.program, this.shares);
+        this.context = new Context(this.source, this.shares);
 
     }
 

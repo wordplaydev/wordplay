@@ -123,7 +123,7 @@ export default class Source {
     }
 
     getContext() {
-        return new Context(this, this.program, this.evaluator.getShares());
+        return new Context(this, this.evaluator.getShares());
     }
 
     getName() { return this.name; }
