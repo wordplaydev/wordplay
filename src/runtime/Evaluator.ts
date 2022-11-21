@@ -121,7 +121,7 @@ export default class Evaluator {
         // Does the root evaluation bind this stream? If so, note that we ignored it.
         if(this.evaluations[this.evaluations.length - 1]?.binds(stream)) {
             this.streamsIgnoredDuringStepping.add(stream);
-            this.broadcastStep();    
+            this.broadcastStep();
         }
     }
 

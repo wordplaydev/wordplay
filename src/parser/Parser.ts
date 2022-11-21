@@ -214,8 +214,10 @@ export class Tokens {
 
     readLine() {
         const nodes: Node[] = [];
-        while(this.peek()?.hasPrecedingLineBreak() === false)
+        // Read at least one token, then keep going until we reach a token with a line break.
+        do {
             nodes.push(this.read());
+        } while(this.peek()?.hasPrecedingLineBreak() === false)
         return nodes;
     }
 
