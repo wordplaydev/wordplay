@@ -32,7 +32,7 @@ export default class Row extends Node {
     }
 
     allBinds() { return this.cells.every(cell => cell.value instanceof Bind ); }
-    allExpressions() { return this.cells.every(cell => cell.value instanceof Expression ); }
+    allExpressions() { return this.cells.every(cell => !(cell.value instanceof Bind)); }
 
     computeConflicts() {}
 
