@@ -33,7 +33,7 @@ export default class Evaluation {
     readonly #node: Evaluable;
 
     /** A cache of the node's steps */
-    readonly #steps?: Step[];
+    readonly #steps: Step[];
 
     /** The evaluation in which this is being evaluated. */
     readonly #context: Evaluation | Value | undefined;
@@ -86,8 +86,6 @@ export default class Evaluation {
      **/
     step(evaluator: Evaluator): Value | undefined {
 
-        if(this.#steps === undefined) return;
-
         // If there are no more steps, return the value on the top of the stack.
         if(this.#step >= this.#steps.length) 
             return this.popValue(undefined);
@@ -114,9 +112,9 @@ export default class Evaluation {
 
     }
 
-    currentStep() { return this.#steps === undefined ? undefined : this.#steps[this.#step]; }
+    currentStep() { return this.#steps[this.#step]; }
 
-    nextStep() { return this.#steps && this.#step + 1 < this.#steps.length ? this.#steps[this.#step + 1] : undefined; }
+    nextStep() { return this.#step + 1 < this.#steps.length ? this.#steps[this.#step + 1] : undefined; }
 
     jump(distance: number) {
         this.#step += distance;
