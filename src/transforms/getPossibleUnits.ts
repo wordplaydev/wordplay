@@ -20,7 +20,7 @@ function getUnitsInConversions(project: Project) {
 
     // Get all dimensions referred to in conversions.
     const unitsInConversions = project.getContext().native
-        ?.getStructureDefinition(MEASUREMENT_NATIVE_TYPE_NAME)
+        .getStructureDefinition(MEASUREMENT_NATIVE_TYPE_NAME)
         ?.getAllConversions()
         .map(conversion => conversion.output instanceof MeasurementType && conversion.output.unit instanceof Unit ? conversion.output.unit : undefined)
         .filter( unit => unit !== undefined) as Unit[];

@@ -70,15 +70,15 @@ export default class UnionType extends Type {
     }
 
     getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {
-        const left = context.native?.getConversion(this.left.getNativeTypeName(), context, input, output);
+        const left = context.native.getConversion(this.left.getNativeTypeName(), context, input, output);
         if(left !== undefined) return left;
-        return this.right instanceof Type ? context.native?.getConversion(this.right.getNativeTypeName(), context, input, output) : undefined;
+        return this.right instanceof Type ? context.native.getConversion(this.right.getNativeTypeName(), context, input, output) : undefined;
     }
 
     getFunction(context: Context, name: string): FunctionDefinition | undefined {
-        const left = context.native?.getFunction(this.left.getNativeTypeName(), name);
+        const left = context.native.getFunction(this.left.getNativeTypeName(), name);
         if(left !== undefined) return left;
-        return this.right instanceof Type ? context.native?.getFunction(this.right.getNativeTypeName(), name) : undefined;
+        return this.right instanceof Type ? context.native.getFunction(this.right.getNativeTypeName(), name) : undefined;
     }
 
     getNativeTypeName(): string { return "union"; }

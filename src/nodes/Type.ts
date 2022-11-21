@@ -20,7 +20,7 @@ export default abstract class Type extends Node {
     isGeneric() { return false; }
 
     getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {
-        return context.native?.getConversion(this.getNativeTypeName(), context, input, output);
+        return context.native.getConversion(this.getNativeTypeName(), context, input, output);
     }
 
     getAllConversions(context: Context) {
@@ -28,7 +28,7 @@ export default abstract class Type extends Node {
     }
 
     getFunction(context: Context, name: string): FunctionDefinition | undefined {
-        return context.native?.getFunction(this.getNativeTypeName(), name);
+        return context.native.getFunction(this.getNativeTypeName(), name);
     }
 
     resolveTypeVariable(name: string): Type | undefined { name; return undefined };

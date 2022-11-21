@@ -11,7 +11,7 @@ export default abstract class NativeType extends Type {
 
     getDefinitions(node: Node, context: Context): Definition[] {
         
-        return context.native?.getStructureDefinition(this.getNativeTypeName())?.getDefinitions(node) ?? []; 
+        return context.native.getStructureDefinition(this.getNativeTypeName())?.getDefinitions(node) ?? []; 
 
     }
 

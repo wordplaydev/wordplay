@@ -13,8 +13,9 @@ export default class Context {
 
     readonly source: Source;
     readonly program: Program; // This is optional, because sometimes nodes exist outside of programs.
+    readonly native: NativeInterface;
     readonly shares?: Shares;
-    readonly native?: NativeInterface;
+
     readonly stack: Node[] = [];
     readonly types: Record<string,Type>[] = [];
     readonly trees: Tree[];
@@ -25,8 +26,8 @@ export default class Context {
 
         this.source = source;
         this.program = program;
-        this.shares = shares;
         this.native = Native;
+        this.shares = shares;
 
         this.trees = [
             new Tree(program),
@@ -36,11 +37,12 @@ export default class Context {
         
     }
 
-    /** Get a tree that that represents the node. It could be in the program, one of the native types, or a share. */
+    /** Get a tree that that represents the node. It could be in a program, one of the native types, or a share. */
     get(node: Node): Tree | undefined {
 
         if(this._index.has(node)) return this._index.get(node);
 
+        // Search the trees in the context for a matching node.
         for(const tree of this.trees) {
             const match = tree.get(node);
             if(match) {
@@ -48,10 +50,12 @@ export default class Context {
                 return match;
             }
         }
+        // Remember that we didn't find it.
         this._index.set(node, undefined);
         return undefined;
     }
 
+    /** Track cycles during conflict analysis. */
     visit(node: Node) { this.stack.push(node); }
     unvisit() { this.stack.pop();}
     visited(node: Node) { return  this.stack.includes(node); }
