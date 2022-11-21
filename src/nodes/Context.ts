@@ -36,15 +36,15 @@ export default class Context {
     }
 
     /** Check the cache for a Tree representing the given node, and set the cache if we haven't checked yet. */
-    get(node: Node): Tree | undefined {
+    get(node: Node, checkProject: boolean = true): Tree | undefined {
 
         if(!this._index.has(node)) 
-            this._index.set(node, this.resolve(node));
+            this._index.set(node, this.resolve(node, checkProject));
         return this._index.get(node);
     }
 
     /** Get a tree that that represents the node. It could be in a program, one of the native types, or a share. */
-    resolve(node: Node): Tree | undefined {
+    resolve(node: Node, checkProject: boolean): Tree | undefined {
 
         // Search the trees in the context for a matching node.
         for(const tree of this.trees) {
@@ -53,12 +53,14 @@ export default class Context {
         }
 
         // See if there are any matching trees in the other source files in the project.
-        const project = this.source.getProject();
-        if(project) {
-            for(const source of project.getSources()) {
-                if(source !== this.source) {
-                    const match = source.getContext().get(node);
-                    if(match) return match;
+        if(checkProject) {
+            const project = this.source.getProject();
+            if(project) {
+                for(const source of project.getSources()) {
+                    if(source !== this.source) {
+                        const match = source.getContext().get(node, false);
+                        if(match) return match;
+                    }
                 }
             }
         }
