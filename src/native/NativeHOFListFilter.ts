@@ -4,6 +4,8 @@ import Expression from "../nodes/Expression";
 import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
 import MeasurementType from "../nodes/MeasurementType";
+import Name from "../nodes/Name";
+import Names from "../nodes/Names";
 import NameType from "../nodes/NameType";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
@@ -22,6 +24,9 @@ import TypeException from "../runtime/TypeException";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
 import { LIST_TYPE_VAR_NAMES } from "./NativeConstants";
+
+const INDEX = new Names([ new Name("index")]);
+const LIST = new Names([ new Name("list")]);
 
 export default class NativeHOFListMap extends HOF {
 
@@ -43,8 +48,8 @@ export default class NativeHOFListMap extends HOF {
                     eng: "Initialize an index and new list."
                 },
                 evaluator => {
-                    evaluator.bind("index", new Measurement(this, 1));
-                    evaluator.bind("list", new List(this, []));
+                    evaluator.bind(INDEX, new Measurement(this, 1));
+                    evaluator.bind(LIST, new List(this, []));
                     return undefined;
                 }
             ),
@@ -69,9 +74,9 @@ export default class NativeHOFListMap extends HOF {
                             if(include instanceof FunctionValue && 
                                 include.definition.expression instanceof Expression && 
                                 include.definition.inputs[0] instanceof Bind) {
-                                const bindings = new Map<string, Value>();
+                                const bindings = new Map<Names, Value>();
                                 // Bind the list value
-                                (include.definition.inputs[0] as Bind).getNames().forEach(n => bindings.set(n, listValue));
+                                bindings.set(include.definition.inputs[0].names, listValue);
                                 // Apply the translator function to the value
                                 evaluator.startEvaluation(new Evaluation(
                                     evaluator, 
@@ -100,7 +105,7 @@ export default class NativeHOFListMap extends HOF {
                     if(!(include instanceof Bool)) return include;
 
                     // Get the current index.
-                    const index = evaluator.resolve("index");
+                    const index = evaluator.resolve(INDEX);
                     if(!(index instanceof Measurement))
                         return new TypeException(evaluator, new MeasurementType(), index);
 
@@ -109,18 +114,18 @@ export default class NativeHOFListMap extends HOF {
                         return new TypeException(evaluator, new ListType(), list);
 
                     // If the include decided yes, append the value.
-                    const newList = evaluator.resolve("list");
+                    const newList = evaluator.resolve(LIST);
                     if(!(newList instanceof List)) return new TypeException(evaluator, new ListType(), newList);
                     else if(!(include instanceof Bool)) return new TypeException(evaluator, new BooleanType(), include);
                     else {
                         if(include.bool) {
                             const listValue = list.get(index);
-                            evaluator.bind("list", newList.append(this, listValue));
+                            evaluator.bind(LIST, newList.append(this, listValue));
                         }
                     }
 
                     // Increment the counter
-                    evaluator.bind("index", index.add(this, new Measurement(this, 1)));
+                    evaluator.bind(INDEX, index.add(this, new Measurement(this, 1)));
 
                     // Jump to the conditional
                     evaluator.jump(-2);

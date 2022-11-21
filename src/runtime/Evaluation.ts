@@ -17,6 +17,7 @@ import Structure from "./Structure";
 import Primitive from "./Primitive";
 import Measurement from "./Measurement";
 import type Node from "../nodes/Node";
+import Names from "../nodes/Names";
 
 export default class Evaluation {
 
@@ -38,8 +39,9 @@ export default class Evaluation {
     /** The evaluation in which this is being evaluated. */
     readonly #context: Evaluation | Value | undefined;
 
-    /** A dictionary of values bound to names */
-    readonly #bindings: Map<string, Value>;
+    /** A dictionary of values bound to names, preseving a mapping between names, language tags, and values */
+    readonly _bindingsIndex: Map<string, Value> = new Map();
+    readonly #bindings: Map<Names, Value> = new Map();
 
     /** This represents a stack of values returned by steps. */
     readonly #values: Value[] = [];
@@ -56,7 +58,7 @@ export default class Evaluation {
         definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition, 
         node: Evaluable, 
         context?: Evaluation | Value, 
-        bindings?: Map<string, Value>) {
+        bindings?: Map<Names, Value>) {
 
         this.#creator = creator;
         this.#evaluator = evaluator;
@@ -67,8 +69,10 @@ export default class Evaluation {
         // Cache the steps for the given node.
         this.#steps = node.compile(this.#evaluator.getContext());
 
-        // Set up the bindings
-        this.#bindings = bindings === undefined ? new Map() : bindings;
+        // Add any bindings given.
+        if(bindings)
+            for(const [ names, value ] of bindings)
+                this.bind(names, value);
 
     }
 
@@ -80,7 +84,7 @@ export default class Evaluation {
 
     /** 
      * Given an Evaluator, evaluate the current step.
-     * If it returns a value of any kind, return the value.
+    * If it returns a value of any kind, return the value.
      * Otherwise just keep stepping.
      *  Undefined means that this will continue evaluating. A Value means it's done. 
      **/
@@ -145,15 +149,22 @@ export default class Evaluation {
     }
 
     /** Binds a value to a name in this evaluation. */
-    bind(name: string, value: Value) {
-        this.#bindings.set(name, value);
+    bind(names: Names, value: Value) {
+        this.#bindings.set(names, value);
+        for(const name of names.getNames())
+            this._bindingsIndex.set(name, value);
     }
 
     /** Resolves the given name in this evaluation or its context. */
-    resolve(name: string): Value | undefined {
-        return this.#bindings.has(name) ? this.#bindings.get(name) : 
+    resolve(name: string | Names): Value | undefined {
+        if(name instanceof Names) {
+            return this.#bindings.get(name) ?? this._bindingsIndex.get(name.getNames()[0]);
+        }
+        else {
+            return this._bindingsIndex.has(name) ? this._bindingsIndex.get(name) : 
             this.#context === undefined ? undefined : 
             this.#context.resolve(name, this.#evaluator);
+        }
     }
 
     /** Remember the given conversion for later. */

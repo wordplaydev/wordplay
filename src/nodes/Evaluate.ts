@@ -49,6 +49,7 @@ import UnknownInput from "../conflicts/UnknownInput";
 import getConcreteExpectedType from "./Generics";
 import FunctionDefinitionType from "./FunctionDefinitionType";
 import { withSpaces } from "./spacing";
+import type Names from "./Names";
 
 export default class Evaluate extends Expression {
 
@@ -423,30 +424,32 @@ export default class Evaluate extends Expression {
 
             // Evaluate the structure's block with the bindings, generating an evaluation context with the
             // type's inputs and functions.
-            evaluator.startEvaluation(new Evaluation(evaluator, this, functionOrStructure.definition, functionOrStructure.definition.block ?? new Block([], true, true), evaluator.getEvaluationContext(), bindings));
+            evaluator.startEvaluation(new Evaluation(
+                evaluator, 
+                this, 
+                functionOrStructure.definition, 
+                functionOrStructure.definition.block ?? new Block([], true, true), 
+                evaluator.getEvaluationContext(), 
+                bindings)
+            );
 
         }
 
     }
 
-    buildBindings(evaluator: Evaluator, inputs: Bind[], values: Value[], ): Map<string, Value> | Exception {
+    buildBindings(evaluator: Evaluator, inputs: Bind[], values: Value[], ): Map<Names, Value> | Exception {
 
         // Build the bindings, backwards because they are in reverse on the stack.
-        const bindings = new Map<string, Value>();
+        const bindings = new Map<Names, Value>();
         for(let i = 0; i < inputs.length; i++) {
             const bind = inputs[i];
             if(i >= values.length) 
                 return new ValueException(evaluator);
-            bind.names.names.forEach(name => {
-                const n = name.getName();
-                if(n !== undefined)
-                    bindings.set(
-                        n, 
-                        bind.isVariableLength() ? 
-                            new List(this, values.slice(i)) :
-                            values[i]
-                    )
-            });
+            bindings.set(bind.names, 
+                bind.isVariableLength() ? 
+                    new List(this, values.slice(i)) :
+                    values[i]
+            )
         }
         return bindings;
 

@@ -19,6 +19,10 @@ import type Step from "../runtime/Step";
 import TypeException from "../runtime/TypeException";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
+import Names from "../nodes/Names";
+import Name from "../nodes/Name";
+
+const INDEX = new Names([ new Name("index")]);
 
 export default class NativeHOFListAll extends HOF {
 
@@ -34,7 +38,7 @@ export default class NativeHOFListAll extends HOF {
         return [
             new Start(this, 
                 evaluator => {
-                    evaluator.bind("index", new Measurement(this, 1));
+                    evaluator.bind(INDEX, new Measurement(this, 1));
                     return undefined;
                 }
             ),
@@ -44,7 +48,7 @@ export default class NativeHOFListAll extends HOF {
                     eng: "Translate the next list element into a boolean."
                 }, 
                 evaluator => {
-                    const index = evaluator.resolve("index");
+                    const index = evaluator.resolve(INDEX);
                     const list = evaluator.getEvaluationContext()?.getContext();
                     // If the index is past the last index of the list, jump to the end.
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
@@ -59,9 +63,9 @@ export default class NativeHOFListAll extends HOF {
                             if(translator instanceof FunctionValue && 
                                 translator.definition.expression instanceof Expression && 
                                 translator.definition.inputs[0] instanceof Bind) {
-                                const bindings = new Map<string, Value>();
+                                const bindings = new Map<Names, Value>();
                                 // Bind the list value
-                                (translator.definition.inputs[0] as Bind).getNames().forEach(n =>  bindings.set(n, listValue));
+                                bindings.set(translator.definition.inputs[0].names, listValue);
                                 // Apply the translator function to the value
                                 evaluator.startEvaluation(new Evaluation(
                                     evaluator, 
@@ -92,13 +96,13 @@ export default class NativeHOFListAll extends HOF {
                     if(!(matched instanceof Bool)) return matched;
 
                     // Get the current index
-                    const index = evaluator.resolve("index");
+                    const index = evaluator.resolve(INDEX);
                     if(!(index instanceof Measurement))
                         return new TypeException(evaluator, new MeasurementType(), matched);
         
                     // If it matched, increment and jump to the conditional.
                     if(matched.bool) {
-                        evaluator.bind("index", index.add(this, new Measurement(this, 1)));
+                        evaluator.bind(INDEX, index.add(this, new Measurement(this, 1)));
                         evaluator.jump(-2);
                     }
                     // Otherwise, go to the last step and fail.

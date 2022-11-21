@@ -3,6 +3,8 @@ import BooleanType from "../nodes/BooleanType";
 import Expression from "../nodes/Expression";
 import type FunctionType from "../nodes/FunctionType";
 import MeasurementType from "../nodes/MeasurementType";
+import Name from "../nodes/Name";
+import Names from "../nodes/Names";
 import NameType from "../nodes/NameType";
 import SetType from "../nodes/SetType";
 import type Translations from "../nodes/Translations";
@@ -22,6 +24,9 @@ import TypeException from "../runtime/TypeException";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
 import { SET_TYPE_VAR_NAMES } from "./NativeConstants";
+
+const INDEX = new Names([ new Name("index")]);
+const SET = new Names([ new Name("set")]);
 
 export default class NativeHOFSetFilter extends HOF {
 
@@ -44,8 +49,8 @@ export default class NativeHOFSetFilter extends HOF {
                     eng: "Initialize an index and new set."
                 }, 
                 evaluator => {
-                    evaluator.bind("index", new Measurement(this, 1));
-                    evaluator.bind("set", new Set(this, []));
+                    evaluator.bind(INDEX, new Measurement(this, 1));
+                    evaluator.bind(SET, new Set(this, []));
                     return undefined;
                 }),
             new Action(this, 
@@ -54,7 +59,7 @@ export default class NativeHOFSetFilter extends HOF {
                     eng: "Check the next set value."
                 },
                 evaluator => {
-                    const index = evaluator.resolve("index");
+                    const index = evaluator.resolve(INDEX);
                     const set = evaluator.getEvaluationContext()?.getContext();
                     // If the index is past the last index of the list, jump to the end.
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
@@ -69,9 +74,9 @@ export default class NativeHOFSetFilter extends HOF {
                             if(checker instanceof FunctionValue && 
                                 checker.definition.expression instanceof Expression && 
                                 checker.definition.inputs[0] instanceof Bind) {
-                                const bindings = new Map<string, Value>();
+                                const bindings = new Map<Names, Value>();
                                 // Bind the list value
-                                (checker.definition.inputs[0] as Bind).getNames().forEach(n =>  bindings.set(n, setValue));
+                                bindings.set(checker.definition.inputs[0].names, setValue);
                                 // Apply the translator function to the value
                                 evaluator.startEvaluation(new Evaluation(
                                     evaluator,
@@ -99,7 +104,7 @@ export default class NativeHOFSetFilter extends HOF {
                     if(!(include instanceof Bool)) return include;
 
                     // Get the current index.
-                    const index = evaluator.resolve("index");
+                    const index = evaluator.resolve(INDEX);
                     if(!(index instanceof Measurement))
                         return new TypeException(evaluator, new MeasurementType(), index);
 
@@ -108,17 +113,17 @@ export default class NativeHOFSetFilter extends HOF {
                         return new TypeException(evaluator, new SetType(), set);
 
                     // If the include decided yes, append the value.
-                    const newSet = evaluator.resolve("set");
+                    const newSet = evaluator.resolve(SET);
                     if(newSet instanceof Set) {
                         if(include.bool) {
                             const setValue = set.values[index.num.toNumber() - 1];
-                            evaluator.bind("set", newSet.add(this, setValue));
+                            evaluator.bind(SET, newSet.add(this, setValue));
                         }
                     }
                     else return new TypeException(evaluator, new SetType(), newSet);
 
                     // Increment the counter
-                    evaluator.bind("index", index.add(this, new Measurement(this, 1)));
+                    evaluator.bind(INDEX, index.add(this, new Measurement(this, 1)));
 
                     // Jump to the conditional
                     evaluator.jump(-2);

@@ -21,6 +21,11 @@ import TypeException from "../runtime/TypeException";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
 import { LIST_TYPE_VAR_NAMES } from "./NativeConstants";
+import Names from "../nodes/Names";
+import Name from "../nodes/Name";
+
+const INDEX = new Names([ new Name("index")]);
+const MAP = new Names([ new Name("map")]);
 
 export default class NativeHOFMapTranslate extends HOF {
 
@@ -42,8 +47,8 @@ export default class NativeHOFMapTranslate extends HOF {
                     eng: "Initialize an index and the new map."
                 },
                 evaluator => {
-                    evaluator.bind("index", new Measurement(this, 1));
-                    evaluator.bind("map", new MapValue(this, []));
+                    evaluator.bind(INDEX, new Measurement(this, 1));
+                    evaluator.bind(MAP, new MapValue(this, []));
                     return undefined;
                 }
             ),
@@ -53,7 +58,7 @@ export default class NativeHOFMapTranslate extends HOF {
                     eng: "Apply the translator to the next key."
                 },
                 evaluator => {
-                    const index = evaluator.resolve("index");
+                    const index = evaluator.resolve(INDEX);
                     const map = evaluator.getEvaluationContext()?.getContext();
                     // If the index is past the last index of the list, jump to the end.
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
@@ -70,10 +75,10 @@ export default class NativeHOFMapTranslate extends HOF {
                                 translator.definition.expression instanceof Expression && 
                                 translator.definition.inputs[0] instanceof Bind &&
                                 translator.definition.inputs[1] instanceof Bind) {
-                                const bindings = new Map<string, Value>();
+                                const bindings = new Map<Names, Value>();
                                 // Bind the map key and value
-                                (translator.definition.inputs[0] as Bind).getNames().forEach(n =>  bindings.set(n, mapKey));
-                                (translator.definition.inputs[1] as Bind).getNames().forEach(n =>  bindings.set(n, mapValue));
+                                bindings.set(translator.definition.inputs[0].names, mapKey);
+                                bindings.set(translator.definition.inputs[1].names, mapValue);
                                 // Apply the translator function to the value
                                 evaluator.startEvaluation(new Evaluation(
                                     evaluator, 
@@ -101,7 +106,7 @@ export default class NativeHOFMapTranslate extends HOF {
                     const translatedValue = evaluator.popValue(undefined);
 
                     // Get the index
-                    const index = evaluator.resolve("index");
+                    const index = evaluator.resolve(INDEX);
                     if(!(index instanceof Measurement))
                         return new TypeException(evaluator, new MeasurementType(), index);
                     
@@ -110,13 +115,13 @@ export default class NativeHOFMapTranslate extends HOF {
                         return new TypeException(evaluator, new MapType(), map);
 
                     // Append the translated value to the list.
-                    const translatedMap = evaluator.resolve("map");
+                    const translatedMap = evaluator.resolve(MAP);
                     if(translatedMap instanceof MapValue)
-                        evaluator.bind("map", translatedMap.set(this, map.values[index.num.toNumber() - 1][0], translatedValue));
+                        evaluator.bind(MAP, translatedMap.set(this, map.values[index.num.toNumber() - 1][0], translatedValue));
                     else return new TypeException(evaluator, new MapType(), translatedMap);
 
                     // Increment the counter
-                    evaluator.bind("index", index.add(this, new Measurement(this, 1)));
+                    evaluator.bind(INDEX, index.add(this, new Measurement(this, 1)));
 
                     // Jump to the conditional
                     evaluator.jump(-2);

@@ -21,6 +21,10 @@ import Context from "../nodes/Context";
 import TokenType from "../nodes/TokenType";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import Tree from "../nodes/Tree";
+import type Names from "../nodes/Names";
+import Unit from "../nodes/Unit";
+import Dimension from "../nodes/Dimension";
+import Style from "../native/Style";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source {
@@ -148,22 +152,27 @@ export default class Source {
         return this.valueToVerse(value);
     }
 
+    style(font: string, size: number) {
+        const bindings = new Map<Names, Value>();
+        bindings.set(Style.inputs[0].names, new Text(this.program, font));
+        bindings.set(Style.inputs[1].names, new Measurement(this.program, size, new Unit(undefined, [ new Dimension("pt")])));
+        return createStructure(this.evaluator, Style, bindings);
+    }
+
+
     phrase(text: string | Text, size: number=12, font: string="Noto Sans", ): Structure {
-        return createStructure(this.evaluator, Phrase as StructureDefinition, {
-            size: new Measurement(this.program, size),
-            font: new Text(this.program, font),
-            text: text instanceof Text ? text : new Text(this.program, text)
-        })
+        const bindings = new Map<Names, Value>();
+        bindings.set(Phrase.inputs[0].names, text instanceof Text ? text : new Text(this.program, text));
+        bindings.set(Phrase.inputs[1].names, this.style(font, size));
+        return createStructure(this.evaluator, Phrase as StructureDefinition, bindings);
     }
 
     group(...phrases: Structure[]) {
-        return createStructure(this.evaluator, Group as StructureDefinition, {
-            phrases: new List(this.program, phrases)
-        })
+        return createStructure(this.evaluator, Group as StructureDefinition, new Map().set(Group.inputs[1].names, new List(this.program, phrases)));
     }
 
     verse(group: Structure) {
-        return createStructure(this.evaluator, Verse as StructureDefinition, { group: group });
+        return createStructure(this.evaluator, Verse as StructureDefinition, new Map().set(Verse.inputs[0].names, group));
     }
 
     valueToVerse(value: Value | undefined): Structure {
@@ -180,9 +189,9 @@ export default class Source {
         else if(contentType instanceof StructureType && contentType.structure === Phrase)
             return this.verse(this.group( value as Structure ));
         else if(value instanceof Text || typeof value === "string")
-            return this.verse(this.group(this.phrase(value, 20)));
+            return this.verse(this.group(this.phrase(value, 12)));
         else
-            return this.verse(this.group(this.phrase(value.toString(), 20)));
+            return this.verse(this.group(this.phrase(value.toString(), 12)));
 
     }
 

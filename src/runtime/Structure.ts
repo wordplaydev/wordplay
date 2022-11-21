@@ -10,6 +10,7 @@ import type Node from "../nodes/Node";
 import Measurement from "./Measurement";
 import Text from "./Text";
 import Bool from "./Bool";
+import type Names from "../nodes/Names";
 
 export default class Structure extends Value {
 
@@ -90,10 +91,8 @@ export default class Structure extends Value {
 
 }
 
-export function createStructure(evaluator: Evaluator, definition: StructureDefinition, values: Record<string, Value>): Structure {
+export function createStructure(evaluator: Evaluator, definition: StructureDefinition, values: Map<Names, Value>): Structure {
 
-    const bindings = new Map<string,Value>();
-    Object.keys(values).forEach(key => bindings.set(key, values[key]));
-    return new Structure(definition, new Evaluation(evaluator, evaluator.getProgram(), definition, definition, undefined, bindings));
+    return new Structure(definition, new Evaluation(evaluator, evaluator.getProgram(), definition, definition, undefined, values));
 
 }

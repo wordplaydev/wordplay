@@ -18,7 +18,8 @@ import type NativeInterface from "../native/NativeInterface";
 import type Step from "./Step";
 import Source from "../models/Source";
 import type Program from "../nodes/Program";
-import type Names from "../nodes/Names";
+import Names from "../nodes/Names";
+import Name from "../nodes/Name";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = {
@@ -345,13 +346,13 @@ export default class Evaluator {
     }
 
     /** Bind the given value to the given name in the context of the current evaluation. */
-    bind(name: string, value: Value) {
+    bind(names: Names, value: Value) {
         if(this.evaluations.length > 0)
-            this.evaluations[0].bind(name, value);
+            this.evaluations[0].bind(names, value);
     }
 
     /** Resolve the given name in the current execution context. */
-    resolve(name: string): Value | undefined {
+    resolve(name: string | Names): Value | undefined {
         return this.evaluations.length === 0 ? 
             undefined : 
             this.evaluations[0].resolve(name);
@@ -389,7 +390,7 @@ export default class Evaluator {
             return undefined;
 
         // Bind the shared value in this context.
-        this.bind(name, share);
+        this.bind(new Names([ new Name(name) ]), share);
 
         // If it's a stream we haven't started, start and listen to the stream.
         if(share instanceof Stream && !this.borrowedStreams.includes(share)) {

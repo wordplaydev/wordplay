@@ -8,6 +8,8 @@ import type Evaluator from "../runtime/Evaluator";
 import StructureType from "../nodes/StructureType";
 import StreamType from "../nodes/StreamType";
 import { TRANSLATE } from "../nodes/Translations";
+import type Value from "../runtime/Value";
+import type Names from "../nodes/Names";
 
 export default class Keyboard extends Stream {
 
@@ -32,7 +34,10 @@ export default class Keyboard extends Stream {
     }
 
     record(key: string, down: boolean) {
-        this.add(createStructure(this.evaluator, Key, { key: new Text(this.evaluator.getProgram(), key), down: new Bool(this.evaluator.getProgram(), down) }));
+        const bindings = new Map<Names, Value>();
+        bindings.set(Key.inputs[0].names, new Text(this.evaluator.getProgram(), key));
+        bindings.set(Key.inputs[1].names, new Bool(this.evaluator.getProgram(), down));
+        this.add(createStructure(this.evaluator, Key, bindings));
     }
     
     start() {}

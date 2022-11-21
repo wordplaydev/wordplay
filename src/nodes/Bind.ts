@@ -289,11 +289,7 @@ export default class Bind extends Expression {
         if(value instanceof Exception) return value;
 
         // Bind the value on the stack to the names.
-        this.names.names.forEach(alias => { 
-            const name = alias.getName(); 
-            if(name !== undefined) 
-                evaluator.bind(name, value);
-        })
+        evaluator.bind(this.names, value);
  
         // Share if shared.
         if(this.isShared())

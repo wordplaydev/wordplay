@@ -5,6 +5,8 @@ import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
 import MapType from "../nodes/MapType";
 import MeasurementType from "../nodes/MeasurementType";
+import Name from "../nodes/Name";
+import Names from "../nodes/Names";
 import NameType from "../nodes/NameType";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
@@ -23,6 +25,9 @@ import TypeException from "../runtime/TypeException";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
 import { LIST_TYPE_VAR_NAMES } from "./NativeConstants";
+
+const INDEX = new Names([ new Name("index")]);
+const MAP = new Names([ new Name("map")]);
 
 export default class NativeHOFMapFilter extends HOF {
 
@@ -44,8 +49,8 @@ export default class NativeHOFMapFilter extends HOF {
                     eng: "Initialize an index and map"
                 },
                 evaluator => {
-                    evaluator.bind("index", new Measurement(this, 1));
-                    evaluator.bind("map", new MapValue(this, []));
+                    evaluator.bind(INDEX, new Measurement(this, 1));
+                    evaluator.bind(MAP, new MapValue(this, []));
                     return undefined;
                 }),
             new Action(this, 
@@ -54,7 +59,7 @@ export default class NativeHOFMapFilter extends HOF {
                     eng: "Check the next map value."
                 },
                 evaluator => {
-                    const index = evaluator.resolve("index");
+                    const index = evaluator.resolve(INDEX);
                     const map = evaluator.getEvaluationContext()?.getContext();
                     // If the index is past the last index of the list, jump to the end.
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
@@ -71,10 +76,10 @@ export default class NativeHOFMapFilter extends HOF {
                                 checker.definition.expression instanceof Expression && 
                                 checker.definition.inputs[0] instanceof Bind &&
                                 checker.definition.inputs[1] instanceof Bind) {
-                                const bindings = new Map<string, Value>();
+                                const bindings = new Map<Names, Value>();
                                 // Bind the key
-                                (checker.definition.inputs[0] as Bind).getNames().forEach(n =>  bindings.set(n, mapKey));
-                                (checker.definition.inputs[1] as Bind).getNames().forEach(n =>  bindings.set(n, mapValue));
+                                bindings.set(checker.definition.inputs[0].names, mapKey);
+                                bindings.set(checker.definition.inputs[1].names, mapValue);
                                 // Apply the translator function to the value
                                 evaluator.startEvaluation(new Evaluation(
                                     evaluator, 
@@ -102,7 +107,7 @@ export default class NativeHOFMapFilter extends HOF {
                 if(!(include instanceof Bool)) return include;
 
                 // Get the current index.
-                const index = evaluator.resolve("index");
+                const index = evaluator.resolve(INDEX);
                 if(!(index instanceof Measurement))
                     return new TypeException(evaluator, new MeasurementType(), index);
 
@@ -111,19 +116,19 @@ export default class NativeHOFMapFilter extends HOF {
                     return new TypeException(evaluator, new MapType(), map);
 
                 // If the include decided yes, append the value.
-                const newMap = evaluator.resolve("map");
+                const newMap = evaluator.resolve(MAP);
                 if(!(include instanceof Bool)) return new TypeException(evaluator, new BooleanType(), include);
                 else if(!(newMap instanceof MapValue)) return new TypeException(evaluator, new MapType(), newMap);
                 if(newMap instanceof MapValue && include instanceof Bool) {
                     if(include.bool) {
                         const mapKey = map.values[index.num.toNumber() - 1][0];
                         const mapValue = map.values[index.num.toNumber() - 1][1];
-                        evaluator.bind("map", newMap.set(this, mapKey, mapValue));
+                        evaluator.bind(MAP, newMap.set(this, mapKey, mapValue));
                     }
                 }
 
                 // Increment the counter
-                evaluator.bind("index", index.add(this, new Measurement(this, 1)));
+                evaluator.bind(INDEX, index.add(this, new Measurement(this, 1)));
 
                 // Jump to the conditional
                 evaluator.jump(-2);

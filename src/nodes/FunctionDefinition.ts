@@ -194,8 +194,8 @@ export default class FunctionDefinition extends Expression {
             new ContextException(evaluator, StackSize.EMPTY) : 
             new FunctionValue(this, context);
 
-        // Bind the value and then return it.
-        this.names.getNames().forEach(name => evaluator.bind(name, value));
+        // Bind the value
+        evaluator.bind(this.names, value);
 
         // Return the value.
         return value;

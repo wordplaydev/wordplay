@@ -1,3 +1,4 @@
+import type StructureDefinition from "../nodes/StructureDefinition";
 import { TRANSLATE } from "../nodes/Translations";
 import { parseStructure, tokens } from "../parser/Parser";
 import Structure from "../runtime/Structure";
@@ -11,7 +12,7 @@ const Style = parseStructure(tokens(
     size/eng,📏/😀•#pt•ø:ø
     weight/eng,${TRANSLATE}weight/😀•1•2•3•4•5•6•7•8•9•ø: ø
     italic/eng,${TRANSLATE}italic/😀•?: ⊥
-)`));
+)`)) as StructureDefinition;
 
 export default Style;
 
