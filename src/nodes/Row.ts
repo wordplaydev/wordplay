@@ -2,7 +2,6 @@ import Node from "./Node";
 import Cell from "./Cell";
 import Token from "./Token";
 import Bind from "./Bind";
-import Expression from "./Expression";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import { TABLE_CLOSE_SYMBOL } from "../parser/Tokenizer";

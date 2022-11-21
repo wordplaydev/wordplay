@@ -17,6 +17,7 @@ import Animation, { Bounce, Throb, Wobble } from "../native/Animation";
 import Style from "../native/Style";
 import type Definition from "../nodes/Definition";
 import Tree from "../nodes/Tree";
+import type Names from "../nodes/Names";
 
 export const DefaultStructures = [
     Verse,
@@ -38,7 +39,8 @@ export const DefaultTrees = DefaultStructures.map(def => new Tree(def));
 
 export default class Shares {
 
-    readonly values: Map<string, Value>;
+    readonly _valuesIndex: Map<string, Value> = new Map();
+    readonly values: Set<Value> = new Set();
     readonly defaults: Record<string, StructureDefinitionValue | Stream> = {}
 
     readonly evaluator: Evaluator;
@@ -48,49 +50,41 @@ export default class Shares {
     readonly keyboard: Keyboard;
     readonly microphone: Microphone;
 
-    constructor(evaluator: Evaluator, bindings?: Record<string, Value>) {
+    constructor(evaluator: Evaluator) {
 
         this.evaluator = evaluator;
-        this.values = new Map();
-
-        if(bindings)
-            Object.keys(bindings).forEach(name => this.bind(name, bindings[name]));
 
         // Add the default structure definitions.
         DefaultStructures.forEach(def => this.addStructureDefinition(def));
 
         // Share a timer stream for programs to listen to.
         this.time = new Time(evaluator);
-        Object.values(this.time.getNames()).forEach(name => this.bind(name, this.time));
+        this.bind(this.time.names, this.time);
 
         // Share a mouse button stream for programs to listen to.
         this.mouseButton = new MouseButton(evaluator);
-        Object.values(this.mouseButton.getNames()).forEach(name => this.bind(name, this.mouseButton));
+        this.bind(this.mouseButton.names, this.mouseButton);
 
         // Share a mouse position stream for programs to listen to.
         this.mousePosition = new MousePosition(evaluator);
-        Object.values(this.mousePosition.getNames()).forEach(name => this.bind(name, this.mousePosition));
+        this.bind(this.mousePosition.names, this.mousePosition);
         
         // Share a keyboard button stream for programs to listen to.
         this.keyboard = new Keyboard(evaluator);
-        Object.values(this.keyboard.getNames()).forEach(name => this.bind(name, this.keyboard));
+        this.bind(this.keyboard.names, this.keyboard);
 
         // Share the microphone.
         this.microphone = new Microphone(evaluator);
-        Object.values(this.microphone.getNames()).forEach(name => this.bind(name, this.microphone));
+        this.bind(this.microphone.names, this.microphone);
         
     }
 
     addStructureDefinition(def: StructureDefinition) {
 
         const val = new StructureDefinitionValue(this.evaluator.getProgram(), def);
-        def.names.names.forEach(a => {
-            const name = a.getName();
-            if(name !== undefined) {
-                this.bind(name, val);
-                this.defaults[name] = val;
-            }
-        });
+        this.bind(def.names, val);
+        for(const name of def.getNames())
+            this.defaults[name] = val;
 
     }
 
@@ -99,33 +93,37 @@ export default class Shares {
     }
 
     getDefinitions() { 
-        return  Array.from(this.values.values())
+        return  Array.from(this.values)
                 .filter(v => v instanceof StructureDefinitionValue || v instanceof Stream)
                 .map(v => v instanceof StructureDefinitionValue ? v.definition : v) as (Stream | StructureDefinition)[] 
     }
 
     getAllStructureDefinitions() { 
-        return  (Array.from(this.values.values())
+        return  (Array.from(this.values)
                 .filter(v => v instanceof StructureDefinitionValue) as StructureDefinitionValue[])
                 .map(v => v.definition) as StructureDefinition[]
     }
 
     getStreams(): Stream[] {
-        return Array.from(this.values.values()).filter(v => v instanceof Stream) as Stream[];
+        return Array.from(this.values).filter(v => v instanceof Stream) as Stream[];
     }
 
     getMouseButton(): MouseButton { return this.mouseButton; }
     getMousePosition(): MousePosition { return this.mousePosition; }
     getKeyboard(): Keyboard { return this.keyboard; }
 
-    bind(name: string, value: Value): undefined {
-        this.values.set(name, value);
+    bind(names: Names, value: Value): undefined {
+        // Add the value to the set
+        this.values.add(value);
+        // Add the value's names to the index for quicker retrieval.
+        for(const name of names.getNames())
+            this._valuesIndex.set(name, value);
         return undefined;
     }
 
     /** Handle version. */
     resolve(name: string): Value | undefined {
-        return this.values.has(name) ? this.values.get(name) as Value : undefined;
+        return this._valuesIndex.get(name);
     }
 
     /** Handle version. */

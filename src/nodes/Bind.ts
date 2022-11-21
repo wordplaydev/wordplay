@@ -296,13 +296,8 @@ export default class Bind extends Expression {
         })
  
         // Share if shared.
-        if(this.isShared()) {
-            for(const name of this.names.names) {
-                const n = name.getName();
-                if(n !== undefined)
-                    evaluator.share(n, value);
-            }
-        }
+        if(this.isShared())
+            evaluator.share(this.names, value);
 
         return undefined;
 

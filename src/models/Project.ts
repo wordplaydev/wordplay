@@ -1,5 +1,4 @@
 import Bind from "../nodes/Bind";
-import Block from "../nodes/Block";
 import type Definition from "../nodes/Definition";
 import type Program from "../nodes/Program";
 import type Value from "../runtime/Value";

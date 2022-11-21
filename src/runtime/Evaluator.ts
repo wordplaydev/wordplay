@@ -18,6 +18,7 @@ import type NativeInterface from "../native/NativeInterface";
 import type Step from "./Step";
 import Source from "../models/Source";
 import type Program from "../nodes/Program";
+import type Names from "../nodes/Names";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = {
@@ -367,8 +368,8 @@ export default class Evaluator {
     getShares() { return this.shares; }
 
     /** Share the given value */
-    share(name: string, value: Value) { 
-        return this.shares.bind(name, value);
+    share(names: Names, value: Value) { 
+        return this.shares.bind(names, value);
     }
 
     resolveShare(name: string): Value | undefined {
