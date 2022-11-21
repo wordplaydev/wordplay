@@ -50,17 +50,15 @@ import getConcreteExpectedType from "./Generics";
 import FunctionDefinitionType from "./FunctionDefinitionType";
 import { withSpaces } from "./spacing";
 
-type InputType = Bind | Expression;
-
 export default class Evaluate extends Expression {
 
     readonly func: Expression;
     readonly typeInputs: TypeInput[];
     readonly open: Token;
-    readonly inputs: InputType[];
+    readonly inputs: Expression[];
     readonly close?: Token;
 
-    constructor(func: Expression, inputs: InputType[], typeInputs?: TypeInput[], open?: Token, close?: Token) {
+    constructor(func: Expression, inputs: Expression[], typeInputs?: TypeInput[], open?: Token, close?: Token) {
         super();
 
         this.typeInputs = typeInputs ?? [];
@@ -79,7 +77,7 @@ export default class Evaluate extends Expression {
             { name: "func", types:[ Expression ] },
             { name: "typeInputs", types:[[ TypeInput ]] },
             { name: "open", types:[ Token ] },
-            { name: "inputs", types:[[ Bind, Expression ]] },
+            { name: "inputs", types:[[ Expression ]] },
             { name: "close", types:[ Token, undefined ] },
         ];
     }
@@ -87,7 +85,7 @@ export default class Evaluate extends Expression {
     replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Evaluate(
             this.replaceChild(pretty, "func", this.func, original, replacement), 
-            this.replaceChild<InputType[]>(pretty, "inputs", this.inputs, original, replacement),
+            this.replaceChild<Expression[]>(pretty, "inputs", this.inputs, original, replacement),
             this.replaceChild(pretty, "typeInputs", this.typeInputs, original, replacement), 
             this.replaceChild(pretty, "open", this.open, original, replacement), 
             this.replaceChild(pretty, "close", this.close, original, replacement)
@@ -96,10 +94,10 @@ export default class Evaluate extends Expression {
 
     getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
         // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return (this.inputs.includes(child as InputType)) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
+        return (this.inputs.includes(child as Expression)) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
     }
 
-    isBlockFor(child: Node) { return this.inputs.includes(child as InputType); }
+    isBlockFor(child: Node) { return this.inputs.includes(child as Expression); }
 
     computeConflicts(context: Context): Conflict[] { 
     
@@ -128,7 +126,7 @@ export default class Evaluate extends Expression {
         if(!candidateInputs.every(i => i instanceof Bind)) return [];
 
         // We made it! Let's analyze the given and expected inputs and see if there are any problems.
-        const expectedInputs = candidateInputs as Bind[];
+        const expectedInputs = candidateInputs;
 
         // If the target inputs has conflicts with its names, defaults, or variable length inputs,
         // then we don't analyze this.
@@ -139,7 +137,7 @@ export default class Evaluate extends Expression {
         // that optional arguments have valid names and are the compatible type
         // and that all variable length inputs have compatible types.
         // To do this, we loop through target inputs and consume the given inputs according to matching rules.
-        const givenInputs = this.inputs.slice() as (Expression | Bind)[];
+        const givenInputs = this.inputs.slice();
 
         // Loop through each of the expected types and see if the given types match.
         for(const expectedInput of expectedInputs) {
@@ -182,7 +180,7 @@ export default class Evaluate extends Expression {
                 if(expectedInput.isVariableLength()) {
                     while(givenInputs.length > 0) {
                         const given = givenInputs.shift();
-                        if(given !== undefined && given instanceof Expression) {
+                        if(given !== undefined && !(given instanceof Bind)) {
                             const givenType = given.getTypeUnlessCycle(context);
                             if(!(expectedType instanceof ListType))
                                 throw Error(`Expected list type on variable length input, but received ${expectedType.constructor.name}`);
@@ -197,7 +195,7 @@ export default class Evaluate extends Expression {
                     const matchingBind = givenInputs.find(i => i instanceof Bind && i.sharesName(expectedInput));
                     if(matchingBind instanceof Bind) {
                         // If the types don't match, there's a conflict.
-                        if(matchingBind.value !== undefined && matchingBind.value instanceof Expression) {
+                        if(matchingBind.value !== undefined && matchingBind.value !== undefined) {
                             const givenType = matchingBind.value.getTypeUnlessCycle(context);
                             if(!expectedType.accepts(givenType, context, matchingBind.value))
                                 conflicts.push(new IncompatibleInput(fun, this, matchingBind.value, givenType, expectedType));
@@ -210,7 +208,7 @@ export default class Evaluate extends Expression {
                     else if(givenInputs.length > 0) {
                         const given = givenInputs[0];
                         // If the given input is an expression, map it to the expected input, and see if there's a type error.
-                        if(given instanceof Expression) {
+                        if(!(given instanceof Bind)) {
                             const givenType = given.getTypeUnlessCycle(context);
                             if(!expectedType.accepts(givenType, context, given))
                                 conflicts.push(new IncompatibleInput(fun, this, given, givenType, expectedType));
@@ -331,7 +329,7 @@ export default class Evaluate extends Expression {
                     }
 
                     // If we didn't find a matching bind for this expected input, see if there's a non-bind expression next, use it.
-                    const optionalInput = givenInputs.length > 0 && givenInputs[0] instanceof Expression ? givenInputs.shift() : undefined;
+                    const optionalInput = givenInputs.length > 0 && !(givenInputs[0] instanceof Bind) ? givenInputs.shift() : undefined;
                     if(optionalInput !== undefined)
                         return optionalInput.compile(context);
                     
@@ -477,7 +475,7 @@ export default class Evaluate extends Expression {
                     .map(fun => new Replace<Reference>(context.source, child, [ name => new Reference(name), fun ]))
         
         // Input expressions should match whatever the function expects, if there is one.
-        const index = this.inputs.indexOf(child as InputType);
+        const index = this.inputs.indexOf(child as Expression);
         if(index >= 0) {
             const input = this.inputs[index];
             if(input instanceof Expression) {
@@ -529,7 +527,7 @@ export default class Evaluate extends Expression {
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.func) return new Replace(context.source, child, new ExpressionPlaceholder());
-        else if(this.typeInputs.includes(child as TypeInput) || this.inputs.includes(child as InputType)) return new Remove(context.source, this, child);    
+        else if(this.typeInputs.includes(child as TypeInput) || this.inputs.includes(child as Expression)) return new Remove(context.source, this, child);    
     }
 
     getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined {
@@ -539,8 +537,8 @@ export default class Evaluate extends Expression {
                 "😀": TRANSLATE,
                 eng: "function"    
             }
-        if(this.inputs.includes(child as InputType)) {
-            const index = this.inputs.indexOf(child as InputType);
+        if(this.inputs.includes(child as Expression)) {
+            const index = this.inputs.indexOf(child as Expression);
             if(index >= 0) {
                 const funType = this.func.getTypeUnlessCycle(context);
                 if(funType instanceof FunctionDefinitionType && index < funType.fun.inputs.length) {

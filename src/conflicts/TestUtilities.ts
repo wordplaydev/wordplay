@@ -35,7 +35,7 @@ export function testTypes(code: string, typeExpected: Function) {
         expect(match).toBe(true);
     }
     else {
-        console.log(`Last expression of this code is a ${last?.constructor.name}`);
+        console.log(`Last expression of this code is undefined.`);
     }
     expect(lastIsExpression).toBe(true);
 

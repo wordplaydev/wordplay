@@ -1,5 +1,5 @@
 import Expression from "./Expression";
-import Node from "./Node";
+import type Node from "./Node";
 import type Transform from "../transforms/Transform"
 import type Context from "./Context";
 import Token from "./Token";
@@ -18,12 +18,10 @@ import Reference from "./Reference";
 import Column from "./Column";
 import ColumnType from "./ColumnType";
 import type Evaluator from "../runtime/Evaluator";
-import type Evaluable from "../runtime/Evaluable";
 import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
 import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
-import type Named from "./Named";
 import { getCaseCollision } from "./util";
 import Evaluate from "./Evaluate";
 import Block from "./Block";
@@ -53,9 +51,9 @@ import Names from "./Names";
 import { MissingShareLanguages } from "../conflicts/MissingShareLanguages";
 import { MisplacedShare } from "../conflicts/MisplacedShare";
 import { DuplicateShare } from "../conflicts/DuplicateShare";
+import type { TypeSet } from "./UnionType";
 
-export default class Bind extends Node implements Evaluable, Named {
-    
+export default class Bind extends Expression {    
     readonly docs: Docs;
     readonly share: Token | undefined;
     readonly etc: Token | undefined;
@@ -109,6 +107,15 @@ export default class Bind extends Node implements Evaluable, Named {
     getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
         // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
         return (child === this.value) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
+    }
+
+    computeType(context: Context): Type {
+        // A bind's type is it's value's type, unless it has none.
+        return this.value === undefined ? new UnknownType(this) : this.value.getTypeUnlessCycle(context);
+    }
+
+    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context): TypeSet {
+        return this.value === undefined ? current : this.value.evaluateTypeSet(bind, original, current, context);
     }
 
     isBlockFor(child: Node) { return child === this.value; }
@@ -249,6 +256,7 @@ export default class Bind extends Node implements Evaluable, Named {
     getDefinitionOfName() { return undefined; }
 
     compile(context: Context):Step[] {
+        // A bind evaluates its value expression, then pushes it on the stack.
         return this.value === undefined ?
             [ new Halt(evaluator => new ValueException(evaluator), this) ] :
             [ 
@@ -274,8 +282,8 @@ export default class Bind extends Node implements Evaluable, Named {
 
     evaluate(evaluator: Evaluator) {
         
-        // Get the value we computed.
-        const value = evaluator.popValue(undefined);
+        // Get the value we computed, but leave it on the stack.
+        const value = evaluator.peekValue();
 
         // If it's an exception, return it instead of binding.
         if(value instanceof Exception) return value;
@@ -285,7 +293,7 @@ export default class Bind extends Node implements Evaluable, Named {
             const name = alias.getName(); 
             if(name !== undefined) 
                 evaluator.bind(name, value);
-        });
+        })
  
         // Share if shared.
         if(this.isShared()) {
