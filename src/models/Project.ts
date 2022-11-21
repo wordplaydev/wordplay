@@ -1,3 +1,4 @@
+import Bind from "../nodes/Bind";
 import Block from "../nodes/Block";
 import type Definition from "../nodes/Definition";
 import type Program from "../nodes/Program";
@@ -62,12 +63,12 @@ export default class Project {
 
     }
 
+    /** Searches source other than the given borrow for top-level binds matching the given name. */
     getDefinition(borrower: Source, name: string): Definition | undefined {
 
         const sources = this.getSourcesExcept(borrower);
         for(const source of sources) {
-            const lastExpression = source.program.block instanceof Block ? source.program.block.statements[0] : undefined;
-            const definition = lastExpression === undefined ? undefined : source.program.block.getDefinitionOfName(name, source.evaluator.context, lastExpression);
+            const definition = source.program.block.statements.find(n => n instanceof Bind && n.hasName(name) && n.isShared()) as Bind | undefined;
             if(definition !== undefined) return definition;
         }
         return undefined;
