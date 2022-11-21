@@ -26,6 +26,7 @@ export default class Context {
         this.native = Native;
         this.shares = shares;
 
+        // Build all of the trees we might need for analysis.
         this.trees = [
             new Tree(source.program),
             ...Native.getStructureDefinitionTrees(),
@@ -34,22 +35,36 @@ export default class Context {
         
     }
 
-    /** Get a tree that that represents the node. It could be in a program, one of the native types, or a share. */
+    /** Check the cache for a Tree representing the given node, and set the cache if we haven't checked yet. */
     get(node: Node): Tree | undefined {
 
-        if(this._index.has(node)) return this._index.get(node);
+        if(!this._index.has(node)) 
+            this._index.set(node, this.resolve(node));
+        return this._index.get(node);
+    }
+
+    /** Get a tree that that represents the node. It could be in a program, one of the native types, or a share. */
+    resolve(node: Node): Tree | undefined {
 
         // Search the trees in the context for a matching node.
         for(const tree of this.trees) {
             const match = tree.get(node);
-            if(match) {
-                this._index.set(node, match);
-                return match;
+            if(match) return match;
+        }
+
+        // See if there are any matching trees in the other source files in the project.
+        const project = this.source.getProject();
+        if(project) {
+            for(const source of project.getSources()) {
+                if(source !== this.source) {
+                    const match = source.getContext().get(node);
+                    if(match) return match;
+                }
             }
         }
-        // Remember that we didn't find it.
-        this._index.set(node, undefined);
+
         return undefined;
+
     }
 
     /** Track cycles during conflict analysis. */
