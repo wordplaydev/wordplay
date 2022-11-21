@@ -26,7 +26,7 @@ export default class UnparsableType extends Type {
 
     getGrammar() {
         return [
-            { name: "unparsable", types: [[ Node ]] }
+            { name: "unparsables", types: [[ Node ]] }
         ];
     }
 

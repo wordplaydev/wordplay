@@ -25,7 +25,7 @@ export default class UnparsableExpression extends Expression {
 
     getGrammar() {
         return [
-            { name: "unparsable", types: [[ Node ]] }
+            { name: "unparsables", types: [[ Node ]] }
         ];
     }
 
