@@ -383,7 +383,8 @@ export default class Evaluator {
         // First look in this source's shares (for global things) then look in other source.
         // (Otherwise we'll find the other source's streams, which are separate).
         const share = this.shares.resolve(name) ?? this.getSource().getProject()?.resolveShare(this.getSource(), name);
-        if(share === undefined) return new NameException(this, name);
+        if(share === undefined) 
+            return new NameException(this, name);
 
         // If we've already borrowed this, don't do it again.
         if(this.resolve(name) === share)

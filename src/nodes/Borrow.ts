@@ -74,9 +74,7 @@ export default class Borrow extends Node implements Evaluable {
 
     evaluate(evaluator: Evaluator) {
         const name = this.getName();
-        if(name !== undefined)
-            evaluator.borrow(name);
-        return undefined;
+        return name === undefined ? undefined : evaluator.borrow(name);
     }    
 
     getName() { return this.name === undefined ? undefined : this.name.getText(); }
