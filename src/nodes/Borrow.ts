@@ -52,10 +52,16 @@ export default class Borrow extends Node implements Evaluable {
     
     computeConflicts(context: Context): Conflict[] { 
     
-        const conflicts = [];
+        const conflicts: Conflict[] = [];
 
-        const type = this.name === undefined ? undefined : context.source.program.getDefinitionOfName(this.name.getText(), context, this);
-        if(this.name === undefined || type === undefined)
+        const name = this.name?.getText();
+        if(name === undefined) return conflicts;
+
+        // Borrows can't depend on on sources that depend on this program.
+        // Check the dependency graph to see if this definition's source depends on this borrow's source.
+        const project = context.source.getProject();
+        const [ definition ] = project?.getDefinition(context.source, name) ?? context.shares?.getDefinitions() ?? [];
+        if(definition === undefined)
             conflicts.push(new UnknownBorrow(this));
 
         return conflicts;

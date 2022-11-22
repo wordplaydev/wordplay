@@ -20,6 +20,7 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import TokenType from "./TokenType";
+import { BorrowCycle } from "../conflicts/BorrowCycle";
 
 export default class Program extends Node implements Evaluable {
     
@@ -61,7 +62,13 @@ export default class Program extends Node implements Evaluable {
 
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }
 
-    computeConflicts() {}
+    computeConflicts(context: Context) {
+
+        const [ borrow, cycle ] = context.source.getCycle(context) ?? [];
+        if(borrow && cycle)
+            return [ new BorrowCycle(this, borrow, cycle) ];
+
+    }
 
     getDefinitions(node: Node, context: Context): Definition[] {
 
@@ -69,7 +76,7 @@ export default class Program extends Node implements Evaluable {
         return  [
             ...context.shares?.getDefinitions() ?? [],
             ...(this.borrows.filter(borrow => borrow instanceof Borrow) as Borrow[])
-            .map(borrow => borrow.name === undefined ? undefined : context.source.getProject()?.getDefinition(context.source, borrow.name.getText()))
+            .map(borrow => borrow.name === undefined ? undefined : (context.source.getProject()?.getDefinition(context.source, borrow.name.getText()) ?? [])[0])
             .filter(d => d !== undefined) as Definition[],
         ]  
 

@@ -25,6 +25,7 @@ import type Names from "../nodes/Names";
 import Unit from "../nodes/Unit";
 import Dimension from "../nodes/Dimension";
 import Style from "../native/Style";
+import type Borrow from "../nodes/Borrow";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source {
@@ -122,6 +123,43 @@ export default class Source {
 
     }
 
+    /** Returns a path from a borrow in this program this to this, if one exists. */
+    getCycle(context: Context, path: Source[] = []): [ Borrow,  Source[] ] | undefined {
+
+        // Visit this source.
+        path.push(this);
+
+        // We need a project to do this.
+        const project = this.getProject();
+        if(project === undefined) return;
+
+        // Visit each borrow in the source's program to see if there's a path back here.
+        for(const borrow of this.program.borrows) {
+
+            // Find the definition.
+            const name = borrow.name?.getText();
+            if(name) {
+                // Does another program in the project define it?
+                const [ , source ] = project.getDefinition(this, name) ?? [];
+                if(source) {
+                    // If we found a cycle, return the path.
+                    if(path.includes(source))
+                        return [ borrow, path ];
+                    // Otherwise, continue searching for a cycle.
+                    const cycle = source.getCycle(context, path.slice());
+                    // If we found one, pass it up the call stack, but pass up this borrow instead
+                    if(cycle)
+                        return [ borrow, cycle[1] ];
+                }
+
+            }
+        }
+
+        // We made it without detecting a cycle; return undefined.
+        return;
+
+    }
+    
     getContext() {
         return new Context(this, this.evaluator.getShares());
     }

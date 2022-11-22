@@ -63,12 +63,12 @@ export default class Project {
     }
 
     /** Searches source other than the given borrow for top-level binds matching the given name. */
-    getDefinition(borrower: Source, name: string): Definition | undefined {
+    getDefinition(borrower: Source, name: string): [ Definition, Source ] | undefined {
 
         const sources = this.getSourcesExcept(borrower);
         for(const source of sources) {
             const definition = source.program.block.statements.find(n => n instanceof Bind && n.hasName(name) && n.isShared()) as Bind | undefined;
-            if(definition !== undefined) return definition;
+            if(definition !== undefined) return [ definition, source ];
         }
         return undefined;
         
