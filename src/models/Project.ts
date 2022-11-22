@@ -40,9 +40,48 @@ export default class Project {
     }
 
     evaluate() {
-        // Now start all of the source's evaluators.
-        for(const source of this.getSources())
+
+        // Get the evaluation order based on borrows, reverse it, and execute in that order.
+        const orderedSources = this.getEvaluationOrder(this.main).reverse();
+
+        // Start the sources that main depends on.
+        for(const source of orderedSources)
             source.getEvaluator().start([]);
+
+        // Start any sources that main doesn't depend on.
+        for(const source of this.getSources())
+            if(!orderedSources.includes(source))
+                source.getEvaluator().start([]);
+
+    }
+
+    /** Returns a path from a borrow in this program this to this, if one exists. */
+    getEvaluationOrder(source: Source, path: Source[] = []): Source[] {
+
+        // Visit this source.
+        path.push(source);
+
+        // Visit each borrow in the source's program to see if there's a path back here.
+        for(const borrow of source.program.borrows) {
+
+            // Find the definition.
+            const name = borrow.name?.getText();
+            if(name) {
+                // Does another program in the project define it?
+                const [ , nextSource ] = this.getDefinition(source, name) ?? [];
+                if(nextSource) {
+                    // If we found a cycle, return the path.
+                    if(path.includes(nextSource))
+                        return path;
+                    // Otherwise, continue searching for a cycle.
+                    this.getEvaluationOrder(nextSource, path);
+                }
+            }
+        }
+
+        // We made it without detecting a cycle; return undefined.
+        return path;
+
     }
 
     cleanup() { 
