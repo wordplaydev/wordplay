@@ -1,20 +1,18 @@
 import type Translations from "../nodes/Translations";
 import { EXCEPTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import ExceptionType from "../nodes/ExceptionType";
-import type Evaluator from "./Evaluator";
 import Primitive from "./Primitive";
 import type Step from "./Step";
+import type Evaluator from "./Evaluator";
 
 export default abstract class Exception extends Primitive {
 
-    readonly evaluator: Evaluator;
     readonly step?: Step;
 
     constructor(evaluator: Evaluator) {
-        super(evaluator.getProgram());
+        super(evaluator.getCurrentStep()?.node ?? evaluator.getProgram());
 
-        this.evaluator = evaluator;
-        this.step = this.evaluator.getEvaluationContext()?.currentStep();
+        this.step = evaluator.getCurrentStep();
 
     }
 

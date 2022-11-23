@@ -1,9 +1,8 @@
 import type Conflict from "../conflicts/Conflict";
 import { UnknownBorrow } from "../conflicts/UnknownBorrow";
-import Node from "./Node";
+import type Node from "./Node";
 import type Context from "./Context";
 import Token from "./Token";
-import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
@@ -17,9 +16,14 @@ import Replace from "../transforms/Replace";
 import NameToken from "./NameToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import Expression from "./Expression";
+import type Bind from "./Bind";
+import type Type from "./Type";
+import type { TypeSet } from "./UnionType";
+import NoneType from "./NoneType";
 
-export default class Borrow extends Node implements Evaluable {
-    
+export default class Borrow extends Expression {
+
     readonly borrow: Token;
     readonly name?: Token;
     readonly version?: Token;
@@ -76,6 +80,11 @@ export default class Borrow extends Node implements Evaluable {
         const name = this.getName();
         return name === undefined ? undefined : evaluator.borrow(name);
     }    
+
+    computeType(): Type {
+        return new NoneType();
+    }
+    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet { return current; }
 
     getName() { return this.name === undefined ? undefined : this.name.getText(); }
 

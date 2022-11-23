@@ -1,13 +1,12 @@
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations";
-import type Evaluator from "./Evaluator";
 import Exception from "./Exception";
+import type Evaluator from "./Evaluator";
 
-export default class UnparseableException extends Exception {
+export default class ValueException extends Exception {
 
     constructor(evaluator: Evaluator) {
         super(evaluator);
-
     }
 
     getExplanations(): Translations {

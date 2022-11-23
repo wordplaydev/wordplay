@@ -227,7 +227,7 @@ export default class StructureDefinition extends Expression {
             return undefined;
         }
         else
-            return new ContextException(evaluator, StackSize.EMPTY);
+            return new ContextException(StackSize.EMPTY, evaluator);
             
     }
     

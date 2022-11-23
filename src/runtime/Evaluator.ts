@@ -183,10 +183,10 @@ export default class Evaluator {
 
         const value = 
             // If it seems like we're stuck in an infinite (recursive) loop, halt.
-            this.evaluations.length > 100000 ? new EvaluationException(this, StackSize.FULL) :
+            this.evaluations.length > 100000 ? new EvaluationException(StackSize.FULL, this) :
             // If there's no node evaluating, throw an exception
             // It's up to callers to check before calling step on a finished evaluation.
-            this.evaluations.length === 0 ? new EvaluationException(this, StackSize.EMPTY) :
+            this.evaluations.length === 0 ? new EvaluationException(StackSize.EMPTY, this) :
             // Otherwise, step the current evaluation and get it's value
             this.evaluations[0]?.step(this);
 
@@ -234,7 +234,7 @@ export default class Evaluator {
 
     /** Evaluate until we're done */
     start(changedStreams: Stream[]): void {
-
+        
         // Reset the latest value.
         this.latestValue = undefined;
 
@@ -366,6 +366,8 @@ export default class Evaluator {
             this.evaluations[0];
     }
 
+    getCurrentStep() { return this.getEvaluationContext()?.currentStep(); }
+
     getShares() { return this.shares; }
 
     /** Share the given value */
@@ -384,7 +386,7 @@ export default class Evaluator {
         // (Otherwise we'll find the other source's streams, which are separate).
         const share = this.shares.resolve(name) ?? this.getSource().getProject()?.resolveShare(this.getSource(), name);
         if(share === undefined) 
-            return new NameException(this, name);
+            return new NameException(name, this);
 
         // If we've already borrowed this, don't do it again.
         if(this.resolve(name) === share)
@@ -432,7 +434,7 @@ export default class Evaluator {
         if(this.hasReactionStream(reaction))
             this.reactionStreams.get(reaction)?.add(value);
         else {
-            const newStream = new ReactionStream(this, reaction, value);
+            const newStream = new ReactionStream(reaction, value);
             this.reactionStreams.set(reaction, newStream);
         }
     }

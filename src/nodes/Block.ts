@@ -165,8 +165,8 @@ export default class Block extends Expression {
         // and convert it into a structure.
         if(this.creator) {
             const context = evaluator.getEvaluationContext();
-            if(context === undefined) return new ContextException(evaluator, StackSize.EMPTY);
-            return new Structure(context.getCreator(), context);
+            if(context === undefined) return new ContextException(StackSize.EMPTY, evaluator);
+            return new Structure(this, context);
         }
         // Root blocks are allowed to have no value, but all others must have one.
         else return this.root && !evaluator.hasValue() ? new None(this) : evaluator.popValue(undefined);

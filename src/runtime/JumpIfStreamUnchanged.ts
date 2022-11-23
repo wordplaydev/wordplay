@@ -1,16 +1,16 @@
 import type Translations from "../nodes/Translations";
 import type Reaction from "../nodes/Reaction";
 import Bool from "./Bool";
-import type Evaluable from "./Evaluable";
 import type Evaluator from "./Evaluator";
 import Step from "./Step";
 import type Value from "./Value";
+import type Expression from "../nodes/Expression";
 
 export default class JumpIfStreamUnchanged extends Step {
 
     readonly count: number;
 
-    constructor(count: number, node: Evaluable) {
+    constructor(count: number, node: Expression) {
         super(node);
 
         this.count = count;

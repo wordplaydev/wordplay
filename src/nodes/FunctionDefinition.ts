@@ -191,7 +191,7 @@ export default class FunctionDefinition extends Expression {
         // Get the function value.
         const context = evaluator.getEvaluationContext();
         const value = context === undefined ? 
-            new ContextException(evaluator, StackSize.EMPTY) : 
+            new ContextException(StackSize.EMPTY, evaluator) : 
             new FunctionValue(this, context);
 
         // Bind the value

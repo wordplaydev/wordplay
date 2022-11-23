@@ -1,17 +1,12 @@
 import Stream from "./Stream";
 import type Value from "./Value";
-import Time from "../native/Time";
 import StructureDefinitionValue from "./StructureDefinitionValue";
 import Verse from "../native/Verse";
 import Phrase from "../native/Phrase";
 import Group from "../native/Group";
-import MouseButton from "../native/MouseButton";
-import MousePosition from "../native/MousePosition";
-import Keyboard from "../native/Keyboard";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import type Evaluator from "./Evaluator";
 import Layout, { Vertical } from "../native/Layout";
-import Microphone from "../native/Microphone";
 import Transition, { Fade, Scale } from "../native/Transition";
 import Animation, { Bounce, Throb, Wobble } from "../native/Animation";
 import Style from "../native/Style";
@@ -42,13 +37,8 @@ export default class Shares {
     readonly _valuesIndex: Map<string, Value> = new Map();
     readonly values: Set<Value> = new Set();
     readonly defaults: Record<string, StructureDefinitionValue | Stream> = {}
-
     readonly evaluator: Evaluator;
-    readonly time: Time;
-    readonly mouseButton: MouseButton;
-    readonly mousePosition: MousePosition;
-    readonly keyboard: Keyboard;
-    readonly microphone: Microphone;
+    readonly streams: Set<Stream> = new Set();
 
     constructor(evaluator: Evaluator) {
 
@@ -56,27 +46,19 @@ export default class Shares {
 
         // Add the default structure definitions.
         DefaultStructures.forEach(def => this.addStructureDefinition(def));
-
-        // Share a timer stream for programs to listen to.
-        this.time = new Time(evaluator);
-        this.bind(this.time.names, this.time);
-
-        // Share a mouse button stream for programs to listen to.
-        this.mouseButton = new MouseButton(evaluator);
-        this.bind(this.mouseButton.names, this.mouseButton);
-
-        // Share a mouse position stream for programs to listen to.
-        this.mousePosition = new MousePosition(evaluator);
-        this.bind(this.mousePosition.names, this.mousePosition);
         
-        // Share a keyboard button stream for programs to listen to.
-        this.keyboard = new Keyboard(evaluator);
-        this.bind(this.keyboard.names, this.keyboard);
+    }
 
-        // Share the microphone.
-        this.microphone = new Microphone(evaluator);
-        this.bind(this.microphone.names, this.microphone);
-        
+    // Adds the list of streams to the shares. Most commonly called when Evaluation starts. 
+    addStreams(streams: Stream[]) {
+
+        for(const stream of streams) {
+            if(!this.streams.has(stream)) {
+                this.bind(stream.names, stream);
+                this.streams.add(stream);
+            }
+        }
+
     }
 
     addStructureDefinition(def: StructureDefinition) {
@@ -107,10 +89,6 @@ export default class Shares {
     getStreams(): Stream[] {
         return Array.from(this.values).filter(v => v instanceof Stream) as Stream[];
     }
-
-    getMouseButton(): MouseButton { return this.mouseButton; }
-    getMousePosition(): MousePosition { return this.mousePosition; }
-    getKeyboard(): Keyboard { return this.keyboard; }
 
     bind(names: Names, value: Value): undefined {
         // Add the value to the set

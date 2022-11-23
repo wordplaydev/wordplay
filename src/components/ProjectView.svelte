@@ -42,9 +42,9 @@
 >
     <Palette/>
     <div class="windows">
-        <SourceView source={project.main}/>
+        <SourceView {project} source={project.main} interactive/>
         {#each project.supplements as source}
-            <SourceView source={source} />
+            <SourceView {project} source={source} />
         {/each}
     </div>
     <!-- Render the dragged node over the whole project -->

@@ -8,7 +8,6 @@ import Exception from "./Exception";
 import type Step from "./Step";
 import Stream from "./Stream";
 import Value from "./Value";
-import type Evaluable from "./Evaluable";
 import type Program from "../nodes/Program";
 import KeepStream from "./KeepStream";
 import ValueException from "./ValueException";
@@ -18,20 +17,21 @@ import Primitive from "./Primitive";
 import Measurement from "./Measurement";
 import type Node from "../nodes/Node";
 import Names from "../nodes/Names";
+import type Expression from "../nodes/Expression";
 
 export default class Evaluation {
 
+    /** The evaluator running the program. Some evaluations are created without running a program (e.g. stream structures). */
+    readonly #evaluator: Evaluator;
+
     /** The node that caused this evaluation to start. */
     readonly #creator: Node;
-
-    /** The evaluator running the program */
-    readonly #evaluator: Evaluator;
 
     /** The node that defined this program. */
     readonly #definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition;
 
     /** The node being evaluated. */
-    readonly #node: Evaluable;
+    readonly #node: Expression;
 
     /** A cache of the node's steps */
     readonly #steps: Step[];
@@ -56,7 +56,7 @@ export default class Evaluation {
         evaluator: Evaluator,
         creator: Node,
         definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition, 
-        node: Evaluable, 
+        node: Expression, 
         context?: Evaluation | Value, 
         bindings?: Map<Names, Value>) {
 
@@ -137,7 +137,7 @@ export default class Evaluation {
     peekValue(): Value { 
         const value = this.#values[0];
         return value === undefined ? 
-            new ValueException(this.#evaluator) : 
+            new ValueException(this.#evaluator) :
             value;
     }
 
@@ -175,17 +175,10 @@ export default class Evaluation {
     /** Find a conversion that matches the given type */
     getConversion(input: Type, output: Type) {
 
-        const program = this.getProgram();
-        if(program === undefined) return undefined;
         // Do any of the conversions in scope do the requested conversion?
         return this.#conversions.find(c => 
-            c.definition.convertsTypeTo(input, output, this.getEvaluator().getContext()));
+            c.definition.convertsTypeTo(input, output, this.#evaluator.getContext()));
 
-    }
-
-    /** Finds the program that executed all of this in the evaluation context stack. */
-    getProgram(): Program {
-        return this.#evaluator.getProgram();
     }
 
     /** Finds the enclosuring structure closure, possibly this. */

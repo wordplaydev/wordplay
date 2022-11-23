@@ -1,12 +1,12 @@
 import type Translations from "../nodes/Translations";
-import type Evaluable from "./Evaluable";
 import type Evaluator from "./Evaluator";
 import Step from "./Step";
 import type Value from "./Value";
+import type Expression from "../nodes/Expression";
 
 export default class Finish extends Step {
 
-    constructor(node: Evaluable) {
+    constructor(node: Expression) {
         super(node);
     }
     

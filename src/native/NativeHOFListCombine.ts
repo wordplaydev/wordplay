@@ -70,7 +70,7 @@ export default class NativeHOFListCombine extends HOF {
                     // Get the list we're processing.
                     const combination = evaluator.resolve(COMBO);
                     if(combination === undefined)
-                        return new NameException(evaluator, COMBO.getNames()[0]);
+                        return new NameException(COMBO.getNames()[0], evaluator);
 
                     // If we're past the end of the list, jump past the loop.
                     if(index.greaterThan(this, list.length(this)).bool)

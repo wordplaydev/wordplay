@@ -6,30 +6,29 @@
     import GroupView from "./GroupView.svelte";
     import { onMount } from "svelte";
     import { styleToCSS } from "../native/Style";
+    import type Project from "../models/Project";
 
+    export let project: Project;
     export let verse: Structure | undefined;
     export let evaluator: Evaluator;
+    export let interactive: boolean;
+
     $: group = verse?.resolve("group", evaluator);
 
     function handleMouseDown() {
-        if(evaluator)
-            evaluator.getShares().getMouseButton().record(true);
+        project.streams?.mouseButton.record(true);
     }
     function handleMouseUp() {
-        if(evaluator)
-            evaluator.getShares().getMouseButton().record(false);
+        project.streams?.mouseButton.record(false);
     }
     function handleMouseMove(event: MouseEvent) {
-        if(evaluator)
-            evaluator.getShares().getMousePosition().record(event.offsetX, event.offsetY);
+        project.streams?.mousePosition.record(event.offsetX, event.offsetY);
     }
     function handleKeyUp(event: KeyboardEvent) {
-        if(evaluator)
-            evaluator.getShares().getKeyboard().record(event.key, false);
+        project.streams?.keyboard.record(event.key, false);
     }
     function handleKeyDown(event: KeyboardEvent) {
-        if(evaluator)
-            evaluator.getShares().getKeyboard().record(event.key, true);
+        project.streams?.keyboard.record(event.key, true);
     }
 
     let visible = false;
@@ -38,12 +37,12 @@
 </script>
 
 {#if visible}
-    <div class="verse" tabindex=0
-        on:mousedown={handleMouseDown} 
-        on:mouseup={handleMouseUp}
-        on:mousemove={handleMouseMove}
-        on:keydown|stopPropagation|preventDefault={handleKeyDown}
-        on:keyup={handleKeyUp}
+    <div class="verse {interactive ? "" : "inert"}" tabindex={interactive ? 0 : null}
+        on:mousedown={interactive ? handleMouseDown : null} 
+        on:mouseup={interactive ? handleMouseUp : null}
+        on:mousemove={interactive ? handleMouseMove : null}
+        on:keydown|stopPropagation|preventDefault={interactive ? handleKeyDown : null}
+        on:keyup={interactive ? handleKeyUp : null}
         style={styleToCSS(verse?.resolve("style", evaluator))}
     >
         {#if verse === undefined}
@@ -68,4 +67,9 @@
     .verse:focus {
         outline: hidden;
     }
+
+    .inert {
+        background-color: var(--wordplay-border-color);
+    }
+
 </style>

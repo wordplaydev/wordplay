@@ -2,13 +2,12 @@ import type Definition from "./Definition";
 import Borrow from "./Borrow";
 import Block from "../nodes/Block";
 import type Evaluator from "../runtime/Evaluator";
-import type Evaluable from "../runtime/Evaluable";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import Token from "./Token";
 import type Context from "./Context";
-import Node from "./Node";
+import type Node from "./Node";
 import Language from "./Language";
 import Unit from "./Unit";
 import Dimension from "./Dimension";
@@ -21,8 +20,12 @@ import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import TokenType from "./TokenType";
 import { BorrowCycle } from "../conflicts/BorrowCycle";
+import Expression from "./Expression";
+import type Bind from "./Bind";
+import type Type from "./Type";
+import type { TypeSet } from "./UnionType";
 
-export default class Program extends Node implements Evaluable {
+export default class Program extends Expression {
     
     readonly docs: Docs;
     readonly borrows: Borrow[];
@@ -69,6 +72,13 @@ export default class Program extends Node implements Evaluable {
             return [ new BorrowCycle(this, borrow, cycle) ];
 
     }
+
+    /** A program's type is it's block's type. */
+    computeType(context: Context): Type {
+        return this.block.getTypeUnlessCycle(context);
+    }
+
+    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet { return current; }
 
     getDefinitions(node: Node, context: Context): Definition[] {
 

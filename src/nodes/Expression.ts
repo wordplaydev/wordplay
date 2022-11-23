@@ -1,6 +1,5 @@
 import Node from "./Node";
 import type Context from "./Context";
-import type Evaluable from "../runtime/Evaluable";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "src/runtime/Value";
 import type Type from "./Type";
@@ -10,7 +9,7 @@ import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import type Translations from "./Translations";
 
-export default abstract class Expression extends Node implements Evaluable {
+export default abstract class Expression extends Node {
 
     /** A cache of the type computed for this epxression. Undefined means its not computed. */
     _type: Type | undefined = undefined;

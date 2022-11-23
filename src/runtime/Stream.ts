@@ -3,7 +3,6 @@ import { STREAM_NATIVE_TYPE_NAME } from "../nodes/StreamType";
 import None from "./None";
 import Primitive from "./Primitive";
 import type Value from "./Value";
-import type Evaluator from "./Evaluator";
 import type LanguageCode from "../nodes/LanguageCode";
 import Names from "../nodes/Names";
 import Docs from "../nodes/Docs";
@@ -17,21 +16,17 @@ export default abstract class Stream extends Primitive {
     /** The names of this stream */
     names: Names;
 
-    /** The evaluator listening to this stream. */
-    evaluator: Evaluator;
-
     /** The stream of values */
     values: Value[] = [];
 
     /** Listeners watching this stream */
     reactors: ((stream: Stream)=>void)[] = [];
 
-    constructor(creator: Node, docs: Docs | Translations, names: Names | Translations, evaluator: Evaluator, initalValue: Value) {
+    constructor(creator: Node, docs: Docs | Translations, names: Names | Translations, initalValue: Value) {
         super(creator);
 
         this.docs = docs instanceof Docs ? docs : new Docs(docs);
         this.names = names instanceof Names ? names : new Names(names);
-        this.evaluator = evaluator;
         this.add(initalValue);
     }
     
@@ -46,14 +41,9 @@ export default abstract class Stream extends Primitive {
         return value === this;
     }
 
-    add(value: Value) {
+    clear() { return this.values = []; }
 
-        // If we're stepping, then we don't add anything to the stream; time is frozen, and the outside world is ignored.
-        // Notify the evaluator so the front end can communicate the ignored feedback.
-        if(!this.evaluator.isPlaying()) {
-            this.evaluator.ignoredStream(this);
-            return;
-        }
+    add(value: Value) {
 
         // Update the time.
         this.values.push(value);

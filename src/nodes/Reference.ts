@@ -158,7 +158,7 @@ export default class Reference extends Expression {
         // Search for the name in the given evaluation context.
         const value = evaluator.resolve(this.name.getText());
         // Return it or an exception if we didn't find it.
-        return value === undefined ? new NameException(evaluator, this.name.getText()) : value;
+        return value === undefined ? new NameException(this.name.getText(), evaluator) : value;
 
     }
     

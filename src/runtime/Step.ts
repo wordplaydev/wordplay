@@ -1,16 +1,16 @@
 import type Translations from "../nodes/Translations";
 import Node from "../nodes/Node";
-import type Evaluable from "./Evaluable";
 import type Evaluator from "./Evaluator";
 import type Value from "./Value";
+import type Expression from "../nodes/Expression";
 
 /** Represents one step a compiled program's execution. */
 export default abstract class Step {
 
-    /** The node to evaluate. */
-    readonly node: Evaluable;
+    /** The node that generated this step. */
+    readonly node: Expression;
 
-    constructor(node: Evaluable) {
+    constructor(node: Expression) {
         this.node = node;
     }
 

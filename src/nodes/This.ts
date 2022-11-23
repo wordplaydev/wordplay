@@ -83,7 +83,7 @@ export default class This extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value {        
-        return evaluator.getThis(this) ?? new NameException(evaluator, THIS_SYMBOL);
+        return evaluator.getThis(this) ?? new NameException(THIS_SYMBOL, evaluator);
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }

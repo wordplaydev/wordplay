@@ -1,6 +1,6 @@
 import MeasurementType from "../nodes/MeasurementType";
+import type Program from "../nodes/Program";
 import { TRANSLATE } from "../nodes/Translations";
-import type Evaluator from "../runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
 import Stream from "../runtime/Stream";
 import { FREQUENCY } from "./Time";
@@ -17,9 +17,9 @@ export default class Microphone extends Stream {
     analyzer: AnalyserNode | undefined;
     frequencies: Uint8Array = new Uint8Array(FFT_SIZE);
 
-    constructor(evaluator: Evaluator) {
+    constructor(creator: Program) {
         super(
-            evaluator.getProgram(),
+            creator,
             {
                 eng: "A stream of microphone amplitudes",
                 "😀": TRANSLATE
@@ -28,14 +28,13 @@ export default class Microphone extends Stream {
                 "😀": "🎤",
                 eng: "mic"
             },
-            evaluator, 
-            new Measurement(evaluator.getProgram(), 0)
+            new Measurement(creator, 0)
         );
 
     }
 
     percent(frequencies: number[]) {
-        return new Measurement(this.evaluator.getProgram(), Math.floor(100 * Math.max.apply(undefined, frequencies) / 256));
+        return new Measurement(this.creator, Math.floor(100 * Math.max.apply(undefined, frequencies) / 256));
     }
     
     sample() {

@@ -157,7 +157,7 @@ export default class PropertyReference extends Expression {
     evaluate(evaluator: Evaluator) {
 
         const subject = evaluator.popValue(undefined);
-        if(this.name === undefined) return new NameException(evaluator, "");
+        if(this.name === undefined) return new NameException("", evaluator);
         const name = this.name.text.toString();
         return subject instanceof Exception ? 
             subject :

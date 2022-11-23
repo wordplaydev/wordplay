@@ -1,7 +1,7 @@
 import MeasurementType from "../nodes/MeasurementType";
+import type Program from "../nodes/Program";
 import { TRANSLATE } from "../nodes/Translations";
 import Unit from "../nodes/Unit";
-import type Evaluator from "../runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
 import Stream from "../runtime/Stream";
 
@@ -12,9 +12,9 @@ export default class Time extends Stream {
     timerID: NodeJS.Timer | undefined;
     startTime: number | undefined;
 
-    constructor(evaluator: Evaluator) {
+    constructor(program: Program) {
         super(
-            evaluator.getProgram(),
+            program,
             {
                 eng: "A stream of clock ticks, thirty times per second.",
                 "😀": TRANSLATE
@@ -23,13 +23,12 @@ export default class Time extends Stream {
                 "😀": "⏱",
                 eng: "time"
             },
-            evaluator, 
-            new Measurement(evaluator.getProgram(), 0, Unit.unit(["ms"]))
+            new Measurement(program, 0, Unit.unit(["ms"]))
         );
     }
 
     tick() {
-        this.add(new Measurement(this.evaluator.getProgram(), Date.now() - (this.startTime as number), Unit.unit(["ms"])));
+        this.add(new Measurement(this.creator, Date.now() - (this.startTime as number), Unit.unit(["ms"])));
     }
 
     start() {

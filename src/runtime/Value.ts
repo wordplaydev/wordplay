@@ -24,7 +24,7 @@ export default abstract class Value {
     abstract getNativeTypeName(): string;
 
     /** Returns the value with the given name in the structure. */
-    abstract resolve(name: string, evaluator: Evaluator): Value | undefined;
+    abstract resolve(name: string, evaluator?: Evaluator): Value | undefined;
 
     abstract isEqualTo(value: Value): boolean;
 

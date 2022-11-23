@@ -3,8 +3,12 @@
     import Editor from '../editor/Editor.svelte';
     import type Source from '../models/Source';
     import { onDestroy } from 'svelte';
+    import type Project from '../models/Project';
 
+    export let project: Project;
     export let source: Source;
+    export let interactive: boolean = false;
+
     let previousSource: Source;
 
     $: {
@@ -54,8 +58,8 @@
         <div class="source-content">
             <Editor source={source} />
         </div>
-        <div class="source-content">
-            <VerseView verse={verse} evaluator={evaluator}/>
+        <div class="source-content" >
+            <VerseView {project} {verse} {evaluator} {interactive}/>
         </div>
     </div>
 </div>

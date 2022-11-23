@@ -1,3 +1,8 @@
+import Keyboard from "../native/Keyboard";
+import Microphone from "../native/Microphone";
+import MouseButton from "../native/MouseButton";
+import MousePosition from "../native/MousePosition";
+import Time from "../native/Time";
 import Bind from "../nodes/Bind";
 import type Definition from "../nodes/Definition";
 import type Program from "../nodes/Program";
@@ -12,9 +17,18 @@ export default class Project {
     readonly name: string;
     readonly main: Source;
     readonly supplements: Source[];
+    
+    readonly streams: {
+        time: Time,
+        mouseButton: MouseButton,
+        mousePosition: MousePosition,
+        keyboard: Keyboard,
+        microphone: Microphone
+    };
 
     constructor(name: string, main: Source, supplements: Source[]) {
         
+        // Remember the source.
         this.name = name;
         this.main = main;
         this.supplements = supplements.slice();
@@ -23,13 +37,33 @@ export default class Project {
         main.setProject(this);
         supplements.forEach(supp => supp.setProject(this));
 
+        // Create all the streams.
+        this.streams = this.createStreams();
+
+        // Add them to the shares of all the sources, for analysis and execution.
+        for(const source of this.getSources())
+            source.evaluator.shares.addStreams(Object.values(this.streams));
+
         // Analyze conflicts now that all source is set.
         main.computeConflicts();
         supplements.forEach(supp => supp.computeConflicts());
 
     }
 
-    getSources() { return [ this.main, ...this.supplements]; }
+    createStreams() {
+        return {
+            time: new Time(this.main.program),
+            mouseButton: new MouseButton(this.main.program),
+            mousePosition: new MousePosition(this.main.evaluator),
+            keyboard: new Keyboard(this.main.evaluator),
+            microphone: new Microphone(this.main.program)
+        };
+    }
+
+    getSources() { 
+        return [ this.main, ...this.supplements]; 
+    }
+
     getSourcesExcept(source: Source) { return [ this.main, ...this.supplements].filter(s => s !== source); }
     getName() { return this.name; }
     getContext() { return this.main.getContext(); }
@@ -44,7 +78,11 @@ export default class Project {
         // Get the evaluation order based on borrows, reverse it, and execute in that order.
         const orderedSources = this.getEvaluationOrder(this.main).reverse();
 
-        // Start the sources that main depends on.
+        // Reset all of the streams.
+        for(const stream of Object.values(this.streams))
+            stream.clear();
+
+        // Start the sources that main depends on. Create all of the streams.
         for(const source of orderedSources)
             source.getEvaluator().start([]);
 

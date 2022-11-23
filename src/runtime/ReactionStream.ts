@@ -1,7 +1,6 @@
 import type Context from "../nodes/Context";
 import type Reaction from "../nodes/Reaction";
 import { TRANSLATE } from "../nodes/Translations";
-import type Evaluator from "./Evaluator";
 import Stream from "./Stream";
 import type Value from "./Value";
 
@@ -9,7 +8,7 @@ export default class ReactionStream extends Stream {
 
     readonly reaction: Reaction;
 
-    constructor(evaluator: Evaluator, reaction: Reaction, initialValue: Value) {
+    constructor(reaction: Reaction, initialValue: Value) {
         super(
             reaction,
             {
@@ -20,7 +19,6 @@ export default class ReactionStream extends Stream {
                 eng: "reaction",
                 "😀": "∆"
             },
-            evaluator, 
             initialValue
         );
 
