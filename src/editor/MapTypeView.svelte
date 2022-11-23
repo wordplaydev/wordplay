@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type MapType from "../nodes/MapType";
     import NodeView from "./NodeView.svelte";

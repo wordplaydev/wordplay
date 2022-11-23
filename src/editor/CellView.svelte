@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type Cell from "../nodes/Cell";
     import NodeView from "./NodeView.svelte";

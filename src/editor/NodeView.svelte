@@ -1,3 +1,5 @@
+<svelte:options immutable={true}/>
+
 <script lang="ts">
     import { afterUpdate } from "svelte";
     import type Node from "../nodes/Node";

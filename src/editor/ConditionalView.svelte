@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type Conditional from "../nodes/Conditional";
     import NodeView from "./NodeView.svelte";

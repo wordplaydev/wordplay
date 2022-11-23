@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type Language from "../nodes/Language";
     import { getCaret } from "./Contexts";

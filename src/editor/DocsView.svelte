@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type Docs from "../nodes/Docs";
     import LanguageTaggedNodeSequence from "./LanguageTaggedNodeSequence.svelte";

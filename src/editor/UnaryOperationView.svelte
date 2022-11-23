@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type UnaryOperation from "../nodes/UnaryOperation";
     import NodeView from "./NodeView.svelte";

@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type Reaction from "../nodes/Reaction";
     import NodeView from "./NodeView.svelte";

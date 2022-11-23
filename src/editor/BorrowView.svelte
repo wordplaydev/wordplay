@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type Borrow from "../nodes/Borrow";
     import NodeView from "./NodeView.svelte";

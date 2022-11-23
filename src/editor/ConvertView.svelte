@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type Convert from "../nodes/Convert";
     import NodeView from "./NodeView.svelte";

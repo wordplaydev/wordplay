@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type TextLiteral from "../nodes/TextLiteral";
     import NodeView from "./NodeView.svelte";

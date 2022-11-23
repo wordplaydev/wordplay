@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type SetOrMapAccess from "../nodes/SetOrMapAccess";
     import NodeView from "./NodeView.svelte";

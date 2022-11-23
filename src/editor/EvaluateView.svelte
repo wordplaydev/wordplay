@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type Evaluate from "../nodes/Evaluate";
     import NodeSequenceView from "./NodeSequenceView.svelte";

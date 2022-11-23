@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type AccessName from "../nodes/PropertyReference";
     import NodeView from "./NodeView.svelte";

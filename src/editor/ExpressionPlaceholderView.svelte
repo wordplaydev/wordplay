@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
     import NodeView from "./NodeView.svelte";

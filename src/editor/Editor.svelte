@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import { project, updateProject } from '../models/stores';
     import type Transform from "../transforms/Transform";

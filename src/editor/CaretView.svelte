@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import { afterUpdate } from "svelte";
     import Token, { SPACE_HTML, tabToHTML } from "../nodes/Token";

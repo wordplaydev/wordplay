@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type Previous from "../nodes/Previous";
     import NodeView from "./NodeView.svelte";

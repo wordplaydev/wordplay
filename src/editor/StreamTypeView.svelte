@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type StreamType from "../nodes/StreamType";
     import NodeView from "./NodeView.svelte";

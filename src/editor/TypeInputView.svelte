@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type TypeInput from "../nodes/TypeInput";
     import NodeView from "./NodeView.svelte";

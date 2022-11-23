@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type MapLiteral from "../nodes/MapLiteral";
     import NodeSequenceView from "./NodeSequenceView.svelte";

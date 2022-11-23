@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type MeasurementType from "../nodes/MeasurementType";
     import Node from "../nodes/Node";

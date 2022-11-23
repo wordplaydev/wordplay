@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type ListAccess from "../nodes/ListAccess";
     import NodeView from "./NodeView.svelte";

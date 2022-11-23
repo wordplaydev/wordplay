@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type UnionType from "../nodes/UnionType";
     import NodeView from "./NodeView.svelte";

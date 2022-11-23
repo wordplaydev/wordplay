@@ -1,3 +1,5 @@
+<svelte:options immutable={true}/>
+
 <script lang="ts">
     import type BinaryOperation from "../nodes/BinaryOperation";
     import NodeView from "./NodeView.svelte";
