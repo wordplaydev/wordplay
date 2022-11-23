@@ -104,7 +104,6 @@ export default class Shares {
         return this._valuesIndex.get(name);
     }
 
-    /** Handle version. */
     getDefaultDefinition(name: string): Definition | undefined {
         const def = this.defaults[name];
         return def instanceof StructureDefinitionValue ? def.definition : undefined;

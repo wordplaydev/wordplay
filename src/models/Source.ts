@@ -26,6 +26,8 @@ import Unit from "../nodes/Unit";
 import Dimension from "../nodes/Dimension";
 import Style from "../native/Style";
 import type Borrow from "../nodes/Borrow";
+import type Translations from "../nodes/Translations";
+import type LanguageCode from "../nodes/LanguageCode";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source {
@@ -103,6 +105,8 @@ export default class Source {
     getProject() { return this._project; }
     setProject(project: Project) { this._project = project; }
 
+    hasName(name: string) { return this.name === name; }
+
     computeConflicts() {
 
         this.conflicts = this.program.getAllConflicts(this.getContext());
@@ -165,6 +169,7 @@ export default class Source {
     }
 
     getName() { return this.name; }
+    getNames() { return [ this.name ]; }
     getCode() { return this.code; }
 
     getEvaluator() { return this.evaluator; }
@@ -375,5 +380,19 @@ export default class Source {
     getSecondaryConflictsInvolvingNode(node: Node) {
         return this._secondaryNodeConflicts.get(node);
     }
+
+    getDescriptions(): Translations {
+        return {
+            eng: this.name,
+            "😀": this.name
+        }
+    }
+
+    getTranslation(_: LanguageCode[]) {
+        return this.name;
+    }
+
+    getType(context: Context) { return this.getTypeUnlessCycle(context); }
+    getTypeUnlessCycle(context: Context) { return this.program.getTypeUnlessCycle(context); }
 
 }

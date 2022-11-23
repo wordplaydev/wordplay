@@ -24,6 +24,8 @@ import Expression from "./Expression";
 import type Bind from "./Bind";
 import type Type from "./Type";
 import type { TypeSet } from "./UnionType";
+import Names from "./Names";
+import Name from "./Name";
 
 export default class Program extends Expression {
     
@@ -80,14 +82,15 @@ export default class Program extends Expression {
 
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet { return current; }
 
-    getDefinitions(node: Node, context: Context): Definition[] {
+    getDefinitions(_: Node, context: Context): Definition[] {
 
-        node;
         return  [
+            // Get all of the default definitions shared to this program
             ...context.shares?.getDefinitions() ?? [],
+            // Get all of the definitions borrowed by the program
             ...(this.borrows.filter(borrow => borrow instanceof Borrow) as Borrow[])
-            .map(borrow => borrow.name === undefined ? undefined : (context.source.getProject()?.getDefinition(context.source, borrow.name.getText()) ?? [])[0])
-            .filter(d => d !== undefined) as Definition[],
+                .map(borrow => borrow.name === undefined ? undefined : (context.source.getProject()?.getDefinition(context.source, borrow.name.getText()) ?? [])[0])
+                .filter(d => d !== undefined) as Definition[],
         ]  
 
     }
@@ -116,7 +119,13 @@ export default class Program extends Expression {
     evaluate(evaluator: Evaluator) {
 
         // Return whatever the block computed, if there is anything.
-        return evaluator.popValue(undefined);
+        const value = evaluator.popValue(undefined);
+
+        // Share the value, allowing other Evalulators to borrow it.
+        evaluator.share(new Names([ new Name(evaluator.source.name)]), value);
+
+        // Return the value.
+        return value;
 
     }
 

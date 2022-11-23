@@ -64,8 +64,8 @@ export default class Borrow extends Expression {
         // Borrows can't depend on on sources that depend on this program.
         // Check the dependency graph to see if this definition's source depends on this borrow's source.
         const project = context.source.getProject();
-        const [ definition ] = project?.getDefinition(context.source, name) ?? context.shares?.getDefinitions() ?? [];
-        if(definition === undefined)
+        const [ definition, source ] = project?.getDefinition(context.source, name) ?? context.shares?.getDefinitions() ?? [];
+        if(definition === undefined && source === undefined)
             conflicts.push(new UnknownBorrow(this));
 
         return conflicts;
