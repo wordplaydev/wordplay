@@ -4,7 +4,7 @@
     import type Token from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-    import { getLanguages, getDragged, getProject, getCaret } from "./Contexts";
+    import { getLanguages, getDragged, getProject, getCaret } from "./util/Contexts";
     import Space from "./Space.svelte";
     import { TokenCategories } from "./TokenCategories";
 

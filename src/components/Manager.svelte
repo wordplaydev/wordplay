@@ -8,7 +8,7 @@
     import { writable } from 'svelte/store';
     import type LanguageCode from '../nodes/LanguageCode';
     import Loading from './Loading.svelte';
-    import { LanguageSymbol } from '../editor/Contexts';
+    import { LanguageSymbol } from '../editor/util/Contexts';
 
     // An interface-wide list of preferred languages.
     let languages = writable<LanguageCode[]>(["eng"]);

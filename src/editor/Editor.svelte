@@ -6,7 +6,7 @@
     import Caret, { insertionPointsEqual, type InsertionPoint } from '../models/Caret';
     import { afterUpdate, onDestroy, setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
-    import commands, { type Edit } from './Commands';
+    import commands, { type Edit } from './util/Commands';
     import type Source from '../models/Source';
     import { writable } from 'svelte/store';
     import Exception from '../runtime/Exception';
@@ -16,8 +16,8 @@
     import KeyboardIdle from '../models/KeyboardIdle';
     import CaretView from './CaretView.svelte';
     import { PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
-    import { CaretSymbol, HoveredSymbol, HighlightSymbol, InsertionPointsSymbol, getLanguages, getDragged } from './Contexts';
-    import type { HighlightType, Highlights } from './Highlights'
+    import { CaretSymbol, HoveredSymbol, HighlightSymbol, InsertionPointsSymbol, getLanguages, getDragged } from './util/Contexts';
+    import type { HighlightType, Highlights } from './util/Highlights'
     import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
     import Expression from '../nodes/Expression';
     import TypePlaceholder from '../nodes/TypePlaceholder';

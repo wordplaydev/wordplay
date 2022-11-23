@@ -4,7 +4,7 @@
     import Token, { SPACE_HTML, tabToHTML } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-    import { getCaret } from "./Contexts";
+    import { getCaret } from "./util/Contexts";
     
     type CaretPosition = { top: string, left: string, height: string, bottom: number };
 

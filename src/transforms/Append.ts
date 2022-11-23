@@ -2,7 +2,7 @@ import Node from "../nodes/Node";
 import Transform from "./Transform";
 import type Source from "../models/Source";
 import type LanguageCode from "../nodes/LanguageCode";
-import type { Edit } from "../editor/Commands";
+import type { Edit } from "../editor/util/Commands";
 import type Refer from "./Refer";
 import Caret from "../models/Caret";
 import Token from "../nodes/Token";

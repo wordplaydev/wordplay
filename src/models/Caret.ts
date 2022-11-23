@@ -1,4 +1,4 @@
-import type { Edit } from "../editor/Commands";
+import type { Edit } from "../editor/util/Commands";
 import Node from "../nodes/Node";
 import Token from "../nodes/Token";
 import { PLACEHOLDER_SYMBOL, PROPERTY_SYMBOL } from "../parser/Tokenizer";

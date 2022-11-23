@@ -3,10 +3,10 @@
 <script lang="ts">
     import { afterUpdate } from "svelte";
     import type Node from "../nodes/Node";
-    import { getLanguages, getHighlights, getCaret } from "./Contexts";
+    import { getLanguages, getHighlights, getCaret } from "./util/Contexts";
     import NodeHighlight from "./NodeHighlight.svelte";
-    import getNodeView from "./nodeToView";
-    import getOutlineOf, { getUnderlineOf, type Outline } from "./outline";
+    import getNodeView from "./util/nodeToView";
+    import getOutlineOf, { getUnderlineOf, type Outline } from "./util/outline";
 
     export let node: Node | undefined;
     export let root: boolean = false;

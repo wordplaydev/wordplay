@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Transform from "../transforms/Transform";
-    import { getLanguages } from "./Contexts";
-    import getNodeView from "./nodeToView";
+    import { getLanguages } from "./util/Contexts";
+    import getNodeView from "./util/nodeToView";
 
     export let transforms: Transform[];
     export let selection: number;

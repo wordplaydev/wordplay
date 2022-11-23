@@ -1,12 +1,12 @@
 import { getContext } from "svelte";
 import type { Writable } from "svelte/store";
-import type { InsertionPoint } from "../models/Caret";
-import type Caret from "../models/Caret";
-import type Project from "../models/Project";
-import type LanguageCode from "../nodes/LanguageCode";
-import type Node from "../nodes/Node";
-import type Token from "../nodes/Token";
-import type Tree from "../nodes/Tree";
+import type { InsertionPoint } from "../../models/Caret";
+import type Caret from "../../models/Caret";
+import type Project from "../../models/Project";
+import type LanguageCode from "../../nodes/LanguageCode";
+import type Node from "../../nodes/Node";
+import type Token from "../../nodes/Token";
+import type Tree from "../../nodes/Tree";
 import type { Highlights } from "./Highlights";
 
 export type CaretContext = Writable<Caret> | undefined;

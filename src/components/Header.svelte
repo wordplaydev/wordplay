@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getLanguages } from '../editor/Contexts';
+    import { getLanguages } from '../editor/util/Contexts';
     import { examples, makeProject, type Stuff } from '../examples/examples';
     import { updateProject } from '../models/stores';
     import type LanguageCode from '../nodes/LanguageCode';

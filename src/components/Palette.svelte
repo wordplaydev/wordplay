@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getDragged } from "../editor/Contexts";
+    import { getDragged } from "../editor/util/Contexts";
     import { parseExpression, parseType, tokens } from "../parser/Parser";
     import { project, updateProject } from "../models/stores";
     import Program from "../nodes/Program";

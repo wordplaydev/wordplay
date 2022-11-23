@@ -3,7 +3,7 @@
 <script lang="ts">
     import { onDestroy, setContext } from "svelte";
     import { writable } from "svelte/store";
-    import { type DraggedContext, DraggedSymbol, type ProjectContext, ProjectSymbol } from "../editor/Contexts";
+    import { type DraggedContext, DraggedSymbol, type ProjectContext, ProjectSymbol } from "../editor/util/Contexts";
     import KeyboardIdle from "../models/KeyboardIdle";
     import type Project from "../models/Project";
     import Palette from "./Palette.svelte";

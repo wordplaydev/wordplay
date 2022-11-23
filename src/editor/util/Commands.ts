@@ -1,7 +1,7 @@
-import type Caret from "../models/Caret";
-import Node from "../nodes/Node";
-import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBOL, NOT_SYMBOL, OR_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL, REACTION_SYMBOL, TRUE_SYMBOL, TYPE_SYMBOL, TYPE_VAR_SYMBOL, PREVIOUS_SYMBOL } from "../parser/Tokenizer";
-import type Source from "../models/Source";
+import type Caret from "../../models/Caret";
+import Node from "../../nodes/Node";
+import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBOL, NOT_SYMBOL, OR_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL, REACTION_SYMBOL, TRUE_SYMBOL, TYPE_SYMBOL, TYPE_VAR_SYMBOL, PREVIOUS_SYMBOL } from "../../parser/Tokenizer";
+import type Source from "../../models/Source";
 
 export type Edit = Caret | [ Source, Caret] | undefined;
 

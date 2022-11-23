@@ -1,7 +1,7 @@
 <svelte:options immutable={true}/>
 <script lang="ts">
     import Token, { SPACE_HTML, tabToHTML, TAB_WIDTH } from "../nodes/Token";
-    import { getInsertionPoints } from "./Contexts";
+    import { getInsertionPoints } from "./util/Contexts";
     import InsertionPointView from "./InsertionPointView.svelte";
 
     export let token: Token;

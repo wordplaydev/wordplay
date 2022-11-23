@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getLanguages } from "../editor/Contexts";
+    import { getLanguages } from "../editor/util/Contexts";
     import type Stream from "../runtime/Stream";
 
     export let value: Stream;

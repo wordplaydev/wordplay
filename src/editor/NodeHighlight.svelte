@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Outline } from "./outline";
+    import type { Outline } from "./util/outline";
 
     const HIGHLIGHT_PADDING = 20;
 

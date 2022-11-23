@@ -1,4 +1,4 @@
-import type { Edit } from "../editor/Commands";
+import type { Edit } from "../editor/util/Commands";
 import Transform from "./Transform";
 import Node from "../nodes/Node";
 import type Source from "../models/Source";

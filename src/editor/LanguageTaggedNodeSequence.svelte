@@ -1,6 +1,6 @@
 <svelte:options immutable={true}/>
 <script lang="ts">
-    import { getCaret, getLanguages } from "./Contexts";
+    import { getCaret, getLanguages } from "./util/Contexts";
     import type Node from "../nodes/Node";
     import type Doc from "../nodes/Doc";
     import type Name from "../nodes/Name";

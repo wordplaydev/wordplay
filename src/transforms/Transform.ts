@@ -1,4 +1,4 @@
-import type { Edit } from "../editor/Commands";
+import type { Edit } from "../editor/util/Commands";
 import type Source from "../models/Source";
 import type Node from "../nodes/Node";
 import type LanguageCode from "../nodes/LanguageCode";
