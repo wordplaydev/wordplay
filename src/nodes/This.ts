@@ -77,6 +77,10 @@ export default class This extends Expression {
     
     }
 
+    getDependencies(): Expression[] {
+        return [];
+    }
+
     compile(): Step[] {
         // We climb the closure chain finding the first structure.
         return [ new Finish(this) ];

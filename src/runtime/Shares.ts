@@ -99,7 +99,7 @@ export default class Shares {
         return undefined;
     }
 
-    /** Handle version. */
+    /** TODO: Handle version. */
     resolve(name: string): Value | undefined {
         return this._valuesIndex.get(name);
     }

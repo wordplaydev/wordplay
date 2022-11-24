@@ -123,6 +123,10 @@ export default class Update extends Expression {
 
     }
 
+    getDependencies(): Expression[] {
+        return [ this.table, ...this.row.cells.map(cell => cell.value), this.query ];
+    }
+
     compile(context: Context): Step[] {
         return [
             new Start(this),

@@ -68,6 +68,10 @@ export default class ListLiteral extends Expression {
 
     computeConflicts() {}
 
+    getDependencies(): Expression[] {
+        return [ ...this.values ];
+    }
+
     compile(context: Context):Step[] {
         return [ 
             new Start(this),

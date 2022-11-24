@@ -90,6 +90,10 @@ export default class UnaryOperation extends Expression {
 
     }
     
+    getDependencies(): Expression[] {
+        return [ this.operand ]
+    }
+
     compile(context: Context):Step[] {
         return [
             new Start(this),

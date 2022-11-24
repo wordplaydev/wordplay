@@ -28,7 +28,6 @@ export default class Delete extends Expression {
     readonly del: Token;
     readonly query: Expression;
 
-
     constructor(table: Expression, del: Token, query: Expression) {
         super();
 
@@ -91,6 +90,10 @@ export default class Delete extends Expression {
         else
             return [];
 
+    }
+
+    getDependencies(): Expression[] {
+        return [ this.table, this.query ];
     }
 
     compile(context: Context):Step[] {

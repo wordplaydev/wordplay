@@ -148,6 +148,10 @@ export default class PropertyReference extends Expression {
         }
     }
 
+    getDependencies(): Expression[] {
+        return [ this.structure ];
+    }
+
     compile(context: Context):Step[] {
         
         return [ new Start(this), ...this.structure.compile(context), new Finish(this) ]

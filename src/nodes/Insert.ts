@@ -95,6 +95,10 @@ export default class Insert extends Expression {
 
     }
 
+    getDependencies(): Expression[] {
+        return [ this.table, ...this.row.cells.map(cell => cell.value) ];
+    }
+
     compile(context: Context):Step[] {
 
         const tableType = this.table.getTypeUnlessCycle(context);

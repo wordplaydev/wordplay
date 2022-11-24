@@ -56,6 +56,10 @@ export default class ExpressionPlaceholder extends Expression {
 
     computeType(): Type { return new UnknownType(this); }
 
+    getDependencies(): Expression[] {
+        return [];
+    }
+
     compile(): Step[] {
         return [ new Halt(evaluator => new UnimplementedException(evaluator), this) ];
     }

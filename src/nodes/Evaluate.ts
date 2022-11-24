@@ -269,6 +269,10 @@ export default class Evaluate extends Expression {
 
     }
 
+    getDependencies(): Expression[] {
+        return [ this.func, ...this.inputs ];
+    }
+
     compile(context: Context): Step[] {
 
         // To compile an evaluate, we need to compile all of the given and default values in

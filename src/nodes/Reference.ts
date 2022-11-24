@@ -149,6 +149,11 @@ export default class Reference extends Expression {
         return current;
     }
 
+    getDependencies(context: Context): Expression[] {
+        const def = this.getDefinition(context);
+        return def instanceof Expression ? [ def ] : [];
+    }
+
     compile(): Step[] {
         return [ new Finish(this) ];
     }

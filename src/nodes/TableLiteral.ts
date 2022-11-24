@@ -77,6 +77,15 @@ export default class TableLiteral extends Expression {
         return new TableType(columnTypes);
     }
 
+    /** TableLiterals depend on all of their cells. */
+    getDependencies(): Expression[] {
+        const dependencies = [];
+        for(const row of this.rows)
+            for(const cell of row.cells)
+                dependencies.push(cell.value);
+        return dependencies;
+    }
+
     compile(context: Context): Step[] {
         return [
             new Start(this),

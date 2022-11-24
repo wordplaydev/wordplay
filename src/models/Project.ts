@@ -44,9 +44,10 @@ export default class Project {
         for(const source of this.getSources())
             source.evaluator.shares.addStreams(Object.values(this.streams));
 
-        // Analyze conflicts now that all source is set.
-        main.computeConflicts();
-        supplements.forEach(supp => supp.computeConflicts());
+        // Analyze each source, now that all project source is set.
+        main.analyze();
+        supplements.forEach(supp => supp.analyze());
+        
 
     }
 

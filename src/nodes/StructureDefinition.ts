@@ -214,6 +214,10 @@ export default class StructureDefinition extends Expression {
 
     computeType(): Type { return new StructureType(this); }
 
+    getDependencies(): Expression[] {
+        return [];
+    }
+
     compile():Step[] {
         return [ new Finish(this) ];
     }

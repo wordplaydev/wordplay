@@ -38,6 +38,8 @@ export default abstract class Expression extends Node {
 
     }
 
+    abstract getDependencies(_: Context): Expression[];
+
     /** 
      * Used to determine what types are possible for a given after evalutaing this expression/ 
      * Most expressions do not manipulate possible types at all; primarily is just logical operators and type checks.

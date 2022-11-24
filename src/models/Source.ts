@@ -28,6 +28,7 @@ import Style from "../native/Style";
 import type Borrow from "../nodes/Borrow";
 import type Translations from "../nodes/Translations";
 import type LanguageCode from "../nodes/LanguageCode";
+import Expression from "../nodes/Expression";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source {
@@ -37,15 +38,12 @@ export default class Source {
 
     // Derived fields
     readonly program: Program;
-    conflicts: Conflict[];
-    readonly evaluator: Evaluator;
 
-    /** An index of conflicts for each node. */
-    readonly _primaryNodeConflicts: Map<Node, Conflict[]> = new Map();
-    readonly _secondaryNodeConflicts: Map<Node, Conflict[]> = new Map();
+    readonly evaluator: Evaluator;
 
     /** The Project sets this once it's added. */
     _project: Project | undefined;
+
     
     /** Functions to call when a source's evaluator has an update. */
     readonly observers: Set<() => void> = new Set();
@@ -53,10 +51,19 @@ export default class Source {
     /** An index of token positions in the source file. */
     readonly tokenPositions: Map<Token, number> = new Map();
 
+    /** A tree representing the source's program. */
     readonly tree: Tree;
 
     /** An index of Trees by Node, for fast retrieval of tree structure by a Node. */
     _index: Map<Node, Tree | undefined> = new Map();
+
+    /** Indices of conflicts, overall and by node. */
+    _conflicts: Conflict[] = [];
+    readonly _primaryNodeConflicts: Map<Node, Conflict[]> = new Map();
+    readonly _secondaryNodeConflicts: Map<Node, Conflict[]> = new Map();
+    
+    /** An index of expression dependencies, mapping an Expression to one or more Expressions that are affected if it changes value.  */
+    readonly _expressionDependencies: Map<Expression, Set<Expression>> = new Map();
 
     constructor(name: string, code: string | UnicodeString | Program, observers?: Set<() => void>) {
 
@@ -90,9 +97,6 @@ export default class Source {
         this.evaluator.observe(this);
         if(observers !== undefined) this.observers = observers;
 
-        // Start a cache of conflicts in the program.
-        this.conflicts = [];
-
     }
 
     get(node: Node) { 
@@ -107,13 +111,16 @@ export default class Source {
 
     hasName(name: string) { return this.name === name; }
 
-    computeConflicts() {
+    analyze() {
 
-        this.conflicts = this.program.getAllConflicts(this.getContext());
+        const context = this.getContext();
 
-        // Build the conflict index by going through each conflict, asking for the conflicting nodes
+        // Compute all of the conflicts in the program.
+        this._conflicts = this.program.getAllConflicts(context);
+
+        // Build conflict indices by going through each conflict, asking for the conflicting nodes
         // and adding to the conflict to each node's list of conflicts.
-        this.conflicts.forEach(conflict => {
+        this._conflicts.forEach(conflict => {
             const complicitNodes = conflict.getConflictingNodes();
             complicitNodes.primary.forEach(node => {
                 let nodeConflicts = this._primaryNodeConflicts.get(node) ?? [];
@@ -123,6 +130,19 @@ export default class Source {
                 let nodeConflicts = this._primaryNodeConflicts.get(node) ?? [];
                 this._secondaryNodeConflicts.set(node, [ ... nodeConflicts, conflict ]);
             });
+        });
+
+        // Build the dependency graph by asking each expression node for its dependencies.
+        this.program.nodes().forEach((expr) => {
+            if(expr instanceof Expression) {
+                for(const dependency of expr.getDependencies(context)) {
+                    const set = this._expressionDependencies.get(dependency);
+                    if(set)
+                        set.add(expr);
+                    else
+                        this._expressionDependencies.set(dependency, new Set([ expr ]));
+                }
+            }
         });
 
     }

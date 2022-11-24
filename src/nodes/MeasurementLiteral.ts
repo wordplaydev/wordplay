@@ -66,6 +66,10 @@ export default class MeasurementLiteral extends Expression {
         return new MeasurementType(this.number, this.unit);
     }
 
+    getDependencies(): Expression[] {
+        return [];
+    }
+
     compile():Step[] {
         return [ new Finish(this) ];
     }

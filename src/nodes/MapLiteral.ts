@@ -87,6 +87,10 @@ export default class MapLiteral extends Expression {
 
     }
 
+    getDependencies(): Expression[] {
+        return this.values.map(kv => [ kv.key, kv.value ]).flat();
+    }
+
     compile(context: Context):Step[] {
         return this.notAMap() ? 
             [ new Halt(evaluator => new SemanticException(evaluator, this), this) ] :

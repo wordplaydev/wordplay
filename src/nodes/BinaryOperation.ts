@@ -141,6 +141,10 @@ export default class BinaryOperation extends Expression {
 
     }
 
+    getDependencies(): Expression[] {
+        return [ this.left, this.right ];
+    }
+
     compile(context: Context): Step[] {
 
         const left = this.left.compile(context);

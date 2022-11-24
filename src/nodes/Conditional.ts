@@ -89,6 +89,10 @@ export default class Conditional extends Expression {
             return new UnionType(yesType, noType);
     }
 
+    getDependencies(): Expression[] {
+        return [ this.condition, this.yes, this.no ];
+    }
+
     compile(context: Context):Step[] {
 
         const yes = this.yes.compile(context);

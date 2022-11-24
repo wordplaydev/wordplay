@@ -6,7 +6,7 @@ import type Expression from "../nodes/Expression";
 import type Type from "../nodes/Type";
 import Program from "../nodes/Program";
 import Borrow from "../nodes/Borrow";
-import Block, { type Statement } from "../nodes/Block";
+import Block from "../nodes/Block";
 import ListLiteral from "../nodes/ListLiteral";
 import Bind from "../nodes/Bind";
 import Evaluate from "../nodes/Evaluate";
@@ -818,7 +818,7 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate | UnparsableE
         return new UnparsableExpression([ left, ...typeInputs ]);
 
     const open = tokens.read(TokenType.EVAL_OPEN);
-    const inputs: Statement[] = [];
+    const inputs: Expression[] = [];
     
     // This little peek at space just prevents runaway parsing. It uses space to make an assumption that everything below isn't part of the evaluate.
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && (tokens.peekSpace() ?? "").split("\n").length - 1 < 2)

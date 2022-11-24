@@ -68,6 +68,10 @@ export default class SetLiteral extends Expression {
         return new SetType(type);
     }
 
+    getDependencies(): Expression[] {
+        return [ ...this.values ];
+    }
+
     compile(context: Context):Step[] {
         return [
             new Start(this),

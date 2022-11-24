@@ -173,6 +173,11 @@ export default class FunctionDefinition extends Expression {
             this.expression.getTypeUnlessCycle(context);
     }
 
+    /** Functions have no dependencies; once they are defined, they cannot change what they evaluate to. */
+    getDependencies(): Expression[] {
+        return [];
+    }
+
     compile(): Step[] {
         return [ new Finish(this) ];
     }

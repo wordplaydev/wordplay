@@ -106,6 +106,10 @@ export default class Program extends Expression {
         return this.nodes(n => n instanceof Dimension) as Dimension[];
     }
     
+    getDependencies(): Expression[] {
+        return [ ...this.borrows, this.block ];
+    }
+
     compile(context: Context): Step[] {
         // Execute the borrows, then the block, then this.
         return [ 

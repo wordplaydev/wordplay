@@ -65,6 +65,10 @@ export default class Template extends Expression {
         return new TextType(undefined, this.format);
     }
 
+    getDependencies(): Expression[] {
+        return [ ...this.expressions.filter((ex): ex is Expression => ex instanceof Expression) ];
+    }
+
     compile(context: Context):Step[] {
         return [
             new Start(this),

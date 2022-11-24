@@ -255,6 +255,10 @@ export default class Bind extends Expression {
 
     getDefinitionOfName() { return undefined; }
 
+    getDependencies(): Expression[] {
+        return this.value ? [ this.value ] : [];
+    }
+
     compile(context: Context): Step[] {
         // A bind evaluates its value expression, then pushes it on the stack.
         return this.value === undefined ?

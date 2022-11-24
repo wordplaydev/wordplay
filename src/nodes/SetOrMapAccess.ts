@@ -93,6 +93,10 @@ export default class SetOrMapAccess extends Expression {
         else return new UnknownType(this);
     }
 
+    getDependencies(): Expression[] {
+        return [ this.setOrMap, this.key ];
+    }
+
     compile(context: Context):Step[] {
         // Evaluate the set expression, then the key expression, then this.
         return [ 

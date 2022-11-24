@@ -55,6 +55,10 @@ export default class TextLiteral extends Expression {
         return new TextType(this.text, this.format);
     }
 
+    getDependencies(): Expression[] {
+        return [];
+    }
+
     compile(): Step[] {
         return [ new Finish(this) ];
     }

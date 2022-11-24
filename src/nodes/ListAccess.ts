@@ -91,6 +91,10 @@ export default class ListAccess extends Expression {
         else return new UnknownType(this);
     }
 
+    getDependencies(): Expression[] {
+        return [ this.list, this.index ];
+    }
+
     compile(context: Context):Step[] {
         return [ new Start(this), ...this.list.compile(context), ...this.index.compile(context), new Finish(this) ];
     }

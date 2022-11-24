@@ -43,6 +43,8 @@ export default class UnparsableExpression extends Expression {
 
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet) { return current; }
 
+    getDependencies(): Expression[] { return []; }
+
     compile(): Step[] {
         return [ new Halt(evaluator => new SemanticException(evaluator, this), this) ];
     }

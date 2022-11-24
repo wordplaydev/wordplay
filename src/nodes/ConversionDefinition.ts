@@ -95,6 +95,10 @@ export default class ConversionDefinition extends Expression {
         return new ConversionType(this.input, undefined, this.output);
     }
 
+    getDependencies(): Expression[] {
+        return [ this.expression ];
+    }
+
     compile(): Step[] {
         return [ new Finish(this) ];
     }

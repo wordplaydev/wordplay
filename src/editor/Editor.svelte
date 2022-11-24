@@ -23,7 +23,7 @@
     import TypePlaceholder from '../nodes/TypePlaceholder';
     import Type from '../nodes/Type';
     import Bind from '../nodes/Bind';
-    import Block, { type Statement } from '../nodes/Block';
+    import Block from '../nodes/Block';
     import TokenType from '../nodes/TokenType';
     import StructureDefinition from '../nodes/StructureDefinition';
     import Tree from '../nodes/Tree';
@@ -269,7 +269,7 @@
         // Allow binds to be dropped on children of blocks.
         if($dragged instanceof Bind && $hovered) {
             const hoverParent = $caret.source.get($hovered)?.getParent();
-            if(hoverParent instanceof Block && hoverParent.statements.includes($hovered as Statement))
+            if(hoverParent instanceof Block && hoverParent.statements.includes($hovered as Expression))
                 return true;
         }
 

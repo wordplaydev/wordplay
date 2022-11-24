@@ -130,6 +130,10 @@ export default class Select extends Expression {
 
     }
 
+    getDependencies(): Expression[] {
+        return [ this.table, this.query ];
+    }
+
     compile(context: Context):Step[] {
         // Evaluate the table expression then this.
         return [ 

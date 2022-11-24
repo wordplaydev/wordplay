@@ -70,6 +70,10 @@ export default class Is extends Expression {
 
     }
     
+    getDependencies(): Expression[] {
+        return [ this.expression ];
+    }
+
     compile(context: Context): Step[] {
         return [ 
             new Start(this),

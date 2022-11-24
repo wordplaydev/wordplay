@@ -43,6 +43,10 @@ export default class BooleanLiteral extends Expression {
         return new BooleanType();
     }
 
+    getDependencies(): Expression[] {
+        return [];
+    }
+
     compile(): Step[] {
         return [ new Finish(this) ];
     }

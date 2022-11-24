@@ -107,6 +107,10 @@ export default class Convert extends Expression {
 
     }
 
+    getDependencies(): Expression[] {
+        return [ this.expression ];
+    }
+
     compile(context: Context): Step[] {
 
         // If the type of value is already the type of the requested conversion, then just leave the value on the stack and do nothing.

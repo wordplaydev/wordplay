@@ -37,6 +37,8 @@ export default class NativeExpression extends Expression {
     computeConflicts() {}
     getGrammar() { return []; }
     computeType(): Type { return this.type; }
+    getDependencies(): Expression[] { return []; }
+
     compile(): Step[] { return [ new Finish(this) ]; }
     evaluate(evaluator: Evaluator): Value | undefined {
         const requestor = evaluator.getEvaluationContext()?.currentStep()?.node;

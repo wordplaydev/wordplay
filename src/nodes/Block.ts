@@ -36,19 +36,17 @@ import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
 
-export type Statement = Expression | Bind;
-
 export default class Block extends Expression {
 
     readonly docs: Docs;
     readonly open?: Token;
-    readonly statements: Statement[];
+    readonly statements: Expression[];
     readonly close?: Token;
 
     readonly root: boolean;
     readonly creator: boolean;
 
-    constructor(statements: Statement[], root: boolean, creator: boolean, open?: Token, close?: Token, docs?: Docs | Translations) {
+    constructor(statements: Expression[], root: boolean, creator: boolean, open?: Token, close?: Token, docs?: Docs | Translations) {
         super();
 
         this.open = !root && open === undefined ? new EvalOpenToken() : open;
@@ -73,15 +71,15 @@ export default class Block extends Expression {
 
     getPreferredPrecedingSpace(child: Node, space: "", depth: number): string {
         // If the child has a new line, indent it.
-        const childIndex = this.statements.indexOf(child as Statement);
+        const childIndex = this.statements.indexOf(child as Expression);
         return childIndex >= 0 && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
     }
 
-    isBlockFor(child: Node) { return !this.root && this.statements.includes(child as Statement); }
+    isBlockFor(child: Node) { return !this.root && this.statements.includes(child as Expression); }
 
     replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Block(
-            this.replaceChild<Statement[]>(pretty, "statements", this.statements, original, replacement),
+            this.replaceChild<Expression[]>(pretty, "statements", this.statements, original, replacement),
             this.root,
             this.creator, 
             this.replaceChild(pretty, "open", this.open, original, replacement), 
@@ -146,6 +144,10 @@ export default class Block extends Expression {
         return lastExpression === undefined ? new UnknownType(this) : lastExpression.getTypeUnlessCycle(context);
     }
 
+    getDependencies(): Expression[] {
+        return [ ...this.statements ];
+    }
+
     compile(context: Context):Step[] {
 
         // If there are no statements, halt on exception.
@@ -198,7 +200,7 @@ export default class Block extends Expression {
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
         
-        const index = this.statements.indexOf(child as Statement);
+        const index = this.statements.indexOf(child as Expression);
         if(index >= 0) {
             const statement = this.statements[index];
             if(statement instanceof Expression)
@@ -212,7 +214,7 @@ export default class Block extends Expression {
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
 
         if(context.source.isEmptyLine(position)) {
-            const index = this.statements.indexOf(child as Statement);
+            const index = this.statements.indexOf(child as Expression);
             if(index >= 0) {
                 const firstToken = child.nodes(n => n instanceof Token)[0];
                 if(firstToken instanceof Token && firstToken.hasNewline())
@@ -242,7 +244,7 @@ export default class Block extends Expression {
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if(this.statements.includes(child as Statement)) return {
+        if(this.statements.includes(child as Expression)) return {
             "😀": TRANSLATE,
             eng: "statement"
         };

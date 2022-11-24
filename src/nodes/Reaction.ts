@@ -87,6 +87,10 @@ export default class Reaction extends Expression {
             return new UnionType(initialType, nextType);
     }
 
+    getDependencies(): Expression[] {
+        return [ this.initial, this.stream, this.next ];
+    }
+
     compile(context: Context): Step[] {
 
         const initialSteps = this.initial.compile(context);

@@ -48,6 +48,10 @@ export default class NoneLiteral extends Expression {
         return new NoneType();
     }
 
+    getDependencies(): Expression[] {
+        return [];
+    }
+
     compile(): Step[] {
         return [ new Finish(this) ];
     }

@@ -16,6 +16,10 @@ export default abstract class HOF extends Expression {
     
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { context; bind; original; return current; }
 
+    getDependencies(): Expression[] {
+        return [];
+    }
+
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,

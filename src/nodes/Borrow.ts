@@ -21,6 +21,10 @@ import type Bind from "./Bind";
 import type Type from "./Type";
 import type { TypeSet } from "./UnionType";
 import NoneType from "./NoneType";
+import type Definition from "./Definition";
+import type Source from "../models/Source";
+import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
+import Stream from "../runtime/Stream";
 
 export default class Borrow extends Expression {
 
@@ -54,6 +58,22 @@ export default class Borrow extends Expression {
         ) as this; 
     }
     
+    getDefinition(name: string, context: Context): [ Definition | undefined, Source | undefined ] {
+
+        const project = context.source.getProject();
+        // See if any of the project's source files share this.
+        if(project) {
+            const [ definition, source ] = project.getDefinition(context.source, name) ?? [];
+            if(definition !== undefined && source !== undefined) return [ definition, source ];
+        }
+        // If not, do any of the native bindings have the name?
+        const streamOrNative = context.shares?.resolve(name);
+        return streamOrNative instanceof StructureDefinitionValue ? [ streamOrNative.definition, undefined ] :
+            streamOrNative instanceof Stream ? [ streamOrNative, undefined ] :
+            [ undefined, undefined ];
+
+    }
+
     computeConflicts(context: Context): Conflict[] { 
     
         const conflicts: Conflict[] = [];
@@ -63,13 +83,22 @@ export default class Borrow extends Expression {
 
         // Borrows can't depend on on sources that depend on this program.
         // Check the dependency graph to see if this definition's source depends on this borrow's source.
-        const project = context.source.getProject();
-        const [ definition, source ] = project?.getDefinition(context.source, name) ?? context.shares?.getDefinitions() ?? [];
+        const [ definition, source ] = this.getDefinition(name, context) ?? [];
         if(definition === undefined && source === undefined)
             conflicts.push(new UnknownBorrow(this));
 
         return conflicts;
     
+    }
+
+    getDependencies(context: Context): Expression[] {
+
+        const name = this.name?.getText();
+        if(name === undefined) return [];
+
+        const [ def ] = this.getDefinition(name, context);
+        return def instanceof Expression ? [ def ] : [];
+
     }
 
     compile(): Step[] {
@@ -84,6 +113,7 @@ export default class Borrow extends Expression {
     computeType(): Type {
         return new NoneType();
     }
+
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet { return current; }
 
     getName() { return this.name === undefined ? undefined : this.name.getText(); }

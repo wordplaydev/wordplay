@@ -84,6 +84,10 @@ export default class Previous extends Expression {
         return streamType instanceof StreamType ? streamType.type : new UnknownType(this);
     }
 
+    getDependencies(): Expression[] {
+        return [ this.stream, this.index ];
+    }
+
     compile(context: Context): Step[] {
         return [ ...this.stream.compile(context), new KeepStream(this), ...this.index.compile(context), new Finish(this) ];
     }
