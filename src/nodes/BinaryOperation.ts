@@ -33,6 +33,7 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type LanguageCode from "./LanguageCode";
 import getConcreteExpectedType from "./Generics";
+import type Value from "../runtime/Value";
 
 export default class BinaryOperation extends Expression {
 
@@ -141,8 +142,11 @@ export default class BinaryOperation extends Expression {
 
     }
 
-    getDependencies(): Expression[] {
-        return [ this.left, this.right ];
+    getDependencies(context: Context): Expression[] {
+
+        const fun = this.getFunction(context);
+        return [ this.left, this.right, ...(fun === undefined || !(fun.expression === undefined) ? [] : [ fun.expression] ) ];
+        
     }
 
     compile(context: Context): Step[] {
@@ -177,8 +181,10 @@ export default class BinaryOperation extends Expression {
         }
     }
 
-    evaluate(evaluator: Evaluator) {
-
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value | undefined {
+        
+        if(prior) return prior;
+        
         const right = evaluator.popValue(undefined);
         const left = evaluator.popValue(undefined);
 

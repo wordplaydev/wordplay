@@ -1,3 +1,5 @@
+<svelte:options immutable={true}/>
+
 <script lang="ts">
     import type Evaluator from "../runtime/Evaluator";
     import Structure from "../runtime/Structure";

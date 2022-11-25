@@ -37,6 +37,8 @@ import type Translations from "./Translations";
 import { overrideWithDocs, TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
+import Start from "../runtime/Start";
+import type Value from "../runtime/Value";
 
 export default class StructureDefinition extends Expression {
 
@@ -215,14 +217,17 @@ export default class StructureDefinition extends Expression {
     computeType(): Type { return new StructureType(this); }
 
     getDependencies(): Expression[] {
-        return [];
+        return this.block instanceof Block ? [ this.block ] : [];
     }
 
     compile():Step[] {
-        return [ new Finish(this) ];
+        return [ new Start(this), new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator) {
+    evaluate(evaluator: Evaluator): Value | undefined {
+        
+        // We ignore the prior value. We must capture closures every time.
+
         // Bind this definition to it's names.
         const context = evaluator.getEvaluationContext();
         if(context !== undefined) {

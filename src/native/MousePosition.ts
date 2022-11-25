@@ -20,6 +20,7 @@ function position(evaluator: Evaluator, x: number, y: number) {
 export default class MousePosition extends Stream {
 
     readonly evaluator: Evaluator;
+    on: boolean = false;
 
     constructor(evaluator: Evaluator) {
         super(
@@ -39,11 +40,16 @@ export default class MousePosition extends Stream {
     }
 
     record(x: number, y: number) {
-        this.add(position(this.evaluator, x, y));
+        if(this.on)
+            this.add(position(this.evaluator, x, y));
     }
 
-    start() {}
-    stop() {}
+    start() {
+        this.on = true;
+    }
+    stop() {
+        this.on = false;
+    }
 
     getType() { return new StreamType(new StructureType(Place)); }
 

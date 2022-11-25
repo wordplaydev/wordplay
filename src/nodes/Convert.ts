@@ -29,6 +29,8 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Names from "./Names";
 import Name from "./Name";
+import type Evaluator from "../runtime/Evaluator";
+import type Value from "../runtime/Value";
 
 export default class Convert extends Expression {
     
@@ -157,8 +159,12 @@ export default class Convert extends Expression {
         ];
     }
 
-    evaluate() {
-        return undefined;
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        if(prior) return prior;
+
+        // Pop the value we computed and then return it (so that it's saved for later).
+        return evaluator.popValue(undefined);
+        
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 

@@ -8,6 +8,7 @@ import UnknownType from "./UnknownType";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
 import type Translations from "./Translations";
+import type Stream from "../runtime/Stream";
 
 export default abstract class Expression extends Node {
 
@@ -38,7 +39,7 @@ export default abstract class Expression extends Node {
 
     }
 
-    abstract getDependencies(_: Context): Expression[];
+    abstract getDependencies(_: Context): (Expression | Stream)[];
 
     /** 
      * Used to determine what types are possible for a given after evalutaing this expression/ 
@@ -47,7 +48,7 @@ export default abstract class Expression extends Node {
     abstract evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context): TypeSet;
 
     abstract compile(context: Context): Step[];
-    abstract evaluate(evaluator: Evaluator): Value | undefined;
+    abstract evaluate(evaluator: Evaluator, prior: Value | undefined): Value | undefined;
 
     abstract getStartExplanations(evaluator: Evaluator): Translations;
     abstract getFinishExplanations(evaluator: Evaluator): Translations;

@@ -31,6 +31,8 @@ import NameToken from "./NameToken";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import Stream from "../runtime/Stream";
+import Start from "../runtime/Start";
 
 export default class Reference extends Expression {
     
@@ -149,16 +151,18 @@ export default class Reference extends Expression {
         return current;
     }
 
-    getDependencies(context: Context): Expression[] {
+    getDependencies(context: Context) {
         const def = this.getDefinition(context);
-        return def instanceof Expression ? [ def ] : [];
+        return def instanceof Expression || def instanceof Stream ? [ def ] : [];
     }
 
     compile(): Step[] {
-        return [ new Finish(this) ];
+        return [ new Start(this), new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
 
         // Search for the name in the given evaluation context.
         const value = evaluator.resolve(this.name.getText());

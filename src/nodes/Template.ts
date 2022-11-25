@@ -79,7 +79,9 @@ export default class Template extends Expression {
         ];
     }
     
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
         
         // Build the string in reverse, accounting for the reversed stack of values.
         let text = "";

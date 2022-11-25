@@ -13,6 +13,7 @@ import type { TypeSet } from "../nodes/UnionType";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 import ValueException from "../runtime/ValueException";
+import Start from "../runtime/Start";
 
 export default class NativeExpression extends Expression {
     
@@ -39,8 +40,11 @@ export default class NativeExpression extends Expression {
     computeType(): Type { return this.type; }
     getDependencies(): Expression[] { return []; }
 
-    compile(): Step[] { return [ new Finish(this) ]; }
+    compile(): Step[] { return [ new Start(this), new Finish(this) ]; }
     evaluate(evaluator: Evaluator): Value | undefined {
+
+        // Native expressions never reuse prior values.
+
         const requestor = evaluator.getEvaluationContext()?.currentStep()?.node;
         if(!(requestor instanceof Node)) return new ValueException(evaluator);
         const evaluation = evaluator.getEvaluationContext();

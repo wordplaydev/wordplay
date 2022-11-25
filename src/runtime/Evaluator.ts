@@ -20,6 +20,7 @@ import Source from "../models/Source";
 import type Program from "../nodes/Program";
 import Names from "../nodes/Names";
 import Name from "../nodes/Name";
+import type Expression from "../nodes/Expression";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = {
@@ -51,11 +52,11 @@ export default class Evaluator {
     /** The value of the evaluted program, cached each time the program is evaluated. */
     latestValue: Value | undefined;
 
-    /** The streams that have been imported */
-    readonly borrowedStreams: Stream[] = [];
-
     /** The streams changes that triggered this evaluation */
-    changedStreams: Stream[] = [];
+    changedStream: Stream | undefined;
+
+    /** The expressions that need to be re-evaluated, if any. */
+    invalidatedExpressions: Set<Expression> | undefined = undefined;
 
     /** The streams accessed since the latest time requested */
     accessedStreams: Stream[] | undefined = undefined;
@@ -63,14 +64,22 @@ export default class Evaluator {
     /** A mapping from Reaction nodes in the program to the streams they are listening to. */
     reactionStreams: Map<Reaction, Stream> = new Map();
 
-    /** A queue of streams that have been modified. */
-    reactionQueue: Stream[] = [];
-
     /** A set of the streams ignored while stepping. Reset once played. */
     streamsIgnoredDuringStepping: Set<Stream> = new Set();
 
     /** A set of possible execution modes, defaulting to play. */
     mode: EvaluationMode = "play";
+
+    /** 
+     * An execution history, mapping Expressions to the sequence of values they have produced.
+     * Used for avoiding reevaluation, as well as the front end for debugging.
+     */
+    values: Map<Expression, (Value | undefined)[]> = new Map();
+
+    /** A counter for each expression, tracking how many times it has executed. Used to retrieve
+     * the correct prior Value from values/
+     */
+    counters: Map<Expression, number> = new Map();
 
     constructor(source: Source) {
 
@@ -89,7 +98,7 @@ export default class Evaluator {
         // Evaluate the program.
         const evaluator = new Evaluator(new Source("test", code));
         // Start the evaluation
-        evaluator.start([]);
+        evaluator.start();
         // Stop the streams.
         evaluator.stop();
         // Return the result.
@@ -104,7 +113,7 @@ export default class Evaluator {
     pause() {
         this.mode = "step";
         this.finish();
-        this.start([]);
+        this.start();
     }
 
     isPlaying(): boolean { return this.mode === "play"; }
@@ -127,17 +136,10 @@ export default class Evaluator {
         }
     }
 
-    react(stream: Stream) {
-
-        // Add this stream to the reaction queue.
-        this.reactionQueue.push(stream);
-
-        // If the program isn't evaluating, dequeue a reaction.
-        this.dequeueReaction();
-
+    observe(observer: EvaluationObserver) { 
+        this.observers.push(observer); 
     }
 
-    observe(observer: EvaluationObserver) { this.observers.push(observer); }
     ignore(observer: EvaluationObserver) { 
         const index = this.observers.indexOf(observer);
         if(index >= 0)
@@ -162,16 +164,8 @@ export default class Evaluator {
 
     /** Stops listening to listeners and halts execution. */
     stop() {
-
-        // Stop all borrowed streams and stop listening to them.
-        this.borrowedStreams.forEach(stream => {
-            stream.stop();
-            stream.ignore(this.react);
-        });
         this.stopped = true;
-
         this.observers.length = 0;
-        
     }
 
     /** 
@@ -199,11 +193,13 @@ export default class Evaluator {
         // If it's another kind of value, pop the evaluation off the stack and add the value to the 
         // value stack of the new top of the stack.
         if(value instanceof Value) {
+            // Push the value we computed 
+            // End the Evaluation
             this.endEvaluation();
-            // If there's an evaluation on the stack, pass the value to it and return undefined.
+            // If there's another Evaluation on the stack, pass the value to it by pushing it onto it's stack.
             if(this.evaluations.length > 0)
                 this.evaluations[0].pushValue(value);
-            // Otherwise, save the value and clean up this evaluation.
+            // Otherwise, save the value and clean up this final evaluation; nothing left to do!
             else
                 this.end(value);
         }
@@ -233,13 +229,24 @@ export default class Evaluator {
     }
 
     /** Evaluate until we're done */
-    start(changedStreams: Stream[]): void {
-        
+    start(changedStream?: Stream, invalidatedExpressions?: Set<Expression>): void {
+
         // Reset the latest value.
         this.latestValue = undefined;
 
         // Remember what streams changed.
-        this.changedStreams = changedStreams;
+        this.changedStream = changedStream;
+
+        // Remember what expressions need to be reevaluated.
+        this.invalidatedExpressions = invalidatedExpressions;
+
+        // Erase the value history of all invalidated expressions.
+        if(this.invalidatedExpressions)
+            for(const expr of Array.from(this.invalidatedExpressions))
+                this.values.delete(expr);
+
+        // Start over counting expression evaluations.
+        this.counters.clear();
 
         // Reset the evluation stack and start evaluating the the program.
         this.evaluations.length = 0;
@@ -272,25 +279,11 @@ export default class Evaluator {
 
         // Save the value.
         this.saveResult(value);
-
-        // React to any pending stream changes.
-        this.dequeueReaction();
         
     }
 
     currentStep() { 
         return this.evaluations[0]?.currentStep();
-    }
-
-    /** If the program isn't done, do nothing. If it is, start a new execution, handling the changed stream. */
-    dequeueReaction() {
-        
-        if(!this.isDone()) return;
-        const stream = this.reactionQueue.shift();
-        if(stream === undefined) return;
-        
-        this.start([ stream ]);
-
     }
 
     /** Cache the evaluation's result and notify listeners of it. */
@@ -333,6 +326,11 @@ export default class Evaluator {
     /** Tell the current evaluation to jump to a new instruction. */
     jump(distance: number) {
         this.evaluations[0].jump(distance);
+    }
+
+    /** Tell the current evaluation to jump past the given expression */
+    jumpPast(expression: Expression) {
+        this.evaluations[0].jumpPast(expression);
     }
 
     /** Start evaluation */
@@ -385,7 +383,7 @@ export default class Evaluator {
         // First look in this source's shares (for global things) then look in other source.
         // (Otherwise we'll find the other source's streams, which are separate).
         const share = this.shares.resolve(name) ?? this.getSource().getProject()?.resolveShare(this.getSource(), name);
-        if(share === undefined) 
+        if(share === undefined)
             return new NameException(name, this);
 
         // If we've already borrowed this, don't do it again.
@@ -395,12 +393,9 @@ export default class Evaluator {
         // Bind the shared value in this context.
         this.bind(new Names([ new Name(name) ]), share);
 
-        // If it's a stream we haven't started, start and listen to the stream.
-        if(share instanceof Stream && !this.borrowedStreams.includes(share)) {
-            this.borrowedStreams.push(share);
-            share.listen(this.react.bind(this));
+        // If it's a stream, start it.
+        if(share instanceof Stream)
             share.start();
-        };
 
     }
     
@@ -419,7 +414,42 @@ export default class Evaluator {
     }
 
     streamChanged(stream: Stream) {
-        return this.changedStreams.indexOf(stream) >= 0;
+        return this.changedStream === stream;
+    }
+
+    isInvalidated(expression: Expression) {
+        return this.invalidatedExpressions === undefined || this.invalidatedExpressions.has(expression);
+    }
+
+    startEvaluating(expression: Expression) {
+        if(!this.counters.has(expression))
+            this.counters.set(expression, 0);
+        return this.getCount(expression);
+    }
+
+    getCount(expression: Expression) {
+        return this.counters.get(expression);
+    }
+
+    finishEvaluating(expression: Expression, recycled: boolean, value?: Value | undefined) {
+
+        const count = this.counters.get(expression);
+        if(count === undefined)
+            throw Error(`It should never be possible than an expression hasn't started, but has finished, but this happened on ${expression.toWordplay().trim().substring(0, 50)}...`);
+        this.counters.set(expression, count + 1);
+
+        // Remember the value it computed in the value history.
+        if(!recycled) {
+            const list = this.values.get(expression) ?? [];
+            list.push(value);
+            this.values.set(expression, list);
+        }
+
+    }
+
+    getPriorValueOf(expression: Expression, count: number) {
+        const values = this.values.get(expression);
+        return values === undefined || count >= values.length ? undefined : values[count];
     }
 
     hasReactionStream(reaction: Reaction) {

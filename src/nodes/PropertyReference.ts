@@ -36,6 +36,7 @@ import NameToken from "./NameToken";
 import PlaceholderToken from "./PlaceholderToken";
 import { NameLabels } from "./Name";
 import type Definition from "./Definition";
+import type Value from "../runtime/Value";
 
 export default class PropertyReference extends Expression {
 
@@ -158,7 +159,9 @@ export default class PropertyReference extends Expression {
 
     }
 
-    evaluate(evaluator: Evaluator) {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value | undefined {
+        
+        if(prior) return prior;
 
         const subject = evaluator.popValue(undefined);
         if(this.name === undefined) return new NameException("", evaluator);

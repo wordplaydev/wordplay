@@ -29,6 +29,10 @@ import type Borrow from "../nodes/Borrow";
 import type Translations from "../nodes/Translations";
 import type LanguageCode from "../nodes/LanguageCode";
 import Expression from "../nodes/Expression";
+import FunctionDefinition from "../nodes/FunctionDefinition";
+import Evaluate from "../nodes/Evaluate";
+import HOF from "../native/HOF";
+import FunctionDefinitionType from "../nodes/FunctionDefinitionType";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source {
@@ -43,7 +47,6 @@ export default class Source {
 
     /** The Project sets this once it's added. */
     _project: Project | undefined;
-
     
     /** Functions to call when a source's evaluator has an update. */
     readonly observers: Set<() => void> = new Set();
@@ -63,7 +66,10 @@ export default class Source {
     readonly _secondaryNodeConflicts: Map<Node, Conflict[]> = new Map();
     
     /** An index of expression dependencies, mapping an Expression to one or more Expressions that are affected if it changes value.  */
-    readonly _expressionDependencies: Map<Expression, Set<Expression>> = new Map();
+    readonly _expressionDependencies: Map<Expression | Value, Set<Expression>> = new Map();
+
+    /** A mapping from function/structure definitions to all of their calls. */
+    readonly _calls: Map<FunctionDefinition | StructureDefinition, Set<Evaluate>> = new Map();
 
     constructor(name: string, code: string | UnicodeString | Program, observers?: Set<() => void>) {
 
@@ -132,6 +138,34 @@ export default class Source {
             });
         });
 
+        // Build an index of all calls.
+        this.program.nodes().forEach(node => {
+            // Find all Evaluates
+            if(node instanceof Evaluate) {
+                // Find the function called.
+                const fun = node.getFunction(context);
+                if(fun) {
+                    // Add this evaluate to the function's list of calls.
+                    const evaluates = this._calls.get(fun) ?? new Set();
+                    evaluates.add(node);
+                    this._calls.set(fun, evaluates);
+
+                    // Is it a higher order function? Get the function input
+                    // and add the Evaluate as a caller of the function input.
+                    if(fun instanceof FunctionDefinition && fun.expression instanceof HOF) {
+                        for(const input of node.inputs) {
+                            const type = input.getTypeUnlessCycle(context);
+                            if(type instanceof FunctionDefinitionType) {
+                                const hofEvaluates = this._calls.get(type.fun) ?? new Set();
+                                hofEvaluates.add(node);
+                                this._calls.set(type.fun, hofEvaluates);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
         // Build the dependency graph by asking each expression node for its dependencies.
         this.program.nodes().forEach((expr) => {
             if(expr instanceof Expression) {
@@ -145,6 +179,14 @@ export default class Source {
             }
         });
 
+    }
+
+    getEvaluationsOf(def: FunctionDefinition | StructureDefinition) {
+        return this._calls.get(def) ?? new Set();
+    }
+
+    getAffectedExpressions(expression: Value | Expression): Set<Expression> {
+        return this._expressionDependencies.get(expression) ?? new Set();
     }
 
     /** Returns a path from a borrow in this program this to this, if one exists. */

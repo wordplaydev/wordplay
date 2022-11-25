@@ -5,7 +5,12 @@ import MousePosition from "../native/MousePosition";
 import Time from "../native/Time";
 import Bind from "../nodes/Bind";
 import type Definition from "../nodes/Definition";
+import type Evaluate from "../nodes/Evaluate";
+import type Expression from "../nodes/Expression";
+import type FunctionDefinition from "../nodes/FunctionDefinition";
 import type Program from "../nodes/Program";
+import type StructureDefinition from "../nodes/StructureDefinition";
+import type Stream from "../runtime/Stream";
 import type Value from "../runtime/Value";
 import type Source from "./Source";
 
@@ -18,7 +23,7 @@ export default class Project {
     readonly main: Source;
     readonly supplements: Source[];
     
-    readonly streams: {
+    streams: {
         time: Time,
         mouseButton: MouseButton,
         mousePosition: MousePosition,
@@ -40,7 +45,11 @@ export default class Project {
         // Create all the streams.
         this.streams = this.createStreams();
 
-        // Add them to the shares of all the sources, for analysis and execution.
+        // Listen to all streams
+        for(const stream of Object.values(this.streams))
+            stream.listen(this.react.bind(this));
+
+        // Share each stream with each source file's evaluator.
         for(const source of this.getSources())
             source.evaluator.shares.addStreams(Object.values(this.streams));
 
@@ -48,7 +57,6 @@ export default class Project {
         main.analyze();
         supplements.forEach(supp => supp.analyze());
         
-
     }
 
     createStreams() {
@@ -58,7 +66,7 @@ export default class Project {
             mousePosition: new MousePosition(this.main.evaluator),
             keyboard: new Keyboard(this.main.evaluator),
             microphone: new Microphone(this.main.program)
-        };
+        }
     }
 
     getSources() { 
@@ -74,23 +82,69 @@ export default class Project {
         return this.getSources().some(source => source.evaluator.isEvaluating());
     }
 
-    evaluate() {
+    react(stream: Stream) {
 
+        // A stream changed!
+        // STEP 1: Find the zero or more nodes that depend on this stream.
+        const affectedSources: Set<Source> = new Set();
+        let affectedExpressions: Set<Expression> = new Set();
+        let streamReferences = new Set<Expression>();
+        for(const source of this.getSources()) {
+            const dependencies = source.getAffectedExpressions(stream);
+            if(dependencies.size > 0) {
+                affectedSources.add(source);
+                for(const dependency of dependencies) {
+                    affectedExpressions.add(dependency);
+                    streamReferences.add(dependency);
+                }
+            }
+        }
+
+        // STEP 2: Traverse the dependency graphs of each source, finding all that directly or indirectly are affected by this stream's change.
+        let unvisited = new Set(affectedExpressions);
+        while(unvisited.size > 0) {
+            for(const expr of unvisited) {
+                unvisited.delete(expr);
+                // Find the source the expression is in.
+                const source = this.getSources().find(source => source.get(expr) !== undefined);
+                if(source) {
+                    const affected = source.getAffectedExpressions(expr);
+                    for(const newExpr of affected) {
+                        // Avoid cycles
+                        if(!affectedExpressions.has(newExpr)) {
+                            affectedExpressions.add(newExpr);
+                            unvisited.add(newExpr);
+                        }
+                    }
+                }
+            }
+        }
+        // After traversal, remove the stream references from the affected expressions; they will evaluate to the same thing, so they don't need to
+        // be reevaluated.
+        for(const streamRef of streamReferences)
+            affectedExpressions.delete(streamRef);
+
+        // STEP 3: Reevaluate all Programs affected by the change, sending the affected expressions and source files so that each Evaluator
+        //         can re-evaluate only the affected expressions.
+        this.evaluate(stream, affectedSources, affectedExpressions);
+
+    }
+
+    /** Evaluate the sources in the required order, optionally evaluating only a subset of sources. */
+    evaluate(changedStream?: Stream, changedSources?: Set<Source>, changedExpressions?: Set<Expression>) {
+    
         // Get the evaluation order based on borrows, reverse it, and execute in that order.
         const orderedSources = this.getEvaluationOrder(this.main).reverse();
 
-        // Reset all of the streams.
-        for(const stream of Object.values(this.streams))
-            stream.clear();
-
         // Start the sources that main depends on. Create all of the streams.
         for(const source of orderedSources)
-            source.getEvaluator().start([]);
+            if(changedSources === undefined || changedSources.has(source))
+                source.getEvaluator().start(changedStream, changedExpressions);
 
         // Start any sources that main doesn't depend on.
         for(const source of this.getSources())
-            if(!orderedSources.includes(source))
-                source.getEvaluator().start([]);
+            if(!orderedSources.includes(source) && (changedSources === undefined || changedSources.has(source)))
+                source.getEvaluator().start(changedStream, changedExpressions);
 
     }
 
@@ -123,9 +177,23 @@ export default class Project {
 
     }
 
+    getEvaluationsOf(fun: FunctionDefinition | StructureDefinition): Evaluate[] {
+
+        let evaluates: Set<Evaluate> = new Set();
+        for(const source of this.getSources())
+            evaluates = new Set([ ... evaluates, ... source.getEvaluationsOf(fun) ]);
+        return Array.from(evaluates);
+
+    }
+
     cleanup() { 
+        // Have all source files clean up
         this.main.cleanup();
         this.supplements.forEach(supp => supp.cleanup());
+
+        // Stop all streams.
+        for(const stream of Object.values(this.streams))
+            stream.stop();
     }
 
     /** See if any of source other than the borrow expose the given name. */

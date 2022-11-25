@@ -17,6 +17,8 @@ import Replace from "../transforms/Replace";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import Start from "../runtime/Start";
+import type Evaluator from "../runtime/Evaluator";
 
 export default class BooleanLiteral extends Expression {
 
@@ -48,10 +50,12 @@ export default class BooleanLiteral extends Expression {
     }
 
     compile(): Step[] {
-        return [ new Finish(this) ];
+        return [ new Start(this), new Finish(this) ];
     }
 
-    evaluate(): Value {
+    evaluate(_: Evaluator, prior: Value | undefined): Value | undefined {
+        
+        if(prior) return prior;
         return new Bool(this, this.bool());
     }
 

@@ -86,7 +86,9 @@ export default class SetLiteral extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
 
         // Pop all of the values. Order doesn't matter.
         const values = [];

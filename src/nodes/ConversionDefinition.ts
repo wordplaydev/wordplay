@@ -26,6 +26,7 @@ import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
+import Start from "../runtime/Start";
 
 export default class ConversionDefinition extends Expression {
 
@@ -100,7 +101,7 @@ export default class ConversionDefinition extends Expression {
     }
 
     compile(): Step[] {
-        return [ new Finish(this) ];
+        return [ new Start(this), new Finish(this) ];
     }
 
     evaluate(evaluator: Evaluator) {

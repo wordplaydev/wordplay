@@ -27,17 +27,19 @@ export default class Time extends Stream {
         );
     }
 
-    tick() {
-        this.add(new Measurement(this.creator, Date.now() - (this.startTime as number), Unit.unit(["ms"])));
-    }
-
     start() {
+
+        if(this.timerID !== undefined) return;
 
         // Remmember when time starts so that we can start counting from program start.
         this.startTime = Date.now();
 
-        // Tick every 33 milliseconds, trying to achieve a 30 fps frame rate.
-        this.timerID = setInterval(() => this.tick(), FREQUENCY);
+        this.timerID = setInterval(
+            // Add a time measurement on each tick.
+            () => this.add(new Measurement(this.creator, Date.now() - (this.startTime as number), Unit.unit(["ms"]))),            
+            // Tick every 33 milliseconds, trying to achieve a 30 fps frame rate.
+            FREQUENCY
+        );
 
     }
 

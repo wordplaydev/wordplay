@@ -131,7 +131,9 @@ export default class NativeHOFListCombine extends HOF {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value | undefined {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value | undefined {
+        
+        if(prior) return prior;
 
         // Return the combo.
         return evaluator.resolve("initial");

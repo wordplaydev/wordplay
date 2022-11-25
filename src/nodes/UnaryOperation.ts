@@ -25,6 +25,7 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type LanguageCode from "./LanguageCode";
 import getConcreteExpectedType from "./Generics";
+import type Value from "../runtime/Value";
 
 export default class UnaryOperation extends Expression {
 
@@ -90,8 +91,9 @@ export default class UnaryOperation extends Expression {
 
     }
     
-    getDependencies(): Expression[] {
-        return [ this.operand ]
+    getDependencies(context: Context): Expression[] {
+        const fun = this.getFunction(context);
+        return [ this.operand, ...(fun === undefined || !(fun.expression === undefined) ? [] : [ fun.expression] ) ];
     }
 
     compile(context: Context):Step[] {
@@ -102,7 +104,9 @@ export default class UnaryOperation extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator) {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value | undefined {
+        
+        if(prior) return prior;
 
         // Get the value of the operand.
         const value = evaluator.popValue(undefined);

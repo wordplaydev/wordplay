@@ -64,7 +64,9 @@ export default class ExpressionPlaceholder extends Expression {
         return [ new Halt(evaluator => new UnimplementedException(evaluator), this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;        
         return new SemanticException(evaluator, this);
     }
 

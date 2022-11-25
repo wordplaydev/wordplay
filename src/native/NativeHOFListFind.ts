@@ -121,7 +121,10 @@ export default class NativeHOFListFind extends HOF {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value | undefined {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
+
         // Get the current index.
         const index = evaluator.resolve("index");
         if(!(index instanceof Measurement))

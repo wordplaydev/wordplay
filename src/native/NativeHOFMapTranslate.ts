@@ -147,7 +147,10 @@ export default class NativeHOFMapTranslate extends HOF {
         }
     }
 
-    evaluate(evaluator: Evaluator): Value | undefined {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value | undefined {
+        
+        if(prior) return prior;
+
         // Evaluate to the new list.
         return evaluator.resolve("map");
     }

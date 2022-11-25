@@ -52,6 +52,7 @@ import { MissingShareLanguages } from "../conflicts/MissingShareLanguages";
 import { MisplacedShare } from "../conflicts/MisplacedShare";
 import { DuplicateShare } from "../conflicts/DuplicateShare";
 import type { TypeSet } from "./UnionType";
+import type Value from "../runtime/Value";
 
 export default class Bind extends Expression {    
     readonly docs: Docs;
@@ -255,8 +256,17 @@ export default class Bind extends Expression {
 
     getDefinitionOfName() { return undefined; }
 
-    getDependencies(): Expression[] {
-        return this.value ? [ this.value ] : [];
+    getDependencies(context: Context): Expression[] {
+
+        const parent = context.get(this)?.getParent();
+        // A bind in a function or structure definition depends on all calls to the function/structure definition,
+        // because they determine what values the binds have.
+        const evaluations = 
+            (parent instanceof FunctionDefinition || parent instanceof StructureDefinition ? context.source.getProject()?.getEvaluationsOf(parent) : undefined) ?? [];
+
+        // A bind in a block depends on its value.
+        return this.value ? [ this.value, ...evaluations ] : [ ...evaluations];
+
     }
 
     compile(context: Context): Step[] {
@@ -284,22 +294,23 @@ export default class Bind extends Expression {
         }
     }
 
-    evaluate(evaluator: Evaluator) {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         
-        // Get the value we computed, but leave it on the stack.
-        const value = evaluator.peekValue();
+        // Get the value we computed, or previously computed.
+        const value = prior ?? evaluator.popValue(undefined);
 
         // If it's an exception, return it instead of binding.
         if(value instanceof Exception) return value;
 
         // Bind the value on the stack to the names.
         evaluator.bind(this.names, value);
- 
+
         // Share if shared.
         if(this.isShared())
             evaluator.share(this.names, value);
 
-        return undefined;
+        // Return the value of the Bind for later.
+        return value;
 
     }
     

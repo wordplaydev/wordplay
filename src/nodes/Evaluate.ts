@@ -269,8 +269,17 @@ export default class Evaluate extends Expression {
 
     }
 
-    getDependencies(): Expression[] {
-        return [ this.func, ...this.inputs ];
+    getDependencies(context: Context): Expression[] {
+
+        const fun = this.getFunction(context);
+        const expression = 
+            fun === undefined ? undefined : 
+            fun instanceof FunctionDefinition && fun.expression instanceof Expression ? fun.expression : 
+            fun instanceof StructureDefinition ? fun.block :
+            undefined;
+
+        // Evaluates depend on their function, their inputs, and the function's expression.
+        return [ this.func, ...this.inputs, ...(expression === undefined ? [] : [ expression ]) ];
     }
 
     compile(context: Context): Step[] {
@@ -373,7 +382,9 @@ export default class Evaluate extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value | undefined {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value | undefined {
+        
+        if(prior) return prior;
 
         // Get the function off the stack and bail if it's not a function.
         const functionOrStructure = evaluator.popValue(undefined);

@@ -21,6 +21,8 @@ import PlaceholderToken from "./PlaceholderToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import TokenType from "./TokenType";
+import Start from "../runtime/Start";
+import type Evaluator from "../runtime/Evaluator";
 
 export default class MeasurementLiteral extends Expression {
     
@@ -70,11 +72,13 @@ export default class MeasurementLiteral extends Expression {
         return [];
     }
 
-    compile():Step[] {
-        return [ new Finish(this) ];
+    compile(): Step[] {
+        return [ new Start(this), new Finish(this) ];
     }
 
-    evaluate(): Value {
+    evaluate(_: Evaluator, prior: Value | undefined): Value | undefined {
+        
+        if(prior) return prior;
 
         return new Measurement(this, this.number, this.unit);
     }

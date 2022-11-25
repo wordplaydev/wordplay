@@ -123,7 +123,9 @@ export default class Insert extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
 
         // We've got a table and some cells, insert the row!
         const values: Value[] = [];

@@ -80,7 +80,9 @@ export default class ListLiteral extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
 
         // Pop all of the values.
         const values = [];

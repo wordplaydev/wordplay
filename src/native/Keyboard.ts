@@ -14,6 +14,7 @@ import type Evaluator from "../runtime/Evaluator";
 export default class Keyboard extends Stream {
 
     readonly evaluator: Evaluator;
+    on: boolean = false;
 
     constructor(evaluator: Evaluator) {
         super(
@@ -34,14 +35,16 @@ export default class Keyboard extends Stream {
     }
 
     record(key: string, down: boolean) {
-        const bindings = new Map<Names, Value>();
-        bindings.set(Key.inputs[0].names, new Text(this.creator, key));
-        bindings.set(Key.inputs[1].names, new Bool(this.creator, down));
-        this.add(createStructure(this.evaluator, Key, bindings));
+        if(this.on) {
+            const bindings = new Map<Names, Value>();
+            bindings.set(Key.inputs[0].names, new Text(this.creator, key));
+            bindings.set(Key.inputs[1].names, new Bool(this.creator, down));
+            this.add(createStructure(this.evaluator, Key, bindings));
+        }
     }
     
-    start() {}
-    stop() {}
+    start() { this.on = true; }
+    stop() { this.on = false; }
 
     getType() { return new StreamType(new StructureType(Key)); }
 

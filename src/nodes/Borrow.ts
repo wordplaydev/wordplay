@@ -25,6 +25,8 @@ import type Definition from "./Definition";
 import type Source from "../models/Source";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import Stream from "../runtime/Stream";
+import Start from "../runtime/Start";
+import type Value from "../runtime/Value";
 
 export default class Borrow extends Expression {
 
@@ -102,12 +104,14 @@ export default class Borrow extends Expression {
     }
 
     compile(): Step[] {
-        return [ new Finish(this) ];
+        return [ new Start(this), new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator) {
+    evaluate(evaluator: Evaluator): Value | undefined {
+        
         const name = this.getName();
         return name === undefined ? undefined : evaluator.borrow(name);
+        
     }    
 
     computeType(): Type {

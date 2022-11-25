@@ -21,6 +21,9 @@ import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import Finish from "../runtime/Finish";
+import type Evaluator from "../runtime/Evaluator";
+import type Value from "../runtime/Value";
 
 export default class Conditional extends Expression {
     
@@ -105,13 +108,20 @@ export default class Conditional extends Expression {
             new JumpIf(yes.length + 1, false, false, this), 
             ...yes, 
             new Jump(no.length, this),
-            ...no 
+            ...no,
+            new Finish(this)
         ];
         
     }
 
-    /** We never actually evaluate this node below because the jump logic handles things. */
-    evaluate() { return undefined; }
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
+
+        // Pop the value we computed and then return it (so that it's saved for later).
+        return evaluator.popValue(undefined);
+    
+    }
 
     /** 
      * Type checks narrow the set to the specified type, if contained in the set and if the check is on the same bind.

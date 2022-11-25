@@ -18,6 +18,7 @@ import Measurement from "./Measurement";
 import type Node from "../nodes/Node";
 import Names from "../nodes/Names";
 import type Expression from "../nodes/Expression";
+import Finish from "./Finish";
 
 export default class Evaluation {
 
@@ -124,6 +125,15 @@ export default class Evaluation {
         this.#step += distance;
     }
 
+    /** Tell the current evaluation to jump past the given expression */
+    jumpPast(expression: Expression) {
+        // Stop when we get to the Expression's Finish step
+        while(this.#step < this.#steps.length && !(this.#steps[this.#step] instanceof Finish && this.#steps[this.#step].node === expression))
+            this.#step++;
+        // Step to just before the Finish, so the next step is the Finish.
+        this.#step--;
+    }
+    
     hasValue(): boolean { return this.#values.length > 0; }
 
     getBindings() { return new Map(this.#bindings); }

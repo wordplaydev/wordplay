@@ -35,6 +35,7 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
+import type Value from "../runtime/Value";
 
 export default class Block extends Expression {
 
@@ -161,7 +162,9 @@ export default class Block extends Expression {
 
     }
 
-    evaluate(evaluator: Evaluator) {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
 
         // If this block is creating a structure, take the context and bindings we just created
         // and convert it into a structure.

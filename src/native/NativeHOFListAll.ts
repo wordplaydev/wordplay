@@ -36,18 +36,26 @@ export default class NativeHOFListAll extends HOF {
 
     compile(): Step[] { 
         return [
-            new Start(this, 
-                evaluator => {
+            new Start(this),
+            new Action(
+                this,
+                {
+                    "😀": TRANSLATE,
+                    eng: "Translate the next list element into a boolean."
+                },
+                evaluator => {                    
                     evaluator.bind(INDEX, new Measurement(this, 1));
                     return undefined;
                 }
             ),
-            new Action(this, 
+            new Action(
+                this, 
                 {
                     "😀": TRANSLATE,
                     eng: "Translate the next list element into a boolean."
                 }, 
                 evaluator => {
+                    
                     const index = evaluator.resolve(INDEX);
                     const list = evaluator.getEvaluationContext()?.getContext();
                     // If the index is past the last index of the list, jump to the end.
@@ -128,7 +136,9 @@ export default class NativeHOFListAll extends HOF {
         }
     }
 
-    evaluate(evaluator: Evaluator): Value | undefined {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
 
         // Get the index and list.
         const index = evaluator.resolve("index");

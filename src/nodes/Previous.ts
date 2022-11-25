@@ -29,6 +29,7 @@ import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import Start from "../runtime/Start";
 
 export default class Previous extends Expression {
 
@@ -89,10 +90,12 @@ export default class Previous extends Expression {
     }
 
     compile(context: Context): Step[] {
-        return [ ...this.stream.compile(context), new KeepStream(this), ...this.index.compile(context), new Finish(this) ];
+        return [ new Start(this), ...this.stream.compile(context), new KeepStream(this), ...this.index.compile(context), new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
 
         const index = evaluator.popValue(new MeasurementType());
         if(!(index instanceof Measurement) || !index.num.isInteger()) return index;

@@ -1,3 +1,5 @@
+<svelte:options immutable={true}/>
+
 <script lang="ts">
     import Structure from "../runtime/Structure";
     import { Fade, Scale } from "../native/Transition";

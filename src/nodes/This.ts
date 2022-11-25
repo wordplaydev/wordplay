@@ -22,6 +22,7 @@ import type Transform from "../transforms/Transform";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import Start from "../runtime/Start";
 
 type ThisStructure = StructureDefinition | ConversionDefinition;
 
@@ -83,10 +84,12 @@ export default class This extends Expression {
 
     compile(): Step[] {
         // We climb the closure chain finding the first structure.
-        return [ new Finish(this) ];
+        return [ new Start(this), new Finish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value {        
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
         return evaluator.getThis(this) ?? new NameException(THIS_SYMBOL, evaluator);
     }
 

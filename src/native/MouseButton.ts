@@ -6,6 +6,8 @@ import Stream from "../runtime/Stream";
 
 export default class MouseButton extends Stream {
 
+    on: boolean = false;
+
     constructor(program: Program) {
         super(
             program,
@@ -22,11 +24,16 @@ export default class MouseButton extends Stream {
     }
 
     record(state: boolean) {
-        this.add(new Bool(this.creator, state));
+        if(this.on)
+            this.add(new Bool(this.creator, state));
     }
 
-    start() {}
-    stop() {}
+    start() {
+        this.on = true;
+    }
+    stop() {
+        this.on = false;
+    }
 
     getType() { return new BooleanType(); }
 

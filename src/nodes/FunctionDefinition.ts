@@ -34,6 +34,8 @@ import Names from "./Names";
 import type LanguageCode from "./LanguageCode";
 import FunctionDefinitionType from "./FunctionDefinitionType";
 import UnknownType from "./UnknownType";
+import Start from "../runtime/Start";
+import type Value from "../runtime/Value";
 
 export default class FunctionDefinition extends Expression {
 
@@ -175,11 +177,11 @@ export default class FunctionDefinition extends Expression {
 
     /** Functions have no dependencies; once they are defined, they cannot change what they evaluate to. */
     getDependencies(): Expression[] {
-        return [];
+        return this.expression instanceof Expression ? [ this.expression ] : [];
     }
 
     compile(): Step[] {
-        return [ new Finish(this) ];
+        return [ new Start(this), new Finish(this) ];
     }
 
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
@@ -191,7 +193,9 @@ export default class FunctionDefinition extends Expression {
         }
     }
 
-    evaluate(evaluator: Evaluator) {
+    evaluate(evaluator: Evaluator): Value | undefined {
+
+        // We ignore any prior values; must capture closures every time.
 
         // Get the function value.
         const context = evaluator.getEvaluationContext();

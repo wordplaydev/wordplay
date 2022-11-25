@@ -8,6 +8,8 @@ import Names from "../nodes/Names";
 import Docs from "../nodes/Docs";
 import type Node from "../nodes/Node";
 
+const HISTORY_LIMIT = 256;
+
 export default abstract class Stream extends Primitive {
 
     /** Documentation on this stream */
@@ -41,15 +43,14 @@ export default abstract class Stream extends Primitive {
         return value === this;
     }
 
-    clear() { return this.values = []; }
-
     add(value: Value) {
 
         // Update the time.
         this.values.push(value);
 
-        // Limit the array to 1000 ticks to avoid leaking memory.
-        this.values.splice(0, Math.max(0, this.values.length - 1000));
+        // Limit the array to 1000 values to avoid leaking memory.
+        const oldest = Math.max(0, this.values.length - HISTORY_LIMIT);
+        this.values = this.values.slice(oldest, oldest + HISTORY_LIMIT);
 
         // Notify subscribers of the state change.
         this.notify();

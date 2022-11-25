@@ -20,6 +20,8 @@ import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import Start from "../runtime/Start";
+import type Evaluator from "../runtime/Evaluator";
 
 export default class TextLiteral extends Expression {
     
@@ -60,10 +62,13 @@ export default class TextLiteral extends Expression {
     }
 
     compile(): Step[] {
-        return [ new Finish(this) ];
+        return [ new Start(this), new Finish(this) ];
     }
     
-    evaluate(): Value {
+    evaluate(_: Evaluator, prior: Value | undefined): Value | undefined {
+        
+        if(prior) return prior;
+        
         // Remove the opening and optional closing quote symbols.
         const lastChar = this.text.text.toString().length === 0 ? undefined : this.text.text.toString().charAt(this.text.text.toString().length - 1);
         const lastCharIsQuote = lastChar === undefined ? false : ["』", "」", "»", "›", "'", "’", "”", '"'].includes(lastChar);    

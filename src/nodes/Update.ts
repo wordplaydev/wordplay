@@ -135,7 +135,8 @@ export default class Update extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        if(prior) return prior;
         return new UnimplementedException(evaluator);
     }
 

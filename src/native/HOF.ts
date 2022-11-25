@@ -1,6 +1,7 @@
 import type Bind from "../nodes/Bind";
 import type Context from "../nodes/Context";
 import Expression from "../nodes/Expression";
+import FunctionDefinition from "../nodes/FunctionDefinition";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 import type { TypeSet } from "../nodes/UnionType";
@@ -16,8 +17,10 @@ export default abstract class HOF extends Expression {
     
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { context; bind; original; return current; }
 
-    getDependencies(): Expression[] {
-        return [];
+    getDependencies(context: Context): Expression[] {
+        // Higher order functions expressions depend on the inputs of their FunctionDefinitions.
+        const parent = context.get(this)?.getParent();
+        return parent instanceof FunctionDefinition ? parent.inputs : [];
     }
 
     getDescriptions(): Translations {

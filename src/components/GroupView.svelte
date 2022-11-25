@@ -1,3 +1,5 @@
+<svelte:options immutable={true}/>
+
 <script lang="ts">
     import List from "../runtime/List";
     import Structure from "../runtime/Structure";

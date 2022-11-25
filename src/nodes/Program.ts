@@ -26,6 +26,7 @@ import type Type from "./Type";
 import type { TypeSet } from "./UnionType";
 import Names from "./Names";
 import Name from "./Name";
+import type Value from "../runtime/Value";
 
 export default class Program extends Expression {
     
@@ -120,7 +121,9 @@ export default class Program extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator) {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
 
         // Return whatever the block computed, if there is anything.
         const value = evaluator.popValue(undefined);

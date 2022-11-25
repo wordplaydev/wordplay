@@ -26,7 +26,8 @@ import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
-import { TRANSLATE } from "./Translations"
+import { TRANSLATE, WRITE_DOCS } from "./Translations"
+import Action from "../runtime/Action";
 
 export default class Reaction extends Expression {
 
@@ -96,11 +97,11 @@ export default class Reaction extends Expression {
         const initialSteps = this.initial.compile(context);
         const nextSteps = this.next.compile(context);
 
-        // and if it has not, evaluate the initial value, then create
-        // the stream. If it does exist, then evaluate the next value and then
-        // append the value to the stream.
         return [
-            new Start(this, evaluator => {
+            new Start(this),
+            new Action(this, 
+                WRITE_DOCS,
+                evaluator => {
                 // Ask evaluator to remember streams that are accessed
                 evaluator.startRememberingStreamAccesses();
                 // Get the latest value
@@ -134,10 +135,10 @@ export default class Reaction extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value | undefined {
+    evaluate(evaluator: Evaluator, value: Value | undefined): Value | undefined {
 
         // Get the value.
-        const streamValue = evaluator.popValue(undefined);
+        const streamValue = value ?? evaluator.popValue(undefined);
 
         // At this point in the compiled steps above, we should have a value on the stack
         // that is either the initial value for this reaction's stream or a new value.

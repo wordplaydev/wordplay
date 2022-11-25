@@ -99,7 +99,9 @@ export default class TableLiteral extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator): Value {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
         
         const rows: Value[][] = [];
         for(let r = 0; r < this.rows.length; r++) {
