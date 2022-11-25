@@ -21,6 +21,9 @@ import type Program from "../nodes/Program";
 import Names from "../nodes/Names";
 import Name from "../nodes/Name";
 import type Expression from "../nodes/Expression";
+import Evaluate from "../nodes/Evaluate";
+import BinaryOperation from "../nodes/BinaryOperation";
+import UnaryOperation from "../nodes/UnaryOperation";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = {
@@ -175,6 +178,7 @@ export default class Evaluator {
      **/
     step(): void {
 
+        // Get the value of the next step of the current evaluation.
         const value = 
             // If it seems like we're stuck in an infinite (recursive) loop, halt.
             this.evaluations.length > 100000 ? new EvaluationException(StackSize.FULL, this) :
@@ -193,16 +197,23 @@ export default class Evaluator {
         // If it's another kind of value, pop the evaluation off the stack and add the value to the 
         // value stack of the new top of the stack.
         if(value instanceof Value) {
-            // Push the value we computed 
             // End the Evaluation
             this.endEvaluation();
             // If there's another Evaluation on the stack, pass the value to it by pushing it onto it's stack.
-            if(this.evaluations.length > 0)
+            if(this.evaluations.length > 0) {
                 this.evaluations[0].pushValue(value);
+                const priorStep = this.evaluations[0].priorStep();
+                if(priorStep && (priorStep.node instanceof Evaluate || priorStep.node instanceof BinaryOperation || priorStep.node instanceof UnaryOperation)) {
+                    const list = this.values.get(priorStep.node) ?? [];
+                    list.push(value);
+                    this.values.set(priorStep.node, list);
+                }
+            }
             // Otherwise, save the value and clean up this final evaluation; nothing left to do!
             else
                 this.end(value);
         }
+        // If there was no value, that just means it's not done yet.
 
         // Clear the ignored reactions after this step, assuming the creator was notified.
         this.streamsIgnoredDuringStepping.clear();

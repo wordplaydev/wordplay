@@ -115,10 +115,12 @@ export default class Evaluation {
         // Move to the next step.
         this.#step++;
 
+        // Return nothing, since we're not done evaluating.
+
     }
 
     currentStep() { return this.#steps[this.#step]; }
-
+    priorStep() { return this.#step - 1 >= 0 ? this.#steps[this.#step - 1] : undefined; }
     nextStep() { return this.#step + 1 < this.#steps.length ? this.#steps[this.#step + 1] : undefined; }
 
     jump(distance: number) {
