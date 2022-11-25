@@ -185,7 +185,7 @@ export default class Source {
         return this._calls.get(def) ?? new Set();
     }
 
-    getAffectedExpressions(expression: Value | Expression): Set<Expression> {
+    getExpressionsAffectedBy(expression: Value | Expression): Set<Expression> {
         return this._expressionDependencies.get(expression) ?? new Set();
     }
 

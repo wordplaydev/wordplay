@@ -1,6 +1,7 @@
 import type BinaryOperation from "./BinaryOperation";
 import type Bind from "./Bind";
 import type Block from "./Block";
+import type Borrow from "./Borrow";
 import type Column from "./Column";
 import type ColumnType from "./ColumnType";
 import type Convert from "./Convert";
@@ -31,6 +32,7 @@ export type UnknownTypeReason =
     UnparsableExpression | // Couldn't parse something
     Bind |              // Couldn't infer type of name
     Block |             // Block didn't have an expression
+    Borrow |            // Borrow didn't have a type
     Convert |           // Conversion didn't exist
     ListAccess |        // List type couldn't be determined
     SetOrMapAccess |    // Set or map type couldn't be determined

@@ -86,14 +86,12 @@ export default class Project {
 
         // A stream changed!
         // STEP 1: Find the zero or more nodes that depend on this stream.
-        const affectedSources: Set<Source> = new Set();
         let affectedExpressions: Set<Expression> = new Set();
         let streamReferences = new Set<Expression>();
         for(const source of this.getSources()) {
-            const dependencies = source.getAffectedExpressions(stream);
-            if(dependencies.size > 0) {
-                affectedSources.add(source);
-                for(const dependency of dependencies) {
+            const affected = source.getExpressionsAffectedBy(stream);
+            if(affected.size > 0) {
+                for(const dependency of affected) {
                     affectedExpressions.add(dependency);
                     streamReferences.add(dependency);
                 }
@@ -101,14 +99,16 @@ export default class Project {
         }
 
         // STEP 2: Traverse the dependency graphs of each source, finding all that directly or indirectly are affected by this stream's change.
+        const affectedSources: Set<Source> = new Set();
         let unvisited = new Set(affectedExpressions);
         while(unvisited.size > 0) {
             for(const expr of unvisited) {
                 unvisited.delete(expr);
                 // Find the source the expression is in.
-                const source = this.getSources().find(source => source.get(expr) !== undefined);
-                if(source) {
-                    const affected = source.getAffectedExpressions(expr);
+                for(const source of this.getSources()) {
+                    const affected = source.getExpressionsAffectedBy(expr);
+                    if(affected.size > 0)
+                        affectedSources.add(source);
                     for(const newExpr of affected) {
                         // Avoid cycles
                         if(!affectedExpressions.has(newExpr)) {
@@ -119,12 +119,13 @@ export default class Project {
                 }
             }
         }
-        // After traversal, remove the stream references from the affected expressions; they will evaluate to the same thing, so they don't need to
+
+        // STEP 3: After traversal, remove the stream references from the affected expressions; they will evaluate to the same thing, so they don't need to
         // be reevaluated.
         for(const streamRef of streamReferences)
             affectedExpressions.delete(streamRef);
 
-        // STEP 3: Reevaluate all Programs affected by the change, sending the affected expressions and source files so that each Evaluator
+        // STEP 4: Reevaluate all Programs affected by the change, sending the affected expressions and source files so that each Evaluator
         //         can re-evaluate only the affected expressions.
         this.evaluate(stream, affectedSources, affectedExpressions);
 
@@ -214,7 +215,7 @@ export default class Project {
         const sources = this.getSourcesExcept(borrower);
         // Do any of the sources have a name that matches, or a shared bind that matches?
         for(const source of sources) {
-            if(source.name === name) return [ source, source ];
+            if(source.name === name) return [ source.program, source ];
             const definition = source.program.block.statements.find(n => n instanceof Bind && n.hasName(name) && n.isShared()) as Bind | undefined;
             if(definition !== undefined) return [ definition, source ];
         }

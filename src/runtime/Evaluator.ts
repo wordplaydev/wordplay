@@ -397,16 +397,15 @@ export default class Evaluator {
         if(share === undefined)
             return new NameException(name, this);
 
-        // If we've already borrowed this, don't do it again.
-        if(this.resolve(name) === share)
-            return undefined;
-
         // Bind the shared value in this context.
         this.bind(new Names([ new Name(name) ]), share);
 
         // If it's a stream, start it.
         if(share instanceof Stream)
             share.start();
+
+        // Return the value.
+        return share;
 
     }
     

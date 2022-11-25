@@ -36,6 +36,7 @@ import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
 import type Value from "../runtime/Value";
+import Program from "./Program";
 
 export default class Block extends Expression {
 
@@ -145,8 +146,11 @@ export default class Block extends Expression {
         return lastExpression === undefined ? new UnknownType(this) : lastExpression.getTypeUnlessCycle(context);
     }
 
-    getDependencies(): Expression[] {
-        return [ ...this.statements ];
+    getDependencies(context: Context): Expression[] {
+
+        const parent = context.get(this)?.getParent();
+
+        return [ ...(parent instanceof Program ? parent.borrows : parent instanceof StructureDefinition ? parent.inputs : []), ...this.statements ];
     }
 
     compile(context: Context):Step[] {

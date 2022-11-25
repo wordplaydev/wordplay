@@ -27,6 +27,7 @@ import type { TypeSet } from "./UnionType";
 import Names from "./Names";
 import Name from "./Name";
 import type Value from "../runtime/Value";
+import type LanguageCode from "./LanguageCode";
 
 export default class Program extends Expression {
     
@@ -83,6 +84,9 @@ export default class Program extends Expression {
 
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet { return current; }
 
+    hasName() { return false }
+    getNames() { return []; }
+
     getDefinitions(_: Node, context: Context): Definition[] {
 
         return  [
@@ -92,7 +96,7 @@ export default class Program extends Expression {
             ...(this.borrows.filter(borrow => borrow instanceof Borrow) as Borrow[])
                 .map(borrow => borrow.name === undefined ? undefined : (context.source.getProject()?.getDefinition(context.source, borrow.name.getText()) ?? [])[0])
                 .filter(d => d !== undefined) as Definition[],
-        ]  
+        ]
 
     }
 
@@ -150,6 +154,10 @@ export default class Program extends Expression {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(this.borrows.includes(child as Borrow)) return new Remove(context.source, this, child);
         else if(child === this.block) return new Replace(context.source, this.block, new Block([], this.block instanceof Block ? this.block.root : false, this.block instanceof Block ? this.block.creator : false));
+    }
+
+    getTranslation(languages: LanguageCode[]) {
+        return this.getDescriptions()[languages[0]];
     }
 
     getDescriptions(): Translations {
