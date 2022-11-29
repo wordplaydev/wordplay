@@ -24,8 +24,6 @@ import Expression from "./Expression";
 import type Bind from "./Bind";
 import type Type from "./Type";
 import type { TypeSet } from "./UnionType";
-import Names from "./Names";
-import Name from "./Name";
 import type Value from "../runtime/Value";
 import type LanguageCode from "./LanguageCode";
 
@@ -128,7 +126,7 @@ export default class Program extends Expression {
         const value = evaluator.popValue(undefined);
 
         // Share the program's value using the source's name, allowing other Evaluators to borrow it.
-        evaluator.share(new Names([ new Name(evaluator.source.name)]), value);
+        evaluator.share(evaluator.source.names, value);
 
         // Return the value.
         return value;

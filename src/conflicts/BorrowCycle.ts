@@ -24,7 +24,7 @@ export class BorrowCycle extends Conflict {
     getExplanations(): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `This borrow depends on ${this.cycle[0].name}${this.cycle.slice(1).map(source => `, which depends on ${source.name}`).join("")}, which depends on ${this.cycle[0].name}.`
+            eng: `This borrow depends on ${this.cycle[0].getTranslation(["eng"])}${this.cycle.slice(1).map(source => `, which depends on ${source.getNames()}`).join("")}, which depends on ${this.cycle[0].getNames()}.`
         }
     }
 

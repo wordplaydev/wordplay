@@ -215,7 +215,7 @@ export default class Project {
         const sources = this.getSourcesExcept(borrower);
         // Do any of the sources have a name that matches, or a shared bind that matches?
         for(const source of sources) {
-            if(source.name === name) return [ source, source ];
+            if(source.hasName(name)) return [ source, source ];
             const definition = source.program.block.statements.find(n => n instanceof Bind && n.hasName(name) && n.isShared()) as Bind | undefined;
             if(definition !== undefined) return [ definition, source ];
         }

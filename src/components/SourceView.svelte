@@ -46,7 +46,7 @@
 
 <div class="source">
     <div class="source-title">
-        <h2>{source.getName()}</h2>
+        <h2>{source.getNames()}</h2>
         <small>
             <!-- If it's output, show controls -->
             <span on:click={playPause}>{autoplay ? "⏸" : "▶️"}</span>

@@ -34,7 +34,7 @@ export const DefaultTrees = DefaultStructures.map(def => new Tree(def));
 export default class Shares {
 
     readonly _valuesIndex: Map<string, Value> = new Map();
-    readonly values: Set<Value> = new Set();
+    readonly values: Map<Names, Value> = new Map();
     readonly defaults: Record<string, StructureDefinitionValue | Stream> = {}
     readonly evaluator: Evaluator;
     readonly streams: Set<Stream> = new Set();
@@ -74,7 +74,7 @@ export default class Shares {
     }
 
     getDefinitions() { 
-        return  Array.from(this.values)
+        return  Array.from(this.values.values())
                 .filter(v => v instanceof StructureDefinitionValue || v instanceof Stream)
                 .map(v => v instanceof StructureDefinitionValue ? v.definition : v) as (Stream | StructureDefinition)[] 
     }
@@ -82,18 +82,18 @@ export default class Shares {
     getDefinitionOfName(name: string) { return this.getDefinitions().find(def => def.hasName(name)); }
 
     getAllStructureDefinitions() { 
-        return  (Array.from(this.values)
+        return  (Array.from(this.values.values())
                 .filter(v => v instanceof StructureDefinitionValue) as StructureDefinitionValue[])
                 .map(v => v.definition) as StructureDefinition[]
     }
 
     getStreams(): Stream[] {
-        return Array.from(this.values).filter(v => v instanceof Stream) as Stream[];
+        return Array.from(this.values.values()).filter(v => v instanceof Stream) as Stream[];
     }
 
     bind(names: Names, value: Value): undefined {
         // Add the value to the set
-        this.values.add(value);
+        this.values.set(names, value);
         // Add the value's names to the index for quicker retrieval.
         for(const name of names.getNames())
             this._valuesIndex.set(name, value);

@@ -21,7 +21,7 @@ import Context from "../nodes/Context";
 import TokenType from "../nodes/TokenType";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import Tree from "../nodes/Tree";
-import type Names from "../nodes/Names";
+import Names from "../nodes/Names";
 import Unit from "../nodes/Unit";
 import Dimension from "../nodes/Dimension";
 import Style from "../native/Style";
@@ -40,11 +40,12 @@ import type Step from "../runtime/Step";
 import type Stream from "../runtime/Stream";
 import type Transform from "../transforms/Transform";
 import { WRITE_DOCS } from "../nodes/Translations";
+import Name from "../nodes/Name";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
 
-    readonly name: string;
+    readonly names: Names;
     readonly code: UnicodeString;
 
     // Derived fields
@@ -78,11 +79,11 @@ export default class Source extends Expression {
     /** A mapping from function/structure definitions to all of their calls. */
     readonly _calls: Map<FunctionDefinition | StructureDefinition, Set<Evaluate>> = new Map();
 
-    constructor(name: string, code: string | UnicodeString | Program, observers?: Set<() => void>) {
+    constructor(names: string | Names, code: string | UnicodeString | Program, observers?: Set<() => void>) {
 
         super();
 
-        this.name = name;
+        this.names = names instanceof Names ? names : new Names([new Name(names)]);
 
         if(code instanceof Program) {
             // Save the AST
@@ -130,7 +131,7 @@ export default class Source extends Expression {
     getProject() { return this._project; }
     setProject(project: Project) { this._project = project; }
 
-    hasName(name: string) { return this.name === name; }
+    hasName(name: string) { return this.names.hasName(name); }
 
     analyze() {
 
@@ -245,8 +246,7 @@ export default class Source extends Expression {
         return new Context(this, this.evaluator.getShares());
     }
 
-    getName() { return this.name; }
-    getNames() { return [ this.name ]; }
+    getNames() { return this.names.getNames(); }
     getCode() { return this.code; }
 
     getEvaluator() { return this.evaluator; }
@@ -321,34 +321,34 @@ export default class Source extends Expression {
     
     withPreviousGraphemeReplaced(char: string, position: number) {
         const newCode = this.code.withPreviousGraphemeReplaced(char, position);
-        return newCode === undefined ? undefined : new Source(this.name, newCode, this.observers);
+        return newCode === undefined ? undefined : new Source(this.names, newCode, this.observers);
     }
 
     withGraphemesAt(char: string, position: number) {
         const newCode = this.code.withGraphemesAt(char, position);
-        return newCode == undefined ? undefined : new Source(this.name, newCode, this.observers);
+        return newCode == undefined ? undefined : new Source(this.names, newCode, this.observers);
     }
 
     withoutGraphemeAt(position: number) {
         const newCode = this.code.withoutGraphemeAt(position);
-        return newCode == undefined ? undefined : new Source(this.name, newCode, this.observers);
+        return newCode == undefined ? undefined : new Source(this.names, newCode, this.observers);
     }
 
     withoutGraphemesBetween(start: number, endExclusive: number) {
         const newCode = this.code.withoutGraphemesBetween(start, endExclusive);
-        return newCode == undefined ? undefined : new Source(this.name, newCode, this.observers);
+        return newCode == undefined ? undefined : new Source(this.names, newCode, this.observers);
     }
 
     withCode(code: string) {
-        return new Source(this.name, new UnicodeString(code), this.observers);
+        return new Source(this.names, new UnicodeString(code), this.observers);
     }
 
     withProgram(program: Program) {
-        return new Source(this.name, program, this.observers);
+        return new Source(this.names, program, this.observers);
     }
 
     replace() {
-        return new Source(this.name, this.program, this.observers) as this;
+        return new Source(this.names, this.program, this.observers) as this;
     }
 
     getTokenTextPosition(token: Token) {
@@ -460,13 +460,13 @@ export default class Source extends Expression {
 
     getDescriptions(): Translations {
         return {
-            eng: this.name,
-            "😀": this.name
-        }
+            eng: this.names.getTranslation("eng"),
+            "😀": this.names.getTranslation("😀")
+        };
     }
 
-    getTranslation(_: LanguageCode[]) {
-        return this.name;
+    getTranslation(lang: LanguageCode[]) {
+        return this.names.getTranslation(lang);
     }
 
     getType(context: Context) { return this.getTypeUnlessCycle(context); }
