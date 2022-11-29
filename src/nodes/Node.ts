@@ -73,7 +73,12 @@ export default abstract class Node {
      */
     getDefinitions(node: Node, context: Context): Definition[] { context; node; return []; }
     
-    /** Get all bindings defined by this node and all binding enclosures. */
+    /** 
+     * Get all bindings defined by this node and all binding enclosures. 
+     * The general sequence should be:
+     * 1) All binding enclosures in the Program
+     * 2) All borrowed definitions in the Program
+     * */
     getAllDefinitions(node: Node, context: Context): Definition[] {
 
         let definitions: Definition[] = [];
@@ -101,7 +106,7 @@ export default abstract class Node {
         }
 
         // Check the defaults.
-        return context.shares?.getDefaultDefinition(name);
+        return context.shares?.getDefinitionOfName(name);
 
     };
     

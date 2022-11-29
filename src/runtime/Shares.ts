@@ -10,7 +10,6 @@ import Layout, { Vertical } from "../native/Layout";
 import Transition, { Fade, Scale } from "../native/Transition";
 import Animation, { Bounce, Throb, Wobble } from "../native/Animation";
 import Style from "../native/Style";
-import type Definition from "../nodes/Definition";
 import Tree from "../nodes/Tree";
 import type Names from "../nodes/Names";
 
@@ -80,6 +79,8 @@ export default class Shares {
                 .map(v => v instanceof StructureDefinitionValue ? v.definition : v) as (Stream | StructureDefinition)[] 
     }
 
+    getDefinitionOfName(name: string) { return this.getDefinitions().find(def => def.hasName(name)); }
+
     getAllStructureDefinitions() { 
         return  (Array.from(this.values)
                 .filter(v => v instanceof StructureDefinitionValue) as StructureDefinitionValue[])
@@ -104,9 +105,4 @@ export default class Shares {
         return this._valuesIndex.get(name);
     }
 
-    getDefaultDefinition(name: string): Definition | undefined {
-        const def = this.defaults[name];
-        return def instanceof StructureDefinitionValue ? def.definition : undefined;
-    }
-    
 }

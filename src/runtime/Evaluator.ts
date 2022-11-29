@@ -263,7 +263,7 @@ export default class Evaluator {
         this.evaluations.length = 0;
         this.evaluations.push(new Evaluation(this, this.source.program, this.source.program, this.source.program));
 
-        // Borrow all of the implicit borrows.
+        // Add the default shares to make them borrowable.
         Object.keys(this.shares.getDefaultShares()).forEach(name => this.borrow(name));
 
         // Stop remembering in case the last execution ended abruptly.

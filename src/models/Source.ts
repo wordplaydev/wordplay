@@ -34,7 +34,6 @@ import Evaluate from "../nodes/Evaluate";
 import HOF from "../native/HOF";
 import FunctionDefinitionType from "../nodes/FunctionDefinitionType";
 import type Bind from "../nodes/Bind";
-import type { Field } from "../nodes/Node";
 import type Type from "../nodes/Type";
 import type { TypeSet } from "../nodes/UnionType";
 import type Step from "../runtime/Step";

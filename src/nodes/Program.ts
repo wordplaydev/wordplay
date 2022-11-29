@@ -87,8 +87,6 @@ export default class Program extends Expression {
     getDefinitions(_: Node, context: Context): Definition[] {
 
         return  [
-            // Get all of the default definitions shared to this program
-            ...context.shares?.getDefinitions() ?? [],
             // Get all of the definitions borrowed by the program
             ...(this.borrows.filter(borrow => borrow instanceof Borrow) as Borrow[])
                 .map(borrow => borrow.name === undefined ? undefined : (context.source.getProject()?.getDefinition(context.source, borrow.name.getText()) ?? [])[0])
