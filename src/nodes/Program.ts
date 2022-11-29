@@ -84,9 +84,6 @@ export default class Program extends Expression {
 
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet { return current; }
 
-    hasName() { return false }
-    getNames() { return []; }
-
     getDefinitions(_: Node, context: Context): Definition[] {
 
         return  [
@@ -132,7 +129,7 @@ export default class Program extends Expression {
         // Return whatever the block computed, if there is anything.
         const value = evaluator.popValue(undefined);
 
-        // Share the value, allowing other Evalulators to borrow it.
+        // Share the program's value using the source's name, allowing other Evaluators to borrow it.
         evaluator.share(new Names([ new Name(evaluator.source.name)]), value);
 
         // Return the value.

@@ -86,7 +86,7 @@ export default class PropertyReference extends Expression {
 
     getDefinition(context: Context): Definition | undefined {
         if(this.name === undefined) return undefined;
-        
+
         const subjectType = this.getSubjectType(context);
         
         if(subjectType === undefined) return;

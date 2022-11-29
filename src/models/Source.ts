@@ -33,9 +33,17 @@ import FunctionDefinition from "../nodes/FunctionDefinition";
 import Evaluate from "../nodes/Evaluate";
 import HOF from "../native/HOF";
 import FunctionDefinitionType from "../nodes/FunctionDefinitionType";
+import type Bind from "../nodes/Bind";
+import type { Field } from "../nodes/Node";
+import type Type from "../nodes/Type";
+import type { TypeSet } from "../nodes/UnionType";
+import type Step from "../runtime/Step";
+import type Stream from "../runtime/Stream";
+import type Transform from "../transforms/Transform";
+import { WRITE_DOCS } from "../nodes/Translations";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
-export default class Source {
+export default class Source extends Expression {
 
     readonly name: string;
     readonly code: UnicodeString;
@@ -73,6 +81,8 @@ export default class Source {
 
     constructor(name: string, code: string | UnicodeString | Program, observers?: Set<() => void>) {
 
+        super();
+
         this.name = name;
 
         if(code instanceof Program) {
@@ -103,6 +113,12 @@ export default class Source {
         this.evaluator.observe(this);
         if(observers !== undefined) this.observers = observers;
 
+    }
+
+    getGrammar() { 
+        return [
+            { name: "program", types:[ Program ] },
+        ]; 
     }
 
     get(node: Node) { 
@@ -167,7 +183,7 @@ export default class Source {
         });
 
         // Build the dependency graph by asking each expression node for its dependencies.
-        this.program.nodes().forEach((expr) => {
+        this.nodes().forEach((expr) => {
             if(expr instanceof Expression) {
                 for(const dependency of expr.getDependencies(context)) {
                     const set = this._expressionDependencies.get(dependency);
@@ -333,7 +349,7 @@ export default class Source {
     }
 
     replace() {
-        return new Source(this.name, this.code, this.observers);
+        return new Source(this.name, this.program, this.observers) as this;
     }
 
     getTokenTextPosition(token: Token) {
@@ -456,5 +472,18 @@ export default class Source {
 
     getType(context: Context) { return this.getTypeUnlessCycle(context); }
     getTypeUnlessCycle(context: Context) { return this.program.getTypeUnlessCycle(context); }
+
+    computeType(context: Context): Type { return this.program.getTypeUnlessCycle(context); }
+    getDependencies(_: Context): (Expression | Stream)[] { return [ this.program ]; }
+    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet { return current; }
+    compile(): Step[] { return []; }
+    evaluate(): Value | undefined { return undefined; }
+    getStartExplanations(): Translations { return WRITE_DOCS; }
+    getFinishExplanations(): Translations { return WRITE_DOCS; }
+    computeConflicts(): void | Conflict[] { return []; }
+    getChildReplacement(): Transform[] | undefined { return undefined; }
+    getInsertionBefore(): Transform[] | undefined { return undefined; }
+    getInsertionAfter(): Transform[] | undefined { return undefined; }
+    getChildRemoval(): Transform | undefined { return undefined; }
 
 }
