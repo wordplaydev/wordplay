@@ -24,6 +24,7 @@ import type Expression from "../nodes/Expression";
 import Evaluate from "../nodes/Evaluate";
 import BinaryOperation from "../nodes/BinaryOperation";
 import UnaryOperation from "../nodes/UnaryOperation";
+import Project from "../models/Project";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = {
@@ -97,15 +98,11 @@ export default class Evaluator {
      * Evaluates the given program and returns its value.
      * This is primarily used for testing.
      */
-    static evaluateCode(code: string): Value | undefined {
-        // Evaluate the program.
-        const evaluator = new Evaluator(new Source("test", code));
-        // Start the evaluation
-        evaluator.start();
-        // Stop the streams.
-        evaluator.stop();
-        // Return the result.
-        return evaluator.getLatestResult();
+    static evaluateCode(main: string, supplements?: string[]): Value | undefined {
+        const source = new Source("test", main);
+        const project = new Project("test", source, (supplements ?? []).map((code, index) => new Source(`sup${index + 1}`, code)));
+        project.evaluate();
+        return source.evaluator.getLatestResult();
     }
 
     play() {
