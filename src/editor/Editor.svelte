@@ -972,11 +972,10 @@
         padding: var(--wordplay-spacing);
         position: relative;
         user-select: none;
-        overflow: scroll;
     }
 
     .stepping {
-        border: calc(2 * var(--wordplay-border-width)) solid var(--wordplay-executing-color);
+        filter: grayscale();
     }
 
     .keyboard-input {

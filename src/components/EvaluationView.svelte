@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { getLanguages } from "../editor/util/Contexts";
     import FunctionDefinition from "../nodes/FunctionDefinition";
     import Program from "../nodes/Program";
     import StructureDefinition from "../nodes/StructureDefinition";
@@ -7,24 +8,36 @@
 
     export let evaluation: Evaluation;
 
+    let languages = getLanguages();
+
     $: bindings = evaluation.getBindings();
     $: definition = evaluation.getDefinition();
 
 </script>
 
 <div>
-    <h3>{
-        definition instanceof Program ? "Program" : 
-        definition instanceof FunctionDefinition ? definition.names.getNames() :
-        definition instanceof StructureDefinition ? definition.getNames() :
-        definition.output.toWordplay()
+    <h3>
+        {
+            definition instanceof Program ? "Program" : 
+            definition instanceof FunctionDefinition ? definition.names.getNames() :
+            definition instanceof StructureDefinition ? definition.getNames() :
+            definition.output.toWordplay()
         }
     </h3>
     
     <table>
-    {#each [ ...bindings ] as [ key, value ] }
-        <tr><td><strong>{ key }</strong></td><td><ValueView value={value}/></td></tr>
-    {/each}
+        <tbody>
+            {#each [ ...bindings ] as [ names, value ] }
+                <tr>
+                    <td>
+                        <strong>{ names.getTranslation($languages) }</strong>
+                    </td>
+                    <td>
+                        <ValueView value={value}/>
+                    </td>
+                </tr>
+            {/each}
+        </tbody>
     </table>
 
     <ul>

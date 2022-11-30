@@ -34,7 +34,7 @@ export default class Shares {
 
     readonly _valuesIndex: Map<string, Value> = new Map();
     readonly values: Map<Names, Value> = new Map();
-    readonly defaults: Record<string, StructureDefinitionValue | Stream> = {}
+    readonly defaults: Map<Names, StructureDefinitionValue | Stream> = new Map();
     readonly streams: Set<Stream> = new Set();
 
     constructor() {
@@ -60,8 +60,7 @@ export default class Shares {
 
         const val = new StructureDefinitionValue(def, def);
         this.bind(def.names, val);
-        for(const name of def.getNames())
-            this.defaults[name] = val;
+        this.defaults.set(def.names, val);
 
     }
 

@@ -8,6 +8,7 @@
     import Button from './Button.svelte';
     import { WRITE } from '../nodes/Translations';
     import Switch from './Switch.svelte';
+    import type Structure from '../runtime/Structure';
 
     export let project: Project;
     export let source: Source;
@@ -16,7 +17,7 @@
 
     let previousEvaluator: Evaluator;
     $: evaluator = project.getEvaluator(source);
-    $: verse = evaluator?.getVerse();
+    let verse: Structure | undefined;
 
     /** In case the evaluator changes, stop listening to the old one and start listening to the new one.*/
     $: {

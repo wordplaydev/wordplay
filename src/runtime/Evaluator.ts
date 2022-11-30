@@ -258,7 +258,7 @@ export default class Evaluator {
         this.evaluations.push(new Evaluation(this, this.source.program, this.source.program, this.source.program));
 
         // Add the default shares to make them borrowable.
-        Object.keys(this.shares.getDefaultShares()).forEach(name => this.borrow(name));
+        Array.from(this.shares.getDefaultShares().keys()).forEach(names => this.borrow(names.getNames()[0]));
 
         // Stop remembering in case the last execution ended abruptly.
         this.stopRememberingStreamAccesses();

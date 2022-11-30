@@ -39,7 +39,7 @@
 </script>
 
 {#if visible}
-    <div class="verse {interactive ? "" : "inert"}" tabindex={interactive ? 0 : null}
+    <div class="verse {interactive ? "" : "inert"}" tabIndex={interactive ? 0 : null}
         on:mousedown={interactive ? handleMouseDown : null} 
         on:mouseup={interactive ? handleMouseUp : null}
         on:mousemove={interactive ? handleMouseMove : null}
