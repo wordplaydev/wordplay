@@ -89,7 +89,7 @@ export default class Evaluator {
 
         this.source = source;
         this.evaluations = [];
-        this.shares = new Shares(this);
+        this.shares = new Shares();
         this.context = new Context(this.source, this.shares);
 
     }

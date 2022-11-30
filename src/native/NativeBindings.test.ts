@@ -2,7 +2,6 @@ import { test, expect } from "vitest";
 import type Conflict from "../conflicts/Conflict";
 import Source from "../models/Source";
 import Context from "../nodes/Context";
-import Evaluator from "../runtime/Evaluator";
 import Shares from "../runtime/Shares";
 import Native from "./NativeBindings";
 import type Node from "../nodes/Node";
@@ -16,7 +15,7 @@ import UnparsableType from "../nodes/UnparsableType";
 import UnparsableExpression from "../nodes/UnparsableExpression";
 
 const source = new Source("native", "");
-const shares = new Shares(new Evaluator(source));
+const shares = new Shares();
 const context = new Context(source, shares);
 
 function checkNativeNodes(nodes: Node[]) {

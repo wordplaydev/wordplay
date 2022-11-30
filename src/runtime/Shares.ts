@@ -5,7 +5,6 @@ import Verse from "../native/Verse";
 import Phrase from "../native/Phrase";
 import Group from "../native/Group";
 import type StructureDefinition from "../nodes/StructureDefinition";
-import type Evaluator from "./Evaluator";
 import Layout, { Vertical } from "../native/Layout";
 import Transition, { Fade, Scale } from "../native/Transition";
 import Animation, { Bounce, Throb, Wobble } from "../native/Animation";
@@ -36,12 +35,9 @@ export default class Shares {
     readonly _valuesIndex: Map<string, Value> = new Map();
     readonly values: Map<Names, Value> = new Map();
     readonly defaults: Record<string, StructureDefinitionValue | Stream> = {}
-    readonly evaluator: Evaluator;
     readonly streams: Set<Stream> = new Set();
 
-    constructor(evaluator: Evaluator) {
-
-        this.evaluator = evaluator;
+    constructor() {
 
         // Add the default structure definitions.
         DefaultStructures.forEach(def => this.addStructureDefinition(def));
@@ -62,7 +58,7 @@ export default class Shares {
 
     addStructureDefinition(def: StructureDefinition) {
 
-        const val = new StructureDefinitionValue(this.evaluator.getProgram(), def);
+        const val = new StructureDefinitionValue(def, def);
         this.bind(def.names, val);
         for(const name of def.getNames())
             this.defaults[name] = val;
