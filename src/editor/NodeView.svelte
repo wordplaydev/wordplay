@@ -3,19 +3,19 @@
 <script lang="ts">
     import { afterUpdate } from "svelte";
     import type Node from "../nodes/Node";
-    import { getLanguages, getHighlights, getCaret } from "./util/Contexts";
+    import { getLanguages, getHighlights } from "./util/Contexts";
     import NodeHighlight from "./NodeHighlight.svelte";
     import getNodeView from "./util/nodeToView";
     import getOutlineOf, { getUnderlineOf, type Outline } from "./util/outline";
+    import { project } from '../models/stores';
 
     export let node: Node | undefined;
     export let root: boolean = false;
 
-    let caret = getCaret();
     let languages = getLanguages();
     let highlights = getHighlights();
 
-    $: primaryConflicts = node === undefined ? [] : $caret?.source.getPrimaryConflictsInvolvingNode(node) ?? [];
+    $: primaryConflicts = node === undefined ? [] : $project.getPrimaryConflictsInvolvingNode(node) ?? [];
     $: highlightTypes = (node ? $highlights?.get(node) : undefined) ?? new Set();
 
     let element: HTMLElement | null = null;

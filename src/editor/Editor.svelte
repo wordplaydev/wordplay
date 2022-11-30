@@ -218,11 +218,11 @@
             addHighlight(newHighlights, $hovered, "hovered");
 
         // Tag all nodes with primary conflicts as primary
-        for(const primary of source.getPrimaryConflicts().keys())
+        for(const primary of $project.getPrimaryConflicts().keys())
             addHighlight(newHighlights, primary, "primary");
 
         // Tag all nodes with secondary conflicts as primary
-        for(const secondary of source.getPrimaryConflicts().keys())
+        for(const secondary of $project.getPrimaryConflicts().keys())
             addHighlight(newHighlights, secondary, "secondary");
 
         // Update the store, broadcasting the highlights to all node views for rendering.

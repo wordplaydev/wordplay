@@ -48,11 +48,7 @@ export default class Source extends Expression {
     /** An index of Trees by Node, for fast retrieval of tree structure by a Node. */
     _index: Map<Node, Tree | undefined> = new Map();
 
-    /** Indices of conflicts, overall and by node. */
-    _conflicts: Conflict[] = [];
-    readonly _primaryNodeConflicts: Map<Node, Conflict[]> = new Map();
-    readonly _secondaryNodeConflicts: Map<Node, Conflict[]> = new Map();
-    
+
     /** An index of expression dependencies, mapping an Expression to one or more Expressions that are affected if it changes value.  */
     readonly _expressionDependencies: Map<Expression | Value, Set<Expression>> = new Map();
 
@@ -106,23 +102,6 @@ export default class Source extends Expression {
     hasName(name: string) { return this.names.hasName(name); }
 
     analyze(context: Context) {
-
-        // Compute all of the conflicts in the program.
-        this._conflicts = this.program.getAllConflicts(context);
-
-        // Build conflict indices by going through each conflict, asking for the conflicting nodes
-        // and adding to the conflict to each node's list of conflicts.
-        this._conflicts.forEach(conflict => {
-            const complicitNodes = conflict.getConflictingNodes();
-            complicitNodes.primary.forEach(node => {
-                let nodeConflicts = this._primaryNodeConflicts.get(node) ?? [];
-                this._primaryNodeConflicts.set(node, [ ... nodeConflicts, conflict ]);
-            });
-            complicitNodes.secondary?.forEach(node => {
-                let nodeConflicts = this._primaryNodeConflicts.get(node) ?? [];
-                this._secondaryNodeConflicts.set(node, [ ... nodeConflicts, conflict ]);
-            });
-        });
 
         // Build an index of all calls.
         this.program.nodes().forEach(node => {
@@ -340,17 +319,6 @@ export default class Source extends Expression {
         }
         return empty;
 
-    }
-
-    getPrimaryConflicts() { return this._primaryNodeConflicts; }
-    getSecondaryConflicts() { return this._secondaryNodeConflicts; }
-
-    /** Given a node N, and the set of conflicts C in the program, determines the subset of C in which the given N is complicit. */
-    getPrimaryConflictsInvolvingNode(node: Node) {
-        return this._primaryNodeConflicts.get(node);
-    }
-    getSecondaryConflictsInvolvingNode(node: Node) {
-        return this._secondaryNodeConflicts.get(node);
     }
 
     getDescriptions(): Translations {

@@ -1,3 +1,4 @@
+import type Conflict from "../conflicts/Conflict";
 import Keyboard from "../native/Keyboard";
 import Microphone from "../native/Microphone";
 import MouseButton from "../native/MouseButton";
@@ -15,6 +16,7 @@ import Evaluator from "../runtime/Evaluator";
 import type Stream from "../runtime/Stream";
 import type Value from "../runtime/Value";
 import type Source from "./Source";
+import type Node from "../nodes/Node";
 
 /** 
  * A project with a name, some source files, and evaluators for each source file.
@@ -24,14 +26,20 @@ export default class Project {
     /** The name of the project */
     readonly name: string;
 
-    /** The source files in the project */
+    /** The main source file that starts evaluation */
     readonly main: Source;
+
+    /** All source files in the project, and their evaluators */
     readonly supplements: Source[];
 
     /** Evaluators for the source files */
     readonly mainEvaluator: Evaluator;
     readonly evaluators: Map<Source, Evaluator> = new Map();
     
+    /** Conflicts by node. */
+    readonly primaryConflicts: Map<Node, Conflict[]> = new Map();
+    readonly secondaryConflicts: Map<Node, Conflict[]> = new Map();
+
     streams: {
         time: Time,
         mouseButton: MouseButton,
@@ -74,6 +82,9 @@ export default class Project {
         main.analyze(this.mainEvaluator.context);
         supplements.forEach(supp => supp.analyze(this.mainEvaluator.context));
         
+        // Analyze the project
+        this.analyze();
+
     }
 
     getSources() { 
@@ -90,6 +101,46 @@ export default class Project {
 
     isEvaluating() {
         return Array.from(this.evaluators.values()).some(evaluator => evaluator.isEvaluating());
+    }
+    
+    analyze() {
+
+        for(const source of this.getSources()) {
+
+            const context = this.getSourceContext(source);
+
+            if(context === undefined) continue;
+
+            // Compute all of the conflicts in the program.
+            const conflicts = source.program.getAllConflicts(context);
+
+            // Build conflict indices by going through each conflict, asking for the conflicting nodes
+            // and adding to the conflict to each node's list of conflicts.
+            conflicts.forEach(conflict => {
+                const complicitNodes = conflict.getConflictingNodes();
+                complicitNodes.primary.forEach(node => {
+                    let nodeConflicts = this.primaryConflicts.get(node) ?? [];
+                    this.primaryConflicts.set(node, [ ... nodeConflicts, conflict ]);
+                });
+                complicitNodes.secondary?.forEach(node => {
+                    let nodeConflicts = this.secondaryConflicts.get(node) ?? [];
+                    this.secondaryConflicts.set(node, [ ... nodeConflicts, conflict ]);
+                });
+            });
+
+        }
+
+    }
+
+    getPrimaryConflicts() { return this.primaryConflicts; }
+    getSecondaryConflicts() { return this.secondaryConflicts; }
+
+    /** Given a node N, and the set of conflicts C in the program, determines the subset of C in which the given N is complicit. */
+    getPrimaryConflictsInvolvingNode(node: Node) {
+        return this.primaryConflicts.get(node);
+    }
+    getSecondaryConflictsInvolvingNode(node: Node) {
+        return this.secondaryConflicts.get(node);
     }
 
     react(stream: Stream) {
