@@ -25,12 +25,10 @@ import Evaluate from "../nodes/Evaluate";
 import BinaryOperation from "../nodes/BinaryOperation";
 import UnaryOperation from "../nodes/UnaryOperation";
 import Project from "../models/Project";
+import { valueToVerse } from "../native/Verse";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
-export type EvaluationObserver = {
-    stepped: (step: Step) => void,
-    ended: (value: Value | undefined) => void
-};
+export type EvaluationObserver = (event: Step | Value | undefined) => void;
 
 export type EvaluationMode = "play" | "step";
 
@@ -102,7 +100,7 @@ export default class Evaluator {
         const source = new Source("test", main);
         const project = new Project("test", source, (supplements ?? []).map((code, index) => new Source(`sup${index + 1}`, code)));
         project.evaluate();
-        return source.evaluator.getLatestResult();
+        return project.getEvaluator(source)?.getLatestResult();
     }
 
     play() {
@@ -149,12 +147,12 @@ export default class Evaluator {
     broadcastStep() {
         const step = this.currentStep();
         if(step !== undefined) 
-            this.observers.forEach(observer => observer.stepped(step));
+            this.observers.forEach(observer => observer(step));
     }
 
     broadcastEnd() {
         // Notify the observers of the final evaluation value.
-        this.observers.forEach(observer => observer.ended(this.latestValue));
+        this.observers.forEach(observer => observer(this.latestValue));
     }
 
     isEvaluating() { return this.evaluations.length > 0 || this.latestValue !== undefined; }
@@ -474,6 +472,11 @@ export default class Evaluator {
             const newStream = new ReactionStream(reaction, value);
             this.reactionStreams.set(reaction, newStream);
         }
+    }
+
+    getVerse() {         
+        const value = this.getLatestResult();
+        return valueToVerse(this, value);
     }
 
 }

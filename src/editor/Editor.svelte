@@ -53,7 +53,7 @@
     $: program = source.program;
 
     // A shorthand for the currently evaluating step, if there is one.
-    let executingNode = source.getEvaluator().currentStep()?.node;
+    let executingNode = $project.getEvaluator(source)?.currentStep()?.node;
 
     // Focused when the active element is the text input.
     let focused = false;
@@ -102,7 +102,7 @@
     $: {
         caret.set($caret.withSource(source));
         setContext(CaretSymbol, caret);
-        executingNode = source.getEvaluator().currentStep()?.node;
+        executingNode = $project.getEvaluator(source)?.currentStep()?.node;
     }
 
     // When the caret location changes, position the menu and invisible input, and optionally scroll to the caret.
@@ -164,8 +164,8 @@
 
     function updateHighlights() {
 
-        const currentStep = $caret.source.getEvaluator().currentStep();
-        const latestValue = $caret.source.getEvaluator().getLatestResult();
+        const currentStep = $project.getEvaluator(source)?.currentStep();
+        const latestValue = $project.getEvaluator(source)?.getLatestResult();
 
         // Build a set of highlights to render.
         const newHighlights = new Map<Node, Set<HighlightType>>();

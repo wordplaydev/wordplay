@@ -5,6 +5,7 @@
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
     import { getCaret } from "./util/Contexts";
+    import { project } from '../models/stores';
     
     type CaretPosition = { top: string, left: string, height: string, bottom: number };
 
@@ -23,6 +24,9 @@
     // The current token we're on.
     $: token = $caret?.getToken();
 
+    // Whether the program is executing
+    $: evaluating = $caret !== undefined && $project.getEvaluator($caret.source)?.isDone();
+
     // The index we should render
     let caretIndex: number | undefined = undefined;
 
@@ -37,7 +41,7 @@
             // Compute where the caret should be placed. Place it if...
             caretIndex = 
                 // Don't show the caret if the program is evaluating.
-                $caret.source.evaluator.isDone() &&
+                evaluating &&
                 // Only show the caret if it's pointing to a number
                 typeof $caret.position === "number" &&
                 // The position can be anywhere after after the first glyph of the token, up to and including after the token's last character,
@@ -67,7 +71,7 @@
     afterUpdate(() => {
 
         // Now that we've rendered the caret, if it's out of the viewport and we're not executing, scroll to it.
-        if(element && $caret?.source.evaluator.isDone())
+        if(element && evaluating)
             element.scrollIntoView({ block: "nearest" });
 
         // Update the caret's location, in case other things changed.

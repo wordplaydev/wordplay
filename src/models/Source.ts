@@ -4,27 +4,14 @@ import Program from "../nodes/Program";
 import type Conflict from "../conflicts/Conflict";
 import { parseProgram, Tokens } from "../parser/Parser";
 import { tokenize } from "../parser/Tokenizer";
-import Evaluator from "../runtime/Evaluator";
 import UnicodeString from "./UnicodeString";
 import type Value from "../runtime/Value";
-import StructureType from "../nodes/StructureType";
-import type Structure from "../runtime/Structure";
-import { createStructure } from "../runtime/Structure";
-import Verse from "../native/Verse";
-import Group from "../native/Group";
-import Phrase from "../native/Phrase";
-import List from "../runtime/List";
-import Text from "../runtime/Text";
-import Measurement from "../runtime/Measurement";
 import type Project from "./Project";
 import Context from "../nodes/Context";
 import TokenType from "../nodes/TokenType";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import Tree from "../nodes/Tree";
 import Names from "../nodes/Names";
-import Unit from "../nodes/Unit";
-import Dimension from "../nodes/Dimension";
-import Style from "../native/Style";
 import type Borrow from "../nodes/Borrow";
 import type Translations from "../nodes/Translations";
 import type LanguageCode from "../nodes/LanguageCode";
@@ -41,16 +28,15 @@ import type Stream from "../runtime/Stream";
 import type Transform from "../transforms/Transform";
 import { WRITE_DOCS } from "../nodes/Translations";
 import Name from "../nodes/Name";
+import Shares from "../runtime/Shares";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
 
-    readonly names: Names;
     readonly code: UnicodeString;
 
+    readonly names: Names;
     readonly program: Program;
-
-    readonly evaluator: Evaluator;
 
     /** The Project sets this once it's added. */
     _project: Project | undefined;
@@ -78,7 +64,7 @@ export default class Source extends Expression {
     /** A mapping from function/structure definitions to all of their calls. */
     readonly _calls: Map<FunctionDefinition | StructureDefinition, Set<Evaluate>> = new Map();
 
-    constructor(names: string | Names, code: string | UnicodeString | Program, observers?: Set<() => void>) {
+    constructor(names: string | Names, code: string | UnicodeString | Program) {
 
         super();
 
@@ -107,11 +93,6 @@ export default class Source extends Expression {
             index += token.text.getLength();
         }
 
-        // Create an evaluator, listen to it's changes, and set up any given observers.
-        this.evaluator = new Evaluator(this);
-        this.evaluator.observe(this);
-        if(observers !== undefined) this.observers = observers;
-
     }
 
     getGrammar() { 
@@ -132,9 +113,7 @@ export default class Source extends Expression {
 
     hasName(name: string) { return this.names.hasName(name); }
 
-    analyze() {
-
-        const context = this.getContext();
+    analyze(context: Context) {
 
         // Compute all of the conflicts in the program.
         this._conflicts = this.program.getAllConflicts(context);
@@ -242,112 +221,42 @@ export default class Source extends Expression {
     }
     
     getContext() {
-        return new Context(this, this.evaluator.getShares());
+        return new Context(this, new Shares());
     }
 
     getNames() { return this.names.getNames(); }
     getCode() { return this.code; }
-
-    getEvaluator() { return this.evaluator; }
-
-    observe(observer: () => void) { 
-        this.observers.add(observer);
-    }
-
-    ignore(observer: () => void) { 
-        this.observers.delete(observer);
-    }
-
-    stepped() {
-        this.observers.forEach(observer => observer());
-    }
-
-    ended() {
-        this.observers.forEach(observer => observer());
-    }
-
-    getVerse() {         
-        const value = this.evaluator.getLatestResult();
-        return this.valueToVerse(value);
-    }
-
-    style(font: string, size: number) {
-        const bindings = new Map<Names, Value>();
-        bindings.set(Style.inputs[0].names, new Text(this.program, font));
-        bindings.set(Style.inputs[1].names, new Measurement(this.program, size, new Unit(undefined, [ new Dimension("pt")])));
-        return createStructure(this.evaluator, Style, bindings);
-    }
-
-
-    phrase(text: string | Text, size: number=12, font: string="Noto Sans", ): Structure {
-        const bindings = new Map<Names, Value>();
-        bindings.set(Phrase.inputs[0].names, text instanceof Text ? text : new Text(this.program, text));
-        bindings.set(Phrase.inputs[1].names, this.style(font, size));
-        return createStructure(this.evaluator, Phrase as StructureDefinition, bindings);
-    }
-
-    group(...phrases: Structure[]) {
-        return createStructure(this.evaluator, Group as StructureDefinition, new Map().set(Group.inputs[1].names, new List(this.program, phrases)));
-    }
-
-    verse(group: Structure) {
-        return createStructure(this.evaluator, Verse as StructureDefinition, new Map().set(Verse.inputs[0].names, group));
-    }
-
-    valueToVerse(value: Value | undefined): Structure {
-
-        // If the content is a Verse, just show it as is.
-        if(value === undefined)
-            return this.verse(this.group(this.phrase("...", 20)))
-
-        const contentType = value.getType(this.evaluator.getContext());
-        if(contentType instanceof StructureType && contentType.structure === Verse)
-            return value as Structure;
-        else if(contentType instanceof StructureType && contentType.structure === Group)
-            return this.verse(value as Structure);
-        else if(contentType instanceof StructureType && contentType.structure === Phrase)
-            return this.verse(this.group( value as Structure ));
-        else if(value instanceof Text || typeof value === "string")
-            return this.verse(this.group(this.phrase(value, 12)));
-        else
-            return this.verse(this.group(this.phrase(value.toString(), 12)));
-
-    }
-
-    cleanup() {
-        this.evaluator.stop();
-    }
     
     withPreviousGraphemeReplaced(char: string, position: number) {
         const newCode = this.code.withPreviousGraphemeReplaced(char, position);
-        return newCode === undefined ? undefined : new Source(this.names, newCode, this.observers);
+        return newCode === undefined ? undefined : new Source(this.names, newCode);
     }
 
     withGraphemesAt(char: string, position: number) {
         const newCode = this.code.withGraphemesAt(char, position);
-        return newCode == undefined ? undefined : new Source(this.names, newCode, this.observers);
+        return newCode == undefined ? undefined : new Source(this.names, newCode);
     }
 
     withoutGraphemeAt(position: number) {
         const newCode = this.code.withoutGraphemeAt(position);
-        return newCode == undefined ? undefined : new Source(this.names, newCode, this.observers);
+        return newCode == undefined ? undefined : new Source(this.names, newCode);
     }
 
     withoutGraphemesBetween(start: number, endExclusive: number) {
         const newCode = this.code.withoutGraphemesBetween(start, endExclusive);
-        return newCode == undefined ? undefined : new Source(this.names, newCode, this.observers);
+        return newCode == undefined ? undefined : new Source(this.names, newCode);
     }
 
     withCode(code: string) {
-        return new Source(this.names, new UnicodeString(code), this.observers);
+        return new Source(this.names, new UnicodeString(code));
     }
 
     withProgram(program: Program) {
-        return new Source(this.names, program, this.observers);
+        return new Source(this.names, program);
     }
 
     replace() {
-        return new Source(this.names, this.program, this.observers) as this;
+        return new Source(this.names, this.program) as this;
     }
 
     getTokenTextPosition(token: Token) {

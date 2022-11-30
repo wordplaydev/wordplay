@@ -10,18 +10,26 @@ import type Expression from "../nodes/Expression";
 import type FunctionDefinition from "../nodes/FunctionDefinition";
 import type Program from "../nodes/Program";
 import type StructureDefinition from "../nodes/StructureDefinition";
+import Evaluator from "../runtime/Evaluator";
 import type Stream from "../runtime/Stream";
 import type Value from "../runtime/Value";
 import type Source from "./Source";
 
 /** 
- * An immutable representation of a project with a name and some documents 
+ * A project with a name, some source files, and evaluators for each source file.
  **/
 export default class Project {
 
+    /** The name of the project */
     readonly name: string;
+
+    /** The source files in the project */
     readonly main: Source;
     readonly supplements: Source[];
+
+    /** Evaluators for the source files */
+    readonly mainEvaluator: Evaluator;
+    readonly evaluators: Map<Source, Evaluator> = new Map();
     
     streams: {
         time: Time,
@@ -38,40 +46,44 @@ export default class Project {
         this.main = main;
         this.supplements = supplements.slice();
 
+        // Create evaluators for each source.
+        this.mainEvaluator = new Evaluator(this.main);
+        this.evaluators.set(this.main, this.mainEvaluator);
+        for(const source of this.supplements)
+            this.evaluators.set(source, new Evaluator(source));
+
         // Assign this as the project
         main.setProject(this);
         supplements.forEach(supp => supp.setProject(this));
 
         // Create all the streams.
-        this.streams = this.createStreams();
+        this.streams = {
+            time: new Time(this.main.program),
+            mouseButton: new MouseButton(this.main.program),
+            mousePosition: new MousePosition(this.mainEvaluator),
+            keyboard: new Keyboard(this.mainEvaluator),
+            microphone: new Microphone(this.main.program)
+        };
 
         // Listen to all streams
         for(const stream of Object.values(this.streams))
             stream.listen(this.react.bind(this));
 
-        // Share each stream with each source file's evaluator.
-        for(const source of this.getSources())
-            source.evaluator.shares.addStreams(Object.values(this.streams));
+        // Share each stream with each evaluator.
+        for(const evaluator of this.evaluators.values())
+            evaluator.shares.addStreams(Object.values(this.streams));
 
         // Analyze each source, now that all project source is set.
-        main.analyze();
-        supplements.forEach(supp => supp.analyze());
+        main.analyze(this.mainEvaluator.context);
+        supplements.forEach(supp => supp.analyze(this.mainEvaluator.context));
         
-    }
-
-    createStreams() {
-        return {
-            time: new Time(this.main.program),
-            mouseButton: new MouseButton(this.main.program),
-            mousePosition: new MousePosition(this.main.evaluator),
-            keyboard: new Keyboard(this.main.evaluator),
-            microphone: new Microphone(this.main.program)
-        }
     }
 
     getSources() { 
         return [ this.main, ...this.supplements]; 
     }
+
+    getEvaluator(source: Source): Evaluator | undefined { return this.evaluators.get(source); }
 
     getSourcesExcept(source: Source) { return [ this.main, ...this.supplements].filter(s => s !== source); }
     getName() { return this.name; }
@@ -79,7 +91,7 @@ export default class Project {
     getSourceWithProgram(program: Program) { return this.getSources().find(source => source.program === program); }
 
     isEvaluating() {
-        return this.getSources().some(source => source.evaluator.isEvaluating());
+        return Array.from(this.evaluators.values()).some(evaluator => evaluator.isEvaluating());
     }
 
     react(stream: Stream) {
@@ -140,12 +152,12 @@ export default class Project {
         // Start the sources that main depends on. Create all of the streams.
         for(const source of orderedSources)
             if(changedSources === undefined || changedSources.has(source))
-                source.getEvaluator().start(changedStream, changedExpressions);
+                this.evaluators.get(source)?.start(changedStream, changedExpressions);
 
         // Start any sources that main doesn't depend on.
         for(const source of this.getSources())
             if(!orderedSources.includes(source) && (changedSources === undefined || changedSources.has(source)))
-                source.getEvaluator().start(changedStream, changedExpressions);
+                this.evaluators.get(source)?.start(changedStream, changedExpressions);
 
     }
 
@@ -188,21 +200,21 @@ export default class Project {
     }
 
     cleanup() { 
-        // Have all source files clean up
-        this.main.cleanup();
-        this.supplements.forEach(supp => supp.cleanup());
-
         // Stop all streams.
         for(const stream of Object.values(this.streams))
             stream.stop();
+
+        // Stop all evaluators
+        for(const evaluator of this.evaluators.values())
+            evaluator.stop();
     }
 
-    /** See if any of source other than the borrow expose the given name. */
+    /** See if any of source other evaluators expose the given name. */
     resolveShare(borrower: Source, name: string): Value | undefined {
 
         const sources = this.getSources().filter(s => s !== borrower);
         for(const source of sources) {
-            const match = source.getEvaluator().resolveShare(name);
+            const match = this.evaluators.get(source)?.resolveShare(name);
             if(match !== undefined) return match;
         }
         return undefined;

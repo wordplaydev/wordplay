@@ -4,43 +4,46 @@
     import type Source from '../models/Source';
     import { onDestroy } from 'svelte';
     import type Project from '../models/Project';
+    import type Evaluator from '../runtime/Evaluator';
+    import type Value from '../runtime/Value';
+    import type Step from '../runtime/Step';
 
     export let project: Project;
     export let source: Source;
     export let interactive: boolean = false;
 
-    let previousSource: Source;
 
+    let previousEvaluator: Evaluator;
+    $: evaluator = project.getEvaluator(source);
+    $: verse = evaluator?.getVerse();
+
+    /** In case the evaluator changes, stop listening to the old one and start listening to the new one.*/
     $: {
-        previousSource?.ignore(handleEvaluation);
-        source.observe(handleEvaluation);
+        previousEvaluator?.ignore(handleEvaluation);
+        evaluator?.observe(handleEvaluation);
     }
 
-    $: verse = source.getVerse();
-    $: evaluator = source.evaluator;
-    
     let autoplay = true;
 
-    function handleEvaluation() {
-        source = source;
-        verse = source.getVerse();
+    function handleEvaluation(_: Step | Value | undefined) {
+        verse = evaluator?.getVerse();
     }
 
     function handleStep() {
-        source.evaluator.stepWithinProgram();
+        evaluator?.stepWithinProgram();
     }
 
     function handleStepOut() {
-        source.evaluator.stepOut();
+        evaluator?.stepOut();
     }
 
     function playPause() {
         autoplay = !autoplay;
-        if(autoplay) source.evaluator.play();
-        else source.evaluator.pause();
+        if(autoplay) evaluator?.play();
+        else evaluator?.pause();
     }
 
-    onDestroy(() => source.ignore(handleEvaluation));
+    onDestroy(() => evaluator?.ignore(handleEvaluation));
 
 </script>
 
@@ -50,16 +53,18 @@
         <small>
             <!-- If it's output, show controls -->
             <span on:click={playPause}>{autoplay ? "⏸" : "▶️"}</span>
-            <button on:click={handleStep} disabled={autoplay || source.getEvaluator().isDone()}>step</button>
-            <button on:click={handleStepOut} disabled={autoplay || source.getEvaluator().isDone()}>step out</button>
+            <button on:click={handleStep} disabled={autoplay || evaluator === undefined || evaluator.isDone()}>step</button>
+            <button on:click={handleStepOut} disabled={autoplay || evaluator === undefined || evaluator.isDone()}>step out</button>
         </small>
     </div>
     <div class="split">
         <div class="source-content">
-            <Editor source={source} />
+            <Editor {source} />
         </div>
         <div class="source-content" >
-            <VerseView {project} {verse} {evaluator} {interactive}/>
+            {#if evaluator}
+                <VerseView {project} {verse} {evaluator} {interactive}/>
+            {/if}
         </div>
     </div>
 </div>
