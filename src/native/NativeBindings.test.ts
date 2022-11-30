@@ -16,8 +16,8 @@ import UnparsableType from "../nodes/UnparsableType";
 import UnparsableExpression from "../nodes/UnparsableExpression";
 
 const source = new Source("native", "");
-const context = new Context(source);
 const shares = new Shares(new Evaluator(source));
+const context = new Context(source, shares);
 
 function checkNativeNodes(nodes: Node[]) {
 

@@ -12,7 +12,7 @@ export default class Context {
 
     readonly source: Source;
     readonly native: NativeInterface;
-    readonly shares?: Shares;
+    readonly shares: Shares;
 
     readonly stack: Node[] = [];
     readonly types: Record<string,Type>[] = [];
@@ -20,7 +20,7 @@ export default class Context {
     
     readonly _index: Map<Node,Tree | undefined> = new Map();
 
-    constructor(source: Source, shares?: Shares) {
+    constructor(source: Source, shares: Shares) {
 
         this.source = source;
         this.native = Native;

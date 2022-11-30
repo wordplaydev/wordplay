@@ -65,7 +65,7 @@ export default class NameType extends Type {
             return context.get(this)?.getBindingScope()?.getDefinitionOfName(this.getName(), context, this);
 
         // If there wasn't one, then ask the shares for the definition.
-        return context.shares?.getDefinitionOfName(this.getName());
+        return context.shares.getDefinitionOfName(this.getName());
 
     }
 

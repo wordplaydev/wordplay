@@ -48,7 +48,6 @@ export default class Source extends Expression {
     readonly names: Names;
     readonly code: UnicodeString;
 
-    // Derived fields
     readonly program: Program;
 
     readonly evaluator: Evaluator;

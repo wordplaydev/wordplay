@@ -3,6 +3,8 @@ import Block from "../nodes/Block";
 import Expression from "../nodes/Expression";
 import Context from "../nodes/Context";
 import Source from "../models/Source";
+import Shares from "../runtime/Shares";
+import Evaluator from "../runtime/Evaluator";
 
 export function testConflict(goodCode: string, badCode: string, nodeType: Function, conflictType: Function, nodeIndex: number = 0) {
 
@@ -10,13 +12,13 @@ export function testConflict(goodCode: string, badCode: string, nodeType: Functi
     const goodProgram = goodSource.program;
     const goodOp = goodProgram.nodes().filter(n => n instanceof nodeType)[nodeIndex];
     expect(goodOp).toBeInstanceOf(nodeType);
-    expect(goodOp?.getConflicts(new Context(goodSource)).filter(n => n instanceof conflictType)).toHaveLength(0);
+    expect(goodOp?.getConflicts(new Context(goodSource, new Shares(new Evaluator(goodSource)))).filter(n => n instanceof conflictType)).toHaveLength(0);
 
     const badSource = new Source("test", badCode);
     const badProgram = badSource.program;
     const badOp = badProgram.nodes().filter(n => n instanceof nodeType)[nodeIndex];
     expect(badOp).toBeInstanceOf(nodeType);
-    const conflicts = badOp?.getConflicts(new Context(badSource));
+    const conflicts = badOp?.getConflicts(new Context(badSource, new Shares(new Evaluator(badSource))));
     expect(conflicts?.find(c => c instanceof conflictType)).toBeInstanceOf(conflictType);
 
 }
@@ -28,7 +30,7 @@ export function testTypes(code: string, typeExpected: Function) {
     const last = source.program.block instanceof Block ? source.program.block.getLast() : undefined;
     const lastIsExpression = last instanceof Expression;
     if(last instanceof Expression) {
-        const type = last.getType(new Context(source))
+        const type = last.getType(new Context(source, new Shares(new Evaluator(source))));
         const match = type instanceof typeExpected;
         if(!match)
             console.log(`Expression's type is ${type.constructor.name}`);

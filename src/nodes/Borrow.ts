@@ -72,7 +72,7 @@ export default class Borrow extends Expression {
             if(definition !== undefined && source !== undefined) return [ definition, source ];
         }
         // If not, do any of the native bindings have the name?
-        const streamOrNative = context.shares?.resolve(name);
+        const streamOrNative = context.shares.resolve(name);
         return streamOrNative instanceof StructureDefinitionValue ? [ streamOrNative.definition, undefined ] :
             streamOrNative instanceof Stream ? [ streamOrNative, undefined ] :
             [ undefined, undefined ];
