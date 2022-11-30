@@ -87,7 +87,7 @@
         location = undefined;
 
         // No caret view? No caret.
-        if(element === undefined) return;
+        if(element === null || element === undefined) return;
 
         // Find views, and if any are missing, bail.
         const editorView = element.parentElement;
