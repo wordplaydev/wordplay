@@ -7,6 +7,8 @@
     import type Evaluator from '../runtime/Evaluator';
     import type Value from '../runtime/Value';
     import type Step from '../runtime/Step';
+    import Button from './Button.svelte';
+    import { WRITE } from '../nodes/Translations';
 
     export let project: Project;
     export let source: Source;
@@ -52,9 +54,31 @@
         <h2>{source.getNames()}</h2>
         <small>
             <!-- If it's output, show controls -->
-            <span on:click={playPause}>{autoplay ? "⏸" : "▶️"}</span>
-            <button on:click={handleStep} disabled={autoplay || evaluator === undefined || evaluator.isDone()}>step</button>
-            <button on:click={handleStepOut} disabled={autoplay || evaluator === undefined || evaluator.isDone()}>step out</button>
+            <Button 
+                label={
+                    autoplay ? 
+                        { eng: "pause", "😀": WRITE } :
+                        { eng: "play", "😀": WRITE }
+                }
+                tip={
+                    autoplay ? 
+                    { eng: "Evaluate the program one step at a time", "😀": WRITE } : 
+                    { eng: "Evaluate the program fully", "😀": WRITE }
+                } 
+                action={playPause} 
+            />
+            <Button 
+                label={{ eng: "step", "😀": WRITE }}
+                tip={{ eng: "Advance one step in the program's evaluation.", "😀": WRITE }}
+                action={handleStep} 
+                enabled={!autoplay && evaluator !== undefined && !evaluator.isDone()} 
+            />
+            <Button 
+                label={{ eng: "step out", "😀": WRITE }}
+                tip={{ eng: "Step out of this function.", "😀": WRITE }}
+                action={handleStepOut} 
+                enabled={!autoplay && evaluator !== undefined && !evaluator.isDone()}>
+            </Button>
         </small>
     </div>
     <div class="split">

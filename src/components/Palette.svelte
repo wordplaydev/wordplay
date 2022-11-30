@@ -20,6 +20,8 @@
     import Reference from "../nodes/Reference";
     import Tree from "../nodes/Tree";
     import RootView from "../editor/RootView.svelte";
+    import { WRITE } from "../nodes/Translations";
+    import Button from "./Button.svelte";
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
@@ -167,7 +169,11 @@
 >
     {#if selected }
         <section class="type">
-            <button on:click={() => selected = undefined }>◀</button>
+            <Button 
+                label={{ eng: "back" , "😀": WRITE }}
+                tip={{ eng: "Return to the types menu.", "😀": WRITE }}
+                action={() => selected = undefined } 
+            />
             <h3>{#each selected.creators as creator, index}{#if index > 0}, {/if}<RootView node={creator}/>{/each}</h3>
 
             {#each selected.constructs as node }
