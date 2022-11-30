@@ -14,17 +14,18 @@
 
 <span
     class="switch"
-    tabIndex=0 
     title={tip[$languages[0]]}
 >
     <span 
         class={`mode off ${on ? "inactive" : "active"}`}
+        tabIndex=0 
         on:click={() => toggle(false)} 
         on:keydown={event => event.key === "Enter" || event.key === "Space" ? toggle(false) : undefined }    
     >
         {offLabel[$languages[0]]}
     </span><span 
         class={`mode on ${on ? "active" : "inactive"}`}
+        tabIndex=0 
         on:click={() => toggle(true)} 
         on:keydown={event => event.key === "Enter" || event.key === "Space" ? toggle(true) : undefined }    
     >
@@ -45,6 +46,10 @@
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         vertical-align: middle;
+    }
+
+    .mode:focus {
+        outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
     }
 
     .mode.inactive:hover {
