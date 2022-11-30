@@ -43,9 +43,6 @@ export default class Source extends Expression {
     /** An index of Trees by Node, for fast retrieval of tree structure by a Node. */
     _index: Map<Node, Tree | undefined> = new Map();
 
-    /** An index of expression dependencies, mapping an Expression to one or more Expressions that are affected if it changes value.  */
-    readonly _expressionDependencies: Map<Expression | Value, Set<Expression>> = new Map();
-
     constructor(names: string | Names, code: string | UnicodeString | Program) {
 
         super();
@@ -91,27 +88,6 @@ export default class Source extends Expression {
     }
 
     hasName(name: string) { return this.names.hasName(name); }
-
-    analyze(context: Context) {
-
-        // Build the dependency graph by asking each expression node for its dependencies.
-        this.nodes().forEach((expr) => {
-            if(expr instanceof Expression) {
-                for(const dependency of expr.getDependencies(context)) {
-                    const set = this._expressionDependencies.get(dependency);
-                    if(set)
-                        set.add(expr);
-                    else
-                        this._expressionDependencies.set(dependency, new Set([ expr ]));
-                }
-            }
-        });
-
-    }
-
-    getExpressionsAffectedBy(expression: Value | Expression): Set<Expression> {
-        return this._expressionDependencies.get(expression) ?? new Set();
-    }
 
     /** Returns a path from a borrow in this program this to this, if one exists. */
     getCycle(context: Context, path: Source[] = []): [ Borrow,  Source[] ] | undefined {

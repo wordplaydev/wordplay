@@ -8,7 +8,7 @@ import Bind from "../nodes/Bind";
 import type Context from "../nodes/Context";
 import type Definition from "../nodes/Definition";
 import Evaluate from "../nodes/Evaluate";
-import type Expression from "../nodes/Expression";
+import Expression from "../nodes/Expression";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import type Program from "../nodes/Program";
 import type StructureDefinition from "../nodes/StructureDefinition";
@@ -44,6 +44,10 @@ export default class Project {
 
     /** Evaluations by function and structures they evaluate (a call graph) */
     readonly evaluations: Map<FunctionDefinition | StructureDefinition, Set<Evaluate>> = new Map();
+
+    /** Expression dependencies */
+    /** An index of expression dependencies, mapping an Expression to one or more Expressions that are affected if it changes value.  */
+    readonly dependencies: Map<Expression | Value, Set<Expression>> = new Map();
 
     streams: {
         time: Time,
@@ -82,10 +86,6 @@ export default class Project {
         // Share each stream with each evaluator.
         for(const evaluator of this.evaluators.values())
             evaluator.shares.addStreams(Object.values(this.streams));
-
-        // Analyze each source, now that all project source is set.
-        main.analyze(this.mainEvaluator.context);
-        supplements.forEach(supp => supp.analyze(this.mainEvaluator.context));
         
         // Analyze the project
         this.analyze();
@@ -134,7 +134,8 @@ export default class Project {
             });
 
             // Build a mapping from functions and structures to their evaluations.
-            for(const node of source.program.nodes()) {
+            for(const node of source.nodes()) {
+
                 // Find all Evaluates
                 if(node instanceof Evaluate) {
                     // Find the function called.
@@ -159,6 +160,18 @@ export default class Project {
                         }
                     }
                 }
+
+                // Build the dependency graph by asking each expression node for its dependencies.
+                if(node instanceof Expression) {
+                    for(const dependency of node.getDependencies(context)) {
+                        const set = this.dependencies.get(dependency);
+                        if(set)
+                            set.add(node);
+                        else
+                            this.dependencies.set(dependency, new Set([ node ]));
+                    }
+                }
+                
             }
  
         }
@@ -181,19 +194,21 @@ export default class Project {
         return Array.from(this.evaluations.get(fun) ?? []);
     }
 
+    getExpressionsAffectedBy(expression: Value | Expression): Set<Expression> {
+        return this.dependencies.get(expression) ?? new Set();
+    }
+
     react(stream: Stream) {
 
         // A stream changed!
         // STEP 1: Find the zero or more nodes that depend on this stream.
         let affectedExpressions: Set<Expression> = new Set();
         let streamReferences = new Set<Expression>();
-        for(const source of this.getSources()) {
-            const affected = source.getExpressionsAffectedBy(stream);
-            if(affected.size > 0) {
-                for(const dependency of affected) {
-                    affectedExpressions.add(dependency);
-                    streamReferences.add(dependency);
-                }
+        const affected = this.getExpressionsAffectedBy(stream);
+        if(affected.size > 0) {
+            for(const dependency of affected) {
+                affectedExpressions.add(dependency);
+                streamReferences.add(dependency);
             }
         }
 
@@ -202,20 +217,23 @@ export default class Project {
         let unvisited = new Set(affectedExpressions);
         while(unvisited.size > 0) {
             for(const expr of unvisited) {
+                // Remove from the visited list.
                 unvisited.delete(expr);
-                // Find the source the expression is in.
-                for(const source of this.getSources()) {
-                    const affected = source.getExpressionsAffectedBy(expr);
-                    if(affected.size > 0)
-                        affectedSources.add(source);
-                    for(const newExpr of affected) {
-                        // Avoid cycles
-                        if(!affectedExpressions.has(newExpr)) {
-                            affectedExpressions.add(newExpr);
-                            unvisited.add(newExpr);
-                        }
+
+                // Mark that the source was affected.
+                const affectedSource = this.getSources().find(source => source.contains(expr));
+                if(affectedSource)
+                    affectedSources.add(affectedSource);
+
+                const affected = this.getExpressionsAffectedBy(expr);
+                // Visit all of the affected nodes.
+                for(const newExpr of affected) {
+                    // Avoid cycles
+                    if(!affectedExpressions.has(newExpr)) {
+                        affectedExpressions.add(newExpr);
+                        unvisited.add(newExpr);
                     }
-                }
+                }            
             }
         }
 
