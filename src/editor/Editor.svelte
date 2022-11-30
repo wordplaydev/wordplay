@@ -52,8 +52,21 @@
     // A shorthand for the current program.
     $: program = source.program;
 
-    // A shorthand for the currently evaluating step, if there is one.
-    let executingNode = $project.getEvaluator(source)?.currentStep()?.node;
+    // A shorthand for the current evaluator
+    $: evaluator = $project.getEvaluator(source);
+    let previousEvaluator = evaluator;
+    let executingNode: Node | undefined = undefined;
+    let stepping = false;
+    $: {
+        previousEvaluator?.ignore(evalUpdate);
+        evaluator?.observe(evalUpdate);
+        evalUpdate();
+    }
+
+    function evalUpdate() {
+        executingNode = evaluator?.currentStep()?.node;
+        stepping = evaluator?.isStepping() === true;
+    }
 
     // Focused when the active element is the text input.
     let focused = false;
@@ -911,7 +924,7 @@
 <!-- Drop what's being dragged if the window loses focus. -->
 <svelte:window on:blur={handleRelease} />
 
-<div class="editor"
+<div class={`editor ${stepping ? "stepping" : ""}`}
     bind:this={editor}
     on:mousedown|preventDefault={event => placeCaretAtPosition(event)}
     on:dblclick={event => { let node = getNodeAt(event, false); if(node) caret.set($caret.withPosition(node)); }}
@@ -957,6 +970,10 @@
         padding: var(--wordplay-spacing);
         position: relative;
         user-select: none;
+    }
+
+    .stepping {
+        background-color: var(--wordplay-disabled-color);
     }
 
     .keyboard-input {

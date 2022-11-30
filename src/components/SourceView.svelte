@@ -5,8 +5,6 @@
     import { onDestroy } from 'svelte';
     import type Project from '../models/Project';
     import type Evaluator from '../runtime/Evaluator';
-    import type Value from '../runtime/Value';
-    import type Step from '../runtime/Step';
     import Button from './Button.svelte';
     import { WRITE } from '../nodes/Translations';
     import Switch from './Switch.svelte';
@@ -28,7 +26,7 @@
 
     let autoplay = true;
 
-    function handleEvaluation(_: Step | Value | undefined) {
+    function handleEvaluation() {
         verse = evaluator?.getVerse();
     }
 

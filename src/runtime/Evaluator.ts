@@ -15,7 +15,6 @@ import type Type from "../nodes/Type";
 // Import this last, after everything else, to avoid cycles.
 import Native from "../native/NativeBindings";
 import type NativeInterface from "../native/NativeInterface";
-import type Step from "./Step";
 import Source from "../models/Source";
 import type Program from "../nodes/Program";
 import Names from "../nodes/Names";
@@ -28,9 +27,9 @@ import Project from "../models/Project";
 import { valueToVerse } from "../native/Verse";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
-export type EvaluationObserver = (event: Step | Value | undefined) => void;
+export type EvaluationObserver = () => void;
 
-export type EvaluationMode = "play" | "step";
+export enum Mode { PLAY, STEP };
 
 export default class Evaluator {
 
@@ -70,7 +69,7 @@ export default class Evaluator {
     streamsIgnoredDuringStepping: Set<Stream> = new Set();
 
     /** A set of possible execution modes, defaulting to play. */
-    mode: EvaluationMode = "play";
+    mode: Mode = Mode.PLAY;
 
     /** 
      * An execution history, mapping Expressions to the sequence of values they have produced.
@@ -104,17 +103,23 @@ export default class Evaluator {
     }
 
     play() {
-        this.mode = "play";
+        this.setMode(Mode.PLAY);
         this.finish();
     }
 
     pause() {
-        this.mode = "step";
+        this.setMode(Mode.STEP);
         this.finish();
         this.start();
     }
 
-    isPlaying(): boolean { return this.mode === "play"; }
+    setMode(mode: Mode) {
+        this.mode = mode;
+        this.broadcast();
+    }
+
+    isPlaying(): boolean { return this.mode === Mode.PLAY; }
+    isStepping(): boolean { return this.mode === Mode.STEP; }
 
     getSource(): Source { return this.source; }
 
@@ -130,7 +135,7 @@ export default class Evaluator {
         // Does the root evaluation bind this stream? If so, note that we ignored it.
         if(this.evaluations[this.evaluations.length - 1]?.binds(stream)) {
             this.streamsIgnoredDuringStepping.add(stream);
-            this.broadcastStep();
+            this.broadcast();
         }
     }
 
@@ -144,15 +149,8 @@ export default class Evaluator {
             this.observers.splice(index, 1);
     }
 
-    broadcastStep() {
-        const step = this.currentStep();
-        if(step !== undefined) 
-            this.observers.forEach(observer => observer(step));
-    }
-
-    broadcastEnd() {
-        // Notify the observers of the final evaluation value.
-        this.observers.forEach(observer => observer(this.latestValue));
+    broadcast() {
+        this.observers.forEach(observer => observer());
     }
 
     isEvaluating() { return this.evaluations.length > 0 || this.latestValue !== undefined; }
@@ -184,7 +182,7 @@ export default class Evaluator {
             this.evaluations[0]?.step(this);
 
         // Tell observers that we're stepping
-        this.broadcastStep();
+        this.broadcast();
 
         // If it's an exception, halt execution by returning the exception value.
         if(value instanceof Exception)
@@ -265,7 +263,7 @@ export default class Evaluator {
         this.stopRememberingStreamAccesses();
 
         // Tell listeners that we started.
-        this.broadcastStep();
+        this.broadcast();
 
         // If in play mode, we finish.
         if(this.isPlaying())
@@ -297,7 +295,7 @@ export default class Evaluator {
 
         this.latestValue = value;
 
-        this.broadcastEnd();
+        this.broadcast();
     
     }
 
