@@ -23,11 +23,12 @@
 
 <style>
     button {
-        background-color: var(--wordplay-border-color);
+        background-color: var(--wordplay-chrome);
         font-family: var(--wordplay-font-face);
         font-weight: var(--wordplay-font-weight);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
+        padding: var(--wordplay-spacing);
     }
 
     button:focus {
@@ -35,9 +36,16 @@
         outline-width: var(--wordplay-border-width);
     }
 
-    button:hover {
+    button:hover:not(:disabled) {
         cursor: pointer;
-        background-color: var(--wordplay-chrome);
+        background-color: var(--wordplay-border-color);
+        border-color: var(--wordplay-highlight);        
+    }
+
+    button:disabled {
+        cursor: default;
+        background-color: var(--wordplay-disabled-color);
+        opacity: 0.8;
     }
 
 </style>

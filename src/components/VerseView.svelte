@@ -71,7 +71,7 @@
     }
 
     .inert {
-        background-color: var(--wordplay-border-color);
+        background-color: var(--wordplay-disabled-color);
     }
 
 </style>

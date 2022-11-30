@@ -25,8 +25,8 @@
     --wordplay-code-font-face: "Noto Mono", "Noto Emoji", monospace;
     --wordplay-font-weight: 500;
     --wordplay-font-size: 10pt;
-    --wordplay-border-width: 4px;
-    --wordplay-border-radius: 6px;
+    --wordplay-border-width: 2px;
+    --wordplay-border-radius: 5px;
     --wordplay-code-line-height: 1.6;
 
 }
