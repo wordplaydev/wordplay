@@ -6,8 +6,7 @@ import { parseProgram, Tokens } from "../parser/Parser";
 import { tokenize } from "../parser/Tokenizer";
 import UnicodeString from "./UnicodeString";
 import type Value from "../runtime/Value";
-import type Project from "./Project";
-import Context from "../nodes/Context";
+import type Context from "../nodes/Context";
 import TokenType from "../nodes/TokenType";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import Tree from "../nodes/Tree";
@@ -28,7 +27,6 @@ import type Stream from "../runtime/Stream";
 import type Transform from "../transforms/Transform";
 import { WRITE_DOCS } from "../nodes/Translations";
 import Name from "../nodes/Name";
-import Shares from "../runtime/Shares";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -37,9 +35,6 @@ export default class Source extends Expression {
 
     readonly names: Names;
     readonly program: Program;
-
-    /** The Project sets this once it's added. */
-    _project: Project | undefined;
     
     /** Functions to call when a source's evaluator has an update. */
     readonly observers: Set<() => void> = new Set();
@@ -107,9 +102,6 @@ export default class Source extends Expression {
             this._index.set(node, this.tree.get(node));
         return this._index.get(node);    
     }
-
-    getProject() { return this._project; }
-    setProject(project: Project) { this._project = project; }
 
     hasName(name: string) { return this.names.hasName(name); }
 
@@ -190,9 +182,8 @@ export default class Source extends Expression {
         path.push(this);
 
         // We need a project to do this.
-        const project = this.getProject();
-        if(project === undefined) return;
-
+        const project = context.project;
+        
         // Visit each borrow in the source's program to see if there's a path back here.
         for(const borrow of this.program.borrows) {
 
@@ -218,10 +209,6 @@ export default class Source extends Expression {
         // We made it without detecting a cycle; return undefined.
         return;
 
-    }
-    
-    getContext() {
-        return new Context(this, new Shares());
     }
 
     getNames() { return this.names.getNames(); }

@@ -194,7 +194,7 @@ export default class Bind extends Expression {
                 conflicts.push(new MissingShareLanguages(this));
 
             // Other shares in this project can't have the same name
-            const sources = context.source.getProject()?.getSourcesExcept(context.source);
+            const sources = context.project?.getSourcesExcept(context.source);
             if(sources !== undefined) {
                 for(const source of sources) {
                     if(source.program.block instanceof Block) {
@@ -262,7 +262,7 @@ export default class Bind extends Expression {
         // A bind in a function or structure definition depends on all calls to the function/structure definition,
         // because they determine what values the binds have.
         const evaluations = 
-            (parent instanceof FunctionDefinition || parent instanceof StructureDefinition ? context.source.getProject()?.getEvaluationsOf(parent) : undefined) ?? [];
+            (parent instanceof FunctionDefinition || parent instanceof StructureDefinition ? context.project?.getEvaluationsOf(parent) : undefined) ?? [];
 
         // A bind in a block depends on its value.
         return this.value ? [ this.value, ...evaluations ] : [ ...evaluations];
@@ -328,7 +328,7 @@ export default class Bind extends Expression {
             return getPossibleTypeReplacements(child, context);
         }
         else if(child === this.value) {
-            return getExpressionReplacements(context.source, this, this.value, context, this.type instanceof Type ? this.type : new AnyType());
+            return getExpressionReplacements(this, this.value, context, this.type instanceof Type ? this.type : new AnyType());
         }
     }
 
@@ -340,14 +340,14 @@ export default class Bind extends Expression {
             if(this.etc === undefined) {
                 if((parent instanceof FunctionDefinition || parent instanceof StructureDefinition) && parent.inputs.find(input => input.contains(child)) === parent.inputs[parent.inputs.length - 1])
                     return [ 
-                        new Add(context.source, position, this, "etc", new Token(PLACEHOLDER_SYMBOL, TokenType.PLACEHOLDER)),
+                        new Add(context, position, this, "etc", new Token(PLACEHOLDER_SYMBOL, TokenType.PLACEHOLDER)),
                     ];
             }
         }
         // Before colon? Offer a type.
         else if(child === this.colon && this.type === undefined)
             return [ 
-                new Replace(context.source, this, new Bind(this.docs, this.names, new TypePlaceholder(), this.value, this.etc, new TypeToken(), this.colon))
+                new Replace(context, this, new Bind(this.docs, this.names, new TypePlaceholder(), this.value, this.etc, new TypeToken(), this.colon))
             ];
 
     }
@@ -356,7 +356,7 @@ export default class Bind extends Expression {
         const children  = this.getChildren();
         const lastChild = children[children.length - 1];
 
-        const withValue = new Replace(context.source, this, new Bind(this.docs, this.names, this.type, new ExpressionPlaceholder(), this.etc, this.dot, new BindToken()));
+        const withValue = new Replace(context, this, new Bind(this.docs, this.names, this.type, new ExpressionPlaceholder(), this.etc, this.dot, new BindToken()));
 
         if(lastChild === this.dot)
             return getPossibleTypeAdds(this, "context", context, position);
@@ -377,8 +377,8 @@ export default class Bind extends Expression {
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         
-        if(child === this.type && this.dot) return new Remove(context.source, this, this.dot, this.type);
-        else if(child === this.value && this.colon) return new Remove(context.source, this, this.colon, this.value);
+        if(child === this.type && this.dot) return new Remove(context, this, this.dot, this.type);
+        else if(child === this.value && this.colon) return new Remove(context, this, this.colon, this.value);
 
     }
 

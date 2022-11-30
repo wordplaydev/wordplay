@@ -54,7 +54,7 @@ export default class StreamType extends Type {
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.type) return new Replace(context.source, child, new TypePlaceholder());
+        if(child === this.type) return new Replace(context, child, new TypePlaceholder());
     }
 
     getDescriptions(): Translations {

@@ -97,8 +97,8 @@ export default class FunctionType extends Type {
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(this.inputs.includes(child as Bind))
-            return new Remove(context.source, this, child);
-        else if(child === this.output) return new Remove(context.source, this, this.output);
+            return new Remove(context, this, child);
+        else if(child === this.output) return new Remove(context, this, this.output);
     }
     
 }

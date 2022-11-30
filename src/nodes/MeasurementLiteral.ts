@@ -87,10 +87,10 @@ export default class MeasurementLiteral extends Expression {
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
-        const project = context.source.getProject();
+        const project = context.project;
         // Any unit in the project
         if(child === this.unit && project !== undefined)
-            return getPossibleUnits(project).map(unit => new Replace(context.source, child, unit));
+            return getPossibleUnits(project).map(unit => new Replace(context, child, unit));
 
     }
 
@@ -99,7 +99,7 @@ export default class MeasurementLiteral extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.unit) return new Replace(context.source, child, new Unit());
+        if(child === this.unit) return new Replace(context, child, new Unit());
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {

@@ -106,6 +106,6 @@ export default class MapType extends NativeType {
     getInsertionAfter() { return undefined; }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.key || child === this.value) return new Replace(context.source, child, new TypePlaceholder());
+        if(child === this.key || child === this.value) return new Replace(context, child, new TypePlaceholder());
     }
 }

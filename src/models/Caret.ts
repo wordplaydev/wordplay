@@ -294,15 +294,15 @@ export default class Caret {
         // If it's a node, see if there's a removal transform.
         else {
 
-            const removal = this.source.get(this.position)?.getParent()?.getChildRemoval(this.position, this.source.getContext());
-            if(removal) return removal.getEdit(["eng"]);
-            else {
-                // Delete the text between the first and last token and replace it with a placeholder.
+            // const removal = this.source.get(this.position)?.getParent()?.getChildRemoval(this.position, this.source.getContext());
+            // if(removal) return removal.getEdit(["eng"]);
+            // else {
+                // Delete the text between the first and last token.
                 const range = this.getRange(this.position);
                 if(range === undefined) return; 
                 const newSource = this.source.withoutGraphemesBetween(range[0], range[1]);
                 return newSource === undefined ? undefined : [ newSource , new Caret(newSource, range[0]) ];
-            }
+            // }
         }
     }
     

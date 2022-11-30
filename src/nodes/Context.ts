@@ -6,10 +6,12 @@ import type Source from "../models/Source";
 import Tree from "./Tree";
 import { DefaultTrees } from "../runtime/Shares";
 import Native from "../native/NativeBindings";
+import type Project from "../models/Project";
 
 /** Passed around during type inference and conflict detection to facilitate program analysis and cycle-detection. */
 export default class Context {
 
+    readonly project: Project;
     readonly source: Source;
     readonly native: NativeInterface;
     readonly shares: Shares;
@@ -20,8 +22,9 @@ export default class Context {
     
     readonly _index: Map<Node,Tree | undefined> = new Map();
 
-    constructor(source: Source, shares: Shares) {
+    constructor(project: Project, source: Source, shares: Shares) {
 
+        this.project = project;
         this.source = source;
         this.native = Native;
         this.shares = shares;
@@ -54,13 +57,10 @@ export default class Context {
 
         // See if there are any matching trees in the other source files in the project.
         if(checkProject) {
-            const project = this.source.getProject();
-            if(project) {
-                for(const source of project.getSources()) {
-                    if(source !== this.source) {
-                        const match = source.getContext().get(node, false);
-                        if(match) return match;
-                    }
+            for(const source of this.project.getSources()) {
+                if(source !== this.source) {
+                    const match = this.project.getSourceContext(source)?.get(node, false);
+                    if(match) return match;
                 }
             }
         }

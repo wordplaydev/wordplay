@@ -176,14 +176,14 @@ export default class Convert extends Expression {
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
         
         if(child === this.expression)
-            return getExpressionReplacements(context.source, this, this.expression, context);
+            return getExpressionReplacements(this, this.expression, context);
         else if(child === this.type) {
             // Any type it's convertable to.
             const inputType = this.expression.getTypeUnlessCycle(context);
             return inputType
                 .getAllConversions(context)
                 .filter(conversion => conversion.input instanceof Type && conversion.input.accepts(inputType, context))
-                .map(conversion => new Replace(context.source, child, conversion.output));
+                .map(conversion => new Replace(context, child, conversion.output));
         }
 
     }
@@ -192,8 +192,8 @@ export default class Convert extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.expression) return new Replace(context.source, child, new ExpressionPlaceholder());
-        else if(child === this.type) return new Replace(context.source, child, new TypePlaceholder());
+        if(child === this.expression) return new Replace(context, child, new ExpressionPlaceholder());
+        else if(child === this.type) return new Replace(context, child, new TypePlaceholder());
     }
 
     getDescriptions(): Translations {

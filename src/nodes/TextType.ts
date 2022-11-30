@@ -79,10 +79,10 @@ export default class TextType extends NativeType {
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
     
-        const project = context.source.getProject();
+        const project = context.project;
         // Formats can be any Language tags that are used in the project.
         if(project !== undefined && child === this.format)
-            return getPossibleLanguages(project).map(l => new Replace(context.source, child, new Language(l)));
+            return getPossibleLanguages(project).map(l => new Replace(context, child, new Language(l)));
 
     }
     
@@ -90,15 +90,15 @@ export default class TextType extends NativeType {
     
     getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
         
-        const project = context.source.getProject();
+        const project = context.project;
         // Formats can be any Language tags that are used in the project.
         if(project !== undefined && this.format === undefined)
-            return getPossibleLanguages(project).map(l => new Add(context.source, position, this, "format", new Language(l)));
+            return getPossibleLanguages(project).map(l => new Add(context, position, this, "format", new Language(l)));
 
     }
     
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.format) return new Remove(context.source, this, child);
+        if(child === this.format) return new Remove(context, this, child);
     }
 
     getDescriptions(): Translations {

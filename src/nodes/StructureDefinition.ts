@@ -249,7 +249,7 @@ export default class StructureDefinition extends Expression {
         if(this.interfaces.includes(child as TypeInput)) {
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is StructureDefinition => def instanceof StructureDefinition && def.isInterface())
-                    .map(def => new Replace<TypeInput>(context.source, child, [ name => new TypeInput(new NameType(name)), def ]));
+                    .map(def => new Replace<TypeInput>(context, child, [ name => new TypeInput(new NameType(name)), def ]));
         }
     }
 
@@ -257,12 +257,12 @@ export default class StructureDefinition extends Expression {
         if(child === this.open) {
             const transforms: Transform[] = [];
             if(this.typeVars.length === 0)
-                transforms.push(new Append(context.source, position, this, this.typeVars, child, new TypeInput(new TypePlaceholder())));
+                transforms.push(new Append(context, position, this, this.typeVars, child, new TypeInput(new TypePlaceholder())));
 
             return transforms;
         }
         else if(this.interfaces.includes(child as TypeInput))
-            return [ new Append(context.source, position, this, this.interfaces, child, new TypeInput(new TypePlaceholder())) ]
+            return [ new Append(context, position, this, this.interfaces, child, new TypeInput(new TypePlaceholder())) ]
     }
 
     getInsertionAfter(): Transform[] | undefined { return []; }
@@ -271,8 +271,8 @@ export default class StructureDefinition extends Expression {
         if( this.typeVars.includes(child as TypeVariable) || 
             this.interfaces.includes(child as TypeInput) || 
             this.inputs.includes(child as Bind))
-            return new Remove(context.source, this, child);
-        else if(child === this.block) return new Remove(context.source, this, child);
+            return new Remove(context, this, child);
+        else if(child === this.block) return new Remove(context, this, child);
     
     }
 

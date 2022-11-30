@@ -105,7 +105,7 @@ export default class UnionType extends Type {
     getInsertionAfter() { return undefined; }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.left || child === this.right) return new Replace(context.source, child, new TypePlaceholder());
+        if(child === this.left || child === this.right) return new Replace(context, child, new TypePlaceholder());
     }
 
     getDefinitions(node: Node, context: Context): Definition[] {

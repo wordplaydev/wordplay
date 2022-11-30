@@ -143,10 +143,10 @@ export default class MeasurementType extends NativeType {
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
-        const project = context.source.getProject();
+        const project = context.project;
         if(child === this.unit && project !== undefined) {
             // Any unit in the project
-            return getPossibleUnits(project).map(unit => new Replace(context.source, child, unit));
+            return getPossibleUnits(project).map(unit => new Replace(context, child, unit));
         }
 
     }
@@ -155,7 +155,7 @@ export default class MeasurementType extends NativeType {
     getInsertionAfter() { return undefined; }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.unit) return new Replace(context.source, child, new Unit());
+        if(child === this.unit) return new Replace(context, child, new Unit());
     }
 
     toWordplay() { return super.toWordplay() + (this.unit instanceof Function ? FUNCTION_SYMBOL : ""); }

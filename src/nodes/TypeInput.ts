@@ -44,7 +44,7 @@ export default class TypeInput extends Node {
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.type) return new Replace(context.source, this, new TypePlaceholder());
+        if(child === this.type) return new Replace(context, this, new TypePlaceholder());
     }
 
     getDescriptions(): Translations {

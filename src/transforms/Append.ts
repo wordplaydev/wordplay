@@ -1,12 +1,12 @@
 import Node from "../nodes/Node";
 import Transform from "./Transform";
-import type Source from "../models/Source";
 import type LanguageCode from "../nodes/LanguageCode";
 import type { Edit } from "../editor/util/Commands";
 import type Refer from "./Refer";
 import Caret from "../models/Caret";
 import Token from "../nodes/Token";
 import { TRANSLATE } from "../nodes/Translations";
+import type Context from "../nodes/Context";
 
 export default class Append<NodeType extends Node> extends Transform {
 
@@ -17,9 +17,9 @@ export default class Append<NodeType extends Node> extends Transform {
     readonly list: Node[];
     readonly insertion: NodeType | Refer<NodeType>
 
-    constructor(source: Source, position: number, parent: Node, list: Node[], before: Node | undefined, insertion: NodeType | Refer<NodeType>) {
+    constructor(context: Context, position: number, parent: Node, list: Node[], before: Node | undefined, insertion: NodeType | Refer<NodeType>) {
 
-        super(source);
+        super(context);
 
         this.parent = parent;
         this.position = position;
@@ -36,12 +36,12 @@ export default class Append<NodeType extends Node> extends Transform {
 
         // Find the space before the insertion by finding the token that contains the index.
         // Insert the space we find before it.
-        const spaceNode = this.source.getTokenAt(this.position);
-        const spaceNodeIndex = spaceNode === undefined ? undefined : this.source.program.nodes(n => n instanceof Token).indexOf(spaceNode);
+        const spaceNode = this.context.source.getTokenAt(this.position);
+        const spaceNodeIndex = spaceNode === undefined ? undefined : this.context.source.program.nodes(n => n instanceof Token).indexOf(spaceNode);
         let afterSpace = undefined;
         if(spaceNode !== undefined) {
             const space = spaceNode.space;
-            const spaceIndex = this.source.getTokenSpacePosition(spaceNode);
+            const spaceIndex = this.context.source.getTokenSpacePosition(spaceNode);
             const splitIndex = spaceIndex === undefined ? undefined : this.position - spaceIndex;
             if(space !== undefined && splitIndex !== undefined) {
                 const beforeSpace = space?.substring(0, splitIndex);
@@ -68,7 +68,7 @@ export default class Append<NodeType extends Node> extends Transform {
         const newParent = this.parent.replace(true, this.list, newList);
         
         // Make a new program with the new parent
-        let newProgram = this.source.program.replace(false, this.parent, newParent);
+        let newProgram = this.context.source.program.replace(false, this.parent, newParent);
 
         // Finally, if there's after space, find the first token after the last token in the new list and update it's space.
         if(afterSpace !== undefined && spaceNodeIndex !== undefined) {
@@ -82,7 +82,7 @@ export default class Append<NodeType extends Node> extends Transform {
         }
 
         // Clone the source with the new parent.
-        const newSource = this.source.withProgram(newProgram);
+        const newSource = this.context.source.withProgram(newProgram);
 
         // Find the new child we inserted. It's at the same index that we inserted before.
         const finalNewNode = newParent.getChildren()[childIndex];
@@ -110,7 +110,7 @@ export default class Append<NodeType extends Node> extends Transform {
 
         if(translations === undefined) {
             const replacement = this.getPrettyNewNode(languages);
-            translations = replacement.getDescriptions(this.source.getContext());
+            translations = replacement.getDescriptions(this.context);
         }
 
         const descriptions = {

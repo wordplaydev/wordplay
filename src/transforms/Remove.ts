@@ -1,10 +1,10 @@
 import type { Edit } from "../editor/util/Commands";
 import Transform from "./Transform";
 import Node from "../nodes/Node";
-import type Source from "../models/Source";
 import Caret from "../models/Caret";
 import type LanguageCode from "../nodes/LanguageCode";
 import { TRANSLATE } from "../nodes/Translations";
+import type Context from "../nodes/Context";
 
 /**
  * Remove a sequence of nodes in a parent.
@@ -15,8 +15,8 @@ export default class Remove extends Transform {
     readonly node: Node;
     readonly nodes: Node[];
     
-    constructor(source: Source, parent: Node, node: Node, ...nodes: Node[]) {
-        super(source);
+    constructor(context: Context, parent: Node, node: Node, ...nodes: Node[]) {
+        super(context);
 
         this.parent = parent;
         this.node = node;
@@ -31,14 +31,14 @@ export default class Remove extends Transform {
         if(nodes.length === 0) return;
 
         // Get the position of the first node we're removing.
-        const position = this.source.getNodeFirstPosition(nodes[0]);
+        const position = this.context.source.getNodeFirstPosition(nodes[0]);
         if(position === undefined) return;
 
         // Get the new parent without the nodes.
         const newParent = this.getNewNode();
 
         // Replace the child in the parent, pretty printing it, then clone the program with the new parent, and create a new source from it.
-        const newSource = this.source.withProgram(this.source.program.replace(false, this.parent, newParent));
+        const newSource = this.context.source.withProgram(this.context.source.program.replace(false, this.parent, newParent));
 
         // Return the new source and place the caret after the replacement.
         return [ newSource, new Caret(newSource, position) ];
@@ -55,7 +55,7 @@ export default class Remove extends Transform {
         let parent = this.parent;
 
         // Get the space prior to the first node.
-        const space = this.source.getFirstToken(nodes[0])?.space ?? "";
+        const space = this.context.source.getFirstToken(nodes[0])?.space ?? "";
 
         // Convert the nodes to their child index.
         // We get them in reverse since some children are recreated during cloning of their sibling exists.
@@ -93,7 +93,7 @@ export default class Remove extends Transform {
 
     getDescription(languages: LanguageCode[]): string {
 
-        const translations = this.getPrettyNewNode(languages).getDescriptions(this.source.getContext());
+        const translations = this.getPrettyNewNode(languages).getDescriptions(this.context);
         const descriptions = {
             eng: `Remove ${translations.eng}`,
             "😀": TRANSLATE

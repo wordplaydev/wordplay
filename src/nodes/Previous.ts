@@ -118,10 +118,10 @@ export default class Previous extends Expression {
         if(child === this.stream)
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is Stream => def instanceof Stream)
-                    .map(stream => new Replace<Reference>(context.source, child, [ name => new Reference(name), stream ]))
+                    .map(stream => new Replace<Reference>(context, child, [ name => new Reference(name), stream ]))
 
         if(child === this.index)
-            return getExpressionReplacements(context.source, this, this.index, context, new MeasurementType());
+            return getExpressionReplacements(this, this.index, context, new MeasurementType());
 
     }
 
@@ -130,7 +130,7 @@ export default class Previous extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined { 
-        if(child === this.stream || child === this.index) return new Replace(context.source, child, new ExpressionPlaceholder());
+        if(child === this.stream || child === this.index) return new Replace(context, child, new ExpressionPlaceholder());
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {

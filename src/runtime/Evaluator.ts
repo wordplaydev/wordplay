@@ -83,12 +83,12 @@ export default class Evaluator {
      */
     counters: Map<Expression, number> = new Map();
 
-    constructor(source: Source) {
+    constructor(project: Project, source: Source) {
 
         this.source = source;
         this.evaluations = [];
         this.shares = new Shares();
-        this.context = new Context(this.source, this.shares);
+        this.context = new Context(project, this.source, this.shares);
 
     }
 
@@ -388,7 +388,7 @@ export default class Evaluator {
 
         // First look in this source's shares (for global things) then look in other source.
         // (Otherwise we'll find the other source's streams, which are separate).
-        const share = this.shares.resolve(name) ?? this.getSource().getProject()?.resolveShare(this.getSource(), name);
+        const share = this.shares.resolve(name) ?? this.context.project.resolveShare(this.getSource(), name);
         if(share === undefined)
             return new NameException(name, this);
 

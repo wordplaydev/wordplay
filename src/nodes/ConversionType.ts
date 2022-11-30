@@ -62,7 +62,7 @@ export default class ConversionType extends Type {
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(): Transform[] | undefined { return undefined; }
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.input || child === this.output) return new Replace(context.source, child, new TypePlaceholder());
+        if(child === this.input || child === this.output) return new Replace(context, child, new TypePlaceholder());
     }
 
 }

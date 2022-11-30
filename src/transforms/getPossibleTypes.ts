@@ -20,7 +20,7 @@ import { getPossibleUnits } from "./getPossibleUnits";
 
 export function getPossibleTypes(node: Node, context: Context): Type[] {
 
-    const project = context.source.getProject();
+    const project = context.project;
 
     return [
         new BooleanType(),
@@ -41,8 +41,8 @@ export function getPossibleTypeReplacements(node: Node, context: Context): Repla
 
     return getPossibleTypes(node, context)
         .map(type => type instanceof StructureType ? 
-                new Replace<NameType>(context.source, node, [ (name: string) => new NameType(name), type.structure ]) :
-                new Replace(context.source, node, type))
+                new Replace<NameType>(context, node, [ (name: string) => new NameType(name), type.structure ]) :
+                new Replace(context, node, type))
 
 }
 
@@ -50,8 +50,8 @@ export function getPossibleTypeInsertions(parent: Node, position: number, list: 
 
     return getPossibleTypes(parent, context)
         .map(type => type instanceof StructureType ? 
-                new Append(context.source, position, parent, list, child, [ name => new NameType(name), type.structure ]) :
-                new Append(context.source, position, parent, list, child, type))
+                new Append(context, position, parent, list, child, [ name => new NameType(name), type.structure ]) :
+                new Append(context, position, parent, list, child, type))
 
 }
 
@@ -59,7 +59,7 @@ export function getPossibleTypeAdds(parent: Node, name: string, context: Context
 
     return getPossibleTypes(parent, context)
         .map(type => type instanceof StructureType ? 
-                new Add<NameType>(context.source, position, parent, name, [ name => new NameType(name), type.structure ]) :
-                new Add<Type>(context.source, position, parent, name, type))
+                new Add<NameType>(context, position, parent, name, [ name => new NameType(name), type.structure ]) :
+                new Add<Type>(context, position, parent, name, type))
 
 }

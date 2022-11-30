@@ -195,10 +195,10 @@ export default class PropertyReference extends Expression {
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
         if(child === this.structure)
-            return getExpressionReplacements(context.source, this, this.structure, context);
+            return getExpressionReplacements(this, this.structure, context);
         else if(child === this.name)
             return this.getNameTransforms(context)
-                .map(def => new Replace<Token>(context.source, child, [ name => new NameToken(name), def ]));
+                .map(def => new Replace<Token>(context, child, [ name => new NameToken(name), def ]));
 
     }
 
@@ -212,11 +212,11 @@ export default class PropertyReference extends Expression {
                     this.getNameTransforms(context)
                     .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
                         // Include 
-                        new Replace(context.source, this, [ name => new Evaluate(
+                        new Replace(context, this, [ name => new Evaluate(
                             new PropertyReference(this.structure.withPrecedingSpace("", true), new NameToken(name)), 
                             def.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())
                         ), def ]) : 
-                        new Replace(context.source, this, [ name => new PropertyReference(this.structure.withPrecedingSpace("", true), new NameToken(name)), def ])
+                        new Replace(context, this, [ name => new PropertyReference(this.structure.withPrecedingSpace("", true), new NameToken(name)), def ])
                     )
             )
         ]
@@ -225,8 +225,8 @@ export default class PropertyReference extends Expression {
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         
-        if(child === this.structure) return new Replace(context.source, child, new ExpressionPlaceholder());
-        else if(child === this.name) return new Replace(context.source, child, new PlaceholderToken());
+        if(child === this.structure) return new Replace(context, child, new ExpressionPlaceholder());
+        else if(child === this.name) return new Replace(context, child, new PlaceholderToken());
 
     }
 

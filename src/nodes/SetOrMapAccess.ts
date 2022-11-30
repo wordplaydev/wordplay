@@ -129,11 +129,11 @@ export default class SetOrMapAccess extends Expression {
     getChildReplacement(child: Node, context: Context): Transform[] | undefined  {
 
         if(child === this.setOrMap) {
-            return getExpressionReplacements(context.source, this, this.setOrMap, context, new UnionType(new SetType(new AnyType()), new MapType(new AnyType(), new AnyType())));
+            return getExpressionReplacements(this, this.setOrMap, context, new UnionType(new SetType(new AnyType()), new MapType(new AnyType(), new AnyType())));
         }
         else if(child === this.key) {
             const setMapType = this.setOrMap.getTypeUnlessCycle(context);
-            return getExpressionReplacements(context.source, this, this.key, context, 
+            return getExpressionReplacements(this, this.key, context, 
                 (setMapType instanceof SetType || setMapType instanceof MapType) && setMapType.key instanceof Type ? setMapType.key :
                 new AnyType()
             )
@@ -146,7 +146,7 @@ export default class SetOrMapAccess extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.setOrMap || child === this.key) return new Replace(context.source, child, new ExpressionPlaceholder());
+        if(child === this.setOrMap || child === this.key) return new Replace(context, child, new ExpressionPlaceholder());
     }
 
     getStartExplanations(): Translations { 

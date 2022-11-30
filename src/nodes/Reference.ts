@@ -197,7 +197,7 @@ export default class Reference extends Expression {
 
         if(child === this.name)
             return this.getAllDefinitions(this, context)
-                .map(def => new Replace<Token>(context.source, child, [ name => new NameToken(name), def ]))
+                .map(def => new Replace<Token>(context, child, [ name => new NameToken(name), def ]))
 
     }
 
@@ -210,8 +210,8 @@ export default class Reference extends Expression {
                 .filter(def => def.getNames().find(name => name.startsWith(this.getName())) !== undefined)
                 .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
                                 // Include 
-                                new Replace(context.source, this, [ name => new Evaluate(new Reference(name), def.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())), def ]) : 
-                                new Replace(context.source, this, [ name => new Reference(name), def ])
+                                new Replace(context, this, [ name => new Evaluate(new Reference(name), def.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())), def ]) : 
+                                new Replace(context, this, [ name => new Reference(name), def ])
                 )
         ];
     

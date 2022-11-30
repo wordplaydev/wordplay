@@ -683,6 +683,9 @@
 
     function showMenu() {
 
+        const context = $project.getEvaluator(source)?.context;
+        if(context === undefined) return;
+
         // Is the caret on a specific token or node?
         const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
         const between = $caret.getNodesBetween();
@@ -692,13 +695,13 @@
                 [
                     // Get all of the replacements possible immediately before the position.
                     ... between.before.reduce((transforms: Transform[], child) =>
-                        [ ... transforms, ...($caret.source.get(child)?.getParent()?.getInsertionBefore(child, source.getContext(), $caret.position as number) ?? []) ], []),
+                        [ ... transforms, ...($caret.source.get(child)?.getParent()?.getInsertionBefore(child, context, $caret.position as number) ?? []) ], []),
                     // Get all of the replacements possible and the ends of the nodes just before the position.
                     ... between.after.reduce((transforms: Transform[], child) => {
-                        return [ ...transforms, ...(child.getInsertionAfter(source.getContext(), $caret.position as number) ?? []) ]
+                        return [ ...transforms, ...(child.getInsertionAfter(context, $caret.position as number) ?? []) ]
                     }, [])
                 ] :
-            node !== undefined ? $caret.source.get(node)?.getParent()?.getChildReplacement(node, source.getContext()) :
+            node !== undefined ? $caret.source.get(node)?.getParent()?.getChildReplacement(node, context) :
                 undefined;
 
         if(node !== undefined && transforms !== undefined && transforms.length > 0) {

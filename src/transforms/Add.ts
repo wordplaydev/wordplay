@@ -1,11 +1,11 @@
 import type { Edit } from "../editor/util/Commands";
 import Transform from "./Transform";
 import Node from "../nodes/Node";
-import type Source from "../models/Source";
 import type LanguageCode from "../nodes/LanguageCode";
 import type Refer from "./Refer";
 import Caret from "../models/Caret";
 import { TRANSLATE } from "../nodes/Translations";
+import type Context from "../nodes/Context";
 
 export default class Add<NodeType extends Node> extends Transform {
 
@@ -14,8 +14,8 @@ export default class Add<NodeType extends Node> extends Transform {
     readonly child: NodeType | Refer<NodeType>;
     readonly field: string;
 
-    constructor(source: Source, position: number, parent: Node, field: string, child: NodeType | Refer<NodeType>) {
-        super(source);
+    constructor(context: Context, position: number, parent: Node, field: string, child: NodeType | Refer<NodeType>) {
+        super(context);
 
         this.parent = parent;
         this.position = position;
@@ -34,7 +34,7 @@ export default class Add<NodeType extends Node> extends Transform {
         const newNode = this.getPrettyNewNode(languages);
 
         // Create a new program with the parent's field set to the new node.
-        const newSource = this.source.withProgram(this.source.program.replace(false, this.parent, this.parent.replace(true, this.field, newNode)));
+        const newSource = this.context.source.withProgram(this.context.source.program.replace(false, this.parent, this.parent.replace(true, this.field, newNode)));
 
         // Place the caret at first placeholder or the end of the node in the source.
         let newCaretPosition = newNode.getFirstPlaceholder() || newSource.getNodeLastPosition(newNode);
@@ -52,7 +52,7 @@ export default class Add<NodeType extends Node> extends Transform {
 
         if(translations === undefined) {
             const replacement = this.getPrettyNewNode(languages);
-            translations = replacement.getDescriptions(this.source.getContext());
+            translations = replacement.getDescriptions(this.context);
         }
 
         const descriptions = {

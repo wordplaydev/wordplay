@@ -79,10 +79,10 @@ export default class TextLiteral extends Expression {
 
     getChildReplacement(child: Node, context: Context) {
     
-        const project = context.source.getProject();
+        const project = context.project;
         // Formats can be any Language tags that are used in the project.
         if(project !== undefined && child === this.format)
-            return getPossibleLanguages(project).map(lang => new Replace(context.source, child, new Language(lang)));
+            return getPossibleLanguages(project).map(lang => new Replace(context, child, new Language(lang)));
 
     }
     
@@ -90,13 +90,13 @@ export default class TextLiteral extends Expression {
     
     getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
         
-        const project = context.source.getProject();
+        const project = context.project;
 
         // Formats can be any Language tags that are used in the project.
         return [
             ...getPossiblePostfix(context, this, this.getType(context)),
             ...(project !== undefined && this.format === undefined ? 
-                getPossibleLanguages(project).map(lang => new Add(context.source, position, this, "format", new Language(lang))) :
+                getPossibleLanguages(project).map(lang => new Add(context, position, this, "format", new Language(lang))) :
                 []
             )
         ];
@@ -104,7 +104,7 @@ export default class TextLiteral extends Expression {
     }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.format) return new Remove(context.source, this, child);
+        if(child === this.format) return new Remove(context, this, child);
     }
 
     getDescriptions(): Translations {

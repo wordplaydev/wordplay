@@ -11,7 +11,9 @@
     export let node: Token;
 
     function choosePlaceholder() {
-        const labels = $caret?.source.get(node)?.getParent()?.getChildPlaceholderLabel(node, $project.main.getContext());
+        const source = $caret?.source;
+        const context = source !== undefined ? $project.getEvaluator(source)?.context : undefined;
+        const labels = context !== undefined ? source?.get(node)?.getParent()?.getChildPlaceholderLabel(node, context) : undefined;
         if(labels === undefined) return PLACEHOLDER_SYMBOL;
         for(const lang of $languages)
             if(lang in labels) return labels[lang];

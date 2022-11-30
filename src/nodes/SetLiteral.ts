@@ -107,7 +107,7 @@ export default class SetLiteral extends Expression {
 
         const index = this.values.indexOf(child as Expression);
         if(index >= 0)
-            return getExpressionReplacements(context.source, this, this.values[index], context);
+            return getExpressionReplacements(this, this.values[index], context);
 
     }
 
@@ -115,14 +115,14 @@ export default class SetLiteral extends Expression {
 
         const index = this.values.indexOf(child as Expression);
         if(index >= 0 || child === this.close)
-            return getExpressionInsertions(context.source, position, this, this.values, child, context);
+            return getExpressionInsertions(position, this, this.values, child, context);
     
     }
 
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.values.includes(child as Expression)) return new Remove(context.source, this, child);
+        if(this.values.includes(child as Expression)) return new Remove(context, this, child);
     }
 
     getDescriptions(): Translations {

@@ -65,9 +65,9 @@ export default class Language extends Node {
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
 
-        const project = context.source.getProject();
+        const project = context.project;
         if(child === this.lang && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Replace(context.source, this.lang as Token, new NameToken(l)))
+            return getPossibleLanguages(project).map(l => new Replace(context, this.lang as Token, new NameToken(l)))
 
     }
 
@@ -75,13 +75,13 @@ export default class Language extends Node {
 
     getInsertionAfter(context: Context, position: number) { 
 
-        const project = context.source.getProject();
+        const project = context.project;
         if(this.lang === undefined && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Add(context.source, position, this, "lang", new NameToken(l)));
+            return getPossibleLanguages(project).map(l => new Add(context, position, this, "lang", new NameToken(l)));
 
      }
 
      getChildRemoval(child: Node, context: Context): Transform | undefined {
-         if(child === this.lang) return new Remove(context.source, this, child);
+         if(child === this.lang) return new Remove(context, this, child);
      }
 }

@@ -125,7 +125,7 @@ export default class ConversionDefinition extends Expression {
             return getPossibleTypeReplacements(child, context);
         // Expression can be anything
         if(child === this.expression)
-            return getExpressionReplacements(context.source, this, this.expression, context);
+            return getExpressionReplacements(this, this.expression, context);
 
     }
 
@@ -133,8 +133,8 @@ export default class ConversionDefinition extends Expression {
     getInsertionAfter(): Transform[] | undefined { return []; }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.input || child === this.output) return new Replace(context.source, child, new TypePlaceholder());
-        else if(child === this.expression) return new Replace(context.source, child, new ExpressionPlaceholder());
+        if(child === this.input || child === this.output) return new Replace(context, child, new TypePlaceholder());
+        else if(child === this.expression) return new Replace(context, child, new ExpressionPlaceholder());
     }
 
     getDescriptions(): Translations {

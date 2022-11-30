@@ -55,14 +55,14 @@ export default class KeyValue extends Node {
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
 
         if(child === this.key)
-            return getExpressionReplacements(context.source, this, this.key, context);
+            return getExpressionReplacements(this, this.key, context);
         if(child === this.value)
-            return getExpressionReplacements(context.source, this, this.value, context);
+            return getExpressionReplacements(this, this.value, context);
 
     }
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.key || child === this.value) return new Replace(context.source, child, new ExpressionPlaceholder());
+        if(child === this.key || child === this.value) return new Replace(context, child, new ExpressionPlaceholder());
     }
 }

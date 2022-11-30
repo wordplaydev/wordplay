@@ -490,7 +490,7 @@ export default class Evaluate extends Expression {
         if(child === this.func)
             return  this.getDefinitions(this, context)
                     .filter((def): def is FunctionDefinition => def instanceof FunctionDefinition)
-                    .map(fun => new Replace<Reference>(context.source, child, [ name => new Reference(name), fun ]))
+                    .map(fun => new Replace<Reference>(context, child, [ name => new Reference(name), fun ]))
         
         // Input expressions should match whatever the function expects, if there is one.
         const index = this.inputs.indexOf(child as Expression);
@@ -504,7 +504,7 @@ export default class Evaluate extends Expression {
 
                 const expectedType = bind.getType(context);
 
-                return getExpressionReplacements(context.source, this, input, context, expectedType);
+                return getExpressionReplacements(this, input, context, expectedType);
             }
 
         }
@@ -535,7 +535,7 @@ export default class Evaluate extends Expression {
             const expectedType = bind.getType(context);
 
             // Suggest expressions of the expected type.
-            return getExpressionInsertions(context.source, position, this, this.inputs, child, context, expectedType);
+            return getExpressionInsertions(position, this, this.inputs, child, context, expectedType);
 
         }
     
@@ -544,8 +544,8 @@ export default class Evaluate extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.func) return new Replace(context.source, child, new ExpressionPlaceholder());
-        else if(this.typeInputs.includes(child as TypeInput) || this.inputs.includes(child as Expression)) return new Remove(context.source, this, child);    
+        if(child === this.func) return new Replace(context, child, new ExpressionPlaceholder());
+        else if(this.typeInputs.includes(child as TypeInput) || this.inputs.includes(child as Expression)) return new Remove(context, this, child);    
     }
 
     getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined {

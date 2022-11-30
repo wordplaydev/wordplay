@@ -143,9 +143,9 @@ export default class ListAccess extends Expression {
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
 
         if(child === this.list)
-            return getExpressionReplacements(context.source, this, this.list, context, new ListType());
+            return getExpressionReplacements(this, this.list, context, new ListType());
         else if(child === this.index)
-            return getExpressionReplacements(context.source, this, this.index, context, new MeasurementType(undefined, new Unit()));
+            return getExpressionReplacements(this, this.index, context, new MeasurementType(undefined, new Unit()));
 
     }
     getInsertionBefore() { return undefined; }
@@ -153,7 +153,7 @@ export default class ListAccess extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.list || child === this.index) return new Replace(context.source, child, new ExpressionPlaceholder());
+        if(child === this.list || child === this.index) return new Replace(context, child, new ExpressionPlaceholder());
     }
     
     getChildPlaceholderLabel(child: Node): Translations | undefined {

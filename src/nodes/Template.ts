@@ -103,16 +103,16 @@ export default class Template extends Expression {
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
     
-        const project = context.source.getProject();
+        const project = context.project;
 
         const index = this.expressions.indexOf(child as TemplatePart);
         if(index >= 0) {
             const part = this.expressions[index];
             if(part instanceof Expression)
-                return getExpressionReplacements(context.source, this, part, context);
+                return getExpressionReplacements(this, part, context);
         }
         else if(child === this.format && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Replace(context.source, child, new Language(l)));
+            return getPossibleLanguages(project).map(l => new Replace(context, child, new Language(l)));
 
     }
     
@@ -120,18 +120,18 @@ export default class Template extends Expression {
     
     getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
         
-        const project = context.source.getProject();
+        const project = context.project;
 
         return [
             ...getPossiblePostfix(context, this, this.getType(context)),
-            ...(this.format === undefined && project !== undefined ? getPossibleLanguages(project).map(l => new Add(context.source, position, this, "format", new Language(l))) : [])
+            ...(this.format === undefined && project !== undefined ? getPossibleLanguages(project).map(l => new Add(context, position, this, "format", new Language(l))) : [])
         ];
 
     }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.expressions.includes(child as TemplatePart)) return new Remove(context.source, this, child);
-        else if(child === this.format) return new Remove(context.source, this, child);
+        if(this.expressions.includes(child as TemplatePart)) return new Remove(context, this, child);
+        else if(child === this.format) return new Remove(context, this, child);
     }
 
     getDescriptions(): Translations {

@@ -87,7 +87,7 @@ export default class Program extends Expression {
         return  [
             // Get all of the definitions borrowed by the program
             ...(this.borrows.filter(borrow => borrow instanceof Borrow) as Borrow[])
-                .map(borrow => borrow.name === undefined ? undefined : (context.source.getProject()?.getDefinition(context.source, borrow.name.getText()) ?? [])[0])
+                .map(borrow => borrow.name === undefined ? undefined : (context.project?.getDefinition(context.source, borrow.name.getText()) ?? [])[0])
                 .filter(d => d !== undefined) as Definition[],
         ]
 
@@ -138,15 +138,15 @@ export default class Program extends Expression {
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
     
         if(child === this.block || this.borrows.includes(child as Borrow))
-            return [ new Append(context.source, position, this, this.borrows, child, new Borrow()) ];
+            return [ new Append(context, position, this, this.borrows, child, new Borrow()) ];
     
     }
 
     getInsertionAfter(): Transform[] | undefined { return undefined; }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.borrows.includes(child as Borrow)) return new Remove(context.source, this, child);
-        else if(child === this.block) return new Replace(context.source, this.block, new Block([], this.block instanceof Block ? this.block.root : false, this.block instanceof Block ? this.block.creator : false));
+        if(this.borrows.includes(child as Borrow)) return new Remove(context, this, child);
+        else if(child === this.block) return new Replace(context, this.block, new Block([], this.block instanceof Block ? this.block.root : false, this.block instanceof Block ? this.block.creator : false));
     }
 
     getTranslation(languages: LanguageCode[]) {

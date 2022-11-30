@@ -133,7 +133,7 @@ export default class MapLiteral extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.values.includes(child as KeyValue)) return new Remove(context.source, this, child);
+        if(this.values.includes(child as KeyValue)) return new Remove(context, this, child);
     }
 
     getDescriptions(): Translations {

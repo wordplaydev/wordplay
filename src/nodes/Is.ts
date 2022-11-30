@@ -118,7 +118,7 @@ export default class Is extends Expression {
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
 
         if(child === this.expression)
-            return getExpressionReplacements(context.source, this, this.expression, context);
+            return getExpressionReplacements(this, this.expression, context);
         if(child === this.type)
             return getPossibleTypeReplacements(child, context);
 
@@ -129,8 +129,8 @@ export default class Is extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.expression) return new Replace(context.source, child, new ExpressionPlaceholder());
-        else if(child === this.type) return new Replace(context.source, child, new TypePlaceholder());
+        if(child === this.expression) return new Replace(context, child, new ExpressionPlaceholder());
+        else if(child === this.type) return new Replace(context, child, new TypePlaceholder());
     }
 
     getDescriptions(): Translations {

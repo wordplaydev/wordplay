@@ -25,7 +25,6 @@ import type Node from "../nodes/Node";
 import Name from "../nodes/Name";
 import type Definition from "../nodes/Definition";
 import TypeVariable from "../nodes/TypeVariable";
-import type Source from "../models/Source";
 import Reference from "../nodes/Reference";
 import Replace from "./Replace";
 import Append from "./Append";
@@ -48,7 +47,7 @@ import TokenType from "../nodes/TokenType";
 /** Offer possible expressions compatible with the given type, or if none was given, any possible expression */
 export default function getPossibleExpressions(parent: Node, child: Expression | undefined, context: Context, type: Type=new AnyType()): (Expression | Definition)[] {
 
-    const project = context.source.getProject();
+    const project = context.project;
 
     return [
         ...parent.getAllDefinitions(parent, context),
@@ -72,11 +71,11 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
     ].filter(expr => expr instanceof TypeVariable ? type instanceof AnyType : type.accepts(expr.getType(context), context))
 }
 
-export function getExpressionReplacements(source: Source, parent: Node, child: Expression, context: Context, type: Type=new AnyType()): Replace<Expression>[] {
+export function getExpressionReplacements(parent: Node, child: Expression, context: Context, type: Type=new AnyType()): Replace<Expression>[] {
 
     return getPossibleExpressions(parent, child, context, type)
         .map(expr => new Replace(
-                source, 
+                context, 
                 child, 
                 getPossibleReference(expr)
             )
@@ -84,11 +83,11 @@ export function getExpressionReplacements(source: Source, parent: Node, child: E
 
 }
 
-export function getExpressionInsertions(source: Source, position: number, parent: Node, list: Node[], before: Node | undefined, context: Context, type: Type=new AnyType()): Append<Expression>[] {
+export function getExpressionInsertions(position: number, parent: Node, list: Node[], before: Node | undefined, context: Context, type: Type=new AnyType()): Append<Expression>[] {
 
     return getPossibleExpressions(parent, undefined, context, type)
         .map(expr => new Append(
-                source,
+                context,
                 position,
                 parent,
                 list,
@@ -109,23 +108,23 @@ export function getPossiblePostfix(context: Context, node: Expression, type?: Ty
 
     return [
         // If the type is a boolean, offer a conditional
-        ...(type instanceof BooleanType ? [ new Replace(context.source, node, new Conditional(node.withPrecedingSpace("", true), new ExpressionPlaceholder(), new ExpressionPlaceholder())) ] : []),
+        ...(type instanceof BooleanType ? [ new Replace(context, node, new Conditional(node.withPrecedingSpace("", true), new ExpressionPlaceholder(), new ExpressionPlaceholder())) ] : []),
         // If the type is a list, offer a list access
-        ...(type instanceof ListType ? [ new Replace(context.source, node, new ListAccess(node.withPrecedingSpace("", true), new ExpressionPlaceholder())) ] : []),
+        ...(type instanceof ListType ? [ new Replace(context, node, new ListAccess(node.withPrecedingSpace("", true), new ExpressionPlaceholder())) ] : []),
         // If the type is a set or map, offer a list access
-        ...(type instanceof SetType || type instanceof MapType ? [ new Replace(context.source, node, new SetOrMapAccess(node.withPrecedingSpace("", true), new ExpressionPlaceholder())) ] : []),
+        ...(type instanceof SetType || type instanceof MapType ? [ new Replace(context, node, new SetOrMapAccess(node.withPrecedingSpace("", true), new ExpressionPlaceholder())) ] : []),
         // If the type is a stream, offer a previous
-        ...(type instanceof StreamType ? [ new Replace(context.source, node, new Previous(node.withPrecedingSpace("", true), new ExpressionPlaceholder())) ] : []),
+        ...(type instanceof StreamType ? [ new Replace(context, node, new Previous(node.withPrecedingSpace("", true), new ExpressionPlaceholder())) ] : []),
         // Reactions
-        ...[ new Replace(context.source, node, new Reaction(node.withPrecedingSpace("", true), new ExpressionPlaceholder(), new ExpressionPlaceholder()))],
+        ...[ new Replace(context, node, new Reaction(node.withPrecedingSpace("", true), new ExpressionPlaceholder(), new ExpressionPlaceholder()))],
         // If given a type, any binary operations that are available on the type.
         ...((type === undefined ? [] : type.getAllDefinitions(node, context).filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.isOperator()) 
-            .map(def => new Replace(context.source, node, [ () => new BinaryOperation(def.getOperatorName() as string, node.withPrecedingSpace("", true), new ExpressionPlaceholder()), def ])))),
+            .map(def => new Replace(context, node, [ () => new BinaryOperation(def.getOperatorName() as string, node.withPrecedingSpace("", true), new ExpressionPlaceholder()), def ])))),
         // Get any conversions available
         ...(type === undefined ? [] :
                 type.getAllConversions(context)
                     .filter(conversion => conversion.input instanceof Type && type.accepts(conversion.input, context))
-                    .map(conversion => new Replace(context.source, node, new Convert(node.withPrecedingSpace("", true), conversion.output.replace(true)))))
+                    .map(conversion => new Replace(context, node, new Convert(node.withPrecedingSpace("", true), conversion.output.replace(true)))))
 
     ];
 

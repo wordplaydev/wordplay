@@ -13,10 +13,12 @@ import { SupportedLanguages } from "../nodes/LanguageCode";
 import Bind from "../nodes/Bind";
 import UnparsableType from "../nodes/UnparsableType";
 import UnparsableExpression from "../nodes/UnparsableExpression";
+import Project from "../models/Project";
 
 const source = new Source("native", "");
 const shares = new Shares();
-const context = new Context(source, shares);
+const project = new Project("test", source, []);
+const context = new Context(project, source, shares);
 
 function checkNativeNodes(nodes: Node[]) {
 

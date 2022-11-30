@@ -4,6 +4,7 @@ import MouseButton from "../native/MouseButton";
 import MousePosition from "../native/MousePosition";
 import Time from "../native/Time";
 import Bind from "../nodes/Bind";
+import type Context from "../nodes/Context";
 import type Definition from "../nodes/Definition";
 import type Evaluate from "../nodes/Evaluate";
 import type Expression from "../nodes/Expression";
@@ -47,14 +48,10 @@ export default class Project {
         this.supplements = supplements.slice();
 
         // Create evaluators for each source.
-        this.mainEvaluator = new Evaluator(this.main);
+        this.mainEvaluator = new Evaluator(this, this.main);
         this.evaluators.set(this.main, this.mainEvaluator);
         for(const source of this.supplements)
-            this.evaluators.set(source, new Evaluator(source));
-
-        // Assign this as the project
-        main.setProject(this);
-        supplements.forEach(supp => supp.setProject(this));
+            this.evaluators.set(source, new Evaluator(this, source));
 
         // Create all the streams.
         this.streams = {
@@ -84,10 +81,11 @@ export default class Project {
     }
 
     getEvaluator(source: Source): Evaluator | undefined { return this.evaluators.get(source); }
+    getSourceContext(source: Source): Context | undefined { return this.evaluators.get(source)?.context; }
 
     getSourcesExcept(source: Source) { return [ this.main, ...this.supplements].filter(s => s !== source); }
     getName() { return this.name; }
-    getContext() { return this.main.getContext(); }
+    getContext() { return this.mainEvaluator.context; }
     getSourceWithProgram(program: Program) { return this.getSources().find(source => source.program === program); }
 
     isEvaluating() {

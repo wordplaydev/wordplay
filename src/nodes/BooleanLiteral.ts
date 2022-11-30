@@ -73,7 +73,7 @@ export default class BooleanLiteral extends Expression {
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
         return [
-            new Replace(context.source, child, new Token(!this.bool() ? TRUE_SYMBOL : FALSE_SYMBOL, TokenType.BOOLEAN))
+            new Replace(context, child, new Token(!this.bool() ? TRUE_SYMBOL : FALSE_SYMBOL, TokenType.BOOLEAN))
         ];
     }
 

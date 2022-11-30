@@ -147,11 +147,11 @@ export default class Conditional extends Expression {
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
         
         if(child === this.condition)
-            return getExpressionReplacements(context.source, this, this.condition, context, new BooleanType());
+            return getExpressionReplacements(this, this.condition, context, new BooleanType());
         if(child === this.yes)
-            return getExpressionReplacements(context.source, this, this.yes, context);
+            return getExpressionReplacements(this, this.yes, context);
         if(child === this.no)
-            return getExpressionReplacements(context.source, this, this.no, context);
+            return getExpressionReplacements(this, this.no, context);
 
     }
 
@@ -159,7 +159,7 @@ export default class Conditional extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.condition || child === this.yes || child === this.no)
-            return new Replace(context.source, this, new ExpressionPlaceholder());
+            return new Replace(context, this, new ExpressionPlaceholder());
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {

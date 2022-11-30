@@ -108,7 +108,7 @@ export default class NameType extends Type {
                         // If the current name doesn't correspond to a type, then filter the types down to those that match the prefix.
                         (this.type.getText() === "" || def.getNames().find(name => name.startsWith(this.type.getText()) !== undefined))
                     ) as (StructureDefinition|TypeVariable)[])
-                    .map(def => new Replace(context.source, child, [ name => new NameToken(name), def ]))
+                    .map(def => new Replace(context, child, [ name => new NameToken(name), def ]))
 
     }
 

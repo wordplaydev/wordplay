@@ -88,11 +88,11 @@ export default class Dimension extends Node {
 
     getChildReplacement(child: Node, context: Context) {
 
-        const project = context.source.getProject();
+        const project = context.project;
         // Dimension names can be any of the possible dimensions in the project.
         if(child === this.name && project !== undefined)
             return getPossibleDimensions(project)
-                .map(dimension => new Replace(context.source, child, new NameToken(dimension)));
+                .map(dimension => new Replace(context, child, new NameToken(dimension)));
 
     }
 
@@ -101,11 +101,11 @@ export default class Dimension extends Node {
     getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
 
         if(this.caret === undefined)
-            return [ new Add(context.source, position, this, "exponent", new Token(EXPONENT_SYMBOL, TokenType.UNARY_OP)) ];
+            return [ new Add(context, position, this, "exponent", new Token(EXPONENT_SYMBOL, TokenType.UNARY_OP)) ];
     }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.exponent && this.caret) return new Remove(context.source, this, this.caret, child);
+        if(child === this.exponent && this.caret) return new Remove(context, this, this.caret, child);
     }
 
 }

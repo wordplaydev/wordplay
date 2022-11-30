@@ -52,9 +52,9 @@ export default class Doc extends Node {
 
     getChildReplacement(child: Node, context: Context) {
 
-        const project = context.source.getProject();
+        const project = context.project;
         if(project !== undefined && child === this.lang)
-            return getPossibleLanguages(project).map(l => new Replace(context.source, child, new Language(l)));
+            return getPossibleLanguages(project).map(l => new Replace(context, child, new Language(l)));
             
         return [];
 
@@ -64,14 +64,14 @@ export default class Doc extends Node {
 
     getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
 
-        const project = context.source.getProject();
+        const project = context.project;
         if(project !== undefined && this.lang === undefined)
-            return getPossibleLanguages(project).map(l => new Add(context.source, position, this, "lang", new Language(l)));
+            return getPossibleLanguages(project).map(l => new Add(context, position, this, "lang", new Language(l)));
 
     }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.lang) return new Remove(context.source, this, child);
+        if(child === this.lang) return new Remove(context, this, child);
     }
 
 }

@@ -193,10 +193,10 @@ export default class Unit extends Type {
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
     
-        const project = context.source.getProject();
+        const project = context.project;
 
         if(child !== this.slash && project !== undefined)
-            return getPossibleDimensions(project).map(dim => new Replace(context.source, child, new Dimension(dim)));
+            return getPossibleDimensions(project).map(dim => new Replace(context, child, new Dimension(dim)));
 
     }
     
@@ -205,15 +205,15 @@ export default class Unit extends Type {
     getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
         
         if(this.slash === undefined)
-            return [ new Add(context.source, position, this, "slash", new LanguageToken()) ];
+            return [ new Add(context, position, this, "slash", new LanguageToken()) ];
 
     }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.numerator.includes(child as Dimension)) return new Remove(context.source, this, child);
+        if(this.numerator.includes(child as Dimension)) return new Remove(context, this, child);
         else if(this.denominator.includes(child as Dimension)) {
-            if(this.denominator.length === 1 && this.slash) return new Remove(context.source, this, this.slash, child);
-            else return new Remove(context.source, this, child);
+            if(this.denominator.length === 1 && this.slash) return new Remove(context, this, this.slash, child);
+            else return new Remove(context, this, child);
         }
             
     }

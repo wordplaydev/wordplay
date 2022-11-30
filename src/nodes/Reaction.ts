@@ -161,13 +161,13 @@ export default class Reaction extends Expression {
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
 
         if(child === this.initial)
-            return getExpressionReplacements(context.source, this, this.initial, context);
+            return getExpressionReplacements(this, this.initial, context);
         else if(child === this.next)
-            return getExpressionReplacements(context.source, this, this.next, context);    
+            return getExpressionReplacements(this, this.next, context);    
         else if(child === this.stream)
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is Stream => def instanceof Stream)
-                    .map(stream => new Replace<Reference>(context.source, child, [ name => new Reference(name), stream ]));
+                    .map(stream => new Replace<Reference>(context, child, [ name => new Reference(name), stream ]));
 
     }
 
@@ -176,7 +176,7 @@ export default class Reaction extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.initial || child === this.stream || child === this.next) return new Replace(context.source, child, new ExpressionPlaceholder());
+        if(child === this.initial || child === this.stream || child === this.next) return new Replace(context, child, new ExpressionPlaceholder());
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {

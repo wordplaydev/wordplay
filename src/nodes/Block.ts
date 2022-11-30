@@ -212,8 +212,8 @@ export default class Block extends Expression {
             const statement = this.statements[index];
             if(statement instanceof Expression)
                 return [
-                    ... this.getInsertions().map(insertion => new Replace(context.source, child, insertion)),
-                    ...(index === this.statements.length - 1 ? getExpressionReplacements(context.source, this, statement, context) : []),
+                    ... this.getInsertions().map(insertion => new Replace(context, child, insertion)),
+                    ...(index === this.statements.length - 1 ? getExpressionReplacements(this, statement, context) : []),
                 ]
         }
 
@@ -225,7 +225,7 @@ export default class Block extends Expression {
             if(index >= 0) {
                 const firstToken = child.nodes(n => n instanceof Token)[0];
                 if(firstToken instanceof Token && firstToken.hasNewline())
-                    return this.getInsertions().map(insertion => new Append(context.source, position, this, this.statements, child, insertion));
+                    return this.getInsertions().map(insertion => new Append(context, position, this, this.statements, child, insertion));
             }
         }
 
@@ -239,15 +239,15 @@ export default class Block extends Expression {
             ...getPossiblePostfix(context, this, this.getType(context)),
             ...context.source.isEmptyLine(position) ?
                 [
-                    ...this.getInsertions().map(insertion => new Append(context.source, position, this, this.statements, undefined, insertion)),
-                    ...(this.root ? getExpressionInsertions(context.source, position, this, this.statements, undefined, context) : [])
+                    ...this.getInsertions().map(insertion => new Append(context, position, this, this.statements, undefined, insertion)),
+                    ...(this.root ? getExpressionInsertions(position, this, this.statements, undefined, context) : [])
                 ] : []
         ];
 
     }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        return new Remove(context.source, this, child);
+        return new Remove(context, this, child);
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {

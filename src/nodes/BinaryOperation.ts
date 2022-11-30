@@ -238,17 +238,17 @@ export default class BinaryOperation extends Expression {
 
         // Left can be anything
         if(child === this.left) {
-            return getExpressionReplacements(context.source, this, this.left, context);
+            return getExpressionReplacements(this, this.left, context);
         }
         // Operator must exist on the type of the left, unless not specified
         else if(child === this.operator) {
             const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
             const funs = leftType?.getAllDefinitions(this, context)?.filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.isOperator());
-            return funs?.map(fun => new Replace<Token>(context.source, child, [ name => new Token(name, TokenType.BINARY_OP), fun ])) ?? []
+            return funs?.map(fun => new Replace<Token>(context, child, [ name => new Token(name, TokenType.BINARY_OP), fun ])) ?? []
         }
         // Right should comply with the expected type, unless it's not a known function
         else if(child === this.right) {
-            return getExpressionReplacements(context.source, this, this.right, context, expectedType ?? new AnyType());
+            return getExpressionReplacements(this, this.right, context, expectedType ?? new AnyType());
         }
 
     }
@@ -257,8 +257,8 @@ export default class BinaryOperation extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         
-        if(child === this.left || child === this.right) return new Replace(context.source, child, new ExpressionPlaceholder());
-        else if(child === this.operator) return new Replace(context.source, child, new PlaceholderToken());
+        if(child === this.left || child === this.right) return new Replace(context, child, new ExpressionPlaceholder());
+        else if(child === this.operator) return new Replace(context, child, new PlaceholderToken());
 
     }
 

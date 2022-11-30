@@ -234,7 +234,7 @@ export default class FunctionDefinition extends Expression {
             return getPossibleTypeReplacements(child, context);
         // Expression must be of output type, or any type if there isn't one.
         else if(child === this.expression && this.expression instanceof Expression)
-            return getExpressionReplacements(context.source, this, this.expression, context, this.output === undefined ? new AnyType() : this.output);
+            return getExpressionReplacements(this, this.expression, context, this.output === undefined ? new AnyType() : this.output);
 
     }
 
@@ -243,9 +243,9 @@ export default class FunctionDefinition extends Expression {
         const newBind = new Bind(undefined, new Names([new Name()]));
 
         if(child === this.close)
-            return [ new Append(context.source, position, this, this.inputs, this.close, newBind)]
+            return [ new Append(context, position, this, this.inputs, this.close, newBind)]
         else if(this.inputs.includes(child as Bind))
-            return [ new Append(context.source, position, this, this.inputs, child, newBind) ];
+            return [ new Append(context, position, this, this.inputs, child, newBind) ];
 
     }
 
@@ -254,9 +254,9 @@ export default class FunctionDefinition extends Expression {
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if( this.typeVars.includes(child as TypeVariable) || 
             this.inputs.includes(child as Bind))
-            return new Remove(context.source, this, child);
-        else if(child === this.output && this.dot) return new Remove(context.source, this, this.dot, this.output);
-        else if(child === this.expression) return new Replace(context.source, child, new ExpressionPlaceholder());    
+            return new Remove(context, this, child);
+        else if(child === this.output && this.dot) return new Remove(context, this, this.dot, this.output);
+        else if(child === this.expression) return new Replace(context, child, new ExpressionPlaceholder());    
     }
 
 }

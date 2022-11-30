@@ -1,19 +1,19 @@
 import type { Edit } from "../editor/util/Commands";
 import Transform from "./Transform";
 import Node from "../nodes/Node";
-import type Source from "../models/Source";
 import Caret from "../models/Caret";
 import type LanguageCode from "../nodes/LanguageCode";
 import type Refer from "./Refer";
 import { TRANSLATE } from "../nodes/Translations";
+import type Context from "../nodes/Context";
 
 export default class Replace<NodeType extends Node> extends Transform {
 
     readonly node: Node;
     readonly replacement: NodeType | Refer<NodeType>;
 
-    constructor(source: Source, node: Node, replacement: NodeType | Refer<NodeType>) {
-        super(source);
+    constructor(context: Context, node: Node, replacement: NodeType | Refer<NodeType>) {
+        super(context);
 
         this.node = node;
         this.replacement = replacement;
@@ -22,15 +22,15 @@ export default class Replace<NodeType extends Node> extends Transform {
 
     getEdit(lang: LanguageCode[]): Edit {
         
-        const parent = this.source.get(this.node)?.getParent();
+        const parent = this.context.get(this.node)?.getParent();
         if(parent === undefined || parent === null) return;
 
         // Get the space prior to the current node.
-        const space = this.source.getFirstToken(this.node)?.space;
+        const space = this.context.source.getFirstToken(this.node)?.space;
         if(space === undefined) return;
 
         // Get the position of the node we're replacing.
-        const position = this.source.getNodeFirstPosition(this.node);
+        const position = this.context.source.getNodeFirstPosition(this.node);
         if(position === undefined) return;
 
         // Get or create the replacement with the original node's space.
@@ -38,7 +38,7 @@ export default class Replace<NodeType extends Node> extends Transform {
 
         // Replace the child in the parent, pretty printing it, then clone the program with the new parent, and create a new source from it.
         const newParent = parent.replace(true, this.node, replacement);
-        const newSource = this.source.withProgram(this.source.program.replace(false, parent, newParent));
+        const newSource = this.context.source.withProgram(this.context.source.program.replace(false, parent, newParent));
 
         let newCaretPosition = replacement.getFirstPlaceholder() ?? newSource.getNodeLastPosition(replacement);
         if(newCaretPosition === undefined) return;
@@ -66,7 +66,7 @@ export default class Replace<NodeType extends Node> extends Transform {
 
         if(translations === undefined) {
             const replacement = this.getPrettyNewNode(languages);
-            translations = replacement.getDescriptions(this.source.getContext());
+            translations = replacement.getDescriptions(this.context);
         }
 
         const descriptions = {

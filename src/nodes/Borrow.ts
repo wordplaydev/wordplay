@@ -65,7 +65,7 @@ export default class Borrow extends Expression {
         const name = this.name?.getText();
         if(name === undefined) return [ undefined, undefined ];
 
-        const project = context.source.getProject();
+        const project = context.project;
         // See if any of the project's source files share this.
         if(project) {
             const [ definition, source ] = project.getDefinition(context.source, name) ?? [];
@@ -131,7 +131,7 @@ export default class Borrow extends Expression {
             // Return name tokens of all shares
             return context.shares
                 ?.getDefinitions()
-                .map(def => new Replace<Token>(context.source, child, [ name => new NameToken(name), def ])) ?? [];
+                .map(def => new Replace<Token>(context, child, [ name => new NameToken(name), def ])) ?? [];
     
     }
 

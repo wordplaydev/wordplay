@@ -1,15 +1,15 @@
 import type { Edit } from "../editor/util/Commands";
-import type Source from "../models/Source";
 import type Node from "../nodes/Node";
 import type LanguageCode from "../nodes/LanguageCode";
+import type Context from "../nodes/Context";
 
 export default abstract class Transform {
 
-    readonly source: Source;
+    readonly context: Context;
 
-    constructor(source: Source) {
+    constructor(context: Context) {
 
-        this.source = source;
+        this.context = context;
 
     }
 
