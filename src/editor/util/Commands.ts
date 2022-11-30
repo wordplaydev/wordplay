@@ -281,7 +281,7 @@ const commands: Command[] = [
         key: "ArrowRight",
         mode: Mode.STEP,
         execute: (_, __, evaluator) => {
-            evaluator.step();
+            evaluator.stepWithinProgram();
             return undefined;
         }
     }
