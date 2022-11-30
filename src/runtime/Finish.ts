@@ -30,6 +30,7 @@ export default class Finish extends Step {
         }
         // Otherwise, get the value from the previous evaluation
         else {
+
             // Evaluate any side effects
             const newValue = this.node.evaluate(evaluator, priorValue);
 

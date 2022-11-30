@@ -116,7 +116,8 @@ export default class Conditional extends Expression {
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         
-        if(prior) return prior;
+        if(prior)
+            return prior;
 
         // Pop the value we computed and then return it (so that it's saved for later).
         return evaluator.popValue(undefined);

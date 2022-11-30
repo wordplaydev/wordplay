@@ -244,7 +244,7 @@ export default class Project {
 
         // STEP 4: Reevaluate all Programs affected by the change, sending the affected expressions and source files so that each Evaluator
         //         can re-evaluate only the affected expressions.
-        this.evaluate(stream, affectedSources, affectedExpressions);
+        this.evaluate(stream, affectedSources, undefined);
 
     }
 

@@ -259,12 +259,13 @@ export default class Bind extends Expression {
     getDependencies(context: Context): Expression[] {
 
         const parent = context.get(this)?.getParent();
+
         // A bind in a function or structure definition depends on all calls to the function/structure definition,
         // because they determine what values the binds have.
         const evaluations = 
             (parent instanceof FunctionDefinition || parent instanceof StructureDefinition ? context.project.getEvaluationsOf(parent) : undefined) ?? [];
 
-        // A bind in a block depends on its value.
+        // A bind also depends on its value expression, if it has one.
         return this.value ? [ this.value, ...evaluations ] : [ ...evaluations];
 
     }

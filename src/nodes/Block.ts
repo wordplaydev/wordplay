@@ -150,7 +150,14 @@ export default class Block extends Expression {
 
         const parent = context.get(this)?.getParent();
 
-        return [ ...(parent instanceof Program ? parent.borrows : parent instanceof StructureDefinition ? parent.inputs : []), ...this.statements ];
+        // If the block is in a structure definition, then it depends on the parent's inputs
+        if(this.creator && parent instanceof StructureDefinition)
+            return [ ...parent.inputs ];
+
+        // Otherwise, a block's value depends on it's last statement.
+        const lastStatement = this.statements[this.statements.length - 1];
+        return lastStatement === undefined ? [] : [ lastStatement ];
+
     }
 
     compile(context: Context):Step[] {
@@ -168,7 +175,8 @@ export default class Block extends Expression {
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         
-        if(prior) return prior;
+        if(prior) 
+            return prior;
 
         // If this block is creating a structure, take the context and bindings we just created
         // and convert it into a structure.
