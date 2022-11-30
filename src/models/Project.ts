@@ -49,7 +49,7 @@ export default class Project {
     /** An index of expression dependencies, mapping an Expression to one or more Expressions that are affected if it changes value.  */
     readonly dependencies: Map<Expression | Value, Set<Expression>> = new Map();
 
-    streams: {
+    readonly streams: {
         time: Time,
         mouseButton: MouseButton,
         mousePosition: MousePosition,
