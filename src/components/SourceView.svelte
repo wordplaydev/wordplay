@@ -9,6 +9,7 @@
     import type Step from '../runtime/Step';
     import Button from './Button.svelte';
     import { WRITE } from '../nodes/Translations';
+    import Switch from './Switch.svelte';
 
     export let project: Project;
     export let source: Source;
@@ -39,8 +40,8 @@
         evaluator?.stepOut();
     }
 
-    function playPause() {
-        autoplay = !autoplay;
+    function playPause(play: boolean) {
+        autoplay = play;
         if(autoplay) evaluator?.play();
         else evaluator?.pause();
     }
@@ -54,18 +55,16 @@
         <h2>{source.getNames()}</h2>
         <small>
             <!-- If it's output, show controls -->
-            <Button 
-                label={
-                    autoplay ? 
-                        { eng: "pause", "😀": WRITE } :
-                        { eng: "play", "😀": WRITE }
-                }
+            <Switch 
+                on={autoplay}
+                toggle={playPause} 
                 tip={
                     autoplay ? 
-                    { eng: "Evaluate the program one step at a time", "😀": WRITE } : 
-                    { eng: "Evaluate the program fully", "😀": WRITE }
+                        { eng: "Evaluate the program one step at a time", "😀": WRITE } : 
+                        { eng: "Evaluate the program fully", "😀": WRITE }
                 } 
-                action={playPause} 
+                offLabel={{ eng: "pause", "😀": WRITE }}
+                onLabel={{ eng: "play", "😀": WRITE }}
             />
             <Button 
                 label={{ eng: "step", "😀": WRITE }}

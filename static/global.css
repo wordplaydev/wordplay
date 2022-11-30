@@ -15,7 +15,7 @@
     --wordplay-foreground: var(--color-black); 
     --wordplay-background: var(--color-white);
     --wordplay-chrome: rgb(240, 240, 240);
-    --wordplay-border-color: rgb(230, 230, 230);
+    --wordplay-border-color: rgb(220, 220, 220);
     --wordplay-highlight: var(--color-yellow);
     --wordplay-error: var(--color-pink);
     --wordplay-warning: var(--color-orange);
