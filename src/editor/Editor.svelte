@@ -28,6 +28,7 @@
     import StructureDefinition from '../nodes/StructureDefinition';
     import Tree from '../nodes/Tree';
     import RootView from './RootView.svelte';
+    import { Mode } from '../runtime/Evaluator';
 
     export let source: Source;
 
@@ -449,7 +450,7 @@
                 getCaretPositionAt(event);
 
         // If we found a position, set it.
-        if(newPosition !== undefined)
+        if(!stepping && newPosition !== undefined)
             caret.set($caret.withPosition(newPosition));
 
         // After we place the caret, focus on keyboard input, in case it's not focused.
@@ -782,10 +783,11 @@
             if( (command.control === undefined || command.control === control) &&
                 (command.shift === undefined || command.shift === event.shiftKey) &&
                 (command.alt === undefined || command.alt === event.altKey) &&
-                (command.key === undefined || command.key === event.code)) {
+                (command.key === undefined || command.key === event.code) &&
+                evaluator?.getMode() === command.mode) {
 
                 // If so, execute it.
-                const result = command.execute($caret, editor, event.code);
+                const result = command.execute($caret, editor, evaluator, event.code);
 
                 // Prevent the OS from executing the default behavior for this keystroke.
                 // This is key to preventing the hidden text field intercepting backspaces and arrow key navigation,
@@ -935,7 +937,9 @@
     <!-- Render the program -->
     <RootView node={program}/>
     <!-- Render the caret on top of the program -->
-    <CaretView blink={$KeyboardIdle && focused} ignored={lastKeyDownIgnored} bind:location={caretLocation}/>
+    {#if !stepping }
+        <CaretView blink={$KeyboardIdle && focused} ignored={lastKeyDownIgnored} bind:location={caretLocation}/>
+    {/if}
     <!-- Are we on a placeholder? Show a menu! -->
     {#if menu !== undefined && menu.location !== undefined && menuVisible }
         <div class="menu" style={`left: ${menu.location.left}; top: ${menu.location.top};`}>
@@ -963,17 +967,16 @@
 
     .editor {
         white-space: nowrap;
-        width: auto;
-        height: auto;
         min-height: calc(100% - var(--wordplay-spacing) * 2);
         line-height: var(--wordplay-code-line-height);
         padding: var(--wordplay-spacing);
         position: relative;
         user-select: none;
+        overflow: scroll;
     }
 
     .stepping {
-        background-color: var(--wordplay-disabled-color);
+        border: calc(2 * var(--wordplay-border-width)) solid var(--wordplay-executing-color);
     }
 
     .keyboard-input {

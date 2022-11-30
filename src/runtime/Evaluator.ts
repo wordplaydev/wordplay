@@ -120,6 +120,7 @@ export default class Evaluator {
 
     isPlaying(): boolean { return this.mode === Mode.PLAY; }
     isStepping(): boolean { return this.mode === Mode.STEP; }
+    getMode(): Mode { return this.mode; }
 
     getSource(): Source { return this.source; }
 

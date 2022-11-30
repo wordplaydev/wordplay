@@ -129,7 +129,6 @@
 
     .source-content:focus-within {
         outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
-        outline-offset: calc(-1 * var(--wordplay-border-width));
     }
 
     .source h2 {
