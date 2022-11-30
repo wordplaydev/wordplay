@@ -7,9 +7,9 @@ import Time from "../native/Time";
 import Bind from "../nodes/Bind";
 import type Context from "../nodes/Context";
 import type Definition from "../nodes/Definition";
-import type Evaluate from "../nodes/Evaluate";
+import Evaluate from "../nodes/Evaluate";
 import type Expression from "../nodes/Expression";
-import type FunctionDefinition from "../nodes/FunctionDefinition";
+import FunctionDefinition from "../nodes/FunctionDefinition";
 import type Program from "../nodes/Program";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import Evaluator from "../runtime/Evaluator";
@@ -17,6 +17,8 @@ import type Stream from "../runtime/Stream";
 import type Value from "../runtime/Value";
 import type Source from "./Source";
 import type Node from "../nodes/Node";
+import HOF from "../native/HOF";
+import FunctionDefinitionType from "../nodes/FunctionDefinitionType";
 
 /** 
  * A project with a name, some source files, and evaluators for each source file.
@@ -39,6 +41,9 @@ export default class Project {
     /** Conflicts by node. */
     readonly primaryConflicts: Map<Node, Conflict[]> = new Map();
     readonly secondaryConflicts: Map<Node, Conflict[]> = new Map();
+
+    /** Evaluations by function and structures they evaluate (a call graph) */
+    readonly evaluations: Map<FunctionDefinition | StructureDefinition, Set<Evaluate>> = new Map();
 
     streams: {
         time: Time,
@@ -105,10 +110,10 @@ export default class Project {
     
     analyze() {
 
+        // Build a mapping from nodes to conflicts.
         for(const source of this.getSources()) {
 
             const context = this.getSourceContext(source);
-
             if(context === undefined) continue;
 
             // Compute all of the conflicts in the program.
@@ -128,6 +133,34 @@ export default class Project {
                 });
             });
 
+            // Build a mapping from functions and structures to their evaluations.
+            for(const node of source.program.nodes()) {
+                // Find all Evaluates
+                if(node instanceof Evaluate) {
+                    // Find the function called.
+                    const fun = node.getFunction(context);
+                    if(fun) {
+                        // Add this evaluate to the function's list of calls.
+                        const evaluates = this.evaluations.get(fun) ?? new Set();
+                        evaluates.add(node);
+                        this.evaluations.set(fun, evaluates);
+    
+                        // Is it a higher order function? Get the function input
+                        // and add the Evaluate as a caller of the function input.
+                        if(fun instanceof FunctionDefinition && fun.expression instanceof HOF) {
+                            for(const input of node.inputs) {
+                                const type = input.getTypeUnlessCycle(context);
+                                if(type instanceof FunctionDefinitionType) {
+                                    const hofEvaluates = this.evaluations.get(type.fun) ?? new Set();
+                                    hofEvaluates.add(node);
+                                    this.evaluations.set(type.fun, hofEvaluates);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+ 
         }
 
     }
@@ -139,8 +172,13 @@ export default class Project {
     getPrimaryConflictsInvolvingNode(node: Node) {
         return this.primaryConflicts.get(node);
     }
+
     getSecondaryConflictsInvolvingNode(node: Node) {
         return this.secondaryConflicts.get(node);
+    }
+
+    getEvaluationsOf(fun: FunctionDefinition | StructureDefinition): Evaluate[] {
+        return Array.from(this.evaluations.get(fun) ?? []);
     }
 
     react(stream: Stream) {
@@ -236,15 +274,6 @@ export default class Project {
 
         // We made it without detecting a cycle; return undefined.
         return path;
-
-    }
-
-    getEvaluationsOf(fun: FunctionDefinition | StructureDefinition): Evaluate[] {
-
-        let evaluates: Set<Evaluate> = new Set();
-        for(const source of this.getSources())
-            evaluates = new Set([ ... evaluates, ... source.getEvaluationsOf(fun) ]);
-        return Array.from(evaluates);
 
     }
 
