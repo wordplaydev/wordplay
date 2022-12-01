@@ -48,3 +48,9 @@
     {/each}
 
 </section>
+
+<style>
+    section {
+        padding: var(--wordplay-spacing);
+    }
+</style>

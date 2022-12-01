@@ -11,7 +11,7 @@
     import type Project from "../models/Project";
 
     export let project: Project;
-    export let verse: Structure | undefined;
+    export let verse: Structure;
     export let evaluator: Evaluator;
     export let interactive: boolean;
 
@@ -47,9 +47,7 @@
         on:keyup={interactive ? handleKeyUp : null}
         style={styleToCSS(verse?.resolve("style", evaluator))}
     >
-        {#if verse === undefined}
-            <EvaluatorView evaluator={evaluator} />
-        {:else if !(group instanceof Structure)}
+        {#if !(group instanceof Structure)}
             <ExceptionView>Group wasn't a structure</ExceptionView>
         {:else}
             <GroupView group={group} />
@@ -64,10 +62,6 @@
         height: 100%;
         display: flex;
         align-items: stretch;
-    }
-
-    .verse:focus {
-        outline: hidden;
     }
 
     .inert {

@@ -9,6 +9,7 @@
     import { WRITE } from '../nodes/Translations';
     import Switch from './Switch.svelte';
     import type Structure from '../runtime/Structure';
+    import EvaluatorView from './EvaluatorView.svelte';
 
     export let project: Project;
     export let source: Source;
@@ -23,6 +24,7 @@
     $: {
         previousEvaluator?.ignore(handleEvaluation);
         evaluator?.observe(handleEvaluation);
+        handleEvaluation();
     }
 
     let autoplay = true;
@@ -85,7 +87,11 @@
         </div>
         <div class="source-content" >
             {#if evaluator}
-                <VerseView {project} {verse} {evaluator} {interactive}/>
+                {#if verse === undefined}
+                    <EvaluatorView evaluator={evaluator} />
+                {:else}
+                    <VerseView {project} {verse} {evaluator} {interactive}/>
+                {/if}
             {/if}
         </div>
     </div>

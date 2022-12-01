@@ -50,8 +50,13 @@
 
 <style>
     div {
+        width: 100%;
         border: solid var(--wordplay-border-width) var(--wordplay-border-color);
         padding: var(--wordplay-spacing);
         margin: var(--wordplay-spacing);
+    }
+
+    table {
+        width: 100%;
     }
 </style>
