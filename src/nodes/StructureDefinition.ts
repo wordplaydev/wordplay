@@ -229,7 +229,7 @@ export default class StructureDefinition extends Expression {
         // We ignore the prior value. We must capture closures every time.
 
         // Bind this definition to it's names.
-        const context = evaluator.getEvaluationContext();
+        const context = evaluator.getCurrentEvaluation();
         if(context !== undefined) {
             const def = new StructureDefinitionValue(this, this, context);
             context.bind(this.names, def);

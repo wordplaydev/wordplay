@@ -180,7 +180,7 @@ export default class Block extends Expression {
         // If this block is creating a structure, take the context and bindings we just created
         // and convert it into a structure.
         if(this.creator) {
-            const context = evaluator.getEvaluationContext();
+            const context = evaluator.getCurrentEvaluation();
             if(context === undefined) return new ContextException(StackSize.EMPTY, evaluator);
             return new Structure(this, context);
         }

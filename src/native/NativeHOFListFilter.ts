@@ -60,7 +60,7 @@ export default class NativeHOFListMap extends HOF {
                 },
                 evaluator => {
                     const index = evaluator.resolve("index");
-                    const list = evaluator.getEvaluationContext()?.getContext();
+                    const list = evaluator.getCurrentEvaluation()?.getContext();
                     // If the index is past the last index of the list, jump to the end.
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
                     else if(!(list instanceof List)) return new TypeException(evaluator, new ListType(), list);
@@ -109,7 +109,7 @@ export default class NativeHOFListMap extends HOF {
                     if(!(index instanceof Measurement))
                         return new TypeException(evaluator, new MeasurementType(), index);
 
-                    const list = evaluator.getEvaluationContext()?.getContext();
+                    const list = evaluator.getCurrentEvaluation()?.getContext();
                     if(!(list instanceof List))
                         return new TypeException(evaluator, new ListType(), list);
 

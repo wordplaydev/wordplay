@@ -42,12 +42,9 @@ export default class NativeExpression extends Expression {
 
     compile(): Step[] { return [ new Start(this), new Finish(this) ]; }
     evaluate(evaluator: Evaluator): Value | undefined {
-
-        // Native expressions never reuse prior values.
-
-        const requestor = evaluator.getEvaluationContext()?.currentStep()?.node;
+        const requestor = evaluator.getCurrentEvaluation()?.currentStep()?.node;
         if(!(requestor instanceof Node)) return new ValueException(evaluator);
-        const evaluation = evaluator.getEvaluationContext();
+        const evaluation = evaluator.getCurrentEvaluation();
         return evaluation === undefined ? undefined : this.evaluator(requestor, evaluation);
     }
 

@@ -106,7 +106,7 @@ export default class ConversionDefinition extends Expression {
 
     evaluate(evaluator: Evaluator) {
 
-        const context = evaluator.getEvaluationContext();
+        const context = evaluator.getCurrentEvaluation();
         if(context === undefined) return new ContextException(StackSize.EMPTY, evaluator);
 
         context.addConversion(new Conversion(this, context));

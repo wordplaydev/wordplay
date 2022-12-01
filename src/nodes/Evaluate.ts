@@ -444,7 +444,7 @@ export default class Evaluate extends Expression {
                 this, 
                 functionOrStructure.definition, 
                 functionOrStructure.definition.block ?? new Block([], true, true), 
-                evaluator.getEvaluationContext(), 
+                evaluator.getCurrentEvaluation(), 
                 bindings)
             );
 

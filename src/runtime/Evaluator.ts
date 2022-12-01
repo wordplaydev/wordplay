@@ -25,6 +25,7 @@ import BinaryOperation from "../nodes/BinaryOperation";
 import UnaryOperation from "../nodes/UnaryOperation";
 import Project from "../models/Project";
 import { valueToVerse } from "../native/Verse";
+import Start from "./Start";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -130,7 +131,7 @@ export default class Evaluator {
 
     getNative(): NativeInterface { return Native; }
 
-    getThis(requestor: Node): Value | undefined { return this.getEvaluationContext()?.getThis(requestor); }
+    getThis(requestor: Node): Value | undefined { return this.getCurrentEvaluation()?.getThis(requestor); }
 
     ignoredStream(stream: Stream) {
         // Does the root evaluation bind this stream? If so, note that we ignored it.
@@ -224,6 +225,10 @@ export default class Evaluator {
             nextStepNode = this.currentStep()?.node;
         } while(nextStepNode instanceof Node && !this.source.program.contains(nextStepNode));
 
+        // If we're on a start and the next step is a finish for the same node, step.
+        if(this.currentStep() instanceof Start && this.currentStep().node === this.nextStep()?.node)
+            this.step();
+
     }
 
     /** Keep evaluating steps in this project until out of the current evaluation. */
@@ -287,6 +292,10 @@ export default class Evaluator {
 
     currentStep() { 
         return this.evaluations[0]?.currentStep();
+    }
+
+    nextStep() {
+        return this.evaluations[0]?.nextStep();
     }
 
     /** Cache the evaluation's result and notify listeners of it. */
@@ -366,13 +375,13 @@ export default class Evaluator {
     }
 
     /** Get the context of the currently evaluating evaluation. */
-    getEvaluationContext() {
+    getCurrentEvaluation() {
         return this.evaluations.length === 0 ? 
             undefined :
             this.evaluations[0];
     }
 
-    getCurrentStep() { return this.getEvaluationContext()?.currentStep(); }
+    getCurrentStep() { return this.getCurrentEvaluation()?.currentStep(); }
 
     getShares() { return this.shares; }
 

@@ -116,12 +116,17 @@ export default class MeasurementLiteral extends Expression {
         }
     }
 
-    getStartExplanations(): Translations { return this.getFinishExplanations(); }
+    getStartExplanations(): Translations { 
+        return {
+            "😀": TRANSLATE,
+            eng: "Let's make a number!"
+        }
+    }
 
     getFinishExplanations(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "Evaluate to a measurement!"
+            eng: "We made a number!"
         }
     }
 

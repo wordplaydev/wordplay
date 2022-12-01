@@ -63,7 +63,7 @@ export default class NativeHOFListCombine extends HOF {
                         return new TypeException(evaluator, new MeasurementType(), index);
 
                     // Get the list we're processing.
-                    const list = evaluator.getEvaluationContext()?.getContext();
+                    const list = evaluator.getCurrentEvaluation()?.getContext();
                     if(!(list instanceof List))
                         return new TypeException(evaluator, new ListType(), list);
 

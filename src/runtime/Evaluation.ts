@@ -90,9 +90,8 @@ export default class Evaluation {
      *  Undefined means that this will continue evaluating. A Value means it's done. 
      **/
     step(evaluator: Evaluator): Value | undefined {
-
-        // If there are no more steps, return the value on the top of the stack.
-        if(this.#step >= this.#steps.length) 
+    
+        if(this.#step >= this.#steps.length)
             return this.popValue(undefined);
 
         // Evaluate the next step.
@@ -114,8 +113,12 @@ export default class Evaluation {
 
         // Move to the next step.
         this.#step++;
+    
+        // If the last step didn't start a new evaluation and this one is over, just end it.
+        if(evaluator.getCurrentEvaluation() === this && this.#step >= this.#steps.length)
+            return this.popValue(undefined);
 
-        // Return nothing, since we're not done evaluating.
+        // Otherwise, return nothing, since we're not done evaluating.
 
     }
 

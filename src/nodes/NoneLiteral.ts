@@ -64,12 +64,17 @@ export default class NoneLiteral extends Expression {
         return new None(this);
     }
 
-    getStartExplanations(): Translations { return this.getFinishExplanations(); }
+    getStartExplanations(): Translations { 
+        return {
+            "😀": TRANSLATE,
+            eng: "Let's make a none!"
+        }
+    }
 
     getFinishExplanations(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "Evaluate to this none value!"
+            eng: "We made a none!"
         }
     }
 
