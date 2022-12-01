@@ -161,6 +161,8 @@ export default class Insert extends Expression {
         }
     }
 
+    getStart() { return this.insert; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

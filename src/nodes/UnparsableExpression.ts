@@ -55,6 +55,8 @@ export default class UnparsableExpression extends Expression {
         return new SemanticException(evaluator, this);
     }
 
+    getStart() { return this.getFirstLeaf() ?? this; }
+
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 
     getFinishExplanations(): Translations {

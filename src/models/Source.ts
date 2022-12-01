@@ -275,6 +275,7 @@ export default class Source extends Expression {
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet { return current; }
     compile(): Step[] { return []; }
     evaluate(): Value | undefined { return undefined; }
+    getStart() { return this; }
     getStartExplanations(): Translations { return WRITE_DOCS; }
     getFinishExplanations(): Translations { return WRITE_DOCS; }
     computeConflicts(): void | Conflict[] { return []; }

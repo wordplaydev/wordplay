@@ -160,6 +160,8 @@ export default class Update extends Expression {
         }
     }
 
+    getStart() { return this.update; }
+
     getStartExplanations(): Translations { 
         return {
             eng: "First we get the table, then we select values from it.",

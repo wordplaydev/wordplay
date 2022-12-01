@@ -178,15 +178,17 @@
 
     function updateHighlights() {
 
-        const currentStep = $project.getEvaluator(source)?.getCurrentStep();
-        const latestValue = $project.getEvaluator(source)?.getLatestResult();
+        const currentStep = $project.getEvaluator(source).getCurrentStep();
+        const latestValue = $project.getEvaluator(source).getLatestResult();
 
         // Build a set of highlights to render.
         const newHighlights = new Map<Node, Set<HighlightType>>();
 
         // Is there a step we're actively executing? Highlight it!
-        if(currentStep?.node instanceof Node)
-            addHighlight(newHighlights, currentStep.node, "executing");
+        if(currentStep?.node instanceof Node) {
+            // Get the first token of the node to represent execution.
+            addHighlight(newHighlights, currentStep.node.getStart(), "executing");
+        }
 
         // Is there an exception on the last step? Highlight the node that created it!
         if(latestValue instanceof Exception && latestValue.step !== undefined && latestValue.step.node instanceof Node)

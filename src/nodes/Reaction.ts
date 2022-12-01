@@ -202,6 +202,8 @@ export default class Reaction extends Expression {
         }
     }
 
+    getStart() { return this.delta; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

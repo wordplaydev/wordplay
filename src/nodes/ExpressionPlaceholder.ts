@@ -92,6 +92,8 @@ export default class ExpressionPlaceholder extends Expression {
         }
     }
 
+    getStart() { return this.placeholder; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

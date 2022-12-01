@@ -132,6 +132,8 @@ export default class SetLiteral extends Expression {
         }
     }
 
+    getStart() { return this.open; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

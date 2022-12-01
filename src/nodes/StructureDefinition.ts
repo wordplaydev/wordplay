@@ -276,7 +276,10 @@ export default class StructureDefinition extends Expression {
     
     }
 
+    getStart() { return this.type; }
+
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
+
     getFinishExplanations(): Translations {
         return {
             "😀": TRANSLATE,

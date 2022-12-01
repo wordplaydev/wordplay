@@ -178,6 +178,8 @@ export default class UnaryOperation extends Expression {
         
     }
 
+    getStart() { return this.operator; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

@@ -184,6 +184,8 @@ export default class FunctionDefinition extends Expression {
         return [ new Start(this), new Finish(this) ];
     }
 
+    getStart() { return this.fun; }
+
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 
     getFinishExplanations(): Translations {

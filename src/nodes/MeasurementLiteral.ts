@@ -116,6 +116,8 @@ export default class MeasurementLiteral extends Expression {
         }
     }
 
+    getStart() { return this.number; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

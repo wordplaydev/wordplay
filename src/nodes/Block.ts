@@ -270,6 +270,8 @@ export default class Block extends Expression {
         }
     }
 
+    getStart() { return this.open ?? this.getFirstLeaf() ?? this.docs; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

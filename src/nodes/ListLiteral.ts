@@ -128,6 +128,8 @@ export default class ListLiteral extends Expression {
         }
     }
 
+    getStart() { return this.open; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

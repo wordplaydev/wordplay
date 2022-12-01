@@ -144,6 +144,8 @@ export default class ConversionDefinition extends Expression {
         }
     }
 
+    getStart() { return this.arrow; }
+
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 
     getFinishExplanations(): Translations {

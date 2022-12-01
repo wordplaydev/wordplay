@@ -299,6 +299,8 @@ export default class BinaryOperation extends Expression {
         return descriptions;
     }
 
+    getStart() { return this.operator; }
+
     getStartExplanations(): Translations { 
 
         return {

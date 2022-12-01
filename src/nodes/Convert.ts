@@ -202,6 +202,8 @@ export default class Convert extends Expression {
         }
     }
 
+    getStart() { return this.convert; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

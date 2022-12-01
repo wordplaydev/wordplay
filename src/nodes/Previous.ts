@@ -152,6 +152,8 @@ export default class Previous extends Expression {
         }
     }
 
+    getStart() { return this.previous; }
+
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 
     getFinishExplanations(): Translations {

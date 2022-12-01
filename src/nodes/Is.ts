@@ -140,6 +140,8 @@ export default class Is extends Expression {
         }
     }
 
+    getStart() { return this.operator; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

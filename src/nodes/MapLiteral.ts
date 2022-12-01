@@ -143,6 +143,8 @@ export default class MapLiteral extends Expression {
         }
     }
 
+    getStart() { return this.open; }
+
     getStartExplanations(): Translations {
         return {
             "😀": TRANSLATE,

@@ -241,6 +241,8 @@ export default class PropertyReference extends Expression {
         }
     }
 
+    getStart() { return this.dot; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

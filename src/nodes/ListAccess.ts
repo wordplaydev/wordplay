@@ -99,6 +99,8 @@ export default class ListAccess extends Expression {
         return [ new Start(this), ...this.list.compile(context), ...this.index.compile(context), new Finish(this) ];
     }
 
+    getStart() { return this.open; }
+
     getStartExplanations(): Translations {
         return {
             "😀": TRANSLATE,

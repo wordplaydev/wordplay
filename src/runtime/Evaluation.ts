@@ -125,7 +125,7 @@ export default class Evaluation {
 
     }
 
-    currentStep() { return this.#steps[this.#step]; }
+    currentStep(): Step | undefined { return this.#steps[this.#step]; }
     priorStep() { return this.#step - 1 >= 0 ? this.#steps[this.#step - 1] : undefined; }
     nextStep() { return this.#step + 1 < this.#steps.length ? this.#steps[this.#step + 1] : undefined; }
 

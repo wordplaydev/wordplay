@@ -149,6 +149,8 @@ export default class SetOrMapAccess extends Expression {
         if(child === this.setOrMap || child === this.key) return new Replace(context, child, new ExpressionPlaceholder());
     }
 
+    getStart() { return this.open; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

@@ -185,6 +185,8 @@ export default class Conditional extends Expression {
         }
     }
 
+    getStart() { return this.conditional; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

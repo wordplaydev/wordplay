@@ -168,6 +168,8 @@ export default class Select extends Expression {
         }
     }
 
+    getStart() { return this.select; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

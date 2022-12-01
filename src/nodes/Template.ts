@@ -141,6 +141,8 @@ export default class Template extends Expression {
         }
     }
 
+    getStart() { return this.open; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

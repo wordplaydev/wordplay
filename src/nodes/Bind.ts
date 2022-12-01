@@ -89,7 +89,7 @@ export default class Bind extends Expression {
             { name: "type", types:[ Type, undefined ] },
             { name: "colon", types:[ Token, undefined ] },
             { name: "value", types:[ Expression, undefined ] },
-        ]; 
+        ];
     }
 
     replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
@@ -280,6 +280,8 @@ export default class Bind extends Expression {
                 new Finish(this) 
             ];
     }
+
+    getStart() { return this.colon ?? this.names; }
 
     getStartExplanations(): Translations {
         return {

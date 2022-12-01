@@ -49,9 +49,9 @@ export default class Program extends Expression {
 
     getGrammar() { 
         return [
-            { name: "docs", types:[ Docs ] },
-            { name: "borrows", types:[[ Borrow ]] },
-            { name: "expression", types:[ Block ] },
+            { name: "docs", types: [ Docs ] },
+            { name: "borrows", types: [[ Borrow ]] },
+            { name: "expression", types: [ Block ] },
             { name: "end", types:[ Token ] },
         ]; 
     }
@@ -159,6 +159,8 @@ export default class Program extends Expression {
             eng: "A program"
         }
     }
+
+    getStart() { return this.getFirstLeaf() ?? this.end; }
 
     getStartExplanations(): Translations { 
         return {

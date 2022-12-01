@@ -100,6 +100,8 @@ export default class This extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     getChildRemoval() { return undefined; }
 
+    getStart() { return this.dis; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

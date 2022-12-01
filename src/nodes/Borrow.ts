@@ -146,6 +146,8 @@ export default class Borrow extends Expression {
         }
     }
 
+    getStart() { return this.borrow; }
+
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 
     getFinishExplanations(): Translations {

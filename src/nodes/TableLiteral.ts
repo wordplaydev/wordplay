@@ -140,6 +140,8 @@ export default class TableLiteral extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
     getChildRemoval() { return undefined; }
 
+    getStart() { return this.getFirstLeaf() ?? this.close; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

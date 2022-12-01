@@ -337,7 +337,7 @@ export default class Evaluator {
         } while(nextStepNode instanceof Node && !this.source.expression.contains(nextStepNode));
 
         // If we're on a start and the next step is a finish for the same node, step.
-        if(this.getCurrentStep() instanceof Start && this.getCurrentStep().node === this.getNextStep()?.node)
+        if(this.getCurrentStep() instanceof Start && this.getCurrentStep()?.node === this.getNextStep()?.node)
             this.step();
 
     }

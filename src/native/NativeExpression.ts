@@ -65,6 +65,8 @@ export default class NativeExpression extends Expression {
         }
     }
 
+    getStart() { return this; }
+
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 
     getFinishExplanations(): Translations { return this.explanations; }

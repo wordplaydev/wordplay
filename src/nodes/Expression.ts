@@ -50,6 +50,8 @@ export default abstract class Expression extends Node {
     abstract compile(context: Context): Step[];
     abstract evaluate(evaluator: Evaluator, prior: Value | undefined): Value | undefined;
 
+    abstract getStart(): Node;
+
     abstract getStartExplanations(evaluator: Evaluator): Translations;
     abstract getFinishExplanations(evaluator: Evaluator): Translations;
 

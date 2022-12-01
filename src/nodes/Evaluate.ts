@@ -584,6 +584,8 @@ export default class Evaluate extends Expression {
         
     }
 
+    getStart() { return this.open; }
+
     getStartExplanations(): Translations { 
         return {
             "😀": TRANSLATE,

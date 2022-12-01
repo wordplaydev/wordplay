@@ -88,6 +88,8 @@ export default class BooleanLiteral extends Expression {
         }
     }
 
+    getStart() { return this.value; }
+
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 
     getFinishExplanations(): Translations {
