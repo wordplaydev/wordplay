@@ -18,6 +18,7 @@
     $: {
         previousEvaluator?.ignore(handleUpdate);
         evaluator?.observe(handleUpdate);
+        handleUpdate();
     }
 
     function handleUpdate() { 
