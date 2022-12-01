@@ -59,4 +59,9 @@
     table {
         width: 100%;
     }
+
+    td {
+        vertical-align: top;
+    }
+
 </style>
