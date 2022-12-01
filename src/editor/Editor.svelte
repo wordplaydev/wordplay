@@ -66,6 +66,15 @@
     function evalUpdate() {
         executingNode = evaluator?.currentStep()?.node;
         stepping = evaluator?.isStepping() === true;
+
+        // If the program contains this node, scroll it's first token into view.
+        if(executingNode instanceof Node && source.expression.contains(executingNode)) {
+            const element = document.querySelector(`[data-id="${executingNode.id}"] .token-view`);
+            if(element !== null) {
+                ensureElementIsVisible(element);
+            }
+        }
+
     }
 
     // Focused when the active element is the text input.
@@ -151,14 +160,6 @@
                         top: `${placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10}px`
                     }
                 }
-            }
-        }
-
-        // If the program contains this node, scroll it's first token into view.
-        if(executingNode instanceof Node && source.expression.contains(executingNode)) {
-            const element = document.querySelector(`[data-id="${executingNode.id}"] .token-view`);
-            if(element !== null) {
-                ensureElementIsVisible(element);
             }
         }
 
