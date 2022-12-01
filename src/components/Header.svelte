@@ -1,9 +1,11 @@
 <script lang="ts">
     import { getLanguages } from '../editor/util/Contexts';
     import { examples, makeProject, type Stuff } from '../examples/examples';
-    import { updateProject } from '../models/stores';
+    import { project, updateProject } from '../models/stores';
     import type LanguageCode from '../nodes/LanguageCode';
     import { languageCodeToLanguage, SupportedLanguages } from '../nodes/LanguageCode';
+    import { WRITE } from '../nodes/Translations';
+    import Button from './Button.svelte';
 
     let example: Stuff;
     let language: LanguageCode;
@@ -15,6 +17,10 @@
 
     function changeLanguage() {
         languages.set([language]);
+    }
+
+    function reset() {
+        updateProject($project.clone());
     }
 
 </script>
@@ -31,6 +37,11 @@
             <option value={lang}>{languageCodeToLanguage[lang]}</option>
         {/each}
     </select>
+    <Button
+        label={{ eng: "restart", "😀": WRITE }}
+        tip={{ eng: "Restart the evaluation of the project from the beginning.", "😀": WRITE }}
+        action={reset}
+    />
 </div>
 
 <style>

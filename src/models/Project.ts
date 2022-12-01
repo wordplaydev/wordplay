@@ -263,12 +263,12 @@ export default class Project {
         // Start the sources that main depends on. Create all of the streams.
         for(const source of orderedSources)
             if(changedSources === undefined || changedSources.has(source))
-                this.evaluators.get(source)?.start(changedStream, changedExpressions);
+                this.getEvaluator(source).start(changedStream, changedExpressions);
 
         // Start any sources that main doesn't depend on.
         for(const source of this.getSources())
             if(!orderedSources.includes(source) && (changedSources === undefined || changedSources.has(source)))
-                this.evaluators.get(source)?.start(changedStream, changedExpressions);
+                this.getEvaluator(source).start(changedStream, changedExpressions);
 
     }
 
@@ -335,6 +335,10 @@ export default class Project {
         }
         return undefined;
         
+    }
+
+    clone() { 
+        return new Project(this.name, this.main, this.supplements);
     }
 
     withSource(oldSource: Source, newSource: Source) {

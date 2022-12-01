@@ -151,7 +151,6 @@ export default class Evaluator {
         return this.counters.get(expression);
     }
 
-
     // PREDICATES
 
     isPlaying(): boolean { return this.mode === Mode.PLAY; }
@@ -189,42 +188,6 @@ export default class Evaluator {
         this.broadcast();
     }
 
-    play() {
-        this.setMode(Mode.PLAY);
-        this.finish();
-    }
-
-    pause() {
-        this.setMode(Mode.STEP);
-        this.finish();
-        this.start();
-    }
-
-    /** Stops listening to listeners and halts execution. */
-    stop() {
-        this.stopped = true;
-        this.observers.length = 0;
-    }
-
-    /** 
-     * Evaluates the porgram until reaching a step on the specified node. 
-     * Evaluates to the end if there is no such step.
-     */
-     stepToNode(node: Node) {
-
-        while(this.getCurrentStep() !== undefined && this.getCurrentStep()?.node !== node)
-            this.step();
-
-    }
-
-    /** Keep evaluating steps in this project until out of the current evaluation. */
-    stepOut(): void {
-        const currentEvaluation = this.evaluations[0];
-        if(currentEvaluation === undefined) return;
-        while(this.evaluations.length > 0 && currentEvaluation === this.evaluations[0])
-            this.stepWithinProgram();
-    }
-
     /** Evaluate until we're done */
     start(changedStream?: Stream, invalidatedExpressions?: Set<Expression>): void {
 
@@ -259,6 +222,42 @@ export default class Evaluator {
         if(this.isPlaying())
             this.finish();
 
+    }
+    
+    play() {
+        this.setMode(Mode.PLAY);
+        this.finish();
+    }
+
+    pause() {
+        this.setMode(Mode.STEP);
+        this.finish();
+        this.start();
+    }
+
+    /** Stops listening to listeners and halts execution. */
+    stop() {
+        this.stopped = true;
+        this.observers.length = 0;
+    }
+
+    /** 
+     * Evaluates the porgram until reaching a step on the specified node. 
+     * Evaluates to the end if there is no such step.
+     */
+     stepToNode(node: Node) {
+
+        while(this.getCurrentStep() !== undefined && this.getCurrentStep()?.node !== node)
+            this.step();
+
+    }
+
+    /** Keep evaluating steps in this project until out of the current evaluation. */
+    stepOut(): void {
+        const currentEvaluation = this.evaluations[0];
+        if(currentEvaluation === undefined) return;
+        while(this.evaluations.length > 0 && currentEvaluation === this.evaluations[0])
+            this.stepWithinProgram();
     }
 
     finish(): void {

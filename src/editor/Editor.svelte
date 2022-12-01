@@ -196,7 +196,7 @@
         if($caret.position instanceof Node)
             addHighlight(newHighlights, $caret.position, "selected");
 
-        // Is a node being dragged? 
+        // Is a node being dragged?
         if($dragged instanceof Node) {
 
             // Highlight the node.
