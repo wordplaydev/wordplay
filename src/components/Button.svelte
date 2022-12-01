@@ -31,6 +31,7 @@
         border-radius: var(--wordplay-border-radius);
         padding: var(--wordplay-spacing);
         transition: transform 0.25s;
+        transform-origin: center;
     }
 
     button:focus {
@@ -43,7 +44,7 @@
         background-color: var(--wordplay-border-color);
         border-color: var(--wordplay-highlight);        
         transform: scale(1.1, 1.1);
-        transform-origin: center;
+        z-index: 2;
     }
 
     button:disabled {

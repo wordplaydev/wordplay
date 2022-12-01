@@ -17,7 +17,7 @@
     class="switch"
 >
     <span 
-        class={`mode off ${on ? "inactive" : "active"}`}
+        class={`button off ${on ? "inactive" : "active"}`}
         tabIndex=0 
         title={offTip[$languages[0]]}
         on:click={() => toggle(false)} 
@@ -25,7 +25,7 @@
     >
         {offLabel[$languages[0]]}
     </span><span 
-        class={`mode on ${on ? "active" : "inactive"}`}
+        class={`button on ${on ? "active" : "inactive"}`}
         tabIndex=0 
         title={onTip[$languages[0]]}
         on:click={() => toggle(true)} 
@@ -42,8 +42,9 @@
         user-select: none;
     }
 
-    .mode {
+    .button {
         display: inline-block;
+        position: relative;
         background-color: var(--wordplay-chrome);
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
@@ -52,19 +53,23 @@
         transform-origin: center;
     }
 
-    .mode:focus {
+    .button:focus {
         outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
         transform: scale(1.1, 1.1);
     }
 
-    .mode.inactive:hover {
+    .button.inactive {
+        z-index: 2;
+    }
+
+    .button.inactive:hover {
         cursor: pointer;
         background-color: var(--wordplay-border-color);
         border-color: var(--wordplay-highlight);
         transform: scale(1.1, 1.1);
     }
 
-    .mode.active {
+    .button.active {
         transform: translate(0px, 2px);
         background-color: var(--wordplay-background);
     }
