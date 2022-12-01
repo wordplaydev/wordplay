@@ -32,7 +32,7 @@
     export let source: Source;
 
     let editor: HTMLElement;
-    export let input: HTMLInputElement;
+    export let input: HTMLInputElement | null = null;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     let caret = writable<Caret>(new Caret(source, 0));
@@ -50,7 +50,7 @@
     setContext(InsertionPointsSymbol, insertions);
 
     // A shorthand for the current program.
-    $: program = source.program;
+    $: program = source.expression;
 
     // A shorthand for the current evaluator
     $: evaluator = $project.getEvaluator(source);
@@ -155,7 +155,7 @@
         }
 
         // If the program contains this node, scroll it's first token into view.
-        if(executingNode instanceof Node && source.program.contains(executingNode)) {
+        if(executingNode instanceof Node && source.expression.contains(executingNode)) {
             const element = document.querySelector(`[data-id="${executingNode.id}"] .token-view`);
             if(element !== null) {
                 ensureElementIsVisible(element);
@@ -213,13 +213,13 @@
                     // Find all of the expression placeholders and highlight them as drop targets,
                     // unless they are dragged or contained in the dragged node
                     if($dragged instanceof Expression)
-                        for(const placeholder of source.program.nodes(n => n instanceof ExpressionPlaceholder))
+                        for(const placeholder of source.expression.nodes(n => n instanceof ExpressionPlaceholder))
                             if(!$dragged.contains(placeholder))
                                 addHighlight(newHighlights, placeholder, "target");
 
                     // Find all of the type placeholders and highlight them sa drop target
                     if($dragged instanceof Type)
-                        for(const placeholder of source.program.nodes(n => n instanceof TypePlaceholder))
+                        for(const placeholder of source.expression.nodes(n => n instanceof TypePlaceholder))
                             if(!$dragged.contains(placeholder))
                                 addHighlight(newHighlights, placeholder, "target");
                 }
@@ -318,7 +318,7 @@
 
         if($dragged === undefined) return;
 
-        let editedProgram = source.program;
+        let editedProgram = source.expression;
         const draggedNode: Node = $dragged.node;
         const insertion = Array.from($insertions.values())[0];
 
@@ -387,7 +387,7 @@
                     const spaceAfter = spaceToSplit.substring(spaceInsertionIndex);
 
                     // Remember the index of the token inserted before.
-                    const indexOfTokenInsertedBefore = source.program.nodes(n => n instanceof Token).indexOf(insertion.token);
+                    const indexOfTokenInsertedBefore = source.expression.nodes(n => n instanceof Token).indexOf(insertion.token);
 
                     // Clone the dragged node, but add to it the space preceding the token we're inserting before.
                     const dragClone = draggedNode.withPrecedingSpace(spaceBefore, true);
@@ -433,10 +433,22 @@
 
     }
 
-    function placeCaretAtPosition(event: MouseEvent) {
+    function handleMouseDown(event: MouseEvent) {
 
         // Prevent the OS from giving the document body focus.
         event.preventDefault();
+
+        if(evaluator.isPlaying())
+            placeCaretAt(event);
+        else
+            stepToNodeAt(event);
+
+        // After we handle the click, focus on keyboard input, in case it's not focused.
+        input?.focus();
+
+    }
+
+    function placeCaretAt(event: MouseEvent) {
 
         const tokenUnderMouse = getNodeAt(event, true);
         const nonTokenNodeUnderMouse = getNodeAt(event, false);
@@ -452,8 +464,16 @@
         if(!stepping && newPosition !== undefined)
             caret.set($caret.withPosition(newPosition));
 
-        // After we place the caret, focus on keyboard input, in case it's not focused.
-        input.focus();
+    }
+
+    function stepToNodeAt(event: MouseEvent) {
+
+        const nodeUnderMouse = getNodeAt(event, false);
+        if(nodeUnderMouse) {
+            const evaluable = evaluator.getEvaluableNode(nodeUnderMouse);
+            if(evaluable)
+                evaluator.stepToNode(evaluable);
+        }
 
     }
     
@@ -463,7 +483,7 @@
         if(el instanceof HTMLElement && el.classList.contains("text")) {
             const nodeView = el.closest(`.node-view${includeTokens ? "" : ":not(.Token)"}`);
             if(nodeView instanceof HTMLElement && nodeView.dataset.id) {
-                return source.program.getNodeByID(parseInt(nodeView.dataset.id))
+                return source.expression.getNodeByID(parseInt(nodeView.dataset.id))
             }
         }
         return undefined;
@@ -583,11 +603,11 @@
         // Special case the end token of the Program, since it's block has no delimters.
         if(node instanceof Token && node.is(TokenType.END)) {
             const program = tree.getParent();
-            if(program instanceof Program && program.block instanceof Block) {
+            if(program instanceof Program && program.expression instanceof Block) {
                 return {
-                    node: program.block,
+                    node: program.expression,
                     field: "statements",
-                    list: program.block.statements,
+                    list: program.expression.statements,
                     token: node,
                     line: line,
                     // Account empty lists
@@ -829,7 +849,7 @@
         }
 
         // After every edit, focus back on on text input
-        input.focus();
+        input?.focus();
 
     }
 
@@ -842,7 +862,7 @@
         let edit: Edit | undefined = undefined;
 
         // Get the character that was typed into the text box.
-        if(input !== null) {
+        if(input) {
 
             // Wrap the string in a unicode wrapper so we can account for graphemes.
             const value = new UnicodeString(input.value);
@@ -927,7 +947,7 @@
 
 <div class={`editor ${stepping ? "stepping" : ""}`}
     bind:this={editor}
-    on:mousedown|preventDefault={event => placeCaretAtPosition(event)}
+    on:mousedown|preventDefault={event => handleMouseDown(event)}
     on:dblclick={event => { let node = getNodeAt(event, false); if(node) caret.set($caret.withPosition(node)); }}
     on:mouseup={handleRelease}
     on:mousemove={handleMouseMove}

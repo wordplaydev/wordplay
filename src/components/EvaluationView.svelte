@@ -1,5 +1,6 @@
 <script lang="ts">
     import { getLanguages } from "../editor/util/Contexts";
+    import ConversionDefinition from "../nodes/ConversionDefinition";
     import FunctionDefinition from "../nodes/FunctionDefinition";
     import Program from "../nodes/Program";
     import StructureDefinition from "../nodes/StructureDefinition";
@@ -21,7 +22,8 @@
             definition instanceof Program ? "Program" : 
             definition instanceof FunctionDefinition ? definition.names.getNames() :
             definition instanceof StructureDefinition ? definition.getNames() :
-            definition.output.toWordplay()
+            definition instanceof ConversionDefinition ? definition.output.toWordplay() :
+            definition.getNames()
         }
     </h3>
     

@@ -17,7 +17,7 @@
     {#if phrases === undefined}
         Group doesn't have phrases
     {:else}
-        {#each phrases as phrase (phrase.creator.id)}
+        {#each phrases as phrase (phrase.id)}
             {#if phrase instanceof Structure }
                 <PhraseView phrase={phrase} />
             {:else}

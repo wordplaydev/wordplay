@@ -1,6 +1,6 @@
 import Node from "../nodes/Node";
 import type Reaction from "../nodes/Reaction";
-import Evaluation from "./Evaluation";
+import Evaluation, { type EvaluationNode } from "./Evaluation";
 import ReactionStream from "./ReactionStream";
 import Shares from "./Shares";
 import Stream from "./Stream";
@@ -26,6 +26,12 @@ import UnaryOperation from "../nodes/UnaryOperation";
 import Project from "../models/Project";
 import { valueToVerse } from "../native/Verse";
 import Start from "./Start";
+import type Step from "./Step";
+import Block from "../nodes/Block";
+import StructureDefinition from "../nodes/StructureDefinition";
+import Token from "../nodes/Token";
+import FunctionDefinition from "../nodes/FunctionDefinition";
+import ConversionDefinition from "../nodes/ConversionDefinition";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -78,10 +84,16 @@ export default class Evaluator {
      */
     values: Map<Expression, (Value | undefined)[]> = new Map();
 
-    /** A counter for each expression, tracking how many times it has executed. Used to retrieve
+    /** 
+     * A counter for each expression, tracking how many times it has executed. Used to retrieve
      * the correct prior Value from values/
      */
     counters: Map<Expression, number> = new Map();
+
+    /**
+     * A cache of steps by node.
+     */
+    steps: Map<EvaluationNode, Step[]> = new Map();
 
     constructor(project: Project, source: Source) {
 
@@ -125,7 +137,7 @@ export default class Evaluator {
 
     getSource(): Source { return this.source; }
 
-    getProgram(): Program { return this.source.program; }
+    getProgram(): Program { return this.source.expression; }
 
     getContext(): Context { return this.context; }
 
@@ -223,10 +235,61 @@ export default class Evaluator {
         do {
             this.step();
             nextStepNode = this.currentStep()?.node;
-        } while(nextStepNode instanceof Node && !this.source.program.contains(nextStepNode));
+        } while(nextStepNode instanceof Node && !this.source.expression.contains(nextStepNode));
 
         // If we're on a start and the next step is a finish for the same node, step.
         if(this.currentStep() instanceof Start && this.currentStep().node === this.nextStep()?.node)
+            this.step();
+
+    }
+
+    /** Given a node, returns true if the node participates in a step in this program. */
+    nodeIsStep(node: Node): boolean {
+
+        // Find evaluable nodes and see if their steps 
+        // so we can analyze them for various purposes.
+        for(const evaluation of this.source.nodes()) {
+            if(evaluation instanceof FunctionDefinition ||
+                evaluation instanceof StructureDefinition ||
+                evaluation instanceof ConversionDefinition ||
+                evaluation instanceof Source) {
+
+                const steps = this.getSteps(evaluation);
+                const step = steps.find(step => step.node === node);
+                if(step !== undefined) return true;
+
+            }
+        }
+        return false;
+
+    }
+
+    /** 
+     * Given a node, walks its ancestors until it finds a node corresponding to a step.
+     * Returns undefined if there is no such node.
+     */
+    getEvaluableNode(node: Node): Node | undefined {
+
+        let current: Node | undefined = node;
+        // step to node will just evaluate to the
+        do {
+            // If the node corresponds to a step
+            if(this.nodeIsStep(current))
+                return current;
+            else
+                current = this.context.get(current)?.getParent();
+        } while(current !== undefined);
+        return undefined;
+
+    }
+
+    /** 
+     * Evaluates the porgram until reaching a step on the specified node. 
+     * Evaluates to the end if there is no such step.
+     */
+    stepToNode(node: Node) {
+
+        while(this.currentStep() !== undefined && this.currentStep()?.node !== node)
             this.step();
 
     }
@@ -261,7 +324,7 @@ export default class Evaluator {
 
         // Reset the evluation stack and start evaluating the the program.
         this.evaluations.length = 0;
-        this.evaluations.push(new Evaluation(this, this.source.program, this.source.program, this.source.program));
+        this.evaluations.push(new Evaluation(this, this.source, this.source));
 
         // Stop remembering in case the last execution ended abruptly.
         this.stopRememberingStreamAccesses();
@@ -488,6 +551,22 @@ export default class Evaluator {
     getVerse() {         
         const value = this.getLatestResult();
         return valueToVerse(this, value);
+    }
+
+    getSteps(evaluation: EvaluationNode): Step[] {
+
+        // No expression? No steps.
+        let steps = this.steps.get(evaluation);
+        if(steps === undefined) {
+            // If the evaluation is a structure definition that has no block, synthesize an empty block
+            const expression = 
+                evaluation instanceof StructureDefinition && evaluation.expression === undefined ? new Block([], true, true) :
+                evaluation.expression;
+            steps = expression instanceof Token || expression === undefined ? [] : expression.compile(this.context);
+            this.steps.set(evaluation, steps);
+        }
+        return steps;
+
     }
 
 }

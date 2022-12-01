@@ -29,7 +29,7 @@ export default class Source extends Expression {
     readonly code: UnicodeString;
 
     readonly names: Names;
-    readonly program: Program;
+    readonly expression: Program;
     
     /** Functions to call when a source's evaluator has an update. */
     readonly observers: Set<() => void> = new Set();
@@ -51,22 +51,22 @@ export default class Source extends Expression {
 
         if(code instanceof Program) {
             // Save the AST
-            this.program = code;
+            this.expression = code;
         }
         else {
             // Generate the AST.
-            this.program = parseProgram(new Tokens(tokenize(code instanceof UnicodeString ? code.getText() : code)));
+            this.expression = parseProgram(new Tokens(tokenize(code instanceof UnicodeString ? code.getText() : code)));
         }
 
         // A facade for analyzing the tree.
-        this.tree = new Tree(this.program);
+        this.tree = new Tree(this.expression);
 
         // Generate the text from the AST, which is responsible for pretty printing.
-        this.code = new UnicodeString(this.program.toWordplay());
+        this.code = new UnicodeString(this.expression.toWordplay());
 
         // Create an index of the program's tokens.
         let index = 0;
-        for(const token of this.program.nodes(n => n instanceof Token) as Token[]) {
+        for(const token of this.expression.nodes(n => n instanceof Token) as Token[]) {
             index += token.space.length;
             this.tokenPositions.set(token, index);
             index += token.text.getLength();
@@ -76,7 +76,7 @@ export default class Source extends Expression {
 
     getGrammar() { 
         return [
-            { name: "program", types:[ Program ] },
+            { name: "expression", types:[ Program ] },
         ]; 
     }
 
@@ -99,7 +99,7 @@ export default class Source extends Expression {
         const project = context.project;
         
         // Visit each borrow in the source's program to see if there's a path back here.
-        for(const borrow of this.program.borrows) {
+        for(const borrow of this.expression.borrows) {
 
             // Find the definition.
             const name = borrow.name?.getText();
@@ -157,7 +157,7 @@ export default class Source extends Expression {
     }
 
     replace() {
-        return new Source(this.names, this.program) as this;
+        return new Source(this.names, this.expression) as this;
     }
 
     getTokenTextPosition(token: Token) {
@@ -194,7 +194,7 @@ export default class Source extends Expression {
 
     getNextToken(token: Token, direction: -1 | 1): Token | undefined {
 
-        const tokens = this.program.nodes(n => n instanceof Token) as Token[];
+        const tokens = this.expression.nodes(n => n instanceof Token) as Token[];
         const index = tokens.indexOf(token);
 
         if(direction < 0 && index <= 0) return undefined;
@@ -268,10 +268,10 @@ export default class Source extends Expression {
     }
 
     getType(context: Context) { return this.getTypeUnlessCycle(context); }
-    getTypeUnlessCycle(context: Context) { return this.program.getTypeUnlessCycle(context); }
+    getTypeUnlessCycle(context: Context) { return this.expression.getTypeUnlessCycle(context); }
 
-    computeType(context: Context): Type { return this.program.getTypeUnlessCycle(context); }
-    getDependencies(_: Context): (Expression | Stream)[] { return [ this.program ]; }
+    computeType(context: Context): Type { return this.expression.getTypeUnlessCycle(context); }
+    getDependencies(_: Context): (Expression | Stream)[] { return [ this.expression ]; }
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet { return current; }
     compile(): Step[] { return []; }
     evaluate(): Value | undefined { return undefined; }

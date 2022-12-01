@@ -81,7 +81,6 @@ export default class NativeHOFListMap extends HOF {
                                     evaluator, 
                                     this,
                                     include.definition, 
-                                    include.definition.expression, 
                                     include.context, 
                                     bindings
                                 ));

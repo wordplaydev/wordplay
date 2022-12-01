@@ -72,11 +72,11 @@ export default class Project {
 
         // Create all the streams.
         this.streams = {
-            time: new Time(this.main.program),
-            mouseButton: new MouseButton(this.main.program),
+            time: new Time(this.main.expression),
+            mouseButton: new MouseButton(this.main.expression),
             mousePosition: new MousePosition(this.mainEvaluator),
             keyboard: new Keyboard(this.mainEvaluator),
-            microphone: new Microphone(this.main.program)
+            microphone: new Microphone(this.main.expression)
         };
 
         // Listen to all streams
@@ -108,7 +108,7 @@ export default class Project {
     getSourcesExcept(source: Source) { return [ this.main, ...this.supplements].filter(s => s !== source); }
     getName() { return this.name; }
     getContext() { return this.mainEvaluator.context; }
-    getSourceWithProgram(program: Program) { return this.getSources().find(source => source.program === program); }
+    getSourceWithProgram(program: Program) { return this.getSources().find(source => source.expression === program); }
 
     isEvaluating() {
         return Array.from(this.evaluators.values()).some(evaluator => evaluator.isEvaluating());
@@ -123,7 +123,7 @@ export default class Project {
             if(context === undefined) continue;
 
             // Compute all of the conflicts in the program.
-            const conflicts = source.program.getAllConflicts(context);
+            const conflicts = source.expression.getAllConflicts(context);
 
             // Build conflict indices by going through each conflict, asking for the conflicting nodes
             // and adding to the conflict to each node's list of conflicts.
@@ -279,7 +279,7 @@ export default class Project {
         path.push(source);
 
         // Visit each borrow in the source's program to see if there's a path back here.
-        for(const borrow of source.program.borrows) {
+        for(const borrow of source.expression.borrows) {
 
             // Find the definition.
             const name = borrow.name?.getText();
@@ -330,7 +330,7 @@ export default class Project {
         // Do any of the sources have a name that matches, or a shared bind that matches?
         for(const source of sources) {
             if(source.hasName(name)) return [ source, source ];
-            const definition = source.program.block.statements.find(n => n instanceof Bind && n.hasName(name) && n.isShared()) as Bind | undefined;
+            const definition = source.expression.expression.statements.find(n => n instanceof Bind && n.hasName(name) && n.isShared()) as Bind | undefined;
             if(definition !== undefined) return [ definition, source ];
         }
         return undefined;

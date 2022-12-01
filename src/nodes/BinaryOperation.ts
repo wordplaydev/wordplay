@@ -197,7 +197,7 @@ export default class BinaryOperation extends Expression {
             return new SemanticException(evaluator, operand);
 
         // Start the function's expression.
-        evaluator.startEvaluation(new Evaluation(evaluator, this, fun, fun.expression, left, new Map().set(operand.names, right)));
+        evaluator.startEvaluation(new Evaluation(evaluator, this, fun, left, new Map().set(operand.names, right)));
 
         // No values to return, the evaluation will compute it.
         return undefined;

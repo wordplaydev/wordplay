@@ -37,7 +37,7 @@ export default class Append<NodeType extends Node> extends Transform {
         // Find the space before the insertion by finding the token that contains the index.
         // Insert the space we find before it.
         const spaceNode = this.context.source.getTokenAt(this.position);
-        const spaceNodeIndex = spaceNode === undefined ? undefined : this.context.source.program.nodes(n => n instanceof Token).indexOf(spaceNode);
+        const spaceNodeIndex = spaceNode === undefined ? undefined : this.context.source.expression.nodes(n => n instanceof Token).indexOf(spaceNode);
         let afterSpace = undefined;
         if(spaceNode !== undefined) {
             const space = spaceNode.space;
@@ -68,7 +68,7 @@ export default class Append<NodeType extends Node> extends Transform {
         const newParent = this.parent.replace(true, this.list, newList);
         
         // Make a new program with the new parent
-        let newProgram = this.context.source.program.replace(false, this.parent, newParent);
+        let newProgram = this.context.source.expression.replace(false, this.parent, newParent);
 
         // Finally, if there's after space, find the first token after the last token in the new list and update it's space.
         if(afterSpace !== undefined && spaceNodeIndex !== undefined) {

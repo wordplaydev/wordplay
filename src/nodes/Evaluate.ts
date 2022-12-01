@@ -40,7 +40,6 @@ import { getPossibleTypeInsertions, getPossibleTypeReplacements } from "../trans
 import Reference from "./Reference";
 import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
-import Block from "./Block";
 import Replace from "../transforms/Replace";
 import EvalOpenToken from "./EvalOpenToken";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
@@ -275,7 +274,7 @@ export default class Evaluate extends Expression {
         const expression = 
             fun === undefined ? undefined : 
             fun instanceof FunctionDefinition && fun.expression instanceof Expression ? fun.expression : 
-            fun instanceof StructureDefinition ? fun.block :
+            fun instanceof StructureDefinition ? fun.expression :
             undefined;
 
         // Evaluates depend on their function, their inputs, and the function's expression.
@@ -425,7 +424,6 @@ export default class Evaluate extends Expression {
                 evaluator, 
                 this,
                 definition, 
-                body, 
                 functionOrStructure.context, 
                 bindings)
             );
@@ -443,7 +441,6 @@ export default class Evaluate extends Expression {
                 evaluator, 
                 this, 
                 functionOrStructure.definition, 
-                functionOrStructure.definition.block ?? new Block([], true, true), 
                 evaluator.getCurrentEvaluation(), 
                 bindings)
             );

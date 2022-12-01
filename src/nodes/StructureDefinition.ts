@@ -50,7 +50,7 @@ export default class StructureDefinition extends Expression {
     readonly open?: Token;
     readonly inputs: Bind[];
     readonly close?: Token;
-    readonly block?: Block;
+    readonly expression?: Block;
 
     constructor(
         docs: Docs | Translations | undefined, 
@@ -73,7 +73,7 @@ export default class StructureDefinition extends Expression {
         this.open = open === undefined && inputs.length > 0 ? new EvalOpenToken() : open;
         this.inputs = inputs;
         this.close = close == undefined && inputs.length > 0 ?new EvalCloseToken() : close;
-        this.block = block;
+        this.expression = block;
 
         this.computeChildren();
 
@@ -89,7 +89,7 @@ export default class StructureDefinition extends Expression {
             { name: "open", types:[ Token, undefined ] },
             { name: "inputs", types:[[ Bind ]] },
             { name: "close", types:[ Token, undefined ] },
-            { name: "block", types:[ Block, undefined ] },
+            { name: "expression", types:[ Block, undefined ] },
         ];
     }
 
@@ -100,7 +100,7 @@ export default class StructureDefinition extends Expression {
             this.replaceChild(pretty, "interfaces", this.interfaces, original, replacement), 
             this.replaceChild(pretty, "typeVars", this.typeVars, original, replacement),
             this.replaceChild(pretty, "inputs", this.inputs, original, replacement),
-            this.replaceChild(pretty, "block", this.block, original, replacement),
+            this.replaceChild(pretty, "expression", this.expression, original, replacement),
             this.replaceChild(pretty, "type", this.type, original, replacement),
             this.replaceChild(pretty, "open", this.open, original, replacement),
             this.replaceChild(pretty, "close", this.close, original, replacement)
@@ -111,7 +111,7 @@ export default class StructureDefinition extends Expression {
     hasName(name: string) { return this.names.hasName(name); }
     getTranslation(lang: LanguageCode[]): string { return this.names.getTranslation(lang); }
 
-    isBindingEnclosureOfChild(child: Node): boolean { return child === this.block || (child instanceof Bind && this.inputs.includes(child)); }
+    isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression || (child instanceof Bind && this.inputs.includes(child)); }
 
     getInputs() { return this.inputs.filter(i => i instanceof Bind) as Bind[]; }
 
@@ -125,8 +125,8 @@ export default class StructureDefinition extends Expression {
 
     getFunctions(implemented?: boolean): FunctionDefinition[] {
 
-        if(this.block === undefined) return [];
-        return this.block.statements.map(s => 
+        if(this.expression === undefined) return [];
+        return this.expression.statements.map(s => 
             s instanceof FunctionDefinition ? s :
             (s instanceof Bind && s.value instanceof FunctionDefinition) ? s.value :
             undefined
@@ -155,7 +155,7 @@ export default class StructureDefinition extends Expression {
         }
 
         // If the structure specifies one or more interfaces, it must implement them.
-        if(this.interfaces.length > 0 && this.block instanceof Block) {
+        if(this.interfaces.length > 0 && this.expression instanceof Block) {
             for(const iface of this.interfaces) {
                 if(iface.type instanceof NameType) {
                     const definition = iface.type.resolve(context);
@@ -164,7 +164,7 @@ export default class StructureDefinition extends Expression {
                         if(abstractFunctions !== undefined)
                             for(const abFun of abstractFunctions) {
                                 // Does this structure implement the given abstract function on the interface?
-                                if(this.block.statements.find(statement => statement instanceof FunctionDefinition && abFun.accepts(statement, context)) === undefined)
+                                if(this.expression.statements.find(statement => statement instanceof FunctionDefinition && abFun.accepts(statement, context)) === undefined)
                                     conflicts.push(new Unimplemented(this, definition, abFun));
                             }
                     }
@@ -179,7 +179,7 @@ export default class StructureDefinition extends Expression {
     getDefinition(name: string): Definition | undefined {
         const inputBind = this.inputs.find(i => i instanceof Bind && i.hasName(name)) as Bind;
         if(inputBind !== undefined) return inputBind;
-        return this.block instanceof Block ? this.block.statements.find(i => (i instanceof StructureDefinition || i instanceof FunctionDefinition) && i.names.names.find(a => a.getName() === name)) as FunctionDefinition | StructureDefinition : undefined;
+        return this.expression instanceof Block ? this.expression.statements.find(i => (i instanceof StructureDefinition || i instanceof FunctionDefinition) && i.names.names.find(a => a.getName() === name)) as FunctionDefinition | StructureDefinition : undefined;
     }
 
     getDefinitions(node: Node): Definition[] {
@@ -188,7 +188,7 @@ export default class StructureDefinition extends Expression {
             this,
             ... this.inputs.filter(i => i instanceof Bind && i !== node) as Bind[], 
             ... this.typeVars.filter(t => t instanceof TypeVariable) as TypeVariable[],
-            ... (this.block instanceof Block ? this.block.statements.filter(s => s instanceof FunctionDefinition || s instanceof StructureDefinition) as Definition[] : [])
+            ... (this.expression instanceof Block ? this.expression.statements.filter(s => s instanceof FunctionDefinition || s instanceof StructureDefinition) as Definition[] : [])
         ];
     }
 
@@ -198,8 +198,8 @@ export default class StructureDefinition extends Expression {
     getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {
 
         // Find the conversion in this type's block that produces a compatible type. 
-        return this.block instanceof Block ? 
-            this.block.statements.find(s => 
+        return this.expression instanceof Block ? 
+            this.expression.statements.find(s => 
                 s instanceof ConversionDefinition &&
                 s.input instanceof Type && 
                 s.output instanceof Type && 
@@ -209,15 +209,15 @@ export default class StructureDefinition extends Expression {
     }
 
     getAllConversions() {
-        return this.block instanceof Block ? 
-            this.block.statements.filter(s => s instanceof ConversionDefinition) as ConversionDefinition[] :
+        return this.expression instanceof Block ? 
+            this.expression.statements.filter(s => s instanceof ConversionDefinition) as ConversionDefinition[] :
             [];
     }
 
     computeType(): Type { return new StructureType(this); }
 
     getDependencies(): Expression[] {
-        return this.block instanceof Block ? [ this.block ] : [];
+        return this.expression instanceof Block ? [ this.expression ] : [];
     }
 
     compile():Step[] {
@@ -241,7 +241,7 @@ export default class StructureDefinition extends Expression {
     }
     
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
-        if(this.block instanceof Expression) this.block.evaluateTypeSet(bind, original, current, context);
+        if(this.expression instanceof Expression) this.expression.evaluateTypeSet(bind, original, current, context);
         return current;
     }
 
@@ -272,7 +272,7 @@ export default class StructureDefinition extends Expression {
             this.interfaces.includes(child as TypeInput) || 
             this.inputs.includes(child as Bind))
             return new Remove(context, this, child);
-        else if(child === this.block) return new Remove(context, this, child);
+        else if(child === this.expression) return new Remove(context, this, child);
     
     }
 

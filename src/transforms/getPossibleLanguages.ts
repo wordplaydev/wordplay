@@ -6,6 +6,6 @@ export function getPossibleLanguages(project: Project): string[] {
     return Array.from(new Set(
             project
             .getSources()
-            .reduce((languages: string[], source) => [ ... languages, ... source.program.getLanguagesUsed() ], [])
+            .reduce((languages: string[], source) => [ ... languages, ... source.expression.getLanguagesUsed() ], [])
         ));
 }

@@ -145,7 +145,6 @@ export default class Convert extends Expression {
                                     evaluator,
                                     this,
                                     conversion, 
-                                    conversion.expression, 
                                     value,
                                     new Map().set(new Names([ new Name(THIS_SYMBOL)]), value)
                                 )

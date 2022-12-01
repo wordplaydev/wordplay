@@ -8,7 +8,7 @@ export function getPossibleUnits(project: Project) {
     const unitsInConversions = getUnitsInConversions(project);
 
     const unitsInProject = project.getSources()
-        .reduce((units: Unit[], source) => [ ... units, ... source.program.getUnitsUsed() ], []);
+        .reduce((units: Unit[], source) => [ ... units, ... source.expression.getUnitsUsed() ], []);
 
     // Return unique units
     return [ ... unitsInConversions, ... unitsInProject ]
@@ -38,7 +38,7 @@ export function getPossibleDimensions(project: Project) {
     
     // Get all dimensions referred to in programs.
     const dimensionsInPrograms = project.getSources()
-            .reduce((dimensions: string[], source) => [ ... dimensions, ... source.program.getDimensionsUsed().map(dim => dim.getName()) ], [])
+            .reduce((dimensions: string[], source) => [ ... dimensions, ... source.expression.getDimensionsUsed().map(dim => dim.getName()) ], [])
 
     // Return unique dimensions
     return Array.from(new Set([ ... dimensionsInConversions, ... dimensionsInPrograms ]));

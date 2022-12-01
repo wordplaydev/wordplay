@@ -53,7 +53,7 @@ export default class Caret {
     }
 
     getCode() { return this.source.getCode(); }
-    getProgram() { return this.source.program; }
+    getProgram() { return this.source.expression; }
     getToken(): Token | undefined { return this.token; }
     getTokenExcludingWhitespace(): Token | undefined { return this.tokenExcludingWhitespace; }
 
@@ -163,7 +163,7 @@ export default class Caret {
         if(this.position instanceof Node)
             return this.position === node || node.contains(this.position);
         
-        if(!this.source.program.contains(node)) return false;
+        if(!this.source.expression.contains(node)) return false;
 
         const start = this.source.getNodeFirstPosition(node);
         const end = this.source.getNodeLastPosition(node);

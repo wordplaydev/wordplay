@@ -8,4 +8,4 @@
 
 </script>
 
-<NodeView node={node.docs}/><NodeSequenceView nodes={node.borrows}/><NodeView node={node.block}/><NodeView node={node.end}/>
+<NodeView node={node.docs}/><NodeSequenceView nodes={node.borrows}/><NodeView node={node.expression}/><NodeView node={node.end}/>

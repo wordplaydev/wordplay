@@ -34,7 +34,7 @@ export default class Add<NodeType extends Node> extends Transform {
         const newNode = this.getPrettyNewNode(languages);
 
         // Create a new program with the parent's field set to the new node.
-        const newSource = this.context.source.withProgram(this.context.source.program.replace(false, this.parent, this.parent.replace(true, this.field, newNode)));
+        const newSource = this.context.source.withProgram(this.context.source.expression.replace(false, this.parent, this.parent.replace(true, this.field, newNode)));
 
         // Place the caret at first placeholder or the end of the node in the source.
         let newCaretPosition = newNode.getFirstPlaceholder() || newSource.getNodeLastPosition(newNode);

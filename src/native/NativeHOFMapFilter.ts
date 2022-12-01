@@ -85,7 +85,6 @@ export default class NativeHOFMapFilter extends HOF {
                                     evaluator, 
                                     this,
                                     checker.definition, 
-                                    checker.definition.expression, 
                                     checker.context, 
                                     bindings
                                 ));

@@ -81,7 +81,6 @@ export default class NativeHOFListFind extends HOF {
                                     evaluator, 
                                     this,
                                     include.definition, 
-                                    include.definition.expression, 
                                     include.context, 
                                     bindings
                                 ));

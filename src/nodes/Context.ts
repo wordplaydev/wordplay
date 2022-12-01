@@ -31,7 +31,7 @@ export default class Context {
 
         // Build all of the trees we might need for analysis.
         this.trees = [
-            new Tree(source.program),
+            new Tree(source.expression),
             ...Native.getStructureDefinitionTrees(),
             ...DefaultTrees
         ]

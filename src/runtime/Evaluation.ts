@@ -19,6 +19,15 @@ import type Node from "../nodes/Node";
 import Names from "../nodes/Names";
 import type Expression from "../nodes/Expression";
 import Finish from "./Finish";
+import type UnaryOperation from "../nodes/UnaryOperation";
+import type BinaryOperation from "../nodes/BinaryOperation";
+import type Evaluate from "../nodes/Evaluate";
+import type HOF from "../native/HOF";
+import type Source from "../models/Source";
+import type Convert from "../nodes/Convert";
+
+export type EvaluatorNode = UnaryOperation | BinaryOperation | Evaluate | Convert | HOF | Source;
+export type EvaluationNode = FunctionDefinition | StructureDefinition | ConversionDefinition | Source;
 
 export default class Evaluation {
 
@@ -26,13 +35,10 @@ export default class Evaluation {
     readonly #evaluator: Evaluator;
 
     /** The node that caused this evaluation to start. */
-    readonly #creator: Node;
+    readonly #evaluatorNode: EvaluatorNode;
 
     /** The node that defined this program. */
-    readonly #definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition;
-
-    /** The node being evaluated. */
-    readonly #node: Expression;
+    readonly #evaluationNode: Program | FunctionDefinition | StructureDefinition | ConversionDefinition | Source;
 
     /** A cache of the node's steps */
     readonly #steps: Step[];
@@ -55,20 +61,18 @@ export default class Evaluation {
     
     constructor(
         evaluator: Evaluator,
-        creator: Node,
-        definition: Program | FunctionDefinition | StructureDefinition | ConversionDefinition, 
-        node: Expression, 
+        evaluatorNode: EvaluatorNode,
+        evaluationNode: EvaluationNode, 
         context?: Evaluation | Value, 
         bindings?: Map<Names, Value>) {
 
-        this.#creator = creator;
         this.#evaluator = evaluator;
-        this.#definition = definition;
-        this.#node = node;
+        this.#evaluatorNode = evaluatorNode;
+        this.#evaluationNode = evaluationNode;
         this.#context = context;
 
-        // Cache the steps for the given node.
-        this.#steps = node.compile(this.#evaluator.getContext());
+        // Ask the evaluator to compile (and optionally cache) steps for this definition.
+        this.#steps = this.#evaluator.getSteps(evaluationNode);
 
         // Add any bindings given.
         if(bindings)
@@ -77,11 +81,10 @@ export default class Evaluation {
 
     }
 
-    getCreator() { return this.#creator; }
+    getCreator() { return this.#evaluatorNode; }
     getEvaluator() { return this.#evaluator; }
-    getDefinition() { return this.#definition; }
+    getDefinition() { return this.#evaluationNode; }
     getContext() { return this.#context; }
-    getNode() { return this.#node; }
 
     /** 
      * Given an Evaluator, evaluate the current step.

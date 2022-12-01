@@ -84,7 +84,6 @@ export default class NativeHOFMapTranslate extends HOF {
                                     evaluator, 
                                     this,
                                     translator.definition, 
-                                    translator.definition.expression, 
                                     translator.context, 
                                     bindings
                                 ));

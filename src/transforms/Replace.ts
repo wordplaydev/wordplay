@@ -38,7 +38,7 @@ export default class Replace<NodeType extends Node> extends Transform {
 
         // Replace the child in the parent, pretty printing it, then clone the program with the new parent, and create a new source from it.
         const newParent = parent.replace(true, this.node, replacement);
-        const newSource = this.context.source.withProgram(this.context.source.program.replace(false, parent, newParent));
+        const newSource = this.context.source.withProgram(this.context.source.expression.replace(false, parent, newParent));
 
         let newCaretPosition = replacement.getFirstPlaceholder() ?? newSource.getNodeLastPosition(replacement);
         if(newCaretPosition === undefined) return;

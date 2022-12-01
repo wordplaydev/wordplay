@@ -63,8 +63,8 @@ export class NativeBindings implements NativeInterface {
         // This means there should be no future changes to the native structure definition.
         this.structureDefinitionsByName[kind] = structure;
 
-        if(structure.block instanceof Block) {
-            for(const statement of structure.block.statements) {
+        if(structure.expression instanceof Block) {
+            for(const statement of structure.expression.statements) {
                 if(statement instanceof FunctionDefinition)
                     this.addFunction(kind, statement);
                 else if(statement instanceof ConversionDefinition)

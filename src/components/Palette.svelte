@@ -93,7 +93,7 @@
 
         ...[ $project.main, ...$project.supplements ]
             .map(source => 
-                (source.program.nodes(n => n instanceof StructureDefinition) as StructureDefinition[])
+                (source.expression.nodes(n => n instanceof StructureDefinition) as StructureDefinition[])
                 .map(def => nonNativeStructureToEntry(def))).flat()
 
     ];

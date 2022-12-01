@@ -70,9 +70,9 @@ test("Parse borrows", () => {
 test("Parse shares", () => {
 
     const good = parse("↑ fancy: 1");
-    expect(good.block).toBeInstanceOf(Block);
-    expect((good.block as Block).statements).toHaveLength(1);
-    expect((good.block as Block).statements[0]).toBeInstanceOf(Bind)
+    expect(good.expression).toBeInstanceOf(Block);
+    expect((good.expression as Block).statements).toHaveLength(1);
+    expect((good.expression as Block).statements[0]).toBeInstanceOf(Bind)
 
 })
 
@@ -306,7 +306,7 @@ test("Parse expressions", () => {
     const structureDef = parseExpression(tokens("•Cat(species•'') ( meow: ƒ() say(species) )"))
     expect(structureDef).toBeInstanceOf(StructureDefinition);
     expect((structureDef as StructureDefinition).inputs).toHaveLength(1);
-    expect(((structureDef as StructureDefinition).block as Block).statements).toHaveLength(1);
+    expect(((structureDef as StructureDefinition).expression as Block).statements).toHaveLength(1);
 
     const structureDefWithInterface = parseExpression(tokens("•Cat •Mammal(species•'') ( meow: ƒ() say(species) )"))
     expect(structureDefWithInterface).toBeInstanceOf(StructureDefinition);

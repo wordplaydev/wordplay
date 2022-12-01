@@ -31,16 +31,16 @@ export default class Program extends Expression {
     
     readonly docs: Docs;
     readonly borrows: Borrow[];
-    readonly block: Block;
+    readonly expression: Block;
     readonly end: Token;
 
-    constructor(docs: Docs, borrows: Borrow[], block: Block, end?: Token) {
+    constructor(docs: Docs, borrows: Borrow[], expression: Block, end?: Token) {
 
         super();
 
         this.docs = docs;
         this.borrows = borrows.slice();
-        this.block = block;
+        this.expression = expression;
         this.end = end ?? new Token("", TokenType.END);
         
         this.computeChildren();
@@ -51,7 +51,7 @@ export default class Program extends Expression {
         return [
             { name: "docs", types:[ Docs ] },
             { name: "borrows", types:[[ Borrow ]] },
-            { name: "block", types:[ Block ] },
+            { name: "expression", types:[ Block ] },
             { name: "end", types:[ Token ] },
         ]; 
     }
@@ -60,12 +60,12 @@ export default class Program extends Expression {
         return new Program(
             this.replaceChild(pretty, "docs", this.docs, original, replacement),
             this.replaceChild(pretty, "borrows", this.borrows, original, replacement), 
-            this.replaceChild(pretty, "block", this.block, original, replacement), 
+            this.replaceChild(pretty, "expression", this.expression, original, replacement), 
             this.replaceChild(pretty, "end", this.end, original, replacement)
         ) as this; 
     }
 
-    isBindingEnclosureOfChild(child: Node): boolean { return child === this.block; }
+    isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression; }
 
     computeConflicts(context: Context) {
 
@@ -77,7 +77,7 @@ export default class Program extends Expression {
 
     /** A program's type is it's block's type. */
     computeType(context: Context): Type {
-        return this.block.getTypeUnlessCycle(context);
+        return this.expression.getTypeUnlessCycle(context);
     }
 
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet { return current; }
@@ -105,7 +105,7 @@ export default class Program extends Expression {
     }
     
     getDependencies(): Expression[] {
-        return [ ...this.borrows, this.block ];
+        return [ ...this.borrows, this.expression ];
     }
 
     compile(context: Context): Step[] {
@@ -113,7 +113,7 @@ export default class Program extends Expression {
         return [ 
             new Start(this),
             ...this.borrows.reduce((steps: Step[], borrow) => [...steps, ...borrow.compile()], []),
-            ...this.block.compile(context),
+            ...this.expression.compile(context),
             new Finish(this)
         ];
     }
@@ -137,7 +137,7 @@ export default class Program extends Expression {
 
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
     
-        if(child === this.block || this.borrows.includes(child as Borrow))
+        if(child === this.expression || this.borrows.includes(child as Borrow))
             return [ new Append(context, position, this, this.borrows, child, new Borrow()) ];
     
     }
@@ -146,7 +146,7 @@ export default class Program extends Expression {
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(this.borrows.includes(child as Borrow)) return new Remove(context, this, child);
-        else if(child === this.block) return new Replace(context, this.block, new Block([], this.block instanceof Block ? this.block.root : false, this.block instanceof Block ? this.block.creator : false));
+        else if(child === this.expression) return new Replace(context, this.expression, new Block([], this.expression instanceof Block ? this.expression.root : false, this.expression instanceof Block ? this.expression.creator : false));
     }
 
     getTranslation(languages: LanguageCode[]) {

@@ -186,7 +186,7 @@ export default class Bind extends Expression {
 
         // Shares can only appear in the program's root block.
         if(this.share !== undefined) {
-            if(!context.source.program.block.getChildren().includes(this))
+            if(!context.source.expression.expression.getChildren().includes(this))
                 conflicts.push(new MisplacedShare(this, this.share));
 
             // Bindings must have language tags on all names to clarify what langauge they're written in.
@@ -197,8 +197,8 @@ export default class Bind extends Expression {
             const sources = context.project?.getSourcesExcept(context.source);
             if(sources !== undefined) {
                 for(const source of sources) {
-                    if(source.program.block instanceof Block) {
-                        for(const share of source.program.block.statements.filter(s => s instanceof Bind && s.isShared()) as Bind[]) {
+                    if(source.expression.expression instanceof Block) {
+                        for(const share of source.expression.expression.statements.filter(s => s instanceof Bind && s.isShared()) as Bind[]) {
                             if(this.sharesName(share))
                                 conflicts.push(new DuplicateShare(this, share));
                         }
@@ -250,7 +250,7 @@ export default class Bind extends Expression {
         context.visit(this);
         const type = this.getType(context);
         context.unvisit();
-        return type;   
+        return type;
 
     }
 

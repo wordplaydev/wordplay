@@ -93,7 +93,6 @@ export default class NativeHOFListCombine extends HOF {
                                 evaluator, 
                                 this,
                                 translator.definition, 
-                                translator.definition.expression, 
                                 translator.context, 
                                 bindings
                             ));

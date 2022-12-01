@@ -38,7 +38,7 @@ export default class Remove extends Transform {
         const newParent = this.getNewNode();
 
         // Replace the child in the parent, pretty printing it, then clone the program with the new parent, and create a new source from it.
-        const newSource = this.context.source.withProgram(this.context.source.program.replace(false, this.parent, newParent));
+        const newSource = this.context.source.withProgram(this.context.source.expression.replace(false, this.parent, newParent));
 
         // Return the new source and place the caret after the replacement.
         return [ newSource, new Caret(newSource, position) ];

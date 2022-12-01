@@ -82,7 +82,6 @@ export default class NativeHOFSetFilter extends HOF {
                                     evaluator,
                                     this,
                                     checker.definition, 
-                                    checker.definition.expression, 
                                     checker.context, 
                                     bindings
                                 ));

@@ -11,14 +11,14 @@ export function testConflict(goodCode: string, badCode: string, nodeType: Functi
 
     const goodSource = new Source("test", goodCode);
     const goodProject = new Project("good", goodSource, []);
-    const goodProgram = goodSource.program;
+    const goodProgram = goodSource.expression;
     const goodOp = goodProgram.nodes().filter(n => n instanceof nodeType)[nodeIndex];
     expect(goodOp).toBeInstanceOf(nodeType);
     expect(goodOp?.getConflicts(new Context(goodProject, goodSource, new Shares())).filter(n => n instanceof conflictType)).toHaveLength(0);
 
     const badSource = new Source("test", badCode);
     const badProject = new Project("bad", badSource, []);
-    const badProgram = badSource.program;
+    const badProgram = badSource.expression;
     const badOp = badProgram.nodes().filter(n => n instanceof nodeType)[nodeIndex];
     expect(badOp).toBeInstanceOf(nodeType);
     const conflicts = badOp?.getConflicts(new Context(badProject, badSource, new Shares()));
@@ -31,7 +31,7 @@ export function testTypes(code: string, typeExpected: Function) {
 
     const source = new Source("test", code);
     const project = new Project("test", source, []);
-    const last = source.program.block instanceof Block ? source.program.block.getLast() : undefined;
+    const last = source.expression.expression instanceof Block ? source.expression.expression.getLast() : undefined;
     const lastIsExpression = last instanceof Expression;
     if(last instanceof Expression) {
         const type = last.getType(new Context(project, source, new Shares()));

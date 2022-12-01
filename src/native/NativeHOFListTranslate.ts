@@ -80,7 +80,6 @@ export default class NativeHOFListTranslate extends HOF {
                                     evaluator, 
                                     this,
                                     translator.definition, 
-                                    translator.definition.expression, 
                                     translator.context, 
                                     bindings
                                 ));
