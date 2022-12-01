@@ -4,7 +4,6 @@
     import type Evaluator from "../runtime/Evaluator";
     import Structure from "../runtime/Structure";
     import ExceptionView from "./ExceptionView.svelte";
-    import EvaluatorView from "./EvaluatorView.svelte";
     import GroupView from "./GroupView.svelte";
     import { onMount } from "svelte";
     import { styleToCSS } from "../native/Style";

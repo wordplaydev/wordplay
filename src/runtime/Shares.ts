@@ -34,7 +34,7 @@ export default class Shares {
 
     readonly _valuesIndex: Map<string, Value> = new Map();
     readonly values: Map<Names, Value> = new Map();
-    readonly defaults: Map<Names, StructureDefinitionValue | Stream> = new Map();
+    readonly defaults: Map<Names, StructureDefinitionValue> = new Map();
     readonly streams: Set<Stream> = new Set();
 
     constructor() {
@@ -62,10 +62,6 @@ export default class Shares {
         this.bind(def.names, val);
         this.defaults.set(def.names, val);
 
-    }
-
-    getDefaultShares() { 
-        return this.defaults;
     }
 
     getDefinitions() { 
@@ -96,7 +92,16 @@ export default class Shares {
     }
 
     resolve(name: string): Value | undefined {
-        return this._valuesIndex.get(name);
+
+        // See if the values have the name.
+        const value = this._valuesIndex.get(name);
+
+        if(value) return value;
+
+        // See if a default structure has the name.
+        const match = Array.from(this.defaults.keys()).find(names => names.hasName(name));
+        if(match) return this.defaults.get(match);
+
     }
 
 }

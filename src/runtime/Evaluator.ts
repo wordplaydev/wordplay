@@ -257,9 +257,6 @@ export default class Evaluator {
         this.evaluations.length = 0;
         this.evaluations.push(new Evaluation(this, this.source.program, this.source.program, this.source.program));
 
-        // Add the default shares to make them borrowable.
-        Array.from(this.shares.getDefaultShares().keys()).forEach(names => this.borrow(names.getNames()[0]));
-
         // Stop remembering in case the last execution ended abruptly.
         this.stopRememberingStreamAccesses();
 
@@ -356,9 +353,14 @@ export default class Evaluator {
 
     /** Resolve the given name in the current execution context. */
     resolve(name: string | Names): Value | undefined {
-        return this.evaluations.length === 0 ? 
-            undefined : 
-            this.evaluations[0].resolve(name);
+        const value = 
+            this.evaluations.length === 0 ? 
+                undefined : 
+                this.evaluations[0].resolve(name);
+
+        if(value) return value;
+
+        return typeof name === "string" ? this.shares.resolve(name) : undefined;
 
     }
 

@@ -36,7 +36,6 @@ import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
 import type Value from "../runtime/Value";
-import Program from "./Program";
 
 export default class Block extends Expression {
 

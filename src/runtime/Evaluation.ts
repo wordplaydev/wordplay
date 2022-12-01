@@ -173,9 +173,9 @@ export default class Evaluation {
             return this.#bindings.get(name) ?? this._bindingsIndex.get(name.getNames()[0]);
         }
         else {
-            return this._bindingsIndex.has(name) ? this._bindingsIndex.get(name) : 
-            this.#context === undefined ? undefined : 
-            this.#context.resolve(name, this.#evaluator);
+            return  this._bindingsIndex.has(name) ? this._bindingsIndex.get(name) : 
+                    this.#context === undefined ? undefined : 
+                    this.#context.resolve(name, this.#evaluator);
         }
     }
 

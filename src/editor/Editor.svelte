@@ -28,7 +28,6 @@
     import StructureDefinition from '../nodes/StructureDefinition';
     import Tree from '../nodes/Tree';
     import RootView from './RootView.svelte';
-    import { Mode } from '../runtime/Evaluator';
 
     export let source: Source;
 
