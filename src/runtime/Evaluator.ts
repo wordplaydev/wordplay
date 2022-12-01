@@ -172,13 +172,14 @@ export default class Evaluator {
      **/
     step(): void {
 
+        // If there's no node evaluating, do nothing.
+        if(this.evaluations.length === 0)
+            return;
+
         // Get the value of the next step of the current evaluation.
         const value = 
             // If it seems like we're stuck in an infinite (recursive) loop, halt.
             this.evaluations.length > 100000 ? new EvaluationException(StackSize.FULL, this) :
-            // If there's no node evaluating, throw an exception
-            // It's up to callers to check before calling step on a finished evaluation.
-            this.evaluations.length === 0 ? new EvaluationException(StackSize.EMPTY, this) :
             // Otherwise, step the current evaluation and get it's value
             this.evaluations[0]?.step(this);
 
