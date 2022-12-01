@@ -64,7 +64,7 @@
     }
 
     function evalUpdate() {
-        executingNode = evaluator?.currentStep()?.node;
+        executingNode = evaluator?.getCurrentStep()?.node;
         stepping = evaluator?.isStepping() === true;
 
         // If the program contains this node, scroll it's first token into view.
@@ -124,7 +124,7 @@
     $: {
         caret.set($caret.withSource(source));
         setContext(CaretSymbol, caret);
-        executingNode = $project.getEvaluator(source).currentStep()?.node;
+        executingNode = $project.getEvaluator(source).getCurrentStep()?.node;
     }
 
     // When the caret location changes, position the menu and invisible input, and optionally scroll to the caret.
@@ -178,7 +178,7 @@
 
     function updateHighlights() {
 
-        const currentStep = $project.getEvaluator(source)?.currentStep();
+        const currentStep = $project.getEvaluator(source)?.getCurrentStep();
         const latestValue = $project.getEvaluator(source)?.getLatestResult();
 
         // Build a set of highlights to render.

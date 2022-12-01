@@ -10,7 +10,7 @@
 
     $: languages = getLanguages();
 
-    $: ignoredStreams = Array.from(evaluator.streamsIgnoredDuringStepping).map(stream => stream.getTranslation($languages));
+    $: ignoredStreams = Array.from(evaluator.ignoredStreams).map(stream => stream.getTranslation($languages));
 
     let step: Step | undefined;
     let previousEvaluator = evaluator;
@@ -22,7 +22,7 @@
     }
 
     function handleUpdate() { 
-        step = evaluator.currentStep();
+        step = evaluator.getCurrentStep();
         evaluations = evaluator.evaluations;
     }
 
@@ -34,7 +34,7 @@
     <p>{step?.getExplanations(evaluator)[$languages[0]]}</p>
 
     <p>{
-        evaluator.streamsIgnoredDuringStepping.size > 0 ?
+        evaluator.ignoredStreams.size > 0 ?
             {
                 eng:`You're stepping, so we ignored ${ignoredStreams.join(", ")}`,
                 "😀": `${TRANSLATE} ${ignoredStreams.join(", ")}`

@@ -11,9 +11,6 @@ import Exception from "./Exception";
 import NameException from "./NameException";
 import ValueException from "./ValueException";
 import type Type from "../nodes/Type";
-
-// Import this last, after everything else, to avoid cycles.
-import Native from "../native/NativeBindings";
 import type NativeInterface from "../native/NativeInterface";
 import Source from "../models/Source";
 import type Program from "../nodes/Program";
@@ -32,6 +29,9 @@ import StructureDefinition from "../nodes/StructureDefinition";
 import Token from "../nodes/Token";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import ConversionDefinition from "../nodes/ConversionDefinition";
+
+// Import this last, after everything else, to avoid cycles.
+import Native from "../native/NativeBindings";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -73,7 +73,7 @@ export default class Evaluator {
     reactionStreams: Map<Reaction, Stream> = new Map();
 
     /** A set of the streams ignored while stepping. Reset once played. */
-    streamsIgnoredDuringStepping: Set<Stream> = new Set();
+    ignoredStreams: Set<Stream> = new Set();
 
     /** A set of possible execution modes, defaulting to play. */
     mode: Mode = Mode.PLAY;
@@ -115,133 +115,51 @@ export default class Evaluator {
         return project.getEvaluator(source).getLatestResult();
     }
 
-    play() {
-        this.setMode(Mode.PLAY);
-        this.finish();
+    // GETTERS
+
+    getMode(): Mode { return this.mode; }
+    getProgram(): Program { return this.source.expression; }
+    getContext(): Context { return this.context; }
+    getNative(): NativeInterface { return Native; }
+    getCurrentStep() { return this.evaluations[0]?.currentStep(); }
+    getNextStep() { return this.evaluations[0]?.nextStep(); }
+    getCurrentEvaluation() { return this.evaluations.length === 0 ? undefined : this.evaluations[0]; }
+    getShares() { return this.shares; }
+    /** Get whatever the latest result was of evaluating the program and its streams. */
+    getLatestResult() { return this.latestValue; }
+    getVerse() { return valueToVerse(this, this.getLatestResult()); }
+    getSteps(evaluation: EvaluationNode): Step[] {
+
+        // No expression? No steps.
+        let steps = this.steps.get(evaluation);
+        if(steps === undefined) {
+            // If the evaluation is a structure definition that has no block, synthesize an empty block
+            const expression = 
+                evaluation instanceof StructureDefinition && evaluation.expression === undefined ? new Block([], true, true) :
+                evaluation.expression;
+            steps = expression instanceof Token || expression === undefined ? [] : expression.compile(this.context);
+            this.steps.set(evaluation, steps);
+        }
+        return steps;
+
+    }
+    getPriorValueOf(expression: Expression, count: number) {
+        const values = this.values.get(expression);
+        return values === undefined || count >= values.length ? undefined : values[count];
+    }
+    getCount(expression: Expression) {
+        return this.counters.get(expression);
     }
 
-    pause() {
-        this.setMode(Mode.STEP);
-        this.finish();
-        this.start();
-    }
 
-    setMode(mode: Mode) {
-        this.mode = mode;
-        this.broadcast();
-    }
+    // PREDICATES
 
     isPlaying(): boolean { return this.mode === Mode.PLAY; }
     isStepping(): boolean { return this.mode === Mode.STEP; }
-    getMode(): Mode { return this.mode; }
-
-    getSource(): Source { return this.source; }
-
-    getProgram(): Program { return this.source.expression; }
-
-    getContext(): Context { return this.context; }
-
-    getNative(): NativeInterface { return Native; }
-
-    getThis(requestor: Node): Value | undefined { return this.getCurrentEvaluation()?.getThis(requestor); }
-
-    ignoredStream(stream: Stream) {
-        // Does the root evaluation bind this stream? If so, note that we ignored it.
-        if(this.evaluations[this.evaluations.length - 1]?.binds(stream)) {
-            this.streamsIgnoredDuringStepping.add(stream);
-            this.broadcast();
-        }
-    }
-
-    observe(observer: EvaluationObserver) { 
-        this.observers.push(observer); 
-    }
-
-    ignore(observer: EvaluationObserver) { 
-        const index = this.observers.indexOf(observer);
-        if(index >= 0)
-            this.observers.splice(index, 1);
-    }
-
-    broadcast() {
-        this.observers.forEach(observer => observer());
-    }
-
     isEvaluating() { return this.evaluations.length > 0 || this.latestValue !== undefined; }
-
-    /** True if the evaluation stack is empty. */
     isDone() { return this.evaluations.length === 0; }
-
-    /** Stops listening to listeners and halts execution. */
-    stop() {
-        this.stopped = true;
-        this.observers.length = 0;
-    }
-
-    /** 
-     * Advance one step in execution. 
-     * Return any exceptions or the final value when there's nothing left to execute. 
-     * Otherwise, return undefined, as a signal that we're still stepping.
-     **/
-    step(): void {
-
-        // If there's no node evaluating, do nothing.
-        if(this.evaluations.length === 0)
-            return;
-
-        // Get the value of the next step of the current evaluation.
-        const value = 
-            // If it seems like we're stuck in an infinite (recursive) loop, halt.
-            this.evaluations.length > 100000 ? new EvaluationException(StackSize.FULL, this) :
-            // Otherwise, step the current evaluation and get it's value
-            this.evaluations[0]?.step(this);
-
-        // Tell observers that we're stepping
-        this.broadcast();
-
-        // If it's an exception, halt execution by returning the exception value.
-        if(value instanceof Exception)
-            this.end(value);
-        // If it's another kind of value, pop the evaluation off the stack and add the value to the 
-        // value stack of the new top of the stack.
-        if(value instanceof Value) {
-            // End the Evaluation
-            this.endEvaluation();
-            // If there's another Evaluation on the stack, pass the value to it by pushing it onto it's stack.
-            if(this.evaluations.length > 0) {
-                this.evaluations[0].pushValue(value);
-                const priorStep = this.evaluations[0].priorStep();
-                if(priorStep && (priorStep.node instanceof Evaluate || priorStep.node instanceof BinaryOperation || priorStep.node instanceof UnaryOperation)) {
-                    const list = this.values.get(priorStep.node) ?? [];
-                    list.push(value);
-                    this.values.set(priorStep.node, list);
-                }
-            }
-            // Otherwise, save the value and clean up this final evaluation; nothing left to do!
-            else
-                this.end(value);
-        }
-        // If there was no value, that just means it's not done yet.
-
-        // Clear the ignored reactions after this step, assuming the creator was notified.
-        this.streamsIgnoredDuringStepping.clear();
-
-    }
-
-    /** Keep evaluating steps in this project, skipping over nodes in other programs. */
-    stepWithinProgram(): void {
-
-        let nextStepNode = undefined;
-        do {
-            this.step();
-            nextStepNode = this.currentStep()?.node;
-        } while(nextStepNode instanceof Node && !this.source.expression.contains(nextStepNode));
-
-        // If we're on a start and the next step is a finish for the same node, step.
-        if(this.currentStep() instanceof Start && this.currentStep().node === this.nextStep()?.node)
-            this.step();
-
-    }
+    getThis(requestor: Node): Value | undefined { return this.getCurrentEvaluation()?.getThis(requestor); }
+    isInvalidated(expression: Expression) { return this.invalidatedExpressions === undefined || this.invalidatedExpressions.has(expression); }
 
     /** Given a node, returns true if the node participates in a step in this program. */
     nodeIsStep(node: Node): boolean {
@@ -264,32 +182,37 @@ export default class Evaluator {
 
     }
 
-    /** 
-     * Given a node, walks its ancestors until it finds a node corresponding to a step.
-     * Returns undefined if there is no such node.
-     */
-    getEvaluableNode(node: Node): Node | undefined {
+    // CONTROLS
 
-        let current: Node | undefined = node;
-        // step to node will just evaluate to the
-        do {
-            // If the node corresponds to a step
-            if(this.nodeIsStep(current))
-                return current;
-            else
-                current = this.context.get(current)?.getParent();
-        } while(current !== undefined);
-        return undefined;
+    setMode(mode: Mode) {
+        this.mode = mode;
+        this.broadcast();
+    }
 
+    play() {
+        this.setMode(Mode.PLAY);
+        this.finish();
+    }
+
+    pause() {
+        this.setMode(Mode.STEP);
+        this.finish();
+        this.start();
+    }
+
+    /** Stops listening to listeners and halts execution. */
+    stop() {
+        this.stopped = true;
+        this.observers.length = 0;
     }
 
     /** 
      * Evaluates the porgram until reaching a step on the specified node. 
      * Evaluates to the end if there is no such step.
      */
-    stepToNode(node: Node) {
+     stepToNode(node: Node) {
 
-        while(this.currentStep() !== undefined && this.currentStep()?.node !== node)
+        while(this.getCurrentStep() !== undefined && this.getCurrentStep()?.node !== node)
             this.step();
 
     }
@@ -349,29 +272,160 @@ export default class Evaluator {
     end(value: Value) {
 
         // Save the value.
-        this.saveResult(value);
+        this.latestValue = value;
+        // Notify observers.
+        this.broadcast();
         
     }
 
-    currentStep() { 
-        return this.evaluations[0]?.currentStep();
-    }
+    /** 
+     * Advance one step in execution. 
+     * Return any exceptions or the final value when there's nothing left to execute. 
+     * Otherwise, return undefined, as a signal that we're still stepping.
+     **/
+    step(): void {
 
-    nextStep() {
-        return this.evaluations[0]?.nextStep();
-    }
+        // If there's no node evaluating, do nothing.
+        if(this.evaluations.length === 0)
+            return;
 
-    /** Cache the evaluation's result and notify listeners of it. */
-    saveResult(value: Value) {
+        // Get the value of the next step of the current evaluation.
+        const value = 
+            // If it seems like we're stuck in an infinite (recursive) loop, halt.
+            this.evaluations.length > 100000 ? new EvaluationException(StackSize.FULL, this) :
+            // Otherwise, step the current evaluation and get it's value
+            this.evaluations[0]?.step(this);
 
-        this.latestValue = value;
-
+        // Tell observers that we're stepping
         this.broadcast();
-    
+
+        // If it's an exception, halt execution by returning the exception value.
+        if(value instanceof Exception)
+            this.end(value);
+        // If it's another kind of value, pop the evaluation off the stack and add the value to the 
+        // value stack of the new top of the stack.
+        if(value instanceof Value) {
+            // End the Evaluation
+            this.endEvaluation();
+            // If there's another Evaluation on the stack, pass the value to it by pushing it onto it's stack.
+            if(this.evaluations.length > 0) {
+                this.evaluations[0].pushValue(value);
+                const priorStep = this.evaluations[0].priorStep();
+                if(priorStep && (priorStep.node instanceof Evaluate || priorStep.node instanceof BinaryOperation || priorStep.node instanceof UnaryOperation)) {
+                    const list = this.values.get(priorStep.node) ?? [];
+                    list.push(value);
+                    this.values.set(priorStep.node, list);
+                }
+            }
+            // Otherwise, save the value and clean up this final evaluation; nothing left to do!
+            else
+                this.end(value);
+        }
+        // If there was no value, that just means it's not done yet.
+
+        // Clear the ignored reactions after this step, assuming the creator was notified.
+        this.ignoredStreams.clear();
+
     }
 
-    /** Get whatever the latest result was of evaluating the program and its streams. */
-    getLatestResult() { return this.latestValue; }
+    /** Keep evaluating steps in this project, skipping over nodes in other programs. */
+    stepWithinProgram(): void {
+
+        let nextStepNode = undefined;
+        do {
+            this.step();
+            nextStepNode = this.getCurrentStep()?.node;
+        } while(nextStepNode instanceof Node && !this.source.expression.contains(nextStepNode));
+
+        // If we're on a start and the next step is a finish for the same node, step.
+        if(this.getCurrentStep() instanceof Start && this.getCurrentStep().node === this.getNextStep()?.node)
+            this.step();
+
+    }
+    
+    // OBSERVERS
+
+    observe(observer: EvaluationObserver) { 
+        this.observers.push(observer); 
+    }
+
+    ignore(observer: EvaluationObserver) { 
+        const index = this.observers.indexOf(observer);
+        if(index >= 0)
+            this.observers.splice(index, 1);
+    }
+
+    broadcast() {
+        this.observers.forEach(observer => observer());
+    }
+
+    // STREAM MANAGMEENT
+
+    startRememberingStreamAccesses() {
+        this.accessedStreams = [];
+    }
+
+    rememberStreamAccess(stream: Stream) {
+        this.accessedStreams?.push(stream);
+    }
+
+    stopRememberingStreamAccesses(): Stream[] | undefined {
+        const accessedStreams = this.accessedStreams;
+        this.accessedStreams = undefined;
+        return accessedStreams;
+    }
+
+    streamChanged(stream: Stream) {
+        return this.changedStream === stream;
+    }
+
+    ignoredStream(stream: Stream) {
+        // Does the root evaluation bind this stream? If so, note that we ignored it.
+        if(this.evaluations[this.evaluations.length - 1]?.binds(stream)) {
+            this.ignoredStreams.add(stream);
+            this.broadcast();
+        }
+    }
+
+    hasReactionStream(reaction: Reaction) {
+        return this.reactionStreams.has(reaction);
+    }
+
+    getReactionStreamLatest(reaction: Reaction): Value | undefined {
+        return this.reactionStreams.get(reaction)?.latest();
+    }
+
+    addToReactionStream(reaction: Reaction, value: Value) {
+        if(this.hasReactionStream(reaction))
+            this.reactionStreams.get(reaction)?.add(value);
+        else {
+            const newStream = new ReactionStream(reaction, value);
+            this.reactionStreams.set(reaction, newStream);
+        }
+    }
+
+
+
+    /** 
+     * Given a node, walks its ancestors until it finds a node corresponding to a step.
+     * Returns undefined if there is no such node.
+     */
+    getEvaluableNode(node: Node): Node | undefined {
+
+        let current: Node | undefined = node;
+        // step to node will just evaluate to the
+        do {
+            // If the node corresponds to a step
+            if(this.nodeIsStep(current))
+                return current;
+            else
+                current = this.context.get(current)?.getParent();
+        } while(current !== undefined);
+        return undefined;
+
+    }
+
+    // EVALUATION INTERFACE. Methods that Steps use to evaluate programs.
 
     /** Push a value on top of the current evaluation's stack. */
     pushValue(value: Value): void { 
@@ -407,15 +461,36 @@ export default class Evaluator {
     jumpPast(expression: Expression) {
         this.evaluations[0].jumpPast(expression);
     }
+    
+    startEvaluation(evaluation: Evaluation) {
+        this.evaluations.unshift(evaluation);
+    }
 
     /** Start evaluation */
     endEvaluation() {
         this.evaluations.shift();
     }
     
-    /** Start evaluation */
-    startEvaluation(evaluation: Evaluation) {
-        this.evaluations.unshift(evaluation);
+    startEvaluating(expression: Expression) {
+        if(!this.counters.has(expression))
+            this.counters.set(expression, 0);
+        return this.getCount(expression);
+    }
+
+    finishEvaluating(expression: Expression, recycled: boolean, value?: Value | undefined) {
+
+        const count = this.counters.get(expression);
+        if(count === undefined)
+            throw Error(`It should never be possible than an expression hasn't started, but has finished, but this happened on ${expression.toWordplay().trim().substring(0, 50)}...`);
+        this.counters.set(expression, count + 1);
+
+        // Remember the value it computed in the value history.
+        if(!recycled) {
+            const list = this.values.get(expression) ?? [];
+            list.push(value);
+            this.values.set(expression, list);
+        }
+
     }
 
     /** Bind the given value to the given name in the context of the current evaluation. */
@@ -437,32 +512,12 @@ export default class Evaluator {
 
     }
 
-    /** Get the context of the currently evaluating evaluation. */
-    getCurrentEvaluation() {
-        return this.evaluations.length === 0 ? 
-            undefined :
-            this.evaluations[0];
-    }
-
-    getCurrentStep() { return this.getCurrentEvaluation()?.currentStep(); }
-
-    getShares() { return this.shares; }
-
-    /** Share the given value */
-    share(names: Names, value: Value) { 
-        return this.shares.bind(names, value);
-    }
-
-    resolveShare(name: string): Value | undefined {
-        return this.shares.resolve(name);
-    }
-
     /** Borrow the given name from the other source in this project or from the global namespace. */
     borrow(name: string): Value | undefined { 
 
         // First look in this source's shares (for global things) then look in other source.
         // (Otherwise we'll find the other source's streams, which are separate).
-        const share = this.shares.resolve(name) ?? this.context.project.resolveShare(this.getSource(), name);
+        const share = this.shares.resolve(name) ?? this.context.project.resolveShare(this.source, name);
         if(share === undefined)
             return new NameException(name, this);
 
@@ -478,95 +533,13 @@ export default class Evaluator {
 
     }
     
-    startRememberingStreamAccesses() {
-        this.accessedStreams = [];
+    /** Share the given value */
+    share(names: Names, value: Value) { 
+        return this.shares.bind(names, value);
     }
 
-    rememberStreamAccess(stream: Stream) {
-        this.accessedStreams?.push(stream);
+    resolveShare(name: string): Value | undefined {
+        return this.shares.resolve(name);
     }
-
-    stopRememberingStreamAccesses(): Stream[] | undefined {
-        const accessedStreams = this.accessedStreams;
-        this.accessedStreams = undefined;
-        return accessedStreams;
-    }
-
-    streamChanged(stream: Stream) {
-        return this.changedStream === stream;
-    }
-
-    isInvalidated(expression: Expression) {
-        return this.invalidatedExpressions === undefined || this.invalidatedExpressions.has(expression);
-    }
-
-    startEvaluating(expression: Expression) {
-        if(!this.counters.has(expression))
-            this.counters.set(expression, 0);
-        return this.getCount(expression);
-    }
-
-    getCount(expression: Expression) {
-        return this.counters.get(expression);
-    }
-
-    finishEvaluating(expression: Expression, recycled: boolean, value?: Value | undefined) {
-
-        const count = this.counters.get(expression);
-        if(count === undefined)
-            throw Error(`It should never be possible than an expression hasn't started, but has finished, but this happened on ${expression.toWordplay().trim().substring(0, 50)}...`);
-        this.counters.set(expression, count + 1);
-
-        // Remember the value it computed in the value history.
-        if(!recycled) {
-            const list = this.values.get(expression) ?? [];
-            list.push(value);
-            this.values.set(expression, list);
-        }
-
-    }
-
-    getPriorValueOf(expression: Expression, count: number) {
-        const values = this.values.get(expression);
-        return values === undefined || count >= values.length ? undefined : values[count];
-    }
-
-    hasReactionStream(reaction: Reaction) {
-        return this.reactionStreams.has(reaction);
-    }
-
-    getReactionStreamLatest(reaction: Reaction): Value | undefined {
-        return this.reactionStreams.get(reaction)?.latest();
-    }
-
-    addToReactionStream(reaction: Reaction, value: Value) {
-        if(this.hasReactionStream(reaction))
-            this.reactionStreams.get(reaction)?.add(value);
-        else {
-            const newStream = new ReactionStream(reaction, value);
-            this.reactionStreams.set(reaction, newStream);
-        }
-    }
-
-    getVerse() {         
-        const value = this.getLatestResult();
-        return valueToVerse(this, value);
-    }
-
-    getSteps(evaluation: EvaluationNode): Step[] {
-
-        // No expression? No steps.
-        let steps = this.steps.get(evaluation);
-        if(steps === undefined) {
-            // If the evaluation is a structure definition that has no block, synthesize an empty block
-            const expression = 
-                evaluation instanceof StructureDefinition && evaluation.expression === undefined ? new Block([], true, true) :
-                evaluation.expression;
-            steps = expression instanceof Token || expression === undefined ? [] : expression.compile(this.context);
-            this.steps.set(evaluation, steps);
-        }
-        return steps;
-
-    }
-
+    
 }
