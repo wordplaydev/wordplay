@@ -674,6 +674,15 @@
 
     function handleMouseMove(event: MouseEvent) {
 
+        if(evaluator.isPlaying())
+            handleEditHover(event);
+        else
+            handleDebugHover(event);
+
+    }
+
+    function handleEditHover(event: MouseEvent) {
+
         // By default, set the hovered state to whatever node is under the mouse.
         hovered.set(getNodeAt(event, false));
 
@@ -705,6 +714,15 @@
             }
 
         }
+
+    }
+
+    function handleDebugHover(event: MouseEvent) {
+
+        const node = getNodeAt(event, false);
+
+        // if the node is associated with a step, set it, otherwise unset it.
+        hovered.set(evaluator.isDone() || node === undefined ? undefined : evaluator.getEvaluableNode(node));
 
     }
 
