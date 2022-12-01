@@ -115,7 +115,7 @@
     $: {
         caret.set($caret.withSource(source));
         setContext(CaretSymbol, caret);
-        executingNode = $project.getEvaluator(source)?.currentStep()?.node;
+        executingNode = $project.getEvaluator(source).currentStep()?.node;
     }
 
     // When the caret location changes, position the menu and invisible input, and optionally scroll to the caret.
@@ -696,7 +696,7 @@
 
     function showMenu() {
 
-        const context = $project.getEvaluator(source)?.context;
+        const context = $project.getEvaluator(source).context;
         if(context === undefined) return;
 
         // Is the caret on a specific token or node?
@@ -783,7 +783,7 @@
                 (command.shift === undefined || command.shift === event.shiftKey) &&
                 (command.alt === undefined || command.alt === event.altKey) &&
                 (command.key === undefined || command.key === event.code) &&
-                evaluator?.getMode() === command.mode) {
+                (command.mode === undefined || evaluator?.getMode() === command.mode)) {
 
                 // If so, execute it.
                 const result = command.execute($caret, editor, evaluator, event.code);

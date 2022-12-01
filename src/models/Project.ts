@@ -96,7 +96,13 @@ export default class Project {
         return [ this.main, ...this.supplements]; 
     }
 
-    getEvaluator(source: Source): Evaluator | undefined { return this.evaluators.get(source); }
+    getEvaluator(source: Source): Evaluator { 
+        const evaluator = this.evaluators.get(source); 
+        if(evaluator === undefined)
+            throw Error("Should never be asking for a source evaluator that doesn't exist on a project.");
+        return evaluator;
+    }
+    
     getSourceContext(source: Source): Context | undefined { return this.evaluators.get(source)?.context; }
 
     getSourcesExcept(source: Source) { return [ this.main, ...this.supplements].filter(s => s !== source); }

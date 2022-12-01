@@ -31,7 +31,8 @@
     let autoplay = true;
 
     function handleEvaluation() {
-        verse = evaluator?.getVerse();
+        verse = evaluator.getVerse();
+        autoplay = evaluator.isPlaying();
     }
 
     function handleStep() {
@@ -64,11 +65,8 @@
             <Switch 
                 on={autoplay}
                 toggle={playPause} 
-                tip={
-                    autoplay ? 
-                        { eng: "Evaluate the program one step at a time", "😀": WRITE } : 
-                        { eng: "Evaluate the program fully", "😀": WRITE }
-                } 
+                offTip={{ eng: "Evaluate the program one step at a time", "😀": WRITE }}
+                onTip={{ eng: "Evaluate the program fully", "😀": WRITE }}
                 offLabel={{ eng: "pause", "😀": WRITE }}
                 onLabel={{ eng: "play", "😀": WRITE }}
             />

@@ -100,7 +100,7 @@ export default class Evaluator {
         const source = new Source("test", main);
         const project = new Project("test", source, (supplements ?? []).map((code, index) => new Source(`sup${index + 1}`, code)));
         project.evaluate();
-        return project.getEvaluator(source)?.getLatestResult();
+        return project.getEvaluator(source).getLatestResult();
     }
 
     play() {

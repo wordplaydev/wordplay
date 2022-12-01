@@ -12,7 +12,7 @@ export type Command = {
     shift?: boolean,
     alt?: boolean,
     control?: boolean,
-    mode: Mode,
+    mode: Mode | undefined,
     execute: (caret: Caret, editor: HTMLElement, evaluator: Evaluator, key: string) => Edit | Promise<Edit>
 }
 
@@ -55,6 +55,7 @@ const commands: Command[] = [
     {
         description: "Select the parent of the current caret position",
         key: "Escape",
+        control: false,
         mode: Mode.PLAY,
         execute: (caret: Caret) => {
             const position = caret.position;
@@ -282,6 +283,17 @@ const commands: Command[] = [
         mode: Mode.STEP,
         execute: (_, __, evaluator) => {
             evaluator.stepWithinProgram();
+            return undefined;
+        }
+    },
+    {
+        description: "Switch between play/pause.",
+        control: true,
+        key: "KeyP",
+        mode: undefined,
+        execute: (_, __, evaluator) => {
+            if(evaluator.isPlaying()) evaluator.pause();
+            else evaluator.play();
             return undefined;
         }
     }

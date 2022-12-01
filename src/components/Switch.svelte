@@ -4,9 +4,10 @@
 
     export let on: boolean;
     export let toggle: (on: boolean) => void;
-    export let tip: Translations;
     export let offLabel: Translations;
     export let onLabel: Translations;
+    export let offTip: Translations;
+    export let onTip: Translations;
 
     let languages = getLanguages();
 
@@ -14,11 +15,11 @@
 
 <span
     class="switch"
-    title={tip[$languages[0]]}
 >
     <span 
         class={`mode off ${on ? "inactive" : "active"}`}
         tabIndex=0 
+        title={offTip[$languages[0]]}
         on:click={() => toggle(false)} 
         on:keydown={event => event.key === "Enter" || event.key === "Space" ? toggle(false) : undefined }    
     >
@@ -26,6 +27,7 @@
     </span><span 
         class={`mode on ${on ? "active" : "inactive"}`}
         tabIndex=0 
+        title={onTip[$languages[0]]}
         on:click={() => toggle(true)} 
         on:keydown={event => event.key === "Enter" || event.key === "Space" ? toggle(true) : undefined }    
     >
