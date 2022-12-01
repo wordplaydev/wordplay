@@ -48,16 +48,20 @@
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         vertical-align: middle;
+        transition: transform 0.25s;
+        transform-origin: center;
     }
 
     .mode:focus {
         outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
+        transform: scale(1.1, 1.1);
     }
 
     .mode.inactive:hover {
         cursor: pointer;
         background-color: var(--wordplay-border-color);
         border-color: var(--wordplay-highlight);
+        transform: scale(1.1, 1.1);
     }
 
     .mode.active {

@@ -23,12 +23,14 @@
 
 <style>
     button {
+        display: inline-block;
         background-color: var(--wordplay-chrome);
         font-family: var(--wordplay-font-face);
         font-weight: var(--wordplay-font-weight);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         padding: var(--wordplay-spacing);
+        transition: transform 0.25s;
     }
 
     button:focus {
@@ -40,6 +42,8 @@
         cursor: pointer;
         background-color: var(--wordplay-border-color);
         border-color: var(--wordplay-highlight);        
+        transform: scale(1.1, 1.1);
+        transform-origin: center;
     }
 
     button:disabled {
