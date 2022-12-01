@@ -19,6 +19,7 @@
     let previousEvaluator: Evaluator;
     $: evaluator = project.getEvaluator(source);
     let verse: Structure | undefined;
+    let input: HTMLInputElement;
 
     /** In case the evaluator changes, stop listening to the old one and start listening to the new one.*/
     $: {
@@ -45,6 +46,10 @@
         autoplay = play;
         if(autoplay) evaluator?.play();
         else evaluator?.pause();
+
+        // Focus the editor, since the button's take it on mouse down.
+        input?.focus();
+        
     }
 
     onDestroy(() => evaluator?.ignore(handleEvaluation));
@@ -67,23 +72,25 @@
                 offLabel={{ eng: "pause", "😀": WRITE }}
                 onLabel={{ eng: "play", "😀": WRITE }}
             />
-            <Button 
-                label={{ eng: "step", "😀": WRITE }}
-                tip={{ eng: "Advance one step in the program's evaluation.", "😀": WRITE }}
-                action={handleStep} 
-                enabled={!autoplay && evaluator !== undefined && !evaluator.isDone()} 
-            />
-            <Button 
-                label={{ eng: "step out", "😀": WRITE }}
-                tip={{ eng: "Step out of this function.", "😀": WRITE }}
-                action={handleStepOut} 
-                enabled={!autoplay && evaluator !== undefined && !evaluator.isDone()}>
-            </Button>
+            {#if !autoplay}
+                <Button 
+                    label={{ eng: "step", "😀": WRITE }}
+                    tip={{ eng: "Advance one step in the program's evaluation.", "😀": WRITE }}
+                    action={handleStep} 
+                    enabled={!autoplay && evaluator !== undefined && !evaluator.isDone()} 
+                />
+                <Button 
+                    label={{ eng: "step out", "😀": WRITE }}
+                    tip={{ eng: "Step out of this function.", "😀": WRITE }}
+                    action={handleStepOut} 
+                    enabled={!autoplay && evaluator !== undefined && !evaluator.isDone()}>
+                </Button>
+            {/if}
         </small>
     </div>
     <div class="split">
         <div class="source-content">
-            <Editor {source} />
+            <Editor {source} bind:input={input} />
         </div>
         <div class="source-content" >
             {#if evaluator}

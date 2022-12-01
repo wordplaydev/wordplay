@@ -32,7 +32,7 @@
     export let source: Source;
 
     let editor: HTMLElement;
-    let textInput: HTMLInputElement;
+    export let input: HTMLInputElement;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     let caret = writable<Caret>(new Caret(source, 0));
@@ -453,7 +453,7 @@
             caret.set($caret.withPosition(newPosition));
 
         // After we place the caret, focus on keyboard input, in case it's not focused.
-        textInput.focus();
+        input.focus();
 
     }
     
@@ -829,7 +829,7 @@
         }
 
         // After every edit, focus back on on text input
-        textInput.focus();
+        input.focus();
 
     }
 
@@ -842,10 +842,10 @@
         let edit: Edit | undefined = undefined;
 
         // Get the character that was typed into the text box.
-        if(textInput !== null) {
+        if(input !== null) {
 
             // Wrap the string in a unicode wrapper so we can account for graphemes.
-            const value = new UnicodeString(textInput.value);
+            const value = new UnicodeString(input.value);
 
             // Get the last grapheme entered.
             const lastChar = value.substring(value.getLength() - 1, value.getLength());
@@ -866,7 +866,7 @@
                     const newSource = source.withPreviousGraphemeReplaced(char, position);
                     if(newSource) {
                         // Reset the hidden field.
-                        textInput.value = "";
+                        input.value = "";
                         edit = [ newSource, new Caret(newSource, position) ];
                     }
                 }
@@ -883,7 +883,7 @@
                     if(newSource) {
                         edit = [ newSource, new Caret(newSource, position + 1) ];
                         if(value.getLength() > 1)
-                        textInput.value = lastChar.toString();
+                        input.value = lastChar.toString();
                     }
                     // Rest the field to the last character.
                 }
@@ -891,7 +891,7 @@
             }
 
             // Remember the last value of the input field for comparison on the next keystroke.
-            lastKeyboardInputValue = new UnicodeString(textInput.value);
+            lastKeyboardInputValue = new UnicodeString(input.value);
 
             // Prevent the OS from doing anything with this input.
             event.preventDefault();
@@ -954,7 +954,7 @@
         type="text"
         class="keyboard-input" 
         style={`left: ${caretLocation?.left ?? 0}; top: ${caretLocation?.top ?? 0};`}
-        bind:this={textInput}
+        bind:this={input}
         on:input={handleTextInput}
         on:keydown={handleKeyDown}
         on:focus={handleTextInputFocusGain}
