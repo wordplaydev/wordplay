@@ -73,12 +73,13 @@
 
         // If the program contains this node, scroll it's first token into view.
         if(stepping && stepNode && source.contains(stepNode)) {
-            const element = document.querySelector(`[data-id="${stepNode.id}"] .token-view`);
+            const element = document.querySelector(`[data-id="${stepNode.id}"] .text`);
             if(element !== null)
                 ensureElementIsVisible(element);
+
             // Set the caret to the current step node if stepping.
             caret.set($caret.withPosition(evaluator.isDone() ? source.expression.end : stepNode));
-        }
+        }            
 
     }
 
@@ -283,8 +284,9 @@
 
         const viewport = editor?.parentElement;
         if(viewport === null) return;
-
-        element.scrollIntoView({ behavior: "smooth", block: "center", inline: "center"});
+        // Note that we don't set "smooth" here because it break's Chrome's abiilty to horizontally scroll.
+        element.scrollIntoView({ block: "center", inline: "center"});
+        console.log(element.getBoundingClientRect());
 
     }
 

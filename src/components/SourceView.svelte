@@ -133,6 +133,7 @@
         color: var(--wordplay-foreground);
         box-sizing: content-box;
         overflow: scroll;
+        scroll-behavior: smooth;
         box-sizing: border-box;
     }
 
