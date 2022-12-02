@@ -68,6 +68,7 @@
     }
 
     function evalUpdate() {
+
         const stepNode = getStepNode();
         stepping = evaluator.isStepping();
 
@@ -87,7 +88,7 @@
 
             // Set the caret to the current step node if stepping.
             caret.set($caret.withPosition(evaluator.isDone() ? source.expression.end : stepNode));
-        }            
+        }
 
     }
 

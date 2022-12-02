@@ -1,4 +1,4 @@
-import Node from "../nodes/Node";
+import type Node from "../nodes/Node";
 import type Reaction from "../nodes/Reaction";
 import Evaluation, { type EvaluationNode } from "./Evaluation";
 import ReactionStream from "./ReactionStream";
@@ -332,13 +332,16 @@ export default class Evaluator {
 
         let nextStepNode = undefined;
         do {
+            // Step ahead
             this.step();
+            // Get the current step node
             nextStepNode = this.getCurrentStep()?.node;
-        } while(nextStepNode instanceof Node && !this.source.expression.contains(nextStepNode));
-
-        // If we're on a start and the next step is a finish for the same node, step.
-        if(this.getCurrentStep() instanceof Start && this.getCurrentStep()?.node === this.getNextStep()?.node)
-            this.step();
+            // If we're on a start and the next step is a finish for the same node, step past the start.
+            // if(nextStepNode && this.source.contains(nextStepNode) && nextStepNode instanceof Start && nextStepNode === this.getNextStep()?.node) {
+            //     this.step();
+            //     nextStepNode = this.getCurrentStep()?.node;
+            // }
+        } while(nextStepNode !== undefined && !this.source.contains(nextStepNode));
 
     }
     
