@@ -21,22 +21,15 @@ const commands: Command[] = [
         description: "Move caret up a line to the closest horizontal position visually",
         alt: false,
         key: "ArrowUp",
-        mode: Mode.PLAY,
+        mode: undefined,
         execute: (caret: Caret, editor: HTMLElement) => caret.moveVertical(editor, -1)
     },
     {
         description: "Move caret down a line to the closest horizontal position visually",
         alt: false,
         key: "ArrowDown",
-        mode: Mode.PLAY,
+        mode: undefined,
         execute: (caret: Caret, editor: HTMLElement) => caret.moveVertical(editor, 1)
-    },
-    {
-        description: "Select the entire program",
-        control: true,
-        key: "KeyA",
-        mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.withPosition(caret.getProgram())
     },
     {
         description: "Move the caret one position left",
@@ -51,6 +44,20 @@ const commands: Command[] = [
         key: "ArrowRight",
         mode: Mode.PLAY,
         execute: (caret: Caret) => caret.right()
+    },
+    {
+        description: "Move the caret one position left",
+        alt: false,
+        key: "ArrowLeft",
+        mode: Mode.STEP,
+        execute: (caret: Caret) => caret.moveNodeHorizontal(-1)
+    },
+    {
+        description: "Move the caret one position right",
+        alt: false,
+        key: "ArrowRight",
+        mode: Mode.STEP,
+        execute: (caret: Caret) => caret.moveNodeHorizontal(1)
     },
     {
         description: "Select the parent of the current caret position",
@@ -88,6 +95,13 @@ const commands: Command[] = [
                 }
             }
         }        
+    },
+    {
+        description: "Select the entire program",
+        control: true,
+        key: "KeyA",
+        mode: Mode.PLAY,
+        execute: (caret: Caret) => caret.withPosition(caret.getProgram())
     },
     {
         description: `Insert reaction symbol (${REACTION_SYMBOL})`,
@@ -279,7 +293,7 @@ const commands: Command[] = [
     },
     {
         description: "Step",
-        key: "ArrowRight",
+        key: "Space",
         mode: Mode.STEP,
         execute: (_, __, evaluator) => {
             evaluator.stepWithinProgram();

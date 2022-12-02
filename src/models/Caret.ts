@@ -223,7 +223,6 @@ export default class Caret {
                 return this;
         }
         else {
-        
             if(this.position === (direction < 0 ? 0 : this.source.getCode().getLength())) return this;
             let pos = this.position + direction;
 
@@ -236,6 +235,20 @@ export default class Caret {
 
             return this.withPosition(pos);
         }
+    }
+
+    moveNodeHorizontal(direction: -1 | 1) {
+        if(this.position instanceof Node) {
+            const nodes = this.source.nodes(node => node instanceof Token);
+            let index = nodes.indexOf(this.position);
+            let next = nodes[index + direction];
+            // while(next !== undefined && next instanceof Token) {
+            //     index += direction;
+            //     next = nodes[index + direction];
+            // }
+            return next === undefined ? this : this.withPosition(next);
+        }
+        else return this;
     }
 
     withPosition(position: number | Node): Caret { 
@@ -308,10 +321,22 @@ export default class Caret {
     
     moveVertical(editor: HTMLElement, direction: 1 | -1): Edit {
 
-        if(this.position instanceof Node) return;
-    
+        if(this.position instanceof Node) {
+            const position = this.source.getNodeFirstPosition(this.position);
+            if(position === undefined) return;
+            const newCaret = this.getVertical(editor, direction, position, false);
+            if(newCaret === undefined || newCaret.position instanceof Node) return newCaret;
+            const token = this.source.getTokenAt(newCaret.position, true);
+            if(token === undefined) return this;
+            return this.withPosition(token);
+        } 
+        else return this.getVertical(editor, direction, this.position);
+        
+    }
+
+    getVertical(editor: HTMLElement, direction: 1 | -1, position: number, includeSpace=true) {
+
         // Find the start of the previous line.
-        let position = this.position;
         if(direction < 0) {
             // Keep moving previous while the symbol before isn't a newline.
             while(this.getCode().at(position - 1) !== undefined && this.getCode().at(position - 1) !== "\n") position--;
@@ -329,7 +354,14 @@ export default class Caret {
                 position++;
             }
         }
-    
+
+        // If we're not including space, and the current position is space, keep moving past it.
+        if(!includeSpace) {
+            while(this.source.isEmptyLine(position))
+                position += direction;
+            position += direction;
+        }
+
         // If we hit the beginning, set the position to the beginning.
         if(position < 0) return this.withPosition(0);
         // If we hit the end, set the position to the end.
@@ -348,7 +380,7 @@ export default class Caret {
         else {
     
             // Find the caret and it's position.
-            const caretView = editor.querySelector(".caret");
+            const caretView = editor.querySelector(".caret") ?? editor.querySelector(".selected");
             if(!(caretView instanceof HTMLElement)) return;
             const caretRect = caretView.getBoundingClientRect();
             const caretX = caretRect.left;
