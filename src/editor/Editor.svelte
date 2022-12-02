@@ -73,7 +73,15 @@
 
         // If the program contains this node, scroll it's first token into view.
         if(stepping && stepNode && source.contains(stepNode)) {
-            const element = document.querySelector(`[data-id="${stepNode.id}"] .text`);
+            let highlight: Node | undefined = stepNode;
+            let element = null;
+            // Keep searching for a visible node, in case the step node is invisible.
+            do {
+                element = document.querySelector(`[data-id="${highlight.id}"] .text`);
+                if(element !== null) break;
+                else highlight = source.get(highlight)?.getParent();
+            } while(element === null && highlight !== undefined);
+
             if(element !== null)
                 ensureElementIsVisible(element);
 
@@ -284,9 +292,9 @@
 
         const viewport = editor?.parentElement;
         if(viewport === null) return;
+
         // Note that we don't set "smooth" here because it break's Chrome's abiilty to horizontally scroll.
         element.scrollIntoView({ block: "center", inline: "center"});
-        console.log(element.getBoundingClientRect());
 
     }
 
