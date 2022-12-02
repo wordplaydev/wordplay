@@ -68,16 +68,28 @@
     }
 
     function evalUpdate() {
-        executingNode = evaluator?.getCurrentStep()?.node;
-        stepping = evaluator?.isStepping() === true;
+        const stepNode = getStepNode();
+        stepping = evaluator.isStepping();
 
         // If the program contains this node, scroll it's first token into view.
-        if(executingNode instanceof Node && source.expression.contains(executingNode)) {
-            const element = document.querySelector(`[data-id="${executingNode.id}"] .token-view`);
-            if(element !== null) {
+        if(stepping && stepNode && source.contains(stepNode)) {
+            const element = document.querySelector(`[data-id="${stepNode.id}"] .token-view`);
+            if(element !== null)
                 ensureElementIsVisible(element);
-            }
+            // Set the caret to the current step node if stepping.
+            caret.set($caret.withPosition(evaluator.isDone() ? source.expression.end : stepNode));
         }
+
+    }
+
+    function getStepNode() {
+
+        const currentStep = evaluator.getCurrentStep();
+        if(currentStep === undefined) return undefined;
+        
+        return currentStep instanceof Start ? currentStep.node.getStart() :
+            currentStep instanceof Finish ? currentStep.node.getFinish() :
+            currentStep.node;
 
     }
 
@@ -182,23 +194,15 @@
 
     function updateHighlights() {
 
-        const currentStep = evaluator.getCurrentStep();
         const latestValue = evaluator.getLatestResult();
 
         // Build a set of highlights to render.
         const newHighlights = new Map<Node, Set<HighlightType>>();
 
         // Is there a step we're actively executing? Highlight it!
-        if(currentStep?.node instanceof Node) {
-            // Get the first token of the node to represent execution.
-            addHighlight(
-                newHighlights, 
-                currentStep instanceof Start ? currentStep.node.getStart() :
-                currentStep instanceof Finish ? currentStep.node.getFinish() :
-                currentStep.node, 
-                "executing"
-            );
-        }
+        const stepNode = getStepNode();
+        if(stepNode)
+            addHighlight(newHighlights, stepNode, "executing");
 
         // Is there an exception on the last step? Highlight the node that created it!
         if(latestValue instanceof Exception && latestValue.step !== undefined && latestValue.step.node instanceof Node)
@@ -1022,10 +1026,6 @@
         padding: var(--wordplay-spacing);
         position: relative;
         user-select: none;
-    }
-
-    .stepping {
-        filter: grayscale();
     }
 
     .keyboard-input {

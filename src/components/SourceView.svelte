@@ -133,6 +133,7 @@
         color: var(--wordplay-foreground);
         box-sizing: content-box;
         overflow: scroll;
+        box-sizing: border-box;
     }
 
     .source-content:last-child {
@@ -141,6 +142,11 @@
 
     .source-content:focus-within {
         outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
+        z-index: 2;
+    }
+
+    .source-content:has(.stepping) {
+        border: var(--wordplay-border-width) solid var(--wordplay-executing-color);
     }
 
     .source h2 {
