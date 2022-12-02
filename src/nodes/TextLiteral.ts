@@ -6,7 +6,6 @@ import type Node from "./Node";
 import type Value from "../runtime/Value";
 import Text from "../runtime/Text";
 import type Step from "../runtime/Step";
-import Finish from "../runtime/Finish";
 import Language from "./Language";
 import type Bind from "./Bind";
 import type Context from "./Context";
@@ -20,8 +19,8 @@ import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import Start from "../runtime/Start";
 import type Evaluator from "../runtime/Evaluator";
+import StartFinish from "../runtime/StartFinish";
 
 export default class TextLiteral extends Expression {
     
@@ -62,7 +61,7 @@ export default class TextLiteral extends Expression {
     }
 
     compile(): Step[] {
-        return [ new Start(this), new Finish(this) ];
+        return [ new StartFinish(this) ];
     }
     
     evaluate(_: Evaluator, prior: Value | undefined): Value | undefined {

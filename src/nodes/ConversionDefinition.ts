@@ -9,7 +9,6 @@ import ConversionType from "./ConversionType";
 import Type from "./Type";
 import type Evaluator from "../runtime/Evaluator";
 import type Step from "../runtime/Step";
-import Finish from "../runtime/Finish";
 import Conversion from "../runtime/Conversion";
 import type Context from "./Context";
 import { parseType, tokens } from "../parser/Parser";
@@ -26,7 +25,7 @@ import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
-import Start from "../runtime/Start";
+import StartFinish from "../runtime/StartFinish";
 
 export default class ConversionDefinition extends Expression {
 
@@ -101,7 +100,7 @@ export default class ConversionDefinition extends Expression {
     }
 
     compile(): Step[] {
-        return [ new Start(this), new Finish(this) ];
+        return [ new StartFinish(this) ];
     }
 
     evaluate(evaluator: Evaluator) {

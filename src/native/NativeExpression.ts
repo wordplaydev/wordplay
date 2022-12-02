@@ -2,7 +2,6 @@ import type Evaluator from "../runtime/Evaluator";
 import type Value from "src/runtime/Value";
 import type Type from "../nodes/Type";
 import type Step from "src/runtime/Step";
-import Finish from "../runtime/Finish";
 import Expression from "../nodes/Expression";
 import Node from "../nodes/Node";
 import { parseType, tokens } from "../parser/Parser";
@@ -13,7 +12,7 @@ import type { TypeSet } from "../nodes/UnionType";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 import ValueException from "../runtime/ValueException";
-import Start from "../runtime/Start";
+import StartFinish from "../runtime/StartFinish";
 
 export default class NativeExpression extends Expression {
     
@@ -40,7 +39,7 @@ export default class NativeExpression extends Expression {
     computeType(): Type { return this.type; }
     getDependencies(): Expression[] { return []; }
 
-    compile(): Step[] { return [ new Start(this), new Finish(this) ]; }
+    compile(): Step[] { return [ new StartFinish(this) ]; }
     evaluate(evaluator: Evaluator): Value | undefined {
         const requestor = evaluator.getCurrentEvaluation()?.currentStep()?.node;
         if(!(requestor instanceof Node)) return new ValueException(evaluator);

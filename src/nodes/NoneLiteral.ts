@@ -5,7 +5,6 @@ import type Type from "./Type";
 import type Node from "./Node";
 import None from "../runtime/None";
 import type Value from "../runtime/Value";
-import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import type Bind from "./Bind";
 import type Context from "./Context";
@@ -16,8 +15,8 @@ import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import Start from "../runtime/Start";
 import type Evaluator from "../runtime/Evaluator";
+import StartFinish from "../runtime/StartFinish";
 
 export default class NoneLiteral extends Expression {
 
@@ -55,7 +54,7 @@ export default class NoneLiteral extends Expression {
     }
 
     compile(): Step[] {
-        return [ new Start(this), new Finish(this) ];
+        return [ new StartFinish(this) ];
     }
 
     evaluate(_: Evaluator, prior: Value | undefined): Value | undefined {

@@ -4,7 +4,6 @@ import Token from "./Token";
 import type Type from "./Type";
 import type Value from "../runtime/Value";
 import Bool from "../runtime/Bool";
-import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import type Node from "./Node";
 import { FALSE_SYMBOL, TRUE_SYMBOL } from "../parser/Tokenizer";
@@ -17,8 +16,8 @@ import Replace from "../transforms/Replace";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import Start from "../runtime/Start";
 import type Evaluator from "../runtime/Evaluator";
+import StartFinish from "../runtime/StartFinish";
 
 export default class BooleanLiteral extends Expression {
 
@@ -50,7 +49,7 @@ export default class BooleanLiteral extends Expression {
     }
 
     compile(): Step[] {
-        return [ new Start(this), new Finish(this) ];
+        return [ new StartFinish(this) ];
     }
 
     evaluate(_: Evaluator, prior: Value | undefined): Value | undefined {

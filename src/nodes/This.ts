@@ -13,7 +13,6 @@ import type Evaluator from "../runtime/Evaluator";
 import StructureDefinition from "./StructureDefinition";
 import { MisplacedThis } from "../conflicts/MisplacedThis";
 import StructureType from "./StructureType";
-import Finish from "../runtime/Finish";
 import NameException from "../runtime/NameException";
 import { THIS_SYMBOL } from "../parser/Tokenizer";
 import ConversionDefinition from "./ConversionDefinition";
@@ -22,7 +21,7 @@ import type Transform from "../transforms/Transform";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import Start from "../runtime/Start";
+import StartFinish from "../runtime/StartFinish";
 
 type ThisStructure = StructureDefinition | ConversionDefinition;
 
@@ -84,7 +83,7 @@ export default class This extends Expression {
 
     compile(): Step[] {
         // We climb the closure chain finding the first structure.
-        return [ new Start(this), new Finish(this) ];
+        return [ new StartFinish(this) ];
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {

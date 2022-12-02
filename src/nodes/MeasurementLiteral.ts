@@ -8,7 +8,6 @@ import type Type from "./Type";
 import type Node from "./Node";
 import Unit from "./Unit";
 import type Step from "../runtime/Step";
-import Finish from "../runtime/Finish";
 import { NotANumber } from "../conflicts/NotANumber";
 import type Bind from "./Bind";
 import type Context from "./Context";
@@ -21,8 +20,8 @@ import PlaceholderToken from "./PlaceholderToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import TokenType from "./TokenType";
-import Start from "../runtime/Start";
 import type Evaluator from "../runtime/Evaluator";
+import StartFinish from "../runtime/StartFinish";
 
 export default class MeasurementLiteral extends Expression {
     
@@ -73,7 +72,7 @@ export default class MeasurementLiteral extends Expression {
     }
 
     compile(): Step[] {
-        return [ new Start(this), new Finish(this) ];
+        return [ new StartFinish(this) ];
     }
 
     evaluate(_: Evaluator, prior: Value | undefined): Value | undefined {

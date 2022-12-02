@@ -12,20 +12,24 @@ export default class Start extends Step {
     }
     
     evaluate(evaluator: Evaluator): Value | undefined {
-
-        // Notify that evaluation is starting.
-        const count = evaluator.startEvaluating(this.node);
-
-        // If this node wasn't invalidated and there's a prior value for it, return the prevously evaluated value and jump over the evaluation steps.
-        if(!(this.node instanceof HOF) && !evaluator.isInvalidated(this.node) && count !== undefined && evaluator.getPriorValueOf(this.node, count)) {
-            // Ask the evaluator to jump past this start's corresponding finish.
-            evaluator.jumpPast(this.node);
-        }
-
-        return undefined;
-
+        return start(evaluator, this.node);
     }
 
     getExplanations(evaluator: Evaluator): Translations { return this.node.getStartExplanations(evaluator); }
+    
+}
+
+export function start(evaluator: Evaluator, expr: Expression) {
+
+    // Notify that evaluation is starting.
+    const count = evaluator.startEvaluating(expr);
+
+    // If this node wasn't invalidated and there's a prior value for it, return the prevously evaluated value and jump over the evaluation steps.
+    if(!(expr instanceof HOF) && !evaluator.isInvalidated(expr) && count !== undefined && evaluator.getPriorValueOf(expr, count)) {
+        // Ask the evaluator to jump past this start's corresponding finish.
+        evaluator.jumpPast(expr);
+    }
+
+    return undefined;
     
 }

@@ -12,39 +12,44 @@ export default class Finish extends Step {
     }
     
     evaluate(evaluator: Evaluator): Value | undefined {
-
-        // Find which execution this is.
-        const count = evaluator.getCount(this.node);
-        const priorValue = count === undefined ? undefined : evaluator.getPriorValueOf(this.node, count)
-
-        // If this node is invalidated, just evaluate it, remember it's value, and return it's value.
-        if(this.node instanceof HOF || evaluator.isInvalidated(this.node) || priorValue === undefined) {
-            // Finish evaluating this node.
-            const value = this.node.evaluate(evaluator, undefined);
-
-            // Notify the evaluator that we finished this evaluation.
-            evaluator.finishEvaluating(this.node, false, value);
-
-            return value;
-
-        }
-        // Otherwise, get the value from the previous evaluation
-        else {
-
-            // Evaluate any side effects
-            const newValue = this.node.evaluate(evaluator, priorValue);
-
-            // Notify the evaluator that we finished this evaluation.
-            evaluator.finishEvaluating(this.node, true);
-
-            // Return the prior value.
-            return newValue;
-
-        }
+        return finish(evaluator, this.node);
     }
 
     getExplanations(evaluator: Evaluator): Translations { 
         return this.node.getFinishExplanations(evaluator);
     }
 
+}
+
+export function finish(evaluator: Evaluator, expr: Expression) {
+
+    // Find which execution this is.
+    const count = evaluator.getCount(expr);
+    const priorValue = count === undefined ? undefined : evaluator.getPriorValueOf(expr, count)
+
+    // If this node is invalidated, just evaluate it, remember it's value, and return it's value.
+    if(expr instanceof HOF || evaluator.isInvalidated(expr) || priorValue === undefined) {
+        // Finish evaluating this node.
+        const value = expr.evaluate(evaluator, undefined);
+
+        // Notify the evaluator that we finished this evaluation.
+        evaluator.finishEvaluating(expr, false, value);
+
+        return value;
+
+    }
+    // Otherwise, get the value from the previous evaluation
+    else {
+
+        // Evaluate any side effects
+        const newValue = expr.evaluate(evaluator, priorValue);
+
+        // Notify the evaluator that we finished this evaluation.
+        evaluator.finishEvaluating(expr, true);
+
+        // Return the prior value.
+        return newValue;
+
+    }
+    
 }

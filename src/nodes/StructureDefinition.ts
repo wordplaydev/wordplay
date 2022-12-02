@@ -9,7 +9,6 @@ import FunctionDefinition from "./FunctionDefinition";
 import { typeVarsAreUnique, getEvaluationInputConflicts } from "./util";
 import ConversionDefinition from "./ConversionDefinition";
 import type Evaluator from "../runtime/Evaluator";
-import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import type Context from "./Context";
@@ -37,8 +36,8 @@ import type Translations from "./Translations";
 import { overrideWithDocs, TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
-import Start from "../runtime/Start";
 import type Value from "../runtime/Value";
+import StartFinish from "../runtime/StartFinish";
 
 export default class StructureDefinition extends Expression {
 
@@ -221,7 +220,7 @@ export default class StructureDefinition extends Expression {
     }
 
     compile():Step[] {
-        return [ new Start(this), new Finish(this) ];
+        return [ new StartFinish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value | undefined {

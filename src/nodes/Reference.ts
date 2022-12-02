@@ -10,7 +10,6 @@ import UnknownType from "./UnknownType";
 import type Evaluator from "../runtime/Evaluator";
 import Value from "../runtime/Value";
 import type Step from "../runtime/Step";
-import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import { getCaseCollision } from "./util";
@@ -32,7 +31,7 @@ import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Stream from "../runtime/Stream";
-import Start from "../runtime/Start";
+import StartFinish from "../runtime/StartFinish";
 
 export default class Reference extends Expression {
     
@@ -157,7 +156,7 @@ export default class Reference extends Expression {
     }
 
     compile(): Step[] {
-        return [ new Start(this), new Finish(this) ];
+        return [ new StartFinish(this) ];
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {

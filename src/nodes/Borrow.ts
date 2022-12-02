@@ -5,7 +5,6 @@ import type Context from "./Context";
 import Token from "./Token";
 import type Evaluator from "../runtime/Evaluator";
 import type Step from "../runtime/Step";
-import Finish from "../runtime/Finish";
 import Measurement from "../runtime/Measurement";
 import Unit from "./Unit";
 import TokenType from "./TokenType";
@@ -22,11 +21,11 @@ import type { TypeSet } from "./UnionType";
 import type Definition from "./Definition";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import Stream from "../runtime/Stream";
-import Start from "../runtime/Start";
 import type Value from "../runtime/Value";
 import UnknownType from "./UnknownType";
 import TypeVariable from "./TypeVariable";
 import type Source from "../models/Source";
+import StartFinish from "../runtime/StartFinish";
 
 export default class Borrow extends Expression {
 
@@ -101,7 +100,7 @@ export default class Borrow extends Expression {
     }
 
     compile(): Step[] {
-        return [ new Start(this), new Finish(this) ];
+        return [ new StartFinish(this) ];
     }
 
     evaluate(evaluator: Evaluator): Value | undefined {

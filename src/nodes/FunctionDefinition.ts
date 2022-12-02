@@ -10,7 +10,6 @@ import { typeVarsAreUnique, getEvaluationInputConflicts } from "./util";
 import type Evaluator from "../runtime/Evaluator";
 import FunctionValue from "../runtime/FunctionValue";
 import type Step from "../runtime/Step";
-import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import Name from "./Name";
@@ -34,8 +33,8 @@ import Names from "./Names";
 import type LanguageCode from "./LanguageCode";
 import FunctionDefinitionType from "./FunctionDefinitionType";
 import UnknownType from "./UnknownType";
-import Start from "../runtime/Start";
 import type Value from "../runtime/Value";
+import StartFinish from "../runtime/StartFinish";
 
 export default class FunctionDefinition extends Expression {
 
@@ -181,7 +180,7 @@ export default class FunctionDefinition extends Expression {
     }
 
     compile(): Step[] {
-        return [ new Start(this), new Finish(this) ];
+        return [ new StartFinish(this) ];
     }
 
     getStart() { return this.fun; }
