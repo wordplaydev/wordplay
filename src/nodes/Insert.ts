@@ -162,6 +162,7 @@ export default class Insert extends Expression {
     }
 
     getStart() { return this.insert; }
+    getFinish() { return this.insert; }
 
     getStartExplanations(): Translations { 
         return {

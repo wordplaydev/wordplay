@@ -203,6 +203,7 @@ export default class Convert extends Expression {
     }
 
     getStart() { return this.convert; }
+    getFinish() { return this.convert; }
 
     getStartExplanations(): Translations { 
         return {

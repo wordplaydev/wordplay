@@ -65,6 +65,7 @@ export default class NoneLiteral extends Expression {
     }
 
     getStart() { return this.none; }
+    getFinish() { return this.none; }
 
     getStartExplanations(): Translations { 
         return {

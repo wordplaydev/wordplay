@@ -145,6 +145,7 @@ export default class ConversionDefinition extends Expression {
     }
 
     getStart() { return this.arrow; }
+    getFinish() { return this.arrow; }
 
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 

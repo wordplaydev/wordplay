@@ -169,6 +169,7 @@ export default class Select extends Expression {
     }
 
     getStart() { return this.select; }
+    getFinish() { return this.select; }
 
     getStartExplanations(): Translations { 
         return {

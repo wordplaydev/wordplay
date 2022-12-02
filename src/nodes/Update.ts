@@ -161,6 +161,7 @@ export default class Update extends Expression {
     }
 
     getStart() { return this.update; }
+    getFinish() { return this.update; }
 
     getStartExplanations(): Translations { 
         return {

@@ -36,6 +36,7 @@ export default abstract class HOF extends Expression {
     getChildRemoval() { return undefined; }
 
     getStart() { return this; }
+    getFinish() { return this; }
 
 }
 

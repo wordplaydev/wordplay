@@ -300,6 +300,7 @@ export default class BinaryOperation extends Expression {
     }
 
     getStart() { return this.operator; }
+    getFinish() { return this.operator; }
 
     getStartExplanations(): Translations { 
 

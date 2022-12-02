@@ -28,6 +28,8 @@
     import StructureDefinition from '../nodes/StructureDefinition';
     import Tree from '../nodes/Tree';
     import RootView from './RootView.svelte';
+    import Start from '../runtime/Start';
+    import Finish from '../runtime/Finish';
 
     export let source: Source;
 
@@ -187,7 +189,13 @@
         // Is there a step we're actively executing? Highlight it!
         if(currentStep?.node instanceof Node) {
             // Get the first token of the node to represent execution.
-            addHighlight(newHighlights, currentStep.node.getStart(), "executing");
+            addHighlight(
+                newHighlights, 
+                currentStep instanceof Start ? currentStep.node.getStart() :
+                currentStep instanceof Finish ? currentStep.node.getFinish() :
+                currentStep.node, 
+                "executing"
+            );
         }
 
         // Is there an exception on the last step? Highlight the node that created it!

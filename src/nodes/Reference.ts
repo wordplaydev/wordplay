@@ -185,6 +185,7 @@ export default class Reference extends Expression {
     }
 
     getStart() { return this.name; }
+    getFinish() { return this.name; }
 
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 

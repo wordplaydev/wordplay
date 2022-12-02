@@ -90,7 +90,13 @@ export default class Previous extends Expression {
     }
 
     compile(context: Context): Step[] {
-        return [ new Start(this), ...this.stream.compile(context), new KeepStream(this), ...this.index.compile(context), new Finish(this) ];
+        return [ 
+            new Start(this), 
+            ...this.stream.compile(context), 
+            new KeepStream(this), 
+            ...this.index.compile(context), 
+            new Finish(this) 
+        ];
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
@@ -153,6 +159,7 @@ export default class Previous extends Expression {
     }
 
     getStart() { return this.previous; }
+    getFinish() { return this.previous; }
 
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 

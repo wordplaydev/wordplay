@@ -123,6 +123,7 @@ export default class Delete extends Expression {
     }
 
     getStart() { return this.del; }
+    getFinish() { return this.del; }
 
     getStartExplanations(): Translations { 
         return {

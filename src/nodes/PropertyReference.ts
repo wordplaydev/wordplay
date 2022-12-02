@@ -242,6 +242,7 @@ export default class PropertyReference extends Expression {
     }
 
     getStart() { return this.dot; }
+    getFinish() { return this.name ?? this.dot; }
 
     getStartExplanations(): Translations { 
         return {

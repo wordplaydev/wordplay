@@ -117,6 +117,7 @@ export default class MeasurementLiteral extends Expression {
     }
 
     getStart() { return this.number; }
+    getFinish() { return this.number; }
 
     getStartExplanations(): Translations { 
         return {

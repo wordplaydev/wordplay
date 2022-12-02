@@ -203,6 +203,7 @@ export default class Reaction extends Expression {
     }
 
     getStart() { return this.delta; }
+    getFinish() { return this.delta; }
 
     getStartExplanations(): Translations { 
         return {

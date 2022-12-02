@@ -276,6 +276,7 @@ export default class Source extends Expression {
     compile(): Step[] { return []; }
     evaluate(): Value | undefined { return undefined; }
     getStart() { return this; }
+    getFinish() { return this; }
     getStartExplanations(): Translations { return WRITE_DOCS; }
     getFinishExplanations(): Translations { return WRITE_DOCS; }
     computeConflicts(): void | Conflict[] { return []; }

@@ -133,6 +133,7 @@ export default class SetLiteral extends Expression {
     }
 
     getStart() { return this.open; }
+    getFinish() { return this.close; }
 
     getStartExplanations(): Translations { 
         return {

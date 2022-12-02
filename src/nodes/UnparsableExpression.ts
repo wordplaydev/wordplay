@@ -56,6 +56,7 @@ export default class UnparsableExpression extends Expression {
     }
 
     getStart() { return this.getFirstLeaf() ?? this; }
+    getFinish() { return this; }
 
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 

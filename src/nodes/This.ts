@@ -101,6 +101,7 @@ export default class This extends Expression {
     getChildRemoval() { return undefined; }
 
     getStart() { return this.dis; }
+    getFinish() { return this.dis; }
 
     getStartExplanations(): Translations { 
         return {

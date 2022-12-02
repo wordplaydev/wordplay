@@ -282,6 +282,7 @@ export default class Bind extends Expression {
     }
 
     getStart() { return this.colon ?? this.names; }
+    getFinish() { return this.names; }
 
     getStartExplanations(): Translations {
         return {

@@ -141,6 +141,7 @@ export default class TableLiteral extends Expression {
     getChildRemoval() { return undefined; }
 
     getStart() { return this.getFirstLeaf() ?? this.close; }
+    getFinish() { return this.close; }
 
     getStartExplanations(): Translations { 
         return {

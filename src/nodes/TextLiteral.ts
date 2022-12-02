@@ -115,6 +115,7 @@ export default class TextLiteral extends Expression {
     }
 
     getStart() { return this.text; }
+    getFinish() { return this.text; }
 
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 

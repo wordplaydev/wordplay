@@ -271,6 +271,7 @@ export default class Block extends Expression {
     }
 
     getStart() { return this.open ?? this.getFirstLeaf() ?? this.docs; }
+    getFinish() { return this.close ?? this.getLast() ?? this.docs; }
 
     getStartExplanations(): Translations { 
         return {

@@ -93,6 +93,7 @@ export default class ExpressionPlaceholder extends Expression {
     }
 
     getStart() { return this.placeholder; }
+    getFinish() { return this.placeholder; }
 
     getStartExplanations(): Translations { 
         return {

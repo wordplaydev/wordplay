@@ -150,6 +150,7 @@ export default class SetOrMapAccess extends Expression {
     }
 
     getStart() { return this.open; }
+    getFinish() { return this.close; }
 
     getStartExplanations(): Translations { 
         return {

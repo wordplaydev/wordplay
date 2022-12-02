@@ -141,6 +141,7 @@ export default class Is extends Expression {
     }
 
     getStart() { return this.operator; }
+    getFinish() { return this.type; }
 
     getStartExplanations(): Translations { 
         return {
