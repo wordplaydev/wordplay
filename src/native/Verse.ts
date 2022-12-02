@@ -30,7 +30,7 @@ export function valueToVerse(evaluator: Evaluator, value: Value | undefined): St
 
     // If there is no value yet, show it pending.
     if(value === undefined)
-        return undefined;
+        return verse(evaluator, group(evaluator, phrase(evaluator, "...", 12)));
 
     const contentType = value.getType(evaluator.context);
     if(contentType instanceof StructureType && contentType.structure === Verse)
