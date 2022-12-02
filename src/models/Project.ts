@@ -96,11 +96,8 @@ export default class Project {
         return [ this.main, ...this.supplements]; 
     }
 
-    getEvaluator(source: Source): Evaluator { 
-        const evaluator = this.evaluators.get(source); 
-        if(evaluator === undefined)
-            throw Error("Should never be asking for a source evaluator that doesn't exist on a project.");
-        return evaluator;
+    getEvaluator(source: Source): Evaluator | undefined { 
+        return this.evaluators.get(source); 
     }
     
     getSourceContext(source: Source): Context | undefined { return this.evaluators.get(source)?.context; }
@@ -263,12 +260,12 @@ export default class Project {
         // Start the sources that main depends on. Create all of the streams.
         for(const source of orderedSources)
             if(changedSources === undefined || changedSources.has(source))
-                this.getEvaluator(source).start(changedStream, changedExpressions);
+                this.getEvaluator(source)?.start(changedStream, changedExpressions);
 
         // Start any sources that main doesn't depend on.
         for(const source of this.getSources())
             if(!orderedSources.includes(source) && (changedSources === undefined || changedSources.has(source)))
-                this.getEvaluator(source).start(changedStream, changedExpressions);
+                this.getEvaluator(source)?.start(changedStream, changedExpressions);
 
     }
 

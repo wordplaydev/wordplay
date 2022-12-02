@@ -22,7 +22,6 @@ import BinaryOperation from "../nodes/BinaryOperation";
 import UnaryOperation from "../nodes/UnaryOperation";
 import Project from "../models/Project";
 import { valueToVerse } from "../native/Verse";
-import Start from "./Start";
 import type Step from "./Step";
 import Block from "../nodes/Block";
 import StructureDefinition from "../nodes/StructureDefinition";
@@ -112,7 +111,7 @@ export default class Evaluator {
         const source = new Source("test", main);
         const project = new Project("test", source, (supplements ?? []).map((code, index) => new Source(`sup${index + 1}`, code)));
         project.evaluate();
-        return project.getEvaluator(source).getLatestResult();
+        return project.getEvaluator(source)?.getLatestResult();
     }
 
     // GETTERS

@@ -69,6 +69,8 @@
 
     function evalUpdate() {
 
+        if(evaluator === undefined) return;
+
         const stepNode = getStepNode();
         stepping = evaluator.isStepping();
 
@@ -93,6 +95,8 @@
     }
 
     function getStepNode() {
+
+        if(evaluator === undefined) return;
 
         const currentStep = evaluator.getCurrentStep();
         if(currentStep === undefined) return undefined;
@@ -150,7 +154,7 @@
     $: {
         caret.set($caret.withSource(source));
         setContext(CaretSymbol, caret);
-        executingNode = evaluator.getCurrentStep()?.node;
+        executingNode = evaluator?.getCurrentStep()?.node;
     }
 
     // When the caret location changes, position the menu and invisible input, and optionally scroll to the caret.
@@ -204,7 +208,7 @@
 
     function updateHighlights() {
 
-        const latestValue = evaluator.getLatestResult();
+        const latestValue = evaluator?.getLatestResult();
 
         // Build a set of highlights to render.
         const newHighlights = new Map<Node, Set<HighlightType>>();
@@ -463,6 +467,8 @@
 
     function handleMouseDown(event: MouseEvent) {
 
+        if(evaluator === undefined) return;
+
         // Prevent the OS from giving the document body focus.
         event.preventDefault();
 
@@ -495,6 +501,8 @@
     }
 
     function stepToNodeAt(event: MouseEvent) {
+
+        if(evaluator === undefined) return;
 
         const nodeUnderMouse = getNodeAt(event, false);
         if(nodeUnderMouse) {
@@ -701,6 +709,8 @@
 
     function handleMouseMove(event: MouseEvent) {
 
+        if(evaluator === undefined) return;
+
         if(evaluator.isPlaying())
             handleEditHover(event);
         else
@@ -746,6 +756,8 @@
 
     function handleDebugHover(event: MouseEvent) {
 
+        if(evaluator === undefined) return;
+
         const node = getNodeAt(event, false);
 
         // if the node is associated with a step, set it, otherwise unset it.
@@ -761,6 +773,8 @@
     }
 
     function showMenu() {
+
+        if(evaluator === undefined) return;
 
         const context = evaluator.context;
         if(context === undefined) return;
@@ -806,6 +820,8 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+
+        if(evaluator === undefined) return;
 
         // Assume we'll handle it.
         lastKeyDownIgnored = false;

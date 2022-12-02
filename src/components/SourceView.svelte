@@ -31,6 +31,7 @@
     let autoplay = true;
 
     function handleEvaluation() {
+        if(evaluator === undefined) return;
         verse = evaluator.getVerse();
         autoplay = evaluator.isPlaying();
     }
