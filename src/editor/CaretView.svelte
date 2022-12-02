@@ -1,14 +1,15 @@
 <svelte:options immutable={true}/>
 <script lang="ts">
     import { afterUpdate } from "svelte";
+    import type Project from "../models/Project";
     import Token, { SPACE_HTML, tabToHTML } from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
     import { getCaret } from "./util/Contexts";
-    import { project } from '../models/stores';
     
     type CaretPosition = { top: string, left: string, height: string, bottom: number };
 
+    export let project: Project;
     export let blink: boolean;
     export let ignored: boolean;
 
@@ -25,7 +26,7 @@
     $: token = $caret?.getToken();
 
     // Whether the program is executing
-    $: evaluating = $caret !== undefined && $project.getEvaluator($caret.source).isDone();
+    $: evaluating = $caret !== undefined && project.getEvaluator($caret.source).isDone();
 
     // The index we should render
     let caretIndex: number | undefined = undefined;

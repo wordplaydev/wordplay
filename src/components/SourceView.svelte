@@ -88,7 +88,7 @@
     </div>
     <div class="split">
         <div class="source-content">
-            <Editor {source} bind:input={input} />
+            <Editor {project} {source} bind:input={input} />
         </div>
         <div class="source-content" >
             {#if evaluator}

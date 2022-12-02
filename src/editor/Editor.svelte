@@ -1,6 +1,6 @@
 <svelte:options immutable={true}/>
 <script lang="ts">
-    import { project, updateProject } from '../models/stores';
+    import { updateProject } from '../models/stores';
     import type Transform from "../transforms/Transform";
     import Node from '../nodes/Node';
     import Caret, { insertionPointsEqual, type InsertionPoint } from '../models/Caret';
@@ -30,7 +30,9 @@
     import RootView from './RootView.svelte';
     import Start from '../runtime/Start';
     import Finish from '../runtime/Finish';
+    import type Project from '../models/Project';
 
+    export let project: Project;
     export let source: Source;
 
     let editor: HTMLElement;
@@ -55,7 +57,7 @@
     $: program = source.expression;
 
     // A shorthand for the current evaluator
-    $: evaluator = $project.getEvaluator(source);
+    $: evaluator = project.getEvaluator(source);
     let previousEvaluator = evaluator;
     let executingNode: Node | undefined = undefined;
     let stepping = false;
@@ -126,7 +128,7 @@
     $: {
         caret.set($caret.withSource(source));
         setContext(CaretSymbol, caret);
-        executingNode = $project.getEvaluator(source).getCurrentStep()?.node;
+        executingNode = evaluator.getCurrentStep()?.node;
     }
 
     // When the caret location changes, position the menu and invisible input, and optionally scroll to the caret.
@@ -180,8 +182,8 @@
 
     function updateHighlights() {
 
-        const currentStep = $project.getEvaluator(source).getCurrentStep();
-        const latestValue = $project.getEvaluator(source).getLatestResult();
+        const currentStep = evaluator.getCurrentStep();
+        const latestValue = evaluator.getLatestResult();
 
         // Build a set of highlights to render.
         const newHighlights = new Map<Node, Set<HighlightType>>();
@@ -242,11 +244,11 @@
             addHighlight(newHighlights, $hovered, "hovered");
 
         // Tag all nodes with primary conflicts as primary
-        for(const primary of $project.getPrimaryConflicts().keys())
+        for(const primary of project.getPrimaryConflicts().keys())
             addHighlight(newHighlights, primary, "primary");
 
         // Tag all nodes with secondary conflicts as primary
-        for(const secondary of $project.getPrimaryConflicts().keys())
+        for(const secondary of project.getPrimaryConflicts().keys())
             addHighlight(newHighlights, secondary, "secondary");
 
         // Update the store, broadcasting the highlights to all node views for rendering.
@@ -369,7 +371,7 @@
             // If it's from another program, then update that program.
             else if(draggedRoot instanceof Program) {
                 // Find the source that contains the dragged root.
-                const source = $project.getSourceWithProgram(draggedRoot);
+                const source = project.getSourceWithProgram(draggedRoot);
                 // If we found one, update the project with a new source with a new program that replaces the dragged node with the placeholder.
                 if(source)
                     newSources.push([ source, source.withProgram(draggedRoot.replace(false, draggedNode, replacement)) ]);
@@ -438,7 +440,7 @@
             caret.set($caret.withPosition(draggedNode));
 
             // Update the project with the new source files
-            updateProject($project.withSources(newSources));
+            updateProject(project.withSources(newSources));
 
         }
 
@@ -745,7 +747,7 @@
 
     function showMenu() {
 
-        const context = $project.getEvaluator(source).context;
+        const context = evaluator.context;
         if(context === undefined) return;
 
         // Is the caret on a specific token or node?
@@ -871,7 +873,7 @@
 
         // Update the caret and project.
         if(newSource) {
-            updateProject($project.withSource(source, newSource));
+            updateProject(project.withSource(source, newSource));
             caret.set(newCaret.withSource(newSource));
         } else {
             caret.set(newCaret);
@@ -986,7 +988,7 @@
     <RootView node={program}/>
     <!-- Render the caret on top of the program -->
     {#if !stepping }
-        <CaretView blink={$KeyboardIdle && focused} ignored={lastKeyDownIgnored} bind:location={caretLocation}/>
+        <CaretView {project} blink={$KeyboardIdle && focused} ignored={lastKeyDownIgnored} bind:location={caretLocation}/>
     {/if}
     <!-- Are we on a placeholder? Show a menu! -->
     {#if menu !== undefined && menu.location !== undefined && menuVisible }
