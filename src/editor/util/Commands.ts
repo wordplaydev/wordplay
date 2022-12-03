@@ -236,6 +236,19 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.insert("\n")
     },
     {
+        description: "Step to node",
+        key: "Enter",
+        mode: Mode.STEP,
+        execute: (caret: Caret, _, evaluator) => {
+            if(caret.position instanceof Node) {
+                const evaluable = evaluator.getEvaluableNode(caret.position);
+                if(evaluable)
+                    evaluator.stepToNode(evaluable);
+            }
+            return undefined;
+        }
+    },
+    {
         description: "Insert tab",
         key: "Tab",
         mode: Mode.PLAY,
