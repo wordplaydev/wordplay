@@ -41,7 +41,7 @@ import StartFinish from "../runtime/StartFinish";
 
 export default class StructureDefinition extends Expression {
 
-    readonly docs: Docs;
+    readonly docs?: Docs;
     readonly type: Token;
     readonly names: Names;
     readonly interfaces: TypeInput[];
@@ -64,7 +64,7 @@ export default class StructureDefinition extends Expression {
 
         super();
 
-        this.docs = docs instanceof Docs ? docs : new Docs(docs);
+        this.docs = docs === undefined ? undefined : docs instanceof Docs ? docs : new Docs(docs);
         this.names = names instanceof Names ? names : new Names(names);
         this.type = type ?? new TypeToken();
         this.interfaces = interfaces;
@@ -80,7 +80,7 @@ export default class StructureDefinition extends Expression {
 
     getGrammar() { 
         return [
-            { name: "docs", types:[ Docs ] },
+            { name: "docs", types:[ Docs, undefined ] },
             { name: "type", types:[ Token ] },
             { name: "names", types:[ Names ] },
             { name: "interfaces", types:[[ TypeInput ] ] },
@@ -110,7 +110,11 @@ export default class StructureDefinition extends Expression {
     hasName(name: string) { return this.names.hasName(name); }
     getTranslation(lang: LanguageCode[]): string { return this.names.getTranslation(lang); }
 
-    isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression || (child instanceof Bind && this.inputs.includes(child)); }
+    isBindingEnclosureOfChild(child: Node): boolean { 
+        return  child === this.expression || 
+                (child instanceof Bind && this.inputs.includes(child)) ||
+                this.interfaces.includes(child as TypeInput); 
+    }
 
     getInputs() { return this.inputs.filter(i => i instanceof Bind) as Bind[]; }
 
@@ -288,13 +292,11 @@ export default class StructureDefinition extends Expression {
     }
 
     getDescriptions(): Translations {
-        return overrideWithDocs(
-            { 
-                eng: "a structure",
-                "😀": TRANSLATE
-            }, 
-            this.docs
-        );
+        const defaultDocs = { 
+            eng: "A structure",
+            "😀": TRANSLATE
+        };
+        return this.docs ? overrideWithDocs(defaultDocs, this.docs) : defaultDocs;
     }
 
 }

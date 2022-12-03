@@ -87,8 +87,6 @@ export default abstract class Node {
             definitions = [ ...current.getDefinitions(node, context), ...definitions ];
             current = context.get(current)?.getBindingScope();
         }
-
-        definitions = [ ...context.shares.getDefinitions() ?? [], ...definitions ];
         return definitions;
 
     }
@@ -105,8 +103,8 @@ export default abstract class Node {
             current = context.get(current)?.getBindingScope();
         }
 
-        // Check the defaults.
-        return context.shares.getDefinitionOfName(name);
+        // If we didn't find anything, check the default shares.
+        return context.project.getDefaultShares().find(def => def.hasName(name));
 
     };
     

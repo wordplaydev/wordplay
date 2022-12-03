@@ -93,6 +93,6 @@ export default class Structure extends Value {
 
 export function createStructure(evaluator: Evaluator, definition: StructureDefinition, values: Map<Names, Value>): Structure {
 
-    return new Structure(definition, new Evaluation(evaluator, evaluator.source, definition, undefined, values));
+    return new Structure(definition, new Evaluation(evaluator, evaluator.getMain(), definition, undefined, values));
 
 }

@@ -134,8 +134,8 @@ export function createNativeConversion<ValueType extends Value>(docs: Translatio
         new NativeExpression(
             outputTypeString,
             (requestor, evaluation) => {
-                const val = evaluation.getContext();
-                if(val instanceof Value && inputType.accepts(val.getType(evaluation.getEvaluator().getContext()), evaluation.getEvaluator().getContext())) 
+                const val = evaluation.getClosure();
+                if(val instanceof Value && inputType.accepts(val.getType(evaluation.getContext()), evaluation.getContext())) 
                     return convert(requestor, val as ValueType);
                 else 
                     return new TypeException(evaluation.getEvaluator(), inputType, val); 

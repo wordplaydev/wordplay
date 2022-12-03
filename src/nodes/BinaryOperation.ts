@@ -185,10 +185,12 @@ export default class BinaryOperation extends Expression {
         
         if(prior) return prior;
         
+        const context = evaluator.getCurrentContext();
+
         const right = evaluator.popValue(undefined);
         const left = evaluator.popValue(undefined);
 
-        const fun = left.getType(evaluator.getContext()).getDefinitionOfName(this.getOperator(), evaluator.getContext(), this);
+        const fun = left.getType(context).getDefinitionOfName(this.getOperator(), context, this);
         if(!(fun instanceof FunctionDefinition) || !(fun.expression instanceof Expression))
             return new FunctionException(evaluator, this, left, this.getOperator());
 
@@ -196,7 +198,7 @@ export default class BinaryOperation extends Expression {
         if(!(operand instanceof Bind))
             return new SemanticException(evaluator, operand);
 
-        // Start the function's expression.
+        // Start the function's expression. Pass the source of the function.
         evaluator.startEvaluation(new Evaluation(evaluator, this, fun, left, new Map().set(operand.names, right)));
 
         // No values to return, the evaluation will compute it.
@@ -288,7 +290,7 @@ export default class BinaryOperation extends Expression {
 
         // Find the function on the left's type.
         const fun = this.getFunction(context);
-        if(fun !== undefined) {
+        if(fun !== undefined && fun.docs) {
             for(const doc of fun.docs.docs) {
                 const lang = doc.getLanguage();
                 if(lang !== undefined)

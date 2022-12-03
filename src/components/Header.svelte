@@ -6,6 +6,7 @@
     import { languageCodeToLanguage, SupportedLanguages } from '../nodes/LanguageCode';
     import { WRITE } from '../nodes/Translations';
     import Button from './Button.svelte';
+    import Switch from './Switch.svelte';
 
     let example: Stuff;
     let language: LanguageCode;
@@ -21,6 +22,19 @@
 
     function reset() {
         updateProject($project.clone());
+    }
+
+    function handleStep() {
+        $project.evaluator.stepWithinProgram();
+    }
+
+    function handleStepOut() {
+        $project.evaluator.stepOut();
+    }
+
+    function playPause() {
+        if($project.evaluator.isStepping()) $project.evaluator.play();
+        else $project.evaluator.pause();        
     }
 
 </script>
@@ -42,6 +56,30 @@
         tip={{ eng: "Restart the evaluation of the project from the beginning.", "😀": WRITE }}
         action={reset}
     />
+    <!-- If it's output, show controls -->
+    <Switch 
+        on={$project.evaluator.isPlaying()}
+        toggle={playPause} 
+        offTip={{ eng: "Evaluate the program one step at a time", "😀": WRITE }}
+        onTip={{ eng: "Evaluate the program fully", "😀": WRITE }}
+        offLabel={{ eng: "pause", "😀": WRITE }}
+        onLabel={{ eng: "play", "😀": WRITE }}
+    />
+    {#if !$project.evaluator.isPlaying()}
+        <Button 
+            label={{ eng: "step", "😀": WRITE }}
+            tip={{ eng: "Advance one step in the program's evaluation.", "😀": WRITE }}
+            action={handleStep} 
+            enabled={!$project.evaluator.isPlaying() && !$project.evaluator.isDone()} 
+        />
+        <Button 
+            label={{ eng: "step out", "😀": WRITE }}
+            tip={{ eng: "Step out of this function.", "😀": WRITE }}
+            action={handleStepOut} 
+            enabled={!$project.evaluator.isPlaying() && !$project.evaluator.isDone()}>
+        </Button>
+    {/if}
+
 </div>
 
 <style>

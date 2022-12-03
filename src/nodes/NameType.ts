@@ -53,19 +53,15 @@ export default class NameType extends Type {
 
     accepts(type: Type, context: Context): boolean {    
         const thisType = this.getType(context);
-        return thisType === undefined ? false : thisType.accepts(type, context);
+        return thisType === undefined ? 
+            false : 
+            thisType.accepts(type, context);
     }
 
     resolve(context: Context): Definition | undefined {
 
         // Find the name in the binding scope.
-        const scope = context.get(this)?.getBindingScope();
-        // If there was one, ask it for the definition.
-        if(scope)
-            return context.get(this)?.getBindingScope()?.getDefinitionOfName(this.getName(), context, this);
-
-        // If there wasn't one, then ask the shares for the definition.
-        return context.shares.getDefinitionOfName(this.getName());
+        return context.get(this)?.getBindingScope()?.getDefinitionOfName(this.getName(), context, this);
 
     }
 

@@ -73,7 +73,7 @@ export default function bootstrapSet() {
                 ) ], 
                 new BooleanType(),
                 (requestor, evaluation) => {
-                        const set = evaluation?.getContext();
+                        const set = evaluation?.getClosure();
                         const other = evaluation.resolve("set");
                         return !(set instanceof Set && other instanceof Set) ? 
                             new TypeException(evaluation.getEvaluator(), new SetType(), other) :
@@ -103,7 +103,7 @@ export default function bootstrapSet() {
                 ) ], 
                 new BooleanType(),
                 (requestor, evaluation) => {
-                        const set = evaluation?.getContext();
+                        const set = evaluation?.getClosure();
                         const other = evaluation.resolve("set");
                         return !(set instanceof Set && other instanceof Set) ? 
                             new TypeException(evaluation.getEvaluator(), new SetType(), other) :
@@ -133,7 +133,7 @@ export default function bootstrapSet() {
                 ) ], 
                 new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
-                        const set = evaluation?.getContext();
+                        const set = evaluation?.getClosure();
                         const element = evaluation.resolve("value");
                         if(set instanceof Set && element !== undefined) return set.add(requestor, element);
                         else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
@@ -162,7 +162,7 @@ export default function bootstrapSet() {
                 ) ], 
                 new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
-                    const set: Evaluation | Value | undefined = evaluation.getContext();
+                    const set: Evaluation | Value | undefined = evaluation.getClosure();
                     const element = evaluation.resolve("value");
                     if(set instanceof Set && element !== undefined) return set.remove(requestor, element);
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
@@ -191,7 +191,7 @@ export default function bootstrapSet() {
                 ) ],
                 new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
-                    const set = evaluation.getContext();
+                    const set = evaluation.getClosure();
                     const newSet = evaluation.resolve("set");
                     if(set instanceof Set && newSet instanceof Set) return set.union(requestor, newSet);
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
@@ -219,7 +219,7 @@ export default function bootstrapSet() {
                 ) ], 
                 new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
-                    const set = evaluation.getContext();
+                    const set = evaluation.getClosure();
                     const newSet = evaluation.resolve("set");
                     if(set instanceof Set && newSet instanceof Set) return set.intersection(requestor, newSet);
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
@@ -247,7 +247,7 @@ export default function bootstrapSet() {
                 ) ], 
                 new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
-                    const set = evaluation.getContext();
+                    const set = evaluation.getClosure();
                     const newSet = evaluation.resolve("set");
                     if(set instanceof Set && newSet instanceof Set) return set.difference(requestor, newSet);
                     else return new TypeException(evaluation.getEvaluator(), new SetType(), set);

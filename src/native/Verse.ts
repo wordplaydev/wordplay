@@ -32,7 +32,7 @@ export function valueToVerse(evaluator: Evaluator, value: Value | undefined): St
     if(value === undefined)
         return undefined;
 
-    const contentType = value.getType(evaluator.context);
+    const contentType = value.getType(evaluator.getCurrentContext());
     if(contentType instanceof StructureType && contentType.structure === Verse)
         return value as Structure;
     else if(contentType instanceof StructureType && contentType.structure === Group)
@@ -52,18 +52,18 @@ function verse(evaluator: Evaluator, group: Structure) {
 
 function style(evaluator: Evaluator, font: string, size: number) {
     const bindings = new Map<Names, Value>();
-    bindings.set(Style.inputs[0].names, new Text(evaluator.source.expression, font));
-    bindings.set(Style.inputs[1].names, new Measurement(evaluator.source.expression, size, new Unit(undefined, [ new Dimension("pt")])));
+    bindings.set(Style.inputs[0].names, new Text(evaluator.getMain(), font));
+    bindings.set(Style.inputs[1].names, new Measurement(evaluator.getMain().expression, size, new Unit(undefined, [ new Dimension("pt")])));
     return createStructure(evaluator, Style, bindings);
 }
 
 function phrase(evaluator: Evaluator, text: string | Text, size: number=12, font: string="Noto Sans", ): Structure {
     const bindings = new Map<Names, Value>();
-    bindings.set(Phrase.inputs[0].names, text instanceof Text ? text : new Text(evaluator.source.expression, text));
+    bindings.set(Phrase.inputs[0].names, text instanceof Text ? text : new Text(evaluator.getMain(), text));
     bindings.set(Phrase.inputs[1].names, style(evaluator, font, size));
     return createStructure(evaluator, Phrase as StructureDefinition, bindings);
 }
 
 function group(evaluator: Evaluator, ...phrases: Structure[]) {
-    return createStructure(evaluator, Group as StructureDefinition, new Map().set(Group.inputs[1].names, new List(evaluator.source.expression, phrases)));
+    return createStructure(evaluator, Group as StructureDefinition, new Map().set(Group.inputs[1].names, new List(evaluator.getMain(), phrases)));
 }

@@ -39,7 +39,6 @@ import SetType from "../nodes/SetType";
 import SetOrMapAccess from "../nodes/SetOrMapAccess";
 import StreamType from "../nodes/StreamType";
 import Convert from "../nodes/Convert";
-import Docs from "../nodes/Docs";
 import Names from "../nodes/Names";
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
@@ -65,7 +64,7 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
         new MapLiteral([ new KeyValue(new ExpressionPlaceholder(), new ExpressionPlaceholder())]),
         new FunctionDefinition(undefined, new Names([ new Name() ]), [], [], new ExpressionPlaceholder()),
         new StructureDefinition(undefined, new Names([ new Name() ]), [], [], []),
-        new ConversionDefinition(new Docs(), new TypePlaceholder(), new TypePlaceholder(), new ExpressionPlaceholder()),
+        new ConversionDefinition(undefined, new TypePlaceholder(), new TypePlaceholder(), new ExpressionPlaceholder()),
         new Reaction(new ExpressionPlaceholder(), new ExpressionPlaceholder(), new ExpressionPlaceholder()),
         new Previous(new ExpressionPlaceholder(), new ExpressionPlaceholder())
     ].filter(expr => expr instanceof TypeVariable ? type instanceof AnyType : type.accepts(expr.getType(context), context))

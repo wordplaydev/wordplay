@@ -37,7 +37,7 @@ export default function bootstrapBool() {
             new NativeExpression(
                 new BooleanType(), 
                 (requestor, evaluation) => {
-                    const left = evaluation.getContext();
+                    const left = evaluation.getClosure();
                     const right: Value | undefined = evaluation.resolve(OperandNames.eng);
                     // This should be impossible, but the type system doesn't know it.
                     if(!(left instanceof Bool)) return new TypeException(evaluation.getEvaluator(), new BooleanType(), left);
@@ -102,7 +102,7 @@ export default function bootstrapBool() {
                 new NativeExpression(
                     new BooleanType(), 
                     (requestor, evaluation) => {
-                        const left = evaluation.getContext();
+                        const left = evaluation.getClosure();
                         // This should be impossible, but the type system doesn't know it.
                         if(!(left instanceof Bool)) return new TypeException(evaluation.getEvaluator(), new BooleanType(), left);
                         return left.not(requestor);

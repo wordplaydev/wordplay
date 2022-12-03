@@ -58,7 +58,7 @@ export default class NativeHOFListTranslate extends HOF {
                 },
                 evaluator => {
                     const index = evaluator.resolve(INDEX);
-                    const list = evaluator.getCurrentEvaluation()?.getContext();
+                    const list = evaluator.getCurrentEvaluation()?.getClosure();
                     // If the index is past the last index of the list, jump to the end.
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
                     else if(!(list instanceof List)) return new TypeException(evaluator, new ListType(), index);

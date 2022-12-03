@@ -18,7 +18,7 @@ export default class Keyboard extends Stream {
 
     constructor(evaluator: Evaluator) {
         super(
-            evaluator.getProgram(),
+            evaluator.getMain(),
             {
                 eng: "A stream of key up and down events.",
                 "😀": `${TRANSLATE}`
@@ -27,7 +27,7 @@ export default class Keyboard extends Stream {
                 eng: "keyboard",
                 "😀": "⌨️"
             }, 
-            new None(evaluator.getProgram())
+            new None(evaluator.getMain())
         );
 
         this.evaluator = evaluator;

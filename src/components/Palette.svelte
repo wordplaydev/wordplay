@@ -5,7 +5,7 @@
     import Program from "../nodes/Program";
     import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
     import { BoolDefinition, ListDefinition, MapDefinition, MeasurementDefinition, NoneDefinition, SetDefinition, TextDefinition } from "../native/NativeBindings";
-    import { DefaultStructures } from "../runtime/Shares";
+    import DefaultShares from "../runtime/DefaultShares";
     import StructureDefinition from "../nodes/StructureDefinition";
     import type Type from "../nodes/Type";
     import type Expression from "../nodes/Expression";
@@ -89,7 +89,7 @@
         nativeStructureToEntry(MapDefinition, [ '{:}' ], '{:}', [ "_{ _ }" ]),
         nativeStructureToEntry(NoneDefinition, [ "!" ], "!", [ "_ ? _ _" ]),
         
-        ...(DefaultStructures as StructureDefinition[]).map(def => nonNativeStructureToEntry(def)),
+        ...DefaultShares.map(def => nonNativeStructureToEntry(def)),
 
         ...[ $project.main, ...$project.supplements ]
             .map(source => 

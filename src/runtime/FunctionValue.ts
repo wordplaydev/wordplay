@@ -10,9 +10,9 @@ export default class FunctionValue extends Value {
     readonly definition: FunctionDefinition;
     
     /** The evaluation context in which this function was created. This enables closures. */
-    readonly context: Evaluation | Value;
+    readonly context: Evaluation | Value | undefined;
 
-    constructor(definition: FunctionDefinition, context: Evaluation | Value) {
+    constructor(definition: FunctionDefinition, context: Evaluation | Value | undefined) {
     super(definition);
 
         this.definition = definition;

@@ -1,6 +1,6 @@
 import type ConversionDefinition from "../nodes/ConversionDefinition";
 import type FunctionDefinition from "../nodes/FunctionDefinition";
-import type StructureDefinition from "../nodes/StructureDefinition";
+import StructureDefinition from "../nodes/StructureDefinition";
 import type Type from "../nodes/Type";
 import type Conversion from "./Conversion";
 import type Evaluator from "./Evaluator";
@@ -25,17 +25,26 @@ import type Evaluate from "../nodes/Evaluate";
 import type HOF from "../native/HOF";
 import type Source from "../models/Source";
 import type Convert from "../nodes/Convert";
+import type Borrow from "../nodes/Borrow";
+import Context from "../nodes/Context";
+import StructureDefinitionValue from "./StructureDefinitionValue";
 
-export type EvaluatorNode = UnaryOperation | BinaryOperation | Evaluate | Convert | HOF | Source;
+export type EvaluatorNode = UnaryOperation | BinaryOperation | Evaluate | Convert | HOF | Borrow | Source;
 export type EvaluationNode = FunctionDefinition | StructureDefinition | ConversionDefinition | Source;
 
 export default class Evaluation {
 
     /** The evaluator running the program. Some evaluations are created without running a program (e.g. stream structures). */
     readonly #evaluator: Evaluator;
+    
+    /** The source of the evaluation node. Undefined if native. */
+    readonly #source: Source | undefined;
 
     /** The node that caused this evaluation to start. */
     readonly #evaluatorNode: EvaluatorNode;
+
+    /** The context, for passing around to getType, etc. */
+    readonly #context: Context;
 
     /** The node that defined this program. */
     readonly #evaluationNode: Program | FunctionDefinition | StructureDefinition | ConversionDefinition | Source;
@@ -44,7 +53,7 @@ export default class Evaluation {
     readonly #steps: Step[];
 
     /** The evaluation in which this is being evaluated. */
-    readonly #context: Evaluation | Value | undefined;
+    readonly #closure: Evaluation | Value | undefined;
 
     /** A dictionary of values bound to names, preseving a mapping between names, language tags, and values */
     readonly _bindingsIndex: Map<string, Value> = new Map();
@@ -63,13 +72,17 @@ export default class Evaluation {
         evaluator: Evaluator,
         evaluatorNode: EvaluatorNode,
         evaluationNode: EvaluationNode, 
-        context?: Evaluation | Value, 
+        closure?: Evaluation | Value, 
         bindings?: Map<Names, Value>) {
 
         this.#evaluator = evaluator;
         this.#evaluatorNode = evaluatorNode;
         this.#evaluationNode = evaluationNode;
-        this.#context = context;
+        this.#closure = closure;
+
+        // Derive some state
+        this.#source = evaluator.project.getSourceOf(evaluationNode);
+        this.#context = new Context(evaluator.project, this.#source ?? evaluator.project.main);
 
         // Ask the evaluator to compile (and optionally cache) steps for this definition.
         this.#steps = this.#evaluator.getSteps(evaluationNode);
@@ -81,9 +94,11 @@ export default class Evaluation {
 
     }
 
+    getSource() { return this.#source; }
     getCreator() { return this.#evaluatorNode; }
     getEvaluator() { return this.#evaluator; }
     getDefinition() { return this.#evaluationNode; }
+    getClosure() { return this.#closure; }
     getContext() { return this.#context; }
 
     /** 
@@ -95,7 +110,7 @@ export default class Evaluation {
     step(evaluator: Evaluator): Value | undefined {
     
         if(this.#step >= this.#steps.length)
-            return this.popValue(undefined);
+            return this.end();
 
         // Evaluate the next step.
         const result = this.#steps[this.#step].evaluate(evaluator);
@@ -119,9 +134,20 @@ export default class Evaluation {
     
         // If the last step didn't start a new evaluation and this one is over, just end it.
         if(evaluator.getCurrentEvaluation() === this && this.#step >= this.#steps.length)
-            return this.popValue(undefined);
+            return this.end();
 
         // Otherwise, return nothing, since we're not done evaluating.
+
+    }
+
+    end(): Value | undefined {
+
+        // If this block is creating a structure, take the context and bindings we just created
+        // and convert it into a structure.
+        if(this.#evaluationNode instanceof StructureDefinition)
+            return new Structure(this.#evaluationNode, this);
+        // Otherwise, return the value on the top of the stack.
+        else return this.popValue(undefined);
 
     }
 
@@ -163,16 +189,25 @@ export default class Evaluation {
 
     popValue(expected: Type | undefined): Value { 
         const value = this.#values.shift(); 
-        if(value === undefined) return new ValueException(this.#evaluator);
-        else if(expected !== undefined && value.getType(this.#evaluator.getContext()).constructor !== expected.constructor) return new TypeException(this.#evaluator, expected, value);
-        else return value;
+        if(value === undefined) 
+            return new ValueException(this.#evaluator);
+        else if(expected !== undefined && value.getType(this.#context).constructor !== expected.constructor) 
+            return new TypeException(this.#evaluator, expected, value);
+        else 
+            return value;
     }
 
     /** Binds a value to a name in this evaluation. */
     bind(names: Names, value: Value) {
+
         this.#bindings.set(names, value);
         for(const name of names.getNames())
             this._bindingsIndex.set(name, value);
+
+        // If the value is a stream, start it.
+        if(value instanceof Stream)
+            value.start();
+
     }
 
     /** Resolves the given name in this evaluation or its context. */
@@ -182,9 +217,14 @@ export default class Evaluation {
         }
         else {
             return  this._bindingsIndex.has(name) ? this._bindingsIndex.get(name) : 
-                    this.#context === undefined ? undefined : 
-                    this.#context.resolve(name, this.#evaluator);
+                    this.#closure === undefined ? this.resolveDefault(name) : 
+                    this.#closure.resolve(name, this.#evaluator);
         }
+    }
+
+    resolveDefault(name: string): Value | undefined {
+        const def = this.#evaluator.project.getDefaultShares().find(def => def.hasName(name));
+        return def === undefined ? undefined : new StructureDefinitionValue(this.#evaluator.project.main, def);
     }
 
     /** Remember the given conversion for later. */
@@ -197,24 +237,19 @@ export default class Evaluation {
 
         // Do any of the conversions in scope do the requested conversion?
         return this.#conversions.find(c => 
-            c.definition.convertsTypeTo(input, output, this.#evaluator.getContext()));
+            c.definition.convertsTypeTo(input, output, this.#context));
 
     }
 
     /** Finds the enclosuring structure closure, possibly this. */
     getThis(requestor: Node): Value | undefined {
 
-        const context = this.#context;
+        const context = this.#closure;
         return context instanceof Structure ? context :
             context instanceof Measurement ? context.unitless(requestor) :
             context instanceof Primitive ? context :
             context instanceof Evaluation ? context.getThis(requestor) :
             undefined;
-
-    }
-
-    /** Allow the given aliases to be borrowed. */
-    share() {
 
     }
 

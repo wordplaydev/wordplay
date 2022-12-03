@@ -58,7 +58,7 @@
     $: program = source.expression;
 
     // A shorthand for the current evaluator
-    $: evaluator = project.getEvaluator(source);
+    $: evaluator = project.evaluator;
     let previousEvaluator = evaluator;
     let executingNode: Node | undefined = undefined;
     let stepping = false;
@@ -787,8 +787,7 @@
 
         if(evaluator === undefined) return;
 
-        const context = evaluator.context;
-        if(context === undefined) return;
+        const context = project.getContext(source);
 
         // Is the caret on a specific token or node?
         const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;

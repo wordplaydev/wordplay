@@ -59,7 +59,7 @@ export default class NativeHOFMapTranslate extends HOF {
                 },
                 evaluator => {
                     const index = evaluator.resolve(INDEX);
-                    const map = evaluator.getCurrentEvaluation()?.getContext();
+                    const map = evaluator.getCurrentEvaluation()?.getClosure();
                     // If the index is past the last index of the list, jump to the end.
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
                     else if(!(map instanceof MapValue)) return new TypeException(evaluator, new MapType(), map);
@@ -109,7 +109,7 @@ export default class NativeHOFMapTranslate extends HOF {
                     if(!(index instanceof Measurement))
                         return new TypeException(evaluator, new MeasurementType(), index);
                     
-                    const map = evaluator.getCurrentEvaluation()?.getContext();
+                    const map = evaluator.getCurrentEvaluation()?.getClosure();
                     if(!(map instanceof MapValue))
                         return new TypeException(evaluator, new MapType(), map);
 

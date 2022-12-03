@@ -60,7 +60,7 @@ export default class NativeHOFSetFilter extends HOF {
                 },
                 evaluator => {
                     const index = evaluator.resolve(INDEX);
-                    const set = evaluator.getCurrentEvaluation()?.getContext();
+                    const set = evaluator.getCurrentEvaluation()?.getClosure();
                     // If the index is past the last index of the list, jump to the end.
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
                     else if(!(set instanceof Set)) return new TypeException(evaluator, new SetType(), set);
@@ -107,7 +107,7 @@ export default class NativeHOFSetFilter extends HOF {
                     if(!(index instanceof Measurement))
                         return new TypeException(evaluator, new MeasurementType(), index);
 
-                    const set = evaluator.getCurrentEvaluation()?.getContext();
+                    const set = evaluator.getCurrentEvaluation()?.getClosure();
                     if(!(set instanceof Set))
                         return new TypeException(evaluator, new SetType(), set);
 

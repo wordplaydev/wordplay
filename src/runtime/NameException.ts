@@ -3,7 +3,7 @@ import { TRANSLATE } from "../nodes/Translations"
 import Exception from "./Exception";
 import type Evaluator from "./Evaluator";
 
-export default class UnparsableException extends Exception {
+export default class NameException extends Exception {
 
     readonly name: string;
 

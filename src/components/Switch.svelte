@@ -40,6 +40,9 @@
         background-color: var(--wordplay-chrome);
         display: inline-block;
         user-select: none;
+        font-family: var(--wordplay-font-face);
+        font-size: var(--wordplay-font-size);
+        font-weight: var(--wordplay-font-weight);
     }
 
     .button {

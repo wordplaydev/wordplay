@@ -63,7 +63,12 @@ test("Parse borrows", () => {
     const good = parse("↓ mouse");
     expect(good.borrows).toHaveLength(1);
     expect(good.borrows[0]).toBeInstanceOf(Borrow);
-    expect((good.borrows[0] as Borrow).name?.is(TokenType.NAME)).toBe(true);
+    expect((good.borrows[0] as Borrow).source?.is(TokenType.NAME)).toBe(true);
+
+    const prop = parse("↓ time.clock");
+    expect(prop.borrows).toHaveLength(1);
+    expect(prop.borrows[0]).toBeInstanceOf(Borrow);
+    expect((prop.borrows[0] as Borrow).name?.is(TokenType.NAME)).toBe(true);
 
 })
 
@@ -85,7 +90,7 @@ test("Parse block", () => {
 
     const documented = parseBlock(tokens("`Nothing` ( hi )"));
     expect(documented).toBeInstanceOf(Block);
-    expect((documented as Block).docs.docs).toHaveLength(1);
+    expect((documented as Block).docs?.docs).toHaveLength(1);
 
 })
 
@@ -121,9 +126,9 @@ test("Parse binds", () => {
 
     const documentedName = parseBind(tokens("`Some letters`/eng a/eng, b/spa: 1"));
     expect(documentedName).toBeInstanceOf(Bind);
-    expect((documentedName as Bind).docs.docs).toHaveLength(1);
-    expect((documentedName as Bind).docs.docs[0]).toBeInstanceOf(Doc);
-    expect((documentedName as Bind).docs.docs[0].getLanguage()).toBe("eng");
+    expect((documentedName as Bind).docs?.docs).toHaveLength(1);
+    expect((documentedName as Bind).docs?.docs[0]).toBeInstanceOf(Doc);
+    expect((documentedName as Bind).docs?.docs[0].getLanguage()).toBe("eng");
 
 })
 
@@ -264,11 +269,11 @@ test("Parse expressions", () => {
 
     const withDocs = parseExpression(tokens("`Add things`/eng ƒ(a b) a = b"));
     expect(withDocs).toBeInstanceOf(FunctionDefinition);
-    expect((withDocs as FunctionDefinition).docs.docs).toHaveLength(1);
+    expect((withDocs as FunctionDefinition).docs?.docs).toHaveLength(1);
 
     const withMultipleDocs = parseExpression(tokens("`Number one`/eng `Numero uno`/spa ƒ(a b) a = b"));
     expect(withMultipleDocs).toBeInstanceOf(FunctionDefinition);
-    expect((withMultipleDocs as FunctionDefinition).docs.docs).toHaveLength(2);
+    expect((withMultipleDocs as FunctionDefinition).docs?.docs).toHaveLength(2);
 
     const withTypeVariables = parseExpression(tokens("ƒ∘T(a: T b: T) a + b"));
     expect(withTypeVariables).toBeInstanceOf(FunctionDefinition);
@@ -301,7 +306,7 @@ test("Parse expressions", () => {
 
     const conversionWithDocs = parseExpression(tokens("`numtotext`/eng # → '' meow()"));
     expect(conversionWithDocs).toBeInstanceOf(ConversionDefinition);
-    expect((conversionWithDocs as ConversionDefinition).docs.docs).toHaveLength(1);
+    expect((conversionWithDocs as ConversionDefinition).docs?.docs).toHaveLength(1);
 
     const structureDef = parseExpression(tokens("•Cat(species•'') ( meow: ƒ() say(species) )"))
     expect(structureDef).toBeInstanceOf(StructureDefinition);

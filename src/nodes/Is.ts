@@ -88,7 +88,7 @@ export default class Is extends Expression {
 
         const value = evaluator.popValue(undefined);
 
-        return new Bool(this, this.type.accepts(value.getType(evaluator.getContext()), evaluator.getContext()));
+        return new Bool(this, this.type.accepts(value.getType(evaluator.getCurrentContext()), evaluator.getCurrentContext()));
 
     }
 

@@ -55,7 +55,7 @@ import type { TypeSet } from "./UnionType";
 import type Value from "../runtime/Value";
 
 export default class Bind extends Expression {    
-    readonly docs: Docs;
+    readonly docs?: Docs;
     readonly share: Token | undefined;
     readonly etc: Token | undefined;
     readonly names: Names;
@@ -67,7 +67,7 @@ export default class Bind extends Expression {
     constructor(docs: Docs | Translations | undefined, names: Names | Translations | undefined, type?: Type, value?: Expression, share?: Token | undefined, etc?: Token | undefined, dot?: Token, colon?: Token) {
         super();
 
-        this.docs = docs instanceof Docs ? docs : new Docs(docs);
+        this.docs = docs === undefined ? undefined : docs instanceof Docs ? docs : new Docs(docs);
         this.share = share;
         this.names = names instanceof Names ? names : new Names(names);
         this.etc = etc;
@@ -81,7 +81,7 @@ export default class Bind extends Expression {
 
     getGrammar() { 
         return [
-            { name: "docs", types:[ Docs ] },
+            { name: "docs", types:[ Docs, undefined ] },
             { name: "share", types:[ Token, undefined ] },
             { name: "etc", types:[ Token, undefined ] },
             { name: "names", types:[ Names ] },
@@ -194,7 +194,7 @@ export default class Bind extends Expression {
                 conflicts.push(new MissingShareLanguages(this));
 
             // Other shares in this project can't have the same name
-            const sources = context.project?.getSourcesExcept(context.source);
+            const sources = context.project.getSourcesExcept(context.source);
             if(sources !== undefined) {
                 for(const source of sources) {
                     if(source.expression.expression instanceof Block) {
@@ -309,10 +309,6 @@ export default class Bind extends Expression {
         // Bind the value on the stack to the names.
         evaluator.bind(this.names, value);
 
-        // Share if shared.
-        if(this.isShared())
-            evaluator.share(this.names, value);
-
         // Return the value of the Bind for later.
         return value;
 
@@ -320,10 +316,11 @@ export default class Bind extends Expression {
     
     getDescriptions(): Translations {
 
-        return overrideWithDocs({ 
+        const defaultDocs = { 
             "😀": TRANSLATE,
             eng: "A named value" 
-        }, this.docs);
+        };
+        return this.docs ? overrideWithDocs(defaultDocs, this.docs) : defaultDocs;
         
     }
 

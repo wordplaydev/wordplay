@@ -23,7 +23,7 @@ export default function bootstrapText() {
     function createTextFunction(docs: Translations, names: Translations, inputs: Bind[], output: Type, expression: (requestor: Node, text: Text, evaluation: Evaluation) => Value) {
         return createNativeFunction(docs, names, [], inputs, output,
             (requestor, evaluation) => {
-                const text = evaluation.getContext();
+                const text = evaluation.getClosure();
                 if(text instanceof Text) return expression(requestor, text, evaluation);
                 else return new TypeException(evaluation.getEvaluator(), new TextType(), text);
             }

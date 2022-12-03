@@ -38,7 +38,7 @@ export default function bootstrapMeasurement() {
             new NativeExpression(
                 new MeasurementType(),
                 (requestor, evaluation) => {
-                    const left: Value | Evaluation | undefined = evaluation.getContext();
+                    const left: Value | Evaluation | undefined = evaluation.getClosure();
                     const right = evaluation.resolve("number");
                     // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
                     if(!(left instanceof Measurement)) return new TypeException(evaluation.getEvaluator(), new MeasurementType(), left);
@@ -100,7 +100,7 @@ export default function bootstrapMeasurement() {
                 new NativeExpression(
                     new MeasurementType(),
                     (requestor, evaluation) => {
-                        const left = evaluation.getContext();
+                        const left = evaluation.getClosure();
                         const right = evaluation.resolve("number");
                         // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
                         if(!(left instanceof Measurement)) return new TypeException(evaluation.getEvaluator(), new MeasurementType(), left);

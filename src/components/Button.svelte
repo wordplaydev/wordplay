@@ -26,6 +26,7 @@
         display: inline-block;
         background-color: var(--wordplay-chrome);
         font-family: var(--wordplay-font-face);
+        font-size: var(--wordplay-font-size);
         font-weight: var(--wordplay-font-weight);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);

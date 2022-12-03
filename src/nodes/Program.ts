@@ -29,12 +29,12 @@ import type LanguageCode from "./LanguageCode";
 
 export default class Program extends Expression {
     
-    readonly docs: Docs;
+    readonly docs?: Docs;
     readonly borrows: Borrow[];
     readonly expression: Block;
     readonly end: Token;
 
-    constructor(docs: Docs, borrows: Borrow[], expression: Block, end?: Token) {
+    constructor(docs: Docs | undefined, borrows: Borrow[], expression: Block, end?: Token) {
 
         super();
 
@@ -49,7 +49,7 @@ export default class Program extends Expression {
 
     getGrammar() { 
         return [
-            { name: "docs", types: [ Docs ] },
+            { name: "docs", types: [ Docs, undefined ] },
             { name: "borrows", types: [[ Borrow ]] },
             { name: "expression", types: [ Block ] },
             { name: "end", types:[ Token ] },
@@ -84,12 +84,18 @@ export default class Program extends Expression {
 
     getDefinitions(_: Node, context: Context): Definition[] {
 
-        return  [
-            // Get all of the definitions borrowed by the program
-            ...(this.borrows.filter(borrow => borrow instanceof Borrow) as Borrow[])
-                .map(borrow => borrow.name === undefined ? undefined : (context.project?.getDefinition(context.source, borrow.name.getText()) ?? [])[0])
-                .filter(d => d !== undefined) as Definition[],
-        ]
+        const definitions = [];
+
+        for(const borrow of this.borrows) {
+            const [ source, definition ] = borrow.getShare(context) ?? [];
+            if(source === undefined) {
+                if(definition !== undefined)
+                    definitions.push(definition);
+            }
+            else
+                definitions.push(definition === undefined ? source : definition);
+        }
+        return definitions;
 
     }
 
@@ -122,11 +128,8 @@ export default class Program extends Expression {
         
         if(prior) return prior;
 
-        // Return whatever the block computed, if there is anything.
+        // Get whatever the block computed.
         const value = evaluator.popValue(undefined);
-
-        // Share the program's value using the source's name, allowing other Evaluators to borrow it.
-        evaluator.share(evaluator.source.names, value);
 
         // Return the value.
         return value;

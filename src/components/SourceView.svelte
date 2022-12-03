@@ -5,9 +5,6 @@
     import { onDestroy } from 'svelte';
     import type Project from '../models/Project';
     import type Evaluator from '../runtime/Evaluator';
-    import Button from './Button.svelte';
-    import { WRITE } from '../nodes/Translations';
-    import Switch from './Switch.svelte';
     import type Structure from '../runtime/Structure';
     import EvaluatorView from './EvaluatorView.svelte';
 
@@ -17,44 +14,21 @@
 
 
     let previousEvaluator: Evaluator;
-    $: evaluator = project.getEvaluator(source);
+    $: evaluator = project.evaluator;
     let verse: Structure | undefined;
-    let input: HTMLInputElement;
 
     /** In case the evaluator changes, stop listening to the old one and start listening to the new one.*/
     $: {
         previousEvaluator?.ignore(handleEvaluation);
-        evaluator?.observe(handleEvaluation);
+        evaluator.observe(handleEvaluation);
         handleEvaluation();
     }
 
-    let autoplay = true;
-
     function handleEvaluation() {
-        if(evaluator === undefined) return;
         verse = evaluator.getVerse();
-        autoplay = evaluator.isPlaying();
     }
 
-    function handleStep() {
-        evaluator?.stepWithinProgram();
-    }
-
-    function handleStepOut() {
-        evaluator?.stepOut();
-    }
-
-    function playPause(play: boolean) {
-        autoplay = play;
-        if(autoplay) evaluator?.play();
-        else evaluator?.pause();
-
-        // Focus the editor, since the button's take it on mouse down.
-        input?.focus();
-        
-    }
-
-    onDestroy(() => evaluator?.ignore(handleEvaluation));
+    onDestroy(() => evaluator.ignore(handleEvaluation));
 
 </script>
 
@@ -62,42 +36,17 @@
     <div class="source-title">
         <h2>{source.getNames()}</h2>
         <small>
-            <!-- If it's output, show controls -->
-            <Switch 
-                on={autoplay}
-                toggle={playPause} 
-                offTip={{ eng: "Evaluate the program one step at a time", "😀": WRITE }}
-                onTip={{ eng: "Evaluate the program fully", "😀": WRITE }}
-                offLabel={{ eng: "pause", "😀": WRITE }}
-                onLabel={{ eng: "play", "😀": WRITE }}
-            />
-            {#if !autoplay}
-                <Button 
-                    label={{ eng: "step", "😀": WRITE }}
-                    tip={{ eng: "Advance one step in the program's evaluation.", "😀": WRITE }}
-                    action={handleStep} 
-                    enabled={!autoplay && evaluator !== undefined && !evaluator.isDone()} 
-                />
-                <Button 
-                    label={{ eng: "step out", "😀": WRITE }}
-                    tip={{ eng: "Step out of this function.", "😀": WRITE }}
-                    action={handleStepOut} 
-                    enabled={!autoplay && evaluator !== undefined && !evaluator.isDone()}>
-                </Button>
-            {/if}
         </small>
     </div>
     <div class="split">
         <div class="source-content">
-            <Editor {project} {source} bind:input={input} />
+            <Editor {project} {source} />
         </div>
         <div class="source-content" >
-            {#if evaluator}
-                {#if verse === undefined}
-                    <EvaluatorView evaluator={evaluator} />
-                {:else}
-                    <VerseView {project} {verse} {evaluator} {interactive}/>
-                {/if}
+            {#if verse === undefined}
+                <EvaluatorView evaluator={evaluator} />
+            {:else}
+                <VerseView {project} {verse} {evaluator} {interactive}/>
             {/if}
         </div>
     </div>

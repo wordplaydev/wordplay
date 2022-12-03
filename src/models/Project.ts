@@ -4,9 +4,6 @@ import Microphone from "../native/Microphone";
 import MouseButton from "../native/MouseButton";
 import MousePosition from "../native/MousePosition";
 import Time from "../native/Time";
-import Bind from "../nodes/Bind";
-import type Context from "../nodes/Context";
-import type Definition from "../nodes/Definition";
 import Evaluate from "../nodes/Evaluate";
 import Expression from "../nodes/Expression";
 import FunctionDefinition from "../nodes/FunctionDefinition";
@@ -19,6 +16,12 @@ import type Source from "./Source";
 import type Node from "../nodes/Node";
 import HOF from "../native/HOF";
 import FunctionDefinitionType from "../nodes/FunctionDefinitionType";
+import Native from "../native/NativeBindings";
+import Tree from "../nodes/Tree";
+import DefaultShares from "../runtime/DefaultShares";
+import Context from "../nodes/Context";
+import type { SharedDefinition } from "../nodes/Borrow";
+
 
 /** 
  * A project with a name, some source files, and evaluators for each source file.
@@ -34,9 +37,8 @@ export default class Project {
     /** All source files in the project, and their evaluators */
     readonly supplements: Source[];
 
-    /** Evaluators for the source files */
-    readonly mainEvaluator: Evaluator;
-    readonly evaluators: Map<Source, Evaluator> = new Map();
+    /** The evaluator that evaluates the source. */
+    readonly evaluator: Evaluator;
     
     /** Conflicts by node. */
     readonly primaryConflicts: Map<Node, Conflict[]> = new Map();
@@ -57,6 +59,9 @@ export default class Project {
         microphone: Microphone
     };
 
+    readonly trees: Tree[];
+    readonly _index: Map<Node,Tree | undefined> = new Map();
+
     constructor(name: string, main: Source, supplements: Source[]) {
         
         // Remember the source.
@@ -65,50 +70,85 @@ export default class Project {
         this.supplements = supplements.slice();
 
         // Create evaluators for each source.
-        this.mainEvaluator = new Evaluator(this, this.main);
-        this.evaluators.set(this.main, this.mainEvaluator);
-        for(const source of this.supplements)
-            this.evaluators.set(source, new Evaluator(this, source));
+        this.evaluator = new Evaluator(this);
 
         // Create all the streams.
         this.streams = {
             time: new Time(this.main.expression),
             mouseButton: new MouseButton(this.main.expression),
-            mousePosition: new MousePosition(this.mainEvaluator),
-            keyboard: new Keyboard(this.mainEvaluator),
+            mousePosition: new MousePosition(this.evaluator),
+            keyboard: new Keyboard(this.evaluator),
             microphone: new Microphone(this.main.expression)
         };
 
         // Listen to all streams
         for(const stream of Object.values(this.streams))
             stream.listen(this.react.bind(this));
-
-        // Share each stream with each evaluator.
-        for(const evaluator of this.evaluators.values())
-            evaluator.shares.addStreams(Object.values(this.streams));
+        
+        // Build all of the trees we might need for analysis.
+        this.trees = [
+            ...(this.getSources().map(source => new Tree(source))),
+            ...Native.getStructureDefinitionTrees(),
+            ...DefaultShares.map(share => new Tree(share))
+        ]
         
         // Analyze the project
         this.analyze();
 
     }
 
+    get(node: Node): Tree | undefined {
+
+        if(!this._index.has(node))
+            this._index.set(node, this.resolve(node));
+        return this._index.get(node);
+        
+    }
+
+    /** Get a tree that that represents the node. It could be in a source, one of the native types, or a share. */
+    resolve(node: Node): Tree | undefined {
+
+        // Search the trees in the context for a matching node.
+        for(const tree of this.trees) {
+            const match = tree.get(node);
+            if(match) return match;
+        }
+
+        return undefined;
+
+    }
+
+    /** True if one of the project's contains the given node. */
+    contains(node: Node) {
+        return this.getSourceOf(node) !== undefined;
+    }
+    
     getSources() { 
         return [ this.main, ...this.supplements]; 
     }
 
-    getEvaluator(source: Source): Evaluator | undefined { 
-        return this.evaluators.get(source); 
+    getDefaultShares() { return DefaultShares; }
+
+    getContext(source: Source) { 
+        return new Context(this, source);
+    }
+
+    getNodeContext(node: Node) {
+        const source = this.getSourceOf(node);
+        return source === undefined ? undefined : this.getContext(source);
+    }
+
+    getSourceOf(node: Node) {
+        return this.getSources().find(source => source.contains(node));
     }
     
-    getSourceContext(source: Source): Context | undefined { return this.evaluators.get(source)?.context; }
-
     getSourcesExcept(source: Source) { return [ this.main, ...this.supplements].filter(s => s !== source); }
     getName() { return this.name; }
-    getContext() { return this.mainEvaluator.context; }
     getSourceWithProgram(program: Program) { return this.getSources().find(source => source.expression === program); }
+    getNative() { return Native; }
 
     isEvaluating() {
-        return Array.from(this.evaluators.values()).some(evaluator => evaluator.isEvaluating());
+        return this.evaluator.isEvaluating();
     }
     
     analyze() {
@@ -116,8 +156,7 @@ export default class Project {
         // Build a mapping from nodes to conflicts.
         for(const source of this.getSources()) {
 
-            const context = this.getSourceContext(source);
-            if(context === undefined) continue;
+            const context = this.getContext(source);
 
             // Compute all of the conflicts in the program.
             const conflicts = source.expression.getAllConflicts(context);
@@ -252,49 +291,9 @@ export default class Project {
     }
 
     /** Evaluate the sources in the required order, optionally evaluating only a subset of sources. */
-    evaluate(changedStream?: Stream, changedSources?: Set<Source>, changedExpressions?: Set<Expression>) {
+    evaluate(changedStream?: Stream, _?: Set<Source>, changedExpressions?: Set<Expression>) {
     
-        // Get the evaluation order based on borrows, reverse it, and execute in that order.
-        const orderedSources = this.getEvaluationOrder(this.main).reverse();
-
-        // Start the sources that main depends on. Create all of the streams.
-        for(const source of orderedSources)
-            if(changedSources === undefined || changedSources.has(source))
-                this.getEvaluator(source)?.start(changedStream, changedExpressions);
-
-        // Start any sources that main doesn't depend on.
-        for(const source of this.getSources())
-            if(!orderedSources.includes(source) && (changedSources === undefined || changedSources.has(source)))
-                this.getEvaluator(source)?.start(changedStream, changedExpressions);
-
-    }
-
-    /** Returns a path from a borrow in this program this to this, if one exists. */
-    getEvaluationOrder(source: Source, path: Source[] = []): Source[] {
-
-        // Visit this source.
-        path.push(source);
-
-        // Visit each borrow in the source's program to see if there's a path back here.
-        for(const borrow of source.expression.borrows) {
-
-            // Find the definition.
-            const name = borrow.name?.getText();
-            if(name) {
-                // Does another program in the project define it?
-                const [ , nextSource ] = this.getDefinition(source, name) ?? [];
-                if(nextSource) {
-                    // If we found a cycle, return the path.
-                    if(path.includes(nextSource))
-                        return path;
-                    // Otherwise, continue searching for a cycle.
-                    this.getEvaluationOrder(nextSource, path);
-                }
-            }
-        }
-
-        // We made it without detecting a cycle; return undefined.
-        return path;
+        this.evaluator.start(changedStream, changedExpressions);
 
     }
 
@@ -303,35 +302,29 @@ export default class Project {
         for(const stream of Object.values(this.streams))
             stream.stop();
 
-        // Stop all evaluators
-        for(const evaluator of this.evaluators.values())
-            evaluator.stop();
-    }
-
-    /** See if any of source other evaluators expose the given name. */
-    resolveShare(borrower: Source, name: string): Value | undefined {
-
-        const sources = this.getSources().filter(s => s !== borrower);
-        for(const source of sources) {
-            const match = this.evaluators.get(source)?.resolveShare(name);
-            if(match !== undefined) return match;
-        }
-        return undefined;
-
+        // Stop evaluators
+        this.evaluator.stop();
     }
 
     /** Searches source other than the given borrow for top-level binds matching the given name. */
-    getDefinition(borrower: Source, name: string): [ Definition, Source ] | undefined {
+    getShare(source: string, name: string | undefined): [ Source | undefined, SharedDefinition ] | undefined {
 
-        const sources = this.getSourcesExcept(borrower);
-        // Do any of the sources have a name that matches, or a shared bind that matches?
-        for(const source of sources) {
-            if(source.hasName(name)) return [ source, source ];
-            const definition = source.expression.expression.statements.find(n => n instanceof Bind && n.hasName(name) && n.isShared()) as Bind | undefined;
-            if(definition !== undefined) return [ definition, source ];
+        // Do any of the sources match the requested source, or have a share that matches, or a shared bind that matches?
+        const match = this.getSources().find(s => s.hasName(source));
+        if(match) {
+            if(name === undefined)
+                return [ match, match ];
+            const def = match.getShare(name);
+            return def === undefined ? undefined : [ match, def ];
         }
-        return undefined;
-        
+
+        // Do any of the implicit shares match?
+        const defaultMatch = 
+            DefaultShares.find(s => s.hasName(source)) ?? 
+            Object.values(this.streams).find(s => s.hasName(source));
+
+        return defaultMatch === undefined ? undefined : [ undefined, defaultMatch ];
+
     }
 
     clone() { 

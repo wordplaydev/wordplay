@@ -2,11 +2,10 @@ import { test, expect } from "vitest";
 import type Conflict from "../conflicts/Conflict";
 import Source from "../models/Source";
 import Context from "../nodes/Context";
-import Shares from "../runtime/Shares";
+import DefaultShares from "../runtime/DefaultShares";
 import Native from "./NativeBindings";
 import type Node from "../nodes/Node";
 import UnusedBind from "../conflicts/UnusedBind";
-import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import StructureDefinition from "../nodes/StructureDefinition";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import { SupportedLanguages } from "../nodes/LanguageCode";
@@ -16,9 +15,8 @@ import UnparsableExpression from "../nodes/UnparsableExpression";
 import Project from "../models/Project";
 
 const source = new Source("native", "");
-const shares = new Shares();
 const project = new Project("test", source, []);
-const context = new Context(project, source, shares);
+const context = new Context(project, source);
 
 function checkNativeNodes(nodes: Node[]) {
 
@@ -82,9 +80,6 @@ test("Verify that native structures don't have parsing errors or conflicts.", ()
         checkNativeNodes(Object.values(funs));
 
     // Check default definition shares.
-    checkNativeNodes((Object.values(shares.defaults).filter(s => s instanceof StructureDefinitionValue) as StructureDefinitionValue[])
-        .filter((def1, index1, defs) => defs.find((def2, index2) => def1 === def2 && index2 > index1) === undefined)
-        .map(s => s.definition)
-    );
+    checkNativeNodes(DefaultShares);
 
 });

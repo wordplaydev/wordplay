@@ -142,7 +142,7 @@ export default function bootstrapList() {
                 ) ],
                 new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
-                    const list = evaluation.getContext();
+                    const list = evaluation.getClosure();
                     const value = evaluation.resolve('value');
                     if(list instanceof List && value !== undefined) return list.add(requestor, value);
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
@@ -158,7 +158,7 @@ export default function bootstrapList() {
                 [], 
                 new MeasurementType(),
                 (requestor, evaluation) => {
-                    const list = evaluation.getContext();
+                    const list = evaluation.getClosure();
                     if(list instanceof List) return list.length(requestor);
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
@@ -174,7 +174,7 @@ export default function bootstrapList() {
                 new NameType(LIST_TYPE_VAR_NAMES.eng),
                 (requestor, evaluation) => {
                     requestor;
-                    const list = evaluation.getContext();
+                    const list = evaluation.getClosure();
                     if(list instanceof List) return list.random();
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
@@ -190,7 +190,7 @@ export default function bootstrapList() {
                 new NameType(LIST_TYPE_VAR_NAMES.eng),
                 (requestor, evaluation) => {
                     requestor;
-                    const list = evaluation.getContext();
+                    const list = evaluation.getClosure();
                     if(list instanceof List) return list.first();
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
@@ -212,7 +212,7 @@ export default function bootstrapList() {
                 ) ], 
                 new BooleanType(),
                 (requestor, evaluation) => {
-                    const list = evaluation.getContext();
+                    const list = evaluation.getClosure();
                     const value = evaluation.resolve("value");
                     if(list instanceof List && value !== undefined) return list.has(requestor, value);
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
@@ -235,7 +235,7 @@ export default function bootstrapList() {
                 ) ], 
                 new TextType(),
                 (requestor, evaluation) => {
-                    const list = evaluation.getContext();
+                    const list = evaluation.getClosure();
                     const separator = evaluation.resolve("separator");
                     if(list instanceof List && separator instanceof Text) return list.join(requestor, separator);
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
@@ -252,7 +252,7 @@ export default function bootstrapList() {
                 new NameType(LIST_TYPE_VAR_NAMES.eng),
                 (requestor, evaluation) => {
                     requestor;
-                    const list = evaluation.getContext();
+                    const list = evaluation.getClosure();
                     if(list instanceof List) return list.last();
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
@@ -267,7 +267,7 @@ export default function bootstrapList() {
                 [], 
                 new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
-                    const list = evaluation.getContext();
+                    const list = evaluation.getClosure();
                     if(list instanceof List) return list.sansFirst(requestor);
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
@@ -282,7 +282,7 @@ export default function bootstrapList() {
                 [], 
                 new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
-                    const list = evaluation.getContext();
+                    const list = evaluation.getClosure();
                     if(list instanceof List) return list.sansLast(requestor);
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
@@ -304,7 +304,7 @@ export default function bootstrapList() {
                 ) ], 
                 new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
-                    const list = evaluation.getContext();
+                    const list = evaluation.getClosure();
                     const value = evaluation.resolve("value");
                     if(list instanceof List && value !== undefined) return list.sans(requestor, value);
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
@@ -327,7 +327,7 @@ export default function bootstrapList() {
                 ) ], 
                 new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
-                    const list = evaluation.getContext();
+                    const list = evaluation.getClosure();
                     const value = evaluation.resolve("value");
                     if(list instanceof List && value !== undefined) return list.sansAll(requestor, value);
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
@@ -343,7 +343,7 @@ export default function bootstrapList() {
                 [], 
                 new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
-                    const list = evaluation.getContext();
+                    const list = evaluation.getClosure();
                     if(list instanceof List) return list.reverse(requestor);
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
@@ -365,7 +365,7 @@ export default function bootstrapList() {
                 ) ],
                 new NativeExpression(new BooleanType(), 
                 (requestor, evaluation) => {
-                        const list = evaluation.getContext();
+                        const list = evaluation.getClosure();
                         const value = evaluation.resolve("value");
                         if(!(list instanceof List)) return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                         if(!(value instanceof Value)) return new TypeException(evaluation.getEvaluator(), new ListType(), value);
@@ -395,7 +395,7 @@ export default function bootstrapList() {
                 ) ],
                 new NativeExpression(new BooleanType(), 
                 (requestor, evaluation) => {
-                        const list = evaluation.getContext();
+                        const list = evaluation.getClosure();
                         const value = evaluation.resolve("value");
                         if(!(list instanceof List)) return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                         if(!(value instanceof Value)) return new TypeException(evaluation.getEvaluator(), new ListType(), value);

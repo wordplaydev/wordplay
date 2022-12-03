@@ -16,7 +16,7 @@ export class UnknownBorrow extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.borrow.name === undefined ? this.borrow.borrow : this.borrow.name ] };
+        return { primary: [ this.borrow.source === undefined ? this.borrow.borrow : this.borrow.source ] };
     }
 
     getExplanations(): Translations { 

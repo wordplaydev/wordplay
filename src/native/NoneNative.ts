@@ -37,7 +37,7 @@ export default function bootstrapNone() {
             new NativeExpression(
                 new BooleanType(), 
                 (requestor, evaluation) => {
-                    const left = evaluation.getContext();
+                    const left = evaluation.getClosure();
                     const right = evaluation.resolve("val");
                     // This should be impossible, but the type system doesn't know it.
                     if(!(left instanceof None)) return new TypeException(evaluation.getEvaluator(), new NoneType(), left);

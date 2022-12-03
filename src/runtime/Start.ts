@@ -5,14 +5,20 @@ import type Translations from "../nodes/Translations";
 import type Expression from "../nodes/Expression";
 import HOF from "../native/HOF";
 
+type Action = (evalutor: Evaluator) => Value | undefined;
+
 export default class Start extends Step {
 
-    constructor(node: Expression) {
+    readonly action?: Action;
+
+    constructor(node: Expression, action?: Action) {
         super(node);
+        this.action = action;
     }
     
     evaluate(evaluator: Evaluator): Value | undefined {
-        return start(evaluator, this.node);
+        const value = start(evaluator, this.node);
+        return this.action === undefined ? value : this.action(evaluator);
     }
 
     getExplanations(evaluator: Evaluator): Translations { return this.node.getStartExplanations(evaluator); }

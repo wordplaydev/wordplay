@@ -29,16 +29,16 @@ import StartFinish from "../runtime/StartFinish";
 
 export default class ConversionDefinition extends Expression {
 
-    readonly docs: Docs;
+    readonly docs?: Docs;
     readonly arrow: Token;
     readonly input: Type;
     readonly output: Type;
     readonly expression: Expression;
 
-    constructor(docs: Docs | Translations, input: Type | string, output: Type | string, expression: Expression, convert?: Token) {
+    constructor(docs: Docs | Translations | undefined, input: Type | string, output: Type | string, expression: Expression, convert?: Token) {
         super();
 
-        this.docs = docs instanceof Docs ? docs : new Docs(docs);
+        this.docs = docs === undefined ? undefined : docs instanceof Docs ? docs : new Docs(docs);
         this.arrow = convert ?? new Token(CONVERT_SYMBOL, TokenType.CONVERT);
         this.input = typeof input === "string" ? parseType(tokens(input)) : input;
         this.output = typeof output === "string" ? parseType(tokens(output)) : output;
@@ -50,7 +50,7 @@ export default class ConversionDefinition extends Expression {
 
     getGrammar() { 
         return [
-            { name: "docs", types:[ Docs ] },
+            { name: "docs", types:[ Docs, undefined ] },
             { name: "arrow", types:[ Token ] },
             { name: "input", types:[ Type ] },
             { name: "output", types:[ Type ] },

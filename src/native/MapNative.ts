@@ -114,7 +114,7 @@ export default function bootstrapMap() {
                 ) ], 
                 new BooleanType(),
                 (requestor, evaluation) => {
-                        const map = evaluation?.getContext();
+                        const map = evaluation?.getClosure();
                         const other = evaluation.resolve("map");
                         return !(map instanceof Map && other instanceof Map) ? 
                             new TypeException(evaluation.getEvaluator(), new MapType(), other) :
@@ -144,7 +144,7 @@ export default function bootstrapMap() {
                 ) ], 
                 new BooleanType(),
                 (requestor, evaluation) => {
-                    const map = evaluation?.getContext();
+                    const map = evaluation?.getClosure();
                     const other = evaluation.resolve("map");
                     return !(map instanceof Map && other instanceof Map) ? 
                         new TypeException(evaluation.getEvaluator(), new MapType(), other) :
@@ -187,7 +187,7 @@ export default function bootstrapMap() {
                 ],
                 new MapType(),
                 (requestor, evaluation) => {
-                    const map = evaluation.getContext();
+                    const map = evaluation.getClosure();
                     const key = evaluation.resolve("key");
                     const value = evaluation.resolve("value");
                     if(map instanceof Map && key !== undefined && value !== undefined) return map.set(requestor, key, value);
@@ -219,7 +219,7 @@ export default function bootstrapMap() {
                 ],
                 new MapType(),
                 (requestor, evaluation) => {
-                    const map = evaluation.getContext();
+                    const map = evaluation.getClosure();
                     const key = evaluation.resolve("key");
                     if(map instanceof Map && key !== undefined) return map.unset(requestor, key);
                     else return new TypeException(evaluation.getEvaluator(), new MapType(), map);
@@ -250,7 +250,7 @@ export default function bootstrapMap() {
                 ],
                 new MapType(),
                 (requestor, evaluation) => {
-                    const map = evaluation.getContext();
+                    const map = evaluation.getClosure();
                     const value = evaluation.resolve("value");
                     if(map instanceof Map && value !== undefined) return map.remove(requestor, value);
                     else return new TypeException(evaluation.getEvaluator(), new MapType(), map);

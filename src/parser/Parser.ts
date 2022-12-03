@@ -244,8 +244,7 @@ export function tokens(code: string): Tokens {
 export function parseProgram(tokens: Tokens): Program {
 
     // If a borrow is next or there's no whitespace, parse a docs.
-    const docs = tokens.nextLacksPrecedingSpace() || tokens.nextIs(TokenType.BORROW) ? 
-        parseDocumentation(tokens) : new Docs();
+    const docs = parseDocumentation(tokens);
 
     const borrows = [];
     while(tokens.nextIs(TokenType.BORROW))
@@ -263,11 +262,13 @@ export function parseProgram(tokens: Tokens): Program {
 
 // BORROW :: ↓ name number?
 export function parseBorrow(tokens: Tokens): Borrow {
-    let borrow = tokens.read(TokenType.BORROW);
-    let name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : undefined;
-    let version = tokens.nextIs(TokenType.NUMBER) && !tokens.nextHasPrecedingLineBreak() ? tokens.read(TokenType.NUMBER) : undefined;
+    const borrow = tokens.read(TokenType.BORROW);
+    const source = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : undefined;
+    const dot = tokens.nextIs(TokenType.ACCESS) ? tokens.read(TokenType.ACCESS) : undefined;
+    const name = dot && tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : undefined;
+    const version = tokens.nextIs(TokenType.NUMBER) && !tokens.nextHasPrecedingLineBreak() ? tokens.read(TokenType.NUMBER) : undefined;
 
-    return new Borrow(borrow, name, version);
+    return new Borrow(borrow, source, dot, name, version);
 }
 
 /** BLOCK :: DOCS ? ( [BIND|EXPRESSION]+ )  */
@@ -772,7 +773,7 @@ function parseFunction(tokens: Tokens): FunctionDefinition | UnparsableExpressio
     const docs = parseDocumentation(tokens);
 
     if(tokens.nextIsnt(TokenType.FUNCTION)) 
-        return new UnparsableExpression([ docs ]);
+        return new UnparsableExpression(docs ? [ docs ] : []);
 
     const fun = tokens.read(TokenType.FUNCTION);
 
@@ -781,7 +782,7 @@ function parseFunction(tokens: Tokens): FunctionDefinition | UnparsableExpressio
     const typeVars = parseTypeVariables(tokens);
 
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
-        return new UnparsableExpression([ docs, fun, ...(names ? [names] : []), ...typeVars ]);
+        return new UnparsableExpression([ ...(docs ? [ docs]: []), fun, ...(names ? [names] : []), ...typeVars ]);
     const open = tokens.read(TokenType.EVAL_OPEN);
 
     const inputs: Bind[] = [];
@@ -836,7 +837,7 @@ function parseConversion(tokens: Tokens): ConversionDefinition | UnparsableExpre
     const docs = parseDocumentation(tokens);
     const input = parseType(tokens, true);
     if(!tokens.nextIs(TokenType.CONVERT))
-        return new UnparsableExpression([ docs, input ]);
+        return new UnparsableExpression(docs ? [ docs, input ] : [ input ]);
     const convert = tokens.read(TokenType.CONVERT);
     const output = parseType(tokens, true);
     const expression = parseExpression(tokens);
@@ -1063,7 +1064,7 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
 
 }
 
-function parseDocumentation(tokens: Tokens): Docs  {
+function parseDocumentation(tokens: Tokens): Docs | undefined {
 
     const docs = [];
     while(tokens.nextIs(TokenType.DOCS) && (docs.length === 0 || (tokens.peekSpace()?.split("\n").length ?? 0) - 1 <= 1 )) {
@@ -1071,6 +1072,6 @@ function parseDocumentation(tokens: Tokens): Docs  {
         const lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
         docs.push(new Doc(doc, lang));
     }
-    return new Docs(docs);
+    return docs.length === 0 ? undefined : new Docs(docs);
 
 }

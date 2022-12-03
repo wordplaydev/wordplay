@@ -580,7 +580,7 @@ export default class Evaluate extends Expression {
 
         // Find the function on the left's type.
         const fun = this.getFunction(context);
-        return fun !== undefined ? overrideWithDocs(descriptions, fun.docs) : descriptions;
+        return fun && fun.docs ? overrideWithDocs(descriptions, fun.docs) : descriptions;
         
     }
 

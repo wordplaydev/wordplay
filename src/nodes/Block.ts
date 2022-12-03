@@ -12,14 +12,12 @@ import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
 import Halt from "../runtime/Halt";
-import Structure from "../runtime/Structure";
 import type Context from "./Context";
 import type Definition from "./Definition";
 import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
 import type { TypeSet } from "./UnionType";
 import ValueException from "../runtime/ValueException";
-import ContextException, { StackSize } from "../runtime/ContextException";
 import None from "../runtime/None";
 import ConversionDefinition from "./ConversionDefinition";
 import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
@@ -39,7 +37,7 @@ import type Value from "../runtime/Value";
 
 export default class Block extends Expression {
 
-    readonly docs: Docs;
+    readonly docs?: Docs;
     readonly open?: Token;
     readonly statements: Expression[];
     readonly close?: Token;
@@ -53,7 +51,7 @@ export default class Block extends Expression {
         this.open = !root && open === undefined ? new EvalOpenToken() : open;
         this.statements = statements;
         this.close = !root && close === undefined ? new EvalCloseToken() : close;
-        this.docs = docs instanceof Docs ? docs : new Docs(docs);
+        this.docs = docs === undefined ? undefined : docs instanceof Docs ? docs : new Docs(docs);
         this.root = root;
         this.creator = creator;
 
@@ -63,7 +61,7 @@ export default class Block extends Expression {
 
     getGrammar() { 
         return [
-            { name: "docs", types:[ Docs ] },
+            { name: "docs", types:[ Docs, undefined ] },
             { name: "open", types:[ Token, undefined ] },
             { name: "statements", types:[[ Expression, Bind ]] },
             { name: "close", types:[ Token, undefined ] },
@@ -177,15 +175,8 @@ export default class Block extends Expression {
         if(prior) 
             return prior;
 
-        // If this block is creating a structure, take the context and bindings we just created
-        // and convert it into a structure.
-        if(this.creator) {
-            const context = evaluator.getCurrentEvaluation();
-            if(context === undefined) return new ContextException(StackSize.EMPTY, evaluator);
-            return new Structure(this, context);
-        }
         // Root blocks are allowed to have no value, but all others must have one.
-        else return this.root && !evaluator.hasValue() ? new None(this) : evaluator.popValue(undefined);
+        return (this.creator || this.root) && !evaluator.hasValue() ? new None(this) : evaluator.popValue(undefined);
 
     }
 
@@ -270,8 +261,8 @@ export default class Block extends Expression {
         }
     }
 
-    getStart() { return this.open ?? this.getFirstLeaf() ?? this.docs; }
-    getFinish() { return this.close ?? this.getLast() ?? this.docs; }
+    getStart() { return this.open ?? this.getFirstLeaf() ?? this; }
+    getFinish(): Node { return this.close ?? this.getLast() ?? this; }
 
     getStartExplanations(): Translations { 
         return {

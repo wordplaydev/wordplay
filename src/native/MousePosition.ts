@@ -12,8 +12,8 @@ import type Evaluator from "../runtime/Evaluator";
 
 function position(evaluator: Evaluator, x: number, y: number) {
     const bindings = new Map<Names, Value>();
-    bindings.set(Place.inputs[0].names, new Measurement(evaluator.getProgram(), x, Unit.unit([ "px"])));
-    bindings.set(Place.inputs[1].names, new Measurement(evaluator.getProgram(), y, Unit.unit([ "px"])));
+    bindings.set(Place.inputs[0].names, new Measurement(evaluator.getMain(), x, Unit.unit([ "px"])));
+    bindings.set(Place.inputs[1].names, new Measurement(evaluator.getMain(), y, Unit.unit([ "px"])));
     return createStructure(evaluator, Place, bindings)
 }
 
@@ -24,7 +24,7 @@ export default class MousePosition extends Stream {
 
     constructor(evaluator: Evaluator) {
         super(
-            evaluator.getProgram(),
+            evaluator.getMain(),
             {
                 eng: "A stream of mouse move events",
                 "😀": TRANSLATE

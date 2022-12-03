@@ -2,20 +2,15 @@ import type Node from "../nodes/Node";
 import type Reaction from "../nodes/Reaction";
 import Evaluation, { type EvaluationNode } from "./Evaluation";
 import ReactionStream from "./ReactionStream";
-import Shares from "./Shares";
-import Stream from "./Stream";
+import type Stream from "./Stream";
 import Value from "./Value";
-import Context from "../nodes/Context";
 import EvaluationException, { StackSize } from "./ContextException";
 import Exception from "./Exception";
-import NameException from "./NameException";
 import ValueException from "./ValueException";
 import type Type from "../nodes/Type";
 import type NativeInterface from "../native/NativeInterface";
 import Source from "../models/Source";
-import type Program from "../nodes/Program";
-import Names from "../nodes/Names";
-import Name from "../nodes/Name";
+import type Names from "../nodes/Names";
 import type Expression from "../nodes/Expression";
 import Evaluate from "../nodes/Evaluate";
 import BinaryOperation from "../nodes/BinaryOperation";
@@ -23,11 +18,11 @@ import UnaryOperation from "../nodes/UnaryOperation";
 import Project from "../models/Project";
 import { valueToVerse } from "../native/Verse";
 import type Step from "./Step";
-import Block from "../nodes/Block";
 import StructureDefinition from "../nodes/StructureDefinition";
 import Token from "../nodes/Token";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import ConversionDefinition from "../nodes/ConversionDefinition";
+import Context from "../nodes/Context";
 
 // Import this last, after everything else, to avoid cycles.
 import Native from "../native/NativeBindings";
@@ -39,16 +34,14 @@ export enum Mode { PLAY, STEP };
 
 export default class Evaluator {
 
-    readonly source: Source;
+    /** The project that this is evaluating. */
+    readonly project: Project;
 
     /** This represents a stack of node evaluations. The first element of the stack is the currently executing node. */
     readonly evaluations: Evaluation[] = [];
 
-    /** The global namespace of shared code. */
-    readonly shares: Shares;
-
-    /** The conflict context for compilation and type checking. */
-    readonly context: Context;
+    /** The last evaluation to be removed from the stack */
+    #lastEvaluation: Evaluation | undefined;
 
     /** The callback to notify if the evaluation's value changes. */
     readonly observers: EvaluationObserver[] = [];
@@ -91,12 +84,10 @@ export default class Evaluator {
      */
     steps: Map<EvaluationNode, Step[]> = new Map();
 
-    constructor(project: Project, source: Source) {
+    constructor(project: Project) {
 
-        this.source = source;
+        this.project = project;
         this.evaluations = [];
-        this.shares = new Shares();
-        this.context = new Context(project, this.source, this.shares);
 
     }
 
@@ -108,19 +99,19 @@ export default class Evaluator {
         const source = new Source("test", main);
         const project = new Project("test", source, (supplements ?? []).map((code, index) => new Source(`sup${index + 1}`, code)));
         project.evaluate();
-        return project.getEvaluator(source)?.getLatestResult();
+        return project.evaluator.getLatestResult();
     }
 
     // GETTERS
 
+    getMain(): Source { return this.project.main; }
     getMode(): Mode { return this.mode; }
-    getProgram(): Program { return this.source.expression; }
-    getContext(): Context { return this.context; }
     getNative(): NativeInterface { return Native; }
     getCurrentStep() { return this.evaluations[0]?.currentStep(); }
     getNextStep() { return this.evaluations[0]?.nextStep(); }
     getCurrentEvaluation() { return this.evaluations.length === 0 ? undefined : this.evaluations[0]; }
-    getShares() { return this.shares; }
+    getLastEvaluation() { return this.#lastEvaluation; }
+    getCurrentContext() { return this.getCurrentEvaluation()?.getContext() ?? new Context(this.project, this.project.main); }
     /** Get whatever the latest result was of evaluating the program and its streams. */
     getLatestResult() { return this.latestValue; }
     getVerse() { return valueToVerse(this, this.getLatestResult()); }
@@ -130,10 +121,13 @@ export default class Evaluator {
         let steps = this.steps.get(evaluation);
         if(steps === undefined) {
             // If the evaluation is a structure definition that has no block, synthesize an empty block
-            const expression = 
-                evaluation instanceof StructureDefinition && evaluation.expression === undefined ? new Block([], true, true) :
-                evaluation.expression;
-            steps = expression instanceof Token || expression === undefined ? [] : expression.compile(this.context);
+            const expression = evaluation.expression;
+            if(expression instanceof Token || expression === undefined)
+                steps = [];
+            else {
+                const context = this.project.getNodeContext(expression) ?? new Context(this.project, this.project.main);
+                steps = expression.compile(context);
+            }
             this.steps.set(evaluation, steps);
         }
         return steps;
@@ -155,22 +149,26 @@ export default class Evaluator {
     isDone() { return this.evaluations.length === 0; }
     getThis(requestor: Node): Value | undefined { return this.getCurrentEvaluation()?.getThis(requestor); }
     isInvalidated(expression: Expression) { return this.invalidatedExpressions === undefined || this.invalidatedExpressions.has(expression); }
+    /** True if any of the evaluations on the stack are evaluating the given source. Used for detecting cycles. */
+    isEvaluatingSource(source: Source) { return this.evaluations.some(e => e.getSource() === source); }
 
     /** Given a node, returns true if the node participates in a step in this program. */
     nodeIsStep(node: Node): boolean {
 
         // Find evaluable nodes and see if their steps 
         // so we can analyze them for various purposes.
-        for(const evaluation of this.source.nodes()) {
-            if(evaluation instanceof FunctionDefinition ||
-                evaluation instanceof StructureDefinition ||
-                evaluation instanceof ConversionDefinition ||
-                evaluation instanceof Source) {
+        for(const source of this.project.getSources()) {
+            for(const evaluation of source.nodes()) {
+                if(evaluation instanceof FunctionDefinition ||
+                    evaluation instanceof StructureDefinition ||
+                    evaluation instanceof ConversionDefinition ||
+                    evaluation instanceof Source) {
 
-                const steps = this.getSteps(evaluation);
-                const step = steps.find(step => step.node === node);
-                if(step !== undefined) return true;
+                    const steps = this.getSteps(evaluation);
+                    const step = steps.find(step => step.node === node);
+                    if(step !== undefined) return true;
 
+                }
             }
         }
         return false;
@@ -206,7 +204,7 @@ export default class Evaluator {
 
         // Reset the evluation stack and start evaluating the the program.
         this.evaluations.length = 0;
-        this.evaluations.push(new Evaluation(this, this.source, this.source));
+        this.evaluations.push(new Evaluation(this, this.getMain(), this.getMain()));
 
         // Stop remembering in case the last execution ended abruptly.
         this.stopRememberingStreamAccesses();
@@ -334,7 +332,7 @@ export default class Evaluator {
             //     this.step();
             //     nextStepNode = this.getCurrentStep()?.node;
             // }
-        } while(nextStepNode !== undefined && !this.source.contains(nextStepNode));
+        } while(nextStepNode !== undefined && !this.project.contains(nextStepNode));
 
     }
     
@@ -406,7 +404,7 @@ export default class Evaluator {
             if(this.nodeIsStep(current))
                 return current;
             else
-                current = this.context.get(current)?.getParent();
+                current = this.project.get(current)?.getParent();
         } while(current !== undefined);
         return undefined;
 
@@ -453,9 +451,12 @@ export default class Evaluator {
         this.evaluations.unshift(evaluation);
     }
 
-    /** Start evaluation */
+    /** Remove the evaluation from the stack, but remember it in case a step needs it (like a Borrow does, to access bindings) */
     endEvaluation() {
-        this.evaluations.shift();
+        const evaluation = this.evaluations.shift();
+        if(evaluation === undefined)
+            throw Error("Shouldn't be possible to end an evaluation on an empty evaluation stack.");
+        this.#lastEvaluation = evaluation;
     }
     
     startEvaluating(expression: Expression) {
@@ -483,50 +484,12 @@ export default class Evaluator {
     /** Bind the given value to the given name in the context of the current evaluation. */
     bind(names: Names, value: Value) {
         if(this.evaluations.length > 0)
-            this.evaluations[0].bind(names, value);
+            this.evaluations[0].bind(names, value);    
     }
 
     /** Resolve the given name in the current execution context. */
     resolve(name: string | Names): Value | undefined {
-        const value = 
-            this.evaluations.length === 0 ? 
-                undefined : 
-                this.evaluations[0].resolve(name);
-
-        if(value) return value;
-
-        return typeof name === "string" ? this.shares.resolve(name) : undefined;
-
-    }
-
-    /** Borrow the given name from the other source in this project or from the global namespace. */
-    borrow(name: string): Value | undefined { 
-
-        // First look in this source's shares (for global things) then look in other source.
-        // (Otherwise we'll find the other source's streams, which are separate).
-        const share = this.shares.resolve(name) ?? this.context.project.resolveShare(this.source, name);
-        if(share === undefined)
-            return new NameException(name, this);
-
-        // Bind the shared value in this context.
-        this.bind(new Names([ new Name(name) ]), share);
-
-        // If it's a stream, start it.
-        if(share instanceof Stream)
-            share.start();
-
-        // Return the value.
-        return share;
-
-    }
-    
-    /** Share the given value */
-    share(names: Names, value: Value) { 
-        return this.shares.bind(names, value);
-    }
-
-    resolveShare(name: string): Value | undefined {
-        return this.shares.resolve(name);
+        return this.evaluations[0].resolve(name);
     }
     
 }

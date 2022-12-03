@@ -37,6 +37,7 @@ export default class StructureType extends Type {
         // Are any of the given type's interfaces compatible with this?
         return type.structure.interfaces.find(int => {
             let interfaceType = int.type;
+            // Resolve the name before checking.
             if(interfaceType instanceof NameType) interfaceType = interfaceType.getType(context);
             return this.accepts(interfaceType, context);
         }) !== undefined;

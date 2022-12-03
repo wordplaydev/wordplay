@@ -38,7 +38,7 @@ import StartFinish from "../runtime/StartFinish";
 
 export default class FunctionDefinition extends Expression {
 
-    readonly docs: Docs;
+    readonly docs?: Docs;
     readonly fun: Token;
     readonly names: Names;
     readonly typeVars: (TypeVariable)[];
@@ -59,7 +59,7 @@ export default class FunctionDefinition extends Expression {
         fun?: Token, dot?: Token, open?: Token, close?: Token) {
         super();
 
-        this.docs = docs instanceof Docs ? docs : new Docs(docs);
+        this.docs = docs === undefined ? undefined : docs instanceof Docs ? docs : new Docs(docs);
         this.names = names instanceof Names ? names : new Names(names);
         this.fun = fun ?? new Token(FUNCTION_SYMBOL, TokenType.FUNCTION);
         this.typeVars = typeVars;
@@ -76,7 +76,7 @@ export default class FunctionDefinition extends Expression {
 
     getGrammar() { 
         return [
-            { name: "docs", types:[ Docs ] },
+            { name: "docs", types:[ Docs, undefined ] },
             { name: "fun", types:[ Token ] },
             { name: "names", types:[ Names ] },
             { name: "typeVars", types:[[ TypeVariable ]] },
@@ -221,13 +221,11 @@ export default class FunctionDefinition extends Expression {
     }
 
     getDescriptions(): Translations {
-        return overrideWithDocs(
-            { 
-                "😀": TRANSLATE,
-                eng: "A function" 
-            }, 
-            this.docs
-        );
+        const defaultDocs = { 
+            "😀": TRANSLATE,
+            eng: "A named function" 
+        };
+        return this.docs ? overrideWithDocs(defaultDocs, this.docs) : defaultDocs;
     }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {

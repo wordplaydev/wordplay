@@ -14,7 +14,7 @@ import type Borrow from "../nodes/Borrow";
 import type Translations from "../nodes/Translations";
 import type LanguageCode from "../nodes/LanguageCode";
 import Expression from "../nodes/Expression";
-import type Bind from "../nodes/Bind";
+import Bind from "../nodes/Bind";
 import type Type from "../nodes/Type";
 import type { TypeSet } from "../nodes/UnionType";
 import type Step from "../runtime/Step";
@@ -22,6 +22,9 @@ import type Stream from "../runtime/Stream";
 import type Transform from "../transforms/Transform";
 import { WRITE_DOCS } from "../nodes/Translations";
 import Name from "../nodes/Name";
+import type { SharedDefinition } from "../nodes/Borrow";
+import FunctionDefinition from "../nodes/FunctionDefinition";
+import StructureDefinition from "../nodes/StructureDefinition";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -94,29 +97,21 @@ export default class Source extends Expression {
 
         // Visit this source.
         path.push(this);
-
-        // We need a project to do this.
-        const project = context.project;
         
         // Visit each borrow in the source's program to see if there's a path back here.
         for(const borrow of this.expression.borrows) {
 
-            // Find the definition.
-            const name = borrow.name?.getText();
-            if(name) {
-                // Does another program in the project define it?
-                const [ , source ] = project.getDefinition(this, name) ?? [];
-                if(source) {
-                    // If we found a cycle, return the path.
-                    if(path.includes(source))
-                        return [ borrow, path ];
-                    // Otherwise, continue searching for a cycle.
-                    const cycle = source.getCycle(context, path.slice());
-                    // If we found one, pass it up the call stack, but pass up this borrow instead
-                    if(cycle)
-                        return [ borrow, cycle[1] ];
-                }
-
+            // Find the share.
+            const [ source ] = borrow.getShare(context) ?? [];
+            if(source) {
+                // If we found a cycle, return the path.
+                if(path.includes(source))
+                    return [ borrow, path ];
+                // Otherwise, continue searching for a cycle.
+                const cycle = source.getCycle(context, path.slice());
+                // If we found one, pass it up the call stack, but pass up this borrow instead
+                if(cycle)
+                    return [ borrow, cycle[1] ];
             }
         }
 
@@ -128,6 +123,14 @@ export default class Source extends Expression {
     getNames() { return this.names.getNames(); }
     getCode() { return this.code; }
     
+    getShare(name: string): SharedDefinition | undefined {
+
+        return this.expression.expression.statements.find(n => 
+            (n instanceof Bind && n.hasName(name) && n.isShared()) ||
+            ((n instanceof FunctionDefinition || n instanceof StructureDefinition) && n.hasName(name))) as SharedDefinition | undefined;
+
+    }
+
     withPreviousGraphemeReplaced(char: string, position: number) {
         const newCode = this.code.withPreviousGraphemeReplaced(char, position);
         return newCode === undefined ? undefined : new Source(this.names, newCode);

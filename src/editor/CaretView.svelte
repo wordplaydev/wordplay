@@ -26,7 +26,7 @@
     $: token = $caret?.getToken();
 
     // Whether the program is executing
-    $: evaluating = $caret !== undefined && project.getEvaluator($caret.source)?.isDone();
+    $: evaluating = $caret !== undefined && project.evaluator.isDone();
 
     // The index we should render
     let caretIndex: number | undefined = undefined;

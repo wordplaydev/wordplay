@@ -10,33 +10,42 @@ import Unit from "./Unit";
 import TokenType from "./TokenType";
 import { BORROW_SYMBOL } from "../parser/Tokenizer";
 import type Transform from "../transforms/Transform";
-import Replace from "../transforms/Replace";
-import NameToken from "./NameToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Expression from "./Expression";
-import type Bind from "./Bind";
+import Bind from "./Bind";
 import type Type from "./Type";
 import type { TypeSet } from "./UnionType";
-import type Definition from "./Definition";
-import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
-import Stream from "../runtime/Stream";
+import type Stream from "../runtime/Stream";
 import type Value from "../runtime/Value";
 import UnknownType from "./UnknownType";
-import TypeVariable from "./TypeVariable";
-import type Source from "../models/Source";
-import StartFinish from "../runtime/StartFinish";
+import Source from "../models/Source";
+import Evaluation from "../runtime/Evaluation";
+import NameException from "../runtime/NameException";
+import FunctionDefinition from "./FunctionDefinition";
+import StructureDefinition from "./StructureDefinition";
+import CycleException from "../runtime/CycleException";
+import FunctionValue from "../runtime/FunctionValue";
+import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
+import Start from "../runtime/Start";
+import Finish from "../runtime/Finish";
+
+export type SharedDefinition = Source | Bind | FunctionDefinition | StructureDefinition | Stream;
 
 export default class Borrow extends Expression {
 
     readonly borrow: Token;
+    readonly source?: Token;
+    readonly dot?: Token;
     readonly name?: Token;
     readonly version?: Token;
 
-    constructor(borrow?: Token, name?: Token, version?: Token) {
+    constructor(borrow?: Token, source?: Token, dot?: Token, name?: Token, version?: Token) {
         super();
 
         this.borrow = borrow ?? new Token(BORROW_SYMBOL, TokenType.BORROW);
+        this.source = source;
+        this.dot = dot;
         this.name = name;
         this.version = version;
 
@@ -46,6 +55,8 @@ export default class Borrow extends Expression {
     getGrammar() { 
         return [
             { name: "borrow", types:[ Token ] },
+            { name: "source", types:[ Token, undefined ] },
+            { name: "dot", types:[ Token, undefined ] },
             { name: "name", types:[ Token, undefined ] },
             { name: "version", types:[ Token, undefined ] },
         ]; 
@@ -54,27 +65,19 @@ export default class Borrow extends Expression {
     replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
         return new Borrow(
             this.replaceChild(pretty, "borrow", this.borrow, original, replacement), 
+            this.replaceChild(pretty, "source", this.source, original, replacement),
+            this.replaceChild(pretty, "dot", this.dot, original, replacement),
             this.replaceChild(pretty, "name", this.name, original, replacement),
             this.replaceChild(pretty, "version", this.version, original, replacement)
         ) as this; 
     }
     
-    getDefinition(context: Context): [ Definition | undefined, Source | undefined ] {
+    getShare(context: Context): [ Source | undefined, SharedDefinition ] | undefined {
 
-        const name = this.name?.getText();
-        if(name === undefined) return [ undefined, undefined ];
-
-        const project = context.project;
-        // See if any of the project's source files share this.
-        if(project) {
-            const [ definition, source ] = project.getDefinition(context.source, name) ?? [];
-            if(definition !== undefined && source !== undefined) return [ definition, source ];
-        }
-        // If not, do any of the native bindings have the name?
-        const streamOrNative = context.shares.resolve(name);
-        return streamOrNative instanceof StructureDefinitionValue ? [ streamOrNative.definition, undefined ] :
-            streamOrNative instanceof Stream ? [ streamOrNative, undefined ] :
-            [ undefined, undefined ];
+        if(this.source === undefined)
+            return undefined;
+        
+        return context.project.getShare(this.source.getText(), this.name?.getText());
 
     }
 
@@ -84,7 +87,7 @@ export default class Borrow extends Expression {
 
         // Borrows can't depend on on sources that depend on this program.
         // Check the dependency graph to see if this definition's source depends on this borrow's source.
-        const [ definition, source ] = this.getDefinition(context) ?? [];
+        const [ definition, source ] = this.getShare(context) ?? [];
         if(definition === undefined && source === undefined)
             conflicts.push(new UnknownBorrow(this));
 
@@ -94,45 +97,97 @@ export default class Borrow extends Expression {
 
     getDependencies(context: Context): Expression[] {
 
-        const [ def ] = this.getDefinition(context);
+        const [ _, def ] = this.getShare(context) ?? [];
         return def instanceof Expression ? [ def ] : [];
 
     }
 
     compile(): Step[] {
-        return [ new StartFinish(this) ];
+        // One step, evaluted below in evaluate(), which launches the evaluation of the source
+        // file containing the name referred to.
+        return [ 
+            new Start(this, evaluator => this.start(evaluator)),
+            new Finish(this)
+        ];
+    }
+
+    start(evaluator: Evaluator): Value | undefined {
+
+        // Evaluate the source 
+        const [ source, definition ] = this.getShare(evaluator.getCurrentContext()) ?? [];
+
+        // If we didn't find anything, throw an exception.
+        if(source === undefined) {
+
+            // If there's no source and there's no definition, return an exception.
+            if(definition === undefined)
+                return new NameException(this.source?.getText() ?? this.name?.getText() ?? "", evaluator);
+            
+            // Otherwise, bind the definition in the current evaluation, wrapping it in a value if necessary.
+            const value = definition instanceof FunctionDefinition ? new FunctionValue(definition, undefined) :
+                definition instanceof StructureDefinition ? new StructureDefinitionValue(this, definition) :
+                definition;
+            
+            if(value instanceof Bind || value instanceof Source)
+                throw Error("It should't ever be possible that a Bind or Source is shared without a source.");
+
+            // Bind the value in the current evaluation for use.
+            evaluator.bind(definition.names, value);
+
+            // Jump over the finish.
+            evaluator.jump(1);
+            
+        }
+        // If there is a source, we need to evaluate it to get the requested value.
+        else {
+            // If the source we're evaluating is already on the evaluation stack, it's a cycle.
+            // Halt now rather than later having a stack overflow.
+            if(evaluator.isEvaluatingSource(source))
+                throw new CycleException(evaluator, this);
+
+            // Otherwise, evaluate the source, and delegate the binding to the Evaluator.
+            evaluator.startEvaluation(new Evaluation(evaluator, this, source));
+
+        }
+        
     }
 
     evaluate(evaluator: Evaluator): Value | undefined {
-        
-        const name = this.getName();
-        return name === undefined ? undefined : evaluator.borrow(name);
+
+        const [ source, definition ] = this.getShare(evaluator.getCurrentContext()) ?? [];
+
+        // Now that the source is evaluated, bind it's value if we're binding the source,
+        if(this.source) {
+            const value = evaluator.popValue(undefined);
+            if(this.name === undefined) {
+                if(source === undefined) return new NameException(this.source.getText() ?? "", evaluator);
+                evaluator.bind(source.names, value);
+            }
+            // Bind the share if we're binding a share.
+            else if(this.name) {
+                const name = this.name.getText();
+                const value = evaluator.getLastEvaluation()?.resolve(name);
+                if(definition === undefined || value === undefined) return new NameException(name ?? "", evaluator);
+                evaluator.bind(definition.names, value);
+            }
+        }
         
     }
 
     computeType(context: Context): Type {
 
-        const [ definition ] = this.getDefinition(context);
-
-        return definition === undefined || definition instanceof TypeVariable ? new UnknownType(this) : definition.getType(context);
+        const [ _, definition ] = this.getShare(context) ?? [];
+        return definition === undefined ? new UnknownType(this) : definition.getType(context);
 
     }
 
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet { return current; }
 
-    getName() { return this.name === undefined ? undefined : this.name.getText(); }
+    getName() { return this.source === undefined ? undefined : this.source.getText(); }
 
     getVersion() { return this.version === undefined ? undefined : (new Measurement(this, this.version, new Unit())).toNumber(); }
 
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
-        
-        if(child === this.name)
-            // Return name tokens of all shares
-            return context.shares
-                ?.getDefinitions()
-                .map(def => new Replace<Token>(context, child, [ name => new NameToken(name), def ])) ?? [];
-    
-    }
+    getChildReplacement(): Transform[] | undefined { return undefined; }
 
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(): Transform[] | undefined { return undefined; }
@@ -146,7 +201,7 @@ export default class Borrow extends Expression {
     }
 
     getStart() { return this.borrow; }
-    getFinish() { return this.name ?? this.borrow; }
+    getFinish() { return this.source ?? this.borrow; }
 
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 
