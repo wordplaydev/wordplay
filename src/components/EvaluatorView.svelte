@@ -22,13 +22,17 @@
         step = evaluator.getCurrentStep();
         evaluations = evaluator.evaluations;
     }
-
-
 </script>
 
 <section class="evaluator">
 
-    <p>{step?.getExplanations(evaluator)[$languages[0]]}</p>
+    <p>
+        {#if step}
+            {step.getExplanations(evaluator)[$languages[0]]}
+        {:else}
+            ...
+        {/if}
+    </p>
 
     {#each evaluations as evaluation}
         <EvaluationView evaluation={evaluation} />
@@ -39,5 +43,6 @@
 <style>
     section {
         padding: var(--wordplay-spacing);
+        box-sizing: border-box;
     }
 </style>

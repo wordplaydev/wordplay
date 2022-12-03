@@ -56,10 +56,12 @@
         border: solid var(--wordplay-border-width) var(--wordplay-border-color);
         padding: var(--wordplay-spacing);
         margin: var(--wordplay-spacing);
+        box-sizing: border-box;
     }
 
     table {
         width: 100%;
+        box-sizing: border-box;
     }
 
     td {

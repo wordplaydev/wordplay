@@ -161,7 +161,7 @@ export default class Program extends Expression {
     }
 
     getStart() { return this.getFirstLeaf() ?? this.end; }
-    getFinish() { return this.getFirstLeaf() ?? this.end; }
+    getFinish() { return this.end; }
 
     getStartExplanations(): Translations { 
         return {
