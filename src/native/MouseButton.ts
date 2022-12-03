@@ -1,16 +1,16 @@
 import BooleanType from "../nodes/BooleanType";
-import type Program from "../nodes/Program";
 import { TRANSLATE } from "../nodes/Translations";
 import Bool from "../runtime/Bool";
+import type Evaluator from "../runtime/Evaluator";
 import Stream from "../runtime/Stream";
 
 export default class MouseButton extends Stream {
 
     on: boolean = false;
 
-    constructor(program: Program) {
+    constructor(evaluator: Evaluator) {
         super(
-            program,
+            evaluator,
             {
                 eng: "A stream of mouse button up and down events.",
                 "😀": TRANSLATE
@@ -19,7 +19,7 @@ export default class MouseButton extends Stream {
                 "😀": "mouse-button",
                 eng: "🖱⬇️"
             },
-            new Bool(program, true)
+            new Bool(evaluator.getMain(), true)
         );
     }
 

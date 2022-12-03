@@ -24,7 +24,7 @@ export default class MousePosition extends Stream {
 
     constructor(evaluator: Evaluator) {
         super(
-            evaluator.getMain(),
+            evaluator,
             {
                 eng: "A stream of mouse move events",
                 "😀": TRANSLATE

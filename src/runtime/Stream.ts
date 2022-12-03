@@ -7,10 +7,14 @@ import type LanguageCode from "../nodes/LanguageCode";
 import Names from "../nodes/Names";
 import Docs from "../nodes/Docs";
 import type Node from "../nodes/Node";
+import type Evaluator from "./Evaluator";
 
 const HISTORY_LIMIT = 256;
 
 export default abstract class Stream extends Primitive {
+
+    /** The evalutor that processes this stream */
+    readonly evaluator: Evaluator;
 
     /** Documentation on this stream */
     docs: Docs;
@@ -24,9 +28,10 @@ export default abstract class Stream extends Primitive {
     /** Listeners watching this stream */
     reactors: ((stream: Stream)=>void)[] = [];
 
-    constructor(creator: Node, docs: Docs | Translations, names: Names | Translations, initalValue: Value) {
-        super(creator);
+    constructor(evaluator: Evaluator, docs: Docs | Translations, names: Names | Translations, initalValue: Value) {
+        super(evaluator.getMain());
 
+        this.evaluator = evaluator;
         this.docs = docs instanceof Docs ? docs : new Docs(docs);
         this.names = names instanceof Names ? names : new Names(names);
         this.add(initalValue);
@@ -44,6 +49,10 @@ export default abstract class Stream extends Primitive {
     }
 
     add(value: Value) {
+
+        // Ignore values during stepping.
+        if(this.evaluator.isStepping())
+            return;
 
         // Update the time.
         this.values.push(value);

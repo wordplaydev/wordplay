@@ -74,11 +74,11 @@ export default class Project {
 
         // Create all the streams.
         this.streams = {
-            time: new Time(this.main.expression),
-            mouseButton: new MouseButton(this.main.expression),
+            time: new Time(this.evaluator),
+            mouseButton: new MouseButton(this.evaluator),
             mousePosition: new MousePosition(this.evaluator),
             keyboard: new Keyboard(this.evaluator),
-            microphone: new Microphone(this.main.expression)
+            microphone: new Microphone(this.evaluator)
         };
 
         // Listen to all streams
