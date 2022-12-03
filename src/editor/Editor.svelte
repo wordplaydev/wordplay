@@ -40,6 +40,7 @@
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     let caret = writable<Caret>(new Caret(source, 0));
+    let caretChanged: boolean = false;
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
@@ -193,6 +194,16 @@
             }
         }
 
+        if(caretChanged) {
+            caretChanged = false;
+            const el = 
+                $caret.position instanceof Node ? 
+                    getNodeView($caret.position) :
+                    document.querySelector(".caret");
+            if(el)
+                ensureElementIsVisible(el, true);
+        }
+
     });
 
     function addHighlight(map: Highlights, node: Node, type: HighlightType) {
@@ -293,13 +304,13 @@
         return undefined;
     }
 
-    function ensureElementIsVisible(element: Element) {
+    function ensureElementIsVisible(element: Element, nearest: boolean = false) {
 
         const viewport = editor?.parentElement;
         if(viewport === null) return;
 
         // Note that we don't set "smooth" here because it break's Chrome's abiilty to horizontally scroll.
-        element.scrollIntoView({ block: "center", inline: "center"});
+        element.scrollIntoView({ block: nearest ? "nearest" : "center", inline: nearest ? "nearest" : "center"});
 
     }
 
@@ -909,6 +920,9 @@
         } else {
             caret.set(newCaret);
         }
+
+        // Mark that we need to make caret visible.
+        caretChanged = true;
 
         // After every edit, focus back on on text input
         input?.focus();
