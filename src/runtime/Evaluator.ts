@@ -71,9 +71,6 @@ export default class Evaluator {
     /** A mapping from Reaction nodes in the program to the streams they are listening to. */
     reactionStreams: Map<Reaction, Stream> = new Map();
 
-    /** A set of the streams ignored while stepping. Reset once played. */
-    ignoredStreams: Set<Stream> = new Set();
-
     /** A set of possible execution modes, defaulting to play. */
     mode: Mode = Mode.PLAY;
 
@@ -321,9 +318,6 @@ export default class Evaluator {
         }
         // If there was no value, that just means it's not done yet.
 
-        // Clear the ignored reactions after this step, assuming the creator was notified.
-        this.ignoredStreams.clear();
-
     }
 
     /** Keep evaluating steps in this project, skipping over nodes in other programs. */
@@ -378,14 +372,6 @@ export default class Evaluator {
 
     streamChanged(stream: Stream) {
         return this.changedStream === stream;
-    }
-
-    ignoredStream(stream: Stream) {
-        // Does the root evaluation bind this stream? If so, note that we ignored it.
-        if(this.evaluations[this.evaluations.length - 1]?.binds(stream)) {
-            this.ignoredStreams.add(stream);
-            this.broadcast();
-        }
     }
 
     hasReactionStream(reaction: Reaction) {

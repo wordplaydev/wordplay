@@ -17,7 +17,7 @@
     $: group = verse?.resolve("group", evaluator);
 
     function handleMouseDown() {
-        project.streams?.mouseButton.record(true);
+        project.streams.mouseButton.record(true);
     }
     function handleMouseUp() {
         project.streams?.mouseButton.record(false);
