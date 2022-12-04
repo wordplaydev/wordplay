@@ -4,24 +4,21 @@
     import type Evaluator from "../runtime/Evaluator";
     import type Step from "../runtime/Step";
     import EvaluationView from "./EvaluationView.svelte";
+    import { currentStep } from "../models/stores";
 
     export let evaluator: Evaluator;
 
     $: languages = getLanguages();
 
     let step: Step | undefined;
-    let previousEvaluator = evaluator;
     let evaluations: Evaluation[] = [];
     $: {
-        previousEvaluator?.ignore(handleUpdate);
-        evaluator?.observe(handleUpdate);
-        handleUpdate();
+        // Update when step changes.
+        $currentStep;
+        evaluations = evaluator.evaluations;
+        step = evaluator.getCurrentStep();
     }
 
-    function handleUpdate() { 
-        step = evaluator.getCurrentStep();
-        evaluations = evaluator.evaluations;
-    }
 </script>
 
 <section class="evaluator">

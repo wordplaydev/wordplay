@@ -131,10 +131,12 @@ export default class Evaluator {
         return steps;
 
     }
-    getPriorValueOf(expression: Expression, count: number) {
+    getPriorValueOf(expression: Expression, count?: number) {
         const values = this.values.get(expression);
-        return values === undefined || count >= values.length ? undefined : values[count];
+        const index = count ?? (values === undefined ? undefined : values.length - 1);
+        return index === undefined || values === undefined || index >= values.length ? undefined : values[index];
     }
+
     getCount(expression: Expression) {
         return this.counters.get(expression);
     }
@@ -326,11 +328,6 @@ export default class Evaluator {
             this.step();
             // Get the current step node
             nextStepNode = this.getCurrentStep()?.node;
-            // If we're on a start and the next step is a finish for the same node, step past the start.
-            // if(nextStepNode && this.source.contains(nextStepNode) && nextStepNode instanceof Start && nextStepNode === this.getNextStep()?.node) {
-            //     this.step();
-            //     nextStepNode = this.getCurrentStep()?.node;
-            // }
         } while(nextStepNode !== undefined && !this.project.contains(nextStepNode));
 
     }

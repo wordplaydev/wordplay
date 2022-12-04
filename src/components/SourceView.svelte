@@ -2,34 +2,21 @@
     import VerseView from './VerseView.svelte';
     import Editor from '../editor/Editor.svelte';
     import type Source from '../models/Source';
-    import { onDestroy } from 'svelte';
     import type Project from '../models/Project';
-    import type Evaluator from '../runtime/Evaluator';
     import type Structure from '../runtime/Structure';
     import EvaluatorView from './EvaluatorView.svelte';
     import { valueToVerse } from '../native/Verse';
+    import { currentStep } from '../models/stores';
 
     export let project: Project;
     export let source: Source;
     export let interactive: boolean = false;
 
-
-    let previousEvaluator: Evaluator;
-    $: evaluator = project.evaluator;
     let verse: Structure | undefined;
-
-    /** In case the evaluator changes, stop listening to the old one and start listening to the new one.*/
     $: {
-        previousEvaluator?.ignore(handleEvaluation);
-        evaluator.observe(handleEvaluation);
-        handleEvaluation();
+        $currentStep;
+        verse = valueToVerse(project.evaluator, project.evaluator.getLatestResultOf(source));
     }
-
-    function handleEvaluation() {
-        verse = valueToVerse(evaluator, evaluator.getLatestResultOf(source));
-    }
-
-    onDestroy(() => evaluator.ignore(handleEvaluation));
 
 </script>
 
@@ -45,9 +32,9 @@
         </div>
         <div class="source-content" >
             {#if verse === undefined}
-                <EvaluatorView evaluator={evaluator} />
+                <EvaluatorView evaluator={project.evaluator} />
             {:else}
-                <VerseView {project} {verse} {evaluator} {interactive}/>
+                <VerseView {project} {verse} evaluator={project.evaluator} {interactive}/>
             {/if}
         </div>
     </div>

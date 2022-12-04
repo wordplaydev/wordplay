@@ -31,6 +31,7 @@
     import Start from '../runtime/Start';
     import Finish from '../runtime/Finish';
     import type Project from '../models/Project';
+    import { currentStep } from '../models/stores';
 
     export let project: Project;
     export let source: Source;
@@ -58,13 +59,11 @@
     $: program = source.expression;
 
     // A shorthand for the current evaluator
-    $: evaluator = project.evaluator;
-    let previousEvaluator = evaluator;
     let executingNode: Node | undefined = undefined;
     let stepping = false;
+    $: evaluator = project.evaluator;
     $: {
-        previousEvaluator?.ignore(evalUpdate);
-        evaluator?.observe(evalUpdate);
+        $currentStep;
         evalUpdate();
     }
 
