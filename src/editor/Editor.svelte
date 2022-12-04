@@ -31,7 +31,6 @@
     import Start from '../runtime/Start';
     import Finish from '../runtime/Finish';
     import type Project from '../models/Project';
-    import { element } from 'svelte/internal';
 
     export let project: Project;
     export let source: Source;
