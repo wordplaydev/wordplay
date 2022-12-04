@@ -7,6 +7,7 @@
     import type Evaluator from '../runtime/Evaluator';
     import type Structure from '../runtime/Structure';
     import EvaluatorView from './EvaluatorView.svelte';
+    import { valueToVerse } from '../native/Verse';
 
     export let project: Project;
     export let source: Source;
@@ -25,7 +26,7 @@
     }
 
     function handleEvaluation() {
-        verse = evaluator.getVerse();
+        verse = valueToVerse(evaluator, evaluator.getLatestResultOf(source));
     }
 
     onDestroy(() => evaluator.ignore(handleEvaluation));

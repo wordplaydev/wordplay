@@ -219,7 +219,7 @@
 
     function updateHighlights() {
 
-        const latestValue = evaluator?.getLatestResult();
+        const latestValue = evaluator.getLatestResultOf(source);
 
         // Build a set of highlights to render.
         const newHighlights = new Map<Node, Set<HighlightType>>();

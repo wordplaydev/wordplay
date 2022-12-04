@@ -46,7 +46,7 @@ export default class Evaluation {
     /** The context, for passing around to getType, etc. */
     readonly #context: Context;
 
-    /** The node that defined this program. */
+    /** The node that defined this expression being evaluated. */
     readonly #evaluationNode: Program | FunctionDefinition | StructureDefinition | ConversionDefinition | Source;
 
     /** A cache of the node's steps */

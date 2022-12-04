@@ -16,7 +16,6 @@ import Evaluate from "../nodes/Evaluate";
 import BinaryOperation from "../nodes/BinaryOperation";
 import UnaryOperation from "../nodes/UnaryOperation";
 import Project from "../models/Project";
-import { valueToVerse } from "../native/Verse";
 import type Step from "./Step";
 import StructureDefinition from "../nodes/StructureDefinition";
 import Token from "../nodes/Token";
@@ -50,7 +49,7 @@ export default class Evaluator {
     stopped = false;
 
     /** The value of the evaluted program, cached each time the program is evaluated. */
-    latestValue: Value | undefined;
+    latestValues: Map<Source, Value | undefined> = new Map();
 
     /** The streams changes that triggered this evaluation */
     changedStream: Stream | undefined;
@@ -99,7 +98,7 @@ export default class Evaluator {
         const source = new Source("test", main);
         const project = new Project("test", source, (supplements ?? []).map((code, index) => new Source(`sup${index + 1}`, code)));
         project.evaluate();
-        return project.evaluator.getLatestResult();
+        return project.evaluator.getLatestResultOf(source);
     }
 
     // GETTERS
@@ -113,8 +112,7 @@ export default class Evaluator {
     getLastEvaluation() { return this.#lastEvaluation; }
     getCurrentContext() { return this.getCurrentEvaluation()?.getContext() ?? new Context(this.project, this.project.main); }
     /** Get whatever the latest result was of evaluating the program and its streams. */
-    getLatestResult() { return this.latestValue; }
-    getVerse() { return valueToVerse(this, this.getLatestResult()); }
+    getLatestResultOf(source: Source) { return this.latestValues.get(source); }
     getSteps(evaluation: EvaluationNode): Step[] {
 
         // No expression? No steps.
@@ -145,7 +143,6 @@ export default class Evaluator {
 
     isPlaying(): boolean { return this.mode === Mode.PLAY; }
     isStepping(): boolean { return this.mode === Mode.STEP; }
-    isEvaluating() { return this.evaluations.length > 0 || this.latestValue !== undefined; }
     isDone() { return this.evaluations.length === 0; }
     getThis(requestor: Node): Value | undefined { return this.getCurrentEvaluation()?.getThis(requestor); }
     isInvalidated(expression: Expression) { return this.invalidatedExpressions === undefined || this.invalidatedExpressions.has(expression); }
@@ -186,7 +183,7 @@ export default class Evaluator {
     start(changedStream?: Stream, invalidatedExpressions?: Set<Expression>): void {
 
         // Reset the latest value.
-        this.latestValue = undefined;
+        this.latestValues = new Map();
 
         // Remember what streams changed.
         this.changedStream = changedStream;
@@ -262,10 +259,12 @@ export default class Evaluator {
             
     }
 
-    end(value: Value) {
+    end(exception?: Exception) {
 
-        // Save the value.
-        this.latestValue = value;
+        // If there's an exception, end all sources with the exception.
+        while(this.evaluations.length > 0)
+            this.endEvaluation(exception);
+
         // Notify observers.
         this.broadcast();
         
@@ -297,9 +296,9 @@ export default class Evaluator {
             this.end(value);
         // If it's another kind of value, pop the evaluation off the stack and add the value to the 
         // value stack of the new top of the stack.
-        if(value instanceof Value) {
+        else if(value instanceof Value) {
             // End the Evaluation
-            this.endEvaluation();
+            this.endEvaluation(value);
             // If there's another Evaluation on the stack, pass the value to it by pushing it onto it's stack.
             if(this.evaluations.length > 0) {
                 this.evaluations[0].pushValue(value);
@@ -312,7 +311,7 @@ export default class Evaluator {
             }
             // Otherwise, save the value and clean up this final evaluation; nothing left to do!
             else
-                this.end(value);
+                this.end();
         }
         // If there was no value, that just means it's not done yet.
 
@@ -452,11 +451,14 @@ export default class Evaluator {
     }
 
     /** Remove the evaluation from the stack, but remember it in case a step needs it (like a Borrow does, to access bindings) */
-    endEvaluation() {
+    endEvaluation(value: Value | undefined) {
         const evaluation = this.evaluations.shift();
         if(evaluation === undefined)
             throw Error("Shouldn't be possible to end an evaluation on an empty evaluation stack.");
         this.#lastEvaluation = evaluation;
+        const def = evaluation.getDefinition();
+        if(def instanceof Source)
+            this.latestValues.set(def, value);
     }
     
     startEvaluating(expression: Expression) {

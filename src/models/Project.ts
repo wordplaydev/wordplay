@@ -148,7 +148,7 @@ export default class Project {
     getNative() { return Native; }
 
     isEvaluating() {
-        return this.evaluator.isEvaluating();
+        return !this.evaluator.isDone();
     }
     
     analyze() {
