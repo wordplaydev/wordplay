@@ -87,7 +87,6 @@ export function createRectangleOutlineOf(nodeView: HTMLElement): string {
 
     return `M ${lm - PADDING} ${tm - PADDING} L ${rm + PADDING} ${tm - PADDING} L ${rm + PADDING} ${bm + PADDING} L ${lm - PADDING} ${bm + PADDING} Z`;
 
-
 }
 
 function toRows(nodeView: HTMLElement): Rect[] {

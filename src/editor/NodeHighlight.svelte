@@ -42,7 +42,7 @@
     
     .highlight path {
         fill: none;
-        stroke-width: var(--wordplay-border-width);
+        stroke-width: var(--wordplay-border-radius);
         stroke-linejoin: round;
     }
 
