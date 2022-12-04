@@ -61,7 +61,7 @@
         transform: scale(1.1, 1.1);
     }
 
-    .button.inactive {
+    .button:focus, .button.inactive {
         z-index: 2;
     }
 
