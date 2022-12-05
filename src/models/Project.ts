@@ -1,9 +1,9 @@
 import type Conflict from "../conflicts/Conflict";
-import Keyboard from "../native/Keyboard";
-import Microphone from "../native/Microphone";
-import MouseButton from "../native/MouseButton";
-import MousePosition from "../native/MousePosition";
-import Time from "../native/Time";
+import Keyboard from "../streams/Keyboard";
+import Microphone from "../streams/Microphone";
+import MouseButton from "../streams/MouseButton";
+import MousePosition from "../streams/MousePosition";
+import Time from "../streams/Time";
 import Evaluate from "../nodes/Evaluate";
 import Expression from "../nodes/Expression";
 import FunctionDefinition from "../nodes/FunctionDefinition";

@@ -1,7 +1,7 @@
 import Bool from "../runtime/Bool";
 import Text from "../runtime/Text";
 import Stream from "../runtime/Stream";
-import Key from "./Key";
+import Key from "../native/Key";
 import { createStructure } from "../runtime/Structure";
 import None from "../runtime/None";
 import StructureType from "../nodes/StructureType";

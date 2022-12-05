@@ -7,7 +7,7 @@ import Measurement from "../runtime/Measurement";
 import Stream from "../runtime/Stream";
 import { createStructure } from "../runtime/Structure";
 import type Value from "../runtime/Value";
-import Place from "./Place";
+import Place from "../native/Place";
 import type Evaluator from "../runtime/Evaluator";
 
 function position(evaluator: Evaluator, x: number, y: number) {
