@@ -227,9 +227,6 @@ export default class Evaluator {
     /** Reset everything necessary for a new evaluation. */
     resetForEvaluation() {
 
-        // Reset the latest source values.
-        this.sourceValues = new Map();
-
         // Reset the latest expression values and counts.
         this.values.clear();
         this.counters.clear();
@@ -257,6 +254,9 @@ export default class Evaluator {
 
         // Reset per-evaluation state.
         this.resetForEvaluation();
+
+        // Reset the latest source values. (We keep them around for display after each reaction).
+        this.sourceValues = new Map();
 
     }
 
@@ -425,7 +425,7 @@ export default class Evaluator {
     }
 
     /** Keep evaluating steps in this project, skipping over nodes in other programs. */
-    stepWithinProgram(): void {
+    stepWithinProgram() {
 
         let nextStepNode = undefined;
         do {
@@ -438,20 +438,22 @@ export default class Evaluator {
         // Notify listeners that we finished stepping to the next within program node.
         this.broadcast();
 
+        return true;
+
     }
 
     /** 
      * Step backwards. This involves moving the stepIndex back, then reevaluating the project --
      * from the beginning -- until reaching the stepIndex. This relies on memoization of non-deterministic inputs.
      */
-    stepBack() {
+    stepBack(offset: number = -1) {
 
         // Do nothing if at the beginning of time.
         if(this.#stepIndex === 0) 
             return;
 
         // Set our target step
-        const destinationStep = this.#stepIndex - 1;
+        const destinationStep = this.#stepIndex + offset;
         
         // Step back in time
         this.#stepIndex = 0;
@@ -471,6 +473,8 @@ export default class Evaluator {
             this.step();
         }
 
+        return true;
+
     }
 
     /** Step back until reaching a step in the project. */
@@ -486,6 +490,45 @@ export default class Evaluator {
 
         // Notify listeners that we finished stepping to the next within program node.
         this.broadcast();
+
+        return true;
+
+    }
+
+    stepToInput() {
+
+        // Find the input after the current index.
+        const change = this.changedStreams.find(change => change.stepIndex > this.getStepIndex());
+
+        if(change === undefined) return false;
+
+        // Run all of the steps until we get a value or we're stopped.
+        while(!this.isDone() && this.getStepIndex() < change.stepIndex)
+            this.step();
+
+        // Notify listeners that we reached the step.
+        this.broadcast();
+
+        return true;
+    
+    }
+
+    stepBackToInput() {
+        // Find the changed stream just before the current step index and step back to it.
+        let latestChange;
+        for(const change of this.changedStreams) {
+            if(change.stepIndex >= this.getStepIndex())
+                break;
+            else
+                latestChange = change;
+        }
+        // If we found a change, step back to it.
+        if(latestChange) {
+            this.stepBack(latestChange.stepIndex - this.getStepIndex());
+            this.broadcast();
+            return true;
+        }
+        else return false;
 
     }
     

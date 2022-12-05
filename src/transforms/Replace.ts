@@ -20,7 +20,7 @@ export default class Replace<NodeType extends Node> extends Transform {
 
     }
 
-    getEdit(lang: LanguageCode[]): Edit {
+    getEdit(lang: LanguageCode[]): Edit | undefined  {
         
         const parent = this.context.get(this.node)?.getParent();
         if(parent === undefined || parent === null) return;

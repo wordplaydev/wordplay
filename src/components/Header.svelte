@@ -67,21 +67,32 @@
     />
     {#if $playing}
         <Button 
-            label={{ eng: "step", "😀": WRITE }}
+            label={{ eng: "→", "😀": WRITE }}
             tip={{ eng: "Advance one step in the program's evaluation.", "😀": WRITE }}
             action={handleStep} 
             enabled={!$project.evaluator.isPlaying() && !$project.evaluator.isDone()} 
         />
         <Button 
-            label={{ eng: "step out", "😀": WRITE }}
+            label={{ eng: "↑", "😀": WRITE }}
             tip={{ eng: "Step out of this function.", "😀": WRITE }}
             action={handleStepOut} 
-            enabled={!$project.evaluator.isPlaying() && !$project.evaluator.isDone()}>
-        </Button>
+            enabled={!$project.evaluator.isPlaying() && !$project.evaluator.isDone()}
+        />
+        <Button 
+            label={{ eng: "→ in", "😀": WRITE }}
+            tip={{ eng: "Step to the next input.", "😀": WRITE }}
+            action={() => $project.evaluator.stepToInput()} 
+        />
         <Button
-            label={{ eng: "back", "😀": WRITE }}
+            label={{ eng: "←", "😀": WRITE }}
             tip={{ eng: "Step back one step.", "😀": WRITE }}
             action={() => $project.evaluator.stepBackWithinProgram() }
+            enabled={!$project.evaluator.isAtBeginning()}
+        />
+        <Button
+            label={{ eng: "← in", "😀": WRITE }}
+            tip={{ eng: "Step to previous input.", "😀": WRITE }}
+            action={() => $project.evaluator.stepBackToInput() }
             enabled={!$project.evaluator.isAtBeginning()}
         />
     {/if}

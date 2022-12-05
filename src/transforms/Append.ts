@@ -29,7 +29,7 @@ export default class Append<NodeType extends Node> extends Transform {
 
     }
 
-    getEdit(lang: LanguageCode[]): Edit {
+    getEdit(lang: LanguageCode[]): Edit | undefined {
 
         // Get the node to insert, prettied.
         let newChild = this.getPrettyNewNode(lang).replace(true);

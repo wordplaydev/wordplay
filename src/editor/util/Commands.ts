@@ -4,7 +4,7 @@ import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBO
 import type Source from "../../models/Source";
 import Evaluator, { Mode } from "../../runtime/Evaluator";
 
-export type Edit = Caret | [ Source, Caret] | undefined;
+export type Edit = Caret | [ Source, Caret];
 
 export type Command = {
     description: string,
@@ -13,7 +13,7 @@ export type Command = {
     alt?: boolean,
     control?: boolean,
     mode: Mode | undefined,
-    execute: (caret: Caret, editor: HTMLElement, evaluator: Evaluator, key: string) => Edit | Promise<Edit>
+    execute: (caret: Caret, editor: HTMLElement, evaluator: Evaluator, key: string) => Edit | Promise<Edit | undefined> | boolean | undefined
 }
 
 const commands: Command[] = [
@@ -305,22 +305,30 @@ const commands: Command[] = [
         }
     },
     {
-        description: "Step",
+        description: "Step forward",
         key: "Space",
         mode: Mode.STEP,
-        execute: (_, __, evaluator) => {
-            evaluator.stepWithinProgram();
-            return undefined;
-        }
+        execute: (_, __, evaluator) => evaluator.stepWithinProgram()
     },
     {
-        description: "Back",
+        description: "Step forward to input",
+        shift: true,
+        key: "Space",
+        mode: Mode.STEP,
+        execute: (_, __, evaluator) => evaluator.stepToInput()
+    },
+    {
+        description: "Step back",
         key: "Backspace",
         mode: Mode.STEP,
-        execute: (_, __, evaluator) => {
-            evaluator.stepBackWithinProgram();
-            return undefined;
-        }
+        execute: (_, __, evaluator) => evaluator.stepBackWithinProgram()
+    },
+    {
+        description: "Step back to input",
+        shift: true,
+        key: "Backspace",
+        mode: Mode.STEP,
+        execute: (_, __, evaluator) => evaluator.stepBackToInput()
     },
     {
         description: "Switch between play/pause.",

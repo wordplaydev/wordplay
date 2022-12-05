@@ -258,7 +258,7 @@ export default class Caret {
 
     withSource(source: Source) { return new Caret(source, this.position); }
 
-    insert(text: string): Edit {
+    insert(text: string): Edit | undefined {
         if(typeof this.position === "number") {
             const newSource = this.source.withGraphemesAt(text, this.position);
             return newSource === undefined ? undefined : [ newSource, new Caret(newSource, this.position + text.length) ];
@@ -282,7 +282,7 @@ export default class Caret {
         return firstIndex === undefined || lastIndex === undefined ? undefined : [ firstIndex, lastIndex ];
     }
 
-    replace(old: Node, replacement: string): Edit {
+    replace(old: Node, replacement: string): Edit | undefined  {
 
         const range = this.getRange(old);
         if(range === undefined) return;
@@ -299,7 +299,7 @@ export default class Caret {
 
     }
     
-    backspace(): Edit {
+    backspace(): Edit | undefined  {
         if(typeof this.position === "number") {
             const newSource = this.source.withoutGraphemeAt(this.position - 1);
             return newSource === undefined ? undefined : [ newSource , new Caret(newSource, Math.max(0, this.position - 1)) ];
@@ -319,7 +319,7 @@ export default class Caret {
         }
     }
     
-    moveVertical(editor: HTMLElement, direction: 1 | -1): Edit {
+    moveVertical(editor: HTMLElement, direction: 1 | -1): Edit | undefined  {
 
         if(this.position instanceof Node) {
             const position = this.source.getNodeFirstPosition(this.position);

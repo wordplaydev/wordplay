@@ -886,7 +886,11 @@
 
                 // If it produced a new caret and optionally a new project, update the stores.
                 if(result !== undefined) {
-                    if(result instanceof Promise)
+                    if(typeof result === "boolean") {
+                        if(result === false)
+                            lastKeyDownIgnored = true;
+                    }
+                    else if(result instanceof Promise)
                         result.then(edit => handleEdit(edit));
                     else
                         handleEdit(result);
@@ -903,7 +907,7 @@
 
     }
 
-    function handleEdit(edit: Edit) {
+    function handleEdit(edit: Edit | undefined) {
 
         if(edit === undefined) return;
 

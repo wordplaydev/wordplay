@@ -13,7 +13,7 @@ export default abstract class Transform {
 
     }
 
-    abstract getEdit(lang: LanguageCode[]): Edit;
+    abstract getEdit(lang: LanguageCode[]): Edit | undefined ;
     abstract getDescription(lang: LanguageCode[]): string;
     abstract getNewNode(lang: LanguageCode[]): Node;
     abstract equals(transform: Transform): boolean;

@@ -24,7 +24,7 @@ export default class Remove extends Transform {
 
     }
 
-    getEdit(): Edit {
+    getEdit(): Edit | undefined {
 
         // Generalize the nodes given to a list.
         const nodes = this.getNodes();
