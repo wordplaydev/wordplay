@@ -15,16 +15,16 @@
         project.streams.mouseButton.record(true);
     }
     function handleMouseUp() {
-        project.streams?.mouseButton.record(false);
+        project.streams.mouseButton.record(false);
     }
     function handleMouseMove(event: MouseEvent) {
-        project.streams?.mousePosition.record(event.offsetX, event.offsetY);
+        project.streams.mousePosition.record(event.offsetX, event.offsetY);
     }
     function handleKeyUp(event: KeyboardEvent) {
-        project.streams?.keyboard.record(event.key, false);
+        project.streams.keyboard.record(event.key, false);
     }
     function handleKeyDown(event: KeyboardEvent) {
-        project.streams?.keyboard.record(event.key, true);
+        project.streams.keyboard.record(event.key, true);
     }
 
     let visible = false;

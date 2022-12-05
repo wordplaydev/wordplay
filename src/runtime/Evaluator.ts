@@ -305,8 +305,9 @@ export default class Evaluator {
             // Otherwise, step the current evaluation and get it's value
             this.evaluations[0]?.step(this);
 
-        // Tell observers that we're stepping
-        this.broadcast();
+        // Tell observers that we stepped, but only if stepping. (That would be a lot of broadcasting otherwise!
+        if(this.isStepping())
+            this.broadcast();
 
         // If it's an exception, halt execution by returning the exception value.
         if(value instanceof Exception)
