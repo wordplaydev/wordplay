@@ -31,7 +31,7 @@
     import Start from '../runtime/Start';
     import Finish from '../runtime/Finish';
     import type Project from '../models/Project';
-    import { currentStep } from '../models/stores';
+    import { currentStep, playing } from '../models/stores';
 
     export let project: Project;
     export let source: Source;
@@ -63,7 +63,7 @@
     let stepping = false;
     $: evaluator = project.evaluator;
     $: {
-        $currentStep;
+        $currentStep ?? $playing;
         evalUpdate();
     }
 

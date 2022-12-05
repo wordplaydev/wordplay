@@ -8,6 +8,7 @@ import Names from "../nodes/Names";
 import Docs from "../nodes/Docs";
 import type Node from "../nodes/Node";
 import type Evaluator from "./Evaluator";
+import type { StepNumber } from "./Evaluator";
 
 const HISTORY_LIMIT = 256;
 
@@ -23,7 +24,7 @@ export default abstract class Stream extends Primitive {
     names: Names;
 
     /** The stream of values */
-    values: Value[] = [];
+    values: { value: Value, stepIndex: StepNumber}[] = [];
 
     /** Listeners watching this stream */
     reactors: ((stream: Stream)=>void)[] = [];
@@ -55,7 +56,7 @@ export default abstract class Stream extends Primitive {
             return;
 
         // Update the time.
-        this.values.push(value);
+        this.values.push({ value: value, stepIndex: this.evaluator.getStepIndex() });
 
         // Limit the array to 1000 values to avoid leaking memory.
         const oldest = Math.max(0, this.values.length - HISTORY_LIMIT);
@@ -68,12 +69,27 @@ export default abstract class Stream extends Primitive {
 
     getNativeTypeName(): string { return STREAM_NATIVE_TYPE_NAME; }
 
-    latest() { return this.values[this.values.length - 1]; }
+    getFirstStepIndex() { return this.values[0].stepIndex; }
+
+    latest() { 
+        // Find the last value prior to the current evaluator index.
+        // Note that streams always have a starting value, so it should never be possible that the filter is empty.
+        return this.values.filter(val => val.stepIndex <= this.evaluator.getStepIndex()).at(-1)?.value as Value;
+    }
 
     at(requestor: Node, index: number): Value {
 
-        const position = this.values.length - index - 1;
-        return position >= 0 && position < this.values.length ? this.values[position] : new None(requestor);
+        // Get the latest value (based on the current evaluator time)
+        const latest = this.latest();
+
+        // Find the position of the latest value.
+        let position = this.values.findIndex(val => val.value === latest);
+
+        // Step back -index- number of times.
+        position -= index;
+
+        // Return the value at the position.
+        return position >= 0 && position < this.values.length ? this.values[position].value : new None(requestor);
 
     }
 

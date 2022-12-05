@@ -28,6 +28,6 @@ export default class ReactionStream extends Stream {
 
     start(): void {}
     stop() {}
-    getType(context: Context) { return this.values[0].getType(context); }
+    getType(context: Context) { return this.reaction.getType(context); }
 
 }

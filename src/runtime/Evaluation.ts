@@ -85,7 +85,7 @@ export default class Evaluation {
         this.#closure = closure;
 
         // Remember what step this was.
-        this.#stepNumber = evaluator.getStepNumber();
+        this.#stepNumber = evaluator.getStepIndex();
 
         // Derive some state
         this.#source = evaluator.project.getSourceOf(evaluationNode);

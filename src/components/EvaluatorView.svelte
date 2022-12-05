@@ -9,10 +9,13 @@
 
 </script>
 
-<section class="evaluator">
+<section class={`evaluator ${evaluator.isInPast() ? "past" : ""}`}>
     {#if $currentStep}
         {#if evaluator.steppedToNode() }
             <p><em>Evaluated to the selected code.</em></p>
+        {/if}
+        {#if evaluator.isAtBeginning() }
+            <p><em>At the beginning!</em></p>
         {/if}
         <p>{$currentStep.getExplanations(evaluator)[$languages[0]]}</p>
     {:else}
@@ -30,5 +33,9 @@
         padding: var(--wordplay-spacing);
         box-sizing: border-box;
         z-index: 2;
+    }
+
+    section.past {
+        background-color: var(--wordplay-disabled-color);
     }
 </style>

@@ -314,6 +314,15 @@ const commands: Command[] = [
         }
     },
     {
+        description: "Back",
+        key: "Backspace",
+        mode: Mode.STEP,
+        execute: (_, __, evaluator) => {
+            evaluator.stepBack();
+            return undefined;
+        }
+    },
+    {
         description: "Switch between play/pause.",
         control: true,
         key: "KeyP",

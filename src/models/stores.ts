@@ -9,8 +9,15 @@ export const project: Writable<Project> = writable<Project>();
 // A global store that contains the current step of the evaluator.
 export const currentStep: Writable<Step | undefined> = writable<Step | undefined>(undefined);
 
-function updateStep() {
-    currentStep.set(get(project)?.evaluator.getCurrentStep());
+// A global store that contains the play/pause mode of the evaluator.
+export const playing: Writable<boolean> = writable<boolean>(true);
+
+function updateEvaluatorStores() {
+    const evaluator = get(project)?.evaluator;
+    if(evaluator) {
+        currentStep.set(evaluator.getCurrentStep());
+        playing.set(evaluator.isPlaying())
+    }
 }
 
 export function updateProject(newProject: Project) {
@@ -18,10 +25,10 @@ export function updateProject(newProject: Project) {
     const oldProject = get(project);
     if(oldProject) {
         oldProject.cleanup();
-        oldProject.evaluator.ignore(updateStep);
+        oldProject.evaluator.ignore(updateEvaluatorStores);
     }
 
-    newProject.evaluator.observe(updateStep);
+    newProject.evaluator.observe(updateEvaluatorStores);
     project.set(newProject);
 
 }

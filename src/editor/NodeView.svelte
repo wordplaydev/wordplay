@@ -7,7 +7,7 @@
     import NodeHighlight from "./NodeHighlight.svelte";
     import getNodeView from "./util/nodeToView";
     import getOutlineOf, { getUnderlineOf, type Outline } from "./util/outline";
-    import { project, currentStep } from '../models/stores';
+    import { project, currentStep, playing } from '../models/stores';
     import Expression from "../nodes/Expression";
     import ValueView from "../components/ValueView.svelte";
     import type Value from "../runtime/Value";
@@ -26,7 +26,7 @@
         // Show a value if 1) it's an expression, 2) the evaluator is stepping, 3) it's not involved in the evaluation stack
         // and 4) the node's evaluation is currently evaluating. Start by assuming there isn't a value.
         value = undefined;
-        if(node instanceof Expression && $project.evaluator.isStepping() && !node.isEvaluationInvolved()) {
+        if(node instanceof Expression && !$playing && !node.isEvaluationInvolved()) {
             const root = $project.get(node)?.getEvaluationRoot();
             const evaluation = root ? $project.evaluator.getEvaluationOf(root) : undefined;
             if(evaluation)

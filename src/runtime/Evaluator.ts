@@ -29,6 +29,7 @@ import Native from "../native/NativeBindings";
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
 export type StepNumber = number;
+export type StreamChange = { stream: (Stream | undefined), stepIndex: number };
 
 export enum Mode { PLAY, STEP };
 
@@ -52,14 +53,24 @@ export default class Evaluator {
     /** True if stop() was called */
     #stopped = false;
 
-    /** The global step counter, one for each step evaluated. */
-    #stepNumber: number = 0;
+    /** 
+     * The global step counter, one for each step evaluated. Only ever goes up,
+     * representing the farthest point in the future. */
+    #stepCount: StepNumber = 0;
+
+    /** 
+     * The global step index, indicating where in the history this evaluator is at. 
+     * If it is not in the past, it is equal to stepNumber. If it is less than
+     * step number, it is in the past.
+     * */
+    #stepIndex: StepNumber = 0;
 
     /** True if the last step was triggered by a step to a particular node. */
     #steppedToNode: boolean = false;
 
     /** The streams changes that triggered this evaluation */
-    changedStream: Stream | undefined;
+    changedStreams: StreamChange[] = [];
+
 
     /** The expressions that need to be re-evaluated, if any. */
     invalidatedExpressions: Set<Expression> | undefined = undefined;
@@ -96,7 +107,9 @@ export default class Evaluator {
     constructor(project: Project) {
 
         this.project = project;
-        this.evaluations = [];
+
+        // Set up start state.
+        this.resetAll();
 
     }
 
@@ -123,7 +136,8 @@ export default class Evaluator {
     getCurrentContext() { return this.getCurrentEvaluation()?.getContext() ?? new Context(this.project, this.project.main); }
     /** Get whatever the latest result was of evaluating the program and its streams. */
     getLatestSourceValue(source: Source) { return this.sourceValues.get(source); }
-    getStepNumber() { return this.#stepNumber; }
+    getStepCount() { return this.#stepCount; }
+    getStepIndex() { return this.#stepIndex; }
     getSteps(evaluation: EvaluationNode): Step[] {
 
         // No expression? No steps.
@@ -171,6 +185,8 @@ export default class Evaluator {
     getThis(requestor: Node): Value | undefined { return this.getCurrentEvaluation()?.getThis(requestor); }
     isInvalidated(expression: Expression) { return this.invalidatedExpressions === undefined || this.invalidatedExpressions.has(expression); }
     steppedToNode(): boolean { return this.#steppedToNode; }
+    isInPast(): boolean { return this.#stepIndex < this.#stepCount; }
+    isAtBeginning(): boolean { return this.#stepIndex === 0; }
 
     /** True if any of the evaluations on the stack are evaluating the given source. Used for detecting cycles. */
     isEvaluatingSource(source: Source) { return this.evaluations.some(e => e.getSource() === source); }
@@ -208,21 +224,57 @@ export default class Evaluator {
         this.broadcast();
     }
 
-    /** Evaluate until we're done */
-    start(changedStream?: Stream, invalidatedExpressions?: Set<Expression>): void {
-
-        // Mark as started.
-        this.#started = true;
+    /** Reset everything necessary for a new evaluation. */
+    resetForEvaluation() {
 
         // Reset the latest source values.
         this.sourceValues = new Map();
 
         // Reset the latest expression values and counts.
-        this.values = new Map();
-        this.counters = new Map();
+        this.values.clear();
+        this.counters.clear();
+        
+        // Reset the evluation stack.
+        this.evaluations.length = 0;
+        this.#lastEvaluation = undefined;
+        
+        // Didn't recently step to node.
+        this.#steppedToNode = false;
 
-        // Remember what streams changed.
-        this.changedStream = changedStream;
+        // Notify listeners.
+        this.broadcast();
+
+    }
+
+    /** Reset all of the state, preparing for evaluation from the start of time. */
+    resetAll() {
+
+        // Mark as not started.
+        this.#started = false;
+
+        // In case this wasn't reset before evaluation stopped.
+        this.stopRememberingStreamAccesses();
+
+        // Reset per-evaluation state.
+        this.resetForEvaluation();
+
+    }
+
+    /** Evaluate until we're done */
+    start(changedStream?: Stream, invalidatedExpressions?: Set<Expression>): void {
+
+        // Reset all state.
+        this.resetForEvaluation();
+
+        // Mark as started.
+        this.#started = true;
+
+        // Push the main source file onto the evaluation stack.
+        this.evaluations.push(new Evaluation(this, this.getMain(), this.getMain()));
+
+        // If we're in the present, remember the stream change. (If we're in the past, we use the history.)
+        if(!this.isInPast())
+            this.changedStreams.push({ stream: changedStream, stepIndex: this.getStepCount()});
 
         // Remember what expressions need to be reevaluated.
         this.invalidatedExpressions = invalidatedExpressions;
@@ -232,20 +284,10 @@ export default class Evaluator {
             for(const expr of Array.from(this.invalidatedExpressions))
                 this.values.delete(expr);
 
-        // Start over counting expression evaluations.
-        this.counters.clear();
-
-        // Reset the evluation stack and start evaluating the the program.
-        this.evaluations.length = 0;
-        this.evaluations.push(new Evaluation(this, this.getMain(), this.getMain()));
-
-        // Stop remembering in case the last execution ended abruptly.
-        this.stopRememberingStreamAccesses();
-
         // Tell listeners that we started.
         this.broadcast();
 
-        // If in play mode, we finish.
+        // If in play mode, we finish (and notify listeners again).
         if(this.isPlaying())
             this.finish();
 
@@ -254,13 +296,11 @@ export default class Evaluator {
     play() {
         this.setMode(Mode.PLAY);
         this.finish();
-        this.start();
     }
 
     pause() {
         this.setMode(Mode.STEP);
-        this.finish();
-        this.start();
+        this.broadcast();
     }
 
     /** Stops listening to listeners and halts execution. */
@@ -281,6 +321,8 @@ export default class Evaluator {
             this.step();
         this.mode = previousMode;
         this.#steppedToNode = true;
+
+        // Notify listeners that we tried to step to the node.
         this.broadcast();
 
     }
@@ -298,6 +340,9 @@ export default class Evaluator {
         // Run all of the steps until we get a value or we're stopped.
         while(!this.#stopped && !this.isDone())
             this.step();
+
+        // Notify listeners that we finished evaluating.
+        this.broadcast();
             
     }
 
@@ -306,6 +351,19 @@ export default class Evaluator {
         // If there's an exception, end all sources with the exception.
         while(this.evaluations.length > 0)
             this.endEvaluation(exception);
+
+        // If we're in the past and there's another stream change at this step index, start again.
+        if(this.isInPast()) {
+            let next;
+            for(const change of this.changedStreams) {
+                if(change.stepIndex >= this.getStepIndex()) {
+                    next = change;
+                    break;
+                }
+            }
+            if(next)
+                this.start(next.stream);
+        }
 
         // Notify observers.
         this.broadcast();
@@ -333,10 +391,6 @@ export default class Evaluator {
             // Otherwise, step the current evaluation and get it's value
             this.evaluations[0]?.step(this);
 
-        // Tell observers that we stepped, but only if stepping. (That would be a lot of broadcasting otherwise!
-        if(this.isStepping())
-            this.broadcast();
-
         // If it's an exception, halt execution by returning the exception value.
         if(value instanceof Exception)
             this.end(value);
@@ -350,8 +404,9 @@ export default class Evaluator {
                 this.evaluations[0].pushValue(value);
                 const priorStep = this.evaluations[0].priorStep();
                 if(priorStep && (priorStep.node instanceof Evaluate || priorStep.node instanceof BinaryOperation || priorStep.node instanceof UnaryOperation)) {
+                    // Remember the value that was evaluated. This usually happens in finishExpression, but happens here for evaluations.
                     const list = this.values.get(priorStep.node) ?? [];
-                    list.push({ value: value, stepNumber: this.getStepNumber() });
+                    list.push({ value: value, stepNumber: this.getStepIndex() });
                     this.values.set(priorStep.node, list);
                 }
             }
@@ -361,8 +416,11 @@ export default class Evaluator {
         }
         // If there was no value, that just means it's not done yet.
 
-        // Finally, increment the step counter.
-        this.#stepNumber++;
+        // Finally, manage the step counter. Always increment the step index, and if we're in the present,
+        // then also increment the step count.
+        this.#stepIndex++;
+        if(!this.isInPast())
+            this.#stepCount = this.#stepIndex;
 
     }
 
@@ -376,6 +434,45 @@ export default class Evaluator {
             // Get the current step node
             nextStepNode = this.getCurrentStep()?.node;
         } while(nextStepNode !== undefined && !this.project.contains(nextStepNode));
+
+        // Notify listeners that we finished stepping to the next within program node.
+        this.broadcast();
+
+    }
+
+    /** 
+     * Step backwards. This involves moving the stepIndex back, then reevaluating the project --
+     * from the beginning -- until reaching the stepIndex. This relies on memoization of non-deterministic inputs.
+     */
+    stepBack(): void {
+
+        // Do nothing if at the beginning of time.
+        if(this.#stepIndex === 0) 
+            return;
+
+        // Set our target step
+        const destinationStep = this.#stepIndex - 1;
+        
+        // Step back in time
+        this.#stepIndex = 0;
+
+        // Reset the project to the beginning of time (but preserve stream history, since that's stored in project).
+        this.resetAll();
+
+        // Start the evaluation fresh.
+        this.start();
+
+        // Step until reaching the target time.
+        while(this.#stepIndex < destinationStep) {
+            // If done, then something's broken, since it should always be possible to ... GET BACK TO THE FUTURE (lol)
+            if(this.isDone())
+                throw Error("Couldn't get back to the future; fatal defect in Evaluator.");
+
+            this.step();
+        }
+
+        // Notify listeners that we finished stepping back.
+        this.broadcast();
 
     }
     
@@ -411,12 +508,29 @@ export default class Evaluator {
         return accessedStreams;
     }
 
-    streamChanged(stream: Stream) {
-        return this.changedStream === stream;
+    didStreamCauseReaction(stream: Stream) {
+
+        // Find the latest stream change after the current step index,
+        // and return the stream that triggered evaluation, if any.
+        let latest;
+        for(const change of this.changedStreams) {
+            latest = change;
+            // Stop once we've passed the current time.
+            if(change.stepIndex > this.getStepIndex())
+                break;
+        }
+
+        // True if the latest stream change is the given stream.
+        return latest !== undefined && latest.stream === stream;
     }
 
+    /** 
+     * True if the given node has a stream yet. Time-dependent, so it returns false 
+     * even if there is a stream, but the stream's first value was after the curren time.
+     * */
     hasReactionStream(reaction: Reaction) {
-        return this.reactionStreams.has(reaction);
+        const stream = this.reactionStreams.get(reaction);
+        return stream && stream.getFirstStepIndex() < this.getStepIndex();
     }
 
     getReactionStreamLatest(reaction: Reaction): Value | undefined {
@@ -424,15 +538,18 @@ export default class Evaluator {
     }
 
     addToReactionStream(reaction: Reaction, value: Value) {
-        if(this.hasReactionStream(reaction))
-            this.reactionStreams.get(reaction)?.add(value);
-        else {
-            const newStream = new ReactionStream(this, reaction, value);
-            this.reactionStreams.set(reaction, newStream);
+        // If in the past, do nothing, since we're just reusing historical values.
+        // Otherwise, add the value or create the stream if it doesn't yet exist.
+        if(!this.isInPast()) {
+            const stream = this.reactionStreams.get(reaction);
+            if(stream)
+                stream.add(value);
+            else {
+                const newStream = new ReactionStream(this, reaction, value);
+                this.reactionStreams.set(reaction, newStream);
+            }
         }
     }
-
-
 
     /** 
      * Given a node, walks its ancestors until it finds a node corresponding to a step.
@@ -521,7 +638,7 @@ export default class Evaluator {
         // Remember the value it computed in the value history.
         if(!recycled) {
             const list = this.values.get(expression) ?? [];
-            list.push({ value: value, stepNumber: this.getStepNumber() });
+            list.push({ value: value, stepNumber: this.getStepIndex() });
             this.values.set(expression, list);
         }
 

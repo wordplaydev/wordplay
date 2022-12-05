@@ -1,7 +1,7 @@
 <script lang="ts">
     import { getLanguages } from '../editor/util/Contexts';
     import { examples, makeProject, type Stuff } from '../examples/examples';
-    import { project, updateProject } from '../models/stores';
+    import { project, playing, updateProject } from '../models/stores';
     import type LanguageCode from '../nodes/LanguageCode';
     import { languageCodeToLanguage, SupportedLanguages } from '../nodes/LanguageCode';
     import { WRITE } from '../nodes/Translations';
@@ -34,7 +34,7 @@
 
     function playPause() {
         if($project.evaluator.isStepping()) $project.evaluator.play();
-        else $project.evaluator.pause();        
+        else $project.evaluator.pause();
     }
 
 </script>
@@ -58,14 +58,14 @@
     />
     <!-- If it's output, show controls -->
     <Switch 
-        on={$project.evaluator.isPlaying()}
+        on={$playing}
         toggle={playPause} 
         offTip={{ eng: "Evaluate the program one step at a time", "😀": WRITE }}
         onTip={{ eng: "Evaluate the program fully", "😀": WRITE }}
         offLabel={{ eng: "pause", "😀": WRITE }}
         onLabel={{ eng: "play", "😀": WRITE }}
     />
-    {#if !$project.evaluator.isPlaying()}
+    {#if $playing}
         <Button 
             label={{ eng: "step", "😀": WRITE }}
             tip={{ eng: "Advance one step in the program's evaluation.", "😀": WRITE }}
@@ -78,6 +78,12 @@
             action={handleStepOut} 
             enabled={!$project.evaluator.isPlaying() && !$project.evaluator.isDone()}>
         </Button>
+        <Button
+            label={{ eng: "back", "😀": WRITE }}
+            tip={{ eng: "Step back one step.", "😀": WRITE }}
+            action={() => $project.evaluator.stepBack() }
+            enabled={!$project.evaluator.isAtBeginning()}
+        />
     {/if}
 
 </div>

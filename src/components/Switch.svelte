@@ -65,6 +65,10 @@
         z-index: 2;
     }
 
+    .button:focus.active {
+        z-index: 3;
+    }
+
     .button.inactive:hover {
         cursor: pointer;
         background-color: var(--wordplay-border-color);
