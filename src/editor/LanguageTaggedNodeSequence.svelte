@@ -6,13 +6,14 @@
     import type Name from "../nodes/Name";
     import NodeView from "./NodeView.svelte";
     import type LanguageCode from "../nodes/LanguageCode";
+    import { project } from "../models/stores";
 
     export let node: Node;
     export let list: (Doc|Name)[];
 
     let caret = getCaret();
     let languages = getLanguages();
-    $: inside = $caret?.isIn(node);
+    $: inside = $project.evaluator.isPlaying() && $caret?.isIn(node);
     $: visible = list.filter(item => $languages.includes((item.lang?.getLanguage() ?? "") as LanguageCode));
 
 </script>
