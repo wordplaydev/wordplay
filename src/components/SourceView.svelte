@@ -17,7 +17,8 @@
         $currentStep;
         const latest = project.evaluator.getLatestSourceValue(source);
         verse = latest === undefined ? undefined: valueToVerse(project.evaluator, latest);
-        stepping = project.evaluator.isStepping() && project.evaluator.getCurrentEvaluation()?.getSource() === source;
+        stepping = project.evaluator.isStepping() && 
+            (project.evaluator.getCurrentEvaluation()?.getSource() === source || (project.evaluator.isDone() && source === project.main));
     }
 
 </script>
@@ -25,20 +26,21 @@
 <div class="source">
     <div class="source-title">
         <h2>{source.getNames()}</h2>
-        <small>
-        </small>
     </div>
-    <div class={`split ${verse === undefined && stepping ? "column" : ""}`}>
-        <div class="source-content">
-            <Editor {project} {source} />
+    <div class="split">
+        <div class="column">
+            <div class="code">
+                <Editor {project} {source} />
+            </div>
+            {#if stepping }
+                <div class="evaluator">
+                    <EvaluatorView evaluator={project.evaluator}/>
+                </div>
+            {/if}
         </div>
         {#if verse !== undefined}
-            <div class="source-content">
+            <div class="output">
                 <VerseView {project} {verse} {interactive}/>
-            </div>
-        {:else if stepping}
-            <div class="evaluator">
-                <EvaluatorView evaluator={project.evaluator}/>
             </div>
         {/if}
     </div>
@@ -67,14 +69,18 @@
         min-width: 0;
     }
 
-    .split.column {
+    .column {
+        flex: 1;
         flex-direction: column;
+        height: 100%;
+        width: 50%;
     }
 
-    .source-content {
-        flex: 1; /* 50/50 split */
+    .code {
+        flex: 1;
         min-height: 20rem;
         max-height: 40rem;
+        width: 100%;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
         box-sizing: content-box;
@@ -83,17 +89,23 @@
         box-sizing: border-box;
     }
 
-    .source-content:last-child {
-        border-left: var(--wordplay-border-width) solid var(--wordplay-border-color);;
+    .evaluator {
+        flex-basis: content;
+        width: 100%;
     }
 
-    .source-content:has(.stepping) {
-        outline: var(--wordplay-border-width) solid var(--wordplay-executing-color);
+    .output {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .code:has(.stepping) {
+        border: var(--wordplay-border-width) solid var(--wordplay-executing-color);
         z-index: 2;
     }
 
-    .source-content:focus-within {
-        border: var(--wordplay-highlight) solid var(--wordplay-border-width);
+    .code:focus-within, .output:focus-within {
+        outline: var(--wordplay-highlight) solid var(--wordplay-border-width);
         z-index: 2;
     }
 

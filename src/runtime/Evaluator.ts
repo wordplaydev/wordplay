@@ -55,6 +55,9 @@ export default class Evaluator {
     /** The global step counter, one for each step evaluated. */
     #stepNumber: number = 0;
 
+    /** True if the last step was triggered by a step to a particular node. */
+    #steppedToNode: boolean = false;
+
     /** The streams changes that triggered this evaluation */
     changedStream: Stream | undefined;
 
@@ -167,6 +170,7 @@ export default class Evaluator {
     isDone() { return this.evaluations.length === 0; }
     getThis(requestor: Node): Value | undefined { return this.getCurrentEvaluation()?.getThis(requestor); }
     isInvalidated(expression: Expression) { return this.invalidatedExpressions === undefined || this.invalidatedExpressions.has(expression); }
+    steppedToNode(): boolean { return this.#steppedToNode; }
 
     /** True if any of the evaluations on the stack are evaluating the given source. Used for detecting cycles. */
     isEvaluatingSource(source: Source) { return this.evaluations.some(e => e.getSource() === source); }
@@ -271,8 +275,13 @@ export default class Evaluator {
      */
      stepToNode(node: Node) {
 
-        while(this.getCurrentStep() !== undefined && this.getCurrentStep()?.node !== node)
+        const previousMode = this.mode;
+        this.mode = Mode.PLAY;
+        while(!this.isDone() && this.getCurrentStep()?.node !== node)
             this.step();
+        this.mode = previousMode;
+        this.#steppedToNode = true;
+        this.broadcast();
 
     }
 
@@ -313,6 +322,9 @@ export default class Evaluator {
         // If there's no node evaluating, do nothing.
         if(this.evaluations.length === 0)
             return;
+
+        // Reset step to node.
+        this.#steppedToNode = false;
 
         // Get the value of the next step of the current evaluation.
         const value = 

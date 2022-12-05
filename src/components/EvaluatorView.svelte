@@ -1,27 +1,25 @@
 <script lang="ts">
     import { getLanguages } from "../editor/util/Contexts";
     import type Evaluator from "../runtime/Evaluator";
-    import type Step from "../runtime/Step";
     import { currentStep } from "../models/stores";
 
     export let evaluator: Evaluator;
 
     $: languages = getLanguages();
 
-    let step: Step | undefined;
-    $: {
-        // Update when step changes.
-        $currentStep;
-        step = evaluator.getCurrentStep();
-    }
-
 </script>
 
 <section class="evaluator">
-    {#if step}
-        {step.getExplanations(evaluator)[$languages[0]]}
+    {#if $currentStep}
+        {#if evaluator.steppedToNode() }
+            <p><em>Evaluated to the selected code.</em></p>
+        {/if}
+        <p>{$currentStep.getExplanations(evaluator)[$languages[0]]}</p>
     {:else}
-        ...
+        {#if evaluator.steppedToNode() && evaluator.isDone() }
+            <p><em>The selected node didn't evaluate.</em></p>
+        {/if}
+        <p>Done evaluating.</p>
     {/if}
 </section>
 
