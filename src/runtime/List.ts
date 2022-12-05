@@ -14,6 +14,7 @@ import Name from "../nodes/Name";
 import type Translations from "../nodes/Translations";
 import Names from "../nodes/Names";
 import type Node from "../nodes/Node";
+import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 
 export default class List extends Primitive {
 
@@ -77,8 +78,8 @@ export default class List extends Primitive {
 
     getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }
 
-    toString() {
-        return `[${this.values.map(v => v.toString()).join(" ")}]`
+    toWordplay(languages: LanguageCode[]): string {
+        return `${LIST_OPEN_SYMBOL}${Array.from(this.values).map(value => value.toWordplay(languages)).join(" ")}${LIST_CLOSE_SYMBOL}`; 
     }
 
 }

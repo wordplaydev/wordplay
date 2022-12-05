@@ -6,4 +6,10 @@
 
 </script>
 
-<svelte:component this={renderValue(value.constructor)} value={value} />
+<span><svelte:component this={renderValue(value.constructor)} value={value} /></span>
+
+<style>
+    span {
+        color: var(--wordplay-executing-color);
+    }
+</style>

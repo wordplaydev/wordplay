@@ -89,6 +89,7 @@ export default class Block extends Expression {
 
     getLast() { return this.statements.length === 0 ? undefined : this.statements[this.statements.length - 1]; }
 
+    isEvaluationInvolved() { return true; }
     isBindingEnclosureOfChild(): boolean { return true; }
 
     computeConflicts(): Conflict[] {

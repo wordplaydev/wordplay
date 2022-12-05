@@ -83,6 +83,9 @@ export default class Source extends Expression {
         ]; 
     }
 
+    isEvaluationInvolved() { return true; }
+    isEvaluationRoot() { return true; }
+
     get(node: Node) { 
         // See if the cache has it.
         if(!this._index.has(node))

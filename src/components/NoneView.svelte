@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { NONE_SYMBOL } from "../parser/Tokenizer";
+    import TokenType from "../nodes/TokenType";
     import type None from "../runtime/None";
+    import SymbolView from "./SymbolView.svelte";
 
     export let value: None;
-    value;
 
 </script>
 
-{ NONE_SYMBOL }
+<SymbolView symbol={value.toWordplay()} type={TokenType.NONE}/>

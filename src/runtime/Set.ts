@@ -7,6 +7,8 @@ import Measurement from "./Measurement";
 import Primitive from "./Primitive";
 import type Value from "./Value";
 import type Node from "../nodes/Node";
+import type LanguageCode from "../nodes/LanguageCode";
+import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 
 export default class Set extends Primitive {
 
@@ -66,6 +68,8 @@ export default class Set extends Primitive {
 
     getNativeTypeName(): string { return SET_NATIVE_TYPE_NAME; }
 
-    toString() { return `{${Array.from(this.values).join(" ")}}`; }
+    toWordplay(languages: LanguageCode[]): string {
+        return `${SET_OPEN_SYMBOL}${Array.from(this.values).map(value => value.toWordplay(languages)).join(" ")}${SET_CLOSE_SYMBOL}`; 
+    }
 
 }

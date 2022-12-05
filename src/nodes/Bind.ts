@@ -105,6 +105,8 @@ export default class Bind extends Expression {
         ) as this;
     }
 
+    isEvaluationInvolved() { return true; }
+
     getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
         // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
         return (child === this.value) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";

@@ -1,17 +1,12 @@
 <script lang="ts">
-    import { getLanguages } from "../editor/util/Contexts";
     import ConversionDefinition from "../nodes/ConversionDefinition";
     import FunctionDefinition from "../nodes/FunctionDefinition";
     import Program from "../nodes/Program";
     import StructureDefinition from "../nodes/StructureDefinition";
     import type Evaluation from "../runtime/Evaluation";
-    import ValueView from "./ValueView.svelte";
 
     export let evaluation: Evaluation;
 
-    let languages = getLanguages();
-
-    $: bindings = evaluation.getBindings();
     $: definition = evaluation.getDefinition();
 
 </script>
@@ -26,28 +21,6 @@
             definition.getNames()
         }
     </h3>
-    
-    <table>
-        <tbody>
-            {#each [ ...bindings ] as [ names, value ] }
-                <tr>
-                    <td>
-                        <strong>{ names.getTranslation($languages) }</strong>
-                    </td>
-                    <td>
-                        <ValueView value={value}/>
-                    </td>
-                </tr>
-            {/each}
-        </tbody>
-    </table>
-
-    <ul>
-        {#each evaluation.getValues() as value }
-            <li><ValueView value={value}/></li>
-        {/each}
-    </ul>
-
 </div>
 
 <style>
@@ -58,14 +31,4 @@
         margin: var(--wordplay-spacing);
         box-sizing: border-box;
     }
-
-    table {
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    td {
-        vertical-align: top;
-    }
-
 </style>

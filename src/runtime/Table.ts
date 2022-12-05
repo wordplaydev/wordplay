@@ -1,6 +1,8 @@
 import { TABLE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import type LanguageCode from "../nodes/LanguageCode";
 import type TableLiteral from "../nodes/TableLiteral";
 import TableType from "../nodes/TableType";
+import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type Exception from "./Exception";
 import Value from "./Value";
 
@@ -33,8 +35,8 @@ export default class Table extends Value {
         return false;
     }
 
-    toString(): string {
-        return this.rows.map(r => r.map(c => `|${c.toString()}`).join("") + "||").join("\n");
+    toWordplay(languages: LanguageCode[]): string { 
+        return `${this.literal.columns.map(c => c.bind ? c.bind.names.getTranslation(languages) : "").join(TABLE_OPEN_SYMBOL)}${TABLE_CLOSE_SYMBOL}`; 
     }
 
 }

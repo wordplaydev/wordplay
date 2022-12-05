@@ -1,9 +1,10 @@
 <script lang="ts">
-    import { FALSE_SYMBOL, TRUE_SYMBOL } from "../parser/Tokenizer";
-import type Bool from "../runtime/Bool";
+    import TokenType from "../nodes/TokenType";
+    import type Bool from "../runtime/Bool";
+    import SymbolView from "./SymbolView.svelte";
 
     export let value: Bool;
 
 </script>
 
-{ value.bool ? TRUE_SYMBOL : FALSE_SYMBOL }
+<SymbolView symbol={value.toWordplay()} type={TokenType.BOOLEAN}/>

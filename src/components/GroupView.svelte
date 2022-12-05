@@ -1,30 +1,17 @@
 <svelte:options immutable={true}/>
 
 <script lang="ts">
-    import List from "../runtime/List";
-    import Structure from "../runtime/Structure";
+    import type { Group } from "../native/Group";
     import PhraseView from "./PhraseView.svelte";
 
-    export let group: Structure;
-    const layoutStructure = group.resolve("layout");
-    const layout = layoutStructure instanceof Structure ? `layout-${layoutStructure.type.names.getTranslations().eng}` : "layout-Vertical";
-    $: phraseStructure = group.resolve("phrases");
-    $: phrases = phraseStructure instanceof List ? phraseStructure.getValues() : undefined;
+    export let group: Group;
 
 </script>
 
-<div class={layout}>
-    {#if phrases === undefined}
-        Group doesn't have phrases
-    {:else}
-        {#each phrases as phrase (phrase.id)}
-            {#if phrase instanceof Structure }
-                <PhraseView phrase={phrase} />
-            {:else}
-                {phrase.constructor.name}
-            {/if}
-        {/each}
-    {/if}
+<div class="layout-Vertical">
+    {#each group.phrases as phrase }
+        <PhraseView {phrase} />
+    {/each}
 </div>
 
 <style>

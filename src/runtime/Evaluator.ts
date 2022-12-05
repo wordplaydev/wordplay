@@ -148,8 +148,12 @@ export default class Evaluator {
     isDone() { return this.evaluations.length === 0; }
     getThis(requestor: Node): Value | undefined { return this.getCurrentEvaluation()?.getThis(requestor); }
     isInvalidated(expression: Expression) { return this.invalidatedExpressions === undefined || this.invalidatedExpressions.has(expression); }
+
     /** True if any of the evaluations on the stack are evaluating the given source. Used for detecting cycles. */
     isEvaluatingSource(source: Source) { return this.evaluations.some(e => e.getSource() === source); }
+
+    /** True if the given evaluation node is on the stack */
+    isEvaluating(expression: Expression) { return this.evaluations.some(e => e.getDefinition() === expression); }
 
     /** Given a node, returns true if the node participates in a step in this program. */
     nodeIsStep(node: Node): boolean {
@@ -184,8 +188,12 @@ export default class Evaluator {
     /** Evaluate until we're done */
     start(changedStream?: Stream, invalidatedExpressions?: Set<Expression>): void {
 
-        // Reset the latest value.
+        // Reset the latest source values.
         this.latestValues = new Map();
+
+        // Reset the latest expression values and counts.
+        this.values = new Map();
+        this.counters = new Map();
 
         // Remember what streams changed.
         this.changedStream = changedStream;
@@ -458,13 +466,13 @@ export default class Evaluator {
             this.latestValues.set(def, value);
     }
     
-    startEvaluating(expression: Expression) {
+    startExpression(expression: Expression) {
         if(!this.counters.has(expression))
             this.counters.set(expression, 0);
         return this.getCount(expression);
     }
 
-    finishEvaluating(expression: Expression, recycled: boolean, value?: Value | undefined) {
+    finishExpression(expression: Expression, recycled: boolean, value?: Value | undefined) {
 
         const count = this.counters.get(expression);
         if(count === undefined)

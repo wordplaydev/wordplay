@@ -19,6 +19,13 @@ export default abstract class Expression extends Node {
         super();
     }
 
+    /** 
+     * True if the expression is involved in triggering an evaluation. Used to decide whether to present
+     * as code or value during stepping.
+     */
+    isEvaluationInvolved() { return false; }
+    isEvaluationRoot() { return false; }
+
     abstract computeType(context: Context): Type;
 
     getType(context: Context) {

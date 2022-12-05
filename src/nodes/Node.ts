@@ -29,7 +29,7 @@ export default abstract class Node {
      * A list of fields that represent this node's sequence of nodes and the types of nodes allowed on each field.
      */
     abstract getGrammar(): Field[];
-
+    
     /**
      * A list of names that determine this node's children. Can't extract these through reflection, so they must be manually supplied 
      * This is used to get lists of child nodes and to reflect on the role of a child in a parent's structure.
@@ -147,7 +147,7 @@ export default abstract class Node {
     }
 
     /** True if the given node is a child of this node and this node should act as a binding enclosure of it. */
-    isBindingEnclosureOfChild(child: Node): boolean { child; return false; }
+    isBindingEnclosureOfChild(_: Node): boolean { return false; }
 
     toString(depth: number=0): string {
         const tabs = "\t".repeat(depth);

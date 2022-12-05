@@ -1,20 +1,15 @@
 <svelte:options immutable={true}/>
 
 <script lang="ts">
-    import type Evaluator from "../runtime/Evaluator";
-    import Structure from "../runtime/Structure";
-    import ExceptionView from "./ExceptionView.svelte";
     import GroupView from "./GroupView.svelte";
     import { onMount } from "svelte";
     import { styleToCSS } from "../native/Style";
     import type Project from "../models/Project";
+    import type { Verse } from "../native/Verse";
 
     export let project: Project;
-    export let verse: Structure;
-    export let evaluator: Evaluator;
+    export let verse: Verse;
     export let interactive: boolean;
-
-    $: group = verse?.resolve("group", evaluator);
 
     function handleMouseDown() {
         project.streams.mouseButton.record(true);
@@ -44,14 +39,9 @@
         on:mousemove={interactive ? handleMouseMove : null}
         on:keydown|stopPropagation|preventDefault={interactive ? handleKeyDown : null}
         on:keyup={interactive ? handleKeyUp : null}
-        style={styleToCSS(verse?.resolve("style", evaluator))}
+        style={styleToCSS(verse.style)}
     >
-        {#if !(group instanceof Structure)}
-            <ExceptionView>Group wasn't a structure</ExceptionView>
-        {:else}
-            <GroupView group={group} />
-        {/if}
-
+        <GroupView group={verse.group} />
     </div>
 {/if}
 

@@ -23,6 +23,6 @@ export default abstract class Exception extends Primitive {
     getType() { return new ExceptionType(this); }
     getNativeTypeName(): string { return EXCEPTION_NATIVE_TYPE_NAME; }
 
-    toString() { return `${this.getExplanations().eng}`; }
+    toWordplay(): string { return "!"; }
 
 }

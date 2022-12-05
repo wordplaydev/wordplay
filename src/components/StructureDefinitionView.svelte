@@ -1,9 +1,14 @@
 <script lang="ts">
-    import { TYPE_SYMBOL } from "../parser/Tokenizer";
     import type StructureDefinitionValue from "../runtime/StructureDefinitionValue";
+    import { getLanguages } from "../editor/util/Contexts";
+    import SymbolView from "./SymbolView.svelte";
+    import { TYPE_SYMBOL } from "../parser/Tokenizer";
+    import TokenType from "../nodes/TokenType";
 
     export let value: StructureDefinitionValue;
 
+    let languages = getLanguages();
+
 </script>
 
-{TYPE_SYMBOL}{value.definition.getNames().join(", ")}
+<SymbolView symbol={TYPE_SYMBOL} type={TokenType.TYPE}/><SymbolView symbol={value.definition.names.getTranslation($languages)} type={TokenType.NAME}/>

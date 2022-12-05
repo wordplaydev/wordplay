@@ -1,10 +1,12 @@
 <script lang="ts">
-    import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
     import type Set from "../runtime/Set";
+    import SymbolView from "./SymbolView.svelte";
+    import TokenType from "../nodes/TokenType";
     import ValueView from "./ValueView.svelte";
+    import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 
     export let value: Set;
 
 </script>
 
-{SET_OPEN_SYMBOL}{#each value.values as val}<ValueView value={val}/>{/each}{SET_CLOSE_SYMBOL}
+<SymbolView symbol={SET_OPEN_SYMBOL} type={TokenType.SET_OPEN}/>{#each value.values as item, index}<ValueView value={item}/>{#if index < value.values.length - 1}&nbsp;{/if}{/each}<SymbolView symbol={SET_CLOSE_SYMBOL} type={TokenType.SET_CLOSE}/>

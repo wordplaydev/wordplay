@@ -7,6 +7,8 @@ import None from "./None";
 import Primitive from "./Primitive";
 import type Value from "./Value";
 import type Node from "../nodes/Node";
+import type LanguageCode from "../nodes/LanguageCode";
+import { BIND_SYMBOL, SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 
 export default class Map extends Primitive {
 
@@ -82,6 +84,8 @@ export default class Map extends Primitive {
     
     getNativeTypeName(): string { return MAP_NATIVE_TYPE_NAME; }
 
-    toString() { return `{${Array.from(this.values).sort().map(k => `${k[0].toString()}:${(this.has(this.creator, k[0]) as Value).toString()}`).join(" ")}}`; }
+    toWordplay(languages: LanguageCode[]): string {
+        return `${SET_OPEN_SYMBOL}${this.values.map(([ key, value ]) => `${key.toWordplay(languages)}${BIND_SYMBOL}${value.toWordplay(languages)}`).join(" ")}${SET_CLOSE_SYMBOL}`; 
+    }
 
 }

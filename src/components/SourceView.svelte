@@ -3,19 +3,19 @@
     import Editor from '../editor/Editor.svelte';
     import type Source from '../models/Source';
     import type Project from '../models/Project';
-    import type Structure from '../runtime/Structure';
     import EvaluatorView from './EvaluatorView.svelte';
-    import { valueToVerse } from '../native/Verse';
+    import { valueToVerse, Verse } from '../native/Verse';
     import { currentStep } from '../models/stores';
 
     export let project: Project;
     export let source: Source;
     export let interactive: boolean = false;
 
-    let verse: Structure | undefined;
+    let verse: Verse | undefined;
     $: {
         $currentStep;
-        verse = valueToVerse(project.evaluator, project.evaluator.getLatestResultOf(source));
+        const latest = project.evaluator.getLatestResultOf(source);
+        verse = latest === undefined ? undefined: valueToVerse(project.evaluator, latest);
     }
 
 </script>
@@ -34,7 +34,7 @@
             {#if verse === undefined}
                 <EvaluatorView evaluator={project.evaluator} />
             {:else}
-                <VerseView {project} {verse} evaluator={project.evaluator} {interactive}/>
+                <VerseView {project} {verse} {interactive}/>
             {/if}
         </div>
     </div>

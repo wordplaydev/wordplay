@@ -1,10 +1,12 @@
 <script lang="ts">
-    import { BIND_SYMBOL, SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
     import type Map from "../runtime/Map";
+    import SymbolView from "./SymbolView.svelte";
+    import { BIND_SYMBOL, SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
+    import TokenType from "../nodes/TokenType";
     import ValueView from "./ValueView.svelte";
 
     export let value: Map;
 
 </script>
 
-{SET_OPEN_SYMBOL}{#each value.values as [ key, val ]}<ValueView value={key}/>{BIND_SYMBOL}<ValueView value={val}/>{/each}{SET_CLOSE_SYMBOL}
+<SymbolView symbol={SET_OPEN_SYMBOL} type={TokenType.SET_OPEN}/>{#each value.values as [ key, val ], index}<ValueView value={key}/><SymbolView symbol={BIND_SYMBOL} type={TokenType.BIND}/><ValueView value={val}/>{#if index < value.values.length - 1}&nbsp;{/if}{/each}<SymbolView symbol={SET_CLOSE_SYMBOL} type={TokenType.SET_CLOSE}/>

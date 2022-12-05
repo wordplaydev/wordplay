@@ -11,6 +11,8 @@ import Measurement from "./Measurement";
 import Text from "./Text";
 import Bool from "./Bool";
 import type Names from "../nodes/Names";
+import type LanguageCode from "../nodes/LanguageCode";
+import { BIND_SYMBOL, EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from "../parser/Tokenizer";
 
 export default class Structure extends Value {
 
@@ -80,12 +82,12 @@ export default class Structure extends Value {
         return this.context.getConversion(input, output);
     }
 
-    toString(): string {
-        return `${this.type.names.names[0].getName()}(${this.type.inputs.map(bind => {            
-            const name = bind.names.names[0].getName();
-            const value = name == undefined ? undefined : this.resolve(name);
-            return value === undefined ? "" : `${name}: ${value}`;
-        }).join(" ")})`;
+    toWordplay(languages: LanguageCode[]): string {
+        const bindings = 
+            this.type.inputs.map(bind => 
+                `${bind.names.getTranslation(languages)}${BIND_SYMBOL} ${this.resolve(bind.getNames()[0])}`
+            );
+        return `${this.type.names.getTranslation(languages)}${EVAL_OPEN_SYMBOL}${bindings.join(" ")}${EVAL_CLOSE_SYMBOL}`;
     }
 
 

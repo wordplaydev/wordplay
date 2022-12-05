@@ -2,6 +2,7 @@ import type Context from "../nodes/Context";
 import type Type from "../nodes/Type";
 import type Evaluator from "./Evaluator";
 import type Node from "../nodes/Node";
+import type LanguageCode from "../nodes/LanguageCode";
 
 /** Used to uniquely distinguish values. */
 let VALUE_ID = 0;
@@ -16,7 +17,9 @@ export default abstract class Value {
     }
 
     /** Returns a Wordplay sytnax representation of the value. */
-    abstract toString(): string;
+    toString(): string { return this.toWordplay(["eng"]); }
+
+    abstract toWordplay(languages: LanguageCode[]): string;
 
     /** Returns the Structure defining this value's interface. */
     abstract getType(context: Context): Type;

@@ -149,9 +149,7 @@ export default class Measurement extends Primitive {
 
     unitless(requestor: Node): Measurement { return new Measurement(requestor, this.num); }
     
-    toString() { 
-        return `${this.num.toString()}${this.unit.toString()}`;
-    }
+    toWordplay(): string { return `${this.num.toString()}${this.unit.toString()}`; }
 
 }
 

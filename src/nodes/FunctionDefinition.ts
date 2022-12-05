@@ -137,6 +137,8 @@ export default class FunctionDefinition extends Expression {
 
     }
 
+    isEvaluationInvolved() { return true; }
+    isEvaluationRoot() { return true; }
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression || child === this.output || this.inputs.includes(child as Bind); }
 
     computeConflicts(): Conflict[] { 

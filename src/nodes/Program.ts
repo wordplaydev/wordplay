@@ -65,6 +65,7 @@ export default class Program extends Expression {
         ) as this; 
     }
 
+    isEvaluationInvolved() { return true; }
     isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression; }
 
     computeConflicts(context: Context) {

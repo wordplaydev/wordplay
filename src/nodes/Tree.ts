@@ -1,3 +1,4 @@
+import Expression from "./Expression";
 import type Node from "./Node";
 
 export type Path = [ string, number ][];
@@ -65,6 +66,11 @@ export default class Tree {
             parent = parent.parent;
         }
         return ancestors;
+    }
+
+    /** Returns the nearest evaluation root, which is the closest ancestor for which isEvaluating() is true. */
+    getEvaluationRoot() {
+        return this.getAncestors().find(ancestor => ancestor instanceof Expression && ancestor.isEvaluationRoot()) as Expression | undefined;
     }
 
     /** Finds the nearest ancestor of the given type. */

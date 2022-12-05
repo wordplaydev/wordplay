@@ -3,6 +3,7 @@
     import type Language from "../nodes/Language";
     import { getCaret } from "./util/Contexts";
     import NodeView from "./NodeView.svelte";
+    import { project } from "../models/stores";
     
     export let node: Language;
 
@@ -12,4 +13,4 @@
 
 </script>
 
-{#if inside}<em><NodeView node={node.slash}/><NodeView node={node.lang}/></em>{/if}
+{#if inside && $project.evaluator.isPlaying()}<em><NodeView node={node.slash}/><NodeView node={node.lang}/></em>{/if}

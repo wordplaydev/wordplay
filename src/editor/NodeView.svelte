@@ -7,7 +7,10 @@
     import NodeHighlight from "./NodeHighlight.svelte";
     import getNodeView from "./util/nodeToView";
     import getOutlineOf, { getUnderlineOf, type Outline } from "./util/outline";
-    import { project } from '../models/stores';
+    import { project, currentStep } from '../models/stores';
+    import Expression from "../nodes/Expression";
+    import ValueView from "../components/ValueView.svelte";
+    import type Value from "../runtime/Value";
 
     export let node: Node | undefined;
     export let root: boolean = false;
@@ -17,6 +20,18 @@
 
     $: primaryConflicts = node === undefined ? [] : $project.getPrimaryConflictsInvolvingNode(node) ?? [];
     $: highlightTypes = (node ? $highlights?.get(node) : undefined) ?? new Set();
+    let value: Value | undefined;
+    $: {
+        $currentStep;
+        // Show a value if 1) it's an expression, 2) the evaluator is stepping, 3) it's not involved in the evaluation stack
+        // and 4) the node's evaluation is currently evaluating. Start by assuming there isn't a value.
+        value = undefined;
+        if(node instanceof Expression && $project.evaluator.isStepping() && !node.isEvaluationInvolved()) {
+            const root = $project.get(node)?.getEvaluationRoot()
+            if(root && $project.evaluator.isEvaluating(root))
+                value = $project.evaluator.getPriorValueOf(node);
+        }
+    }
 
     let element: HTMLElement | null = null;
     let outline: Outline | undefined;
@@ -38,7 +53,7 @@
         class="{node.constructor.name} node-view {root ? "root" : ""} {highlightTypes.size > 0 ? "highlighted" : ""} { Array.from(highlightTypes).join(" ")}"
         data-id={node.id}
         bind:this={element}
-    ><svelte:component this={getNodeView(node)} node={node} />{#if outline && underline }<NodeHighlight {outline} {underline}/>{/if}{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation($languages[0])}</div>{/each}</div>{/if}</div>
+    >{#if value}<ValueView {value}/>{:else}<svelte:component this={getNodeView(node)} node={node} />{#if outline && underline }<NodeHighlight {outline} {underline}/>{/if}{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation($languages[0])}</div>{/each}</div>{/if}{/if}</div>
 {/if}
 
 <style>

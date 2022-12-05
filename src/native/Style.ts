@@ -6,7 +6,7 @@ import type Value from "../runtime/Value";
 import { Fonts, SupportedFonts, type FontWeight } from "./Fonts";
 
 // Set the allowable font names to those in the supported fonts list.
-const Style = parseStructure(tokens(
+const StyleType = parseStructure(tokens(
 `•Style/eng,👗/😀(
     font/eng,🔡/😀•ø${SupportedFonts.map(font => `•"${font.name}"`).join("")}: ø
     size/eng,📏/😀•#pt•ø:ø
@@ -14,17 +14,28 @@ const Style = parseStructure(tokens(
     italic/eng,${TRANSLATE}italic/😀•?: ⊥
 )`)) as StructureDefinition;
 
-export default Style;
+export default StyleType;
 
-export function styleToCSS(value: Value | undefined) {
+export type Weight = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
-    if(!(value instanceof Structure)) return undefined;
-    const style = {
-        size: value.getMeasurement("size"),
-        font: value.getText("font"),
-        weight: value.getMeasurement("weight"),
-        italic: value.getBool("italic")
+export class Style {
+
+    readonly size: number | undefined = undefined;
+    readonly font: string | undefined = undefined;
+    readonly weight: Weight | undefined = undefined;
+    readonly italic: boolean | undefined = undefined;
+
+    constructor(structure: Value | undefined) {
+        if(structure instanceof Structure) {
+            this.size = structure.getMeasurement("size"),
+            this.font = structure.getText("font"),
+            this.weight = structure.getMeasurement("weight") as Weight | undefined,
+            this.italic = structure.getBool("italic")
+        }
     }
+}
+
+export function styleToCSS(style: Style) {
 
     // Load the font if we haven't already.
     if(style?.font) Fonts.load({ name: style?.font, weight: (style?.weight ?? 4) * 100 as FontWeight, italic: style?.italic === true});

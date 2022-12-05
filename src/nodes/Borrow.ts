@@ -72,6 +72,8 @@ export default class Borrow extends Expression {
         ) as this; 
     }
     
+    isEvaluationInvolved() { return true; }
+
     getShare(context: Context): [ Source | undefined, SharedDefinition ] | undefined {
 
         if(this.source === undefined)

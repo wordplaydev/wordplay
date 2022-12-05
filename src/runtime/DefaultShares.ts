@@ -1,22 +1,22 @@
-import Verse from "../native/Verse";
-import Phrase from "../native/Phrase";
-import Group from "../native/Group";
+import VerseType from "../native/Verse";
+import PhraseType from "../native/Phrase";
+import GroupType from "../native/Group";
 import Layout, { Vertical } from "../native/Layout";
-import Transition, { Fade, Scale } from "../native/Transition";
-import Animation, { Bounce, Throb, Wobble } from "../native/Animation";
-import Style from "../native/Style";
+import TransitionType, { Fade, Scale } from "../native/Transition";
+import AnimationType, { Bounce, Throb, Wobble } from "../native/Animation";
+import StyleType from "../native/Style";
 
 const ImplicitShares = [
-    Verse,
-    Phrase,
-    Style,
-    Group,
+    VerseType,
+    PhraseType,
+    StyleType,
+    GroupType,
     Vertical,
     Layout,
-    Transition,
+    TransitionType,
     Fade,
     Scale,
-    Animation,
+    AnimationType,
     Wobble,
     Throb,
     Bounce

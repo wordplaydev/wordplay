@@ -5,58 +5,53 @@
     import { Fade, Scale } from "../native/Transition";
     import { Bounce, Throb, Wobble } from "../native/Animation";
     import { onMount } from "svelte";
+    import type { Phrase } from "../native/Phrase";
     import { styleToCSS } from "../native/Style";
 
-    export let phrase: Structure;
+    export let phrase: Phrase;
+    export let inline: boolean = false;
 
-    $: text = phrase.getText("text") ?? "";
-    $: style = styleToCSS(phrase.resolve("style"));
-    $: transition = phrase.resolve("in");
-    $: animation = phrase.resolve("animate");
+    $: text = phrase.text ?? "";
+    $: style = styleToCSS(phrase.style);
+    $: transition = phrase.transition;
+    $: animation = phrase.animation;
 
-    $: transitionType = transition instanceof Structure ? transition.type : undefined;
-    $: transitionDuration = transition instanceof Structure ? transition.getMeasurement("duration") : undefined;
-    $: transitionDelay = transition instanceof Structure ? transition.getMeasurement("delay") : undefined;
-
-    $: animationType = animation instanceof Structure ? animation.type : undefined;
-    $: animationDuration = (animation instanceof Structure ? animation.getMeasurement("duration") : undefined) ?? 400;
-    $: animationCount = (animation instanceof Structure ? animation.getMeasurement("count") : undefined) ?? Infinity;
     $: animationStyle = 
         (
-            animationType === Wobble ? `--wobble-rotation: ${(animation instanceof Structure ? animation.getMeasurement("angle") : undefined) ?? 5}deg;` : 
-            animationType === Throb ? `--throb-scale: ${(animation instanceof Structure ? animation.getMeasurement("scale") : undefined) ?? 1.2};` :
-            animationType === Bounce ? `--bounce-height: ${(animation instanceof Structure ? animation.getMeasurement("height") : undefined) ?? 100}px;` :
+            animation?.type === Wobble ? `--wobble-rotation: ${(animation instanceof Structure ? animation.getMeasurement("angle") : undefined) ?? 5}deg;` : 
+            animation?.type === Throb ? `--throb-scale: ${(animation instanceof Structure ? animation.getMeasurement("scale") : undefined) ?? 1.2};` :
+            animation?.type === Bounce ? `--bounce-height: ${(animation instanceof Structure ? animation.getMeasurement("height") : undefined) ?? 100}px;` :
             ""
-        ) + `--duration: ${animationDuration}ms; --animation-count: ${animationCount === Infinity ? "infinite" : animationCount};`
+        ) + `--duration: ${animation?.duration ?? 0}ms; --animation-count: ${animation?.count === Infinity ? "infinite" : animation?.count ?? 0};`
 
 
     $: cssStyle = `${style} ${animationStyle}`;
-    $: classes = `phrase ${
-        animationType === Wobble ? "wobble" :
-        animationType === Throb ? "throb" :
-        animationType === Bounce ? "bounce" :
+    $: classes = `phrase ${inline ? "inline" : ""} ${
+        animation?.type === Wobble ? "wobble" :
+        animation?.type === Throb ? "throb" :
+        animation?.type === Bounce ? "bounce" :
         ""}`;
 
     $: renderedText = text.replaceAll(" ", "&nbsp;");
 
     $: transitionFunction =
-        transitionType === Fade ?
+        transition?.type === Fade ?
             (node: HTMLElement, {}) => {
                 const style = getComputedStyle(node);
                 const opacity = +style.opacity;
 
                 return {
-                    delay: transitionDelay ?? 0,
-                    duration: transitionDuration ?? 400,
+                    delay: transition?.delay ?? 0,
+                    duration: transition?.duration ?? 400,
                     css: (t: number) => `opacity: ${t * opacity}`
                 }
             } : 
-        transitionType === Scale ?
+        transition?.type === Scale ?
             (node: HTMLElement, {}) => {
                 node;
                 return {
-                    delay: transitionDelay ?? 0,
-                    duration: transitionDuration ?? 400,
+                    delay: transition?.delay ?? 0,
+                    duration: transition?.duration ?? 400,
                     css: (t: number) => `transform: scale(${2 - t})`
                 }
             } : 
@@ -69,7 +64,7 @@
 
 <!-- Key on the phrase's creator node, so we only trigger transitions when this phrase view's creator changes. -->
 {#if visible }
-    {#key phrase.creator.id }
+    {#key phrase.structure?.creator.id }
         {#if transitionFunction }
             <div class={classes} style={cssStyle} in:transitionFunction={{}}>{@html renderedText}</div>
         {:else}
@@ -83,6 +78,10 @@
     .phrase {
         animation-iteration-count: var(--animation-count); 
         animation-duration: var(--duration);
+    }
+
+    .inline {
+        display: inline-block;
     }
 
     .wobble {

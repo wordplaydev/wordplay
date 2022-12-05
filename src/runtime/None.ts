@@ -20,6 +20,6 @@ export default class None extends Value {
         return value instanceof None;
     }
 
-    toString() { return `${NONE_SYMBOL}`; }
+    toWordplay() { return NONE_SYMBOL; }
 
 }

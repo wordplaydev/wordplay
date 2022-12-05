@@ -4,6 +4,8 @@ import type Evaluation from "./Evaluation";
 import Primitive from "./Primitive";
 import type Value from "./Value";
 import type Node from "../nodes/Node";
+import { TYPE_SYMBOL } from "../parser/Tokenizer";
+import type LanguageCode from "../nodes/LanguageCode";
 
 export default class StructureDefinitionValue extends Primitive {
 
@@ -24,7 +26,7 @@ export default class StructureDefinitionValue extends Primitive {
     
     getNativeTypeName() { return STRUCTURE_NATIVE_TYPE_NAME; }
 
-    toString() { return this.definition.toWordplay(); }
+    toWordplay(languages: LanguageCode[]) { return `${TYPE_SYMBOL}${this.definition.names.getTranslation(languages)}`; }
 
     isEqualTo(value: Value): boolean {
         return value instanceof StructureDefinitionValue && this.definition === value.definition && this.context === value.context;

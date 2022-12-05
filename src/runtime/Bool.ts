@@ -18,7 +18,7 @@ export default class Bool extends Primitive {
         this.bool = bool;
     }
 
-    toString() { return this.bool ? TRUE_SYMBOL : FALSE_SYMBOL; }
+    toWordplay() { return this.bool ? TRUE_SYMBOL : FALSE_SYMBOL; }
 
     getType() { return new BooleanType(); }
     

@@ -67,6 +67,9 @@ export default class ConversionDefinition extends Expression {
             this.replaceChild(pretty, "arrow", this.arrow, original, replacement)
         ) as this; 
     }
+    
+    isEvaluationInvolved() { return true; }
+    isEvaluationRoot() { return true; }
 
     isBlock(child: Node) { return child === this.expression; }
 

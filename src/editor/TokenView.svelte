@@ -6,7 +6,7 @@
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
     import { getLanguages, getDragged, getProject, getCaret } from "./util/Contexts";
     import Space from "./Space.svelte";
-    import { TokenCategories } from "./TokenCategories";
+    import TokenCategories from "./TokenCategories";
 
     export let node: Token;
 

@@ -28,7 +28,7 @@ export default class Start extends Step {
 export function start(evaluator: Evaluator, expr: Expression) {
 
     // Notify that evaluation is starting.
-    const count = evaluator.startEvaluating(expr);
+    const count = evaluator.startExpression(expr);
 
     // If this node wasn't invalidated and there's a prior value for it, return the prevously evaluated value and jump over the evaluation steps.
     if(!(expr instanceof HOF) && !evaluator.isInvalidated(expr) && count !== undefined && evaluator.getPriorValueOf(expr, count)) {

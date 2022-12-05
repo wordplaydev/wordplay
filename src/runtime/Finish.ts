@@ -33,7 +33,7 @@ export function finish(evaluator: Evaluator, expr: Expression) {
         const value = expr.evaluate(evaluator, undefined);
 
         // Notify the evaluator that we finished this evaluation.
-        evaluator.finishEvaluating(expr, false, value);
+        evaluator.finishExpression(expr, false, value);
 
         return value;
 
@@ -45,7 +45,7 @@ export function finish(evaluator: Evaluator, expr: Expression) {
         const newValue = expr.evaluate(evaluator, priorValue);
 
         // Notify the evaluator that we finished this evaluation.
-        evaluator.finishEvaluating(expr, true);
+        evaluator.finishExpression(expr, true);
 
         // Return the prior value.
         return newValue;

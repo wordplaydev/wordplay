@@ -1,6 +1,8 @@
 import { FUNCTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Context from "../nodes/Context";
 import type FunctionDefinition from "../nodes/FunctionDefinition";
+import type LanguageCode from "../nodes/LanguageCode";
+import { FUNCTION_SYMBOL } from "../parser/Tokenizer";
 import type Evaluation from "./Evaluation";
 import Value from "./Value";
 
@@ -25,7 +27,9 @@ export default class FunctionValue extends Value {
 
     resolve() { return undefined; }
 
-    toString() { return this.definition.toWordplay(); }
+    toWordplay(languages: LanguageCode[]) {
+        return `${FUNCTION_SYMBOL} ${this.definition.names.getTranslation(languages)}()`;
+    }
 
     isEqualTo(value: Value): boolean {
         return value instanceof FunctionValue && this.definition === value.definition && this.context === value.context;
