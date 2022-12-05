@@ -71,10 +71,11 @@
 
         if(evaluator === undefined) return;
 
-        const stepNode = getStepNode();
         stepping = evaluator.isStepping();
+        executingNode = evaluator?.getCurrentStep()?.node;
 
         // If the program contains this node, scroll it's first token into view.
+        const stepNode = getStepNode();
         if(stepping && stepNode && source.contains(stepNode)) {
             let highlight: Node | undefined = stepNode;
             let element = null;
@@ -154,7 +155,6 @@
     $: {
         caret.set($caret.withSource(source));
         setContext(CaretSymbol, caret);
-        executingNode = evaluator?.getCurrentStep()?.node;
     }
 
     // When the caret location changes, position the menu and invisible input, and optionally scroll to the caret.

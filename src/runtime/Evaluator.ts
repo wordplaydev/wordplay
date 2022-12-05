@@ -250,6 +250,7 @@ export default class Evaluator {
     play() {
         this.setMode(Mode.PLAY);
         this.finish();
+        this.start();
     }
 
     pause() {
