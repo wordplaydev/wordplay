@@ -3,19 +3,21 @@
     import Editor from '../editor/Editor.svelte';
     import type Source from '../models/Source';
     import type Project from '../models/Project';
-    import EvaluatorView from './EvaluatorView.svelte';
     import { valueToVerse, Verse } from '../native/Verse';
     import { currentStep } from '../models/stores';
+    import EvaluatorView from './EvaluatorView.svelte';
 
     export let project: Project;
     export let source: Source;
     export let interactive: boolean = false;
 
     let verse: Verse | undefined;
+    let stepping: boolean = false;
     $: {
         $currentStep;
         const latest = project.evaluator.getLatestSourceValue(source);
         verse = latest === undefined ? undefined: valueToVerse(project.evaluator, latest);
+        stepping = project.evaluator.isStepping() && project.evaluator.getCurrentEvaluation()?.getSource() === source;
     }
 
 </script>
@@ -26,17 +28,19 @@
         <small>
         </small>
     </div>
-    <div class="split">
+    <div class={`split ${verse === undefined && stepping ? "column" : ""}`}>
         <div class="source-content">
             <Editor {project} {source} />
         </div>
-        <div class="source-content" >
-            {#if verse === undefined}
-                <EvaluatorView evaluator={project.evaluator} />
-            {:else}
+        {#if verse !== undefined}
+            <div class="source-content">
                 <VerseView {project} {verse} {interactive}/>
-            {/if}
-        </div>
+            </div>
+        {:else if stepping}
+            <div class="evaluator">
+                <EvaluatorView evaluator={project.evaluator}/>
+            </div>
+        {/if}
     </div>
 </div>
 
@@ -63,6 +67,10 @@
         min-width: 0;
     }
 
+    .split.column {
+        flex-direction: column;
+    }
+
     .source-content {
         flex: 1; /* 50/50 split */
         min-height: 20rem;
@@ -79,13 +87,14 @@
         border-left: var(--wordplay-border-width) solid var(--wordplay-border-color);;
     }
 
-    .source-content:focus-within {
-        outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
+    .source-content:has(.stepping) {
+        outline: var(--wordplay-border-width) solid var(--wordplay-executing-color);
         z-index: 2;
     }
 
-    .source-content:has(.stepping) {
-        border: var(--wordplay-border-width) solid var(--wordplay-executing-color);
+    .source-content:focus-within {
+        border: var(--wordplay-highlight) solid var(--wordplay-border-width);
+        z-index: 2;
     }
 
     .source h2 {

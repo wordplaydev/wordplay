@@ -64,8 +64,8 @@
     }
  
     :global(.executing) > .outline path {
-        fill: var(--wordplay-warning);
-        stroke: var(--wordplay-warning);
+        fill: var(--wordplay-executing-color);
+        stroke: var(--wordplay-executing-color);
     }
 
     :global(

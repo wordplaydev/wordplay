@@ -1060,7 +1060,6 @@
 
     .editor {
         white-space: nowrap;
-        min-height: calc(100% - var(--wordplay-spacing) * 2);
         line-height: var(--wordplay-code-line-height);
         padding: var(--wordplay-spacing);
         position: relative;
