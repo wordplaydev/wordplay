@@ -6,11 +6,11 @@
 `🧩 = 🤔 + 🤫`/😀
 •Game/eng, 🧩/😀(guesses/eng,🤔/😀•[""] secret/eng, 🤫/😀•"")
 (
-  ƒ guessesRemaining/eng,🔢/😀() (secret.length() · 2) - guesses.length()
-  ƒ status/eng,🚨/😀()
+  guessesRemaining/eng,🔢/😀: (secret.length() · 2) - guesses.length()
+  status/eng,🚨/😀: 
     secret = "" ? "start"
     secret→[""].all(ƒ(letter•"") guesses.has(letter)) ? "won"
-    guessesRemaining() ≤ 0 ? "lost"
+    guessesRemaining ≤ 0 ? "lost"
     "playing"
 )
 
@@ -23,15 +23,15 @@ start/eng,
 state/eng,
 ⚽️/😀•Game: start ∆ ⌨️
     ⌨️.key = "Escape" ? start
-    (state.status() ≠ "playing") ∧ (⌨️.key = " ") ∧ ⌨️.down ? Game([] words.random())
-    (state.status() = "playing") ∧ ⌨️.down ∧ (⌨️.key.length() = 1) ∧ ¬state.guesses.has(⌨️.key) ? Game(state.guesses.add(⌨️.key) state.secret)
+    (state.status ≠ "playing") ∧ (⌨️.key = " ") ∧ ⌨️.down ? Game([] words.random())
+    (state.status = "playing") ∧ ⌨️.down ∧ (⌨️.key.length() = 1) ∧ ¬state.guesses.has(⌨️.key) ? Game(state.guesses.add(⌨️.key) state.secret)
     state
 
 `The board is a translation of the secret, accounting for guesses`/eng
 `El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.`/spa
 `🤔 + 🤫 → 🔤`/😀
 board/eng,
-🔤/😀: 💬(state.secret→[""].translate(ƒ(letter•"") ((state.status() = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 👗(size: 32pt) animate: state.status() = "won" ? Bounce(100m 1000ms) ø)
+🔤/😀: 💬(state.secret→[""].translate(ƒ(letter•"") ((state.status = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 👗(size: 32pt) animate: state.status = "won" ? Bounce(100m 1000ms) ø)
 
 `The title on the title screen`/eng
 title: 💬("WhatWord" 👗(size: 32pt) in:Fade(500ms))
@@ -41,11 +41,11 @@ title: 💬("WhatWord" 👗(size: 32pt) in:Fade(500ms))
 `🚨 + 🔤 → 📺`/😀
 screen/eng,
 📺/😀:
-  state.status() = "start" ? ▣(⬇() title 💬("Press space to begin" animate: Throb(1.1 1000ms)))
-  state.status() = "lost" ?  ▣(⬇() board 💬("You lost. Press space to play again."))
-  state.status() = "won" ?   ▣(⬇() board 💬("You won, nice job! Press space to play again."))
+  state.status = "start" ? ▣(⬇() title 💬("Press space to begin" animate: Throb(1.1 1000ms)))
+  state.status = "lost" ?  ▣(⬇() board 💬("You lost. Press space to play again."))
+  state.status = "won" ?   ▣(⬇() board 💬("You won, nice job! Press space to play again."))
                              ▣(⬇() board 💬(state.guesses.length() = 0 ? "Type a letter to guess" "Guesses: \state.guesses.join(' ')\" 👗(size: 16pt)) 
-                                          💬("\state.guessesRemaining()→''\ remaining" in: Scale() animate: state.guessesRemaining() ≤ 3 ? Wobble(5° 200ms) ø)
+                                          💬("\state.guessesRemaining→''\ remaining" in: Scale() animate: state.guessesRemaining ≤ 3 ? Wobble(5° 200ms) ø)
                               )
 
 🌎(screen)
