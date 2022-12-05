@@ -12,7 +12,6 @@ import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Node from "./Node";
 import StructureType from "./StructureType";
-import StreamType from "./StreamType";
 import Bind from "./Bind";
 import UnionType, { TypeSet } from "./UnionType";
 import Conditional from "./Conditional";
@@ -23,7 +22,6 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import TypeVariable from "./TypeVariable";
-import Stream from "../runtime/Stream";
 import type Transform from "../transforms/Transform"
 import NameException from "../runtime/NameException";
 import NativeType from "./NativeType";
@@ -37,6 +35,7 @@ import PlaceholderToken from "./PlaceholderToken";
 import { NameLabels } from "./Name";
 import type Definition from "./Definition";
 import type Value from "../runtime/Value";
+import StreamType from "./StreamType";
 
 export default class PropertyReference extends Expression {
 
@@ -77,8 +76,11 @@ export default class PropertyReference extends Expression {
 
         const conflicts = [];
 
-        const subjectType = this.getSubjectType(context);
-        if(this.name === undefined || (subjectType instanceof StructureType && subjectType.getDefinition(this.name.text.toString()) === undefined))
+        if(this.getDefinition(context) === undefined)
+            console.log("Test");
+
+        const def = this.getDefinition(context);
+        if(def === undefined)
             conflicts.push(new UnknownProperty(this));
 
         return conflicts;
@@ -90,63 +92,64 @@ export default class PropertyReference extends Expression {
         const subjectType = this.getSubjectType(context);
         
         if(subjectType === undefined) return;
-        else if(subjectType instanceof StructureType) return subjectType.structure.getDefinition(this.name.getText());
+        else if(subjectType instanceof StructureType) return subjectType.getDefinition(this.name.getText());
         else return subjectType.getDefinitionOfName(this.name.getText(), context, this);
         
     }
 
     getSubjectType(context: Context): Type | undefined {
-        return this.structure.getTypeUnlessCycle(context);
+        let structureType = this.structure.getTypeUnlessCycle(context);
+        // If it's a stream, get the type of the stream, since streams are evaluated to their values, not themselves.
+        if(structureType instanceof StreamType)
+            structureType = structureType.type;
+        return structureType;
     }
 
     computeType(context: Context): Type {
-        let subjectType = this.structure.getTypeUnlessCycle(context);
-        if(subjectType === undefined) return new UnknownType(this);
 
-        if(subjectType instanceof StreamType) {
-            subjectType = subjectType.type;
-        }
+        // Get the definition.
+        const def = this.getDefinition(context);
 
-        if(this.name === undefined) return new UnknownType(this);
+        // No definition? Unknown type.
+        if(def === undefined || def instanceof TypeVariable) return new UnknownType(this);
 
-        if(subjectType instanceof StructureType) {
-            const bind = subjectType.getDefinition(this.name.getText());
-            if(bind === undefined || bind instanceof TypeVariable || bind instanceof Stream) return new UnknownType(this);
-                        
-            const type = bind.getTypeUnlessCycle(context);
+        // Get the type of the definition.
+        const type = def.getType(context);
 
+        if(def instanceof Bind) {
             // Narrow the type if it's a union.
 
             // Is the type a union? Find the subset of types that are feasible, given any type checks in conditionals.
-            if(bind instanceof Bind && type instanceof UnionType && this._unionType === undefined) {
+            if(type instanceof UnionType && this._unionType === undefined) {
 
                 // Find any conditionals with type checks that refer to the value bound to this name.
                 // Reverse them so they are in furthest to nearest ancestor, so we narrow types in execution order.
                 const guards = context.get(this)?.getAncestors()?.filter(a => 
+                        // Guards must be conditionals
                         a instanceof Conditional &&
+                        // Guards must have references to this same property in a type check
                         a.condition.nodes(
                             n =>    this.name !== undefined &&
                                     context.get(n)?.getParent() instanceof Is && 
-                                    n instanceof PropertyReference && n.getSubjectType(context) instanceof StructureType && bind === (n.getSubjectType(context) as StructureType).getDefinition(this.name.getText())
-                        )
+                                    n instanceof PropertyReference && 
+                                    n.getSubjectType(context) instanceof StructureType && 
+                                    def === (n.getSubjectType(context) as StructureType).getDefinition(this.name.getText())
+                        ).length > 0
                     ).reverse() as Conditional[];
 
                 // Grab the furthest ancestor and evaluate possible types from there.
                 const root = guards[0];
                 if(root !== undefined) {
                     let possibleTypes = type.getTypes(context);
-                    root.evaluateTypeSet(bind, possibleTypes, possibleTypes, context);
+                    root.evaluateTypeSet(def, possibleTypes, possibleTypes, context);
                 }
             }
             
             return this._unionType !== undefined ? this._unionType : type;
 
         }
-        else {
-            const fun = subjectType.getFunction(context, this.name.text.toString());
-            if(fun === undefined) return new UnknownType(this);
-            else return fun.getTypeUnlessCycle(context);
-        }
+        else 
+        return type;
     }
 
     getDependencies(): Expression[] {

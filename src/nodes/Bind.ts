@@ -14,7 +14,6 @@ import NameType from "./NameType";
 import StructureType from "./StructureType";
 import StructureDefinition from "./StructureDefinition";
 import TypeVariable from "./TypeVariable";
-import Reference from "./Reference";
 import Column from "./Column";
 import ColumnType from "./ColumnType";
 import type Evaluator from "../runtime/Evaluator";
@@ -178,11 +177,11 @@ export default class Bind extends Expression {
             });
         }
 
-        // If this bind isn't part of an Evaluate, it should be used in some expression in its parent.
+        // Search the project for references and warn if there aren't any.
         const parent = context.get(this)?.getParent();
         if(enclosure && !this.isShared() && !(parent instanceof Column || parent instanceof ColumnType || parent instanceof Cell || parent instanceof Evaluate)) {
-            const uses = enclosure.nodes(n => n instanceof Reference && this.names.names.find(name => name.getName() === n.name.text.toString()) !== undefined);
-            if(uses.length === 0)
+            const references = context.project.getReferences(this);
+            if(references.length === 0)
                 conflicts.push(new UnusedBind(this));
         }
 

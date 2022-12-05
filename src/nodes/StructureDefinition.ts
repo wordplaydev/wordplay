@@ -181,10 +181,15 @@ export default class StructureDefinition extends Expression {
     
     }
 
-    getDefinition(name: string): Definition | undefined {
+    getDefinition(name: string): Bind | FunctionDefinition | StructureDefinition | undefined {
+        
+        // Definitions can be inputs...
         const inputBind = this.inputs.find(i => i instanceof Bind && i.hasName(name)) as Bind;
         if(inputBind !== undefined) return inputBind;
-        return this.expression instanceof Block ? this.expression.statements.find(i => (i instanceof StructureDefinition || i instanceof FunctionDefinition) && i.names.names.find(a => a.getName() === name)) as FunctionDefinition | StructureDefinition : undefined;
+
+        // ...or they can be in a structure's block binds.
+        return this.expression !== undefined ? 
+            this.expression.statements.find(i => (i instanceof StructureDefinition || i instanceof FunctionDefinition || i instanceof Bind) && i.names.hasName(name)) as FunctionDefinition | StructureDefinition | Bind : undefined;
     }
 
     getDefinitions(node: Node): Definition[] {

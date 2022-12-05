@@ -21,6 +21,9 @@ import Tree from "../nodes/Tree";
 import DefaultShares from "../runtime/DefaultShares";
 import Context from "../nodes/Context";
 import type { SharedDefinition } from "../nodes/Borrow";
+import PropertyReference from "../nodes/PropertyReference";
+import type Bind from "../nodes/Bind";
+import Reference from "../nodes/Reference";
 
 
 /** 
@@ -320,6 +323,20 @@ export default class Project {
             Object.values(this.streams).find(s => s.hasName(source));
 
         return defaultMatch === undefined ? undefined : [ undefined, defaultMatch ];
+
+    }
+
+    getReferences(bind: Bind): (Reference | PropertyReference)[] {
+
+        const refs: (Reference | PropertyReference)[] = [];
+        for(const source of this.getSources()) {
+            const context = this.getContext(source);
+            for(const ref of (source.nodes(n => n instanceof Reference || n instanceof PropertyReference) as (Reference | PropertyReference)[])) {
+                if(ref.getDefinition(context) === bind)
+                    refs.push(ref);
+            }
+        }
+        return refs;
 
     }
 
