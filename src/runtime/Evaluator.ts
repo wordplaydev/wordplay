@@ -444,7 +444,7 @@ export default class Evaluator {
      * Step backwards. This involves moving the stepIndex back, then reevaluating the project --
      * from the beginning -- until reaching the stepIndex. This relies on memoization of non-deterministic inputs.
      */
-    stepBack(): void {
+    stepBack() {
 
         // Do nothing if at the beginning of time.
         if(this.#stepIndex === 0) 
@@ -471,7 +471,20 @@ export default class Evaluator {
             this.step();
         }
 
-        // Notify listeners that we finished stepping back.
+    }
+
+    /** Step back until reaching a step in the project. */
+    stepBackWithinProgram() {
+
+        let nextStepNode = undefined;
+        do {
+            // Step ahead
+            this.stepBack();
+            // Get the current step node
+            nextStepNode = this.getCurrentStep()?.node;
+        } while(nextStepNode !== undefined && !this.project.contains(nextStepNode));
+
+        // Notify listeners that we finished stepping to the next within program node.
         this.broadcast();
 
     }

@@ -81,7 +81,7 @@
         <Button
             label={{ eng: "back", "😀": WRITE }}
             tip={{ eng: "Step back one step.", "😀": WRITE }}
-            action={() => $project.evaluator.stepBack() }
+            action={() => $project.evaluator.stepBackWithinProgram() }
             enabled={!$project.evaluator.isAtBeginning()}
         />
     {/if}

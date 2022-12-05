@@ -318,7 +318,7 @@ const commands: Command[] = [
         key: "Backspace",
         mode: Mode.STEP,
         execute: (_, __, evaluator) => {
-            evaluator.stepBack();
+            evaluator.stepBackWithinProgram();
             return undefined;
         }
     },
