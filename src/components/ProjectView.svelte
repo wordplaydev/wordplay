@@ -17,7 +17,8 @@
     onDestroy(() => project.cleanup());
 
     $: {
-        if($KeyboardIdle && !project.isEvaluating())
+        // If the keyboard is idle and the evaluator hasn't started yet, start it.
+        if($KeyboardIdle && !project.evaluator.isStarted())
             project.evaluate();
     }
 

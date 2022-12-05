@@ -147,10 +147,6 @@ export default class Project {
     getSourceWithProgram(program: Program) { return this.getSources().find(source => source.expression === program); }
     getNative() { return Native; }
 
-    isEvaluating() {
-        return !this.evaluator.isDone();
-    }
-    
     analyze() {
 
         // Build a mapping from nodes to conflicts.

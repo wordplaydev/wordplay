@@ -45,6 +45,9 @@ export default class Evaluator {
     /** The callback to notify if the evaluation's value changes. */
     readonly observers: EvaluationObserver[] = [];
 
+    /** False if start() has yet to be called, true otherwise. */
+    started: boolean = false;
+
     /** True if stop() was called */
     stopped = false;
 
@@ -143,6 +146,7 @@ export default class Evaluator {
 
     // PREDICATES
 
+    isStarted(): boolean { return this.started; }
     isPlaying(): boolean { return this.mode === Mode.PLAY; }
     isStepping(): boolean { return this.mode === Mode.STEP; }
     isDone() { return this.evaluations.length === 0; }
@@ -187,6 +191,9 @@ export default class Evaluator {
 
     /** Evaluate until we're done */
     start(changedStream?: Stream, invalidatedExpressions?: Set<Expression>): void {
+
+        // Mark as started.
+        this.started = true;
 
         // Reset the latest source values.
         this.latestValues = new Map();
