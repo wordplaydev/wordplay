@@ -26,8 +26,7 @@ import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
-import { TRANSLATE, WRITE_DOCS } from "./Translations"
-import Action from "../runtime/Action";
+import { TRANSLATE } from "./Translations"
 
 export default class Reaction extends Expression {
 
@@ -98,9 +97,7 @@ export default class Reaction extends Expression {
         const nextSteps = this.next.compile(context);
 
         return [
-            new Start(this),
-            new Action(this, 
-                WRITE_DOCS,
+            new Start(this,
                 evaluator => {
                 // Ask evaluator to remember streams that are accessed
                 evaluator.startRememberingStreamAccesses();
@@ -123,10 +120,10 @@ export default class Reaction extends Expression {
             // If it has not, evaluate the initial value then jump to finish...
             ...initialSteps,
             // ... then jump to finish.
-            new Jump(1 + nextSteps.length, this),
+            new Jump(nextSteps.length + 1, this),
             // If the streams accessed in expression have changed (and resulted in true or some non-Boolean value), 
             // compute the next value. Otherwise, let the jump push the stream value and skip the rest.
-            new JumpIfStreamUnchanged(nextSteps.length + 1, this),
+            new JumpIfStreamUnchanged(nextSteps.length, this),
             // If it has been created, has the referenced stream changed?
             ...nextSteps,
             // Finish by pushing the latest stream value for this node onto the stack.
@@ -138,7 +135,7 @@ export default class Reaction extends Expression {
     evaluate(evaluator: Evaluator, value: Value | undefined): Value | undefined {
 
         // Get the value.
-        const streamValue = value ?? evaluator.popValue(undefined);
+        const streamValue = value ?? evaluator.peekValue();
 
         // At this point in the compiled steps above, we should have a value on the stack
         // that is either the initial value for this reaction's stream or a new value.
@@ -146,8 +143,8 @@ export default class Reaction extends Expression {
 
         evaluator.addToReactionStream(this, streamValue);
 
-        // Then push the stream's latest value back onto the value stack.
-        evaluator.pushValue(streamValue);
+        // Return the value we computed.
+        return streamValue;
 
     }
 
