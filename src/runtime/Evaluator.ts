@@ -12,9 +12,6 @@ import type NativeInterface from "../native/NativeInterface";
 import Source from "../models/Source";
 import type Names from "../nodes/Names";
 import type Expression from "../nodes/Expression";
-import Evaluate from "../nodes/Evaluate";
-import BinaryOperation from "../nodes/BinaryOperation";
-import UnaryOperation from "../nodes/UnaryOperation";
 import Project from "../models/Project";
 import type Step from "./Step";
 import StructureDefinition from "../nodes/StructureDefinition";
@@ -377,8 +374,11 @@ export default class Evaluator {
      **/
     step(): void {
 
+        // Get the evaluation to step.
+        const evaluation = this.getCurrentEvaluation();
+
         // If there's no node evaluating, do nothing.
-        if(this.evaluations.length === 0)
+        if(evaluation === undefined)
             return;
 
         // Reset step to node.
@@ -389,7 +389,7 @@ export default class Evaluator {
             // If it seems like we're stuck in an infinite (recursive) loop, halt.
             this.evaluations.length > 100000 ? new EvaluationException(StackSize.FULL, this) :
             // Otherwise, step the current evaluation and get it's value
-            this.evaluations[0]?.step(this);
+            evaluation.step(this);
 
         // If it's an exception, halt execution by returning the exception value.
         if(value instanceof Exception)
@@ -402,13 +402,11 @@ export default class Evaluator {
             // If there's another Evaluation on the stack, pass the value to it by pushing it onto it's stack.
             if(this.evaluations.length > 0) {
                 this.evaluations[0].pushValue(value);
-                const priorStep = this.evaluations[0].priorStep();
-                if(priorStep && (priorStep.node instanceof Evaluate || priorStep.node instanceof BinaryOperation || priorStep.node instanceof UnaryOperation)) {
-                    // Remember the value that was evaluated. This usually happens in finishExpression, but happens here for evaluations.
-                    const list = this.values.get(priorStep.node) ?? [];
-                    list.push({ value: value, stepNumber: this.getStepIndex() });
-                    this.values.set(priorStep.node, list);
-                }
+                const creator = evaluation.getCreator();
+                // Remember the value that was evaluated. This usually happens in finishExpression, but happens here for evaluations.
+                const list = this.values.get(creator) ?? [];
+                list.push({ value: value, stepNumber: this.getStepIndex() });
+                this.values.set(creator, list);
             }
             // Otherwise, save the value and clean up this final evaluation; nothing left to do!
             else
