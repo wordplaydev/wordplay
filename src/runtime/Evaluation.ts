@@ -28,6 +28,7 @@ import type Convert from "../nodes/Convert";
 import type Borrow from "../nodes/Borrow";
 import Context from "../nodes/Context";
 import StructureDefinitionValue from "./StructureDefinitionValue";
+import type { StepNumber } from "./Evaluator";
 
 export type EvaluatorNode = UnaryOperation | BinaryOperation | Evaluate | Convert | HOF | Borrow | Source;
 export type EvaluationNode = FunctionDefinition | StructureDefinition | ConversionDefinition | Source;
@@ -45,6 +46,9 @@ export default class Evaluation {
 
     /** The context, for passing around to getType, etc. */
     readonly #context: Context;
+
+    /** The global step count of this evaluation, from the evaluator. */
+    readonly #stepNumber: StepNumber;
 
     /** The node that defined this expression being evaluated. */
     readonly #evaluationNode: Program | FunctionDefinition | StructureDefinition | ConversionDefinition | Source;
@@ -66,7 +70,7 @@ export default class Evaluation {
     readonly #conversions: Conversion[] = [];
 
     /** The step to execute next */
-    #step: number = 0;
+    #stepIndex: number = 0;
     
     constructor(
         evaluator: Evaluator,
@@ -79,6 +83,9 @@ export default class Evaluation {
         this.#evaluatorNode = evaluatorNode;
         this.#evaluationNode = evaluationNode;
         this.#closure = closure;
+
+        // Remember what step this was.
+        this.#stepNumber = evaluator.getStepNumber();
 
         // Derive some state
         this.#source = evaluator.project.getSourceOf(evaluationNode);
@@ -100,6 +107,7 @@ export default class Evaluation {
     getDefinition() { return this.#evaluationNode; }
     getClosure() { return this.#closure; }
     getContext() { return this.#context; }
+    getStepNumber() { return this.#stepNumber; }
 
     /** 
      * Given an Evaluator, evaluate the current step.
@@ -109,11 +117,11 @@ export default class Evaluation {
      **/
     step(evaluator: Evaluator): Value | undefined {
     
-        if(this.#step >= this.#steps.length)
+        if(this.#stepIndex >= this.#steps.length)
             return this.end();
 
         // Evaluate the next step.
-        const result = this.#steps[this.#step].evaluate(evaluator);
+        const result = this.#steps[this.#stepIndex].evaluate(evaluator);
 
         // If it's an exception, return it to the evaluator to halt the program.
         if(result instanceof Exception)
@@ -130,10 +138,10 @@ export default class Evaluation {
         }
 
         // Move to the next step.
-        this.#step++;
+        this.#stepIndex++;
     
         // If the last step didn't start a new evaluation and this one is over, just end it.
-        if(evaluator.getCurrentEvaluation() === this && this.#step >= this.#steps.length)
+        if(evaluator.getCurrentEvaluation() === this && this.#stepIndex >= this.#steps.length)
             return this.end();
 
         // Otherwise, return nothing, since we're not done evaluating.
@@ -151,21 +159,21 @@ export default class Evaluation {
 
     }
 
-    currentStep(): Step | undefined { return this.#steps[this.#step]; }
-    priorStep() { return this.#step - 1 >= 0 ? this.#steps[this.#step - 1] : undefined; }
-    nextStep() { return this.#step + 1 < this.#steps.length ? this.#steps[this.#step + 1] : undefined; }
+    currentStep(): Step | undefined { return this.#steps[this.#stepIndex]; }
+    priorStep() { return this.#stepIndex - 1 >= 0 ? this.#steps[this.#stepIndex - 1] : undefined; }
+    nextStep() { return this.#stepIndex + 1 < this.#steps.length ? this.#steps[this.#stepIndex + 1] : undefined; }
 
     jump(distance: number) {
-        this.#step += distance;
+        this.#stepIndex += distance;
     }
 
     /** Tell the current evaluation to jump past the given expression */
     jumpPast(expression: Expression) {
         // Stop when we get to the Expression's Finish step
-        while(this.#step < this.#steps.length && !(this.#steps[this.#step] instanceof Finish && this.#steps[this.#step].node === expression))
-            this.#step++;
+        while(this.#stepIndex < this.#steps.length && !(this.#steps[this.#stepIndex] instanceof Finish && this.#steps[this.#stepIndex].node === expression))
+            this.#stepIndex++;
         // Step to just before the Finish, so the next step is the Finish.
-        this.#step--;
+        this.#stepIndex--;
     }
     
     hasValue(): boolean { return this.#values.length > 0; }

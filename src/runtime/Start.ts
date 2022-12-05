@@ -31,7 +31,7 @@ export function start(evaluator: Evaluator, expr: Expression) {
     const count = evaluator.startExpression(expr);
 
     // If this node wasn't invalidated and there's a prior value for it, return the prevously evaluated value and jump over the evaluation steps.
-    if(!(expr instanceof HOF) && !evaluator.isInvalidated(expr) && count !== undefined && evaluator.getPriorValueOf(expr, count)) {
+    if(!(expr instanceof HOF) && !evaluator.isInvalidated(expr) && count !== undefined && evaluator.getLatestValueOf(expr, count)) {
         // Ask the evaluator to jump past this start's corresponding finish.
         evaluator.jumpPast(expr);
     }

@@ -14,7 +14,7 @@
     let verse: Verse | undefined;
     $: {
         $currentStep;
-        const latest = project.evaluator.getLatestResultOf(source);
+        const latest = project.evaluator.getLatestSourceValue(source);
         verse = latest === undefined ? undefined: valueToVerse(project.evaluator, latest);
     }
 

@@ -28,6 +28,7 @@ import Native from "../native/NativeBindings";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
+export type StepNumber = number;
 
 export enum Mode { PLAY, STEP };
 
@@ -46,13 +47,13 @@ export default class Evaluator {
     readonly observers: EvaluationObserver[] = [];
 
     /** False if start() has yet to be called, true otherwise. */
-    started: boolean = false;
+    #started: boolean = false;
 
     /** True if stop() was called */
-    stopped = false;
+    #stopped = false;
 
-    /** The value of the evaluted program, cached each time the program is evaluated. */
-    latestValues: Map<Source, Value | undefined> = new Map();
+    /** The global step counter, one for each step evaluated. */
+    #stepNumber: number = 0;
 
     /** The streams changes that triggered this evaluation */
     changedStream: Stream | undefined;
@@ -69,11 +70,14 @@ export default class Evaluator {
     /** A set of possible execution modes, defaulting to play. */
     mode: Mode = Mode.PLAY;
 
+    /** The value of the evaluted program, cached each time the program is evaluated. */
+    sourceValues: Map<Source, Value | undefined> = new Map();
+
     /** 
      * An execution history, mapping Expressions to the sequence of values they have produced.
      * Used for avoiding reevaluation, as well as the front end for debugging.
      */
-    values: Map<Expression, (Value | undefined)[]> = new Map();
+    values: Map<Expression, ({ value: Value | undefined, stepNumber: StepNumber })[]> = new Map();
 
     /** 
      * A counter for each expression, tracking how many times it has executed. Used to retrieve
@@ -82,7 +86,7 @@ export default class Evaluator {
     counters: Map<Expression, number> = new Map();
 
     /**
-     * A cache of steps by node.
+     * A cache of steps by node, to avoid recompilation.
      */
     steps: Map<EvaluationNode, Step[]> = new Map();
 
@@ -101,7 +105,7 @@ export default class Evaluator {
         const source = new Source("test", main);
         const project = new Project("test", source, (supplements ?? []).map((code, index) => new Source(`sup${index + 1}`, code)));
         project.evaluate();
-        return project.evaluator.getLatestResultOf(source);
+        return project.evaluator.getLatestSourceValue(source);
     }
 
     // GETTERS
@@ -115,7 +119,8 @@ export default class Evaluator {
     getLastEvaluation() { return this.#lastEvaluation; }
     getCurrentContext() { return this.getCurrentEvaluation()?.getContext() ?? new Context(this.project, this.project.main); }
     /** Get whatever the latest result was of evaluating the program and its streams. */
-    getLatestResultOf(source: Source) { return this.latestValues.get(source); }
+    getLatestSourceValue(source: Source) { return this.sourceValues.get(source); }
+    getStepNumber() { return this.#stepNumber; }
     getSteps(evaluation: EvaluationNode): Step[] {
 
         // No expression? No steps.
@@ -134,19 +139,29 @@ export default class Evaluator {
         return steps;
 
     }
-    getPriorValueOf(expression: Expression, count?: number) {
+
+    getLatestValueOf(expression: Expression, stepNumber?: number): Value | undefined {
         const values = this.values.get(expression);
-        const index = count ?? (values === undefined ? undefined : values.length - 1);
-        return index === undefined || values === undefined || index >= values.length ? undefined : values[index];
+        // No values? Return nothing.
+        if(values === undefined || values.length === 0) return undefined;
+        // No step number? Return the latest.
+        if(stepNumber === undefined) return values[values.length - 1].value;
+        // Step number? Find a value that occurred after the given step number.
+        for(let index = values.length - 1; index >= 0; index--)
+            if(values[index].stepNumber > stepNumber) return values[index].value;
+        return undefined;
     }
 
     getCount(expression: Expression) {
         return this.counters.get(expression);
     }
 
+    /** Finds the evaluation on the stack evaluating the given expression, if there is one. */
+    getEvaluationOf(expression: Expression) { return this.evaluations.find(e => e.getDefinition() === expression); }
+
     // PREDICATES
 
-    isStarted(): boolean { return this.started; }
+    isStarted(): boolean { return this.#started; }
     isPlaying(): boolean { return this.mode === Mode.PLAY; }
     isStepping(): boolean { return this.mode === Mode.STEP; }
     isDone() { return this.evaluations.length === 0; }
@@ -157,7 +172,7 @@ export default class Evaluator {
     isEvaluatingSource(source: Source) { return this.evaluations.some(e => e.getSource() === source); }
 
     /** True if the given evaluation node is on the stack */
-    isEvaluating(expression: Expression) { return this.evaluations.some(e => e.getDefinition() === expression); }
+    isEvaluating(expression: Expression) { return this.getEvaluationOf(expression) !== undefined; }
 
     /** Given a node, returns true if the node participates in a step in this program. */
     nodeIsStep(node: Node): boolean {
@@ -193,10 +208,10 @@ export default class Evaluator {
     start(changedStream?: Stream, invalidatedExpressions?: Set<Expression>): void {
 
         // Mark as started.
-        this.started = true;
+        this.#started = true;
 
         // Reset the latest source values.
-        this.latestValues = new Map();
+        this.sourceValues = new Map();
 
         // Reset the latest expression values and counts.
         this.values = new Map();
@@ -245,7 +260,7 @@ export default class Evaluator {
 
     /** Stops listening to listeners and halts execution. */
     stop() {
-        this.stopped = true;
+        this.#stopped = true;
         this.observers.length = 0;
     }
 
@@ -271,7 +286,7 @@ export default class Evaluator {
     finish(): void {
 
         // Run all of the steps until we get a value or we're stopped.
-        while(!this.stopped && !this.isDone())
+        while(!this.#stopped && !this.isDone())
             this.step();
             
     }
@@ -323,7 +338,7 @@ export default class Evaluator {
                 const priorStep = this.evaluations[0].priorStep();
                 if(priorStep && (priorStep.node instanceof Evaluate || priorStep.node instanceof BinaryOperation || priorStep.node instanceof UnaryOperation)) {
                     const list = this.values.get(priorStep.node) ?? [];
-                    list.push(value);
+                    list.push({ value: value, stepNumber: this.getStepNumber() });
                     this.values.set(priorStep.node, list);
                 }
             }
@@ -332,6 +347,9 @@ export default class Evaluator {
                 this.end();
         }
         // If there was no value, that just means it's not done yet.
+
+        // Finally, increment the step counter.
+        this.#stepNumber++;
 
     }
 
@@ -471,7 +489,7 @@ export default class Evaluator {
         this.#lastEvaluation = evaluation;
         const def = evaluation.getDefinition();
         if(def instanceof Source)
-            this.latestValues.set(def, value);
+            this.sourceValues.set(def, value);
     }
     
     startExpression(expression: Expression) {
@@ -490,7 +508,7 @@ export default class Evaluator {
         // Remember the value it computed in the value history.
         if(!recycled) {
             const list = this.values.get(expression) ?? [];
-            list.push(value);
+            list.push({ value: value, stepNumber: this.getStepNumber() });
             this.values.set(expression, list);
         }
 

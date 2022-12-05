@@ -27,9 +27,10 @@
         // and 4) the node's evaluation is currently evaluating. Start by assuming there isn't a value.
         value = undefined;
         if(node instanceof Expression && $project.evaluator.isStepping() && !node.isEvaluationInvolved()) {
-            const root = $project.get(node)?.getEvaluationRoot()
-            if(root && $project.evaluator.isEvaluating(root))
-                value = $project.evaluator.getPriorValueOf(node);
+            const root = $project.get(node)?.getEvaluationRoot();
+            const evaluation = root ? $project.evaluator.getEvaluationOf(root) : undefined;
+            if(evaluation)
+                value = $project.evaluator.getLatestValueOf(node, evaluation.getStepNumber());
         }
     }
 

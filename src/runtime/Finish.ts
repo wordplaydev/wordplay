@@ -25,7 +25,7 @@ export function finish(evaluator: Evaluator, expr: Expression) {
 
     // Find which execution this is.
     const count = evaluator.getCount(expr);
-    const priorValue = count === undefined ? undefined : evaluator.getPriorValueOf(expr, count)
+    const priorValue = count === undefined ? undefined : evaluator.getLatestValueOf(expr, count)
 
     // If this node is invalidated, just evaluate it, remember it's value, and return it's value.
     if(expr instanceof HOF || evaluator.isInvalidated(expr) || priorValue === undefined) {
