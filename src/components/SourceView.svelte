@@ -87,6 +87,7 @@
         overflow: scroll;
         scroll-behavior: smooth;
         box-sizing: border-box;
+        box-shadow: inset calc(-1 * var(--wordplay-border-width)) 0 var(--wordplay-border-width) rgb(0 0 0 / 20%);
     }
 
     .evaluator {
