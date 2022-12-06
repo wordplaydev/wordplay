@@ -104,7 +104,7 @@
         z-index: 2;
     }
 
-    .code:focus-within, .output:focus-within {
+    .code:focus-within {
         outline: var(--wordplay-highlight) solid var(--wordplay-border-width);
         z-index: 2;
     }
