@@ -7,7 +7,7 @@ import Stream from "../runtime/Stream";
 
 export const FREQUENCY = 33;
 
-export default class Time extends Stream {
+export default class Time extends Stream<Measurement> {
 
     timerID: NodeJS.Timer | undefined;
     startTime: number | undefined;

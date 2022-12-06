@@ -5,7 +5,7 @@ import { TRANSLATE } from "../nodes/Translations";
 import Unit from "../nodes/Unit";
 import Measurement from "../runtime/Measurement";
 import Stream from "../runtime/Stream";
-import { createStructure } from "../runtime/Structure";
+import Structure, { createStructure } from "../runtime/Structure";
 import type Value from "../runtime/Value";
 import Place from "../native/Place";
 import type Evaluator from "../runtime/Evaluator";
@@ -17,7 +17,7 @@ function position(evaluator: Evaluator, x: number, y: number) {
     return createStructure(evaluator, Place, bindings)
 }
 
-export default class MousePosition extends Stream {
+export default class MousePosition extends Stream<Structure> {
 
     readonly evaluator: Evaluator;
     on: boolean = false;

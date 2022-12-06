@@ -305,12 +305,6 @@ const commands: Command[] = [
         }
     },
     {
-        description: "Step forward",
-        key: "Space",
-        mode: Mode.STEP,
-        execute: (_, __, evaluator) => evaluator.stepWithinProgram()
-    },
-    {
         description: "Step forward to input",
         shift: true,
         key: "Space",
@@ -318,17 +312,23 @@ const commands: Command[] = [
         execute: (_, __, evaluator) => evaluator.stepToInput()
     },
     {
-        description: "Step back",
-        key: "Backspace",
-        mode: Mode.STEP,
-        execute: (_, __, evaluator) => evaluator.stepBackWithinProgram()
-    },
-    {
         description: "Step back to input",
         shift: true,
         key: "Backspace",
         mode: Mode.STEP,
         execute: (_, __, evaluator) => evaluator.stepBackToInput()
+    },
+    {
+        description: "Step forward",
+        key: "Space",
+        mode: Mode.STEP,
+        execute: (_, __, evaluator) => evaluator.stepWithinProgram()
+    },
+    {
+        description: "Step back",
+        key: "Backspace",
+        mode: Mode.STEP,
+        execute: (_, __, evaluator) => evaluator.stepBackWithinProgram()
     },
     {
         description: "Switch between play/pause.",

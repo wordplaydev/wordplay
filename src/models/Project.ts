@@ -24,6 +24,7 @@ import type { SharedDefinition } from "../nodes/Borrow";
 import PropertyReference from "../nodes/PropertyReference";
 import type Bind from "../nodes/Bind";
 import Reference from "../nodes/Reference";
+import Random from "../streams/Random";
 
 
 /** 
@@ -59,7 +60,8 @@ export default class Project {
         mouseButton: MouseButton,
         mousePosition: MousePosition,
         keyboard: Keyboard,
-        microphone: Microphone
+        microphone: Microphone,
+        random: Random
     };
 
     readonly trees: Tree[];
@@ -81,7 +83,8 @@ export default class Project {
             mouseButton: new MouseButton(this.evaluator),
             mousePosition: new MousePosition(this.evaluator),
             keyboard: new Keyboard(this.evaluator),
-            microphone: new Microphone(this.evaluator)
+            microphone: new Microphone(this.evaluator),
+            random: new Random(this.evaluator)
         };
 
         // Listen to all streams

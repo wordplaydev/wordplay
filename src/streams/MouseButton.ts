@@ -4,7 +4,7 @@ import Bool from "../runtime/Bool";
 import type Evaluator from "../runtime/Evaluator";
 import Stream from "../runtime/Stream";
 
-export default class MouseButton extends Stream {
+export default class MouseButton extends Stream<Bool> {
 
     on: boolean = false;
 

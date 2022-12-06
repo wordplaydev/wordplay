@@ -46,7 +46,7 @@ export default abstract class Expression extends Node {
 
     }
 
-    abstract getDependencies(_: Context): (Expression | Stream)[];
+    abstract getDependencies(_: Context): (Expression | Stream<Value>)[];
 
     /** 
      * Used to determine what types are possible for a given after evalutaing this expression/ 

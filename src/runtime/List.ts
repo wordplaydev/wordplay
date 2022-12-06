@@ -43,10 +43,6 @@ export default class List extends Primitive {
         return value instanceof List && this.values.length === value.values.length && this.values.every((v, index) => value.values[index].isEqualTo(v));
     }
 
-    random() { 
-        return this.values[Math.floor(Math.random() * this.values.length)];
-    }
-
     join(requestor: Node, separator: Text) { 
         return new Text(requestor, this.values.map(v => v instanceof Text ? v.text : v.toString()).join(separator.text));
     }

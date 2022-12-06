@@ -2,7 +2,7 @@ import Bool from "../runtime/Bool";
 import Text from "../runtime/Text";
 import Stream from "../runtime/Stream";
 import Key from "../native/Key";
-import { createStructure } from "../runtime/Structure";
+import Structure, { createStructure } from "../runtime/Structure";
 import None from "../runtime/None";
 import StructureType from "../nodes/StructureType";
 import StreamType from "../nodes/StreamType";
@@ -11,7 +11,7 @@ import type Value from "../runtime/Value";
 import type Names from "../nodes/Names";
 import type Evaluator from "../runtime/Evaluator";
 
-export default class Keyboard extends Stream {
+export default class Keyboard extends Stream<Structure | None> {
 
     readonly evaluator: Evaluator;
     on: boolean = false;

@@ -12,7 +12,7 @@ import type { StepNumber } from "./Evaluator";
 
 const HISTORY_LIMIT = 256;
 
-export default abstract class Stream extends Primitive {
+export default abstract class Stream<ValueType extends Value = Value> extends Primitive {
 
     /** The evalutor that processes this stream */
     readonly evaluator: Evaluator;
@@ -24,12 +24,12 @@ export default abstract class Stream extends Primitive {
     names: Names;
 
     /** The stream of values */
-    values: { value: Value, stepIndex: StepNumber}[] = [];
+    values: { value: ValueType, stepIndex: StepNumber}[] = [];
 
     /** Listeners watching this stream */
     reactors: ((stream: Stream)=>void)[] = [];
 
-    constructor(evaluator: Evaluator, docs: Docs | Translations, names: Names | Translations, initalValue: Value) {
+    constructor(evaluator: Evaluator, docs: Docs | Translations, names: Names | Translations, initalValue: ValueType) {
         super(evaluator.getMain());
 
         this.evaluator = evaluator;
@@ -49,7 +49,7 @@ export default abstract class Stream extends Primitive {
         return value === this;
     }
 
-    add(value: Value) {
+    add(value: ValueType, silent: boolean = false) {
 
         // Ignore values during stepping.
         if(this.evaluator.isStepping())
@@ -63,7 +63,8 @@ export default abstract class Stream extends Primitive {
         this.values = this.values.slice(oldest, oldest + HISTORY_LIMIT);
 
         // Notify subscribers of the state change.
-        this.notify();
+        if(!silent)
+            this.notify();
 
     }
 
@@ -71,10 +72,10 @@ export default abstract class Stream extends Primitive {
 
     getFirstStepIndex() { return this.values[0].stepIndex; }
 
-    latest() { 
+    latest(): ValueType { 
         // Find the last value prior to the current evaluator index.
         // Note that streams always have a starting value, so it should never be possible that the filter is empty.
-        return this.values.filter(val => val.stepIndex <= this.evaluator.getStepIndex()).at(-1)?.value as Value;
+        return this.values.filter(val => val.stepIndex <= this.evaluator.getStepIndex()).at(-1)?.value as ValueType;
     }
 
     at(requestor: Node, index: number): Value {

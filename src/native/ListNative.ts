@@ -29,6 +29,7 @@ import Block from "../nodes/Block";
 import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
 import type Translations from "../nodes/Translations";
 import type Node from "../nodes/Node";
+import Measurement from "../runtime/Measurement";
 
 export default function bootstrapList() {
 
@@ -172,11 +173,14 @@ export default function bootstrapList() {
                 [], 
                 [],
                 new NameType(LIST_TYPE_VAR_NAMES.eng),
-                (requestor, evaluation) => {
-                    requestor;
+                (_, evaluation) => {
                     const list = evaluation.getClosure();
-                    if(list instanceof List) return list.random();
+                    if(list instanceof List) {
+                        const random = evaluation.getEvaluator().project.streams.random.latest();
+                        return list.get(new Measurement(evaluation.getEvaluator().getMain(), Math.floor(random.toNumber() * list.values.length)))
+                    }
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
+                
                 }
             ),
             createNativeFunction(
