@@ -30,8 +30,8 @@ export default class MousePosition extends Stream<Structure> {
                 "😀": TRANSLATE
             }, 
             {
-                "😀": "mouse position",
-                eng: "🖱⌖"
+                "😀": "⌖",
+                eng: "mouse"
             },
             position(evaluator, 0, 0)
         );

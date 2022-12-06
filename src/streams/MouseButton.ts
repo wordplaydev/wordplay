@@ -16,8 +16,8 @@ export default class MouseButton extends Stream<Bool> {
                 "😀": TRANSLATE
             }, 
             {
-                "😀": "mouse-button",
-                eng: "🖱⬇️"
+                "😀": "🖱",
+                eng: "mousebutton"
             },
             new Bool(evaluator.getMain(), true)
         );
