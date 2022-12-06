@@ -75,7 +75,13 @@ export default abstract class Stream<ValueType extends Value = Value> extends Pr
     latest(): ValueType { 
         // Find the last value prior to the current evaluator index.
         // Note that streams always have a starting value, so it should never be possible that the filter is empty.
-        return this.values.filter(val => val.stepIndex <= this.evaluator.getStepIndex()).at(-1)?.value as ValueType;
+        return this.latestEntry()?.value as ValueType;
+    }
+
+    latestEntry(): { value: ValueType, stepIndex: StepNumber} | undefined { 
+        // Find the last value prior to the current evaluator index.
+        // Note that streams always have a starting value, so it should never be possible that the filter is empty.
+        return this.values.filter(val => val.stepIndex <= this.evaluator.getStepIndex()).at(-1);
     }
 
     at(requestor: Node, index: number): Value {

@@ -6,6 +6,7 @@
     import { styleToCSS } from "../native/Style";
     import type Project from "../models/Project";
     import type { Verse } from "../native/Verse";
+    import { playing } from "../models/stores";
 
     export let project: Project;
     export let verse: Verse;
@@ -33,7 +34,7 @@
 </script>
 
 {#if visible}
-    <div class="verse {interactive ? "" : "inert"}" tabIndex={interactive ? 0 : null}
+    <div class="verse {interactive && $playing ? "" : "inert"}" tabIndex={interactive ? 0 : null}
         on:mousedown={interactive ? handleMouseDown : null} 
         on:mouseup={interactive ? handleMouseUp : null}
         on:mousemove={interactive ? handleMouseMove : null}

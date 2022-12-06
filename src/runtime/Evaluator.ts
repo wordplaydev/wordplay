@@ -26,7 +26,7 @@ import Native from "../native/NativeBindings";
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
 export type StepNumber = number;
-export type StreamChange = { stream: (Stream | undefined), stepIndex: number };
+export type StreamChange = { stream: Stream | undefined, value: Value | undefined, stepIndex: number };
 
 export enum Mode { PLAY, STEP };
 
@@ -67,7 +67,6 @@ export default class Evaluator {
 
     /** The streams changes that triggered this evaluation */
     changedStreams: StreamChange[] = [];
-
 
     /** The expressions that need to be re-evaluated, if any. */
     invalidatedExpressions: Set<Expression> | undefined = undefined;
@@ -271,7 +270,7 @@ export default class Evaluator {
 
         // If we're in the present, remember the stream change. (If we're in the past, we use the history.)
         if(!this.isInPast())
-            this.changedStreams.push({ stream: changedStream, stepIndex: this.getStepCount()});
+            this.changedStreams.push({ stream: changedStream, value: changedStream?.latest(), stepIndex: this.getStepCount()});
 
         // Remember what expressions need to be reevaluated.
         this.invalidatedExpressions = invalidatedExpressions;
@@ -522,12 +521,16 @@ export default class Evaluator {
         }
         // If we found a change, step back to it.
         if(latestChange) {
-            this.stepBack(latestChange.stepIndex - this.getStepIndex());
+            this.stepTo(latestChange.stepIndex);
             this.broadcast();
             return true;
         }
         else return false;
 
+    }
+
+    stepTo(stepIndex: StepNumber) {
+        this.stepBack(stepIndex - this.getStepIndex());
     }
     
     // OBSERVERS

@@ -1,5 +1,6 @@
 import { get, writable, type Writable } from 'svelte/store';
 import { examples, makeProject } from '../examples/examples';
+import type { StreamChange } from '../runtime/Evaluator';
 import type Step from '../runtime/Step';
 import type Project from './Project';
 
@@ -12,11 +13,15 @@ export const currentStep: Writable<Step | undefined> = writable<Step | undefined
 // A global store that contains the play/pause mode of the evaluator.
 export const playing: Writable<boolean> = writable<boolean>(true);
 
+// A global store that contains the stream history of the evaluator.
+export const streams: Writable<StreamChange[]> = writable<StreamChange[]>([]);
+
 function updateEvaluatorStores() {
     const evaluator = get(project)?.evaluator;
     if(evaluator) {
         currentStep.set(evaluator.getCurrentStep());
         playing.set(evaluator.isPlaying())
+        streams.set(evaluator.changedStreams);
     }
 }
 

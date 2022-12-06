@@ -4,7 +4,7 @@
     import type Source from '../models/Source';
     import type Project from '../models/Project';
     import { valueToVerse, Verse } from '../native/Verse';
-    import { currentStep, playing } from '../models/stores';
+    import { currentStep } from '../models/stores';
     import EvaluatorView from './EvaluatorView.svelte';
 
     export let project: Project;
@@ -17,8 +17,7 @@
         $currentStep;
         const latest = project.evaluator.getLatestSourceValue(source);
         verse = latest === undefined ? undefined: valueToVerse(project.evaluator, latest);
-        stepping = !$playing && 
-            (project.evaluator.getCurrentEvaluation()?.getSource() === source || (project.evaluator.isDone() && source === project.main));
+        stepping = (project.evaluator.getCurrentEvaluation()?.getSource() === source || (project.evaluator.isDone() && source === project.main));
     }
 
 </script>
@@ -32,7 +31,7 @@
             <div class="code">
                 <Editor {project} {source} />
             </div>
-            {#if stepping }
+            {#if stepping}
                 <div class="evaluator">
                     <EvaluatorView evaluator={project.evaluator}/>
                 </div>
@@ -78,8 +77,8 @@
 
     .code {
         flex: 1;
-        min-height: 20rem;
-        max-height: 40rem;
+        min-height: 5rem;
+        max-height: 25rem;
         width: 100%;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
