@@ -9,7 +9,7 @@
 
 </script>
 
-<section class={`evaluator ${evaluator.isInPast() ? "past" : ""}`}>
+<section class="evaluator">
     {#if $currentStep}
         {#if evaluator.steppedToNode() }
             <p><em>Evaluated to the selected code.</em></p>
@@ -33,9 +33,5 @@
         padding: var(--wordplay-spacing);
         box-sizing: border-box;
         z-index: 2;
-    }
-
-    section.past {
-        background-color: var(--wordplay-disabled-color);
     }
 </style>
