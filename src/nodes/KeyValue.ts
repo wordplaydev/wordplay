@@ -35,11 +35,11 @@ export default class KeyValue extends Node {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new KeyValue(
-            this.replaceChild(pretty, "key", this.key, original, replacement), 
-            this.replaceChild(pretty, "value", this.value, original, replacement),
-            this.replaceChild(pretty, "bind", this.bind, original, replacement)
+            this.replaceChild("key", this.key, original, replacement), 
+            this.replaceChild("value", this.value, original, replacement),
+            this.replaceChild("bind", this.bind, original, replacement)
         ) as this; 
     }
 

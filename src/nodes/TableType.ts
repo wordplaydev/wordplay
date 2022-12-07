@@ -32,10 +32,10 @@ export default class TableType extends Type {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new TableType(
-            this.replaceChild(pretty, "columns", this.columns, original, replacement),
-            this.replaceChild(pretty, "close", this.close, original, replacement)
+            this.replaceChild("columns", this.columns, original, replacement),
+            this.replaceChild("close", this.close, original, replacement)
         ) as this; 
     }
 

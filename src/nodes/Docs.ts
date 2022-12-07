@@ -26,9 +26,9 @@ export default class Docs extends Node {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Docs(
-            this.replaceChild<Doc[]>(pretty, "docs", this.docs, original, replacement), 
+            this.replaceChild<Doc[]>("docs", this.docs, original, replacement), 
         ) as this;
     }
 

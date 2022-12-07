@@ -79,9 +79,9 @@ export default class NameType extends Type {
 
     getNativeTypeName(): string { return NAME_NATIVE_TYPE_NAME; }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new NameType(
-            this.replaceChild(pretty, "type", this.type, original, replacement)
+            this.replaceChild("type", this.type, original, replacement)
         ) as this;
     }
 

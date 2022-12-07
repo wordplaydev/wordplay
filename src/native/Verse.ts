@@ -1,7 +1,7 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
 import StructureType from "../nodes/StructureType";
 import { TRANSLATE } from "../nodes/Translations";
-import { parseStructure, tokens } from "../parser/Parser";
+import { parseStructure, toTokens } from "../parser/Parser";
 import type Evaluator from "../runtime/Evaluator";
 import type Structure from "../runtime/Structure";
 import type Value from "../runtime/Value";
@@ -16,12 +16,12 @@ import Unit from "../nodes/Unit";
 import Dimension from "../nodes/Dimension";
 import { createStructure } from "../runtime/Structure";
 
-const VerseType = parseStructure(tokens(`
+const VerseType = parseStructure(toTokens(`
 •Verse/eng,🌎/😀(
     group/eng,${TRANSLATE}group/😀•Group
     style/eng,${TRANSLATE}style/😀•Style: Style("Noto Sans" 12pt)
 )`
-));
+)) as StructureDefinition;
 
 export default VerseType;
 

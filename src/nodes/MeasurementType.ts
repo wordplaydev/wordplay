@@ -48,10 +48,10 @@ export default class MeasurementType extends NativeType {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new MeasurementType(
-            this.replaceChild(pretty, "number", this.number, original, replacement), 
-            this.unit === undefined || this.unit instanceof Function ? this.unit : this.replaceChild(pretty, "unit", this.unit, original, replacement)
+            this.replaceChild("number", this.number, original, replacement), 
+            this.unit === undefined || this.unit instanceof Function ? this.unit : this.replaceChild("unit", this.unit, original, replacement)
         ) as this; 
     }
 

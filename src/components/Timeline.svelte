@@ -11,7 +11,7 @@
 
     let timeline: HTMLElement;
 
-    afterUpdate(() => timeline.scrollLeft = timeline.scrollWidth);
+    afterUpdate(() => timeline ? timeline.scrollLeft = timeline.scrollWidth : undefined);
 
     function stepTo(stepIndex: number) {
         evaluator.pause();
@@ -20,33 +20,35 @@
 
 </script>
 
-<div class="timeline" bind:this={timeline}>
-    {#each $streams as change }
-        {#if change.stream}
-            <span 
-                class={`stream-value`}
-                tabindex="0" 
-                on:click={() => stepTo(change.stepIndex)}
-                on:keydown={event => event.key === "Enter" || event.key === " " ? stepTo(change.stepIndex) : undefined }
-            >
-                {change.stream.names.getTranslation("😀")}
-                {#if change.stream instanceof Keyboard && change.value}
-                    {@const key = change.value.resolve("key")}
-                    {@const down = change.value.resolve("down")}
-                    {key instanceof Text ? key.text : null}{down instanceof Bool ? (down.bool ? "↓" : "↑") : null}
-                {/if}
-                {#if change.stream instanceof MouseButton && change.value}
-                    {@const down = change.value.resolve("down")}
-                    {down instanceof Bool ? (down.bool ? "↓" : "↑") : null}
-                {/if}
-                {#if change.stream instanceof MouseButton && change.value}
-                    {@const down = change.value.resolve("down")}
-                    {down instanceof Bool ? (down.bool ? "↓" : "↑") : null}
-                {/if}
-            </span>
-        {/if}
-    {/each}
-</div>
+{#if $streams.filter(s => s.stream !== undefined).length > 0}
+    <div class="timeline" bind:this={timeline}>
+        {#each $streams as change }
+            {#if change.stream}
+                <span 
+                    class={`stream-value`}
+                    tabindex="0" 
+                    on:click={() => stepTo(change.stepIndex)}
+                    on:keydown={event => event.key === "Enter" || event.key === " " ? stepTo(change.stepIndex) : undefined }
+                >
+                    {change.stream.names.getTranslation("😀")}
+                    {#if change.stream instanceof Keyboard && change.value}
+                        {@const key = change.value.resolve("key")}
+                        {@const down = change.value.resolve("down")}
+                        {key instanceof Text ? key.text : null}{down instanceof Bool ? (down.bool ? "↓" : "↑") : null}
+                    {/if}
+                    {#if change.stream instanceof MouseButton && change.value}
+                        {@const down = change.value.resolve("down")}
+                        {down instanceof Bool ? (down.bool ? "↓" : "↑") : null}
+                    {/if}
+                    {#if change.stream instanceof MouseButton && change.value}
+                        {@const down = change.value.resolve("down")}
+                        {down instanceof Bool ? (down.bool ? "↓" : "↑") : null}
+                    {/if}
+                </span>
+            {/if}
+        {/each}
+    </div>
+{/if}
 
 <style>
     .timeline {

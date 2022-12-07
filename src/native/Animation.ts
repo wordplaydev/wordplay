@@ -1,9 +1,10 @@
+import type StructureDefinition from "../nodes/StructureDefinition";
 import { TRANSLATE } from "../nodes/Translations";
-import { parseStructure, tokens } from "../parser/Parser";
+import { parseStructure, toTokens } from "../parser/Parser";
 import Structure from "../runtime/Structure";
 import type Value from "../runtime/Value";
 
-export const AnimationType = parseStructure(tokens(`•Animation/eng,${TRANSLATE}Animation/😀()`))
+export const AnimationType = parseStructure(toTokens(`•Animation/eng,${TRANSLATE}Animation/😀()`)) as StructureDefinition;
 export default AnimationType;
 
 export class Animation {
@@ -25,26 +26,26 @@ export class Animation {
     }
 }
 
-export const Wobble = parseStructure(tokens(
+export const Wobble = parseStructure(toTokens(
 `•Wobble/eng,😵‍💫/😀 •Animation(
     angle/eng,${TRANSLATE}angle/😀•#°:10°
     duration/eng,${TRANSLATE}duration/😀•#ms:400ms
     count/eng,${TRANSLATE}count/😀•#:∞
 )`
-));
+)) as StructureDefinition;
 
-export const Throb = parseStructure(tokens(
+export const Throb = parseStructure(toTokens(
 `•Throb/eng,${TRANSLATE}Throb/😀 •Animation(
     scale/eng,${TRANSLATE}scale/😀•#:1.2
     duration/eng,${TRANSLATE}duration/😀•#ms:400ms
     count/eng,${TRANSLATE}count/😀•#:∞
 )`
-));
+)) as StructureDefinition;
 
-export const Bounce = parseStructure(tokens(
+export const Bounce = parseStructure(toTokens(
 `•Bounce/eng,${TRANSLATE}Bounce/😀 •Animation(
     height/eng,${TRANSLATE}height/😀•#m:10m
     duration/eng,${TRANSLATE}duration/😀•#ms:400ms
     count/eng,${TRANSLATE}count/😀•#:∞
 )`
-));
+)) as StructureDefinition;

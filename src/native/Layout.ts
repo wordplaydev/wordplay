@@ -1,7 +1,8 @@
+import type StructureDefinition from "../nodes/StructureDefinition";
 import { TRANSLATE } from "../nodes/Translations";
-import { parseStructure, tokens } from "../parser/Parser";
+import { parseStructure, toTokens } from "../parser/Parser";
 
-export const Layout = parseStructure(tokens(`•Layout/eng,${TRANSLATE}Layout/😀()`))
+export const Layout = parseStructure(toTokens(`•Layout/eng,${TRANSLATE}Layout/😀()`)) as StructureDefinition;
 export default Layout;
 
-export const Vertical = parseStructure(tokens(`•Vertical/eng,⬇/😀 •Layout()`));
+export const Vertical = parseStructure(toTokens(`•Vertical/eng,⬇/😀 •Layout()`)) as StructureDefinition;

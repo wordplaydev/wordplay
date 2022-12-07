@@ -96,18 +96,18 @@ export default class FunctionDefinition extends Expression {
         return this.expression === child && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new FunctionDefinition(
-            this.replaceChild(pretty, "docs", this.docs, original, replacement), 
-            this.replaceChild<Names>(pretty, "names", this.names, original, replacement),
-            this.replaceChild(pretty, "typeVars", this.typeVars, original, replacement), 
-            this.replaceChild(pretty, "inputs", this.inputs, original, replacement), 
-            this.replaceChild<Expression|Token>(pretty, "expression", this.expression, original, replacement),
-            this.replaceChild(pretty, "output", this.output, original, replacement), 
-            this.replaceChild(pretty, "fun", this.fun, original, replacement), 
-            this.replaceChild(pretty, "dot", this.dot, original, replacement), 
-            this.replaceChild(pretty, "open", this.open, original, replacement), 
-            this.replaceChild(pretty, "close", this.close, original, replacement)
+            this.replaceChild("docs", this.docs, original, replacement), 
+            this.replaceChild<Names>("names", this.names, original, replacement),
+            this.replaceChild("typeVars", this.typeVars, original, replacement), 
+            this.replaceChild("inputs", this.inputs, original, replacement), 
+            this.replaceChild<Expression|Token>("expression", this.expression, original, replacement),
+            this.replaceChild("output", this.output, original, replacement), 
+            this.replaceChild("fun", this.fun, original, replacement), 
+            this.replaceChild("dot", this.dot, original, replacement), 
+            this.replaceChild("open", this.open, original, replacement), 
+            this.replaceChild("close", this.close, original, replacement)
         ) as this;
     }
 

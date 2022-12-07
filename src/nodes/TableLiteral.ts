@@ -117,11 +117,11 @@ export default class TableLiteral extends Expression {
 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new TableLiteral(
-            this.replaceChild(pretty, "columns", this.columns, original, replacement), 
-            this.replaceChild(pretty, "rows", this.rows, original, replacement), 
-            this.replaceChild(pretty, "close", this.close, original, replacement)
+            this.replaceChild("columns", this.columns, original, replacement), 
+            this.replaceChild("rows", this.rows, original, replacement), 
+            this.replaceChild("close", this.close, original, replacement)
         ) as this; 
     }
 

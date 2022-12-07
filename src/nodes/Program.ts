@@ -56,12 +56,12 @@ export default class Program extends Expression {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Program(
-            this.replaceChild(pretty, "docs", this.docs, original, replacement),
-            this.replaceChild(pretty, "borrows", this.borrows, original, replacement), 
-            this.replaceChild(pretty, "expression", this.expression, original, replacement), 
-            this.replaceChild(pretty, "end", this.end, original, replacement)
+            this.replaceChild("docs", this.docs, original, replacement),
+            this.replaceChild("borrows", this.borrows, original, replacement), 
+            this.replaceChild("expression", this.expression, original, replacement), 
+            this.replaceChild("end", this.end, original, replacement)
         ) as this; 
     }
 

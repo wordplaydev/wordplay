@@ -52,11 +52,11 @@ export default class Insert extends Expression {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Insert(
-            this.replaceChild(pretty, "table", this.table, original, replacement),
-            this.replaceChild(pretty, "insert", this.insert, original, replacement),
-            this.replaceChild(pretty, "row", this.row, original, replacement)
+            this.replaceChild("table", this.table, original, replacement),
+            this.replaceChild("insert", this.insert, original, replacement),
+            this.replaceChild("row", this.row, original, replacement)
         ) as this; 
     }
 

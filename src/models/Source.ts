@@ -25,14 +25,21 @@ import Name from "../nodes/Name";
 import type { SharedDefinition } from "../nodes/Borrow";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import StructureDefinition from "../nodes/StructureDefinition";
+import type Spaces from "../parser/Spaces";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
 
     readonly code: UnicodeString;
 
+    /** The names of this source */
     readonly names: Names;
+
+    /** The program this source can evaluate. */
     readonly expression: Program;
+
+    /** The spaces preceding each token in the program. */
+    readonly spaces: Spaces;
     
     /** Functions to call when a source's evaluator has an update. */
     readonly observers: Set<() => void> = new Set();
@@ -46,33 +53,42 @@ export default class Source extends Expression {
     /** An index of Trees by Node, for fast retrieval of tree structure by a Node. */
     _index: Map<Node, Tree | undefined> = new Map();
 
-    constructor(names: string | Names, code: string | UnicodeString | Program) {
+    constructor(names: string | Names, code: string | UnicodeString | [ Program, Spaces ]) {
 
         super();
 
         this.names = names instanceof Names ? names : new Names([new Name(names)]);
 
-        if(code instanceof Program) {
-            // Save the AST
-            this.expression = code;
+        if(typeof code === "string" || code instanceof UnicodeString) {
+            // Generate the AST from the provided code.
+            const tokens = tokenize(code instanceof UnicodeString ? code.getText() : code);
+            this.expression = parseProgram(new Tokens(tokens.getTokens(), tokens.getSpaces()));            
+            this.spaces = tokens.getSpaces().withRoot(this);
         }
         else {
-            // Generate the AST.
-            this.expression = parseProgram(new Tokens(tokenize(code instanceof UnicodeString ? code.getText() : code)));
+            // Save the AST provided
+            const [ program, spaces ] = code;
+            this.expression = program;
+            this.spaces = spaces;
         }
 
         // A facade for analyzing the tree.
-        this.tree = new Tree(this.expression);
+        this.tree = new Tree(this);
 
         // Generate the text from the AST, which is responsible for pretty printing.
-        this.code = new UnicodeString(this.expression.toWordplay());
+        this.code = new UnicodeString(this.expression.toWordplay(this.spaces));
 
-        // Create an index of the program's tokens.
+        // Create an index of the token positions and space roots.
         let index = 0;
         for(const token of this.expression.nodes(n => n instanceof Token) as Token[]) {
-            index += token.space.length;
+
+            // Increment by the amount of space
+            index += this.spaces.getSpace(token).length;
+            // Remember the position.
             this.tokenPositions.set(token, index);
+            // Increment by the amount of text.
             index += token.text.getLength();
+
         }
 
     }
@@ -158,12 +174,12 @@ export default class Source extends Expression {
         return new Source(this.names, new UnicodeString(code));
     }
 
-    withProgram(program: Program) {
-        return new Source(this.names, program);
+    withProgram(program: Program, spaces: Spaces) {
+        return new Source(this.names, [ program, spaces ]);
     }
 
     replace() {
-        return new Source(this.names, this.expression) as this;
+        return new Source(this.names, [ this.expression, this.spaces ]) as this;
     }
 
     getTokenTextPosition(token: Token) {
@@ -173,13 +189,13 @@ export default class Source extends Expression {
         return index;
     }
 
-    getTokenSpacePosition(token: Token) { return this.getTokenTextPosition(token) - token.space.length; }
+    getTokenSpacePosition(token: Token) { return this.getTokenTextPosition(token) - this.spaces.getSpace(token).length; }
     getTokenLastPosition(token: Token) { return this.getTokenTextPosition(token) + token.getTextLength(); }
 
     getTokenAt(position: number, includingWhitespace: boolean = true) {
         // This could be faster with binary search, but let's not prematurely optimize.
         for(const [token, index] of this.tokenPositions) {
-            if(position >= index - (includingWhitespace ? token.space.length : 0) && (position < index + token.getTextLength() || token.is(TokenType.END)))
+            if(position >= index - (includingWhitespace ? this.spaces.getSpace(token).length : 0) && (position < index + token.getTextLength() || token.is(TokenType.END)))
                 return token;
         }
         return undefined;
@@ -195,7 +211,7 @@ export default class Source extends Expression {
 
     tokenSpaceContains(token: Token, position: number) {
         const index = this.getTokenTextPosition(token);
-        return position >= index - token.space.length && position <= index;     
+        return position >= index - this.spaces.getSpace(token).length && position <= index;     
     }
 
     getNextToken(token: Token, direction: -1 | 1): Token | undefined {
@@ -269,9 +285,7 @@ export default class Source extends Expression {
         };
     }
 
-    getTranslation(lang: LanguageCode[]) {
-        return this.names.getTranslation(lang);
-    }
+    getTranslation(lang: LanguageCode[]) { return this.names.getTranslation(lang); }
 
     getType(context: Context) { return this.getTypeUnlessCycle(context); }
     getTypeUnlessCycle(context: Context) { return this.expression.getTypeUnlessCycle(context); }

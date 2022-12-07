@@ -47,7 +47,6 @@ import Remove from "../transforms/Remove";
 import UnknownInput from "../conflicts/UnknownInput";
 import getConcreteExpectedType from "./Generics";
 import FunctionDefinitionType from "./FunctionDefinitionType";
-import { withSpaces } from "./spacing";
 import type Names from "./Names";
 
 export default class Evaluate extends Expression {
@@ -65,7 +64,7 @@ export default class Evaluate extends Expression {
         this.open = open ?? new EvalOpenToken();
         this.func = func;
         // Inputs must have space between them if they have adjacent names.
-        this.inputs = withSpaces(inputs);
+        this.inputs = inputs;
         this.close = close;
 
         this.computeChildren();
@@ -82,13 +81,13 @@ export default class Evaluate extends Expression {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Evaluate(
-            this.replaceChild(pretty, "func", this.func, original, replacement), 
-            this.replaceChild<Expression[]>(pretty, "inputs", this.inputs, original, replacement),
-            this.replaceChild(pretty, "typeInputs", this.typeInputs, original, replacement), 
-            this.replaceChild(pretty, "open", this.open, original, replacement), 
-            this.replaceChild(pretty, "close", this.close, original, replacement)
+            this.replaceChild("func", this.func, original, replacement), 
+            this.replaceChild<Expression[]>("inputs", this.inputs, original, replacement),
+            this.replaceChild("typeInputs", this.typeInputs, original, replacement), 
+            this.replaceChild("open", this.open, original, replacement), 
+            this.replaceChild("close", this.close, original, replacement)
         ) as this;
     }
 

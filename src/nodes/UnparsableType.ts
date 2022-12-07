@@ -34,9 +34,9 @@ export default class UnparsableType extends Type {
         return [ new UnparsableConflict(this) ];
     }
 
-    replace(pretty: boolean, original?: Node, replacement?: Node): this {
+    replace(original?: Node, replacement?: Node): this {
         return new UnparsableType(
-            this.replaceChild(pretty, "unparsables", this.unparsables, original, replacement),
+            this.replaceChild("unparsables", this.unparsables, original, replacement),
         ) as this; 
     }
 

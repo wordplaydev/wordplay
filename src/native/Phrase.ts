@@ -1,12 +1,12 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
-import { parseStructure, tokens } from "../parser/Parser";
+import { parseStructure, toTokens } from "../parser/Parser";
 import Structure from "../runtime/Structure";
 import { Style } from "./Style";
 import { Transition } from "./Transition";
 import { Animation } from "./Animation";
 import type Value from "../runtime/Value";
 
-const PhraseType = parseStructure(tokens(
+const PhraseType = parseStructure(toTokens(
 `•Phrase/eng,💬/😀(
     text/eng,✍︎/😀•""
     style/eng,👗/😀•Style•ø:ø

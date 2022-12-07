@@ -68,6 +68,7 @@ import Docs from "../nodes/Docs";
 import Names from "../nodes/Names";
 import UnparsableType from "../nodes/UnparsableType";
 import UnparsableExpression from "../nodes/UnparsableExpression";
+import type Spaces from "./Spaces";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -96,14 +97,19 @@ export enum SyntacticConflict {
 }
 
 export class Tokens {
-    /** The tokens that have been read. */
-    readonly #read: Token[] = [];
 
     /** The tokens that have yet to be read. */
     readonly #unread: Token[];
 
-    constructor(tokens: Token[]) {
+    /** The tokens that have been read. */
+    readonly #read: Token[] = [];
+
+    /** The preceding space for each token */
+    readonly #spaces;
+
+    constructor(tokens: Token[], spaces: Spaces) {
         this.#unread = tokens.slice();
+        this.#spaces = spaces;
     }
 
     /** Returns the text of the next token */
@@ -118,7 +124,7 @@ export class Tokens {
 
     /** Get the space of the next token */
     peekSpace(): string | undefined {
-        return this.hasNext() ? this.#unread[0].space.toString() : undefined
+        return this.hasNext() ? this.#spaces.getSpace(this.#unread[0]) : undefined
     }
 
     /** Returns true if the token list isn't empty. */
@@ -128,12 +134,12 @@ export class Tokens {
 
     /** Returns true if and only if the next token is the specified type. */
     nextIs(type: TokenType): boolean {
-        return this.hasNext() && this.#unread[0].is(type);
+        return this.hasNext() && this.peek()?.is(type) === true;
     }
 
     /** Returns true if and only if there is a next token and it's not the specified type. */
     nextIsnt(type: TokenType): boolean {
-        return this.hasNext() && this.#unread[0].isnt(type);
+        return this.hasNext() && this.peek()?.isnt(type) === true;
     }
     
     /** Returns true if and only if the next series of tokens matches the series of given token types. */
@@ -151,7 +157,7 @@ export class Tokens {
         let index = 0;
         while(index < this.#unread.length) {
             const token = this.#unread[index];
-            if(index > 0 && this.#unread[index].hasPrecedingLineBreak()) break;
+            if(index > 0 && this.#spaces.hasLineBreak(this.#unread[index])) break;
             if(token.is(type)) break;
             index++;
         }
@@ -178,22 +184,17 @@ export class Tokens {
 
     /** Returns true if and only if the next token is the specified type. */
     nextLacksPrecedingSpace(): boolean {
-        return this.hasNext() && !this.#unread[0].hasPrecedingSpace();
+        return this.hasNext() && !this.#spaces.hasSpace(this.#unread[0]);
     }
 
     /** Returns true if and only if the next token has a preceding line break. */
-    nextHasPrecedingLineBreak(): boolean {
-        return this.hasNext() && this.#unread[0].hasPrecedingLineBreak();
-    }
-
-    /** Returns true if and only if the next token has a preceding line break. */
-    nextLacksPrecedingLineBreak(): boolean {
-        return this.hasNext() && !this.#unread[0].hasPrecedingLineBreak();
+    nextHasPrecedingLineBreak(): boolean | undefined {
+        return !this.hasNext() ? undefined : this.#spaces.hasLineBreak(this.#unread[0]);
     }
     
     /** Returns true if and only if the next token after next has a preceding line break. */
     afterNextHasPrecedingLineBreak(): boolean {
-        return this.#unread.length > 1  && this.#unread[1].hasPrecedingLineBreak();
+        return this.#unread.length > 1 && this.#spaces.hasLineBreak(this.#unread[1]);
     }
     
     /** Returns a token list without the first token. */
@@ -202,11 +203,7 @@ export class Tokens {
         if(next !== undefined) {
             if(expectedType !== undefined && !next.is(expectedType)) throw new Error("Internal parsing error; expected " + TokenType[expectedType] + ", received " + next.toString());
             this.#read.push(next);
-            // Don't pass the original token; pass one with only the expected type.
-            // This is helpful for syntax highlighting, as many tokens can have multiple types during
-            // tokenization, but only one of those types in the AST.
-            // We don't do this for numbers though, since we keep the multiple annotations on those for conversions.
-            return next.is(TokenType.NUMBER) ? next : expectedType !== undefined ? next.withTypeNarrowedTo(expectedType) : next;
+            return next;
         }
         else
             return new Token("", TokenType.END);
@@ -217,7 +214,7 @@ export class Tokens {
         // Read at least one token, then keep going until we reach a token with a line break.
         do {
             nodes.push(this.read());
-        } while(this.peek()?.hasPrecedingLineBreak() === false)
+        } while(this.hasNext() && this.nextHasPrecedingLineBreak() === false);
         return nodes;
     }
 
@@ -232,12 +229,13 @@ export class Tokens {
 
 }
 
-export function parse(code: string): Program {
-    return parseProgram(tokens(code));
+export function toProgram(code: string): Program {
+    return parseProgram(toTokens(code));
 }
 
-export function tokens(code: string): Tokens {
-    return new Tokens(tokenize(code));
+export function toTokens(code: string): Tokens {
+    const tokens = tokenize(code);
+    return new Tokens(tokens.getTokens(), tokens.getSpaces());
 }
 
 // PROGRAM :: BORROW* BLOCK
@@ -247,7 +245,7 @@ export function parseProgram(tokens: Tokens): Program {
     const docs = parseDocumentation(tokens);
 
     const borrows = [];
-    while(tokens.nextIs(TokenType.BORROW))
+    while(tokens.hasNext() && tokens.nextIs(TokenType.BORROW))
         borrows.push(parseBorrow(tokens));
 
     const block = parseBlock(tokens, true, false);
@@ -284,7 +282,7 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
             undefined;
 
     const statements = [];
-    while(tokens.nextIsnt(TokenType.END) && (root || tokens.nextIsnt(TokenType.EVAL_CLOSE)))
+    while(tokens.hasNext() && tokens.nextIsnt(TokenType.END) && (root || tokens.nextIsnt(TokenType.EVAL_CLOSE)))
         statements.push(
             nextIsBind(tokens, true) ? parseBind(tokens) : parseExpression(tokens)
         );
@@ -355,7 +353,7 @@ export function parseNames(tokens: Tokens): Names {
 
     const names: Name[] = [];
 
-    while((names.length > 0 && tokens.nextIs(TokenType.NAME_SEPARATOR)) || (names.length === 0 && tokens.nextIsOneOf(TokenType.NAME, TokenType.PLACEHOLDER))) {
+    while((tokens.hasNext() && names.length > 0 && tokens.nextIs(TokenType.NAME_SEPARATOR)) || (names.length === 0 && tokens.nextIsOneOf(TokenType.NAME, TokenType.PLACEHOLDER))) {
         const comma = tokens.nextIs(TokenType.NAME_SEPARATOR) ? tokens.read(TokenType.NAME_SEPARATOR) : undefined;
         if(names.length > 0 && comma === undefined) break;
         const name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : tokens.nextIs(TokenType.PLACEHOLDER) ? tokens.read(TokenType.PLACEHOLDER) : undefined;
@@ -397,7 +395,7 @@ export function parseBinaryOperation(tokens: Tokens): Expression {
 
     let left = parseAtomicExpression(tokens);
 
-    while(tokens.nextIs(TokenType.BINARY_OP) || (tokens.nextIs(TokenType.TYPE_OP) && tokens.nextLacksPrecedingLineBreak())) {
+    while(tokens.hasNext() && (tokens.nextIs(TokenType.BINARY_OP) || (tokens.nextIs(TokenType.TYPE_OP) && !tokens.nextHasPrecedingLineBreak()))) {
         left = tokens.nextIs(TokenType.TYPE_OP) ? 
             new Is(left, tokens.read(TokenType.TYPE_OP), parseType(tokens)) :
             new BinaryOperation(tokens.read(TokenType.BINARY_OP), left, parseAtomicExpression(tokens));
@@ -586,7 +584,7 @@ function parseList(tokens: Tokens): ListLiteral {
     let values: Expression[] = [];
     let close;
 
-    while(tokens.nextIsnt(TokenType.LIST_CLOSE))
+    while(tokens.hasNext() && tokens.nextIsnt(TokenType.LIST_CLOSE))
         values.push(parseExpression(tokens));
 
     close = tokens.nextIs(TokenType.LIST_CLOSE) ? tokens.read(TokenType.LIST_CLOSE) : undefined;
@@ -627,7 +625,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
         return new MapLiteral([], open, bind, tokens.read(TokenType.SET_CLOSE));
     }
 
-    while(tokens.nextIsnt(TokenType.SET_CLOSE)) {
+    while(tokens.hasNext() && tokens.nextIsnt(TokenType.SET_CLOSE)) {
         const key = parseExpression(tokens);
         if(tokens.nextIs(TokenType.BIND)) {
             const bind = tokens.read(TokenType.BIND);
@@ -1031,11 +1029,14 @@ function parseConversionType(left: Type, tokens: Tokens): ConversionType {
 }
 
 /** CUSTOM_TYPE :: DOCS? • ALIASES (•NAME)* TYPE_VARS ( BIND* ) BLOCK? */
-export function parseStructure(tokens: Tokens): StructureDefinition {
+export function parseStructure(tokens: Tokens): StructureDefinition | UnparsableExpression {
 
     const docs = parseDocumentation(tokens);
 
-    const type = tokens.nextIs(TokenType.TYPE) ? tokens.read(TokenType.TYPE) : undefined;
+    if(tokens.nextIsnt(TokenType.TYPE))
+        return new UnparsableExpression(tokens.readLine());
+
+    const type = tokens.read(TokenType.TYPE);
 
     const aliases = parseNames(tokens);
 

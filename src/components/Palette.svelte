@@ -1,6 +1,6 @@
 <script lang="ts">
     import { getDragged } from "../editor/util/Contexts";
-    import { parseExpression, parseType, tokens } from "../parser/Parser";
+    import { parseExpression, parseType, toTokens } from "../parser/Parser";
     import { project, updateProject } from "../models/stores";
     import Program from "../nodes/Program";
     import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
@@ -64,10 +64,10 @@
 
     function nativeStructureToEntry(def: StructureDefinition, literals: string[], type: string, constructs: string[]): TypeEntry {
         return structureToEntry(
-            literals.map(literal => parseExpression(tokens(literal)) as Expression),
+            literals.map(literal => parseExpression(toTokens(literal)) as Expression),
             def, 
-            parseType(tokens(type)) as Type,
-            constructs.map(construct => parseExpression(tokens(construct)) as Expression)
+            parseType(toTokens(type)) as Type,
+            constructs.map(construct => parseExpression(toTokens(construct)) as Expression)
         );
     }
 
@@ -134,6 +134,7 @@
 
     }
 
+    // When a creator drops on the palette, remove the dragged node from the source it was dragged from.
     function handleDrop() {
 
         if($dragged === undefined) return;
@@ -146,12 +147,18 @@
         if(source === undefined) return;
 
         // Figure out what to replace the dragged node with. By default, we remove it.
-        let replacement = $dragged.inList() ? 
-            undefined :
-            (new ExpressionPlaceholder()).withPrecedingSpace($dragged.node.getPrecedingSpace(), true);
+        let replacement = $dragged.inList() ? undefined : new ExpressionPlaceholder();
 
         // Update the project with the new source files
-        updateProject($project.withSource(source, source.withProgram(program.replace(false, $dragged.node, replacement))));
+        updateProject(
+            $project.withSource(
+                source, 
+                source.withProgram(
+                    program.replace($dragged.node, replacement),
+                    source.spaces.withReplacement($dragged.node, replacement)
+                )
+            )
+        );
 
     }
 

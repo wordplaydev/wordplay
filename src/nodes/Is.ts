@@ -50,11 +50,11 @@ export default class Is extends Expression {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Is(
-            this.replaceChild(pretty, "expression", this.expression, original, replacement), 
-            this.replaceChild(pretty, "operator", this.operator, original, replacement),
-            this.replaceChild(pretty, "type", this.type, original, replacement)
+            this.replaceChild("expression", this.expression, original, replacement), 
+            this.replaceChild("operator", this.operator, original, replacement),
+            this.replaceChild("type", this.type, original, replacement)
         ) as this; 
     }
 

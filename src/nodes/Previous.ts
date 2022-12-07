@@ -56,11 +56,11 @@ export default class Previous extends Expression {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Previous(
-            this.replaceChild(pretty, "stream", this.stream, original, replacement), 
-            this.replaceChild(pretty, "index", this.index, original, replacement),
-            this.replaceChild(pretty, "previous", this.previous, original, replacement)
+            this.replaceChild("stream", this.stream, original, replacement), 
+            this.replaceChild("index", this.index, original, replacement),
+            this.replaceChild("previous", this.previous, original, replacement)
         ) as this; 
     }
 

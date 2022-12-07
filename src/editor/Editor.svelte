@@ -383,8 +383,8 @@
                 // Make a placeholder to replace the hovered node.
                 replacement = 
                     draggedNode instanceof Block && $dragged.getParent() instanceof StructureDefinition ? undefined :
-                    draggedNode instanceof Expression ? (new ExpressionPlaceholder()).withPrecedingSpace(draggedNode.getPrecedingSpace(), true) :
-                    draggedNode instanceof Type ? (new TypePlaceholder()).withPrecedingSpace(draggedNode.getPrecedingSpace(), true) :
+                    draggedNode instanceof Expression ? (new ExpressionPlaceholder()) :
+                    draggedNode instanceof Type ? (new TypePlaceholder()) :
                     undefined;
             }
 
@@ -393,7 +393,7 @@
                 // Remember where it is in the tree
                 const pathToReplacedOrListContainingNode = replacedOrListContainingNode === undefined ? undefined : $caret.source.get(replacedOrListContainingNode)?.getPath();
                 // Replace the dragged node with the placeholder or nothing, effectively removing the node we're moving from the program.
-                editedProgram = editedProgram.replace(false, draggedNode, replacement);
+                editedProgram = editedProgram.replace(draggedNode, replacement);
                 // Update the node to replace to the cloned node.
                 replacedOrListContainingNode = pathToReplacedOrListContainingNode === undefined ? undefined : new Tree(editedProgram).resolvePath(pathToReplacedOrListContainingNode);
             }
@@ -401,9 +401,20 @@
             else if(draggedRoot instanceof Program) {
                 // Find the source that contains the dragged root.
                 const source = project.getSourceWithProgram(draggedRoot);
-                // If we found one, update the project with a new source with a new program that replaces the dragged node with the placeholder.
+                // If we found one, update the project with a new source with a new program that replaces the dragged node with the placeholder
+                // and preserves the space preceding the dragged node.
                 if(source)
-                    newSources.push([ source, source.withProgram(draggedRoot.replace(false, draggedNode, replacement)) ]);
+                    newSources.push(
+                        [ 
+                            source, 
+                            source.withProgram(
+                                // Replace the node in the dragged root
+                                draggedRoot.replace(draggedNode, replacement),
+                                // Preserve the spaces before the dragged node
+                                source.spaces.withReplacement(draggedNode, replacement)
+                            ) 
+                        ]
+                    );
             }
             // If it was from a palette, do nothing, since there's nothing to remove.
 
@@ -412,9 +423,14 @@
         // If we should replace and we still have a hovered node, replace the hovered node with the dragged node, preserving preceding space.
         if(replacedOrListContainingNode) {
             if(shouldReplace()) {
-                const dragClone = draggedNode.withPrecedingSpace(replacedOrListContainingNode.getPrecedingSpace(), true);
-                editedProgram = editedProgram.replace(false, replacedOrListContainingNode, dragClone);            
-                newSources.push([ source, source.withProgram(editedProgram) ]);
+                editedProgram = editedProgram.replace(replacedOrListContainingNode, draggedNode);            
+                newSources.push([ 
+                    source, 
+                    source.withProgram(
+                        editedProgram,
+                        source.spaces.withReplacement(replacedOrListContainingNode, draggedNode)
+                    ) 
+                ]);
             }
             // If we're not replacing, and there's something to insert, insert!
             else if($insertions.size > 0) {
@@ -423,16 +439,13 @@
                 if(Array.isArray(listToUpdate)) {
 
                     // Get the index at which to split space.
-                    const spaceToSplit = insertion.token.getPrecedingSpace();
+                    const spaceToSplit = source.spaces.getSpace(insertion.token);
                     const spaceInsertionIndex = spaceToSplit.split("\n", insertion.line).join("\n").length + 1;
                     const spaceBefore = spaceToSplit.substring(0, spaceInsertionIndex);
                     const spaceAfter = spaceToSplit.substring(spaceInsertionIndex);
 
                     // Remember the index of the token inserted before.
                     const indexOfTokenInsertedBefore = source.expression.nodes(n => n instanceof Token).indexOf(insertion.token);
-
-                    // Clone the dragged node, but add to it the space preceding the token we're inserting before.
-                    const dragClone = draggedNode.withPrecedingSpace(spaceBefore, true);
 
                     // If we're inserting into the same list the dragged node is from, then it was already removed from the list above.
                     // If we're inserting after it's prior location, then the index is now 1 position to high, because everything shifted down.
@@ -441,24 +454,26 @@
                     const insertionIndex = insertion.index + (indexOfDraggedNodeInList >= 0 && insertion.index > indexOfDraggedNodeInList ? 1 : 0);
                     // Replace the list with a new list that has the dragged node inserted.
                     const clonedListParent = replacedOrListContainingNode.replace(
-                        false, 
                         listToUpdate, 
                         [ 
                             ...listToUpdate.slice(0, insertionIndex), 
-                            dragClone,
+                            draggedNode,
                             ...listToUpdate.slice(insertionIndex)
                         ]
                     );
 
                     // Update the program with the new list parent.
-                    editedProgram = editedProgram.replace(false, replacedOrListContainingNode, clonedListParent);
+                    editedProgram = editedProgram.replace(replacedOrListContainingNode, clonedListParent);
 
                     // Find the token after the last token of the node we inserted and give it the original space after the insertion point.
-                    let tokenInsertedBefore = editedProgram.nodes(n => n instanceof Token)[indexOfTokenInsertedBefore + dragClone.nodes(n => n instanceof Token).length] as Token;
-                    if(tokenInsertedBefore)
-                        editedProgram = editedProgram.replace(false, tokenInsertedBefore, tokenInsertedBefore.withPrecedingSpace(spaceAfter, true));
+                    let tokenInsertedBefore = editedProgram.nodes(n => n instanceof Token)[indexOfTokenInsertedBefore + draggedNode.nodes(n => n instanceof Token).length] as Token;
 
-                    const newSource = source.withProgram(editedProgram);
+                    const newSource = source.withProgram(
+                        editedProgram, 
+                        source.spaces
+                            .withSpace(draggedNode, spaceBefore)
+                            .withSpace(tokenInsertedBefore, spaceAfter)
+                        );
                     newSources.push([ source, newSource]);
 
                 }
@@ -541,6 +556,12 @@
         return tokenView === null || token === undefined ? undefined : [ token, tokenView ];
     }
 
+    function getTokenFromLineBreak(textOrSpace: Element): [ Token, Element ] | undefined {
+        const spaceView = textOrSpace.closest(".space") as HTMLElement;
+        const tokenID = spaceView instanceof HTMLElement && spaceView.dataset.id ? parseInt(spaceView.dataset.id) : undefined;
+        return tokenID ? [ source.getNodeByID(tokenID) as Token, spaceView ] : undefined;
+    }
+
     function getCaretPositionAt(event: MouseEvent): number | undefined {
 
         // What element is under the mouse?
@@ -610,7 +631,7 @@
             Array.from(editor.querySelectorAll(".space br"))
             // Map each one to 1) the token, 2) token view, 3) line break top, 4) index within each token's space
             .map(br => {
-                const [ token, tokenView ] = getTokenFromElement(br) ?? [];
+                const [ token, tokenView ] = getTokenFromLineBreak(br) ?? [];
                 // Check the br container, which gives us a more accurate bounding client rect.
                 const rect = (br.parentElement as HTMLElement).getBoundingClientRect();
                 return tokenView === undefined || token === undefined ? 
@@ -632,7 +653,7 @@
 
         // If we have a closest line, find the line number
         if(closestLine)
-            return $caret.source.getTokenSpacePosition(closestLine.token) + closestLine.token.space.split("\n", closestLine.index).join("\n").length;
+            return $caret.source.getTokenSpacePosition(closestLine.token) + source.spaces.getSpace(closestLine.token).split("\n", closestLine.index).join("\n").length;
 
         // Otherwise, choose nothing.
         return undefined;
@@ -689,7 +710,7 @@
             const token = caret.getToken();
             if(token === undefined) return [];
             // What is the space prior to this insertion point?
-            const spacePrior = token === undefined ? "" : token.space.substring(0, position - source.getTokenSpacePosition(token));
+            const spacePrior = token === undefined ? "" : source.spaces.getSpace(token).substring(0, position - source.getTokenSpacePosition(token));
 
             // How many lines does the space prior include?
             const line = spacePrior.split("\n").length - 1;
@@ -1035,7 +1056,7 @@
     <RootView node={program}/>
     <!-- Render the caret on top of the program -->
     {#if !stepping }
-        <CaretView {project} blink={$KeyboardIdle && focused} ignored={lastKeyDownIgnored} bind:location={caretLocation}/>
+        <CaretView {source} blink={$KeyboardIdle && focused} ignored={lastKeyDownIgnored} bind:location={caretLocation}/>
     {/if}
     <!-- Are we on a placeholder? Show a menu! -->
     {#if menu !== undefined && menu.location !== undefined && menuVisible }

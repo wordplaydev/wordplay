@@ -28,10 +28,10 @@ export default class Cell extends Node {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Cell(
-            this.replaceChild(pretty, "bar", this.bar, original, replacement), 
-            this.replaceChild(pretty, "value", this.value, original, replacement)
+            this.replaceChild("bar", this.bar, original, replacement), 
+            this.replaceChild("value", this.value, original, replacement)
         ) as this; 
     }
 

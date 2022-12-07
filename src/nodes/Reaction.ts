@@ -56,12 +56,12 @@ export default class Reaction extends Expression {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Reaction(
-            this.replaceChild(pretty, "initial", this.initial, original, replacement), 
-            this.replaceChild<Expression>(pretty, "stream", this.stream, original, replacement),
-            this.replaceChild<Expression>(pretty, "next", this.next, original, replacement),
-            this.replaceChild<Token>(pretty, "delta", this.delta, original, replacement)
+            this.replaceChild("initial", this.initial, original, replacement), 
+            this.replaceChild<Expression>("stream", this.stream, original, replacement),
+            this.replaceChild<Expression>("next", this.next, original, replacement),
+            this.replaceChild<Token>("delta", this.delta, original, replacement)
         ) as this; 
     }
 

@@ -16,7 +16,6 @@ import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import { endsWithName, startsWithName } from "./util";
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
@@ -36,10 +35,9 @@ export default class Conditional extends Expression {
         super();
 
         this.condition = condition;
-        this.conditional = conditional ?? new Token(BOOLEAN_TYPE_SYMBOL, TokenType.BOOLEAN_TYPE, " ");
+        this.conditional = conditional ?? new Token(BOOLEAN_TYPE_SYMBOL, TokenType.BOOLEAN_TYPE);
         this.yes = yes;
-        // Must have a preceding space if yes ends with a name and no starts with one.
-        this.no = no.withPrecedingSpaceIfDesired(endsWithName(yes) && startsWithName(no));
+        this.no = no;
 
         this.computeChildren();
 
@@ -54,20 +52,20 @@ export default class Conditional extends Expression {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Conditional(
-            this.replaceChild(pretty, "condition", this.condition, original, replacement), 
-            this.replaceChild<Expression>(pretty, "yes", this.yes, original, replacement), 
-            this.replaceChild<Expression>(pretty, "no", this.no, original, replacement),
-            this.replaceChild<Token>(pretty, "conditional", this.conditional, original, replacement)
+            this.replaceChild("condition", this.condition, original, replacement), 
+            this.replaceChild<Expression>("yes", this.yes, original, replacement), 
+            this.replaceChild<Expression>("no", this.no, original, replacement),
+            this.replaceChild<Token>("conditional", this.conditional, original, replacement)
         ) as this;
     }
 
     isBlockFor(child: Node) { return child === this.yes || child === this.no; }
 
     getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
-        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return child === this.conditional ? " " : (child === this.yes || child === this.no) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
+        return child === this.conditional ? " " : 
+            (child === this.yes || child === this.no) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : (child === this.no ? " " : "");
     }
 
     computeConflicts(context: Context): Conflict[] {

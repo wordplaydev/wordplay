@@ -14,7 +14,6 @@ import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import FunctionDefinitionType from "./FunctionDefinitionType";
-import { withSpaces } from "./spacing";
 
 export default class FunctionType extends Type {
 
@@ -29,7 +28,7 @@ export default class FunctionType extends Type {
 
         this.fun = fun ?? new Token(FUNCTION_SYMBOL, TokenType.FUNCTION);
         this.open = open ?? new EvalOpenToken();
-        this.inputs = withSpaces(inputs);
+        this.inputs = inputs;
         this.close = close ?? new EvalCloseToken();;
         this.output = output;
 
@@ -47,13 +46,13 @@ export default class FunctionType extends Type {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new FunctionType(
-            this.replaceChild(pretty, "inputs", this.inputs, original, replacement),
-            this.replaceChild(pretty, "output", this.output, original, replacement),
-            this.replaceChild(pretty, "fun", this.fun, original, replacement),
-            this.replaceChild(pretty, "open", this.open, original, replacement),
-            this.replaceChild(pretty, "close", this.close, original, replacement)
+            this.replaceChild("inputs", this.inputs, original, replacement),
+            this.replaceChild("output", this.output, original, replacement),
+            this.replaceChild("fun", this.fun, original, replacement),
+            this.replaceChild("open", this.open, original, replacement),
+            this.replaceChild("close", this.close, original, replacement)
         ) as this;
     }
 

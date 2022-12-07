@@ -62,13 +62,13 @@ export default class Borrow extends Expression {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Borrow(
-            this.replaceChild(pretty, "borrow", this.borrow, original, replacement), 
-            this.replaceChild(pretty, "source", this.source, original, replacement),
-            this.replaceChild(pretty, "dot", this.dot, original, replacement),
-            this.replaceChild(pretty, "name", this.name, original, replacement),
-            this.replaceChild(pretty, "version", this.version, original, replacement)
+            this.replaceChild("borrow", this.borrow, original, replacement), 
+            this.replaceChild("source", this.source, original, replacement),
+            this.replaceChild("dot", this.dot, original, replacement),
+            this.replaceChild("name", this.name, original, replacement),
+            this.replaceChild("version", this.version, original, replacement)
         ) as this; 
     }
     

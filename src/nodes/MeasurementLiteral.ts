@@ -38,10 +38,10 @@ export default class MeasurementLiteral extends Expression {
 
     }
     
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new MeasurementLiteral(
-            this.replaceChild(pretty, "number", this.number, original, replacement), 
-            this.replaceChild(pretty, "unit", this.unit, original, replacement)
+            this.replaceChild("number", this.number, original, replacement), 
+            this.replaceChild("unit", this.unit, original, replacement)
         ) as this;
     }
 

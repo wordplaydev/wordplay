@@ -1,5 +1,6 @@
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
+import TokenList from "./TokenList";
 
 export const TYPE_SYMBOL = "•";
 export const TYPE_VAR_SYMBOL = "∘";
@@ -178,16 +179,33 @@ const TEXT_DELIMITERS: Record<string,string> = {
     '『': '』'
 }
 
-export function tokenize(source: string): Token[] {
+export function tokens(source: string): Token[] {
+    return tokenize(source).getTokens();
+}
+
+export function tokenize(source: string): TokenList {
+
+    // Start with an empty list
     const tokens: Token[] = [];
+
+    // Create a mapping from tokens to space.
+    const spaces = new Map<Token, string>();
+
     // A stack, top at 0, of TEXT_OPEN tokens, helping us decide when to tokenize TEXT_CLOSE.
     const openTemplates: Token[] = [];
     while(source.length > 0) {
-        const nextToken = getNextToken(source, openTemplates);
-        if(nextToken === undefined) break;
-        // Trim the token off the source.
-        source = source.substring(nextToken.text.toString().length + nextToken.getPrecedingSpace().length);
+
+        const [ nextToken, space ] = getNextToken(source, openTemplates);
+
+        // Add the token to the list
         tokens.push(nextToken);
+
+        // Save the space for the token.
+        if(space.length > 0)
+            spaces.set(nextToken, space);
+
+        // Trim the token off the source.
+        source = source.substring(nextToken.text.toString().length + space.length);
 
         // If the token was a text open, push it on the stack.
         if(nextToken.is(TokenType.TEXT_OPEN))
@@ -195,31 +213,35 @@ export function tokenize(source: string): Token[] {
         // If the token was a close, pop
         else if(nextToken.is(TokenType.TEXT_CLOSE))
             openTemplates.shift();
+
     }
 
-    // If there's nothing left -- or nothing but whitespace -- and the last token isn't a already end token, add one.
-    if(tokens.length === 0 || !tokens[tokens.length - 1].is(TokenType.END))
-        tokens.push(new Token("", TokenType.END));
+    // If there's nothing left -- or nothing but space -- and the last token isn't a already end token, add one.
+    if(tokens.length === 0 || !tokens[tokens.length - 1].is(TokenType.END)) {
+        const end = new Token("", TokenType.END);
+        tokens.push(end);
+    }
 
-    return tokens;
+    return new TokenList(tokens, spaces);
+
 }
 
-function getNextToken(source: string, openTemplates: Token[]): Token | undefined {
+function getNextToken(source: string, openTemplates: Token[]): [ Token, string ] {
 
     // Is there a series of space or tabs?
     const spaceMatch = source.match(/^[ \t\n]+/);
     const space = spaceMatch === null ? "" : spaceMatch[0];
     const trimmedSource = source.substring(space.length);
 
-    // If there's nothing left, return an end of file token.
-    if(trimmedSource.length === 0) return new Token("", TokenType.END, space);
+    // If there's nothing left after trimming source, return an end of file token.
+    if(trimmedSource.length === 0) return [ new Token("", TokenType.END), space ];
 
     // See if one of the more complex regular expression patterns matches.
     for(let i = 0; i < patterns.length; i++) {
         const pattern = patterns[i];
         // If it's a string pattern, just see if the source starts with it.
         if(typeof pattern.pattern === 'string' && trimmedSource.startsWith(pattern.pattern))
-            return new Token(pattern.pattern, pattern.types, space);
+            return [ new Token(pattern.pattern, pattern.types), space ];
         else if(pattern.pattern instanceof RegExp) {
             const match = trimmedSource.match(pattern.pattern);
             // If we found a match, return it if
@@ -227,7 +249,7 @@ function getNextToken(source: string, openTemplates: Token[]): Token | undefined
             // 2) It is, but there are either no open templates (syntax error!), or
             // 3) There is an open template and it's the closing delimiter matches the current open text delimiter.
             if(match !== null && (!pattern.types.includes(TokenType.TEXT_CLOSE) || openTemplates.length === 0 || (match[0].endsWith(TEXT_DELIMITERS[openTemplates[0].getText().charAt(0)]))))
-                return new Token(match[0], pattern.types, space);
+                return [ new Token(match[0], pattern.types), space ];
         }
     }
     
@@ -237,6 +259,8 @@ function getNextToken(source: string, openTemplates: Token[]): Token | undefined
         const char = trimmedSource.charAt(nextSpace);
         if(char === " " || char === "\t" || char === "\n") break;
     }
-    return new Token(trimmedSource.substring(0, nextSpace), TokenType.UNKNOWN, space);
+
+    // Uh oh, unknown token. This should never be possible, but it probably is, since I haven't proven otherwise.
+    return [ new Token(trimmedSource.substring(0, nextSpace), TokenType.UNKNOWN), space ];
 
 }

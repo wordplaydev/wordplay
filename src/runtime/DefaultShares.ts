@@ -5,8 +5,9 @@ import Layout, { Vertical } from "../native/Layout";
 import TransitionType, { Fade, Scale } from "../native/Transition";
 import AnimationType, { Bounce, Throb, Wobble } from "../native/Animation";
 import StyleType from "../native/Style";
+import type StructureDefinition from "../nodes/StructureDefinition";
 
-const ImplicitShares = [
+const ImplicitShares: StructureDefinition[] = [
     VerseType,
     PhraseType,
     StyleType,

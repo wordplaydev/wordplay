@@ -45,13 +45,13 @@ export default class MapType extends NativeType {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new MapType(
-            this.replaceChild(pretty, "key", this.key, original, replacement), 
-            this.replaceChild(pretty, "value", this.value, original, replacement),
-            this.replaceChild(pretty, "open", this.open, original, replacement),
-            this.replaceChild(pretty, "bind", this.bind, original, replacement), 
-            this.replaceChild(pretty, "close", this.close, original, replacement) 
+            this.replaceChild("key", this.key, original, replacement), 
+            this.replaceChild("value", this.value, original, replacement),
+            this.replaceChild("open", this.open, original, replacement),
+            this.replaceChild("bind", this.bind, original, replacement), 
+            this.replaceChild("close", this.close, original, replacement) 
         ) as this; 
     }
 

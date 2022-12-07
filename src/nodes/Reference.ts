@@ -58,9 +58,9 @@ export default class Reference extends Expression {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Reference(
-            this.replaceChild(pretty, "name", this.name, original, replacement)
+            this.replaceChild("name", this.name, original, replacement)
         ) as this;
     }
 

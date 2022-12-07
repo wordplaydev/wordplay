@@ -64,11 +64,11 @@ export default class PropertyReference extends Expression {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new PropertyReference(
-            this.replaceChild(pretty, "structure", this.structure, original, replacement),
-            this.replaceChild(pretty, "name", this.name, original, replacement),
-            this.replaceChild(pretty, "dot", this.dot, original, replacement)
+            this.replaceChild("structure", this.structure, original, replacement),
+            this.replaceChild("name", this.name, original, replacement),
+            this.replaceChild("dot", this.dot, original, replacement)
         ) as this;
     }
 
@@ -216,10 +216,10 @@ export default class PropertyReference extends Expression {
                     .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
                         // Include 
                         new Replace(context, this, [ name => new Evaluate(
-                            new PropertyReference(this.structure.withPrecedingSpace("", true), new NameToken(name)), 
+                            new PropertyReference(this.structure, new NameToken(name)), 
                             def.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())
                         ), def ]) : 
-                        new Replace(context, this, [ name => new PropertyReference(this.structure.withPrecedingSpace("", true), new NameToken(name)), def ])
+                        new Replace(context, this, [ name => new PropertyReference(this.structure, new NameToken(name)), def ])
                     )
             )
         ]

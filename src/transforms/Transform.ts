@@ -18,8 +18,4 @@ export default abstract class Transform {
     abstract getNewNode(lang: LanguageCode[]): Node;
     abstract equals(transform: Transform): boolean;
 
-    // Pretty print all new nodes.
-    getPrettyNewNode(lang: LanguageCode[]): Node { return this.getNewNode(lang).replace(true); }
-
-
 }

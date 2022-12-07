@@ -51,11 +51,11 @@ export default class Template extends Expression {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Template(
-            this.replaceChild(pretty, "open", this.open, original, replacement),
-            this.replaceChild(pretty, "expressions", this.expressions, original, replacement),
-            this.replaceChild(pretty, "format", this.format, original, replacement)
+            this.replaceChild("open", this.open, original, replacement),
+            this.replaceChild("expressions", this.expressions, original, replacement),
+            this.replaceChild("format", this.format, original, replacement)
         ) as this; 
     }
 

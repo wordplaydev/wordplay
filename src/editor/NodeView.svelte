@@ -3,7 +3,7 @@
 <script lang="ts">
     import { afterUpdate } from "svelte";
     import type Node from "../nodes/Node";
-    import { getLanguages, getHighlights } from "./util/Contexts";
+    import { getLanguages, getHighlights, getCaret, getRoot } from "./util/Contexts";
     import NodeHighlight from "./NodeHighlight.svelte";
     import getNodeView from "./util/nodeToView";
     import getOutlineOf, { getUnderlineOf, type Outline } from "./util/outline";
@@ -11,12 +11,15 @@
     import Expression from "../nodes/Expression";
     import ValueView from "../components/ValueView.svelte";
     import type Value from "../runtime/Value";
-
+    import Space from "./Space.svelte";
+    import type Token from "../nodes/Token";
+    
     export let node: Node | undefined;
     export let root: boolean = false;
 
     let languages = getLanguages();
     let highlights = getHighlights();
+    let caret = getCaret();
 
     $: primaryConflicts = node === undefined ? [] : $project.getPrimaryConflictsInvolvingNode(node) ?? [];
     $: highlightTypes = (node ? $highlights?.get(node) : undefined) ?? new Set();
@@ -46,11 +49,24 @@
         }
     });
 
+    $: rootTree = getRoot();
+    $: leaf = node?.getFirstLeaf() as Token | undefined;
+    $: isSpaceRoot = node && leaf ? $rootTree?.get(leaf)?.getSpaceRoot() === node : undefined;
+    $: space = leaf && isSpaceRoot && $caret ? $caret.source.spaces.getSpace(leaf) : "";
+    $: additional = 
+        // No node or no first token, no additional space
+        !isSpaceRoot || node === undefined || leaf === undefined ? undefined :
+        // In an editor? Use the existing space
+        $caret ? $caret.source.spaces.getAdditionalSpace(leaf, $caret.source.get(leaf)?.getPreferredPrecedingSpace() ?? "") : 
+        // Not in an editor? Just use the preferred space
+        $rootTree?.get(leaf)?.getPreferredPrecedingSpace();
+
 </script>
 
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
-    <div 
+    <!-- Render space preceding this node if it is the highest ancestor of its first token, ensuring the space is outside of the node's view -->
+    {#if leaf && additional !== undefined}<Space token={leaf} {space} {additional}/>{/if}<div 
         class="{node.constructor.name} node-view {root ? "root" : ""} {highlightTypes.size > 0 ? "highlighted" : ""} { Array.from(highlightTypes).join(" ")}"
         data-id={node.id}
         bind:this={element}
@@ -60,14 +76,10 @@
 <style>
 
     .node-view {
+        display: inline;
+        position: relative;
         border-top-left-radius: var(--wordplay-editor-radius);
         border-bottom-right-radius: var(--wordplay-editor-radius);
-        position: relative;
-        display: inline;
-
-        font-family: var(--wordplay-code-font-face);
-        font-size: var(--wordplay-font-size);
-        font-weight: 400;
     }
 
     .node-view.hovered {

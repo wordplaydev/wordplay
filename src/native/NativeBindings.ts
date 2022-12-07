@@ -10,7 +10,7 @@ import Value from "../runtime/Value";
 import type Evaluation from "../runtime/Evaluation";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import TypeException from "../runtime/TypeException";
-import { parseType, tokens } from "../parser/Parser";
+import { parseType, toTokens } from "../parser/Parser";
 import bootstrapNone from "./NoneNative";
 import bootstrapBool from "./BoolNative";
 import bootstrapText from "./TextNative";
@@ -127,7 +127,7 @@ export function createNativeFunction(
 export function createNativeConversion<ValueType extends Value>(docs: Translations, inputTypeString: string, outputTypeString: string, convert: (requestor: Node, value: ValueType) => Value) {
 
     // Parse the expected type.
-    const inputType = parseType(tokens(inputTypeString));
+    const inputType = parseType(toTokens(inputTypeString));
     
     return new ConversionDefinition(
         docs, inputType, outputTypeString,

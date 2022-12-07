@@ -35,10 +35,10 @@ export default class Language extends Node {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Language(
-            this.replaceChild(pretty, "lang", this.lang, original, replacement), 
-            this.replaceChild(pretty, "slash", this.slash, original, replacement)
+            this.replaceChild("lang", this.lang, original, replacement), 
+            this.replaceChild("slash", this.slash, original, replacement)
         ) as this; 
     }
 

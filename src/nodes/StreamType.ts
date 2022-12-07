@@ -43,10 +43,10 @@ export default class StreamType extends Type {
 
     getNativeTypeName(): string { return STREAM_NATIVE_TYPE_NAME; }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new StreamType(
-            this.replaceChild(pretty, "type", this.type, original, replacement), 
-            this.replaceChild(pretty, "stream", this.stream, original, replacement)
+            this.replaceChild("type", this.type, original, replacement), 
+            this.replaceChild("stream", this.stream, original, replacement)
         ) as this; 
     }
 

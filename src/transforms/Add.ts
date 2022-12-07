@@ -31,10 +31,16 @@ export default class Add<NodeType extends Node> extends Transform {
     getEdit(languages: LanguageCode[]): Edit | undefined  {
         
         // Make the new node
-        const newNode = this.getPrettyNewNode(languages);
+        const newNode = this.getNewNode(languages);
+
+        // Find the token at the position.
+        const tokenAfter = this.context.source.getTokenAt(this.position);
 
         // Create a new program with the parent's field set to the new node.
-        const newSource = this.context.source.withProgram(this.context.source.expression.replace(false, this.parent, this.parent.replace(true, this.field, newNode)));
+        const newSource = this.context.source.withProgram(
+            this.context.source.expression.replace(this.parent, this.parent.replace(this.field, newNode)),
+            this.context.source.spaces.withSpace(newNode, tokenAfter === undefined ? "" : this.context.source.spaces.getSpace(tokenAfter))
+        );
 
         // Place the caret at first placeholder or the end of the node in the source.
         let newCaretPosition = newNode.getFirstPlaceholder() || newSource.getNodeLastPosition(newNode);
@@ -51,7 +57,7 @@ export default class Add<NodeType extends Node> extends Transform {
             translations = this.child[1].getDescriptions();
 
         if(translations === undefined) {
-            const replacement = this.getPrettyNewNode(languages);
+            const replacement = this.getNewNode(languages);
             translations = replacement.getDescriptions(this.context);
         }
 

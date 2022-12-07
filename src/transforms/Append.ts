@@ -4,7 +4,6 @@ import type LanguageCode from "../nodes/LanguageCode";
 import type { Edit } from "../editor/util/Commands";
 import type Refer from "./Refer";
 import Caret from "../models/Caret";
-import Token from "../nodes/Token";
 import { TRANSLATE } from "../nodes/Translations";
 import type Context from "../nodes/Context";
 
@@ -31,29 +30,27 @@ export default class Append<NodeType extends Node> extends Transform {
 
     getEdit(lang: LanguageCode[]): Edit | undefined {
 
-        // Get the node to insert, prettied.
-        let newChild = this.getPrettyNewNode(lang).replace(true);
+        // Get the node to insert.
+        let newChild = this.getNewNode(lang);
 
         // Find the space before the insertion by finding the token that contains the index.
         // Insert the space we find before it.
         const spaceNode = this.context.source.getTokenAt(this.position);
-        const spaceNodeIndex = spaceNode === undefined ? undefined : this.context.source.expression.nodes(n => n instanceof Token).indexOf(spaceNode);
+        let beforeSpace = undefined;
         let afterSpace = undefined;
         if(spaceNode !== undefined) {
-            const space = spaceNode.space;
+            const space = this.context.source.spaces.getSpace(spaceNode);
             const spaceIndex = this.context.source.getTokenSpacePosition(spaceNode);
             const splitIndex = spaceIndex === undefined ? undefined : this.position - spaceIndex;
             if(space !== undefined && splitIndex !== undefined) {
-                const beforeSpace = space?.substring(0, splitIndex);
+                beforeSpace = space?.substring(0, splitIndex);
                 // Save this for later.
                 afterSpace = space?.substring(splitIndex);
-                // Create a new child with the whitespace before
-                newChild = newChild.withPrecedingSpace(beforeSpace, true);
             }
         }
 
         // Clone the list.
-        let newList = this.list.map(item => item.replace(false));
+        let newList = this.list.map(item => item.replace());
 
         // Insert the new child in the list. 
         // If its unspecified or it is but it's not in the list, then it's at the end of the list.
@@ -65,24 +62,20 @@ export default class Append<NodeType extends Node> extends Transform {
         const childIndex = this.before === undefined ? this.parent.getChildren().length : this.parent.getChildren().indexOf(this.before);
 
         // Clone the parent with the new list, pretty printing.
-        const newParent = this.parent.replace(true, this.list, newList);
+        const newParent = this.parent.replace(this.list, newList);
         
         // Make a new program with the new parent
-        let newProgram = this.context.source.expression.replace(false, this.parent, newParent);
+        let newProgram = this.context.source.expression.replace(this.parent, newParent);
 
-        // Finally, if there's after space, find the first token after the last token in the new list and update it's space.
-        if(afterSpace !== undefined && spaceNodeIndex !== undefined) {
-            // Find the corresponding token in the revised program by summing it's original token index with the number
-            // of tokens in the new child.
-            const newSpaceNodeIndex = spaceNodeIndex + newChild.nodes(n => n instanceof Token).length;
-            const newProgramTokens = newProgram.nodes(n => n instanceof Token) as Token[];
-            const newSpaceNode = newProgramTokens[newSpaceNodeIndex];
-            if(newSpaceNode !== undefined)
-                newProgram = newProgram.replace(false, newSpaceNode, newSpaceNode.withSpace(afterSpace));
-        }
+        let newSpace = this.context.source.spaces;
+        if(spaceNode !== undefined && afterSpace !== undefined) newSpace = newSpace.withSpace(spaceNode, afterSpace);
+        if(beforeSpace !== undefined) newSpace.withSpace(newChild, beforeSpace);
 
         // Clone the source with the new parent.
-        const newSource = this.context.source.withProgram(newProgram);
+        const newSource = this.context.source.withProgram(
+            newProgram,
+            newSpace
+        );
 
         // Find the new child we inserted. It's at the same index that we inserted before.
         const finalNewNode = newParent.getChildren()[childIndex];
@@ -109,7 +102,7 @@ export default class Append<NodeType extends Node> extends Transform {
             translations = this.insertion[1].getDescriptions();
 
         if(translations === undefined) {
-            const replacement = this.getPrettyNewNode(languages);
+            const replacement = this.getNewNode(languages);
             translations = replacement.getDescriptions(this.context);
         }
 

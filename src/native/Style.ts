@@ -1,12 +1,12 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
 import { TRANSLATE } from "../nodes/Translations";
-import { parseStructure, tokens } from "../parser/Parser";
+import { parseStructure, toTokens } from "../parser/Parser";
 import Structure from "../runtime/Structure";
 import type Value from "../runtime/Value";
 import { Fonts, SupportedFonts, type FontWeight } from "./Fonts";
 
 // Set the allowable font names to those in the supported fonts list.
-const StyleType = parseStructure(tokens(
+const StyleType = parseStructure(toTokens(
 `•Style/eng,👗/😀(
     font/eng,🔡/😀•ø${SupportedFonts.map(font => `•"${font.name}"`).join("")}: ø
     size/eng,📏/😀•#pt•ø:ø

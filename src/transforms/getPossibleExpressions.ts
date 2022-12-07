@@ -50,7 +50,7 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
 
     return [
         ...parent.getAllDefinitions(parent, context),
-        ...(child === undefined ? [] : [ new Block([ child.withPrecedingSpace("", true) ], false, false) ]),
+        ...(child === undefined ? [] : [ new Block([ child ], false, false) ]),
         new BooleanLiteral(true),
         new BooleanLiteral(false),
         ...[ new MeasurementLiteral(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => new MeasurementLiteral(undefined, u))) ],
@@ -107,23 +107,23 @@ export function getPossiblePostfix(context: Context, node: Expression, type?: Ty
 
     return [
         // If the type is a boolean, offer a conditional
-        ...(type instanceof BooleanType ? [ new Replace(context, node, new Conditional(node.withPrecedingSpace("", true), new ExpressionPlaceholder(), new ExpressionPlaceholder())) ] : []),
+        ...(type instanceof BooleanType ? [ new Replace(context, node, new Conditional(node, new ExpressionPlaceholder(), new ExpressionPlaceholder())) ] : []),
         // If the type is a list, offer a list access
-        ...(type instanceof ListType ? [ new Replace(context, node, new ListAccess(node.withPrecedingSpace("", true), new ExpressionPlaceholder())) ] : []),
+        ...(type instanceof ListType ? [ new Replace(context, node, new ListAccess(node, new ExpressionPlaceholder())) ] : []),
         // If the type is a set or map, offer a list access
-        ...(type instanceof SetType || type instanceof MapType ? [ new Replace(context, node, new SetOrMapAccess(node.withPrecedingSpace("", true), new ExpressionPlaceholder())) ] : []),
+        ...(type instanceof SetType || type instanceof MapType ? [ new Replace(context, node, new SetOrMapAccess(node, new ExpressionPlaceholder())) ] : []),
         // If the type is a stream, offer a previous
-        ...(type instanceof StreamType ? [ new Replace(context, node, new Previous(node.withPrecedingSpace("", true), new ExpressionPlaceholder())) ] : []),
+        ...(type instanceof StreamType ? [ new Replace(context, node, new Previous(node, new ExpressionPlaceholder())) ] : []),
         // Reactions
-        ...[ new Replace(context, node, new Reaction(node.withPrecedingSpace("", true), new ExpressionPlaceholder(), new ExpressionPlaceholder()))],
+        ...[ new Replace(context, node, new Reaction(node, new ExpressionPlaceholder(), new ExpressionPlaceholder()))],
         // If given a type, any binary operations that are available on the type.
         ...((type === undefined ? [] : type.getAllDefinitions(node, context).filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.isOperator()) 
-            .map(def => new Replace(context, node, [ () => new BinaryOperation(def.getOperatorName() as string, node.withPrecedingSpace("", true), new ExpressionPlaceholder()), def ])))),
+            .map(def => new Replace(context, node, [ () => new BinaryOperation(def.getOperatorName() as string, node, new ExpressionPlaceholder()), def ])))),
         // Get any conversions available
         ...(type === undefined ? [] :
                 type.getAllConversions(context)
                     .filter(conversion => conversion.input instanceof Type && type.accepts(conversion.input, context))
-                    .map(conversion => new Replace(context, node, new Convert(node.withPrecedingSpace("", true), conversion.output.replace(true)))))
+                    .map(conversion => new Replace(context, node, new Convert(node, conversion.output.replace()))))
 
     ];
 

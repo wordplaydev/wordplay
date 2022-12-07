@@ -4,8 +4,7 @@
     import type Token from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-    import { getLanguages, getDragged, getProject, getCaret } from "./util/Contexts";
-    import Space from "./Space.svelte";
+    import { getLanguages, getProject, getCaret } from "./util/Contexts";
     import TokenCategories from "./TokenCategories";
 
     export let node: Token;
@@ -24,25 +23,20 @@
     let caret = getCaret();
     let project = getProject();
     let languages = getLanguages();
-    let dragged = getDragged();
 
     $: isPlaceholder = node.is(TokenType.PLACEHOLDER);
     $: showBox = 
         ($caret?.getTokenExcludingWhitespace() === node) || 
-        ($caret?.tokenPrior === node && $caret.atBeginningOfToken() && $caret.token && $caret.token.space.length > 0) || 
+        ($caret?.tokenPrior === node && $caret.atBeginningOfToken() && $caret.token && $caret.tokenAtHasPrecedingSpace()) || 
         isPlaceholder;
     $: textToShow = 
         isPlaceholder ? choosePlaceholder() : 
         node.text.getLength() === 0 ? "\u00A0" : 
         node.text.toString().replaceAll(" ", "&nbsp;");
     
-    // Don't render preceding space if there's no caret or this is the first leaf in a dragged node.
-    $: showSpace = caret !== undefined || $dragged?.node.getFirstLeaf() !== node;
-    $: additional = node.getAdditionalSpace($caret?.source.get(node)?.getPreferredPrecedingSpace() ?? "");
-
 </script>
 
-{#if showSpace}<Space token={node} space={node.space} {additional}/>{/if}<span class="token-view token-{kind} {node.is(TokenType.NAME_SEPARATOR) ? "comma" : ""} {showBox ? "active" : ""} {isPlaceholder ? "placeholder" : ""} {$caret !== undefined ? "editable" : ""} {`token-category-${kind}`}" data-id={node.id}><span class="text">{@html textToShow }</span></span>
+<span class="token-view token-{kind} {node.is(TokenType.NAME_SEPARATOR) ? "comma" : ""} {showBox ? "active" : ""} {isPlaceholder ? "placeholder" : ""} {$caret !== undefined ? "editable" : ""} {`token-category-${kind}`}" data-id={node.id}><span class="text">{@html textToShow }</span></span>
 
 <style>
 

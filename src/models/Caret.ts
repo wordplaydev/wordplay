@@ -56,6 +56,7 @@ export default class Caret {
     getProgram() { return this.source.expression; }
     getToken(): Token | undefined { return this.token; }
     getTokenExcludingWhitespace(): Token | undefined { return this.tokenExcludingWhitespace; }
+    tokenAtHasPrecedingSpace(): boolean { return this.token !== undefined && this.source.spaces.getSpace(this.token).length > 0; }
 
     getNodesBetween() {
 
@@ -373,7 +374,7 @@ export default class Caret {
     
         const index = this.source.getTokenTextPosition(currentToken);
         // If the position is on a different line from the current token, just move to the line.
-        if(index !== undefined && position < index - currentToken.precedingSpaces) {
+        if(index !== undefined && position < index - this.source.spaces.getLastLineSpaces(currentToken)) {
             return this.withPosition(position);
         }
         // Find the tokens on the row in the direction we're moving.
@@ -399,7 +400,7 @@ export default class Caret {
                 }
                 currentToken = this.source.getNextToken(currentToken, 1);
                 // If we reached a token with newlines, then we're done adding tokens for consideration.
-                if(currentToken && currentToken.newlines > 0) break;
+                if(currentToken && this.source.spaces.hasLineBreak(currentToken)) break;
             }
     
             // Sort the candidates by distance, then find the offset within the token closest to the caret.

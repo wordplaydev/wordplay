@@ -40,10 +40,10 @@ export default class Row extends Node {
      * */ 
     isBindingEnclosureOfChild(child: Node): boolean { return this.cells.includes(child as Cell); }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Row(
-            this.replaceChild(pretty, "cells", this.cells, original, replacement),
-            this.replaceChild(pretty, "close", this.close, original, replacement)
+            this.replaceChild("cells", this.cells, original, replacement),
+            this.replaceChild("close", this.close, original, replacement)
         ) as this; 
     }
 

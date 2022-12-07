@@ -4,7 +4,7 @@ import type Type from "../nodes/Type";
 import type Step from "src/runtime/Step";
 import Expression from "../nodes/Expression";
 import Node from "../nodes/Node";
-import { parseType, tokens } from "../parser/Parser";
+import { parseType, toTokens } from "../parser/Parser";
 import type Evaluation from "../runtime/Evaluation";
 import type Bind from "../nodes/Bind";
 import type Context from "../nodes/Context";
@@ -24,7 +24,7 @@ export default class NativeExpression extends Expression {
         super();
 
         if(typeof type === "string") {
-            let possibleType = parseType(tokens(type));
+            let possibleType = parseType(toTokens(type));
             this.type = possibleType;
         }
         else this.type = type;

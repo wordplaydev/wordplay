@@ -3,6 +3,7 @@ import type Definition from "./Definition";
 import type Context from "./Context";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
+import type Spaces from "../parser/Spaces";
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -154,8 +155,8 @@ export default abstract class Node {
         return `${tabs}${this.constructor.name}\n${this.getChildren().map(n => n.toString(depth + 1)).join("\n")}`;
     }
 
-    /** Translates the node back into text, preserving all whitespace and characters. */
-    toWordplay(): string { return this.getChildren().map(t => t.toWordplay()).join(""); }
+    /** Translates the node back into Wordplay text, using spaces if provided and . */
+    toWordplay(spaces?: Spaces): string { return this.getChildren().map(t => t.toWordplay(spaces)).join(""); }
 
     /** A depth first traversal of this node and its descendants. Keeps traversing until the inspector returns false. */
     traverse(inspector: (node: Node) => boolean): boolean {
@@ -198,9 +199,9 @@ export default abstract class Node {
     }
 
     /** Creates a deep clone of this node and it's descendants. If it encounters replacement along the way, it uses that instead of the existing node. */
-    abstract replace(pretty: boolean, original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
+    abstract replace(original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
 
-    replaceChild<ExpectedTypes>(pretty: boolean, field: keyof this, child: Node | Node[] | undefined, original: Node | string | undefined, replacement: Node | undefined): ExpectedTypes {
+    replaceChild<ExpectedTypes>(field: keyof this, child: Node | Node[] | undefined, original: Node | string | undefined, replacement: Node | undefined): ExpectedTypes {
 
         function allowedToString(allowedTypes: (Function | Function[] | undefined)[]) {
             return `[${allowedTypes.map(type => type instanceof Function ? type.name : Array.isArray(type) ? type.map(type => type.name) : "undefined").join(", ")}]`;
@@ -255,41 +256,14 @@ export default abstract class Node {
 
         // If we didn't find a match above, just return the existing list or child.
         if(Array.isArray(child))
-            return child.map(n => original !== undefined && (typeof original === "string" || n.contains(original)) ? n.replace(pretty, original, replacement) : n) as ExpectedTypes
+            return child.map(n => original !== undefined && (typeof original === "string" || n.contains(original)) ? n.replace(original, replacement) : n) as ExpectedTypes
         else
-            return (child && original !== undefined && (typeof original === "string" || child.contains(original)) ? child.replace(pretty, original, replacement) : child) as ExpectedTypes;
+            return (child && original !== undefined && (typeof original === "string" || child.contains(original)) ? child.replace(original, replacement) : child) as ExpectedTypes;
 
     }
 
-    withPrecedingSpaceIfDesired(desired: boolean, space: string=" ", exact: boolean=false) {
-        return desired ? this.withPrecedingSpace(space, exact) : this;
-    }
-
-    withPrecedingSpace(space: string=" ", exact: boolean=false): this {
-
-        // Get the first leaf in this node.
-        const firstLeaf = this.getFirstLeaf();
-        if(firstLeaf === undefined) return this;
-        // Clone this node, replacing the first leaf with one with space
-        else return this.replace(false, firstLeaf, firstLeaf.withPrecedingSpace(space, exact));
-
-    }
-
-    getPrecedingSpace(): string | undefined {
-        // Find the first child with space.
-        const children = this.getChildren();
-        if(children.length === 0) return undefined;
-        for(const child of children) {
-            const space = child.getPrecedingSpace();
-            if(space !== undefined) return space;
-        }
-        return undefined;
-
-    }
-
-    /** By default, there is no preferred space for a node. */
     getPreferredPrecedingSpace(child: Node, space: string, depth: number): string { child; space; depth; return ""; }
-
+    
     getFirstLeaf(): Node | undefined {
         if(this.isLeaf()) return this;
         for(const child of this.getChildren()) {

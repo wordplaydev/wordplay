@@ -22,8 +22,8 @@ export default class Dimension extends Node {
         super();
 
         this.name = typeof name === "string" ? new NameToken(name) : name;
-        this.caret = caret === undefined ? undefined : caret.withPrecedingSpace("", true);
-        this.exponent = exponent === undefined ? undefined : exponent.withPrecedingSpace("", true);
+        this.caret = caret === undefined ? undefined : caret;
+        this.exponent = exponent === undefined ? undefined : exponent;
 
         this.computeChildren();
 
@@ -37,11 +37,11 @@ export default class Dimension extends Node {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Dimension(
-            this.replaceChild(pretty, "name", this.name, original, replacement), 
-            this.replaceChild(pretty, "caret", this.caret, original, replacement),
-            this.replaceChild(pretty, "exponent", this.exponent, original, replacement)
+            this.replaceChild("name", this.name, original, replacement), 
+            this.replaceChild("caret", this.caret, original, replacement),
+            this.replaceChild("exponent", this.exponent, original, replacement)
         ) as this; 
     }
 

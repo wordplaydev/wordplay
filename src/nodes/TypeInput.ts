@@ -31,10 +31,10 @@ export default class TypeInput extends Node {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new TypeInput(
-            this.replaceChild(pretty, "type", this.type, original, replacement),
-            this.replaceChild(pretty, "dot", this.dot, original, replacement)
+            this.replaceChild("type", this.type, original, replacement),
+            this.replaceChild("dot", this.dot, original, replacement)
         ) as this; 
     }
 

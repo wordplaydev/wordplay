@@ -62,9 +62,9 @@ export default class BooleanLiteral extends Expression {
         return this.value.text.toString() === TRUE_SYMBOL;
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new BooleanLiteral(
-            this.replaceChild(pretty, "value", this.value, original, replacement)
+            this.replaceChild("value", this.value, original, replacement)
         ) as this; 
     }
 

@@ -57,11 +57,11 @@ export default class Convert extends Expression {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Convert(
-            this.replaceChild(pretty, "expression", this.expression, original, replacement), 
-            this.replaceChild(pretty, "type", this.type, original, replacement),
-            this.replaceChild(pretty, "convert", this.convert, original, replacement)
+            this.replaceChild("expression", this.expression, original, replacement), 
+            this.replaceChild("type", this.type, original, replacement),
+            this.replaceChild("convert", this.convert, original, replacement)
         ) as this; 
     }
 

@@ -1,15 +1,17 @@
 <svelte:options immutable={true}/>
 <script lang="ts">
     import { afterUpdate } from "svelte";
-    import type Project from "../models/Project";
-    import Token, { SPACE_HTML, tabToHTML } from "../nodes/Token";
+    import Token from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
     import { getCaret } from "./util/Contexts";
+    import { SPACE_HTML, tabToHTML } from "../parser/Spaces";
+    import type Source from "../models/Source";
+    import { playing } from "../models/stores";
     
     type CaretPosition = { top: string, left: string, height: string, bottom: number };
 
-    export let project: Project;
+    export let source: Source;
     export let blink: boolean;
     export let ignored: boolean;
 
@@ -25,9 +27,6 @@
     // The current token we're on.
     $: token = $caret?.getToken();
 
-    // Whether the program is executing
-    $: evaluating = $caret !== undefined && project.evaluator.isDone();
-
     // The index we should render
     let caretIndex: number | undefined = undefined;
 
@@ -42,7 +41,7 @@
             // Compute where the caret should be placed. Place it if...
             caretIndex = 
                 // Don't show the caret if the program is evaluating.
-                evaluating &&
+                $playing &&
                 // Only show the caret if it's pointing to a number
                 typeof $caret.position === "number" &&
                 // The position can be anywhere after after the first glyph of the token, up to and including after the token's last character,
@@ -72,7 +71,7 @@
     afterUpdate(() => {
 
         // Now that we've rendered the caret, if it's out of the viewport and we're not executing, scroll to it.
-        if(element && evaluating && element.contains(document.activeElement))
+        if(element && $playing && element.contains(document.activeElement))
             element.scrollIntoView({ block: "nearest" });
 
         // Update the caret's location, in case other things changed.
@@ -198,7 +197,7 @@
             //   3) The caret is in the space preceding a token.
             // Figure out which three of this is the case, then position accordingly.
 
-            const explicitSpace = token.space;
+            const explicitSpace = source.spaces.getSpace(token);
 
             const spaceIndex = explicitSpace.length + caretIndex;
             const spaceBefore = explicitSpace.substring(0, spaceIndex);
@@ -211,7 +210,7 @@
             const editorPaddingTop = parseInt(window.getComputedStyle(editorView).getPropertyValue('padding-top').replace("px", "")) + 4;
 
             // Get some measurements on spaces and tab.
-            const spaceElement = editorView.querySelector(`.Token[data-id="${token.id}"] .space`);
+            const spaceElement = editorView.querySelector(`.space[data-id="${token.id}"]`);
             if(spaceElement === null) return;
             const spaceText = spaceElement.innerHTML;
             spaceElement.innerHTML = SPACE_HTML;
@@ -269,7 +268,7 @@
 
                 // If there's preferred space after the explicit space, and we're on the last line of explicit space, include it.
                 if(explicitSpace.length - spaceIndex === 0)
-                    spaceOnLastLine += token.getAdditionalSpace($caret.source.get(token)?.getPreferredPrecedingSpace() ?? "");
+                    spaceOnLastLine += $caret.source.spaces.getAdditionalSpace(token, $caret.source.get(token)?.getPreferredPrecedingSpace() ?? "");
 
                 // Compute the spaces prior to the caret on this line.
                 spaces = spaceOnLastLine.split(" ").length - 1;

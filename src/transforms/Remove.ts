@@ -7,7 +7,7 @@ import { TRANSLATE } from "../nodes/Translations";
 import type Context from "../nodes/Context";
 
 /**
- * Remove a sequence of nodes in a parent.
+ * Remove a node from sequence of nodes in a parent.
  */
 export default class Remove extends Transform {
 
@@ -38,7 +38,11 @@ export default class Remove extends Transform {
         const newParent = this.getNewNode();
 
         // Replace the child in the parent, pretty printing it, then clone the program with the new parent, and create a new source from it.
-        const newSource = this.context.source.withProgram(this.context.source.expression.replace(false, this.parent, newParent));
+        const newSource = this.context.source.withProgram(
+            this.context.source.expression.replace(this.parent, newParent),
+            // Preserve the space before the removed node.
+            this.context.source.spaces.withReplacement(this.node, undefined)
+        );
 
         // Return the new source and place the caret after the replacement.
         return [ newSource, new Caret(newSource, position) ];
@@ -54,9 +58,6 @@ export default class Remove extends Transform {
 
         let parent = this.parent;
 
-        // Get the space prior to the first node.
-        const space = this.context.source.getFirstToken(nodes[0])?.space ?? "";
-
         // Convert the nodes to their child index.
         // We get them in reverse since some children are recreated during cloning of their sibling exists.
         // (For example, a colon before a value in a Bind). Reversing ensures that the contingent value is removed first.
@@ -67,24 +68,15 @@ export default class Remove extends Transform {
         if(!indicies.every(index => index >= 0))
             throw Error("Uh oh, someone passed children that aren't in the given parent.");
 
-        // Find the last child, so we can add the preceding space to the child after it.
-        const lastChildIndex = Math.max.apply(null, indicies);
-        const childCount = indicies.length;
-
         // Remove each child.
         while(indicies.length > 0) {
             // Get the correponding child.
             const node = parent.getChildren()[indicies[0]];
             // Remove the child
-            parent = parent.replace(false, node, undefined);
+            parent = parent.replace(node, undefined);
             // Drop the index we just removed.
             indicies.shift(); 
         }
-
-        // Add the space to the child after the last one we removed.
-        const childAfterLastRemoved = parent.getChildren()[lastChildIndex + 1 - childCount];
-        if(childAfterLastRemoved !== undefined)
-            parent = parent.replace(false, childAfterLastRemoved, childAfterLastRemoved.withPrecedingSpace(space, true));
 
         // Return the new parent.
         return parent;
@@ -93,7 +85,7 @@ export default class Remove extends Transform {
 
     getDescription(languages: LanguageCode[]): string {
 
-        const translations = this.getPrettyNewNode(languages).getDescriptions(this.context);
+        const translations = this.getNewNode().getDescriptions(this.context);
         const descriptions = {
             eng: `Remove ${translations.eng}`,
             "😀": TRANSLATE

@@ -20,7 +20,6 @@ import type Transform from "../transforms/Transform"
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import { withSpaces } from "./spacing";
 
 export default class SetLiteral extends Expression {
 
@@ -32,7 +31,7 @@ export default class SetLiteral extends Expression {
         super();
 
         this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
-        this.values = withSpaces(values);
+        this.values = values;
         this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
 
         this.computeChildren();
@@ -47,11 +46,11 @@ export default class SetLiteral extends Expression {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new SetLiteral(
-            this.replaceChild<Expression[]>(pretty, "values", this.values, original, replacement),
-            this.replaceChild(pretty, "open", this.open, original, replacement), 
-            this.replaceChild(pretty, "close", this.close, original, replacement)
+            this.replaceChild<Expression[]>("values", this.values, original, replacement),
+            this.replaceChild("open", this.open, original, replacement), 
+            this.replaceChild("close", this.close, original, replacement)
         ) as this; 
     }
 

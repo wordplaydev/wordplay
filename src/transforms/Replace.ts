@@ -25,20 +25,21 @@ export default class Replace<NodeType extends Node> extends Transform {
         const parent = this.context.get(this.node)?.getParent();
         if(parent === undefined || parent === null) return;
 
-        // Get the space prior to the current node.
-        const space = this.context.source.getFirstToken(this.node)?.space;
-        if(space === undefined) return;
-
         // Get the position of the node we're replacing.
         const position = this.context.source.getNodeFirstPosition(this.node);
         if(position === undefined) return;
 
         // Get or create the replacement with the original node's space.
-        const replacement = this.getPrettyNewNode(lang).withPrecedingSpace(space, true);
+        const replacement = this.getNewNode(lang);
 
         // Replace the child in the parent, pretty printing it, then clone the program with the new parent, and create a new source from it.
-        const newParent = parent.replace(true, this.node, replacement);
-        const newSource = this.context.source.withProgram(this.context.source.expression.replace(false, parent, newParent));
+        const newParent = parent.replace(this.node, replacement);
+        const newSource = this.context.source.withProgram(
+            // Replace the parent with the new parent
+            this.context.source.expression.replace(parent, newParent),
+            // Preserve the space before the old parent
+            this.context.source.spaces.withReplacement(parent, newParent)
+        );
 
         let newCaretPosition = replacement.getFirstPlaceholder() ?? newSource.getNodeLastPosition(replacement);
         if(newCaretPosition === undefined) return;
@@ -65,7 +66,7 @@ export default class Replace<NodeType extends Node> extends Transform {
             translations = this.replacement[1].getDescriptions();
 
         if(translations === undefined) {
-            const replacement = this.getPrettyNewNode(languages);
+            const replacement = this.getNewNode(languages);
             translations = replacement.getDescriptions(this.context);
         }
 

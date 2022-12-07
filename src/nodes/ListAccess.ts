@@ -57,12 +57,12 @@ export default class ListAccess extends Expression {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new ListAccess(
-            this.replaceChild(pretty, "list", this.list, original, replacement), 
-            this.replaceChild(pretty, "index", this.index, original, replacement), 
-            this.replaceChild(pretty, "open", this.open, original, replacement), 
-            this.replaceChild(pretty, "close", this.close, original, replacement)
+            this.replaceChild("list", this.list, original, replacement), 
+            this.replaceChild("index", this.index, original, replacement), 
+            this.replaceChild("open", this.open, original, replacement), 
+            this.replaceChild("close", this.close, original, replacement)
         ) as this; 
     }
 

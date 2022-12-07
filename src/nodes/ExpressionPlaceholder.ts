@@ -44,9 +44,9 @@ export default class ExpressionPlaceholder extends Expression {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new ExpressionPlaceholder(
-            this.replaceChild(pretty, "placeholder", this.placeholder, original, replacement)
+            this.replaceChild("placeholder", this.placeholder, original, replacement)
         ) as this; 
     }
 

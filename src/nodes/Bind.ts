@@ -91,16 +91,16 @@ export default class Bind extends Expression {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Bind(
-            this.replaceChild(pretty, "docs", this.docs, original, replacement), 
-            this.replaceChild(pretty, "names", this.names, original, replacement), 
-            this.replaceChild(pretty, "type", this.type, original, replacement), 
-            this.replaceChild<Expression|undefined>(pretty, "value", this.value, original, replacement),
-            this.replaceChild(pretty, "share", this.share, original, replacement), 
-            this.replaceChild(pretty, "etc", this.etc, original, replacement), 
-            this.replaceChild(pretty, "dot", this.dot, original, replacement),
-            this.replaceChild(pretty, "colon", this.colon, original, replacement)
+            this.replaceChild("docs", this.docs, original, replacement), 
+            this.replaceChild("names", this.names, original, replacement), 
+            this.replaceChild("type", this.type, original, replacement), 
+            this.replaceChild<Expression|undefined>("value", this.value, original, replacement),
+            this.replaceChild("share", this.share, original, replacement), 
+            this.replaceChild("etc", this.etc, original, replacement), 
+            this.replaceChild("dot", this.dot, original, replacement),
+            this.replaceChild("colon", this.colon, original, replacement)
         ) as this;
     }
 

@@ -32,10 +32,10 @@ export default class Doc extends Node {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Doc(
-            this.replaceChild(pretty, "docs", this.docs, original, replacement), 
-            this.replaceChild(pretty, "lang", this.lang, original, replacement)
+            this.replaceChild("docs", this.docs, original, replacement), 
+            this.replaceChild("lang", this.lang, original, replacement)
         ) as this; 
     }
 

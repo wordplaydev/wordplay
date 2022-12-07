@@ -54,12 +54,12 @@ export default class Update extends Expression {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) {
+    replace(original?: Node, replacement?: Node) {
         return new Update(
-            this.replaceChild(pretty, "table", this.table, original, replacement), 
-            this.replaceChild(pretty, "update", this.update, original, replacement), 
-            this.replaceChild(pretty, "row", this.row, original, replacement), 
-            this.replaceChild(pretty, "query", this.query, original, replacement)
+            this.replaceChild("table", this.table, original, replacement), 
+            this.replaceChild("update", this.update, original, replacement), 
+            this.replaceChild("row", this.row, original, replacement), 
+            this.replaceChild("query", this.query, original, replacement)
         ) as this; 
     }
 

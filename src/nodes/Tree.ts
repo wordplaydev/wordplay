@@ -1,5 +1,7 @@
+import Source from "../models/Source";
 import Expression from "./Expression";
 import type Node from "./Node";
+import type Token from "./Token";
 
 export type Path = [ string, number ][];
 
@@ -13,15 +15,21 @@ export type Path = [ string, number ][];
  */
 export default class Tree {
 
-    readonly parent: Tree | undefined;
     readonly node: Node;
+    readonly parent: Tree | undefined;
+    readonly source: Source | undefined;
 
     _children: Tree[] | undefined = undefined;
+
+    _spaceRoot: Node | undefined | null = null;
 
     public constructor (node: Node, parent?: Tree) {
 
         this.parent = parent;
         this.node = node;
+        
+        const root = this.getRoot();
+        this.source = root instanceof Source ? root : undefined;
 
     }
 
@@ -97,7 +105,8 @@ export default class Tree {
         let leaf: Node = this.node;
         let child: Tree = this;
         let parent = this.parent;
-        let space = this.node.getFirstLeaf()?.getPrecedingSpace() ?? "";
+        let firstToken = this.node.getFirstLeaf() as Token | undefined;
+        let space = this.source && firstToken ? this.source.spaces.getSpace(firstToken) : "";
         let depth = this.getDepth();
         let preferredSpace = "";
         while(parent) {
@@ -167,6 +176,36 @@ export default class Tree {
                 // in which case the path doesn't resolve.
                 this.getChildren()[index]?.resolvePath(path.slice(1));
         
+    }
+
+    /** Get the highest ancestor of this node's first token. */
+    getSpaceRoot() {
+
+        // If not cached, compute.
+        if(this._spaceRoot === null) {
+
+            // Find the first leaf of this node.
+            let token = this.node.getFirstLeaf();
+
+            // If there isn't one, this has no space root.
+            if(token === undefined) return undefined;
+
+            // Start by assuming the space root is the token itself.
+            let root: Node = token;
+            // Iterate up the ancestor ladder while the ancestor's first leaf is still the token.
+            // Stop when it is not.
+            for(const ancestor of this.get(token)?.getAncestors() ?? []) {
+                // If the first leaf of this ancestor is the token, then it's a possible root.
+                if(ancestor.getFirstLeaf() === token) root = ancestor;
+                // Otherwise, stop.
+                else break;
+            }
+
+            this._spaceRoot = root;
+
+        }
+        return this._spaceRoot;
+
     }
     
 }

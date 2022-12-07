@@ -40,11 +40,11 @@ export default class UnionType extends Type {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new UnionType(
-            this.replaceChild(pretty, "left", this.left, original, replacement), 
-            this.replaceChild(pretty, "right", this.right, original, replacement), 
-            this.replaceChild(pretty, "or", this.or, original, replacement)
+            this.replaceChild("left", this.left, original, replacement), 
+            this.replaceChild("right", this.right, original, replacement), 
+            this.replaceChild("or", this.or, original, replacement)
         ) as this; 
     }
 

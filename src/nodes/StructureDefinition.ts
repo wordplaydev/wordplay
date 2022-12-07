@@ -92,17 +92,17 @@ export default class StructureDefinition extends Expression {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) {
+    replace(original?: Node, replacement?: Node) {
         return new StructureDefinition(
-            this.replaceChild(pretty, "docs", this.docs, original, replacement),
-            this.replaceChild(pretty, "names", this.names, original, replacement),
-            this.replaceChild(pretty, "interfaces", this.interfaces, original, replacement), 
-            this.replaceChild(pretty, "typeVars", this.typeVars, original, replacement),
-            this.replaceChild(pretty, "inputs", this.inputs, original, replacement),
-            this.replaceChild(pretty, "expression", this.expression, original, replacement),
-            this.replaceChild(pretty, "type", this.type, original, replacement),
-            this.replaceChild(pretty, "open", this.open, original, replacement),
-            this.replaceChild(pretty, "close", this.close, original, replacement)
+            this.replaceChild("docs", this.docs, original, replacement),
+            this.replaceChild("names", this.names, original, replacement),
+            this.replaceChild("interfaces", this.interfaces, original, replacement), 
+            this.replaceChild("typeVars", this.typeVars, original, replacement),
+            this.replaceChild("inputs", this.inputs, original, replacement),
+            this.replaceChild("expression", this.expression, original, replacement),
+            this.replaceChild("type", this.type, original, replacement),
+            this.replaceChild("open", this.open, original, replacement),
+            this.replaceChild("close", this.close, original, replacement)
         ) as this;
     }
 

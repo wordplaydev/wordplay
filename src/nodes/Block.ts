@@ -76,14 +76,14 @@ export default class Block extends Expression {
 
     isBlockFor(child: Node) { return !this.root && this.statements.includes(child as Expression); }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Block(
-            this.replaceChild<Expression[]>(pretty, "statements", this.statements, original, replacement),
+            this.replaceChild<Expression[]>("statements", this.statements, original, replacement),
             this.root,
             this.creator, 
-            this.replaceChild(pretty, "open", this.open, original, replacement), 
-            this.replaceChild(pretty, "close", this.close, original, replacement),
-            this.replaceChild(pretty, "docs", this.docs, original, replacement),
+            this.replaceChild("open", this.open, original, replacement), 
+            this.replaceChild("close", this.close, original, replacement),
+            this.replaceChild("docs", this.docs, original, replacement),
         ) as this; 
     }
 
@@ -223,7 +223,7 @@ export default class Block extends Expression {
             const index = this.statements.indexOf(child as Expression);
             if(index >= 0) {
                 const firstToken = child.nodes(n => n instanceof Token)[0];
-                if(firstToken instanceof Token && firstToken.hasNewline())
+                if(firstToken instanceof Token && context.source.spaces.hasLineBreak(firstToken))
                     return this.getInsertions().map(insertion => new Append(context, position, this, this.statements, child, insertion));
             }
         }

@@ -36,3 +36,7 @@ export function getProject() { return getContext<ProjectContext>(ProjectSymbol);
 export type HighlightContext = Writable<Highlights> | undefined;
 export const HighlightSymbol = Symbol("highlight");
 export function getHighlights() { return getContext<HighlightContext>(HighlightSymbol); }
+
+export type RootContext = Writable<Tree> | undefined;
+export const RootSymbol = Symbol("root");
+export function getRoot() { return getContext<RootContext>(RootSymbol); }

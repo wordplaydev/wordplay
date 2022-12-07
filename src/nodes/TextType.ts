@@ -39,10 +39,10 @@ export default class TextType extends NativeType {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new TextType(
-            this.replaceChild(pretty, "text", this.text, original, replacement), 
-            this.replaceChild(pretty, "format", this.format, original, replacement)
+            this.replaceChild("text", this.text, original, replacement), 
+            this.replaceChild("format", this.format, original, replacement)
         ) as this; 
     }
 

@@ -29,10 +29,10 @@ export default class TypeVariable extends Node {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new TypeVariable(
-            this.replaceChild(pretty, "names", this.names, original, replacement), 
-            this.replaceChild(pretty, "type", this.type, original, replacement)
+            this.replaceChild("names", this.names, original, replacement), 
+            this.replaceChild("type", this.type, original, replacement)
         ) as this; 
     }
 

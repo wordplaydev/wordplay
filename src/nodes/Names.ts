@@ -27,9 +27,9 @@ export default class Names extends Node {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Names(
-            this.replaceChild<Name[]>(pretty, "names", this.names, original, replacement)
+            this.replaceChild<Name[]>("names", this.names, original, replacement)
         ) as this; 
     }
 

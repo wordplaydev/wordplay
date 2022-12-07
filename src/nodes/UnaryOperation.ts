@@ -49,10 +49,10 @@ export default class UnaryOperation extends Expression {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new UnaryOperation(
-            this.replaceChild(pretty, "operator", this.operator, original, replacement), 
-            this.replaceChild(pretty, "operand", this.operand, original, replacement)
+            this.replaceChild("operator", this.operator, original, replacement), 
+            this.replaceChild("operand", this.operand, original, replacement)
         ) as this; 
     }
 

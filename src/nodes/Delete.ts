@@ -47,11 +47,11 @@ export default class Delete extends Expression {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Delete(
-            this.replaceChild(pretty, "table", this.table, original, replacement), 
-            this.replaceChild(pretty, "del", this.del, original, replacement), 
-            this.replaceChild(pretty, "query", this.query, original, replacement)
+            this.replaceChild("table", this.table, original, replacement), 
+            this.replaceChild("del", this.del, original, replacement), 
+            this.replaceChild("query", this.query, original, replacement)
         ) as this; 
     }
 

@@ -43,10 +43,10 @@ export default class TextLiteral extends Expression {
         ];
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new TextLiteral(
-            this.replaceChild(pretty, "text", this.text, original, replacement), 
-            this.replaceChild(pretty, "format", this.format, original, replacement)
+            this.replaceChild("text", this.text, original, replacement), 
+            this.replaceChild("format", this.format, original, replacement)
         ) as this; 
     }
 

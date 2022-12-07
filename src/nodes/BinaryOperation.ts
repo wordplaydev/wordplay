@@ -60,11 +60,11 @@ export default class BinaryOperation extends Expression {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new BinaryOperation(
-            this.replaceChild<Token>(pretty, "operator", this.operator, original, replacement), 
-            this.replaceChild(pretty, "left", this.left, original, replacement), 
-            this.replaceChild<Expression>(pretty, "right", this.right, original, replacement)
+            this.replaceChild<Token>("operator", this.operator, original, replacement), 
+            this.replaceChild("left", this.left, original, replacement), 
+            this.replaceChild<Expression>("right", this.right, original, replacement)
         ) as this; 
     }
 

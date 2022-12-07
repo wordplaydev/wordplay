@@ -33,10 +33,10 @@ export default class Column extends Node {
     hasDefault() { return this.bind instanceof Bind && this.bind.hasDefault(); }
     getType(context: Context) { return this.bind === undefined ? new UnknownType(this) : this.bind.getTypeUnlessCycle(context); }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Column(
-            this.replaceChild(pretty, "bar", this.bar, original, replacement), 
-            this.replaceChild(pretty, "bind", this.bind, original, replacement)
+            this.replaceChild("bar", this.bar, original, replacement), 
+            this.replaceChild("bind", this.bind, original, replacement)
         ) as this; 
     }
 

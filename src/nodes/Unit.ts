@@ -85,12 +85,12 @@ export default class Unit extends Type {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new Unit(
             this.exponents === undefined ? undefined : new Map(this.exponents),
-            this.replaceChild(pretty, "numerator", this.numerator, original, replacement), 
-            this.replaceChild(pretty, "slash", this.slash, original, replacement), 
-            this.replaceChild(pretty, "denominator", this.denominator, original, replacement), 
+            this.replaceChild("numerator", this.numerator, original, replacement), 
+            this.replaceChild("slash", this.slash, original, replacement), 
+            this.replaceChild("denominator", this.denominator, original, replacement), 
         ) as this; 
     }
 

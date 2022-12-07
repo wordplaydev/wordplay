@@ -11,7 +11,7 @@ import type Evaluator from "../runtime/Evaluator";
 import type Step from "../runtime/Step";
 import Conversion from "../runtime/Conversion";
 import type Context from "./Context";
-import { parseType, tokens } from "../parser/Parser";
+import { parseType, toTokens } from "../parser/Parser";
 import { CONVERT_SYMBOL } from "../parser/Tokenizer";
 import type Bind from "./Bind";
 import type { TypeSet } from "./UnionType";
@@ -40,8 +40,8 @@ export default class ConversionDefinition extends Expression {
 
         this.docs = docs === undefined ? undefined : docs instanceof Docs ? docs : new Docs(docs);
         this.arrow = convert ?? new Token(CONVERT_SYMBOL, TokenType.CONVERT);
-        this.input = typeof input === "string" ? parseType(tokens(input)) : input;
-        this.output = typeof output === "string" ? parseType(tokens(output)) : output;
+        this.input = typeof input === "string" ? parseType(toTokens(input)) : input;
+        this.output = typeof output === "string" ? parseType(toTokens(output)) : output;
         this.expression = expression;
 
         this.computeChildren();
@@ -58,13 +58,13 @@ export default class ConversionDefinition extends Expression {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new ConversionDefinition(
-            this.replaceChild(pretty, "docs", this.docs, original, replacement), 
-            this.replaceChild(pretty, "input", this.input, original, replacement), 
-            this.replaceChild(pretty, "output", this.output, original, replacement), 
-            this.replaceChild(pretty, "expression", this.expression, original, replacement), 
-            this.replaceChild(pretty, "arrow", this.arrow, original, replacement)
+            this.replaceChild("docs", this.docs, original, replacement), 
+            this.replaceChild("input", this.input, original, replacement), 
+            this.replaceChild("output", this.output, original, replacement), 
+            this.replaceChild("expression", this.expression, original, replacement), 
+            this.replaceChild("arrow", this.arrow, original, replacement)
         ) as this; 
     }
     

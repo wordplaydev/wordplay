@@ -37,9 +37,9 @@ export default class NoneLiteral extends Expression {
         ]; 
     }
 
-    replace(pretty: boolean=false, original?: Node, replacement?: Node) { 
+    replace(original?: Node, replacement?: Node) { 
         return new NoneLiteral(
-            this.replaceChild(pretty, "none", this.none, original, replacement)
+            this.replaceChild("none", this.none, original, replacement)
         ) as this; 
     }
 
