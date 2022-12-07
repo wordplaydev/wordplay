@@ -102,12 +102,13 @@
 }
 
 h1 {
-    font-size: large;
+    font-size: x-large;
+    font-weight: bold;
 }
 
 h2 {
-    font-size: medium;
-    font-weight: normal;
+    font-size: large;
+    font-weight: bold;
 }
 
 h3 {

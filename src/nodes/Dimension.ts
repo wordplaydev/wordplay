@@ -58,7 +58,7 @@ export default class Dimension extends Node {
                 dim === "nm" ? "nanometers" :
                 dim === "µm" ? "micrometers" :
                 dim === "mm" ? "millimeters" :
-                dim === "m" ? "centimeters" :
+                dim === "m" ? "meters" :
                 dim === "cm" ? "centimeters" :
                 dim === "dm" ? "decimeters" :
                 dim === "m" ? "meters" :

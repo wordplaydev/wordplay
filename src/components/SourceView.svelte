@@ -3,12 +3,14 @@
     import Editor from '../editor/Editor.svelte';
     import type Source from '../models/Source';
     import type Project from '../models/Project';
-    import { valueToVerse, Verse } from '../native/Verse';
+    import VerseType, { valueToVerse, Verse } from '../native/Verse';
     import { currentStep } from '../models/stores';
     import EvaluatorView from './EvaluatorView.svelte';
     import Exception from '../runtime/Exception';
     import { selectTranslation } from '../nodes/Translations';
     import { getLanguages } from '../editor/util/Contexts';
+    import Structure from '../runtime/Structure';
+    import ValueView from './ValueView.svelte';
 
     export let project: Project;
     export let source: Source;
@@ -39,10 +41,21 @@
             {/if}
         </div>
         <div class="output">
+            <!-- If there's an exception, show that. -->
             {#if latest instanceof Exception}
                 <div class="full exception"><div class='message'>{selectTranslation(latest.getExplanations(), $languages)}</div></div>
+            <!-- If there's no verse, show the editing feedback -->
             {:else if verse === undefined}
                 <div class="full editing"><div class='message'>⌨️</div></div>
+            <!-- If there's a value, but it's not a verse, show that -->
+            {:else if latest !== undefined && !(latest instanceof Structure && latest.type === VerseType)}
+                <div class="full value">
+                    <div class='value'>
+                        <h2>{selectTranslation(latest.getType(project.getContext(source)).getDescriptions(project.getContext(source)), $languages)}</h2>
+                        <p><ValueView value={latest}/></p>
+                    </div>
+                </div>
+            <!-- Otherwise, show the Verse -->
             {:else}
                 <VerseView {project} {verse} {interactive}/>
             {/if}
@@ -127,8 +140,8 @@
     }
 
     .full .message {
-        width: 25%;
-        height: 25%;
+        width: 50%;
+        height: 50%;
         text-align: center;
         line-height: 100%;
         font-size: calc(var(--wordplay-font-size) * 2);
