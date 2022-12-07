@@ -37,11 +37,13 @@
                 </div>
             {/if}
         </div>
-        {#if verse !== undefined}
-            <div class="output">
+        <div class="output">
+            {#if verse === undefined}
+                <div class="editing"><div class='keyboard'>⌨️</div></div>
+            {:else}
                 <VerseView {project} {verse} {interactive}/>
-            </div>
-        {/if}
+            {/if}
+        </div>
     </div>
 </div>
 
@@ -111,6 +113,30 @@
 
     .source h2 {
         display: inline;
+    }
+
+    .editing {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .editing .keyboard {
+        width: 1em;
+        height: 1em;
+        font-size: calc(var(--wordplay-font-size) * 2);
+        animation: jiggle 0.2s ease-out infinite;
+        transform-origin: center;
+    }
+
+    @keyframes jiggle {
+        0% { transform: rotate(-4deg) translate(0, 0); }
+        25% { transform: rotate(6deg) translate(0, -1px); }
+        50% { transform: rotate(-8deg) translate(0, 2px); }
+        75% { transform: rotate(-2deg) translate(0, -4px); }
+        100% { transform: rotate(4deg) translate(0, 1px); }
     }
 
 </style>
