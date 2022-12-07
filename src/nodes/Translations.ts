@@ -24,3 +24,12 @@ export function overrideWithDocs(translations: Translations, docs: Docs) {
     return translations;
     
 }
+
+export function selectTranslation(translations: Translations, languages: LanguageCode[]) {
+
+    const available = Object.keys(translations);
+    const choice = languages.find(lang => available.includes(lang)) ?? "eng";
+    return translations[choice];
+
+
+}

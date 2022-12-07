@@ -6,19 +6,20 @@
     import { valueToVerse, Verse } from '../native/Verse';
     import { currentStep } from '../models/stores';
     import EvaluatorView from './EvaluatorView.svelte';
+    import Exception from '../runtime/Exception';
+    import { selectTranslation } from '../nodes/Translations';
+    import { getLanguages } from '../editor/util/Contexts';
 
     export let project: Project;
     export let source: Source;
     export let interactive: boolean = false;
 
+    let languages = getLanguages();
     let verse: Verse | undefined;
     let stepping: boolean = false;
-    $: {
-        $currentStep;
-        const latest = project.evaluator.getLatestSourceValue(source);
-        verse = latest === undefined ? undefined: valueToVerse(project.evaluator, latest);
-        stepping = (project.evaluator.getCurrentEvaluation()?.getSource() === source || (project.evaluator.isDone() && source === project.main));
-    }
+    $: latest = $currentStep === undefined ? project.evaluator.getLatestSourceValue(source) : undefined;
+    $: verse = latest === undefined ? undefined: valueToVerse(project.evaluator, latest);
+    $: stepping = (project.evaluator.getCurrentEvaluation()?.getSource() === source || (project.evaluator.isDone() && source === project.main));
 
 </script>
 
@@ -38,8 +39,10 @@
             {/if}
         </div>
         <div class="output">
-            {#if verse === undefined}
-                <div class="editing"><div class='keyboard'>⌨️</div></div>
+            {#if latest instanceof Exception}
+                <div class="full exception"><div class='message'>{selectTranslation(latest.getExplanations(), $languages)}</div></div>
+            {:else if verse === undefined}
+                <div class="full editing"><div class='message'>⌨️</div></div>
             {:else}
                 <VerseView {project} {verse} {interactive}/>
             {/if}
@@ -115,7 +118,7 @@
         display: inline;
     }
 
-    .editing {
+    .full {
         width: 100%;
         height: 100%;
         display: flex;
@@ -123,12 +126,26 @@
         justify-content: center;
     }
 
-    .editing .keyboard {
-        width: 1em;
-        height: 1em;
+    .full .message {
+        width: 25%;
+        height: 25%;
+        text-align: center;
+        line-height: 100%;
         font-size: calc(var(--wordplay-font-size) * 2);
-        animation: jiggle 0.2s ease-out infinite;
         transform-origin: center;
+    }
+
+    .editing .message {
+        animation: jiggle 0.2s ease-out infinite;
+    }
+
+    .exception {
+        color: var(--wordplay-background);
+        background-color: var(--wordplay-error);
+    }
+
+    .exception .message {
+        animation: shake .1s 3;
     }
 
     @keyframes jiggle {
