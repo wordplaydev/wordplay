@@ -159,6 +159,6 @@ export function toPhrase(value: Value | undefined): Phrase | undefined {
 
 }
 
-const PX_PER_METER = new Decimal(14);
+const PX_PER_METER = new Decimal(16);
 
 export function sizeToPx(size: Decimal): string { return `${size.times(PX_PER_METER)}px`; }

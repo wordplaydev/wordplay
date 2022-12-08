@@ -33,7 +33,7 @@ board/eng,🔤/😀: 💬(
   2m
 )
 
-state.status = "start" ? ⬇(💬(["WhatWord"/eng "???"/😀] 3m "Poor Story" 🌈(50% 25 150°)) 💬("Press **space** to begin"))
+screen: state.status = "start" ? ⬇(💬(["WhatWord"/eng "???"/😀] 3m) 💬("Press **space** to begin"))
 state.status = "lost" ?  ⬇(board 💬("You lost. Press **space** to play again."))
 state.status = "won" ?   ⬇(board 💬("You won, nice job! Press space to play again."))
                          ⬇(
@@ -41,6 +41,8 @@ state.status = "won" ?   ⬇(board 💬("You won, nice job! Press space to play 
                             💬(state.guesses.length() = 0 ? "Type a letter to guess" "Guesses: \state.guesses.join(' ')\")
                             💬("\state.guessesRemaining→''\ remaining")
                           )
+
+🌎(screen "Poor Story" 🌈(100% 0 0°) 🌈(0% 0 0°))
 
 === words
 `These are the secret words. Don't tell anyone!`/eng
