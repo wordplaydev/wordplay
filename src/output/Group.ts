@@ -1,5 +1,6 @@
 import type Decimal from "decimal.js";
 import toStructure from "../native/toStructure";
+import type LanguageCode from "../nodes/LanguageCode";
 import type Translations from "../nodes/Translations";
 import type Value from "../runtime/Value";
 import type Color from "./Color";
@@ -17,17 +18,22 @@ export default abstract class Group extends Output {
     }
 
     /** Compute the width in meters. */
-    abstract getWidth(font: string): Decimal;
+    abstract getWidth(context: RenderContext): Decimal;
 
     /** Compute the height in meters */
-    abstract getHeight(font: string): Decimal;
+    abstract getHeight(context: RenderContext): Decimal;
 
     abstract getGroups(): Group[];
 
     /** Compute positions for all subgroups in the group. */
-    abstract getPlaces(font: string): [Group, Place][];
+    abstract getPlaces(context: RenderContext): [Group, Place][];
     
     abstract getBackground(): Color | undefined;
     abstract getDescriptions(): Translations;
 
+}
+
+export type RenderContext = {
+    font: string,
+    languages: LanguageCode[]
 }

@@ -1,7 +1,7 @@
 import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
 import Structure from "../runtime/Structure";
 import type Value from "../runtime/Value";
-import Group from "./Group";
+import Group, { type RenderContext } from "./Group";
 import { toFont } from "./Phrase";
 import { Fonts, SupportedFontsType } from "../native/Fonts";
 import type Color from "./Color";
@@ -35,8 +35,8 @@ export default class Verse extends Group {
 
     }
 
-    getWidth(): Decimal { return this.group.getWidth(this.font); }
-    getHeight(): Decimal { return this.group.getHeight(this.font); }
+    getWidth(context: RenderContext): Decimal { return this.group.getWidth(context); }
+    getHeight(context: RenderContext): Decimal { return this.group.getHeight(context); }
 
     getGroups(): Group[] {
         return [ this.group ];
@@ -45,14 +45,14 @@ export default class Verse extends Group {
     /** 
      * A Verse is a Group that lays out a list of phrases according to their specified places,
      * or if the phrases */
-    getPlaces(): [Group, Place][] {
+    getPlaces(context: RenderContext): [Group, Place][] {
         // Center the group in the verse.
         return [
             [ 
                 this.group, 
                 new Place(this.value, 
-                    this.group.getWidth(this.font).div(2).neg(), 
-                    this.group.getHeight(this.font).div(2).neg(), 
+                    this.group.getWidth(context).div(2).neg(), 
+                    this.group.getHeight(context).div(2).neg(), 
                     new Decimal(0)
                 ) 
             ]

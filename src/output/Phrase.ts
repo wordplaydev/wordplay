@@ -3,9 +3,9 @@ import type Value from "../runtime/Value";
 import type Color from "./Color";
 import { Fonts, SupportedFontsType } from "../native/Fonts";
 import Text from "../runtime/Text";
-import Group from "./Group";
+import Group, { type RenderContext } from "./Group";
 import type Place from "./Place";
-import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
+import { selectTranslation, TRANSLATE } from "../nodes/Translations";
 import List from "../runtime/List";
 import TextLang from "./TextLang";
 import type Translations from "../nodes/Translations";
@@ -86,7 +86,7 @@ export default class Phrase extends Group {
 
     }
 
-    getMetrics(font: string) {
+    getMetrics(render: RenderContext) {
 
         // There are almost certainly faster ways to do this. I'm going to do this here for now
         // and save this for a performance task later.
@@ -95,21 +95,21 @@ export default class Phrase extends Group {
             document.body.appendChild(canvas);
             const context = canvas.getContext("2d");
             if(context === null) return null;
-            context.font = `${sizeToPx(this.size)} ${this.font ?? font}`;
-            this._metrics = context.measureText(this.text[0].text);
+            context.font = `${sizeToPx(this.size)} ${this.font ?? render.font}`;
+            this._metrics = context.measureText(selectTranslation(this.getDescriptions(), render.languages));
             document.body.removeChild(canvas);
         }
         return this._metrics;
 
     }
 
-    getWidth(font: string): Decimal { 
+    getWidth(context: RenderContext): Decimal { 
         // Metrics is in pixels; convert to meters.
-        return new Decimal(this.getMetrics(font)?.width ?? 0).div(PX_PER_METER);
+        return new Decimal(this.getMetrics(context)?.width ?? 0).div(PX_PER_METER);
     }
 
-    getHeight(font: string): Decimal { 
-        return new Decimal(this.getMetrics(font)?.fontBoundingBoxAscent ?? 0).div(PX_PER_METER);
+    getHeight(context: RenderContext): Decimal { 
+        return new Decimal(this.getMetrics(context)?.fontBoundingBoxAscent ?? 0).div(PX_PER_METER);
     }
 
     getGroups(): Group[] { return []; }
@@ -120,7 +120,10 @@ export default class Phrase extends Group {
     }
 
     getDescriptions(): Translations {
-        return WRITE_DOCS;   
+        const translations: Record<string,string> = {};
+        for(const text of this.text)
+            translations[text.lang ?? ""] = text.text;
+        return translations as Translations;
     }
 
 }

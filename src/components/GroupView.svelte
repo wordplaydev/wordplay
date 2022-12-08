@@ -1,6 +1,7 @@
 <svelte:options immutable={true}/>
 
 <script lang="ts">
+    import { getLanguages } from "../editor/util/Contexts";
     import type Group from "../output/Group";
     import Phrase, { sizeToPx } from "../output/Phrase";
     import type Place from "../output/Place";
@@ -11,10 +12,13 @@
     export let group: Group;
     export let place: Place;
 
+    let languages = getLanguages();
+    $: context = { font: verse.font, languages: $languages};
+
 </script>
 
-<div class="group" style={`left: ${sizeToPx(place.x)}; top: ${sizeToPx(place.y)}; width: ${sizeToPx(group.getWidth(verse.font))}; height: ${sizeToPx(group.getHeight(verse.font))};`}>
-    {#each group.getPlaces(verse.font) as [ subgroup, place ] }
+<div class="group" style={`left: ${sizeToPx(place.x)}; top: ${sizeToPx(place.y)}; width: ${sizeToPx(group.getWidth(context))}; height: ${sizeToPx(group.getHeight(context))};`}>
+    {#each group.getPlaces(context) as [ subgroup, place ] }
         {#if subgroup instanceof Phrase }
             <PhraseView phrase={subgroup} {place}/>
         {:else}        

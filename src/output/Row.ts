@@ -3,7 +3,7 @@ import type Translations from "../nodes/Translations";
 import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
 import type Value from "../runtime/Value";
 import type Color from "./Color";
-import Group from "./Group";
+import Group, { type RenderContext } from "./Group";
 import { toGroups } from "./toGroups";
 import Place from "./Place";
 import Decimal from "decimal.js";
@@ -27,32 +27,32 @@ export class Row extends Group {
     }
 
     // Width is the sum of widths plus padding
-    getWidth(font: string): Decimal {
-        return this.groups.reduce((height, group) => height.add(group.getWidth(font)), new Decimal(0))
+    getWidth(context: RenderContext): Decimal {
+        return this.groups.reduce((height, group) => height.add(group.getWidth(context)), new Decimal(0))
             .add(this.padding.times(this.groups.length - 1))
     }
 
     // Height is the max height
-    getHeight(font: string): Decimal {
-        return this.groups.reduce((max, group) => Decimal.max(max, group.getHeight(font)), new Decimal(0));
+    getHeight(context: RenderContext): Decimal {
+        return this.groups.reduce((max, group) => Decimal.max(max, group.getHeight(context)), new Decimal(0));
     }
 
     getGroups(): Group[] {
        return this.groups;
     }
 
-    getPlaces(font: string): [Group,Place][] {
+    getPlaces(context: RenderContext): [Group,Place][] {
 
         // Start at half the height, so we can center everything.
         let position = new Decimal(0);
 
         // Get the height of the container so we can center each phrase vertically.
-        let height = this.getHeight(font);
+        let height = this.getHeight(context);
 
         const positions: [Group, Place][] = [];
         for(const group of this.groups) {
-            positions.push([ group, new Place(this.value, position, height.sub(group.getHeight(font)).div(2), new Decimal(0))]);
-            position = position.add(group.getWidth(font));
+            positions.push([ group, new Place(this.value, position, height.sub(group.getHeight(context)).div(2), new Decimal(0))]);
+            position = position.add(group.getWidth(context));
             position = position.add(this.padding);
         }
 

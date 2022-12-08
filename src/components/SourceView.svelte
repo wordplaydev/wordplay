@@ -20,7 +20,7 @@
     let verse: Verse | undefined;
     let stepping: boolean = false;
     $: latest = $currentStep === undefined ? project.evaluator.getLatestSourceValue(source) : undefined;
-    $: verse = latest === undefined ? undefined: toVerse(latest);
+    $: verse = latest === undefined ? undefined : $languages ? toVerse(latest) : undefined;
     $: stepping = (project.evaluator.getCurrentEvaluation()?.getSource() === source || (project.evaluator.isDone() && source === project.main));
 
 </script>

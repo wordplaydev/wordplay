@@ -1,12 +1,16 @@
 <svelte:options immutable={true}/>
 
 <script lang="ts">
+    import { getLanguages } from "../editor/util/Contexts";
+    import { selectTranslation } from "../nodes/Translations";
     import type Phrase from "../output/Phrase";
     import { sizeToPx } from "../output/Phrase";
     import type Place from "../output/Place";
 
     export let phrase: Phrase;
     export let place: Place;
+
+    let languages = getLanguages();
 
 </script>
 
@@ -27,7 +31,7 @@
         ${phrase.opacity ? `opacity: ${phrase.opacity.toNumber()};` : ""}
     `}
 >
-    {phrase.text[0].text}
+    {selectTranslation(phrase.getDescriptions(), $languages)}
 </div>
 
 <style>
