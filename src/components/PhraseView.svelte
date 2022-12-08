@@ -6,11 +6,12 @@
     import type Phrase from "../output/Phrase";
     import { sizeToPx } from "../output/Phrase";
     import type Place from "../output/Place";
+    import wordplayMarkupToHTML from "../output/wordplayMarkdownToHTML";
 
     export let phrase: Phrase;
     export let place: Place;
 
-    let languages = getLanguages();
+    let languages = getLanguages();        
 
 </script>
 
@@ -31,7 +32,7 @@
         ${phrase.opacity ? `opacity: ${phrase.opacity.toNumber()};` : ""}
     `}
 >
-    {selectTranslation(phrase.getDescriptions(), $languages)}
+    {@html wordplayMarkupToHTML(selectTranslation(phrase.getDescriptions(), $languages))}
 </div>
 
 <style>
@@ -42,4 +43,11 @@
         width: auto;
         right: auto;
     }
+    .phrase > :global(.light) {
+        font-weight: 300;
+    }
+    .phrase > :global(.extra) {
+        font-weight: 700;
+    }
+
 </style>
