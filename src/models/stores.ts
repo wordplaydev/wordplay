@@ -36,6 +36,15 @@ export function updateProject(newProject: Project) {
     newProject.evaluator.observe(updateEvaluatorStores);
     project.set(newProject);
 
+    if(typeof window !== "undefined")
+        window.localStorage.setItem("project", newProject.name);
 }
 
-updateProject(makeProject(examples[0]));
+let defaultProject = examples[0].name;
+if(typeof window !== "undefined") {
+    const priorProject = window.localStorage.getItem("project");
+    if(priorProject !== null)
+        defaultProject = priorProject;
+}
+
+updateProject(makeProject(examples.find(ex => ex.name === defaultProject) ?? examples[0]));

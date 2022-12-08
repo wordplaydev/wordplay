@@ -37,7 +37,7 @@
 
 <style>
     .phrase {
-        /* THe position of a phrase is absolute relative to its group. */
+        /* The position of a phrase is absolute relative to its group. */
         position: absolute;
         white-space: nowrap;
         width: auto;
