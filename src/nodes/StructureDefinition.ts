@@ -127,6 +127,9 @@ export default class StructureDefinition extends Expression {
     isInterface(): boolean { return this.getAbstractFunctions().length > 0; }
     getAbstractFunctions(): FunctionDefinition[] { return this.getFunctions(false); }
     getImplementedFunctions(): FunctionDefinition[] { return this.getFunctions(true); }
+    implements(def: StructureDefinition) {
+        return this.interfaces.some(i => i.type instanceof NameType && def.names.hasName(i.type.getName()));
+    }
 
     getFunctions(implemented?: boolean): FunctionDefinition[] {
 

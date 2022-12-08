@@ -76,9 +76,6 @@ export default class PropertyReference extends Expression {
 
         const conflicts = [];
 
-        if(this.getDefinition(context) === undefined)
-            console.log("Test");
-
         const def = this.getDefinition(context);
         if(def === undefined)
             conflicts.push(new UnknownProperty(this));

@@ -79,10 +79,6 @@
     :global(.exception) .text {
         display: inline-block;
         white-space: nowrap;
-        background-color: var(--wordplay-error);
-        color: var(--wordplay-background);
-        padding: var(--wordplay-spacing);
-        border-radius: var(--wordplay-border-radius);
         animation: squish .8s cubic-bezier(.36,.07,.19,.97) infinite;
     }
 

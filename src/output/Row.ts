@@ -8,13 +8,13 @@ import { toGroups } from "./toGroups";
 import Place from "./Place";
 import Decimal from "decimal.js";
 
-export const StackType = toStructure(`
-    •Stack/eng,⬇/😀•Group(
+export const RowType = toStructure(`
+    •Row/eng,${TRANSLATE}Row/😀•Group(
         …phrases/eng,${TRANSLATE}phrases/😀•Group
     )
 `);
 
-export class Stack extends Group {
+export class Row extends Group {
 
     readonly groups: Group[] = [];
     readonly padding = new Decimal(1);
@@ -26,15 +26,15 @@ export class Stack extends Group {
 
     }
 
-    // Width is the max width
+    // Width is the sum of widths plus padding
     getWidth(font: string): Decimal {
-        return this.groups.reduce((max, group) => Decimal.max(max, group.getWidth(font)), new Decimal(0));
+        return this.groups.reduce((height, group) => height.add(group.getWidth(font)), new Decimal(0))
+            .add(this.padding.times(this.groups.length - 1))
     }
 
-    // Height is the sum of heights plus padding
+    // Height is the max height
     getHeight(font: string): Decimal {
-        return this.groups.reduce((height, group) => height.add(group.getHeight(font)), new Decimal(0))
-            .add(this.padding.times(this.groups.length - 1))
+        return this.groups.reduce((max, group) => Decimal.max(max, group.getHeight(font)), new Decimal(0));
     }
 
     getGroups(): Group[] {
@@ -46,13 +46,13 @@ export class Stack extends Group {
         // Start at half the height, so we can center everything.
         let position = new Decimal(0);
 
-        // Get the width of the container so we can center each phrase.
-        let width = this.getWidth(font);
+        // Get the height of the container so we can center each phrase vertically.
+        let height = this.getHeight(font);
 
         const positions: [Group, Place][] = [];
         for(const group of this.groups) {
-            positions.push([ group, new Place(this.value, width.sub(group.getWidth(font)).div(2), position, new Decimal(0))]);
-            position = position.add(group.getHeight(font));
+            positions.push([ group, new Place(this.value, position, height.sub(group.getHeight(font)).div(2), new Decimal(0))]);
+            position = position.add(group.getWidth(font));
             position = position.add(this.padding);
         }
 
@@ -70,10 +70,10 @@ export class Stack extends Group {
 
 }
 
-export function toStack(value: Value | undefined): Stack | undefined {
+export function toRow(value: Value | undefined): Row | undefined {
 
     if(value === undefined) return undefined;
-    const phrases = toGroups(value.resolve(StackType.inputs[0].names.getNames()[0]));
-    return phrases ? new Stack(value, phrases) : undefined;
+    const phrases = toGroups(value.resolve(RowType.inputs[0].names.getNames()[0]));
+    return phrases ? new Row(value, phrases) : undefined;
 
 }

@@ -1,20 +1,21 @@
 import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
 import Structure from "../runtime/Structure";
 import type Value from "../runtime/Value";
-import Group, { toGroup, toGroups as toGroups } from "./Group";
-import { PhraseType, toFont, toPhrase } from "./Phrase";
+import Group from "./Group";
+import { toFont } from "./Phrase";
 import { SupportedFontsType } from "../native/Fonts";
 import type Color from "./Color";
-import type Place from "./Place";
+import Place from "./Place";
 import type Translations from "../nodes/Translations";
 import toStructure from "../native/toStructure";
 import Measurement from "../runtime/Measurement";
-import type Decimal from "decimal.js";
+import Decimal from "decimal.js";
+import { toGroup } from "./toGroups";
 
 export const VerseType = toStructure(`
     •Verse/eng,🌎/😀•Group(
         group/eng,${TRANSLATE}phrases/😀•Group
-        font/eng,${TRANSLATE}font/😀•${SupportedFontsType}: "Noto Sans"
+        font/eng,${TRANSLATE}font/😀${SupportedFontsType}: "Noto Sans"
     )
 `);
 
@@ -32,6 +33,9 @@ export default class Verse extends Group {
 
     }
 
+    getWidth(): Decimal { return this.group.getWidth(this.font); }
+    getHeight(): Decimal { return this.group.getHeight(this.font); }
+
     getGroups(): Group[] {
         return [ this.group ];
     }
@@ -39,8 +43,18 @@ export default class Verse extends Group {
     /** 
      * A Verse is a Group that lays out a list of phrases according to their specified places,
      * or if the phrases */
-    getPlaces(): Place[] {
-
+    getPlaces(): [Group, Place][] {
+        // Center the group in the verse.
+        return [
+            [ 
+                this.group, 
+                new Place(this.value, 
+                    this.group.getWidth(this.font).div(2).neg(), 
+                    this.group.getHeight(this.font).div(2).neg(), 
+                    new Decimal(0)
+                ) 
+            ]
+        ];
     }
 
     getBackground(): Color | undefined {
@@ -57,17 +71,16 @@ export function toVerse(value: Value): Verse | undefined {
 
     if(!(value instanceof Structure)) return undefined;
 
-    switch(value.type) {
-        case VerseType: 
-            const group = toGroup(value.resolve("group"));
-            const font = toFont(value.resolve("font"));
-            return group && font ? new Verse(value, group, font) : undefined;
-        case PhraseType: 
-            const phrase = toPhrase(value);
-            return phrase === undefined ? undefined : new Verse(value, phrase); 
-
+    if(value.type === VerseType) {
+        const group = toGroup(value.resolve("group"));
+        const font = toFont(value.resolve("font"));
+        return group && font ? new Verse(value, group, font) : undefined;
     }
-    return undefined;
+     // Try converting it to a group.
+    else {
+        const group = toGroup(value);
+        return group === undefined ? undefined : new Verse(value, group);
+    }
 
 }
 

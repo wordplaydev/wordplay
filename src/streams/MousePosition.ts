@@ -7,14 +7,14 @@ import Measurement from "../runtime/Measurement";
 import Stream from "../runtime/Stream";
 import Structure, { createStructure } from "../runtime/Structure";
 import type Value from "../runtime/Value";
-import Place from "../output/Place";
+import { PlaceType } from "../output/Place";
 import type Evaluator from "../runtime/Evaluator";
 
 function position(evaluator: Evaluator, x: number, y: number) {
     const bindings = new Map<Names, Value>();
-    bindings.set(Place.inputs[0].names, new Measurement(evaluator.getMain(), x, Unit.unit([ "px"])));
-    bindings.set(Place.inputs[1].names, new Measurement(evaluator.getMain(), y, Unit.unit([ "px"])));
-    return createStructure(evaluator, Place, bindings)
+    bindings.set(PlaceType.inputs[0].names, new Measurement(evaluator.getMain(), x, Unit.unit([ "px"])));
+    bindings.set(PlaceType.inputs[0].names, new Measurement(evaluator.getMain(), y, Unit.unit([ "px"])));
+    return createStructure(evaluator, PlaceType, bindings)
 }
 
 export default class MousePosition extends Stream<Structure> {
@@ -51,6 +51,6 @@ export default class MousePosition extends Stream<Structure> {
         this.on = false;
     }
 
-    getType() { return new StreamType(new StructureType(Place)); }
+    getType() { return new StreamType(new StructureType(PlaceType)); }
 
 }

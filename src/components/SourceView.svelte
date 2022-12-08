@@ -50,7 +50,7 @@
             <!-- If there's a value, but it's not a verse, show that -->
             {:else if verse === undefined}
                 <div class="full value">
-                    <div class='value'>
+                    <div class='message'>
                         <h2>{selectTranslation(latest.getType(project.getContext(source)).getDescriptions(project.getContext(source)), $languages)}</h2>
                         <p><ValueView value={latest}/></p>
                     </div>
