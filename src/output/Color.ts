@@ -1,16 +1,15 @@
 import Decimal from "decimal.js";
 import toStructure from "../native/toStructure";
-import { TRANSLATE } from "../nodes/Translations";
 import type Value from "../runtime/Value";
 import Output from "./Output";
 import { toDecimal } from "./Verse";
+import ColorJS from "colorjs.io";
 
 export const ColorType = toStructure(`
-    •Color/eng,${TRANSLATE}Color/😀(
-        lightness/eng,${TRANSLATE}l/😀•#%
-        chroma/eng,${TRANSLATE}c/😀•#
-        hue/eng,${TRANSLATE}h/😀•#°
-        transparency/eng,${TRANSLATE}a•#%: 100
+    •Color/eng,🌈/😀(
+        lightness/eng,l/😀•#
+        chroma/eng,c/😀•#
+        hue/eng,h/😀•#°
     )
 `);
 
@@ -19,7 +18,7 @@ export default class Color extends Output {
     readonly lightness: Decimal;
     readonly chroma: Decimal;
     readonly hue: Decimal;
-    readonly transparency: Decimal;
+    readonly opacity: Decimal;
 
     constructor(value: Value, l: Decimal, c: Decimal, h: Decimal, a: Decimal) {
 
@@ -28,9 +27,19 @@ export default class Color extends Output {
         this.lightness = l;
         this.chroma = c;
         this.hue = h;
-        this.transparency = a;
+        this.opacity = a;
 
     }
+
+    toCSS() {
+
+        return new ColorJS(
+            ColorJS.spaces.lch, 
+            [ this.lightness.toNumber() * 100, this.chroma.toNumber(), this.hue.toNumber() ], 1
+        ).to("srgb").toString();
+
+    }
+
 }
 
 export function toColor(value: Value | undefined) {

@@ -15,7 +15,8 @@
     style={`
         left: ${sizeToPx(place.x)}; 
         top: ${sizeToPx(place.y)}; 
-        ${phrase.font ? `font-family: "${phrase.font}";` : ""} 
+        ${phrase.font ? `font-family: "${phrase.font}";` : ""}
+        ${phrase.color ? `color: ${phrase.color.toCSS()};`: ""}
         font-size: ${sizeToPx(phrase.size)};
     `}
 >
