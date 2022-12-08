@@ -358,7 +358,10 @@ export function parseNames(tokens: Tokens): Names {
         if(names.length > 0 && comma === undefined) break;
         const name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : tokens.nextIs(TokenType.PLACEHOLDER) ? tokens.read(TokenType.PLACEHOLDER) : undefined;
         const lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
-        names.push(new Name(name, lang, comma));
+        if(name && lang)
+            names.push(new Name(name, lang, comma));
+        else
+            break;
     }
 
     return new Names(names);

@@ -3,14 +3,14 @@
     import Editor from '../editor/Editor.svelte';
     import type Source from '../models/Source';
     import type Project from '../models/Project';
-    import VerseType, { valueToVerse, Verse } from '../native/Verse';
     import { currentStep } from '../models/stores';
     import EvaluatorView from './EvaluatorView.svelte';
     import Exception from '../runtime/Exception';
     import { selectTranslation } from '../nodes/Translations';
     import { getLanguages } from '../editor/util/Contexts';
-    import Structure from '../runtime/Structure';
     import ValueView from './ValueView.svelte';
+    import type Verse from '../output/Verse';
+    import { toVerse } from '../output/Verse';
 
     export let project: Project;
     export let source: Source;
@@ -20,7 +20,7 @@
     let verse: Verse | undefined;
     let stepping: boolean = false;
     $: latest = $currentStep === undefined ? project.evaluator.getLatestSourceValue(source) : undefined;
-    $: verse = latest === undefined ? undefined: valueToVerse(project.evaluator, latest);
+    $: verse = latest === undefined ? undefined: toVerse(latest);
     $: stepping = (project.evaluator.getCurrentEvaluation()?.getSource() === source || (project.evaluator.isDone() && source === project.main));
 
 </script>
@@ -45,10 +45,10 @@
             {#if latest instanceof Exception}
                 <div class="full exception"><div class='message'>{selectTranslation(latest.getExplanations(), $languages)}</div></div>
             <!-- If there's no verse, show the editing feedback -->
-            {:else if verse === undefined}
+            {:else if latest === undefined}
                 <div class="full editing"><div class='message'>⌨️</div></div>
             <!-- If there's a value, but it's not a verse, show that -->
-            {:else if latest !== undefined && !(latest instanceof Structure && latest.type === VerseType)}
+            {:else if verse === undefined}
                 <div class="full value">
                     <div class='value'>
                         <h2>{selectTranslation(latest.getType(project.getContext(source)).getDescriptions(project.getContext(source)), $languages)}</h2>

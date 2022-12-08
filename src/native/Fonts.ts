@@ -114,3 +114,5 @@ export class FontManager {
 
 const Fonts = new FontManager();
 export { Fonts };
+
+export const SupportedFontsType = SupportedFontFamilies.map(font => `•"${font.name}"`).join("");

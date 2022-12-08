@@ -1,25 +1,19 @@
-import VerseType from "../native/Verse";
-import PhraseType from "../native/Phrase";
-import GroupType from "../native/Group";
-import Layout, { Vertical } from "../native/Layout";
-import TransitionType, { Fade, Scale } from "../native/Transition";
-import AnimationType, { Bounce, Throb, Wobble } from "../native/Animation";
-import StyleType from "../native/Style";
+import { VerseType }  from "../output/Verse";
+import { PhraseType } from "../output/Phrase";
+import { GroupType }  from "../output/Group";
+import { TransitionType } from "../output/Transition";
+import { FadeType } from "../output/Fade";
+import { ScaleType } from "../output/Scale";
 import type StructureDefinition from "../nodes/StructureDefinition";
+import { StackType } from "../output/Stack";
 
 const ImplicitShares: StructureDefinition[] = [
     VerseType,
     PhraseType,
-    StyleType,
     GroupType,
-    Vertical,
-    Layout,
+    StackType,
     TransitionType,
-    Fade,
-    Scale,
-    AnimationType,
-    Wobble,
-    Throb,
-    Bounce
+    FadeType,
+    ScaleType
 ];
 export default ImplicitShares;

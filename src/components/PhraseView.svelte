@@ -2,17 +2,13 @@
 
 <script lang="ts">
     import Structure from "../runtime/Structure";
-    import { Fade, Scale } from "../native/Transition";
-    import { Bounce, Throb, Wobble } from "../native/Animation";
     import { onMount } from "svelte";
-    import type { Phrase } from "../native/Phrase";
-    import { styleToCSS } from "../native/Style";
+    import type Phrase from "../output/Phrase";
 
     export let phrase: Phrase;
     export let inline: boolean = false;
 
     $: text = phrase.text ?? "";
-    $: style = styleToCSS(phrase.style);
     $: transition = phrase.transition;
     $: animation = phrase.animation;
 
@@ -64,7 +60,7 @@
 
 <!-- Key on the phrase's creator node, so we only trigger transitions when this phrase view's creator changes. -->
 {#if visible }
-    {#key phrase.structure?.creator.id }
+    {#key phrase.value.id }
         {#if transitionFunction }
             <div class={classes} style={cssStyle} in:transitionFunction={{}}>{@html renderedText}</div>
         {:else}
@@ -72,30 +68,3 @@
         {/if}
     {/key}
 {/if}
-
-<style>
-
-    .phrase {
-        animation-iteration-count: var(--animation-count); 
-        animation-duration: var(--duration);
-    }
-
-    .inline {
-        display: inline-block;
-    }
-
-    .wobble {
-        animation-name: wobble;
-    }
-
-    .throb {
-        animation-name: throb;
-    }
-
-    .bounce {
-        animation-name: bounce;
-        animation-timing-function: cubic-bezier(0.280, 0.840, 0.420, 1);
-        transform-origin: bottom;
-    }
-
-</style>

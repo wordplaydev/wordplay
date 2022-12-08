@@ -3,9 +3,8 @@
 <script lang="ts">
     import GroupView from "./GroupView.svelte";
     import { onMount } from "svelte";
-    import { styleToCSS } from "../native/Style";
     import type Project from "../models/Project";
-    import type { Verse } from "../native/Verse";
+    import type Verse from "../output/Verse";
     import { playing } from "../models/stores";
 
     export let project: Project;
@@ -58,7 +57,6 @@
         on:mousemove={interactive ? handleMouseMove : null}
         on:keydown|stopPropagation|preventDefault={interactive ? handleKeyDown : null}
         on:keyup={interactive ? handleKeyUp : null}
-        style={styleToCSS(verse.style)}
     >
         <GroupView group={verse.group} />
     </div>
