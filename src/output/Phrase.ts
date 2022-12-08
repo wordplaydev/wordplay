@@ -16,6 +16,7 @@ import { toPlace } from "./Place";
 import Decimal from "decimal.js";
 import { toDecimal } from "./Verse";
 import getTextMetrics from "./getTextMetrics";
+import parseRichText from "./parseRichText";
 
 export const PhraseType = toStructure(`
     •Phrase/eng,💬/😀•Group(
@@ -95,20 +96,46 @@ export default class Phrase extends Group {
         // Return the cache, if there is one.
         if(this._metrics) return this._metrics;
 
-        // Calculate the metrics and cache them if the font is loaded.
+        // The font is this phrase's font, or if there isn't an override, the verse's font.
         const family = this.font ?? render.font;
-        const textMetrics = getTextMetrics(
-            // Choose the description with the preferred language.
-            selectTranslation(this.getDescriptions(), render.languages),
-            // Convert the size to pixels and choose a font name.
-            `${sizeToPx(this.size)} ${family}`
-        );
+
+        // Get the preferred text
+        const text = selectTranslation(this.getDescriptions(), render.languages);
+
+        // Parse the text as rich text nodes.
+        const rich = parseRichText(text);
+
+        // Get the formats of the rich text
+        const formats = rich.getTextFormats();
+
+        // Figure out a width.
+        let width = 0;
+        let ascent: undefined | number = undefined;
+
+        // Get the list of text nodes and the formats applied to each
+        for(const [ text, format ] of formats) {
+
+            // Parse the text into rich text nodes.
+            const metrics = getTextMetrics(
+                // Choose the description with the preferred language.
+                text.text,
+                // Convert the size to pixels and choose a font name.
+                `${format.weight ?? ""} ${format.italic ? "italic" : ""} ${sizeToPx(this.size)} ${family}`
+            );
+
+            if(metrics) {
+                width += metrics.width;
+                ascent = metrics.fontBoundingBoxAscent;
+            }
+
+        }
+
         const dimensions = {
-            width: textMetrics?.width ?? 0,
-            ascent: textMetrics?.fontBoundingBoxAscent ?? 0
+            width: width,
+            ascent: ascent ?? 0
         }
         // If the font is loaded, these metrics can be trusted, so we cache them.
-        if(textMetrics && Fonts.isLoaded(family))
+        if(ascent && Fonts.isLoaded(family))
             this._metrics = dimensions;
         
         // Return the current dimensions.

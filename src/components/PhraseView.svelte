@@ -6,7 +6,7 @@
     import type Phrase from "../output/Phrase";
     import { sizeToPx } from "../output/Phrase";
     import type Place from "../output/Place";
-    import wordplayMarkupToHTML from "../output/wordplayMarkdownToHTML";
+    import parseRichText from "../output/parseRichText";
 
     export let phrase: Phrase;
     export let place: Place;
@@ -32,7 +32,7 @@
         ${phrase.opacity ? `opacity: ${phrase.opacity.toNumber()};` : ""}
     `}
 >
-    {@html wordplayMarkupToHTML(selectTranslation(phrase.getDescriptions(), $languages))}
+    {@html parseRichText(selectTranslation(phrase.getDescriptions(), $languages)).toHTML()}
 </div>
 
 <style>
