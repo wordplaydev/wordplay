@@ -7,7 +7,7 @@ import ColorJS from "colorjs.io";
 
 export const ColorType = toStructure(`
     •Color/eng,🌈/😀(
-        lightness/eng,l/😀•#
+        lightness/eng,l/😀•#%
         chroma/eng,c/😀•#
         hue/eng,h/😀•#°
     )

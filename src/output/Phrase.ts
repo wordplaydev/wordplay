@@ -22,7 +22,7 @@ export const PhraseType = toStructure(`
         size/eng,${TRANSLATE}size/😀•#m: 1m
         font/eng,🔡/😀${SupportedFontsType}•ø: ø
         color/eng,${TRANSLATE}color/😀•Color•ø: ø
-        opacity/eng,${TRANSLATE}opacity/😀•#•ø: ø
+        opacity/eng,${TRANSLATE}opacity/😀•#%•ø: ø
         place/eng,${TRANSLATE}place/😀•Place•ø: ø
         offset/eng,${TRANSLATE}offset/😀•Place•ø: ø
         rotation/eng,${TRANSLATE}rotation/😀•#°•ø: ø
