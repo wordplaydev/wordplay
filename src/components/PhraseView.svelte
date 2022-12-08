@@ -13,8 +13,8 @@
 <div 
     class="phrase"
     style={`
-        left: ${sizeToPx(place.x)}; 
-        top: ${sizeToPx(place.y)}; 
+        left: ${sizeToPx(phrase.place ? phrase.place.x : place.x)}; 
+        top: ${sizeToPx(phrase.place ? phrase.place.y : place.y)};
         ${phrase.font ? `font-family: "${phrase.font}";` : ""}
         ${phrase.color ? `color: ${phrase.color.toCSS()};`: ""}
         ${phrase.offset || phrase.rotation || phrase.scalex || phrase.scaley ? 
