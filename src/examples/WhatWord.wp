@@ -29,7 +29,7 @@ state/eng,⚽️/😀•Game: start ∆ ⌨️
 `El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.`/spa
 `🤔 + 🤫 → 🔤`/😀
 board/eng,🔤/😀: 💬(
-  state.secret→[""].translate(ƒ(letter•"") ((state.status = "lost") ∨ state.guesses.has(letter)) ? letter "_").join(' ') 
+  state.secret→[""].translate(ƒ(letter•"") ((state.status = "lost") ∨ state.guesses.has(letter)) ? letter ".").join(' ') 
   2m
 )
 
