@@ -8,6 +8,7 @@ import { ScaleType } from "../output/Scale";
 import { StackType } from "../output/Stack";
 import { RowType } from "../output/Row";
 import { ColorType } from "../output/Color";
+import { PlaceType } from "../output/Place";
 
 const ImplicitShares: StructureDefinition[] = [
     VerseType,
@@ -18,6 +19,7 @@ const ImplicitShares: StructureDefinition[] = [
     TransitionType,
     FadeType,
     ScaleType,
-    ColorType
+    ColorType,
+    PlaceType
 ];
 export default ImplicitShares;

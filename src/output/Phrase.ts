@@ -24,8 +24,12 @@ export const PhraseType = toStructure(`
         color/eng,${TRANSLATE}color/😀•Color•ø: ø
         opacity/eng,${TRANSLATE}opacity/😀•#•ø: ø
         place/eng,${TRANSLATE}place/😀•Place•ø: ø
-        in/eng,${TRANSLATE}in/😀•Transition•ø:ø
-        out/eng,${TRANSLATE}in/😀•Transition•ø:ø
+        offset/eng,${TRANSLATE}offset/😀•Place•ø: ø
+        rotation/eng,${TRANSLATE}rotation/😀•#°•ø: ø
+        scalex/eng,${TRANSLATE}scalex/😀•#•ø: ø
+        scaley/eng,${TRANSLATE}scaley/😀•#•ø: ø
+        in/eng,${TRANSLATE}in/😀•Transition•ø: ø
+        out/eng,${TRANSLATE}in/😀•Transition•ø: ø
 `)
 
 export default class Phrase extends Group {
@@ -36,6 +40,10 @@ export default class Phrase extends Group {
     readonly color: Color | undefined;
     readonly opacity: Decimal | undefined;
     readonly place: Place | undefined;
+    readonly offset: Place | undefined;
+    readonly rotation: Decimal | undefined;
+    readonly scalex: Decimal | undefined;
+    readonly scaley: Decimal | undefined;
     readonly in: Transition | undefined;
     readonly out: Transition | undefined;
 
@@ -49,6 +57,10 @@ export default class Phrase extends Group {
         color: Color | undefined = undefined, 
         opacity: Decimal | undefined = undefined, 
         place: Place | undefined = undefined,
+        offset: Place | undefined = undefined,
+        rotation: Decimal | undefined = undefined,
+        scalex: Decimal | undefined = undefined,
+        scaley: Decimal | undefined = undefined,
         inn: Transition | undefined = undefined, 
         out: Transition | undefined = undefined) {
 
@@ -60,6 +72,10 @@ export default class Phrase extends Group {
         this.color = color;
         this.opacity = opacity;
         this.place = place;
+        this.offset = offset;
+        this.rotation = rotation;
+        this.scalex = scalex;
+        this.scaley = scaley;
         this.in = inn;
         this.out = out;
             
@@ -129,10 +145,14 @@ export function toPhrase(value: Value | undefined): Phrase | undefined {
     const color = toColor(value.resolve("color"));
     const opacity = toDecimal(value.resolve("opacity"));
     const place = toPlace(value.resolve("place"));
+    const offset = toPlace(value.resolve("offset"));
+    const rotation = toDecimal(value.resolve("rotation"));
+    const scalex = toDecimal(value.resolve("scalex"));
+    const scaley = toDecimal(value.resolve("scaley"));
     const inn = toTransition(value.resolve("in"));
     const out = toTransition(value.resolve("in"));
 
-    return texts ? new Phrase(value, texts, size, font, color, opacity, place, inn, out) : undefined;
+    return texts ? new Phrase(value, texts, size, font, color, opacity, place, offset, rotation, scalex, scaley, inn, out) : undefined;
 
 }
 

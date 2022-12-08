@@ -95,7 +95,7 @@
 
     .code {
         flex: 1;
-        min-height: 5rem;
+        min-height: 20rem;
         max-height: 25rem;
         width: 100%;
         background: var(--wordplay-background);
@@ -115,6 +115,7 @@
     .output {
         flex: 1;
         min-width: 0;
+        min-height: 20em;
     }
 
     .code:has(.stepping) {

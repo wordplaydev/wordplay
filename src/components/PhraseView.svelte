@@ -17,6 +17,12 @@
         top: ${sizeToPx(place.y)}; 
         ${phrase.font ? `font-family: "${phrase.font}";` : ""}
         ${phrase.color ? `color: ${phrase.color.toCSS()};`: ""}
+        ${phrase.offset || phrase.rotation || phrase.scalex || phrase.scaley ? 
+            `transform: 
+                ${phrase.offset ? `translate(${sizeToPx(phrase.offset.x)}, ${sizeToPx(phrase.offset.y)})`: ""} 
+                ${phrase.rotation ? `rotate(${phrase.rotation.toNumber()}deg)` : ""} 
+                ${phrase.scalex || phrase.scaley ? `scale(${phrase.scalex?.toNumber() ?? 1}, ${phrase.scaley?.toNumber() ?? 1})` : ""}
+            ;` : ""}
         font-size: ${sizeToPx(phrase.size)};
         ${phrase.opacity ? `opacity: ${phrase.opacity.toNumber()};` : ""}
     `}
