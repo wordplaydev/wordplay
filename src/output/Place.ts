@@ -28,6 +28,11 @@ export default class Place extends Output {
         this.z = z;
 
     }
+
+    offset(place: Place) {
+        return new Place(this.value, this.x.add(place.x), this.y.add(place.y), this.z.add(place.z));
+    }
+
 }
 
 export function toPlace(value: Value | undefined): Place | undefined {

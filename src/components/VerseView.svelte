@@ -5,9 +5,12 @@
     import type Project from "../models/Project";
     import type Verse from "../output/Verse";
     import { playing } from "../models/stores";
-    import GroupView from "./GroupView.svelte";
-    import Decimal from "decimal.js";
-    import Place from "../output/Place";
+    import type Place from "../output/Place";
+    import type Group from "../output/Group";
+    import { getLanguages } from "../editor/util/Contexts";
+    import type { RenderContext } from "../output/Group";
+    import Phrase from "../output/Phrase";
+    import PhraseView from "./PhraseView.svelte";
 
     export let project: Project;
     export let verse: Verse;
@@ -52,6 +55,48 @@
     let visible = false;
     onMount(() => visible = true);
 
+    // Make a render context and keep it up to date.
+    let languages = getLanguages();
+    $: context = { font: verse.font, languages: $languages};
+
+    // A top down layout algorithm that places groups first, then their subgroups, and uses the
+    // ancestor list to compute global places for each group.
+    function layoutGroup(group: Group, parents: Group[], places: Map<Group, Place>, context: RenderContext) {
+        // Add this group to the parent stack.
+        parents.unshift(group);
+        // Get this group's place, so we can offset its subgroups.
+        const parentPlace = places.get(group);
+        // Get the places of each of this group's subgroups.
+        for(const [ subgroup, place ] of group.getPlaces(context)) {
+            // Set the place of this subgroup, offseting it by the parent's position to keep it in global coordinates.
+            places.set(subgroup, parentPlace ? place.offset(parentPlace) : place);
+            // Now that this subgroup's position is set, layout the subgroup's subgroups.
+            layoutGroup(subgroup, parents, places, context);
+        }
+        // Remove this group from the top of the parent stack.
+        parents.shift();
+    }
+
+    // On every verse change, compute the canonical places of all phrases.
+    let places = new Map<Group, Place>();
+    let phrases: Phrase[];
+    $: {
+
+        // Erase the places
+        places.clear();
+        // Walk the Verse and compute global places for each group. 
+        // This relies on each phrase and group to be able to size itself independent of its group
+        // and then position based on sizes.
+        layoutGroup(verse, [], places, context);
+
+        // Compute the subset of groups that are phrases, just for efficiency.
+        phrases = [];
+        for(const group of places.keys())
+            if(group instanceof Phrase)
+                phrases.push(group);
+
+    }
+
 </script>
 
 {#if visible}
@@ -66,7 +111,16 @@
         on:keyup={interactive ? handleKeyUp : null}
     >
         <div class="viewport">
-            <GroupView {verse} group={verse} place={new Place(verse.value, new Decimal(0), new Decimal(0), new Decimal(0))}/>
+            <!-- Render all phrases at their places -->
+            {#each phrases as phrase}
+                {@const place = places.get(phrase)}
+                <!-- There should always be a place. If there's not, there's something wrong with our layout algorithm. -->
+                {#if place}
+                    <PhraseView {phrase} {place} />
+                {:else}
+                    <span>Oops</span>
+                {/if}
+            {/each}
         </div>
     </div>
 {/if}
