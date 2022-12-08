@@ -11,6 +11,7 @@
     import type { RenderContext } from "../output/Group";
     import Phrase from "../output/Phrase";
     import PhraseView from "./PhraseView.svelte";
+    import { loadedFonts } from "../native/Fonts";
 
     export let project: Project;
     export let verse: Verse;
@@ -55,9 +56,9 @@
     let visible = false;
     onMount(() => visible = true);
 
-    // Make a render context and keep it up to date.
+    // Make a render context and keep it up to date whenver the verse, languages, or loaded fonts change.
     let languages = getLanguages();
-    $: context = { font: verse.font, languages: $languages};
+    $: context = { font: verse.font, languages: $languages, fonts: $loadedFonts };
 
     // A top down layout algorithm that places groups first, then their subgroups, and uses the
     // ancestor list to compute global places for each group.

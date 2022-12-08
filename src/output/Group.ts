@@ -35,5 +35,6 @@ export default abstract class Group extends Output {
 
 export type RenderContext = {
     font: string,
-    languages: LanguageCode[]
+    languages: LanguageCode[],
+    fonts: Set<string>
 }

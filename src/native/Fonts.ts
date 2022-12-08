@@ -1,3 +1,5 @@
+import { writable } from "svelte/store";
+
 export type FontWeight = 100|200|300|400|500|600|700|800|900;
 export type FontWeightRange = { min: FontWeight, max: FontWeight };
 
@@ -14,6 +16,8 @@ export type Font = {
     weight: FontWeight,
     italic: boolean
 }
+
+export const loadedFonts = writable<Set<string>>(new Set());
 
 /**
  * A data structure that represents fonts that creators can use to style phrases.
@@ -145,7 +149,12 @@ export class FontManager {
                 weight: Array.isArray(supportedFont.weights) ? font.weight.toString() : `${supportedFont.weights.min} ${supportedFont.weights.max}`
             });
         document.fonts.add(fontFace);
-        fontFace.load().then(() => this.loaded.set(font.name, "loaded"));
+
+        // Load the font, and when it's done, mark it as loaded and notify any listeners.
+        fontFace.load().then(() => {
+            this.loaded.set(font.name, "loaded");
+            loadedFonts.set(new Set(this.loaded.keys()));
+        });
 
     }
 
