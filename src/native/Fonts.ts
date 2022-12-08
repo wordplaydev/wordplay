@@ -65,7 +65,7 @@ export class FontManager {
         { name: "Noto Mono", weight: 400, italic: false }
     ];
 
-    loadedFamilies: string[] = [];
+    loaded = new Map<string,"requested"|"loaded">();
 
     constructor() {
         this.fonts.forEach(font => this.load(font));
@@ -84,10 +84,15 @@ export class FontManager {
         );
     }
 
+    isRequested(family: string) { return this.loaded.has(family); }
+    isLoaded(family: string) { return this.loaded.get(family) === "loaded"; }
+
     loadFamily(name: string) {
 
-        if(this.loadedFamilies.includes(name)) return;
-        this.loadedFamilies.push(name);
+        if(this.loaded.get(name) === "loaded") return;
+
+        // Mark the family requested.
+        this.loaded.set(name, "requested");
 
         const family = SupportedFontFamilies.find(font => font.name === name);
         if(family) {
@@ -140,13 +145,13 @@ export class FontManager {
                 weight: Array.isArray(supportedFont.weights) ? font.weight.toString() : `${supportedFont.weights.min} ${supportedFont.weights.max}`
             });
         document.fonts.add(fontFace);
-        fontFace.load();
+        fontFace.load().then(() => this.loaded.set(font.name, "loaded"));
 
     }
 
 }
 
 const Fonts = new FontManager();
-export { Fonts };
+export default Fonts;
 
 export const SupportedFontsType = SupportedFontFamilies.map(font => `•"${font.name}"`).join("");

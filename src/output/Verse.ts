@@ -3,7 +3,7 @@ import Structure from "../runtime/Structure";
 import type Value from "../runtime/Value";
 import Group, { type RenderContext } from "./Group";
 import { toFont } from "./Phrase";
-import { Fonts, SupportedFontsType } from "../native/Fonts";
+import Fonts, { SupportedFontsType } from "../native/Fonts";
 import Color from "./Color";
 import Place from "./Place";
 import type Translations from "../nodes/Translations";

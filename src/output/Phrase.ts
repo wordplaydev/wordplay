@@ -1,7 +1,7 @@
 import type Transition from "./Transition";
 import type Value from "../runtime/Value";
 import type Color from "./Color";
-import { Fonts, SupportedFontsType } from "../native/Fonts";
+import Fonts, { SupportedFontsType } from "../native/Fonts";
 import Text from "../runtime/Text";
 import Group, { type RenderContext } from "./Group";
 import type Place from "./Place";
@@ -15,6 +15,7 @@ import { toColor } from "./Color";
 import { toPlace } from "./Place";
 import Decimal from "decimal.js";
 import { toDecimal } from "./Verse";
+import getTextMetrics from "./getTextMetrics";
 
 export const PhraseType = toStructure(`
     •Phrase/eng,💬/😀•Group(
@@ -47,7 +48,10 @@ export default class Phrase extends Group {
     readonly in: Transition | undefined;
     readonly out: Transition | undefined;
 
-    _metrics: TextMetrics | null = null;
+    _metrics: {
+        width: number,
+        ascent: number
+    } | undefined = undefined;
 
     constructor(
         value: Value, 
@@ -88,28 +92,37 @@ export default class Phrase extends Group {
 
     getMetrics(render: RenderContext) {
 
-        // There are almost certainly faster ways to do this. I'm going to do this here for now
-        // and save this for a performance task later.
-        if(this._metrics === null) {
-            const canvas = document.createElement("canvas");
-            document.body.appendChild(canvas);
-            const context = canvas.getContext("2d");
-            if(context === null) return null;
-            context.font = `${sizeToPx(this.size)} ${this.font ?? render.font}`;
-            this._metrics = context.measureText(selectTranslation(this.getDescriptions(), render.languages));
-            document.body.removeChild(canvas);
+        // Return the cache, if there is one.
+        if(this._metrics) return this._metrics;
+
+        // Calculate the metrics and cache them if the font is loaded.
+        const family = this.font ?? render.font;
+        const textMetrics = getTextMetrics(
+            // Choose the description with the preferred language.
+            selectTranslation(this.getDescriptions(), render.languages),
+            // Convert the size to pixels and choose a font name.
+            `${sizeToPx(this.size)} ${family}`
+        );
+        const dimensions = {
+            width: textMetrics?.width ?? 0,
+            ascent: textMetrics?.fontBoundingBoxAscent ?? 0
         }
-        return this._metrics;
+        // If the font is loaded, these metrics can be trusted, so we cache them.
+        if(textMetrics && Fonts.isLoaded(family))
+            this._metrics = dimensions;
+        
+        // Return the current dimensions.
+        return dimensions;
 
     }
 
     getWidth(context: RenderContext): Decimal { 
         // Metrics is in pixels; convert to meters.
-        return new Decimal(this.getMetrics(context)?.width ?? 0).div(PX_PER_METER);
+        return new Decimal(this.getMetrics(context).width).div(PX_PER_METER);
     }
 
     getHeight(context: RenderContext): Decimal { 
-        return new Decimal(this.getMetrics(context)?.fontBoundingBoxAscent ?? 0).div(PX_PER_METER);
+        return new Decimal(this.getMetrics(context).ascent).div(PX_PER_METER);
     }
 
     getGroups(): Group[] { return []; }
