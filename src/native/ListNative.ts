@@ -177,7 +177,7 @@ export default function bootstrapList() {
                     const list = evaluation.getClosure();
                     if(list instanceof List) {
                         const random = evaluation.getEvaluator().project.streams.random.latest();
-                        return list.get(new Measurement(evaluation.getEvaluator().getMain(), Math.floor(random.toNumber() * list.values.length)))
+                        return list.get(new Measurement(evaluation.getEvaluator().getMain(), Math.floor(random.toNumber() * list.values.length) + 1))
                     }
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 
