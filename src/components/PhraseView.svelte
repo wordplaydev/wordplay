@@ -18,6 +18,7 @@
         ${phrase.font ? `font-family: "${phrase.font}";` : ""}
         ${phrase.color ? `color: ${phrase.color.toCSS()};`: ""}
         font-size: ${sizeToPx(phrase.size)};
+        ${phrase.opacity ? `opacity: ${phrase.opacity.toNumber()};` : ""}
     `}
 >
     {phrase.text[0].text}

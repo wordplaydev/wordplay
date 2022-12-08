@@ -22,6 +22,7 @@ export const PhraseType = toStructure(`
         size/eng,${TRANSLATE}size/😀•#m: 1m
         font/eng,🔡/😀${SupportedFontsType}•ø: ø
         color/eng,${TRANSLATE}color/😀•Color•ø: ø
+        opacity/eng,${TRANSLATE}opacity/😀•#•ø: ø
         place/eng,${TRANSLATE}place/😀•Place•ø: ø
         in/eng,${TRANSLATE}in/😀•Transition•ø:ø
         out/eng,${TRANSLATE}in/😀•Transition•ø:ø
@@ -33,6 +34,7 @@ export default class Phrase extends Group {
     readonly size: Decimal;
     readonly font: string | undefined;
     readonly color: Color | undefined;
+    readonly opacity: Decimal | undefined;
     readonly place: Place | undefined;
     readonly in: Transition | undefined;
     readonly out: Transition | undefined;
@@ -45,6 +47,7 @@ export default class Phrase extends Group {
         size: Decimal,
         font: string | undefined = undefined, 
         color: Color | undefined = undefined, 
+        opacity: Decimal | undefined = undefined, 
         place: Place | undefined = undefined,
         inn: Transition | undefined = undefined, 
         out: Transition | undefined = undefined) {
@@ -52,9 +55,10 @@ export default class Phrase extends Group {
         super(value);
 
         this.text = text;
-        this.color = color;
         this.size = size;
         this.font = font;
+        this.color = color;
+        this.opacity = opacity;
         this.place = place;
         this.in = inn;
         this.out = out;
@@ -123,11 +127,12 @@ export function toPhrase(value: Value | undefined): Phrase | undefined {
     const size = toDecimal(value.resolve("size")) ?? new Decimal(1);
     const font = toFont(value.resolve("font"));
     const color = toColor(value.resolve("color"));
+    const opacity = toDecimal(value.resolve("opacity"));
     const place = toPlace(value.resolve("place"));
     const inn = toTransition(value.resolve("in"));
     const out = toTransition(value.resolve("in"));
 
-    return texts ? new Phrase(value, texts, size, font, color, place, inn, out) : undefined;
+    return texts ? new Phrase(value, texts, size, font, color, opacity, place, inn, out) : undefined;
 
 }
 

@@ -18,7 +18,6 @@ export default class Color extends Output {
     readonly lightness: Decimal;
     readonly chroma: Decimal;
     readonly hue: Decimal;
-    readonly opacity: Decimal;
 
     constructor(value: Value, l: Decimal, c: Decimal, h: Decimal, a: Decimal) {
 
@@ -27,7 +26,6 @@ export default class Color extends Output {
         this.lightness = l;
         this.chroma = c;
         this.hue = h;
-        this.opacity = a;
 
     }
 
