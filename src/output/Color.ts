@@ -1,4 +1,4 @@
-import Decimal from "decimal.js";
+import type Decimal from "decimal.js";
 import toStructure from "../native/toStructure";
 import type Value from "../runtime/Value";
 import Output from "./Output";
@@ -19,7 +19,7 @@ export default class Color extends Output {
     readonly chroma: Decimal;
     readonly hue: Decimal;
 
-    constructor(value: Value, l: Decimal, c: Decimal, h: Decimal, a: Decimal) {
+    constructor(value: Value, l: Decimal, c: Decimal, h: Decimal) {
 
         super(value);
         
@@ -47,8 +47,7 @@ export function toColor(value: Value | undefined) {
     const l = toDecimal(value.resolve("lightness"));
     const c = toDecimal(value.resolve("chroma"));
     const h = toDecimal(value.resolve("hue"));
-    const t = toDecimal(value.resolve("transparency")) ?? new Decimal(100);
 
-    return l && c && h && t ? new Color(value, l, c, h, t) : undefined;
+    return l && c && h ? new Color(value, l, c, h) : undefined;
 
 }

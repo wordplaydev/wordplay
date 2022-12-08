@@ -13,7 +13,7 @@
 
 </script>
 
-<div class="group debug" style={`left: ${sizeToPx(place.x)}; top: ${sizeToPx(place.y)}; width: ${sizeToPx(group.getWidth(verse.font))}; height: ${sizeToPx(group.getHeight(verse.font))};`}>
+<div class="group" style={`left: ${sizeToPx(place.x)}; top: ${sizeToPx(place.y)}; width: ${sizeToPx(group.getWidth(verse.font))}; height: ${sizeToPx(group.getHeight(verse.font))};`}>
     {#each group.getPlaces(verse.font) as [ subgroup, place ] }
         {#if subgroup instanceof Phrase }
             <PhraseView phrase={subgroup} {place}/>

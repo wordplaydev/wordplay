@@ -102,7 +102,7 @@
         transform: translate(50%, 50%);
     }
 
-    :global(.group, .phrase) {
+    :global(.group.debug, .phrase.debug) {
         border: 1px dotted red;
     }
 
