@@ -4,18 +4,21 @@ import type Value from "../runtime/Value";
 import Group, { type RenderContext } from "./Group";
 import { toFont } from "./Phrase";
 import { Fonts, SupportedFontsType } from "../native/Fonts";
-import type Color from "./Color";
+import Color from "./Color";
 import Place from "./Place";
 import type Translations from "../nodes/Translations";
 import toStructure from "../native/toStructure";
 import Measurement from "../runtime/Measurement";
 import Decimal from "decimal.js";
 import { toGroup } from "./toGroups";
+import { toColor } from "./Color";
 
 export const VerseType = toStructure(`
     •Verse/eng,🌎/😀•Group(
         group/eng,${TRANSLATE}phrases/😀•Group
         font/eng,${TRANSLATE}font/😀${SupportedFontsType}: "Noto Sans"
+        foreground/eng,${TRANSLATE}fore/😀•Color: Color(0 0 0°)
+        background/eng,${TRANSLATE}back/😀•Color: Color(100 0 0°)
     )
 `);
 
@@ -23,13 +26,17 @@ export default class Verse extends Group {
 
     readonly group: Group;
     readonly font: string;
+    readonly background: Color;
+    readonly foreground: Color;
 
-    constructor(value: Value, group: Group, font: string = "Noto Sans") {
+    constructor(value: Value, group: Group, font: string, background: Color, foreground: Color) {
 
         super(value);
 
         this.group = group;
         this.font = font;
+        this.background = background;
+        this.foreground = foreground;
 
         Fonts.loadFamily(this.font);
 
@@ -76,12 +83,21 @@ export function toVerse(value: Value): Verse | undefined {
     if(value.type === VerseType) {
         const group = toGroup(value.resolve("group"));
         const font = toFont(value.resolve("font"));
-        return group && font ? new Verse(value, group, font) : undefined;
+        const background = toColor(value.resolve("background"));
+        const foreground = toColor(value.resolve("foreground"));
+        return group && font && background && foreground ? new Verse(value, group, font, background, foreground) : undefined;
     }
      // Try converting it to a group.
     else {
         const group = toGroup(value);
-        return group === undefined ? undefined : new Verse(value, group);
+        return group === undefined ? undefined : 
+            new Verse(
+                value, 
+                group, 
+                "Noto Sans",
+                new Color(value, new Decimal(100), new Decimal(0), new Decimal(0)), 
+                new Color(value, new Decimal(0), new Decimal(0), new Decimal(0))
+            );
     }
 
 }

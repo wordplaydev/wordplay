@@ -103,7 +103,7 @@
     <div 
         class="verse {interactive && $playing ? "" : "inert"} {ignored ? "ignored" : ""}" 
         tabIndex={interactive ? 0 : null}
-        style="font-family: {verse.font};"
+        style="font-family: {verse.font}; background-color: {verse.background.toCSS()}; color: {verse.foreground.toCSS()};"
         on:mousedown={interactive ? handleMouseDown : null} 
         on:mouseup={interactive ? handleMouseUp : null}
         on:mousemove={interactive ? handleMouseMove : null}
