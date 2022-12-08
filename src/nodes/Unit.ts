@@ -110,6 +110,7 @@ export default class Unit extends Type {
     }
 
     isUnitless() { return this.exponents.size === 0; }
+    isPercent() { return "%" in this.exponents; }
 
     isEqualTo(unit: Unit) {
         return this.exponents.size === unit.exponents.size && Array.from(this.exponents.keys()).every(key => this.exponents.get(key) === unit.exponents.get(key))

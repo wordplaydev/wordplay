@@ -22,6 +22,8 @@ export default class Measurement extends Primitive {
     constructor(creator: Node, number: number | Token | Decimal | string, unit?: Unit) {
         super(creator);
 
+        this.unit = unit === undefined ? new Unit() : unit;
+
         // If the number given is a Decimal, just assign it.
         if(number instanceof Decimal) {
             this.num = number;
@@ -38,8 +40,7 @@ export default class Measurement extends Primitive {
                 let text = number.text.toString();
 
                 // Is there a trailing %? Strip it.
-                const isPercent = text.charAt(text.length - 1) === "%";
-                if(isPercent) text = text.substring(0, text.length - 1);
+                const isPercent = this.unit.isPercent();
 
                 // Set the number, accounting for percent.
                 this.num = isPercent ? (new Decimal(text)).mul(0.01) : new Decimal(text);
@@ -76,7 +77,6 @@ export default class Measurement extends Primitive {
             this.num = new Decimal(NaN);
         }
 
-        this.unit = unit === undefined ? new Unit() : unit;
     }
 
     isNotANumber(requestor: Node): Bool {

@@ -141,7 +141,7 @@ test("Test conversions", () => {
     expect(Evaluator.evaluateCode("'1.1.1'→#")?.toString()).toBe('NaN');
 
     // PERCENT
-    expect(Evaluator.evaluateCode("1%")?.toString()).toBe('0.01');
+    expect(Evaluator.evaluateCode("1%")?.toString()).toBe('1%');
 
     // TIME
     // No change if matching type.
