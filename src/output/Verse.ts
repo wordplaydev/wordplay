@@ -3,7 +3,7 @@ import Structure from "../runtime/Structure";
 import type Value from "../runtime/Value";
 import Group from "./Group";
 import { toFont } from "./Phrase";
-import { SupportedFontsType } from "../native/Fonts";
+import { Fonts, SupportedFontsType } from "../native/Fonts";
 import type Color from "./Color";
 import Place from "./Place";
 import type Translations from "../nodes/Translations";
@@ -30,6 +30,8 @@ export default class Verse extends Group {
 
         this.group = group;
         this.font = font;
+
+        Fonts.loadFamily(this.font);
 
     }
 

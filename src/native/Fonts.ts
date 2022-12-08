@@ -38,7 +38,7 @@ const SupportedFontFamilies: FontFamily[] = [
     },
     {
         name: "Noto Mono",
-        weights: { min: 100, max: 900},
+        weights: { min: 100, max: 900 },
         italic: false
     },
     {
@@ -65,6 +65,8 @@ export class FontManager {
         { name: "Noto Mono", weight: 400, italic: false }
     ];
 
+    loadedFamilies: string[] = [];
+
     constructor() {
         this.fonts.forEach(font => this.load(font));
     }
@@ -80,6 +82,38 @@ export class FontManager {
                 // If italics are requested, they are available
                 (font.italic === false || candidate.italic)
         );
+    }
+
+    loadFamily(name: string) {
+
+        if(this.loadedFamilies.includes(name)) return;
+        this.loadedFamilies.push(name);
+
+        const family = SupportedFontFamilies.find(font => font.name === name);
+        if(family) {
+            // Load all fonts in the family
+            if(Array.isArray(family.weights)) {
+                for(const weight of family.weights)
+                    this.load({
+                        name: name,
+                        weight: weight,
+                        italic: false
+                    });
+                if(family.italic)
+                    for(const weight of family.weights)
+                    this.load({
+                        name: name,
+                        weight: weight,
+                        italic: true
+                    });
+            }
+            else this.load({
+                name: name,
+                weight: 300, // this is ignored
+                italic: false, // this is ignored
+            })
+        }
+
     }
 
     load(font: Font) {

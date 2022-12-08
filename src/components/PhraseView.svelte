@@ -12,7 +12,12 @@
 
 <div 
     class="phrase"
-    style="left: {sizeToPx(place.x)}; top: {sizeToPx(place.y)}; {phrase.font ? `font-family: ${phrase.font}` : ""} font-size: {sizeToPx(phrase.size)};"
+    style={`
+        left: ${sizeToPx(place.x)}; 
+        top: ${sizeToPx(place.y)}; 
+        ${phrase.font ? `font-family: "${phrase.font}";` : ""} 
+        font-size: ${sizeToPx(phrase.size)};
+    `}
 >
     {phrase.text[0].text}
 </div>

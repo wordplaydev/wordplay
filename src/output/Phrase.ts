@@ -1,7 +1,7 @@
 import type Transition from "./Transition";
 import type Value from "../runtime/Value";
 import type Color from "./Color";
-import { SupportedFontsType } from "../native/Fonts";
+import { Fonts, SupportedFontsType } from "../native/Fonts";
 import Text from "../runtime/Text";
 import Group from "./Group";
 import type Place from "./Place";
@@ -59,6 +59,11 @@ export default class Phrase extends Group {
         this.in = inn;
         this.out = out;
             
+        // Make sure this font is loaded. This is a little late -- we could do some static analysis
+        // and try to determine this in advance -- but anything can compute a font name. Maybe an optimization later.
+        if(this.font)
+            Fonts.loadFamily(this.font);
+
     }
 
     getMetrics(font: string) {

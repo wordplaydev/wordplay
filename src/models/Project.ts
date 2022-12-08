@@ -26,7 +26,6 @@ import type Bind from "../nodes/Bind";
 import Reference from "../nodes/Reference";
 import Random from "../streams/Random";
 
-
 /** 
  * A project with a name, some source files, and evaluators for each source file.
  **/
@@ -215,9 +214,9 @@ export default class Project {
                             this.dependencies.set(dependency, new Set([ node ]));
                     }
                 }
-                
+
             }
- 
+
         }
 
     }
