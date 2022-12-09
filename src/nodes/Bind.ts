@@ -181,7 +181,8 @@ export default class Bind extends Expression {
         const parent = context.get(this)?.getParent();
         if(enclosure && !this.isShared() && !(parent instanceof Column || parent instanceof ColumnType || parent instanceof Cell || parent instanceof Evaluate)) {
             const references = context.project.getReferences(this);
-            if(references.length === 0)
+            // Don't warn on placeholder symbols.
+            if(references.length === 0 && !this.names.hasName(PLACEHOLDER_SYMBOL))
                 conflicts.push(new UnusedBind(this));
         }
 
