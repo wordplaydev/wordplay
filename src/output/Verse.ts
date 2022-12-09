@@ -10,14 +10,15 @@ import type Translations from "../nodes/Translations";
 import toStructure from "../native/toStructure";
 import Measurement from "../runtime/Measurement";
 import Decimal from "decimal.js";
-import { toGroup } from "./toGroups";
+import { toGroup, toGroups } from "./toGroups";
 import { toColor } from "./Color";
+import List from "../runtime/List";
 
 const BACKSET = -12;
 
 export const VerseType = toStructure(`
     •Verse/eng,🌎/😀•Group(
-        group/eng,${TRANSLATE}phrases/😀•Group
+        groups/eng,${TRANSLATE}groups/😀•Group•[Group]
         font/eng,${TRANSLATE}font/😀${SupportedFontsType}: "Noto Sans"
         foreground/eng,${TRANSLATE}fore/😀•Color: Color(0 0 0°)
         background/eng,${TRANSLATE}back/😀•Color: Color(100 0 0°)
@@ -28,18 +29,18 @@ export const VerseType = toStructure(`
 
 export default class Verse extends Group {
 
-    readonly group: Group;
+    readonly groups: Group[];
     readonly font: string;
     readonly background: Color;
     readonly foreground: Color;
     readonly focus: Place;
     readonly tilt: Decimal;
 
-    constructor(value: Value, group: Group, font: string, background: Color, foreground: Color, focus: Place, tilt: Decimal) {
+    constructor(value: Value, groups: Group[], font: string, background: Color, foreground: Color, focus: Place, tilt: Decimal) {
 
         super(value);
 
-        this.group = group;
+        this.groups = groups;
         this.font = font;
         this.background = background;
         this.foreground = foreground;
@@ -50,11 +51,12 @@ export default class Verse extends Group {
 
     }
 
-    getWidth(context: RenderContext): Decimal { return this.group.getWidth(context); }
-    getHeight(context: RenderContext): Decimal { return this.group.getHeight(context); }
+    /** Nothing uses this, so we just return zero. */
+    getWidth(): Decimal { return new Decimal(0); }
+    getHeight(): Decimal { return new Decimal(0); }
 
     getGroups(): Group[] {
-        return [ this.group ];
+        return this.groups;
     }
 
     /** 
@@ -62,16 +64,17 @@ export default class Verse extends Group {
      * or if the phrases */
     getPlaces(context: RenderContext): [Group, Place][] {
         // Center the group in the verse, and offset by the focus.
-        return [
-            [ 
-                this.group, 
+        return this.groups.map(group =>
+            [
+                group, 
                 new Place(this.value, 
-                    this.group.getWidth(context).div(2).neg().sub(this.focus.x), 
-                    this.group.getHeight(context).div(2).neg().sub(this.focus.y), 
+                    group.getWidth(context).div(2).neg().sub(this.focus.x), 
+                    group.getHeight(context).div(2).neg().sub(this.focus.y), 
                     new Decimal(0)
                 ) 
             ]
-        ];
+        );
+
     }
 
     getBackground(): Color | undefined {
@@ -89,13 +92,14 @@ export function toVerse(value: Value): Verse | undefined {
     if(!(value instanceof Structure)) return undefined;
 
     if(value.type === VerseType) {
-        const group = toGroup(value.resolve("group"));
+        const possibleGroups = value.resolve("groups");
+        const group = possibleGroups instanceof List ? toGroups(possibleGroups) : toGroup(possibleGroups);
         const font = toFont(value.resolve("font"));
         const background = toColor(value.resolve("background"));
         const foreground = toColor(value.resolve("foreground"));
         const focus = toPlace(value.resolve("focus"));
         const tilt = toDecimal(value.resolve("tilt"));
-        return group && font && background && foreground && focus && tilt ? new Verse(value, group, font, background, foreground, focus, tilt) : undefined;
+        return group && font && background && foreground && focus && tilt ? new Verse(value, Array.isArray(group) ? group : [ group ], font, background, foreground, focus, tilt) : undefined;
     }
      // Try converting it to a group and wrapping it in a Verse.
     else {
@@ -103,7 +107,7 @@ export function toVerse(value: Value): Verse | undefined {
         return group === undefined ? undefined : 
             new Verse(
                 value, 
-                group, 
+                [ group ], 
                 "Noto Sans",
                 new Color(value, new Decimal(100), new Decimal(0), new Decimal(0)), 
                 new Color(value, new Decimal(0), new Decimal(0), new Decimal(0)),

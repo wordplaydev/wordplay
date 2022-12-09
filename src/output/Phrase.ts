@@ -31,7 +31,7 @@ export const PhraseType = toStructure(`
         scalex/eng,${TRANSLATE}scalex/😀•#•ø: ø
         scaley/eng,${TRANSLATE}scaley/😀•#•ø: ø
         in/eng,${TRANSLATE}in/😀•Transition•ø: ø
-        out/eng,${TRANSLATE}in/😀•Transition•ø: ø
+        out/eng,${TRANSLATE}out/😀•Transition•ø: ø
 `)
 
 export default class Phrase extends Group {
@@ -193,7 +193,7 @@ export function toPhrase(value: Value | undefined): Phrase | undefined {
     const scalex = toDecimal(value.resolve("scalex"));
     const scaley = toDecimal(value.resolve("scaley"));
     const inn = toTransition(value.resolve("in"));
-    const out = toTransition(value.resolve("in"));
+    const out = toTransition(value.resolve("out"));
 
     return texts ? new Phrase(value, texts, size, font, color, opacity, place, offset, rotation, scalex, scaley, inn, out) : undefined;
 
