@@ -3,7 +3,7 @@
     import Editor from '../editor/Editor.svelte';
     import type Source from '../models/Source';
     import type Project from '../models/Project';
-    import { currentStep } from '../models/stores';
+    import { playing, currentStep } from '../models/stores';
     import EvaluatorView from './EvaluatorView.svelte';
     import Exception from '../runtime/Exception';
     import { selectTranslation } from '../nodes/Translations';
@@ -11,6 +11,7 @@
     import ValueView from './ValueView.svelte';
     import type Verse from '../output/Verse';
     import { toVerse } from '../output/Verse';
+    import KeyboardIdle from '../models/KeyboardIdle';
 
     export let project: Project;
     export let source: Source;
@@ -44,9 +45,14 @@
             <!-- If there's an exception, show that. -->
             {#if latest instanceof Exception}
                 <div class="full exception"><div class='message'>{selectTranslation(latest.getExplanations(), $languages)}</div></div>
-            <!-- If there's no verse, show the editing feedback -->
+            <!-- If there's no verse -->
             {:else if latest === undefined}
-                <div class="full editing"><div class='message'>⌨️</div></div>
+                <!-- If it's because the keyboard isn't idle , show the typing feedback.-->
+                {#if $playing && !$KeyboardIdle}
+                    <div class="full editing"><div class='message'>⌨️</div></div>
+                {:else}
+                    <div class="full evaluating"><div class='message'>...</div></div>
+                {/if}
             <!-- If there's a value, but it's not a verse, show that -->
             {:else if verse === undefined}
                 <div class="full value">
