@@ -1,4 +1,5 @@
 import MeasurementType from "../nodes/MeasurementType";
+import StreamType from "../nodes/StreamType";
 import { TRANSLATE } from "../nodes/Translations";
 import Unit from "../nodes/Unit";
 import type Evaluator from "../runtime/Evaluator";
@@ -51,6 +52,6 @@ export default class Time extends Stream<Measurement> {
 
     }
 
-    getType() { return new MeasurementType(undefined, Unit.unit(["ms"])); }
+    getType() { return new StreamType(new MeasurementType(undefined, Unit.unit(["ms"]))); }
 
 }

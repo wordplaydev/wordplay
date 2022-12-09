@@ -1,4 +1,5 @@
 import BooleanType from "../nodes/BooleanType";
+import StreamType from "../nodes/StreamType";
 import { TRANSLATE } from "../nodes/Translations";
 import Bool from "../runtime/Bool";
 import type Evaluator from "../runtime/Evaluator";
@@ -35,6 +36,6 @@ export default class MouseButton extends Stream<Bool> {
         this.on = false;
     }
 
-    getType() { return new BooleanType(); }
+    getType() { return new StreamType(new BooleanType()); }
 
 }
