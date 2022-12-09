@@ -40,7 +40,7 @@
                 </div>
             {/if}
         </div>
-        <div class="output">
+        <div class="output" style="{verse !== undefined ? `background-color: ${verse.background.toCSS()};` : undefined}">
             <!-- If there's an exception, show that. -->
             {#if latest instanceof Exception}
                 <div class="full exception"><div class='message'>{selectTranslation(latest.getExplanations(), $languages)}</div></div>
@@ -116,6 +116,7 @@
         flex: 1;
         min-width: 0;
         min-height: 20em;
+        overflow: hidden;
     }
 
     .code:has(.stepping) {
@@ -160,6 +161,11 @@
 
     .exception .message {
         animation: shake .1s 3;
+    }
+
+    .output:focus-within {
+        outline: var(--wordplay-highlight) solid var(--wordplay-border-width);
+        z-index: 2;
     }
 
     @keyframes jiggle {

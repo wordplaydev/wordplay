@@ -7,6 +7,7 @@
     import { sizeToPx } from "../output/Phrase";
     import type Place from "../output/Place";
     import parseRichText from "../output/parseRichText";
+    import toCSS from "../output/toCSS";
 
     export let phrase: Phrase;
     export let place: Place;
@@ -17,20 +18,18 @@
 
 <div 
     class="phrase"
-    style={`
-        left: ${sizeToPx(phrase.place ? phrase.place.x : place.x)}; 
-        top: ${sizeToPx(phrase.place ? phrase.place.y : place.y)};
-        ${phrase.font ? `font-family: "${phrase.font}";` : ""}
-        ${phrase.color ? `color: ${phrase.color.toCSS()};`: ""}
-        ${phrase.offset || phrase.rotation || phrase.scalex || phrase.scaley ? 
-            `transform: 
-                ${phrase.offset ? `translate(${sizeToPx(phrase.offset.x)}, ${sizeToPx(phrase.offset.y)})`: ""} 
-                ${phrase.rotation ? `rotate(${phrase.rotation.toNumber()}deg)` : ""} 
-                ${phrase.scalex || phrase.scaley ? `scale(${phrase.scalex?.toNumber() ?? 1}, ${phrase.scaley?.toNumber() ?? 1})` : ""}
-            ;` : ""}
-        font-size: ${sizeToPx(phrase.size)};
-        ${phrase.opacity ? `opacity: ${phrase.opacity.toNumber()};` : ""}
-    `}
+    style={toCSS({
+        left: sizeToPx(phrase.place ? phrase.place.x : place.x),
+        top: sizeToPx(phrase.place ? phrase.place.y : place.y),
+        "font-family": phrase.font,
+        color: phrase.color?.toCSS(),
+        "transform": 
+            phrase.offset || phrase.rotation || phrase.scalex || phrase.scaley ? 
+            `${phrase.offset ? `translate(${sizeToPx(phrase.offset.x)}, ${sizeToPx(phrase.offset.y)})`: ""} ${phrase.rotation ? `rotate(${phrase.rotation.toNumber()}deg)` : ""} ${phrase.scalex || phrase.scaley ? `scale(${phrase.scalex?.toNumber() ?? 1}, ${phrase.scaley?.toNumber() ?? 1})` : ""}` : 
+            undefined,
+        "font-size": sizeToPx(phrase.size),
+        "opacity": phrase.opacity ? phrase.opacity.toString() : undefined
+    })}
 >
     {@html parseRichText(selectTranslation(phrase.getDescriptions(), $languages)).toHTML()}
 </div>

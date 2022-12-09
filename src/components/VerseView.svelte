@@ -12,6 +12,7 @@
     import Phrase from "../output/Phrase";
     import PhraseView from "./PhraseView.svelte";
     import { loadedFonts } from "../native/Fonts";
+    import toCSS from "../output/toCSS";
 
     export let project: Project;
     export let verse: Verse;
@@ -104,7 +105,12 @@
     <div 
         class="verse {interactive && $playing ? "" : "inert"} {ignored ? "ignored" : ""}" 
         tabIndex={interactive ? 0 : null}
-        style="font-family: {verse.font}; background-color: {verse.background.toCSS()}; color: {verse.foreground.toCSS()};"
+        style={toCSS({
+            "font-family": verse.font,
+            // Background is set in source view
+            "color": verse.foreground.toCSS(),
+            "transform": verse.tilt.toNumber() !== 0 ? `rotate(${verse.tilt.toNumber()}deg)` : undefined
+        })}
         on:mousedown={interactive ? handleMouseDown : null} 
         on:mouseup={interactive ? handleMouseUp : null}
         on:mousemove={interactive ? handleMouseMove : null}
@@ -131,16 +137,6 @@
         width: 100%; 
         height: 100%;
         position: relative;
-        overflow: hidden;
-    }
-
-    .verse:focus {
-        outline: var(--wordplay-highlight) solid var(--wordplay-border-width);
-        z-index: 2;
-    }
-
-    .verse.inert:focus {
-        outline: none;
     }
 
     .inert {
