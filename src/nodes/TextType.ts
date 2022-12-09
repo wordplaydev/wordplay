@@ -57,13 +57,18 @@ export default class TextType extends NativeType {
 
         if(types.length === 0) return false;
 
-        // For this to accept the given type, this must be an empty string or the text and the given type must be the same.
+        // For this to accept the given type, it must accept all possible types.
         for(const possibleType of types) {
+            // If the possible type is not text, it is not acceptable.
             if(!(possibleType instanceof TextType)) return false;
-            if(!((this.getText() === "" || (this.text.getText() === possibleType.text.getText())) &&
-                ((this.format === undefined && possibleType.format === undefined) || 
-                 (this.format !== undefined && possibleType.format !== undefined && this.format.equals(possibleType.format)))))
-                 return false;
+            // If:
+            // 1) this is any text, or its specific text that a possible type matches
+            // 2) this has no required format, or they have matching formats
+            if(!(
+                (this.getText() === "" || (this.text.getText() === possibleType.text.getText())) &&
+                (this.format === undefined || (possibleType.format !== undefined && this.format.equals(possibleType.format)))
+            ))
+                return false;
         }
         return true;
 
