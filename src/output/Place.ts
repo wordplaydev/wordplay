@@ -6,7 +6,7 @@ import Output from "./Output";
 import { toDecimal } from "./Verse";
 
 export const PlaceType = toStructure(`
-    •Place/eng,${TRANSLATE}Place/😀(
+    •Place/eng,📍/😀(
         x/eng,${TRANSLATE}x/😀•#m: 0m
         y/eng,${TRANSLATE}x/😀•#m: 0m
         z/eng,${TRANSLATE}x/😀•#m: 0m
