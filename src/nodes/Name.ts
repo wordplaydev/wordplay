@@ -56,7 +56,7 @@ export default class Name extends Node {
 
     computeConflicts(): Conflict[] {
     
-        if(this.name === undefined || this.name.getText() === PLACEHOLDER_SYMBOL) return [ new UnnamedAlias(this) ];
+        // if(this.name === undefined || this.name.getText() === PLACEHOLDER_SYMBOL) return [ new UnnamedAlias(this) ];
 
         return []; 
     
