@@ -177,14 +177,28 @@ export default class Evaluate extends Expression {
             else {
                 // If it's variable length, check all of the remaining given inputs to see if they match this type.
                 if(expectedInput.isVariableLength()) {
-                    while(givenInputs.length > 0) {
-                        const given = givenInputs.shift();
-                        if(given !== undefined && !(given instanceof Bind)) {
-                            const givenType = given.getTypeUnlessCycle(context);
-                            if(!(expectedType instanceof ListType))
-                                throw Error(`Expected list type on variable length input, but received ${expectedType.constructor.name}`);
-                            else if(expectedType.type instanceof Type && !expectedType.type.accepts(givenType, context, given))
-                                conflicts.push(new IncompatibleInput(fun, this, given, givenType, expectedType.type));
+                    // If there's only one and it matches the type, then we're good.
+                    let isVariableListInput = false;
+                    if(givenInputs.length === 1) {
+                        const lastType = givenInputs[0].getTypeUnlessCycle(context);
+                        if(lastType instanceof ListType && expectedType instanceof ListType && (lastType.type === undefined || expectedType.type?.accepts(lastType.type, context))) {
+                            isVariableListInput = true;
+                            // Consume the input.
+                            givenInputs.shift();
+                        }
+                    }
+
+                    // If it's not a list input for a variable length input, check every input to make sure it's valid.
+                    if(!isVariableListInput) {
+                        while(givenInputs.length > 0) {
+                            const given = givenInputs.shift();
+                            if(given !== undefined && !(given instanceof Bind)) {
+                                const givenType = given.getTypeUnlessCycle(context);
+                                if(!(expectedType instanceof ListType))
+                                    throw Error(`Expected list type on variable length input, but received ${expectedType.constructor.name}`);
+                                else if(expectedType.type instanceof Type && !expectedType.type.accepts(givenType, context, given))
+                                    conflicts.push(new IncompatibleInput(fun, this, given, givenType, expectedType.type));
+                            }
                         }
                     }
                 }
@@ -448,7 +462,7 @@ export default class Evaluate extends Expression {
 
     }
 
-    buildBindings(evaluator: Evaluator, inputs: Bind[], values: Value[], ): Map<Names, Value> | Exception {
+    buildBindings(evaluator: Evaluator, inputs: Bind[], values: Value[]): Map<Names, Value> | Exception {
 
         // Build the bindings, backwards because they are in reverse on the stack.
         const bindings = new Map<Names, Value>();
@@ -456,11 +470,15 @@ export default class Evaluate extends Expression {
             const bind = inputs[i];
             if(i >= values.length) 
                 return new ValueException(evaluator);
-            bindings.set(bind.names, 
-                bind.isVariableLength() ? 
-                    new List(this, values.slice(i)) :
-                    values[i]
-            )
+            
+            // If it's variable length, take the rest of the values and stop.
+            if(bind.isVariableLength()) {
+                // If there's only one more value and it's already a list, just set it to the list.
+                bindings.set(bind.names, values[i] instanceof List ? values[i] : new List(this, values.slice(i)));
+                break;
+            }
+            // Otherwise, just set this value.
+            bindings.set(bind.names, values[i]);
         }
         return bindings;
 
