@@ -1,4 +1,5 @@
 import MeasurementType from "../nodes/MeasurementType";
+import StreamType from "../nodes/StreamType";
 import { TRANSLATE } from "../nodes/Translations";
 import type Evaluator from "../runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
@@ -42,6 +43,6 @@ export default class Random extends Stream<Measurement> {
     start() {}
     stop() {}
 
-    getType() { return new MeasurementType(); }
+    getType() { return new StreamType(new MeasurementType()); }
 
 }

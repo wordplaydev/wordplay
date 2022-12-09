@@ -1,15 +1,16 @@
 import type Conflict from "../conflicts/Conflict";
-import Expression from "./Expression";
-import Token from "./Token";
-import Type from "./Type";
+import type Type from "./Type";
 import type Node from "./Node";
-import UnknownType from "./UnknownType";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import type Bind from "./Bind";
 import type Context from "./Context";
 import type { TypeSet } from "./UnionType";
 import type Evaluator from "../runtime/Evaluator";
+
+import Expression from "./Expression";
+import Token from "./Token";
+import UnknownType from "./UnknownType";
 import StructureDefinition from "./StructureDefinition";
 import { MisplacedThis } from "../conflicts/MisplacedThis";
 import StructureType from "./StructureType";
@@ -22,8 +23,10 @@ import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import StartFinish from "../runtime/StartFinish";
+import Reaction from "./Reaction";
+import ValueException from "../runtime/ValueException";
 
-type ThisStructure = StructureDefinition | ConversionDefinition;
+type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
 export default class This extends Expression {
     
@@ -51,7 +54,8 @@ export default class This extends Expression {
 
         return context.get(this)?.getAncestors()?.find(a => 
             a instanceof StructureDefinition || 
-            a instanceof ConversionDefinition) as ThisStructure | undefined;
+            a instanceof ConversionDefinition ||
+            a instanceof Reaction) as ThisStructure | undefined;
 
     }
 
@@ -69,10 +73,16 @@ export default class This extends Expression {
         // The type of this is the structure definition in which this is evaluating.
         const structure = this.getEnclosingStructure(context);
         return structure === undefined ? new UnknownType(this) : 
+            // Structure definition's have the structure type
             structure instanceof StructureDefinition ? new StructureType(structure) :
-            // We strip the unit from this in order to provide a scalar for conversion.
-            structure.input instanceof MeasurementType ? new MeasurementType() :
-            structure.input instanceof Type ? structure.input :
+            // Conversion definitions have the input type
+            structure instanceof ConversionDefinition ?  (
+                // We strip the unit from this in order to provide a scalar for conversion.
+                structure.input instanceof MeasurementType ? new MeasurementType() :
+                structure.input
+            ) :
+            // Reactions have the reaction's value type
+            structure instanceof Reaction ? structure.getTypeUnlessCycle(context) :
             new UnknownType(this);
     
     }
@@ -89,6 +99,15 @@ export default class This extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         
         if(prior) return prior;
+
+        // If this is in a reaction, it refers to the latest value of the reaction being evaluated.
+        const reaction = evaluator.getCurrentContext().get(this)?.getAncestors().find(n => n instanceof Reaction) as Reaction | undefined;
+        if(reaction) {
+            const latestValue = evaluator.getReactionStreamLatest(reaction);
+            return latestValue ?? new ValueException(evaluator);
+        }
+
+        // Otherwise, this means something else.
         return evaluator.getThis(this) ?? new NameException(THIS_SYMBOL, evaluator);
     }
 

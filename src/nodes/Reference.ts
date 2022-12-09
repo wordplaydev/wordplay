@@ -32,6 +32,7 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Stream from "../runtime/Stream";
 import StartFinish from "../runtime/StartFinish";
+import StreamType from "./StreamType";
 
 export default class Reference extends Expression {
     
@@ -112,8 +113,23 @@ export default class Reference extends Expression {
         if(definition === undefined || definition instanceof TypeVariable)
             return new UnknownType(this);
 
-        // Get the type of the value, bind, or expression.
-        const type = definition instanceof Value ? definition.getType(context) : definition.getTypeUnlessCycle(context);
+        // Get the type of the value, 
+        if(definition instanceof Value) {
+            const type = definition.getType(context);
+            // If this is a reference to a value in the context of reaction statement, it's the stream type.
+            // Otherwise its the stream's value type.
+            if(type instanceof StreamType) {
+                const reaction = context.get(this)?.getParent();
+                if(reaction instanceof Reaction && reaction.stream === this)
+                    return type;
+                else
+                    return type.type;
+            }
+            else return type;
+        }
+        
+        // Otherwise, do some type guard analyis on the bind.
+        const type = definition.getTypeUnlessCycle(context);
 
         // Is the type a union? Find the subset of types that are feasible, given any type checks in conditionals.
         if(definition instanceof Bind && type instanceof UnionType && this._unionTypes === undefined) {

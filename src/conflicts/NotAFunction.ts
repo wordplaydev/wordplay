@@ -24,7 +24,7 @@ export default class NotAFunction extends Conflict {
     getExplanations(): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `${this.fun.toWordplay()} doesn't refer to a function.`
+            eng: `${this.fun.toWordplay()} isn't a function on this.`
         }
     }
 

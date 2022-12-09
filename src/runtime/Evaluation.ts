@@ -249,15 +249,20 @@ export default class Evaluation {
 
     }
 
-    /** Finds the enclosuring structure closure, possibly this. */
+    /** Finds the enclosuring structure that "*" refers to. */
     getThis(requestor: Node): Value | undefined {
 
         const context = this.#closure;
-        return context instanceof Structure ? context :
-            context instanceof Measurement ? context.unitless(requestor) :
-            context instanceof Primitive ? context :
-            context instanceof Evaluation ? context.getThis(requestor) :
-            undefined;
+        if(context instanceof Structure)
+            return context;
+        else if(context instanceof Measurement)
+            return context.unitless(requestor);
+        else if(context instanceof Primitive)
+            return context;
+        else if(context instanceof Evaluation)
+            return context.getThis(requestor);
+        else
+            return undefined;
 
     }
 

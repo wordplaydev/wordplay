@@ -100,12 +100,12 @@ export default class Reaction extends Expression {
             new Start(this,
                 evaluator => {
                 // Ask evaluator to remember streams that are accessed
-                evaluator.startRememberingStreamAccesses();
+                evaluator.startRememberingStreamAccesses(this);
                 // Get the latest value
                 const latest = evaluator.getReactionStreamLatest(this);
                 if(latest) {
                     // If this reaction is bound, bind the latest value to the bind's names
-                    // so we can access the previous value.
+                    // so we can access the previous value via those names.
                     const bind = context.get(this)?.getNearestAncestor<Bind>(Bind);
                     if(bind !== undefined)
                         evaluator.bind(bind.names, latest);

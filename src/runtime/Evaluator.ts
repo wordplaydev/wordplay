@@ -71,6 +71,9 @@ export default class Evaluator {
     /** The expressions that need to be re-evaluated, if any. */
     invalidatedExpressions: Set<Expression> | undefined = undefined;
 
+    /** The reaction listening to stream accesses */
+    reactionEvaluating: Reaction | undefined = undefined;
+
     /** The streams accessed since the latest time requested */
     accessedStreams: Stream[] | undefined = undefined;
 
@@ -549,9 +552,10 @@ export default class Evaluator {
         this.observers.forEach(observer => observer());
     }
 
-    // STREAM MANAGMEENT
+    // STREAM AND REACTION MANAGMEENT
 
-    startRememberingStreamAccesses() {
+    startRememberingStreamAccesses(reaction: Reaction) {
+        this.reactionEvaluating = reaction;
         this.accessedStreams = [];
     }
 
@@ -562,8 +566,11 @@ export default class Evaluator {
     stopRememberingStreamAccesses(): Stream[] | undefined {
         const accessedStreams = this.accessedStreams;
         this.accessedStreams = undefined;
+        this.reactionEvaluating = undefined;
         return accessedStreams;
     }
+
+    getReactionEvaluating() { return this.reactionEvaluating; }
 
     didStreamCauseReaction(stream: Stream) {
 
