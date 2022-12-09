@@ -21,6 +21,7 @@ import { createNativeConversion } from "./NativeBindings";
 import NativeExpression from "./NativeExpression";
 import type Node from "../nodes/Node";
 import type Evaluation from "../runtime/Evaluation";
+import List from "../runtime/List";
 
 export default function bootstrapMeasurement() {
 
@@ -238,6 +239,14 @@ export default function bootstrapMeasurement() {
             ),
         
             createNativeConversion(WRITE_DOCS, '#', "''", (requestor: Node, val: Measurement) => new Text(requestor, val.toString())),
+            createNativeConversion(WRITE_DOCS, '#', "[]", (requestor: Node, val: Measurement) => {
+                const list = [];
+                const max = val.toNumber();
+                if(max < 0) return new List(requestor, []);
+                for(let i = 1; i <= val.toNumber(); i++)
+                    list.push(new Measurement(requestor, i));
+                return new List(requestor, list);
+            }),
 
             // Time
             createNativeConversion(WRITE_DOCS, '#s', "#min", (requestor: Node, val: Measurement) => val.divide(requestor, new Measurement(requestor, 60, Unit.unit(["s"], ["min"])))),
