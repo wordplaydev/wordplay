@@ -7,6 +7,7 @@ import Talk from "./Talk.wp?raw";
 import Laughing from "./Laughing.wp?raw";
 import Layouts from "./Layouts.wp?raw";
 import Transforms from "./Transforms.wp?raw";
+import Kitties from "./RainingKitties.wp?raw"
 
 export type Stuff = { name: string, sources: { name: string, code: string}[] };
 
@@ -42,5 +43,6 @@ export const examples: Stuff[] = [
     Talk,
     Laughing,
     Layouts,
-    Transforms
+    Transforms,
+    Kitties
 ].map(source => wpToStuff(source));
