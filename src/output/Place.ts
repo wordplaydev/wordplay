@@ -33,6 +33,8 @@ export default class Place extends Output {
         return new Place(this.value, this.x.add(place.x), this.y.add(place.y), this.z.add(place.z));
     }
 
+    toString() { return `Place(${this.x.toString()}m ${this.y.toString()}m ${this.z.toString()}m)`; }
+
 }
 
 export function toPlace(value: Value | undefined): Place | undefined {

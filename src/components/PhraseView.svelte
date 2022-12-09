@@ -8,9 +8,13 @@
     import type Place from "../output/Place";
     import parseRichText from "../output/parseRichText";
     import toCSS from "../output/toCSS";
-
+    import Decimal from "decimal.js";
+    
     export let phrase: Phrase;
     export let place: Place;
+    export let focus: Place;
+
+    const MAGNIFIER = new Decimal(12);
 
     let languages = getLanguages();        
 
@@ -23,12 +27,13 @@
         top: sizeToPx(phrase.place ? phrase.place.y : place.y),
         "font-family": phrase.font,
         color: phrase.color?.toCSS(),
-        "transform": 
+        transform: 
             phrase.offset || phrase.rotation || phrase.scalex || phrase.scaley ? 
             `${phrase.offset ? `translate(${sizeToPx(phrase.offset.x)}, ${sizeToPx(phrase.offset.y)})`: ""} ${phrase.rotation ? `rotate(${phrase.rotation.toNumber()}deg)` : ""} ${phrase.scalex || phrase.scaley ? `scale(${phrase.scalex?.toNumber() ?? 1}, ${phrase.scaley?.toNumber() ?? 1})` : ""}` : 
             undefined,
-        "font-size": sizeToPx(phrase.size),
-        "opacity": phrase.opacity ? phrase.opacity.toString() : undefined
+        // The font size is whatever it's normal size is, but adjusted for perspective, then translated into pixels.
+        "font-size": sizeToPx(MAGNIFIER.times(phrase.size.dividedBy(place.z.sub(focus.z).toNumber()))),
+        opacity: phrase.opacity ? phrase.opacity.toString() : undefined
     })}
 >
     {@html parseRichText(selectTranslation(phrase.getDescriptions(), $languages)).toHTML()}

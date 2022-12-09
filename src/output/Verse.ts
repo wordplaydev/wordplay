@@ -13,14 +13,16 @@ import Decimal from "decimal.js";
 import { toGroup } from "./toGroups";
 import { toColor } from "./Color";
 
+const BACKSET = -12;
+
 export const VerseType = toStructure(`
     •Verse/eng,🌎/😀•Group(
         group/eng,${TRANSLATE}phrases/😀•Group
         font/eng,${TRANSLATE}font/😀${SupportedFontsType}: "Noto Sans"
         foreground/eng,${TRANSLATE}fore/😀•Color: Color(0 0 0°)
         background/eng,${TRANSLATE}back/😀•Color: Color(100 0 0°)
-        focus/eng,${TRANSLATE}focus•Place: Place(0 0 0)
-        tilt/eng,${TRANSLATE}tilt•#°: 0°
+        focus/eng,${TRANSLATE}focus/😀•Place: Place(0m 0m ${BACKSET}m)
+        tilt/eng,${TRANSLATE}tilt/😀•#°: 0°
     )
 `);
 
@@ -95,7 +97,7 @@ export function toVerse(value: Value): Verse | undefined {
         const tilt = toDecimal(value.resolve("tilt"));
         return group && font && background && foreground && focus && tilt ? new Verse(value, group, font, background, foreground, focus, tilt) : undefined;
     }
-     // Try converting it to a group.
+     // Try converting it to a group and wrapping it in a Verse.
     else {
         const group = toGroup(value);
         return group === undefined ? undefined : 
@@ -105,7 +107,7 @@ export function toVerse(value: Value): Verse | undefined {
                 "Noto Sans",
                 new Color(value, new Decimal(100), new Decimal(0), new Decimal(0)), 
                 new Color(value, new Decimal(0), new Decimal(0), new Decimal(0)),
-                new Place(value, new Decimal(0), new Decimal(0), new Decimal(0)),
+                new Place(value, new Decimal(0), new Decimal(0), new Decimal(BACKSET)),
                 new Decimal(0)
             );
     }

@@ -84,18 +84,29 @@
     let phrases: Phrase[];
     $: {
 
-        // Erase the places
+        // Reset the places
         places.clear();
+
         // Walk the Verse and compute global places for each group. 
         // This relies on each phrase and group to be able to size itself independent of its group
         // and then position based on sizes.
         layoutGroup(verse, [], places, context);
 
-        // Compute the subset of groups that are phrases, just for efficiency.
+        // Compute the subset of groups that are phrases to prepare for rendering.
         phrases = [];
-        for(const group of places.keys())
-            if(group instanceof Phrase)
-                phrases.push(group);
+        for(const [ phrase, place ] of places)
+            // Exclude those that are behind the focal point on the z-axis, since they're invisible anyway.
+            if(phrase instanceof Phrase && place.z.sub(verse.focus.z).greaterThan(0))
+                phrases.push(phrase);
+
+        // Finally, sort the phrases by distance from the focal point.
+        phrases.sort((a, b) => {
+            const aPlace = places.get(a);
+            const bPlace = places.get(b);
+            return aPlace === undefined ? -1 :
+                bPlace == undefined ? 1 :
+                aPlace.z.sub(verse.focus.z).sub(bPlace.z.sub(verse.focus.z)).toNumber()
+        });
 
     }
 
@@ -123,7 +134,7 @@
                 {@const place = places.get(phrase)}
                 <!-- There should always be a place. If there's not, there's something wrong with our layout algorithm. -->
                 {#if place}
-                    <PhraseView {phrase} {place} />
+                    <PhraseView {phrase} {place} focus={verse.focus} />
                 {:else}
                     <span>Oops</span>
                 {/if}
