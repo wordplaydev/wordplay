@@ -12,11 +12,12 @@
     import Phrase from "../output/Phrase";
     import PhraseView from "./PhraseView.svelte";
     import { loadedFonts } from "../native/Fonts";
-    import Sequence from "../output/Sequence";
+    import Sequence, { type SequenceKind } from "../output/Sequence";
     import phraseToCSS, { toCSS } from "../output/phraseToCSS";
     import type TextLang from "../output/TextLang";
     import type Color from "../output/Color";
     import type Animation from "../output/Animation";
+    import type Pose from "../output/Pose";
 
     export let project: Project;
     export let verse: Verse;
@@ -83,6 +84,35 @@
     }
 
     type PhraseName = string;
+
+    function startSequence(phrase: Phrase, sequence: Sequence, kind: SequenceKind) {
+        // Get the first pose in the sequence
+        const firstPose = sequence.getFirstPose();
+        // Only add a sequence for this phrase if there's a first pose.
+        if(firstPose && sequence.count > 0) {         
+            // Set a sequence for this phrase, starting at the first pose.
+            const iterations = new Map<Sequence, number>();
+            iterations.set(sequence, 1);
+            animations.set(phrase.getName(), { 
+                kind: kind, 
+                sequence, 
+                currentPose: firstPose, 
+                currentPoseStartTime: undefined, 
+                iterations: iterations,
+                moves: {}
+            })
+        }
+
+
+    }
+
+    function getPhraseByName(name: PhraseName) {
+        return presentPhrases.find(p => p.getName() === name) ?? Array.from(exitingPhrases.keys()).find(p => p.getName() === name);
+    }
+
+    function wrapPose(pose: Pose | Sequence) {
+        return pose instanceof Sequence ? pose : new Sequence(pose.value, 1, [ pose ]);
+    }
 
     // On every verse change, compute the canonical places of all phrases.
     let places = new Map<Group, Place>();
@@ -170,34 +200,22 @@
             // Does it have an entry and just entered? Start it's entry animation.
             if(phrase.entry && enteredNames.has(name)) {
                 // Convert the pose to a sequence if it's not one, since a single pose is basically a sequence of one pose.
-                sequence = phrase.entry instanceof Sequence ? phrase.entry : new Sequence(phrase.value, 1, [ phrase.entry ]);
+                sequence = wrapPose(phrase.entry);
                 kind = "entry";
             }
-            // Does it have a during?
-            if(phrase.exit && exitedNames.has(name)) {
-                sequence = phrase.exit instanceof Sequence ? phrase.exit : new Sequence(phrase.value, 1, [ phrase.exit ]);
+            // Does it have an exit?
+            else if(phrase.exit && exitedNames.has(name)) {
+                sequence = wrapPose(phrase.exit);
                 kind = "exit";
             }
-
-            if(sequence && kind) {
-                // Get the first pose in the sequence
-                const firstPose = sequence.getFirstPose();
-                // Only add a sequence for this phrase if there's a first pose.
-                if(firstPose && sequence.count > 0) {         
-                    // Set a sequence for this phrase, starting at the first pose.
-                    const iterations = new Map<Sequence, number>();
-                    iterations.set(sequence, 1);
-                    animations.set(name, { 
-                        kind: kind, 
-                        phrase, 
-                        sequence, 
-                        currentPose: firstPose, 
-                        currentPoseStartTime: undefined, 
-                        iterations: iterations,
-                        moves: {}
-                    })
-                }
+            // Does it have a during and isn't being animated?
+            else if(phrase.during && !animations.has(name)) {
+                sequence = wrapPose(phrase.during);
+                kind = "during";
             }
+
+            if(sequence && kind)
+                startSequence(phrase, sequence, kind);
         }
 
         if(animations.size > 0)
@@ -211,6 +229,16 @@
 
         // For all of the active sequences, make progress on their current pose's moves, and advance to next poses.
         for(const [ name, animation ] of animations) {
+
+            // Find the current Phrase corresponding to this name.
+            const phrase = getPhraseByName(name);
+
+            // Skip this animation if we couldn't find it.
+            if(phrase === undefined) {
+                console.error(`Couldn't find phrase ${name}`);
+                continue;
+            }
+
             // If we haven't started the sequence yet, start it!
             if(animation.currentPoseStartTime === undefined) {
 
@@ -230,7 +258,7 @@
 
                     const start = 
                         // If an exit, the current phrase value
-                        animation.kind === "exit" ? animation.phrase.size :
+                        animation.kind === "exit" ? phrase.size :
                         // Latest value
                         animation.moves.size !== undefined ? animation.moves.size.end :
                         // If this is the first pose, use it's size
@@ -238,7 +266,7 @@
                         // Otherwise, next size in the sequence
                         animation.sequence.getNextPoseThat(animation.currentPose, pose => pose.size !== undefined)?.size ??
                         // Otherwise, the phrase's current size
-                        animation.phrase.size;
+                        phrase.size;
                     
                     const end = 
                         // If this is the first pose, use it's size
@@ -246,8 +274,8 @@
                         // Next value in the sequence
                         animation.sequence.getNextPoseThat(animation.currentPose, pose => pose.size !== undefined)?.size ??
                         // If there isn't one, the phrase's current size.
-                        animation.phrase.size;
-                    
+                        phrase.size;
+
                     animation.moves.size = {
                         start: start,
                         end: end,
@@ -284,7 +312,6 @@
                     const iterations = currentSequence ? animation.iterations.get(currentSequence) : undefined;
                     if(iterations === undefined) throw Error("No iterations for sequence for sequence " + currentSequence);
                     if(currentSequence && nextPoseInSequence === undefined && iterations < currentSequence.count && firstInCurrent) {
-                        console.log("Repeating sequence.");
                         animation.iterations.set(currentSequence, 1 + (animation.iterations.get(currentSequence) ?? 0));
                         animation.currentPose = firstInCurrent;
                         animation.currentPoseStartTime = undefined;
@@ -312,36 +339,46 @@
         // pass it to the render context, then rely on Phrases to use the moves values instead of the canonical values when present.
         const renderedPlaces = new Map<Group, Place>();
         const movesByPhrase = new Map<Phrase, Animation>();
-        for(const seq of animations.values()) movesByPhrase.set(seq.phrase, seq);
+        for(const [ name, animation ] of animations) {
+            const phrase = getPhraseByName(name);
+            if(phrase)
+                movesByPhrase.set(phrase, animation);
+        }
         context.animations = movesByPhrase;
 
         // Do a layout for the phrases still in place.
         layoutGroup(verse, [], renderedPlaces, context);
 
         // Update the appearance of each phrase with the new layouts.
-        for(const [ name, sequence ] of animations) {
+        for(const [ name, animation ] of animations) {
+
+            // Find the current Phrase corresponding to this name.
+            const phrase = getPhraseByName(name);
+
+            if(phrase === undefined)
+                continue;
 
             // Find the view to style
             const view = document.getElementById(`phrase-${name}`);
-            if(view && sequence.moves) {
+            if(view) {
 
                 // Find the moves for each property, defaulting to the phrase's current value.
                 const renderedPhrase = new Phrase(
-                    sequence.phrase.value,
-                    sequence.moves.text?.value as TextLang[] ?? sequence.phrase.text,
-                    sequence.moves.size?.value as number ?? sequence.phrase.size,
-                    sequence.moves.font?.value as string ?? sequence.phrase.font,
-                    sequence.moves.color?.value as Color ?? sequence.phrase.color,
-                    sequence.moves.opacity?.value as number ?? sequence.phrase.opacity,
-                    sequence.moves.place?.value as Place ?? sequence.phrase.place,
-                    sequence.moves.offset?.value as Place ?? sequence.phrase.offset,
-                    sequence.moves.rotation?.value as number ?? sequence.phrase.rotation,
-                    sequence.moves.scalex?.value as number ?? sequence.phrase.scalex,
-                    sequence.moves.scaley?.value as number ?? sequence.phrase.scaley
+                    phrase.value,
+                    animation.moves.text?.value as TextLang[] ?? phrase.text,
+                    animation.moves.size?.value as number ?? phrase.size,
+                    animation.moves.font?.value as string ?? phrase.font,
+                    animation.moves.color?.value as Color ?? phrase.color,
+                    animation.moves.opacity?.value as number ?? phrase.opacity,
+                    animation.moves.place?.value as Place ?? phrase.place,
+                    animation.moves.offset?.value as Place ?? phrase.offset,
+                    animation.moves.rotation?.value as number ?? phrase.rotation,
+                    animation.moves.scalex?.value as number ?? phrase.scalex,
+                    animation.moves.scaley?.value as number ?? phrase.scaley
                 );
 
                 // Determine the render location (and if is an exiting phrase, fall back to it's last position)
-                const place = renderedPlaces.get(sequence.phrase) ?? exitingPhrases.get(sequence.phrase);
+                const place = renderedPlaces.get(phrase) ?? exitingPhrases.get(phrase);
 
                 // Apply each style, as the PhraseView does, by creating a temporary Phrase.
                 if(place)
@@ -363,13 +400,26 @@
             const animation = animations.get(name);
             if(animation) {
 
-                // If it was an exit, remove it from the belatedly rendered phrases.
-                if(animation.kind === "exit") {
-                    exitingPhrases.delete(animation.phrase);
-                }
-
                 // Delete it from the animation list.
                 animations.delete(name);
+
+                // Find the current phrase.
+                const phrase = getPhraseByName(name);
+
+                if(phrase) {
+
+                    // If it was an entry, see if there was a during
+                    if(animation.kind === "entry") {
+                        if(phrase && phrase.during)
+                            startSequence(phrase, wrapPose(phrase.during), "during");
+                    }
+                    // If it was an exit, remove it from the belatedly rendered phrases.
+                    else if(animation.kind === "exit") {
+                        exitingPhrases.delete(phrase);
+                    }
+
+                }
+
             }
 
         }     

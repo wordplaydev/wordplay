@@ -6,9 +6,14 @@ clicks•#: 0 ∆ 🖱 🖱 ? clicks + 1 clicks
 clicks < 5 ?
     💬(
         "Mumble" 
-        size: (clicks + 1) ·1m 
+        size: (clicks + 1) ·1m
         name: "mum"
         entry: Pose(1s size: 2m)
+        during: Sequence(
+            ∞x
+            Pose(0.25s size: (clicks + 1) · 1.1m)
+            Pose(0.25s size: (clicks + 1) · 0.9m)
+        )
         exit: Sequence(
             1x
             Pose(0.5s size: 200m)

@@ -1,6 +1,5 @@
 import type Color from "./Color";
 import type MoveState from "./MoveState";
-import type Phrase from "./Phrase";
 import type Place from "./Place";
 import type Pose from "./Pose";
 import type Sequence from "./Sequence";
@@ -8,7 +7,6 @@ import type TextLang from "./TextLang";
 
 type Animation = {
     kind: "entry" | "between" | "during" | "exit",
-    phrase: Phrase,
     sequence: Sequence,
     currentPose: Pose
     currentPoseStartTime: number | undefined,

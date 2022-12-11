@@ -226,8 +226,8 @@ export function toPhrase(value: Value | undefined): Phrase | undefined {
     const scaley = toDecimal(value.resolve("scaley"))?.toNumber() ?? 1;
     const name = toText(value.resolve("name"));
     const entry = toPose(value.resolve("entry")) ?? toSequence(value.resolve("entry"));
-    const during = toPose(value.resolve("during")) ?? toSequence(value.resolve("entry"));
-    const between = toPose(value.resolve("between")) ?? toSequence(value.resolve("entry"));
+    const during = toPose(value.resolve("during")) ?? toSequence(value.resolve("during"));
+    const between = toPose(value.resolve("between")) ?? toSequence(value.resolve("between"));
     const exit = toPose(value.resolve("exit")) ?? toSequence(value.resolve("exit"));
     
     return texts ? new Phrase(

@@ -13,6 +13,8 @@ export const SequenceType = toStructure(`
     )
 `);
 
+export type SequenceKind = "entry" | "between" | "during" | "exit";
+
 export default class Sequence extends Output {
 
     readonly count: number;
