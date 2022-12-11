@@ -71,7 +71,7 @@ export default function bootstrapMeasurement() {
                     "😀": "+"
                 },
                 WRITE_DOCS,
-                // The operand's type should be the left's type.
+                // The operand's unit should match the left's unit.
                 new MeasurementType(undefined, left => left), 
                 // The output's type should be the left's type
                 new MeasurementType(undefined, left => left),
@@ -136,7 +136,7 @@ export default function bootstrapMeasurement() {
                     "😀": "÷"
                 },
                 WRITE_DOCS,
-                new MeasurementType(), 
+                new MeasurementType(),
                 new MeasurementType(undefined, (left, right) => left.quotient(right)),
                 (requestor, left, right) => left.divide(requestor, right),
                 false
@@ -224,7 +224,8 @@ export default function bootstrapMeasurement() {
                     "😀": "="
                 },
                 WRITE_DOCS,
-                new MeasurementType(undefined, unit => unit), new BooleanType(),
+                new MeasurementType(undefined, unit => unit), 
+                new BooleanType(),
                 (requestor, left, right) => new Bool(requestor, left.isEqualTo(right))
             ),
             createBinaryOp(

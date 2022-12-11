@@ -507,7 +507,7 @@ function parseNone(tokens: Tokens): NoneLiteral {
 function parseMeasurement(tokens: Tokens): MeasurementLiteral {
 
     const number = tokens.read(TokenType.NUMBER);
-    const unit = (tokens.nextIsOneOf(TokenType.NAME, TokenType.LANGUAGE) || tokens.peekText() === "%") && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
+    const unit = tokens.nextIsOneOf(TokenType.NAME, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
     return new MeasurementLiteral(number, unit);
 
 }
@@ -517,10 +517,6 @@ function parseUnit(tokens: Tokens): Unit {
             
     // A unit is just a series of names, carets, numbers, and product symbols not separated by spaces.
     const numerator: Dimension[] = [];
-
-    // Special case percent, which normally represents a reminder op.
-    if(tokens.nextIs(TokenType.BINARY_OP) && tokens.peekText() === "%")
-        return new Unit(undefined, [ new Dimension(tokens.read(TokenType.BINARY_OP)) ], undefined, []);
 
     while(tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
         numerator.push(parseDimension(tokens));
@@ -907,7 +903,7 @@ export function parseType(tokens: Tokens, isExpression:boolean=false): Type {
         tokens.nextIs(TokenType.PLACEHOLDER) ? new TypePlaceholder(tokens.read(TokenType.PLACEHOLDER)) :
         tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read(TokenType.NAME)) :
         tokens.nextIs(TokenType.BOOLEAN_TYPE) ? new BooleanType(tokens.read(TokenType.BOOLEAN_TYPE)) :
-        tokens.nextIsOneOf(TokenType.NUMBER, TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :
+        (tokens.peekText() === "%" || tokens.nextIsOneOf(TokenType.NUMBER, TokenType.NUMBER_TYPE)) ? parseMeasurementType(tokens) :
         tokens.nextIs(TokenType.TEXT) ? parseTextType(tokens) :
         tokens.nextIs(TokenType.NONE) ? parseNoneType(tokens) :
         tokens.nextIs(TokenType.LIST_OPEN) ? parseListType(tokens) :
@@ -942,8 +938,13 @@ function parseTextType(tokens: Tokens): TextType {
 /** NUMBER_TYPE :: #NAME? */
 function parseMeasurementType(tokens: Tokens): MeasurementType {
 
-    const number = tokens.nextIs(TokenType.NUMBER) ? tokens.read(TokenType.NUMBER) : tokens.read(TokenType.NUMBER_TYPE);
-    const unit = (tokens.nextIsOneOf(TokenType.NAME, TokenType.LANGUAGE) || tokens.peekText() === "%") && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
+    if(tokens.nextIs(TokenType.BINARY_OP) && tokens.peekText() === "%")
+        return new MeasurementType(tokens.read(TokenType.BINARY_OP));
+
+    const number = 
+         tokens.nextIs(TokenType.NUMBER) ? tokens.read(TokenType.NUMBER) : 
+         tokens.read(TokenType.NUMBER_TYPE);
+    const unit = tokens.nextIsOneOf(TokenType.NAME, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
     return new MeasurementType(number, unit);
 
 }
@@ -1015,7 +1016,7 @@ function parseFunctionType(tokens: Tokens): FunctionType | UnparsableType {
     const open = tokens.read(TokenType.EVAL_OPEN);
 
     const inputs: Bind[] = [];
-    while(nextIsBind(tokens, true))
+    while(nextIsBind(tokens, false))
         inputs.push(parseBind(tokens));
 
     const close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;

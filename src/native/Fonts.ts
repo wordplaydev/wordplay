@@ -163,4 +163,4 @@ export class FontManager {
 const Fonts = new FontManager();
 export default Fonts;
 
-export const SupportedFontsType = SupportedFontFamilies.map(font => `•"${font.name}"`).join("");
+export const SupportedFontsType = SupportedFontFamilies.map(font => `"${font.name}"`).join("•");

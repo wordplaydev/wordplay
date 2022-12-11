@@ -26,6 +26,14 @@ test("Test binary boolean conflicts", () => {
 
 });
 
+test("Test percent conflicts", () => {
+
+    // testConflict("1% · 1", "1% + 1m", BinaryOperation, IncompatibleInput);
+    // testConflict("1% ÷ 1", "1% - 1m", BinaryOperation, IncompatibleInput);
+
+});
+
+
 test("Test boolean logic", () => {
 
     expect(Evaluator.evaluateCode("⊥ ∨ ⊥")?.toString()).toBe("⊥");

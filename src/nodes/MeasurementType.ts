@@ -56,6 +56,7 @@ export default class MeasurementType extends NativeType {
     }
 
     hasDerivedUnit() { return this.unit instanceof Function; }
+    isPercent() { return this.number.getText() === "%"; }
 
     /** All types are concrete unless noted otherwise. */
     isGeneric() { return this.hasDerivedUnit(); }
@@ -83,9 +84,13 @@ export default class MeasurementType extends NativeType {
 
             // If it is a measurement type, get it's unit.
             const thatUnit = possibleType.concreteUnit(context);
+
+            // If this is a percent and the possible type has a unit, it's not compatible.
+            if(this.isPercent() && !thatUnit.isUnitless())
+                return false;
             
             // If this is a specific number, then all other possible type must be the same specific number.
-            if(!this.number.is(TokenType.NUMBER_TYPE) && this.number.getText() !== possibleType.number.getText())
+            if(this.number.is(TokenType.NUMBER) && this.number.getText() !== possibleType.number.getText())
                 return false;
 
             // If the units aren't compatible, then the the types aren't compatible.

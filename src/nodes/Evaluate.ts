@@ -48,6 +48,7 @@ import UnknownInput from "../conflicts/UnknownInput";
 import getConcreteExpectedType from "./Generics";
 import FunctionDefinitionType from "./FunctionDefinitionType";
 import type Names from "./Names";
+import NameException from "../runtime/NameException";
 
 export default class Evaluate extends Expression {
 
@@ -330,7 +331,7 @@ export default class Evaluate extends Expression {
                         return [ new Halt(evaluator => new SemanticException(evaluator, input), this) ];
                     // But it doesn't correspond to the required input, halt
                     else if(!input.sharesName(expectedInput))
-                        return [ new Halt(evaluator => new ValueException(evaluator), this) ];
+                        return [ new Halt(evaluator => new NameException(input.toWordplay(), evaluator), this) ];
                     // Otherwise, compile the bind's expression.
                     else
                         return input.value.compile(context);

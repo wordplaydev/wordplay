@@ -131,6 +131,9 @@ test("Test roots and powers", () => {
 
 test("Test conversions", () => {
 
+    // PERCENT
+    expect(Evaluator.evaluateCode("1%")?.toString()).toBe('0.01');
+    
     // TEXT
     expect(Evaluator.evaluateCode("1→''")?.toString()).toBe('"1"');
     // Numbers to text should be arabic by default
@@ -139,9 +142,6 @@ test("Test conversions", () => {
     expect(Evaluator.evaluateCode("'1'→#")?.toString()).toBe('1');
     // Non-numbers should be !nan
     expect(Evaluator.evaluateCode("'1.1.1'→#")?.toString()).toBe('NaN');
-
-    // PERCENT
-    expect(Evaluator.evaluateCode("1%")?.toString()).toBe('1%');
 
     // TIME
     // No change if matching type.

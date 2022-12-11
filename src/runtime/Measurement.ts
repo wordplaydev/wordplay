@@ -40,10 +40,10 @@ export default class Measurement extends Primitive {
                 let text = number.text.toString();
 
                 // Is there a trailing %? Strip it.
-                const isPercent = this.unit.isPercent();
+                const isPercent = text.endsWith("%");
 
                 // Set the number, accounting for percent.
-                this.num = isPercent ? (new Decimal(text)).mul(0.01) : new Decimal(text);
+                this.num = isPercent ? (new Decimal(text.substring(0, text.length - 1))).mul(0.01) : new Decimal(text);
 
             }
             // If it matches a number with a different base, convert it to a Decimal.

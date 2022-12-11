@@ -1,5 +1,7 @@
 import { readable } from "svelte/store";
 
+const THRESHOLD = 250;
+
 // A store that updates an idle state based on the last keydown event.
 const KeyboardIdle = readable<boolean>(true, set => {
 
@@ -21,7 +23,7 @@ const KeyboardIdle = readable<boolean>(true, set => {
         // Set idle to false.
         set(false);
         // Set idel to true in a bit.
-        checker = setTimeout(() => set(true), 500);
+        checker = setTimeout(() => set(true), THRESHOLD);
     
     }
 

@@ -5,6 +5,6 @@ export const languageCodeToLanguage: Record<LanguageCode, string> = {
     "😀": "😀"
 }
 
-export const SupportedLanguages: LanguageCode[] = [ "eng", "😀" ];
+export const SupportedLanguages: LanguageCode[] = [ "eng" ];
 
 export default LanguageCode;

@@ -218,10 +218,10 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.insert(PLACEHOLDER_SYMBOL)
     },
     {
-        description: "Insert multiply symbol (×)",
+        description: "Insert multiply symbol (·)",
         alt: true, key: "KeyX",
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert("×")
+        execute: (caret: Caret) => caret.insert("·")
     },
     {
         description: "Insert divide symbol (÷)",
