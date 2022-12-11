@@ -7,7 +7,6 @@ import type TextLang from "./TextLang";
 
 type Animation = {
     kind: "entry" | "between" | "during" | "exit",
-    sequence: Sequence,
     currentPose: Pose
     currentPoseStartTime: number | undefined,
     iterations: Map<Sequence, number>,

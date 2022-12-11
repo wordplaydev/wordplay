@@ -18,7 +18,7 @@
     import type Color from "../output/Color";
     import type Animation from "../output/Animation";
     import type Pose from "../output/Pose";
-
+    
     export let project: Project;
     export let verse: Verse;
     export let interactive: boolean;
@@ -86,6 +86,7 @@
     type PhraseName = string;
 
     function startSequence(phrase: Phrase, sequence: Sequence, kind: SequenceKind) {
+        const name = phrase.getName();
         // Get the first pose in the sequence
         const firstPose = sequence.getFirstPose();
         // Only add a sequence for this phrase if there's a first pose.
@@ -93,16 +94,29 @@
             // Set a sequence for this phrase, starting at the first pose.
             const iterations = new Map<Sequence, number>();
             iterations.set(sequence, 1);
-            animations.set(phrase.getName(), { 
+
+            // Reuse the existing animation to reuse any existing pose values.
+            let newAnimation = animations.get(name);
+
+            if(newAnimation) {
+                newAnimation.kind = kind;
+                newAnimation.currentPose = firstPose;
+                newAnimation.currentPoseStartTime = undefined;
+                newAnimation.iterations = iterations;
+            }
+            // Otherwise, create a new animation.
+            else newAnimation =  {
                 kind: kind, 
-                sequence, 
                 currentPose: firstPose, 
                 currentPoseStartTime: undefined, 
                 iterations: iterations,
                 moves: {}
-            })
+            };
+            // Save the new animation.
+            animations.set(phrase.getName(), newAnimation);
+            return newAnimation;
         }
-
+        return undefined;
 
     }
 
@@ -208,8 +222,8 @@
                 sequence = wrapPose(phrase.exit);
                 kind = "exit";
             }
-            // Does it have a during and isn't being animated?
-            else if(phrase.during && !animations.has(name)) {
+            // Does it have a during and ian exit isn't being animated?
+            else if(phrase.during && animations.get(name)?.kind !== "exit") {
                 sequence = wrapPose(phrase.during);
                 kind = "during";
             }
@@ -223,20 +237,66 @@
 
     }
 
+    function getSequence(phrase: Phrase, kind: SequenceKind) {
+
+        const sequence = phrase[kind];
+        return sequence === undefined ? undefined : wrapPose(sequence);
+
+    }
+
+    function willLoop(phrase: Phrase, animation: Animation) {
+
+        const sequence = getSequence(phrase, animation.kind);
+        // No longer a sequence on this animation? No looping.
+        if(sequence === undefined) return;
+        const currentSequence = sequence.getSequenceOfPose(animation.currentPose);
+        const nextPoseInSequence = currentSequence?.getNextPose(animation.currentPose);
+    
+        // If this specific sequence is over, but has more iterations, do another cycle.
+        const firstInCurrent = currentSequence?.getFirstPose();
+        const iterations = currentSequence ? animation.iterations.get(currentSequence) : undefined;
+        
+        return iterations !== undefined && currentSequence && nextPoseInSequence === undefined && iterations < currentSequence.count && firstInCurrent !== undefined;
+
+    }
+
     function animate(currentTime: number) {
 
         const completed: PhraseName[] = [];
 
         // For all of the active sequences, make progress on their current pose's moves, and advance to next poses.
-        for(const [ name, animation ] of animations) {
+        for(let [ name, animation ] of animations) {
 
             // Find the current Phrase corresponding to this name.
             const phrase = getPhraseByName(name);
 
             // Skip this animation if we couldn't find it.
             if(phrase === undefined) {
-                console.error(`Couldn't find phrase ${name}`);
+                console.log("couldn't find phrase, stopping " + name);
                 continue;
+            }
+
+            // Find the current Sequence corresponding to this name and kind.
+            let sequence = getSequence(phrase, animation.kind);
+
+            // If there's no longer a sequence on this phrase, but we did find a phrase,
+            // see if it has a during sequence. If it doesn't, mark it completed. Otherwise,
+            // resume it's during, whatever that might be.
+            if(sequence === undefined) {
+                // If the phrase has a during and wasn't animating an exit
+                if(phrase.during && animation.kind !== "exit") {
+                    sequence = wrapPose(phrase.during);
+                    const newAnimation = startSequence(phrase, sequence, "during");
+                    if(newAnimation)
+                        animation = newAnimation
+                    else
+                        continue;
+
+                }
+                else {
+                    completed.push(name);
+                    continue;
+                }
             }
 
             // If we haven't started the sequence yet, start it!
@@ -257,22 +317,24 @@
                 if(animation.currentPose.size !== undefined) {
 
                     const start = 
+                        // Always start from the latest animated value if there is one, to ensure continuity from any interrupted animation.
+                        animation.moves.size !== undefined ? animation.moves.size.value :
                         // If an exit, the current phrase value
                         animation.kind === "exit" ? phrase.size :
-                        // Latest value
-                        animation.moves.size !== undefined ? animation.moves.size.end :
                         // If this is the first pose, use it's size
-                        (animation.sequence.getFirstPose() === animation.currentPose ? animation.currentPose.size : undefined) ??
+                        (sequence.getFirstPose() === animation.currentPose ? animation.currentPose.size : undefined) ??
                         // Otherwise, next size in the sequence
-                        animation.sequence.getNextPoseThat(animation.currentPose, pose => pose.size !== undefined)?.size ??
+                        sequence.getNextPoseThat(animation.currentPose, pose => pose.size !== undefined)?.size ??
                         // Otherwise, the phrase's current size
                         phrase.size;
                     
                     const end = 
                         // If this is the first pose, use it's size
-                        (animation.kind === "exit" && animation.sequence.getFirstPose() === animation.currentPose ? animation.currentPose.size : undefined) ??
+                        (animation.kind === "exit" && sequence.getFirstPose() === animation.currentPose ? animation.currentPose.size : undefined) ??
                         // Next value in the sequence
-                        animation.sequence.getNextPoseThat(animation.currentPose, pose => pose.size !== undefined)?.size ??
+                        sequence.getNextPoseThat(animation.currentPose, pose => pose.size !== undefined)?.size ??
+                        // If the sequence will loop, choose the first pose's size
+                        (willLoop(phrase, animation) ? sequence.getSequenceOfPose(animation.currentPose)?.getFirstPose()?.size : undefined) ??
                         // If there isn't one, the phrase's current size.
                         phrase.size;
 
@@ -303,24 +365,23 @@
                 // If this pose is done, start the next pose in the sequence, or if there isn't one, end the sequence.
                 if(percent === 1) {
 
-                    const currentSequence = animation.sequence.getSequenceOfPose(animation.currentPose);
-                    const nextPoseInSequence = currentSequence?.getNextPose(animation.currentPose);
-                    const nextPoseOverall = animation.sequence.getNextPose(animation.currentPose);
+                    const currentSequence = sequence.getSequenceOfPose(animation.currentPose);
+                    const nextPoseOverall = sequence.getNextPose(animation.currentPose);
 
                     // If this specific sequence is over, but has more iterations, do another cycle.
-                    const firstInCurrent = currentSequence?.getFirstPose();
-                    const iterations = currentSequence ? animation.iterations.get(currentSequence) : undefined;
-                    if(iterations === undefined) throw Error("No iterations for sequence for sequence " + currentSequence);
-                    if(currentSequence && nextPoseInSequence === undefined && iterations < currentSequence.count && firstInCurrent) {
-                        animation.iterations.set(currentSequence, 1 + (animation.iterations.get(currentSequence) ?? 0));
-                        animation.currentPose = firstInCurrent;
-                        animation.currentPoseStartTime = undefined;
+                    if(willLoop(phrase, animation)) {
+                        const firstInCurrent = currentSequence?.getFirstPose();
+                        if(currentSequence && firstInCurrent) {
+                            animation.iterations.set(currentSequence, 1 + (animation.iterations.get(currentSequence) ?? 0));
+                            animation.currentPose = firstInCurrent;
+                            animation.currentPoseStartTime = undefined;
+                        }
                     }
                     // If there's another pose overall, do that one.
                     else if(nextPoseOverall) {
                         animation.currentPose = nextPoseOverall;
                         animation.currentPoseStartTime = undefined;
-                        const newSequence = animation.sequence.getSequenceOfPose(animation.currentPose);
+                        const newSequence = sequence.getSequenceOfPose(animation.currentPose);
                         if(newSequence && !animation.iterations.has(newSequence))
                             animation.iterations.set(newSequence, 1);
                     }
@@ -471,6 +532,7 @@
         width: 100%; 
         height: 100%;
         position: relative;
+        user-select: none;
     }
 
     .inert {
