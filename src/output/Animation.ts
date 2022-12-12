@@ -1,3 +1,4 @@
+import Decimal from "decimal.js";
 import type LanguageCode from "../nodes/LanguageCode";
 import type Color from "./Color";
 import type { RenderContext } from "./Group";
@@ -5,7 +6,7 @@ import type Group from "./Group";
 import type MoveState from "./MoveState";
 import Phrase from "./Phrase";
 import phraseToCSS from "./phraseToCSS";
-import type Place from "./Place";
+import Place from "./Place";
 import type Pose from "./Pose";
 import type { SequenceKind } from "./Sequence";
 import type Sequence from "./Sequence";
@@ -19,18 +20,7 @@ type Animation = {
     currentPose: Pose
     currentPoseStartTime: number | undefined,
     iterations: Map<Sequence, number>,
-    moves: {
-        text?: MoveState<TextLang[]>,
-        size?: MoveState<number>,
-        font?: MoveState<string>,
-        color?: MoveState<Color>,
-        opacity?: MoveState<number>,
-        place?: MoveState<Place>,
-        offset?: MoveState<Place>,
-        rotation?: MoveState<number>,
-        scalex?: MoveState<number>,
-        scaley?: MoveState<number>
-    }
+    moves: Record<string, MoveState<any>>
 }
 
 export default Animation;
@@ -156,6 +146,9 @@ export class Animations {
         // Compute the subset of groups that are phrases to prepare for rendering.
         const namesPresentNow = new Set<PhraseName>();
 
+        // Remember who was previously present for the future.
+        this.previouslyPresent = new Set(this.present);
+
         // Clear the present and visible lists.
         this.present = [];
         this.visible = [];
@@ -186,7 +179,6 @@ export class Animations {
         for(const phrase of this.previouslyPresent) {
             const name = phrase.getName();
             if(!namesPresentNow.has(name)) {
-                this.previouslyPresent.delete(phrase);
                 exitedNames.add(name);
                 // If the phrase has an exit squence, then add it to the phrases to keep rendering
                 // and remember it's current place.
@@ -197,9 +189,6 @@ export class Animations {
                 }
             }
         }
-
-        // Mark everyone now present as previously present for next time.
-        this.previouslyPresent = new Set(this.present);
 
         // Finally, sort the phrases by distance from the focal point.
         this.visible.sort((a, b) => {
@@ -217,21 +206,41 @@ export class Animations {
             let sequence: Sequence | undefined = undefined;
             let kind: "entry" | "between" | "during" | "exit" | undefined = undefined;
 
-            // Does it have an entry and just entered? Start it's entry animation.
-            if(phrase.entry && enteredNames.has(name)) {
-                // Convert the pose to a sequence if it's not one, since a single pose is basically a sequence of one pose.
-                sequence = phrase.entry.asSequence();
-                kind = "entry";
+            // If it just entered, start an entry sequence if it has one, and if it doesn't, start a during if it has one.
+            if(enteredNames.has(name)) {
+                if(phrase.entry) {
+                    sequence = phrase.entry.asSequence();
+                    kind = "entry";
+                }
+                else if(phrase.during) {
+                    sequence = phrase.during.asSequence();
+                    kind = "during";    
+                }
             }
-            // Does it have an exit?
-            else if(phrase.exit && exitedNames.has(name)) {
-                sequence = phrase.exit.asSequence();
-                kind = "exit";
+            // If it just exited, start an exit sequence if it has one, and stop the during.
+            else if(exitedNames.has(name)) {
+                if(phrase.exit) {
+                    sequence = phrase.exit.asSequence();
+                    kind = "exit";
+                }
+                // Otherwise, stop any active animations.
+                else {
+                    this.animations.delete(name);
+                }
             }
-            // Does it have a during and ian exit isn't being animated?
-            else if(phrase.during && this.animations.get(name)?.kind !== "exit") {
-                sequence = phrase.during.asSequence();
-                kind = "during";
+            // Otherwise, if it's not in the middle of exiting, start a during or tween.
+            // This happens after an entry is done, or after a reaction.
+            else if(this.animations.get(name)?.kind !== "exit") {
+                // If there's a during, run that.
+                if(phrase.during) {
+                    sequence = phrase.during.asSequence();
+                    kind = "during";
+                }
+                // Otherwise, make a pose sequence that iterates once from the current to the new value.
+                else if(phrase.between) {
+                    sequence = phrase.between.asSequence();
+                    kind = "between";    
+                }
             }
 
             if(sequence && kind)
@@ -247,6 +256,74 @@ export class Animations {
         // Return the layout for rendering.
         return { places, visible: this.visible, exiting: this.exiting }
 
+    }
+
+    getStartValue(animation: Animation, phrase: Phrase, sequence: Sequence, property: keyof Pose) {
+
+        // If there's a currently animated value, we always default to that for any animation, since that's what's visible on screen.
+        // This ensures smooth transitions.
+        // Always start from the latest animated value if there is one, to ensure continuity from any interrupted animation.
+        if(animation.moves[property] !== undefined)
+            return animation.moves[property].value;
+
+        // If we don't have one, and this is a tween, see if we have a previously rendered phrase to get a start value.
+        if(animation.kind === "between") {
+            const previousPhrase = Array.from(this.previouslyPresent).find(p => p.getName() === phrase.getName());
+            const previousValue = previousPhrase ? previousPhrase[property as keyof Phrase] : undefined;
+            if(previousValue)
+                return previousValue;
+        }
+
+        // If we don't have one, and this is an exit, use the phrase's current value.
+        if(animation.kind === "exit")
+            return phrase[property as keyof Phrase];
+
+        // If we're on the animation's first pose, use it's first value.
+        if(sequence.getFirstPose() === animation.currentPose) {
+            const value = animation.currentPose[property];
+            if(value)
+                return value;
+        }
+        // If we still don't have one and we're on the next pose, use the next pose that specifies a value.
+        const nextPoseWithValue = sequence.getNextPoseThat(animation.currentPose, pose => pose[property] !== undefined);
+        const nextValue = nextPoseWithValue ? nextPoseWithValue[property] : undefined;
+        if(nextPoseWithValue)
+                return nextValue;
+
+        // If we still don't have a value, default to the phrase's current value.
+        return phrase[property as keyof Phrase];
+
+    }
+
+    getEndValue(animation: Animation, phrase: Phrase, sequence: Sequence, property: keyof Pose) {
+
+        // If this is the first pose, use it's size
+        if(animation.kind === "exit" && sequence.getFirstPose() === animation.currentPose) {
+            const firstPoseValue = animation.currentPose[property];
+            if(firstPoseValue)
+                return firstPoseValue;
+        }
+        // Next value in the sequence
+        const nextPoseWithValue = sequence.getNextPoseThat(animation.currentPose, pose => pose.size !== undefined);
+        const nextPoseValue = nextPoseWithValue ? nextPoseWithValue[property] : undefined;
+        if(nextPoseValue)
+            return nextPoseValue;
+
+        // If the sequence will loop, choose the first pose's size
+        if(phrase.willLoop(animation)) {
+            const firstPose = sequence.getSequenceOfPose(animation.currentPose)?.getFirstPose();
+            const firstPoseValue = firstPose !== undefined ? firstPose[property] : undefined;
+            if(firstPoseValue)
+                return firstPoseValue;
+        }
+
+        // If there isn't one, the phrase's current size.
+        return phrase[property as keyof Phrase];
+
+    }
+
+    getNextValue(start: number, end: number, progress: number) {
+        return start + progress * (end - start);
     }
     
     animate(currentTime: number) {
@@ -303,36 +380,22 @@ export class Animations {
                 // End values are:
                 // 1) The next value of the property in the exit sequence
                 // 2) If not that, the phrase's current property value
-    
-                if(animation.currentPose.size !== undefined) {
-    
-                    const start = 
-                        // Always start from the latest animated value if there is one, to ensure continuity from any interrupted animation.
-                        animation.moves.size !== undefined ? animation.moves.size.value :
-                        // If an exit, the current phrase value
-                        animation.kind === "exit" ? phrase.size :
-                        // If this is the first pose, use it's size
-                        (sequence.getFirstPose() === animation.currentPose ? animation.currentPose.size : undefined) ??
-                        // Otherwise, next size in the sequence
-                        sequence.getNextPoseThat(animation.currentPose, pose => pose.size !== undefined)?.size ??
-                        // Otherwise, the phrase's current size
-                        phrase.size;
-                    
-                    const end = 
-                        // If this is the first pose, use it's size
-                        (animation.kind === "exit" && sequence.getFirstPose() === animation.currentPose ? animation.currentPose.size : undefined) ??
-                        // Next value in the sequence
-                        sequence.getNextPoseThat(animation.currentPose, pose => pose.size !== undefined)?.size ??
-                        // If the sequence will loop, choose the first pose's size
-                        (phrase.willLoop(animation) ? sequence.getSequenceOfPose(animation.currentPose)?.getFirstPose()?.size : undefined) ??
-                        // If there isn't one, the phrase's current size.
-                        phrase.size;
-    
-                    animation.moves.size = {
-                        start: start,
-                        end: end,
-                        // Update this to account for different kinds of sequences.
-                        value: start
+
+                // Iterate through all properties to find start and stop values for the move.
+                const properties = [ "size", "font", "color", "opacity", "place", "offset", "rotation", "scalex", "scaley" ] as (keyof Pose)[];
+                for(const property of properties) {
+                    if(animation.currentPose[property] !== undefined || animation.kind === "between") {
+
+                        // Choose a suitable start and end value for the animation.
+                        const start = this.getStartValue(animation, phrase, sequence, property);
+                        const end = this.getEndValue(animation, phrase, sequence, property);
+        
+                        animation.moves[property] = {
+                            start: start,
+                            end: end,
+                            // Update this to account for different kinds of sequences.
+                            value: start
+                        }
                     }
                 }
     
@@ -349,7 +412,15 @@ export class Animations {
                 // Move toward the end value of each move.
                 for(const move of Object.values(animation.moves)) {
                     if(typeof move.start === "number" && typeof move.end === "number")
-                        move.value = move.start + progress * (move.end - move.start);
+                        move.value = this.getNextValue(move.start, move.end, progress);
+                    else if(move.start instanceof Place && move.end instanceof Place) {
+                        move.value = new Place(
+                            phrase.value,
+                            new Decimal(this.getNextValue(move.start.x.toNumber(), move.end.x.toNumber(), progress)),
+                            new Decimal(this.getNextValue(move.start.y.toNumber(), move.end.y.toNumber(), progress)),
+                            new Decimal(this.getNextValue(move.start.z.toNumber(), move.end.z.toNumber(), progress))
+                        )
+                    }
                 }
     
                 // If this pose is done, start the next pose in the sequence, or if there isn't one, end the sequence.

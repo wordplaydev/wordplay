@@ -1,0 +1,21 @@
+=== Move
+↓ ⌨️
+
+•Cat(position•#m direction•#)
+
+speed: 2m
+cat•Cat: Cat(0m 1) ∆ ⌨️ 
+    ⌨️.down ? 
+        ⌨️.key = "ArrowLeft" ? Cat(cat.position - speed 1) 
+        ⌨️.key = "ArrowRight" ? Cat(cat.position + speed -1) 
+        cat
+    cat
+
+💬(
+    "🐈" 
+    name: "kitty"
+    size: 5m
+    place: Place(cat.position 0)
+    between: Pose(0.5s)
+    scalex: cat.direction
+)

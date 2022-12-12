@@ -9,6 +9,7 @@ import Layouts from "./Layouts.wp?raw";
 import Transforms from "./Transforms.wp?raw";
 import Kitties from "./RainingKitties.wp?raw";
 import Transitions from "./Transitions.wp?raw";
+import Move from "./Move.wp?raw";
 
 export type Stuff = { name: string, sources: { name: string, code: string}[] };
 
@@ -47,4 +48,5 @@ export const examples: Stuff[] = [
     Transforms,
     Kitties,
     Transitions,
+    Move
 ].map(source => wpToStuff(source));
