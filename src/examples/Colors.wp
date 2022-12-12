@@ -1,0 +1,13 @@
+=== Color Show
+↓ ⚁
+↓ 🖱
+
+random: Color(0% 0 0°) ∆ 🖱 Color(50% ⚁ · 200 ⚁ · 360°)
+
+💬(
+    "wowie" 
+    name: "kitty"    
+    size: 6m
+    color: random
+    between: Pose(1s)
+)

@@ -1,6 +1,6 @@
 import Decimal from "decimal.js";
 import type LanguageCode from "../nodes/LanguageCode";
-import type Color from "./Color";
+import Color from "./Color";
 import type { RenderContext } from "./Group";
 import type Group from "./Group";
 import type MoveState from "./MoveState";
@@ -419,6 +419,14 @@ export class Animations {
                             new Decimal(this.getNextValue(move.start.x.toNumber(), move.end.x.toNumber(), progress)),
                             new Decimal(this.getNextValue(move.start.y.toNumber(), move.end.y.toNumber(), progress)),
                             new Decimal(this.getNextValue(move.start.z.toNumber(), move.end.z.toNumber(), progress))
+                        )
+                    }
+                    else if(move.start instanceof Color && move.end instanceof Color) {
+                        move.value = new Color(
+                            phrase.value,
+                            new Decimal(this.getNextValue(move.start.lightness.toNumber(), move.end.lightness.toNumber(), progress)),
+                            new Decimal(this.getNextValue(move.start.chroma.toNumber(), move.end.chroma.toNumber(), progress)),
+                            new Decimal(this.getNextValue(move.start.hue.toNumber(), move.end.hue.toNumber(), progress))
                         )
                     }
                 }
