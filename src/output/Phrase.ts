@@ -19,7 +19,8 @@ import parseRichText from "./parseRichText";
 import { toPose as toPose } from "./Pose";
 import type Sequence from "./Sequence";
 import { PX_PER_METER, sizeToPx } from "./phraseToCSS";
-import { toSequence } from "./Sequence";
+import { toSequence, type SequenceKind } from "./Sequence";
+import type Animation from "./Animation";
 
 export const PhraseType = toStructure(`
     •Phrase/eng,💬/😀•Group(
@@ -198,6 +199,30 @@ export default class Phrase extends Group {
         for(const text of this.text)
             translations[text.lang ?? ""] = text.text;
         return translations as Translations;
+    }
+
+    /** Get the kind of sequence requested from the phrase and wrap it in a sequence if it's just a lonely pose. */
+    getSequence(kind: SequenceKind) {
+
+        const sequence = this[kind];
+        return sequence === undefined ? undefined : sequence.asSequence();
+
+    }
+
+    willLoop(animation: Animation) {
+
+        const sequence = this.getSequence(animation.kind);
+        // No longer a sequence on this animation? No looping.
+        if(sequence === undefined) return;
+        const currentSequence = sequence.getSequenceOfPose(animation.currentPose);
+        const nextPoseInSequence = currentSequence?.getNextPose(animation.currentPose);
+    
+        // If this specific sequence is over, but has more iterations, do another cycle.
+        const firstInCurrent = currentSequence?.getFirstPose();
+        const iterations = currentSequence ? animation.iterations.get(currentSequence) : undefined;
+        
+        return iterations !== undefined && currentSequence && nextPoseInSequence === undefined && iterations < currentSequence.count && firstInCurrent !== undefined;
+    
     }
 
     toString() { return this.text[0].text; }

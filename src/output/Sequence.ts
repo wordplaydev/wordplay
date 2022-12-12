@@ -83,6 +83,8 @@ export default class Sequence extends Output {
         } while(true);
     }
 
+    asSequence() { return this; }
+
 }
 
 

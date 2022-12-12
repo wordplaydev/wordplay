@@ -14,6 +14,7 @@ import Text from "../runtime/Text";
 import { toColor } from "./Color";
 import { TRANSLATE } from "../nodes/Translations";
 import { SupportedFontsType } from "../native/Fonts";
+import Sequence from "./Sequence";
 
 export const PoseType = toStructure(`
     •Pose/eng(
@@ -77,6 +78,10 @@ export default class Pose extends Output {
         this.scalex = scalex;
         this.scaley = scaley;
 
+    }
+
+    asSequence() {
+        return new Sequence(this.value, 1, [ this ]);
     }
 
 }
