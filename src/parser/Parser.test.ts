@@ -144,6 +144,10 @@ test("Parse expressions", () => {
     const name = parseExpression(toTokens("boomy"));
     expect(name).toBeInstanceOf(Reference);
 
+    const nameWithTypeInputs = parseExpression(toTokens("boomy∘Hungry"));
+    expect(nameWithTypeInputs).toBeInstanceOf(Reference);
+    expect((nameWithTypeInputs as Reference).types).toHaveLength(1);
+
     const bool = parseExpression(toTokens("⊤"));
     expect(bool).toBeInstanceOf(BooleanLiteral);
     expect((bool as BooleanLiteral).value.is(TokenType.BOOLEAN)).toBe(true);
@@ -293,11 +297,13 @@ test("Parse expressions", () => {
 
     const evaluateWithTypeVars = parseExpression(toTokens("a∘Cat(b c)"));
     expect(evaluateWithTypeVars).toBeInstanceOf(Evaluate);
-    expect((evaluateWithTypeVars as Evaluate).typeInputs).toHaveLength(1);
+    expect((evaluateWithTypeVars as Evaluate).func).toBeInstanceOf(Reference);
+    expect(((evaluateWithTypeVars as Evaluate).func as Reference).types).toHaveLength(1);
 
     const evaluateWithMultipleTypeVars = parseExpression(toTokens("a∘Cat∘#(b c)"));
     expect(evaluateWithMultipleTypeVars).toBeInstanceOf(Evaluate);
-    expect((evaluateWithMultipleTypeVars as Evaluate).typeInputs).toHaveLength(2);
+    expect((evaluateWithMultipleTypeVars as Evaluate).func).toBeInstanceOf(Reference);
+    expect(((evaluateWithMultipleTypeVars as Evaluate).func as Reference).types).toHaveLength(2);
 
     const conversion = parseExpression(toTokens("# → '' meow()"));
     expect(conversion).toBeInstanceOf(ConversionDefinition);

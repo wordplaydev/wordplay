@@ -33,21 +33,24 @@ import { TRANSLATE } from "./Translations"
 import Stream from "../runtime/Stream";
 import StartFinish from "../runtime/StartFinish";
 import StreamType from "./StreamType";
+import TypeInput from "./TypeInput";
 
 export default class Reference extends Expression {
     
     readonly name: Token;
+    readonly types: TypeInput[];
 
     /**
      * A cache of the possible types this name might have at this point in the program.
      */
     _unionTypes: Type | undefined;
 
-    constructor(name: Token | string) {
+    constructor(name: Token | string, types?: TypeInput[]) {
 
         super();
 
         this.name = typeof name === "string" ? new NameToken(name) : name;
+        this.types = types ?? [];
 
         this.computeChildren();
 
@@ -56,12 +59,14 @@ export default class Reference extends Expression {
     getGrammar() { 
         return [
             { name: "name", types:[ Token ] },
+            { name: "types", types:[ [ TypeInput ] ] },
         ]; 
     }
 
     replace(original?: Node, replacement?: Node) { 
         return new Reference(
-            this.replaceChild("name", this.name, original, replacement)
+            this.replaceChild("name", this.name, original, replacement),
+            this.replaceChild("types", this.types, original, replacement)
         ) as this;
     }
 

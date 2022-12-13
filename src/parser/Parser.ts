@@ -445,7 +445,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
         // A conversion. Need to parse before names, otherwise we might slurp up a type alone instead of a conversion.
         nextIsConversion(tokens) ? parseConversion(tokens) :
         // Names or booleans are easy
-        tokens.nextIs(TokenType.NAME) ? new Reference(tokens.read(TokenType.NAME)) :
+        tokens.nextIs(TokenType.NAME) ? parseReference(tokens) :
         // Booleans
         tokens.nextIs(TokenType.BOOLEAN) ? new BooleanLiteral(tokens.read(TokenType.BOOLEAN)) :
         // Numbers with units
@@ -502,6 +502,15 @@ function parseAtomicExpression(tokens: Tokens): Expression {
     }
     return left;
     
+}
+
+function parseReference(tokens: Tokens): Reference {
+
+    const name = tokens.read(TokenType.NAME);
+    const types = parseTypeInputs(tokens);
+    
+    return new Reference(name, types);
+
 }
 
 function parseDocumentedExpression(tokens: Tokens): Expression {
@@ -822,18 +831,7 @@ export function parseFunction(tokens: Tokens): FunctionDefinition | UnparsableEx
 }
 
 /** EVAL :: EXPRESSION (∘TYPE)* (EXPRESSION*) */
-function parseEvaluate(left: Expression, tokens: Tokens): Evaluate | UnparsableExpression {
-
-    const typeInputs: TypeInput[] = [];
-
-    while(tokens.nextIs(TokenType.TYPE_VAR)) {
-        const dot = tokens.read(TokenType.TYPE_VAR);
-        const type = parseType(tokens);
-        typeInputs.push(new TypeInput(type, dot));
-    }
-    
-    if(tokens.nextIsnt(TokenType.EVAL_OPEN))
-        return new UnparsableExpression([ left, ...typeInputs ]);
+function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
 
     const open = tokens.read(TokenType.EVAL_OPEN);
     const inputs: Expression[] = [];
@@ -844,7 +842,7 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate | UnparsableE
     
     let close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;
     
-    return new Evaluate(left, inputs, typeInputs, open, close);
+    return new Evaluate(left, inputs, open, close);
 
 }
 
@@ -874,7 +872,7 @@ function parseConvert(expression: Expression, tokens: Tokens): Convert {
 }
 
 /** TYPE_VARS :: (∘NAME)* */
-function parseTypeVariables(tokens: Tokens): (TypeVariable)[] {
+function parseTypeVariables(tokens: Tokens): TypeVariable[] {
 
     const vars = [];
     while(tokens.nextIs(TokenType.TYPE_VAR)) {
@@ -883,6 +881,18 @@ function parseTypeVariables(tokens: Tokens): (TypeVariable)[] {
         vars.push(new TypeVariable(names, type));
     }
     return vars;
+
+}
+
+function parseTypeInputs(tokens: Tokens): TypeInput[] {
+
+    const inputs: TypeInput[] = [];
+    while(tokens.nextIs(TokenType.TYPE_VAR)) {
+        const dot = tokens.read(TokenType.TYPE_VAR);
+        const type = parseType(tokens);
+        inputs.push(new TypeInput(type, dot));
+    }
+    return inputs;
 
 }
 
@@ -900,7 +910,7 @@ function parseAccess(left: Expression, tokens: Tokens): Expression {
                     tokens.nextIs(TokenType.UNARY_OP) ? tokens.read(TokenType.UNARY_OP) :
                     tokens.read(TokenType.BINARY_OP);
 
-        left = new PropertyReference(left, name, access);
+        left = new PropertyReference(left, name ? new Reference(name) : undefined, access);
 
         // But wait, is it a function evaluation?
         if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())

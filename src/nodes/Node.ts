@@ -72,7 +72,7 @@ export default abstract class Node {
     /**
      * Get all bindings defined by this node.
      */
-    getDefinitions(node: Node, context: Context): Definition[] { context; node; return []; }
+    getDefinitions(_: Node, __: Context): Definition[] { return []; }
     
     /** 
      * Get all bindings defined by this node and all binding enclosures. 

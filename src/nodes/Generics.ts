@@ -106,8 +106,9 @@ function getConcreteTypeVariable(type: NameType, definition: FunctionDefinition 
     // What is the index of the type variable in the definition?
     const typeVarIndex = definition.typeVars.findIndex(v => v === typeVariable);
     if(evaluation instanceof Evaluate) {
-        if(typeVarIndex >= 0 && typeVarIndex < evaluation.typeInputs.length) {
-            const typeInput = evaluation.typeInputs[typeVarIndex];
+        const typeInputs = evaluation.getTypeInputs();
+        if(typeVarIndex >= 0 && typeVarIndex < typeInputs.length) {
+            const typeInput = typeInputs[typeVarIndex];
             // If it was parsable, we have a type, yay!
             if(typeInput.type instanceof Type)
                 return typeInput.type;

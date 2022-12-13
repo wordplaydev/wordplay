@@ -106,7 +106,7 @@ export default class Is extends Expression {
         if( this.expression instanceof PropertyReference && this.expression.name) {
             const subject = this.expression.getSubjectType(context);
             if(subject instanceof StructureType) {
-                if(bind === subject.getDefinition(this.expression.name.getText()) && current.acceptedBy(this.type, context))
+                if(bind === subject.getDefinition(this.expression.name.getName()) && current.acceptedBy(this.type, context))
                 return new TypeSet([ this.type ], context);
             }
         }

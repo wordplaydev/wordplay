@@ -13,8 +13,6 @@
     import type Node from "../nodes/Node";
     import Evaluate from "../nodes/Evaluate";
     import PropertyReference from "../nodes/PropertyReference";
-    import Token from "../nodes/Token";
-    import TokenType from "../nodes/TokenType";
     import Bind from "../nodes/Bind";
     import EvalCloseToken from "../nodes/EvalCloseToken";
     import Reference from "../nodes/Reference";
@@ -43,7 +41,6 @@
             creators: literals ?? [ new Evaluate(
                 new Reference(def.names.names[0].name.getText()),
                 def.inputs.filter(input => input instanceof Bind && !input.hasDefault()).map(() => new ExpressionPlaceholder()),
-                [],
                 undefined,
                 new EvalCloseToken()
             ) ],
@@ -52,9 +49,8 @@
             // Map each function to an Evaluate with placeholders for the structure and required arguments
             functions: def.getFunctions(true).map(fun => 
                 new Evaluate(
-                    new PropertyReference(new ExpressionPlaceholder(), new Token(fun.names.names[0].name.getText(), TokenType.NAME)),
+                    new PropertyReference(new ExpressionPlaceholder(), new Reference(fun.names.names[0].name.getText())),
                     fun.inputs.filter(input => input instanceof Bind && !input.hasDefault()).map(() => new ExpressionPlaceholder()),
-                    [],
                     undefined,
                     new EvalCloseToken()
                 )

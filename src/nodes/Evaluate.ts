@@ -36,14 +36,12 @@ import ValueException from "../runtime/ValueException";
 import Exception from "../runtime/Exception";
 import type Translations from "./Translations";
 import { overrideWithDocs, TRANSLATE } from "./Translations"
-import { getPossibleTypeInsertions, getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import Reference from "./Reference";
 import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import EvalOpenToken from "./EvalOpenToken";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import Remove from "../transforms/Remove";
 import UnknownInput from "../conflicts/UnknownInput";
 import getConcreteExpectedType from "./Generics";
 import FunctionDefinitionType from "./FunctionDefinitionType";
@@ -53,15 +51,13 @@ import NameException from "../runtime/NameException";
 export default class Evaluate extends Expression {
 
     readonly func: Expression;
-    readonly typeInputs: TypeInput[];
     readonly open: Token;
     readonly inputs: Expression[];
     readonly close?: Token;
 
-    constructor(func: Expression, inputs: Expression[], typeInputs?: TypeInput[], open?: Token, close?: Token) {
+    constructor(func: Expression, inputs: Expression[], open?: Token, close?: Token) {
         super();
 
-        this.typeInputs = typeInputs ?? [];
         this.open = open ?? new EvalOpenToken();
         this.func = func;
         // Inputs must have space between them if they have adjacent names.
@@ -86,7 +82,6 @@ export default class Evaluate extends Expression {
         return new Evaluate(
             this.replaceChild("func", this.func, original, replacement), 
             this.replaceChild<Expression[]>("inputs", this.inputs, original, replacement),
-            this.replaceChild("typeInputs", this.typeInputs, original, replacement), 
             this.replaceChild("open", this.open, original, replacement), 
             this.replaceChild("close", this.close, original, replacement)
         ) as this;
@@ -250,6 +245,16 @@ export default class Evaluate extends Expression {
     
         return conflicts;
     
+    }
+
+    getTypeInputs(): TypeInput[] {
+
+        // Find any type inputs provided to this by seeing if there's a Reference on the tail end of the function expression.
+        if(this.func instanceof Reference) {
+            return this.func.types;
+        }
+        return [];
+
     }
 
     getFunction(context: Context) {
@@ -496,10 +501,6 @@ export default class Evaluate extends Expression {
         const functionType = this.func.getTypeUnlessCycle(context);
         if(!(functionType instanceof FunctionDefinitionType || functionType instanceof StructureType))
             return;
-
-        // Type inputs can be any type
-        if(this.typeInputs.includes(child as TypeInput))
-            return getPossibleTypeReplacements(child, context);
         
         // Functions can be any function names in scope
         if(child === this.func)
@@ -531,10 +532,6 @@ export default class Evaluate extends Expression {
         if(!(functionType instanceof FunctionDefinitionType || functionType instanceof StructureType))
             return;
 
-        // If before a type input or the open paren, offer valid type inputs.
-        if(this.typeInputs.includes(child as TypeInput) || child === this.open)
-            return getPossibleTypeInsertions(this, position, this.typeInputs, child, context);
-
         // If we're before the close, then see if there are any inputs to append
         if(child === this.close) {
 
@@ -560,7 +557,6 @@ export default class Evaluate extends Expression {
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
         if(child === this.func) return new Replace(context, child, new ExpressionPlaceholder());
-        else if(this.typeInputs.includes(child as TypeInput) || this.inputs.includes(child as Expression)) return new Remove(context, this, child);    
     }
 
     getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined {

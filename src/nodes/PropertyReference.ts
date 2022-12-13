@@ -36,16 +36,17 @@ import { NameLabels } from "./Name";
 import type Definition from "./Definition";
 import type Value from "../runtime/Value";
 import StreamType from "./StreamType";
+import Reference from "./Reference";
 
 export default class PropertyReference extends Expression {
 
     readonly structure: Expression;
     readonly dot: Token;
-    readonly name?: Token;
+    readonly name?: Reference;
 
     _unionType: Type | undefined;
 
-    constructor(subject: Expression, name?: Token, dot?: Token) {
+    constructor(subject: Expression, name?: Reference, dot?: Token) {
         super();
 
         this.structure = subject;
@@ -83,18 +84,28 @@ export default class PropertyReference extends Expression {
         return conflicts;
     }
 
+    isBindingEnclosureOfChild(child: Node): boolean { return child === this.name; }
+
+    getDefinitions(_: Node, context: Context): Definition[] {
+
+        const subjectType = this.getSubjectType(context);
+
+        if(subjectType instanceof StructureType) return subjectType.structure.getDefinitions(_);
+        else return subjectType.getDefinitions(_, context); 
+
+    }
+
     getDefinition(context: Context): Definition | undefined {
         if(this.name === undefined) return undefined;
 
         const subjectType = this.getSubjectType(context);
         
-        if(subjectType === undefined) return;
-        else if(subjectType instanceof StructureType) return subjectType.getDefinition(this.name.getText());
-        else return subjectType.getDefinitionOfName(this.name.getText(), context, this);
+        if(subjectType instanceof StructureType) return subjectType.getDefinition(this.name.getName());
+        else return subjectType.getDefinitionOfName(this.name.getName(), context, this); 
         
     }
 
-    getSubjectType(context: Context): Type | undefined {
+    getSubjectType(context: Context): Type {
         let structureType = this.structure.getTypeUnlessCycle(context);
         // If it's a stream, get the type of the stream, since streams are evaluated to their values, not themselves.
         if(structureType instanceof StreamType)
@@ -130,7 +141,7 @@ export default class PropertyReference extends Expression {
                                     context.get(n)?.getParent() instanceof Is && 
                                     n instanceof PropertyReference && 
                                     n.getSubjectType(context) instanceof StructureType && 
-                                    def === (n.getSubjectType(context) as StructureType).getDefinition(this.name.getText())
+                                    def === (n.getSubjectType(context) as StructureType).getDefinition(this.name.getName())
                         ).length > 0
                     ).reverse() as Conditional[];
 
@@ -165,7 +176,7 @@ export default class PropertyReference extends Expression {
 
         const subject = evaluator.popValue(undefined);
         if(this.name === undefined) return new NameException("", evaluator);
-        const name = this.name.text.toString();
+        const name = this.name.getName();
         return subject instanceof Exception ? 
             subject :
             subject.resolve(name, evaluator);
@@ -188,7 +199,7 @@ export default class PropertyReference extends Expression {
             subjectType instanceof StructureType ? subjectType.structure.getDefinitions(this) :
             subjectType instanceof NativeType ? subjectType?.getDefinitions(this, context) : [];
         return definitions
-            .filter(def => def.getNames().find(n => this.name === undefined || this.name.getText() === PLACEHOLDER_SYMBOL || n.startsWith(this.name.getText())) !== undefined);
+            .filter(def => def.getNames().find(n => this.name === undefined || this.name.getName() === PLACEHOLDER_SYMBOL || n.startsWith(this.name.getName())) !== undefined);
 
     }
 
@@ -213,10 +224,10 @@ export default class PropertyReference extends Expression {
                     .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
                         // Include 
                         new Replace(context, this, [ name => new Evaluate(
-                            new PropertyReference(this.structure, new NameToken(name)), 
+                            new PropertyReference(this.structure, new Reference(name)), 
                             def.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())
                         ), def ]) : 
-                        new Replace(context, this, [ name => new PropertyReference(this.structure, new NameToken(name)), def ])
+                        new Replace(context, this, [ name => new PropertyReference(this.structure, new Reference(name)), def ])
                     )
             )
         ]

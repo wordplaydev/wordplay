@@ -201,7 +201,7 @@ export default class StructureDefinition extends Expression {
             this,
             ... this.inputs.filter(i => i instanceof Bind && i !== node) as Bind[], 
             ... this.typeVars.filter(t => t instanceof TypeVariable) as TypeVariable[],
-            ... (this.expression instanceof Block ? this.expression.statements.filter(s => s instanceof FunctionDefinition || s instanceof StructureDefinition) as Definition[] : [])
+            ... (this.expression instanceof Block ? this.expression.statements.filter(s => s instanceof FunctionDefinition || s instanceof StructureDefinition || s instanceof Bind) as Definition[] : [])
         ];
     }
 
