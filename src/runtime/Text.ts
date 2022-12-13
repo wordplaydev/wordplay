@@ -26,7 +26,7 @@ export default class Text extends Primitive {
     /* The number of graphemes in the text (not the number of code points). */
     length(requestor: Node) { return new Measurement(requestor, [...this.text].length); }
 
-    toWordplay(): string { return `"${this.text}"${this.format ? this.format : ""}`; }
+    toWordplay(): string { return `"${this.text}"${this.format ? `/${this.format}` : ""}`; }
 
     isEqualTo(text: Value) { return text instanceof Text && this.text === text.text && this.format === text.format; }
 
