@@ -16,7 +16,7 @@ export default class Text extends Primitive {
 
         // We normalize all strings to ensure they are comparable.
         this.text = text.normalize();
-        this.format = format;
+        this.format = format === undefined || format === "" ? undefined : format;
     }
 
     getType() { return new TextType(undefined, this.format === undefined ? undefined : new Language(this.format)); }
