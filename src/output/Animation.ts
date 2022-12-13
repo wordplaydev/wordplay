@@ -34,7 +34,7 @@ export default Animation;
 export class Animations {
 
     project: Project;
-    verse: Verse;
+    verse: Verse | undefined;
     languages: LanguageCode[];
     fontsLoaded: Set<string>;
 
@@ -48,7 +48,7 @@ export class Animations {
 
     previouslyPresent: Set<Phrase> = new Set();
 
-    constructor(project: Project, verse: Verse, languages: LanguageCode[], fonts: Set<string>) {
+    constructor(project: Project, verse: Verse | undefined, languages: LanguageCode[], fonts: Set<string>) {
         this.project = project;
         this.verse = verse;
         this.languages = languages;
@@ -64,6 +64,9 @@ export class Animations {
     layout() {
 
         const places = new Map<Group, Place>();
+
+        if(this.verse === undefined) return places;
+
         this.layoutGroup(this.verse, [], places, this.getRenderContext());
         return places;
 
@@ -133,7 +136,7 @@ export class Animations {
                 animationsByPhrase.set(phrase, animation);
         }
 
-        return { font: this.verse.font, languages: this.languages, fonts: this.fontsLoaded, animations: animationsByPhrase };
+        return { font: this.verse?.font ?? "", languages: this.languages, fonts: this.fontsLoaded, animations: animationsByPhrase };
 
     }
 
@@ -421,9 +424,6 @@ export class Animations {
                             }
                     }
                 }
-
-                // Notify the evaluator's listeners that we're going to animate a pose.
-                this.project.evaluator.broadcast();
     
             }
             // If we have started them, advance them, and stop them if they're done.
@@ -503,7 +503,7 @@ export class Animations {
                     // Otherwise, this sequence is done.
                     else
                         completed.push(name);
-    
+
                 }
             
             }
@@ -552,13 +552,15 @@ export class Animations {
         // Animate another frame if there are any remaining active sequences.
         if(this.getCount() > 0)
             window.requestAnimationFrame(time => this.animate(time));
-        else
-            // Notify the evaluator's listeners that we're done animating.
-            this.project.evaluator.broadcast();
+        
+        // Notify the evaluator's listeners that we're done animating.
+        this.project.evaluator.broadcast();
     
     }
 
     renderPhrase(name: PhraseName, animation: Animation, places: Map<Group, Place>) {
+
+        if(this.verse === undefined) return;
 
         // Find the current Phrase corresponding to this name.
         const phrase = this.getPhraseByName(name);

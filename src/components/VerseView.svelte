@@ -61,12 +61,11 @@
     let languages = getLanguages();
 
     // On every verse change, compute the canonical places of all phrases.
-    export let animations = new Animations(project, verse, $languages, $loadedFonts);
     let visible: Phrase[] = [];
     let places = new Map<Group, Place>();
     let exiting: Map<Phrase, Place> = new Map();
-    setContext("animations", animations);
-    $: ({ places, visible, exiting } = animations.update(verse, $languages, $loadedFonts));
+    setContext("animations", project.evaluator.animations);
+    $: ({ places, visible, exiting } = project.evaluator.animations.update(verse, $languages, $loadedFonts));
 
 </script>
 

@@ -1,8 +1,10 @@
 import { get, writable, type Writable } from 'svelte/store';
 import { examples, makeProject } from '../examples/examples';
+import type { Animations, PhraseName } from '../output/Animation';
 import type { StreamChange } from '../runtime/Evaluator';
 import type Step from '../runtime/Step';
 import type Project from './Project';
+import type Animation from '../output/Animation';
 
 // A global store that contains the project currently being viewed.
 export const project: Writable<Project> = writable<Project>();
@@ -16,12 +18,16 @@ export const playing: Writable<boolean> = writable<boolean>(true);
 // A global store that contains the stream history of the evaluator.
 export const streams: Writable<StreamChange[]> = writable<StreamChange[]>([]);
 
+// A global store that contains the active animations of the evaluator.
+export const animations: Writable<Animation[]> = writable<Animation[]>([]);
+
 function updateEvaluatorStores() {
     const evaluator = get(project)?.evaluator;
     if(evaluator) {
         currentStep.set(evaluator.getCurrentStep());
         playing.set(evaluator.isPlaying())
         streams.set(evaluator.changedStreams);
+        animations.set(Array.from(evaluator.animations.animations.values()));
     }
 }
 

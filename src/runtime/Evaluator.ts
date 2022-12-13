@@ -22,6 +22,7 @@ import Context from "../nodes/Context";
 
 // Import this last, after everything else, to avoid cycles.
 import Native from "../native/NativeBindings";
+import { Animations } from "../output/Animation";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -103,9 +104,16 @@ export default class Evaluator {
      */
     steps: Map<EvaluationNode, Step[]> = new Map();
 
+    /**
+     * Active animations
+     */
+    animations: Animations;
+
     constructor(project: Project) {
 
         this.project = project;
+
+        this.animations = new Animations(this.project, undefined, [], new Set());
 
         // Set up start state.
         this.resetAll();

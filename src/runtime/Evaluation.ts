@@ -154,7 +154,7 @@ export default class Evaluation {
         // If this block is creating a structure, take the context and bindings we just created
         // and convert it into a structure.
         if(this.#evaluationNode instanceof StructureDefinition)
-            return new Structure(this.#evaluationNode, this);
+            return new Structure(this.#evaluatorNode, this);
         // Otherwise, return the value on the top of the stack.
         else 
             return this.peekValue();

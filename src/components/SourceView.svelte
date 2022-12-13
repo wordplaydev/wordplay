@@ -24,7 +24,6 @@
     $: latest = $currentStep === undefined ? project.evaluator.getLatestSourceValue(source) : undefined;
     $: verse = latest === undefined ? undefined : $languages ? toVerse(latest) : undefined;
     $: stepping = (project.evaluator.getCurrentEvaluation()?.getSource() === source || (project.evaluator.isDone() && source === project.main));
-    let animations: Animations;
 
 </script>
 
@@ -35,7 +34,7 @@
     <div class="split">
         <div class="column">
             <div class="code">
-                <Editor {animations} {project} {source} />
+                <Editor {project} {source} />
             </div>
             {#if stepping}
                 <div class="evaluator">
@@ -65,7 +64,7 @@
                 </div>
             <!-- Otherwise, show the Verse -->
             {:else}
-                <VerseView bind:animations={animations} {project} {verse} {interactive}/>
+                <VerseView {project} {verse} {interactive}/>
             {/if}
         </div>
     </div>

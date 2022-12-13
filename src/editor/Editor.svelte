@@ -31,12 +31,10 @@
     import Start from '../runtime/Start';
     import Finish from '../runtime/Finish';
     import type Project from '../models/Project';
-    import { currentStep, playing } from '../models/stores';
-    import type { Animations } from '../output/Animation';
+    import { currentStep, playing, animations } from '../models/stores';
 
     export let project: Project;
     export let source: Source;
-    export let animations: Animations | undefined;
 
     let editor: HTMLElement;
     export let input: HTMLInputElement | null = null;
@@ -67,7 +65,6 @@
     $: {
         $currentStep ?? $playing;
         evalUpdate();
-        updateHighlights();
     }
 
     function evalUpdate() {
@@ -221,6 +218,8 @@
 
     function updateHighlights() {
 
+        console.log("Updating");
+
         const latestValue = evaluator.getLatestSourceValue(source);
 
         // Build a set of highlights to render.
@@ -284,9 +283,9 @@
 
         // Are there any poses in this file being animated?
         if(animations)
-            for(const animation of animations.animations.values()) {
+            for(const animation of $animations.values()) {
                 if(source.contains(animation.currentPose.value.creator))
-                    console.log("Source contains pose!");
+                    addHighlight(newHighlights, animation.currentPose.value.creator, "executing");
             }
 
         // Update the store, broadcasting the highlights to all node views for rendering.
@@ -296,7 +295,7 @@
 
     // Update the highlights when any of these stores change.
     $: {
-        if($dragged || $caret || $hovered || executingNode)
+        if($dragged || $caret || $hovered || executingNode || $animations)
             updateHighlights();
     }
 
