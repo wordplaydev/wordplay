@@ -1,6 +1,5 @@
 import { get, writable, type Writable } from 'svelte/store';
 import { examples, makeProject } from '../examples/examples';
-import type { Animations, PhraseName } from '../output/Animation';
 import type { StreamChange } from '../runtime/Evaluator';
 import type Step from '../runtime/Step';
 import type Project from './Project';
