@@ -12,6 +12,7 @@
     import type Verse from '../output/Verse';
     import { toVerse } from '../output/Verse';
     import KeyboardIdle from '../models/KeyboardIdle';
+    import type { Animations } from '../output/Animation';
 
     export let project: Project;
     export let source: Source;
@@ -23,6 +24,7 @@
     $: latest = $currentStep === undefined ? project.evaluator.getLatestSourceValue(source) : undefined;
     $: verse = latest === undefined ? undefined : $languages ? toVerse(latest) : undefined;
     $: stepping = (project.evaluator.getCurrentEvaluation()?.getSource() === source || (project.evaluator.isDone() && source === project.main));
+    let animations: Animations;
 
 </script>
 
@@ -33,7 +35,7 @@
     <div class="split">
         <div class="column">
             <div class="code">
-                <Editor {project} {source} />
+                <Editor {animations} {project} {source} />
             </div>
             {#if stepping}
                 <div class="evaluator">
@@ -63,7 +65,7 @@
                 </div>
             <!-- Otherwise, show the Verse -->
             {:else}
-                <VerseView {project} {verse} {interactive}/>
+                <VerseView bind:animations={animations} {project} {verse} {interactive}/>
             {/if}
         </div>
     </div>

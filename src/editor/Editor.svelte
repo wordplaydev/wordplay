@@ -32,9 +32,11 @@
     import Finish from '../runtime/Finish';
     import type Project from '../models/Project';
     import { currentStep, playing } from '../models/stores';
+    import type { Animations } from '../output/Animation';
 
     export let project: Project;
     export let source: Source;
+    export let animations: Animations | undefined;
 
     let editor: HTMLElement;
     export let input: HTMLInputElement | null = null;
@@ -65,6 +67,7 @@
     $: {
         $currentStep ?? $playing;
         evalUpdate();
+        updateHighlights();
     }
 
     function evalUpdate() {
@@ -278,6 +281,13 @@
         // Tag all nodes with secondary conflicts as primary
         for(const secondary of project.getPrimaryConflicts().keys())
             addHighlight(newHighlights, secondary, "secondary");
+
+        // Are there any poses in this file being animated?
+        if(animations)
+            for(const animation of animations.animations.values()) {
+                if(source.contains(animation.currentPose.value.creator))
+                    console.log("Source contains pose!");
+            }
 
         // Update the store, broadcasting the highlights to all node views for rendering.
         highlights.set(newHighlights);

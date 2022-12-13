@@ -746,6 +746,8 @@ export default class Evaluator {
         while(this.evaluations.includes(frame))
             this.step();
 
+        this.broadcast();
+
         // Return the latest value of the function's expression, and if it was a stream, it's latest value.
         return frame.peekValue();
 

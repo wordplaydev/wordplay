@@ -117,6 +117,7 @@ export class Animations {
             };
             // Save the new animation.
             this.animations.set(phrase.getName(), newAnimation);
+
             return newAnimation;
         }
         return undefined;
@@ -420,6 +421,9 @@ export class Animations {
                             }
                     }
                 }
+
+                // Notify the evaluator's listeners that we're going to animate a pose.
+                this.project.evaluator.broadcast();
     
             }
             // If we have started them, advance them, and stop them if they're done.
@@ -548,6 +552,9 @@ export class Animations {
         // Animate another frame if there are any remaining active sequences.
         if(this.getCount() > 0)
             window.requestAnimationFrame(time => this.animate(time));
+        else
+            // Notify the evaluator's listeners that we're done animating.
+            this.project.evaluator.broadcast();
     
     }
 
