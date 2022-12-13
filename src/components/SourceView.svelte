@@ -12,7 +12,6 @@
     import type Verse from '../output/Verse';
     import { toVerse } from '../output/Verse';
     import KeyboardIdle from '../models/KeyboardIdle';
-    import type { Animations } from '../output/Animation';
 
     export let project: Project;
     export let source: Source;

@@ -9,7 +9,6 @@
     import PhraseView from "./PhraseView.svelte";
     import { loadedFonts } from "../native/Fonts";
     import { toCSS } from "../output/phraseToCSS";
-    import { Animations } from "../output/Animation";
     import type Phrase from "../output/Phrase";
     import type Group from "../output/Group";
     import type Place from "../output/Place";
