@@ -30,7 +30,7 @@ function checkNativeNodes(nodes: Node[]) {
     expect(unparsables).toHaveLength(0);
 
     // Check for conflicts
-    let conflicts = Object.values(Native.structureDefinitionsByName).reduce((conflicts: Conflict[], def) => [ ... conflicts, ...def.getAllConflicts(context) ], []);
+    let conflicts = Object.values(nodes).reduce((conflicts: Conflict[], def) => [ ... conflicts, ...def.getAllConflicts(context) ], []);
 
     // Ignore unused binds
     conflicts = conflicts.filter(n => !(n instanceof UnusedBind));

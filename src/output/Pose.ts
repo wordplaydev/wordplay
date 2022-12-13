@@ -19,7 +19,7 @@ import Sequence from "./Sequence";
 export const PoseType = toStructure(`
     •Pose/eng(
         duration/eng•#s: 0.5s
-        style/eng•ø•ƒ(complete•%) %: ø
+        style/eng•ø•ƒ(complete•%) %: straight
         text/eng,✍︎/😀•""•[""]•ø: ø
         size/eng,${TRANSLATE}size/😀•#m: ø
         font/eng,🔡/😀•${SupportedFontsType}•ø: ø

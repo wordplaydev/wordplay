@@ -2,12 +2,12 @@
 ↓ ⌨️
 ↓ ⚁
 
-text: [ "kitty" "kittymouth" "cat" "cattycat" "furbaby" ]
+text: [ "boomy" "boom boom" "boooooomy" "boomymcboomface" "moooey" ]
 choice: text[1] ∆ ⌨️ ⌨️.down ? text.random() choice
 
 💬(
     choice
     name: "word"
-    size: 5m
+    size: 4m
     between: Pose(1s)
 )

@@ -1,7 +1,7 @@
 <svelte:options immutable={true}/>
 
 <script lang="ts">
-    import { onMount } from "svelte";
+    import { onMount, setContext } from "svelte";
     import type Project from "../models/Project";
     import type Verse from "../output/Verse";
     import { playing } from "../models/stores";
@@ -65,6 +65,7 @@
     let visible: Phrase[] = [];
     let places = new Map<Group, Place>();
     let exiting: Map<Phrase, Place> = new Map();
+    setContext("animations", animations);
     $: ({ places, visible, exiting } = animations.update(verse, $languages, $loadedFonts));
 
 </script>
