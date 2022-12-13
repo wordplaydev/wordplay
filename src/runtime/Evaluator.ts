@@ -2,7 +2,7 @@ import type Node from "../nodes/Node";
 import type Reaction from "../nodes/Reaction";
 import Evaluation, { type EvaluationNode, type EvaluatorNode } from "./Evaluation";
 import ReactionStream from "./ReactionStream";
-import Stream from "./Stream";
+import type Stream from "./Stream";
 import Value from "./Value";
 import EvaluationException, { StackSize } from "./ContextException";
 import Exception from "./Exception";
@@ -742,12 +742,12 @@ export default class Evaluator {
         // Start the evaluation.
         this.startEvaluation(frame);
 
-        // Finish
-        this.stepOut();
+        // Step until this is no longer on the stack.
+        while(this.evaluations.includes(frame))
+            this.step();
 
         // Return the latest value of the function's expression, and if it was a stream, it's latest value.
-        const latestValue = this.getLatestValueOf(fun.expression);
-        return latestValue instanceof Stream ? latestValue.latest() : latestValue;
+        return frame.peekValue();
 
     }
 

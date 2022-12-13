@@ -156,7 +156,8 @@ export default class Evaluation {
         if(this.#evaluationNode instanceof StructureDefinition)
             return new Structure(this.#evaluationNode, this);
         // Otherwise, return the value on the top of the stack.
-        else return this.popValue(undefined);
+        else 
+            return this.peekValue();
 
     }
 
@@ -240,9 +241,6 @@ export default class Evaluation {
 
         // Special case random as an implicit share.
         return this.#evaluator.project.getImplicitlySharedStream(name);
-        
-        // Nope, didn't find it!
-        return undefined;
 
     }
 
