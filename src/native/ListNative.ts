@@ -38,7 +38,7 @@ export default function bootstrapList() {
         "😀": `${TRANSLATE}Out`
     };
 
-    const listTranslateHOFType = new FunctionType([ 
+    const listTranslateHOFType = new FunctionType([], [ 
         new Bind(
             WRITE_DOCS,
             {
@@ -49,7 +49,7 @@ export default function bootstrapList() {
         )
     ], new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME.eng));
 
-    const listFilterHOFType = new FunctionType([ 
+    const listFilterHOFType = new FunctionType([], [ 
         new Bind(
             WRITE_DOCS, 
             {
@@ -60,7 +60,7 @@ export default function bootstrapList() {
         )
     ], new BooleanType());
 
-    const listAllHOFType = new FunctionType([ 
+    const listAllHOFType = new FunctionType([], [ 
         new Bind(
             WRITE_DOCS,
             {
@@ -72,7 +72,7 @@ export default function bootstrapList() {
     ], new BooleanType());
 
 
-    const listUntilHOFType = new FunctionType([ 
+    const listUntilHOFType = new FunctionType([], [ 
         new Bind(
             WRITE_DOCS,
             {
@@ -84,7 +84,7 @@ export default function bootstrapList() {
     ], new NameType(LIST_TYPE_VAR_NAMES.eng));
 
 
-    const listFindHOFType = new FunctionType([ 
+    const listFindHOFType = new FunctionType([], [ 
         new Bind(
             WRITE_DOCS,
             {
@@ -96,7 +96,7 @@ export default function bootstrapList() {
     ], new NameType(LIST_TYPE_VAR_NAMES.eng));
 
 
-    const listCombineHOFType = new FunctionType([ 
+    const listCombineHOFType = new FunctionType([], [ 
         new Bind(
             WRITE_DOCS,
             {

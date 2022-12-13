@@ -22,7 +22,7 @@ import type Evaluation from "../runtime/Evaluation";
 
 export default function bootstrapSet() {
 
-    const setFilterHOFType = new FunctionType([ 
+    const setFilterHOFType = new FunctionType([], [ 
         new Bind(
             WRITE_DOCS,
             {

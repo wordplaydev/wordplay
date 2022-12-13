@@ -121,7 +121,7 @@ export default class StructureDefinition extends Expression {
     getInputs() { return this.inputs.filter(i => i instanceof Bind) as Bind[]; }
 
     getFunctionType(): FunctionType {
-       return new FunctionType(this.inputs, new StructureType(this));
+       return new FunctionType(this.typeVars, this.inputs, new StructureType(this));
     }
 
     isInterface(): boolean { return this.getAbstractFunctions().length > 0; }

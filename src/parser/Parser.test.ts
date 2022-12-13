@@ -408,6 +408,8 @@ test("Types", () => {
     expect(parseType(toTokens("ƒ(# #) #"))).toBeInstanceOf(FunctionType);
     expect(parseType(toTokens("ƒ(a•# b•#) #"))).toBeInstanceOf(FunctionType);
     expect(parseType(toTokens("ƒ(…a•#) #"))).toBeInstanceOf(FunctionType);
+    expect(parseType(toTokens("ƒ∘Species(…a•#) #"))).toBeInstanceOf(FunctionType);
+    expect(parseType(toTokens("ƒ∘Species∘Category(…a•#) #"))).toBeInstanceOf(FunctionType);
 
     const stream = parseType(toTokens("∆#"));
     expect(stream).toBeInstanceOf(StreamType);

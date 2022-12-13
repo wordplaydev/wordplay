@@ -14,19 +14,22 @@ import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import FunctionDefinitionType from "./FunctionDefinitionType";
+import TypeVariable from "./TypeVariable";
 
 export default class FunctionType extends Type {
 
     readonly fun: Token;
+    readonly typeVars: TypeVariable[];
     readonly open: Token;
     readonly inputs: Bind[];
     readonly close: Token;
     readonly output: Type;
 
-    constructor(inputs: Bind[], output: Type, fun?: Token, open?: Token, close?: Token) {
+    constructor(typeVars: TypeVariable[], inputs: Bind[], output: Type, fun?: Token, open?: Token, close?: Token) {
         super();
 
         this.fun = fun ?? new Token(FUNCTION_SYMBOL, TokenType.FUNCTION);
+        this.typeVars = typeVars;
         this.open = open ?? new EvalOpenToken();
         this.inputs = inputs;
         this.close = close ?? new EvalCloseToken();;
@@ -38,16 +41,18 @@ export default class FunctionType extends Type {
     
     getGrammar() { 
         return [
-            { name: "fun", types:[ Token ] },
-            { name: "open", types:[ Token ] },
-            { name: "inputs", types:[[ Bind ]] },
-            { name: "close", types:[ Token] },
-            { name: "output", types:[ Type ] },
+            { name: "fun", types: [ Token ] },
+            { name: "typeVars", types: [ [ TypeVariable] ] },
+            { name: "open", types: [ Token ] },
+            { name: "inputs", types: [[ Bind ]] },
+            { name: "close", types: [ Token] },
+            { name: "output", types: [ Type ] },
         ]; 
     }
 
     replace(original?: Node, replacement?: Node) { 
         return new FunctionType(
+            this.replaceChild("typeVars", this.typeVars, original, replacement),
             this.replaceChild("inputs", this.inputs, original, replacement),
             this.replaceChild("output", this.output, original, replacement),
             this.replaceChild("fun", this.fun, original, replacement),

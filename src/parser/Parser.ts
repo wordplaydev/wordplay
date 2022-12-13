@@ -1026,6 +1026,9 @@ function parseTableType(tokens: Tokens): TableType {
 function parseFunctionType(tokens: Tokens): FunctionType | UnparsableType {
 
     const fun = tokens.read(TokenType.FUNCTION);
+
+    const typeVars = parseTypeVariables(tokens);
+
     if(tokens.nextIsnt(TokenType.EVAL_OPEN))
         return new UnparsableType([ fun, ... tokens.readLine() ]);
     const open = tokens.read(TokenType.EVAL_OPEN);
@@ -1038,7 +1041,7 @@ function parseFunctionType(tokens: Tokens): FunctionType | UnparsableType {
 
     const output = parseType(tokens);
 
-    return new FunctionType(inputs, output, fun, open, close);
+    return new FunctionType(typeVars, inputs, output, fun, open, close);
 
 }
 
