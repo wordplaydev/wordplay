@@ -1,5 +1,4 @@
 import { test, expect } from "vitest";
-import type Conflict from "../conflicts/Conflict";
 import Source from "../models/Source";
 import Context from "../nodes/Context";
 import DefaultShares from "../runtime/DefaultShares";
@@ -29,17 +28,16 @@ function checkNativeNodes(nodes: Node[]) {
 
     expect(unparsables).toHaveLength(0);
 
-    // Check for conflicts
-    let conflicts = Object.values(nodes).reduce((conflicts: Conflict[], def) => [ ... conflicts, ...def.getAllConflicts(context) ], []);
+    // Check for conflicts, ignoring unused binds.
+    for(const node of nodes) {
+        const conflicts = node.getAllConflicts(context).filter(n => !(n instanceof UnusedBind));
 
-    // Ignore unused binds
-    conflicts = conflicts.filter(n => !(n instanceof UnusedBind));
+        if(conflicts.length > 0)
+            for(const conflict of conflicts)
+                console.log(`Conflict on:\n${node.toWordplay()}\nPrimary node: ${conflict.getConflictingNodes().primary.map(n => n.toWordplay()).join("\n")}\n\t${conflict.getExplanation("eng")}`);
 
-    if(conflicts.length > 0)
-        for(const conflict of conflicts)
-            console.log(`${conflict.getConflictingNodes().primary.map(n => n.toWordplay()).join("\n")}\n\t${conflict.getExplanation("eng")}`);
-
-    expect(conflicts).toHaveLength(0);
+        expect(conflicts).toHaveLength(0);
+    }
 
     // Check for missing supported languages
     const definitionsWithMissingTranslations: string[] = [];

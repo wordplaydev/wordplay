@@ -15,7 +15,7 @@ cat•Cat: Cat(0m 1) ∆ ⌨️
     "🐈" 
     name: "kitty"
     size: 5m
-    place: Place(cat.position 0)
+    place: Place(cat.position 0m)
     between: Pose(0.5s)
     scalex: cat.direction
 )

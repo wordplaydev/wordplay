@@ -125,7 +125,7 @@ export default function bootstrapMeasurement() {
                 // The operand's type can be any unitless measurement
                 new MeasurementType(),
                 // The output's type is is the unit's product
-                new MeasurementType(undefined, (left, right) => left.product(right)),
+                new MeasurementType(undefined, (left, right) => right ? left.product(right) : left),
                 (requestor, left, right) => left.multiply(requestor, right),
                 false
             ),
@@ -137,7 +137,7 @@ export default function bootstrapMeasurement() {
                 },
                 WRITE_DOCS,
                 new MeasurementType(),
-                new MeasurementType(undefined, (left, right) => left.quotient(right)),
+                new MeasurementType(undefined, (left, right) => right ? left.quotient(right) : left),
                 (requestor, left, right) => left.divide(requestor, right),
                 false
             ),

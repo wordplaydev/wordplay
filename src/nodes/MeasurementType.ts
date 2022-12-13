@@ -21,7 +21,7 @@ import Evaluate from "./Evaluate";
 import PropertyReference from "./PropertyReference";
 import UnknownType from "./UnknownType";
 
-type UnitDeriver = (left: Unit, right: Unit, constant: number | undefined) => Unit;
+type UnitDeriver = (left: Unit, right: Unit | undefined, constant: number | undefined) => Unit;
 
 export default class MeasurementType extends NativeType {
     
@@ -112,7 +112,7 @@ export default class MeasurementType extends NativeType {
             return new Unit();
         }
 
-        // If the operator doesn't have a type
+        // What is the type of the left?
         const leftType = 
             this.op instanceof BinaryOperation ? this.op.left.getTypeUnlessCycle(context) : 
             this.op instanceof UnaryOperation ? this.op.operand.getTypeUnlessCycle(context) : 
@@ -123,15 +123,15 @@ export default class MeasurementType extends NativeType {
             this.op instanceof Evaluate && this.op.inputs.length > 0 ? this.op.inputs[0].getTypeUnlessCycle(context) :
             new UnknownType({ typeVar: this.op });
 
-        // If either type isn't a measurement type — which shouldn't be possible — then we just return a blank unit.
+        // If either type isn't a measurement type — which shouldn't be possible for binary operations or evaluates — then we just return a blank unit.
         if(!(leftType instanceof MeasurementType)) return new Unit();
-        if(!(rightType instanceof MeasurementType)) return new Unit();
+        if(!(this.op instanceof UnaryOperation) && !(rightType instanceof MeasurementType)) return new Unit();
 
         // Get the constant from the right if available.
         const constant = this.op instanceof BinaryOperation && this.op.right instanceof MeasurementLiteral? new Measurement(this, this.op.right.number).toNumber() : undefined;
         
         // Recursively concretize the left and right units and pass them to the derive the concrete unit.
-        return this.unit(leftType.concreteUnit(context), rightType.concreteUnit(context), constant);
+        return this.unit(leftType.concreteUnit(context), rightType instanceof MeasurementType ? rightType.concreteUnit(context) : undefined, constant);
         
     }
 
