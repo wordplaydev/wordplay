@@ -770,7 +770,7 @@ function parseReaction(initial: Expression, tokens: Tokens): Reaction {
 }
 
 /** FUNCTION :: DOCS? (ƒ | ALIASES) TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
-function parseFunction(tokens: Tokens): FunctionDefinition | UnparsableExpression {
+export function parseFunction(tokens: Tokens): FunctionDefinition | UnparsableExpression {
 
     const docs = parseDocumentation(tokens);
 

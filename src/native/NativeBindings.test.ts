@@ -1,7 +1,7 @@
 import { test, expect } from "vitest";
 import Source from "../models/Source";
 import Context from "../nodes/Context";
-import DefaultShares from "../runtime/DefaultShares";
+import ImplicitShares from "../runtime/ImplicitShares";
 import Native from "./NativeBindings";
 import type Node from "../nodes/Node";
 import UnusedBind from "../conflicts/UnusedBind";
@@ -78,6 +78,6 @@ test("Verify that native structures don't have parsing errors or conflicts.", ()
         checkNativeNodes(Object.values(funs));
 
     // Check default definition shares.
-    checkNativeNodes(DefaultShares);
+    checkNativeNodes(ImplicitShares);
 
 });

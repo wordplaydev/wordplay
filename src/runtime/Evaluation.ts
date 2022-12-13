@@ -1,5 +1,5 @@
 import type ConversionDefinition from "../nodes/ConversionDefinition";
-import type FunctionDefinition from "../nodes/FunctionDefinition";
+import FunctionDefinition from "../nodes/FunctionDefinition";
 import StructureDefinition from "../nodes/StructureDefinition";
 import type Type from "../nodes/Type";
 import type Conversion from "./Conversion";
@@ -29,6 +29,7 @@ import type Borrow from "../nodes/Borrow";
 import Context from "../nodes/Context";
 import StructureDefinitionValue from "./StructureDefinitionValue";
 import type { StepNumber } from "./Evaluator";
+import FunctionValue from "./FunctionValue";
 
 export type EvaluatorNode = UnaryOperation | BinaryOperation | Evaluate | Convert | HOF | Borrow | Source;
 export type EvaluationNode = FunctionDefinition | StructureDefinition | ConversionDefinition | Source;
@@ -232,7 +233,17 @@ export default class Evaluation {
 
     resolveDefault(name: string): Value | undefined {
         const def = this.#evaluator.project.getDefaultShares().find(def => def.hasName(name));
-        return def === undefined ? undefined : new StructureDefinitionValue(this.#evaluator.project.main, def);
+
+        // Any of the defaults match? Wrap them in values.
+        if(def instanceof FunctionDefinition) return new FunctionValue(def, undefined);
+        if(def instanceof StructureDefinition) return new StructureDefinitionValue(this.#evaluator.project.main, def);
+
+        // Special case random as an implicit share.
+        return this.#evaluator.project.getImplicitlySharedStream(name);
+        
+        // Nope, didn't find it!
+        return undefined;
+
     }
 
     /** Remember the given conversion for later. */

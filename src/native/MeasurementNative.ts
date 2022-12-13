@@ -55,6 +55,27 @@ export default function bootstrapMeasurement() {
             outputType
         );
     }
+
+    function createUnaryOp(docs: Translations, names: Translations, outputType: Type, expression: (requestor: Node, left: Measurement) => Value | undefined) {
+        return new FunctionDefinition(
+            docs, names, [],
+            [],
+            new NativeExpression(
+                new MeasurementType(),
+                (requestor, evaluation) => {
+                    const left: Value | Evaluation | undefined = evaluation.getClosure();
+                    // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
+                    if(!(left instanceof Measurement)) return new TypeException(evaluation.getEvaluator(), new MeasurementType(), left);
+                    return expression(requestor, left) ?? new TypeException(evaluation.getEvaluator(), left.getType(), undefined);
+                },
+                { 
+                    "😀": WRITE,
+                    eng: "Native measurement operation." 
+                }
+            ),
+            outputType
+        );
+    }
     
     return new StructureDefinition(
         WRITE_DOCS, 
@@ -238,7 +259,27 @@ export default function bootstrapMeasurement() {
                 new MeasurementType(undefined, unit => unit), new BooleanType(),
                 (requestor, left, right) => new Bool(requestor, !left.isEqualTo(right))
             ),
-        
+            
+            // Trigonometry
+            createUnaryOp(
+                WRITE_DOCS,
+                {
+                    eng: "cos",
+                    "😀": `${WRITE_DOCS}cos`
+                },
+                new MeasurementType(undefined, unit => unit),
+                (requestor, left) => left.cos(requestor)
+            ),
+            createUnaryOp(
+                WRITE_DOCS,
+                {
+                    eng: "sin",
+                    "😀": `${WRITE_DOCS}sin`
+                },
+                new MeasurementType(undefined, unit => unit),
+                (requestor, left) => left.sin(requestor)
+            ),
+            
             createNativeConversion(WRITE_DOCS, '#', "''", (requestor: Node, val: Measurement) => new Text(requestor, val.toString())),
             createNativeConversion(WRITE_DOCS, '#', "[]", (requestor: Node, val: Measurement) => {
                 const list = [];
@@ -248,6 +289,7 @@ export default function bootstrapMeasurement() {
                     list.push(new Measurement(requestor, i));
                 return new List(requestor, list);
             }),
+
 
             // Time
             createNativeConversion(WRITE_DOCS, '#s', "#min", (requestor: Node, val: Measurement) => val.divide(requestor, new Measurement(requestor, 60, Unit.unit(["s"], ["min"])))),

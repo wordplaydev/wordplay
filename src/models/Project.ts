@@ -18,7 +18,7 @@ import HOF from "../native/HOF";
 import FunctionDefinitionType from "../nodes/FunctionDefinitionType";
 import Native from "../native/NativeBindings";
 import Tree from "../nodes/Tree";
-import DefaultShares from "../runtime/DefaultShares";
+import ImplicitShares from "../runtime/ImplicitShares";
 import Context from "../nodes/Context";
 import type { SharedDefinition } from "../nodes/Borrow";
 import PropertyReference from "../nodes/PropertyReference";
@@ -94,7 +94,7 @@ export default class Project {
         this.trees = [
             ...(this.getSources().map(source => new Tree(source))),
             ...Native.getStructureDefinitionTrees(),
-            ...DefaultShares.map(share => new Tree(share))
+            ...ImplicitShares.map(share => new Tree(share))
         ]
         
         // Analyze the project
@@ -132,7 +132,7 @@ export default class Project {
         return [ this.main, ...this.supplements]; 
     }
 
-    getDefaultShares() { return DefaultShares; }
+    getDefaultShares() { return ImplicitShares; }
 
     getContext(source: Source) { 
         return new Context(this, source);
@@ -152,6 +152,12 @@ export default class Project {
     getSourceWithProgram(program: Program) { return this.getSources().find(source => source.expression === program); }
     getNative() { return Native; }
 
+    getImplicitlySharedStream(name: string): Stream | undefined {
+        if(this.streams.random.hasName(name))
+            return this.streams.random;
+        return undefined;
+    }
+    
     analyze() {
 
         // Build a mapping from nodes to conflicts.
@@ -321,7 +327,7 @@ export default class Project {
 
         // Do any of the implicit shares match?
         const defaultMatch = 
-            DefaultShares.find(s => s.hasName(source)) ?? 
+            ImplicitShares.find(s => s.hasName(source)) ?? 
             Object.values(this.streams).find(s => s.hasName(source));
 
         return defaultMatch === undefined ? undefined : [ undefined, defaultMatch ];

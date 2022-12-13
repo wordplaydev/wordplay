@@ -1,8 +1,8 @@
 import type Node from "../nodes/Node";
 import type Reaction from "../nodes/Reaction";
-import Evaluation, { type EvaluationNode } from "./Evaluation";
+import Evaluation, { type EvaluationNode, type EvaluatorNode } from "./Evaluation";
 import ReactionStream from "./ReactionStream";
-import type Stream from "./Stream";
+import Stream from "./Stream";
 import Value from "./Value";
 import EvaluationException, { StackSize } from "./ContextException";
 import Exception from "./Exception";
@@ -11,7 +11,7 @@ import type Type from "../nodes/Type";
 import type NativeInterface from "../native/NativeInterface";
 import Source from "../models/Source";
 import type Names from "../nodes/Names";
-import type Expression from "../nodes/Expression";
+import Expression from "../nodes/Expression";
 import Project from "../models/Project";
 import type Step from "./Step";
 import StructureDefinition from "../nodes/StructureDefinition";
@@ -671,6 +671,7 @@ export default class Evaluator {
         this.evaluations[0].jumpPast(expression);
     }
     
+    /** Start evaluating the given function */
     startEvaluation(evaluation: Evaluation) {
         this.evaluations.unshift(evaluation);
     }
@@ -719,4 +720,35 @@ export default class Evaluator {
         return this.evaluations[0].resolve(name);
     }
     
+    /** A convenience function for evaluating a given function and inputs. */
+    evaluateFunction(catalyst: EvaluatorNode, fun: FunctionDefinition, values: Value[]): Value | undefined {
+
+        // Do nothing if the function has no expression
+        if(!(fun.expression instanceof Expression)) return undefined;
+
+        // Construct the bindings.
+        const bindings = new Map<Names, Value>();
+
+        // Map each function input to a given value, bail if there aren't enough.
+        for(const input of fun.inputs) {
+            const nextValue = values.shift();
+            if(nextValue === undefined) return undefined;
+            bindings.set(input.names, nextValue);
+        }
+
+        // Create the evaluation.
+        const frame = new Evaluation(this, catalyst, fun, undefined, bindings)
+
+        // Start the evaluation.
+        this.startEvaluation(frame);
+
+        // Finish
+        this.stepOut();
+
+        // Return the latest value of the function's expression, and if it was a stream, it's latest value.
+        const latestValue = this.getLatestValueOf(fun.expression);
+        return latestValue instanceof Stream ? latestValue.latest() : latestValue;
+
+    }
+
 }

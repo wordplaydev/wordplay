@@ -1,6 +1,8 @@
 import Decimal from "decimal.js";
+import type Project from "../models/Project";
 import type LanguageCode from "../nodes/LanguageCode";
 import { selectTranslation } from "../nodes/Translations";
+import Measurement from "../runtime/Measurement";
 import Color from "./Color";
 import type { RenderContext } from "./Group";
 import type Group from "./Group";
@@ -31,6 +33,7 @@ export default Animation;
 
 export class Animations {
 
+    project: Project;
     verse: Verse;
     languages: LanguageCode[];
     fontsLoaded: Set<string>;
@@ -45,7 +48,8 @@ export class Animations {
 
     previouslyPresent: Set<Phrase> = new Set();
 
-    constructor(verse: Verse, languages: LanguageCode[], fonts: Set<string>) {
+    constructor(project: Project, verse: Verse, languages: LanguageCode[], fonts: Set<string>) {
+        this.project = project;
         this.verse = verse;
         this.languages = languages;
         this.fontsLoaded = fonts;
@@ -423,10 +427,15 @@ export class Animations {
     
                 // Trim the percent to 100
                 const percent = Math.min(1, (currentTime - animation.currentPoseStartTime) / (1000 * animation.currentPose.duration));
-                // Convert percent to progress with an easing function.
-                // TODO Allow this to be customized.
-                const progress = 1 - Math.pow(1 - percent, 3);
-    
+                
+                // Convert percent to progress with the pose's style (i.e., easing function)
+                const style = animation.currentPose.style;
+                const value = this.project.evaluator.evaluateFunction(this.project.main, style, [ new Measurement(animation.currentPose.value.creator, percent) ]);
+
+                // If the style function couldn't be evaluated or didn't produce a measurement, just default to 100% progress.
+                // Assume the editor will show that there are conflicts on the style function.
+                const progress = value === undefined || !(value instanceof Measurement) ? 1 : value.toNumber();
+
                 // Move toward the end value of each move.
                 for(const property of Object.keys(animation.moves)) {
 

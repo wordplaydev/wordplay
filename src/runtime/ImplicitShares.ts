@@ -8,8 +8,10 @@ import { RowType } from "../output/Row";
 import { ColorType } from "../output/Color";
 import { PlaceType } from "../output/Place";
 import { SequenceType } from "../output/Sequence";
+import { careful, cautious, elastic, erratic, fast, pokey, quick, rushed, straight, wreckless, zippy, bouncy } from "../output/Easing";
+import type FunctionDefinition from "../nodes/FunctionDefinition";
 
-const ImplicitShares: StructureDefinition[] = [
+const ImplicitShares: (StructureDefinition|FunctionDefinition)[] = [
     VerseType,
     PhraseType,
     GroupType,
@@ -18,6 +20,18 @@ const ImplicitShares: StructureDefinition[] = [
     ColorType,
     PlaceType,
     PoseType,
-    SequenceType
+    SequenceType,
+    straight,
+    pokey,
+    fast,
+    quick,
+    zippy,
+    careful,
+    cautious,
+    rushed,
+    wreckless,
+    elastic,
+    erratic,
+    bouncy
 ];
 export default ImplicitShares;

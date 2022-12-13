@@ -143,6 +143,14 @@ export default class Measurement extends Primitive {
         return new Measurement(requestor, this.num.pow(operand.num), this.unit.power(operand.num.toNumber()));
     }
 
+    cos(requestor: Node) {
+        return new Measurement(requestor, this.num.cos(), this.unit);
+    }
+
+    sin(requestor: Node) {
+        return new Measurement(requestor, this.num.sin(), this.unit);
+    }
+
     getType() { return new MeasurementType(undefined, this.unit); }
     
     getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }

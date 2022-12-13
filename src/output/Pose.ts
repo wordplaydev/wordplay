@@ -19,7 +19,7 @@ import Sequence from "./Sequence";
 export const PoseType = toStructure(`
     •Pose/eng(
         duration/eng•#s: 0.5s
-        style/eng•ø•ƒ(complete•%) %: ø
+        style/eng•ƒ(complete•%) %: fast
         text/eng,✍︎/😀•""•[""]•ø: ø
         size/eng,${TRANSLATE}size/😀•#m•ø: ø
         font/eng,🔡/😀•${SupportedFontsType}•ø: ø
@@ -36,7 +36,7 @@ export const PoseType = toStructure(`
 export default class Pose extends Output {
 
     readonly duration: number;
-    readonly style?: FunctionDefinition;
+    readonly style: FunctionDefinition;
     readonly text?: TextLang[];
     readonly size?: number;
     readonly font?: string;
@@ -51,7 +51,7 @@ export default class Pose extends Output {
     constructor(
         value: Value, 
         duration: number, 
-        style?: FunctionDefinition,
+        style: FunctionDefinition,
         text?: TextLang[],
         size?: number,
         font?: string,
@@ -103,7 +103,7 @@ export function toPose(value: Value | undefined): Pose | undefined {
     const scalex = toDecimal(value.resolve("scalex"))?.toNumber();
     const scaley = toDecimal(value.resolve("scaley"))?.toNumber();
 
-    return duration ? 
+    return duration && style ? 
         new Pose(value, duration.toNumber(), style, text, size, font instanceof Text ? font.text : undefined, color, opacity, place, offset, rotation, scalex, scaley) : undefined;
 
 }

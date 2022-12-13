@@ -104,8 +104,8 @@ export default abstract class Node {
             current = context.get(current)?.getBindingScope();
         }
 
-        // If we didn't find anything, check the default shares.
-        return context.project.getDefaultShares().find(def => def.hasName(name));
+        // If we didn't find anything, check the default shares and then the project's implicitly shared streams.
+        return context.project.getDefaultShares().find(def => def.hasName(name)) ?? context.project.getImplicitlySharedStream(name);
 
     };
     
