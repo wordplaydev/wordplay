@@ -94,7 +94,6 @@ const patterns = [
     { pattern: TABLE_CLOSE_SYMBOL, types: [ TokenType.TABLE_CLOSE] },
     { pattern: TABLE_OPEN_SYMBOL, types: [ TokenType.TABLE_OPEN] },
     { pattern: BIND_SYMBOL, types: [ TokenType.BIND ] },
-    { pattern: PROPERTY_SYMBOL, types: [ TokenType.ACCESS ] },
     { pattern: FUNCTION_SYMBOL, types: [ TokenType.FUNCTION ] },
     { pattern: BORROW_SYMBOL, types: [ TokenType.BORROW ] },
     { pattern: SHARE_SYMBOL, types: [ TokenType.SHARE ] },
@@ -116,8 +115,11 @@ const patterns = [
     { pattern: /^([2-9]|1[0-6]);[0-9A-F]+([.,][0-9A-F]+)?%?/, types: [ TokenType.NUMBER, TokenType.BASE ] },    
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
     { pattern: /^[0-9]+([.,][0-9]+)?%?/, types: [ TokenType.NUMBER, TokenType.DECIMAL ] },
+    { pattern: /^[.,][0-9]+%?/, types: [ TokenType.NUMBER, TokenType.DECIMAL ] },
     { pattern: "π", types: [ TokenType.NUMBER, TokenType.PI ] },
     { pattern: "∞", types: [ TokenType.NUMBER, TokenType.INFINITY ] },
+    // Must be after numbers, which can have a leading period.
+    { pattern: PROPERTY_SYMBOL, types: [ TokenType.ACCESS ] },
     { pattern: TRUE_SYMBOL, types: [ TokenType.BOOLEAN ] },
     { pattern: FALSE_SYMBOL, types: [ TokenType.BOOLEAN ] },
     // Lazily match non-template strings that lack open parentheses and aren't closed with a preceding escape.

@@ -19,6 +19,8 @@ test("Tokenize numbers", () => {
     expect(tokens("-1.0").map(t => t.toWordplay()).join(" ")).toBe("- 1.0 ");
     expect(tokens("1,0").map(t => t.toWordplay()).join(" ")).toBe("1,0 ");
     expect(tokens("-1,0").map(t => t.toWordplay()).join(" ")).toBe("- 1,0 ");
+    expect(tokens("0.5").map(t => t.toWordplay()).join(" ")).toBe("0.5 ");
+    expect(tokens(".5").map(t => t.toWordplay()).join(" ")).toBe(".5 ");
     expect(tokens("0∞π").map(t => t.toWordplay()).join(" ")).toBe("0 ∞ π ");
     expect(tokens("一 十 百 百一 百四十五 百九十九 千一 万十一 万").map(t => t.toWordplay()).join(" "))
         .toBe("一 十 百 百一 百四十五 百九十九 千一 万十一 万 ");
