@@ -50,6 +50,7 @@ import SetType from "../nodes/SetType";
 import MapType from "../nodes/MapType";
 import { NONE_SYMBOL, PLACEHOLDER_SYMBOL } from "./Tokenizer";
 import UnparsableType from "../nodes/UnparsableType";
+import DocumentedExpression from "../nodes/DocumentedExpression";
 
 test("Parse programs", () => {
 
@@ -333,6 +334,9 @@ test("Parse expressions", () => {
     expect((((access as SetOrMapAccess).setOrMap as ListAccess).list as Evaluate).func).toBeInstanceOf(PropertyReference);
     expect(((((access as SetOrMapAccess).setOrMap as ListAccess).list as Evaluate).func as PropertyReference).structure).toBeInstanceOf(PropertyReference);
     expect((((((access as SetOrMapAccess).setOrMap as ListAccess).list as Evaluate).func as PropertyReference).structure as PropertyReference).structure).toBeInstanceOf(Reference);
+
+    const documentedExpression = parseExpression(toTokens("`let's see it`/eng a"))
+    expect(documentedExpression).toBeInstanceOf(DocumentedExpression);
 
 })
 

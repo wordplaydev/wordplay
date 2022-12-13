@@ -218,8 +218,6 @@
 
     function updateHighlights() {
 
-        console.log("Updating");
-
         const latestValue = evaluator.getLatestSourceValue(source);
 
         // Build a set of highlights to render.

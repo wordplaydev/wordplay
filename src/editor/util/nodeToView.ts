@@ -129,12 +129,15 @@ import Names from "../../nodes/Names";
 import Docs from "../../nodes/Docs";
 import UnparsableType from "../../nodes/UnparsableType";
 import UnparsableExpression from "../../nodes/UnparsableExpression";
+import DocumentedExpression from "../../nodes/DocumentedExpression";
+import DocumentedExpressionView from "../DocumentedExpressionView.svelte";
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Program, ProgramView);
 nodeToView.set(Token, TokenView);
 nodeToView.set(Doc, DocView);
 nodeToView.set(Docs, DocsView);
+nodeToView.set(DocumentedExpression, DocumentedExpressionView);
 
 nodeToView.set(Borrow, BorrowView);
 

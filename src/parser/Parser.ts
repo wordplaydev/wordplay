@@ -69,6 +69,7 @@ import Names from "../nodes/Names";
 import UnparsableType from "../nodes/UnparsableType";
 import UnparsableExpression from "../nodes/UnparsableExpression";
 import type Spaces from "./Spaces";
+import DocumentedExpression from "../nodes/DocumentedExpression";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -164,19 +165,6 @@ export class Tokens {
         // If we found a bind, it's a bind.
         return index < this.#unread.length && this.#unread[index].is(type);        
     }    
-
-    nextAreDocsThen(type: TokenType) {
-
-        let index = 0;
-        while(index < this.#unread.length) {
-            const token = this.#unread[index];
-            if(token.is(type)) return true;
-            if(!token.is(TokenType.DOCS) && !token.is(TokenType.LANGUAGE) && !token.is(TokenType.NAME)) return false;
-            index++;
-        }
-        return false;
-
-    }
 
     nextIsOneOf(...types: TokenType[]): boolean {
         return types.find(type => this.nextIs(type)) !== undefined;
@@ -294,6 +282,25 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
             undefined;
 
     return new Block(statements, root, creator, open, close, docs);
+
+}
+
+function nextAreOptionalDocsThen(tokens: Tokens, type: TokenType): boolean {
+
+    const rollbackToken = tokens.peek();
+    if(rollbackToken === undefined) return false;
+
+    // We don't actually care what the docs are or if there are any.
+    parseDocumentation(tokens);
+
+    // Is the next the type?
+    const nextIsType = tokens.nextIs(type);
+
+    // Rollback
+    tokens.unreadTo(rollbackToken);
+
+    // It's a bind if it has a name and a bind symbol.
+    return nextIsType;
 
 }
 
@@ -454,11 +461,13 @@ function parseAtomicExpression(tokens: Tokens): Expression {
         // Table literals
         tokens.nextIs(TokenType.TABLE_OPEN) ? parseTable(tokens) :
         // A block expression
-        tokens.nextAreDocsThen(TokenType.EVAL_OPEN) ? parseBlock(tokens) :
+        nextAreOptionalDocsThen(tokens, TokenType.EVAL_OPEN) ? parseBlock(tokens) :
         // A structure definition
-        tokens.nextAreDocsThen(TokenType.TYPE) ? parseStructure(tokens) :
+        nextAreOptionalDocsThen(tokens, TokenType.TYPE) ? parseStructure(tokens) :
         // A function function
-        tokens.nextAreDocsThen(TokenType.FUNCTION) ? parseFunction(tokens) :
+        nextAreOptionalDocsThen(tokens, TokenType.FUNCTION) ? parseFunction(tokens) :
+        // A documented expression
+        tokens.nextIs(TokenType.DOCS) ? parseDocumentedExpression(tokens) :
         // Unary expressions!
         tokens.nextIs(TokenType.UNARY_OP) ? new UnaryOperation(tokens.read(TokenType.UNARY_OP), parseAtomicExpression(tokens)) :
         // Unknown expression
@@ -493,6 +502,12 @@ function parseAtomicExpression(tokens: Tokens): Expression {
     }
     return left;
     
+}
+
+function parseDocumentedExpression(tokens: Tokens): Expression {
+    const docs = parseDocumentation(tokens);
+    const expression = parseExpression(tokens);
+    return docs ? new DocumentedExpression(docs, expression) : expression;
 }
 
 /** NONE :: ! ALIASES */
@@ -1068,7 +1083,7 @@ export function parseStructure(tokens: Tokens): StructureDefinition | Unparsable
         close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;
     }
 
-    const block = tokens.nextAreDocsThen(TokenType.EVAL_OPEN) ? parseBlock(tokens, false, true) : undefined;
+    const block = nextAreOptionalDocsThen(tokens, TokenType.EVAL_OPEN) ? parseBlock(tokens, false, true) : undefined;
 
     return new StructureDefinition(docs, aliases, interfaces, typeVars, inputs, block, type, open, close);
 

@@ -42,6 +42,7 @@ state.status = "won" ?   ⬇(board 💬("You won, nice job! Press space to play 
                             💬("\state.guessesRemaining→''\ remaining")
                           )
 
+`Create a world with the screen in it`/eng
 🌎(screen "Poor Story" 🌈(100% 0 0°) 🌈(0% 0 0°))
 
 === words

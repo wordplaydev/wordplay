@@ -69,8 +69,8 @@ export default class UnparsableExpression extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: "Unparsable expression"
+            eng: "Unparsable expression",
+            "😀": TRANSLATE
         }
     }
 
