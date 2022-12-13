@@ -457,7 +457,6 @@ export class Animations {
                         // Bound to the array in case the easing goes out of bounds.
                         const index = Math.max(0, Math.min(Math.round(this.getNextValue(0, steps.length, progress)), steps.length - 1));
                         nextValue = steps[index];
-                        console.log("Move = " + nextValue);
                     }
                     
                     if(nextValue !== undefined)
@@ -583,7 +582,6 @@ export class Animations {
                     )
                 );
                 view.innerHTML = selectTranslation(renderedPhrase.getDescriptions(), this.languages);
-                console.log("Render = " + selectTranslation(renderedPhrase.getDescriptions(), this.languages));
             }
 
         }
