@@ -1,5 +1,6 @@
 import Decimal from "decimal.js";
 import type LanguageCode from "../nodes/LanguageCode";
+import { selectTranslation } from "../nodes/Translations";
 import Color from "./Color";
 import type { RenderContext } from "./Group";
 import type Group from "./Group";
@@ -10,7 +11,7 @@ import Place from "./Place";
 import type Pose from "./Pose";
 import type { SequenceKind } from "./Sequence";
 import type Sequence from "./Sequence";
-import type TextLang from "./TextLang";
+import TextLang from "./TextLang";
 import type Verse from "./Verse";
 
 export type PhraseName = string;
@@ -20,8 +21,11 @@ type Animation = {
     currentPose: Pose
     currentPoseStartTime: number | undefined,
     iterations: Map<Sequence, number>,
-    moves: Record<string, MoveState<any>>
+    moves: Record<string, MoveState<SupportedPropertyType>>
 }
+
+const SupportedProperty: (keyof Pose)[] = [ "text", "size", "font", "color", "opacity", "place", "offset", "rotation", "scalex", "scaley" ];
+type SupportedPropertyType = number | string | Color | Place;
 
 export default Animation;
 
@@ -258,7 +262,10 @@ export class Animations {
 
     }
 
-    getStartValue(animation: Animation, phrase: Phrase, sequence: Sequence, property: keyof Pose) {
+    getStartValue(animation: Animation, phrase: Phrase, sequence: Sequence, property: keyof Pose): SupportedPropertyType | undefined {
+
+        if(!SupportedProperty.includes(property))
+            return undefined;
 
         // If there's a currently animated value, we always default to that for any animation, since that's what's visible on screen.
         // This ensures smooth transitions.
@@ -271,54 +278,57 @@ export class Animations {
             const previousPhrase = Array.from(this.previouslyPresent).find(p => p.getName() === phrase.getName());
             const previousValue = previousPhrase ? previousPhrase[property as keyof Phrase] : undefined;
             if(previousValue)
-                return previousValue;
+                return previousValue as SupportedPropertyType;
         }
 
         // If we don't have one, and this is an exit, use the phrase's current value.
         if(animation.kind === "exit")
-            return phrase[property as keyof Phrase];
+            return phrase[property as keyof Phrase] as SupportedPropertyType;
 
         // If we're on the animation's first pose, use it's first value.
         if(sequence.getFirstPose() === animation.currentPose) {
             const value = animation.currentPose[property];
             if(value)
-                return value;
+                return value as SupportedPropertyType;
         }
         // If we still don't have one and we're on the next pose, use the next pose that specifies a value.
         const nextPoseWithValue = sequence.getNextPoseThat(animation.currentPose, pose => pose[property] !== undefined);
         const nextValue = nextPoseWithValue ? nextPoseWithValue[property] : undefined;
         if(nextPoseWithValue)
-                return nextValue;
+                return nextValue as SupportedPropertyType;
 
         // If we still don't have a value, default to the phrase's current value.
-        return phrase[property as keyof Phrase];
+        return phrase[property as keyof Phrase] as SupportedPropertyType;
 
     }
 
-    getEndValue(animation: Animation, phrase: Phrase, sequence: Sequence, property: keyof Pose) {
+    getEndValue(animation: Animation, phrase: Phrase, sequence: Sequence, property: keyof Pose): SupportedPropertyType | undefined {
 
-        // If this is the first pose, use it's size
+        if(!SupportedProperty.includes(property))
+            return undefined;
+
+            // If this is the first pose, use it's size
         if(animation.kind === "exit" && sequence.getFirstPose() === animation.currentPose) {
             const firstPoseValue = animation.currentPose[property];
             if(firstPoseValue)
-                return firstPoseValue;
+                return firstPoseValue as SupportedPropertyType;
         }
         // Next value in the sequence
         const nextPoseWithValue = sequence.getNextPoseThat(animation.currentPose, pose => pose.size !== undefined);
         const nextPoseValue = nextPoseWithValue ? nextPoseWithValue[property] : undefined;
         if(nextPoseValue)
-            return nextPoseValue;
+            return nextPoseValue as SupportedPropertyType;
 
         // If the sequence will loop, choose the first pose's size
         if(phrase.willLoop(animation)) {
             const firstPose = sequence.getSequenceOfPose(animation.currentPose)?.getFirstPose();
             const firstPoseValue = firstPose !== undefined ? firstPose[property] : undefined;
             if(firstPoseValue)
-                return firstPoseValue;
+                return firstPoseValue as SupportedPropertyType;
         }
 
         // If there isn't one, the phrase's current size.
-        return phrase[property as keyof Phrase];
+        return phrase[property as keyof Phrase] as SupportedPropertyType;
 
     }
 
@@ -382,20 +392,28 @@ export class Animations {
                 // 2) If not that, the phrase's current property value
 
                 // Iterate through all properties to find start and stop values for the move.
-                const properties = [ "size", "font", "color", "opacity", "place", "offset", "rotation", "scalex", "scaley" ] as (keyof Pose)[];
+                const properties = SupportedProperty;
                 for(const property of properties) {
                     if(animation.currentPose[property] !== undefined || animation.kind === "between") {
 
                         // Choose a suitable start and end value for the animation.
-                        const start = this.getStartValue(animation, phrase, sequence, property);
-                        const end = this.getEndValue(animation, phrase, sequence, property);
+                        let start = this.getStartValue(animation, phrase, sequence, property);
+                        let end = this.getEndValue(animation, phrase, sequence, property);
         
-                        animation.moves[property] = {
-                            start: start,
-                            end: end,
-                            // Update this to account for different kinds of sequences.
-                            value: start
-                        }
+                        // If the start or end value is a list of Text, choose based on current langauge.
+                        if(Array.isArray(start) && start.every(t => t instanceof TextLang))
+                            start = start[0].text;
+                        if(Array.isArray(end) && end.every(t => t instanceof TextLang))
+                            end = end[0].text;
+
+                        // If we managed to find values, animate them!
+                        if(start !== undefined && end !== undefined)
+                            animation.moves[property] = {
+                                start: start,
+                                end: end,
+                                // Update this to account for different kinds of sequences.
+                                value: start
+                            }
                     }
                 }
     
@@ -410,11 +428,16 @@ export class Animations {
                 const progress = 1 - Math.pow(1 - percent, 3);
     
                 // Move toward the end value of each move.
-                for(const move of Object.values(animation.moves)) {
+                for(const property of Object.keys(animation.moves)) {
+
+                    const move = animation.moves[property];
+
+                    let nextValue;
+
                     if(typeof move.start === "number" && typeof move.end === "number")
-                        move.value = this.getNextValue(move.start, move.end, progress);
+                        nextValue = this.getNextValue(move.start, move.end, progress);
                     else if(move.start instanceof Place && move.end instanceof Place) {
-                        move.value = new Place(
+                        nextValue = new Place(
                             phrase.value,
                             new Decimal(this.getNextValue(move.start.x.toNumber(), move.end.x.toNumber(), progress)),
                             new Decimal(this.getNextValue(move.start.y.toNumber(), move.end.y.toNumber(), progress)),
@@ -422,13 +445,24 @@ export class Animations {
                         )
                     }
                     else if(move.start instanceof Color && move.end instanceof Color) {
-                        move.value = new Color(
+                        nextValue = new Color(
                             phrase.value,
                             new Decimal(this.getNextValue(move.start.lightness.toNumber(), move.end.lightness.toNumber(), progress)),
                             new Decimal(this.getNextValue(move.start.chroma.toNumber(), move.end.chroma.toNumber(), progress)),
                             new Decimal(this.getNextValue(move.start.hue.toNumber(), move.end.hue.toNumber(), progress))
                         )
                     }
+                    else if(property === "text" && typeof move.start === "string" && typeof move.end === "string" ) {
+                        const steps = getTextTransition(move.start, move.end);
+                        // Bound to the array in case the easing goes out of bounds.
+                        const index = Math.max(0, Math.min(Math.round(this.getNextValue(0, steps.length, progress)), steps.length - 1));
+                        nextValue = steps[index];
+                        console.log("Move = " + nextValue);
+                    }
+                    
+                    if(nextValue !== undefined)
+                        move.value = nextValue;
+
                 }
     
                 // If this pose is done, start the next pose in the sequence, or if there isn't one, end the sequence.
@@ -524,7 +558,7 @@ export class Animations {
             // Find the moves for each property, defaulting to the phrase's current value.
             const renderedPhrase = new Phrase(
                 phrase.value,
-                animation.moves.text?.value as TextLang[] ?? phrase.text,
+                (animation.moves.text?.value === undefined ? phrase.text : [new TextLang(phrase.value, animation.moves.text.value as string)]),
                 animation.moves.size?.value as number ?? phrase.size,
                 animation.moves.font?.value as string ?? phrase.font,
                 animation.moves.color?.value as Color ?? phrase.color,
@@ -540,7 +574,7 @@ export class Animations {
             const place = places.get(phrase) ?? this.exiting.get(phrase);
 
             // Apply each style, as the PhraseView does, by creating a temporary Phrase.
-            if(place)
+            if(place) {
                 view.setAttribute("style", 
                     phraseToCSS(
                         renderedPhrase, 
@@ -548,9 +582,33 @@ export class Animations {
                         this.verse.focus
                     )
                 );
+                view.innerHTML = selectTranslation(renderedPhrase.getDescriptions(), this.languages);
+                console.log("Render = " + selectTranslation(renderedPhrase.getDescriptions(), this.languages));
+            }
 
         }
 
     }
+
+}
+
+export function getTextTransition(start: string, end: string): string[] {
+
+    const steps: string[] = [ start ];
+
+    // Backspace until reaching a common prefix
+    let state = start;
+    while(!end.startsWith(state)) {
+        state = state.substring(0, state.length - 1);
+        steps.push(state);
+    }
+
+    // Insert until reaching the end
+    while(state !== end) {
+        state = state + end.charAt(state.length);
+        steps.push(state);
+    }
+
+    return steps;
 
 }

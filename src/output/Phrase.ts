@@ -109,29 +109,29 @@ export default class Phrase extends Group {
 
     }
 
-    getMetrics(render: RenderContext) {
+    getMetrics(context: RenderContext) {
 
         // See if any moves are animating this.
-        const sequence = render.animations.get(this);
+        const animation = context.animations.get(this);
 
         // Return the cache, if there is one.
-        if(this._metrics && sequence === undefined) return this._metrics;
+        if(this._metrics && animation === undefined) return this._metrics;
         
         // The font is:
         // 1) the animated font, if there is one
         // 2) this phrase's font, if there is one
         // 3) otherwise, the verse's font.
-        const animatedFont = sequence?.moves.font?.value as string | undefined;
-        const renderedFont = animatedFont ?? this.font ?? render.font;
+        const animatedFont = animation?.moves.font?.value as string | undefined;
+        const renderedFont = animatedFont ?? this.font ?? context.font;
 
         // The size is:
         // 1) the animated size, if there is one
         // 2) otherwise, the phrase's size
-        const animatedSize = sequence?.moves.size?.value as number | undefined;
+        const animatedSize = animation?.moves.size?.value as number | undefined;
         const renderedSize = animatedSize ?? this.size;
 
         // Get the preferred text
-        const text = selectTranslation(this.getDescriptions(), render.languages);
+        const text = animation?.moves.text ? (animation.moves.text.value as string) : selectTranslation(this.getDescriptions(), context.languages);
 
         // Parse the text as rich text nodes.
         const rich = parseRichText(text);
@@ -195,6 +195,7 @@ export default class Phrase extends Group {
     }
 
     getDescriptions(): Translations {
+
         const translations: Record<string,string> = {};
         for(const text of this.text)
             translations[text.lang ?? ""] = text.text;

@@ -1,7 +1,7 @@
 import type Value from "../runtime/Value";
 import Output from "./Output";
 
-export default class TexfLang extends Output {
+export default class TextLang extends Output {
 
     readonly text: string;
     readonly lang: string | undefined;
@@ -13,4 +13,7 @@ export default class TexfLang extends Output {
         this.lang = lang;
 
     }
+
+    toString() { return this.text; }
+
 }

@@ -11,6 +11,7 @@ import Kitties from "./RainingKitties.wp?raw";
 import Transitions from "./Transitions.wp?raw";
 import Move from "./Move.wp?raw";
 import Colors from "./Colors.wp?raw";
+import TextTransitions from "./TextTransitions.wp?raw";
 
 export type Stuff = { name: string, sources: { name: string, code: string}[] };
 
@@ -50,5 +51,6 @@ export const examples: Stuff[] = [
     Kitties,
     Transitions,
     Move,
-    Colors
+    Colors,
+    TextTransitions
 ].map(source => wpToStuff(source));
