@@ -1,9 +1,9 @@
 === Text Transitions
-↓ 🖱
+↓ ⌨️
 ↓ ⚁
 
 text: [ "kitty" "kittymouth" "cat" "cattycat" "furbaby" ]
-choice: text[1] ∆ 🖱 text.random()
+choice: text[1] ∆ ⌨️ ⌨️.down ? text.random() choice
 
 💬(
     choice
