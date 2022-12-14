@@ -29,22 +29,34 @@ import StartFinish from "../runtime/StartFinish";
 
 export default class ConversionDefinition extends Expression {
 
-    readonly docs?: Docs;
+    readonly docs: Docs | undefined;
     readonly arrow: Token;
     readonly input: Type;
     readonly output: Type;
     readonly expression: Expression;
 
-    constructor(docs: Docs | Translations | undefined, input: Type | string, output: Type | string, expression: Expression, convert?: Token) {
+    constructor(docs: Docs | undefined, arrow: Token, input: Type, output: Type, expression: Expression) {
         super();
 
-        this.docs = docs === undefined ? undefined : docs instanceof Docs ? docs : new Docs(docs);
-        this.arrow = convert ?? new Token(CONVERT_SYMBOL, TokenType.CONVERT);
-        this.input = typeof input === "string" ? parseType(toTokens(input)) : input;
-        this.output = typeof output === "string" ? parseType(toTokens(output)) : output;
+        this.docs = docs;
+        this.arrow = arrow;
+        this.input = input;
+        this.output = output;
         this.expression = expression;
 
         this.computeChildren();
+
+    }
+
+    static make(docs: Translations | undefined, input: Type | string, output: Type | string, expression: Expression) {
+
+        return new ConversionDefinition(
+            new Docs(docs),
+            new Token(CONVERT_SYMBOL, TokenType.CONVERT),
+            input instanceof Type ? input : parseType(toTokens(input)),
+            output instanceof Type ? output : parseType(toTokens(output)),
+            expression
+        );
 
     }
 
@@ -61,10 +73,10 @@ export default class ConversionDefinition extends Expression {
     replace(original?: Node, replacement?: Node) { 
         return new ConversionDefinition(
             this.replaceChild("docs", this.docs, original, replacement), 
+            this.replaceChild("arrow", this.arrow, original, replacement),
             this.replaceChild("input", this.input, original, replacement), 
             this.replaceChild("output", this.output, original, replacement), 
-            this.replaceChild("expression", this.expression, original, replacement), 
-            this.replaceChild("arrow", this.arrow, original, replacement)
+            this.replaceChild("expression", this.expression, original, replacement)
         ) as this; 
     }
     

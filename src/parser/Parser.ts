@@ -319,16 +319,6 @@ function nextIsBind(tokens: Tokens, expectValue: boolean): boolean {
 
 }
 
-function nextIsConversion(tokens: Tokens): boolean {
-
-    const rollbackToken = tokens.peek();
-    if(rollbackToken === undefined) return false;
-    const conversion = parseConversion(tokens);
-    tokens.unreadTo(rollbackToken);
-    return conversion instanceof ConversionDefinition && conversion.nodes().find(n => n instanceof UnparsableExpression) === undefined;
-
-}
-
 /** BIND :: NAMES TYPE? (: EXPRESSION)? */
 export function parseBind(tokens: Tokens): Bind {
 
@@ -442,8 +432,6 @@ function parseAtomicExpression(tokens: Tokens): Expression {
         tokens.nextIs(TokenType.PLACEHOLDER) ? new ExpressionPlaceholder(tokens.read(TokenType.PLACEHOLDER)) :
         // Nones
         tokens.nextIs(TokenType.NONE) ? parseNone(tokens): 
-        // A conversion. Need to parse before names, otherwise we might slurp up a type alone instead of a conversion.
-        nextIsConversion(tokens) ? parseConversion(tokens) :
         // Names or booleans are easy
         tokens.nextIs(TokenType.NAME) ? parseReference(tokens) :
         // Booleans
@@ -466,6 +454,8 @@ function parseAtomicExpression(tokens: Tokens): Expression {
         nextAreOptionalDocsThen(tokens, TokenType.TYPE) ? parseStructure(tokens) :
         // A function function
         nextAreOptionalDocsThen(tokens, TokenType.FUNCTION) ? parseFunction(tokens) :
+        // A conversion function.
+        nextAreOptionalDocsThen(tokens, TokenType.CONVERT) ? parseConversion(tokens) :
         // A documented expression
         tokens.nextIs(TokenType.DOCS) ? parseDocumentedExpression(tokens) :
         // Unary expressions!
@@ -474,7 +464,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
         new UnparsableExpression(tokens.readLine())
     );
 
-    // But wait! Is it one or more accessors? Slurp them up.
+    // But wait! Is it one or more infix expressions? Slurp them up.
     while(true) {
         if(tokens.nextIs(TokenType.ACCESS))
             left = parseAccess(left, tokens);
@@ -842,17 +832,15 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
 }
 
 /** CONVERSION :: DOCS? TYPE → TYPE EXPRESSION */
-function parseConversion(tokens: Tokens): ConversionDefinition | UnparsableExpression {
+function parseConversion(tokens: Tokens): ConversionDefinition {
 
     const docs = parseDocumentation(tokens);
-    const input = parseType(tokens, true);
-    if(!tokens.nextIs(TokenType.CONVERT))
-        return new UnparsableExpression(docs ? [ docs, input ] : [ input ]);
     const convert = tokens.read(TokenType.CONVERT);
+    const input = parseType(tokens, true);
     const output = parseType(tokens, true);
     const expression = parseExpression(tokens);
 
-    return new ConversionDefinition(docs, input, output, expression, convert);
+    return new ConversionDefinition(docs, convert, input, output, expression);
 
 }
 

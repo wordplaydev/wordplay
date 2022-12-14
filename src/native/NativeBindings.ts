@@ -129,7 +129,7 @@ export function createNativeConversion<ValueType extends Value>(docs: Translatio
     // Parse the expected type.
     const inputType = parseType(toTokens(inputTypeString));
     
-    return new ConversionDefinition(
+    return ConversionDefinition.make(
         docs, inputType, outputTypeString,
         new NativeExpression(
             outputTypeString,

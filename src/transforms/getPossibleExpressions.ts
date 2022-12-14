@@ -64,7 +64,7 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
         MapLiteral.make([ new KeyValue(new ExpressionPlaceholder(), new ExpressionPlaceholder())]),
         FunctionDefinition.make(undefined, new Names([ Name.make() ]), [], [], new ExpressionPlaceholder()),
         StructureDefinition.make(undefined, new Names([ Name.make() ]), [], [], []),
-        new ConversionDefinition(undefined, new TypePlaceholder(), new TypePlaceholder(), new ExpressionPlaceholder()),
+        ConversionDefinition.make(undefined, new TypePlaceholder(), new TypePlaceholder(), new ExpressionPlaceholder()),
         new Reaction(new ExpressionPlaceholder(), new ExpressionPlaceholder(), new ExpressionPlaceholder()),
         Previous.make(new ExpressionPlaceholder(), new ExpressionPlaceholder())
     ].filter(expr => expr instanceof TypeVariable ? type instanceof AnyType : type.accepts(expr.getType(context), context))
