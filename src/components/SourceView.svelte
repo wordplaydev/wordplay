@@ -108,6 +108,7 @@
     .code {
         flex: 1;
         min-height: 20rem;
+        max-height: 30em;
         width: 100%;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
