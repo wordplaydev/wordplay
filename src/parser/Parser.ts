@@ -185,6 +185,11 @@ export class Tokens {
         return this.#unread.length > 1 && this.#spaces.hasLineBreak(this.#unread[1]);
     }
     
+    /** Returns true if there's a space ahead with more than one line break */
+    nextHasMoreThanOneLineBreak(): boolean {    
+        return (this.peekSpace() ?? "").split("\n").length - 1 >= 2;
+    }
+
     /** Returns a token list without the first token. */
     read(expectedType?: TokenType): Token {
         const next = this.#unread.shift();
@@ -602,7 +607,7 @@ function parseList(tokens: Tokens): ListLiteral {
     let values: Expression[] = [];
     let close;
 
-    while(tokens.hasNext() && tokens.nextIsnt(TokenType.LIST_CLOSE))
+    while(tokens.hasNext() && tokens.nextIsnt(TokenType.LIST_CLOSE) && !tokens.nextHasMoreThanOneLineBreak())
         values.push(parseExpression(tokens));
 
     close = tokens.nextIs(TokenType.LIST_CLOSE) ? tokens.read(TokenType.LIST_CLOSE) : undefined;
@@ -643,7 +648,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
         return new MapLiteral(open, [], bind, tokens.read(TokenType.SET_CLOSE));
     }
 
-    while(tokens.hasNext() && tokens.nextIsnt(TokenType.SET_CLOSE)) {
+    while(tokens.hasNext() && tokens.nextIsnt(TokenType.SET_CLOSE) && !tokens.nextHasMoreThanOneLineBreak()) {
         const key = parseExpression(tokens);
         if(tokens.nextIs(TokenType.BIND)) {
             const bind = tokens.read(TokenType.BIND);
@@ -658,7 +663,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
     // Make a map
     return values.find(v => v instanceof KeyValue) !== undefined ? 
         new MapLiteral(open, values as KeyValue[], undefined, close) :
-        new SetLiteral(values as Expression[], open, close);
+        new SetLiteral(open, values as Expression[], close);
 
 }
 
@@ -677,7 +682,7 @@ function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression {
         if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
 
-    } while(tokens.nextIs(TokenType.SET_OPEN));
+    } while(tokens.hasNext() && tokens.nextIs(TokenType.SET_OPEN));
 
     // Return the series of accesses and evaluations we created.
     return left;
@@ -822,7 +827,7 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
     const inputs: Expression[] = [];
     
     // This little peek at space just prevents runaway parsing. It uses space to make an assumption that everything below isn't part of the evaluate.
-    while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && (tokens.peekSpace() ?? "").split("\n").length - 1 < 2)
+    while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && !tokens.nextHasMoreThanOneLineBreak())
         inputs.push(nextIsBind(tokens, true) ? parseBind(tokens) : parseExpression(tokens));
     
     let close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;

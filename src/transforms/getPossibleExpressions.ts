@@ -60,7 +60,7 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
         Conditional.make(new ExpressionPlaceholder(), new ExpressionPlaceholder(), new ExpressionPlaceholder()),
         Block.make([ new ExpressionPlaceholder() ]),
         ListLiteral.make([]),
-        new SetLiteral([]),
+        SetLiteral.make([]),
         MapLiteral.make([ new KeyValue(new ExpressionPlaceholder(), new ExpressionPlaceholder())]),
         FunctionDefinition.make(undefined, new Names([ Name.make() ]), [], [], new ExpressionPlaceholder()),
         StructureDefinition.make(undefined, new Names([ Name.make() ]), [], [], []),

@@ -25,31 +25,39 @@ export default class SetLiteral extends Expression {
 
     readonly open: Token;
     readonly values: Expression[];
-    readonly close: Token;
+    readonly close: Token | undefined;
 
-    constructor(values: Expression[], open?: Token, close?: Token) {
+    constructor(open: Token, values: Expression[], close: Token | undefined) {
         super();
 
-        this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
+        this.open = open;
         this.values = values;
-        this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
+        this.close = close;
 
         this.computeChildren();
         
+    }
+
+    static make(values: Expression[]) {
+        return new SetLiteral(
+            new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN),
+            values,
+            new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE)
+        );
     }
 
     getGrammar() { 
         return [
             { name: "open", types:[ Token ] },
             { name: "values", types:[[ Expression ]] },
-            { name: "close", types:[ Token ] },
+            { name: "close", types:[ Token, undefined ] },
         ];
     }
 
     replace(original?: Node, replacement?: Node) { 
         return new SetLiteral(
-            this.replaceChild<Expression[]>("values", this.values, original, replacement),
             this.replaceChild("open", this.open, original, replacement), 
+            this.replaceChild<Expression[]>("values", this.values, original, replacement),
             this.replaceChild("close", this.close, original, replacement)
         ) as this; 
     }
@@ -132,7 +140,7 @@ export default class SetLiteral extends Expression {
     }
 
     getStart() { return this.open; }
-    getFinish() { return this.close; }
+    getFinish() { return this.close ?? this.values[this.values.length - 1] ?? this.open; }
 
     getStartExplanations(): Translations { 
         return {
