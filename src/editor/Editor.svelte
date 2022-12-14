@@ -1005,11 +1005,10 @@
                     let newSource: Source | undefined = source;
                     if(isPlaceholder)
                         newSource = newSource.withoutGraphemeAt(position);
-                    newSource = newSource?.withGraphemesAt(char, position);
-                    if(newSource) {
-                        edit = [ newSource, new Caret(newSource, position + 1) ];
+                    edit = $caret.insert(char);
+                    if(edit) {
                         if(value.getLength() > 1)
-                        input.value = lastChar.toString();
+                            input.value = lastChar.toString();
                     }
                     // Rest the field to the last character.
                 }

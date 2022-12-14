@@ -181,6 +181,16 @@ const TEXT_DELIMITERS: Record<string,string> = {
     '『': '』'
 }
 
+export const DELIMITERS: Record<string,string> = {};
+
+// Add the data structure delimiters
+DELIMITERS[EVAL_OPEN_SYMBOL] = EVAL_CLOSE_SYMBOL;
+DELIMITERS[LIST_OPEN_SYMBOL] = LIST_CLOSE_SYMBOL;
+DELIMITERS[SET_OPEN_SYMBOL] = SET_CLOSE_SYMBOL;
+// Add the text delimiters.
+for(const [open, close] of Object.entries(TEXT_DELIMITERS))
+    DELIMITERS[open] = close;
+
 export function tokens(source: string): Token[] {
     return tokenize(source).getTokens();
 }

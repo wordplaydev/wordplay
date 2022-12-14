@@ -1,7 +1,7 @@
 import type { Edit } from "../editor/util/Commands";
 import Node from "../nodes/Node";
 import Token from "../nodes/Token";
-import { PLACEHOLDER_SYMBOL, PROPERTY_SYMBOL } from "../parser/Tokenizer";
+import { DELIMITERS, PLACEHOLDER_SYMBOL, PROPERTY_SYMBOL } from "../parser/Tokenizer";
 import type Source from "./Source";
 
 export type InsertionContext = { before: Node[], after: Node[] };
@@ -261,8 +261,14 @@ export default class Caret {
 
     insert(text: string): Edit | undefined {
         if(typeof this.position === "number") {
+
+            // If the string matches a single matched delimiter, complete it.
+            const closed = text in DELIMITERS;
+            if(closed)
+                text += DELIMITERS[text];
+
             const newSource = this.source.withGraphemesAt(text, this.position);
-            return newSource === undefined ? undefined : [ newSource, new Caret(newSource, this.position + text.length) ];
+            return newSource === undefined ? undefined : [ newSource, new Caret(newSource, this.position + (closed ? 1 : text.length)) ];
         }
         else if(this.position instanceof Token && this.position.getText() === PLACEHOLDER_SYMBOL) {
             const indexOfPlaceholder = this.source.getTokenTextPosition(this.position);
@@ -302,8 +308,19 @@ export default class Caret {
     
     backspace(): Edit | undefined  {
         if(typeof this.position === "number") {
-            const newSource = this.source.withoutGraphemeAt(this.position - 1);
-            return newSource === undefined ? undefined : [ newSource , new Caret(newSource, Math.max(0, this.position - 1)) ];
+            const before = this.source.getCode().at(this.position - 1);
+            const after = this.source.getCode().at(this.position);
+            if(before && after && DELIMITERS[before] === after) {
+                // If there's an adjacent pair of delimiters, delete them both.
+                let newSource = this.source.withoutGraphemeAt(this.position);
+                if(newSource)
+                    newSource = newSource.withoutGraphemeAt(this.position - 1);
+                return newSource === undefined ? undefined : [ newSource , new Caret(newSource, Math.max(0, this.position - 1)) ];    
+            } else {
+                const newSource = this.source.withoutGraphemeAt(this.position - 1);
+                return newSource === undefined ? undefined : [ newSource , new Caret(newSource, Math.max(0, this.position - 1)) ];    
+            }
+            
         } 
         // If it's a node, see if there's a removal transform.
         else {
