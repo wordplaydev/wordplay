@@ -1033,15 +1033,13 @@ function parseTableType(tokens: Tokens): TableType {
 }
 
 /** FUNCTION_TYPE :: ƒ( BIND* ) TYPE */
-function parseFunctionType(tokens: Tokens): FunctionType | UnparsableType {
+function parseFunctionType(tokens: Tokens): FunctionType {
 
     const fun = tokens.read(TokenType.FUNCTION);
 
     const typeVars = parseTypeVariables(tokens);
 
-    if(tokens.nextIsnt(TokenType.EVAL_OPEN))
-        return new UnparsableType([ fun, ... tokens.readLine() ]);
-    const open = tokens.read(TokenType.EVAL_OPEN);
+    const open = tokens.nextIs(TokenType.EVAL_OPEN) ? tokens.read(TokenType.EVAL_OPEN) : undefined;
 
     const inputs: Bind[] = [];
     while(nextIsBind(tokens, false))
@@ -1051,7 +1049,7 @@ function parseFunctionType(tokens: Tokens): FunctionType | UnparsableType {
 
     const output = parseType(tokens);
 
-    return new FunctionType(typeVars, inputs, output, fun, open, close);
+    return new FunctionType(fun, typeVars, open, inputs, close, output);
 
 }
 

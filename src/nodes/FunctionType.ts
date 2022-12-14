@@ -20,44 +20,55 @@ export default class FunctionType extends Type {
 
     readonly fun: Token;
     readonly typeVars: TypeVariable[];
-    readonly open: Token;
+    readonly open: Token | undefined;
     readonly inputs: Bind[];
-    readonly close: Token;
+    readonly close: Token | undefined;
     readonly output: Type;
 
-    constructor(typeVars: TypeVariable[], inputs: Bind[], output: Type, fun?: Token, open?: Token, close?: Token) {
+    constructor(fun: Token, typeVars: TypeVariable[], open: Token | undefined, inputs: Bind[], close: Token | undefined, output: Type) {
         super();
 
-        this.fun = fun ?? new Token(FUNCTION_SYMBOL, TokenType.FUNCTION);
+        this.fun = fun;
         this.typeVars = typeVars;
-        this.open = open ?? new EvalOpenToken();
+        this.open = open;
         this.inputs = inputs;
-        this.close = close ?? new EvalCloseToken();;
+        this.close = close;
         this.output = output;
 
         this.computeChildren();
 
+    }
+
+    static make(typeVars: TypeVariable[], inputs: Bind[], output: Type) {
+        return new FunctionType(
+            new Token(FUNCTION_SYMBOL, TokenType.FUNCTION),
+            typeVars,
+            new EvalOpenToken(),
+            inputs,
+            new EvalCloseToken(),
+            output
+        );
     }
     
     getGrammar() { 
         return [
             { name: "fun", types: [ Token ] },
             { name: "typeVars", types: [ [ TypeVariable] ] },
-            { name: "open", types: [ Token ] },
+            { name: "open", types: [ Token, undefined ] },
             { name: "inputs", types: [[ Bind ]] },
-            { name: "close", types: [ Token] },
+            { name: "close", types: [ Token, undefined ] },
             { name: "output", types: [ Type ] },
         ]; 
     }
 
     replace(original?: Node, replacement?: Node) { 
         return new FunctionType(
-            this.replaceChild("typeVars", this.typeVars, original, replacement),
-            this.replaceChild("inputs", this.inputs, original, replacement),
-            this.replaceChild("output", this.output, original, replacement),
             this.replaceChild("fun", this.fun, original, replacement),
+            this.replaceChild("typeVars", this.typeVars, original, replacement),
             this.replaceChild("open", this.open, original, replacement),
-            this.replaceChild("close", this.close, original, replacement)
+            this.replaceChild("inputs", this.inputs, original, replacement),
+            this.replaceChild("close", this.close, original, replacement),
+            this.replaceChild("output", this.output, original, replacement)
         ) as this;
     }
 
@@ -67,6 +78,7 @@ export default class FunctionType extends Type {
         let outputToCheck = type instanceof FunctionDefinitionType ? type.fun.getOutputType(context) : type.output;
 
         if(!(outputToCheck instanceof Type)) return false;
+        console.log(this.output.toWordplay());
         if(!this.output.accepts(outputToCheck, context)) return false;
         if(this.inputs.length != inputsToCheck.length) return false;
         for(let i = 0; i < this.inputs.length; i++) {

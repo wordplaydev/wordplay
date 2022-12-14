@@ -27,7 +27,7 @@ export default function bootstrapMap() {
         "😀": `${TRANSLATE}Out`
     }
 
-    const mapFilterHOFType = new FunctionType([], [ 
+    const mapFilterHOFType = FunctionType.make([], [ 
         Bind.make(
             {
                 eng: WRITE,
@@ -52,7 +52,7 @@ export default function bootstrapMap() {
         )
     ], new BooleanType());
 
-    const mapTranslateHOFType = new FunctionType([], [ 
+    const mapTranslateHOFType = FunctionType.make([], [ 
         Bind.make(
             {
                 eng: WRITE,
