@@ -3,7 +3,6 @@ import BooleanType from "../nodes/BooleanType";
 import Expression from "../nodes/Expression";
 import type FunctionType from "../nodes/FunctionType";
 import MeasurementType from "../nodes/MeasurementType";
-import Name from "../nodes/Name";
 import Names from "../nodes/Names";
 import NameType from "../nodes/NameType";
 import SetType from "../nodes/SetType";
@@ -25,8 +24,8 @@ import type Value from "../runtime/Value";
 import HOF from "./HOF";
 import { SET_TYPE_VAR_NAMES } from "./NativeConstants";
 
-const INDEX = new Names([ new Name("index")]);
-const SET = new Names([ new Name("set")]);
+const INDEX = Names.make([ "index" ]);
+const SET = Names.make([ "set" ]);
 
 export default class NativeHOFSetFilter extends HOF {
 
@@ -37,7 +36,7 @@ export default class NativeHOFSetFilter extends HOF {
         this.hofType = hofType
     }
 
-    computeType(): Type { return new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)); }
+    computeType(): Type { return SetType.make(new NameType(SET_TYPE_VAR_NAMES.eng)); }
 
     compile(): Step[] { 
         return [
@@ -62,8 +61,8 @@ export default class NativeHOFSetFilter extends HOF {
                     const index = evaluator.resolve(INDEX);
                     const set = evaluator.getCurrentEvaluation()?.getClosure();
                     // If the index is past the last index of the list, jump to the end.
-                    if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
-                    else if(!(set instanceof Set)) return new TypeException(evaluator, new SetType(), set);
+                    if(!(index instanceof Measurement)) return new TypeException(evaluator, MeasurementType.make(), index);
+                    else if(!(set instanceof Set)) return new TypeException(evaluator, SetType.make(), set);
                     else {
                         if(index.greaterThan(this, set.size(this)).bool)
                             evaluator.jump(1);
@@ -105,11 +104,11 @@ export default class NativeHOFSetFilter extends HOF {
                     // Get the current index.
                     const index = evaluator.resolve(INDEX);
                     if(!(index instanceof Measurement))
-                        return new TypeException(evaluator, new MeasurementType(), index);
+                        return new TypeException(evaluator, MeasurementType.make(), index);
 
                     const set = evaluator.getCurrentEvaluation()?.getClosure();
                     if(!(set instanceof Set))
-                        return new TypeException(evaluator, new SetType(), set);
+                        return new TypeException(evaluator, SetType.make(), set);
 
                     // If the include decided yes, append the value.
                     const newSet = evaluator.resolve(SET);
@@ -119,7 +118,7 @@ export default class NativeHOFSetFilter extends HOF {
                             evaluator.bind(SET, newSet.add(this, setValue));
                         }
                     }
-                    else return new TypeException(evaluator, new SetType(), newSet);
+                    else return new TypeException(evaluator, SetType.make(), newSet);
 
                     // Increment the counter
                     evaluator.bind(INDEX, index.add(this, new Measurement(this, 1)));

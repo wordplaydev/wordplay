@@ -28,14 +28,21 @@ export default class MeasurementLiteral extends Expression {
     readonly number: Token;
     readonly unit: Unit;
 
-    constructor(number?: Token | number, unit?: Unit) {
+    constructor(number: Token, unit: Unit) {
         super();
         
-        this.number = number === undefined ? new PlaceholderToken() : number instanceof Token ? number : new Token("" + number, TokenType.DECIMAL);
-        this.unit = unit === undefined ? new Unit() : unit;
+        this.number = number;
+        this.unit = unit;
 
         this.computeChildren();
 
+    }
+
+    static make(number?: number, unit?: Unit) {
+        return new MeasurementLiteral(
+            number === undefined ? new PlaceholderToken() : new Token("" + number, TokenType.DECIMAL),
+            unit === undefined ? new Unit() : unit
+        )
     }
     
     replace(original?: Node, replacement?: Node) { 

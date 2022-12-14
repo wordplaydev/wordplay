@@ -17,14 +17,18 @@ export default class StreamType extends Type {
     readonly stream: Token;
     readonly type: Type;
 
-    constructor(type: Type, stream?: Token) {
+    constructor(stream: Token, type: Type, ) {
         super();
 
-        this.stream = stream ?? new Token(REACTION_SYMBOL, TokenType.REACTION);
+        this.stream = stream;
         this.type = type;
 
         this.computeChildren();
 
+    }
+
+    static make(type: Type) {
+        return new StreamType(new Token(REACTION_SYMBOL, TokenType.STREAM_TYPE), type);
     }
 
     getGrammar() { 

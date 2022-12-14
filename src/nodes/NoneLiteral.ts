@@ -22,13 +22,17 @@ export default class NoneLiteral extends Expression {
 
     readonly none: Token;
  
-    constructor(none?: Token) {
+    constructor(none: Token) {
         super();
 
-        this.none = none ?? new Token(NONE_SYMBOL, TokenType.NONE);
+        this.none = none;
 
         this.computeChildren();
 
+    }
+
+    static make() {
+        return new NoneLiteral(new Token(NONE_SYMBOL, TokenType.NONE));
     }
 
     getGrammar() { 
@@ -46,7 +50,7 @@ export default class NoneLiteral extends Expression {
     computeConflicts() {}
 
     computeType(): Type {
-        return new NoneType();
+        return NoneType.make();
     }
 
     getDependencies(): Expression[] {

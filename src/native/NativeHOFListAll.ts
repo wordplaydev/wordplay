@@ -20,9 +20,8 @@ import TypeException from "../runtime/TypeException";
 import type Value from "../runtime/Value";
 import HOF from "./HOF";
 import Names from "../nodes/Names";
-import Name from "../nodes/Name";
 
-const INDEX = new Names([ new Name("index")]);
+const INDEX = Names.make(["index"]);
 
 export default class NativeHOFListAll extends HOF {
 
@@ -59,7 +58,7 @@ export default class NativeHOFListAll extends HOF {
                     const index = evaluator.resolve(INDEX);
                     const list = evaluator.getCurrentEvaluation()?.getClosure();
                     // If the index is past the last index of the list, jump to the end.
-                    if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
+                    if(!(index instanceof Measurement)) return new TypeException(evaluator, MeasurementType.make(), index);
                     else if(!(list instanceof List)) return new TypeException(evaluator, new ListType(), list);
                     else {
                         if(index.greaterThan(this, list.length(this, )).bool)
@@ -105,7 +104,7 @@ export default class NativeHOFListAll extends HOF {
                     // Get the current index
                     const index = evaluator.resolve(INDEX);
                     if(!(index instanceof Measurement))
-                        return new TypeException(evaluator, new MeasurementType(), matched);
+                        return new TypeException(evaluator, MeasurementType.make(), matched);
         
                     // If it matched, increment and jump to the conditional.
                     if(matched.bool) {
@@ -142,7 +141,7 @@ export default class NativeHOFListAll extends HOF {
         // Get the index and list.
         const index = evaluator.resolve("index");
         if(!(index instanceof Measurement))
-            return new TypeException(evaluator, new MeasurementType(), index);
+            return new TypeException(evaluator, MeasurementType.make(), index);
         const list = evaluator.getCurrentEvaluation()?.getClosure();
         if(!(list instanceof List))
             return new TypeException(evaluator, new ListType(), list);

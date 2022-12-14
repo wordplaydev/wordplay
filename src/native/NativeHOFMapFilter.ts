@@ -5,7 +5,6 @@ import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
 import MapType from "../nodes/MapType";
 import MeasurementType from "../nodes/MeasurementType";
-import Name from "../nodes/Name";
 import Names from "../nodes/Names";
 import NameType from "../nodes/NameType";
 import type Translations from "../nodes/Translations";
@@ -26,8 +25,8 @@ import type Value from "../runtime/Value";
 import HOF from "./HOF";
 import { LIST_TYPE_VAR_NAMES } from "./NativeConstants";
 
-const INDEX = new Names([ new Name("index")]);
-const MAP = new Names([ new Name("map")]);
+const INDEX = Names.make([ "index" ]);
+const MAP = Names.make([ "map" ]);
 
 export default class NativeHOFMapFilter extends HOF {
 
@@ -62,8 +61,8 @@ export default class NativeHOFMapFilter extends HOF {
                     const index = evaluator.resolve(INDEX);
                     const map = evaluator.getCurrentEvaluation()?.getClosure();
                     // If the index is past the last index of the list, jump to the end.
-                    if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
-                    else if(!(map instanceof MapValue)) return new TypeException(evaluator, new MapType(), map);
+                    if(!(index instanceof Measurement)) return new TypeException(evaluator, MeasurementType.make(), index);
+                    else if(!(map instanceof MapValue)) return new TypeException(evaluator, MapType.make(), map);
                     else {
                         if(index.greaterThan(this, map.size(this)).bool)
                             evaluator.jump(1);
@@ -108,16 +107,16 @@ export default class NativeHOFMapFilter extends HOF {
                 // Get the current index.
                 const index = evaluator.resolve(INDEX);
                 if(!(index instanceof Measurement))
-                    return new TypeException(evaluator, new MeasurementType(), index);
+                    return new TypeException(evaluator, MeasurementType.make(), index);
 
                 const map = evaluator.getCurrentEvaluation()?.getClosure();
                 if(!(map instanceof MapValue))
-                    return new TypeException(evaluator, new MapType(), map);
+                    return new TypeException(evaluator, MapType.make(), map);
 
                 // If the include decided yes, append the value.
                 const newMap = evaluator.resolve(MAP);
                 if(!(include instanceof Bool)) return new TypeException(evaluator, new BooleanType(), include);
-                else if(!(newMap instanceof MapValue)) return new TypeException(evaluator, new MapType(), newMap);
+                else if(!(newMap instanceof MapValue)) return new TypeException(evaluator, MapType.make(), newMap);
                 if(newMap instanceof MapValue && include instanceof Bool) {
                     if(include.bool) {
                         const mapKey = map.values[index.num.toNumber() - 1][0];

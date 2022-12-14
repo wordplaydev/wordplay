@@ -36,18 +36,22 @@ export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
     readonly open: Token;
     readonly key: Expression;
-    readonly close: Token;
+    readonly close?: Token;
 
-    constructor(setOrMap: Expression, key: Expression, open?: Token, close?: Token) {
+    constructor(setOrMap: Expression, open: Token, key: Expression, close?: Token) {
         super();
 
         this.setOrMap = setOrMap;
-        this.open = open === undefined ? new SetOpenToken() : open;
+        this.open = open;
         this.key = key;
-        this.close = close ?? new SetCloseToken();
+        this.close = close;
 
         this.computeChildren();
 
+    }
+
+    static make(setOrMap: Expression, key: Expression) {
+        return new SetOrMapAccess(setOrMap, new SetOpenToken(), key, new SetCloseToken());
     }
 
     getGrammar() { 
@@ -55,7 +59,7 @@ export default class SetOrMapAccess extends Expression {
             { name: "setOrMap", types:[ Expression ] },
             { name: "open", types:[ Token ] },
             { name: "key", types:[ Expression ] },
-            { name: "close", types:[ Token ] },
+            { name: "close", types:[ Token, undefined ] },
         ];
     }
 
@@ -115,7 +119,7 @@ export default class SetOrMapAccess extends Expression {
         const setOrMap = evaluator.popValue(undefined);
 
         if(!(setOrMap instanceof Set || setOrMap instanceof Map)) 
-            return new TypeException(evaluator, new UnionType(new SetType(), new MapType()), setOrMap);
+            return new TypeException(evaluator, UnionType.make(SetType.make(), MapType.make()), setOrMap);
         else return setOrMap.has(this, key);
     
     }
@@ -129,7 +133,7 @@ export default class SetOrMapAccess extends Expression {
     getChildReplacement(child: Node, context: Context): Transform[] | undefined  {
 
         if(child === this.setOrMap) {
-            return getExpressionReplacements(this, this.setOrMap, context, new UnionType(new SetType(new AnyType()), new MapType(new AnyType(), new AnyType())));
+            return getExpressionReplacements(this, this.setOrMap, context, UnionType.make(SetType.make(new AnyType()), MapType.make(new AnyType(), new AnyType())));
         }
         else if(child === this.key) {
             const setMapType = this.setOrMap.getTypeUnlessCycle(context);
@@ -150,7 +154,7 @@ export default class SetOrMapAccess extends Expression {
     }
 
     getStart() { return this.open; }
-    getFinish() { return this.close; }
+    getFinish() { return this.close ?? this.key; }
 
     getStartExplanations(): Translations { 
         return {

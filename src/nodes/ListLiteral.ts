@@ -24,32 +24,39 @@ export default class ListLiteral extends Expression {
 
     readonly open: Token;
     readonly values: Expression[];
-    readonly close: Token;
+    readonly close?: Token;
 
-    constructor(values: Expression[], open?: Token, close?: Token) {
+    constructor(open: Token, values: Expression[], close?: Token) {
         super();
 
-        this.open = open ?? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN);
-        // There must be spaces between list items. There are too many things that won't parse correctly if there isn't. Apply it if there's no space present.
+        this.open = open;
         this.values = values;
-        this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
+        this.close = close;
 
         this.computeChildren();
 
+    }
+
+    static make(values: Expression[]) {
+        return new ListLiteral(
+            new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN),
+            values,
+            new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE)
+        );
     }
 
     getGrammar() { 
         return [
             { name: "open", types:[ Token ] },
             { name: "values", types:[[ Expression ]] },
-            { name: "close", types:[ Token ] },
+            { name: "close", types:[ Token, undefined ] },
         ];
     }
 
     replace(original?: Node, replacement?: Node) { 
         return new ListLiteral(
-            this.replaceChild<Expression[]>("values", this.values, original, replacement),
             this.replaceChild("open", this.open, original, replacement),
+            this.replaceChild<Expression[]>("values", this.values, original, replacement),
             this.replaceChild("close", this.close, original, replacement)
          ) as this; 
     }
@@ -128,7 +135,7 @@ export default class ListLiteral extends Expression {
     }
 
     getStart() { return this.open; }
-    getFinish() { return this.close; }
+    getFinish() { return this.close ?? this.values[this.values.length - 1] ?? this.open; }
 
     getStartExplanations(): Translations { 
         return {

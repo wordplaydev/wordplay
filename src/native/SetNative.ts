@@ -23,7 +23,7 @@ import type Evaluation from "../runtime/Evaluation";
 export default function bootstrapSet() {
 
     const setFilterHOFType = new FunctionType([], [ 
-        new Bind(
+        Bind.make(
             WRITE_DOCS,
             {
                 eng: "value",
@@ -33,7 +33,7 @@ export default function bootstrapSet() {
         )
     ], new NameType(SET_TYPE_VAR_NAMES.eng));
     
-    return new StructureDefinition(
+    return StructureDefinition.make(
         {
             eng: WRITE,
             "😀": WRITE
@@ -60,7 +60,7 @@ export default function bootstrapSet() {
                     "😀": "="
                 }, 
                 [], 
-                [ new Bind(
+                [ Bind.make(
                     {
                         eng: WRITE,
                         "😀": WRITE
@@ -69,14 +69,14 @@ export default function bootstrapSet() {
                         eng: "set",
                         "😀": `${TRANSLATE}1`
                     }, 
-                    new SetType() 
+                    SetType.make() 
                 ) ], 
                 new BooleanType(),
                 (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
                         const other = evaluation.resolve("set");
                         return !(set instanceof Set && other instanceof Set) ? 
-                            new TypeException(evaluation.getEvaluator(), new SetType(), other) :
+                            new TypeException(evaluation.getEvaluator(), SetType.make(), other) :
                             new Bool(requestor, set.isEqualTo(other));
                     }
             ),
@@ -90,7 +90,7 @@ export default function bootstrapSet() {
                     "😀": "≠"
                 },
                 [], 
-                [ new Bind(
+                [ Bind.make(
                     {
                         eng: WRITE,
                         "😀": WRITE
@@ -99,14 +99,14 @@ export default function bootstrapSet() {
                         eng: "set",
                         "😀": `${TRANSLATE}1`
                     }, 
-                    new SetType() 
+                    SetType.make() 
                 ) ], 
                 new BooleanType(),
                 (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
                         const other = evaluation.resolve("set");
                         return !(set instanceof Set && other instanceof Set) ? 
-                            new TypeException(evaluation.getEvaluator(), new SetType(), other) :
+                            new TypeException(evaluation.getEvaluator(), SetType.make(), other) :
                             new Bool(requestor, !set.isEqualTo(other));
                     }
             ),
@@ -120,7 +120,7 @@ export default function bootstrapSet() {
                     "😀": "+"
                 },
                 [],
-                [ new Bind(
+                [ Bind.make(
                     {
                         eng: WRITE,
                         "😀": WRITE
@@ -131,12 +131,12 @@ export default function bootstrapSet() {
                     }, 
                     new NameType(SET_TYPE_VAR_NAMES.eng) 
                 ) ], 
-                new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
+                SetType.make(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
                         const element = evaluation.resolve("value");
                         if(set instanceof Set && element !== undefined) return set.add(requestor, element);
-                        else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
+                        else return new TypeException(evaluation.getEvaluator(), SetType.make(), set);
                     }
             ),
             createNativeFunction(
@@ -149,7 +149,7 @@ export default function bootstrapSet() {
                     "😀": "-"
                 },
                 [], 
-                [ new Bind(
+                [ Bind.make(
                     {
                         eng: WRITE,
                         "😀": WRITE
@@ -160,12 +160,12 @@ export default function bootstrapSet() {
                     }, 
                     new NameType(SET_TYPE_VAR_NAMES.eng) 
                 ) ], 
-                new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
+                SetType.make(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
                     const set: Evaluation | Value | undefined = evaluation.getClosure();
                     const element = evaluation.resolve("value");
                     if(set instanceof Set && element !== undefined) return set.remove(requestor, element);
-                    else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
+                    else return new TypeException(evaluation.getEvaluator(), SetType.make(), set);
                 }
             ),            
             createNativeFunction(
@@ -178,7 +178,7 @@ export default function bootstrapSet() {
                     "😀": "∪"
                 },
                 [], 
-                [ new Bind(
+                [ Bind.make(
                     {
                         eng: WRITE,
                         "😀": WRITE
@@ -187,14 +187,14 @@ export default function bootstrapSet() {
                         eng: "set",
                         "😀": `${TRANSLATE}1`
                     }, 
-                    new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)) 
+                    SetType.make(new NameType(SET_TYPE_VAR_NAMES.eng)) 
                 ) ],
-                new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
+                SetType.make(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
                     const set = evaluation.getClosure();
                     const newSet = evaluation.resolve("set");
                     if(set instanceof Set && newSet instanceof Set) return set.union(requestor, newSet);
-                    else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
+                    else return new TypeException(evaluation.getEvaluator(), SetType.make(), set);
                 }
             ),
             createNativeFunction(
@@ -207,7 +207,7 @@ export default function bootstrapSet() {
                     "😀": "∩"
                 }, 
                 [], 
-                [ new Bind(
+                [ Bind.make(
                     {
                         eng: WRITE,
                         "😀": WRITE
@@ -217,12 +217,12 @@ export default function bootstrapSet() {
                         "😀": `${TRANSLATE}1`
                     }
                 ) ], 
-                new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
+                SetType.make(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
                     const set = evaluation.getClosure();
                     const newSet = evaluation.resolve("set");
                     if(set instanceof Set && newSet instanceof Set) return set.intersection(requestor, newSet);
-                    else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
+                    else return new TypeException(evaluation.getEvaluator(), SetType.make(), set);
                 }
             ),
             createNativeFunction(
@@ -235,7 +235,7 @@ export default function bootstrapSet() {
                     "😀": TRANSLATE
                 }, 
                 [], 
-                [ new Bind(
+                [ Bind.make(
                     {
                         eng: WRITE,
                         "😀": WRITE
@@ -245,15 +245,15 @@ export default function bootstrapSet() {
                         "😀": `${TRANSLATE}1`
                     }
                 ) ], 
-                new SetType(new NameType(SET_TYPE_VAR_NAMES.eng)),
+                SetType.make(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
                     const set = evaluation.getClosure();
                     const newSet = evaluation.resolve("set");
                     if(set instanceof Set && newSet instanceof Set) return set.difference(requestor, newSet);
-                    else return new TypeException(evaluation.getEvaluator(), new SetType(), set);
+                    else return new TypeException(evaluation.getEvaluator(), SetType.make(), set);
                 }
             ),
-            new FunctionDefinition(
+            FunctionDefinition.make(
                 {
                     eng: WRITE,
                     "😀": WRITE
@@ -263,7 +263,7 @@ export default function bootstrapSet() {
                     "😀": TRANSLATE
                 }, 
                 [], 
-                [ new Bind(
+                [ Bind.make(
                     {
                         eng: WRITE,
                         "😀": WRITE
@@ -275,7 +275,7 @@ export default function bootstrapSet() {
                     setFilterHOFType
                 ) ],
                 new NativeHOFSetFilter(setFilterHOFType),
-                new SetType(new NameType(SET_TYPE_VAR_NAMES.eng))
+                SetType.make(new NameType(SET_TYPE_VAR_NAMES.eng))
             ),
 
             createNativeConversion(WRITE_DOCS, "{}", "''", (requestor: Node, val: Set) => new Text(requestor, val.toString())),

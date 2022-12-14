@@ -52,6 +52,6 @@ export default class Time extends Stream<Measurement> {
 
     }
 
-    getType() { return new StreamType(new MeasurementType(undefined, Unit.unit(["ms"]))); }
+    getType() { return StreamType.make(MeasurementType.make(Unit.unit(["ms"]))); }
 
 }

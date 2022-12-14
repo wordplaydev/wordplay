@@ -30,15 +30,19 @@ export default class MeasurementType extends NativeType {
 
     readonly op: BinaryOperation | UnaryOperation | Evaluate | undefined;
 
-    constructor(number?: Token, unit?: Unit | UnitDeriver, op?: BinaryOperation | UnaryOperation | Evaluate) {
+    constructor(number: Token, unit?: Unit | UnitDeriver, op?: BinaryOperation | UnaryOperation | Evaluate) {
         super();
 
-        this.number = number ?? new Token(MEASUREMENT_SYMBOL, TokenType.NUMBER_TYPE);
+        this.number = number;
         this.unit = unit ?? new Unit();
         this.op = op;
 
         this.computeChildren();
 
+    }
+
+    static make(unit?: Unit | UnitDeriver, op?: BinaryOperation | UnaryOperation | Evaluate) {
+        return new MeasurementType(new Token(MEASUREMENT_SYMBOL, TokenType.NUMBER_TYPE), unit ?? new Unit(), op);
     }
 
     getGrammar() { 

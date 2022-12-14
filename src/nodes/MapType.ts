@@ -20,19 +20,29 @@ export default class MapType extends NativeType {
     readonly key?: Type;
     readonly bind: Token;
     readonly value?: Type;
-    readonly close: Token;
+    readonly close?: Token;
 
-    constructor(key?: Type, value?: Type, open?: Token, bind?: Token, close?: Token) {
+    constructor(open: Token, key: Type | undefined, bind: Token, value: Type | undefined, close?: Token) {
         super();
 
-        this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
-        this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
-        this.bind = bind ?? new BindToken();
+        this.open = open;
         this.key = key;
+        this.bind = bind;
         this.value = value;
+        this.close = close;
 
         this.computeChildren();
 
+    }
+
+    static make(key?: Type, value?: Type) {
+        return new MapType(
+            new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN),
+            key,
+            new BindToken(),
+            value,
+            new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE)
+        );
     }
 
     getGrammar() { 

@@ -62,7 +62,7 @@ export default class Template extends Expression {
     computeConflicts() { return []; }
 
     computeType(): Type {
-        return new TextType(undefined, this.format);
+        return TextType.make(this.format);
     }
 
     getDependencies(): Expression[] {
@@ -87,7 +87,7 @@ export default class Template extends Expression {
         let text = "";
         for(let i = this.expressions.length - 1; i >= 0; i--) {
             const p = this.expressions[i];
-            const part = p instanceof Token ? new Text(this, p.text.toString().substring(1, p.text.toString().length - 1)) : evaluator.popValue(new TextType());
+            const part = p instanceof Token ? new Text(this, p.text.toString().substring(1, p.text.toString().length - 1)) : evaluator.popValue(TextType.make());
             if(!(part instanceof Text)) return part;
             text = part.text + text;
         }
@@ -112,7 +112,7 @@ export default class Template extends Expression {
                 return getExpressionReplacements(this, part, context);
         }
         else if(child === this.format && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Replace(context, child, new Language(l)));
+            return getPossibleLanguages(project).map(l => new Replace(context, child, Language.make(l)));
 
     }
     
@@ -124,7 +124,7 @@ export default class Template extends Expression {
 
         return [
             ...getPossiblePostfix(context, this, this.getType(context)),
-            ...(this.format === undefined && project !== undefined ? getPossibleLanguages(project).map(l => new Add(context, position, this, "format", new Language(l))) : [])
+            ...(this.format === undefined && project !== undefined ? getPossibleLanguages(project).map(l => new Add(context, position, this, "format", Language.make(l))) : [])
         ];
 
     }

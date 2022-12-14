@@ -3,7 +3,6 @@ import Expression from "../nodes/Expression";
 import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
 import MeasurementType from "../nodes/MeasurementType";
-import Name from "../nodes/Name";
 import Names from "../nodes/Names";
 import NameType from "../nodes/NameType";
 import type Translations from "../nodes/Translations";
@@ -24,8 +23,8 @@ import type Value from "../runtime/Value";
 import HOF from "./HOF";
 import { LIST_TYPE_VAR_NAMES } from "./NativeConstants";
 
-const INDEX = new Names([ new Name("index")]);
-const COMBO = new Names([ new Name("initial")]);
+const INDEX = Names.make([ "index" ]);
+const COMBO = Names.make([ "initial" ]);
 
 export default class NativeHOFListCombine extends HOF {
 
@@ -60,7 +59,7 @@ export default class NativeHOFListCombine extends HOF {
                     // Get the index.
                     const index = evaluator.resolve(INDEX);
                     if(!(index instanceof Measurement))
-                        return new TypeException(evaluator, new MeasurementType(), index);
+                        return new TypeException(evaluator, MeasurementType.make(), index);
 
                     // Get the list we're processing.
                     const list = evaluator.getCurrentEvaluation()?.getClosure();
@@ -116,7 +115,7 @@ export default class NativeHOFListCombine extends HOF {
                     // Get the current index.
                     const index = evaluator.resolve(INDEX);
                     if(!(index instanceof Measurement))
-                        return new TypeException(evaluator, new MeasurementType(), index);
+                        return new TypeException(evaluator, MeasurementType.make(), index);
                     
                     // Increment the index.
                     evaluator.bind(INDEX, index.add(this, new Measurement(this, 1)));

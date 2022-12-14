@@ -22,11 +22,11 @@ const OperandNames: Translations = {
 export default function bootstrapBool() {
 
     function createBooleanFunction(docs: Translations, names: Translations, expression: (requestor: Node, left: Bool, right: Bool) => Bool) {
-        return new FunctionDefinition(
+        return FunctionDefinition.make(
             docs, 
             names,
             [],
-            [ new Bind(
+            [ Bind.make(
                 {
                     eng: WRITE,
                     "😀": WRITE
@@ -53,7 +53,7 @@ export default function bootstrapBool() {
         );
     }
 
-    return new StructureDefinition(
+    return StructureDefinition.make(
         {
             eng: WRITE,
             "😀": WRITE
@@ -88,7 +88,7 @@ export default function bootstrapBool() {
                 }, 
                 (requestor, left, right) => left.or(requestor, right)
             ),
-            new FunctionDefinition(
+            FunctionDefinition.make(
                 {
                     eng: WRITE,
                     "😀": WRITE

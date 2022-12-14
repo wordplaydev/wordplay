@@ -34,7 +34,7 @@ export default abstract class Stream<ValueType extends Value = Value> extends Pr
 
         this.evaluator = evaluator;
         this.docs = docs instanceof Docs ? docs : new Docs(docs);
-        this.names = names instanceof Names ? names : new Names(names);
+        this.names = names instanceof Names ? names : Names.make(names);
         this.add(initalValue);
     }
     

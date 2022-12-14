@@ -19,11 +19,11 @@ import { NONE_SYMBOL } from "../parser/Tokenizer";
 export default function bootstrapNone() {
 
     function createNativeNoneFunction(docs: Translations, names: Translations, expression: (requestor: Node, left: None, right: None) => Value) {
-        return new FunctionDefinition(
+        return FunctionDefinition.make(
             docs,
             names,
             [],
-            [ new Bind(
+            [ Bind.make(
                 {
                     eng: WRITE,
                     "😀": WRITE
@@ -40,8 +40,8 @@ export default function bootstrapNone() {
                     const left = evaluation.getClosure();
                     const right = evaluation.resolve("val");
                     // This should be impossible, but the type system doesn't know it.
-                    if(!(left instanceof None)) return new TypeException(evaluation.getEvaluator(), new NoneType(), left);
-                    if(!(right instanceof None)) return new TypeException(evaluation.getEvaluator(), new NoneType(), right);
+                    if(!(left instanceof None)) return new TypeException(evaluation.getEvaluator(), NoneType.make(), left);
+                    if(!(right instanceof None)) return new TypeException(evaluation.getEvaluator(), NoneType.make(), right);
                     return expression(requestor, left, right);
                 },
                 {
@@ -53,7 +53,7 @@ export default function bootstrapNone() {
         );
     }
     
-    return new StructureDefinition(
+    return StructureDefinition.make(
         {
             eng: WRITE,
             "😀": WRITE

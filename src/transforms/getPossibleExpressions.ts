@@ -53,20 +53,20 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
         ...(child === undefined ? [] : [ new Block([ child ], false, false) ]),
         new BooleanLiteral(true),
         new BooleanLiteral(false),
-        ...[ new MeasurementLiteral(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => new MeasurementLiteral(undefined, u))) ],
-        ...[ new TextLiteral(), ... (project === undefined ? [] : getPossibleLanguages(project).map(l => new TextLiteral(undefined, new Language(l)))) ],
+        ...[ MeasurementLiteral.make(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => MeasurementLiteral.make(undefined, u))) ],
+        ...[ TextLiteral.make(), ... (project === undefined ? [] : getPossibleLanguages(project).map(l => TextLiteral.make(undefined, Language.make(l)))) ],
         new Template(new Token('"\\', TokenType.TEXT_OPEN), [ new ExpressionPlaceholder(), new Token('\\"', TokenType.TEXT_CLOSE)]),
-        ...(child instanceof Expression && child.getType(context) instanceof BooleanType ? [ new Conditional( child, new ExpressionPlaceholder(), new ExpressionPlaceholder()) ] : [] ),
-        new Conditional(new ExpressionPlaceholder(), new ExpressionPlaceholder(), new ExpressionPlaceholder()),
-        new Block([ new ExpressionPlaceholder() ], false, false),
-        new ListLiteral([]),
+        ...(child instanceof Expression && child.getType(context) instanceof BooleanType ? [ Conditional.make( child, new ExpressionPlaceholder(), new ExpressionPlaceholder()) ] : [] ),
+        Conditional.make(new ExpressionPlaceholder(), new ExpressionPlaceholder(), new ExpressionPlaceholder()),
+        Block.make([ new ExpressionPlaceholder() ]),
+        ListLiteral.make([]),
         new SetLiteral([]),
-        new MapLiteral([ new KeyValue(new ExpressionPlaceholder(), new ExpressionPlaceholder())]),
-        new FunctionDefinition(undefined, new Names([ new Name() ]), [], [], new ExpressionPlaceholder()),
-        new StructureDefinition(undefined, new Names([ new Name() ]), [], [], []),
+        MapLiteral.make([ new KeyValue(new ExpressionPlaceholder(), new ExpressionPlaceholder())]),
+        FunctionDefinition.make(undefined, new Names([ Name.make() ]), [], [], new ExpressionPlaceholder()),
+        StructureDefinition.make(undefined, new Names([ Name.make() ]), [], [], []),
         new ConversionDefinition(undefined, new TypePlaceholder(), new TypePlaceholder(), new ExpressionPlaceholder()),
         new Reaction(new ExpressionPlaceholder(), new ExpressionPlaceholder(), new ExpressionPlaceholder()),
-        new Previous(new ExpressionPlaceholder(), new ExpressionPlaceholder())
+        Previous.make(new ExpressionPlaceholder(), new ExpressionPlaceholder())
     ].filter(expr => expr instanceof TypeVariable ? type instanceof AnyType : type.accepts(expr.getType(context), context))
 }
 
@@ -99,7 +99,7 @@ export function getExpressionInsertions(position: number, parent: Node, list: No
 
 function getPossibleReference(replacement: Expression | Definition): Expression | Refer<Expression> {
     return replacement instanceof Expression && !(replacement instanceof FunctionDefinition) && !(replacement instanceof StructureDefinition) ? 
-        replacement : [ (name: string) => new Reference(name), replacement ]
+        replacement : [ (name: string) => Reference.make(name), replacement ]
 
 }
 
@@ -107,13 +107,13 @@ export function getPossiblePostfix(context: Context, node: Expression, type?: Ty
 
     return [
         // If the type is a boolean, offer a conditional
-        ...(type instanceof BooleanType ? [ new Replace(context, node, new Conditional(node, new ExpressionPlaceholder(), new ExpressionPlaceholder())) ] : []),
+        ...(type instanceof BooleanType ? [ new Replace(context, node, Conditional.make(node, new ExpressionPlaceholder(), new ExpressionPlaceholder())) ] : []),
         // If the type is a list, offer a list access
-        ...(type instanceof ListType ? [ new Replace(context, node, new ListAccess(node, new ExpressionPlaceholder())) ] : []),
+        ...(type instanceof ListType ? [ new Replace(context, node, ListAccess.make(node, new ExpressionPlaceholder())) ] : []),
         // If the type is a set or map, offer a list access
-        ...(type instanceof SetType || type instanceof MapType ? [ new Replace(context, node, new SetOrMapAccess(node, new ExpressionPlaceholder())) ] : []),
+        ...(type instanceof SetType || type instanceof MapType ? [ new Replace(context, node, SetOrMapAccess.make(node, new ExpressionPlaceholder())) ] : []),
         // If the type is a stream, offer a previous
-        ...(type instanceof StreamType ? [ new Replace(context, node, new Previous(node, new ExpressionPlaceholder())) ] : []),
+        ...(type instanceof StreamType ? [ new Replace(context, node, Previous.make(node, new ExpressionPlaceholder())) ] : []),
         // Reactions
         ...[ new Replace(context, node, new Reaction(node, new ExpressionPlaceholder(), new ExpressionPlaceholder()))],
         // If given a type, any binary operations that are available on the type.

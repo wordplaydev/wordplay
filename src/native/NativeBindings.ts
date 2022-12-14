@@ -109,7 +109,7 @@ export function createNativeFunction(
     inputs: Bind[], 
     output: Type,
     evaluator: (requestor: Node, evaluator: Evaluation) => Value) {
-    return new FunctionDefinition(
+    return FunctionDefinition.make(
         docs, aliases, typeVars, inputs,
         new NativeExpression(
             output, 

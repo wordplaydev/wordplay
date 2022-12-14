@@ -31,16 +31,20 @@ export default class Conditional extends Expression {
     readonly yes: Expression;
     readonly no: Expression;
 
-    constructor(condition: Expression, yes: Expression, no: Expression, conditional?: Token) {
+    constructor(condition: Expression, yes: Expression, no: Expression, conditional: Token) {
         super();
 
         this.condition = condition;
-        this.conditional = conditional ?? new Token(BOOLEAN_TYPE_SYMBOL, TokenType.BOOLEAN_TYPE);
+        this.conditional = conditional;
         this.yes = yes;
         this.no = no;
 
         this.computeChildren();
 
+    }
+
+    static make(condition: Expression, yes: Expression, no: Expression) {
+        return new Conditional(condition, yes, no, new Token(BOOLEAN_TYPE_SYMBOL, TokenType.BOOLEAN_TYPE));        
     }
 
     getGrammar() { 
@@ -87,7 +91,7 @@ export default class Conditional extends Expression {
         if(yesType.accepts(noType, context))
             return yesType;
         else 
-            return new UnionType(yesType, noType);
+            return UnionType.make(yesType, noType);
     }
 
     getDependencies(): Expression[] {

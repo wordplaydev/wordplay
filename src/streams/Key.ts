@@ -4,7 +4,7 @@ import StructureDefinition from "../nodes/StructureDefinition";
 import TextType from "../nodes/TextType";
 import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
 
-const Key = new StructureDefinition(
+const Key = StructureDefinition.make(
     WRITE_DOCS,
     {
         eng: "Key",
@@ -13,15 +13,15 @@ const Key = new StructureDefinition(
     [],
     [],
     [
-        new Bind(
+        Bind.make(
             WRITE_DOCS,
             {
                 eng: "key",
                 "😀": `${TRANSLATE}1`
             },
-            new TextType()
+            TextType.make()
         ),
-        new Bind(
+        Bind.make(
             WRITE_DOCS,
             {
                 eng: "down",

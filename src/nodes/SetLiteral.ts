@@ -64,7 +64,7 @@ export default class SetLiteral extends Expression {
     computeType(context: Context): Type {
         let type = getPossibleUnionType(context, this.values.map(v => (v as Expression).getTypeUnlessCycle(context)));
         if(type === undefined) type = new AnyType();        
-        return new SetType(type);
+        return SetType.make(type);
     }
 
     getDependencies(): Expression[] {

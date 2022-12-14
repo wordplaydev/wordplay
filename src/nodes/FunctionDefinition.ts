@@ -41,37 +41,56 @@ export default class FunctionDefinition extends Expression {
     readonly docs?: Docs;
     readonly fun: Token;
     readonly names: Names;
-    readonly typeVars: (TypeVariable)[];
+    readonly typeVars: TypeVariable[];
     readonly open: Token;
     readonly inputs: Bind[];
-    readonly close: Token;
+    readonly close?: Token;
     readonly dot?: Token;
     readonly output?: Type;
     readonly expression: Expression | Token;
 
     constructor(
-        docs: Docs | Translations | undefined, 
-        names: Names | Translations | undefined, 
-        typeVars: (TypeVariable)[], 
-        inputs: Bind[], 
+        docs: Docs | undefined, 
+        fun: Token,
+        names: Names, 
+        typeVars: TypeVariable[], 
+        open: Token,
+        inputs: Bind[],
+        close: Token | undefined, 
+        dot: Token | undefined,
+        output: Type | undefined,
         expression: Expression | Token, 
-        output?: Type,
-        fun?: Token, dot?: Token, open?: Token, close?: Token) {
+    ) {
         super();
 
-        this.docs = docs === undefined ? undefined : docs instanceof Docs ? docs : new Docs(docs);
-        this.names = names instanceof Names ? names : new Names(names);
-        this.fun = fun ?? new Token(FUNCTION_SYMBOL, TokenType.FUNCTION);
+        this.docs = docs;
+        this.names = names;
+        this.fun = fun;
         this.typeVars = typeVars;
-        this.open = open ?? new EvalOpenToken();
+        this.open = open;
         this.inputs = inputs;
-        this.close = close ?? new EvalCloseToken();
-        this.dot = dot ?? (output !== undefined ? new Token(TYPE_SYMBOL, TokenType.TYPE) : undefined);
+        this.close = close;
+        this.dot = dot;
         this.output = output;
         this.expression = expression;
 
         this.computeChildren();
 
+    }
+
+    static make(docs: Translations | undefined, names: Translations | Names, typeVars: TypeVariable[], inputs: Bind[], expression: Expression | Token, output?: Type) {
+        return new FunctionDefinition(
+            docs ? new Docs(docs) : undefined,
+            new Token(FUNCTION_SYMBOL, TokenType.FUNCTION),
+            names instanceof Names ? names : Names.make(names),
+            typeVars,
+            new EvalOpenToken(),
+            inputs,
+            new EvalCloseToken(),
+            output === undefined ? undefined : new Token(TYPE_SYMBOL, TokenType.TYPE),
+            output,
+            expression,
+        );
     }
 
     getGrammar() { 
@@ -82,7 +101,7 @@ export default class FunctionDefinition extends Expression {
             { name: "typeVars", types:[[ TypeVariable ]] },
             { name: "open", types:[ Token ] },
             { name: "inputs", types:[[ Bind ]] },
-            { name: "close", types:[ Token] },
+            { name: "close", types:[ Token, undefined] },
             { name: "dot", types:[ Token, undefined ] },
             { name: "output", types:[ Type, undefined ] },
             { name: "expression", types:[ Expression, Token ] },
@@ -99,15 +118,15 @@ export default class FunctionDefinition extends Expression {
     replace(original?: Node, replacement?: Node) { 
         return new FunctionDefinition(
             this.replaceChild("docs", this.docs, original, replacement), 
+            this.replaceChild("fun", this.fun, original, replacement), 
             this.replaceChild<Names>("names", this.names, original, replacement),
             this.replaceChild("typeVars", this.typeVars, original, replacement), 
-            this.replaceChild("inputs", this.inputs, original, replacement), 
-            this.replaceChild<Expression|Token>("expression", this.expression, original, replacement),
-            this.replaceChild("output", this.output, original, replacement), 
-            this.replaceChild("fun", this.fun, original, replacement), 
-            this.replaceChild("dot", this.dot, original, replacement), 
             this.replaceChild("open", this.open, original, replacement), 
-            this.replaceChild("close", this.close, original, replacement)
+            this.replaceChild("inputs", this.inputs, original, replacement), 
+            this.replaceChild("close", this.close, original, replacement),
+            this.replaceChild("dot", this.dot, original, replacement), 
+            this.replaceChild("output", this.output, original, replacement), 
+            this.replaceChild<Expression|Token>("expression", this.expression, original, replacement)
         ) as this;
     }
 
@@ -242,7 +261,7 @@ export default class FunctionDefinition extends Expression {
 
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
 
-        const newBind = new Bind(undefined, new Names([new Name()]));
+        const newBind = Bind.make(undefined, new Names([Name.make()]));
 
         if(child === this.close)
             return [ new Append(context, position, this, this.inputs, this.close, newBind)]

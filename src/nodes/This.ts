@@ -78,7 +78,7 @@ export default class This extends Expression {
             // Conversion definitions have the input type
             structure instanceof ConversionDefinition ?  (
                 // We strip the unit from this in order to provide a scalar for conversion.
-                structure.input instanceof MeasurementType ? new MeasurementType() :
+                structure.input instanceof MeasurementType ? MeasurementType.make() :
                 structure.input
             ) :
             // Reactions have the reaction's value type

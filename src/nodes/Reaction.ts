@@ -84,7 +84,7 @@ export default class Reaction extends Expression {
         if(initialType.accepts(nextType, context))
             return initialType;
         else
-            return new UnionType(initialType, nextType);
+            return UnionType.make(initialType, nextType);
     }
 
     getDependencies(): Expression[] {
@@ -164,7 +164,7 @@ export default class Reaction extends Expression {
         else if(child === this.stream)
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is Stream => def instanceof Stream)
-                    .map(stream => new Replace<Reference>(context, child, [ name => new Reference(name), stream ]));
+                    .map(stream => new Replace<Reference>(context, child, [ name => Reference.make(name), stream ]));
 
     }
 

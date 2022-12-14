@@ -10,7 +10,7 @@ export default class None extends Value {
         super(creator);
     }
 
-    getType() { return new NoneType(); }
+    getType() { return NoneType.make(); }
     
     getNativeTypeName(): string { return NONE_NATIVE_TYPE_NAME; }
 

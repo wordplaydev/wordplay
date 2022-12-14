@@ -37,15 +37,19 @@ export default class Previous extends Expression {
     readonly previous: Token;
     readonly index: Expression;
 
-    constructor(stream: Expression, index: Expression, previous?: Token) {
+    constructor(stream: Expression, previous: Token, index: Expression) {
         super();
 
         this.stream = stream;
-        this.previous = previous ?? new Token(PREVIOUS_SYMBOL, TokenType.PREVIOUS);
+        this.previous = previous;
         this.index = index;
 
         this.computeChildren();
 
+    }
+
+    static make(stream: Expression, index: Expression) {
+        return new Previous(stream, new Token(PREVIOUS_SYMBOL, TokenType.PREVIOUS), index);
     }
 
     getGrammar() { 
@@ -59,8 +63,8 @@ export default class Previous extends Expression {
     replace(original?: Node, replacement?: Node) { 
         return new Previous(
             this.replaceChild("stream", this.stream, original, replacement), 
-            this.replaceChild("index", this.index, original, replacement),
-            this.replaceChild("previous", this.previous, original, replacement)
+            this.replaceChild("previous", this.previous, original, replacement),
+            this.replaceChild("index", this.index, original, replacement)
         ) as this; 
     }
 
@@ -103,11 +107,11 @@ export default class Previous extends Expression {
         
         if(prior) return prior;
 
-        const index = evaluator.popValue(new MeasurementType());
+        const index = evaluator.popValue(MeasurementType.make());
         if(!(index instanceof Measurement) || !index.num.isInteger()) return index;
 
-        const stream = evaluator.popValue(new StreamType(new AnyType()));
-        if(!(stream instanceof Stream)) return stream;new TypeException(evaluator, new StreamType(new AnyType()), stream);
+        const stream = evaluator.popValue(StreamType.make(new AnyType()));
+        if(!(stream instanceof Stream)) return new TypeException(evaluator, StreamType.make(new AnyType()), stream);
 
         return stream.at(this, index.toNumber());
 
@@ -124,10 +128,10 @@ export default class Previous extends Expression {
         if(child === this.stream)
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is Stream => def instanceof Stream)
-                    .map(stream => new Replace<Reference>(context, child, [ name => new Reference(name), stream ]))
+                    .map(stream => new Replace<Reference>(context, child, [ name => Reference.make(name), stream ]))
 
         if(child === this.index)
-            return getExpressionReplacements(this, this.index, context, new MeasurementType());
+            return getExpressionReplacements(this, this.index, context, MeasurementType.make());
 
     }
 

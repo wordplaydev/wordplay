@@ -1,9 +1,7 @@
-import Name from "../nodes/Name";
 import Bind from "../nodes/Bind";
 import BooleanType from "../nodes/BooleanType";
 import Expression from "../nodes/Expression";
 import type FunctionType from "../nodes/FunctionType";
-import type LanguageCode from "../nodes/LanguageCode";
 import ListType from "../nodes/ListType";
 import MeasurementType from "../nodes/MeasurementType";
 import NameType from "../nodes/NameType";
@@ -27,7 +25,7 @@ import HOF from "./HOF";
 import { LIST_TYPE_VAR_NAMES } from "./NativeConstants";
 import Names from "../nodes/Names";
 
-const INDEX = new Names([ new Name("index")]);
+const INDEX = Names.make([ "index" ]);
 
 export default class NativeHOFListFind extends HOF {
 
@@ -61,7 +59,7 @@ export default class NativeHOFListFind extends HOF {
                     const index = evaluator.resolve(INDEX);
                     const list = evaluator.getCurrentEvaluation()?.getClosure();
                     // If the index is past the last index of the list, jump to the end.
-                    if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
+                    if(!(index instanceof Measurement)) return new TypeException(evaluator, MeasurementType.make(), index);
                     else if(!(list instanceof List)) return new TypeException(evaluator, new ListType(), list);
                     else {
                         if(index.greaterThan(this, list.length(this)).bool)
@@ -108,7 +106,7 @@ export default class NativeHOFListFind extends HOF {
                 // Get the current index.
                 const index = evaluator.resolve(INDEX);
                 if(!(index instanceof Measurement))
-                    return new TypeException(evaluator, new MeasurementType(), index);
+                    return new TypeException(evaluator, MeasurementType.make(), index);
 
                 // If it doesn't match, increment the counter and jump back to the conditional.
                 evaluator.bind(INDEX, index.add(this, new Measurement(this, 1)));
@@ -127,7 +125,7 @@ export default class NativeHOFListFind extends HOF {
         // Get the current index.
         const index = evaluator.resolve("index");
         if(!(index instanceof Measurement))
-            return new TypeException(evaluator, new MeasurementType(), index);
+            return new TypeException(evaluator, MeasurementType.make(), index);
 
         // Get the list.
         const list = evaluator.getCurrentEvaluation()?.getClosure();
@@ -161,4 +159,4 @@ const NotFound = {
     eng: "notfound",
     "😀": TRANSLATE
 }
-const NotFoundAliases = new Names(Object.keys(NotFound).map(lang => new Name(NotFound[lang as LanguageCode], lang)));
+const NotFoundAliases = Names.make(NotFound);

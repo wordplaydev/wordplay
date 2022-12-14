@@ -26,14 +26,14 @@ import Name from "./Name";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import Append from "../transforms/Append";
-import EvalOpenToken from "./EvalOpenToken";
-import EvalCloseToken from "./EvalCloseToken";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
 import type Value from "../runtime/Value";
+import EvalCloseToken from "./EvalCloseToken";
+import EvalOpenToken from "./EvalOpenToken";
 
 export default class Block extends Expression {
 
@@ -45,18 +45,22 @@ export default class Block extends Expression {
     readonly root: boolean;
     readonly creator: boolean;
 
-    constructor(statements: Expression[], root: boolean, creator: boolean, open?: Token, close?: Token, docs?: Docs | Translations) {
+    constructor(statements: Expression[], root: boolean, creator: boolean, open?: Token, close?: Token, docs?: Docs) {
         super();
 
-        this.open = !root && open === undefined ? new EvalOpenToken() : open;
+        this.open = open;
         this.statements = statements;
-        this.close = !root && close === undefined ? new EvalCloseToken() : close;
+        this.close = close;
         this.docs = docs === undefined ? undefined : docs instanceof Docs ? docs : new Docs(docs);
         this.root = root;
         this.creator = creator;
 
         this.computeChildren();
 
+    }
+
+    static make(statements: Expression[]) {
+        return new Block(statements, false, false, new EvalOpenToken(), new EvalCloseToken());
     }
 
     getGrammar() { 
@@ -194,9 +198,9 @@ export default class Block extends Expression {
     }
 
     getInsertions() {
-        const bind = new Bind(undefined, new Names([ new Name() ]), undefined, new ExpressionPlaceholder());
-        const type = new FunctionDefinition(undefined, new Names([ new Name() ]), [], [], new ExpressionPlaceholder());
-        const fun = new StructureDefinition(undefined, new Names([ new Name() ]), [], [], []);
+        const bind = Bind.make(undefined, new Names([ Name.make() ]), undefined, new ExpressionPlaceholder());
+        const type = FunctionDefinition.make(undefined, new Names([ Name.make() ]), [], [], new ExpressionPlaceholder());
+        const fun = StructureDefinition.make(undefined, new Names([ Name.make() ]), [], [], []);
         return [ 
             bind, 
             fun, 

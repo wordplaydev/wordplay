@@ -1,10 +1,8 @@
 import { SET_NATIVE_TYPE_NAME, SET_TYPE_VAR_NAMES } from "../native/NativeConstants";
-import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import NativeType from "./NativeType";
 import type Node from "./Node";
 import Token from "./Token";
-import TokenType from "./TokenType";
 import Type from "./Type";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
@@ -12,22 +10,28 @@ import Replace from "../transforms/Replace";
 import TypePlaceholder from "./TypePlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import SetOpenToken from "./SetOpenToken";
+import SetCloseToken from "./SetCloseToken";
 
 export default class SetType extends NativeType {
 
     readonly open: Token;
     readonly key?: Type;
-    readonly close: Token;
+    readonly close?: Token;
 
-    constructor(key?: Type, open?: Token, close?: Token) {
+    constructor(open: Token, key?: Type, close?: Token) {
         super();
 
-        this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
+        this.open = open;
         this.key = key;
-        this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
+        this.close = close;
 
         this.computeChildren();
 
+    }
+
+    static make(key?: Type) {
+        return new SetType(new SetOpenToken(), key, new SetCloseToken());
     }
 
     getGrammar() { 
@@ -40,8 +44,8 @@ export default class SetType extends NativeType {
 
     replace(original?: Node, replacement?: Node) { 
         return new SetType(
-            this.replaceChild("key", this.key, original, replacement),
             this.replaceChild("open", this.open, original, replacement), 
+            this.replaceChild("key", this.key, original, replacement),
             this.replaceChild("close", this.close, original, replacement)
         ) as this; 
     }

@@ -10,7 +10,6 @@ import { getPossibleUnionType } from "../nodes/UnionType";
 import type Context from "../nodes/Context";
 import { TRANSLATE } from "../nodes/Translations";
 import type LanguageCode from "../nodes/LanguageCode";
-import Name from "../nodes/Name";
 import type Translations from "../nodes/Translations";
 import Names from "../nodes/Names";
 import type Node from "../nodes/Node";
@@ -84,4 +83,4 @@ const OutOfBounds: Translations = {
     eng: "outofbounds",
     "😀": TRANSLATE
 };
-const OutOfBoundsNames = new Names(Object.keys(OutOfBounds).map(lang => new Name(OutOfBounds[lang as LanguageCode], lang)));
+const OutOfBoundsNames = Names.make(OutOfBounds);

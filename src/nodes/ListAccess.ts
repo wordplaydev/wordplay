@@ -34,18 +34,27 @@ export default class ListAccess extends Expression {
     readonly list: Expression;
     readonly open: Token;
     readonly index: Expression;
-    readonly close: Token;
+    readonly close?: Token;
 
-    constructor(list: Expression, index: Expression, open?: Token, close?: Token) {
+    constructor(open: Token, list: Expression, index: Expression, close?: Token) {
         super();
 
         this.list = list;
-        this.open = open === undefined ? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN) : open;
+        this.open = open;
         this.index = index;
-        this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
+        this.close = close;
 
         this.computeChildren();
 
+    }
+
+    static make(list: Expression, index: Expression) {
+        return new ListAccess(
+            new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN),
+            list,
+            index,
+            new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE)
+        );
     }
 
     getGrammar() { 
@@ -53,7 +62,7 @@ export default class ListAccess extends Expression {
             { name: "list", types:[ Expression ] },
             { name: "open", types:[ Token ] },
             { name: "index", types:[ Expression ] },
-            { name: "close", types:[ Token ] },
+            { name: "close", types:[ Token, undefined ] },
         ];
     }
 
@@ -87,7 +96,7 @@ export default class ListAccess extends Expression {
         // The type is the list's value type, or unknown otherwise.
         const listType = this.list.getTypeUnlessCycle(context);
         if(listType instanceof ListType && listType.type instanceof Type) 
-            return new UnionType(listType.type, new NoneType());
+            return UnionType.make(listType.type, NoneType.make());
         else return new UnknownType(this);
     }
 
@@ -100,7 +109,7 @@ export default class ListAccess extends Expression {
     }
 
     getStart() { return this.open; }
-    getFinish() { return this.close; }
+    getFinish() { return this.close ?? this.index; }
 
     getStartExplanations(): Translations {
         return {
@@ -120,7 +129,7 @@ export default class ListAccess extends Expression {
         
         if(prior) return prior;
 
-        const index = evaluator.popValue(new MeasurementType());
+        const index = evaluator.popValue(MeasurementType.make());
         if(!(index instanceof Measurement) || !index.num.isInteger()) return index;
 
         const list = evaluator.popValue(new ListType());
@@ -148,7 +157,7 @@ export default class ListAccess extends Expression {
         if(child === this.list)
             return getExpressionReplacements(this, this.list, context, new ListType());
         else if(child === this.index)
-            return getExpressionReplacements(this, this.index, context, new MeasurementType(undefined, new Unit()));
+            return getExpressionReplacements(this, this.index, context, MeasurementType.make());
 
     }
     getInsertionBefore() { return undefined; }

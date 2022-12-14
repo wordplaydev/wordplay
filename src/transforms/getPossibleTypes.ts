@@ -24,11 +24,11 @@ export function getPossibleTypes(node: Node, context: Context): Type[] {
 
     return [
         new BooleanType(),
-        ...[ new MeasurementType(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => new MeasurementType(undefined, u))) ],
-        ...[ new TextType(), ... (project === undefined ? [] : getPossibleLanguages(project).map(l => new TextType(undefined, new Language(l)))) ],
+        ...[ MeasurementType.make(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => MeasurementType.make(u))) ],
+        ...[ TextType.make(), ... (project === undefined ? [] : getPossibleLanguages(project).map(l => TextType.make(Language.make(l)))) ],
         new ListType(new TypePlaceholder()),
-        new SetType(new TypePlaceholder()),
-        new MapType(new TypePlaceholder(), new TypePlaceholder()),
+        SetType.make(new TypePlaceholder()),
+        MapType.make(new TypePlaceholder(), new TypePlaceholder()),
         // Any structure definition types that match the  aren't the currently selected one.
         ... (node.getAllDefinitions(node, context)
             .filter(def => def instanceof StructureDefinition) as StructureDefinition[])

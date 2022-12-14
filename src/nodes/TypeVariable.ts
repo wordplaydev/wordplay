@@ -16,7 +16,7 @@ export default class TypeVariable extends Node {
         super();
 
         this.type = type ?? new Token(TYPE_VAR_SYMBOL, TokenType.TYPE_VAR);
-        this.names = names instanceof Names ? names : new Names(names);
+        this.names = names instanceof Names ? names : Names.make(names);
 
         this.computeChildren();
 

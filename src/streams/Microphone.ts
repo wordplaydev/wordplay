@@ -90,6 +90,6 @@ export default class Microphone extends Stream {
 
     }
 
-    getType() { return new MeasurementType(); }
+    getType() { return MeasurementType.make(); }
 
 }

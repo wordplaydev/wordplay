@@ -21,19 +21,23 @@ export const NameLabels: Translations = {
 
 export default class Name extends Node {
 
-    readonly name: Token;
     readonly separator?: Token;
+    readonly name: Token;
     readonly lang?: Language;
 
-    constructor(name?: Token | string, lang?: Language | string, separator?: Token) {
+    constructor(separator: Token | undefined, name: Token, lang?: Language) {
         super();
 
         this.separator = separator;
-        this.name = typeof name === "string" ? new NameToken(name) : name instanceof Token ? name : new PlaceholderToken();
-        this.lang = typeof lang === "string" ? new Language(lang) : lang;
+        this.name = name;
+        this.lang = lang;
 
         this.computeChildren();
         
+    }
+
+    static make(name?: string) {
+        return new Name(undefined, name ? new NameToken(name) : new PlaceholderToken(), );
     }
 
     getGrammar() { 
@@ -87,7 +91,7 @@ export default class Name extends Node {
         const project = context.project;
         // Formats can be any Language tags that are used in the project.
         if(child === this.lang && project !== undefined)
-            return getPossibleLanguages(project).map(lang => new Replace(context, child, new Language(lang)));
+            return getPossibleLanguages(project).map(lang => new Replace(context, child, Language.make(lang)));
 
         }
 
@@ -98,7 +102,7 @@ export default class Name extends Node {
         const project = context.project;
         // Suggest languages for insertion if after the name with no language.
         if(this.lang === undefined && project !== undefined)
-            return getPossibleLanguages(project).map(lang => new Add(context, position, this, "lang", new Language(lang)));
+            return getPossibleLanguages(project).map(lang => new Add(context, position, this, "lang", Language.make(lang)));
 
     }
 

@@ -46,6 +46,6 @@ export default class Keyboard extends Stream<Structure | None> {
     start() { this.on = true; }
     stop() { this.on = false; }
 
-    getType() { return new StreamType(new StructureType(Key)); }
+    getType() { return StreamType.make(new StructureType(Key)); }
 
 }

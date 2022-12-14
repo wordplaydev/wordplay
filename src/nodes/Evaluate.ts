@@ -40,13 +40,14 @@ import Reference from "./Reference";
 import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
-import EvalOpenToken from "./EvalOpenToken";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import UnknownInput from "../conflicts/UnknownInput";
 import getConcreteExpectedType from "./Generics";
 import FunctionDefinitionType from "./FunctionDefinitionType";
 import type Names from "./Names";
 import NameException from "../runtime/NameException";
+import EvalOpenToken from "./EvalOpenToken";
+import EvalCloseToken from "./EvalCloseToken";
 
 export default class Evaluate extends Expression {
 
@@ -55,10 +56,10 @@ export default class Evaluate extends Expression {
     readonly inputs: Expression[];
     readonly close?: Token;
 
-    constructor(func: Expression, inputs: Expression[], open?: Token, close?: Token) {
+    constructor(func: Expression, inputs: Expression[], open: Token, close?: Token) {
         super();
 
-        this.open = open ?? new EvalOpenToken();
+        this.open = open;
         this.func = func;
         // Inputs must have space between them if they have adjacent names.
         this.inputs = inputs;
@@ -66,6 +67,10 @@ export default class Evaluate extends Expression {
 
         this.computeChildren();
 
+    }
+
+    static make(func: Expression, inputs: Expression[]) {
+        return new Evaluate(func, inputs, new EvalOpenToken(), new EvalCloseToken());
     }
 
     getGrammar() { 
@@ -506,7 +511,7 @@ export default class Evaluate extends Expression {
         if(child === this.func)
             return  this.getDefinitions(this, context)
                     .filter((def): def is FunctionDefinition => def instanceof FunctionDefinition)
-                    .map(fun => new Replace<Reference>(context, child, [ name => new Reference(name), fun ]))
+                    .map(fun => new Replace<Reference>(context, child, [ name => Reference.make(name), fun ]))
         
         // Input expressions should match whatever the function expects, if there is one.
         const index = this.inputs.indexOf(child as Expression);

@@ -28,7 +28,6 @@ import TypePlaceholder from "./TypePlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Names from "./Names";
-import Name from "./Name";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 
@@ -146,7 +145,7 @@ export default class Convert extends Expression {
                                     this,
                                     conversion, 
                                     value,
-                                    new Map().set(new Names([ new Name(THIS_SYMBOL)]), value)
+                                    new Map().set(Names.make([THIS_SYMBOL]), value)
                                 )
                             );
 

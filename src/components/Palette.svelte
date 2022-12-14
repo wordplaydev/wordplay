@@ -14,7 +14,6 @@
     import Evaluate from "../nodes/Evaluate";
     import PropertyReference from "../nodes/PropertyReference";
     import Bind from "../nodes/Bind";
-    import EvalCloseToken from "../nodes/EvalCloseToken";
     import Reference from "../nodes/Reference";
     import Tree from "../nodes/Tree";
     import RootView from "../editor/RootView.svelte";
@@ -38,21 +37,17 @@
     function structureToEntry(literals: Expression[] | undefined, def: StructureDefinition, name: Type, constructs: Expression[]): TypeEntry {
         return { 
             definition: def,
-            creators: literals ?? [ new Evaluate(
-                new Reference(def.names.names[0].name.getText()),
-                def.inputs.filter(input => input instanceof Bind && !input.hasDefault()).map(() => new ExpressionPlaceholder()),
-                undefined,
-                new EvalCloseToken()
+            creators: literals ?? [ Evaluate.make(
+                Reference.make(def.names.names[0].name.getText()),
+                def.inputs.filter(input => input instanceof Bind && !input.hasDefault()).map(() => new ExpressionPlaceholder())
             ) ],
             name: name,
             constructs: constructs,
             // Map each function to an Evaluate with placeholders for the structure and required arguments
             functions: def.getFunctions(true).map(fun => 
-                new Evaluate(
-                    new PropertyReference(new ExpressionPlaceholder(), new Reference(fun.names.names[0].name.getText())),
-                    fun.inputs.filter(input => input instanceof Bind && !input.hasDefault()).map(() => new ExpressionPlaceholder()),
-                    undefined,
-                    new EvalCloseToken()
+                Evaluate.make(
+                    PropertyReference.make(new ExpressionPlaceholder(), Reference.make(fun.names.names[0].name.getText())),
+                    fun.inputs.filter(input => input instanceof Bind && !input.hasDefault()).map(() => new ExpressionPlaceholder())
                 )
             )
         };

@@ -43,6 +43,6 @@ export default class Random extends Stream<Measurement> {
     start() {}
     stop() {}
 
-    getType() { return new StreamType(new MeasurementType()); }
+    getType() { return StreamType.make(MeasurementType.make()); }
 
 }

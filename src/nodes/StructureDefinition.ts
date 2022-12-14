@@ -41,7 +41,7 @@ import StartFinish from "../runtime/StartFinish";
 
 export default class StructureDefinition extends Expression {
 
-    readonly docs?: Docs;
+    readonly docs: Docs | undefined;
     readonly type: Token;
     readonly names: Names;
     readonly interfaces: TypeInput[];
@@ -52,30 +52,45 @@ export default class StructureDefinition extends Expression {
     readonly expression?: Block;
 
     constructor(
-        docs: Docs | Translations | undefined, 
-        names: Names | Translations | undefined, 
+        docs: Docs | undefined, 
+        type: Token, 
+        names: Names, 
         interfaces: TypeInput[], 
-        typeVars: TypeVariable[], 
+        typeVars: TypeVariable[],
+        open: Token, 
         inputs: Bind[], 
-        block?: Block, 
-        type?: Token, 
-        open?: Token, 
-        close?: Token) {
+        close?: Token,
+        block?: Block
+    ) {
 
         super();
 
-        this.docs = docs === undefined ? undefined : docs instanceof Docs ? docs : new Docs(docs);
-        this.names = names instanceof Names ? names : new Names(names);
-        this.type = type ?? new TypeToken();
+        this.docs = docs;
+        this.type = type;
+        this.names = names;
         this.interfaces = interfaces;
         this.typeVars = typeVars;
-        this.open = open === undefined && inputs.length > 0 ? new EvalOpenToken() : open;
+        this.open = open;
         this.inputs = inputs;
-        this.close = close == undefined && inputs.length > 0 ?new EvalCloseToken() : close;
+        this.close = close;
         this.expression = block;
 
         this.computeChildren();
 
+    }
+
+    static make(docs: Translations | undefined, names: Translations | Names, interfaces: TypeInput[], typeVars: TypeVariable[], inputs: Bind[], block?: Block) {
+        return new StructureDefinition(
+            new Docs(docs),
+            new TypeToken(),
+            names instanceof Names ? names : Names.make(names),
+            interfaces,
+            typeVars,
+            new EvalOpenToken(),
+            inputs,
+            new EvalCloseToken(),
+            block
+        );
     }
 
     getGrammar() { 
@@ -262,7 +277,7 @@ export default class StructureDefinition extends Expression {
         if(this.interfaces.includes(child as TypeInput)) {
             return  this.getAllDefinitions(this, context)
                     .filter((def): def is StructureDefinition => def instanceof StructureDefinition && def.isInterface())
-                    .map(def => new Replace<TypeInput>(context, child, [ name => new TypeInput(new NameType(name)), def ]));
+                    .map(def => new Replace<TypeInput>(context, child, [ name => TypeInput.make(new NameType(name)), def ]));
         }
     }
 
@@ -270,12 +285,12 @@ export default class StructureDefinition extends Expression {
         if(child === this.open) {
             const transforms: Transform[] = [];
             if(this.typeVars.length === 0)
-                transforms.push(new Append(context, position, this, this.typeVars, child, new TypeInput(new TypePlaceholder())));
+                transforms.push(new Append(context, position, this, this.typeVars, child, TypeInput.make(new TypePlaceholder())));
 
             return transforms;
         }
         else if(this.interfaces.includes(child as TypeInput))
-            return [ new Append(context, position, this, this.interfaces, child, new TypeInput(new TypePlaceholder())) ]
+            return [ new Append(context, position, this, this.interfaces, child, TypeInput.make(new TypePlaceholder())) ]
     }
 
     getInsertionAfter(): Transform[] | undefined { return []; }

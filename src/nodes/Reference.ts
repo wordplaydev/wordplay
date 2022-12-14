@@ -45,15 +45,19 @@ export default class Reference extends Expression {
      */
     _unionTypes: Type | undefined;
 
-    constructor(name: Token | string, types?: TypeInput[]) {
+    constructor(name: Token, types: TypeInput[]) {
 
         super();
 
-        this.name = typeof name === "string" ? new NameToken(name) : name;
+        this.name = name;
         this.types = types ?? [];
 
         this.computeChildren();
 
+    }
+
+    static make(name: string) {
+        return new Reference(new NameToken(name), []);
     }
 
     getGrammar() { 
@@ -233,8 +237,8 @@ export default class Reference extends Expression {
                 .filter(def => def.getNames().find(name => name.startsWith(this.getName())) !== undefined)
                 .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
                                 // Include 
-                                new Replace(context, this, [ name => new Evaluate(new Reference(name), def.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())), def ]) : 
-                                new Replace(context, this, [ name => new Reference(name), def ])
+                                new Replace(context, this, [ name => Evaluate.make(Reference.make(name), def.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())), def ]) : 
+                                new Replace(context, this, [ name => Reference.make(name), def ])
                 )
         ];
     

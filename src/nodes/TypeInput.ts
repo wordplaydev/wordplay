@@ -14,14 +14,18 @@ export default class TypeInput extends Node {
     readonly dot: Token;
     readonly type: Type;
 
-    constructor(type: Type, dot?: Token) {
+    constructor(dot: Token, type: Type, ) {
         super();
 
-        this.dot = dot ?? new TypeToken();
+        this.dot = dot;
         this.type = type;
 
         this.computeChildren();
 
+    }
+
+    static make(type: Type) {
+        return new TypeInput(new TypeToken(), type);
     }
 
     getGrammar() { 

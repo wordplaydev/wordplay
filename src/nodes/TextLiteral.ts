@@ -27,13 +27,17 @@ export default class TextLiteral extends Expression {
     readonly text: Token;
     readonly format?: Language;
 
-    constructor(text?: Token | string, format?: Language) {
+    constructor(text: Token, format?: Language) {
         super();
-        this.text = text instanceof Token ? text : new Token(`'${text ?? ""}'`, TokenType.TEXT);
+        this.text = text;
         this.format = format;
 
         this.computeChildren();
 
+    }
+
+    static make(text?: string, format?: Language) {
+        return new TextLiteral(new Token(`'${text ?? ""}'`, TokenType.TEXT), format);
     }
 
     getGrammar() { 
@@ -81,7 +85,7 @@ export default class TextLiteral extends Expression {
         const project = context.project;
         // Formats can be any Language tags that are used in the project.
         if(project !== undefined && child === this.format)
-            return getPossibleLanguages(project).map(lang => new Replace(context, child, new Language(lang)));
+            return getPossibleLanguages(project).map(lang => new Replace(context, child, Language.make(lang)));
 
     }
     
@@ -95,7 +99,7 @@ export default class TextLiteral extends Expression {
         return [
             ...getPossiblePostfix(context, this, this.getType(context)),
             ...(project !== undefined && this.format === undefined ? 
-                getPossibleLanguages(project).map(lang => new Add(context, position, this, "format", new Language(lang))) :
+                getPossibleLanguages(project).map(lang => new Add(context, position, this, "format", Language.make(lang))) :
                 []
             )
         ];

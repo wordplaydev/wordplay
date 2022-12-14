@@ -46,15 +46,19 @@ export default class PropertyReference extends Expression {
 
     _unionType: Type | undefined;
 
-    constructor(subject: Expression, name?: Reference, dot?: Token) {
+    constructor(subject: Expression, dot: Token, name?: Reference) {
         super();
 
         this.structure = subject;
-        this.dot = dot ?? new Token(PROPERTY_SYMBOL, TokenType.ACCESS);
+        this.dot = dot;
         this.name = name;
 
         this.computeChildren();
 
+    }
+
+    static make(subject: Expression, name: Reference) {
+        return new PropertyReference(subject, new Token(PROPERTY_SYMBOL, TokenType.ACCESS), name);
     }
 
     getGrammar() { 
@@ -223,11 +227,11 @@ export default class PropertyReference extends Expression {
                     this.getNameTransforms(context)
                     .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
                         // Include 
-                        new Replace(context, this, [ name => new Evaluate(
-                            new PropertyReference(this.structure, new Reference(name)), 
+                        new Replace(context, this, [ name => Evaluate.make(
+                            PropertyReference.make(this.structure, Reference.make(name)), 
                             def.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())
                         ), def ]) : 
-                        new Replace(context, this, [ name => new PropertyReference(this.structure, new Reference(name)), def ])
+                        new Replace(context, this, [ name => PropertyReference.make(this.structure, Reference.make(name)), def ])
                     )
             )
         ]

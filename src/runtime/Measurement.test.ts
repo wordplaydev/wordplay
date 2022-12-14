@@ -8,7 +8,7 @@ import Measurement from "./Measurement";
 import TypeException from "./TypeException";
 
 /** This is just a placeholder to represent the node creating all of the values below. */
-const literal = new MeasurementLiteral();
+const literal = MeasurementLiteral.make();
 
 test("Test number translation", () => {
 

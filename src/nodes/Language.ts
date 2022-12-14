@@ -15,22 +15,26 @@ import type LanguageCode from "./LanguageCode";
 
 export default class Language extends Node {
     
-    readonly slash?: Token;
+    readonly slash: Token;
     readonly lang?: Token;
 
-    constructor(lang?: Token | string, slash?: Token) {
+    constructor(slash: Token, lang?: Token) {
         super();
 
-        this.slash = lang instanceof Token ? slash : new LanguageToken();
-        this.lang = typeof lang === "string" ? new NameToken(lang) : lang;
+        this.slash = slash;
+        this.lang = lang;
 
         this.computeChildren();
 
     }
 
+    static make(lang: string) {
+        return new Language(new LanguageToken(), new NameToken(lang));
+    }
+
     getGrammar() { 
         return [
-            { name: "slash", types:[ Token, undefined ] },
+            { name: "slash", types:[ Token ] },
             { name: "lang", types:[ Token, undefined ] },
         ];
     }

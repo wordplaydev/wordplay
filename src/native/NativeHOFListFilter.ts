@@ -4,7 +4,6 @@ import Expression from "../nodes/Expression";
 import type FunctionType from "../nodes/FunctionType";
 import ListType from "../nodes/ListType";
 import MeasurementType from "../nodes/MeasurementType";
-import Name from "../nodes/Name";
 import Names from "../nodes/Names";
 import NameType from "../nodes/NameType";
 import type Translations from "../nodes/Translations";
@@ -25,8 +24,8 @@ import type Value from "../runtime/Value";
 import HOF from "./HOF";
 import { LIST_TYPE_VAR_NAMES } from "./NativeConstants";
 
-const INDEX = new Names([ new Name("index")]);
-const LIST = new Names([ new Name("list")]);
+const INDEX = Names.make([ "index" ]);
+const LIST = Names.make([ "list" ]);
 
 export default class NativeHOFListMap extends HOF {
 
@@ -62,7 +61,7 @@ export default class NativeHOFListMap extends HOF {
                     const index = evaluator.resolve("index");
                     const list = evaluator.getCurrentEvaluation()?.getClosure();
                     // If the index is past the last index of the list, jump to the end.
-                    if(!(index instanceof Measurement)) return new TypeException(evaluator, new MeasurementType(), index);
+                    if(!(index instanceof Measurement)) return new TypeException(evaluator, MeasurementType.make(), index);
                     else if(!(list instanceof List)) return new TypeException(evaluator, new ListType(), list);
                     else {
                         if(index.greaterThan(this, list.length(this)).bool)
@@ -106,7 +105,7 @@ export default class NativeHOFListMap extends HOF {
                     // Get the current index.
                     const index = evaluator.resolve(INDEX);
                     if(!(index instanceof Measurement))
-                        return new TypeException(evaluator, new MeasurementType(), index);
+                        return new TypeException(evaluator, MeasurementType.make(), index);
 
                     const list = evaluator.getCurrentEvaluation()?.getClosure();
                     if(!(list instanceof List))

@@ -63,19 +63,31 @@ export default class Bind extends Expression {
     readonly colon?: Token;
     readonly value?: Expression;
 
-    constructor(docs: Docs | Translations | undefined, names: Names | Translations | undefined, type?: Type, value?: Expression, share?: Token | undefined, etc?: Token | undefined, dot?: Token, colon?: Token) {
+    constructor(docs: Docs | undefined, share: Token | undefined, etc: Token | undefined, names: Names, dot?: Token, type?: Type, colon?: Token, value?: Expression) {
         super();
 
-        this.docs = docs === undefined ? undefined : docs instanceof Docs ? docs : new Docs(docs);
+        this.docs = docs;
         this.share = share;
-        this.names = names instanceof Names ? names : new Names(names);
         this.etc = etc;
-        this.dot = dot !== undefined ? dot : type === undefined ? undefined : new TypeToken();
+        this.names = names;
+        this.dot = dot;
         this.type = type;
-        this.colon = colon !== undefined ? colon : value === undefined ? undefined : new BindToken(); 
+        this.colon = colon;
         this.value = value;
 
         this.computeChildren();
+
+    }
+
+    static make(docs: Translations | undefined, names: Names | Translations, type?: Type, value?: Expression) {
+        return new Bind(
+            docs ? new Docs(docs) : undefined, 
+            undefined, 
+            undefined, 
+            names instanceof Names ? names : Names.make(names), 
+            type === undefined ? undefined : new TypeToken(), type, 
+            value === undefined ? undefined : new BindToken(), value
+        );
     }
 
     getGrammar() { 
@@ -94,13 +106,13 @@ export default class Bind extends Expression {
     replace(original?: Node, replacement?: Node) { 
         return new Bind(
             this.replaceChild("docs", this.docs, original, replacement), 
-            this.replaceChild("names", this.names, original, replacement), 
-            this.replaceChild("type", this.type, original, replacement), 
-            this.replaceChild<Expression|undefined>("value", this.value, original, replacement),
             this.replaceChild("share", this.share, original, replacement), 
             this.replaceChild("etc", this.etc, original, replacement), 
+            this.replaceChild("names", this.names, original, replacement), 
             this.replaceChild("dot", this.dot, original, replacement),
-            this.replaceChild("colon", this.colon, original, replacement)
+            this.replaceChild("type", this.type, original, replacement), 
+            this.replaceChild("colon", this.colon, original, replacement),
+            this.replaceChild<Expression|undefined>("value", this.value, original, replacement)
         ) as this;
     }
 
@@ -350,7 +362,7 @@ export default class Bind extends Expression {
         // Before colon? Offer a type.
         else if(child === this.colon && this.type === undefined)
             return [ 
-                new Replace(context, this, new Bind(this.docs, this.names, new TypePlaceholder(), this.value, this.etc, new TypeToken(), this.colon))
+                new Replace(context, this, new Bind(this.docs, this.share, this.etc, this.names, new TypeToken(), new TypePlaceholder(), this.colon, this.value))
             ];
 
     }
@@ -359,7 +371,7 @@ export default class Bind extends Expression {
         const children  = this.getChildren();
         const lastChild = children[children.length - 1];
 
-        const withValue = new Replace(context, this, new Bind(this.docs, this.names, this.type, new ExpressionPlaceholder(), this.etc, this.dot, new BindToken()));
+        const withValue = new Replace(context, this, new Bind(this.docs, this.share, this.etc, this.names, this.dot, this.type, new BindToken(), new ExpressionPlaceholder()));
 
         if(lastChild === this.dot)
             return getPossibleTypeAdds(this, "context", context, position);

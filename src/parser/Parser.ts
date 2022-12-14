@@ -351,7 +351,7 @@ export function parseBind(tokens: Tokens): Bind {
         value = parseExpression(tokens);
     }
 
-    return new Bind(docs, names, type, value, share, etc, dot, colon);
+    return new Bind(docs, share, etc, names, dot, type, colon, value);
 
 }
 
@@ -366,7 +366,7 @@ export function parseNames(tokens: Tokens): Names {
         const name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : tokens.nextIs(TokenType.PLACEHOLDER) ? tokens.read(TokenType.PLACEHOLDER) : undefined;
         const lang = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
         if(name !== undefined)
-            names.push(new Name(name, lang, comma));
+            names.push(new Name(comma, name, lang));
         else
             break;
     }
@@ -380,7 +380,7 @@ export function parseLanguage(tokens: Tokens): Language {
 
     const slash = tokens.read(TokenType.LANGUAGE);
     const lang = tokens.nextIs(TokenType.NAME) && !tokens.nextHasPrecedingLineBreak() ? tokens.read(TokenType.NAME) : undefined;
-    return new Language(lang, slash);
+    return new Language(slash, lang);
 
 }
 
@@ -532,7 +532,7 @@ function parseMeasurement(tokens: Tokens): MeasurementLiteral {
 
     const number = tokens.read(TokenType.NUMBER);
     const unit = tokens.nextIsOneOf(TokenType.NAME, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
-    return new MeasurementLiteral(number, unit);
+    return new MeasurementLiteral(number, unit ?? new Unit());
 
 }
 
@@ -617,7 +617,7 @@ function parseList(tokens: Tokens): ListLiteral {
 
     close = tokens.nextIs(TokenType.LIST_CLOSE) ? tokens.read(TokenType.LIST_CLOSE) : undefined;
 
-    return new ListLiteral(values, open, close);
+    return new ListLiteral(open, values, close);
 
 }
 
@@ -629,7 +629,7 @@ function parseListAccess(left: Expression, tokens: Tokens): Expression {
         const index = parseExpression(tokens);
         const close = tokens.nextIs(TokenType.LIST_CLOSE) ? tokens.read(TokenType.LIST_CLOSE) : undefined;
 
-        left = new ListAccess(left, index, open, close);
+        left = new ListAccess(open, left, index, close);
 
         // But wait, is it a function evaluation?
         if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
@@ -650,7 +650,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
     // Is this an empty map?
     if(tokens.nextAre(TokenType.BIND, TokenType.SET_CLOSE)) {
         const bind = tokens.read(TokenType.BIND);
-        return new MapLiteral([], open, bind, tokens.read(TokenType.SET_CLOSE));
+        return new MapLiteral(open, [], bind, tokens.read(TokenType.SET_CLOSE));
     }
 
     while(tokens.hasNext() && tokens.nextIsnt(TokenType.SET_CLOSE)) {
@@ -667,7 +667,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
 
     // Make a map
     return values.find(v => v instanceof KeyValue) !== undefined ? 
-        new MapLiteral(values as KeyValue[], open, undefined, close) :
+        new MapLiteral(open, values as KeyValue[], undefined, close) :
         new SetLiteral(values as Expression[], open, close);
 
 }
@@ -681,7 +681,7 @@ function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression {
 
         const close = tokens.nextIs(TokenType.SET_CLOSE) ? tokens.read(TokenType.SET_CLOSE) : undefined;
 
-        left = new SetOrMapAccess(left, key, open, close);
+        left = new SetOrMapAccess(left, open, key, close);
 
         // But wait, is it a function evaluation?
         if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
@@ -699,7 +699,7 @@ function parsePrevious(stream: Expression, tokens: Tokens): Previous {
     const previous = tokens.read(TokenType.PREVIOUS);
     const index = parseExpression(tokens);
 
-    return new Previous(stream, index, previous);
+    return new Previous(stream, previous, index);
 
 }
 
@@ -803,7 +803,7 @@ export function parseFunction(tokens: Tokens): FunctionDefinition | UnparsableEx
 
     const fun = tokens.read(TokenType.FUNCTION);
 
-    const names = tokens.nextIsOneOf(TokenType.NAME, TokenType.PLACEHOLDER) ? parseNames(tokens) : undefined;
+    const names = parseNames(tokens);
 
     const typeVars = parseTypeVariables(tokens);
 
@@ -826,7 +826,7 @@ export function parseFunction(tokens: Tokens): FunctionDefinition | UnparsableEx
 
     const expression = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : parseExpression(tokens);
 
-    return new FunctionDefinition(docs, names, typeVars, inputs, expression, output, fun, dot, open, close);
+    return new FunctionDefinition(docs, fun, names, typeVars, open, inputs, close, dot, output, expression);
 
 }
 
@@ -890,7 +890,7 @@ function parseTypeInputs(tokens: Tokens): TypeInput[] {
     while(tokens.nextIs(TokenType.TYPE_VAR)) {
         const dot = tokens.read(TokenType.TYPE_VAR);
         const type = parseType(tokens);
-        inputs.push(new TypeInput(type, dot));
+        inputs.push(new TypeInput(dot, type));
     }
     return inputs;
 
@@ -910,7 +910,7 @@ function parseAccess(left: Expression, tokens: Tokens): Expression {
                     tokens.nextIs(TokenType.UNARY_OP) ? tokens.read(TokenType.UNARY_OP) :
                     tokens.read(TokenType.BINARY_OP);
 
-        left = new PropertyReference(left, name ? new Reference(name) : undefined, access);
+        left = new PropertyReference(left, access, name ? new Reference(name, []) : undefined);
 
         // But wait, is it a function evaluation?
         if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
@@ -944,7 +944,7 @@ export function parseType(tokens: Tokens, isExpression:boolean=false): Type {
 
     while(tokens.nextIs(TokenType.UNION)) {
         const or = tokens.read(TokenType.UNION);
-        left = new UnionType(left, parseType(tokens), or);
+        left = new UnionType(left, or, parseType(tokens));
     }
     
     return left;
@@ -987,7 +987,7 @@ function parseStreamType(tokens: Tokens): StreamType {
 
     const stream = tokens.read(TokenType.STREAM_TYPE);
     const type = parseType(tokens);
-    return new StreamType(type, stream);
+    return new StreamType(stream, type);
 
 }
 
@@ -1014,7 +1014,7 @@ function parseSetOrMapType(tokens: Tokens): SetType | MapType {
         value = bind !== undefined && !tokens.nextIs(TokenType.SET_CLOSE) ? parseType(tokens) : undefined;
     }
     const close = tokens.nextIs(TokenType.SET_CLOSE) ? tokens.read(TokenType.SET_CLOSE) : undefined;
-    return bind === undefined ? new SetType(key, open, close) : new MapType(key, value, open, bind, close);
+    return bind === undefined ? new SetType(open, key, close) : new MapType(open, key, bind, value, close);
 
 }
 
@@ -1075,30 +1075,29 @@ export function parseStructure(tokens: Tokens): StructureDefinition | Unparsable
 
     const type = tokens.read(TokenType.TYPE);
 
-    const aliases = parseNames(tokens);
+    const names = parseNames(tokens);
 
     const interfaces: TypeInput[] = [];
     while(tokens.nextIs(TokenType.TYPE)) {
         const dot = tokens.read(TokenType.TYPE);
         const name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : undefined;
-        interfaces.push(new TypeInput(name ? new NameType(name) : new UnparsableType([]), dot));
+        interfaces.push(new TypeInput(dot, name ? new NameType(name) : new UnparsableType([])));
     }
 
     const typeVars = parseTypeVariables(tokens);
 
     const inputs: Bind[] = [];
-    let open;
+    let open = tokens.read(TokenType.EVAL_OPEN);
     let close;
-    if(tokens.nextIs(TokenType.EVAL_OPEN)) {
-        open = tokens.read(TokenType.EVAL_OPEN);
-        while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && nextIsBind(tokens, false))
-            inputs.push(parseBind(tokens));
-        close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;
-    }
+
+    while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && nextIsBind(tokens, false))
+        inputs.push(parseBind(tokens));
+    
+    close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;
 
     const block = nextAreOptionalDocsThen(tokens, TokenType.EVAL_OPEN) ? parseBlock(tokens, false, true) : undefined;
 
-    return new StructureDefinition(docs, aliases, interfaces, typeVars, inputs, block, type, open, close);
+    return new StructureDefinition(docs, type, names, interfaces, typeVars, open, inputs, close, block);
 
 }
 

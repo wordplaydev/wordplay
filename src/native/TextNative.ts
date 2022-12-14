@@ -15,7 +15,6 @@ import List from "../runtime/List";
 import Block from "../nodes/Block";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
-import Names from "../nodes/Names";
 import type Node from "../nodes/Node";
 
 export default function bootstrapText() {
@@ -25,17 +24,17 @@ export default function bootstrapText() {
             (requestor, evaluation) => {
                 const text = evaluation.getClosure();
                 if(text instanceof Text) return expression(requestor, text, evaluation);
-                else return new TypeException(evaluation.getEvaluator(), new TextType(), text);
+                else return new TypeException(evaluation.getEvaluator(), TextType.make(), text);
             }
         );
     }
 
-    return new StructureDefinition(
+    return StructureDefinition.make(
         undefined, 
-        new Names({
+        {
             eng: "text",
             "😀": "''"
-        }), 
+        }, 
         [], [], [],
         new Block([ 
             createTextFunction(
@@ -48,7 +47,7 @@ export default function bootstrapText() {
                     "😀": TRANSLATE
                 }, 
                 [], 
-                new MeasurementType(), 
+                MeasurementType.make(), 
                 (requestor, text) => text.length(requestor)
             ),
             createTextFunction(
@@ -60,7 +59,7 @@ export default function bootstrapText() {
                     eng: WRITE,
                     "😀": "="
                 }, 
-                [ new Bind(
+                [ Bind.make(
                     {
                         eng: WRITE,
                         "😀": WRITE
@@ -69,13 +68,13 @@ export default function bootstrapText() {
                         eng: "val",
                         "😀": `${TRANSLATE}1`
                     }, 
-                    new TextType()
+                    TextType.make()
                 )],
                 new BooleanType(), 
                 (requestor, text, evaluation) => {
                     const val = evaluation.resolve("val");
                     if(val instanceof Text) return new Bool(requestor, text.isEqualTo(val));
-                    else return new TypeException(evaluation.getEvaluator(), new TextType(), val);
+                    else return new TypeException(evaluation.getEvaluator(), TextType.make(), val);
                 }
             ),
             createTextFunction(
@@ -86,7 +85,7 @@ export default function bootstrapText() {
                 {
                     eng: "not-equal",
                     "😀": "≠"
-                }, [ new Bind(
+                }, [ Bind.make(
                     {
                         eng: WRITE,
                         "😀": WRITE
@@ -95,13 +94,13 @@ export default function bootstrapText() {
                         eng: "val",
                         "😀": `${TRANSLATE}1`
                     }, 
-                    new TextType()
+                    TextType.make()
                 )], 
                 new BooleanType(), 
                 (requestor, text, evaluation) => {
                     const val = evaluation.resolve("val");
                     if(val instanceof Text) return new Bool(requestor, !text.isEqualTo(val));
-                    else return new TypeException(evaluation.getEvaluator(), new TextType(), val);
+                    else return new TypeException(evaluation.getEvaluator(), TextType.make(), val);
                 }
             ),
             createNativeConversion(WRITE_DOCS, '""', '[""]', (requestor: Node, val: Text) => new List(requestor, val.text.split("").map(c => new Text(requestor, c)))),

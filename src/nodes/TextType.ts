@@ -22,14 +22,18 @@ export default class TextType extends NativeType {
     readonly text: Token;
     readonly format?: Language;
 
-    constructor(text?: Token, format?: Language) {
+    constructor(text: Token, format?: Language) {
         super();
 
-        this.text = text ?? new Token(TEXT_SYMBOL, TokenType.TEXT);
+        this.text = text;
         this.format = format;
 
         this.computeChildren();
 
+    }
+
+    static make(format?: Language) {
+        return new TextType(new Token(TEXT_SYMBOL, TokenType.TEXT), format);
     }
 
     getGrammar() { 
@@ -87,18 +91,18 @@ export default class TextType extends NativeType {
         const project = context.project;
         // Formats can be any Language tags that are used in the project.
         if(project !== undefined && child === this.format)
-            return getPossibleLanguages(project).map(l => new Replace(context, child, new Language(l)));
+            return getPossibleLanguages(project).map(l => new Replace(context, child, Language.make(l)));
 
     }
     
-    getInsertionBefore() { return undefined; }
+getInsertionBefore() { return undefined; }
     
     getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
         
         const project = context.project;
         // Formats can be any Language tags that are used in the project.
         if(project !== undefined && this.format === undefined)
-            return getPossibleLanguages(project).map(l => new Add(context, position, this, "format", new Language(l)));
+            return getPossibleLanguages(project).map(l => new Add(context, position, this, "format", Language.make(l)));
 
     }
     

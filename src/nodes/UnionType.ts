@@ -21,15 +21,19 @@ export default class UnionType extends Type {
     readonly or: Token;
     readonly right: Type;
 
-    constructor(left: Type, right: Type, or?: Token) {
+    constructor(left: Type, or: Token, right: Type, ) {
         super();
 
         this.left = left;
-        this.or = or ?? new Token(TYPE_SYMBOL, TokenType.UNION);
+        this.or = or;
         this.right = right;
 
         this.computeChildren();
 
+    }
+
+    static make(left: Type, right: Type) {
+        return new UnionType(left, new Token(TYPE_SYMBOL, TokenType.UNION), right);
     }
 
     getGrammar() { 
@@ -147,7 +151,7 @@ export function getPossibleUnionType(context: Context, types: Type[]): Type | un
     do {
         uniqueTypes.shift();
         if(uniqueTypes.length > 0)
-            union = new UnionType(union, uniqueTypes[0]);
+            union = UnionType.make(union, uniqueTypes[0]);
     } while(uniqueTypes.length > 0);
     return union;
     
@@ -207,11 +211,11 @@ export class TypeSet {
         let next = types.shift();
         let union = undefined;
         if(cur !== undefined && next !== undefined)
-            union = new UnionType(cur, next);
+            union = UnionType.make(cur, next);
         while(types.length > 0 && union !== undefined) {
             let next = types.shift();
             if(next !== undefined)
-                union = new UnionType(union, next);
+                union = UnionType.make(union, next);
         }
         return union === undefined ? new NeverType() : union;
 

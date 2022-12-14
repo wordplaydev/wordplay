@@ -21,7 +21,6 @@ import type Step from "../runtime/Step";
 import type Stream from "../runtime/Stream";
 import type Transform from "../transforms/Transform";
 import { WRITE_DOCS } from "../nodes/Translations";
-import Name from "../nodes/Name";
 import type { SharedDefinition } from "../nodes/Borrow";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import StructureDefinition from "../nodes/StructureDefinition";
@@ -57,7 +56,7 @@ export default class Source extends Expression {
 
         super();
 
-        this.names = names instanceof Names ? names : new Names([new Name(names)]);
+        this.names = names instanceof Names ? names : Names.make([ names ]);
 
         if(typeof code === "string" || code instanceof UnicodeString) {
             // Generate the AST from the provided code.

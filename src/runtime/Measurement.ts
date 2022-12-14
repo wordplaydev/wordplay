@@ -151,7 +151,7 @@ export default class Measurement extends Primitive {
         return new Measurement(requestor, this.num.sin(), this.unit);
     }
 
-    getType() { return new MeasurementType(undefined, this.unit); }
+    getType() { return MeasurementType.make(this.unit); }
     
     getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }
 

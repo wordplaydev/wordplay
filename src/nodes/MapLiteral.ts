@@ -25,24 +25,34 @@ import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import BindToken from "./BindToken";
 
 export default class MapLiteral extends Expression {
 
     readonly open: Token;
     readonly values: KeyValue[];
-    readonly close: Token;
+    readonly close?: Token;
     readonly bind?: Token;
 
-    constructor(values: KeyValue[], open?: Token, bind?: Token, close?: Token) {
+    constructor(open: Token, values: KeyValue[], bind?: Token, close?: Token) {
         super();
 
-        this.open = open ?? new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
+        this.open = open;
         this.values = values;
         this.bind = bind;
-        this.close = close ?? new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE);
+        this.close = close;
 
         this.computeChildren();
         
+    }
+
+    static make(values: KeyValue[]) {
+        return new MapLiteral(
+            new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN),
+            values,
+            values.length === 0 ? new BindToken() : undefined,
+            new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE)
+        )
     }
 
     getGrammar() { 
@@ -56,8 +66,8 @@ export default class MapLiteral extends Expression {
 
     replace(original?: Node, replacement?: Node) { 
         return new MapLiteral(
-            this.replaceChild<KeyValue[]>("values", this.values, original, replacement),
             this.replaceChild("open", this.open, original, replacement), 
+            this.replaceChild<KeyValue[]>("values", this.values, original, replacement),
             this.replaceChild("bind", this.bind, original, replacement),
             this.replaceChild("close", this.close, original, replacement)
         ) as this; 
@@ -82,7 +92,7 @@ export default class MapLiteral extends Expression {
         if(keyType === undefined) keyType = new AnyType();
         else if(valueType === undefined) valueType = new AnyType();
         
-        return new MapType(keyType, valueType);
+        return MapType.make(keyType, valueType);
 
     }
 
@@ -143,7 +153,7 @@ export default class MapLiteral extends Expression {
     }
 
     getStart() { return this.open; }
-    getFinish() { return this.close; }
+    getFinish() { return this.close ?? this.values[this.values.length - 1] ?? this.bind ?? this.open; }
 
     getStartExplanations(): Translations {
         return {

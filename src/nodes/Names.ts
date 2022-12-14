@@ -5,19 +5,47 @@ import type LanguageCode from "./LanguageCode";
 import Name from "./Name";
 import DuplicateLanguages from "../conflicts/DuplicateLanguages";
 import DuplicateNames from "../conflicts/DuplicateNames";
+import Token from "./Token";
+import { NAME_SEPARATOR_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
+import NameToken from "./NameToken";
+import Language from "./Language";
 
 export default class Names extends Node {
     
     readonly names: Name[];
 
-    constructor(names?: Name[] | Translations) {
+    constructor(names: Name[]) {
         super();
 
-        this.names = names === undefined ? [] : 
-                    Array.isArray(names) ? names : 
-                    Object.keys(names).map(lang => new Name(names[lang as LanguageCode], lang));
+        this.names = names;
 
         this.computeChildren();
+
+    }
+
+    static make(names: string[] | Translations) {
+
+        const list: Name[] = [];
+        if(Array.isArray(names)) {
+            let first = true;
+            for(const name of names) {
+                list.push(new Name(first ? undefined: new Token(NAME_SEPARATOR_SYMBOL, TokenType.NAME_SEPARATOR), new NameToken(name)));
+                first = false;
+            }
+            return new Names(list);
+        }
+        else {
+            return new Names(
+                Object.keys(names).map((lang, index) => 
+                    new Name(
+                        index === 0 ? undefined : new Token(NAME_SEPARATOR_SYMBOL, TokenType.NAME_SEPARATOR), 
+                        new Token(names[lang as LanguageCode], TokenType.NAME), 
+                        Language.make(lang)
+                    )
+                )
+            );
+        }
 
     }
 

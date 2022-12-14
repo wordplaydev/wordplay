@@ -28,7 +28,7 @@ export default function bootstrapMap() {
     }
 
     const mapFilterHOFType = new FunctionType([], [ 
-        new Bind(
+        Bind.make(
             {
                 eng: WRITE,
                 "😀": WRITE
@@ -39,7 +39,7 @@ export default function bootstrapMap() {
             }, 
             new NameType(MAP_KEY_TYPE_VAR_NAMES.eng)
         ),
-        new Bind(
+        Bind.make(
             {
                 eng: WRITE,
                 "😀": WRITE
@@ -53,7 +53,7 @@ export default function bootstrapMap() {
     ], new BooleanType());
 
     const mapTranslateHOFType = new FunctionType([], [ 
-        new Bind(
+        Bind.make(
             {
                 eng: WRITE,
                 "😀": WRITE
@@ -64,7 +64,7 @@ export default function bootstrapMap() {
             }, 
             new NameType(MAP_KEY_TYPE_VAR_NAMES.eng)
         ),
-        new Bind(
+        Bind.make(
             {
                 eng: WRITE,
                 "😀": WRITE
@@ -77,7 +77,7 @@ export default function bootstrapMap() {
         )
     ], new NameType(MAP_HOF_OUTPUT_NAMES.eng));
 
-    return new StructureDefinition(
+    return StructureDefinition.make(
         {
             eng: WRITE,
             "😀": WRITE
@@ -104,20 +104,20 @@ export default function bootstrapMap() {
                     "😀": "="
                 }, 
                 [], 
-                [ new Bind(
+                [ Bind.make(
                     WRITE_DOCS, 
                     {
                         eng: "map",
                         "😀": `${TRANSLATE}1`
                     },
-                    new MapType()
+                    MapType.make()
                 ) ], 
                 new BooleanType(),
                 (requestor, evaluation) => {
                         const map = evaluation?.getClosure();
                         const other = evaluation.resolve("map");
                         return !(map instanceof Map && other instanceof Map) ? 
-                            new TypeException(evaluation.getEvaluator(), new MapType(), other) :
+                            new TypeException(evaluation.getEvaluator(), MapType.make(), other) :
                             new Bool(requestor, map.isEqualTo(other));
                     }
             ),
@@ -131,7 +131,7 @@ export default function bootstrapMap() {
                     "😀": "≠"
                 }, 
                 [], 
-                [ new Bind(
+                [ Bind.make(
                     {
                         eng: WRITE,
                         "😀": WRITE
@@ -140,14 +140,14 @@ export default function bootstrapMap() {
                         eng: "map",
                         "😀": `${TRANSLATE}1`
                     }, 
-                    new MapType() 
+                    MapType.make() 
                 ) ], 
                 new BooleanType(),
                 (requestor, evaluation) => {
                     const map = evaluation?.getClosure();
                     const other = evaluation.resolve("map");
                     return !(map instanceof Map && other instanceof Map) ? 
-                        new TypeException(evaluation.getEvaluator(), new MapType(), other) :
+                        new TypeException(evaluation.getEvaluator(), MapType.make(), other) :
                         new Bool(requestor, !map.isEqualTo(other));
                 }
             ),
@@ -162,7 +162,7 @@ export default function bootstrapMap() {
                 },
                 [], 
                 [ 
-                    new Bind(
+                    Bind.make(
                         {
                             eng: WRITE,
                             "😀": WRITE
@@ -173,7 +173,7 @@ export default function bootstrapMap() {
                         }, 
                         new NameType(MAP_KEY_TYPE_VAR_NAMES.eng) 
                     ),
-                    new Bind(
+                    Bind.make(
                         {
                             eng: WRITE,
                             "😀": WRITE
@@ -185,13 +185,13 @@ export default function bootstrapMap() {
                         new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng) 
                     )
                 ],
-                new MapType(),
+                MapType.make(),
                 (requestor, evaluation) => {
                     const map = evaluation.getClosure();
                     const key = evaluation.resolve("key");
                     const value = evaluation.resolve("value");
                     if(map instanceof Map && key !== undefined && value !== undefined) return map.set(requestor, key, value);
-                    else return new TypeException(evaluation.getEvaluator(), new MapType(), map);
+                    else return new TypeException(evaluation.getEvaluator(), MapType.make(), map);
                 }
             ),        
             createNativeFunction(
@@ -205,7 +205,7 @@ export default function bootstrapMap() {
                 },
                 [], 
                 [ 
-                    new Bind(
+                    Bind.make(
                         {
                             eng: WRITE,
                             "😀": WRITE
@@ -217,12 +217,12 @@ export default function bootstrapMap() {
                         new NameType(MAP_KEY_TYPE_VAR_NAMES.eng) 
                     )
                 ],
-                new MapType(),
+                MapType.make(),
                 (requestor, evaluation) => {
                     const map = evaluation.getClosure();
                     const key = evaluation.resolve("key");
                     if(map instanceof Map && key !== undefined) return map.unset(requestor, key);
-                    else return new TypeException(evaluation.getEvaluator(), new MapType(), map);
+                    else return new TypeException(evaluation.getEvaluator(), MapType.make(), map);
                 }
             ),
             createNativeFunction(
@@ -236,7 +236,7 @@ export default function bootstrapMap() {
                 },
                 [], 
                 [ 
-                    new Bind(
+                    Bind.make(
                         {
                             eng: WRITE,
                             "😀": WRITE
@@ -248,15 +248,15 @@ export default function bootstrapMap() {
                         new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng) 
                     )
                 ],
-                new MapType(),
+                MapType.make(),
                 (requestor, evaluation) => {
                     const map = evaluation.getClosure();
                     const value = evaluation.resolve("value");
                     if(map instanceof Map && value !== undefined) return map.remove(requestor, value);
-                    else return new TypeException(evaluation.getEvaluator(), new MapType(), map);
+                    else return new TypeException(evaluation.getEvaluator(), MapType.make(), map);
                 }
             ),
-            new FunctionDefinition(
+            FunctionDefinition.make(
                 {
                     eng: WRITE,
                     "😀": WRITE
@@ -267,7 +267,7 @@ export default function bootstrapMap() {
                 },
                 [], 
                 [
-                    new Bind(
+                    Bind.make(
                         {
                             eng: WRITE,
                             "😀": WRITE
@@ -280,9 +280,9 @@ export default function bootstrapMap() {
                     )
                 ],
                 new NativeHOFMapFilter(mapFilterHOFType),
-                new MapType(new NameType(MAP_KEY_TYPE_VAR_NAMES.eng), new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng))
+                MapType.make(new NameType(MAP_KEY_TYPE_VAR_NAMES.eng), new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng))
             ),
-            new FunctionDefinition(
+            FunctionDefinition.make(
                 {
                     eng: WRITE,
                     "😀": WRITE
@@ -295,7 +295,7 @@ export default function bootstrapMap() {
                     new TypeVariable(MAP_HOF_OUTPUT_NAMES)
                 ], 
                 [
-                    new Bind(
+                    Bind.make(
                         {
                             eng: WRITE,
                             "😀": WRITE
@@ -308,7 +308,7 @@ export default function bootstrapMap() {
                     )
                 ],
                 new NativeHOFMapTranslate(mapTranslateHOFType),
-                new MapType(new NameType(MAP_KEY_TYPE_VAR_NAMES.eng), new NameType(MAP_HOF_OUTPUT_NAMES.eng))
+                MapType.make(new NameType(MAP_KEY_TYPE_VAR_NAMES.eng), new NameType(MAP_HOF_OUTPUT_NAMES.eng))
             ),
             createNativeConversion(WRITE_DOCS, "{:}", "''", (requestor: Node, val: Map) => new Text(requestor, val.toString())),
             createNativeConversion(WRITE_DOCS, "{:}", "{}", (requestor: Node, val: Map) => new Set(requestor, val.getKeys())),

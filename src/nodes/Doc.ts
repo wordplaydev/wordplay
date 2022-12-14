@@ -20,7 +20,7 @@ export default class Doc extends Node {
         super();
 
         this.docs = docs instanceof Token ? docs : new DocToken(docs ?? "");
-        this.lang = lang instanceof Language ? lang : lang === undefined ? undefined : new Language(lang ?? "");
+        this.lang = lang instanceof Language ? lang : lang === undefined ? undefined : Language.make(lang ?? "");
 
         this.computeChildren();
     }
@@ -54,7 +54,7 @@ export default class Doc extends Node {
 
         const project = context.project;
         if(project !== undefined && child === this.lang)
-            return getPossibleLanguages(project).map(l => new Replace(context, child, new Language(l)));
+            return getPossibleLanguages(project).map(l => new Replace(context, child, Language.make(l)));
             
         return [];
 
@@ -66,7 +66,7 @@ export default class Doc extends Node {
 
         const project = context.project;
         if(project !== undefined && this.lang === undefined)
-            return getPossibleLanguages(project).map(l => new Add(context, position, this, "lang", new Language(l)));
+            return getPossibleLanguages(project).map(l => new Add(context, position, this, "lang", Language.make(l)));
 
     }
 

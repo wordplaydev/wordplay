@@ -12,13 +12,17 @@ export default class NoneType extends NativeType {
 
     readonly none: Token;
 
-    constructor(none?: Token) {
+    constructor(none: Token) {
         super();
 
-        this.none = none ?? new Token(NONE_SYMBOL, TokenType.NONE_TYPE);
+        this.none = none;
 
         this.computeChildren();
 
+    }
+
+    static make() {
+        return new NoneType(new Token(NONE_SYMBOL, TokenType.NONE));
     }
 
     getGrammar() { 
