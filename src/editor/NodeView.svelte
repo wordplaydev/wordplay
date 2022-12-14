@@ -2,7 +2,6 @@
 
 <script lang="ts">
     import { afterUpdate } from "svelte";
-    import { languages } from "../models/languages";
     import type Node from "../nodes/Node";
     import { getHighlights, getCaret, getRoot } from "./util/Contexts";
     import NodeHighlight from "./NodeHighlight.svelte";
@@ -21,7 +20,6 @@
     let highlights = getHighlights();
     let caret = getCaret();
 
-    $: primaryConflicts = node === undefined ? [] : $project.getPrimaryConflictsInvolvingNode(node) ?? [];
     $: highlightTypes = (node ? $highlights?.get(node) : undefined) ?? new Set();
     let value: Value | undefined;
     $: {
@@ -70,7 +68,7 @@
         class="{node.constructor.name} node-view {root ? "root" : ""} {highlightTypes.size > 0 ? "highlighted" : ""} { Array.from(highlightTypes).join(" ")}"
         data-id={node.id}
         bind:this={element}
-    >{#if value}<ValueView {value}/>{:else}<svelte:component this={getNodeView(node)} node={node} />{#if outline && underline }<NodeHighlight {outline} {underline}/>{/if}{#if primaryConflicts.length > 0}<div class="conflicts">{#each primaryConflicts as conflict}<div class="conflict">{conflict.getExplanation($languages[0])}</div>{/each}</div>{/if}{/if}</div>
+    >{#if value}<ValueView {value}/>{:else}<svelte:component this={getNodeView(node)} node={node} />{#if outline && underline }<NodeHighlight {outline} {underline}/>{/if}{/if}</div>
 {/if}
 
 <style>
@@ -84,28 +82,6 @@
 
     .node-view.hovered {
         cursor: pointer;
-    }
-
-    .conflicts {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        border: 2px solid var(--wordplay-black);
-        font-size: x-small;
-        font-weight: normal;
-        background-color: var(--wordplay-error);
-        color: var(--color-white);
-        padding: var(--wordplay-spacing);
-        z-index: 2;
-        visibility: hidden;
-    }
-
-    .node-view:hover > .conflicts {
-        visibility: visible;
-    }
-
-    .conflict {
-        opacity: 1.0;
     }
 
     /* When beginning dragged in an editor, hide the node view contents to create a sense of spatial integrity. */

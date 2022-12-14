@@ -33,7 +33,8 @@
     import Finish from '../runtime/Finish';
     import type Project from '../models/Project';
     import { currentStep, playing, animations } from '../models/stores';
-
+    import type Conflict from '../conflicts/Conflict';
+    
     export let project: Project;
     export let source: Source;
 
@@ -166,6 +167,34 @@
             }
         }
         else menuVisible = false;
+    }
+
+    // Determine the conflict under the caret whenever the caret changes.
+    export let conflicts: Conflict[] = [];
+    $: {
+        conflicts = [];
+        // Find the conflicts on this specific node.
+        if($caret.position instanceof Node) {
+            conflicts = [ 
+                ...project.getPrimaryConflictsInvolvingNode($caret.position) ?? [],
+                ...project.getSecondaryConflictsInvolvingNode($caret.position) ?? []
+            ]
+        } 
+        // Find all the conflicts on the nodes at this position.
+        else {
+            const token = $caret.getToken();
+            const ancestors = token ? source.get(token)?.getAncestors() : undefined;
+            if(ancestors) {
+                for(const ancestor of ancestors) {
+                    conflicts = conflicts.concat(
+                        [ 
+                            ...project.getPrimaryConflictsInvolvingNode(ancestor) ?? [],
+                            ...project.getSecondaryConflictsInvolvingNode(ancestor) ?? []
+                        ]
+                    )
+                }
+            }
+        }
     }
 
     // When the editor view changes, position selections, the menu, and scroll the caret or executing node into view
@@ -1089,6 +1118,7 @@
 <style>
 
     .editor {
+        flex: 1;
         white-space: nowrap;
         line-height: var(--wordplay-code-line-height);
         padding: var(--wordplay-spacing);

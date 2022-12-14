@@ -13,6 +13,8 @@
     import { toVerse } from '../output/Verse';
     import KeyboardIdle from '../models/KeyboardIdle';
     import Timeline from './Timeline.svelte';
+    import ConflictsView from '../editor/ConflictsView.svelte';
+    import type Conflict from '../conflicts/Conflict';
 
     export let project: Project;
     export let source: Source;
@@ -22,7 +24,8 @@
     let stepping: boolean = false;
     $: latest = $currentStep === undefined ? project.evaluator.getLatestSourceValue(source) : undefined;
     $: verse = latest === undefined ? undefined : $languages ? toVerse(latest) : undefined;
-    $: stepping = (project.evaluator.getCurrentEvaluation()?.getSource() === source || (project.evaluator.isDone() && source === project.main));
+    $: stepping = (project.evaluator.getCurrentEvaluation()?.getSource() === source || (project.evaluator.isDone() && source === project.main));    
+    let conflicts: Conflict[] = [];
 
 </script>
 
@@ -33,13 +36,19 @@
     <div class="split">
         <div class="column">
             <div class="code">
-                <Editor {project} {source} />
+                <Editor {project} {source} bind:conflicts={conflicts}/>
             </div>
             {#if stepping}
-                <div class="footer evaluator">
+                <section class="footer evaluator">
                     <EvaluatorView evaluator={project.evaluator} {source}/>
-                </div>
+                </section>
             {/if}
+            {#if conflicts.length > 0}
+                <section class="footer conflict">
+                    <ConflictsView {conflicts}/>
+                </section>
+            {/if}
+
         </div>
         <div class="column">
             <div class="output" style="{verse !== undefined ? `background-color: ${verse.background.toCSS()};` : undefined}">
@@ -104,6 +113,7 @@
         flex: 1;
         flex-direction: column;
         height: 100%;
+        max-height: 40em;
         width: 50%;
     }
 
@@ -131,6 +141,15 @@
         min-width: 0;
         min-height: 20em;
         overflow: hidden;
+    }
+
+    .conflict {
+        flex-basis: content;
+        width: 100%;
+        min-height: 1em;
+        padding: var(--wordplay-spacing);
+        background-color: var(--wordplay-warning);
+        color: var(--wordplay-background);
     }
 
     .code:has(.stepping) {
