@@ -3,24 +3,15 @@
 <script lang="ts">
     import Header from '../components/Header.svelte';
     import { project } from '../models/stores';
-    import { onMount, setContext } from 'svelte';
+    import { onMount } from 'svelte';
     import ProjectView from './ProjectView.svelte';
-    import { writable } from 'svelte/store';
-    import type LanguageCode from '../nodes/LanguageCode';
     import Loading from './Loading.svelte';
-    import { LanguageSymbol } from '../editor/util/Contexts';
-
-    // An interface-wide list of preferred languages.
-    let languages = writable<LanguageCode[]>(["eng"]);
 
     // Don't display the manager until the fonts are loaded.
     let fontsLoaded = false;
 
     // Wait for the fonts to load before we display
     onMount(() => document.fonts.ready.then(() => fontsLoaded = true));
-
-    // Store in a context for easy access by components.
-    setContext(LanguageSymbol, languages);
 
 </script>
 

@@ -1,13 +1,11 @@
 <script lang="ts">
-    import { getLanguages } from "../editor/util/Contexts";
+    import { languages } from "../models/languages";
     import type Translations from "../nodes/Translations";
 
     export let label: Translations;
     export let tip: Translations;
     export let action: () => void;
     export let enabled: boolean = true;
-
-    let languages = getLanguages();
 
 </script>
 

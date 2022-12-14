@@ -1,12 +1,10 @@
 <script lang="ts">
-    import { getLanguages } from "../editor/util/Contexts";
+    import { languages } from "../models/languages";
     import type Evaluator from "../runtime/Evaluator";
     import { currentStep } from "../models/stores";
     import Timeline from "./Timeline.svelte";
 
     export let evaluator: Evaluator;
-
-    $: languages = getLanguages();
 
 </script>
 

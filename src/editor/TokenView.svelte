@@ -4,8 +4,9 @@
     import type Token from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-    import { getLanguages, getProject, getCaret } from "./util/Contexts";
+    import { getProject, getCaret } from "./util/Contexts";
     import TokenCategories from "./TokenCategories";
+    import { languages } from "../models/languages";
 
     export let node: Token;
 
@@ -22,7 +23,6 @@
     $: kind = TokenCategories.get(Array.isArray(node.types) ? node.types[0] ?? "default" : node.types);
     let caret = getCaret();
     let project = getProject();
-    let languages = getLanguages();
 
     $: isPlaceholder = node.is(TokenType.PLACEHOLDER);
     $: showBox = 

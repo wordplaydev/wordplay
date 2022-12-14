@@ -16,7 +16,8 @@
     import KeyboardIdle from '../models/KeyboardIdle';
     import CaretView from './CaretView.svelte';
     import { PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
-    import { CaretSymbol, HoveredSymbol, HighlightSymbol, InsertionPointsSymbol, getLanguages, getDragged } from './util/Contexts';
+    import { CaretSymbol, HoveredSymbol, HighlightSymbol, InsertionPointsSymbol, getDragged } from './util/Contexts';
+    import { languages } from "../models/languages";
     import type { HighlightType, Highlights } from './util/Highlights'
     import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
     import Expression from '../nodes/Expression';
@@ -128,8 +129,6 @@
     let menuVisible = false;
 
     let menuSelection: number = -1;
-
-    $: languages = getLanguages();
 
     // The store the contains the current node being dragged.
     let dragged = getDragged();

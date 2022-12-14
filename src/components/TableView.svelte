@@ -1,13 +1,11 @@
 <script lang="ts">
     import type Table from "../runtime/Table";
-    import { getLanguages } from "../editor/util/Contexts";
+    import { languages } from "../models/languages";
     import { TABLE_OPEN_SYMBOL } from "../parser/Tokenizer";
     import SymbolView from "./SymbolView.svelte";
     import TokenType from "../nodes/TokenType";
 
     export let value: Table;
-
-    let languages = getLanguages();
 
 </script>
 

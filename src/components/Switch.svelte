@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getLanguages } from "../editor/util/Contexts";
+    import { languages } from "../models/languages";
     import type Translations from "../nodes/Translations";
 
     export let on: boolean;
@@ -8,8 +8,6 @@
     export let onLabel: Translations;
     export let offTip: Translations;
     export let onTip: Translations;
-
-    let languages = getLanguages();
 
 </script>
 

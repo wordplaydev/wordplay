@@ -1,6 +1,7 @@
 <svelte:options immutable={true}/>
 <script lang="ts">
-    import { getCaret, getLanguages } from "./util/Contexts";
+    import { getCaret } from "./util/Contexts";
+    import { languages } from "../models/languages";
     import type Node from "../nodes/Node";
     import type Doc from "../nodes/Doc";
     import type Name from "../nodes/Name";
@@ -12,7 +13,6 @@
     export let list: (Doc|Name)[];
 
     let caret = getCaret();
-    let languages = getLanguages();
     $: inside = $project.evaluator.isPlaying() && $caret?.isIn(node);
     $: visible = list.filter(item => $languages.includes((item.lang?.getLanguage() ?? "") as LanguageCode));
 

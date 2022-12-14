@@ -1,6 +1,6 @@
 <script lang="ts">
     import type Transform from "../transforms/Transform";
-    import { getLanguages } from "./util/Contexts";
+    import { languages } from "../models/languages";
     import getNodeView from "./util/nodeToView";
 
     export let transforms: Transform[];
@@ -20,8 +20,6 @@
         minItem = (selection < WINDOW ? 0 : selection - WINDOW) - Math.max(0, selection + WINDOW - (transforms.length - 1));
         maxItem = selection + WINDOW + Math.max(0, WINDOW - selection);
     }
-
-    let languages = getLanguages();
 
 </script>
 

@@ -5,7 +5,7 @@
     import type Project from "../models/Project";
     import type Verse from "../output/Verse";
     import { playing } from "../models/stores";
-    import { getLanguages } from "../editor/util/Contexts";
+    import { languages } from "../models/languages";
     import PhraseView from "./PhraseView.svelte";
     import { loadedFonts } from "../native/Fonts";
     import { toCSS } from "../output/phraseToCSS";
@@ -55,9 +55,6 @@
 
     let mounted = false;
     onMount(() => mounted = true);
-
-    // Make a render context and keep it up to date whenver the verse, languages, or loaded fonts change.
-    let languages = getLanguages();
 
     // On every verse change, compute the canonical places of all phrases.
     let visible: Phrase[] = [];

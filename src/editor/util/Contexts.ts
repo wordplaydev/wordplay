@@ -3,7 +3,6 @@ import type { Writable } from "svelte/store";
 import type { InsertionPoint } from "../../models/Caret";
 import type Caret from "../../models/Caret";
 import type Project from "../../models/Project";
-import type LanguageCode from "../../nodes/LanguageCode";
 import type Node from "../../nodes/Node";
 import type Token from "../../nodes/Token";
 import type Tree from "../../nodes/Tree";
@@ -24,10 +23,6 @@ export function getInsertionPoints() { return getContext<InsertionPointsContext>
 export type DraggedContext = Writable<Tree | undefined>;
 export const DraggedSymbol = Symbol("dragged");
 export function getDragged() { return getContext<DraggedContext>(DraggedSymbol); }
-
-export type LanguageContext = Writable<LanguageCode[]>;
-export const LanguageSymbol = Symbol("language");
-export function getLanguages() { return getContext<LanguageContext>(LanguageSymbol); }
 
 export type ProjectContext = Writable<Project>;
 export const ProjectSymbol = Symbol("project");

@@ -77,7 +77,7 @@ export default class Language extends Node {
 
     getInsertionBefore() { return undefined; }
 
-    getInsertionAfter(context: Context, position: number) { 
+    getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
 
         const project = context.project;
         if(this.lang === undefined && project !== undefined)

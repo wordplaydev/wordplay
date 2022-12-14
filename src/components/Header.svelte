@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getLanguages } from '../editor/util/Contexts';
+    import { languages } from "../models/languages";
     import { examples, makeProject, type Stuff } from '../examples/examples';
     import { project, playing, updateProject } from '../models/stores';
     import type LanguageCode from '../nodes/LanguageCode';
@@ -10,7 +10,6 @@
 
     let example: Stuff;
     let language: LanguageCode;
-    let languages = getLanguages();
 
     function changeProject() {
         updateProject(makeProject(example));

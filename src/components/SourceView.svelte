@@ -7,7 +7,7 @@
     import EvaluatorView from './EvaluatorView.svelte';
     import Exception from '../runtime/Exception';
     import { selectTranslation } from '../nodes/Translations';
-    import { getLanguages } from '../editor/util/Contexts';
+    import { languages } from "../models/languages";
     import ValueView from './ValueView.svelte';
     import type Verse from '../output/Verse';
     import { toVerse } from '../output/Verse';
@@ -17,7 +17,6 @@
     export let source: Source;
     export let interactive: boolean = false;
 
-    let languages = getLanguages();
     let verse: Verse | undefined;
     let stepping: boolean = false;
     $: latest = $currentStep === undefined ? project.evaluator.getLatestSourceValue(source) : undefined;

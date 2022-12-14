@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getLanguages } from "../editor/util/Contexts";
+    import { languages } from "../models/languages";
     import TokenType from "../nodes/TokenType";
     import { BIND_SYMBOL, EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from "../parser/Tokenizer";
     import None from "../runtime/None";
@@ -8,8 +8,6 @@
     import ValueView from "./ValueView.svelte";
 
     export let value: Structure;
-
-    let languages = getLanguages();
 
 </script>
 

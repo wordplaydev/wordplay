@@ -1,12 +1,11 @@
 <script lang="ts">
     import type FunctionValue from "../runtime/FunctionValue";
-    import { getLanguages } from "../editor/util/Contexts";
+    import { languages } from "../models/languages";
     import SymbolView from "./SymbolView.svelte";
     import { FUNCTION_SYMBOL } from "../parser/Tokenizer";
     import TokenType from "../nodes/TokenType";
 
     export let value: FunctionValue;
-    let languages = getLanguages();
 
 </script>
 

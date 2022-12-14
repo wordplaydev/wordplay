@@ -1,13 +1,11 @@
 <script lang="ts">
     import type StructureDefinitionValue from "../runtime/StructureDefinitionValue";
-    import { getLanguages } from "../editor/util/Contexts";
+    import { languages } from "../models/languages";
     import SymbolView from "./SymbolView.svelte";
     import { TYPE_SYMBOL } from "../parser/Tokenizer";
     import TokenType from "../nodes/TokenType";
 
     export let value: StructureDefinitionValue;
-
-    let languages = getLanguages();
 
 </script>
 

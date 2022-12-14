@@ -1,4 +1,6 @@
-const segmenter = new Intl.Segmenter();
+import Graphemer from "graphemer";
+
+const segmenter = new Graphemer();
 
 export default class UnicodeString {
 
@@ -16,7 +18,7 @@ export default class UnicodeString {
 
     getSegments() {
         if(this._segments === undefined)
-            this._segments = [...segmenter.segment(this.text)].map(s => s.segment);
+            this._segments = [...segmenter.splitGraphemes(this.text)];
         return this._segments;
     }
 
