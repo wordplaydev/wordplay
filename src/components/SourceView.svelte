@@ -37,7 +37,7 @@
             </div>
             {#if stepping}
                 <div class="footer evaluator">
-                    <EvaluatorView evaluator={project.evaluator}/>
+                    <EvaluatorView evaluator={project.evaluator} {source}/>
                 </div>
             {/if}
         </div>
@@ -121,9 +121,6 @@
     .footer {
         flex-basis: content;
         width: 100%;
-        min-height: 4em;
-        background-color: var(--wordplay-executing-color);
-        color: var(--wordplay-background);
     }
 
     .output {

@@ -58,6 +58,8 @@
         width: 100%;
         white-space: nowrap;
         padding: var(--wordplay-spacing);
+        background-color: var(--wordplay-executing-color);
+        color: var(--wordplay-background);
     }
 
     .stream-value {
