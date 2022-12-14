@@ -34,7 +34,7 @@ export default class NativeHOFListCombine extends HOF {
         this.hofType = hofType;
     }
 
-    computeType(): Type { return new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)); }
+    computeType(): Type { return ListType.make(new NameType(LIST_TYPE_VAR_NAMES.eng)); }
 
     compile(): Step[] { 
         return [
@@ -64,7 +64,7 @@ export default class NativeHOFListCombine extends HOF {
                     // Get the list we're processing.
                     const list = evaluator.getCurrentEvaluation()?.getClosure();
                     if(!(list instanceof List))
-                        return new TypeException(evaluator, new ListType(), list);
+                        return new TypeException(evaluator, ListType.make(), list);
 
                     // Get the list we're processing.
                     const combination = evaluator.resolve(COMBO);

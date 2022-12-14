@@ -132,7 +132,7 @@ export default class ListAccess extends Expression {
         const index = evaluator.popValue(MeasurementType.make());
         if(!(index instanceof Measurement) || !index.num.isInteger()) return index;
 
-        const list = evaluator.popValue(new ListType());
+        const list = evaluator.popValue(ListType.make());
         if(!(list instanceof List)) return list;
 
         return list.get(index);
@@ -155,7 +155,7 @@ export default class ListAccess extends Expression {
     getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
 
         if(child === this.list)
-            return getExpressionReplacements(this, this.list, context, new ListType());
+            return getExpressionReplacements(this, this.list, context, ListType.make());
         else if(child === this.index)
             return getExpressionReplacements(this, this.index, context, MeasurementType.make());
 

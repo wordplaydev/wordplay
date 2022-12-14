@@ -16,32 +16,36 @@ import { TRANSLATE } from "./Translations"
 export default class ListType extends NativeType {
 
     readonly open: Token;
-    readonly type?: Type;
-    readonly close: Token;
+    readonly type: Type | undefined;
+    readonly close: Token | undefined;
 
-    constructor(type?: Type, open?: Token, close?: Token) {
+    constructor(open: Token, type: Type | undefined, close: Token | undefined) {
         super();
 
-        this.open = open ?? new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN);
+        this.open = open;
         this.type = type;
-        this.close = close ?? new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
+        this.close = close;
 
         this.computeChildren();
 
+    }
+
+    static make(type?: Type) {
+        return new ListType(new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN), type, new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE));
     }
 
     getGrammar() { 
         return [
             { name: "open", types:[ Token ] },
             { name: "type", types:[ Type, undefined ] },
-            { name: "close", types:[ Token ] },
+            { name: "close", types:[ Token, undefined ] },
         ];
     }
 
     replace(original?: Node, replacement?: Node) { 
         return new ListType(
-            this.replaceChild("type", this.type, original, replacement),
             this.replaceChild("open", this.open, original, replacement),
+            this.replaceChild("type", this.type, original, replacement),
             this.replaceChild("close", this.close, original, replacement)
         ) as this; 
     }

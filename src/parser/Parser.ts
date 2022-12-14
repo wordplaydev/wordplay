@@ -1013,7 +1013,7 @@ function parseListType(tokens: Tokens): ListType {
     const open = tokens.read(TokenType.LIST_OPEN);
     const type = tokens.nextIsnt(TokenType.LIST_CLOSE) ? parseType(tokens) : undefined;
     const close = tokens.nextIs(TokenType.LIST_CLOSE) ? tokens.read(TokenType.LIST_CLOSE) : undefined;
-    return new ListType(type, open, close);    
+    return new ListType(open, type, close);    
 
 }
 

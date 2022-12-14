@@ -36,7 +36,7 @@ export default class NativeHOFMapFilter extends HOF {
         this.hofType = hofType;
     }
 
-    computeType(): Type { return new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)); }
+    computeType(): Type { return ListType.make(new NameType(LIST_TYPE_VAR_NAMES.eng)); }
 
     compile(): Step[] { 
         return [

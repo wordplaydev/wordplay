@@ -33,7 +33,7 @@ export default class NativeHOFListTranslate extends HOF {
         this.hofType = hofType;
     }
 
-    computeType(): Type { return new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)); }
+    computeType(): Type { return ListType.make(new NameType(LIST_TYPE_VAR_NAMES.eng)); }
 
     compile(): Step[] { 
         return [
@@ -60,7 +60,7 @@ export default class NativeHOFListTranslate extends HOF {
                     const list = evaluator.getCurrentEvaluation()?.getClosure();
                     // If the index is past the last index of the list, jump to the end.
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, MeasurementType.make(), index);
-                    else if(!(list instanceof List)) return new TypeException(evaluator, new ListType(), index);
+                    else if(!(list instanceof List)) return new TypeException(evaluator, ListType.make(), index);
                     else {
                         if(index.greaterThan(this, list.length(this)).bool)
                             evaluator.jump(1);
@@ -103,7 +103,7 @@ export default class NativeHOFListTranslate extends HOF {
                 const list = evaluator.resolve(LIST);
                 if(list instanceof List)
                     evaluator.bind(LIST, list.append(this, translatedValue));
-                else return new TypeException(evaluator, new ListType(), list);
+                else return new TypeException(evaluator, ListType.make(), list);
 
                 // Increment the counter
                 const index = evaluator.resolve(INDEX);

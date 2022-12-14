@@ -26,7 +26,7 @@ export function getPossibleTypes(node: Node, context: Context): Type[] {
         new BooleanType(),
         ...[ MeasurementType.make(), ... (project === undefined ? [] : getPossibleUnits(project).map(u => MeasurementType.make(u))) ],
         ...[ TextType.make(), ... (project === undefined ? [] : getPossibleLanguages(project).map(l => TextType.make(Language.make(l)))) ],
-        new ListType(new TypePlaceholder()),
+        ListType.make(new TypePlaceholder()),
         SetType.make(new TypePlaceholder()),
         MapType.make(new TypePlaceholder(), new TypePlaceholder()),
         // Any structure definition types that match the  aren't the currently selected one.

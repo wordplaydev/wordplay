@@ -35,7 +35,7 @@ export default class NativeHOFListMap extends HOF {
         this.hofType = hofType;
     }
 
-    computeType(): Type { return new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)); }
+    computeType(): Type { return ListType.make(new NameType(LIST_TYPE_VAR_NAMES.eng)); }
 
     compile(): Step[] { 
         return [
@@ -61,7 +61,7 @@ export default class NativeHOFListMap extends HOF {
                     const list = evaluator.getCurrentEvaluation()?.getClosure();
                     // If the index is past the last index of the list, jump to the end.
                     if(!(index instanceof Measurement)) return new TypeException(evaluator, MeasurementType.make(), index);
-                    else if(!(list instanceof List)) return new TypeException(evaluator, new ListType(), list);
+                    else if(!(list instanceof List)) return new TypeException(evaluator, ListType.make(), list);
                     else {
                         if(index.greaterThan(this, list.length(this)).bool)
                             evaluator.jump(1);
@@ -108,11 +108,11 @@ export default class NativeHOFListMap extends HOF {
                     // Get the list.
                     const list = evaluator.getCurrentEvaluation()?.getClosure();
                     if(!(list instanceof List))
-                        return new TypeException(evaluator, new ListType(), list);
+                        return new TypeException(evaluator, ListType.make(), list);
 
                     const newList = evaluator.resolve(LIST);
                     if(!(include instanceof Bool)) return new TypeException(evaluator, new BooleanType(), include);
-                    else if(!(newList instanceof List)) return new TypeException(evaluator, new ListType(), newList);
+                    else if(!(newList instanceof List)) return new TypeException(evaluator, ListType.make(), newList);
                     else {
                         // If the include decided yes, append the value.
                         if(include.bool) {

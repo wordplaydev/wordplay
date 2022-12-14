@@ -69,7 +69,7 @@ export default class List extends Primitive {
 
     append(requestor: Node, value: Value) { return new List(requestor, [ ...this.values, value ]); }
 
-    getType(context: Context) { return new ListType(getPossibleUnionType(context, this.values.map(v => v.getType(context)))); }
+    getType(context: Context) { return ListType.make(getPossibleUnionType(context, this.values.map(v => v.getType(context)))); }
 
     getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }
 

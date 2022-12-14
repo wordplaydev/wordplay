@@ -236,7 +236,7 @@ export default class Bind extends Expression {
                 // Account for variable length arguments
                 (
                     this.isVariableLength() ? 
-                    new ListType(this.type) : 
+                    ListType.make(this.type) : 
                     this.type
                 ) :
             // If the value is a structure definition, make a structure type.
