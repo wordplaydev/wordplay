@@ -1064,12 +1064,9 @@ function parseConversionType(left: Type, tokens: Tokens): ConversionType {
 }
 
 /** CUSTOM_TYPE :: DOCS? • ALIASES (•NAME)* TYPE_VARS ( BIND* ) BLOCK? */
-export function parseStructure(tokens: Tokens): StructureDefinition | UnparsableExpression {
+export function parseStructure(tokens: Tokens): StructureDefinition {
 
     const docs = parseDocumentation(tokens);
-
-    if(tokens.nextIsnt(TokenType.TYPE))
-        return new UnparsableExpression(tokens.readLine());
 
     const type = tokens.read(TokenType.TYPE);
 
@@ -1084,10 +1081,10 @@ export function parseStructure(tokens: Tokens): StructureDefinition | Unparsable
 
     const typeVars = parseTypeVariables(tokens);
 
-    const inputs: Bind[] = [];
-    let open = tokens.read(TokenType.EVAL_OPEN);
+    let open = tokens.nextIs(TokenType.EVAL_OPEN) ? tokens.read(TokenType.EVAL_OPEN) : undefined;
     let close;
 
+    const inputs: Bind[] = [];
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && nextIsBind(tokens, false))
         inputs.push(parseBind(tokens));
     

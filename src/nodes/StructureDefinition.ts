@@ -46,9 +46,9 @@ export default class StructureDefinition extends Expression {
     readonly names: Names;
     readonly interfaces: TypeInput[];
     readonly typeVars: TypeVariable[];
-    readonly open?: Token;
+    readonly open: Token | undefined;
     readonly inputs: Bind[];
-    readonly close?: Token;
+    readonly close: Token | undefined;
     readonly expression?: Block;
 
     constructor(
@@ -57,9 +57,9 @@ export default class StructureDefinition extends Expression {
         names: Names, 
         interfaces: TypeInput[], 
         typeVars: TypeVariable[],
-        open: Token, 
+        open: Token | undefined, 
         inputs: Bind[], 
-        close?: Token,
+        close: Token | undefined,
         block?: Block
     ) {
 
