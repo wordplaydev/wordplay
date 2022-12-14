@@ -1,10 +1,8 @@
 import { MAP_KEY_TYPE_VAR_NAMES, MAP_NATIVE_TYPE_NAME, MAP_VALUE_TYPE_VAR_NAMES } from "../native/NativeConstants";
-import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import NativeType from "./NativeType";
 import type Node from "./Node";
 import Token from "./Token";
-import TokenType from "./TokenType";
 import Type from "./Type";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
@@ -13,6 +11,10 @@ import TypePlaceholder from "./TypePlaceholder";
 import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import SetOpenToken from "./SetOpenToken";
+import SetCloseToken from "./SetCloseToken";
+import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
+import type Conflict from "../conflicts/Conflict";
 
 export default class MapType extends NativeType {
 
@@ -37,11 +39,11 @@ export default class MapType extends NativeType {
 
     static make(key?: Type, value?: Type) {
         return new MapType(
-            new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN),
+            new SetOpenToken(),
             key,
             new BindToken(),
             value,
-            new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE)
+            new SetCloseToken()
         );
     }
 
@@ -65,7 +67,13 @@ export default class MapType extends NativeType {
         ) as this; 
     }
 
-    computeConflicts() {}
+    computeConflicts(): Conflict[] {
+
+        if(this.close === undefined)
+            return [ new UnclosedDelimiter(this, this.open, new SetCloseToken()) ]
+        return [];
+
+    }
 
     accepts(type: Type, context: Context): boolean { 
         return  type instanceof MapType &&

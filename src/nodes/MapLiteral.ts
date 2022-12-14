@@ -18,14 +18,15 @@ import Halt from "../runtime/Halt";
 import AnyType from "./AnyType";
 import type Bind from "./Bind";
 import SemanticException from "../runtime/SemanticException";
-import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
-import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import BindToken from "./BindToken";
+import SetOpenToken from "./SetOpenToken";
+import SetCloseToken from "./SetCloseToken";
+import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
 
 export default class MapLiteral extends Expression {
 
@@ -48,10 +49,10 @@ export default class MapLiteral extends Expression {
 
     static make(values: KeyValue[]) {
         return new MapLiteral(
-            new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN),
+            new SetOpenToken(),
             values,
             values.length === 0 ? new BindToken() : undefined,
-            new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE)
+            new SetCloseToken()
         )
     }
 
@@ -82,7 +83,15 @@ export default class MapLiteral extends Expression {
 
     computeConflicts(): Conflict[] { 
     
-        return this.notAMap() ? [ new NotAMap(this) ] : [];
+        const conflicts: Conflict[] = [];
+
+        if(this.notAMap())
+            conflicts.push(new NotAMap(this));
+
+        if(this.close === undefined)
+            return [ new UnclosedDelimiter(this, this.open, new SetCloseToken()) ]
+
+        return conflicts;
     
     }
 

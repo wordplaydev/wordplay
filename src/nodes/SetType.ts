@@ -12,6 +12,8 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import SetOpenToken from "./SetOpenToken";
 import SetCloseToken from "./SetCloseToken";
+import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
+import type Conflict from "../conflicts/Conflict";
 
 export default class SetType extends NativeType {
 
@@ -50,7 +52,13 @@ export default class SetType extends NativeType {
         ) as this; 
     }
 
-    computeConflicts() {}
+    computeConflicts(): Conflict[] {
+
+        if(this.close === undefined)
+            return [ new UnclosedDelimiter(this, this.open, new SetCloseToken()) ]
+        return [];
+
+    }
 
     accepts(type: Type, context: Context): boolean { 
         // If they have one, then they must be compable, and if there is a value type, they must be compatible.

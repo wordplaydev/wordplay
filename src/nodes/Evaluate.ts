@@ -48,6 +48,7 @@ import type Names from "./Names";
 import NameException from "../runtime/NameException";
 import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
+import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
 
 export default class Evaluate extends Expression {
 
@@ -105,6 +106,9 @@ export default class Evaluate extends Expression {
     computeConflicts(context: Context): Conflict[] { 
     
         const conflicts = [];
+
+        if(this.close === undefined)
+            conflicts.push(new UnclosedDelimiter(this, this.open, new EvalCloseToken()));
 
         // Get the function this evaluate is trying to... evaluate.
         const fun = this.getFunction(context);

@@ -30,6 +30,7 @@ import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import { NotASetOrMap } from "../conflicts/NotASetOrMap";
+import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
 
 export default class SetOrMapAccess extends Expression {
 
@@ -84,6 +85,9 @@ export default class SetOrMapAccess extends Expression {
 
         if((setMapType instanceof SetType || setMapType instanceof MapType) && setMapType.key instanceof Type && !setMapType.key.accepts(keyType, context))
             conflicts.push(new IncompatibleKey(this, setMapType.key, keyType));
+
+        if(this.close === undefined)
+            return [ new UnclosedDelimiter(this, this.open, new SetCloseToken()) ]
 
         return conflicts;
     

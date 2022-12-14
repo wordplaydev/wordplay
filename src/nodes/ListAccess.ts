@@ -21,13 +21,14 @@ import Unit from "./Unit";
 import type Bind from "./Bind";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
-import TokenType from "./TokenType";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import { NotAList } from "../conflicts/NotAList";
+import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
+import ListOpenToken from "./ListOpenToken";
+import ListCloseToken from "./ListCloseToken";
 
 export default class ListAccess extends Expression {
     
@@ -50,10 +51,10 @@ export default class ListAccess extends Expression {
 
     static make(list: Expression, index: Expression) {
         return new ListAccess(
-            new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN),
+            new ListOpenToken(),
             list,
             index,
-            new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE)
+            new ListCloseToken()
         );
     }
 
@@ -78,6 +79,9 @@ export default class ListAccess extends Expression {
     computeConflicts(context: Context): Conflict[] { 
 
         const conflicts = [];
+
+        if(this.close === undefined)
+            conflicts.push(new UnclosedDelimiter(this, this.open, new ListCloseToken()));
 
         const listType = this.list.getTypeUnlessCycle(context);
         if(!(listType instanceof ListType))

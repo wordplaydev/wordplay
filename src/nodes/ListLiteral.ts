@@ -13,12 +13,14 @@ import type Context from "./Context";
 import { getPossibleUnionType, TypeSet } from "./UnionType";
 import type Bind from "./Bind";
 import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
-import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform"
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
+import type Conflict from "../conflicts/Conflict";
+import ListOpenToken from "./ListOpenToken";
+import ListCloseToken from "./ListCloseToken";
 
 export default class ListLiteral extends Expression {
 
@@ -39,9 +41,9 @@ export default class ListLiteral extends Expression {
 
     static make(values: Expression[]) {
         return new ListLiteral(
-            new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN),
+            new ListOpenToken(),
             values,
-            new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE)
+            new ListCloseToken()
         );
     }
 
@@ -72,7 +74,14 @@ export default class ListLiteral extends Expression {
         return ListType.make(itemType);
     }
 
-    computeConflicts() {}
+    computeConflicts(): Conflict[] {
+
+        if(this.close === undefined)
+            return [ new UnclosedDelimiter(this, this.open, new ListCloseToken()) ]
+
+        return [];
+
+    }
 
     getDependencies(): Expression[] {
         return [ ...this.values ];

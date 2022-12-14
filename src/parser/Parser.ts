@@ -131,7 +131,7 @@ export class Tokens {
 
     /** Returns true if the token list isn't empty. */
     hasNext(): boolean {
-        return this.#unread.length > 0;
+        return this.#unread.length > 0 && !this.#unread[0].is(TokenType.END);
     }
 
     /** Returns true if and only if the next token is the specified type. */

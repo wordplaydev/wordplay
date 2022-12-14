@@ -34,6 +34,7 @@ import Names from "./Names";
 import type Value from "../runtime/Value";
 import EvalCloseToken from "./EvalCloseToken";
 import EvalOpenToken from "./EvalOpenToken";
+import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
 
 export default class Block extends Expression {
 
@@ -109,6 +110,9 @@ export default class Block extends Expression {
             .slice(0, this.statements.length - 1)
             .filter(s => (s instanceof Expression && !(s instanceof StructureDefinition || s instanceof FunctionDefinition || s instanceof ConversionDefinition || s instanceof Bind)))
             .forEach(s => conflicts.push(new IgnoredExpression(s as Expression)));
+
+        if(this.open && this.close === undefined)
+            conflicts.push(new UnclosedDelimiter(this, this.open, new EvalCloseToken()));
 
         return conflicts;
         
