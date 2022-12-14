@@ -67,9 +67,11 @@
                     <VerseView {project} {verse} {interactive}/>
                 {/if}
             </div>
-            <div class="footer timeline">
-                <Timeline evaluator={project.evaluator} />
-            </div>
+            {#if source === project.main}
+                <div class="footer timeline">
+                    <Timeline evaluator={project.evaluator} />
+                </div>
+            {/if}
         </div>
     </div>
 </div>
