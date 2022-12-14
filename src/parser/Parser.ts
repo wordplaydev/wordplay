@@ -134,6 +134,10 @@ export class Tokens {
         return this.#unread.length > 0 && !this.#unread[0].is(TokenType.END);
     }
 
+    nextIsEnd(): boolean {
+        return this.#unread.length > 0 && this.#unread[0].is(TokenType.END);
+    }
+
     /** Returns true if and only if the next token is the specified type. */
     nextIs(type: TokenType): boolean {
         return this.hasNext() && this.peek()?.is(type) === true;
@@ -248,7 +252,7 @@ export function parseProgram(tokens: Tokens): Program {
 
     // If the next token is the end, we're done! Otherwise, read all of the remaining 
     // tokens and bundle them into an unparsable.
-    const end = tokens.nextIs(TokenType.END) ? tokens.read(TokenType.END) : undefined;
+    const end = tokens.nextIsEnd() ? tokens.read(TokenType.END) : undefined;
 
     return new Program(docs, borrows, block, end);
 
@@ -278,7 +282,7 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
             undefined;
 
     const statements = [];
-    while(tokens.hasNext() && tokens.nextIsnt(TokenType.END) && (root || tokens.nextIsnt(TokenType.EVAL_CLOSE)))
+    while(tokens.hasNext() && (root || tokens.nextIsnt(TokenType.EVAL_CLOSE)))
         statements.push(
             nextIsBind(tokens, true) ? parseBind(tokens) : parseExpression(tokens)
         );
