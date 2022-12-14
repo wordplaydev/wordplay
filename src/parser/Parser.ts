@@ -794,12 +794,9 @@ function parseReaction(initial: Expression, tokens: Tokens): Reaction {
 }
 
 /** FUNCTION :: DOCS? (ƒ | ALIASES) TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
-export function parseFunction(tokens: Tokens): FunctionDefinition | UnparsableExpression {
+export function parseFunction(tokens: Tokens): FunctionDefinition {
 
     const docs = parseDocumentation(tokens);
-
-    if(tokens.nextIsnt(TokenType.FUNCTION)) 
-        return new UnparsableExpression(docs ? [ docs ] : []);
 
     const fun = tokens.read(TokenType.FUNCTION);
 
@@ -807,9 +804,7 @@ export function parseFunction(tokens: Tokens): FunctionDefinition | UnparsableEx
 
     const typeVars = parseTypeVariables(tokens);
 
-    if(tokens.nextIsnt(TokenType.EVAL_OPEN))
-        return new UnparsableExpression([ ...(docs ? [ docs]: []), fun, ...(names ? [names] : []), ...typeVars ]);
-    const open = tokens.read(TokenType.EVAL_OPEN);
+    const open = tokens.nextIs(TokenType.EVAL_OPEN) ? tokens.read(TokenType.EVAL_OPEN) : undefined;
 
     const inputs: Bind[] = [];
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && nextIsBind(tokens, false))

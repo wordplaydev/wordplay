@@ -42,11 +42,11 @@ export default class FunctionDefinition extends Expression {
     readonly fun: Token;
     readonly names: Names;
     readonly typeVars: TypeVariable[];
-    readonly open: Token;
+    readonly open: Token | undefined;
     readonly inputs: Bind[];
-    readonly close?: Token;
-    readonly dot?: Token;
-    readonly output?: Type;
+    readonly close: Token | undefined;
+    readonly dot: Token | undefined;
+    readonly output: Type | undefined;
     readonly expression: Expression | Token;
 
     constructor(
@@ -54,7 +54,7 @@ export default class FunctionDefinition extends Expression {
         fun: Token,
         names: Names, 
         typeVars: TypeVariable[], 
-        open: Token,
+        open: Token | undefined,
         inputs: Bind[],
         close: Token | undefined, 
         dot: Token | undefined,
@@ -95,16 +95,16 @@ export default class FunctionDefinition extends Expression {
 
     getGrammar() { 
         return [
-            { name: "docs", types:[ Docs, undefined ] },
-            { name: "fun", types:[ Token ] },
-            { name: "names", types:[ Names ] },
-            { name: "typeVars", types:[[ TypeVariable ]] },
-            { name: "open", types:[ Token ] },
-            { name: "inputs", types:[[ Bind ]] },
-            { name: "close", types:[ Token, undefined] },
-            { name: "dot", types:[ Token, undefined ] },
-            { name: "output", types:[ Type, undefined ] },
-            { name: "expression", types:[ Expression, Token ] },
+            { name: "docs", types: [ Docs, undefined ] },
+            { name: "fun", types: [ Token ] },
+            { name: "names", types: [ Names ] },
+            { name: "typeVars", types: [[ TypeVariable ]] },
+            { name: "open", types: [ Token, undefined ] },
+            { name: "inputs", types: [[ Bind ]] },
+            { name: "close", types: [ Token, undefined] },
+            { name: "dot", types: [ Token, undefined ] },
+            { name: "output", types: [ Type, undefined ] },
+            { name: "expression", types: [ Expression, Token ] },
         ];
     }
 
