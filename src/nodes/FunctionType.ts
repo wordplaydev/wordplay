@@ -14,22 +14,22 @@ import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import FunctionDefinitionType from "./FunctionDefinitionType";
-import TypeVariable from "./TypeVariable";
+import TypeVariables from "./TypeVariables";
 
 export default class FunctionType extends Type {
 
     readonly fun: Token;
-    readonly typeVars: TypeVariable[];
+    readonly types: TypeVariables | undefined;
     readonly open: Token | undefined;
     readonly inputs: Bind[];
     readonly close: Token | undefined;
     readonly output: Type;
 
-    constructor(fun: Token, typeVars: TypeVariable[], open: Token | undefined, inputs: Bind[], close: Token | undefined, output: Type) {
+    constructor(fun: Token, types: TypeVariables | undefined, open: Token | undefined, inputs: Bind[], close: Token | undefined, output: Type) {
         super();
 
         this.fun = fun;
-        this.typeVars = typeVars;
+        this.types = types;
         this.open = open;
         this.inputs = inputs;
         this.close = close;
@@ -39,7 +39,7 @@ export default class FunctionType extends Type {
 
     }
 
-    static make(typeVars: TypeVariable[], inputs: Bind[], output: Type) {
+    static make(typeVars: TypeVariables | undefined, inputs: Bind[], output: Type) {
         return new FunctionType(
             new Token(FUNCTION_SYMBOL, TokenType.FUNCTION),
             typeVars,
@@ -53,7 +53,7 @@ export default class FunctionType extends Type {
     getGrammar() { 
         return [
             { name: "fun", types: [ Token ] },
-            { name: "typeVars", types: [ [ TypeVariable] ] },
+            { name: "types", types: [ [ TypeVariables] ] },
             { name: "open", types: [ Token, undefined ] },
             { name: "inputs", types: [[ Bind ]] },
             { name: "close", types: [ Token, undefined ] },
@@ -64,7 +64,7 @@ export default class FunctionType extends Type {
     replace(original?: Node, replacement?: Node) { 
         return new FunctionType(
             this.replaceChild("fun", this.fun, original, replacement),
-            this.replaceChild("typeVars", this.typeVars, original, replacement),
+            this.replaceChild("types", this.types, original, replacement),
             this.replaceChild("open", this.open, original, replacement),
             this.replaceChild("inputs", this.inputs, original, replacement),
             this.replaceChild("close", this.close, original, replacement),
@@ -78,7 +78,6 @@ export default class FunctionType extends Type {
         let outputToCheck = type instanceof FunctionDefinitionType ? type.fun.getOutputType(context) : type.output;
 
         if(!(outputToCheck instanceof Type)) return false;
-        console.log(this.output.toWordplay());
         if(!this.output.accepts(outputToCheck, context)) return false;
         if(this.inputs.length != inputsToCheck.length) return false;
         for(let i = 0; i < this.inputs.length; i++) {

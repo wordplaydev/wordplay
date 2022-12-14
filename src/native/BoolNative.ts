@@ -25,7 +25,7 @@ export default function bootstrapBool() {
         return FunctionDefinition.make(
             docs, 
             names,
-            [],
+            undefined,
             [ Bind.make(
                 {
                     eng: WRITE,
@@ -63,7 +63,7 @@ export default function bootstrapBool() {
             "😀": `${TRANSLATE}bool`
         }, 
         [], 
-        [], 
+        undefined, 
         [],
         new Block([
             createBooleanFunction(
@@ -97,7 +97,7 @@ export default function bootstrapBool() {
                     eng: "not",
                     "😀": NOT_SYMBOL
                 }, 
-                [], 
+                undefined, 
                 [],
                 new NativeExpression(
                     new BooleanType(), 

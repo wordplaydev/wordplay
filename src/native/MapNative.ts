@@ -6,7 +6,6 @@ import FunctionType from "../nodes/FunctionType";
 import MapType from "../nodes/MapType";
 import NameType from "../nodes/NameType";
 import StructureDefinition from "../nodes/StructureDefinition";
-import TypeVariable from "../nodes/TypeVariable";
 import List from "../runtime/List";
 import Text from "../runtime/Text";
 import Map from "../runtime/Map";
@@ -19,6 +18,7 @@ import { createNativeConversion, createNativeFunction } from "./NativeBindings";
 import Bool from "../runtime/Bool";
 import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
 import type Node from "../nodes/Node";
+import TypeVariables from "../nodes/TypeVariables";
 
 export default function bootstrapMap() {
 
@@ -27,7 +27,7 @@ export default function bootstrapMap() {
         "😀": `${TRANSLATE}Out`
     }
 
-    const mapFilterHOFType = FunctionType.make([], [ 
+    const mapFilterHOFType = FunctionType.make(undefined, [ 
         Bind.make(
             {
                 eng: WRITE,
@@ -52,7 +52,7 @@ export default function bootstrapMap() {
         )
     ], new BooleanType());
 
-    const mapTranslateHOFType = FunctionType.make([], [ 
+    const mapTranslateHOFType = FunctionType.make(undefined, [ 
         Bind.make(
             {
                 eng: WRITE,
@@ -89,7 +89,7 @@ export default function bootstrapMap() {
         // No interfaces
         [],
         // One type variable
-        [ new TypeVariable(MAP_KEY_TYPE_VAR_NAMES), new TypeVariable(MAP_VALUE_TYPE_VAR_NAMES)],
+        TypeVariables.make([ MAP_KEY_TYPE_VAR_NAMES, MAP_VALUE_TYPE_VAR_NAMES]),
         // No inputs
         [],
         // Include all of the functions defined above.
@@ -103,7 +103,7 @@ export default function bootstrapMap() {
                     eng: "equals",
                     "😀": "="
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     WRITE_DOCS, 
                     {
@@ -130,7 +130,7 @@ export default function bootstrapMap() {
                     eng: "not-equal",
                     "😀": "≠"
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     {
                         eng: WRITE,
@@ -160,7 +160,7 @@ export default function bootstrapMap() {
                     eng: "set",
                     "😀": `${TRANSLATE}set`
                 },
-                [], 
+                undefined, 
                 [ 
                     Bind.make(
                         {
@@ -203,7 +203,7 @@ export default function bootstrapMap() {
                     eng: "unset",
                     "😀": `${TRANSLATE}unset`
                 },
-                [], 
+                undefined, 
                 [ 
                     Bind.make(
                         {
@@ -234,7 +234,7 @@ export default function bootstrapMap() {
                     eng: "remove",
                     "😀": `${TRANSLATE}remove`
                 },
-                [], 
+                undefined, 
                 [ 
                     Bind.make(
                         {
@@ -265,7 +265,7 @@ export default function bootstrapMap() {
                     eng: "filter",
                     "😀": WRITE
                 },
-                [], 
+                undefined, 
                 [
                     Bind.make(
                         {
@@ -291,9 +291,7 @@ export default function bootstrapMap() {
                     eng: "translate",
                     "😀": WRITE
                 },
-                [
-                    new TypeVariable(MAP_HOF_OUTPUT_NAMES)
-                ], 
+                TypeVariables.make([ MAP_HOF_OUTPUT_NAMES]),
                 [
                     Bind.make(
                         {

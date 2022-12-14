@@ -1,7 +1,4 @@
 import Node from "./Node";
-import Token from "./Token";
-import TokenType from "./TokenType";
-import { TYPE_VAR_SYMBOL } from "../parser/Tokenizer";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Names from "./Names";
@@ -9,22 +6,25 @@ import type LanguageCode from "./LanguageCode";
 
 export default class TypeVariable extends Node {
 
-    readonly type: Token;
     readonly names: Names;
 
-    constructor(names: Names | Translations, type?: Token) {
+    constructor(names: Names) {
         super();
 
-        this.type = type ?? new Token(TYPE_VAR_SYMBOL, TokenType.TYPE_VAR);
-        this.names = names instanceof Names ? names : Names.make(names);
+        this.names = names;
 
         this.computeChildren();
 
     }
 
+    static make(names: Translations) {
+        return new TypeVariable(
+            Names.make(names),
+        );
+    }
+
     getGrammar() { 
         return [
-            { name: "type", types:[ Token ] },
             { name: "names", types:[ Names ] },
         ];
     }
@@ -32,7 +32,6 @@ export default class TypeVariable extends Node {
     replace(original?: Node, replacement?: Node) { 
         return new TypeVariable(
             this.replaceChild("names", this.names, original, replacement), 
-            this.replaceChild("type", this.type, original, replacement)
         ) as this; 
     }
 

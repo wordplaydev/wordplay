@@ -25,7 +25,6 @@ import NoneType from "../nodes/NoneType";
 import TextType from "../nodes/TextType";
 import ListType from "../nodes/ListType";
 import FunctionType from "../nodes/FunctionType";
-import TypeVariable from "../nodes/TypeVariable";
 import KeyValue from "../nodes/KeyValue";
 import ListAccess from "../nodes/ListAccess";
 import Conditional from "../nodes/Conditional";
@@ -60,7 +59,7 @@ import MapLiteral from "../nodes/MapLiteral";
 import SetLiteral from "../nodes/SetLiteral";
 import MapType from "../nodes/MapType";
 import SetType from "../nodes/SetType";
-import TypeInput from "../nodes/TypeInput";
+import TypeInputs from "../nodes/TypeInputs";
 import This from "../nodes/This";
 import ConversionType from "../nodes/ConversionType";
 import Dimension from "../nodes/Dimension";
@@ -70,6 +69,8 @@ import UnparsableType from "../nodes/UnparsableType";
 import UnparsableExpression from "../nodes/UnparsableExpression";
 import type Spaces from "./Spaces";
 import DocumentedExpression from "../nodes/DocumentedExpression";
+import TypeVariables from "../nodes/TypeVariables";
+import TypeVariable from "../nodes/TypeVariable";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -194,7 +195,9 @@ export class Tokens {
     read(expectedType?: TokenType): Token {
         const next = this.#unread.shift();
         if(next !== undefined) {
-            if(expectedType !== undefined && !next.is(expectedType)) throw new Error("Internal parsing error; expected " + TokenType[expectedType] + ", received " + next.toString());
+            if(expectedType !== undefined && !next.is(expectedType)) {
+                throw new Error(`Internal parsing error at ${this.#read.slice(this.#read.length - 10, this.#read.length).map(t => t.toWordplay()).join("")} *** ${this.#unread.slice(0, 10).map(t => t.toWordplay()).join("")}; expected ${TokenType[expectedType]}, received ${next.toString()}`);
+            }
             this.#read.push(next);
             return next;
         }
@@ -306,6 +309,24 @@ function nextAreOptionalDocsThen(tokens: Tokens, type: TokenType): boolean {
 
     // It's a bind if it has a name and a bind symbol.
     return nextIsType;
+
+}
+
+function nextIsEvaluate(tokens: Tokens): boolean {
+
+    if(!tokens.nextLacksPrecedingSpace()) return false;
+
+    const rollbackToken = tokens.peek();
+    if(rollbackToken === undefined) return false;
+
+    if(tokens.nextIs(TokenType.TYPE_OPEN))
+        parseTypeInputs(tokens);
+
+    const nextIsEval = tokens.nextIs(TokenType.EVAL_OPEN);
+
+    tokens.unreadTo(rollbackToken);
+
+    return nextIsEval;
 
 }
 
@@ -479,7 +500,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             left = parseSetOrMapAccess(left, tokens);
         else if(tokens.nextIs(TokenType.PREVIOUS))
             left = parsePrevious(left, tokens);
-        else if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
+        else if(nextIsEvaluate(tokens))
             left = parseEvaluate(left, tokens);
         else if(tokens.nextIs(TokenType.CONVERT))
             left = parseConvert(left, tokens);
@@ -502,9 +523,8 @@ function parseAtomicExpression(tokens: Tokens): Expression {
 function parseReference(tokens: Tokens): Reference {
 
     const name = tokens.read(TokenType.NAME);
-    const types = parseTypeInputs(tokens);
     
-    return new Reference(name, types);
+    return new Reference(name);
 
 }
 
@@ -627,7 +647,7 @@ function parseListAccess(left: Expression, tokens: Tokens): Expression {
         left = new ListAccess(open, left, index, close);
 
         // But wait, is it a function evaluation?
-        if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
+        if(nextIsEvaluate(tokens) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
 
     } while(tokens.nextIs(TokenType.LIST_OPEN));
@@ -679,7 +699,7 @@ function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression {
         left = new SetOrMapAccess(left, open, key, close);
 
         // But wait, is it a function evaluation?
-        if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
+        if(nextIsEvaluate(tokens) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
 
     } while(tokens.hasNext() && tokens.nextIs(TokenType.SET_OPEN));
@@ -797,7 +817,7 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
 
     const names = parseNames(tokens);
 
-    const typeVars = parseTypeVariables(tokens);
+    const types = tokens.nextIs(TokenType.TYPE_OPEN) ? parseTypeVariables(tokens) : undefined;
 
     const open = tokens.nextIs(TokenType.EVAL_OPEN) ? tokens.read(TokenType.EVAL_OPEN) : undefined;
 
@@ -816,23 +836,25 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
 
     const expression = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : parseExpression(tokens);
 
-    return new FunctionDefinition(docs, fun, names, typeVars, open, inputs, close, dot, output, expression);
+    return new FunctionDefinition(docs, fun, names, types, open, inputs, close, dot, output, expression);
 
 }
 
-/** EVAL :: EXPRESSION (∘TYPE)* (EXPRESSION*) */
+/** EVAL :: EXPRESSION (<TYPE*>)? (EXPRESSION*) */
 function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
+    
+    const types = tokens.nextIs(TokenType.TYPE_OPEN) ? parseTypeInputs(tokens) : undefined;
 
     const open = tokens.read(TokenType.EVAL_OPEN);
     const inputs: Expression[] = [];
-    
+
     // This little peek at space just prevents runaway parsing. It uses space to make an assumption that everything below isn't part of the evaluate.
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && !tokens.nextHasMoreThanOneLineBreak())
         inputs.push(nextIsBind(tokens, true) ? parseBind(tokens) : parseExpression(tokens));
     
     let close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;
     
-    return new Evaluate(left, inputs, open, close);
+    return new Evaluate(left, types, open, inputs, close);
 
 }
 
@@ -859,28 +881,26 @@ function parseConvert(expression: Expression, tokens: Tokens): Convert {
 
 }
 
-/** TYPE_VARS :: (∘NAME)* */
-function parseTypeVariables(tokens: Tokens): TypeVariable[] {
+/** TYPE_VARS :: <NAMES*> */
+function parseTypeVariables(tokens: Tokens): TypeVariables {
 
-    const vars = [];
-    while(tokens.nextIs(TokenType.TYPE_VAR)) {
-        const type = tokens.read(TokenType.TYPE_VAR);
-        const names = parseNames(tokens);
-        vars.push(new TypeVariable(names, type));
-    }
-    return vars;
+    const open = tokens.read(TokenType.TYPE_OPEN);
+    const variables: TypeVariable[] = [];
+    while(tokens.hasNext() && tokens.nextIs(TokenType.NAME))
+        variables.push(new TypeVariable(parseNames(tokens)));
+    const close = tokens.nextIs(TokenType.TYPE_CLOSE) ? tokens.read(TokenType.TYPE_CLOSE) : undefined;
+    return new TypeVariables(open, variables, close);
 
 }
 
-function parseTypeInputs(tokens: Tokens): TypeInput[] {
+function parseTypeInputs(tokens: Tokens): TypeInputs {
 
-    const inputs: TypeInput[] = [];
-    while(tokens.nextIs(TokenType.TYPE_VAR)) {
-        const dot = tokens.read(TokenType.TYPE_VAR);
-        const type = parseType(tokens);
-        inputs.push(new TypeInput(dot, type));
-    }
-    return inputs;
+    const open = tokens.read(TokenType.TYPE_OPEN);
+    const inputs: Type[] = [];
+    while(tokens.hasNext() && tokens.nextIsnt(TokenType.TYPE_CLOSE) && !tokens.nextHasPrecedingLineBreak())
+        inputs.push(parseType(tokens));
+    const close = tokens.nextIs(TokenType.TYPE_CLOSE) ? tokens.read(TokenType.TYPE_CLOSE) : undefined;
+    return new TypeInputs(open, inputs, close);
 
 }
 
@@ -898,10 +918,10 @@ function parseAccess(left: Expression, tokens: Tokens): Expression {
                     tokens.nextIs(TokenType.UNARY_OP) ? tokens.read(TokenType.UNARY_OP) :
                     tokens.read(TokenType.BINARY_OP);
 
-        left = new PropertyReference(left, access, name ? new Reference(name, []) : undefined);
+        left = new PropertyReference(left, access, name ? new Reference(name) : undefined);
 
         // But wait, is it a function evaluation?
-        if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_VAR) && tokens.nextLacksPrecedingSpace())
+        if(tokens.nextIsOneOf(TokenType.EVAL_OPEN, TokenType.TYPE_OPEN) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
 
     } while(tokens.nextIs(TokenType.ACCESS));
@@ -914,7 +934,7 @@ function parseAccess(left: Expression, tokens: Tokens): Expression {
 export function parseType(tokens: Tokens, isExpression:boolean=false): Type {
     let left: Type = (
         tokens.nextIs(TokenType.PLACEHOLDER) ? new TypePlaceholder(tokens.read(TokenType.PLACEHOLDER)) :
-        tokens.nextIs(TokenType.NAME) ? new NameType(tokens.read(TokenType.NAME)) :
+        tokens.nextIs(TokenType.NAME) ? parseNameType(tokens) :
         tokens.nextIs(TokenType.BOOLEAN_TYPE) ? new BooleanType(tokens.read(TokenType.BOOLEAN_TYPE)) :
         (tokens.peekText() === "%" || tokens.nextIsOneOf(TokenType.NUMBER, TokenType.NUMBER_TYPE)) ? parseMeasurementType(tokens) :
         tokens.nextIs(TokenType.TEXT) ? parseTextType(tokens) :
@@ -936,6 +956,14 @@ export function parseType(tokens: Tokens, isExpression:boolean=false): Type {
     }
     
     return left;
+
+}
+
+function parseNameType(tokens: Tokens): NameType {
+
+    const name = tokens.read(TokenType.NAME);
+    const types = tokens.nextIs(TokenType.TYPE_OPEN) ? parseTypeInputs(tokens) : undefined;
+    return new NameType(name, types);
 
 }
 
@@ -1025,7 +1053,7 @@ function parseFunctionType(tokens: Tokens): FunctionType {
 
     const fun = tokens.read(TokenType.FUNCTION);
 
-    const typeVars = parseTypeVariables(tokens);
+    const typeVars = tokens.nextIs(TokenType.TYPE_OPEN) ? parseTypeVariables(tokens) : undefined;
 
     const open = tokens.nextIs(TokenType.EVAL_OPEN) ? tokens.read(TokenType.EVAL_OPEN) : undefined;
 
@@ -1051,36 +1079,26 @@ function parseConversionType(left: Type, tokens: Tokens): ConversionType {
 
 }
 
-/** CUSTOM_TYPE :: DOCS? • ALIASES (•NAME)* TYPE_VARS ( BIND* ) BLOCK? */
+/** CUSTOM_TYPE :: DOCS? •NAMES (•NAME)* TYPE_VARS ( BIND* ) BLOCK? */
 export function parseStructure(tokens: Tokens): StructureDefinition {
 
     const docs = parseDocumentation(tokens);
-
     const type = tokens.read(TokenType.TYPE);
-
     const names = parseNames(tokens);
+    
+    const interfaces: Reference[] = [];
+    while(tokens.nextIs(TokenType.NAME))
+        interfaces.push(parseReference(tokens));
 
-    const interfaces: TypeInput[] = [];
-    while(tokens.nextIs(TokenType.TYPE)) {
-        const dot = tokens.read(TokenType.TYPE);
-        const name = tokens.nextIs(TokenType.NAME) ? tokens.read(TokenType.NAME) : undefined;
-        interfaces.push(new TypeInput(dot, name ? new NameType(name) : new UnparsableType([])));
-    }
-
-    const typeVars = parseTypeVariables(tokens);
-
-    let open = tokens.nextIs(TokenType.EVAL_OPEN) ? tokens.read(TokenType.EVAL_OPEN) : undefined;
-    let close;
-
+    const types = tokens.nextIs(TokenType.TYPE_OPEN) ? parseTypeVariables(tokens) : undefined;
+    const open = tokens.nextIs(TokenType.EVAL_OPEN) ? tokens.read(TokenType.EVAL_OPEN) : undefined;
     const inputs: Bind[] = [];
     while(tokens.nextIsnt(TokenType.EVAL_CLOSE) && nextIsBind(tokens, false))
         inputs.push(parseBind(tokens));
-    
-    close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;
-
+    const close = tokens.nextIs(TokenType.EVAL_CLOSE) ? tokens.read(TokenType.EVAL_CLOSE) : undefined;
     const block = nextAreOptionalDocsThen(tokens, TokenType.EVAL_OPEN) ? parseBlock(tokens, false, true) : undefined;
 
-    return new StructureDefinition(docs, type, names, interfaces, typeVars, open, inputs, close, block);
+    return new StructureDefinition(docs, type, names, interfaces, types, open, inputs, close, block);
 
 }
 

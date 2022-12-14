@@ -20,7 +20,7 @@ import type Node from "../nodes/Node";
 export default function bootstrapText() {
 
     function createTextFunction(docs: Translations, names: Translations, inputs: Bind[], output: Type, expression: (requestor: Node, text: Text, evaluation: Evaluation) => Value) {
-        return createNativeFunction(docs, names, [], inputs, output,
+        return createNativeFunction(docs, names, undefined, inputs, output,
             (requestor, evaluation) => {
                 const text = evaluation.getClosure();
                 if(text instanceof Text) return expression(requestor, text, evaluation);
@@ -35,7 +35,7 @@ export default function bootstrapText() {
             eng: "text",
             "😀": "''"
         }, 
-        [], [], [],
+        [], undefined, [],
         new Block([ 
             createTextFunction(
                 {

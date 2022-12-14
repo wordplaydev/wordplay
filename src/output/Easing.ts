@@ -40,7 +40,7 @@ export const elastic = toFunction(`
     ƒ elastic/eng(x/eng•#) 
         x = 0 ? 0 
         x = 1 ? 1 
-            ((2 ^ (-10 · x)) · (((x · 10) - 0.75) · ((2 · π) ÷ 3)).sin()) + 1;
+            ((2 ^ (-10 · x)) · (((x · 10) - 0.75) · ((2 · π) ÷ 3)).sin()) + 1
 `);
 
 export const erratic = toFunction(`

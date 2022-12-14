@@ -3,7 +3,6 @@ import TokenType from "../nodes/TokenType";
 import TokenList from "./TokenList";
 
 export const TYPE_SYMBOL = "•";
-export const TYPE_VAR_SYMBOL = "∘";
 export const BOOLEAN_TYPE_SYMBOL = "?";
 export const TABLE_OPEN_SYMBOL = "|";
 export const TABLE_CLOSE_SYMBOL = "||";
@@ -16,6 +15,8 @@ export const LIST_OPEN_SYMBOL = "[";
 export const LIST_CLOSE_SYMBOL = "]";
 export const SET_OPEN_SYMBOL = "{";
 export const SET_CLOSE_SYMBOL = "}";
+export const TYPE_OPEN_SYMBOL = "⸨";
+export const TYPE_CLOSE_SYMBOL = "⸩";
 export const BIND_SYMBOL = ":";
 export const NAME_SEPARATOR_SYMBOL = ",";
 export const MEASUREMENT_SYMBOL = "#";
@@ -48,6 +49,8 @@ const RESERVED_SYMBOLS = [
     LIST_CLOSE_SYMBOL,
     SET_OPEN_SYMBOL,
     SET_CLOSE_SYMBOL,
+    TYPE_OPEN_SYMBOL,
+    TYPE_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
     BIND_SYMBOL,
     PROPERTY_SYMBOL,
@@ -58,7 +61,6 @@ const RESERVED_SYMBOLS = [
     DOCS_SYMBOL,
     NONE_SYMBOL,
     TYPE_SYMBOL,
-    TYPE_VAR_SYMBOL,
     REACTION_SYMBOL,
     PREVIOUS_SYMBOL,
     CONVERT_SYMBOL,
@@ -74,9 +76,9 @@ const RESERVED_SYMBOLS = [
 
 const TEXT_SEPARATORS = "'‘’\"“”„«»‹›「」『』";
 const UNARY_OPERATORS = "¬-";
-const BINARY_OEPRATORS = '+\\-×·÷%^<≤=≠≥>∧∨~\?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F';
+const BINARY_OPERATORS = '+\\-×·÷%^<≤=≠≥>∧∨~\?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F';
 
-export const BinaryOpRegEx = new RegExp(`^[${BINARY_OEPRATORS}]`, "u");
+export const BinaryOpRegEx = new RegExp(`^[${BINARY_OPERATORS}]`, "u");
 
 function escapeRegexCharacter(c: string) { return /[\\\/\(\)\[\]\{\}]/.test(c) ? "\\" + c : c }
 
@@ -91,8 +93,8 @@ const patterns = [
     { pattern: "|+", types: [ TokenType.INSERT] },
     { pattern: "|-", types: [ TokenType.DELETE] },  
     { pattern: "|:", types: [ TokenType.UPDATE] },
-    { pattern: TABLE_CLOSE_SYMBOL, types: [ TokenType.TABLE_CLOSE] },
-    { pattern: TABLE_OPEN_SYMBOL, types: [ TokenType.TABLE_OPEN] },
+    { pattern: TABLE_CLOSE_SYMBOL, types: [ TokenType.TABLE_CLOSE ] },
+    { pattern: TABLE_OPEN_SYMBOL, types: [ TokenType.TABLE_OPEN ] },
     { pattern: BIND_SYMBOL, types: [ TokenType.BIND ] },
     { pattern: FUNCTION_SYMBOL, types: [ TokenType.FUNCTION ] },
     { pattern: BORROW_SYMBOL, types: [ TokenType.BORROW ] },
@@ -102,7 +104,8 @@ const patterns = [
     { pattern: new RegExp(`^${DOCS_SYMBOL}.*?${DOCS_SYMBOL}`), types: [ TokenType.DOCS ] },
     { pattern: NONE_SYMBOL, types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
     { pattern: TYPE_SYMBOL, types: [ TokenType.TYPE, TokenType.TYPE_OP, TokenType.UNION ] },
-    { pattern: TYPE_VAR_SYMBOL, types: [ TokenType.TYPE_VAR ] },
+    { pattern: TYPE_OPEN_SYMBOL, types: [ TokenType.TYPE_OPEN ] },
+    { pattern: TYPE_CLOSE_SYMBOL, types: [ TokenType.TYPE_CLOSE ] },
     { pattern: REACTION_SYMBOL, types: [ TokenType.REACTION, TokenType.STREAM_TYPE ] },
     { pattern: PREVIOUS_SYMBOL, types: [ TokenType.PREVIOUS ] },
     { pattern: PLACEHOLDER_SYMBOL, types: [ TokenType.PLACEHOLDER ] },
@@ -164,7 +167,7 @@ const patterns = [
     { pattern: BinaryOpRegEx, types: [ TokenType.BINARY_OP ] },
     // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
     { 
-        pattern: new RegExp(`^[^\n\t ${RESERVED_SYMBOLS.map(s => escapeRegexCharacter(s)).join("")}${TEXT_SEPARATORS}${BINARY_OEPRATORS}]+`, "u"), 
+        pattern: new RegExp(`^[^\n\t ${RESERVED_SYMBOLS.map(s => escapeRegexCharacter(s)).join("")}${TEXT_SEPARATORS}${BINARY_OPERATORS}]+`, "u"), 
         types: [ TokenType.NAME ] 
     }
 ];
@@ -187,6 +190,7 @@ export const DELIMITERS: Record<string,string> = {};
 DELIMITERS[EVAL_OPEN_SYMBOL] = EVAL_CLOSE_SYMBOL;
 DELIMITERS[LIST_OPEN_SYMBOL] = LIST_CLOSE_SYMBOL;
 DELIMITERS[SET_OPEN_SYMBOL] = SET_CLOSE_SYMBOL;
+DELIMITERS[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
 // Add the text delimiters.
 for(const [open, close] of Object.entries(TEXT_DELIMITERS))
     DELIMITERS[open] = close;

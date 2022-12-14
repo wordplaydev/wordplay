@@ -22,7 +22,7 @@ export default function bootstrapNone() {
         return FunctionDefinition.make(
             docs,
             names,
-            [],
+            undefined,
             [ Bind.make(
                 {
                     eng: WRITE,
@@ -62,7 +62,9 @@ export default function bootstrapNone() {
             eng: "none",
             "😀": TRANSLATE
         }, 
-        [], [], [],
+        [], 
+        undefined, 
+        [],
         new Block([ 
             createNativeConversion(WRITE_DOCS, NONE_SYMBOL, "''", (requestor, val: None) => new Text(requestor, val.toString())),
             createNativeNoneFunction(

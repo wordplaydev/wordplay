@@ -23,8 +23,11 @@ function checkNativeNodes(nodes: Node[]) {
     const unparsables = nodes.reduce((unparsables: (UnparsableExpression|UnparsableType)[], def) => [ ... unparsables, ...(def.nodes(n => n instanceof UnparsableExpression || n instanceof UnparsableType) as (UnparsableExpression|UnparsableType)[])], []);
 
     if(unparsables.length > 0)
-        for(const unparsable of unparsables)
-            console.log(`${unparsable.toWordplay()}`);
+        for(const unparsable of unparsables) {
+            const def = nodes.find(node => node.contains(unparsable));
+            console.log(`Syntax error: ${unparsable.toWordplay()}n\n\n in ${def?.toWordplay()}`);
+
+        }
 
     expect(unparsables).toHaveLength(0);
 

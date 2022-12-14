@@ -24,13 +24,13 @@ import NativeHOFListTranslate from "./NativeHOFListTranslate";
 import NativeHOFListUntil from "./NativeHOFListUntil";
 import Set from "../runtime/Set";
 import StructureDefinition from "../nodes/StructureDefinition";
-import TypeVariable from "../nodes/TypeVariable";
 import Block from "../nodes/Block";
 import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
 import type Translations from "../nodes/Translations";
 import type Node from "../nodes/Node";
 import Measurement from "../runtime/Measurement";
 import type Evaluation from "../runtime/Evaluation";
+import TypeVariables from "../nodes/TypeVariables";
 
 export default function bootstrapList() {
 
@@ -39,7 +39,7 @@ export default function bootstrapList() {
         "😀": `${TRANSLATE}Out`
     };
 
-    const listTranslateHOFType = FunctionType.make([], [ 
+    const listTranslateHOFType = FunctionType.make(undefined, [ 
         Bind.make(
             WRITE_DOCS,
             {
@@ -50,7 +50,7 @@ export default function bootstrapList() {
         )
     ], new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME.eng));
 
-    const listFilterHOFType = FunctionType.make([], [ 
+    const listFilterHOFType = FunctionType.make(undefined, [ 
         Bind.make(
             WRITE_DOCS, 
             {
@@ -61,7 +61,7 @@ export default function bootstrapList() {
         )
     ], new BooleanType());
 
-    const listAllHOFType = FunctionType.make([], [ 
+    const listAllHOFType = FunctionType.make(undefined, [ 
         Bind.make(
             WRITE_DOCS,
             {
@@ -73,7 +73,7 @@ export default function bootstrapList() {
     ], new BooleanType());
 
 
-    const listUntilHOFType = FunctionType.make([], [ 
+    const listUntilHOFType = FunctionType.make(undefined, [ 
         Bind.make(
             WRITE_DOCS,
             {
@@ -85,7 +85,7 @@ export default function bootstrapList() {
     ], new NameType(LIST_TYPE_VAR_NAMES.eng));
 
 
-    const listFindHOFType = FunctionType.make([], [ 
+    const listFindHOFType = FunctionType.make(undefined, [ 
         Bind.make(
             WRITE_DOCS,
             {
@@ -97,7 +97,7 @@ export default function bootstrapList() {
     ], new NameType(LIST_TYPE_VAR_NAMES.eng));
 
 
-    const listCombineHOFType = FunctionType.make([], [ 
+    const listCombineHOFType = FunctionType.make(undefined, [ 
         Bind.make(
             WRITE_DOCS,
             {
@@ -123,7 +123,7 @@ export default function bootstrapList() {
             "😀": `${TRANSLATE}list`
         },
         [],
-        [ new TypeVariable(LIST_TYPE_VAR_NAMES)],
+        TypeVariables.make([ LIST_TYPE_VAR_NAMES]),
         [],
         // Include all of the functions defined above.
         new Block([
@@ -133,7 +133,7 @@ export default function bootstrapList() {
                     eng: "add",
                     "😀": "+"
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     WRITE_DOCS, 
                     {
@@ -156,7 +156,7 @@ export default function bootstrapList() {
                     eng: "length",
                     "😀": `${TRANSLATE}length`
                 }, 
-                [], 
+                undefined, 
                 [], 
                 MeasurementType.make(),
                 (requestor, evaluation) => {
@@ -171,7 +171,7 @@ export default function bootstrapList() {
                     eng: "random",
                     "😀": `${TRANSLATE}random`
                 }, 
-                [], 
+                undefined, 
                 [],
                 new NameType(LIST_TYPE_VAR_NAMES.eng),
                 (_, evaluation) => {
@@ -190,7 +190,7 @@ export default function bootstrapList() {
                     eng: "first",
                     "😀": `${TRANSLATE}first`
                 }, 
-                [], 
+                undefined, 
                 [], 
                 new NameType(LIST_TYPE_VAR_NAMES.eng),
                 (requestor, evaluation) => {
@@ -206,7 +206,7 @@ export default function bootstrapList() {
                     eng: "has",
                     "😀": `${TRANSLATE}has`
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     WRITE_DOCS, 
                     {
@@ -217,7 +217,7 @@ export default function bootstrapList() {
                 ) ], 
                 new BooleanType(),
                 (requestor, evaluation) => {
-                    const list = evaluation.getClosure();
+                    const list: Value | Evaluation | undefined = evaluation.getClosure();
                     const value = evaluation.resolve("value");
                     if(list instanceof List && value !== undefined) return list.has(requestor, value);
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
@@ -229,7 +229,7 @@ export default function bootstrapList() {
                     eng: "join",
                     "😀": `${TRANSLATE}join`
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     WRITE_DOCS, 
                     {
@@ -252,7 +252,7 @@ export default function bootstrapList() {
                     eng: "last",
                     "😀": `${TRANSLATE}last`
                 }, 
-                [], 
+                undefined, 
                 [], 
                 new NameType(LIST_TYPE_VAR_NAMES.eng),
                 (requestor, evaluation) => {
@@ -268,11 +268,11 @@ export default function bootstrapList() {
                     eng: "sansFirst",
                     "😀": `${TRANSLATE}sansFirst`
                 }, 
-                [], 
+                undefined, 
                 [], 
                 new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
-                    const list = evaluation.getClosure();
+                    const list: Value | Evaluation | undefined = evaluation.getClosure();
                     if(list instanceof List) return list.sansFirst(requestor);
                     else return new TypeException(evaluation.getEvaluator(), new ListType(), list);
                 }
@@ -283,7 +283,7 @@ export default function bootstrapList() {
                     eng: "sansLast",
                     "😀": `${TRANSLATE}sansLast`
                 }, 
-                [], 
+                undefined, 
                 [], 
                 new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
@@ -298,7 +298,7 @@ export default function bootstrapList() {
                     eng: "sans",
                     "😀": `${TRANSLATE}sans`
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     WRITE_DOCS, 
                     {
@@ -321,7 +321,7 @@ export default function bootstrapList() {
                     eng: "sansAll",
                     "😀": `${TRANSLATE}sansAll`
                 },
-                [], 
+                undefined, 
                 [ Bind.make(
                     WRITE_DOCS,
                     {
@@ -344,7 +344,7 @@ export default function bootstrapList() {
                     eng: "reverse",
                     "😀": `${TRANSLATE}reverse`
                 }, 
-                [], 
+                undefined, 
                 [], 
                 new ListType(new NameType(LIST_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
@@ -359,7 +359,7 @@ export default function bootstrapList() {
                     eng: "equals",
                     "😀": "="
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     WRITE_DOCS, 
                     {
@@ -389,7 +389,7 @@ export default function bootstrapList() {
                     eng: "not-equal",
                     "😀": "≠"
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     WRITE_DOCS, 
                     {
@@ -419,7 +419,7 @@ export default function bootstrapList() {
                     eng: "translate",
                     "😀": `${TRANSLATE}translate`
                 }, 
-                [ new TypeVariable(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME)], 
+                TypeVariables.make([ LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME ]), 
                 [ Bind.make(
                     WRITE_DOCS, 
                     {
@@ -437,7 +437,7 @@ export default function bootstrapList() {
                     eng: "filter",
                     "😀": `${TRANSLATE}filter`
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     WRITE_DOCS, 
                     {
@@ -455,7 +455,7 @@ export default function bootstrapList() {
                     eng: "all",
                     "😀": `${TRANSLATE}all`
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     WRITE_DOCS, 
                     {
@@ -473,7 +473,7 @@ export default function bootstrapList() {
                     eng: "until",
                     "😀": `${TRANSLATE}until`
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     WRITE_DOCS, 
                     {
@@ -491,7 +491,7 @@ export default function bootstrapList() {
                     eng: "find",
                     "😀": `${TRANSLATE}find`
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     WRITE_DOCS, 
                     {
@@ -509,7 +509,7 @@ export default function bootstrapList() {
                     eng: "combine",
                     "😀": `${TRANSLATE}combine`
                 }, 
-                [ new TypeVariable(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME) ], 
+                TypeVariables.make([ LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME ]), 
                 [
                     Bind.make(
                         WRITE_DOCS, 

@@ -9,7 +9,7 @@ import Place from "./Place";
 import Decimal from "decimal.js";
 
 export const RowType = toStructure(`
-    •Row/eng,${TRANSLATE}Row/😀•Group(
+    •Row/eng,${TRANSLATE}Row/😀 Group(
         …phrases/eng,${TRANSLATE}phrases/😀•Group
     )
 `);

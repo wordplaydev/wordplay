@@ -11,7 +11,7 @@ const Key = StructureDefinition.make(
         "😀": TRANSLATE
     },
     [],
-    [],
+    undefined,
     [
         Bind.make(
             WRITE_DOCS,

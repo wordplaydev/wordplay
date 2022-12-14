@@ -26,7 +26,7 @@ import List from "../runtime/List";
 import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
 import PropertyReference from "./PropertyReference";
-import TypeInput from "./TypeInput";
+import TypeInputs from "./TypeInputs";
 import { getEvaluationInputConflicts } from "./util";
 import ListType from "./ListType";
 import type { TypeSet } from "./UnionType";
@@ -52,15 +52,17 @@ import EvalCloseToken from "./EvalCloseToken";
 export default class Evaluate extends Expression {
 
     readonly func: Expression;
+    readonly types: TypeInputs | undefined;
     readonly open: Token;
     readonly inputs: Expression[];
     readonly close?: Token;
 
-    constructor(func: Expression, inputs: Expression[], open: Token, close?: Token) {
+    constructor(func: Expression, types: TypeInputs | undefined, open: Token, inputs: Expression[], close?: Token) {
         super();
 
         this.open = open;
         this.func = func;
+        this.types = types;
         // Inputs must have space between them if they have adjacent names.
         this.inputs = inputs;
         this.close = close;
@@ -70,13 +72,13 @@ export default class Evaluate extends Expression {
     }
 
     static make(func: Expression, inputs: Expression[]) {
-        return new Evaluate(func, inputs, new EvalOpenToken(), new EvalCloseToken());
+        return new Evaluate(func, undefined, new EvalOpenToken(), inputs, new EvalCloseToken());
     }
 
     getGrammar() { 
         return [
             { name: "func", types:[ Expression ] },
-            { name: "typeInputs", types:[[ TypeInput ]] },
+            { name: "types", types:[ TypeInputs, undefined ] },
             { name: "open", types:[ Token ] },
             { name: "inputs", types:[[ Expression ]] },
             { name: "close", types:[ Token, undefined ] },
@@ -86,8 +88,9 @@ export default class Evaluate extends Expression {
     replace(original?: Node, replacement?: Node) { 
         return new Evaluate(
             this.replaceChild("func", this.func, original, replacement), 
-            this.replaceChild<Expression[]>("inputs", this.inputs, original, replacement),
             this.replaceChild("open", this.open, original, replacement), 
+            this.replaceChild("types", this.types, original, replacement), 
+            this.replaceChild<Expression[]>("inputs", this.inputs, original, replacement),
             this.replaceChild("close", this.close, original, replacement)
         ) as this;
     }
@@ -252,14 +255,9 @@ export default class Evaluate extends Expression {
     
     }
 
-    getTypeInputs(): TypeInput[] {
-
+    getTypeInputs(): TypeInputs | undefined {
         // Find any type inputs provided to this by seeing if there's a Reference on the tail end of the function expression.
-        if(this.func instanceof Reference) {
-            return this.func.types;
-        }
-        return [];
-
+        return this.types;
     }
 
     getFunction(context: Context) {
@@ -619,6 +617,5 @@ export default class Evaluate extends Expression {
             eng: "Now that we have the inputs and the function, we can start evaluating the function."
         }
     }
-
 
 }

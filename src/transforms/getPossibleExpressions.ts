@@ -62,8 +62,8 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
         ListLiteral.make([]),
         SetLiteral.make([]),
         MapLiteral.make([ new KeyValue(new ExpressionPlaceholder(), new ExpressionPlaceholder())]),
-        FunctionDefinition.make(undefined, new Names([ Name.make() ]), [], [], new ExpressionPlaceholder()),
-        StructureDefinition.make(undefined, new Names([ Name.make() ]), [], [], []),
+        FunctionDefinition.make(undefined, new Names([ Name.make() ]), undefined, [], new ExpressionPlaceholder()),
+        StructureDefinition.make(undefined, new Names([ Name.make() ]), [], undefined, []),
         ConversionDefinition.make(undefined, new TypePlaceholder(), new TypePlaceholder(), new ExpressionPlaceholder()),
         new Reaction(new ExpressionPlaceholder(), new ExpressionPlaceholder(), new ExpressionPlaceholder()),
         Previous.make(new ExpressionPlaceholder(), new ExpressionPlaceholder())

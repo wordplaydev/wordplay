@@ -11,7 +11,7 @@ import NameType from "./NameType";
 import PropertyReference from "./PropertyReference";
 import StructureDefinition from "./StructureDefinition";
 import StructureType from "./StructureType";
-import Type from "./Type";
+import type Type from "./Type";
 import TypeVariable from "./TypeVariable";
 import type UnaryOperation from "./UnaryOperation";
 import UnknownType from "./UnknownType";
@@ -104,14 +104,14 @@ function getConcreteTypeVariable(type: NameType, definition: FunctionDefinition 
     
     // First, the easy case: let's see if the evaluate has a type input that defines this type variable.  see if the type for the type variable was provided explicitly in the evaluation.
     // What is the index of the type variable in the definition?
-    const typeVarIndex = definition.typeVars.findIndex(v => v === typeVariable);
-    if(evaluation instanceof Evaluate) {
+    const typeVarIndex = definition.types?.variables.findIndex(v => v === typeVariable);
+    if(typeVarIndex && evaluation instanceof Evaluate) {
         const typeInputs = evaluation.getTypeInputs();
-        if(typeVarIndex >= 0 && typeVarIndex < typeInputs.length) {
-            const typeInput = typeInputs[typeVarIndex];
+        if(typeVarIndex >= 0 && typeInputs && typeVarIndex < typeInputs.types.length) {
+            const typeInput = typeInputs.types[typeVarIndex];
             // If it was parsable, we have a type, yay!
-            if(typeInput.type instanceof Type)
-                return typeInput.type;
+            if(typeInput)
+                return typeInput;
         }
     }
     

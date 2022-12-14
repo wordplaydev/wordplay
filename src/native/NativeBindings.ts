@@ -4,7 +4,6 @@ import NativeExpression from "./NativeExpression";
 import type Context from "../nodes/Context";
 import type Type from "../nodes/Type";
 import ConversionDefinition from "../nodes/ConversionDefinition";
-import type TypeVariable from "../nodes/TypeVariable";
 import type Bind from "../nodes/Bind";
 import Value from "../runtime/Value";
 import type Evaluation from "../runtime/Evaluation";
@@ -24,6 +23,7 @@ import { TRANSLATE } from "../nodes/Translations";
 import type Translations from "../nodes/Translations";
 import type Node from "../nodes/Node";
 import Tree from "../nodes/Tree";
+import type TypeVariables from "../nodes/TypeVariables";
 
 export class NativeBindings implements NativeInterface {
 
@@ -105,7 +105,7 @@ export class NativeBindings implements NativeInterface {
 export function createNativeFunction(
     docs: Translations, 
     aliases: Translations, 
-    typeVars: TypeVariable[], 
+    typeVars: TypeVariables | undefined, 
     inputs: Bind[], 
     output: Type,
     evaluator: (requestor: Node, evaluator: Evaluation) => Value) {

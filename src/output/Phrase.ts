@@ -23,7 +23,7 @@ import { toSequence, type SequenceKind } from "./Sequence";
 import type Animation from "./Animation";
 
 export const PhraseType = toStructure(`
-    •Phrase/eng,💬/😀•Group(
+    •Phrase/eng,💬/😀 Group(
         text/eng,✍︎/😀•""•[""]
         size/eng,${TRANSLATE}size/😀•#m: 1m
         font/eng,🔡/😀•${SupportedFontsType}•ø: ø

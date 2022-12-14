@@ -35,7 +35,7 @@ export function testTypes(code: string, typeExpected: Function) {
         const type = last.getType(new Context(project, source));
         const match = type instanceof typeExpected;
         if(!match)
-            console.log(`Expression's type is ${type.constructor.name}`);
+            console.log(`Type of expression ${last.toWordplay()} is ${type.constructor.name}`);
         expect(match).toBe(true);
     }
     else {

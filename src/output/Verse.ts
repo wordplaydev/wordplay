@@ -17,7 +17,7 @@ import List from "../runtime/List";
 const BACKSET = -12;
 
 export const VerseType = toStructure(`
-    •Verse/eng,🌎/😀•Group(
+    •Verse/eng,🌎/😀 Group(
         groups/eng,${TRANSLATE}groups/😀•Group•[Group]
         font/eng,${TRANSLATE}font/😀•${SupportedFontsType}: "Noto Sans"
         foreground/eng,${TRANSLATE}fore/😀•Color: Color(0 0 0°)

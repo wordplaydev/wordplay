@@ -199,8 +199,8 @@ export default class Block extends Expression {
 
     getInsertions() {
         const bind = Bind.make(undefined, new Names([ Name.make() ]), undefined, new ExpressionPlaceholder());
-        const type = FunctionDefinition.make(undefined, new Names([ Name.make() ]), [], [], new ExpressionPlaceholder());
-        const fun = StructureDefinition.make(undefined, new Names([ Name.make() ]), [], [], []);
+        const type = FunctionDefinition.make(undefined, new Names([ Name.make() ]), undefined, [], new ExpressionPlaceholder());
+        const fun = StructureDefinition.make(undefined, new Names([ Name.make() ]), [], undefined, []);
         return [ 
             bind, 
             fun, 

@@ -1,6 +1,6 @@
 import type Caret from "../../models/Caret";
 import Node from "../../nodes/Node";
-import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBOL, NOT_SYMBOL, OR_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL, REACTION_SYMBOL, TRUE_SYMBOL, TYPE_SYMBOL, TYPE_VAR_SYMBOL, PREVIOUS_SYMBOL } from "../../parser/Tokenizer";
+import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBOL, NOT_SYMBOL, OR_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL, REACTION_SYMBOL, TRUE_SYMBOL, TYPE_SYMBOL, PREVIOUS_SYMBOL, TYPE_OPEN_SYMBOL, TYPE_CLOSE_SYMBOL } from "../../parser/Tokenizer";
 import type Source from "../../models/Source";
 import Evaluator, { Mode } from "../../runtime/Evaluator";
 
@@ -134,6 +134,24 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.insert(SHARE_SYMBOL)
     },
     {
+        description: `Insert type open symbol (${TYPE_OPEN_SYMBOL})`,
+        shift: true, control: true, key: "Digit9",
+        mode: Mode.PLAY,
+        execute: (caret: Caret) => caret.insert(TYPE_OPEN_SYMBOL)
+    },
+    {
+        description: `Insert type close symbol (${TYPE_CLOSE_SYMBOL})`,
+        shift: true, control: true, key: "Digit0",
+        mode: Mode.PLAY,
+        execute: (caret: Caret) => caret.insert(TYPE_CLOSE_SYMBOL)
+    },
+    {
+        description: `Insert share (${SHARE_SYMBOL})`,
+        alt: true, key: "ArrowUp",
+        mode: Mode.PLAY,
+        execute: (caret: Caret) => caret.insert(SHARE_SYMBOL)
+    },
+    {
         description: `Insert infinity symbol (∞)`,
         alt: true, key: "Digit5",
         mode: Mode.PLAY,
@@ -164,20 +182,14 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.insert(TYPE_SYMBOL)
     },
     {
-        description: `Insert type symbol (${TYPE_VAR_SYMBOL})`,
-        shift: true, alt: true, key: "Digit8",
-        mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(TYPE_VAR_SYMBOL)
-    },
-    {
         description: `Insert true symbol (${TRUE_SYMBOL})`,
-        alt: true, key: "Digit9",
+        shift: false, control: false, alt: true, key: "Digit9",
         mode: Mode.PLAY,
         execute: (caret: Caret) => caret.insert(TRUE_SYMBOL)
     },
     {
         description: `Insert false symbol (${FALSE_SYMBOL})`,
-        alt: true, key: "Digit0",
+        shift: false, control: false, alt: true, key: "Digit0",
         mode: Mode.PLAY,
         execute: (caret: Caret) => caret.insert(FALSE_SYMBOL)
     },

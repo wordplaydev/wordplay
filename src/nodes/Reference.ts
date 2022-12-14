@@ -33,44 +33,39 @@ import { TRANSLATE } from "./Translations"
 import Stream from "../runtime/Stream";
 import StartFinish from "../runtime/StartFinish";
 import StreamType from "./StreamType";
-import TypeInput from "./TypeInput";
 
 export default class Reference extends Expression {
     
     readonly name: Token;
-    readonly types: TypeInput[];
 
     /**
      * A cache of the possible types this name might have at this point in the program.
      */
     _unionTypes: Type | undefined;
 
-    constructor(name: Token, types: TypeInput[]) {
+    constructor(name: Token) {
 
         super();
 
         this.name = name;
-        this.types = types ?? [];
 
         this.computeChildren();
 
     }
 
     static make(name: string) {
-        return new Reference(new NameToken(name), []);
+        return new Reference(new NameToken(name));
     }
 
     getGrammar() { 
         return [
-            { name: "name", types:[ Token ] },
-            { name: "types", types:[ [ TypeInput ] ] },
+            { name: "name", types:[ Token ] }
         ]; 
     }
 
     replace(original?: Node, replacement?: Node) { 
         return new Reference(
-            this.replaceChild("name", this.name, original, replacement),
-            this.replaceChild("types", this.types, original, replacement)
+            this.replaceChild("name", this.name, original, replacement)
         ) as this;
     }
 
@@ -112,6 +107,10 @@ export default class Reference extends Expression {
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
         return context.get(this)?.getBindingScope()?.getDefinitionOfName(this.getName(), context, this);
 
+    }
+
+    refersTo(context: Context, def: StructureDefinition) {
+        return this.getDefinition(context) === def;
     }
 
     computeType(context: Context): Type {

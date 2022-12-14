@@ -9,7 +9,7 @@ import Place from "./Place";
 import Decimal from "decimal.js";
 
 export const StackType = toStructure(`
-    •Stack/eng,⬇/😀•Group(
+    •Stack/eng,⬇/😀 Group(
         …phrases/eng,${TRANSLATE}phrases/😀•Group
     )
 `);

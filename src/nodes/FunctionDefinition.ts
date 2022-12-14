@@ -4,9 +4,9 @@ import Expression from "./Expression";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import TypeVariable from "./TypeVariable";
+import TypeVariable from "./TypeVariables";
 import type Conflict from "../conflicts/Conflict";
-import { typeVarsAreUnique, getEvaluationInputConflicts } from "./util";
+import { getEvaluationInputConflicts } from "./util";
 import type Evaluator from "../runtime/Evaluator";
 import FunctionValue from "../runtime/FunctionValue";
 import type Step from "../runtime/Step";
@@ -35,13 +35,14 @@ import FunctionDefinitionType from "./FunctionDefinitionType";
 import UnknownType from "./UnknownType";
 import type Value from "../runtime/Value";
 import StartFinish from "../runtime/StartFinish";
+import type TypeVariables from "./TypeVariables";
 
 export default class FunctionDefinition extends Expression {
 
     readonly docs?: Docs;
     readonly fun: Token;
     readonly names: Names;
-    readonly typeVars: TypeVariable[];
+    readonly types: TypeVariables | undefined;
     readonly open: Token | undefined;
     readonly inputs: Bind[];
     readonly close: Token | undefined;
@@ -53,7 +54,7 @@ export default class FunctionDefinition extends Expression {
         docs: Docs | undefined, 
         fun: Token,
         names: Names, 
-        typeVars: TypeVariable[], 
+        types: TypeVariables | undefined, 
         open: Token | undefined,
         inputs: Bind[],
         close: Token | undefined, 
@@ -66,7 +67,7 @@ export default class FunctionDefinition extends Expression {
         this.docs = docs;
         this.names = names;
         this.fun = fun;
-        this.typeVars = typeVars;
+        this.types = types;
         this.open = open;
         this.inputs = inputs;
         this.close = close;
@@ -78,12 +79,12 @@ export default class FunctionDefinition extends Expression {
 
     }
 
-    static make(docs: Translations | undefined, names: Translations | Names, typeVars: TypeVariable[], inputs: Bind[], expression: Expression | Token, output?: Type) {
+    static make(docs: Translations | undefined, names: Translations | Names, types: TypeVariables | undefined, inputs: Bind[], expression: Expression | Token, output?: Type) {
         return new FunctionDefinition(
             docs ? new Docs(docs) : undefined,
             new Token(FUNCTION_SYMBOL, TokenType.FUNCTION),
             names instanceof Names ? names : Names.make(names),
-            typeVars,
+            types,
             new EvalOpenToken(),
             inputs,
             new EvalCloseToken(),
@@ -98,7 +99,7 @@ export default class FunctionDefinition extends Expression {
             { name: "docs", types: [ Docs, undefined ] },
             { name: "fun", types: [ Token ] },
             { name: "names", types: [ Names ] },
-            { name: "typeVars", types: [[ TypeVariable ]] },
+            { name: "types", types: [[ TypeVariable ]] },
             { name: "open", types: [ Token, undefined ] },
             { name: "inputs", types: [[ Bind ]] },
             { name: "close", types: [ Token, undefined] },
@@ -120,7 +121,7 @@ export default class FunctionDefinition extends Expression {
             this.replaceChild("docs", this.docs, original, replacement), 
             this.replaceChild("fun", this.fun, original, replacement), 
             this.replaceChild<Names>("names", this.names, original, replacement),
-            this.replaceChild("typeVars", this.typeVars, original, replacement), 
+            this.replaceChild("types", this.types, original, replacement), 
             this.replaceChild("open", this.open, original, replacement), 
             this.replaceChild("inputs", this.inputs, original, replacement), 
             this.replaceChild("close", this.close, original, replacement),
@@ -164,10 +165,6 @@ export default class FunctionDefinition extends Expression {
 
         let conflicts: Conflict[] = [];
         
-        // Type variables must have unique names.
-        const duplicateTypeVars = typeVarsAreUnique(this.typeVars);
-        if(duplicateTypeVars) conflicts.push(duplicateTypeVars);
-
         // Make sure the inputs are valid.
         conflicts = conflicts.concat(getEvaluationInputConflicts(this.inputs));
 
@@ -180,7 +177,7 @@ export default class FunctionDefinition extends Expression {
         // Does an input delare the name that isn't the one asking?
         return [ 
             ... this.inputs.filter(i => i instanceof Bind && i !== node) as Bind[], 
-            ... this.typeVars.filter(t => t instanceof TypeVariable) as TypeVariable[]
+            ... (this.types ? this.types.variables : [])
         ];
         
     }
@@ -273,10 +270,7 @@ export default class FunctionDefinition extends Expression {
     getInsertionAfter(): Transform[] | undefined { return []; }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if( this.typeVars.includes(child as TypeVariable) || 
-            this.inputs.includes(child as Bind))
-            return new Remove(context, this, child);
-        else if(child === this.output && this.dot) return new Remove(context, this, this.dot, this.output);
+        if(child === this.output && this.dot) return new Remove(context, this, this.dot, this.output);
         else if(child === this.expression) return new Replace(context, child, new ExpressionPlaceholder());    
     }
 

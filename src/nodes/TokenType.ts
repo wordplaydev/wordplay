@@ -16,7 +16,8 @@ enum TokenType {
     NONE,
     TYPE,
     TYPE_OP,
-    TYPE_VAR,
+    TYPE_OPEN,
+    TYPE_CLOSE,
     NAME_SEPARATOR,
     LANGUAGE,
     BOOLEAN_TYPE,
@@ -45,8 +46,6 @@ enum TokenType {
     UNARY_OP,
     BINARY_OP,
     CONDITIONAL,
-
-
 
     // Also supports escapes with \to encode various characters
     // The trailing text at the end encodes the format.

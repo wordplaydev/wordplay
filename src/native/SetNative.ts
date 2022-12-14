@@ -6,7 +6,6 @@ import FunctionType from "../nodes/FunctionType";
 import NameType from "../nodes/NameType";
 import SetType from "../nodes/SetType";
 import StructureDefinition from "../nodes/StructureDefinition";
-import TypeVariable from "../nodes/TypeVariable";
 import List from "../runtime/List";
 import Text from "../runtime/Text";
 import Set from "../runtime/Set";
@@ -19,10 +18,11 @@ import { TRANSLATE, WRITE, WRITE_DOCS } from "../nodes/Translations";
 import type Node from "../nodes/Node";
 import type Value from "../runtime/Value";
 import type Evaluation from "../runtime/Evaluation";
+import TypeVariables from "../nodes/TypeVariables";
 
 export default function bootstrapSet() {
 
-    const setFilterHOFType = FunctionType.make([], [ 
+    const setFilterHOFType = FunctionType.make(undefined, [ 
         Bind.make(
             WRITE_DOCS,
             {
@@ -45,7 +45,7 @@ export default function bootstrapSet() {
         // No interfaces
         [],
         // One type variable
-        [ new TypeVariable(SET_TYPE_VAR_NAMES)],
+        TypeVariables.make([ SET_TYPE_VAR_NAMES]),
         // No inputs
         [],
         // Include all of the functions defined above.
@@ -59,7 +59,7 @@ export default function bootstrapSet() {
                     eng: "equals",
                     "😀": "="
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     {
                         eng: WRITE,
@@ -89,7 +89,7 @@ export default function bootstrapSet() {
                     eng: "not-equal",
                     "😀": "≠"
                 },
-                [], 
+                undefined, 
                 [ Bind.make(
                     {
                         eng: WRITE,
@@ -119,7 +119,7 @@ export default function bootstrapSet() {
                     eng: "add",
                     "😀": "+"
                 },
-                [],
+                undefined,
                 [ Bind.make(
                     {
                         eng: WRITE,
@@ -148,7 +148,7 @@ export default function bootstrapSet() {
                     eng: "remove",
                     "😀": "-"
                 },
-                [], 
+                undefined, 
                 [ Bind.make(
                     {
                         eng: WRITE,
@@ -177,7 +177,7 @@ export default function bootstrapSet() {
                     eng: "union",
                     "😀": "∪"
                 },
-                [], 
+                undefined, 
                 [ Bind.make(
                     {
                         eng: WRITE,
@@ -206,7 +206,7 @@ export default function bootstrapSet() {
                     eng: "intersection",
                     "😀": "∩"
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     {
                         eng: WRITE,
@@ -234,7 +234,7 @@ export default function bootstrapSet() {
                     eng: "difference",
                     "😀": TRANSLATE
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     {
                         eng: WRITE,
@@ -262,7 +262,7 @@ export default function bootstrapSet() {
                     eng: "filter",
                     "😀": TRANSLATE
                 }, 
-                [], 
+                undefined, 
                 [ Bind.make(
                     {
                         eng: WRITE,

@@ -51,6 +51,7 @@ import MapType from "../nodes/MapType";
 import { NONE_SYMBOL, PLACEHOLDER_SYMBOL } from "./Tokenizer";
 import UnparsableType from "../nodes/UnparsableType";
 import DocumentedExpression from "../nodes/DocumentedExpression";
+import TypeInputs from "../nodes/TypeInputs";
 
 test("Parse programs", () => {
 
@@ -143,10 +144,6 @@ test("Parse expressions", () => {
 
     const name = parseExpression(toTokens("boomy"));
     expect(name).toBeInstanceOf(Reference);
-
-    const nameWithTypeInputs = parseExpression(toTokens("boomy∘Hungry"));
-    expect(nameWithTypeInputs).toBeInstanceOf(Reference);
-    expect((nameWithTypeInputs as Reference).types).toHaveLength(1);
 
     const bool = parseExpression(toTokens("⊤"));
     expect(bool).toBeInstanceOf(BooleanLiteral);
@@ -279,8 +276,8 @@ test("Parse expressions", () => {
     const withMultipleDocs = parseExpression(toTokens("`Number one`/eng `Numero uno`/spa ƒ(a b) a = b"));
     expect(withMultipleDocs).toBeInstanceOf(FunctionDefinition);
     expect((withMultipleDocs as FunctionDefinition).docs?.docs).toHaveLength(2);
-
-    const withTypeVariables = parseExpression(toTokens("ƒ∘T(a: T b: T) a + b"));
+    
+    const withTypeVariables = parseExpression(toTokens("ƒ⸨T⸩(a: T b: T) a + b"));
     expect(withTypeVariables).toBeInstanceOf(FunctionDefinition);
 
     const evaluate = parseExpression(toTokens("a()"));
@@ -295,16 +292,16 @@ test("Parse expressions", () => {
     expect(evaluateWithNamedInputs).toBeInstanceOf(Evaluate);
     expect((evaluateWithNamedInputs as Evaluate).inputs).toHaveLength(2);
 
-    const evaluateWithTypeVars = parseExpression(toTokens("a∘Cat(b c)"));
+    const evaluateWithTypeVars = parseExpression(toTokens("a⸨Cat⸩(b c)"));
     expect(evaluateWithTypeVars).toBeInstanceOf(Evaluate);
-    expect((evaluateWithTypeVars as Evaluate).func).toBeInstanceOf(Reference);
-    expect(((evaluateWithTypeVars as Evaluate).func as Reference).types).toHaveLength(1);
+    expect((evaluateWithTypeVars as Evaluate).types).toBeInstanceOf(TypeInputs);
+    expect(((evaluateWithTypeVars as Evaluate).types as TypeInputs).types).toHaveLength(1);
 
-    const evaluateWithMultipleTypeVars = parseExpression(toTokens("a∘Cat∘#(b c)"));
+    const evaluateWithMultipleTypeVars = parseExpression(toTokens("a⸨Cat #⸩(b c)"));
     expect(evaluateWithMultipleTypeVars).toBeInstanceOf(Evaluate);
-    expect((evaluateWithMultipleTypeVars as Evaluate).func).toBeInstanceOf(Reference);
-    expect(((evaluateWithMultipleTypeVars as Evaluate).func as Reference).types).toHaveLength(2);
-
+    expect((evaluateWithMultipleTypeVars as Evaluate).types).toBeInstanceOf(TypeInputs);
+    expect(((evaluateWithMultipleTypeVars as Evaluate).types as TypeInputs).types).toHaveLength(2);
+    
     const conversion = parseExpression(toTokens("→ # '' meow()"));
     expect(conversion).toBeInstanceOf(ConversionDefinition);
 
@@ -320,18 +317,18 @@ test("Parse expressions", () => {
     expect((structureDef as StructureDefinition).inputs).toHaveLength(1);
     expect(((structureDef as StructureDefinition).expression as Block).statements).toHaveLength(1);
 
-    const structureDefWithInterface = parseExpression(toTokens("•Cat •Mammal(species•'') ( meow: ƒ() say(species) )"))
+    const structureDefWithInterface = parseExpression(toTokens("•Cat Mammal(species•'') ( meow: ƒ() say(species) )"))
     expect(structureDefWithInterface).toBeInstanceOf(StructureDefinition);
     expect((structureDefWithInterface as StructureDefinition).interfaces).toHaveLength(1);
 
-    const structureDefWithTypeVariables = parseExpression(toTokens("•Cat∘Breed/eng,🐈/😀(species•'') ( meow: ƒ() say(species) )"))
+    const structureDefWithTypeVariables = parseExpression(toTokens("•Cat,🐈/😀⸨Breed⸩(species•'') ( meow: ƒ() say(species) )"))
     expect(structureDefWithTypeVariables).toBeInstanceOf(StructureDefinition);
-    expect((structureDefWithTypeVariables as StructureDefinition).typeVars).toHaveLength(1);
+    expect((structureDefWithTypeVariables as StructureDefinition).types?.variables).toHaveLength(1);
 
-    const structureDefWithInterfaceAndTypeVariables = parseExpression(toTokens("•Cat •Mammal ∘S(species•'') ( meow: ƒ() say(species) )"))
+    const structureDefWithInterfaceAndTypeVariables = parseExpression(toTokens("•Cat Mammal⸨S⸩(species•'') ( meow: ƒ() say(species) )"))
     expect(structureDefWithInterfaceAndTypeVariables).toBeInstanceOf(StructureDefinition);
     expect((structureDefWithInterfaceAndTypeVariables as StructureDefinition).interfaces).toHaveLength(1);
-    expect((structureDefWithInterfaceAndTypeVariables as StructureDefinition).typeVars).toHaveLength(1);
+    expect((structureDefWithInterfaceAndTypeVariables as StructureDefinition).types?.variables).toHaveLength(1);
 
     const access = parseExpression(toTokens("a.b.c()[d]{f}"));
     expect(access).toBeInstanceOf(SetOrMapAccess);
@@ -414,8 +411,8 @@ test("Types", () => {
     expect(parseType(toTokens("ƒ(# #) #"))).toBeInstanceOf(FunctionType);
     expect(parseType(toTokens("ƒ(a•# b•#) #"))).toBeInstanceOf(FunctionType);
     expect(parseType(toTokens("ƒ(…a•#) #"))).toBeInstanceOf(FunctionType);
-    expect(parseType(toTokens("ƒ∘Species(…a•#) #"))).toBeInstanceOf(FunctionType);
-    expect(parseType(toTokens("ƒ∘Species∘Category(…a•#) #"))).toBeInstanceOf(FunctionType);
+    expect(parseType(toTokens("ƒ<Species>(…a•#) #"))).toBeInstanceOf(FunctionType);
+    expect(parseType(toTokens("ƒ<Species Category>(…a•#) #"))).toBeInstanceOf(FunctionType);
 
     const stream = parseType(toTokens("∆#"));
     expect(stream).toBeInstanceOf(StreamType);

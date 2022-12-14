@@ -1,12 +1,11 @@
 import type Node from "./Node";
 import Bind from "./Bind";
 import Expression from "./Expression";
-import TypeVariable from "./TypeVariable";
 import type Conflict from "../conflicts/Conflict";
 import Type from "./Type";
 import Block from "./Block";
 import FunctionDefinition from "./FunctionDefinition";
-import { typeVarsAreUnique, getEvaluationInputConflicts } from "./util";
+import { getEvaluationInputConflicts } from "./util";
 import ConversionDefinition from "./ConversionDefinition";
 import type Evaluator from "../runtime/Evaluator";
 import type Step from "../runtime/Step";
@@ -16,36 +15,32 @@ import type Definition from "./Definition";
 import StructureType from "./StructureType";
 import Token from "./Token";
 import FunctionType from "./FunctionType";
-import NameType from "./NameType";
-import TypeInput from "./TypeInput";
 import type { TypeSet } from "./UnionType";
 import { Unimplemented } from "../conflicts/Unimplemented";
 import { Implemented } from "../conflicts/Implemented";
 import { DisallowedInputs } from "../conflicts/DisallowedInputs";
 import ContextException, { StackSize } from "../runtime/ContextException";
 import type Transform from "../transforms/Transform"
-import TypePlaceholder from "./TypePlaceholder";
 import type LanguageCode from "./LanguageCode";
-import Append from "../transforms/Append";
-import Replace from "../transforms/Replace";
 import TypeToken from "./TypeToken";
 import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
-import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { overrideWithDocs, TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
 import type Value from "../runtime/Value";
 import StartFinish from "../runtime/StartFinish";
+import TypeVariables from "./TypeVariables";
+import Reference from "./Reference";
 
 export default class StructureDefinition extends Expression {
 
     readonly docs: Docs | undefined;
     readonly type: Token;
     readonly names: Names;
-    readonly interfaces: TypeInput[];
-    readonly typeVars: TypeVariable[];
+    readonly interfaces: Reference[];
+    readonly types: TypeVariables | undefined;
     readonly open: Token | undefined;
     readonly inputs: Bind[];
     readonly close: Token | undefined;
@@ -55,9 +50,9 @@ export default class StructureDefinition extends Expression {
         docs: Docs | undefined, 
         type: Token, 
         names: Names, 
-        interfaces: TypeInput[], 
-        typeVars: TypeVariable[],
-        open: Token | undefined, 
+        interfaces: Reference[], 
+        types: TypeVariables | undefined,
+        open: Token | undefined,
         inputs: Bind[], 
         close: Token | undefined,
         block?: Block
@@ -69,7 +64,7 @@ export default class StructureDefinition extends Expression {
         this.type = type;
         this.names = names;
         this.interfaces = interfaces;
-        this.typeVars = typeVars;
+        this.types = types;
         this.open = open;
         this.inputs = inputs;
         this.close = close;
@@ -79,13 +74,13 @@ export default class StructureDefinition extends Expression {
 
     }
 
-    static make(docs: Translations | undefined, names: Translations | Names, interfaces: TypeInput[], typeVars: TypeVariable[], inputs: Bind[], block?: Block) {
+    static make(docs: Translations | undefined, names: Translations | Names, interfaces: Reference[], types: TypeVariables | undefined, inputs: Bind[], block?: Block) {
         return new StructureDefinition(
             new Docs(docs),
             new TypeToken(),
             names instanceof Names ? names : Names.make(names),
             interfaces,
-            typeVars,
+            types,
             new EvalOpenToken(),
             inputs,
             new EvalCloseToken(),
@@ -98,8 +93,8 @@ export default class StructureDefinition extends Expression {
             { name: "docs", types:[ Docs, undefined ] },
             { name: "type", types:[ Token ] },
             { name: "names", types:[ Names ] },
-            { name: "interfaces", types:[[ TypeInput ] ] },
-            { name: "typeVars", types:[[ TypeVariable ]] },
+            { name: "interfaces", types:[[ Reference ] ] },
+            { name: "types", types:[ TypeVariables, undefined ] },
             { name: "open", types:[ Token, undefined ] },
             { name: "inputs", types:[[ Bind ]] },
             { name: "close", types:[ Token, undefined ] },
@@ -112,7 +107,7 @@ export default class StructureDefinition extends Expression {
             this.replaceChild("docs", this.docs, original, replacement),
             this.replaceChild("names", this.names, original, replacement),
             this.replaceChild("interfaces", this.interfaces, original, replacement), 
-            this.replaceChild("typeVars", this.typeVars, original, replacement),
+            this.replaceChild("types", this.types, original, replacement),
             this.replaceChild("inputs", this.inputs, original, replacement),
             this.replaceChild("expression", this.expression, original, replacement),
             this.replaceChild("type", this.type, original, replacement),
@@ -130,20 +125,21 @@ export default class StructureDefinition extends Expression {
     isBindingEnclosureOfChild(child: Node): boolean { 
         return  child === this.expression || 
                 (child instanceof Bind && this.inputs.includes(child)) ||
-                this.interfaces.includes(child as TypeInput); 
+                this.interfaces.includes(child as Reference); 
     }
 
     getInputs() { return this.inputs.filter(i => i instanceof Bind) as Bind[]; }
 
     getFunctionType(): FunctionType {
-       return FunctionType.make(this.typeVars, this.inputs, new StructureType(this));
+       return FunctionType.make(this.types, this.inputs, new StructureType(this));
     }
 
     isInterface(): boolean { return this.getAbstractFunctions().length > 0; }
     getAbstractFunctions(): FunctionDefinition[] { return this.getFunctions(false); }
     getImplementedFunctions(): FunctionDefinition[] { return this.getFunctions(true); }
-    implements(def: StructureDefinition) {
-        return this.interfaces.some(i => i.type instanceof NameType && def.names.hasName(i.type.getName()));
+
+    implements(def: StructureDefinition, context: Context) {
+        return this.interfaces.some(i => i.refersTo(context, def));
     }
 
     getFunctions(implemented?: boolean): FunctionDefinition[] {
@@ -160,10 +156,6 @@ export default class StructureDefinition extends Expression {
     computeConflicts(context: Context): Conflict[] { 
         
         let conflicts: Conflict[] = [];
-    
-        // Type variables must have unique names
-        const duplicateTypeVars = typeVarsAreUnique(this.typeVars);
-        if(duplicateTypeVars) conflicts.push(duplicateTypeVars);
 
         // Inputs must be valid.
         conflicts = conflicts.concat(getEvaluationInputConflicts(this.inputs));
@@ -180,17 +172,15 @@ export default class StructureDefinition extends Expression {
         // If the structure specifies one or more interfaces, it must implement them.
         if(this.interfaces.length > 0 && this.expression instanceof Block) {
             for(const iface of this.interfaces) {
-                if(iface.type instanceof NameType) {
-                    const definition = iface.type.resolve(context);
-                    if(definition instanceof StructureDefinition) {
-                        const abstractFunctions = definition.getAbstractFunctions();
-                        if(abstractFunctions !== undefined)
-                            for(const abFun of abstractFunctions) {
-                                // Does this structure implement the given abstract function on the interface?
-                                if(this.expression.statements.find(statement => statement instanceof FunctionDefinition && abFun.accepts(statement, context)) === undefined)
-                                    conflicts.push(new Unimplemented(this, definition, abFun));
-                            }
-                    }
+                const definition = iface.getDefinition(context);
+                if(definition instanceof StructureDefinition) {
+                    const abstractFunctions = definition.getAbstractFunctions();
+                    if(abstractFunctions !== undefined)
+                        for(const abFun of abstractFunctions) {
+                            // Does this structure implement the given abstract function on the interface?
+                            if(this.expression.statements.find(statement => statement instanceof FunctionDefinition && abFun.accepts(statement, context)) === undefined)
+                                conflicts.push(new Unimplemented(this, definition, abFun));
+                        }
                 }
             }
         }
@@ -215,7 +205,7 @@ export default class StructureDefinition extends Expression {
         return [
             this,
             ... this.inputs.filter(i => i instanceof Bind && i !== node) as Bind[], 
-            ... this.typeVars.filter(t => t instanceof TypeVariable) as TypeVariable[],
+            ... (this.types ? this.types.variables : []),
             ... (this.expression instanceof Block ? this.expression.statements.filter(s => s instanceof FunctionDefinition || s instanceof StructureDefinition || s instanceof Bind) as Definition[] : [])
         ];
     }
@@ -273,36 +263,10 @@ export default class StructureDefinition extends Expression {
         return current;
     }
 
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-        if(this.interfaces.includes(child as TypeInput)) {
-            return  this.getAllDefinitions(this, context)
-                    .filter((def): def is StructureDefinition => def instanceof StructureDefinition && def.isInterface())
-                    .map(def => new Replace<TypeInput>(context, child, [ name => TypeInput.make(new NameType(name)), def ]));
-        }
-    }
-
-    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
-        if(child === this.open) {
-            const transforms: Transform[] = [];
-            if(this.typeVars.length === 0)
-                transforms.push(new Append(context, position, this, this.typeVars, child, TypeInput.make(new TypePlaceholder())));
-
-            return transforms;
-        }
-        else if(this.interfaces.includes(child as TypeInput))
-            return [ new Append(context, position, this, this.interfaces, child, TypeInput.make(new TypePlaceholder())) ]
-    }
-
+    getChildReplacement(): Transform[] | undefined { return undefined; }
+    getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(): Transform[] | undefined { return []; }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if( this.typeVars.includes(child as TypeVariable) || 
-            this.interfaces.includes(child as TypeInput) || 
-            this.inputs.includes(child as Bind))
-            return new Remove(context, this, child);
-        else if(child === this.expression) return new Remove(context, this, child);
-    
-    }
+    getChildRemoval(): Transform | undefined { return undefined; }
 
     getStart() { return this.type; }
     getFinish() { return this.names; }

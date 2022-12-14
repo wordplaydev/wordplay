@@ -4,7 +4,6 @@
     import NodeView from "./NodeView.svelte";
     import { project, currentStep, playing } from "../models/stores";
     import Stream from "../runtime/Stream";
-    import NodeSequenceView from "./NodeSequenceView.svelte";
     
     export let node: Reference;
 
@@ -38,10 +37,10 @@
 
 {#if animating}
     <span class="changed">
-        <NodeView node={node.name} /><NodeSequenceView nodes={node.types} />
+        <NodeView node={node.name} />
     </span>
 {:else}
-    <NodeView node={node.name} /><NodeSequenceView nodes={node.types} />
+    <NodeView node={node.name} />
 {/if}
 
 

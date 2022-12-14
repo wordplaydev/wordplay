@@ -7,4 +7,4 @@
 
 </script>
 
-<NodeView node={node.type}/><NodeView node={node.names}/>
+<NodeView node={node.names}/>

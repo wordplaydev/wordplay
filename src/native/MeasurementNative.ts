@@ -27,7 +27,7 @@ export default function bootstrapMeasurement() {
 
     function createBinaryOp(docs: Translations, names: Translations, inputDocs: Translations, inputType: Type, outputType: Type, expression: (requestor: Node, left: Measurement, right: Measurement) => Value | undefined, requireEqualUnits: boolean=true) {
         return FunctionDefinition.make(
-            docs, names, [],
+            docs, names, undefined,
             [ Bind.make(
                 inputDocs, 
                 {
@@ -58,7 +58,7 @@ export default function bootstrapMeasurement() {
 
     function createUnaryOp(docs: Translations, names: Translations, outputType: Type, expression: (requestor: Node, left: Measurement) => Value | undefined) {
         return FunctionDefinition.make(
-            docs, names, [],
+            docs, names, undefined,
             [],
             new NativeExpression(
                 MeasurementType.make(),
@@ -83,7 +83,7 @@ export default function bootstrapMeasurement() {
             eng: "number",
             "😀": "#"
         }, 
-        [], [], [],
+        [], undefined, [],
         new Block([
             createBinaryOp(
                 WRITE_DOCS,
@@ -104,7 +104,7 @@ export default function bootstrapMeasurement() {
                     eng: "subtract",
                     "😀": "-"
                 },
-                [],
+                undefined,
                 [ 
                     // Optional operand, since negation and subtraction are overloaded.
                     Bind.make(

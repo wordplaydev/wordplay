@@ -2,7 +2,6 @@ import List from "../runtime/List";
 import Structure from "../runtime/Structure";
 import type Value from "../runtime/Value";
 import type Group from "./Group";
-import { GroupType } from "./Group";
 import { PhraseType, toPhrase } from "./Phrase";
 import { RowType, toRow } from "./Row";
 import { StackType, toStack } from "./Stack";
@@ -26,7 +25,7 @@ export function toGroups(value: Value | undefined): Group[] | undefined {
 
     const phrases: Group[] = [];
     for (const val of value.values) {
-        if (!(val instanceof Structure && val.type.implements(GroupType)))
+        if (!(val instanceof Structure))
             return undefined;
         const phrase = toGroup(val);
         if (phrase === undefined)

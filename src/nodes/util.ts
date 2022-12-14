@@ -5,7 +5,7 @@ import VariableLengthArgumentMustBeLast from "../conflicts/VariableLengthArgumen
 import type Name from "./Name";
 import Bind from "./Bind";
 import type Context from "./Context";
-import TypeVariable from "./TypeVariable";
+import type TypeVariable from "./TypeVariable";
 import type Node from "./Node";
 import type Reference from "./Reference";
 import type TableType from "./TableType";
@@ -21,10 +21,7 @@ import DuplicateBinds from "../conflicts/DuplicateBinds";
 
 export function typeVarsAreUnique(vars: TypeVariable[]): DuplicateTypeVariables | undefined {
     const duplicateTypeVars = 
-        vars.filter(tv1 => 
-            tv1 instanceof TypeVariable && 
-            vars.find(tv2 => tv2 instanceof TypeVariable && tv2 !== tv1 && tv1.names.sharesName(tv2.names))
-        ) as TypeVariable[];
+        vars.filter(tv1 => vars.find(tv2 => tv2 !== tv1 && tv1.names.sharesName(tv2.names)));
     
     return duplicateTypeVars.length > 0 ? new DuplicateTypeVariables(duplicateTypeVars) : undefined;
 

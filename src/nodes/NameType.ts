@@ -16,15 +16,18 @@ import Replace from "../transforms/Replace";
 import NameToken from "./NameToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import TypeInputs from "./TypeInputs";
 
 export default class NameType extends Type {
 
-    readonly type: Token;
+    readonly name: Token;
+    readonly types: TypeInputs | undefined;
 
-    constructor(type: Token | string) {
+    constructor(type: Token | string, types?: TypeInputs) {
         super();
 
-        this.type = typeof type === "string" ? new NameToken(type) : type;
+        this.name = typeof type === "string" ? new NameToken(type) : type;
+        this.types = types;
 
         this.computeChildren();
 
@@ -32,11 +35,19 @@ export default class NameType extends Type {
 
     getGrammar() { 
         return [
-            { name: "type", types:[ Token ] },
+            { name: "name", types: [ Token ] },
+            { name: "type", types: [[ TypeInputs ]] },
         ];
     }
 
-    getName() { return this.type.text.toString() }
+    replace(original?: Node, replacement?: Node) { 
+        return new NameType(
+            this.replaceChild("name", this.name, original, replacement),
+            this.replaceChild("types", this.types, original, replacement)
+        ) as this;
+    }
+
+    getName() { return this.name.getText(); }
 
     computeConflicts(context: Context): Conflict[] { 
         
@@ -71,19 +82,13 @@ export default class NameType extends Type {
 
         // The name should be defined.
         const definition = this.resolve(context);
-        if(definition === undefined) return new UnknownType({ definition: this, name: this.type });
+        if(definition === undefined) return new UnknownType({ definition: this, name: this.name });
         else if(definition instanceof TypeVariable) return new VariableType(definition);
         else return definition instanceof Value ? definition.getType(context) : definition.getTypeUnlessCycle(context);
 
     }
 
     getNativeTypeName(): string { return NAME_NATIVE_TYPE_NAME; }
-
-    replace(original?: Node, replacement?: Node) { 
-        return new NameType(
-            this.replaceChild("type", this.type, original, replacement)
-        ) as this;
-    }
 
     getDescriptions(): Translations {
         return {
@@ -95,14 +100,14 @@ export default class NameType extends Type {
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
         const definition = this.resolve(context);
-        if(child === this.type)
+        if(child === this.name)
             // Any StructureDefinition and Type Variable in
             return (this.getAllDefinitions(this, context)
                     .filter(def => 
                         (def instanceof StructureDefinition || def instanceof TypeVariable) && 
                         def !== definition &&
                         // If the current name doesn't correspond to a type, then filter the types down to those that match the prefix.
-                        (this.type.getText() === "" || def.getNames().find(name => name.startsWith(this.type.getText()) !== undefined))
+                        (this.getName() === "" || def.getNames().find(name => name.startsWith(this.getName()) !== undefined))
                     ) as (StructureDefinition|TypeVariable)[])
                     .map(def => new Replace(context, child, [ name => new NameToken(name), def ]))
 
