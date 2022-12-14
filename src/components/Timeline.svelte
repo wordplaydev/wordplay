@@ -18,9 +18,11 @@
         evaluator.stepTo(stepIndex);
     }
 
+    $: nonEmptyStreams = $streams.filter(s => s.stream !== undefined);
+
 </script>
 
-{#if $streams.filter(s => s.stream !== undefined).length > 0}
+{#if nonEmptyStreams.length > 0}
     <div class="timeline" bind:this={timeline}>
         {#each $streams as change }
             {#if change.stream}
@@ -54,8 +56,8 @@
     .timeline {
         overflow-x: scroll;
         width: 100%;
-        height: 2em;
         white-space: nowrap;
+        padding: var(--wordplay-spacing);
     }
 
     .stream-value {

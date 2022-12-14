@@ -12,6 +12,7 @@
     import type Verse from '../output/Verse';
     import { toVerse } from '../output/Verse';
     import KeyboardIdle from '../models/KeyboardIdle';
+    import Timeline from './Timeline.svelte';
 
     export let project: Project;
     export let source: Source;
@@ -35,35 +36,40 @@
                 <Editor {project} {source} />
             </div>
             {#if stepping}
-                <div class="evaluator">
+                <div class="footer evaluator">
                     <EvaluatorView evaluator={project.evaluator}/>
                 </div>
             {/if}
         </div>
-        <div class="output" style="{verse !== undefined ? `background-color: ${verse.background.toCSS()};` : undefined}">
-            <!-- If there's an exception, show that. -->
-            {#if latest instanceof Exception}
-                <div class="full exception"><div class='message'>{selectTranslation(latest.getExplanations(), $languages)}</div></div>
-            <!-- If there's no verse -->
-            {:else if latest === undefined}
-                <!-- If it's because the keyboard isn't idle , show the typing feedback.-->
-                {#if $playing && !$KeyboardIdle}
-                    <div class="full editing"><div class='message'>⌨️</div></div>
-                {:else}
-                    <div class="full evaluating"><div class='message'>...</div></div>
-                {/if}
-            <!-- If there's a value, but it's not a verse, show that -->
-            {:else if verse === undefined}
-                <div class="full value">
-                    <div class='message'>
-                        <h2>{selectTranslation(latest.getType(project.getContext(source)).getDescriptions(project.getContext(source)), $languages)}</h2>
-                        <p><ValueView value={latest}/></p>
+        <div class="column">
+            <div class="output" style="{verse !== undefined ? `background-color: ${verse.background.toCSS()};` : undefined}">
+                <!-- If there's an exception, show that. -->
+                {#if latest instanceof Exception}
+                    <div class="full exception"><div class='message'>{selectTranslation(latest.getExplanations(), $languages)}</div></div>
+                <!-- If there's no verse -->
+                {:else if latest === undefined}
+                    <!-- If it's because the keyboard isn't idle , show the typing feedback.-->
+                    {#if $playing && !$KeyboardIdle}
+                        <div class="full editing"><div class='message'>⌨️</div></div>
+                    {:else}
+                        <div class="full evaluating"><div class='message'>...</div></div>
+                    {/if}
+                <!-- If there's a value, but it's not a verse, show that -->
+                {:else if verse === undefined}
+                    <div class="full value">
+                        <div class='message'>
+                            <h2>{selectTranslation(latest.getType(project.getContext(source)).getDescriptions(project.getContext(source)), $languages)}</h2>
+                            <p><ValueView value={latest}/></p>
+                        </div>
                     </div>
-                </div>
-            <!-- Otherwise, show the Verse -->
-            {:else}
-                <VerseView {project} {verse} {interactive}/>
-            {/if}
+                <!-- Otherwise, show the Verse -->
+                {:else}
+                    <VerseView {project} {verse} {interactive}/>
+                {/if}
+            </div>
+            <div class="footer timeline">
+                <Timeline evaluator={project.evaluator} />
+            </div>
         </div>
     </div>
 </div>
@@ -92,6 +98,7 @@
     }
 
     .column {
+        display: flex;
         flex: 1;
         flex-direction: column;
         height: 100%;
@@ -101,7 +108,6 @@
     .code {
         flex: 1;
         min-height: 20rem;
-        max-height: 25rem;
         width: 100%;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
@@ -112,9 +118,12 @@
         box-shadow: inset calc(-1 * var(--wordplay-border-width)) 0 var(--wordplay-border-width) rgb(0 0 0 / 20%);
     }
 
-    .evaluator {
+    .footer {
         flex-basis: content;
         width: 100%;
+        min-height: 4em;
+        background-color: var(--wordplay-executing-color);
+        color: var(--wordplay-background);
     }
 
     .output {

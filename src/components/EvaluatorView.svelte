@@ -2,7 +2,6 @@
     import { languages } from "../models/languages";
     import type Evaluator from "../runtime/Evaluator";
     import { currentStep } from "../models/stores";
-    import Timeline from "./Timeline.svelte";
 
     export let evaluator: Evaluator;
 
@@ -25,13 +24,10 @@
             <p>Done evaluating.</p>
         {/if}
     </div>
-    <Timeline {evaluator} />
 </section>
 
 <style>
     section {
-        background-color: var(--wordplay-executing-color);
-        color: var(--wordplay-background);
         padding: var(--wordplay-spacing);
         box-sizing: border-box;
         z-index: 2;

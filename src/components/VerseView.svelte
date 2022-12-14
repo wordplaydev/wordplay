@@ -108,6 +108,10 @@
         user-select: none;
     }
 
+    .verse:focus {
+        outline: none;
+    }
+
     .inert {
         background-color: var(--wordplay-disabled-color);
     }
