@@ -12,6 +12,9 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import LanguageToken from "./LanguageToken";
 import type LanguageCode from "./LanguageCode";
+import type Conflict from "../conflicts/Conflict";
+import { Languages } from "./LanguageCode";
+import InvalidLanguage from "../conflicts/InvalidLanguage";
 
 export default class Language extends Node {
     
@@ -46,11 +49,20 @@ export default class Language extends Node {
         ) as this; 
     }
 
-    computeConflicts() {
-        if(this.lang === undefined && this.slash !== undefined)
-            return [ new MissingLanguage(this, this.slash) ];
-        
-        return [];
+    computeConflicts(): Conflict[] {
+
+        const conflicts: Conflict[] = [];
+
+        if(this.lang === undefined) {
+            if(this.slash !== undefined)
+                conflicts.push(new MissingLanguage(this, this.slash));
+        }
+        else {
+            if(!(this.lang.getText() in Languages))
+                conflicts.push(new InvalidLanguage(this, this.lang));
+        }
+    
+        return conflicts;
     }
 
     getLanguage() { return this.lang instanceof Token ? this.lang.text.toString() : ""; }
