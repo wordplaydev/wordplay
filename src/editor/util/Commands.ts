@@ -1,6 +1,6 @@
 import type Caret from "../../models/Caret";
 import Node from "../../nodes/Node";
-import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBOL, NOT_SYMBOL, OR_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL, REACTION_SYMBOL, TRUE_SYMBOL, TYPE_SYMBOL, PREVIOUS_SYMBOL, TYPE_OPEN_SYMBOL, TYPE_CLOSE_SYMBOL } from "../../parser/Tokenizer";
+import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBOL, NOT_SYMBOL, OR_SYMBOL, SHARE_SYMBOL, REACTION_SYMBOL, TRUE_SYMBOL, TYPE_SYMBOL, PREVIOUS_SYMBOL, TYPE_OPEN_SYMBOL, TYPE_CLOSE_SYMBOL, ETC_SYMBOL } from "../../parser/Tokenizer";
 import type Source from "../../models/Source";
 import Evaluator, { Mode } from "../../runtime/Evaluator";
 
@@ -224,10 +224,10 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.insert("≥")
     },
     {
-        description: `Insert placeholder symbol (${PLACEHOLDER_SYMBOL})`,
+        description: `Insert etc symbol (${ETC_SYMBOL})`,
         alt: true, key: "Semicolon",
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(PLACEHOLDER_SYMBOL)
+        execute: (caret: Caret) => caret.insert(ETC_SYMBOL)
     },
     {
         description: "Insert multiply symbol (·)",

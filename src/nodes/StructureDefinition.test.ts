@@ -12,6 +12,7 @@ import Names from "./Names";
 import Docs from "./Docs";
 import DuplicateBinds from "../conflicts/DuplicateBinds";
 import TypeVariables from "./TypeVariables";
+import NotAnInterface from "../conflicts/NotAnInterface";
 
 test("Test custom type conflicts", () => {
 
@@ -23,5 +24,73 @@ test("Test custom type conflicts", () => {
     testConflict('•Animal() ( ƒ sound()•"" …)\n•Cat Animal() ( ƒ sound() "meow" )', '•Animal() ( ƒ sound()•"" …)\n•Cat Animal() ( ƒ speak() "meow" )', StructureDefinition, Unimplemented, 1);
     testConflict('•Animal() ( ƒ sound()•"" … ƒ smell() …)', '•Animal() ( ƒ sound()•"" … ƒ smell() 1)', StructureDefinition, Implemented, 0);
     testConflict('•Animal() ( ƒ sound()•"" … ƒ smell() …)', '•Animal(name•"") ( ƒ sound()•"" … ƒ smell() …)', StructureDefinition, DisallowedInputs, 0);
+    testConflict(
+        // Multiple levels of interface should work
+        `
+        •Form() (
+            ƒ die()•"" …
+        )
+          
+        •Animal Form() (
+            ƒ poop()•"" …
+        )
+          
+        •Cat Animal() (
+            ƒ die() "mew"
+            ƒ poop() "ploit"
+            ƒ meow() "meow"
+        )
+        `, 
+        // Multiple levels of interface should work
+        `
+        •Form() (
+            ƒ die()•"" …
+        )
+          
+        •Animal Form() (
+            ƒ poop()•"" …
+        )
+          
+        •Cat Animal() (
+            ƒ die() "mew"
+            ƒ meow() "meow"
+        )
+        `, 
+        StructureDefinition, Unimplemented, 2
+    );
+    // Interfaces must be structure definitions
+    testConflict(
+        `
+        •Cat() (
+            ƒ poop() …
+        )
+        •Boomy Cat()
+        `,
+        `
+        •Cat() (
+            ƒ poop() …
+        )
+        A: 5
+        •Boomy A()
+        `,
+        StructureDefinition, NotAnInterface, 1
+    );
+
+    // Interfaces must be interfaces
+    testConflict(
+        `
+        •Cat() (
+            ƒ poop() …
+        )
+        •Boomy Cat()
+        `,
+        `
+        •Cat() (
+            ƒ poop() "psssst"
+        )
+        •Boomy Cat()
+        `,
+        StructureDefinition, NotAnInterface, 1
+    )
 
 });

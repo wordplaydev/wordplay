@@ -6,6 +6,7 @@ import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 import type Expression from "../nodes/Expression";
 import type Token from "../nodes/Token";
+import PropertyReference from "../nodes/PropertyReference";
 
 export default class NotAFunction extends Conflict {
     readonly evaluate: Evaluate | BinaryOperation | UnaryOperation;
@@ -24,7 +25,9 @@ export default class NotAFunction extends Conflict {
     getExplanations(): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `${this.fun.toWordplay()} isn't a function on this.`
+            eng: 
+                this.fun instanceof PropertyReference ? `${this.fun.name?.toWordplay()} isn't a function on ${this.fun.structure.toWordplay()}.` :
+                `${this.fun.toWordplay()} isn't a function.`
         }
     }
 

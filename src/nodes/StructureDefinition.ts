@@ -33,6 +33,7 @@ import type Value from "../runtime/Value";
 import StartFinish from "../runtime/StartFinish";
 import TypeVariables from "./TypeVariables";
 import Reference from "./Reference";
+import NotAnInterface from "../conflicts/NotAnInterface";
 
 export default class StructureDefinition extends Expression {
 
@@ -134,7 +135,7 @@ export default class StructureDefinition extends Expression {
        return FunctionType.make(this.types, this.inputs, new StructureType(this));
     }
 
-    isInterface(): boolean { return this.getAbstractFunctions().length > 0; }
+    isInterface(): boolean { return this.inputs.length === 0 && this.getImplementedFunctions().length === 0; }
     getAbstractFunctions(): FunctionDefinition[] { return this.getFunctions(false); }
     getImplementedFunctions(): FunctionDefinition[] { return this.getFunctions(true); }
 
@@ -153,6 +154,20 @@ export default class StructureDefinition extends Expression {
 
     }
 
+    getInterfaces(context: Context): StructureDefinition[] {
+
+        let interfaces: StructureDefinition[] = [];
+        for(const int of this.interfaces) {
+            const def = int.getDefinition(context);
+            if(def instanceof StructureDefinition) {
+                interfaces.push(def);
+                interfaces = [ ...interfaces, ...def.getInterfaces(context) ];
+            }
+        }
+        return interfaces;
+
+    }
+
     computeConflicts(context: Context): Conflict[] { 
         
         let conflicts: Conflict[] = [];
@@ -160,8 +175,15 @@ export default class StructureDefinition extends Expression {
         // Inputs must be valid.
         conflicts = conflicts.concat(getEvaluationInputConflicts(this.inputs));
 
-        // If the structure has unimplemented functions, it can't have any implemented functions.
-        if(this.isInterface()) {
+        // Interfaces must be interfaces
+        for(const int of this.interfaces) {
+            const def = int.getDefinition(context);
+            if(def !== undefined && (!(def instanceof StructureDefinition) || (def instanceof StructureDefinition && !def.isInterface())))
+                conflicts.push(new NotAnInterface(def, int));
+        }
+
+        // If the structure has unimplemented functions, it can't have any implemented functions or any inputs.
+        if(this.getAbstractFunctions().length > 0) {
             const implemented = this.getImplementedFunctions();
             if(implemented.length > 0)
                 conflicts.push(new Implemented(this, implemented));
@@ -169,18 +191,15 @@ export default class StructureDefinition extends Expression {
                 conflicts.push(new DisallowedInputs(this));
         }
 
-        // If the structure specifies one or more interfaces, it must implement them.
-        if(this.interfaces.length > 0 && this.expression instanceof Block) {
-            for(const iface of this.interfaces) {
-                const definition = iface.getDefinition(context);
-                if(definition instanceof StructureDefinition) {
-                    const abstractFunctions = definition.getAbstractFunctions();
-                    if(abstractFunctions !== undefined)
-                        for(const abFun of abstractFunctions) {
-                            // Does this structure implement the given abstract function on the interface?
-                            if(this.expression.statements.find(statement => statement instanceof FunctionDefinition && abFun.accepts(statement, context)) === undefined)
-                                conflicts.push(new Unimplemented(this, definition, abFun));
-                        }
+        // If the structure specifies one or more interfaces, and it provides at least one implementation, must implement all interfaces
+        // (any interfaces its interfaces implement)
+        if(this.interfaces.length > 0 && this.expression instanceof Block && this.expression.statements.some(s => s instanceof FunctionDefinition && !s.isAbstract())) {
+            for(const def of this.getInterfaces(context)) {
+                const abstractFunctions = def.getAbstractFunctions();
+                for(const fun of abstractFunctions) {
+                    // Does this structure implement the given abstract function on the interface?
+                    if(!this.expression.statements.some(statement => statement instanceof FunctionDefinition && fun.accepts(statement, context)))
+                        conflicts.push(new Unimplemented(this, def, fun));
                 }
             }
         }
