@@ -251,7 +251,7 @@ export default class StructureDefinition extends Expression {
         if(context !== undefined) {
             const def = new StructureDefinitionValue(this, this, context);
             context.bind(this.names, def);
-            return undefined;
+            return def;
         }
         else
             return new ContextException(StackSize.EMPTY, evaluator);
