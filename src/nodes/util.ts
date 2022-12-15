@@ -18,6 +18,8 @@ import InvalidRow from "../conflicts/InvalidRow";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import DuplicateBinds from "../conflicts/DuplicateBinds";
+import { languages } from "../models/languages";
+import { get } from "svelte/store";
 
 export function typeVarsAreUnique(vars: TypeVariable[]): DuplicateTypeVariables | undefined {
     const duplicateTypeVars = 
@@ -78,8 +80,10 @@ export function getCaseCollision(name: string, enclosure: Node | undefined, cont
 
     if(enclosure === undefined) return;
 
-    const upper = name.toLocaleUpperCase();
-    const lower = name.toLocaleLowerCase();
+    const locale = get(languages);
+
+    const upper = name.toLocaleUpperCase(locale);
+    const lower = name.toLocaleLowerCase(locale);
     const otherCase = upper === lower ? undefined : name === upper ? lower : upper;
 
     if(otherCase === undefined) return;
