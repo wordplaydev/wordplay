@@ -8,4 +8,4 @@
 
 </script>
 
-<NodeView node={node.fun}/><NodeView node={node.types}/><NodeView node={node.open}/><NodeSequenceView nodes={node.inputs}/><NodeView node={node.close}/><NodeView node={node.output}/>types
+<NodeView node={node.fun}/><NodeView node={node.types}/><NodeView node={node.open}/><NodeSequenceView nodes={node.inputs}/><NodeView node={node.close}/><NodeView node={node.output}/>
