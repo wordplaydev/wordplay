@@ -21,7 +21,7 @@ export default class ContextException extends Exception {
                 "😀": `🫙`
             } :
             {
-                eng: `Executed too many functions.`,
+                eng: `This function seems to be evaluating itself indefinitely, so we stopped.`,
                 "😀": `🫗`
             }
     };

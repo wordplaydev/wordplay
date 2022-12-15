@@ -195,6 +195,12 @@ DELIMITERS[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
 for(const [open, close] of Object.entries(TEXT_DELIMITERS))
     DELIMITERS[open] = close;
 
+// Construct the reverse delimiters.
+export const REVERSE_DELIMITERS: Record<string,string> = {};
+
+for(const [ open, close ] of Object.values(DELIMITERS))
+    REVERSE_DELIMITERS[close] = open;
+
 export function tokens(source: string): Token[] {
     return tokenize(source).getTokens();
 }

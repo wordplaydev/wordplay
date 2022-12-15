@@ -262,7 +262,7 @@ export default class Caret {
     insert(text: string): Edit | undefined {
         if(typeof this.position === "number") {
 
-            // If the string matches a single matched delimiter, complete it.
+            // If the inserted string matches a single matched delimiter, complete it.
             const closed = text in DELIMITERS;
             if(closed)
                 text += DELIMITERS[text];

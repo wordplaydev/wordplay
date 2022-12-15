@@ -28,6 +28,7 @@ import { Animations } from "../output/Animation";
 export type EvaluationObserver = () => void;
 export type StepNumber = number;
 export type StreamChange = { stream: Stream | undefined, value: Value | undefined, stepIndex: number };
+export const MAX_CALL_STACK_DEPTH = 256;
 
 export enum Mode { PLAY, STEP };
 
@@ -397,7 +398,7 @@ export default class Evaluator {
         // Get the value of the next step of the current evaluation.
         const value = 
             // If it seems like we're stuck in an infinite (recursive) loop, halt.
-            this.evaluations.length > 100000 ? new EvaluationException(StackSize.FULL, this) :
+            this.evaluations.length > MAX_CALL_STACK_DEPTH ? new EvaluationException(StackSize.FULL, this) :
             // Otherwise, step the current evaluation and get it's value
             evaluation.step(this);
 
