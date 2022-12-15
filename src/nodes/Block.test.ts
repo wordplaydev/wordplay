@@ -6,12 +6,16 @@ import Evaluator from "../runtime/Evaluator";
 import Block from "./Block";
 import { test, expect } from "vitest";
 import Docs from "./Docs";
+import Evaluate from "./Evaluate";
+import NotAFunction from "../conflicts/NotAFunction";
 
 test("Test block conflicts", () => {
 
     testConflict('(1)', '()', Block, ExpectedEndingExpression);
     testConflict('`hi`/eng`hola`/spa\n"hi"', '`hi`/eng`hola`/eng\n"hi"', Docs, DuplicateLanguages);
     testConflict('1 + 1', '1 + 1\n2 + 2', Block, IgnoredExpression);
+    testConflict('a: ƒ b() 1\nb()', "a: (ƒ b() 1)\nb()'", Evaluate, NotAFunction)
+    testConflict('a: •B()\nB()', "a: (•B())\nB()'", Evaluate, NotAFunction)
 
 });
 

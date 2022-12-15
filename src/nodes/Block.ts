@@ -128,21 +128,20 @@ export default class Block extends Expression {
 
     }
 
-    getDefinitions(node: Node): Definition[] {
+    getDefinitions(node: Node, context: Context): Definition[] {
 
         const index = this.getStatementIndexContaining(node);
         if(index === undefined) return [];
 
         // Do any of the binds, structure, or function definitions declare it?
-        return this.statements.filter((s, i)  => 
+        return [
+            // Expose all the binds in the block
             // Note that we allow an bind to refer to itself, since bound reactions can refer to themselves.
-            i <= index &&
-            (
-                s instanceof Bind ||
-                s instanceof StructureDefinition || 
-                s instanceof FunctionDefinition
-            )
-        ) as Definition[];
+            ...(this.statements.filter((s, i): s is Bind  => i <= index && s instanceof Bind)),
+            // Expose all of the FunctionDefinition and StructureDefinition for which this is the binding enclosure
+            ...(this.nodes().filter((n): n is FunctionDefinition | StructureDefinition => 
+            (n instanceof FunctionDefinition || n instanceof StructureDefinition ) && context.get(n)?.getBindingScope() === this))
+         ];
         
     }
  
