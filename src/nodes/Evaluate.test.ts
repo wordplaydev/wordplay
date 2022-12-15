@@ -24,7 +24,23 @@ test("Test evaluate conflicts", () => {
     testConflict('x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(a:1 b:2 c:3)', Evaluate, UnknownInput);
     testConflict('x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(a:1 a:2)', Evaluate, UnexpectedInput);
     testConflict('x: ƒ(…num•#) a - b\nx(1 2 3)', 'x: ƒ(…num•"") a - b\nx(1 2 3)', Evaluate, IncompatibleInput);
+    
+    // Type inputs have to be declared
     testConflict('•Cat⸨Desire⸩()\nCat⸨#⸩()', '•Cat()\nCat⸨#⸩()', Evaluate, InvalidTypeInput);
+
+    // A function has to exist on all possible types of an expression
+    testConflict(
+        `
+        a: [ 1 1 ].random()
+        a.add(1)
+        `,
+        `
+        a: [ 1 "2" ].random()
+        a.length()
+        `,
+        Evaluate, NotAFunction, 1
+    )
+
 
 });
 

@@ -109,9 +109,12 @@ export default class UnionType extends Type {
 
     getDefinitions(node: Node, context: Context): Definition[] {
 
-        // Get definitions of all of the types, removing duplicates.
-        return [ ... this.left.getDefinitions(node, context), ...(this.right instanceof Type ? this.right.getDefinitions(node, context) : []) ]
-            .filter((def1, index1, defs) => defs.find((def2, index2) => def1 === def2 && index2 > index1) !== undefined);
+        // Get definitions of each type
+        const leftDefs = this.left.getDefinitions(node, context);
+        const rightDefs = this.right.getDefinitions(node, context);
+
+        // Return the intersection of the two, only revealing definitions that appear in both sets.
+        return leftDefs.filter(def => rightDefs.includes(def));
 
     }
 

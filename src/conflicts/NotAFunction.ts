@@ -26,8 +26,8 @@ export default class NotAFunction extends Conflict {
         return {
             "😀": TRANSLATE,
             eng: 
-                this.fun instanceof PropertyReference ? `${this.fun.name?.toWordplay()} isn't a function on ${this.fun.structure.toWordplay()}.` :
-                `${this.fun.toWordplay()} isn't a function.`
+                this.fun instanceof PropertyReference ? `${this.fun.name?.toWordplay()} isn't the same function on all possible values of ${this.fun.structure.toWordplay()}.` :
+                `${this.fun.toWordplay()} isn't the same function on all possible values.`
         }
     }
 
