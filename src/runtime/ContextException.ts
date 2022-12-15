@@ -4,7 +4,7 @@ import type Evaluator from "./Evaluator";
 
 export enum StackSize { EMPTY, FULL }
 
-export default class ContextException extends Exception {
+export default class EvaluationException extends Exception {
 
     readonly reason: StackSize;
 

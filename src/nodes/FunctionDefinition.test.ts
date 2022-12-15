@@ -1,4 +1,4 @@
-import { test } from "vitest";
+import { test, expect } from "vitest";
 import { testConflict } from "../conflicts/TestUtilities";
 import DuplicateLanguages from "../conflicts/DuplicateLanguages";
 import RequiredAfterOptional from "../conflicts/RequiredAfterOptional";
@@ -9,6 +9,8 @@ import Names from "./Names";
 import Docs from "./Docs";
 import DuplicateBinds from "../conflicts/DuplicateBinds";
 import TypeVariables from "./TypeVariables";
+import Evaluator from "../runtime/Evaluator";
+import EvaluationException from "../runtime/ContextException";
 
 test("Test function conflicts", () => {
 
@@ -19,3 +21,7 @@ test("Test function conflicts", () => {
     testConflict('ƒ(a b:1)', 'ƒ(a:1 b)', FunctionDefinition, RequiredAfterOptional);
 
 });
+
+test("Test text functions", () => {
+    expect(Evaluator.evaluateCode('ƒ a() a() a()')).toBeInstanceOf(EvaluationException);
+})

@@ -15,7 +15,7 @@ import type Definition from "./Definition";
 import Name from "./Name";
 import { BinaryOpRegEx, FUNCTION_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 import type { TypeSet } from "./UnionType";
-import ContextException, { StackSize } from "../runtime/ContextException";
+import EvaluationException, { StackSize } from "../runtime/ContextException";
 import type Translations from "./Translations";
 import { overrideWithDocs, TRANSLATE } from "./Translations"
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
@@ -220,7 +220,7 @@ export default class FunctionDefinition extends Expression {
         // Get the function value.
         const context = evaluator.getCurrentEvaluation();
         const value = context === undefined ? 
-            new ContextException(StackSize.EMPTY, evaluator) : 
+            new EvaluationException(StackSize.EMPTY, evaluator) : 
             new FunctionValue(this, context);
 
         // Bind the value

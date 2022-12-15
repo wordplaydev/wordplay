@@ -19,7 +19,7 @@ import type { TypeSet } from "./UnionType";
 import { Unimplemented } from "../conflicts/Unimplemented";
 import { Implemented } from "../conflicts/Implemented";
 import { DisallowedInputs } from "../conflicts/DisallowedInputs";
-import ContextException, { StackSize } from "../runtime/ContextException";
+import EvaluationException, { StackSize } from "../runtime/ContextException";
 import type Transform from "../transforms/Transform"
 import type LanguageCode from "./LanguageCode";
 import TypeToken from "./TypeToken";
@@ -254,7 +254,7 @@ export default class StructureDefinition extends Expression {
             return def;
         }
         else
-            return new ContextException(StackSize.EMPTY, evaluator);
+            return new EvaluationException(StackSize.EMPTY, evaluator);
             
     }
     
