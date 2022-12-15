@@ -12,6 +12,7 @@ import SetType from "./SetType";
 import MapType from "./MapType";
 import UnknownInput from "../conflicts/UnknownInput";
 import UnionType from "./UnionType";
+import InvalidTypeInput from "../conflicts/InvalidTypeInput";
 
 test("Test evaluate conflicts", () => {
 
@@ -23,6 +24,7 @@ test("Test evaluate conflicts", () => {
     testConflict('x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(a:1 b:2 c:3)', Evaluate, UnknownInput);
     testConflict('x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(a:1 a:2)', Evaluate, UnexpectedInput);
     testConflict('x: ƒ(…num•#) a - b\nx(1 2 3)', 'x: ƒ(…num•"") a - b\nx(1 2 3)', Evaluate, IncompatibleInput);
+    testConflict('•Cat⸨Desire⸩()\nCat⸨#⸩()', '•Cat()\nCat⸨#⸩()', Evaluate, InvalidTypeInput);
 
 });
 

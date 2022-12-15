@@ -49,6 +49,7 @@ import NameException from "../runtime/NameException";
 import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
 import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
+import InvalidTypeInput from "../conflicts/InvalidTypeInput";
 
 export default class Evaluate extends Expression {
 
@@ -254,7 +255,19 @@ export default class Evaluate extends Expression {
         // If there are remaining given inputs that didn't match anything, something's wrong.
         if(givenInputs.length > 0)
             conflicts.push(new UnexpectedInputs(fun, this, givenInputs));    
-    
+
+        const expected = fun.types;
+
+        // If there are type inputs provided, verify that they exist on the function.
+        if(this.types && this.types.types.length > 0) {
+            for(let index = 0; index < this.types.types.length; index++) {
+                if(index >= (expected?.variables.length ?? 0)) {
+                    conflicts.push(new InvalidTypeInput(this, this.types.types[index], fun));
+                    break;
+                }
+            }
+        }
+
         return conflicts;
     
     }

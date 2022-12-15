@@ -17,6 +17,7 @@ import NameToken from "./NameToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import TypeInputs from "./TypeInputs";
+import InvalidTypeInput from "../conflicts/InvalidTypeInput";
 
 export default class NameType extends Type {
 
@@ -36,7 +37,7 @@ export default class NameType extends Type {
     getGrammar() { 
         return [
             { name: "name", types: [ Token ] },
-            { name: "type", types: [[ TypeInputs ]] },
+            { name: "types", types: [ TypeInputs ] },
         ];
     }
 
@@ -57,6 +58,18 @@ export default class NameType extends Type {
         // The name should be a structure type or a type variable on a structure that contains this name type.
         if(!(def instanceof StructureDefinition || def instanceof TypeVariable))
             conflicts.push(new UnknownTypeName(this));
+        else if(def instanceof StructureDefinition) {
+            // If there are type inputs provided, verify that they exist on the function.
+            if(this.types && this.types.types.length > 0) {
+                const expected = def.types;
+                for(let index = 0; index < this.types.types.length; index++) {
+                    if(index >= (expected?.variables.length ?? 0)) {
+                        conflicts.push(new InvalidTypeInput(this, this.types.types[index], def));
+                        break;
+                    }
+                }
+            }
+        }
 
         return conflicts; 
     
