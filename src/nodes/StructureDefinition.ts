@@ -244,13 +244,11 @@ export default class StructureDefinition extends Expression {
 
     evaluate(evaluator: Evaluator): Value | undefined {
         
-        // We ignore the prior value. We must capture closures every time.
-
         // Bind this definition to it's names.
         const context = evaluator.getCurrentEvaluation();
         if(context !== undefined) {
             const def = new StructureDefinitionValue(this, this, context);
-            context.bind(this.names, def);
+            evaluator.bind(this.names, def);
             return def;
         }
         else
