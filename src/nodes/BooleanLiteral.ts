@@ -9,7 +9,7 @@ import type Node from "./Node";
 import { FALSE_SYMBOL, TRUE_SYMBOL } from "../parser/Tokenizer";
 import type Bind from "./Bind";
 import type Context from "./Context";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import TokenType from "./TokenType";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";

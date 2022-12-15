@@ -10,6 +10,7 @@ import TypePlaceholder from "./TypePlaceholder";
 import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import type TypeSet from "./TypeSet";
 
 export default class ConversionType extends Type {
 
@@ -37,8 +38,14 @@ export default class ConversionType extends Type {
 
     computeConflicts() {}
 
-    accepts(type: Type, context: Context): boolean {
-        return type instanceof ConversionType && this.input.accepts(type.input, context) && this.output instanceof Type && type.output instanceof Type && this.output.accepts(type.output, context);
+    acceptsAll(types: TypeSet, context: Context): boolean {
+        return types.list().every(
+            type => type instanceof ConversionType && 
+                this.input.accepts(type.input, context) && 
+                this.output instanceof Type && 
+                type.output instanceof Type && 
+                this.output.accepts(type.output, context)
+            );
     }
 
     getNativeTypeName(): string { return CONVERSION_NATIVE_TYPE_NAME; }

@@ -23,7 +23,7 @@ import { BorrowCycle } from "../conflicts/BorrowCycle";
 import Expression from "./Expression";
 import type Bind from "./Bind";
 import type Type from "./Type";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import type Value from "../runtime/Value";
 import type LanguageCode from "./LanguageCode";
 

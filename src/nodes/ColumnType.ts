@@ -10,6 +10,7 @@ import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import UnknownType from "./UnknownType";
+import type TypeSet from "./TypeSet";
 
 export default class ColumnType extends Type {
 
@@ -44,11 +45,13 @@ export default class ColumnType extends Type {
 
     computeConflicts() {}
 
-    accepts(type: Type, context: Context): boolean {
-        return type instanceof ColumnType && 
+    acceptsAll(types: TypeSet, context: Context): boolean {
+        return types.list().every(type => 
+            type instanceof ColumnType && 
             type.bind instanceof Bind && 
             this.bind instanceof Bind && 
-            this.bind.getTypeUnlessCycle(context).accepts(type.bind.getTypeUnlessCycle(context), context);
+            this.bind.getTypeUnlessCycle(context).accepts(type.bind.getTypeUnlessCycle(context), context)
+        );
     }
 
     getValueType(context: Context) { return this.bind === undefined ? new UnknownType(this) : this.bind.getType(context); }

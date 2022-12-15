@@ -18,9 +18,7 @@ export default class UnparsableType extends Type {
 
     }
 
-    accepts(): boolean {
-        return false;
-    }
+    acceptsAll(): boolean { return false; }
 
     getNativeTypeName(): string { return UNPARSABLE_NATIVE_TYPE_NAME; }
 

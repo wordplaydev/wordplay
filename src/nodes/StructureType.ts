@@ -5,6 +5,7 @@ import type StructureDefinition from "./StructureDefinition";
 import NameType from "./NameType";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import type TypeSet from "./TypeSet";
 
 export const STRUCTURE_NATIVE_TYPE_NAME = "structure";
 
@@ -32,18 +33,19 @@ export default class StructureType extends Type {
     getDefinition(name: string) { return this.structure.getDefinition(name); }
 
     /** Compatible if it's the same structure definition, or the given type is a refinement of the given structure.*/
-    accepts(type: Type, context: Context): boolean {
+    acceptsAll(types: TypeSet, context: Context): boolean {
+        return types.list().every(type => {
+            // If the given type is a name type, is does it refer to this type's structure definition?
+            if(type instanceof NameType)
+                type = type.getType(context);
 
-        // If the given type is a name type, is does it refer to this type's structure definition?
-        if(type instanceof NameType)
-            type = type.getType(context);
-
-        if(!(type instanceof StructureType)) return false;
-        if(this.structure === type.structure) return true;
-        // Are any of the given type's interfaces compatible with this?
-        return type.structure.interfaces.find(int => {
-            return this.accepts(int.getType(context), context);
-        }) !== undefined;
+            if(!(type instanceof StructureType)) return false;
+            if(this.structure === type.structure) return true;
+            // Are any of the given type's interfaces compatible with this?
+            return type.structure.interfaces.find(int => {
+                return this.accepts(int.getType(context), context);
+            }) !== undefined;
+        });
     }
 
     getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {

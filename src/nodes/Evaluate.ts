@@ -29,7 +29,7 @@ import PropertyReference from "./PropertyReference";
 import TypeInputs from "./TypeInputs";
 import { getEvaluationInputConflicts } from "./util";
 import ListType from "./ListType";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import SemanticException from "../runtime/SemanticException";
 import FunctionException from "../runtime/FunctionException";
 import ValueException from "../runtime/ValueException";

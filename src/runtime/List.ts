@@ -6,7 +6,7 @@ import None from "./None";
 import Primitive from "./Primitive";
 import type Value from "./Value";
 import { LIST_NATIVE_TYPE_NAME } from "../native/NativeConstants";
-import { getPossibleUnionType } from "../nodes/UnionType";
+import UnionType from "../nodes/UnionType";
 import type Context from "../nodes/Context";
 import { TRANSLATE } from "../nodes/Translations";
 import type LanguageCode from "../nodes/LanguageCode";
@@ -69,7 +69,7 @@ export default class List extends Primitive {
 
     append(requestor: Node, value: Value) { return new List(requestor, [ ...this.values, value ]); }
 
-    getType(context: Context) { return ListType.make(getPossibleUnionType(context, this.values.map(v => v.getType(context)))); }
+    getType(context: Context) { return ListType.make(UnionType.getPossibleUnion(context, this.values.map(v => v.getType(context)))); }
 
     getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }
 

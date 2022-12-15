@@ -14,7 +14,7 @@ import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
 import type Context from "./Context";
 import type Definition from "./Definition";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import UnimplementedException from "../runtime/UnimplementedException";
 import type Evaluator from "../runtime/Evaluator";
 import type Transform from "../transforms/Transform";

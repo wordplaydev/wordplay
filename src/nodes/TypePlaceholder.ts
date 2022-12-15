@@ -28,7 +28,7 @@ export default class TypePlaceholder extends Type {
 
     computeConflicts(): Conflict[] { return [ new Placeholder(this) ]; }
 
-    accepts(): boolean { return false; }
+    acceptsAll(): boolean { return false; }
 
     getNativeTypeName(): string { return "type_placeholder"; }
 

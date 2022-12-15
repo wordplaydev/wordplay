@@ -50,7 +50,7 @@ import Names from "./Names";
 import { MissingShareLanguages } from "../conflicts/MissingShareLanguages";
 import { MisplacedShare } from "../conflicts/MisplacedShare";
 import { DuplicateShare } from "../conflicts/DuplicateShare";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import type Value from "../runtime/Value";
 
 export default class Bind extends Expression {    

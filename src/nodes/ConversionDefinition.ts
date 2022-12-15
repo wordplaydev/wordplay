@@ -14,7 +14,7 @@ import type Context from "./Context";
 import { parseType, toTokens } from "../parser/Parser";
 import { CONVERT_SYMBOL } from "../parser/Tokenizer";
 import type Bind from "./Bind";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import EvaluationException, { StackSize } from "../runtime/ContextException";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";

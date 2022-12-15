@@ -16,7 +16,7 @@ import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type Context from "./Context";
 import Token from "./Token";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import { analyzeRow } from "./util";
 import Exception from "../runtime/Exception";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";

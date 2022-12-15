@@ -11,7 +11,7 @@ export default class AnyType extends Type {
 
     getGrammar() { return []; }
 
-    accepts() { return true; }
+    acceptsAll() { return true; }
     getNativeTypeName(): string { return ANY_NATIVE_TYPE_NAME; }
     computeConflicts() {}
 

@@ -1,5 +1,4 @@
 import Token from "./Token";
-import type Type from "./Type";
 import type Node from "./Node";
 import TokenType from "./TokenType";
 import { BOOLEAN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
@@ -8,6 +7,7 @@ import NativeType from "./NativeType";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import type TypeSet from "./TypeSet";
 
 export default class BooleanType extends NativeType {
 
@@ -36,7 +36,7 @@ export default class BooleanType extends NativeType {
 
     computeConflicts() {}
 
-    accepts(type: Type) { return type instanceof BooleanType; }
+    acceptsAll(types: TypeSet) { return types.list().every(type => type instanceof BooleanType); }
 
     getNativeTypeName(): string { return BOOLEAN_NATIVE_TYPE_NAME; }
 

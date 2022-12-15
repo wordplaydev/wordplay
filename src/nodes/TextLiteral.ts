@@ -9,7 +9,7 @@ import type Step from "../runtime/Step";
 import Language from "./Language";
 import type Bind from "./Bind";
 import type Context from "./Context";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import TokenType from "./TokenType";
 import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
 import Add from "../transforms/Add";

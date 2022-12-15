@@ -9,6 +9,7 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Type from "./Type";
 import TypePlaceholder from "./TypePlaceholder";
+import type TypeSet from "./TypeSet";
 
 export const STREAM_NATIVE_TYPE_NAME = "stream";
 
@@ -40,9 +41,11 @@ export default class StreamType extends Type {
 
     computeConflicts() {}
 
-    accepts(type: Type, context: Context): boolean {
-        return type instanceof StreamType && 
-            this.type.accepts(type.type, context);
+    acceptsAll(types: TypeSet, context: Context): boolean {
+        return types.list().every(type => 
+            type instanceof StreamType && 
+            this.type.accepts(type.type, context)
+        );
     }
 
     getNativeTypeName(): string { return STREAM_NATIVE_TYPE_NAME; }

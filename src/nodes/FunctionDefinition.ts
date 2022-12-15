@@ -14,7 +14,7 @@ import type Context from "./Context";
 import type Definition from "./Definition";
 import Name from "./Name";
 import { BinaryOpRegEx, FUNCTION_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import EvaluationException, { StackSize } from "../runtime/ContextException";
 import type Translations from "./Translations";
 import { overrideWithDocs, TRANSLATE } from "./Translations"

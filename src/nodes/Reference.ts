@@ -17,7 +17,8 @@ import Bind from "./Bind";
 import CircularReference from "../conflicts/CircularReference";
 import Reaction from "./Reaction";
 import Conditional from "./Conditional";
-import UnionType, { TypeSet } from "./UnionType";
+import UnionType from "./UnionType";
+import type TypeSet from "./TypeSet";
 import Is from "./Is";
 import NameException from "../runtime/NameException";
 import type Transform from "../transforms/Transform";
@@ -155,7 +156,7 @@ export default class Reference extends Expression {
             // Grab the furthest ancestor and evaluate possible types from there.
             const root = guards[0];
             if(root !== undefined) {
-                let possibleTypes = type.getTypes(context);
+                let possibleTypes = type.getTypeSet(context);
                 root.evaluateTypeSet(definition, possibleTypes, possibleTypes, context);
             }
         }
@@ -169,7 +170,7 @@ export default class Reference extends Expression {
 
         // Cache the type of this name at this point in execution.
         if(this.getDefinition(context) === bind)
-            this._unionTypes = current.type();
+            this._unionTypes = UnionType.getPossibleUnion(context, current.list());
 
         return current;
     }

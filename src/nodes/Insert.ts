@@ -15,7 +15,7 @@ import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type Context from "./Context";
 import type Definition from "./Definition";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import { analyzeRow } from "./util";
 import Halt from "../runtime/Halt";
 import type Cell from "./Cell";

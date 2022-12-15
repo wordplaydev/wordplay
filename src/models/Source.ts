@@ -16,7 +16,7 @@ import type LanguageCode from "../nodes/LanguageCode";
 import Expression from "../nodes/Expression";
 import Bind from "../nodes/Bind";
 import type Type from "../nodes/Type";
-import type { TypeSet } from "../nodes/UnionType";
+import type TypeSet from "../nodes/TypeSet";
 import type Step from "../runtime/Step";
 import type Stream from "../runtime/Stream";
 import type Transform from "../transforms/Transform";

@@ -11,7 +11,7 @@ import Start from "../runtime/Start";
 import Evaluation from "../runtime/Evaluation";
 import type Context from "./Context";
 import type Bind from "./Bind";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import FunctionException from "../runtime/FunctionException";
 import Exception from "../runtime/Exception";
 import ConversionDefinition from "./ConversionDefinition";

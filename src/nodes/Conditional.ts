@@ -9,7 +9,8 @@ import type Step from "../runtime/Step";
 import JumpIf from "../runtime/JumpIf";
 import Jump from "../runtime/Jump";
 import type Context from "./Context";
-import UnionType, { TypeSet } from "./UnionType";
+import UnionType from "./UnionType";
+import type TypeSet from "./TypeSet";
 import type Bind from "./Bind";
 import Start from "../runtime/Start";
 import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
@@ -88,10 +89,7 @@ export default class Conditional extends Expression {
         // Whatever type the yes/no returns.
         const yesType = this.yes.getTypeUnlessCycle(context);
         const noType = this.no.getTypeUnlessCycle(context);
-        if(yesType.accepts(noType, context))
-            return yesType;
-        else 
-            return UnionType.make(yesType, noType);
+        return UnionType.getPossibleUnion(context, [ yesType, noType ]);
     }
 
     getDependencies(): Expression[] {

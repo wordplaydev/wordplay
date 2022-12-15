@@ -10,7 +10,7 @@ import Placeholder from "../conflicts/Placeholder";
 import Halt from "../runtime/Halt";
 import type Bind from "./Bind";
 import type Context from "./Context";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import SemanticException from "../runtime/SemanticException";
 import type Evaluator from "../runtime/Evaluator";
 import UnimplementedException from "../runtime/UnimplementedException";

@@ -8,7 +8,7 @@ import { parseType, toTokens } from "../parser/Parser";
 import type Evaluation from "../runtime/Evaluation";
 import type Bind from "../nodes/Bind";
 import type Context from "../nodes/Context";
-import type { TypeSet } from "../nodes/UnionType";
+import type TypeSet from "../nodes/TypeSet";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 import ValueException from "../runtime/ValueException";

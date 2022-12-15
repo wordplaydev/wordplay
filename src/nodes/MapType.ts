@@ -15,6 +15,7 @@ import SetOpenToken from "./SetOpenToken";
 import SetCloseToken from "./SetCloseToken";
 import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
 import type Conflict from "../conflicts/Conflict";
+import type TypeSet from "./TypeSet";
 
 export default class MapType extends NativeType {
 
@@ -75,8 +76,9 @@ export default class MapType extends NativeType {
 
     }
 
-    accepts(type: Type, context: Context): boolean { 
-        return  type instanceof MapType &&
+    acceptsAll(types: TypeSet, context: Context): boolean { 
+        return types.list().every(type => 
+            type instanceof MapType &&
                 // If they have one, then they must be compable, and if there is a value type, they must be compatible.
                 (
                     // If the key type isn't specified, any will do.
@@ -96,6 +98,7 @@ export default class MapType extends NativeType {
                         )
                     )
                 )
+        );
     }
 
     getNativeTypeName(): string { return MAP_NATIVE_TYPE_NAME; }

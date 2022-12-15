@@ -9,7 +9,8 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type Context from "./Context";
-import { getPossibleUnionType, TypeSet } from "./UnionType";
+import UnionType from "./UnionType";
+import type TypeSet from "./TypeSet";
 import SetType from "./SetType";
 import AnyType from "./AnyType";
 import type Bind from "./Bind";
@@ -70,7 +71,7 @@ export default class SetLiteral extends Expression {
     computeConflicts() {}
 
     computeType(context: Context): Type {
-        let type = getPossibleUnionType(context, this.values.map(v => (v as Expression).getTypeUnlessCycle(context)));
+        let type = UnionType.getPossibleUnion(context, this.values.map(v => (v as Expression).getTypeUnlessCycle(context)));
         if(type === undefined) type = new AnyType();        
         return SetType.make(type);
     }

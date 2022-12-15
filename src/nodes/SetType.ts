@@ -14,6 +14,7 @@ import SetOpenToken from "./SetOpenToken";
 import SetCloseToken from "./SetCloseToken";
 import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
 import type Conflict from "../conflicts/Conflict";
+import type TypeSet from "./TypeSet";
 
 export default class SetType extends NativeType {
 
@@ -60,9 +61,10 @@ export default class SetType extends NativeType {
 
     }
 
-    accepts(type: Type, context: Context): boolean { 
+    acceptsAll(types: TypeSet, context: Context): boolean { 
+        return types.list().every(type =>
         // If they have one, then they must be compable, and if there is a value type, they must be compatible.
-        return  type instanceof SetType &&
+            type instanceof SetType &&
                 (
                     // If the key type isn't specified, any will do.
                     this.key === undefined ||
@@ -71,7 +73,8 @@ export default class SetType extends NativeType {
                         type.key instanceof Type &&
                         this.key.accepts(type.key, context)
                     )
-                );
+                )
+        );
     }
 
     getNativeTypeName(): string { return SET_NATIVE_TYPE_NAME; }

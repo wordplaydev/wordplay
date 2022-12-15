@@ -12,7 +12,7 @@ import type Node from "./Node";
 import { AND_SYMBOL, OR_SYMBOL } from "../parser/Tokenizer";
 import OrderOfOperations from "../conflicts/OrderOfOperations";
 import Bind from "./Bind";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import FunctionException from "../runtime/FunctionException";
 import JumpIf from "../runtime/JumpIf";
 import FunctionDefinition from "./FunctionDefinition";

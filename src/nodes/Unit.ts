@@ -13,6 +13,7 @@ import LanguageToken from "./LanguageToken";
 import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import type TypeSet from "./TypeSet";
 
 export default class Unit extends Type {
 
@@ -117,9 +118,13 @@ export default class Unit extends Type {
 
     computeConflicts() {}
 
-    accepts(unit: Unit): boolean {
+    accept(unit: Unit): boolean {
         // Every key in this exists in the given unit and they have the same exponents.
         return this.isUnitless() || this.isEqualTo(unit);
+    }
+
+    acceptsAll(types: TypeSet): boolean {
+        return Array.from(types.set).every(type => type instanceof Unit && this.accept(type));
     }
 
     getNativeTypeName(): string { return "unit"; }

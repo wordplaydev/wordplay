@@ -6,7 +6,6 @@ import type Node from "./Node";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import { TYPE_SYMBOL } from "../parser/Tokenizer";
-import NeverType from "./NeverType";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
@@ -14,6 +13,8 @@ import TypePlaceholder from "./TypePlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type Definition from "./Definition";
+import type TypeSet from "./TypeSet";
+import NeverType from "./NeverType";
 
 export default class UnionType extends Type {
 
@@ -52,7 +53,7 @@ export default class UnionType extends Type {
         ) as this;
     }
 
-    accepts(type: Type, context: Context): boolean {
+    acceptsAll(types: TypeSet, context: Context): boolean {
 
         // Union types accept a given type T if T is a subset of the union type.
         // For example:
@@ -64,9 +65,12 @@ export default class UnionType extends Type {
         // A | B accepts C? No
 
         // A union type accepts a type if it's right or left accepts the type.
-        return type instanceof UnionType ?
-            (this.containsType(type.left, context) || this.containsType(type.right, context)) :
-            this.containsType(type, context);
+        return this.getTypeSet(context).containsAll(types, context);
+    }
+
+    /** Override the default and return all types in this union. */
+    getPossibleTypes(): Type[] {
+        return [ ... this.left.getPossibleTypes(), ... this.right.getPossibleTypes() ];
     }
 
     containsType(type: Type, context: Context) {
@@ -88,15 +92,6 @@ export default class UnionType extends Type {
     getNativeTypeName(): string { return "union"; }
 
     computeConflicts() {}
-
-    getTypes(context: Context): TypeSet {
-        // Return the union of the left and right type sets.
-        return (this.left instanceof UnionType ? this.left.getTypes(context) : new TypeSet([ this.left ], context))
-            .union(
-                this.right instanceof UnionType ? this.right.getTypes(context) : new TypeSet([ this.right ], context),
-                context
-            );
-    }
     
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
 
@@ -127,98 +122,39 @@ export default class UnionType extends Type {
         }
     }
 
-}
-
-/** Given a list of types, remove all duplicates, and if only one remains, return it.
- *  Otherwise, create a union type that contains all of the unique types.
- */
-export function getPossibleUnionType(context: Context, types: Type[]): Type | undefined {
-
-    if(types.length === 0) return undefined;
-
-    const uniqueTypes: Type[] = [];
-    types.forEach(type => {
-        if(uniqueTypes.length === 0 || uniqueTypes.every(t => !t.accepts(type, context)))
-            uniqueTypes.push(type);
-    })
-
-    // If there's just one, return it.
-    if(uniqueTypes.length === 1)
-        return uniqueTypes[0];
-
-    // Otherwise construct a nested union type of all of them.
-    let union = uniqueTypes[0];
-    do {
-        uniqueTypes.shift();
-        if(uniqueTypes.length > 0)
-            union = UnionType.make(union, uniqueTypes[0]);
-    } while(uniqueTypes.length > 0);
-    return union;
-    
-}
-
-/**
- * Utility class for reasoning about sets of types. Guarantees that any given pair of types in the set
- * are not compatible.
- */
-export class TypeSet {
-
-    readonly set = new Set<Type>();
-
-    constructor(types: Type[], context: Context) {
-
-        // Remove any duplicates.
-        for(const type of types)
-            if(Array.from(this.set).find(t => t.accepts(type, context)) === undefined)
-                this.set.add(type);
-
-    }
-
-    list() { return Array.from(this.set); }
-
-    contains(type: Type, context: Context): boolean {
-        return this.list().find(t => t.accepts(type, context)) !== undefined;
-    }
-
-    acceptedBy(type: Type, context: Context): boolean {
-        return this.list().find(t => type.accepts(t, context)) !== undefined;
-    }
-
-    union(set: TypeSet, context: Context) {
-        return new TypeSet([ ...this.list(), ...set.list() ], context);
-    }
-
-    difference(set: TypeSet, context: Context) {
-        return new TypeSet(
-            this.list().filter(thisType => set.list().find(thatType => thatType.accepts(thisType, context)) === undefined),
-            context
-        );
-    }
-
-    intersection(set: TypeSet, context: Context) {
-        return new TypeSet(this.list().filter(thisType => set.list().find(thatType => thatType.accepts(thisType, context)) !== undefined), context);
-    }
-
-    /**
-     * Converts type set into a single Type, UnionType, or NeverType (if set is empty).,
+    /** 
+     * Given a list of types, remove all duplicates, and if only one remains, return it.
+     * Otherwise, create a union type that contains all of the unique types. Returns a NeverType if the set is empty.
      */
-    type() {
-        if(this.set.size === 1)
-            return this.list()[0];
+    static getPossibleUnion(context: Context, types: Type[]): Type {
 
-        let types = this.list();
-        let cur = types.shift();
-        let next = types.shift();
-        let union = undefined;
-        if(cur !== undefined && next !== undefined)
-            union = UnionType.make(cur, next);
-        while(types.length > 0 && union !== undefined) {
-            let next = types.shift();
-            if(next !== undefined)
-                union = UnionType.make(union, next);
-        }
-        return union === undefined ? new NeverType() : union;
+        if(types.length === 0) return new NeverType();
 
+        // Flatten the list of types.
+        let all: Type[] = [];
+        for(const type of types)
+            all = [ ...all, ...type.getPossibleTypes() ];
+
+        // Find the unique types in the list.
+        const uniqueTypes: Type[] = [];
+        all.forEach(type => {
+            if(uniqueTypes.length === 0 || uniqueTypes.every(t => !t.accepts(type, context)))
+                uniqueTypes.push(type);
+        })
+
+        // If there's just one, return it.
+        if(uniqueTypes.length === 1)
+            return uniqueTypes[0];
+
+        // Otherwise construct a union type of all of them.
+        let union = uniqueTypes[0];
+        do {
+            uniqueTypes.shift();
+            if(uniqueTypes.length > 0)
+                union = UnionType.make(union, uniqueTypes[0]);
+        } while(uniqueTypes.length > 0);
+        return union;
+        
     }
 
 }

@@ -17,7 +17,7 @@ import { NotAStreamIndex } from "../conflicts/NotAStreamIndex";
 import Stream from "../runtime/Stream";
 import KeepStream from "../runtime/KeepStream";
 import type Bind from "./Bind";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import TypeException from "../runtime/TypeException";
 import AnyType from "./AnyType";
 import Reference from "./Reference";

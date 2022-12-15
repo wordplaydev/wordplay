@@ -15,7 +15,7 @@ import { TRANSLATE } from "./Translations"
 import Expression from "./Expression";
 import Bind from "./Bind";
 import type Type from "./Type";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import type Stream from "../runtime/Stream";
 import type Value from "../runtime/Value";
 import UnknownType from "./UnknownType";

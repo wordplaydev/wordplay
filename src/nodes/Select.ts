@@ -20,7 +20,7 @@ import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type Context from "./Context";
 import type Definition from "./Definition";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import UnimplementedException from "../runtime/UnimplementedException";
 import type Evaluator from "../runtime/Evaluator";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";

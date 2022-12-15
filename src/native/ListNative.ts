@@ -192,7 +192,7 @@ export default function bootstrapList() {
                 }, 
                 undefined, 
                 [], 
-                new NameType(LIST_TYPE_VAR_NAMES.eng),
+                UnionType.make(new NameType(LIST_TYPE_VAR_NAMES.eng), NoneType.make()),
                 (requestor, evaluation) => {
                     requestor;
                     const list = evaluation.getClosure();

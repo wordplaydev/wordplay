@@ -11,7 +11,7 @@ import Expression from "./Expression";
 import Node from "./Node";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import UnknownType from "./UnknownType";
 
 export default class UnparsableExpression extends Expression {

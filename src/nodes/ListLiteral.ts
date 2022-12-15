@@ -10,7 +10,8 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type Context from "./Context";
-import { getPossibleUnionType, TypeSet } from "./UnionType";
+import UnionType from "./UnionType";
+import type TypeSet from "./TypeSet";
 import type Bind from "./Bind";
 import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
@@ -70,8 +71,8 @@ export default class ListLiteral extends Expression {
 
     computeType(context: Context): Type {
         const expressions = this.values.filter(e => e instanceof Expression) as Expression[];
-        let itemType = getPossibleUnionType(context, expressions.map(v => v.getTypeUnlessCycle(context)));
-        return ListType.make(itemType);
+        let itemType = expressions.length === 0 ? undefined : UnionType.getPossibleUnion(context, expressions.map(v => v.getTypeUnlessCycle(context)));
+        return ListType.make(itemType, this.values.length);
     }
 
     computeConflicts(): Conflict[] {

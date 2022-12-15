@@ -12,26 +12,30 @@ import TypePlaceholder from "./TypePlaceholder";
 import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import type TypeSet from "./TypeSet";
 
 export default class ListType extends NativeType {
 
     readonly open: Token;
     readonly type: Type | undefined;
     readonly close: Token | undefined;
+    // In some cases we know the length of a list and the index in an accessor and can use this to narrow types.
+    readonly length?: number;
 
-    constructor(open: Token, type: Type | undefined, close: Token | undefined) {
+    constructor(open: Token, type: Type | undefined, close: Token | undefined, length?: number) {
         super();
 
         this.open = open;
         this.type = type;
         this.close = close;
+        this.length = length;
 
         this.computeChildren();
 
     }
 
-    static make(type?: Type) {
-        return new ListType(new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN), type, new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE));
+    static make(type?: Type, length?: number) {
+        return new ListType(new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN), type, new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE), length);
     }
 
     getGrammar() { 
@@ -52,15 +56,16 @@ export default class ListType extends NativeType {
 
     computeConflicts() {}
 
-    accepts(type: Type, context: Context): boolean {
-        return type instanceof ListType && 
+    acceptsAll(types: TypeSet, context: Context): boolean {
+        return types.list().every(type => type instanceof ListType && 
             (
                 // If this list type has no type specified, any will do.
                 this.type === undefined || 
                 // If the given type has no type specified, any will do
                 type.type === undefined ||
                 this.type.accepts(type.type, context)
-            );
+            )
+        );
     }
 
     getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }

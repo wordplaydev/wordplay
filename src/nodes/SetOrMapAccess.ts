@@ -17,7 +17,7 @@ import MapType from "./MapType";
 import SetType from "./SetType";
 import BooleanType from "./BooleanType";
 import type Bind from "./Bind";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import TypeException from "../runtime/TypeException";
 import UnionType from "./UnionType";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";

@@ -15,7 +15,7 @@ import type Definition from "./Definition";
 import StructureType from "./StructureType";
 import Token from "./Token";
 import FunctionType from "./FunctionType";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import { Unimplemented } from "../conflicts/Unimplemented";
 import { Implemented } from "../conflicts/Implemented";
 import { DisallowedInputs } from "../conflicts/DisallowedInputs";

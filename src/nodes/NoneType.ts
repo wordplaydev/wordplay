@@ -6,7 +6,7 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import type Type from "./Type";
+import type TypeSet from "./TypeSet";
 
 export default class NoneType extends NativeType {
 
@@ -33,8 +33,8 @@ export default class NoneType extends NativeType {
 
     computeConflicts() {}
 
-    accepts(type: Type): boolean { 
-        return type instanceof NoneType;
+    acceptsAll(types: TypeSet): boolean { 
+        return types.list().every(type =>type instanceof NoneType);
     }
 
     getNativeTypeName(): string { return NONE_NATIVE_TYPE_NAME; }

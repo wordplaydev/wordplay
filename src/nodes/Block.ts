@@ -16,7 +16,7 @@ import type Context from "./Context";
 import type Definition from "./Definition";
 import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import ValueException from "../runtime/ValueException";
 import None from "../runtime/None";
 import ConversionDefinition from "./ConversionDefinition";

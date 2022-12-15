@@ -4,7 +4,6 @@ import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import type Type from "./Type";
 import Unit from "./Unit";
 import BinaryOperation from "./BinaryOperation";
 import NativeType from "./NativeType";
@@ -13,13 +12,13 @@ import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import UnionType from "./UnionType";
 import UnaryOperation from "./UnaryOperation";
 import MeasurementLiteral from "./MeasurementLiteral";
 import Measurement from "../runtime/Measurement";
 import Evaluate from "./Evaluate";
 import PropertyReference from "./PropertyReference";
 import UnknownType from "./UnknownType";
+import type TypeSet from "./TypeSet";
 
 type UnitDeriver = (left: Unit, right: Unit | undefined, constant: number | undefined) => Unit;
 
@@ -71,17 +70,13 @@ export default class MeasurementType extends NativeType {
 
     withUnit(unit: Unit): MeasurementType { return new MeasurementType(this.number, unit); }
 
-    accepts(type: Type, context: Context): boolean {
-
-        const types = type instanceof MeasurementType ? [ type ] : type instanceof UnionType ? type.getTypes(context).list() : [];
-        
-        if(types.length === 0) return false;
+    acceptsAll(types: TypeSet, context: Context): boolean {
 
         // Are the units compatible? First, get concrete units.
         const thisUnit = this.concreteUnit(context);
 
         // See if all of the possible types are compatible.
-        for(const possibleType of types) {
+        for(const possibleType of types.set) {
 
             // Not a measurement type? Not compatible.
             if(!(possibleType instanceof MeasurementType)) return false;
@@ -98,7 +93,7 @@ export default class MeasurementType extends NativeType {
                 return false;
 
             // If the units aren't compatible, then the the types aren't compatible.
-            if(!thisUnit.accepts(thatUnit))
+            if(!thisUnit.accepts(thatUnit, context))
                 return false;
         }
         return true;

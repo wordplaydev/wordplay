@@ -11,7 +11,7 @@ import type Step from "../runtime/Step";
 import type Context from "./Context";
 import Language from "./Language";
 import type Bind from "./Bind";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import Start from "../runtime/Start";
 import TokenType from "./TokenType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";

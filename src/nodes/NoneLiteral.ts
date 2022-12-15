@@ -8,7 +8,7 @@ import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import type Bind from "./Bind";
 import type Context from "./Context";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import { NONE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";

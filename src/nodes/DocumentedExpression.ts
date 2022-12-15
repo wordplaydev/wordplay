@@ -5,7 +5,7 @@ import type Step from "../runtime/Step";
 import type Node from "./Node";
 import type Bind from "./Bind";
 import type Context from "./Context";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import type Transform from "../transforms/Transform";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";

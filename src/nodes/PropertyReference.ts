@@ -13,7 +13,8 @@ import type Context from "./Context";
 import type Node from "./Node";
 import StructureType from "./StructureType";
 import Bind from "./Bind";
-import UnionType, { TypeSet } from "./UnionType";
+import UnionType from "./UnionType";
+import type TypeSet from "./TypeSet";
 import Conditional from "./Conditional";
 import Is from "./Is";
 import { PROPERTY_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
@@ -167,7 +168,7 @@ export default class PropertyReference extends Expression {
                 // Grab the furthest ancestor and evaluate possible types from there.
                 const root = guards[0];
                 if(root !== undefined) {
-                    let possibleTypes = type.getTypes(context);
+                    let possibleTypes = type.getTypeSet(context);
                     root.evaluateTypeSet(def, possibleTypes, possibleTypes, context);
                 }
             }
@@ -205,7 +206,7 @@ export default class PropertyReference extends Expression {
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.structure instanceof Expression) {
             const possibleTypes = this.structure.evaluateTypeSet(bind, original, current, context);
-            this._unionType = possibleTypes.type();
+            this._unionType = UnionType.getPossibleUnion(context, possibleTypes.list());
         }
         return current;
     }

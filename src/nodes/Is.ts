@@ -14,7 +14,8 @@ import Reference from "./Reference";
 import PropertyReference from "./PropertyReference";
 import StructureType from "./StructureType";
 import { IncompatibleType } from "../conflicts/IncompatibleType";
-import UnionType, { TypeSet } from "./UnionType";
+import UnionType from "./UnionType";
+import TypeSet from "./TypeSet";
 import Start from "../runtime/Start";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
@@ -64,7 +65,7 @@ export default class Is extends Expression {
         // Is the type of the expression compatible with the specified type? If not, warn.
         const type = this.expression.getTypeUnlessCycle(context);
 
-        if((type instanceof UnionType && !type.getTypes(context).acceptedBy(this.type, context)) || 
+        if((type instanceof UnionType && !type.getTypeSet(context).acceptedBy(this.type, context)) || 
             (!(type instanceof UnionType) && !this.type.accepts(type, context)))
             return [ new IncompatibleType(this, type)];
 

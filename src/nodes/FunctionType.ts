@@ -15,6 +15,7 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import FunctionDefinitionType from "./FunctionDefinitionType";
 import TypeVariables from "./TypeVariables";
+import type TypeSet from "./TypeSet";
 
 export default class FunctionType extends Type {
 
@@ -72,22 +73,24 @@ export default class FunctionType extends Type {
         ) as this;
     }
 
-    accepts(type: Type, context: Context): boolean {
-        if(!(type instanceof FunctionType || type instanceof FunctionDefinitionType)) return false;
-        let inputsToCheck: Bind[] = type instanceof FunctionDefinitionType ? type.fun.inputs : type.inputs;
-        let outputToCheck = type instanceof FunctionDefinitionType ? type.fun.getOutputType(context) : type.output;
+    acceptsAll(types: TypeSet, context: Context): boolean {
+        return types.list().every(type => {
+            if(!(type instanceof FunctionType || type instanceof FunctionDefinitionType)) return false;
+            let inputsToCheck: Bind[] = type instanceof FunctionDefinitionType ? type.fun.inputs : type.inputs;
+            let outputToCheck = type instanceof FunctionDefinitionType ? type.fun.getOutputType(context) : type.output;
 
-        if(!(outputToCheck instanceof Type)) return false;
-        if(!this.output.accepts(outputToCheck, context)) return false;
-        if(this.inputs.length != inputsToCheck.length) return false;
-        for(let i = 0; i < this.inputs.length; i++) {
-            const thisBind = this.inputs[i];
-            const thatBind = inputsToCheck[i];
-            if(thisBind.type instanceof Type && thatBind.type instanceof Type && !thisBind.type.accepts(thatBind.type, context)) return false;
-            if(thisBind.isVariableLength() !== thatBind.isVariableLength()) return false;
-            if(thisBind.hasDefault() !== thatBind.hasDefault()) return false;
-        }
-        return true;
+            if(!(outputToCheck instanceof Type)) return false;
+            if(!this.output.accepts(outputToCheck, context)) return false;
+            if(this.inputs.length != inputsToCheck.length) return false;
+            for(let i = 0; i < this.inputs.length; i++) {
+                const thisBind = this.inputs[i];
+                const thatBind = inputsToCheck[i];
+                if(thisBind.type instanceof Type && thatBind.type instanceof Type && !thisBind.type.accepts(thatBind.type, context)) return false;
+                if(thisBind.isVariableLength() !== thatBind.isVariableLength()) return false;
+                if(thisBind.hasDefault() !== thatBind.hasDefault()) return false;
+            }
+            return true;
+        });
     }
 
     getNativeTypeName(): string { return FUNCTION_NATIVE_TYPE_NAME; }

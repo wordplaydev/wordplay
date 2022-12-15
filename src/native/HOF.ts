@@ -4,7 +4,7 @@ import Expression from "../nodes/Expression";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
-import type { TypeSet } from "../nodes/UnionType";
+import type TypeSet from "../nodes/TypeSet";
 
 export default abstract class HOF extends Expression {
 

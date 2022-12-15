@@ -5,6 +5,7 @@ import { TRANSLATE } from "./Translations"
 import type FunctionDefinition from "./FunctionDefinition";
 import FunctionType from "./FunctionType";
 import { FUNCTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import type TypeSet from "./TypeSet";
 
 export default class FunctionDefinitionType extends Type {
 
@@ -21,16 +22,17 @@ export default class FunctionDefinitionType extends Type {
     computeConflicts() { return []; }
 
     /** Compatible if it's the same structure definition, or the given type is a refinement of the given structure.*/
-    accepts(type: Type, context: Context): boolean {
+    acceptsAll(types: TypeSet, context: Context): boolean {
+        return types.list().every(type => {
 
-        if(type instanceof FunctionDefinitionType && this.fun === type.fun) return true;
+            if(type instanceof FunctionDefinitionType && this.fun === type.fun) return true;
 
-        // If the signatures match, yes!
-        return type instanceof FunctionType && 
-            this.fun.inputs.length === type.inputs.length && 
-            this.fun.inputs.every((input, index) => input.getType(context).accepts(type.inputs[index].getType(context), context)) &&
-            this.fun.getOutputType(context) && type.output instanceof Type && this.fun.getOutputType(context).accepts(type.output, context);
-
+            // If the signatures match, yes!
+            return type instanceof FunctionType && 
+                this.fun.inputs.length === type.inputs.length && 
+                this.fun.inputs.every((input, index) => input.getType(context).accepts(type.inputs[index].getType(context), context)) &&
+                this.fun.getOutputType(context) && type.output instanceof Type && this.fun.getOutputType(context).accepts(type.output, context);
+        });
     }
 
     getNativeTypeName(): string { return FUNCTION_NATIVE_TYPE_NAME; }

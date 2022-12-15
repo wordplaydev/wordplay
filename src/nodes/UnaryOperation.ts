@@ -11,7 +11,7 @@ import Start from "../runtime/Start";
 import type Context from "./Context";
 import type Bind from "./Bind";
 import { NOT_SYMBOL } from "../parser/Tokenizer";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import FunctionException from "../runtime/FunctionException";
 import FunctionDefinition from "./FunctionDefinition";
 import NotAFunction from "../conflicts/NotAFunction";

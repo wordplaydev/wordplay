@@ -61,7 +61,7 @@ export default class UnknownType extends Type {
     getGrammar() { return []; }
 
     computeConflicts() {}
-    accepts() { return false; }
+    acceptsAll() { return false; }
     getNativeTypeName(): string { return "unknown"; }
 
     toWordplay() { return "�"; }

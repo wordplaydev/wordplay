@@ -1,7 +1,7 @@
 import { MAP_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Context from "../nodes/Context";
 import MapType from "../nodes/MapType";
-import { getPossibleUnionType } from "../nodes/UnionType";
+import UnionType from "../nodes/UnionType";
 import Measurement from "./Measurement";
 import None from "./None";
 import Primitive from "./Primitive";
@@ -77,8 +77,8 @@ export default class Map extends Primitive {
 
     getType(context: Context) { 
         return MapType.make(
-            getPossibleUnionType(context, this.values.map(v => v[0].getType(context))),
-            getPossibleUnionType(context, this.values.map(v => v[1].getType(context)))
+            UnionType.getPossibleUnion(context, this.values.map(v => v[0].getType(context))),
+            UnionType.getPossibleUnion(context, this.values.map(v => v[1].getType(context)))
         ); 
     }
     

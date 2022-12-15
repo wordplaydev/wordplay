@@ -18,6 +18,7 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import TypeInputs from "./TypeInputs";
 import InvalidTypeInput from "../conflicts/InvalidTypeInput";
+import type TypeSet from "./TypeSet";
 
 export default class NameType extends Type {
 
@@ -75,11 +76,10 @@ export default class NameType extends Type {
     
     }
 
-    accepts(type: Type, context: Context): boolean {    
+    acceptsAll(types: TypeSet, context: Context): boolean {    
         const thisType = this.getType(context);
-        return thisType === undefined ? 
-            false : 
-            thisType.accepts(type, context);
+        if(thisType === undefined) return false;
+        return types.list().every(type => thisType.accepts(type, context));
     }
 
     resolve(context: Context): Definition | undefined {

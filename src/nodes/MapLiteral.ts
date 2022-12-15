@@ -11,7 +11,8 @@ import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import Start from "../runtime/Start";
 import type Context from "./Context";
-import { getPossibleUnionType, TypeSet } from "./UnionType";
+import UnionType from "./UnionType";
+import type TypeSet from "./TypeSet";
 import { NotAMap } from "../conflicts/NotAMap";
 import MapType from "./MapType";
 import Halt from "../runtime/Halt";
@@ -96,8 +97,8 @@ export default class MapLiteral extends Expression {
     }
 
     computeType(context: Context): Type {
-        let keyType = getPossibleUnionType(context, this.values.map(v => v.key.getTypeUnlessCycle(context)));
-        let valueType = getPossibleUnionType(context, this.values.map(v => v.value.getTypeUnlessCycle(context)));
+        let keyType = UnionType.getPossibleUnion(context, this.values.map(v => v.key.getTypeUnlessCycle(context)));
+        let valueType = UnionType.getPossibleUnion(context, this.values.map(v => v.value.getTypeUnlessCycle(context)));
         if(keyType === undefined) keyType = new AnyType();
         else if(valueType === undefined) valueType = new AnyType();
         

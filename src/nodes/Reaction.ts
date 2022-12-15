@@ -15,7 +15,8 @@ import Start from "../runtime/Start";
 import JumpIfStreamExists from "../runtime/JumpIfStreamExists";
 import Bind from "./Bind";
 import type Context from "./Context";
-import UnionType, { TypeSet } from "./UnionType";
+import UnionType from "./UnionType";
+import type TypeSet from "./TypeSet";
 import Exception from "../runtime/Exception";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import Stream from "../runtime/Stream";
@@ -27,6 +28,7 @@ import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import UnknownType from "./UnknownType";
 
 export default class Reaction extends Expression {
 
@@ -81,10 +83,17 @@ export default class Reaction extends Expression {
     computeType(context: Context): Type {
         const initialType = this.initial.getTypeUnlessCycle(context);
         const nextType = this.next.getTypeUnlessCycle(context);
-        if(initialType.accepts(nextType, context))
-            return initialType;
-        else
-            return UnionType.make(initialType, nextType);
+        const type = UnionType.getPossibleUnion(context, [ initialType, nextType ]);
+
+        // If the type includes an unknown type because of a cycle, remove the unknown, since the rest of the type defines the possible values.
+        const types = type.getTypeSet(context).list();
+        const cycle = types.findIndex(type => type instanceof UnknownType && "cycle" in type.reason);
+        if(cycle >= 0) {
+            types.splice(cycle, 1);
+            return UnionType.getPossibleUnion(context, types);
+        } else
+            return type;
+
     }
 
     getDependencies(): Expression[] {

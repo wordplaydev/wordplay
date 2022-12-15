@@ -5,7 +5,7 @@ import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import type Bind from "./Bind";
 import type Context from "./Context";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import type Evaluator from "../runtime/Evaluator";
 
 import Expression from "./Expression";

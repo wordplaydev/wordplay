@@ -3,6 +3,7 @@ import type Exception from "../runtime/Exception";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Type from "./Type";
+import type TypeSet from "./TypeSet";
 
 export default class ExceptionType extends Type {
 
@@ -18,8 +19,8 @@ export default class ExceptionType extends Type {
     getGrammar() { return []; }
 
     computeConflicts() {}
-    accepts(type: Type): boolean {
-        return type instanceof ExceptionType && this.exception.constructor === type.exception.constructor;
+    acceptsAll(types: TypeSet): boolean {
+        return types.list().every(type => type instanceof ExceptionType && this.exception.constructor === type.exception.constructor);
     }
 
     getConversion() {

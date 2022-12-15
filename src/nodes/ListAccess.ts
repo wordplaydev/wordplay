@@ -16,7 +16,8 @@ import Start from "../runtime/Start";
 import type Context from "./Context";
 import type Node from "./Node";
 import NoneType from "./NoneType";
-import UnionType, { TypeSet } from "./UnionType";
+import UnionType from "./UnionType";
+import type TypeSet from "./TypeSet";
 import Unit from "./Unit";
 import type Bind from "./Bind";
 import type Translations from "./Translations";
@@ -29,6 +30,7 @@ import { NotAList } from "../conflicts/NotAList";
 import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
 import ListOpenToken from "./ListOpenToken";
 import ListCloseToken from "./ListCloseToken";
+import MeasurementLiteral from "./MeasurementLiteral";
 
 export default class ListAccess extends Expression {
     
@@ -99,8 +101,12 @@ export default class ListAccess extends Expression {
     computeType(context: Context): Type {
         // The type is the list's value type, or unknown otherwise.
         const listType = this.list.getTypeUnlessCycle(context);
-        if(listType instanceof ListType && listType.type instanceof Type) 
-            return UnionType.make(listType.type, NoneType.make());
+        if(listType instanceof ListType && listType.type instanceof Type) {
+            if(listType.length !== undefined && this.index instanceof MeasurementLiteral && this.index.toValue().num.greaterThanOrEqualTo(1) && this.index.toValue().num.lessThanOrEqualTo(listType.length))
+                return listType.type;
+            else
+                return UnionType.getPossibleUnion(context, [ listType.type, NoneType.make() ]);
+        }
         else return new UnknownType(this);
     }
 

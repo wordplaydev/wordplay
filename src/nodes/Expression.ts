@@ -6,7 +6,7 @@ import type Type from "./Type";
 import type Step from "src/runtime/Step";
 import UnknownType from "./UnknownType";
 import type Bind from "./Bind";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import type Translations from "./Translations";
 import type Stream from "../runtime/Stream";
 
@@ -36,7 +36,7 @@ export default abstract class Expression extends Node {
 
     getTypeUnlessCycle(context: Context): Type {
 
-        // If the context includes this node, we're in a cycle.
+        // If we've already visited this node while trying to determine its type, then there is a cycle.
         if(context.visited(this)) return new UnknownType({ cycle: this });
 
         context.visit(this);

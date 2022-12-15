@@ -3,6 +3,7 @@ import type FunctionDefinition from "./FunctionDefinition";
 import Node from "./Node";
 import type Context from "./Context";
 import type Expression from "./Expression";
+import TypeSet from "./TypeSet";
 
 export default abstract class Type extends Node {
 
@@ -12,9 +13,23 @@ export default abstract class Type extends Node {
 
     /**
      * True if the given type can be bound to this type, in the given program context.
+     * Gets all possible types of the given type, then asks the subclass to check them all.
      */
-    abstract accepts(type: Type, context: Context, expression?: Expression): boolean;
+    accepts(type: Type, context: Context, expression?: Expression): boolean {
+        return this.acceptsAll(new TypeSet(type.getPossibleTypes(), context), context, expression);
+    }
+
+    abstract acceptsAll(types: TypeSet, context: Context, expression?: Expression): boolean;
     abstract getNativeTypeName(): string;
+    
+    /** 
+     * All types can only be themeselves, unless otherwise noted (primarily the case for UnionTypes).
+     * We use this as a generic interface to ensure we're always accounting for the many types a type can be,
+     * and to allow for extensions to the type system later.
+     */
+    getPossibleTypes(): Type[] { return [ this ]; }
+
+    getTypeSet(context: Context): TypeSet { return new TypeSet(this.getPossibleTypes(), context); }
 
     /** All types are concrete unless noted otherwise. */
     isGeneric() { return false; }

@@ -11,7 +11,7 @@ import type Step from "../runtime/Step";
 import { NotANumber } from "../conflicts/NotANumber";
 import type Bind from "./Bind";
 import type Context from "./Context";
-import type { TypeSet } from "./UnionType";
+import type TypeSet from "./TypeSet";
 import { getPossibleUnits } from "../transforms/getPossibleUnits";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
@@ -63,7 +63,7 @@ export default class MeasurementLiteral extends Expression {
 
     computeConflicts(): Conflict[] { 
     
-        if(new Measurement(this, this.number).num.isNaN())
+        if(this.toValue().num.isNaN())
             return [ new NotANumber(this) ];
         else
             return []; 
@@ -86,6 +86,10 @@ export default class MeasurementLiteral extends Expression {
         
         if(prior) return prior;
 
+        return this.toValue();
+    }
+
+    toValue() { 
         return new Measurement(this, this.number, this.unit);
     }
 
