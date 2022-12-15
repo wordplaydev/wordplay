@@ -134,6 +134,7 @@
     .footer {
         flex-basis: content;
         width: 100%;
+        box-sizing: border-box;
     }
 
     .output {
