@@ -37,6 +37,7 @@ import type Definition from "./Definition";
 import type Value from "../runtime/Value";
 import StreamType from "./StreamType";
 import Reference from "./Reference";
+import NameType from "./NameType";
 
 export default class PropertyReference extends Expression {
 
@@ -119,6 +120,9 @@ export default class PropertyReference extends Expression {
 
     computeType(context: Context): Type {
 
+        // Get the structure type
+        const subjectType = this.getSubjectType(context);
+
         // Get the definition.
         const def = this.getDefinition(context);
 
@@ -126,9 +130,20 @@ export default class PropertyReference extends Expression {
         if(def === undefined || def instanceof TypeVariable) return new UnknownType(this);
 
         // Get the type of the definition.
-        const type = def.getType(context);
+        let type = def.getType(context);
+        
 
         if(def instanceof Bind) {
+
+            if(type instanceof NameType) {
+                const bindType = type.resolve(context);
+                if(bindType instanceof TypeVariable && subjectType instanceof StructureType) {
+                    const typeInput = subjectType.resolveTypeVariable(bindType.getNames()[0]);
+                    if(typeInput)
+                        type = typeInput;
+                }   
+            }
+
             // Narrow the type if it's a union.
 
             // Is the type a union? Find the subset of types that are feasible, given any type checks in conditionals.

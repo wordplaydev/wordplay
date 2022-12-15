@@ -51,6 +51,6 @@ export default class MousePosition extends Stream<Structure> {
         this.on = false;
     }
 
-    getType() { return StreamType.make(new StructureType(PlaceType)); }
+    getType() { return StreamType.make(new StructureType(PlaceType, [])); }
 
 }

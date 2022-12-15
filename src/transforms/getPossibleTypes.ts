@@ -17,6 +17,8 @@ import Append from "./Append";
 import Add from "./Add";
 import { getPossibleLanguages } from "./getPossibleLanguages";
 import { getPossibleUnits } from "./getPossibleUnits";
+import { languages } from "../models/languages";
+import { get } from "svelte/store";
 
 export function getPossibleTypes(node: Node, context: Context): Type[] {
 
@@ -29,10 +31,10 @@ export function getPossibleTypes(node: Node, context: Context): Type[] {
         ListType.make(new TypePlaceholder()),
         SetType.make(new TypePlaceholder()),
         MapType.make(new TypePlaceholder(), new TypePlaceholder()),
-        // Any structure definition types that match the  aren't the currently selected one.
+        // Any structure definition types that match the aren't the currently selected one.
         ... (node.getAllDefinitions(node, context)
-            .filter(def => def instanceof StructureDefinition) as StructureDefinition[])
-            .map(s => new StructureType(s))
+            .filter((def): def is StructureDefinition => def instanceof StructureDefinition))
+            .map(s => new NameType(s.names.getTranslation(get(languages))))
     ]
 
 }

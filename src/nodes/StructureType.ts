@@ -10,13 +10,19 @@ export const STRUCTURE_NATIVE_TYPE_NAME = "structure";
 
 export default class StructureType extends Type {
 
+    /** The structure definition that defines this type. */
     readonly structure: StructureDefinition;
 
-    constructor(definition: StructureDefinition) {
+    /** Any type inputs provided in creating this structure. */
+    readonly types: Type[];
+
+    constructor(definition: StructureDefinition, types: Type[]) {
 
         super();
 
         this.structure = definition;
+        this.types = types;
+
     }
 
     getGrammar() { return []; }
@@ -48,9 +54,22 @@ export default class StructureType extends Type {
         return this.structure.getAllConversions();
     }
   
+    resolveTypeVariable(name: string): Type | undefined { 
+
+        if(this.types.length > 0) {
+            // Find the type variable corresponding to the name, then the type input corresponding to that variable.
+            const variableIndex = this.structure.types?.variables.findIndex(v => v.hasName(name));
+            if(variableIndex !== undefined && variableIndex < this.types.length)
+                return this.types[variableIndex];
+        }
+
+        // Otherwise, we fail.
+        return undefined; 
+    }
+
     getNativeTypeName(): string { return STRUCTURE_NATIVE_TYPE_NAME; }
 
-    replace() { return new StructureType(this.structure) as this; }
+    replace() { return this; }
 
     toWordplay() { return this.structure.getNames()[0]; }
 

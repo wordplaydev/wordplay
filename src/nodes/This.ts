@@ -74,7 +74,7 @@ export default class This extends Expression {
         const structure = this.getEnclosingStructure(context);
         return structure === undefined ? new UnknownType(this) : 
             // Structure definition's have the structure type
-            structure instanceof StructureDefinition ? new StructureType(structure) :
+            structure instanceof StructureDefinition ? new StructureType(structure, []) :
             // Conversion definitions have the input type
             structure instanceof ConversionDefinition ?  (
                 // We strip the unit from this in order to provide a scalar for conversion.

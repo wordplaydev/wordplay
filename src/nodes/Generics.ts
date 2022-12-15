@@ -32,7 +32,7 @@ export default function getConcreteExpectedType(definition: FunctionDefinition |
     let type;
     // If the input is undefined, we're getting the output type of the function or structure.
     if(input === undefined) {
-        if(definition instanceof StructureDefinition) return new StructureType(definition);
+        if(definition instanceof StructureDefinition) return new StructureType(definition, []);
         const functionType = definition.getTypeUnlessCycle(context);
         if(!(functionType instanceof FunctionDefinitionType)) return new UnknownType({ typeVar: definition });
         type = functionType.fun.getOutputType(context);

@@ -240,7 +240,7 @@ export default class Bind extends Expression {
                     this.type
                 ) :
             // If the value is a structure definition, make a structure type.
-            this.value instanceof StructureDefinition ? new StructureType(this.value) :
+            this.value instanceof StructureDefinition ? new StructureType(this.value, []) :
             // If it has an expression. ask the expression.
             this.value instanceof Expression ? this.value.getTypeUnlessCycle(context) :
             // Otherwise, we don't know.

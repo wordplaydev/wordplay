@@ -56,6 +56,12 @@ test("Test generics", () => {
     testTypes("{ 1 2 3 }.remove(1)", SetType);
     // Infer from map higher order function
     testTypes("{ 1:2 2:3 3:4 }.remove(1)", MapType);
+
+    testTypes(`
+        •Cat⸨Kind⸩(a•Kind)
+        Cat⸨""⸩("hi").a.length()
+    `, MeasurementType)
+
     // Infer from map keys
     // testTypes("{ 1:'a' 2:'b' 3:'c' }→{}", SetType);
     // testTypes("{ 1:'a' 2:'b' 3:'c' }→{}→[]", ListType);

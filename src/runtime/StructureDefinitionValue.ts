@@ -22,7 +22,7 @@ export default class StructureDefinitionValue extends Primitive {
         this.context = context;
     }
 
-    getType() { return new StructureType(this.definition); }
+    getType() { return new StructureType(this.definition, []); }
     
     getNativeTypeName() { return STRUCTURE_NATIVE_TYPE_NAME; }
 

@@ -46,7 +46,7 @@ export default class Structure extends Value {
         })
     }
 
-    getType() { return new StructureType(this.type); }
+    getType() { return new StructureType(this.type, []); }
 
     getNativeTypeName(): string { return STRUCTURE_NATIVE_TYPE_NAME; }
 

@@ -132,7 +132,7 @@ export default class StructureDefinition extends Expression {
     getInputs() { return this.inputs.filter(i => i instanceof Bind) as Bind[]; }
 
     getFunctionType(): FunctionType {
-       return FunctionType.make(this.types, this.inputs, new StructureType(this));
+       return FunctionType.make(this.types, this.inputs, new StructureType(this, []));
     }
 
     isInterface(): boolean { return this.inputs.length === 0 && this.getImplementedFunctions().length === 0; }
@@ -251,7 +251,7 @@ export default class StructureDefinition extends Expression {
             [];
     }
 
-    computeType(): Type { return new StructureType(this); }
+    computeType(): Type { return new StructureType(this, []); }
 
     getDependencies(): Expression[] {
         return this.expression instanceof Block ? [ this.expression ] : [];

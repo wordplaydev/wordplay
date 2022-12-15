@@ -301,7 +301,7 @@ export default class Evaluate extends Expression {
         if(fun instanceof FunctionDefinition) return getConcreteExpectedType(fun, undefined, this, context);
         // If it's a structure, then this is an instantiation of the structure, so this evaluate resolves
         // to a value of the structure's type.
-        else if(fun instanceof StructureDefinition) return new StructureType(fun);
+        else if(fun instanceof StructureDefinition) return new StructureType(fun, [...(this.types ? this.types.types : []) ]);
         // Otherwise, who knows.
         else return new UnknownType({ definition: this, name: this.func });
 
