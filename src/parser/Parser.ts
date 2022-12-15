@@ -838,7 +838,10 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
         output = parseType(tokens);
     }
 
-    const expression = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : parseExpression(tokens);
+    const expression = 
+        tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : 
+        !tokens.hasNext() || tokens.nextHasMoreThanOneLineBreak() ? undefined :
+        parseExpression(tokens);
 
     return new FunctionDefinition(docs, fun, names, types, open, inputs, close, dot, output, expression);
 

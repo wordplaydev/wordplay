@@ -453,7 +453,7 @@ export default class Evaluate extends Expression {
 
             // Bail if the function's body isn't an expression.
             if(!(body instanceof Expression))
-                return new SemanticException(evaluator, body);
+                return new SemanticException(evaluator, body ?? definition);
 
             // Build the bindings.
             const bindings = this.buildBindings(evaluator, definition.inputs, values);

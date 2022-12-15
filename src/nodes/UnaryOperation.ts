@@ -93,7 +93,7 @@ export default class UnaryOperation extends Expression {
     
     getDependencies(context: Context): Expression[] {
         const fun = this.getFunction(context);
-        return [ this.operand, ...(fun === undefined || !(fun.expression === undefined) ? [] : [ fun.expression] ) ];
+        return [ this.operand, ...(fun === undefined || !(fun.expression instanceof Expression) ? [] : [ fun.expression] ) ];
     }
 
     compile(context: Context):Step[] {

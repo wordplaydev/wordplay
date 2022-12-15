@@ -36,6 +36,7 @@ import UnknownType from "./UnknownType";
 import type Value from "../runtime/Value";
 import StartFinish from "../runtime/StartFinish";
 import type TypeVariables from "./TypeVariables";
+import NoExpression from "../conflicts/NoExpression";
 
 export default class FunctionDefinition extends Expression {
 
@@ -48,7 +49,7 @@ export default class FunctionDefinition extends Expression {
     readonly close: Token | undefined;
     readonly dot: Token | undefined;
     readonly output: Type | undefined;
-    readonly expression: Expression | Token;
+    readonly expression: Expression | Token | undefined;
 
     constructor(
         docs: Docs | undefined, 
@@ -60,7 +61,7 @@ export default class FunctionDefinition extends Expression {
         close: Token | undefined, 
         dot: Token | undefined,
         output: Type | undefined,
-        expression: Expression | Token, 
+        expression: Expression | Token | undefined, 
     ) {
         super();
 
@@ -105,7 +106,7 @@ export default class FunctionDefinition extends Expression {
             { name: "close", types: [ Token, undefined] },
             { name: "dot", types: [ Token, undefined ] },
             { name: "output", types: [ Type, undefined ] },
-            { name: "expression", types: [ Expression, Token ] },
+            { name: "expression", types: [ Expression, Token, undefined ] },
         ];
     }
 
@@ -167,6 +168,11 @@ export default class FunctionDefinition extends Expression {
         
         // Make sure the inputs are valid.
         conflicts = conflicts.concat(getEvaluationInputConflicts(this.inputs));
+
+        // Warn if there's no expression.
+        if(this.expression === undefined) {
+            conflicts.push(new NoExpression(this))
+        }
 
         return conflicts; 
     

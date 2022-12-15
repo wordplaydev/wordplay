@@ -43,7 +43,7 @@ export type UnknownTypeReason =
     Select |            // Couldn't resolve table
     This |              // Couldn't resolve this
     { typeVar: Evaluate | BinaryOperation | UnaryOperation | FunctionDefinition | StructureDefinition } | // Couldn't determine type variable definition
-    { placeholder: ExpressionPlaceholder | TypePlaceholder | Token } |  // Placeholders don't have types
+    { placeholder: ExpressionPlaceholder | TypePlaceholder | Token | undefined } |  // Placeholders don't have types
     { cycle: Node } |   // Type depended on itself
     { definition: UnaryOperation | BinaryOperation | Evaluate | Name | NameType, name: Expression | Token}; // Couldn't find a definition
 

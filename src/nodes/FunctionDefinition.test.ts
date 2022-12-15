@@ -11,6 +11,7 @@ import DuplicateBinds from "../conflicts/DuplicateBinds";
 import TypeVariables from "./TypeVariables";
 import Evaluator from "../runtime/Evaluator";
 import EvaluationException from "../runtime/ContextException";
+import NoExpression from "../conflicts/NoExpression";
 
 test("Test function conflicts", () => {
 
@@ -19,6 +20,8 @@ test("Test function conflicts", () => {
     testConflict('ƒ(a b) 1', 'ƒ(a a) 1', FunctionDefinition, DuplicateBinds);
     testConflict('ƒ⸨T U⸩() 1', 'ƒ⸨T T⸩() 1', TypeVariables, DuplicateTypeVariables);
     testConflict('ƒ(a b:1)', 'ƒ(a:1 b)', FunctionDefinition, RequiredAfterOptional);
+    testConflict('ƒ(a b:1)', 'ƒ(a:1 b)', FunctionDefinition, RequiredAfterOptional);
+    testConflict('ƒ a() 1', 'ƒ a()', FunctionDefinition, NoExpression);
 
 });
 

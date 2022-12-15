@@ -145,7 +145,7 @@ export default class BinaryOperation extends Expression {
     getDependencies(context: Context): Expression[] {
 
         const fun = this.getFunction(context);
-        return [ this.left, this.right, ...(fun === undefined || !(fun.expression === undefined) ? [] : [ fun.expression] ) ];
+        return [ this.left, this.right, ...(fun === undefined || !(fun.expression instanceof Expression) ? [] : [ fun.expression] ) ];
         
     }
 

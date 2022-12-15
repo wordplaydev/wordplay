@@ -19,7 +19,7 @@ export default class NotInstantiable extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.evaluate.func ], secondary: this.abstractFunctions.map(f => f.expression) };
+        return { primary: [ this.evaluate.func ], secondary: this.abstractFunctions.map(f => f.names) };
     }
 
     getExplanations(): Translations { 
