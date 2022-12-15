@@ -6,6 +6,7 @@ import type Node from "./Node";
 import PlaceholderToken from "./PlaceholderToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class TypePlaceholder extends Type {
 
@@ -30,7 +31,7 @@ export default class TypePlaceholder extends Type {
 
     acceptsAll(): boolean { return false; }
 
-    getNativeTypeName(): string { return "type_placeholder"; }
+    getNativeTypeName(): NativeTypeName { return "unknown"; }
 
     replace(original?: Node, replacement?: Node) { 
         return new TypePlaceholder(

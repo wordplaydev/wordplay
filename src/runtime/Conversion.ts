@@ -1,10 +1,10 @@
-import { CONVERSION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type ConversionDefinition from "../nodes/ConversionDefinition";
 import type Context from "../nodes/Context";
 import type Evaluation from "./Evaluation";
 import Primitive from "./Primitive";
 import Value from "./Value";
 import { CONVERT_SYMBOL } from "../parser/Tokenizer";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class Conversion extends Primitive {
     /** The definition from the AST. */
@@ -26,7 +26,7 @@ export default class Conversion extends Primitive {
             this.definition.getTypeUnlessCycle(context); 
     }
 
-    getNativeTypeName(): string { return CONVERSION_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "conversion"; }
 
     toWordplay(): string { return `${this.definition.input.toWordplay()}${CONVERT_SYMBOL}${this.definition.output.toWordplay()}`; }
 

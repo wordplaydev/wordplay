@@ -1,4 +1,4 @@
-import { TEXT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import type { NativeTypeName } from "../native/NativeConstants";
 import { TEXT_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import Language from "./Language";
@@ -74,7 +74,7 @@ export default class TextType extends NativeType {
         return text.substring(1, text.length - 1);
     }
 
-    getNativeTypeName(): string { return TEXT_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "text"; }
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
     
@@ -85,7 +85,7 @@ export default class TextType extends NativeType {
 
     }
     
-getInsertionBefore() { return undefined; }
+    getInsertionBefore() { return undefined; }
     
     getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
         

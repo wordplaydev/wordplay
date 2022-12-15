@@ -1,8 +1,8 @@
-import { NONE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import NoneType from "../nodes/NoneType";
 import { NONE_SYMBOL } from "../parser/Tokenizer";
 import Value from "./Value";
 import type Node from "../nodes/Node";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class None extends Value {
 
@@ -12,7 +12,7 @@ export default class None extends Value {
 
     getType() { return NoneType.make(); }
     
-    getNativeTypeName(): string { return NONE_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "none"; }
 
     resolve() { return undefined; }
 

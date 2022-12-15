@@ -14,6 +14,7 @@ import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type TypeSet from "./TypeSet";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class Unit extends Type {
 
@@ -127,7 +128,7 @@ export default class Unit extends Type {
         return Array.from(types.set).every(type => type instanceof Unit && this.accept(type));
     }
 
-    getNativeTypeName(): string { return "unit"; }
+    getNativeTypeName(): NativeTypeName { return "unit"; }
 
     toString(depth?: number) {
 

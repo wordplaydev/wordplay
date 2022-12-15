@@ -1,4 +1,4 @@
-import { MAP_KEY_TYPE_VAR_NAMES, MAP_NATIVE_TYPE_NAME, MAP_VALUE_TYPE_VAR_NAMES } from "../native/NativeConstants";
+import { MAP_KEY_TYPE_VAR_NAMES, MAP_VALUE_TYPE_VAR_NAMES, type NativeTypeName } from "../native/NativeConstants";
 import type Context from "./Context";
 import NativeType from "./NativeType";
 import type Node from "./Node";
@@ -101,7 +101,7 @@ export default class MapType extends NativeType {
         );
     }
 
-    getNativeTypeName(): string { return MAP_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "map"; }
 
     resolveTypeVariable(name: string): Type | undefined { 
         return Object.values(MAP_KEY_TYPE_VAR_NAMES).includes(name) && this.key instanceof Type ? this.key : 

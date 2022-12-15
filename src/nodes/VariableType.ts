@@ -1,3 +1,4 @@
+import type { NativeTypeName } from "../native/NativeConstants";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Type from "./Type";
@@ -25,7 +26,7 @@ export default class VariableType extends Type {
     acceptsAll(types: TypeSet) { 
         return types.list().every(type => type instanceof VariableType && type.definition == this.definition); }
 
-    getNativeTypeName(): string { return "variable"; }
+    getNativeTypeName(): NativeTypeName { return "variable"; }
 
     getDefinitionOfName() { return undefined; }
 

@@ -5,11 +5,11 @@ import Bind from "../nodes/Bind";
 import type Context from "./Context";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import { TABLE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { TABLE_CLOSE_SYMBOL } from "../parser/Tokenizer";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type TypeSet from "./TypeSet";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class TableType extends Type {
     
@@ -57,7 +57,7 @@ export default class TableType extends Type {
         });
     }
      
-    getNativeTypeName(): string { return TABLE_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "table"; }
 
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }

@@ -15,6 +15,7 @@ import { TRANSLATE } from "./Translations"
 import type Definition from "./Definition";
 import type TypeSet from "./TypeSet";
 import NeverType from "./NeverType";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class UnionType extends Type {
 
@@ -89,7 +90,7 @@ export default class UnionType extends Type {
         return this.right instanceof Type ? context.native.getFunction(this.right.getNativeTypeName(), name) : undefined;
     }
 
-    getNativeTypeName(): string { return "union"; }
+    getNativeTypeName(): NativeTypeName { return "union"; }
 
     computeConflicts() {}
     

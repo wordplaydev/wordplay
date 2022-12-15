@@ -4,13 +4,13 @@ import Bind from "../nodes/Bind";
 import type Node from "../nodes/Node";
 import Type from "./Type";
 import type Context from "./Context";
-import { COLUMN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { TABLE_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import UnknownType from "./UnknownType";
 import type TypeSet from "./TypeSet";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class ColumnType extends Type {
 
@@ -56,7 +56,7 @@ export default class ColumnType extends Type {
 
     getValueType(context: Context) { return this.bind === undefined ? new UnknownType(this) : this.bind.getType(context); }
 
-    getNativeTypeName(): string { return COLUMN_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "column"; }
 
     getChildReplacement(): Transform[] | undefined { return undefined; }
     getInsertionBefore(): Transform[] | undefined { return undefined; }

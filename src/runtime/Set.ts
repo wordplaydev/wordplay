@@ -1,4 +1,3 @@
-import { SET_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Context from "../nodes/Context";
 import SetType from "../nodes/SetType";
 import UnionType from "../nodes/UnionType";
@@ -9,6 +8,7 @@ import type Value from "./Value";
 import type Node from "../nodes/Node";
 import type LanguageCode from "../nodes/LanguageCode";
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class Set extends Primitive {
 
@@ -66,7 +66,7 @@ export default class Set extends Primitive {
 
     getType(context: Context) { return SetType.make(UnionType.getPossibleUnion(context, this.values.map(v => v.getType(context)))); }
 
-    getNativeTypeName(): string { return SET_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "set"; }
 
     toWordplay(languages: LanguageCode[]): string {
         return `${SET_OPEN_SYMBOL}${Array.from(this.values).map(value => value.toWordplay(languages)).join(" ")}${SET_CLOSE_SYMBOL}`; 

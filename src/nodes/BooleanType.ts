@@ -1,13 +1,13 @@
 import Token from "./Token";
 import type Node from "./Node";
 import TokenType from "./TokenType";
-import { BOOLEAN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import NativeType from "./NativeType";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type TypeSet from "./TypeSet";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class BooleanType extends NativeType {
 
@@ -38,7 +38,7 @@ export default class BooleanType extends NativeType {
 
     acceptsAll(types: TypeSet) { return types.list().every(type => type instanceof BooleanType); }
 
-    getNativeTypeName(): string { return BOOLEAN_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "boolean"; }
 
     getDescriptions(): Translations {
         return {

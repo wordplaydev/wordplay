@@ -1,4 +1,4 @@
-import { NONE_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import type { NativeTypeName } from "../native/NativeConstants";
 import { NONE_SYMBOL } from "../parser/Tokenizer";
 import NativeType from "./NativeType";
 import type Node from "./Node";
@@ -37,7 +37,7 @@ export default class NoneType extends NativeType {
         return types.list().every(type =>type instanceof NoneType);
     }
 
-    getNativeTypeName(): string { return NONE_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "none"; }
 
     replace(original?: Node, replacement?: Node) { 
         return new NoneType(

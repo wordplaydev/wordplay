@@ -1,4 +1,4 @@
-import { CONVERSION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import type { NativeTypeName } from "../native/NativeConstants";
 import { CONVERT_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import type Node from "./Node";
@@ -48,7 +48,7 @@ export default class ConversionType extends Type {
             );
     }
 
-    getNativeTypeName(): string { return CONVERSION_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "conversion"; }
 
     replace(original?: Node, replacement?: Node) { 
         return new ConversionType(

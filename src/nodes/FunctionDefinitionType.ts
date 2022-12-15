@@ -4,7 +4,7 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type FunctionDefinition from "./FunctionDefinition";
 import FunctionType from "./FunctionType";
-import { FUNCTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import type { NativeTypeName } from "../native/NativeConstants";
 import type TypeSet from "./TypeSet";
 
 export default class FunctionDefinitionType extends Type {
@@ -35,7 +35,7 @@ export default class FunctionDefinitionType extends Type {
         });
     }
 
-    getNativeTypeName(): string { return FUNCTION_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "function"; }
 
     replace() { return new FunctionDefinitionType(this.fun) as this; }
 

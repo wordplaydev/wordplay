@@ -1,4 +1,4 @@
-import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import type {  NativeTypeName } from "../native/NativeConstants";
 import { FUNCTION_SYMBOL, MEASUREMENT_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import type Node from "./Node";
@@ -136,7 +136,7 @@ export default class MeasurementType extends NativeType {
 
     computeConflicts() {}
 
-    getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "measurement"; }
 
     getDescriptions(): Translations {
         return {

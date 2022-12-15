@@ -10,7 +10,6 @@ import Value from "../runtime/Value";
 import type Definition from "./Definition";
 import StructureDefinition from "./StructureDefinition";
 import VariableType from "./VariableType";
-import { NAME_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import NameToken from "./NameToken";
@@ -19,6 +18,7 @@ import { TRANSLATE } from "./Translations"
 import TypeInputs from "./TypeInputs";
 import InvalidTypeInput from "../conflicts/InvalidTypeInput";
 import type TypeSet from "./TypeSet";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class NameType extends Type {
 
@@ -101,7 +101,7 @@ export default class NameType extends Type {
 
     }
 
-    getNativeTypeName(): string { return NAME_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "name"; }
 
     getDescriptions(): Translations {
         return {

@@ -1,5 +1,5 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
-import StructureType, { STRUCTURE_NATIVE_TYPE_NAME } from "../nodes/StructureType";
+import StructureType from "../nodes/StructureType";
 import type Type from "../nodes/Type";
 import type Conversion from "./Conversion";
 import Evaluation from "./Evaluation";
@@ -13,6 +13,7 @@ import Bool from "./Bool";
 import type Names from "../nodes/Names";
 import type LanguageCode from "../nodes/LanguageCode";
 import { BIND_SYMBOL, EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from "../parser/Tokenizer";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class Structure extends Value {
 
@@ -48,7 +49,7 @@ export default class Structure extends Value {
 
     getType() { return new StructureType(this.type, []); }
 
-    getNativeTypeName(): string { return STRUCTURE_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "structure"; }
 
     resolve(name: string, evaluator?: Evaluator): Value | undefined {
         const value = this.context.resolve(name);

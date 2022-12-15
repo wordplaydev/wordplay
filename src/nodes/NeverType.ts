@@ -1,4 +1,4 @@
-import { NEVER_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import type { NativeTypeName } from "../native/NativeConstants";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Type from "./Type";
@@ -13,7 +13,7 @@ export default class NeverType extends Type {
     getGrammar() { return []; }
 
     acceptsAll() { return false; }
-    getNativeTypeName(): string { return NEVER_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "never"; }
     computeConflicts() {}
 
     toWordplay() { return "-"; }

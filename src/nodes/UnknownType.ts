@@ -1,3 +1,4 @@
+import type { NativeTypeName } from "../native/NativeConstants";
 import type BinaryOperation from "./BinaryOperation";
 import type Bind from "./Bind";
 import type Block from "./Block";
@@ -62,7 +63,7 @@ export default class UnknownType extends Type {
 
     computeConflicts() {}
     acceptsAll() { return false; }
-    getNativeTypeName(): string { return "unknown"; }
+    getNativeTypeName(): NativeTypeName { return "unknown"; }
 
     toWordplay() { return "�"; }
 

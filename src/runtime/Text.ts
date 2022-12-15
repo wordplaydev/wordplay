@@ -1,10 +1,10 @@
-import { TEXT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import Language from "../nodes/Language";
 import TextType from "../nodes/TextType";
 import Measurement from "./Measurement";
 import Primitive from "./Primitive";
 import type Value from "./Value";
 import type Node from "../nodes/Node";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class Text extends Primitive {
 
@@ -21,7 +21,7 @@ export default class Text extends Primitive {
 
     getType() { return TextType.make(this.format === undefined ? undefined : Language.make(this.format)); }
     
-    getNativeTypeName(): string { return TEXT_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "text"; }
 
     /* The number of graphemes in the text (not the number of code points). */
     length(requestor: Node) { return new Measurement(requestor, [...this.text].length); }

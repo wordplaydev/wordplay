@@ -3,7 +3,6 @@ import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import type Context from "./Context";
-import { FUNCTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import { FUNCTION_SYMBOL } from "../parser/Tokenizer";
 import Bind from "./Bind";
 import { getEvaluationInputConflicts } from "./util";
@@ -16,6 +15,7 @@ import { TRANSLATE } from "./Translations"
 import FunctionDefinitionType from "./FunctionDefinitionType";
 import TypeVariables from "./TypeVariables";
 import type TypeSet from "./TypeSet";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class FunctionType extends Type {
 
@@ -93,7 +93,7 @@ export default class FunctionType extends Type {
         });
     }
 
-    getNativeTypeName(): string { return FUNCTION_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "function"; }
     
     computeConflicts() {
 

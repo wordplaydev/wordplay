@@ -5,7 +5,6 @@ import Measurement from "./Measurement";
 import None from "./None";
 import Primitive from "./Primitive";
 import type Value from "./Value";
-import { LIST_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import UnionType from "../nodes/UnionType";
 import type Context from "../nodes/Context";
 import { TRANSLATE } from "../nodes/Translations";
@@ -14,6 +13,7 @@ import type Translations from "../nodes/Translations";
 import Names from "../nodes/Names";
 import type Node from "../nodes/Node";
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class List extends Primitive {
 
@@ -71,7 +71,7 @@ export default class List extends Primitive {
 
     getType(context: Context) { return ListType.make(UnionType.getPossibleUnion(context, this.values.map(v => v.getType(context)))); }
 
-    getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "list"; }
 
     toWordplay(languages: LanguageCode[]): string {
         return `${LIST_OPEN_SYMBOL}${Array.from(this.values).map(value => value.toWordplay(languages)).join(" ")}${LIST_CLOSE_SYMBOL}`; 

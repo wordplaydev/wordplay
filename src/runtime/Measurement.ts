@@ -6,9 +6,9 @@ import None from "./None";
 import Decimal from 'decimal.js';
 import Primitive from "./Primitive";
 import MeasurementType from "../nodes/MeasurementType";
-import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Value from "./Value";
 import type Node from "../nodes/Node";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 /** A decimal number with a unit.
  * If all of it's parts are empty, it is not a number.
@@ -153,7 +153,7 @@ export default class Measurement extends Primitive {
 
     getType() { return MeasurementType.make(this.unit); }
     
-    getNativeTypeName(): string { return MEASUREMENT_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "measurement"; }
 
     unitless(requestor: Node): Measurement { return new Measurement(requestor, this.num); }
     

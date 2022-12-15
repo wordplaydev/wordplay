@@ -1,4 +1,4 @@
-import { EXCEPTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import type { NativeTypeName } from "../native/NativeConstants";
 import type Exception from "../runtime/Exception";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
@@ -27,7 +27,7 @@ export default class ExceptionType extends Type {
         return undefined;
     }
 
-    getNativeTypeName(): string { return EXCEPTION_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "exception"; }
 
     toWordplay(): string {
         return this.exception.toString();

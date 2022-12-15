@@ -1,4 +1,4 @@
-import { SET_NATIVE_TYPE_NAME, SET_TYPE_VAR_NAMES } from "../native/NativeConstants";
+import { SET_TYPE_VAR_NAMES, type NativeTypeName } from "../native/NativeConstants";
 import type Context from "./Context";
 import NativeType from "./NativeType";
 import type Node from "./Node";
@@ -77,7 +77,7 @@ export default class SetType extends NativeType {
         );
     }
 
-    getNativeTypeName(): string { return SET_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "set"; }
 
     resolveTypeVariable(name: string): Type | undefined { 
         return Object.values(SET_TYPE_VAR_NAMES).includes(name) && this.key instanceof Type ? this.key : undefined;

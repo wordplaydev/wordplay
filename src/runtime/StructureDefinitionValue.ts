@@ -1,11 +1,12 @@
 import type StructureDefinition from "../nodes/StructureDefinition";
-import StructureType, { STRUCTURE_NATIVE_TYPE_NAME } from "../nodes/StructureType";
+import StructureType from "../nodes/StructureType";
 import type Evaluation from "./Evaluation";
 import Primitive from "./Primitive";
 import type Value from "./Value";
 import type Node from "../nodes/Node";
 import { TYPE_SYMBOL } from "../parser/Tokenizer";
 import type LanguageCode from "../nodes/LanguageCode";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class StructureDefinitionValue extends Primitive {
 
@@ -24,7 +25,7 @@ export default class StructureDefinitionValue extends Primitive {
 
     getType() { return new StructureType(this.definition, []); }
     
-    getNativeTypeName() { return STRUCTURE_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "structure"; }
 
     toWordplay(languages: LanguageCode[]) { return `${TYPE_SYMBOL}${this.definition.names.getTranslation(languages)}`; }
 

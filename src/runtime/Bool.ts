@@ -1,4 +1,4 @@
-import { BOOLEAN_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import type { NativeTypeName } from "../native/NativeConstants";
 import BooleanType from "../nodes/BooleanType";
 import type UnaryOperation from "../nodes/UnaryOperation";
 import { FALSE_SYMBOL, NOT_SYMBOL, TRUE_SYMBOL } from "../parser/Tokenizer";
@@ -22,7 +22,7 @@ export default class Bool extends Primitive {
 
     getType() { return new BooleanType(); }
     
-    getNativeTypeName(): string { return BOOLEAN_NATIVE_TYPE_NAME }
+    getNativeTypeName(): NativeTypeName { return "boolean" }
 
     and(requestor: Node, value: Bool) { return new Bool(requestor, this.bool && value.bool); }
     or(requestor: Node, value: Bool) { return new Bool(requestor, this.bool || value.bool); }

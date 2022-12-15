@@ -1,4 +1,4 @@
-import { FUNCTION_NATIVE_TYPE_NAME } from "../native/NativeConstants";
+import type { NativeTypeName } from "../native/NativeConstants";
 import type Context from "../nodes/Context";
 import type FunctionDefinition from "../nodes/FunctionDefinition";
 import type LanguageCode from "../nodes/LanguageCode";
@@ -23,7 +23,7 @@ export default class FunctionValue extends Value {
 
     getType(context: Context) { return this.context instanceof Value ? this.context.getType(context) : this.definition.getTypeUnlessCycle(context); }
     
-    getNativeTypeName() { return FUNCTION_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "function"; }
 
     resolve() { return undefined; }
 

@@ -1,3 +1,4 @@
+import type { NativeTypeName } from "../native/NativeConstants";
 import { REACTION_SYMBOL } from "../parser/Tokenizer";
 import Replace from "../transforms/Replace";
 import type Transform from "../transforms/Transform";
@@ -48,7 +49,7 @@ export default class StreamType extends Type {
         );
     }
 
-    getNativeTypeName(): string { return STREAM_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "stream"; }
 
     replace(original?: Node, replacement?: Node) { 
         return new StreamType(

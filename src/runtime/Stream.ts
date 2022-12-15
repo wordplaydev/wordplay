@@ -1,5 +1,4 @@
 import type Translations from "../nodes/Translations";
-import { STREAM_NATIVE_TYPE_NAME } from "../nodes/StreamType";
 import None from "./None";
 import Primitive from "./Primitive";
 import type Value from "./Value";
@@ -9,6 +8,7 @@ import Docs from "../nodes/Docs";
 import type Node from "../nodes/Node";
 import type Evaluator from "./Evaluator";
 import type { StepNumber } from "./Evaluator";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 const HISTORY_LIMIT = 256;
 
@@ -68,7 +68,7 @@ export default abstract class Stream<ValueType extends Value = Value> extends Pr
 
     }
 
-    getNativeTypeName(): string { return STREAM_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "stream"; }
 
     getFirstStepIndex() { return this.values[0].stepIndex; }
 

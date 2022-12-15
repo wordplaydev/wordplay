@@ -1,5 +1,4 @@
 import type Project from "../models/Project";
-import { MEASUREMENT_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import MeasurementType from "../nodes/MeasurementType";
 import Unit from "../nodes/Unit";
 
@@ -20,7 +19,7 @@ function getUnitsInConversions(project: Project) {
 
     // Get all dimensions referred to in conversions.
     const unitsInConversions = project.getNative()
-        .getStructureDefinition(MEASUREMENT_NATIVE_TYPE_NAME)
+        .getStructureDefinition("measurement")
         ?.getAllConversions()
         .map(conversion => conversion.output instanceof MeasurementType && conversion.output.unit instanceof Unit ? conversion.output.unit : undefined)
         .filter( unit => unit !== undefined) as Unit[];

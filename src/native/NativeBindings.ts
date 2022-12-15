@@ -18,7 +18,7 @@ import bootstrapMeasurement from "./MeasurementNative";
 import bootstrapSet from "./SetNative";
 import bootstrapMap from "./MapNative";
 import Block from "../nodes/Block";
-import { BOOLEAN_NATIVE_TYPE_NAME, LIST_NATIVE_TYPE_NAME, MAP_NATIVE_TYPE_NAME, MEASUREMENT_NATIVE_TYPE_NAME, NONE_NATIVE_TYPE_NAME, SET_NATIVE_TYPE_NAME, TEXT_NATIVE_TYPE_NAME } from "./NativeConstants";
+import type { NativeTypeName } from "./NativeConstants";
 import { TRANSLATE } from "../nodes/Translations";
 import type Translations from "../nodes/Translations";
 import type Node from "../nodes/Node";
@@ -33,7 +33,7 @@ export class NativeBindings implements NativeInterface {
     readonly structureDefinitionTrees: Tree[] = [];
 
     addFunction(
-        kind: string,
+        kind: NativeTypeName,
         fun: FunctionDefinition
     ) {
 
@@ -48,7 +48,7 @@ export class NativeBindings implements NativeInterface {
 
     }
 
-    addConversion(kind: string, conversion: ConversionDefinition) {
+    addConversion(kind: NativeTypeName, conversion: ConversionDefinition) {
 
         if(!(kind in this.conversionsByType))
             this.conversionsByType[kind] = [];
@@ -57,7 +57,7 @@ export class NativeBindings implements NativeInterface {
 
     }
 
-    addStructure(kind: string, structure: StructureDefinition) {
+    addStructure(kind: NativeTypeName, structure: StructureDefinition) {
 
         // Cache the parents of the nodes, "crystalizing" it.
         // This means there should be no future changes to the native structure definition.
@@ -87,12 +87,12 @@ export class NativeBindings implements NativeInterface {
         return Object.values(this.conversionsByType).reduce((all: ConversionDefinition[], next: ConversionDefinition[]) => [ ...all, ...next ], []);
     }
     
-    getFunction(kind: string, name: string): FunctionDefinition | undefined {
+    getFunction(kind: NativeTypeName, name: string): FunctionDefinition | undefined {
         if(!(kind in this.functionsByType)) return undefined;
         return this.functionsByType[kind][name];
     }
 
-    getStructureDefinition(kind: string): StructureDefinition | undefined {
+    getStructureDefinition(kind: NativeTypeName): StructureDefinition | undefined {
         return this.structureDefinitionsByName[kind];
     }
 
@@ -155,12 +155,12 @@ export const MeasurementDefinition = bootstrapMeasurement();
 export const SetDefinition = bootstrapSet();
 export const MapDefinition = bootstrapMap()
 
-Native.addStructure(NONE_NATIVE_TYPE_NAME, NoneDefinition);
-Native.addStructure(BOOLEAN_NATIVE_TYPE_NAME, BoolDefinition);
-Native.addStructure(TEXT_NATIVE_TYPE_NAME, TextDefinition);
-Native.addStructure(LIST_NATIVE_TYPE_NAME, ListDefinition);
-Native.addStructure(MEASUREMENT_NATIVE_TYPE_NAME, MeasurementDefinition);
-Native.addStructure(SET_NATIVE_TYPE_NAME, SetDefinition);
-Native.addStructure(MAP_NATIVE_TYPE_NAME, MapDefinition);
+Native.addStructure("none", NoneDefinition);
+Native.addStructure("boolean", BoolDefinition);
+Native.addStructure("text", TextDefinition);
+Native.addStructure("list", ListDefinition);
+Native.addStructure("measurement", MeasurementDefinition);
+Native.addStructure("set", SetDefinition);
+Native.addStructure("map", MapDefinition);
 
 export default Native;

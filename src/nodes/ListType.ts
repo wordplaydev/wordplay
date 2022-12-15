@@ -1,4 +1,4 @@
-import { LIST_NATIVE_TYPE_NAME, LIST_TYPE_VAR_NAMES } from "../native/NativeConstants";
+import { LIST_TYPE_VAR_NAMES, type NativeTypeName } from "../native/NativeConstants";
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import NativeType from "./NativeType";
@@ -68,7 +68,7 @@ export default class ListType extends NativeType {
         );
     }
 
-    getNativeTypeName(): string { return LIST_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "list"; }
 
     resolveTypeVariable(name: string): Type | undefined { 
         return Object.values(LIST_TYPE_VAR_NAMES).includes(name) ? this.type : undefined;

@@ -4,6 +4,7 @@ import Node from "./Node";
 import type Context from "./Context";
 import type Expression from "./Expression";
 import TypeSet from "./TypeSet";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default abstract class Type extends Node {
 
@@ -20,7 +21,7 @@ export default abstract class Type extends Node {
     }
 
     abstract acceptsAll(types: TypeSet, context: Context, expression?: Expression): boolean;
-    abstract getNativeTypeName(): string;
+    abstract getNativeTypeName(): NativeTypeName;
     
     /** 
      * All types can only be themeselves, unless otherwise noted (primarily the case for UnionTypes).

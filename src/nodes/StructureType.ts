@@ -6,6 +6,7 @@ import NameType from "./NameType";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type TypeSet from "./TypeSet";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export const STRUCTURE_NATIVE_TYPE_NAME = "structure";
 
@@ -69,7 +70,7 @@ export default class StructureType extends Type {
         return undefined; 
     }
 
-    getNativeTypeName(): string { return STRUCTURE_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "structure"; }
 
     replace() { return this; }
 

@@ -1,4 +1,3 @@
-import { MAP_NATIVE_TYPE_NAME } from "../native/NativeConstants";
 import type Context from "../nodes/Context";
 import MapType from "../nodes/MapType";
 import UnionType from "../nodes/UnionType";
@@ -9,6 +8,7 @@ import type Value from "./Value";
 import type Node from "../nodes/Node";
 import type LanguageCode from "../nodes/LanguageCode";
 import { BIND_SYMBOL, SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
+import type { NativeTypeName } from "../native/NativeConstants";
 
 export default class Map extends Primitive {
 
@@ -82,7 +82,7 @@ export default class Map extends Primitive {
         ); 
     }
     
-    getNativeTypeName(): string { return MAP_NATIVE_TYPE_NAME; }
+    getNativeTypeName(): NativeTypeName { return "map"; }
 
     toWordplay(languages: LanguageCode[]): string {
         return `${SET_OPEN_SYMBOL}${this.values.map(([ key, value ]) => `${key.toWordplay(languages)}${BIND_SYMBOL}${value.toWordplay(languages)}`).join(" ")}${SET_CLOSE_SYMBOL}`; 
