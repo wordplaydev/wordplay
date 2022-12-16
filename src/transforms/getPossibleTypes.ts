@@ -10,7 +10,7 @@ import StructureDefinition from "../nodes/StructureDefinition";
 import type Context from "../nodes/Context";
 import Language from "../nodes/Language";
 import type Type from "../nodes/Type";
-import StructureType from "../nodes/StructureType";
+import StructureDefinitionType from "../nodes/StructureDefinitionType";
 import NameType from "../nodes/NameType";
 import Replace from "./Replace";
 import Append from "./Append";
@@ -42,7 +42,7 @@ export function getPossibleTypes(node: Node, context: Context): Type[] {
 export function getPossibleTypeReplacements(node: Node, context: Context): Replace<any>[] {
 
     return getPossibleTypes(node, context)
-        .map(type => type instanceof StructureType ? 
+        .map(type => type instanceof StructureDefinitionType ? 
                 new Replace<NameType>(context, node, [ (name: string) => new NameType(name), type.structure ]) :
                 new Replace(context, node, type))
 
@@ -51,7 +51,7 @@ export function getPossibleTypeReplacements(node: Node, context: Context): Repla
 export function getPossibleTypeInsertions(parent: Node, position: number, list: Node[], child: Node | undefined, context: Context): Append<any>[] {
 
     return getPossibleTypes(parent, context)
-        .map(type => type instanceof StructureType ? 
+        .map(type => type instanceof StructureDefinitionType ? 
                 new Append(context, position, parent, list, child, [ name => new NameType(name), type.structure ]) :
                 new Append(context, position, parent, list, child, type))
 
@@ -60,7 +60,7 @@ export function getPossibleTypeInsertions(parent: Node, position: number, list: 
 export function getPossibleTypeAdds(parent: Node, name: string, context: Context, position: number): Add<NameType | Type>[] {
 
     return getPossibleTypes(parent, context)
-        .map(type => type instanceof StructureType ? 
+        .map(type => type instanceof StructureDefinitionType ? 
                 new Add<NameType>(context, position, parent, name, [ name => new NameType(name), type.structure ]) :
                 new Add<Type>(context, position, parent, name, type))
 

@@ -4,7 +4,7 @@ import Stream from "../runtime/Stream";
 import Key from "./Key";
 import Structure, { createStructure } from "../runtime/Structure";
 import None from "../runtime/None";
-import StructureType from "../nodes/StructureType";
+import StructureDefinitionType from "../nodes/StructureDefinitionType";
 import StreamType from "../nodes/StreamType";
 import { TRANSLATE } from "../nodes/Translations";
 import type Value from "../runtime/Value";
@@ -46,6 +46,6 @@ export default class Keyboard extends Stream<Structure | None> {
     start() { this.on = true; }
     stop() { this.on = false; }
 
-    getType() { return StreamType.make(new StructureType(Key, [])); }
+    getType() { return StreamType.make(new StructureDefinitionType(Key, [])); }
 
 }

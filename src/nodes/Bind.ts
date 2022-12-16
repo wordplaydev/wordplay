@@ -10,7 +10,7 @@ import DuplicateBinds from "../conflicts/DuplicateBinds";
 import IncompatibleBind from "../conflicts/IncompatibleBind";
 import UnexpectedEtc from "../conflicts/UnexpectedEtc";
 import NameType from "./NameType";
-import StructureType from "./StructureType";
+import StructureDefinitionType from "./StructureDefinitionType";
 import StructureDefinition from "./StructureDefinition";
 import TypeVariable from "./TypeVariable";
 import Column from "./Column";
@@ -242,7 +242,7 @@ export default class Bind extends Expression {
         // Leave names that refer to type variables to be resolved in Evaluate.
         if(type instanceof NameType) {
             const nameType = type.getType(context);
-            if(nameType instanceof StructureType) return nameType;
+            if(nameType instanceof StructureDefinitionType) return nameType;
         }
         return type;
         

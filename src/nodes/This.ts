@@ -13,7 +13,7 @@ import Token from "./Token";
 import UnknownType from "./UnknownType";
 import StructureDefinition from "./StructureDefinition";
 import { MisplacedThis } from "../conflicts/MisplacedThis";
-import StructureType from "./StructureType";
+import StructureDefinitionType from "./StructureDefinitionType";
 import NameException from "../runtime/NameException";
 import { THIS_SYMBOL } from "../parser/Tokenizer";
 import ConversionDefinition from "./ConversionDefinition";
@@ -74,7 +74,7 @@ export default class This extends Expression {
         const structure = this.getEnclosingStructure(context);
         return structure === undefined ? new UnenclosedType(this) : 
             // Structure definition's have the structure type
-            structure instanceof StructureDefinition ? new StructureType(structure, []) :
+            structure instanceof StructureDefinition ? new StructureDefinitionType(structure, []) :
             // Conversion definitions have the input type
             structure instanceof ConversionDefinition ?  (
                 // We strip the unit from this in order to provide a scalar for conversion.

@@ -12,7 +12,7 @@ import type Node from "./Node";
 import type Bind from "./Bind";
 import Reference from "./Reference";
 import PropertyReference from "./PropertyReference";
-import StructureType from "./StructureType";
+import StructureDefinitionType from "./StructureDefinitionType";
 import { IncompatibleType } from "../conflicts/IncompatibleType";
 import UnionType from "./UnionType";
 import TypeSet from "./TypeSet";
@@ -106,7 +106,7 @@ export default class Is extends Expression {
 
         if( this.expression instanceof PropertyReference && this.expression.name) {
             const subject = this.expression.getSubjectType(context);
-            if(subject instanceof StructureType) {
+            if(subject instanceof StructureDefinitionType) {
                 if(bind === subject.getDefinition(this.expression.name.getName()) && current.acceptedBy(this.type, context))
                 return new TypeSet([ this.type ], context);
             }

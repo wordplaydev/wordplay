@@ -1,6 +1,6 @@
 import type Names from "../nodes/Names";
 import StreamType from "../nodes/StreamType";
-import StructureType from "../nodes/StructureType";
+import StructureDefinitionType from "../nodes/StructureDefinitionType";
 import { TRANSLATE } from "../nodes/Translations";
 import Unit from "../nodes/Unit";
 import Measurement from "../runtime/Measurement";
@@ -51,6 +51,6 @@ export default class MousePosition extends Stream<Structure> {
         this.on = false;
     }
 
-    getType() { return StreamType.make(new StructureType(PlaceType, [])); }
+    getType() { return StreamType.make(new StructureDefinitionType(PlaceType, [])); }
 
 }

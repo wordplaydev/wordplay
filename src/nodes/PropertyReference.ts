@@ -10,7 +10,7 @@ import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import type Node from "./Node";
-import StructureType from "./StructureType";
+import StructureDefinitionType from "./StructureDefinitionType";
 import Bind from "./Bind";
 import UnionType from "./UnionType";
 import type TypeSet from "./TypeSet";
@@ -96,7 +96,7 @@ export default class PropertyReference extends Expression {
 
         const subjectType = this.getSubjectType(context);
 
-        if(subjectType instanceof StructureType) return subjectType.structure.getDefinitions(_);
+        if(subjectType instanceof StructureDefinitionType) return subjectType.structure.getDefinitions(_);
         else return subjectType.getDefinitions(_, context); 
 
     }
@@ -106,7 +106,7 @@ export default class PropertyReference extends Expression {
 
         const subjectType = this.getSubjectType(context);
         
-        if(subjectType instanceof StructureType) return subjectType.getDefinition(this.name.getName());
+        if(subjectType instanceof StructureDefinitionType) return subjectType.getDefinition(this.name.getName());
         else return subjectType.getDefinitionOfName(this.name.getName(), context, this); 
         
     }
@@ -137,7 +137,7 @@ export default class PropertyReference extends Expression {
 
             if(type instanceof NameType) {
                 const bindType = type.resolve(context);
-                if(bindType instanceof TypeVariable && subjectType instanceof StructureType) {
+                if(bindType instanceof TypeVariable && subjectType instanceof StructureDefinitionType) {
                     const typeInput = subjectType.resolveTypeVariable(bindType.getNames()[0]);
                     if(typeInput)
                         type = typeInput;
@@ -159,8 +159,8 @@ export default class PropertyReference extends Expression {
                             n =>    this.name !== undefined &&
                                     context.get(n)?.getParent() instanceof Is && 
                                     n instanceof PropertyReference && 
-                                    n.getSubjectType(context) instanceof StructureType && 
-                                    def === (n.getSubjectType(context) as StructureType).getDefinition(this.name.getName())
+                                    n.getSubjectType(context) instanceof StructureDefinitionType && 
+                                    def === (n.getSubjectType(context) as StructureDefinitionType).getDefinition(this.name.getName())
                         ).length > 0
                     ).reverse() as Conditional[];
 
@@ -215,7 +215,7 @@ export default class PropertyReference extends Expression {
         const subjectType = this.getSubjectType(context);
         // For the name, what names exist on the subject that match the current name?
         const definitions = 
-            subjectType instanceof StructureType ? subjectType.structure.getDefinitions(this) :
+            subjectType instanceof StructureDefinitionType ? subjectType.structure.getDefinitions(this) :
             subjectType instanceof NativeType ? subjectType?.getDefinitions(this, context) : [];
         return definitions
             .filter(def => def.getNames().find(n => this.name === undefined || this.name.getName() === PLACEHOLDER_SYMBOL || n.startsWith(this.name.getName())) !== undefined);

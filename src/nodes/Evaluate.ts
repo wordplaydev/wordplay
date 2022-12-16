@@ -6,7 +6,7 @@ import UnexpectedInputs from "../conflicts/UnexpectedInputs";
 import IncompatibleInput from "../conflicts/IncompatibleInput";
 import NotInstantiable from "../conflicts/NotInstantiable";
 import NotAFunction from "../conflicts/NotAFunction";
-import StructureType from "./StructureType";
+import StructureDefinitionType from "./StructureDefinitionType";
 import Expression from "./Expression";
 import Token from "./Token";
 import type Node from "./Node";
@@ -24,7 +24,6 @@ import Halt from "../runtime/Halt";
 import List from "../runtime/List";
 import StructureDefinition from "./StructureDefinition";
 import FunctionDefinition from "./FunctionDefinition";
-import PropertyReference from "./PropertyReference";
 import TypeInputs from "./TypeInputs";
 import { getEvaluationInputConflicts } from "./util";
 import ListType from "./ListType";
@@ -277,19 +276,13 @@ export default class Evaluate extends Expression {
         return this.types;
     }
 
-    getFunction(context: Context) {
+    getFunction(context: Context): FunctionDefinition | StructureDefinition | undefined {
 
-        let def = 
-            this.func instanceof Reference ? this.func.getDefinition(context) :
-            this.func instanceof PropertyReference ? this.func.getDefinition(context) :
-                undefined;
+        const type = this.func.getType(context);
 
-        if(def instanceof FunctionDefinition || def instanceof StructureDefinition)
-            return def;
-        if(def instanceof Bind && (def.value instanceof FunctionDefinition || def.value instanceof StructureDefinition))
-            return def.value;
-
-        return undefined;
+        return type instanceof FunctionDefinitionType ? type.fun :
+            type instanceof StructureDefinitionType ? type.structure :
+            undefined;
 
     }
 
@@ -301,7 +294,7 @@ export default class Evaluate extends Expression {
         if(fun instanceof FunctionDefinition) return getConcreteExpectedType(fun, undefined, this, context);
         // If it's a structure, then this is an instantiation of the structure, so this evaluate resolves
         // to a value of the structure's type.
-        else if(fun instanceof StructureDefinition) return new StructureType(fun, [...(this.types ? this.types.types : []) ]);
+        else if(fun instanceof StructureDefinition) return new StructureDefinitionType(fun, [...(this.types ? this.types.types : []) ]);
         // Otherwise, who knows.
         else return new NotAFunctionType(this, this.func.getType(context));
 
@@ -327,7 +320,7 @@ export default class Evaluate extends Expression {
         // and finding an expression to compile for each input.
         const funcType = this.func.getType(context);
         const candidateExpectedInputs = funcType instanceof FunctionDefinitionType ? funcType.fun.inputs :
-            funcType instanceof StructureType ? funcType.structure.inputs :
+            funcType instanceof StructureDefinitionType ? funcType.structure.inputs :
             undefined;
 
         // Halt if we couldn't find the function.
@@ -519,7 +512,7 @@ export default class Evaluate extends Expression {
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
         
         const functionType = this.func.getType(context);
-        if(!(functionType instanceof FunctionDefinitionType || functionType instanceof StructureType))
+        if(!(functionType instanceof FunctionDefinitionType || functionType instanceof StructureDefinitionType))
             return;
         
         // Functions can be any function names in scope
@@ -549,7 +542,7 @@ export default class Evaluate extends Expression {
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
         
         const functionType = this.func.getType(context);
-        if(!(functionType instanceof FunctionDefinitionType || functionType instanceof StructureType))
+        if(!(functionType instanceof FunctionDefinitionType || functionType instanceof StructureDefinitionType))
             return;
 
         // If we're before the close, then see if there are any inputs to append
@@ -596,7 +589,7 @@ export default class Evaluate extends Expression {
                         return bind.names.getTranslations();
                     }
                 }
-                else if(funType instanceof StructureType && index < funType.structure.inputs.length) {
+                else if(funType instanceof StructureDefinitionType && index < funType.structure.inputs.length) {
                     const bind = funType.structure.inputs[index];
                     if(bind instanceof Bind) {
                         return bind.names.getTranslations();

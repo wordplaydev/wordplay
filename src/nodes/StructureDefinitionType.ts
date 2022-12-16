@@ -10,7 +10,7 @@ import type { NativeTypeName } from "../native/NativeConstants";
 
 export const STRUCTURE_NATIVE_TYPE_NAME = "structure";
 
-export default class StructureType extends Type {
+export default class StructureDefinitionType extends Type {
 
     /** The structure definition that defines this type. */
     readonly structure: StructureDefinition;
@@ -40,7 +40,7 @@ export default class StructureType extends Type {
             if(type instanceof NameType)
                 type = type.getType(context);
 
-            if(!(type instanceof StructureType)) return false;
+            if(!(type instanceof StructureDefinitionType)) return false;
             if(this.structure === type.structure) return true;
             // Are any of the given type's interfaces compatible with this?
             return type.structure.interfaces.find(int => {

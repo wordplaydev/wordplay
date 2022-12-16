@@ -12,9 +12,8 @@ import type Step from "../runtime/Step";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import type Context from "./Context";
 import type Definition from "./Definition";
-import StructureType from "./StructureType";
+import StructureDefinitionType from "./StructureDefinitionType";
 import Token from "./Token";
-import FunctionType from "./FunctionType";
 import type TypeSet from "./TypeSet";
 import { Unimplemented } from "../conflicts/Unimplemented";
 import { Implemented } from "../conflicts/Implemented";
@@ -130,10 +129,6 @@ export default class StructureDefinition extends Expression {
     }
 
     getInputs() { return this.inputs.filter(i => i instanceof Bind) as Bind[]; }
-
-    getFunctionType(): FunctionType {
-       return FunctionType.make(this.types, this.inputs, new StructureType(this, []));
-    }
 
     isInterface(): boolean { return this.inputs.length === 0 && this.getImplementedFunctions().length === 0; }
     getAbstractFunctions(): FunctionDefinition[] { return this.getFunctions(false); }
@@ -251,7 +246,7 @@ export default class StructureDefinition extends Expression {
             [];
     }
 
-    computeType(): Type { return new StructureType(this, []); }
+    computeType(): Type { return new StructureDefinitionType(this, []); }
 
     getDependencies(): Expression[] {
         return this.expression instanceof Block ? [ this.expression ] : [];
