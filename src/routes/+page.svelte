@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 
     import Manager from '../components/Manager.svelte';
 
