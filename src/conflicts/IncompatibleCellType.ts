@@ -30,7 +30,7 @@ export default class IncompatibleCellType extends Conflict {
     getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `Expected ${this.expected.toWordplay()}, received ${this.received.getDescriptions(context)}`
+            eng: `Expected ${this.expected.toWordplay()}, received ${this.received.getDescriptions(context).eng}`
         }
     }
 

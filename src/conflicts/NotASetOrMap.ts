@@ -24,7 +24,7 @@ export class NotASetOrMap extends Conflict {
     getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `This isn't a set or map, it's a ${this.received.getDescriptions(context)}.`
+            eng: `This isn't a set or map, it's a ${this.received.getDescriptions(context).eng}.`
         }
     }
 

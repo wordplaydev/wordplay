@@ -27,7 +27,7 @@ export default class IncompatibleBind extends Conflict {
     getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `Expected ${this.expectedType.toWordplay()}, got ${this.valueType.getDescriptions(context)}`
+            eng: `Expected ${this.expectedType.toWordplay()}, got ${this.valueType.getDescriptions(context).eng}`
         }
     }
 

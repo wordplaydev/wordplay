@@ -25,7 +25,7 @@ export class NotAListIndex extends Conflict {
     getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `Lists can only be accessed with #'s, this is ${this.indexType.getDescriptions(context)}.`
+            eng: `Lists can only be accessed with #'s, this is ${this.indexType.getDescriptions(context).eng}`
         }
     }
 

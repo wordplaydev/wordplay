@@ -27,7 +27,7 @@ export default class NonBooleanQuery extends Conflict {
     getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `Table queries have to be Boolean-typed; this is ${this.type.getDescriptions(context)}`
+            eng: `Table queries have to be Boolean-typed; this is ${this.type.getDescriptions(context).eng}`
         }
     }
 

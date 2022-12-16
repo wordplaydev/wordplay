@@ -27,7 +27,7 @@ export default class NotATable extends Conflict {
     getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `Expected a table, but this is ${this.received.getDescriptions(context)}`
+            eng: `Expected a table, but this is ${this.received.getDescriptions(context).eng}`
         }
     }
 

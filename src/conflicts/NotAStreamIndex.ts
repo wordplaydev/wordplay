@@ -25,7 +25,7 @@ export class NotAStreamIndex extends Conflict {
     getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `This has to be number, but it's a ${this.indexType.getDescriptions(context)}`
+            eng: `This has to be number, but it's a ${this.indexType.getDescriptions(context).eng}`
         }
     }
 

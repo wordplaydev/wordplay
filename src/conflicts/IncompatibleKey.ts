@@ -25,7 +25,7 @@ export class IncompatibleKey extends Conflict {
     getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `I expect keys of type ${this.expected.toWordplay()}, but this is ${this.received.getDescriptions(context)}.`
+            eng: `I expect keys of type ${this.expected.toWordplay()}, but this is ${this.received.getDescriptions(context).eng}`
         }
     }
 

@@ -27,7 +27,7 @@ export class NotAStream extends Conflict {
     getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `This has to be a stream, but it's a ${this.received.getDescriptions(context)}`
+            eng: `This has to be a stream, but it's a ${this.received.getDescriptions(context).eng}`
         }
     }
 

@@ -23,7 +23,7 @@ export class IncompatibleType extends Conflict {
     getExplanations(context: Context): Translations {
         return {
             "😀": TRANSLATE,
-            eng: `This can never be a ${this.is.type.toWordplay()}, it's a ${this.givenType.getDescriptions(context)}`
+            eng: `This can never be a ${this.is.type.toWordplay()}, it's a ${this.givenType.getDescriptions(context).eng}`
         }
     }
 
