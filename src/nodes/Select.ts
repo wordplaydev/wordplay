@@ -7,7 +7,6 @@ import ExpectedSelectName from "../conflicts/ExpectedSelectName";
 import NonBooleanQuery from "../conflicts/NonBooleanQuery";
 import NotATable from "../conflicts/NotATable";
 import type Type from "./Type";
-import UnknownType from "./UnknownType";
 import Reference from "./Reference";
 import TableType from "./TableType";
 import type ColumnType from "./ColumnType";
@@ -27,6 +26,8 @@ import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import NotATableType from "./NotATableType";
+import UnknownNameType from "./UnknownNameType";
 
 export default class Select extends Expression {
     
@@ -105,7 +106,7 @@ export default class Select extends Expression {
 
         // Get the table type and find the rows corresponding the selected columns.
         const tableType = this.table.getType(context);
-        if(!(tableType instanceof TableType)) return new UnknownType(this);
+        if(!(tableType instanceof TableType)) return new NotATableType(this, tableType);
 
         // For each cell in the select row, find the corresponding column type in the table type.
         // If we can't find one, return unknown.
@@ -113,7 +114,7 @@ export default class Select extends Expression {
             const column = cell.value instanceof Reference ? tableType.getColumnNamed(cell.value.name.text.toString()) : undefined; 
             return column === undefined ? undefined : column;
         });
-        if(columnTypes.find(t => t === undefined)) return new UnknownType(this);
+        if(columnTypes.find(t => t === undefined)) return new UnknownNameType(this, undefined, undefined);
 
         return new TableType(columnTypes as ColumnType[]);
 
@@ -186,3 +187,4 @@ export default class Select extends Expression {
     }
 
 }
+

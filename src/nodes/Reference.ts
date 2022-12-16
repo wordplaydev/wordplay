@@ -6,7 +6,6 @@ import Token from "./Token";
 import type Node from "./Node";
 import type Type from "./Type";
 import TypeVariable from "./TypeVariable";
-import UnknownType from "./UnknownType";
 import type Evaluator from "../runtime/Evaluator";
 import Value from "../runtime/Value";
 import type Step from "../runtime/Step";
@@ -34,6 +33,7 @@ import { TRANSLATE } from "./Translations"
 import Stream from "../runtime/Stream";
 import StartFinish from "../runtime/StartFinish";
 import StreamType from "./StreamType";
+import UnknownNameType from "./UnknownNameType";
 
 export default class Reference extends Expression {
     
@@ -120,7 +120,7 @@ export default class Reference extends Expression {
 
         // If we couldn't find a definition or the definition is a type variable, return unknown.
         if(definition === undefined || definition instanceof TypeVariable)
-            return new UnknownType(this);
+            return new UnknownNameType(this, this.name, undefined);
 
         // Get the type of the value, 
         if(definition instanceof Value) {

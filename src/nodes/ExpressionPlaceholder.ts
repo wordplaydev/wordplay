@@ -3,7 +3,6 @@ import Expression from "./Expression";
 import Token from "./Token";
 import type Type from "./Type";
 import type Node from "./Node";
-import UnknownType from "./UnknownType";
 import type Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import Placeholder from "../conflicts/Placeholder";
@@ -19,6 +18,7 @@ import { TRANSLATE } from "./Translations"
 import PlaceholderToken from "./PlaceholderToken";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
+import UnimplementedType from "./UnimplementedType";
 
 const ExpressionLabels: Translations = {
     "😀": TRANSLATE,
@@ -54,7 +54,7 @@ export default class ExpressionPlaceholder extends Expression {
         return [ new Placeholder(this) ];
     }
 
-    computeType(): Type { return new UnknownType(this); }
+    computeType(): Type { return new UnimplementedType(this); }
 
     getDependencies(): Expression[] {
         return [];

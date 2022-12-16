@@ -107,7 +107,7 @@ export default class ListAccess extends Expression {
             else
                 return UnionType.getPossibleUnion(context, [ listType.type, NoneType.make() ]);
         }
-        else return new UnknownType(this);
+        else return new NotAListType(this, listType);
     }
 
     getDependencies(): Expression[] {
@@ -189,4 +189,19 @@ export default class ListAccess extends Expression {
         };
     }
 
+}
+
+export class NotAListType extends UnknownType<ListAccess> {
+
+    constructor(access: ListAccess, why: Type) {
+        super(access, why);
+    }
+
+    getReason(): Translations {
+        return {
+            "😀": TRANSLATE,
+            eng: `${this.expression.list.toWordplay()} is not a list`
+        }
+    }
+    
 }

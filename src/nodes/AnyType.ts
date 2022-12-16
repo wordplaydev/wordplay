@@ -22,7 +22,7 @@ export default class AnyType extends Type {
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "A wildcard type"
+            eng: "Any type"
         }
     }
 

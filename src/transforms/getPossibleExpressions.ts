@@ -44,7 +44,7 @@ import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
 
 /** Offer possible expressions compatible with the given type, or if none was given, any possible expression */
-export default function getPossibleExpressions(parent: Node, child: Expression | undefined, context: Context, type: Type=new AnyType()): (Expression | Definition)[] {
+export default function getPossibleExpressions(parent: Node, child: Expression | undefined, context: Context, type?: Type): (Expression | Definition)[] {
 
     const project = context.project;
 
@@ -67,12 +67,12 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
         ConversionDefinition.make(undefined, new TypePlaceholder(), new TypePlaceholder(), new ExpressionPlaceholder()),
         new Reaction(new ExpressionPlaceholder(), new ExpressionPlaceholder(), new ExpressionPlaceholder()),
         Previous.make(new ExpressionPlaceholder(), new ExpressionPlaceholder())
-    ].filter(expr => expr instanceof TypeVariable ? type instanceof AnyType : type.accepts(expr.getType(context), context))
+    ].filter(expr => expr instanceof TypeVariable || type === undefined ? true : type.accepts(expr.getType(context), context))
 }
 
-export function getExpressionReplacements(parent: Node, child: Expression, context: Context, type: Type=new AnyType()): Replace<Expression>[] {
+export function getExpressionReplacements(parent: Node, child: Expression, context: Context, type?: Type): Replace<Expression>[] {
 
-    return getPossibleExpressions(parent, child, context, type)
+    return getPossibleExpressions(parent, child, context, type ?? new AnyType())
         .map(expr => new Replace(
                 context, 
                 child, 
@@ -82,7 +82,7 @@ export function getExpressionReplacements(parent: Node, child: Expression, conte
 
 }
 
-export function getExpressionInsertions(position: number, parent: Node, list: Node[], before: Node | undefined, context: Context, type: Type=new AnyType()): Append<Expression>[] {
+export function getExpressionInsertions(position: number, parent: Node, list: Node[], before: Node | undefined, context: Context, type?: Type): Append<Expression>[] {
 
     return getPossibleExpressions(parent, undefined, context, type)
         .map(expr => new Append(

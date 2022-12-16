@@ -2,7 +2,6 @@ import type Conflict from "../conflicts/Conflict";
 import Expression from "./Expression";
 import Token from "./Token";
 import type Type from "./Type";
-import UnknownType from "./UnknownType";
 import type Evaluator from "src/runtime/Evaluator";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
@@ -34,6 +33,7 @@ import { TRANSLATE } from "./Translations"
 import type LanguageCode from "./LanguageCode";
 import getConcreteExpectedType from "./Generics";
 import type Value from "../runtime/Value";
+import UnknownNameType from "./UnknownNameType";
 
 export default class BinaryOperation extends Expression {
 
@@ -138,7 +138,7 @@ export default class BinaryOperation extends Expression {
         const fun = this.getFunction(context);
         return fun !== undefined ? 
             getConcreteExpectedType(fun, undefined, this, context) :
-            new UnknownType({ definition: this, name: this.operator });
+            new UnknownNameType(this, this.operator, this.left.getType(context));
 
     }
 

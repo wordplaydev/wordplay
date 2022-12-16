@@ -1,6 +1,6 @@
 import type Conflict from "../conflicts/Conflict";
 import { NotAStream } from "../conflicts/NotAStream";
-import Expression from "./Expression";
+import Expression, { CycleType } from "./Expression";
 import StreamType from "./StreamType";
 import Token from "./Token";
 import type Type from "./Type";
@@ -28,7 +28,6 @@ import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import UnknownType from "./UnknownType";
 
 export default class Reaction extends Expression {
 
@@ -87,7 +86,7 @@ export default class Reaction extends Expression {
 
         // If the type includes an unknown type because of a cycle, remove the unknown, since the rest of the type defines the possible values.
         const types = type.getTypeSet(context).list();
-        const cycle = types.findIndex(type => type instanceof UnknownType && "cycle" in type.reason);
+        const cycle = types.findIndex(type => type instanceof CycleType);
         if(cycle >= 0) {
             types.splice(cycle, 1);
             return UnionType.getPossibleUnion(context, types);

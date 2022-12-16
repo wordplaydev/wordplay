@@ -3,7 +3,6 @@ import { UnknownProperty } from "../conflicts/UnknownProperty";
 import Expression from "./Expression";
 import Token from "./Token";
 import type Type from "./Type";
-import UnknownType from "./UnknownType";
 import type Evaluator from "../runtime/Evaluator";
 import Exception from "../runtime/Exception";
 import type Step from "../runtime/Step";
@@ -39,6 +38,7 @@ import type Value from "../runtime/Value";
 import StreamType from "./StreamType";
 import Reference from "./Reference";
 import NameType from "./NameType";
+import UnknownNameType from "./UnknownNameType";
 
 export default class PropertyReference extends Expression {
 
@@ -128,7 +128,7 @@ export default class PropertyReference extends Expression {
         const def = this.getDefinition(context);
 
         // No definition? Unknown type.
-        if(def === undefined || def instanceof TypeVariable) return new UnknownType(this);
+        if(def === undefined || def instanceof TypeVariable) return new UnknownNameType(this, this.name?.name, subjectType);
 
         // Get the type of the definition.
         let type = def.getType(context);

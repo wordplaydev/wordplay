@@ -1,3 +1,4 @@
+import type Context from "../nodes/Context";
 import type ListAccess from "../nodes/ListAccess";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
@@ -20,10 +21,10 @@ export class NotAList extends Conflict {
         return { primary: [ this.access.list ] };
     }
 
-    getExplanations(): Translations { 
+    getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `This isn't a list, it's a ${this.received.toWordplay()}.`
+            eng: `This isn't a list, it's ${this.received.getDescriptions(context).eng}.`
         }
     }
 

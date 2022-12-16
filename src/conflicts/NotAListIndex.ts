@@ -1,3 +1,4 @@
+import type Context from "../nodes/Context";
 import type ListAccess from "../nodes/ListAccess";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
@@ -21,10 +22,10 @@ export class NotAListIndex extends Conflict {
         return { primary: [ this.access.index ] };
     }
 
-    getExplanations(): Translations { 
+    getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `Lists can only be accessed with #'s. This is a ${this.indexType.toWordplay()}.`
+            eng: `Lists can only be accessed with #'s, this is ${this.indexType.getDescriptions(context)}.`
         }
     }
 

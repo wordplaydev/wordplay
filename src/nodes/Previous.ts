@@ -86,7 +86,7 @@ export default class Previous extends Expression {
     computeType(context: Context): Type {
         // The type is the stream's type.
         const streamType = this.stream.getType(context);
-        return streamType instanceof StreamType ? streamType.type : new UnknownType(this);
+        return streamType instanceof StreamType ? streamType.type : new NotAStreamType(this, streamType);
     }
 
     getDependencies(): Expression[] {
@@ -171,6 +171,21 @@ export default class Previous extends Expression {
         return {
             "😀": TRANSLATE,
             eng: "Let's get the stream value at this index."
+        }
+    }
+
+}
+
+export class NotAStreamType extends UnknownType<Previous> {
+
+    constructor(previous: Previous, why: Type) {
+        super(previous, why);
+    }
+
+    getReason(): Translations {
+        return {
+            eng: `${this.expression.stream.toWordplay()} is not a stream`,
+            "😀": `${TRANSLATE} •🤔`
         }
     }
 

@@ -71,8 +71,7 @@ export default class SetLiteral extends Expression {
     computeConflicts() {}
 
     computeType(context: Context): Type {
-        let type = UnionType.getPossibleUnion(context, this.values.map(v => (v as Expression).getType(context)));
-        if(type === undefined) type = new AnyType();        
+        let type = this.values.length === 0 ? new AnyType() : UnionType.getPossibleUnion(context, this.values.map(v => (v as Expression).getType(context)));
         return SetType.make(type);
     }
 

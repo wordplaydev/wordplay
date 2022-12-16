@@ -1,3 +1,4 @@
+import type Context from "../nodes/Context";
 import type Previous from "../nodes/Previous";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
@@ -21,10 +22,10 @@ export class NotAStreamIndex extends Conflict {
         return { primary: [ this.previous.index ] };
     }
 
-    getExplanations(): Translations { 
+    getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `This has to be number, but it's a ${this.indexType.toWordplay()}`
+            eng: `This has to be number, but it's a ${this.indexType.getDescriptions(context)}`
         }
     }
 

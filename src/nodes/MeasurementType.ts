@@ -17,7 +17,6 @@ import MeasurementLiteral from "./MeasurementLiteral";
 import Measurement from "../runtime/Measurement";
 import Evaluate from "./Evaluate";
 import PropertyReference from "./PropertyReference";
-import UnknownType from "./UnknownType";
 import type TypeSet from "./TypeSet";
 
 type UnitDeriver = (left: Unit, right: Unit | undefined, constant: number | undefined) => Unit;
@@ -116,11 +115,11 @@ export default class MeasurementType extends NativeType {
             this.op instanceof BinaryOperation ? this.op.left.getType(context) : 
             this.op instanceof UnaryOperation ? this.op.operand.getType(context) : 
             this.op.func instanceof PropertyReference ? this.op.func.structure.getType(context) :
-            new UnknownType({ typeVar: this.op });
+            undefined;
         const rightType = 
             this.op instanceof BinaryOperation ? this.op.right.getType(context) : 
             this.op instanceof Evaluate && this.op.inputs.length > 0 ? this.op.inputs[0].getType(context) :
-            new UnknownType({ typeVar: this.op });
+            undefined;
 
         // If either type isn't a measurement type — which shouldn't be possible for binary operations or evaluates — then we just return a blank unit.
         if(!(leftType instanceof MeasurementType)) return new Unit();

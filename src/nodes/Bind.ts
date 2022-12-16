@@ -9,7 +9,6 @@ import UnusedBind from "../conflicts/UnusedBind";
 import DuplicateBinds from "../conflicts/DuplicateBinds";
 import IncompatibleBind from "../conflicts/IncompatibleBind";
 import UnexpectedEtc from "../conflicts/UnexpectedEtc";
-import UnknownType from "./UnknownType";
 import NameType from "./NameType";
 import StructureType from "./StructureType";
 import StructureDefinition from "./StructureDefinition";
@@ -234,12 +233,10 @@ export default class Bind extends Expression {
                     ListType.make(this.type) : 
                     this.type
                 ) :
-            // If the value is a structure definition, make a structure type.
-            this.value instanceof StructureDefinition ? new StructureType(this.value, []) :
             // If it has an expression. ask the expression.
             this.value instanceof Expression ? this.value.getType(context) :
-            // Otherwise, we don't know.
-            new UnknownType(this);
+            // Otherwise, we don't know, it could be anything.
+            new AnyType();
 
         // If the type is a name, and it refers to a structure, resolve it.
         // Leave names that refer to type variables to be resolved in Evaluate.

@@ -6,7 +6,6 @@ import { IgnoredExpression } from "../conflicts/IgnoredExpression";
 import Expression from "./Expression";
 import Token from "./Token";
 import type Type from "./Type";
-import UnknownType from "./UnknownType";
 import type Evaluator from "../runtime/Evaluator";
 import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
@@ -35,6 +34,7 @@ import type Value from "../runtime/Value";
 import EvalCloseToken from "./EvalCloseToken";
 import EvalOpenToken from "./EvalOpenToken";
 import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
+import NoExpressionType from "./NoExpressionType";
 
 export default class Block extends Expression {
 
@@ -148,7 +148,7 @@ export default class Block extends Expression {
     computeType(context: Context): Type {
         // The type of the last expression.
         const lastExpression = this.statements.slice().reverse().find(s => s instanceof Expression) as Expression | undefined;
-        return lastExpression === undefined ? new UnknownType(this) : lastExpression.getType(context);
+        return lastExpression === undefined ? new NoExpressionType(this) : lastExpression.getType(context);
     }
 
     getDependencies(context: Context): Expression[] {

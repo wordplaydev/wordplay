@@ -12,7 +12,7 @@ import Node from "./Node";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations";
 import type TypeSet from "./TypeSet";
-import UnknownType from "./UnknownType";
+import UnparsableType from "./UnparsableType";
 
 export default class UnparsableExpression extends Expression {
 
@@ -40,7 +40,7 @@ export default class UnparsableExpression extends Expression {
         ) as this; 
     }
 
-    computeType() { return new UnknownType(this); }
+    computeType() { return new UnparsableType(this.unparsables); }
 
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet) { return current; }
 

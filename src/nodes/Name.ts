@@ -56,13 +56,7 @@ export default class Name extends Node {
         ) as this;
     }
 
-    computeConflicts(): Conflict[] {
-    
-        // if(this.name === undefined || this.name.getText() === PLACEHOLDER_SYMBOL) return [ new UnnamedAlias(this) ];
-
-        return []; 
-    
-    }
+    computeConflicts(): Conflict[] { return []; }
 
     getName(): string | undefined { return this.name instanceof Token ? this.name.text.toString() : this.name; }
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }

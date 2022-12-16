@@ -9,6 +9,7 @@ import type Bind from "./Bind";
 import type TypeSet from "./TypeSet";
 import type Translations from "./Translations";
 import type Stream from "../runtime/Stream";
+import { TRANSLATE } from "./Translations";
 
 export default abstract class Expression extends Node {
 
@@ -32,7 +33,7 @@ export default abstract class Expression extends Node {
 
         if(this._type === undefined) {
             if(context.visited(this))
-                this._type = new UnknownType({ cycle: this });
+                this._type = new CycleType(this, context.stack.slice(context.stack.indexOf(this)));
             else {
                 context.visit(this);
                 this._type = this.computeType(context);
@@ -59,5 +60,23 @@ export default abstract class Expression extends Node {
 
     abstract getStartExplanations(evaluator: Evaluator): Translations;
     abstract getFinishExplanations(evaluator: Evaluator): Translations;
+
+}
+
+export class CycleType extends UnknownType<Expression> {
+
+    readonly cycle: Node[];
+
+    constructor(expression: Expression, cycle: Node[]) {
+        super(expression, undefined);
+        this.cycle = cycle;
+    }
+
+    getReason(): Translations {
+        return {
+            eng: `${this.expression.toWordplay()} depends on itself`,
+            "😀": `${TRANSLATE} •🤔`
+        }
+    }
 
 }

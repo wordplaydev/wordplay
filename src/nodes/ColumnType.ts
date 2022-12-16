@@ -8,9 +8,9 @@ import { TABLE_OPEN_SYMBOL } from "../parser/Tokenizer";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import UnknownType from "./UnknownType";
 import type TypeSet from "./TypeSet";
 import type { NativeTypeName } from "../native/NativeConstants";
+import UnknownNameType from "./UnknownNameType";
 
 export default class ColumnType extends Type {
 
@@ -54,7 +54,7 @@ export default class ColumnType extends Type {
         );
     }
 
-    getValueType(context: Context) { return this.bind === undefined ? new UnknownType(this) : this.bind.getType(context); }
+    getValueType(context: Context) { return this.bind === undefined ? new UnknownNameType(this, undefined, undefined) : this.bind.getType(context); }
 
     getNativeTypeName(): NativeTypeName { return "column"; }
 

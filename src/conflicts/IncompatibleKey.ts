@@ -1,3 +1,4 @@
+import type Context from "../nodes/Context";
 import type SetOrMapAccess from "../nodes/SetOrMapAccess";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
@@ -21,10 +22,10 @@ export class IncompatibleKey extends Conflict {
         return { primary: [ this.access.key ], secondary: [ this.expected ] };
     }
 
-    getExplanations(): Translations { 
+    getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `I expect keys of type ${this.expected.toWordplay()}, but this is ${this.received.toWordplay()}.`
+            eng: `I expect keys of type ${this.expected.toWordplay()}, but this is ${this.received.getDescriptions(context)}.`
         }
     }
 

@@ -8,6 +8,7 @@ import type Type from "../nodes/Type";
 import type BinaryOperation from "../nodes/BinaryOperation";
 import type StructureDefinition from "../nodes/StructureDefinition";
 import type FunctionDefinition from "../nodes/FunctionDefinition";
+import type Context from "../nodes/Context";
 
 export default class IncompatibleInput extends Conflict {
     
@@ -30,10 +31,10 @@ export default class IncompatibleInput extends Conflict {
         return { primary: [ this.givenNode ], secondary: [ this.expectedType ] };
     }
 
-    getExplanations(): Translations {
+    getExplanations(context: Context): Translations {
         return {
             "😀": TRANSLATE,
-            eng: `Expected input of type ${this.expectedType.toWordplay()}, received ${this.givenType.toWordplay()}`
+            eng: `Expected input of type ${this.expectedType.toWordplay()}, received ${this.givenType.getDescriptions(context)}`
         }
     }
 

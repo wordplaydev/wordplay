@@ -1,3 +1,4 @@
+import type Context from "../nodes/Context";
 import type Delete from "../nodes/Delete";
 import type Select from "../nodes/Select";
 import type Translations from "../nodes/Translations";
@@ -23,10 +24,10 @@ export default class NonBooleanQuery extends Conflict {
         return { primary: [ this.op.query ] };
     }
 
-    getExplanations(): Translations { 
+    getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `Table queries have to be Boolean-typed; this is ${this.type.toWordplay()}`
+            eng: `Table queries have to be Boolean-typed; this is ${this.type.getDescriptions(context)}`
         }
     }
 

@@ -3,7 +3,6 @@ import { UnknownConversion } from "../conflicts/UnknownConversion";
 import Expression from "./Expression";
 import Type from "./Type";
 import type Node from "./Node";
-import UnknownType from "./UnknownType";
 import Token from "./Token";
 import Finish from "../runtime/Finish";
 import type Step from "../runtime/Step";
@@ -30,6 +29,7 @@ import { TRANSLATE } from "./Translations"
 import Names from "./Names";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
+import NotAFunctionType from "./NotAFunctionType";
 
 export default class Convert extends Expression {
     
@@ -89,7 +89,7 @@ export default class Convert extends Expression {
         // If we know the expression's type, there must be a corresponding conversion on that type.
         const exprType = this.expression.getType(context);
         const conversionPath = this.getConversionSequence(context);
-        if(!(exprType instanceof UnknownType) && !this.type.accepts(exprType, context) && (conversionPath === undefined || conversionPath.length === 0))
+        if(!this.type.accepts(exprType, context) && (conversionPath === undefined || conversionPath.length === 0))
             return [ new UnknownConversion(this, this.type) ];
         
         return [];
@@ -102,7 +102,7 @@ export default class Convert extends Expression {
         // Find the conversion to see.
         // Get the conversion definition.
         const conversions = this.getConversionSequence(context);
-        if(conversions === undefined || conversions.length === 0) return new UnknownType(this);
+        if(conversions === undefined || conversions.length === 0) return new NotAFunctionType(this, undefined);
         const lastConversion = conversions[conversions.length - 1];
         return lastConversion.output; 
 

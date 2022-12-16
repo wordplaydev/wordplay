@@ -72,7 +72,7 @@ export default class This extends Expression {
     
         // The type of this is the structure definition in which this is evaluating.
         const structure = this.getEnclosingStructure(context);
-        return structure === undefined ? new UnknownType(this) : 
+        return structure === undefined ? new UnenclosedType(this) : 
             // Structure definition's have the structure type
             structure instanceof StructureDefinition ? new StructureType(structure, []) :
             // Conversion definitions have the input type
@@ -83,7 +83,7 @@ export default class This extends Expression {
             ) :
             // Reactions have the reaction's value type
             structure instanceof Reaction ? structure.getType(context) :
-            new UnknownType(this);
+            new UnenclosedType(this);
     
     }
 
@@ -142,4 +142,19 @@ export default class This extends Expression {
         }
     }
 
+}
+
+export class UnenclosedType extends UnknownType<This> {
+
+    constructor(dis: This) {
+        super(dis, undefined);
+    }
+
+    getReason(): Translations {
+        return {
+            "😀": TRANSLATE,
+            eng: `${this.expression.toWordplay()} is not in a structure, conversion, or reaction`
+        }
+    }
+    
 }

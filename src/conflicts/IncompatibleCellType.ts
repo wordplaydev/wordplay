@@ -1,4 +1,5 @@
 import type Cell from "../nodes/Cell";
+import type Context from "../nodes/Context";
 import type TableType from "../nodes/TableType";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
@@ -26,10 +27,10 @@ export default class IncompatibleCellType extends Conflict {
         return { primary:  [this.cell ], secondary: [ this.type ] };
     }
 
-    getExplanations(): Translations { 
+    getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `Expected ${this.expected.toWordplay()}, received ${this.received.toWordplay()}`
+            eng: `Expected ${this.expected.toWordplay()}, received ${this.received.getDescriptions(context)}`
         }
     }
 

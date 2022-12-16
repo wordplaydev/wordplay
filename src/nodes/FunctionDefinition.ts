@@ -32,11 +32,11 @@ import Docs from "./Docs";
 import Names from "./Names";
 import type LanguageCode from "./LanguageCode";
 import FunctionDefinitionType from "./FunctionDefinitionType";
-import UnknownType from "./UnknownType";
 import type Value from "../runtime/Value";
 import StartFinish from "../runtime/StartFinish";
 import type TypeVariables from "./TypeVariables";
 import NoExpression from "../conflicts/NoExpression";
+import UnimplementedType from "./UnimplementedType";
 
 export default class FunctionDefinition extends Expression {
 
@@ -194,7 +194,7 @@ export default class FunctionDefinition extends Expression {
 
     getOutputType(context: Context) {
         return this.output instanceof Type ? this.output : 
-            !(this.expression instanceof Expression) ? new UnknownType({ placeholder: this.expression }) : 
+            !(this.expression instanceof Expression) ? new UnimplementedType(this) : 
             this.expression.getType(context);
     }
 
@@ -281,3 +281,4 @@ export default class FunctionDefinition extends Expression {
     }
 
 }
+

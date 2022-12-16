@@ -18,7 +18,6 @@ import type Type from "./Type";
 import type TypeSet from "./TypeSet";
 import type Stream from "../runtime/Stream";
 import type Value from "../runtime/Value";
-import UnknownType from "./UnknownType";
 import Source from "../models/Source";
 import Evaluation from "../runtime/Evaluation";
 import NameException from "../runtime/NameException";
@@ -29,6 +28,7 @@ import FunctionValue from "../runtime/FunctionValue";
 import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
+import UnknownNameType from "./UnknownNameType";
 
 export type SharedDefinition = Source | Bind | FunctionDefinition | StructureDefinition | Stream;
 
@@ -179,7 +179,7 @@ export default class Borrow extends Expression {
     computeType(context: Context): Type {
 
         const [ _, definition ] = this.getShare(context) ?? [];
-        return definition === undefined ? new UnknownType(this) : definition.getType(context);
+        return definition === undefined ? new UnknownNameType(this, this.name, undefined) : definition.getType(context);
 
     }
 
@@ -215,3 +215,4 @@ export default class Borrow extends Expression {
     }
 
 }
+

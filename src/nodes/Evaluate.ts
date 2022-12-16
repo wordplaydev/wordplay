@@ -11,7 +11,6 @@ import Expression from "./Expression";
 import Token from "./Token";
 import type Node from "./Node";
 import Type from "./Type";
-import UnknownType from "./UnknownType";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
 import Evaluation from "../runtime/Evaluation";
@@ -50,6 +49,7 @@ import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
 import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
 import InvalidTypeInput from "../conflicts/InvalidTypeInput";
+import NotAFunctionType from "./NotAFunctionType";
 
 export default class Evaluate extends Expression {
 
@@ -303,7 +303,7 @@ export default class Evaluate extends Expression {
         // to a value of the structure's type.
         else if(fun instanceof StructureDefinition) return new StructureType(fun, [...(this.types ? this.types.types : []) ]);
         // Otherwise, who knows.
-        else return new UnknownType({ definition: this, name: this.func });
+        else return new NotAFunctionType(this, this.func.getType(context));
 
     }
 
@@ -636,3 +636,4 @@ export default class Evaluate extends Expression {
     }
 
 }
+

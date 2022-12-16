@@ -4,7 +4,6 @@ import type Conflict from "../conflicts/Conflict";
 import ExpectedColumnType from "../conflicts/ExpectedColumnType";
 import Expression from "./Expression";
 import TableType from "./TableType";
-import UnknownType from "./UnknownType";
 import ColumnType from "./ColumnType";
 import Bind from "./Bind";
 import type Node from "./Node";
@@ -25,6 +24,7 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import { TABLE_CLOSE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
+import AnyType from "./AnyType";
 
 export default class TableLiteral extends Expression {
     
@@ -57,7 +57,7 @@ export default class TableLiteral extends Expression {
 
         // Columns must all have types.
         this.columns.forEach(column => {
-            if(column.bind instanceof Bind && column.bind.getType(context) instanceof UnknownType)
+            if(column.bind instanceof Bind && column.bind.getType(context) instanceof AnyType)
                 conflicts.push(new ExpectedColumnType(column))
         });
 

@@ -98,7 +98,7 @@ export default class SetOrMapAccess extends Expression {
         const setOrMapType = this.setOrMap.getType(context);
         if(setOrMapType instanceof MapType && setOrMapType.value instanceof Type) return setOrMapType.value;
         else if(setOrMapType instanceof SetType) return new BooleanType();
-        else return new UnknownType(this);
+        else return new NotASetOrMapType(this, setOrMapType);
     }
 
     getDependencies(): Expression[] {
@@ -192,4 +192,19 @@ export default class SetOrMapAccess extends Expression {
         };
     }
 
+}
+
+export class NotASetOrMapType extends UnknownType<SetOrMapAccess> {
+
+    constructor(dis: SetOrMapAccess, why: Type) {
+        super(dis, why);
+    }
+
+    getReason(): Translations {
+        return {
+            "😀": TRANSLATE,
+            eng: `${this.expression.setOrMap.toWordplay()} is not a set or map`
+        }
+    }
+    
 }

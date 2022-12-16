@@ -1,3 +1,4 @@
+import type Context from "../nodes/Context";
 import type Previous from "../nodes/Previous";
 import type Reaction from "../nodes/Reaction";
 import type Translations from "../nodes/Translations";
@@ -23,10 +24,10 @@ export class NotAStream extends Conflict {
         return { primary: [ this.stream.stream ] };
     }
 
-    getExplanations(): Translations { 
+    getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `This has to be a stream, but it's a ${this.received.toWordplay()}`
+            eng: `This has to be a stream, but it's a ${this.received.getDescriptions(context)}`
         }
     }
 

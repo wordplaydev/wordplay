@@ -3,6 +3,7 @@ import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 import type Type from "../nodes/Type";
 import type Is from "../nodes/Is";
+import type Context from "../nodes/Context";
 
 export class IncompatibleType extends Conflict {
     
@@ -19,10 +20,10 @@ export class IncompatibleType extends Conflict {
         return { primary: [ this.is.expression ], secondary: [ this.is.type ] };
     }
 
-    getExplanations(): Translations {
+    getExplanations(context: Context): Translations {
         return {
             "😀": TRANSLATE,
-            eng: `This can never be a ${this.is.type.toWordplay()}, it's a ${this.givenType.toWordplay()}`
+            eng: `This can never be a ${this.is.type.toWordplay()}, it's a ${this.givenType.getDescriptions(context)}`
         }
     }
 

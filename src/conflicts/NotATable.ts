@@ -1,3 +1,4 @@
+import type Context from "../nodes/Context";
 import type Delete from "../nodes/Delete";
 import type Insert from "../nodes/Insert";
 import type Select from "../nodes/Select";
@@ -23,10 +24,10 @@ export default class NotATable extends Conflict {
         return { primary: [ this.op.table ] };
     }
 
-    getExplanations(): Translations { 
+    getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `Expected a table, but this is ${this.received.toWordplay()}`
+            eng: `Expected a table, but this is ${this.received.getDescriptions(context)}`
         }
     }
 

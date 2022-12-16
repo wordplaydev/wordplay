@@ -4,7 +4,6 @@ import Token from "./Token";
 import Type from "./Type";
 import type Node from "./Node";
 import TypeVariable from "./TypeVariable";
-import UnknownType from "./UnknownType";
 import type Context from "./Context";
 import Value from "../runtime/Value";
 import type Definition from "./Definition";
@@ -19,6 +18,7 @@ import TypeInputs from "./TypeInputs";
 import InvalidTypeInput from "../conflicts/InvalidTypeInput";
 import type TypeSet from "./TypeSet";
 import type { NativeTypeName } from "../native/NativeConstants";
+import UnknownNameType from "./UnknownNameType";
 
 export default class NameType extends Type {
 
@@ -95,7 +95,7 @@ export default class NameType extends Type {
 
         // The name should be defined.
         const definition = this.resolve(context);
-        if(definition === undefined) return new UnknownType({ definition: this, name: this.name });
+        if(definition === undefined) return new UnknownNameType(this, this.name, undefined);
         else if(definition instanceof TypeVariable) return new VariableType(definition);
         else return definition instanceof Value ? definition.getType(context) : definition.getType(context);
 
@@ -129,4 +129,5 @@ export default class NameType extends Type {
     getInsertionBefore() { return undefined; }
     getInsertionAfter() { return undefined; }
     getChildRemoval(): Transform | undefined { return undefined; }
+
 }

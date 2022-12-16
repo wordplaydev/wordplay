@@ -1,3 +1,4 @@
+import type Context from "../nodes/Context";
 import type SetOrMapAccess from "../nodes/SetOrMapAccess";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
@@ -20,10 +21,10 @@ export class NotASetOrMap extends Conflict {
         return { primary: [ this.access.setOrMap ] };
     }
 
-    getExplanations(): Translations { 
+    getExplanations(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
-            eng: `This isn't a set or map, it's a ${this.received.toWordplay()}.`
+            eng: `This isn't a set or map, it's a ${this.received.getDescriptions(context)}.`
         }
     }
 

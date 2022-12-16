@@ -45,7 +45,7 @@
             {/if}
             {#if conflicts.length > 0}
                 <section class="footer conflict">
-                    <ConflictsView {conflicts}/>
+                    <ConflictsView context={project.getContext(source)} {conflicts}/>
                 </section>
             {/if}
 

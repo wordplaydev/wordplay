@@ -3,7 +3,6 @@ import Expression from "./Expression";
 import Token from "./Token";
 import type Type from "./Type";
 import type Node from "./Node";
-import UnknownType from "./UnknownType";
 import type Evaluator from "../runtime/Evaluator";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
@@ -26,6 +25,7 @@ import { TRANSLATE } from "./Translations"
 import type LanguageCode from "./LanguageCode";
 import getConcreteExpectedType from "./Generics";
 import type Value from "../runtime/Value";
+import UnknownNameType from "./UnknownNameType";
 
 export default class UnaryOperation extends Expression {
 
@@ -87,7 +87,7 @@ export default class UnaryOperation extends Expression {
         const fun = this.getFunction(context);
         return fun !== undefined ? 
             getConcreteExpectedType(fun, undefined, this, context) :
-            new UnknownType({ definition: this, name: this.operator });
+            new UnknownNameType(this, this.operator, this.operand.getType(context));
 
     }
     

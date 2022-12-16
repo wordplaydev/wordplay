@@ -5,7 +5,7 @@ import Token from "./Token";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import UnknownType from "./UnknownType";
+import UnknownNameType from "./UnknownNameType";
 
 export default class Column extends Node {
 
@@ -31,7 +31,7 @@ export default class Column extends Node {
     computeConflicts() {}
 
     hasDefault() { return this.bind instanceof Bind && this.bind.hasDefault(); }
-    getType(context: Context) { return this.bind === undefined ? new UnknownType(this) : this.bind.getType(context); }
+    getType(context: Context) { return this.bind === undefined ? new UnknownNameType(this, undefined, undefined) : this.bind.getType(context); }
 
     replace(original?: Node, replacement?: Node) { 
         return new Column(
@@ -51,4 +51,5 @@ export default class Column extends Node {
     getInsertionBefore(): Transform[] | undefined { return undefined; }
     getInsertionAfter(): Transform[] | undefined { return undefined; }
     getChildRemoval(): Transform | undefined { return undefined; }
+
 }
