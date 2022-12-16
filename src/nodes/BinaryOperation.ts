@@ -93,7 +93,7 @@ export default class BinaryOperation extends Expression {
             conflicts.push(new OrderOfOperations(this.left, this));
 
         // Get the types
-        const rightType = this.right instanceof Expression ? this.right.getType(context) : undefined;
+        const rightType = this.right.getType(context);
 
         // Find the function on the left's type.
         const fun = this.getFunction(context);
@@ -121,7 +121,7 @@ export default class BinaryOperation extends Expression {
                     const expectedType = getConcreteExpectedType(fun, firstInput, this, context);
 
                     // Pass this binary operation to the measurement type so it can reason about units correctly.
-                    if(this.right instanceof Expression && rightType !== undefined && !expectedType.accepts(rightType, context))
+                    if(!expectedType.accepts(rightType, context))
                         conflicts.push(new IncompatibleInput(fun, this, this.right, rightType, expectedType));
 
                 }

@@ -119,13 +119,13 @@ export default class Unit extends Type {
 
     computeConflicts() {}
 
-    accept(unit: Unit): boolean {
+    accepts(unit: Unit): boolean {
         // Every key in this exists in the given unit and they have the same exponents.
-        return this.isUnitless() || this.isEqualTo(unit);
+        return this.isEqualTo(unit);
     }
 
     acceptsAll(types: TypeSet): boolean {
-        return Array.from(types.set).every(type => type instanceof Unit && this.accept(type));
+        return Array.from(types.set).every(type => type instanceof Unit && this.accepts(type));
     }
 
     getNativeTypeName(): NativeTypeName { return "unit"; }
@@ -230,7 +230,7 @@ export default class Unit extends Type {
             eng: this.exponents.size === 0 ? "A unitless number" : 
                 this.numerator.length === 1 && this.denominator.length === 0 ? this.numerator[0].getDescriptions().eng :
                 this.toWordplay() === "m/s" ? "velocity" :
-                "A number with unit"
+                "a number with unit"
         }
     }
 

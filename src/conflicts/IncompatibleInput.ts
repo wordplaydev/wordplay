@@ -34,7 +34,7 @@ export default class IncompatibleInput extends Conflict {
     getExplanations(context: Context): Translations {
         return {
             "😀": TRANSLATE,
-            eng: `Expected input of type ${this.expectedType.toWordplay()}, received ${this.givenType.getDescriptions(context)}`
+            eng: `Expected input of type ${this.expectedType.toWordplay()}, received ${this.givenType.getDescriptions(context).eng}`
         }
     }
 

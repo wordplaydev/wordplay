@@ -24,11 +24,11 @@ type UnitDeriver = (left: Unit, right: Unit | undefined, constant: number | unde
 export default class MeasurementType extends NativeType {
     
     readonly number: Token;
-    readonly unit: Unit | UnitDeriver;
+    readonly unit: Unit | UnitDeriver | true;
 
     readonly op: BinaryOperation | UnaryOperation | Evaluate | undefined;
 
-    constructor(number: Token, unit?: Unit | UnitDeriver, op?: BinaryOperation | UnaryOperation | Evaluate) {
+    constructor(number: Token, unit?: Unit | UnitDeriver | true, op?: BinaryOperation | UnaryOperation | Evaluate) {
         super();
 
         this.number = number;
@@ -39,7 +39,7 @@ export default class MeasurementType extends NativeType {
 
     }
 
-    static make(unit?: Unit | UnitDeriver, op?: BinaryOperation | UnaryOperation | Evaluate) {
+    static make(unit?: Unit | UnitDeriver | true, op?: BinaryOperation | UnaryOperation | Evaluate) {
         return new MeasurementType(new Token(MEASUREMENT_SYMBOL, TokenType.NUMBER_TYPE), unit ?? new Unit(), op);
     }
 
@@ -53,7 +53,7 @@ export default class MeasurementType extends NativeType {
     replace(original?: Node, replacement?: Node) { 
         return new MeasurementType(
             this.replaceChild("number", this.number, original, replacement), 
-            this.unit === undefined || this.unit instanceof Function ? this.unit : this.replaceChild("unit", this.unit, original, replacement)
+            this.unit === undefined || this.unit instanceof Function ? this.unit : this.replaceChild("unit", this.unit === true ? undefined : this.unit, original, replacement)
         ) as this; 
     }
 
@@ -92,7 +92,7 @@ export default class MeasurementType extends NativeType {
                 return false;
 
             // If the units aren't compatible, then the the types aren't compatible.
-            if(!thisUnit.accepts(thatUnit, context))
+            if(this.unit !== true && !thisUnit.accepts(thatUnit))
                 return false;
         }
         return true;
@@ -101,8 +101,11 @@ export default class MeasurementType extends NativeType {
 
     concreteUnit(context: Context): Unit {
 
-        // If it's a concrete unit, just return it.
+        // If it's a concrete unit or a wildcard, just return it.
         if(this.unit instanceof Unit) return this.unit;
+
+        // If it's a concrete unit, just return it.
+        if(this.unit === true) return new Unit();
 
         // If the unit is derived, then there must be an operation for it.
         if(this.op === undefined) {
