@@ -49,6 +49,7 @@ import EvalCloseToken from "./EvalCloseToken";
 import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
 import InvalidTypeInput from "../conflicts/InvalidTypeInput";
 import NotAFunctionType from "./NotAFunctionType";
+import PropertyReference from "./PropertyReference";
 
 export default class Evaluate extends Expression {
 
@@ -116,7 +117,13 @@ export default class Evaluate extends Expression {
         // The function must be a function or structure. If it's not, that's a conflict.
         // Then stop checking because we can't analyze anything.
         if(!(fun instanceof FunctionDefinition || fun instanceof StructureDefinition))
-            return [ new NotAFunction(this, this.func) ];
+            return [ 
+                new NotAFunction(
+                    this, 
+                    this.func, 
+                    this.func instanceof PropertyReference ? this.func.structure.getType(context) : undefined
+                )
+            ];
 
         // If it's a structure definition, can we create it?
         if(fun instanceof StructureDefinition) {

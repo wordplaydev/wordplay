@@ -76,7 +76,7 @@ export default class UnaryOperation extends Expression {
 
         // Did we find nothing?
         if(fun === undefined)
-            conflicts.push(new NotAFunction(this, this.operator));
+            conflicts.push(new NotAFunction(this, this.operator, this.operand.getType(context)));
 
         return conflicts;
     

@@ -100,7 +100,7 @@ export default class BinaryOperation extends Expression {
 
         // Did we find nothing?
         if(fun === undefined)
-            return [ new NotAFunction(this, this.operator) ]
+            return [ new NotAFunction(this, this.operator, this.left.getType(context)) ]
 
         // If it is a function, does the right match the expected input?
         if(fun instanceof FunctionDefinition) {
