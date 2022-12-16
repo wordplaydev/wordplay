@@ -28,7 +28,7 @@
             {#if change.stream}
                 <span 
                     class={`stream-value`}
-                    tabindex="0" 
+                    tabIndex="0" 
                     on:click={() => stepTo(change.stepIndex)}
                     on:keydown={event => event.key === "Enter" || event.key === " " ? stepTo(change.stepIndex) : undefined }
                 >
