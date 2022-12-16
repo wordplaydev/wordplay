@@ -557,7 +557,11 @@ function parseMeasurement(tokens: Tokens): MeasurementLiteral {
 
 /** UNIT :: DIMENSION* (/ DIMENSION*)? */
 function parseUnit(tokens: Tokens): Unit {
-            
+
+    if(tokens.nextIs(TokenType.CONDITIONAL)) {
+        return new Unit(undefined, [ new Dimension(tokens.read(TokenType.CONDITIONAL)) ], undefined, []);
+    }
+
     // A unit is just a series of names, carets, numbers, and product symbols not separated by spaces.
     const numerator: Dimension[] = [];
 
@@ -992,7 +996,9 @@ function parseMeasurementType(tokens: Tokens): MeasurementType {
     const number = 
          tokens.nextIs(TokenType.NUMBER) ? tokens.read(TokenType.NUMBER) : 
          tokens.read(TokenType.NUMBER_TYPE);
-    const unit = tokens.nextIsOneOf(TokenType.NAME, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
+    const unit = 
+        tokens.nextIsOneOf(TokenType.CONDITIONAL, TokenType.NAME, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : 
+        undefined;
     return new MeasurementType(number, unit);
 
 }

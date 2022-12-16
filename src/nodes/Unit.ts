@@ -1,4 +1,4 @@
-import { EXPONENT_SYMBOL, LANGUAGE_SYMBOL, PRODUCT_SYMBOL } from "../parser/Tokenizer";
+import { BOOLEAN_TYPE_SYMBOL, EXPONENT_SYMBOL, LANGUAGE_SYMBOL, PRODUCT_SYMBOL } from "../parser/Tokenizer";
 import Dimension from "./Dimension";
 import Token from "./Token";
 import Type from "./Type";
@@ -79,6 +79,12 @@ export default class Unit extends Type {
 
     }
 
+    static wildcard() {
+        const exp = new Map();
+        exp.set(BOOLEAN_TYPE_SYMBOL, 1);
+        return new Unit(exp);
+    }
+
     getGrammar() { 
         return [
             { name: "numerator", types:[[ Dimension ]] },
@@ -111,6 +117,7 @@ export default class Unit extends Type {
         return new Unit(Unit.map(numerator, denominator));
     }
 
+    isWildcard() { return this.exponents.get("?") === 1; }
     isUnitless() { return this.exponents.size === 0; }
 
     isEqualTo(unit: Unit) {

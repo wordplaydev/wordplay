@@ -144,7 +144,7 @@ export default function bootstrapMeasurement() {
                 },
                 WRITE_DOCS,
                 // The operand's type can be any unitless measurement
-                MeasurementType.make(true),
+                MeasurementType.wildcard(),
                 // The output's type is is the unit's product
                 MeasurementType.make((left, right) => right ? left.product(right) : left),
                 (requestor, left, right) => left.multiply(requestor, right),
@@ -157,7 +157,7 @@ export default function bootstrapMeasurement() {
                     "😀": "÷"
                 },
                 WRITE_DOCS,
-                MeasurementType.make(true),
+                MeasurementType.wildcard(),
                 MeasurementType.make((left, right) => right ? left.quotient(right) : left),
                 (requestor, left, right) => left.divide(requestor, right),
                 false
@@ -169,7 +169,7 @@ export default function bootstrapMeasurement() {
                     "😀": "%"
                 },
                 WRITE_DOCS,
-                MeasurementType.make(true),
+                MeasurementType.wildcard(),
                 MeasurementType.make(left => left),
                 (requestor, left, right) => left.remainder(requestor, right),
                 false
@@ -181,7 +181,7 @@ export default function bootstrapMeasurement() {
                     "😀": "^"
                 },
                 WRITE_DOCS,
-                MeasurementType.make(true), 
+                MeasurementType.wildcard(),
                 MeasurementType.make((left, right, constant) => { right; return constant === undefined ? new Unit() : left.power(constant); }),
                 (requestor, left, right) => left.power(requestor, right),
                 false
@@ -193,7 +193,7 @@ export default function bootstrapMeasurement() {
                     "😀": "√"
                 },
                 WRITE_DOCS,
-                MeasurementType.make(true),
+                MeasurementType.wildcard(),
                 MeasurementType.make((left, right, constant) => { right; return constant === undefined ? new Unit() : left.root(constant) }),
                 (requestor, left, right) => left.root(requestor, right),
                 false
