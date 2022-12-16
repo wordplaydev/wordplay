@@ -123,11 +123,6 @@ export default class Bind extends Expression {
         return (child === this.value) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
     }
 
-    computeType(context: Context): Type {
-        // A bind's type is it's value's type, unless it has none.
-        return this.value === undefined ? new UnknownType(this) : this.value.getTypeUnlessCycle(context);
-    }
-
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context): TypeSet {
         return this.value === undefined ? current : this.value.evaluateTypeSet(bind, original, current, context);
     }
@@ -227,7 +222,7 @@ export default class Bind extends Expression {
 
     isShared() { return this.share !== undefined; }
 
-    getType(context: Context): Type {
+    computeType(context: Context): Type {
 
         // What type is this binding?
         let type = 
@@ -254,18 +249,6 @@ export default class Bind extends Expression {
         }
         return type;
         
-    }
-
-    getTypeUnlessCycle(context: Context): Type {
-
-        // If the context includes this node, we're in a cycle.
-        if(context.visited(this)) return new UnknownType({ cycle: this });
-
-        context.visit(this);
-        const type = this.getType(context);
-        context.unvisit();
-        return type;
-
     }
 
     getDefinitionOfName() { return undefined; }
