@@ -82,7 +82,7 @@ export default class This extends Expression {
                 structure.input
             ) :
             // Reactions have the reaction's value type
-            structure instanceof Reaction ? structure.getTypeUnlessCycle(context) :
+            structure instanceof Reaction ? structure.getType(context) :
             new UnknownType(this);
     
     }

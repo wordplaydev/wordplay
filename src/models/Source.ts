@@ -286,10 +286,7 @@ export default class Source extends Expression {
 
     getTranslation(lang: LanguageCode[]) { return this.names.getTranslation(lang); }
 
-    getType(context: Context) { return this.getTypeUnlessCycle(context); }
-    getTypeUnlessCycle(context: Context) { return this.expression.getTypeUnlessCycle(context); }
-
-    computeType(context: Context): Type { return this.expression.getTypeUnlessCycle(context); }
+    computeType(context: Context): Type { return this.expression.getType(context); }
     getDependencies(_: Context): (Expression | Stream)[] { return [ this.expression ]; }
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet { return current; }
     compile(): Step[] { return []; }

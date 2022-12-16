@@ -31,7 +31,7 @@ export default class Column extends Node {
     computeConflicts() {}
 
     hasDefault() { return this.bind instanceof Bind && this.bind.hasDefault(); }
-    getType(context: Context) { return this.bind === undefined ? new UnknownType(this) : this.bind.getTypeUnlessCycle(context); }
+    getType(context: Context) { return this.bind === undefined ? new UnknownType(this) : this.bind.getType(context); }
 
     replace(original?: Node, replacement?: Node) { 
         return new Column(

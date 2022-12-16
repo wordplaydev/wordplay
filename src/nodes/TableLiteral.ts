@@ -57,7 +57,7 @@ export default class TableLiteral extends Expression {
 
         // Columns must all have types.
         this.columns.forEach(column => {
-            if(column.bind instanceof Bind && column.bind.getTypeUnlessCycle(context) instanceof UnknownType)
+            if(column.bind instanceof Bind && column.bind.getType(context) instanceof UnknownType)
                 conflicts.push(new ExpectedColumnType(column))
         });
 

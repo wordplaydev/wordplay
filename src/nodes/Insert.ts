@@ -66,7 +66,7 @@ export default class Insert extends Expression {
      
         let conflicts: Conflict[] = [];
 
-        const tableType = this.table.getTypeUnlessCycle(context);
+        const tableType = this.table.getType(context);
 
         // Table must be table typed.
         if(!(tableType instanceof TableType))
@@ -81,13 +81,13 @@ export default class Insert extends Expression {
 
     computeType(context: Context): Type {
         // The type is identical to the table's type.
-        return this.table.getTypeUnlessCycle(context);
+        return this.table.getType(context);
     }
 
     getDefinitions(node: Node, context: Context): Definition[] {
 
         node;
-        const type = this.table.getTypeUnlessCycle(context);
+        const type = this.table.getType(context);
         if(type instanceof TableType)
             return type.columns.filter(col => col.bind instanceof Bind).map(col => col.bind) as Bind[];
         else
@@ -101,7 +101,7 @@ export default class Insert extends Expression {
 
     compile(context: Context):Step[] {
 
-        const tableType = this.table.getTypeUnlessCycle(context);
+        const tableType = this.table.getType(context);
 
         if(!(tableType instanceof TableType)) return [ new Halt(evaluator => new TypeException(evaluator, new TableType([]), undefined), this) ];
 

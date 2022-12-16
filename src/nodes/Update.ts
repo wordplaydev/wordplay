@@ -69,7 +69,7 @@ export default class Update extends Expression {
         
         const conflicts: Conflict[] = [];
 
-        const tableType = this.table.getTypeUnlessCycle(context);
+        const tableType = this.table.getType(context);
 
         // Table must be table typed.
         if(!(tableType instanceof TableType)) {
@@ -90,8 +90,8 @@ export default class Update extends Expression {
                     conflicts.push(new UnknownColumn(tableType, cell));
                 // The types of the bound values must match the column types.
                 else if(columnType.bind instanceof Bind) {
-                    const bindType = columnType.bind.getTypeUnlessCycle(context);
-                    const cellType = cell.value.getTypeUnlessCycle(context);
+                    const bindType = columnType.bind.getType(context);
+                    const cellType = cell.value.getType(context);
                     if(!bindType.accepts(cellType, context))
                         conflicts.push(new IncompatibleCellType(tableType, cell, bindType, cellType));
                 }
@@ -99,7 +99,7 @@ export default class Update extends Expression {
         });
 
         // The query must be truthy.
-        const queryType = this.query.getTypeUnlessCycle(context);
+        const queryType = this.query.getType(context);
         if(this.query instanceof Expression && !(queryType instanceof BooleanType))
             conflicts.push(new NonBooleanQuery(this, queryType))
 
@@ -109,13 +109,13 @@ export default class Update extends Expression {
 
     computeType(context: Context): Type {
         // The type of an update is the type of its table
-        return this.table.getTypeUnlessCycle(context);        
+        return this.table.getType(context);        
     }
     
     getDefinitions(node: Node, context: Context): Definition[] {
 
         node;
-        const type = this.table.getTypeUnlessCycle(context);
+        const type = this.table.getType(context);
         if(type instanceof TableType)
             return type.columns.filter(col => col.bind instanceof Bind).map(col => col.bind) as Bind[];
         else

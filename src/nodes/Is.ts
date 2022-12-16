@@ -63,7 +63,7 @@ export default class Is extends Expression {
     computeConflicts(context: Context) {
 
         // Is the type of the expression compatible with the specified type? If not, warn.
-        const type = this.expression.getTypeUnlessCycle(context);
+        const type = this.expression.getType(context);
 
         if((type instanceof UnionType && !type.getTypeSet(context).acceptedBy(this.type, context)) || 
             (!(type instanceof UnionType) && !this.type.accepts(type, context)))

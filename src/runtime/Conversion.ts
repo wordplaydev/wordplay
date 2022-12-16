@@ -23,7 +23,7 @@ export default class Conversion extends Primitive {
     getType(context: Context) { 
         return this.context instanceof Value ? 
             this.context.getType(context) :
-            this.definition.getTypeUnlessCycle(context); 
+            this.definition.getType(context); 
     }
 
     getNativeTypeName(): NativeTypeName { return "conversion"; }

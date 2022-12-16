@@ -33,7 +33,7 @@ export default function getConcreteExpectedType(definition: FunctionDefinition |
     // If the input is undefined, we're getting the output type of the function or structure.
     if(input === undefined) {
         if(definition instanceof StructureDefinition) return new StructureType(definition, []);
-        const functionType = definition.getTypeUnlessCycle(context);
+        const functionType = definition.getType(context);
         if(!(functionType instanceof FunctionDefinitionType)) return new UnknownType({ typeVar: definition });
         type = functionType.fun.getOutputType(context);
     }
@@ -42,7 +42,7 @@ export default function getConcreteExpectedType(definition: FunctionDefinition |
         // Verify that the bind provided exists on the given evaluate.
         if(!definition.inputs.includes(input)) throw Error("The Bind given doesn't exist on this function or structure. Something is broken!");
         // Get the bind's type, resolving any non-type variable references and converting any type variables to variable types.
-        type = input.getTypeUnlessCycle(context);
+        type = input.getType(context);
     }
 
     // If the type is a type variable name, concretize it using the evaluation.

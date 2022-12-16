@@ -21,7 +21,7 @@ export default class FunctionValue extends Value {
         this.context = context;
     }
 
-    getType(context: Context) { return this.context instanceof Value ? this.context.getType(context) : this.definition.getTypeUnlessCycle(context); }
+    getType(context: Context) { return this.context instanceof Value ? this.context.getType(context) : this.definition.getType(context); }
     
     getNativeTypeName(): NativeTypeName { return "function"; }
 

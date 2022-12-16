@@ -28,21 +28,18 @@ export default abstract class Expression extends Node {
 
     abstract computeType(context: Context): Type;
 
-    getType(context: Context) {
-        if(this._type === undefined)
-            this._type = this.computeType(context);
+    getType(context: Context): Type {
+
+        if(this._type === undefined) {
+            if(context.visited(this))
+                this._type = new UnknownType({ cycle: this });
+            else {
+                context.visit(this);
+                this._type = this.computeType(context);
+                context.unvisit();
+            }
+        }
         return this._type;
-    }
-
-    getTypeUnlessCycle(context: Context): Type {
-
-        // If we've already visited this node while trying to determine its type, then there is a cycle.
-        if(context.visited(this)) return new UnknownType({ cycle: this });
-
-        context.visit(this);
-        const type = this.getType(context);
-        context.unvisit();
-        return type;
 
     }
 

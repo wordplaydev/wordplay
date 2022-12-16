@@ -97,7 +97,7 @@ export default class NameType extends Type {
         const definition = this.resolve(context);
         if(definition === undefined) return new UnknownType({ definition: this, name: this.name });
         else if(definition instanceof TypeVariable) return new VariableType(definition);
-        else return definition instanceof Value ? definition.getType(context) : definition.getTypeUnlessCycle(context);
+        else return definition instanceof Value ? definition.getType(context) : definition.getType(context);
 
     }
 

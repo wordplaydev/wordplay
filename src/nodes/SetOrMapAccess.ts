@@ -75,8 +75,8 @@ export default class SetOrMapAccess extends Expression {
 
     computeConflicts(context: Context): Conflict[] { 
 
-        const setMapType = this.setOrMap.getTypeUnlessCycle(context);
-        const keyType = this.key.getTypeUnlessCycle(context);
+        const setMapType = this.setOrMap.getType(context);
+        const keyType = this.key.getType(context);
 
         const conflicts = [];
 
@@ -95,7 +95,7 @@ export default class SetOrMapAccess extends Expression {
 
     computeType(context: Context): Type {
         // Either a set or map type, and if so, the key or value's type.
-        const setOrMapType = this.setOrMap.getTypeUnlessCycle(context);
+        const setOrMapType = this.setOrMap.getType(context);
         if(setOrMapType instanceof MapType && setOrMapType.value instanceof Type) return setOrMapType.value;
         else if(setOrMapType instanceof SetType) return new BooleanType();
         else return new UnknownType(this);
@@ -140,7 +140,7 @@ export default class SetOrMapAccess extends Expression {
             return getExpressionReplacements(this, this.setOrMap, context, UnionType.make(SetType.make(new AnyType()), MapType.make(new AnyType(), new AnyType())));
         }
         else if(child === this.key) {
-            const setMapType = this.setOrMap.getTypeUnlessCycle(context);
+            const setMapType = this.setOrMap.getType(context);
             return getExpressionReplacements(this, this.key, context, 
                 (setMapType instanceof SetType || setMapType instanceof MapType) && setMapType.key instanceof Type ? setMapType.key :
                 new AnyType()

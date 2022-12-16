@@ -199,7 +199,7 @@ export default class Project {
                         // and add the Evaluate as a caller of the function input.
                         if(fun instanceof FunctionDefinition && fun.expression instanceof HOF) {
                             for(const input of node.inputs) {
-                                const type = input.getTypeUnlessCycle(context);
+                                const type = input.getType(context);
                                 if(type instanceof FunctionDefinitionType) {
                                     const hofEvaluates = this.evaluations.get(type.fun) ?? new Set();
                                     hofEvaluates.add(node);

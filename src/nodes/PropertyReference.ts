@@ -112,7 +112,7 @@ export default class PropertyReference extends Expression {
     }
 
     getSubjectType(context: Context): Type {
-        let structureType = this.structure.getTypeUnlessCycle(context);
+        let structureType = this.structure.getType(context);
         // If it's a stream, get the type of the stream, since streams are evaluated to their values, not themselves.
         if(structureType instanceof StreamType)
             structureType = structureType.type;
@@ -133,7 +133,6 @@ export default class PropertyReference extends Expression {
         // Get the type of the definition.
         let type = def.getType(context);
         
-
         if(def instanceof Bind) {
 
             if(type instanceof NameType) {

@@ -153,7 +153,7 @@ export default class Bind extends Expression {
 
         // If there's a type, the value must match.
         if(this.type !== undefined && this.value && this.value instanceof Expression) {
-            const valueType = this.value.getTypeUnlessCycle(context);
+            const valueType = this.value.getType(context);
             if(!this.type.accepts(valueType, context))
                 conflicts.push(new IncompatibleBind(this.type, this.value, valueType));
         }
@@ -237,7 +237,7 @@ export default class Bind extends Expression {
             // If the value is a structure definition, make a structure type.
             this.value instanceof StructureDefinition ? new StructureType(this.value, []) :
             // If it has an expression. ask the expression.
-            this.value instanceof Expression ? this.value.getTypeUnlessCycle(context) :
+            this.value instanceof Expression ? this.value.getType(context) :
             // Otherwise, we don't know.
             new UnknownType(this);
 

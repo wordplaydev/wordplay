@@ -169,7 +169,7 @@ export default class Evaluate extends Expression {
                         return [ new UnexpectedInput(fun, this, expectedInput, given) ];
                     // The types have to match
                     if(expectedType !== undefined && given.value instanceof Expression) {
-                        const givenType = given.value.getTypeUnlessCycle(context);
+                        const givenType = given.value.getType(context);
                         if(!expectedType.accepts(givenType, context, given.value))
                             conflicts.push(new IncompatibleInput(fun, this, given.value, givenType, expectedType));
                     }
@@ -189,7 +189,7 @@ export default class Evaluate extends Expression {
                     // If there's only one and it matches the type, then we're good.
                     let isVariableListInput = false;
                     if(givenInputs.length === 1) {
-                        const lastType = givenInputs[0].getTypeUnlessCycle(context);
+                        const lastType = givenInputs[0].getType(context);
                         if(lastType instanceof ListType && expectedType instanceof ListType && (lastType.type === undefined || expectedType.type?.accepts(lastType.type, context))) {
                             isVariableListInput = true;
                             // Consume the input.
@@ -202,7 +202,7 @@ export default class Evaluate extends Expression {
                         while(givenInputs.length > 0) {
                             const given = givenInputs.shift();
                             if(given !== undefined && !(given instanceof Bind)) {
-                                const givenType = given.getTypeUnlessCycle(context);
+                                const givenType = given.getType(context);
                                 if(!(expectedType instanceof ListType))
                                     throw Error(`Expected list type on variable length input, but received ${expectedType.constructor.name}`);
                                 else if(expectedType.type instanceof Type && !expectedType.type.accepts(givenType, context, given))
@@ -218,7 +218,7 @@ export default class Evaluate extends Expression {
                     if(matchingBind instanceof Bind) {
                         // If the types don't match, there's a conflict.
                         if(matchingBind.value !== undefined && matchingBind.value !== undefined) {
-                            const givenType = matchingBind.value.getTypeUnlessCycle(context);
+                            const givenType = matchingBind.value.getType(context);
                             if(!expectedType.accepts(givenType, context, matchingBind.value))
                                 conflicts.push(new IncompatibleInput(fun, this, matchingBind.value, givenType, expectedType));
                         }
@@ -231,7 +231,7 @@ export default class Evaluate extends Expression {
                         const given = givenInputs[0];
                         // If the given input is an expression, map it to the expected input, and see if there's a type error.
                         if(!(given instanceof Bind)) {
-                            const givenType = given.getTypeUnlessCycle(context);
+                            const givenType = given.getType(context);
                             if(!expectedType.accepts(givenType, context, given))
                                 conflicts.push(new IncompatibleInput(fun, this, given, givenType, expectedType));
                             givenInputs.shift();
@@ -325,7 +325,7 @@ export default class Evaluate extends Expression {
         // To compile an evaluate, we need to compile all of the given and default values in
         // order of the function's declaration. This requires getting the function/structure definition
         // and finding an expression to compile for each input.
-        const funcType = this.func.getTypeUnlessCycle(context);
+        const funcType = this.func.getType(context);
         const candidateExpectedInputs = funcType instanceof FunctionDefinitionType ? funcType.fun.inputs :
             funcType instanceof StructureType ? funcType.structure.inputs :
             undefined;
@@ -518,7 +518,7 @@ export default class Evaluate extends Expression {
 
     getChildReplacement(child: Node, context: Context): Transform[] | undefined {
         
-        const functionType = this.func.getTypeUnlessCycle(context);
+        const functionType = this.func.getType(context);
         if(!(functionType instanceof FunctionDefinitionType || functionType instanceof StructureType))
             return;
         
@@ -548,7 +548,7 @@ export default class Evaluate extends Expression {
     }
     getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
         
-        const functionType = this.func.getTypeUnlessCycle(context);
+        const functionType = this.func.getType(context);
         if(!(functionType instanceof FunctionDefinitionType || functionType instanceof StructureType))
             return;
 
@@ -589,7 +589,7 @@ export default class Evaluate extends Expression {
         if(this.inputs.includes(child as Expression)) {
             const index = this.inputs.indexOf(child as Expression);
             if(index >= 0) {
-                const funType = this.func.getTypeUnlessCycle(context);
+                const funType = this.func.getType(context);
                 if(funType instanceof FunctionDefinitionType && index < funType.fun.inputs.length) {
                     const bind = funType.fun.inputs[index];
                     if(bind instanceof Bind) {

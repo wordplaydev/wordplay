@@ -113,13 +113,13 @@ export default class MeasurementType extends NativeType {
 
         // What is the type of the left?
         const leftType = 
-            this.op instanceof BinaryOperation ? this.op.left.getTypeUnlessCycle(context) : 
-            this.op instanceof UnaryOperation ? this.op.operand.getTypeUnlessCycle(context) : 
-            this.op.func instanceof PropertyReference ? this.op.func.structure.getTypeUnlessCycle(context) :
+            this.op instanceof BinaryOperation ? this.op.left.getType(context) : 
+            this.op instanceof UnaryOperation ? this.op.operand.getType(context) : 
+            this.op.func instanceof PropertyReference ? this.op.func.structure.getType(context) :
             new UnknownType({ typeVar: this.op });
         const rightType = 
-            this.op instanceof BinaryOperation ? this.op.right.getTypeUnlessCycle(context) : 
-            this.op instanceof Evaluate && this.op.inputs.length > 0 ? this.op.inputs[0].getTypeUnlessCycle(context) :
+            this.op instanceof BinaryOperation ? this.op.right.getType(context) : 
+            this.op instanceof Evaluate && this.op.inputs.length > 0 ? this.op.inputs[0].getType(context) :
             new UnknownType({ typeVar: this.op });
 
         // If either type isn't a measurement type — which shouldn't be possible for binary operations or evaluates — then we just return a blank unit.

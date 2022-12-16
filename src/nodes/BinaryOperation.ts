@@ -78,7 +78,7 @@ export default class BinaryOperation extends Expression {
     getFunction(context: Context) {
 
         // Find the function on the left's type.
-        const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
+        const leftType = this.left instanceof Expression ? this.left.getType(context) : undefined;
         const fun = leftType?.getDefinitionOfName(this.getOperator(), context, this);
         return fun instanceof FunctionDefinition ? fun : undefined;
 
@@ -93,7 +93,7 @@ export default class BinaryOperation extends Expression {
             conflicts.push(new OrderOfOperations(this.left, this));
 
         // Get the types
-        const rightType = this.right instanceof Expression ? this.right.getTypeUnlessCycle(context) : undefined;
+        const rightType = this.right instanceof Expression ? this.right.getType(context) : undefined;
 
         // Find the function on the left's type.
         const fun = this.getFunction(context);
@@ -244,7 +244,7 @@ export default class BinaryOperation extends Expression {
         }
         // Operator must exist on the type of the left, unless not specified
         else if(child === this.operator) {
-            const leftType = this.left instanceof Expression ? this.left.getTypeUnlessCycle(context) : undefined;
+            const leftType = this.left instanceof Expression ? this.left.getType(context) : undefined;
             const funs = leftType?.getAllDefinitions(this, context)?.filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.isOperator());
             return funs?.map(fun => new Replace<Token>(context, child, [ name => new Token(name, TokenType.BINARY_OP), fun ])) ?? []
         }

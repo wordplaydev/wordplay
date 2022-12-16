@@ -61,7 +61,7 @@ export default class UnaryOperation extends Expression {
     getFunction(context: Context) {
 
         // Find the function on the left's type.
-        const expressionType = this.operand instanceof Expression ? this.operand.getTypeUnlessCycle(context) : undefined;
+        const expressionType = this.operand instanceof Expression ? this.operand.getType(context) : undefined;
         const fun = expressionType?.getDefinitionOfName(this.getOperator(), context, this);
         return fun instanceof FunctionDefinition ? fun : undefined;
 
@@ -143,7 +143,7 @@ export default class UnaryOperation extends Expression {
         
         // Operator must exist on the type of the left, unless not specified
         if(child === this.operator) {
-            const expressionType = this.operand instanceof Expression ? this.operand.getTypeUnlessCycle(context) : undefined;
+            const expressionType = this.operand instanceof Expression ? this.operand.getType(context) : undefined;
             const funs = expressionType?.getAllDefinitions(this, context).filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.inputs.length === 0);;
             return funs?.map(fun => new Replace(context, child, new Token(fun.getNames()[0] as string, TokenType.UNARY_OP))) ?? []
         }

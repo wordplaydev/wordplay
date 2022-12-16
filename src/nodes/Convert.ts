@@ -67,7 +67,7 @@ export default class Convert extends Expression {
     getConversionSequence(context: Context): ConversionDefinition[] | undefined {
 
         // What's the input type?
-        const inputType = this.expression.getTypeUnlessCycle(context);
+        const inputType = this.expression.getType(context);
 
         // Find all the type's conversions
         const typeConversions = inputType.getAllConversions(context);
@@ -87,7 +87,7 @@ export default class Convert extends Expression {
     computeConflicts(context: Context): Conflict[] { 
         
         // If we know the expression's type, there must be a corresponding conversion on that type.
-        const exprType = this.expression.getTypeUnlessCycle(context);
+        const exprType = this.expression.getType(context);
         const conversionPath = this.getConversionSequence(context);
         if(!(exprType instanceof UnknownType) && !this.type.accepts(exprType, context) && (conversionPath === undefined || conversionPath.length === 0))
             return [ new UnknownConversion(this, this.type) ];
@@ -177,7 +177,7 @@ export default class Convert extends Expression {
             return getExpressionReplacements(this, this.expression, context);
         else if(child === this.type) {
             // Any type it's convertable to.
-            const inputType = this.expression.getTypeUnlessCycle(context);
+            const inputType = this.expression.getType(context);
             return inputType
                 .getAllConversions(context)
                 .filter(conversion => conversion.input instanceof Type && conversion.input.accepts(inputType, context))

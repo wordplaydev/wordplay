@@ -77,7 +77,7 @@ export default class Conditional extends Expression {
     
         const children = [];
 
-        const conditionType = this.condition.getTypeUnlessCycle(context);
+        const conditionType = this.condition.getType(context);
         if(!(conditionType instanceof BooleanType))
             children.push(new ExpectedBooleanCondition(this, conditionType));
 
@@ -87,8 +87,8 @@ export default class Conditional extends Expression {
 
     computeType(context: Context): Type {
         // Whatever type the yes/no returns.
-        const yesType = this.yes.getTypeUnlessCycle(context);
-        const noType = this.no.getTypeUnlessCycle(context);
+        const yesType = this.yes.getType(context);
+        const noType = this.no.getType(context);
         return UnionType.getPossibleUnion(context, [ yesType, noType ]);
     }
 

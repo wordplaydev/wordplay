@@ -50,7 +50,7 @@ export default class ColumnType extends Type {
             type instanceof ColumnType && 
             type.bind instanceof Bind && 
             this.bind instanceof Bind && 
-            this.bind.getTypeUnlessCycle(context).accepts(type.bind.getTypeUnlessCycle(context), context)
+            this.bind.getType(context).accepts(type.bind.getType(context), context)
         );
     }
 

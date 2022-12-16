@@ -138,7 +138,7 @@ export default class Reference extends Expression {
         }
         
         // Otherwise, do some type guard analyis on the bind.
-        const type = definition.getTypeUnlessCycle(context);
+        const type = definition.getType(context);
 
         // Is the type a union? Find the subset of types that are feasible, given any type checks in conditionals.
         if(definition instanceof Bind && type instanceof UnionType && this._unionTypes === undefined) {

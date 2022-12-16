@@ -70,12 +70,12 @@ export default class Previous extends Expression {
 
     computeConflicts(context: Context): Conflict[] { 
 
-        const streamType = this.stream.getTypeUnlessCycle(context);
+        const streamType = this.stream.getType(context);
 
         if(!(streamType instanceof StreamType))
             return [ new NotAStream(this, streamType) ];
 
-        const indexType = this.index.getTypeUnlessCycle(context);
+        const indexType = this.index.getType(context);
         if(!(indexType instanceof MeasurementType) || indexType.unit !== undefined)
             return [ new NotAStreamIndex(this, indexType) ];
 
@@ -85,7 +85,7 @@ export default class Previous extends Expression {
 
     computeType(context: Context): Type {
         // The type is the stream's type.
-        const streamType = this.stream.getTypeUnlessCycle(context);
+        const streamType = this.stream.getType(context);
         return streamType instanceof StreamType ? streamType.type : new UnknownType(this);
     }
 

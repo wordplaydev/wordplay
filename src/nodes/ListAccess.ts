@@ -85,11 +85,11 @@ export default class ListAccess extends Expression {
         if(this.close === undefined)
             conflicts.push(new UnclosedDelimiter(this, this.open, new ListCloseToken()));
 
-        const listType = this.list.getTypeUnlessCycle(context);
+        const listType = this.list.getType(context);
         if(!(listType instanceof ListType))
             conflicts.push(new NotAList(this, listType));
 
-        const indexType = this.index.getTypeUnlessCycle(context);
+        const indexType = this.index.getType(context);
 
         if(!(indexType instanceof MeasurementType) || (indexType.unit instanceof Unit && !indexType.unit.isUnitless()))
             conflicts.push(new NotAListIndex(this, indexType));
@@ -100,7 +100,7 @@ export default class ListAccess extends Expression {
 
     computeType(context: Context): Type {
         // The type is the list's value type, or unknown otherwise.
-        const listType = this.list.getTypeUnlessCycle(context);
+        const listType = this.list.getType(context);
         if(listType instanceof ListType && listType.type instanceof Type) {
             if(listType.length !== undefined && this.index instanceof MeasurementLiteral && this.index.toValue().num.greaterThanOrEqualTo(1) && this.index.toValue().num.lessThanOrEqualTo(listType.length))
                 return listType.type;

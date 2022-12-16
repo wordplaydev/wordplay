@@ -152,7 +152,7 @@ export default class FunctionDefinition extends Expression {
         if(!this.sharesName(fun)) return false;
         for(let i = 0; i < this.inputs.length; i++) {
             if(i >= fun.inputs.length) return false;
-            if(!this.inputs[i].getTypeUnlessCycle(context).accepts(fun.inputs[i].getTypeUnlessCycle(context), context)) return false;
+            if(!this.inputs[i].getType(context).accepts(fun.inputs[i].getType(context), context)) return false;
         }
         return this.getOutputType(context).accepts(fun.getOutputType(context), context);
 
@@ -195,7 +195,7 @@ export default class FunctionDefinition extends Expression {
     getOutputType(context: Context) {
         return this.output instanceof Type ? this.output : 
             !(this.expression instanceof Expression) ? new UnknownType({ placeholder: this.expression }) : 
-            this.expression.getTypeUnlessCycle(context);
+            this.expression.getType(context);
     }
 
     /** Functions have no dependencies; once they are defined, they cannot change what they evaluate to. */

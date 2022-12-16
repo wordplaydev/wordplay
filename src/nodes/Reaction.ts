@@ -72,7 +72,7 @@ export default class Reaction extends Expression {
         const conflicts = [];
 
         // Streams have to be stream types!
-        const streamType = this.stream.getTypeUnlessCycle(context);
+        const streamType = this.stream.getType(context);
         if(this.stream instanceof Expression && !(streamType instanceof StreamType))
             conflicts.push(new NotAStream(this, streamType));
 
@@ -81,8 +81,8 @@ export default class Reaction extends Expression {
     }
 
     computeType(context: Context): Type {
-        const initialType = this.initial.getTypeUnlessCycle(context);
-        const nextType = this.next.getTypeUnlessCycle(context);
+        const initialType = this.initial.getType(context);
+        const nextType = this.next.getType(context);
         const type = UnionType.getPossibleUnion(context, [ initialType, nextType ]);
 
         // If the type includes an unknown type because of a cycle, remove the unknown, since the rest of the type defines the possible values.

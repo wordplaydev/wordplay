@@ -78,7 +78,7 @@ export default class Program extends Expression {
 
     /** A program's type is it's block's type. */
     computeType(context: Context): Type {
-        return this.expression.getTypeUnlessCycle(context);
+        return this.expression.getType(context);
     }
 
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet { return current; }
