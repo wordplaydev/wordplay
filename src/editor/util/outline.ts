@@ -47,6 +47,22 @@ function getEditorOffset(el: HTMLElement) {
     return { top: _y, left: _x };
 }
 
+function getViewRect(offset: { left: number, top: number }, view: HTMLElement) {
+
+    const rect = view.getBoundingClientRect();
+    const left = rect.left - offset.left;
+    const top = rect.top - offset.top;
+    return {
+        l: left,
+        t: top,
+        r: left + rect.width,
+        b: top + rect.height,
+        w: rect.width,
+        h: rect.height
+    };
+
+}
+
 function getTokenRects(nodeView: HTMLElement) {
 
     const rects: Rect[] = [];
@@ -56,19 +72,8 @@ function getTokenRects(nodeView: HTMLElement) {
 
     // Get the rectangles of all of the tokens's text
     const tokenViews = nodeView.querySelectorAll(".Token .text");
-    for(const view of tokenViews) {
-        const rect = view.getBoundingClientRect();
-        const left = rect.left - nodeViewportOffset.left;
-        const top = rect.top - nodeViewportOffset.top;
-        rects.push({
-            l: left,
-            t: top,
-            r: left + rect.width,
-            b: top + rect.height,
-            w: rect.width,
-            h: rect.height
-        });
-    }    
+    for(const view of tokenViews)
+        rects.push(getViewRect(nodeViewportOffset, view as HTMLElement));
 
     return rects;
 
@@ -126,15 +131,28 @@ export function getUnderlineOf(nodeView: HTMLElement) {
 
     const rows = toRows(nodeView);
 
-    // Generate a path from the bottom edge of each line's rectangle.
-    // Each line starts with a move to, and then a single line to to the edge of the rectangle.
-    return {
-        path: rows.map(row => `M ${row.l} ${row.b} L ${row.r} ${row.b}`).join(" "),
-        minx: Math.min.apply(Math, rows.map(row => row.l)), 
-        miny: Math.min.apply(Math, rows.map(row => row.t)),
-        maxx: Math.max.apply(Math, rows.map(row => row.r)),
-        maxy: Math.max.apply(Math, rows.map(row => row.b))
+    // If the rows are empty, draw a circle where the element is
+    if(rows.length === 0) {
+        const width = 10;
+        const rect = getViewRect(getEditorOffset(nodeView), nodeView);
+        return {
+            path: `M ${rect.l} ${rect.b} L ${rect.l + width} ${rect.b} Z`,
+            minx: rect.l,
+            miny: rect.b,
+            maxx: rect.l + width,
+            maxy: rect.b
+        }
     }
+    else
+        // Generate a path from the bottom edge of each line's rectangle.
+        // Each line starts with a move to, and then a single line to to the edge of the rectangle.
+        return {
+            path: rows.map(row => `M ${row.l} ${row.b} L ${row.r} ${row.b}`).join(" "),
+            minx: Math.min.apply(Math, rows.map(row => row.l)), 
+            miny: Math.min.apply(Math, rows.map(row => row.t)),
+            maxx: Math.max.apply(Math, rows.map(row => row.r)),
+            maxy: Math.max.apply(Math, rows.map(row => row.b))
+        }
 
 }
 
