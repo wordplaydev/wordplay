@@ -11,7 +11,7 @@ export default class ValueException extends Exception {
 
     getExplanations(): Translations {
         return {
-            eng: `Expected a value on the stack after executing ${this.step?.node.toWordplay()}, but there wasn't one.`,
+            eng: `Expected a value after evaluating ${this.step?.node.toWordplay()}, but there wasn't one.`,
             "😀": `${TRANSLATE} 🫙`
         }
     };

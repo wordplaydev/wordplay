@@ -2,7 +2,7 @@ import type Conflict from "../conflicts/Conflict";
 import { UnparsableConflict } from "../conflicts/UnparsableConflict";
 import type Evaluator from "../runtime/Evaluator";
 import Halt from "../runtime/Halt";
-import SemanticException from "../runtime/SemanticException";
+import UnparsableException from "../runtime/UnparsableException";
 import type Step from "../runtime/Step";
 import type Value from "../runtime/Value";
 import type Transform from "../transforms/Transform";
@@ -47,12 +47,12 @@ export default class UnparsableExpression extends Expression {
     getDependencies(): Expression[] { return []; }
 
     compile(): Step[] {
-        return [ new Halt(evaluator => new SemanticException(evaluator, this), this) ];
+        return [ new Halt(evaluator => new UnparsableException(evaluator, this), this) ];
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {        
         if(prior) return prior;
-        return new SemanticException(evaluator, this);
+        return new UnparsableException(evaluator, this);
     }
 
     getStart() { return this.getFirstLeaf() ?? this; }

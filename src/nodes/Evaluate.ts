@@ -28,7 +28,7 @@ import TypeInputs from "./TypeInputs";
 import { getEvaluationInputConflicts } from "./util";
 import ListType from "./ListType";
 import type TypeSet from "./TypeSet";
-import SemanticException from "../runtime/SemanticException";
+import UnparsableException from "../runtime/UnparsableException";
 import FunctionException from "../runtime/FunctionException";
 import ValueException from "../runtime/ValueException";
 import Exception from "../runtime/Exception";
@@ -353,7 +353,7 @@ export default class Evaluate extends Expression {
                 else if(input instanceof Bind) {
                     // And it doesn't have a default value, halt.
                     if(input.value === undefined) 
-                        return [ new Halt(evaluator => new SemanticException(evaluator, input), this) ];
+                        return [ new Halt(evaluator => new UnparsableException(evaluator, input), this) ];
                     // But it doesn't correspond to the required input, halt
                     else if(!input.sharesName(expectedInput))
                         return [ new Halt(evaluator => new NameException(input.toWordplay(), evaluator), this) ];
@@ -387,7 +387,7 @@ export default class Evaluate extends Expression {
                     
                     // If there wasn't one, use the expected input's default value.
                     return expectedInput.value === undefined ? 
-                        [ new Halt(evaluator => new SemanticException(evaluator, expectedInput), this) ] :
+                        [ new Halt(evaluator => new UnparsableException(evaluator, expectedInput), this) ] :
                         expectedInput.value.compile(context);
                 }
                 // If it is a variable length input, reduce the remaining given input expressions into a list of steps.
@@ -399,7 +399,7 @@ export default class Evaluate extends Expression {
                                 next instanceof Bind ? 
                                     (
                                         next.value === undefined ? 
-                                            [ new Halt(evaluator => new SemanticException(evaluator, next), this) ] : 
+                                            [ new Halt(evaluator => new UnparsableException(evaluator, next), this) ] : 
                                             next.value.compile(context)
                                     ) :
                                 next.compile(context)
@@ -453,7 +453,7 @@ export default class Evaluate extends Expression {
 
             // Bail if the function's body isn't an expression.
             if(!(body instanceof Expression))
-                return new SemanticException(evaluator, body ?? definition);
+                return new UnparsableException(evaluator, body ?? definition);
 
             // Build the bindings.
             const bindings = this.buildBindings(evaluator, definition.inputs, values);

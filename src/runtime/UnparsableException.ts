@@ -4,7 +4,7 @@ import type Node from "../nodes/Node";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 
-export default class SemanticException extends Exception {
+export default class UnparsableException extends Exception {
 
     readonly unparsable: Node;
 

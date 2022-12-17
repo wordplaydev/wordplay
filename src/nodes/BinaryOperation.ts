@@ -19,7 +19,7 @@ import UnexpectedInputs from "../conflicts/UnexpectedInputs";
 import MissingInput from "../conflicts/MissingInput";
 import IncompatibleInput from "../conflicts/IncompatibleInput";
 import Evaluation from "../runtime/Evaluation";
-import SemanticException from "../runtime/SemanticException";
+import UnparsableException from "../runtime/UnparsableException";
 import NotAFunction from "../conflicts/NotAFunction";
 import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
@@ -196,7 +196,7 @@ export default class BinaryOperation extends Expression {
 
         const operand = fun.inputs[0];
         if(!(operand instanceof Bind))
-            return new SemanticException(evaluator, operand);
+            return new UnparsableException(evaluator, operand);
 
         // Start the function's expression. Pass the source of the function.
         evaluator.startEvaluation(new Evaluation(evaluator, this, fun, left, new Map().set(operand.names, right)));
