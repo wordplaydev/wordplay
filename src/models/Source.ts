@@ -224,14 +224,40 @@ export default class Source extends Expression {
 
     }
 
+    getTokenBeforeNode(node: Node): Token | undefined {
+        let lastToken = undefined;
+        for(const next of this.nodes()) {
+            if(next instanceof Token)
+                lastToken = next;
+            if(next === node)
+                return lastToken;
+        }
+        return undefined;
+    }
+
+    getTokenAfterNode(node: Node): Token | undefined {
+        let found = false;
+        for(const next of this.nodes()) {
+            if(found && next instanceof Token)
+                return next;
+            if(next === node)
+                found = true;
+        }
+        return undefined;
+    }
+
     getNodeFirstPosition(node: Node) {
         const firstToken = this.getFirstToken(node);
-        return firstToken === undefined ? undefined : this.getTokenTextPosition(firstToken);
+        if(firstToken) return this.getTokenTextPosition(firstToken);
+        const tokenBefore = this.getTokenBeforeNode(node);
+        return tokenBefore === undefined ? undefined : this.getTokenLastPosition(tokenBefore);
     }
 
     getNodeLastPosition(node: Node) {
         const lastToken = this.getLastToken(node);
-        return lastToken === undefined ? undefined : this.getTokenLastPosition(lastToken);
+        if(lastToken) return this.getTokenLastPosition(lastToken);
+        const tokenAfter = this.getTokenAfterNode(node);
+        return tokenAfter === undefined ? undefined : this.getTokenTextPosition(tokenAfter);
     }
 
     getFirstToken(node: Node): Token | undefined {

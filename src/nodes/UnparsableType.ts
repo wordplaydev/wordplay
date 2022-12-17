@@ -41,7 +41,7 @@ export default class UnparsableType extends Type {
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "Unparsable type"
+            eng: "unparsable code"
         }
     }
 

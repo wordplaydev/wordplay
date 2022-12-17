@@ -182,18 +182,28 @@
         } 
         // Find all the conflicts on the nodes at this position.
         else {
-            const token = $caret.getToken();
-            const ancestors = token ? source.get(token)?.getAncestors() : undefined;
-            if(token && ancestors) {
-                for(const ancestor of [ token, ... ancestors ]) {
-                    conflicts = conflicts.concat(
-                        [ 
-                            ...project.getPrimaryConflictsInvolvingNode(ancestor) ?? [],
-                            ...project.getSecondaryConflictsInvolvingNode(ancestor) ?? []
-                        ]
-                    )
-                }
+            // Search the primary conflicts on nodes that contain this caret position.
+            for(const [ node, nodeConflicts ] of project.getPrimaryConflicts()) {
+                const start = source.getNodeFirstPosition(node);
+                const end = source.getNodeLastPosition(node);
+                if(start && end && start <= $caret.position && end >= $caret.position)
+                    conflicts = [ ... conflicts, ...nodeConflicts ];
             }
+
+            // const token = $caret.getToken();
+            // const ancestors = token ? source.get(token)?.getAncestors() : undefined;
+            // if(token && ancestors) {
+            //     for(const ancestor of [ token, ... ancestors ]) {
+            //         conflicts = conflicts.concat(
+            //             [ 
+            //                 ...project.getPrimaryConflictsInvolvingNode(ancestor) ?? [],
+            //                 ...project.getSecondaryConflictsInvolvingNode(ancestor) ?? []
+            //             ]
+            //         )
+            //     }
+            // }
+            // See if any 
+
         }
     }
 
