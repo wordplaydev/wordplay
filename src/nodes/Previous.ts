@@ -30,6 +30,8 @@ import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Start from "../runtime/Start";
+import UnionType from "./UnionType";
+import NoneType from "./NoneType";
 
 export default class Previous extends Expression {
 
@@ -86,7 +88,7 @@ export default class Previous extends Expression {
     computeType(context: Context): Type {
         // The type is the stream's type.
         const streamType = this.stream.getType(context);
-        return streamType instanceof StreamType ? streamType.type : new NotAStreamType(this, streamType);
+        return streamType instanceof StreamType ? UnionType.make(streamType.type, NoneType.None) : new NotAStreamType(this, streamType);
     }
 
     getDependencies(): Expression[] {
