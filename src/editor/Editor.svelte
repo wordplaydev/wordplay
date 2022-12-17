@@ -172,38 +172,28 @@
     // Determine the conflict under the caret whenever the caret changes.
     export let conflicts: Conflict[] = [];
     $: {
-        conflicts = [];
-        // Find the conflicts on this specific node.
-        if($caret.position instanceof Node) {
-            conflicts = [ 
-                ...project.getPrimaryConflictsInvolvingNode($caret.position) ?? [],
-                ...project.getSecondaryConflictsInvolvingNode($caret.position) ?? []
-            ]
-        } 
-        // Find all the conflicts on the nodes at this position.
-        else {
-            // Search the primary conflicts on nodes that contain this caret position.
-            for(const [ node, nodeConflicts ] of project.getPrimaryConflicts()) {
-                const start = source.getNodeFirstPosition(node);
-                const end = source.getNodeLastPosition(node);
-                if(start && end && start <= $caret.position && end >= $caret.position)
-                    conflicts = [ ... conflicts, ...nodeConflicts ];
+        // The project and source can update at different types, so we only do this if the current souce is in the project.
+        if(project.contains(source)) {
+            conflicts = [];
+            // Find the conflicts on this specific node.
+            if($caret.position instanceof Node) {
+                conflicts = [ 
+                    ...project.getPrimaryConflictsInvolvingNode($caret.position) ?? [],
+                    ...project.getSecondaryConflictsInvolvingNode($caret.position) ?? []
+                ]
+            } 
+            // Find all the conflicts on the nodes at this position.
+            else {
+                // Search the primary conflicts on nodes that contain this caret position.
+                for(const [ node, nodeConflicts ] of project.getPrimaryConflicts()) {
+                    if(source.contains(node)) {
+                        const start = source.getNodeFirstPosition(node);
+                        const end = source.getNodeLastPosition(node);
+                        if(start && end && start <= $caret.position && end >= $caret.position)
+                            conflicts = [ ... conflicts, ...nodeConflicts ];
+                    }
+                }
             }
-
-            // const token = $caret.getToken();
-            // const ancestors = token ? source.get(token)?.getAncestors() : undefined;
-            // if(token && ancestors) {
-            //     for(const ancestor of [ token, ... ancestors ]) {
-            //         conflicts = conflicts.concat(
-            //             [ 
-            //                 ...project.getPrimaryConflictsInvolvingNode(ancestor) ?? [],
-            //                 ...project.getSecondaryConflictsInvolvingNode(ancestor) ?? []
-            //             ]
-            //         )
-            //     }
-            // }
-            // See if any 
-
         }
     }
 
