@@ -18,7 +18,7 @@ import type TypeSet from "./TypeSet";
 import { Unimplemented } from "../conflicts/Unimplemented";
 import { Implemented } from "../conflicts/Implemented";
 import { DisallowedInputs } from "../conflicts/DisallowedInputs";
-import EvaluationException, { StackSize } from "../runtime/ContextException";
+import EvaluationException, { StackSize } from "../runtime/EvaluationException";
 import type Transform from "../transforms/Transform"
 import type LanguageCode from "./LanguageCode";
 import TypeToken from "./TypeToken";
@@ -256,7 +256,7 @@ export default class StructureDefinition extends Expression {
         return [ new StartFinish(this) ];
     }
 
-    evaluate(evaluator: Evaluator): Value | undefined {
+    evaluate(evaluator: Evaluator): Value {
         
         // Bind this definition to it's names.
         const context = evaluator.getCurrentEvaluation();

@@ -82,7 +82,7 @@ export default class MeasurementLiteral extends Expression {
         return [ new StartFinish(this) ];
     }
 
-    evaluate(_: Evaluator, prior: Value | undefined): Value | undefined {
+    evaluate(_: Evaluator, prior: Value | undefined): Value {
         
         if(prior) return prior;
 

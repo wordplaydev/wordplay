@@ -4,7 +4,7 @@ import Evaluation, { type EvaluationNode, type EvaluatorNode } from "./Evaluatio
 import ReactionStream from "./ReactionStream";
 import type Stream from "./Stream";
 import Value from "./Value";
-import EvaluationException, { StackSize } from "./ContextException";
+import EvaluationException, { StackSize } from "./EvaluationException";
 import Exception from "./Exception";
 import ValueException from "./ValueException";
 import type Type from "../nodes/Type";
@@ -23,6 +23,7 @@ import Context from "../nodes/Context";
 // Import this last, after everything else, to avoid cycles.
 import Native from "../native/NativeBindings";
 import { Animations } from "../output/Animation";
+import NameException from "./NameException";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -725,8 +726,8 @@ export default class Evaluator {
     }
 
     /** Resolve the given name in the current execution context. */
-    resolve(name: string | Names): Value | undefined {
-        return this.evaluations[0].resolve(name);
+    resolve(name: string | Names): Value {
+        return this.evaluations[0].resolve(name) ?? new NameException(name, this);
     }
     
     /** A convenience function for evaluating a given function and inputs. */

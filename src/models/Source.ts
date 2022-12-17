@@ -25,6 +25,7 @@ import type { SharedDefinition } from "../nodes/Borrow";
 import FunctionDefinition from "../nodes/FunctionDefinition";
 import StructureDefinition from "../nodes/StructureDefinition";
 import type Spaces from "../parser/Spaces";
+import None from "../runtime/None";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -318,7 +319,7 @@ export default class Source extends Expression {
     getDependencies(_: Context): (Expression | Stream)[] { return [ this.expression ]; }
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet { return current; }
     compile(): Step[] { return []; }
-    evaluate(): Value | undefined { return undefined; }
+    evaluate(): Value { return new None(this); }
     getStart() { return this; }
     getFinish() { return this; }
     getStartExplanations(): Translations { return WRITE_DOCS; }

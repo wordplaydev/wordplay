@@ -138,7 +138,7 @@ export default class Reaction extends Expression {
         ];
     }
 
-    evaluate(evaluator: Evaluator, value: Value | undefined): Value | undefined {
+    evaluate(evaluator: Evaluator, value: Value | undefined): Value {
 
         // Get the value.
         const streamValue = value ?? evaluator.popValue(undefined);

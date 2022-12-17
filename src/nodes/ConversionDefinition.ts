@@ -15,7 +15,7 @@ import { parseType, toTokens } from "../parser/Parser";
 import { CONVERT_SYMBOL } from "../parser/Tokenizer";
 import type Bind from "./Bind";
 import type TypeSet from "./TypeSet";
-import EvaluationException, { StackSize } from "../runtime/ContextException";
+import EvaluationException, { StackSize } from "../runtime/EvaluationException";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
@@ -123,7 +123,11 @@ export default class ConversionDefinition extends Expression {
         const context = evaluator.getCurrentEvaluation();
         if(context === undefined) return new EvaluationException(StackSize.EMPTY, evaluator);
 
-        context.addConversion(new Conversion(this, context));
+        const value = new Conversion(this, context);
+        
+        context.addConversion(value);
+
+        return value;
         
     }
 

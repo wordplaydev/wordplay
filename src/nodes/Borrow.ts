@@ -29,6 +29,7 @@ import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
 import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
 import UnknownNameType from "./UnknownNameType";
+import ValueException from "../runtime/ValueException";
 
 export type SharedDefinition = Source | Bind | FunctionDefinition | StructureDefinition | Stream;
 
@@ -154,7 +155,7 @@ export default class Borrow extends Expression {
         
     }
 
-    evaluate(evaluator: Evaluator): Value | undefined {
+    evaluate(evaluator: Evaluator): Value {
 
         const [ source, definition ] = this.getShare(evaluator.getCurrentContext()) ?? [];
 
@@ -172,7 +173,9 @@ export default class Borrow extends Expression {
                 if(definition === undefined || value === undefined) return new NameException(name ?? "", evaluator);
                 evaluator.bind(definition.names, value);
             }
+            return value;
         }
+        else return new ValueException(evaluator);
         
     }
 

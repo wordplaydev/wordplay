@@ -49,7 +49,8 @@ export default class DocumentedExpression extends Expression {
         return this.expression.compile(context);
     }
 
-    evaluate(_: Evaluator): Value | undefined { return undefined; }
+    evaluate(evaluator: Evaluator): Value { 
+        return evaluator.popValue(undefined); }
 
     replace(original?: Node, replacement?: Node) { 
         return new DocumentedExpression(

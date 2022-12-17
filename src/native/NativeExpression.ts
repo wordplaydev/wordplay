@@ -13,6 +13,7 @@ import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 import ValueException from "../runtime/ValueException";
 import StartFinish from "../runtime/StartFinish";
+import EvaluationException, { StackSize } from "../runtime/EvaluationException";
 
 export default class NativeExpression extends Expression {
     
@@ -40,11 +41,11 @@ export default class NativeExpression extends Expression {
     getDependencies(): Expression[] { return []; }
 
     compile(): Step[] { return [ new StartFinish(this) ]; }
-    evaluate(evaluator: Evaluator): Value | undefined {
+    evaluate(evaluator: Evaluator): Value {
         const requestor = evaluator.getCurrentEvaluation()?.currentStep()?.node;
         if(!(requestor instanceof Node)) return new ValueException(evaluator);
         const evaluation = evaluator.getCurrentEvaluation();
-        return evaluation === undefined ? undefined : this.evaluator(requestor, evaluation);
+        return evaluation === undefined ? new EvaluationException(StackSize.EMPTY, evaluator) : this.evaluator(requestor, evaluation);
     }
 
     /** Can't clone native expressions, there's only one of them! We just erase their parent and let whatever wants them claim them. */

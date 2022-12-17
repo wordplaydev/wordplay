@@ -15,7 +15,7 @@ import type Definition from "./Definition";
 import Name from "./Name";
 import { BinaryOpRegEx, FUNCTION_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 import type TypeSet from "./TypeSet";
-import EvaluationException, { StackSize } from "../runtime/ContextException";
+import EvaluationException, { StackSize } from "../runtime/EvaluationException";
 import type Translations from "./Translations";
 import { overrideWithDocs, TRANSLATE } from "./Translations"
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
@@ -219,7 +219,7 @@ export default class FunctionDefinition extends Expression {
         }
     }
 
-    evaluate(evaluator: Evaluator): Value | undefined {
+    evaluate(evaluator: Evaluator): Value {
 
         // We ignore any prior values; must capture closures every time.
 

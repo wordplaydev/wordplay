@@ -52,10 +52,11 @@ export default class BooleanLiteral extends Expression {
         return [ new StartFinish(this) ];
     }
 
-    evaluate(_: Evaluator, prior: Value | undefined): Value | undefined {
+    evaluate(_: Evaluator, prior: Value | undefined): Value {
         
         if(prior) return prior;
         return new Bool(this, this.bool());
+
     }
 
     bool(): boolean {

@@ -29,11 +29,12 @@ import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import PlaceholderToken from "./PlaceholderToken";
 import type Translations from "./Translations";
-import { TRANSLATE } from "./Translations"
+import { TRANSLATE, WRITE } from "./Translations"
 import type LanguageCode from "./LanguageCode";
 import getConcreteExpectedType from "./Generics";
 import type Value from "../runtime/Value";
 import UnknownNameType from "./UnknownNameType";
+import Action from "../runtime/Action";
 
 export default class BinaryOperation extends Expression {
 
@@ -162,6 +163,13 @@ export default class BinaryOperation extends Expression {
                 // Jump past the right's instructions if false and just push a false on the stack.
                 new JumpIf(right.length + 1, true, false, this),
                 ...right, 
+                new Action(this, 
+                    {
+                        eng: "Start the operation!",
+                        "😀": WRITE
+                    },
+                    evaluator => this.startEvaluate(evaluator)
+                ),
                 new Finish(this)
             ];
         }
@@ -173,18 +181,35 @@ export default class BinaryOperation extends Expression {
                 // Jump past the right's instructions if true and just push a true on the stack.
                 new JumpIf(right.length + 1, true, true, this),
                 ...right, 
+                new Action(this, 
+                    {
+                        eng: "Start the operation!",
+                        "😀": WRITE
+                    },
+                    evaluator => this.startEvaluate(evaluator)
+                ),
                 new Finish(this)
             ];
         }
         else {
-            return [ new Start(this), ...left, ...right, new Finish(this) ];
+            return [ 
+                new Start(this), 
+                ...left, 
+                ...right, 
+                new Action(this, 
+                    {
+                        eng: "Start the operation!",
+                        "😀": WRITE
+                    },
+                    evaluator => this.startEvaluate(evaluator)
+                ),
+                new Finish(this)
+            ];
         }
     }
 
-    evaluate(evaluator: Evaluator, prior: Value | undefined): Value | undefined {
-        
-        if(prior) return prior;
-        
+    startEvaluate(evaluator: Evaluator) {
+
         const context = evaluator.getCurrentContext();
 
         const right = evaluator.popValue(undefined);
@@ -201,8 +226,14 @@ export default class BinaryOperation extends Expression {
         // Start the function's expression. Pass the source of the function.
         evaluator.startEvaluation(new Evaluation(evaluator, this, fun, left, new Map().set(operand.names, right)));
 
-        // No values to return, the evaluation will compute it.
-        return undefined;
+    }
+
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
+
+        // Return whatever was computed.
+        return evaluator.popValue(undefined);
 
     }
 

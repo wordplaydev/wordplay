@@ -33,7 +33,7 @@ import FunctionException from "../runtime/FunctionException";
 import ValueException from "../runtime/ValueException";
 import Exception from "../runtime/Exception";
 import type Translations from "./Translations";
-import { overrideWithDocs, TRANSLATE } from "./Translations"
+import { overrideWithDocs, TRANSLATE, WRITE } from "./Translations"
 import Reference from "./Reference";
 import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform"
@@ -50,6 +50,7 @@ import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
 import InvalidTypeInput from "../conflicts/InvalidTypeInput";
 import NotAFunctionType from "./NotAFunctionType";
 import PropertyReference from "./PropertyReference";
+import Action from "../runtime/Action";
 
 export default class Evaluate extends Expression {
 
@@ -416,13 +417,18 @@ export default class Evaluate extends Expression {
             new Start(this),
             ...inputSteps.reduce((steps: Step[], s) => [ ...steps, ...s], []), 
             ...this.func.compile(context),
+            new Action(this,
+                {
+                    eng: "Start evaluating the function with the inputs",
+                    "😀": WRITE
+                },
+                evaluator => this.startEvaluation(evaluator)
+            ),                
             new Finish(this)
         ];
     }
 
-    evaluate(evaluator: Evaluator, prior: Value | undefined): Value | undefined {
-        
-        if(prior) return prior;
+    startEvaluation(evaluator: Evaluator) {
 
         // Get the function off the stack and bail if it's not a function.
         const functionOrStructure = evaluator.popValue(undefined);
@@ -485,6 +491,13 @@ export default class Evaluate extends Expression {
             );
 
         }
+    }
+
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
+
+        return evaluator.popValue(undefined);
 
     }
 

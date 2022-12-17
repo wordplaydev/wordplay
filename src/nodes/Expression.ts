@@ -53,7 +53,7 @@ export default abstract class Expression extends Node {
     abstract evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context): TypeSet;
 
     abstract compile(context: Context): Step[];
-    abstract evaluate(evaluator: Evaluator, prior: Value | undefined): Value | undefined;
+    abstract evaluate(evaluator: Evaluator, prior: Value | undefined): Value;
 
     abstract getStart(): Node;
     abstract getFinish(): Node;

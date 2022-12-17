@@ -21,11 +21,12 @@ import Replace from "../transforms/Replace";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
-import { TRANSLATE } from "./Translations"
+import { TRANSLATE, WRITE } from "./Translations"
 import type LanguageCode from "./LanguageCode";
 import getConcreteExpectedType from "./Generics";
 import type Value from "../runtime/Value";
 import UnknownNameType from "./UnknownNameType";
+import Action from "../runtime/Action";
 
 export default class UnaryOperation extends Expression {
 
@@ -100,13 +101,17 @@ export default class UnaryOperation extends Expression {
         return [
             new Start(this),
             ...this.operand.compile(context),
+            new Action(this,
+                {
+                    eng: "Start evaluating the operator",
+                    "😀": WRITE
+                },
+                evaluator => this.startEvaluation(evaluator)),
             new Finish(this)
         ];
     }
 
-    evaluate(evaluator: Evaluator, prior: Value | undefined): Value | undefined {
-        
-        if(prior) return prior;
+    startEvaluation(evaluator: Evaluator) {
 
         // Get the value of the operand.
         const value = evaluator.popValue(undefined);
@@ -117,9 +122,15 @@ export default class UnaryOperation extends Expression {
 
         // Start the function's expression.
         evaluator.startEvaluation(new Evaluation(evaluator, this, fun, value, new Map()));
+        
+    }
 
-        // No values to return, the evaluation will compute it.
-        return undefined;
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
+        
+        if(prior) return prior;
+
+        // Return the value computed
+        return evaluator.popValue(undefined);
 
     }
 

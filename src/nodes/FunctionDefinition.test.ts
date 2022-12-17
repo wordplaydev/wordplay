@@ -10,7 +10,7 @@ import Docs from "./Docs";
 import DuplicateBinds from "../conflicts/DuplicateBinds";
 import TypeVariables from "./TypeVariables";
 import Evaluator from "../runtime/Evaluator";
-import EvaluationException from "../runtime/ContextException";
+import EvaluationException from "../runtime/EvaluationException";
 import NoExpression from "../conflicts/NoExpression";
 
 test("Test function conflicts", () => {

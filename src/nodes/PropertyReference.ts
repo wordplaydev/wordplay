@@ -4,7 +4,6 @@ import Expression from "./Expression";
 import Token from "./Token";
 import type Type from "./Type";
 import type Evaluator from "../runtime/Evaluator";
-import Exception from "../runtime/Exception";
 import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
 import Finish from "../runtime/Finish";
@@ -189,16 +188,14 @@ export default class PropertyReference extends Expression {
 
     }
 
-    evaluate(evaluator: Evaluator, prior: Value | undefined): Value | undefined {
+    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         
         if(prior) return prior;
 
         const subject = evaluator.popValue(undefined);
         if(this.name === undefined) return new NameException("", evaluator);
         const name = this.name.getName();
-        return subject instanceof Exception ? 
-            subject :
-            subject.resolve(name, evaluator);
+        return subject.resolve(name, evaluator) ?? new NameException(name, evaluator);
 
     }
 
