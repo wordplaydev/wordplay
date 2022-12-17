@@ -13,18 +13,14 @@ import NameType from "./NameType";
 import StructureDefinitionType from "./StructureDefinitionType";
 import StructureDefinition from "./StructureDefinition";
 import TypeVariable from "./TypeVariable";
-import Column from "./Column";
-import ColumnType from "./ColumnType";
 import type Evaluator from "../runtime/Evaluator";
 import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
 import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
 import { getCaseCollision } from "./util";
-import Evaluate from "./Evaluate";
 import Block from "./Block";
 import ListType from "./ListType";
-import Cell from "./Cell";
 import ValueException from "../runtime/ValueException";
 import type Translations from "./Translations";
 import { overrideWithDocs, TRANSLATE } from "./Translations"
@@ -185,7 +181,7 @@ export default class Bind extends Expression {
 
         // Search the project for references and warn if there aren't any.
         const parent = context.get(this)?.getParent();
-        if(enclosure && !this.isShared() && !(parent instanceof Column || parent instanceof ColumnType || parent instanceof Cell || parent instanceof Evaluate)) {
+        if(enclosure && !this.isShared() && (parent instanceof Block || parent instanceof FunctionDefinition || parent instanceof StructureDefinition)) {
             const references = context.project.getReferences(this);
             // Don't warn on placeholder symbols.
             if(references.length === 0 && !this.names.hasName(PLACEHOLDER_SYMBOL))

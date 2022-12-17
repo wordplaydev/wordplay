@@ -22,7 +22,7 @@ export default class AnyType extends Type {
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "Any type"
+            eng: "any type"
         }
     }
 
