@@ -22,7 +22,7 @@ export default class Measurement extends Primitive {
     constructor(creator: Node, number: number | Token | Decimal | string, unit?: Unit) {
         super(creator);
 
-        this.unit = unit === undefined ? new Unit() : unit;
+        this.unit = unit === undefined ? Unit.Empty : unit;
 
         // If the number given is a Decimal, just assign it.
         if(number instanceof Decimal) {

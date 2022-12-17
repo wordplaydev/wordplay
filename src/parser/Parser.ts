@@ -552,7 +552,7 @@ function parseMeasurement(tokens: Tokens): MeasurementLiteral {
 
     const number = tokens.read(TokenType.NUMBER);
     const unit = tokens.nextIsOneOf(TokenType.NAME, TokenType.LANGUAGE) && tokens.nextLacksPrecedingSpace() ? parseUnit(tokens) : undefined;
-    return new MeasurementLiteral(number, unit ?? new Unit());
+    return new MeasurementLiteral(number, unit ?? Unit.Empty);
 
 }
 

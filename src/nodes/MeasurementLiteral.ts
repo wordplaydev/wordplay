@@ -41,7 +41,7 @@ export default class MeasurementLiteral extends Expression {
     static make(number?: number, unit?: Unit) {
         return new MeasurementLiteral(
             number === undefined ? new PlaceholderToken() : new Token("" + number, TokenType.DECIMAL),
-            unit === undefined ? new Unit() : unit
+            unit === undefined ? Unit.Empty : unit
         )
     }
     
@@ -109,7 +109,7 @@ export default class MeasurementLiteral extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.unit) return new Replace(context, child, new Unit());
+        if(child === this.unit) return new Replace(context, child, Unit.Empty);
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {

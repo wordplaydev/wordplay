@@ -79,17 +79,18 @@ export default class Unit extends Type {
 
     }
 
-    static wildcard() {
+    static Empty = new Unit()
+    static Wildcard = (() => {
         const exp = new Map();
         exp.set(BOOLEAN_TYPE_SYMBOL, 1);
         return new Unit(exp);
-    }
+    })()
 
     getGrammar() { 
         return [
-            { name: "numerator", types:[[ Dimension ]] },
-            { name: "slash", types:[ Token, undefined ] },
-            { name: "denominator", types:[[ Dimension ]] },
+            { name: "numerator", types: [[ Dimension ]] },
+            { name: "slash", types: [ Token, undefined ] },
+            { name: "denominator", types: [[ Dimension ]] },
         ]; 
     }
 
@@ -104,7 +105,7 @@ export default class Unit extends Type {
 
     static map(numerator: string[], denominator: string[]) {
 
-        const exponents = new Map();
+        const exponents = new Map<string, number>();
         for(const unit of numerator)
             exponents.set(unit, exponents.has(unit) ? (exponents.get(unit) ?? 0) + 1 : 1);
         for(const unit of denominator)
@@ -114,8 +115,31 @@ export default class Unit extends Type {
     }
 
     static unit(numerator: string[], denominator: string[]=[]) {
-        return new Unit(Unit.map(numerator, denominator));
+        return Unit.get(Unit.map(numerator, denominator));
     }
+
+    /** A unit pool, since they recur so frequently. We map the exponents to a unique string */
+    static Pool = new Map<string, Unit>()
+
+    static get(exponents: Map<string, number>) {
+
+        // Convert the exponents to a canonical string
+        let hash = "";
+        for(const key of Array.from(exponents.keys()).sort())
+            hash += `${key}${exponents.get(key)}`;
+
+        // See if the string is in the pool
+        const cache = Unit.Pool.get(hash);
+        if(cache)
+            return cache;
+
+        // Make a new one if not.
+        const newUnit = new Unit(exponents);
+        Unit.Pool.set(hash, newUnit);
+        return newUnit;
+
+    }
+
 
     isWildcard() { return this.exponents.get("?") === 1; }
     isUnitless() { return this.exponents.size === 0; }
@@ -158,7 +182,7 @@ export default class Unit extends Type {
         for(const [unit, exponent] of this.exponents)
             newExponents.set(unit, exponent === 1 ? -(root - 1) : exponent - (root - 1))
         
-        return new Unit(newExponents);
+        return Unit.get(newExponents);
     
     }
 
@@ -172,7 +196,7 @@ export default class Unit extends Type {
             newExponents.set(unit, (currentExponent ?? 0) + exponent); 
         }
         
-        return new Unit(newExponents);
+        return Unit.get(newExponents);
 
     }
 
@@ -186,7 +210,7 @@ export default class Unit extends Type {
             newExponents.set(unit, (currentExponent ?? 0) - exponent); 
         }
         
-        return new Unit(newExponents);
+        return Unit.get(newExponents);
 
     }
 
@@ -200,7 +224,7 @@ export default class Unit extends Type {
             newExponents.set(unit, exp * exponent); 
         }
 
-        return new Unit(newExponents);
+        return Unit.get(newExponents);
         
     }
 

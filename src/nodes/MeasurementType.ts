@@ -32,7 +32,7 @@ export default class MeasurementType extends NativeType {
         super();
 
         this.number = number;
-        this.unit = unit ?? new Unit();
+        this.unit = unit ?? Unit.Empty;
         this.op = op;
 
         this.computeChildren();
@@ -40,11 +40,11 @@ export default class MeasurementType extends NativeType {
     }
 
     static make(unit?: Unit | UnitDeriver, op?: BinaryOperation | UnaryOperation | Evaluate) {
-        return new MeasurementType(new Token(MEASUREMENT_SYMBOL, TokenType.NUMBER_TYPE), unit ?? new Unit(), op);
+        return new MeasurementType(new Token(MEASUREMENT_SYMBOL, TokenType.NUMBER_TYPE), unit ?? Unit.Empty, op);
     }
 
     static wildcard() {
-        return MeasurementType.make(Unit.wildcard());
+        return MeasurementType.make(Unit.Wildcard);
     }
 
     getGrammar() { 
@@ -111,7 +111,7 @@ export default class MeasurementType extends NativeType {
         // If the unit is derived, then there must be an operation for it.
         if(this.op === undefined) {
             console.error("MeasurementType with derived unit didn't receive an operator, so unit can't be derived.");
-            return new Unit();
+            return Unit.Empty;
         }
 
         // What is the type of the left?
@@ -126,8 +126,8 @@ export default class MeasurementType extends NativeType {
             undefined;
 
         // If either type isn't a measurement type — which shouldn't be possible for binary operations or evaluates — then we just return a blank unit.
-        if(!(leftType instanceof MeasurementType)) return new Unit();
-        if(!(this.op instanceof UnaryOperation) && !(rightType instanceof MeasurementType)) return new Unit();
+        if(!(leftType instanceof MeasurementType)) return Unit.Empty;
+        if(!(this.op instanceof UnaryOperation) && !(rightType instanceof MeasurementType)) return Unit.Empty;
 
         // Get the constant from the right if available.
         const constant = this.op instanceof BinaryOperation && this.op.right instanceof MeasurementLiteral? new Measurement(this, this.op.right.number).toNumber() : undefined;
@@ -162,7 +162,7 @@ export default class MeasurementType extends NativeType {
     getInsertionAfter() { return undefined; }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.unit) return new Replace(context, child, new Unit());
+        if(child === this.unit) return new Replace(context, child, Unit.Empty);
     }
 
 }

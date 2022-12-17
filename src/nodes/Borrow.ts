@@ -187,7 +187,7 @@ export default class Borrow extends Expression {
 
     getName() { return this.source === undefined ? undefined : this.source.getText(); }
 
-    getVersion() { return this.version === undefined ? undefined : (new Measurement(this, this.version, new Unit())).toNumber(); }
+    getVersion() { return this.version === undefined ? undefined : (new Measurement(this, this.version, Unit.Empty)).toNumber(); }
 
     getChildReplacement(): Transform[] | undefined { return undefined; }
 

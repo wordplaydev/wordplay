@@ -182,7 +182,7 @@ export default function bootstrapMeasurement() {
                 },
                 WRITE_DOCS,
                 MeasurementType.wildcard(),
-                MeasurementType.make((left, right, constant) => { right; return constant === undefined ? new Unit() : left.power(constant); }),
+                MeasurementType.make((left, right, constant) => { right; return constant === undefined ? Unit.Empty : left.power(constant); }),
                 (requestor, left, right) => left.power(requestor, right),
                 false
             ),
@@ -194,7 +194,7 @@ export default function bootstrapMeasurement() {
                 },
                 WRITE_DOCS,
                 MeasurementType.wildcard(),
-                MeasurementType.make((left, right, constant) => { right; return constant === undefined ? new Unit() : left.root(constant) }),
+                MeasurementType.make((left, right, constant) => { right; return constant === undefined ? Unit.Empty : left.root(constant) }),
                 (requestor, left, right) => left.root(requestor, right),
                 false
             ),
