@@ -79,7 +79,7 @@ export default class Convert extends Expression {
                     [...list, ...(block.statements.filter(s => s instanceof ConversionDefinition) as ConversionDefinition[])], [])
              ?? [];
 
-        // Find a path between the input type and the desired type,
+        // Find a path between the input type and the desired type
         return getConversionPath(inputType, this.type, [ ... typeConversions, ... scopeConversions ], context);
 
     }

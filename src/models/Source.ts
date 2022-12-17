@@ -284,6 +284,8 @@ export default class Source extends Expression {
         };
     }
 
+    toWordplay(spaces?: Spaces) { return super.toWordplay(spaces ?? this.spaces); }
+
     getTranslation(lang: LanguageCode[]) { return this.names.getTranslation(lang); }
 
     computeType(context: Context): Type { return this.expression.getType(context); }

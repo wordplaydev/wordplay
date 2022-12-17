@@ -238,10 +238,12 @@ export function tokenize(source: string): TokenList {
 
     }
 
-    // If there's nothing left -- or nothing but space -- and the last token isn't a already end token, add one.
+    // If there's nothing left -- or nothing but space -- and the last token isn't a already end token, add one, and remember the space before it.
     if(tokens.length === 0 || !tokens[tokens.length - 1].is(TokenType.END)) {
         const end = new Token("", TokenType.END);
         tokens.push(end);
+        if(source.length > 0)
+            spaces.set(end, source);
     }
 
     return new TokenList(tokens, spaces);

@@ -1,5 +1,5 @@
 import type {  NativeTypeName } from "../native/NativeConstants";
-import { FUNCTION_SYMBOL, MEASUREMENT_SYMBOL } from "../parser/Tokenizer";
+import { MEASUREMENT_SYMBOL } from "../parser/Tokenizer";
 import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
@@ -165,5 +165,4 @@ export default class MeasurementType extends NativeType {
         if(child === this.unit) return new Replace(context, child, new Unit());
     }
 
-    toWordplay() { return super.toWordplay() + (this.unit instanceof Function ? FUNCTION_SYMBOL : ""); }
 }
