@@ -103,7 +103,7 @@ export default class TextType extends NativeType {
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "A text type"
+            eng: "a text type"
         }
     }
 

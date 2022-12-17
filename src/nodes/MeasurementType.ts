@@ -144,7 +144,7 @@ export default class MeasurementType extends NativeType {
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: this.unit instanceof Unit ? this.unit.getDescriptions().eng : "A number"
+            eng: this.unit instanceof Unit ? this.unit.getDescriptions().eng : "a number"
         }
     }
 

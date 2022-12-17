@@ -184,8 +184,8 @@
         else {
             const token = $caret.getToken();
             const ancestors = token ? source.get(token)?.getAncestors() : undefined;
-            if(ancestors) {
-                for(const ancestor of ancestors) {
+            if(token && ancestors) {
+                for(const ancestor of [ token, ... ancestors ]) {
                     conflicts = conflicts.concat(
                         [ 
                             ...project.getPrimaryConflictsInvolvingNode(ancestor) ?? [],
