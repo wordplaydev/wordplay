@@ -8,15 +8,19 @@ import Time from "../streams/Time";
 import NoneType from "./NoneType";
 
 test.each([
+    // Check stream resolution.
     [ `↓ time\ntime > 0ms`, "time", Time.make(NoneType.None, 1), FALSE_SYMBOL, TRUE_SYMBOL ],
+    // Check stream references.
     [ `↓ time\ntime.add(500ms)`, "time", Time.make(NoneType.None, 1), "500ms", "501ms" ],
+    // Check reaction binding.
     [ `↓ time\na: 1 ∆ time time % 2\na`, "time", Time.make(NoneType.None, 1), "1", "1ms" ],
+    // Check reactions in evaluations.
     [ `
         ↓ time
-        •Cat(name•"" a•#)
-        b: Cat("Boomy" 1 ∆ time b.a + 1)
-        b.a
-        `, "time", Time.make(NoneType.None, 1), "1", "2" ]
+        ƒ mult(a•# b•#) a.multiply(b)
+        b: mult(2 0ms ∆ time time)
+        b
+        `, "time", Time.make(NoneType.None, 1), "0ms", "2ms" ]
 ])("React to %s", (code: string, streamName: string, value: Value, expectedInitial: string, expectedNext: string) => {
 
     const source = new Source("test", code);
