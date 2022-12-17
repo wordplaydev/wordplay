@@ -114,9 +114,9 @@ export default class Reaction extends Expression {
                 if(latest) {
                     // If this reaction is bound, bind the latest value to the bind's names
                     // so we can access the previous value via those names.
-                    const bind = context.get(this)?.getNearestAncestor<Bind>(Bind);
-                    if(bind !== undefined)
-                        evaluator.bind(bind.names, latest);
+                    const parent = context.get(this)?.getParent();
+                    if(parent instanceof Bind)
+                        evaluator.bind(parent.names, latest);
                 }
                 return undefined;
             }),
