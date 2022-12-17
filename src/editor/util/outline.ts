@@ -131,16 +131,16 @@ export function getUnderlineOf(nodeView: HTMLElement) {
 
     const rows = toRows(nodeView);
 
-    // If the rows are empty, draw a circle where the element is
+    // If the rows are empty, draw an arrow where the element is
     if(rows.length === 0) {
-        const width = 10;
+        const radius = 10;
         const rect = getViewRect(getEditorOffset(nodeView), nodeView);
         return {
-            path: `M ${rect.l} ${rect.b} L ${rect.l + width} ${rect.b} Z`,
-            minx: rect.l,
+            path: `M ${rect.l - radius} ${rect.b + radius} L ${rect.l} ${rect.b} L ${rect.l + radius} ${rect.b + radius} Z`,
+            minx: rect.l - radius,
             miny: rect.b,
-            maxx: rect.l + width,
-            maxy: rect.b
+            maxx: rect.l + radius,
+            maxy: rect.b + radius
         }
     }
     else
