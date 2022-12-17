@@ -12,7 +12,7 @@ export function testConflict(goodCode: string, badCode: string, nodeType: Functi
     const goodProgram = goodSource.expression;
     const goodOp = goodProgram.nodes().filter(n => n instanceof nodeType)[nodeIndex];
     expect(goodOp).toBeInstanceOf(nodeType);
-    expect(goodOp?.getConflicts(new Context(goodProject, goodSource)).filter(n => n instanceof conflictType)).toHaveLength(0);
+    expect(goodOp?.getConflicts(new Context(goodProject, goodSource)).filter(n => n instanceof conflictType)[0]).toBeUndefined();
 
     const badSource = new Source("test", badCode);
     const badProject = new Project("bad", badSource, []);

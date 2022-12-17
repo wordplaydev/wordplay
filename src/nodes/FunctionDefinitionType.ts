@@ -6,6 +6,7 @@ import type FunctionDefinition from "./FunctionDefinition";
 import FunctionType from "./FunctionType";
 import type { NativeTypeName } from "../native/NativeConstants";
 import type TypeSet from "./TypeSet";
+import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL, FUNCTION_SYMBOL } from "../parser/Tokenizer";
 
 export default class FunctionDefinitionType extends Type {
 
@@ -39,7 +40,7 @@ export default class FunctionDefinitionType extends Type {
 
     replace() { return new FunctionDefinitionType(this.fun) as this; }
 
-    toWordplay() { return this.fun.toWordplay(); }
+    toWordplay() { return `${FUNCTION_SYMBOL}${EVAL_OPEN_SYMBOL}${this.fun.inputs.map(n => n.toWordplay()).join(" ")}${EVAL_CLOSE_SYMBOL}`; }
 
     getChildReplacement() { return undefined; }
     getInsertionBefore() { return undefined; }
@@ -49,7 +50,7 @@ export default class FunctionDefinitionType extends Type {
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "A function definition type"
+            eng: `a function of type ${this.toWordplay()}`
         }
     }
 
