@@ -119,10 +119,10 @@ export default class UnionType extends Type {
 
     }
 
-    getDescriptions(): Translations {
+    getDescriptions(context: Context): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "One of these types"
+            eng: `${this.left.getDescriptions(context)}${TYPE_SYMBOL}${this.right.getDescriptions(context)}`
         }
     }
 

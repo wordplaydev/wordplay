@@ -234,7 +234,7 @@ export default class Unit extends Type {
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: this.exponents.size === 0 ? "A unitless number" : 
+            eng: this.exponents.size === 0 ? "a number" : 
                 this.numerator.length === 1 && this.denominator.length === 0 ? this.numerator[0].getDescriptions().eng :
                 this.toWordplay() === "m/s" ? "velocity" :
                 "a number with unit"

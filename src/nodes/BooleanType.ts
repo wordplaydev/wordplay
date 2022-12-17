@@ -43,7 +43,7 @@ export default class BooleanType extends NativeType {
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "A boolean type"
+            eng: "a boolean"
         }
     }
 

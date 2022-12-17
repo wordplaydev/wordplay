@@ -6,15 +6,56 @@ import BinaryOperation from "./BinaryOperation";
 import NotAFunction from "../conflicts/NotAFunction";
 import { test, expect } from "vitest";
 
-test("Test conditional conflicts", () => {
-
-    testConflict('⊥ ? 2 3"', '1 ? 2 3', Conditional, ExpectedBooleanCondition);
-    testConflict('a: 1 > 0 ? 1 "hi"\na•# ? a + 1 a', 'a: 1 > 0 ? 1 "hi"\n⊤ ? a + 1 a', BinaryOperation, NotAFunction, 1);
-    testConflict('a: 1 > 0 ? 1 "hi"\n((a•#) ∧ (a > 1)) ? a + 1 a', 'a: 1 > 0 ? 1 "hi"\n¬((a•#) ∧ (a > 1)) ? a + 1 a', BinaryOperation, NotAFunction, 3);
-    testConflict('•Cat(name•""•#)\n a: Cat(1)\n a.name•# ? a.name + 1 a', '•Cat(name•""•#)\n a: Cat(1)\n a.name•"" ? a.name + 1 a', BinaryOperation, NotAFunction, 0);
-    testConflict('a•#•"": 1\na•# ? a + 1 a', 'a•#•"": 1\n¬(a•#) ? a + 1 a', BinaryOperation, NotAFunction);
-    testConflict('a•#•"": 1\na•# ? a + 1 a', 'a•#•"": 1\n¬¬(a•#) ? a a + 1', BinaryOperation, NotAFunction);
-    
+test.each([
+    [ '⊥ ? 2 3"', '1 ? 2 3', Conditional, ExpectedBooleanCondition ],
+    [   `
+        a: 1 > 0 ? 1 "hi"
+        a•# ? a + 1 a
+        `, 
+        `
+        a: 1 > 0 ? 1 "hi"
+        ⊤ ? a + 1 a
+        `, 
+        BinaryOperation, NotAFunction, 1 
+    ],
+    [ 
+        `
+        a: 1 > 0 ? 1 "hi"
+        ((a•#) ∧ (a > 1)) ? a + 1 a
+        `, `
+        a: 1 > 0 ? 1 "hi"
+        ¬((a•#) ∧ (a > 1)) ? a + 1 a
+        `, 
+        BinaryOperation, NotAFunction, 3
+    ],
+    [ `
+        •Cat(name•""•#)
+        a: Cat(1)
+        a.name•# ? a.name + 1 a
+        `, `
+        •Cat(name•""•#)
+        a: Cat(1)
+        a.name•"" ? a.name + 1 a
+        `, 
+        BinaryOperation, NotAFunction, 0 
+    ],
+    [ `
+        a•#•"": 1
+        a•# ? a + 1 a
+        `, `
+        a•#•"": 1
+        ¬(a•#) ? a + 1 a
+        `, BinaryOperation, NotAFunction 
+    ],
+    [ `
+        a•#•"": 1
+        a•# ? a + 1 a`, `
+        a•#•"": 1
+        ¬¬(a•#) ? a a + 1
+        `, BinaryOperation, NotAFunction 
+    ]
+])("%s => no conflict, %s => conflict", (good: string, bad: string, node: Function, conflict: Function, number?: number) => {
+    testConflict(good, bad, node, conflict, number);    
 });
 
 test("Test conditional logic", () => {
