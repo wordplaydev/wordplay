@@ -192,7 +192,7 @@ export default function bootstrapList() {
                 }, 
                 undefined, 
                 [], 
-                UnionType.make(new NameType(LIST_TYPE_VAR_NAMES.eng), NoneType.make()),
+                UnionType.make(new NameType(LIST_TYPE_VAR_NAMES.eng), NoneType.None),
                 (requestor, evaluation) => {
                     requestor;
                     const list = evaluation.getClosure();
@@ -501,7 +501,7 @@ export default function bootstrapList() {
                     listFindHOFType
                 ) ],
                 new NativeHOFListFind(listFindHOFType),
-                UnionType.make(new NameType(LIST_TYPE_VAR_NAMES.eng), NoneType.make())
+                UnionType.make(new NameType(LIST_TYPE_VAR_NAMES.eng), NoneType.None)
             ),
             FunctionDefinition.make(
                 WRITE_DOCS, 

@@ -50,7 +50,7 @@ export default class NoneLiteral extends Expression {
     computeConflicts() {}
 
     computeType(): Type {
-        return NoneType.make();
+        return NoneType.None;
     }
 
     getDependencies(): Expression[] {

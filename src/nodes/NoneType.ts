@@ -21,6 +21,8 @@ export default class NoneType extends NativeType {
 
     }
 
+    static None = new NoneType(new Token(NONE_SYMBOL, TokenType.NONE));
+
     static make() {
         return new NoneType(new Token(NONE_SYMBOL, TokenType.NONE));
     }

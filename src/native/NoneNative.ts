@@ -40,8 +40,8 @@ export default function bootstrapNone() {
                     const left = evaluation.getClosure();
                     const right = evaluation.resolve("val");
                     // This should be impossible, but the type system doesn't know it.
-                    if(!(left instanceof None)) return new TypeException(evaluation.getEvaluator(), NoneType.make(), left);
-                    if(!(right instanceof None)) return new TypeException(evaluation.getEvaluator(), NoneType.make(), right);
+                    if(!(left instanceof None)) return new TypeException(evaluation.getEvaluator(), NoneType.None, left);
+                    if(!(right instanceof None)) return new TypeException(evaluation.getEvaluator(), NoneType.None, right);
                     return expression(requestor, left, right);
                 },
                 {

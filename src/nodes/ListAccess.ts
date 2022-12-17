@@ -105,7 +105,7 @@ export default class ListAccess extends Expression {
             if(listType.length !== undefined && this.index instanceof MeasurementLiteral && this.index.toValue().num.greaterThanOrEqualTo(1) && this.index.toValue().num.lessThanOrEqualTo(listType.length))
                 return listType.type;
             else
-                return UnionType.getPossibleUnion(context, [ listType.type, NoneType.make() ]);
+                return UnionType.getPossibleUnion(context, [ listType.type, NoneType.None ]);
         }
         else return new NotAListType(this, listType);
     }

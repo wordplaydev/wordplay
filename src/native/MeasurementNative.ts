@@ -114,7 +114,7 @@ export default function bootstrapMeasurement() {
                             "😀": `${TRANSLATE}1`
                         }, 
                         UnionType.make(
-                            NoneType.make(),
+                            NoneType.None,
                             MeasurementType.make(left => left)), 
                         NoneLiteral.make()
                     ) 
