@@ -26,6 +26,15 @@ import type Bind from "../nodes/Bind";
 import Reference from "../nodes/Reference";
 import Random from "../streams/Random";
 
+export type Streams = {
+    time: Time,
+    mouseButton: MouseButton,
+    mousePosition: MousePosition,
+    keyboard: Keyboard,
+    microphone: Microphone,
+    random: Random
+};
+
 /** 
  * A project with a name, some source files, and evaluators for each source file.
  **/
@@ -54,14 +63,7 @@ export default class Project {
     /** An index of expression dependencies, mapping an Expression to one or more Expressions that are affected if it changes value.  */
     readonly dependencies: Map<Expression | Value, Set<Expression>> = new Map();
 
-    readonly streams: {
-        time: Time,
-        mouseButton: MouseButton,
-        mousePosition: MousePosition,
-        keyboard: Keyboard,
-        microphone: Microphone,
-        random: Random
-    };
+    readonly streams: Streams;
 
     readonly trees: Tree[];
     readonly _index: Map<Node,Tree | undefined> = new Map();

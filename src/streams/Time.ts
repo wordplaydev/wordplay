@@ -5,6 +5,7 @@ import Unit from "../nodes/Unit";
 import type Evaluator from "../runtime/Evaluator";
 import Measurement from "../runtime/Measurement";
 import Stream from "../runtime/Stream";
+import type Node from "../nodes/Node";
 
 export const FREQUENCY = 33;
 
@@ -37,11 +38,19 @@ export default class Time extends Stream<Measurement> {
 
         this.timerID = setInterval(
             // Add a time measurement on each tick.
-            () => this.add(new Measurement(this.creator, Date.now() - (this.startTime as number), Unit.unit(["ms"]))),            
+            () => this.tick(),
             // Tick every 33 milliseconds, trying to achieve a 30 fps frame rate.
             FREQUENCY
         );
 
+    }
+
+    tick() {
+        this.add(Time.make(this.creator, Date.now() - (this.startTime as number)));
+    }
+
+    static make(creator: Node, time: number) {
+        return new Measurement(creator, time, Unit.unit(["ms"]))
     }
 
     stop() {
