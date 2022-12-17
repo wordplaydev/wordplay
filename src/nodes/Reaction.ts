@@ -120,21 +120,19 @@ export default class Reaction extends Expression {
                 }
                 return undefined;
             }),
-            // Evaluate the stream expression
-            ...this.stream.compile(context),
-            // Does this stream exist for this node? If so, jump to the check of whether to update it.
-            // Otherwise, initialize it.
+            // Does this stream exist for this node? If so, jump to the stream expression to check of whether to update it.
             new JumpIfStreamExists(initialSteps.length + 1, this),
-            // If it has not, evaluate the initial value then jump to finish...
+            // If it has not, evaluate the initial value...
             ...initialSteps,
             // ... then jump to finish.
-            new Jump(nextSteps.length + 1, this),
-            // If the streams accessed in expression have changed (and resulted in true or some non-Boolean value), 
-            // compute the next value. Otherwise, let the jump push the stream value and skip the rest.
+            new Jump(nextSteps.length + 2, this),
+            // If it doesn't exist, evaluate the stream expression
+            ...this.stream.compile(context),
+            // If the stream accessed in expression hasn't changed, just push the prior value. 
             new JumpIfStreamUnchanged(nextSteps.length, this),
-            // If it has been created, has the referenced stream changed?
+            // Otherwise, compute the new value.
             ...nextSteps,
-            // Finish by pushing the latest stream value for this node onto the stack.
+            // Finish by getting the final value, adding it to the reaction stream, then push it back on the stack for others to use.
             new Finish(this),
 
         ];
@@ -143,7 +141,7 @@ export default class Reaction extends Expression {
     evaluate(evaluator: Evaluator, value: Value | undefined): Value | undefined {
 
         // Get the value.
-        const streamValue = value ?? evaluator.peekValue();
+        const streamValue = value ?? evaluator.popValue(undefined);
 
         // At this point in the compiled steps above, we should have a value on the stack
         // that is either the initial value for this reaction's stream or a new value.
