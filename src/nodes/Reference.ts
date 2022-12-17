@@ -216,7 +216,7 @@ export default class Reference extends Expression {
     getFinishExplanations(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "Find the name get evaluate to it's value."
+            eng: "Let's find the closest definition of the name."
         }
     }
 
