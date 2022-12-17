@@ -268,7 +268,7 @@ export default class Caret {
                 text += DELIMITERS[text];
 
             const newSource = this.source.withGraphemesAt(text, this.position);
-            console.log(`"${newSource?.toWordplay()}"`);
+            
             return newSource === undefined ? undefined : [ newSource, new Caret(newSource, this.position + (closed ? 1 : text.length)) ];
         }
         else if(this.position instanceof Token && this.position.getText() === PLACEHOLDER_SYMBOL) {
