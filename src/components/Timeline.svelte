@@ -39,12 +39,7 @@
                         {key instanceof Text ? key.text : null}{down instanceof Bool ? (down.bool ? "↓" : "↑") : null}
                     {/if}
                     {#if change.stream instanceof MouseButton && change.value}
-                        {@const down = change.value.resolve("down")}
-                        {down instanceof Bool ? (down.bool ? "↓" : "↑") : null}
-                    {/if}
-                    {#if change.stream instanceof MouseButton && change.value}
-                        {@const down = change.value.resolve("down")}
-                        {down instanceof Bool ? (down.bool ? "↓" : "↑") : null}
+                        {change.value instanceof Bool ? (change.value.bool ? "↓" : "↑") : null}
                     {/if}
                 </span>
             {/if}
