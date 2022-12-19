@@ -1,4 +1,5 @@
 import { writable } from "svelte/store";
+import { OR_SYMBOL } from "../parser/Tokenizer";
 
 export type FontWeight = 100|200|300|400|500|600|700|800|900;
 export type FontWeightRange = { min: FontWeight, max: FontWeight };
@@ -163,4 +164,4 @@ export class FontManager {
 const Fonts = new FontManager();
 export default Fonts;
 
-export const SupportedFontsType = SupportedFontFamilies.map(font => `"${font.name}"`).join("•");
+export const SupportedFontsType = SupportedFontFamilies.map(font => `"${font.name}"`).join(OR_SYMBOL);

@@ -20,16 +20,16 @@ export const PoseType = toStructure(`
     •Pose/eng(
         duration/eng•#s: 0.5s
         style/eng•ƒ(complete•%) %: fast
-        text/eng,✍︎/😀•""•[""]•ø: ø
-        size/eng,${TRANSLATE}size/😀•#m•ø: ø
-        font/eng,🔡/😀•${SupportedFontsType}•ø: ø
-        color/eng,${TRANSLATE}color/😀•Color•ø: ø
-        opacity/eng,${TRANSLATE}opacity/😀•%•ø: ø
-        place/eng,${TRANSLATE}place/😀•Place•ø: ø
-        offset/eng,${TRANSLATE}offset/😀•Place•ø: ø
-        rotation/eng,${TRANSLATE}rotation/😀•#°•ø: ø
-        scalex/eng,${TRANSLATE}scalex/😀•#•ø: ø
-        scaley/eng,${TRANSLATE}scaley/😀•#•ø: ø
+        text/eng,✍︎/😀•""|[""]|ø: ø
+        size/eng,${TRANSLATE}size/😀•#m|ø: ø
+        font/eng,🔡/😀•${SupportedFontsType}|ø: ø
+        color/eng,${TRANSLATE}color/😀•Color|ø: ø
+        opacity/eng,${TRANSLATE}opacity/😀•%|ø: ø
+        place/eng,${TRANSLATE}place/😀•Place|ø: ø
+        offset/eng,${TRANSLATE}offset/😀•Place|ø: ø
+        rotation/eng,${TRANSLATE}rotation/😀•#°|ø: ø
+        scalex/eng,${TRANSLATE}scalex/😀•#|ø: ø
+        scaley/eng,${TRANSLATE}scaley/😀•#|ø: ø
     )
 `);
 

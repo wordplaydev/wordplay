@@ -417,7 +417,7 @@ test("Types", () => {
     const stream = parseType(toTokens("∆#"));
     expect(stream).toBeInstanceOf(StreamType);
 
-    const union = parseType(toTokens("Cat•#"))
+    const union = parseType(toTokens("Cat|#"))
     expect(union).toBeInstanceOf(UnionType);
     expect((union as UnionType).left).toBeInstanceOf(NameType);
     expect((union as UnionType).right).toBeInstanceOf(MeasurementType);

@@ -24,21 +24,21 @@ import type Animation from "./Animation";
 
 export const PhraseType = toStructure(`
     •Phrase/eng,💬/😀 Group(
-        text/eng,✍︎/😀•""•[""]
+        text/eng,✍︎/😀•""|[""]
         size/eng,${TRANSLATE}size/😀•#m: 1m
-        font/eng,🔡/😀•${SupportedFontsType}•ø: ø
-        color/eng,${TRANSLATE}color/😀•Color•ø: ø
-        opacity/eng,${TRANSLATE}opacity/😀•%•ø: ø
-        place/eng,${TRANSLATE}place/😀•Place•ø: ø
-        offset/eng,${TRANSLATE}offset/😀•Place•ø: ø
-        rotation/eng,${TRANSLATE}rotation/😀•#°•ø: ø
-        scalex/eng,${TRANSLATE}scalex/😀•#•ø: ø
-        scaley/eng,${TRANSLATE}scaley/😀•#•ø: ø
-        name/eng•""•ø: ø
-        entry/eng,${TRANSLATE}entry/😀•ø•Pose•Sequence: ø
-        during/eng,${TRANSLATE}during/😀•ø•Pose•Sequence: ø
-        between/eng,${TRANSLATE}between/😀•ø•Pose•Sequence: ø
-        exit/eng,${TRANSLATE}exit/😀•ø•Pose•Sequence: ø
+        font/eng,🔡/😀•${SupportedFontsType}|ø: ø
+        color/eng,${TRANSLATE}color/😀•Color|ø: ø
+        opacity/eng,${TRANSLATE}opacity/😀•%|ø: ø
+        place/eng,${TRANSLATE}place/😀•Place|ø: ø
+        offset/eng,${TRANSLATE}offset/😀•Place|ø: ø
+        rotation/eng,${TRANSLATE}rotation/😀•#°|ø: ø
+        scalex/eng,${TRANSLATE}scalex/😀•#|ø: ø
+        scaley/eng,${TRANSLATE}scaley/😀•#|ø: ø
+        name/eng•""|ø: ø
+        entry/eng,${TRANSLATE}entry/😀•ø|Pose|Sequence: ø
+        during/eng,${TRANSLATE}during/😀•ø|Pose|Sequence: ø
+        between/eng,${TRANSLATE}between/😀•ø|Pose|Sequence: ø
+        exit/eng,${TRANSLATE}exit/😀•ø|Pose|Sequence: ø
     )
 `)
 

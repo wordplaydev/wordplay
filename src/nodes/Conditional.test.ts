@@ -29,28 +29,28 @@ test.each([
         BinaryOperation, NotAFunction, 3
     ],
     [ `
-        •Cat(name•""•#)
+        •Cat(name•""|#)
         a: Cat(1)
         a.name•# ? a.name + 1 a
         `, `
-        •Cat(name•""•#)
+        •Cat(name•""|#)
         a: Cat(1)
         a.name•"" ? a.name + 1 a
         `, 
         BinaryOperation, NotAFunction, 0 
     ],
     [ `
-        a•#•"": 1
+        a•#|"": 1
         a•# ? a + 1 a
         `, `
-        a•#•"": 1
+        a•#|"": 1
         ~(a•#) ? a + 1 a
         `, BinaryOperation, NotAFunction 
     ],
     [ `
-        a•#•"": 1
+        a•#|"": 1
         a•# ? a + 1 a`, `
-        a•#•"": 1
+        a•#|"": 1
         ~~(a•#) ? a a + 1
         `, BinaryOperation, NotAFunction 
     ]

@@ -18,7 +18,7 @@ const BACKSET = -12;
 
 export const VerseType = toStructure(`
     •Verse/eng,🌎/😀 Group(
-        groups/eng,${TRANSLATE}groups/😀•Group•[Group]
+        groups/eng,${TRANSLATE}groups/😀•Group|[Group]
         font/eng,${TRANSLATE}font/😀•${SupportedFontsType}: "Noto Sans"
         foreground/eng,${TRANSLATE}fore/😀•Color: Color(0 0 0°)
         background/eng,${TRANSLATE}back/😀•Color: Color(100 0 0°)

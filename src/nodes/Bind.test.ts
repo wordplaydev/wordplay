@@ -13,8 +13,8 @@ test("Test bind conflicts", () => {
 
     testConflict('a, b: 1\na', 'a, a: 1\na', Names, DuplicateNames);
     testConflict('a•#: 1\na', 'a•"": 1\na', Bind, IncompatibleBind);
-    testConflict('a•#: 1\na', 'a•"cat"•"dot": "mouse"\na', Bind, IncompatibleBind);
-    testConflict('a•#: 1\na', 'a•1•2: 3\na', Bind, IncompatibleBind);
+    testConflict('a•#: 1\na', 'a•"cat"|"dot": "mouse"\na', Bind, IncompatibleBind);
+    testConflict('a•#: 1\na', 'a•1|2: 3\na', Bind, IncompatibleBind);
     testConflict('a: 1\na+a', 'a: 1\n1+1', Bind, UnusedBind);
     testConflict('↑ a: 1', 'ƒ() (↑ a: 1)', Bind, MisplacedShare);
     testConflict('↑ a/eng: 1', '↑ a: 1', Bind, MissingShareLanguages);
