@@ -20,8 +20,8 @@ start/eng,🟢/😀: Game([] "")
 `⌨️ + 🤔 + 🤫 → ⚽️`/😀
 state/eng,⚽️/😀•Game: start ∆ ⌨️
     ⌨️.key = "Escape" ? start
-    (state.status ≠ "playing") ∧ (⌨️.key = " ") ∧ ⌨️.down ? Game([] words.random())
-    (state.status = "playing") ∧ ⌨️.down ∧ (⌨️.key.length() = 1) ∧ ¬state.guesses.has(⌨️.key) ? 
+    (state.status ≠ "playing") & (⌨️.key = " ") & ⌨️.down ? Game([] words.random())
+    (state.status = "playing") & ⌨️.down & (⌨️.key.length() = 1) & ~state.guesses.has(⌨️.key) ? 
       Game(state.guesses.add(⌨️.key) state.secret)
       state
 
@@ -29,7 +29,7 @@ state/eng,⚽️/😀•Game: start ∆ ⌨️
 `El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.`/spa
 `🤔 + 🤫 → 🔤`/😀
 board/eng,🔤/😀: 💬(
-  state.secret→[""].translate(ƒ(letter•"") ((state.status = "lost") ∨ state.guesses.has(letter)) ? letter ".").join(' ') 
+  state.secret→[""].translate(ƒ(letter•"") ((state.status = "lost") | state.guesses.has(letter)) ? letter ".").join(' ') 
   2m
 )
 

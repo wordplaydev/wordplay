@@ -24,9 +24,9 @@ export const NONE_SYMBOL = "ø";
 export const REACTION_SYMBOL = "∆";
 export const PREVIOUS_SYMBOL = "←";
 export const TEXT_SYMBOL = "''";
-export const AND_SYMBOL = "∧";
-export const OR_SYMBOL = "∨";
-export const NOT_SYMBOL = "¬";
+export const AND_SYMBOL = "&";
+export const OR_SYMBOL = "|";
+export const NOT_SYMBOL = "~";
 export const TRUE_SYMBOL = "⊤";
 export const FALSE_SYMBOL = "⊥";
 export const PROPERTY_SYMBOL = ".";
@@ -76,8 +76,8 @@ const RESERVED_SYMBOLS = [
 ];
 
 const TEXT_SEPARATORS = "'‘’\"“”„«»‹›「」『』";
-const UNARY_OPERATORS = "¬-";
-const BINARY_OPERATORS = '+\\-×·÷%^<≤=≠≥>∧∨~\?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F';
+const UNARY_OPERATORS = "~-";
+const BINARY_OPERATORS = '+\\-×·÷%^<≤=≠≥>&|~\?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F';
 
 export const BinaryOpRegEx = new RegExp(`^[${BINARY_OPERATORS}]`, "u");
 
@@ -163,7 +163,7 @@ const patterns = [
     // - Mathematical operators: U+2200..U+22FF
     // - Supplementary operators: U+2A00–U+2AFF
     // - Arrows: U+2190–U+21FF, U+27F0–U+27FF, U+2900–U+297F
-    // - Basic latin operators: +-×·÷%^<≤=≠≥>∧∨
+    // - Basic latin operators: +-×·÷%^<≤=≠≥>&|
     { pattern: new RegExp(`^[${UNARY_OPERATORS}](?! )`, "u"), types: [ TokenType.UNARY_OP ] },
     { pattern: BinaryOpRegEx, types: [ TokenType.BINARY_OP ] },
     // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.

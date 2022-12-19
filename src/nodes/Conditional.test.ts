@@ -21,10 +21,10 @@ test.each([
     [ 
         `
         a: 1 > 0 ? 1 "hi"
-        ((a•#) ∧ (a > 1)) ? a + 1 a
+        ((a•#) & (a > 1)) ? a + 1 a
         `, `
         a: 1 > 0 ? 1 "hi"
-        ¬((a•#) ∧ (a > 1)) ? a + 1 a
+        ~((a•#) & (a > 1)) ? a + 1 a
         `, 
         BinaryOperation, NotAFunction, 3
     ],
@@ -44,14 +44,14 @@ test.each([
         a•# ? a + 1 a
         `, `
         a•#•"": 1
-        ¬(a•#) ? a + 1 a
+        ~(a•#) ? a + 1 a
         `, BinaryOperation, NotAFunction 
     ],
     [ `
         a•#•"": 1
         a•# ? a + 1 a`, `
         a•#•"": 1
-        ¬¬(a•#) ? a a + 1
+        ~~(a•#) ? a a + 1
         `, BinaryOperation, NotAFunction 
     ]
 ])("%s => no conflict, %s => conflict", (good: string, bad: string, node: Function, conflict: Function, number?: number) => {
