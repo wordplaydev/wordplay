@@ -1,4 +1,4 @@
-import type Cell from "../nodes/Cell";
+import type Expression from "../nodes/Expression";
 import type TableType from "../nodes/TableType";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
@@ -7,9 +7,9 @@ import Conflict from "./Conflict";
 
 export default class UnknownColumn extends Conflict {
     readonly type: TableType;
-    readonly cell: Cell;
+    readonly cell: Expression;
     
-    constructor(type: TableType, cell: Cell) {
+    constructor(type: TableType, cell: Expression) {
         super(false);
         this.type = type;
         this.cell = cell;

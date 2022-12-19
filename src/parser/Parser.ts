@@ -31,11 +31,8 @@ import Conditional from "../nodes/Conditional";
 import StructureDefinition from "../nodes/StructureDefinition";
 import Name from "../nodes/Name";
 import Doc from "../nodes/Doc";
-import Column from "../nodes/Column";
-import Cell from "../nodes/Cell";
 import Row from "../nodes/Row";
 import TableLiteral from "../nodes/TableLiteral";
-import ColumnType from "../nodes/ColumnType";
 import TableType from "../nodes/TableType";
 import Select from "../nodes/Select";
 import Insert from "../nodes/Insert";
@@ -726,44 +723,34 @@ function parsePrevious(stream: Expression, tokens: Tokens): Previous {
     return new Previous(stream, previous, index);
 
 }
-
+/** TABLE :: ⎡ BIND* ⎦ ROWS* */
 function parseTable(tokens: Tokens): TableLiteral {
 
-    // Read the column definitions.
-    const columns = [];
-    while(tokens.nextIs(TokenType.TABLE_OPEN)) {
-        const cell = tokens.read(TokenType.TABLE_OPEN);
-        const bind = nextIsBind(tokens, false) ? parseBind(tokens) : undefined;
-        columns.push(new Column(cell, bind));
-    }
-
-    // Read the table close.
-    const close = tokens.nextIs(TokenType.TABLE_CLOSE) ? tokens.read(TokenType.TABLE_CLOSE) : undefined;
+    const type = parseTableType(tokens);
 
     // Read the rows.
     const rows = [];
     while(tokens.nextIs(TokenType.TABLE_OPEN))
         rows.push(parseRow(tokens));
 
-    return new TableLiteral(columns, rows, close);
+    return new TableLiteral(type, rows);
 
 }
 
-/** ROW :: [| (BIND|EXPRESSION)]+ | */
+/** ROW :: ⎡ (BIND|EXPRESSION)* ⎦ */
 function parseRow(tokens: Tokens): Row {
 
-    const cells = [];
+    const open = tokens.read(TokenType.TABLE_OPEN);
+
+    const cells: (Bind | Expression)[] = [];
     // Read the cells.
-    while(tokens.nextIs(TokenType.TABLE_OPEN)) {
-        const cell = tokens.read(TokenType.TABLE_OPEN);
-        const value = nextIsBind(tokens, true) ? parseBind(tokens) : parseExpression(tokens);
-        cells.push(new Cell(cell, value));
-    }
+    while(tokens.hasNext() && !tokens.nextIs(TokenType.TABLE_CLOSE))
+        cells.push(nextIsBind(tokens, true) ? parseBind(tokens) : parseExpression(tokens));
 
     // Read the closing row marker.
     const close = tokens.nextIs(TokenType.TABLE_CLOSE) ? tokens.read(TokenType.TABLE_CLOSE) : undefined;
     
-    return new Row(cells, close);
+    return new Row(open, cells, close);
 
 }
 
@@ -1051,14 +1038,18 @@ function parseSetOrMapType(tokens: Tokens): SetType | MapType {
 /** TABLE_TYPE :: (| BIND)+ | */
 function parseTableType(tokens: Tokens): TableType {
 
-    const columns = [];
-    while(tokens.nextIs(TokenType.TABLE_OPEN)) {
-        const bar = tokens.read(TokenType.TABLE_OPEN);
+    const open = tokens.read(TokenType.TABLE_OPEN);
+
+    const columns: Bind[] = [];
+    while(tokens.hasNext() && !tokens.nextIs(TokenType.TABLE_CLOSE)) {
         const bind = nextIsBind(tokens, false) ? parseBind(tokens) : undefined;
-        columns.push(new ColumnType(bind, bar))
+        if(bind === undefined)
+            break;
+        else
+            columns.push(bind);
     }
     const close = tokens.nextIs(TokenType.TABLE_CLOSE) ? tokens.read(TokenType.TABLE_CLOSE) : undefined;
-    return new TableType(columns, close);
+    return new TableType(open, columns, close);
 
 }
 

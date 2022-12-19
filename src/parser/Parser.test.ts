@@ -204,21 +204,21 @@ test("Parse expressions", () => {
     expect(nestedSetAccess).toBeInstanceOf(SetOrMapAccess);
     expect((nestedSetAccess as SetOrMapAccess).setOrMap).toBeInstanceOf(SetOrMapAccess);
 
-    const table = parseExpression(toTokens("|a•#|b•#|c•#||\n|1|2|3||\n|4|5|6||"));
+    const table = parseExpression(toTokens("⎡a•# b•# c•#⎦\n⎡1 2 3⎦\n⎡4 5 6⎦"));
     expect(table).toBeInstanceOf(TableLiteral);
-    expect((table as TableLiteral).columns).toHaveLength(3);
+    expect((table as TableLiteral).type.columns).toHaveLength(3);
     expect((table as TableLiteral).rows).toHaveLength(2);
 
-    const select = parseExpression(toTokens("table |? |a|b|| c > 3"));
+    const select = parseExpression(toTokens("table ⎡? ⎡a b⎦ c > 3"));
     expect(select).toBeInstanceOf(Select);
     expect((select as Select).row.cells).toHaveLength(2);
     expect((select as Select).query).toBeInstanceOf(BinaryOperation);
 
-    const insert = parseExpression(toTokens("table|+|1|2|3"));
+    const insert = parseExpression(toTokens("table ⎡+ ⎡1 2 3⎦"));
     expect(insert).toBeInstanceOf(Insert);
     expect((insert as Insert).row.cells).toHaveLength(3);
 
-    const update = parseExpression(toTokens("table|:|a:1 b > 5"));
+    const update = parseExpression(toTokens("table ⎡: ⎡a:1⎦ b > 5"));
     expect(update).toBeInstanceOf(Update);
     expect((update as Update).row.cells).toHaveLength(1);
     expect((update as Update).query).toBeInstanceOf(BinaryOperation);
@@ -354,16 +354,16 @@ test("Blocks and binds", () => {
     expect((bindMap as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindMap as Block).statements[0] as Bind).value).toBeInstanceOf(MapLiteral);
 
-    const table = parseBlock(toTokens("|a•#|b•#\n|1|2"), true);
+    const table = parseBlock(toTokens("⎡a•# b•#⎦\n⎡1 2⎦"), true);
     expect(table).toBeInstanceOf(Block);
     expect((table as Block).statements[0]).toBeInstanceOf(TableLiteral);
 
-    const bindTable = parseBlock(toTokens("table: |a•#|b•#||\n|1|2||"), true);
+    const bindTable = parseBlock(toTokens("table: ⎡a•# b•#⎦\n⎡1 2⎦"), true);
     expect(bindTable).toBeInstanceOf(Block);
     expect((bindTable as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindTable as Block).statements[0] as Bind).value).toBeInstanceOf(TableLiteral);
 
-    const bindTypedTable = parseBlock(toTokens("table•|a•#|b•#||: |a•#|b•#||"), true);
+    const bindTypedTable = parseBlock(toTokens("table•⎡a•# b•#⎦: ⎡a•# b•#⎦"), true);
     expect(bindTypedTable).toBeInstanceOf(Block);
     expect((bindTypedTable as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindTypedTable as Block).statements[0] as Bind).type).toBeInstanceOf(TableType);
@@ -404,7 +404,7 @@ test("Types", () => {
     expect(map).toBeInstanceOf(MapType);
     expect((map as MapType).value).toBeInstanceOf(MeasurementType);
 
-    const table = parseType(toTokens("|#|''|Cat"));
+    const table = parseType(toTokens("⎡# '' Cat⎦"));
     expect(table).toBeInstanceOf(TableType);
 
     // Parse function types

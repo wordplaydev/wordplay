@@ -86,7 +86,7 @@ export default class Delete extends Expression {
         node;
         const type = this.table.getType(context);
         if(type instanceof TableType)
-            return type.columns.filter(col => col.bind instanceof Bind).map(col => col.bind) as Bind[];
+            return type.columns.filter(col => col instanceof Bind).map(col => col) as Bind[];
         else
             return [];
 

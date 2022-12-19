@@ -8,4 +8,4 @@
 
 </script>
 
-<NodeSequenceView nodes={node.cells}/><NodeView node={node.close}/>
+<NodeView node={node.open}/><NodeSequenceView nodes={node.cells}/><NodeView node={node.close}/>

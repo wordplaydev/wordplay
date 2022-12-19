@@ -1,13 +1,13 @@
-import type Cell from "../nodes/Cell";
+import type Expression from "../nodes/Expression";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 
 export default class ExpectedSelectName extends Conflict {
-    readonly cell: Cell;
+    readonly cell: Expression;
     
-    constructor(cell: Cell) {
+    constructor(cell: Expression) {
         super(false);
     
         this.cell = cell;

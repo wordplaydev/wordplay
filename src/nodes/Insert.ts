@@ -18,14 +18,13 @@ import type Definition from "./Definition";
 import type TypeSet from "./TypeSet";
 import { analyzeRow } from "./util";
 import Halt from "../runtime/Halt";
-import type Cell from "./Cell";
-import TypeException from "../runtime/TypeException";
-import UnparsableException from "../runtime/UnparsableException";
 import Exception from "../runtime/Exception";
 import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import TypeException from "../runtime/TypeException";
+import UnparsableException from "../runtime/UnparsableException";
 
 export default class Insert extends Expression {
     
@@ -89,21 +88,21 @@ export default class Insert extends Expression {
         node;
         const type = this.table.getType(context);
         if(type instanceof TableType)
-            return type.columns.filter(col => col.bind instanceof Bind).map(col => col.bind) as Bind[];
+            return type.columns.filter(col => col instanceof Bind).map(col => col) as Bind[];
         else
             return [];
 
     }
 
     getDependencies(): Expression[] {
-        return [ this.table, ...this.row.cells.map(cell => cell.value) ];
+        return [ this.table, ...this.row.cells.map(cell => cell) ];
     }
 
     compile(context: Context):Step[] {
 
         const tableType = this.table.getType(context);
 
-        if(!(tableType instanceof TableType)) return [ new Halt(evaluator => new TypeException(evaluator, new TableType([]), undefined), this) ];
+        if(!(tableType instanceof TableType)) return [ new Halt(evaluator => new TypeException(evaluator, TableType.make([]), undefined), this) ];
 
         return [ 
             new Start(this),
@@ -111,12 +110,12 @@ export default class Insert extends Expression {
             ...(
                 this.row.allExpressions() ? 
                     // It's all expresssions, compile all of them in order.
-                    this.row.cells.reduce((steps: Step[], cell) => [ ...steps, ...cell.value.compile(context) ], []) :
+                    this.row.cells.reduce((steps: Step[], cell) => [ ...steps, ...cell.compile(context) ], []) :
                     // Otherwise, loop through the required columns, finding the corresponding bind, and compiling it's expression, or the default if not found.
                     tableType.columns.reduce((steps: Step[], column) => {
-                        const matchingCell: Cell | undefined = this.row.cells.find(cell => column.bind instanceof Bind && cell.value instanceof Bind && column.bind.sharesName(cell.value)) as Cell | undefined;
-                        if(matchingCell === undefined || !(matchingCell.value instanceof Bind) || matchingCell.value.value === undefined) return [ ... steps, new Halt(evaluator => new UnparsableException(evaluator, this), this) ];
-                        return [ ... steps, ...matchingCell.value.value.compile(context) ];
+                        const matchingCell: Expression | undefined = this.row.cells.find(cell => column instanceof Bind && cell instanceof Bind && column.sharesName(cell)) as Expression | undefined;
+                        if(matchingCell === undefined || !(matchingCell instanceof Bind) || matchingCell.value === undefined) return [ ... steps, new Halt(evaluator => new UnparsableException(evaluator, this), this) ];
+                        return [ ... steps, ...matchingCell.value.compile(context) ];
                     }, [])
             ),
             new Finish(this)
@@ -135,7 +134,7 @@ export default class Insert extends Expression {
             else values.unshift(value);
         }
 
-        const table = evaluator.popValue(new TableType([]));
+        const table = evaluator.popValue(TableType.make([]));
         if(!(table instanceof Table)) return table;
 
         // Return a new table with the values.

@@ -4,8 +4,8 @@ import TokenList from "./TokenList";
 
 export const TYPE_SYMBOL = "•";
 export const BOOLEAN_TYPE_SYMBOL = "?";
-export const TABLE_OPEN_SYMBOL = "|";
-export const TABLE_CLOSE_SYMBOL = "||";
+export const TABLE_OPEN_SYMBOL = "⎡";
+export const TABLE_CLOSE_SYMBOL = "⎦";
 export const CONVERT_SYMBOL = "→";
 export const FUNCTION_SYMBOL = "ƒ";
 export const EVAL_OPEN_SYMBOL = "(";
@@ -52,6 +52,7 @@ const RESERVED_SYMBOLS = [
     TYPE_OPEN_SYMBOL,
     TYPE_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
+    TABLE_CLOSE_SYMBOL,
     BIND_SYMBOL,
     PROPERTY_SYMBOL,
     BASE_SYMBOL,
@@ -89,12 +90,12 @@ const patterns = [
     { pattern: SET_CLOSE_SYMBOL, types: [ TokenType.SET_CLOSE ] },
     { pattern: NAME_SEPARATOR_SYMBOL, types: [ TokenType.NAME_SEPARATOR ] },
     { pattern: LANGUAGE_SYMBOL, types: [ TokenType.LANGUAGE ] },
-    { pattern: "|?", types: [ TokenType.SELECT] },
-    { pattern: "|+", types: [ TokenType.INSERT] },
-    { pattern: "|-", types: [ TokenType.DELETE] },  
-    { pattern: "|:", types: [ TokenType.UPDATE] },
-    { pattern: TABLE_CLOSE_SYMBOL, types: [ TokenType.TABLE_CLOSE ] },
+    { pattern: `${TABLE_OPEN_SYMBOL}?`, types: [ TokenType.SELECT] },
+    { pattern: `${TABLE_OPEN_SYMBOL}+`, types: [ TokenType.INSERT] },
+    { pattern: `${TABLE_OPEN_SYMBOL}-`, types: [ TokenType.DELETE] },  
+    { pattern: `${TABLE_OPEN_SYMBOL}:`, types: [ TokenType.UPDATE] },
     { pattern: TABLE_OPEN_SYMBOL, types: [ TokenType.TABLE_OPEN ] },
+    { pattern: TABLE_CLOSE_SYMBOL, types: [ TokenType.TABLE_CLOSE ] },
     { pattern: BIND_SYMBOL, types: [ TokenType.BIND ] },
     { pattern: FUNCTION_SYMBOL, types: [ TokenType.FUNCTION ] },
     { pattern: BORROW_SYMBOL, types: [ TokenType.BORROW ] },
@@ -181,7 +182,8 @@ const TEXT_DELIMITERS: Record<string,string> = {
     '‹': '›',
     '«': '»',
     '「': '」',
-    '『': '』'
+    '『': '』',
+    '⎡': '⎦'
 }
 
 export const DELIMITERS: Record<string,string> = {};

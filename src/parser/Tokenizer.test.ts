@@ -31,8 +31,8 @@ test("Tokenize punctuation", () => {
 
     expect(tokens("()[]{}:.,ƒf↑↓``!•∆…").map(t => t.toWordplay()).join(" "))
         .toBe("( ) [ ] { } : . , ƒ f ↑ ↓ `` ! • ∆ … ");
-    expect(tokens("⊥⊤?¿+-×*·÷/^√%boomy=≠<>≤≥|?|+|-|:|||∧∨¬").map(t => t.toWordplay()).join(" "))
-        .toBe("⊥ ⊤ ? ¿ + - × * · ÷ / ^ √ % boomy = ≠ < > ≤ ≥ |? |+ |- |: || | ∧ ∨ ¬ ");
+    expect(tokens("⊥⊤?¿+-×*·÷/^√%boomy=≠<>≤≥⎡?⎡+⎡-⎡:⎦⎡∧∨¬").map(t => t.toWordplay()).join(" "))
+        .toBe("⊥ ⊤ ? ¿ + - × * · ÷ / ^ √ % boomy = ≠ < > ≤ ≥ ⎡? ⎡+ ⎡- ⎡: ⎦ ⎡ ∧ ∨ ¬ ");
 
 })
 

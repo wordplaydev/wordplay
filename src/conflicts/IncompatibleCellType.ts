@@ -1,5 +1,5 @@
-import type Cell from "../nodes/Cell";
 import type Context from "../nodes/Context";
+import type Expression from "../nodes/Expression";
 import type TableType from "../nodes/TableType";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
@@ -9,11 +9,11 @@ import Conflict from "./Conflict";
 export default class IncompatibleCellType extends Conflict {
 
     readonly type: TableType;
-    readonly cell: Cell;
+    readonly cell: Expression;
     readonly expected: Type;
     readonly received: Type;
 
-    constructor(type: TableType, cell: Cell, expected: Type, received: Type) {
+    constructor(type: TableType, cell: Expression, expected: Type, received: Type) {
         super(false);
 
         this.type = type;

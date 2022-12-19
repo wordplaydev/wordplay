@@ -79,19 +79,19 @@ export default class Update extends Expression {
 
         this.row.cells.forEach(cell => {
             // The columns in an update must be binds with expressions.
-            if(!(cell.value instanceof Bind && cell.value.value !== undefined && cell.value.names.names.length === 1))
+            if(!(cell instanceof Bind && cell.value !== undefined && cell.names.names.length === 1))
                 conflicts.push(new ExpectedUpdateBind(cell))
             else if(tableType instanceof TableType) {
-                const alias = cell.value instanceof Bind && cell.value.names.names.length > 0 ? cell.value.names.names[0] : undefined;
+                const alias = cell instanceof Bind && cell.names.names.length > 0 ? cell.names.names[0] : undefined;
                 const name = alias === undefined ? undefined : alias.getName();
                 const columnType = name === undefined ? undefined : tableType.getColumnNamed(name);
                 // The named table column must exist.
                 if(columnType === undefined)
                     conflicts.push(new UnknownColumn(tableType, cell));
                 // The types of the bound values must match the column types.
-                else if(columnType.bind instanceof Bind) {
-                    const bindType = columnType.bind.getType(context);
-                    const cellType = cell.value.getType(context);
+                else if(columnType instanceof Bind) {
+                    const bindType = columnType.getType(context);
+                    const cellType = cell.getType(context);
                     if(!bindType.accepts(cellType, context))
                         conflicts.push(new IncompatibleCellType(tableType, cell, bindType, cellType));
                 }
@@ -117,14 +117,14 @@ export default class Update extends Expression {
         node;
         const type = this.table.getType(context);
         if(type instanceof TableType)
-            return type.columns.filter(col => col.bind instanceof Bind).map(col => col.bind) as Bind[];
+            return type.columns.filter(col => col instanceof Bind).map(col => col) as Bind[];
         else
             return [];
 
     }
 
     getDependencies(): Expression[] {
-        return [ this.table, ...this.row.cells.map(cell => cell.value), this.query ];
+        return [ this.table, ...this.row.cells.map(cell => cell), this.query ];
     }
 
     compile(context: Context): Step[] {

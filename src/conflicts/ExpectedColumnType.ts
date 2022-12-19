@@ -1,18 +1,18 @@
-import type Column from "../nodes/Column";
+import type Bind from "../nodes/Bind";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 import Conflict from "./Conflict";
 
 export default class ExpectedColumnType extends Conflict {
-    readonly column: Column;
+    readonly column: Bind;
 
-    constructor(column: Column) {
+    constructor(column: Bind) {
         super(false);
         this.column = column;
     }
 
     getConflictingNodes() {
-        return { primary: [ this.column.bind ?? this.column ] };
+        return { primary: [ this.column ] };
     }
 
     getExplanations(): Translations { 

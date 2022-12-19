@@ -9,6 +9,6 @@
 
 </script>
 
-{#each value.literal.columns as col}
-    <SymbolView symbol={col.bind ? col.bind.names.getTranslation($languages) : ""} type={TokenType.NAME}/><SymbolView symbol={TABLE_OPEN_SYMBOL} type={TokenType.TABLE_OPEN}/>
+{#each value.literal.type.columns as col}
+    <SymbolView symbol={col ? col.names.getTranslation($languages) : ""} type={TokenType.NAME}/><SymbolView symbol={TABLE_OPEN_SYMBOL} type={TokenType.TABLE_OPEN}/>
 {/each}

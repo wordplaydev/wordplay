@@ -109,13 +109,13 @@ export function analyzeRow(tableType: TableType, row: Row, context: Context): Co
         // Ensure every bind is a valid column.
         const matchedColumns = [];
         for(const cell of row.cells) {
-            if(cell.value instanceof Bind) {
-                const column = tableType.getColumnNamed(cell.value.getNames()[0]);
+            if(cell instanceof Bind) {
+                const column = tableType.getColumnNamed(cell.getNames()[0]);
                 if(column === undefined)
                     conflicts.push(new UnknownColumn(tableType, cell));
                 else {
                     matchedColumns.push(column);
-                    const expected = column.getValueType(context);
+                    const expected = column.getType(context);
                     const given = cell.getType(context);
                     if(!expected.accepts(given, context))
                         conflicts.push(new IncompatibleCellType(tableType, cell, expected, given));
@@ -135,7 +135,7 @@ export function analyzeRow(tableType: TableType, row: Row, context: Context): Co
             if(cell === undefined)
                 conflicts.push(new MissingCell(row, tableType, column));
             else {
-                const expected = column.getValueType(context);
+                const expected = column.getType(context);
                 const given = cell.getType(context);
                 if(!expected.accepts(given, context))
                     conflicts.push(new IncompatibleCellType(tableType, cell, expected, given));

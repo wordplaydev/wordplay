@@ -1,4 +1,4 @@
-import type ColumnType from "../nodes/ColumnType";
+import type Bind from "../nodes/Bind";
 import type Row from "../nodes/Row";
 import type TableType from "../nodes/TableType";
 import type Translations from "../nodes/Translations";
@@ -10,9 +10,9 @@ export default class MissingCell extends Conflict {
     
     readonly row: Row;
     readonly type: TableType;
-    readonly column: ColumnType;
+    readonly column: Bind;
 
-    constructor(row: Row, type: TableType, column: ColumnType) {
+    constructor(row: Row, type: TableType, column: Bind) {
         super(false);
 
         this.row = row;

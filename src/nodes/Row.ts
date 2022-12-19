@@ -1,23 +1,23 @@
 import Node from "./Node";
-import Cell from "./Cell";
 import Token from "./Token";
 import Bind from "./Bind";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import { TABLE_CLOSE_SYMBOL } from "../parser/Tokenizer";
-import TokenType from "./TokenType";
+import Expression from "./Expression";
 
 export default class Row extends Node {
 
-    readonly cells: Cell[];
-    readonly close: Token;
+    readonly open: Token;
+    readonly cells: (Bind|Expression)[];
+    readonly close: Token | undefined;
 
-    constructor(cells: Cell[], close?: Token) {
+    constructor(open: Token, cells: (Bind|Expression)[], close: Token | undefined) {
 
         super();
 
+        this.open = open;
         this.cells = cells;
-        this.close = close ?? new Token(TABLE_CLOSE_SYMBOL, [ TokenType.TABLE_CLOSE ]);
+        this.close = close;
         
         this.computeChildren();
 
@@ -25,23 +25,25 @@ export default class Row extends Node {
 
     getGrammar() { 
         return [
-            { name: "cells", types:[[ Cell ]] },
-            { name: "close", types:[ Token ] },
+            { name: "open", types: [ Token ] },
+            { name: "cells", types: [ [ Bind, Expression ] ] },
+            { name: "close", types: [ Token, undefined ] },
         ]; 
     }
 
-    allBinds() { return this.cells.every(cell => cell.value instanceof Bind ); }
-    allExpressions() { return this.cells.every(cell => !(cell.value instanceof Bind)); }
+    allBinds() { return this.cells.every(cell => cell instanceof Bind ); }
+    allExpressions() { return this.cells.every(cell => !(cell instanceof Bind)); }
 
     computeConflicts() {}
 
     /**
      * Is a binding enclosure of its columns and rows, because it defines columns.
      * */ 
-    isBindingEnclosureOfChild(child: Node): boolean { return this.cells.includes(child as Cell); }
+    isBindingEnclosureOfChild(child: Node): boolean { return this.cells.includes(child as (Expression | Bind)); }
 
     replace(original?: Node, replacement?: Node) { 
         return new Row(
+            this.replaceChild("open", this.open, original, replacement),
             this.replaceChild("cells", this.cells, original, replacement),
             this.replaceChild("close", this.close, original, replacement)
         ) as this; 

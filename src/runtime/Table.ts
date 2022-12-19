@@ -24,7 +24,7 @@ export default class Table extends Value {
         
     }
 
-    getType() { return new TableType([]); }
+    getType() { return TableType.make([]); }
     
     getNativeTypeName(): NativeTypeName { return "table"; }
 
@@ -36,7 +36,7 @@ export default class Table extends Value {
     }
 
     toWordplay(languages: LanguageCode[]): string { 
-        return `${this.literal.columns.map(c => c.bind ? c.bind.names.getTranslation(languages) : "").join(TABLE_OPEN_SYMBOL)}${TABLE_CLOSE_SYMBOL}`; 
+        return `${this.literal.type.columns.map(c => c ? c.names.getTranslation(languages) : "").join(TABLE_OPEN_SYMBOL)}${TABLE_CLOSE_SYMBOL}`; 
     }
 
 }
