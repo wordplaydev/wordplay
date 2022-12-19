@@ -28,7 +28,8 @@ export default class List extends Primitive {
     getValues() { return this.values; }
 
     get(index: Measurement) {
-        const value = this.values[index.toNumber() - 1];
+        const num = index.toNumber();
+        const value = num === 0 ? undefined : this.values.at(num > 0 ? num - 1 : num);
         return value === undefined ? new None(OutOfBoundsNames) : value;
     }
 

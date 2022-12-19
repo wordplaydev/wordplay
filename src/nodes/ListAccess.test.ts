@@ -15,5 +15,9 @@ test("Test list access conflicts", () => {
 test("Test list access evaluation", () => {
 
     expect(Evaluator.evaluateCode("[1 2 3][2]")?.toString()).toBe('2');
+    expect(Evaluator.evaluateCode("[1 2 3][0]")?.toString()).toBe('ø');    
+    expect(Evaluator.evaluateCode("[1 2 3][-1]")?.toString()).toBe('3');
+    expect(Evaluator.evaluateCode("[1 2 3][-3]")?.toString()).toBe('1');
+    expect(Evaluator.evaluateCode("[1 2 3][-4]")?.toString()).toBe('ø');
 
 });
