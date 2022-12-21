@@ -36,7 +36,6 @@
 <style>
     section {
         padding: var(--wordplay-spacing);
-        box-sizing: border-box;
         z-index: 2;
         background-color: var(--wordplay-executing-color);
         color: var(--wordplay-background);

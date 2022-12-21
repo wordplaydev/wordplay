@@ -32,7 +32,6 @@
         display: flex;
         flex-direction: column;
         align-items: stretch;
-        box-sizing: border-box;
         gap: var(--wordplay-spacing);
     }
 </style>

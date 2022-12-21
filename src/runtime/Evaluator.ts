@@ -453,10 +453,6 @@ export default class Evaluator {
      */
     stepBack(offset: number = -1) {
 
-        // Do nothing if at the beginning of time.
-        if(this.#stepIndex === 0) 
-            return;
-
         // Set our target step
         const destinationStep = this.#stepIndex + offset;
         
@@ -477,6 +473,9 @@ export default class Evaluator {
 
             this.step();
         }
+
+        // Notify listeners that we made it.
+        this.broadcast();
 
         return true;
 

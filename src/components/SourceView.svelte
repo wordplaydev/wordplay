@@ -130,17 +130,14 @@
         width: 100%;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
-        box-sizing: content-box;
         overflow: scroll;
         scroll-behavior: smooth;
-        box-sizing: border-box;
         box-shadow: inset calc(-1 * var(--wordplay-border-width)) 0 var(--wordplay-border-width) rgb(0 0 0 / 20%);
     }
 
     .footer {
         flex-basis: content;
         width: 100%;
-        box-sizing: border-box;
     }
 
     .output {

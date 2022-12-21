@@ -1,19 +1,70 @@
 <script lang="ts">
     import { afterUpdate } from "svelte";
     import { streams } from "../models/stores";
-    import Bool from "../runtime/Bool";
     import type Evaluator from "../runtime/Evaluator";
-    import Text from "../runtime/Text";
+    import { currentStepIndex } from "../models/stores";
     import Keyboard from "../streams/Keyboard";
+    import Bool from "../runtime/Bool";
     import MouseButton from "../streams/MouseButton";
+    import Text from "../runtime/Text";
 
     export let evaluator: Evaluator;
 
     let timeline: HTMLElement;
 
-    afterUpdate(() => timeline ? timeline.scrollLeft = timeline.scrollWidth : undefined);
+    // Find the latest stream change before the current step index.
+    $: currentChange = $streams.findLast(change => change.stepIndex <= $currentStepIndex) ?? $streams[0];
+
+    // After each update, ensure the current change is in view
+    afterUpdate(() => {
+        
+        if(currentChange === undefined) return;
+        
+        const el = document.querySelector(`.stream-value[data-index="${currentChange.stepIndex}"]`)
+        if(el)
+            el.scrollIntoView();
+
+    });
+
+    function stepToMouse(event: MouseEvent) {
+
+        // Map the mouse position onto a change.
+        const el = document.elementFromPoint(event.clientX, event.clientY)?.closest(".stream-value");
+        if(el instanceof HTMLElement && el.dataset.index !== undefined) {
+            const index = parseInt(el.dataset.index);
+            const change = $streams.find(change => change.stepIndex === index);
+            if(change)
+                stepTo(change.stepIndex);
+        }
+
+        // If we're on the edge, autoscroll.
+        if(timeline) {
+            const rect = timeline.getBoundingClientRect();
+            const offset = event.clientX - rect.left;
+            const width = rect.width;
+            if(offset < 50)
+                timeline.scrollLeft = timeline.scrollLeft - 10;
+            else if(offset > width - 50)
+                timeline.scrollLeft = timeline.scrollLeft + 10;
+
+        }
+
+    }
+
+    /** Step before or after the current change. */
+    function leap(direction: -1 | 1) {
+
+        if(currentChange === undefined && direction < 0) 
+            return;
+
+        const change = $streams.find((_, index) => ((index - direction >= 0) && (index - direction) < $streams.length) && $streams[index - direction] === currentChange)
+        if(change)
+            stepTo(change.stepIndex);
+
+    }
 
     function stepTo(stepIndex: number) {
+
         evaluator.pause();
         evaluator.stepTo(stepIndex);
     }
@@ -23,50 +74,66 @@
 </script>
 
 {#if nonEmptyStreams.length > 0}
-    <div class="timeline" bind:this={timeline}>
+    <div 
+        class="timeline" 
+        tabIndex="0"
+        on:keydown={event => event.key === "ArrowLeft" ? leap(-1) : event.key === "ArrowRight" ? leap(1) : undefined }
+        on:mousedown={event => stepToMouse(event) }
+        on:mousemove={event => (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
+        bind:this={timeline}>
         {#each $streams as change }
-            {#if change.stream}
-                <span 
-                    class={`stream-value`}
-                    tabIndex="0" 
-                    on:click={() => stepTo(change.stepIndex)}
-                    on:keydown={event => event.key === "Enter" || event.key === " " ? stepTo(change.stepIndex) : undefined }
-                >
-                    {change.stream.names.getTranslation("😀")}
+            {@const down = change.stream instanceof Keyboard ? change.value?.resolve("down") : change.stream instanceof MouseButton ? change.value : undefined }
+            <span 
+                class={`stream-value ${currentChange === change ? "current" : ""} ${down instanceof Bool && down.bool ? "down" : "" }`}
+                data-index={change.stepIndex}
+            >
+                {#if change.stream === undefined}
+                    →
+                {:else}
                     {#if change.stream instanceof Keyboard && change.value}
                         {@const key = change.value.resolve("key")}
-                        {@const down = change.value.resolve("down")}
-                        {key instanceof Text ? key.text : null}{down instanceof Bool ? (down.bool ? "↓" : "↑") : null}
+                        {#if key instanceof Text}{key.text}{/if}
+                    {:else}
+                        {change.stream.names.getTranslation("😀")}
                     {/if}
-                    {#if change.stream instanceof MouseButton && change.value}
-                        {change.value instanceof Bool ? (change.value.bool ? "↓" : "↑") : null}
-                    {/if}
-                </span>
-            {/if}
+                {/if}
+            </span>
         {/each}
     </div>
 {/if}
 
 <style>
     .timeline {
-        overflow-x: scroll;
+        overflow-x: hidden;
         width: 100%;
         white-space: nowrap;
         padding: var(--wordplay-spacing);
         background-color: var(--wordplay-executing-color);
         color: var(--wordplay-background);
+        user-select: none;
+    }
+
+    .timeline:focus {
+        outline: var(--wordplay-highlight) solid var(--wordplay-border-width);
     }
 
     .stream-value {
         display: inline-block;
-        font-size: 60%;
         transition: font-size .25s;
-        margin-right: var(--wordplay-spacing);
+        opacity: 0.6;
+    }
+
+    .stream-value.current {
+        opacity: 1.0;
+    }
+
+    .stream-value.down {
+        transform-origin: bottom;
+        transform: scaleY(0.5);
     }
 
     .stream-value:hover {
         cursor: pointer;
-        font-size: 100%;
     }
 
 </style>

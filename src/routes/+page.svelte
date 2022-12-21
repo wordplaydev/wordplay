@@ -20,4 +20,12 @@
         font-weight: var(--wordplay-font-weight);
         color: var(--wordplay-foreground);
     }
+
+    :global(html) {
+        box-sizing: border-box;
+    }
+
+    :global(*) {
+         box-sizing: inherit;
+    }
 </style>

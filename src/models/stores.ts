@@ -11,6 +11,9 @@ export const project: Writable<Project> = writable<Project>();
 // A global store that contains the current step of the evaluator.
 export const currentStep: Writable<Step | undefined> = writable<Step | undefined>(undefined);
 
+// A global store that contains the current step of the evaluator.
+export const currentStepIndex: Writable<number> = writable<number>(0);
+
 // A global store that contains the play/pause mode of the evaluator.
 export const playing: Writable<boolean> = writable<boolean>(true);
 
@@ -24,6 +27,7 @@ function updateEvaluatorStores() {
     const evaluator = get(project)?.evaluator;
     if(evaluator) {
         currentStep.set(evaluator.getCurrentStep());
+        currentStepIndex.set(evaluator.getStepIndex());
         playing.set(evaluator.isPlaying())
         streams.set(evaluator.changedStreams);
         animations.set(Array.from(evaluator.animations.animations.values()));
