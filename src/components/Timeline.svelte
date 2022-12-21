@@ -21,8 +21,13 @@
         if(currentChange === undefined) return;
         
         const el = document.querySelector(`.stream-value[data-index="${currentChange.stepIndex}"]`)
-        if(el)
-            el.scrollIntoView();
+        // Move the timeline's scroll left such that the element is in the center.
+        if(el && timeline) {
+            const timelineRect = timeline.getBoundingClientRect();
+            const changeRect = el.getBoundingClientRect();
+            const position = changeRect.left - timelineRect.left;
+            timeline.scrollLeft = position - timelineRect.width / 2;
+        }
 
     });
 
