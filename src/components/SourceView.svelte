@@ -15,6 +15,7 @@
     import Timeline from './Timeline.svelte';
     import ConflictsView from '../editor/ConflictsView.svelte';
     import type Conflict from '../conflicts/Conflict';
+    import type Value from '../runtime/Value';
 
     export let project: Project;
     export let source: Source;
@@ -22,9 +23,14 @@
 
     let verse: Verse | undefined;
     let stepping: boolean = false;
-    $: latest = $currentStep === undefined ? project.evaluator.getLatestSourceValue(source) : undefined;
-    $: verse = latest === undefined ? undefined : $languages ? toVerse(latest) : undefined;
-    $: stepping = (project.evaluator.getCurrentEvaluation()?.getSource() === source || (project.evaluator.isDone() && source === project.main));    
+    let latest: Value | undefined;
+    $: { 
+        $currentStep;
+        $languages;
+        latest = project.evaluator.getLatestSourceValue(source);
+        verse = latest === undefined ? undefined : toVerse(latest);
+        stepping = (project.evaluator.getCurrentEvaluation()?.getSource() === source || (project.evaluator.isDone() && source === project.main));
+    }
     let conflicts: Conflict[] = [];
 
 </script>
@@ -57,7 +63,7 @@
                     <div class="full exception"><div class='message'>{selectTranslation(latest.getExplanations(), $languages)}</div></div>
                 <!-- If there's no verse -->
                 {:else if latest === undefined}
-                    <!-- If it's because the keyboard isn't idle , show the typing feedback.-->
+                    <!-- If it's because the keyboard isn't idle, show the typing feedback.-->
                     {#if $playing && !$KeyboardIdle}
                         <div class="full editing"><div class='message'>⌨️</div></div>
                     {:else}

@@ -112,9 +112,9 @@
         outline: none;
     }
 
-    .inert {
-        background-color: var(--wordplay-disabled-color);
-    }
+    /* .inert {
+        
+    } */
 
     .ignored {
         animation: shake 0.25s 1;
