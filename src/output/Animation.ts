@@ -549,9 +549,14 @@ export class Animations {
     
         }
     
-        // Animate another frame if there are any remaining active sequences.
-        if(this.getCount() > 0)
-            window.requestAnimationFrame(time => this.animate(time));
+        // Animate another frame if there are any remaining active sequences and we're still playing.
+        if(this.getCount() > 0) {
+            if(this.project.evaluator.isPlaying())
+                window.requestAnimationFrame(time => this.animate(time));
+            // If we're not playing, clean up exiting phrases so there's nothing left around.
+            else
+                this.exiting.clear();
+        }
         
         // Notify the evaluator's listeners that we're done animating.
         this.project.evaluator.broadcast();
