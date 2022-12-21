@@ -5,7 +5,7 @@ import Token from "./Token";
 import type Node from "./Node";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import { TYPE_SYMBOL } from "../parser/Tokenizer";
+import { OR_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
 import type Transform from "../transforms/Transform"
 import Replace from "../transforms/Replace";
@@ -122,7 +122,7 @@ export default class UnionType extends Type {
     getDescriptions(context: Context): Translations {
         return {
             "😀": TRANSLATE,
-            eng: `${this.left.getDescriptions(context).eng}${TYPE_SYMBOL}${this.right.getDescriptions(context).eng}`
+            eng: `${this.left.getDescriptions(context).eng}${OR_SYMBOL}${this.right.getDescriptions(context).eng}`
         }
     }
 
