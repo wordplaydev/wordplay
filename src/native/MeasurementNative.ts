@@ -280,7 +280,7 @@ export default function bootstrapMeasurement() {
                 (requestor, left) => left.sin(requestor)
             ),
             
-            createNativeConversion(WRITE_DOCS, '#', "''", (requestor: Node, val: Measurement) => new Text(requestor, val.toString())),
+            createNativeConversion(WRITE_DOCS, '#?', "''", (requestor: Node, val: Measurement) => new Text(requestor, val.toString())),
             createNativeConversion(WRITE_DOCS, '#', "[]", (requestor: Node, val: Measurement) => {
                 const list = [];
                 const max = val.toNumber();

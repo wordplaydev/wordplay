@@ -140,6 +140,10 @@ test("Test conversions", () => {
     expect(Evaluator.evaluateCode("1→''")?.toString()).toBe('"1"');
     // Text to numbers assume arabic by default
     expect(Evaluator.evaluateCode("'1'→#")?.toString()).toBe('1');
+    // Numbers with units should work too
+    expect(Evaluator.evaluateCode("1m→''")?.toString()).toBe('"1m"');
+    // Union types should work
+    // expect(Evaluator.evaluateCode("(1 < 2 ? 0 [0]) → ''")?.toString()).toBe('0');
     // Non-numbers should be !nan
     expect(Evaluator.evaluateCode("'1.1.1'→#")?.toString()).toBe('NaN');
 

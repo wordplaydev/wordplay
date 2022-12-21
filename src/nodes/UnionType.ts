@@ -78,6 +78,7 @@ export default class UnionType extends Type {
         return this.left.accepts(type, context) || (!(this.right instanceof Type) || this.right.accepts(type, context));
     }
 
+    /** Override the native conversion search to check both types */
     getConversion(context: Context, input: Type, output: Type): ConversionDefinition | undefined {
         const left = context.native.getConversion(this.left.getNativeTypeName(), context, input, output);
         if(left !== undefined) return left;
