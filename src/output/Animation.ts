@@ -555,7 +555,7 @@ export class Animations {
                 window.requestAnimationFrame(time => this.animate(time));
             // If we're not playing, clean up exiting phrases so there's nothing left around.
             else
-                this.exiting.clear();
+                this.clear();
         }
         
         // Notify the evaluator's listeners that we're done animating.
@@ -564,7 +564,7 @@ export class Animations {
     }
 
     renderPhrase(name: PhraseName, animation: Animation, places: Map<Group, Place>) {
-
+        
         if(this.verse === undefined) return;
 
         // Find the current Phrase corresponding to this name.
@@ -609,6 +609,16 @@ export class Animations {
 
         }
 
+    }
+
+    /** Clear all state (usually in preparation to show a different Evaluator state) */
+    clear() {
+        this.priorPlaces.clear();
+        this.animations.clear();
+        this.present.length = 0;
+        this.visible.length = 0;
+        this.exiting.clear();
+        this.previouslyPresent.clear();    
     }
 
 }
