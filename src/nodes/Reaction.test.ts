@@ -14,6 +14,8 @@ test.each([
     [ `↓ time\ntime.add(500ms)`, "time", Time.make(NoneType.None, 1), "500ms", "501ms" ],
     // Check reaction binding.
     [ `↓ time\na: 1 … time % 2\na`, "time", Time.make(NoneType.None, 1), "1", "1ms" ],
+    // Check reaction change checks.
+    [ `↓ time\na: 1 … ∆ time ? 'yes' 'no'\na`, "time", Time.make(NoneType.None, 1), "1", '"yes"' ],
     // Check reactions in evaluations.
     [ `
         ↓ time

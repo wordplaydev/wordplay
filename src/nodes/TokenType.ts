@@ -35,6 +35,7 @@ enum TokenType {
     DELETE,
     UNION,
     REACTION,
+    CHANGE,
     STREAM_TYPE,
     PREVIOUS,
     PLACEHOLDER,

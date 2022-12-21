@@ -1,19 +1,15 @@
 import type Conflict from "../conflicts/Conflict";
 import Expression from "./Expression";
-import MeasurementType from "./MeasurementType";
 import Token from "./Token";
 import type Type from "./Type";
 import type Node from "./Node";
-import UnknownType from "./UnknownType";
 import type Evaluator from "../runtime/Evaluator";
 import type Value from "../runtime/Value";
-import Measurement from "../runtime/Measurement";
 import type Step from "../runtime/Step";
 import Finish from "../runtime/Finish";
 import type Context from "./Context";
 import { NotAStream } from "../conflicts/NotAStream";
 import StreamType from "./StreamType";
-import { NotAStreamIndex } from "../conflicts/NotAStreamIndex";
 import Stream from "../runtime/Stream";
 import KeepStream from "../runtime/KeepStream";
 import type Bind from "./Bind";
@@ -22,8 +18,8 @@ import TypeException from "../runtime/TypeException";
 import AnyType from "./AnyType";
 import Reference from "./Reference";
 import TokenType from "./TokenType";
-import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import { PREVIOUS_SYMBOL } from "../parser/Tokenizer";
+import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
+import { CHANGE_SYMBOL } from "../parser/Tokenizer";
 import type Transform from "../transforms/Transform";
 import Replace from "../transforms/Replace";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
@@ -32,42 +28,39 @@ import { TRANSLATE } from "./Translations"
 import Start from "../runtime/Start";
 import UnionType from "./UnionType";
 import NoneType from "./NoneType";
-import type Changed from "./Changed";
+import Bool from "../runtime/Bool";
+import { NotAStreamType } from "./Previous";
 
-export default class Previous extends Expression {
+export default class Changed extends Expression {
 
+    readonly change: Token;
     readonly stream: Expression;
-    readonly previous: Token;
-    readonly index: Expression;
 
-    constructor(stream: Expression, previous: Token, index: Expression) {
+    constructor(change: Token, stream: Expression) {
         super();
 
+        this.change = change;
         this.stream = stream;
-        this.previous = previous;
-        this.index = index;
 
         this.computeChildren();
 
     }
 
-    static make(stream: Expression, index: Expression) {
-        return new Previous(stream, new Token(PREVIOUS_SYMBOL, TokenType.PREVIOUS), index);
+    static make(stream: Expression) {
+        return new Changed(new Token(CHANGE_SYMBOL, TokenType.CHANGE), stream);
     }
 
     getGrammar() { 
         return [
-            { name: "stream", types:[ Expression ] },
-            { name: "previous", types:[ Token ] },
-            { name: "index", types:[ Expression ] },
+            { name: "change", types:[ Token ] },
+            { name: "stream", types:[ Expression ] }
         ];
     }
 
     replace(original?: Node, replacement?: Node) { 
-        return new Previous(
-            this.replaceChild("stream", this.stream, original, replacement), 
-            this.replaceChild("previous", this.previous, original, replacement),
-            this.replaceChild("index", this.index, original, replacement)
+        return new Changed(
+            this.replaceChild("change", this.change, original, replacement),
+            this.replaceChild("stream", this.stream, original, replacement)
         ) as this; 
     }
 
@@ -77,10 +70,6 @@ export default class Previous extends Expression {
 
         if(!(streamType instanceof StreamType))
             return [ new NotAStream(this, streamType) ];
-
-        const indexType = this.index.getType(context);
-        if(!(indexType instanceof MeasurementType) || indexType.unit !== undefined)
-            return [ new NotAStreamIndex(this, indexType) ];
 
         return [];
     
@@ -93,7 +82,7 @@ export default class Previous extends Expression {
     }
 
     getDependencies(): Expression[] {
-        return [ this.stream, this.index ];
+        return [ this.stream ];
     }
 
     compile(context: Context): Step[] {
@@ -101,7 +90,6 @@ export default class Previous extends Expression {
             new Start(this), 
             ...this.stream.compile(context), 
             new KeepStream(this), 
-            ...this.index.compile(context), 
             new Finish(this) 
         ];
     }
@@ -110,19 +98,15 @@ export default class Previous extends Expression {
         
         if(prior) return prior;
 
-        const index = evaluator.popValue(MeasurementType.make());
-        if(!(index instanceof Measurement) || !index.num.isInteger()) return index;
-
         const stream = evaluator.popValue(StreamType.make(new AnyType()));
         if(!(stream instanceof Stream)) return new TypeException(evaluator, StreamType.make(new AnyType()), stream);
 
-        return stream.at(this, index.toNumber());
+        return new Bool(this, evaluator.didStreamCauseReaction(stream));
 
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.stream instanceof Expression) this.stream.evaluateTypeSet(bind, original, current, context);
-        if(this.index instanceof Expression) this.index.evaluateTypeSet(bind, original, current, context);
         return current;
     }
 
@@ -133,9 +117,6 @@ export default class Previous extends Expression {
                     .filter((def): def is Stream => def instanceof Stream)
                     .map(stream => new Replace<Reference>(context, child, [ name => Reference.make(name), stream ]))
 
-        if(child === this.index)
-            return getExpressionReplacements(this, this.index, context, MeasurementType.make());
-
     }
 
     getInsertionBefore() { return undefined; }
@@ -143,7 +124,7 @@ export default class Previous extends Expression {
     getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
 
     getChildRemoval(child: Node, context: Context): Transform | undefined { 
-        if(child === this.stream || child === this.index) return new Replace(context, child, new ExpressionPlaceholder());
+        if(child === this.stream) return new Replace(context, child, new ExpressionPlaceholder());
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
@@ -151,11 +132,6 @@ export default class Previous extends Expression {
             "😀": TRANSLATE,
             eng: "stream"
         };
-        else if(child === this.index) return {
-            "😀": TRANSLATE,
-            eng: "index"
-        };
-
     }
 
     getDescriptions(): Translations {
@@ -165,30 +141,15 @@ export default class Previous extends Expression {
         }
     }
 
-    getStart() { return this.previous; }
-    getFinish() { return this.previous; }
+    getStart() { return this.stream; }
+    getFinish() { return this.change; }
 
     getStartExplanations(): Translations { return this.getFinishExplanations(); }
 
     getFinishExplanations(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "Let's get the stream value at this index."
-        }
-    }
-
-}
-
-export class NotAStreamType extends UnknownType<Previous|Changed> {
-
-    constructor(previous: Previous | Changed, why: Type) {
-        super(previous, why);
-    }
-
-    getReason(): Translations {
-        return {
-            eng: `${this.expression.stream.toWordplay()} is not a stream`,
-            "😀": `${TRANSLATE} •🤔`
+            eng: "Did a change to this stream cause the evaluation?"
         }
     }
 

@@ -113,6 +113,7 @@ import Update from "../../nodes/Update";
 import Select from "../../nodes/Select";
 import Reaction from "../../nodes/Reaction";
 import Previous from "../../nodes/Previous";
+import Changed from "../../nodes/Changed";
 import StreamType from "../../nodes/StreamType";
 import UnionType from "../../nodes/UnionType";
 import TypePlaceholder from "../../nodes/TypePlaceholder";
@@ -127,6 +128,7 @@ import DocumentedExpression from "../../nodes/DocumentedExpression";
 import DocumentedExpressionView from "../DocumentedExpressionView.svelte";
 import TypeVariable from "../../nodes/TypeVariable";
 import TypeInputsView from "../TypeInputsView.svelte";
+import ChangedView from "../ChangedView.svelte";
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Program, ProgramView);
@@ -202,6 +204,7 @@ nodeToView.set(Select, SelectView);
 
 nodeToView.set(Reaction, ReactionView);
 nodeToView.set(Previous, PreviousView);
+nodeToView.set(Changed, ChangedView);
 nodeToView.set(StreamType, StreamTypeView);
 nodeToView.set(UnparsableType, UnparsableTypeView);
 nodeToView.set(UnparsableExpression, UnparsableExpressionView);

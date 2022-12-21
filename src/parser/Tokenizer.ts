@@ -22,6 +22,7 @@ export const NAME_SEPARATOR_SYMBOL = ",";
 export const MEASUREMENT_SYMBOL = "#";
 export const NONE_SYMBOL = "ø";
 export const STREAM_SYMBOL = "…";
+export const CHANGE_SYMBOL = "∆";
 export const PREVIOUS_SYMBOL = "←";
 export const TEXT_SYMBOL = "''";
 export const AND_SYMBOL = "&";
@@ -109,6 +110,7 @@ const patterns = [
     { pattern: TYPE_OPEN_SYMBOL, types: [ TokenType.TYPE_OPEN ] },
     { pattern: TYPE_CLOSE_SYMBOL, types: [ TokenType.TYPE_CLOSE ] },
     { pattern: STREAM_SYMBOL, types: [ TokenType.REACTION, TokenType.STREAM_TYPE, TokenType.ETC ] },
+    { pattern: CHANGE_SYMBOL, types: [ TokenType.CHANGE ] },
     { pattern: PREVIOUS_SYMBOL, types: [ TokenType.PREVIOUS ] },
     { pattern: PLACEHOLDER_SYMBOL, types: [ TokenType.PLACEHOLDER ] },
     // Roman numerals

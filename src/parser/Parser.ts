@@ -68,6 +68,7 @@ import type Spaces from "./Spaces";
 import DocumentedExpression from "../nodes/DocumentedExpression";
 import TypeVariables from "../nodes/TypeVariables";
 import TypeVariable from "../nodes/TypeVariable";
+import Changed from "../nodes/Changed";
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -458,6 +459,8 @@ function parseAtomicExpression(tokens: Tokens): Expression {
         tokens.nextIs(TokenType.THIS) ? new This(tokens.read(TokenType.THIS)) :
         // Placeholder
         tokens.nextIs(TokenType.PLACEHOLDER) ? new ExpressionPlaceholder(tokens.read(TokenType.PLACEHOLDER)) :
+        // Change
+        tokens.nextIs(TokenType.CHANGE) ? parseChanged(tokens) :
         // Nones
         tokens.nextIs(TokenType.NONE) ? parseNone(tokens): 
         // Names or booleans are easy
@@ -527,6 +530,15 @@ function parseReference(tokens: Tokens): Reference {
     const name = tokens.read(TokenType.NAME);
     
     return new Reference(name);
+
+}
+
+function parseChanged(tokens: Tokens): Changed {
+
+    const change = tokens.read(TokenType.CHANGE);
+    const stream = parseAtomicExpression(tokens);
+
+    return new Changed(change, stream);
 
 }
 

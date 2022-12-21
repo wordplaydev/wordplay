@@ -49,6 +49,7 @@ TokenCategories.set(TokenType.UNION, TokenCategoryOperator);
 TokenCategories.set(TokenType.REACTION, TokenCategoryOperator);
 TokenCategories.set(TokenType.STREAM_TYPE, TokenCategoryType);
 TokenCategories.set(TokenType.PREVIOUS, TokenCategoryOperator);
+TokenCategories.set(TokenType.CHANGE, TokenCategoryOperator);
 TokenCategories.set(TokenType.PLACEHOLDER, TokenCategoryRelation);
 TokenCategories.set(TokenType.UNARY_OP, TokenCategoryOperator);
 TokenCategories.set(TokenType.BINARY_OP, TokenCategoryOperator);
