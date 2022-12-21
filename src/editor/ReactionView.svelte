@@ -7,4 +7,4 @@
 
 </script>
 
-<NodeView node={node.initial}/><NodeView node={node.delta}/><NodeView node={node.stream}/><NodeView node={node.next}/>
+<NodeView node={node.initial}/><NodeView node={node.delta}/><NodeView node={node.next}/>

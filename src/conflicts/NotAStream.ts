@@ -1,6 +1,5 @@
 import type Context from "../nodes/Context";
 import type Previous from "../nodes/Previous";
-import type Reaction from "../nodes/Reaction";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations"
 import type Type from "../nodes/Type";
@@ -9,10 +8,10 @@ import Conflict from "./Conflict";
 
 export class NotAStream extends Conflict {
 
-    readonly stream: Reaction | Previous;
+    readonly stream: Previous;
     readonly received: Type;
 
-    constructor(stream: Reaction | Previous, received: Type) {
+    constructor(stream: Previous, received: Type) {
         super(false);
 
         this.stream = stream;

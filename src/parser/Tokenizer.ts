@@ -21,7 +21,7 @@ export const BIND_SYMBOL = ":";
 export const NAME_SEPARATOR_SYMBOL = ",";
 export const MEASUREMENT_SYMBOL = "#";
 export const NONE_SYMBOL = "ø";
-export const REACTION_SYMBOL = "∆";
+export const STREAM_SYMBOL = "…";
 export const PREVIOUS_SYMBOL = "←";
 export const TEXT_SYMBOL = "''";
 export const AND_SYMBOL = "&";
@@ -62,7 +62,7 @@ const RESERVED_SYMBOLS = [
     DOCS_SYMBOL,
     NONE_SYMBOL,
     TYPE_SYMBOL,
-    REACTION_SYMBOL,
+    STREAM_SYMBOL,
     PREVIOUS_SYMBOL,
     CONVERT_SYMBOL,
     PLACEHOLDER_SYMBOL,
@@ -108,10 +108,9 @@ const patterns = [
     { pattern: OR_SYMBOL, types: [ TokenType.BINARY_OP, TokenType.UNION ] },
     { pattern: TYPE_OPEN_SYMBOL, types: [ TokenType.TYPE_OPEN ] },
     { pattern: TYPE_CLOSE_SYMBOL, types: [ TokenType.TYPE_CLOSE ] },
-    { pattern: REACTION_SYMBOL, types: [ TokenType.REACTION, TokenType.STREAM_TYPE ] },
+    { pattern: STREAM_SYMBOL, types: [ TokenType.REACTION, TokenType.STREAM_TYPE, TokenType.ETC ] },
     { pattern: PREVIOUS_SYMBOL, types: [ TokenType.PREVIOUS ] },
     { pattern: PLACEHOLDER_SYMBOL, types: [ TokenType.PLACEHOLDER ] },
-    { pattern: ETC_SYMBOL, types: [ TokenType.ETC ] },
     // Roman numerals
     { pattern: /^[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/, types: [ TokenType.NUMBER, TokenType.ROMAN ] },
     // Japanese numbers

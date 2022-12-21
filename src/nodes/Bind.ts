@@ -51,20 +51,20 @@ import type Value from "../runtime/Value";
 export default class Bind extends Expression {    
     readonly docs?: Docs;
     readonly share: Token | undefined;
-    readonly etc: Token | undefined;
     readonly names: Names;
+    readonly etc: Token | undefined;
     readonly dot?: Token;
     readonly type?: Type;
     readonly colon?: Token;
     readonly value?: Expression;
 
-    constructor(docs: Docs | undefined, share: Token | undefined, etc: Token | undefined, names: Names, dot?: Token, type?: Type, colon?: Token, value?: Expression) {
+    constructor(docs: Docs | undefined, share: Token | undefined, names: Names, etc: Token | undefined, dot?: Token, type?: Type, colon?: Token, value?: Expression) {
         super();
 
         this.docs = docs;
         this.share = share;
-        this.etc = etc;
         this.names = names;
+        this.etc = etc;
         this.dot = dot;
         this.type = type;
         this.colon = colon;
@@ -78,8 +78,8 @@ export default class Bind extends Expression {
         return new Bind(
             docs ? new Docs(docs) : undefined, 
             undefined, 
-            undefined, 
             names instanceof Names ? names : Names.make(names), 
+            undefined,
             type === undefined ? undefined : new TypeToken(), type, 
             value === undefined ? undefined : new BindToken(), value
         );
@@ -89,8 +89,8 @@ export default class Bind extends Expression {
         return [
             { name: "docs", types:[ Docs, undefined ] },
             { name: "share", types:[ Token, undefined ] },
-            { name: "etc", types:[ Token, undefined ] },
             { name: "names", types:[ Names ] },
+            { name: "etc", types:[ Token, undefined ] },
             { name: "dot", types:[ Token, undefined ] },
             { name: "type", types:[ Type, undefined ] },
             { name: "colon", types:[ Token, undefined ] },
@@ -102,8 +102,8 @@ export default class Bind extends Expression {
         return new Bind(
             this.replaceChild("docs", this.docs, original, replacement), 
             this.replaceChild("share", this.share, original, replacement), 
-            this.replaceChild("etc", this.etc, original, replacement), 
             this.replaceChild("names", this.names, original, replacement), 
+            this.replaceChild("etc", this.etc, original, replacement), 
             this.replaceChild("dot", this.dot, original, replacement),
             this.replaceChild("type", this.type, original, replacement), 
             this.replaceChild("colon", this.colon, original, replacement),
@@ -338,7 +338,7 @@ export default class Bind extends Expression {
         // Before colon? Offer a type.
         else if(child === this.colon && this.type === undefined)
             return [ 
-                new Replace(context, this, new Bind(this.docs, this.share, this.etc, this.names, new TypeToken(), new TypePlaceholder(), this.colon, this.value))
+                new Replace(context, this, new Bind(this.docs, this.share, this.names, this.etc, new TypeToken(), new TypePlaceholder(), this.colon, this.value))
             ];
 
     }
@@ -347,7 +347,7 @@ export default class Bind extends Expression {
         const children  = this.getChildren();
         const lastChild = children[children.length - 1];
 
-        const withValue = new Replace(context, this, new Bind(this.docs, this.share, this.etc, this.names, this.dot, this.type, new BindToken(), new ExpressionPlaceholder()));
+        const withValue = new Replace(context, this, new Bind(this.docs, this.share, this.names, this.etc, this.dot, this.type, new BindToken(), new ExpressionPlaceholder()));
 
         if(lastChild === this.dot)
             return getPossibleTypeAdds(this, "context", context, position);

@@ -130,7 +130,6 @@ export default class Evaluation {
         // If it's a stream, resolve it to its latest value, unless this will
         // be used in a Previous expression, in which case we leave it alone.
         else if(result instanceof Stream && !(this.nextStep() instanceof KeepStream)) {
-            evaluator.rememberStreamAccess(result);
             this.#values.unshift(result.latest());
         }
         // If it's a value, add it to the top of the stack.

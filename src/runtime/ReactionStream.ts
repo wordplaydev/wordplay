@@ -18,7 +18,7 @@ export default class ReactionStream extends Stream {
             }, 
             {
                 eng: "reaction",
-                "😀": "∆"
+                "😀": "…"
             },
             initialValue
         );

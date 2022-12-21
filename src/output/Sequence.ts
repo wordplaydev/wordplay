@@ -9,7 +9,7 @@ import { toDecimal } from "./Verse";
 export const SequenceType = toStructure(`
     •Sequence/eng(
         count/eng•#x
-        …poses/eng•Pose•Sequence
+        poses/eng…•Pose|Sequence
     )
 `);
 

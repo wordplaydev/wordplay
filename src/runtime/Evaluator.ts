@@ -74,12 +74,6 @@ export default class Evaluator {
     /** The expressions that need to be re-evaluated, if any. */
     invalidatedExpressions: Set<Expression> | undefined = undefined;
 
-    /** The reaction listening to stream accesses */
-    reactionEvaluating: Reaction | undefined = undefined;
-
-    /** The streams accessed since the latest time requested */
-    accessedStreams: Stream[] | undefined = undefined;
-
     /** A mapping from Reaction nodes in the program to the streams they are listening to. */
     reactionStreams: Map<Reaction, Stream> = new Map();
 
@@ -257,9 +251,6 @@ export default class Evaluator {
 
         // Mark as not started.
         this.#started = false;
-
-        // In case this wasn't reset before evaluation stopped.
-        this.stopRememberingStreamAccesses();
 
         // Reset per-evaluation state.
         this.resetForEvaluation();
@@ -564,24 +555,6 @@ export default class Evaluator {
 
     // STREAM AND REACTION MANAGMEENT
 
-    startRememberingStreamAccesses(reaction: Reaction) {
-        this.reactionEvaluating = reaction;
-        this.accessedStreams = [];
-    }
-
-    rememberStreamAccess(stream: Stream) {
-        this.accessedStreams?.push(stream);
-    }
-
-    stopRememberingStreamAccesses(): Stream[] | undefined {
-        const accessedStreams = this.accessedStreams;
-        this.accessedStreams = undefined;
-        this.reactionEvaluating = undefined;
-        return accessedStreams;
-    }
-
-    getReactionEvaluating() { return this.reactionEvaluating; }
-
     didStreamCauseReaction(stream: Stream) {
 
         // Find the latest stream change after the current step index,
@@ -626,7 +599,7 @@ export default class Evaluator {
     }
 
     /** 
-     * Given a node, walks its ancestors until it finds a node corresponding to a step.
+     * Given a node, walks its ancestors until it finds a   node corresponding to a step.
      * Returns undefined if there is no such node.
      */
     getEvaluableNode(node: Node): Node | undefined {

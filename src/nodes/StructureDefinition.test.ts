@@ -21,18 +21,18 @@ test("Test custom type conflicts", () => {
     testConflict('•Cat(a b)', '•Cat(a a)', StructureDefinition, DuplicateBinds);
     testConflict('•Cat⸨T U⸩ ()', '•Cat⸨T T⸩ ()', TypeVariables, DuplicateTypeVariables);
     testConflict('•Cat(a•# b•#:1)', '•Cat(a•#:1 b•#)', StructureDefinition, RequiredAfterOptional);
-    testConflict('•Animal() ( ƒ sound()•"" …)\n•Cat Animal() ( ƒ sound() "meow" )', '•Animal() ( ƒ sound()•"" …)\n•Cat Animal() ( ƒ speak() "meow" )', StructureDefinition, Unimplemented, 1);
-    testConflict('•Animal() ( ƒ sound()•"" … ƒ smell() …)', '•Animal() ( ƒ sound()•"" … ƒ smell() 1)', StructureDefinition, Implemented, 0);
-    testConflict('•Animal() ( ƒ sound()•"" … ƒ smell() …)', '•Animal(name•"") ( ƒ sound()•"" … ƒ smell() …)', StructureDefinition, DisallowedInputs, 0);
+    testConflict('•Animal() ( ƒ sound()•"" _)\n•Cat Animal() ( ƒ sound() "meow" )', '•Animal() ( ƒ sound()•"" _)\n•Cat Animal() ( ƒ speak() "meow" )', StructureDefinition, Unimplemented, 1);
+    testConflict('•Animal() ( ƒ sound()•"" _ ƒ smell() _)', '•Animal() ( ƒ sound()•"" _ ƒ smell() 1)', StructureDefinition, Implemented, 0);
+    testConflict('•Animal() ( ƒ sound()•"" _ ƒ smell() _)', '•Animal(name•"") ( ƒ sound()•"" _ ƒ smell() _)', StructureDefinition, DisallowedInputs, 0);
     testConflict(
         // Multiple levels of interface should work
         `
         •Form() (
-            ƒ die()•"" …
+            ƒ die()•"" _
         )
           
         •Animal Form() (
-            ƒ poop()•"" …
+            ƒ poop()•"" _
         )
           
         •Cat Animal() (
@@ -44,11 +44,11 @@ test("Test custom type conflicts", () => {
         // Multiple levels of interface should work
         `
         •Form() (
-            ƒ die()•"" …
+            ƒ die()•"" _
         )
           
         •Animal Form() (
-            ƒ poop()•"" …
+            ƒ poop()•"" _
         )
           
         •Cat Animal() (
@@ -62,13 +62,13 @@ test("Test custom type conflicts", () => {
     testConflict(
         `
         •Cat() (
-            ƒ poop() …
+            ƒ poop() _
         )
         •Boomy Cat()
         `,
         `
         •Cat() (
-            ƒ poop() …
+            ƒ poop() _
         )
         A: 5
         •Boomy A()
@@ -80,7 +80,7 @@ test("Test custom type conflicts", () => {
     testConflict(
         `
         •Cat() (
-            ƒ poop() …
+            ƒ poop() _
         )
         •Boomy Cat()
         `,

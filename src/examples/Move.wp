@@ -4,7 +4,7 @@
 •Cat(position•#m direction•#)
 
 speed: 2m
-cat•Cat: Cat(0m 1) ∆ ⌨️ 
+cat•Cat: Cat(0m 1) …
     ⌨️.down ? 
         ⌨️.key = "ArrowLeft" ? Cat(cat.position - speed 1) 
         ⌨️.key = "ArrowRight" ? Cat(cat.position + speed -1) 

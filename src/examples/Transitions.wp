@@ -1,7 +1,7 @@
 === Mumble
 ↓ 🖱
 
-clicks•#: 0 ∆ 🖱 🖱 ? clicks + 1 clicks
+clicks•#: 0 … clicks + (🖱 ? 1 0)
 
 clicks < 5 ?
     💬(

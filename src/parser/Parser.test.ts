@@ -223,7 +223,7 @@ test("Parse expressions", () => {
     expect((update as Update).row.cells).toHaveLength(1);
     expect((update as Update).query).toBeInstanceOf(BinaryOperation);
 
-    const stream = parseExpression(toTokens("0 ∆ clicks a + 1"));
+    const stream = parseExpression(toTokens("0 … a + 1"));
     expect(stream).toBeInstanceOf(Reaction);
     expect((stream as Reaction).next).toBeInstanceOf(BinaryOperation);
 
@@ -253,15 +253,15 @@ test("Parse expressions", () => {
     expect(((conditional as Conditional).no as Conditional).yes).toBeInstanceOf(Reference);
     expect(((conditional as Conditional).no as Conditional).no).toBeInstanceOf(Reference);
 
-    const abstractFun = parseExpression(toTokens("ƒ(a b) …"));
+    const abstractFun = parseExpression(toTokens("ƒ(a b) _"));
     expect(abstractFun).toBeInstanceOf(FunctionDefinition);
     expect((abstractFun as FunctionDefinition).inputs).toHaveLength(2);
 
-    const noInputs = parseExpression(toTokens("ƒ() …"));
+    const noInputs = parseExpression(toTokens("ƒ() _"));
     expect(noInputs).toBeInstanceOf(FunctionDefinition);
     expect((noInputs as FunctionDefinition).inputs).toHaveLength(0);
 
-    const withOutputType = parseExpression(toTokens("ƒ() •# …"));
+    const withOutputType = parseExpression(toTokens("ƒ() •# _"));
     expect(withOutputType).toBeInstanceOf(FunctionDefinition);
     expect((withOutputType as FunctionDefinition).output).toBeInstanceOf(MeasurementType);
 
@@ -414,7 +414,7 @@ test("Types", () => {
     expect(parseType(toTokens("ƒ<Species>(…a•#) #"))).toBeInstanceOf(FunctionType);
     expect(parseType(toTokens("ƒ<Species Category>(…a•#) #"))).toBeInstanceOf(FunctionType);
 
-    const stream = parseType(toTokens("∆#"));
+    const stream = parseType(toTokens("…#"));
     expect(stream).toBeInstanceOf(StreamType);
 
     const union = parseType(toTokens("Cat|#"))

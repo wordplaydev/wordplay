@@ -16,13 +16,13 @@ import InvalidTypeInput from "../conflicts/InvalidTypeInput";
 
 test.each([
     [ 'add: ƒ(a•# b•#) a + b\nadd(1 2)', 'add: ƒ(a•# b•#) a + b\nsum(1 2)', Evaluate, NotAFunction ],
-    [ '•Cat() (add: ƒ(a•# b•#) a)\nCat()', '•Cat() (add: ƒ(a•# b•#) …)\nCat()', Evaluate, NotInstantiable ],
+    [ '•Cat() (add: ƒ(a•# b•#) a)\nCat()', '•Cat() (add: ƒ(a•# b•#) _)\nCat()', Evaluate, NotInstantiable ],
     [ '•Cat(a•#) ()\nCat(1)', '•Cat(a•#) ()\nCat("hi")', Evaluate, IncompatibleInput ],
     [ 'x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(1)', Evaluate, MissingInput ],
     [ 'x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(a:1 c:2)', Evaluate, UnexpectedInput ],
     [ 'x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(a:1 b:2 c:3)', Evaluate, UnknownInput ],
     [ 'x: ƒ(a•# b•#) a - b\nx(1 2)', 'ƒ x(a•# b•#) a - b\nx(a:1 a:2)', Evaluate, UnexpectedInput ],
-    [ 'x: ƒ(…num•#) a - b\nx(1 2 3)', 'x: ƒ(…num•"") a - b\nx(1 2 3)', Evaluate, IncompatibleInput ],
+    [ 'x: ƒ(num…•#) a - b\nx(1 2 3)', 'x: ƒ(num…•"") a - b\nx(1 2 3)', Evaluate, IncompatibleInput ],
     [ '(ƒ() 5)()', '(ƒ() 5 5)()', Evaluate, NotAFunction ],
     // Type inputs have to be declared
     [ '•Cat⸨Desire⸩()\nCat⸨#⸩()', '•Cat()\nCat⸨#⸩()', Evaluate, InvalidTypeInput ],
@@ -50,8 +50,8 @@ test.each([
     [ "x: ƒ(a•#:1 b•#:1) a - b\nx(5)", '4' ], 
     [ "x: ƒ(a•#:1 b•#:1) a - b\nx(a:4 b:2)", '2' ], 
     [ "x: ƒ(a•#:1 b•#:1) a - b\nx(b:1 a:5)", '4' ], 
-    [ "x: ƒ(a•#:1 …b•#:1) [ a b ]\nx(1 5)", '[1 [5]]' ], 
-    [ "x: ƒ(a•#:1 …b•#:1) [ a b ]\nx(5 1)", '[5 [1]]' ],
+    [ "x: ƒ(a•#:1 b…•#:1) [ a b ]\nx(1 5)", '[1 [5]]' ], 
+    [ "x: ƒ(a•#:1 b…•#:1) [ a b ]\nx(5 1)", '[5 [1]]' ],
     [ "x: ƒ(a•# b•#) a - b\nx(10 3)", '7' ],
     [ "x: ƒ(a•# b•#) a - b\nx(a:10 b:3)", '7' ],
     [ "x: ƒ(a•# b•#:1) a - b\nx(5)", '4' ],
@@ -59,8 +59,8 @@ test.each([
     [ "x: ƒ(a•#:1 b•#:1) a - b\nx(5)", '4' ],
     [ "x: ƒ(a•#:1 b•#:1) a - b\nx(a:4 b:2)", '2' ],
     [ "x: ƒ(a•#:1 b•#:1) a - b\nx(b:1 a:5)", '4' ],
-    [ "x: ƒ(a•#:1 …b•#:1) [ a b ]\nx(1 5)", '[1 [5]]' ],
-    [ "x: ƒ(a•#:1 …b•#:1) [ a b ]\nx(5 1)", '[5 [1]]' ],
+    [ "x: ƒ(a•#:1 b…•#:1) [ a b ]\nx(1 5)", '[1 [5]]' ],
+    [ "x: ƒ(a•#:1 b…•#:1) [ a b ]\nx(5 1)", '[5 [1]]' ],
 ])("%s = %s", (code: string, value: string) => {
     expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
 })

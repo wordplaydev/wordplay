@@ -3,7 +3,7 @@
 ↓ ⚁
 
 text: [ "boomy" "boom boom" "boooooomy" "boomymcboomface" "moooey" ]
-choice: text[1] ∆ ⌨️ ⌨️.down ? text.random() choice
+choice: text[1] … ⌨️.down ? text.random() choice
 
 💬(
     choice

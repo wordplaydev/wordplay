@@ -1,5 +1,5 @@
 import type { NativeTypeName } from "../native/NativeConstants";
-import { REACTION_SYMBOL } from "../parser/Tokenizer";
+import { STREAM_SYMBOL } from "../parser/Tokenizer";
 import Replace from "../transforms/Replace";
 import type Transform from "../transforms/Transform";
 import type Context from "./Context";
@@ -30,7 +30,7 @@ export default class StreamType extends Type {
     }
 
     static make(type: Type) {
-        return new StreamType(new Token(REACTION_SYMBOL, TokenType.STREAM_TYPE), type);
+        return new StreamType(new Token(STREAM_SYMBOL, TokenType.STREAM_TYPE), type);
     }
 
     getGrammar() { 

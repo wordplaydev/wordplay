@@ -352,8 +352,8 @@ export function parseBind(tokens: Tokens): Bind {
 
     let docs = parseDocumentation(tokens);
     const share = tokens.nextIs(TokenType.SHARE) ? tokens.read(TokenType.SHARE) : undefined;
-    const etc = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : undefined;
     const names = parseNames(tokens);
+    const etc = tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : undefined;
     let colon;
     let value;
     let dot;
@@ -369,7 +369,7 @@ export function parseBind(tokens: Tokens): Bind {
         value = parseExpression(tokens);
     }
 
-    return new Bind(docs, share, etc, names, dot, type, colon, value);
+    return new Bind(docs, share, names, etc, dot, type, colon, value);
 
 }
 
@@ -796,12 +796,11 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
     
 }
 
-/** STREAM :: EXPRESSION ∆ EXPRESSION EXPRESSION */
+/** STREAM :: EXPRESSION … EXPRESSION */
 function parseReaction(initial: Expression, tokens: Tokens): Reaction {
     const delta = tokens.read(TokenType.REACTION);
-    const stream = parseExpression(tokens);
     const next = parseExpression(tokens);
-    return new Reaction(initial, stream, next, delta); 
+    return new Reaction(initial, delta, next); 
 }
 
 /** FUNCTION :: DOCS? (ƒ | ALIASES) TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
@@ -831,7 +830,7 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
     }
 
     const expression = 
-        tokens.nextIs(TokenType.ETC) ? tokens.read(TokenType.ETC) : 
+        tokens.nextIs(TokenType.PLACEHOLDER) ? tokens.read(TokenType.PLACEHOLDER) : 
         !tokens.hasNext() || tokens.nextHasMoreThanOneLineBreak() ? undefined :
         parseExpression(tokens);
 
@@ -999,7 +998,7 @@ function parseNoneType(tokens: Tokens): NoneType {
 
 }
 
-/** STREAM_TYPE :: ∆ TYPE */
+/** STREAM_TYPE :: … TYPE */
 function parseStreamType(tokens: Tokens): StreamType {
 
     const stream = tokens.read(TokenType.STREAM_TYPE);

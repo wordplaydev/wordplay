@@ -42,6 +42,7 @@ import Convert from "../nodes/Convert";
 import Names from "../nodes/Names";
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
+import { STREAM_SYMBOL } from "../parser/Tokenizer";
 
 /** Offer possible expressions compatible with the given type, or if none was given, any possible expression */
 export default function getPossibleExpressions(parent: Node, child: Expression | undefined, context: Context, type?: Type): (Expression | Definition)[] {
@@ -65,7 +66,7 @@ export default function getPossibleExpressions(parent: Node, child: Expression |
         FunctionDefinition.make(undefined, new Names([ Name.make() ]), undefined, [], new ExpressionPlaceholder()),
         StructureDefinition.make(undefined, new Names([ Name.make() ]), [], undefined, []),
         ConversionDefinition.make(undefined, new TypePlaceholder(), new TypePlaceholder(), new ExpressionPlaceholder()),
-        new Reaction(new ExpressionPlaceholder(), new ExpressionPlaceholder(), new ExpressionPlaceholder()),
+        new Reaction(new ExpressionPlaceholder(), new Token(STREAM_SYMBOL, TokenType.REACTION), new ExpressionPlaceholder()),
         Previous.make(new ExpressionPlaceholder(), new ExpressionPlaceholder())
     ].filter(expr => expr instanceof TypeVariable || type === undefined ? true : type.accepts(expr.getType(context), context))
 }
@@ -115,7 +116,7 @@ export function getPossiblePostfix(context: Context, node: Expression, type?: Ty
         // If the type is a stream, offer a previous
         ...(type instanceof StreamType ? [ new Replace(context, node, Previous.make(node, new ExpressionPlaceholder())) ] : []),
         // Reactions
-        ...[ new Replace(context, node, new Reaction(node, new ExpressionPlaceholder(), new ExpressionPlaceholder()))],
+        ...[ new Replace(context, node, new Reaction(node, new Token(STREAM_SYMBOL, TokenType.REACTION), new ExpressionPlaceholder()))],
         // If given a type, any binary operations that are available on the type.
         ...((type === undefined ? [] : type.getAllDefinitions(node, context).filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.isOperator()) 
             .map(def => new Replace(context, node, [ () => new BinaryOperation(def.getOperatorName() as string, node, new ExpressionPlaceholder()), def ])))),

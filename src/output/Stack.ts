@@ -10,7 +10,7 @@ import Decimal from "decimal.js";
 
 export const StackType = toStructure(`
     •Stack/eng,⬇/😀 Group(
-        …phrases/eng,${TRANSLATE}phrases/😀•Group
+        phrases/eng,${TRANSLATE}phrases/😀…•Group
     )
 `);
 

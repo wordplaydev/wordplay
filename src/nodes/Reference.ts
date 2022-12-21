@@ -127,13 +127,8 @@ export default class Reference extends Expression {
             const type = definition.getType(context);
             // If this is a reference to a value in the context of reaction statement, it's the stream type.
             // Otherwise its the stream's value type.
-            if(type instanceof StreamType) {
-                const reaction = context.get(this)?.getParent();
-                if(reaction instanceof Reaction && reaction.stream === this)
-                    return type;
-                else
-                    return type.type;
-            }
+            if(type instanceof StreamType)
+                return type.type;
             else return type;
         }
         

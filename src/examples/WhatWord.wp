@@ -18,7 +18,7 @@ start/eng,🟢/😀: Game([] "")
 `When the keyboard state changes, the game state changes.`/eng
 `Cuando cambia el estado del teclado, cambia el estado del juego.`/spa
 `⌨️ + 🤔 + 🤫 → ⚽️`/😀
-state/eng,⚽️/😀•Game: start ∆ ⌨️
+state/eng,⚽️/😀•Game: start …
     ⌨️.key = "Escape" ? start
     (state.status ≠ "playing") & (⌨️.key = " ") & ⌨️.down ? Game([] words.random())
     (state.status = "playing") & ⌨️.down & (⌨️.key.length() = 1) & ~state.guesses.has(⌨️.key) ? 

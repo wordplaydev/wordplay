@@ -237,7 +237,7 @@ export default class FunctionDefinition extends Expression {
 
     }
 
-    isAbstract() { return this.expression instanceof Token && this.expression.is(TokenType.ETC); }
+    isAbstract() { return this.expression instanceof Token && this.expression.is(TokenType.PLACEHOLDER); }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.expression instanceof Expression) this.expression.evaluateTypeSet(bind, original, current, context);
