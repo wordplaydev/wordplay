@@ -45,3 +45,17 @@ test("Too many steps", () => {
     expect(project.evaluator.getLatestSourceValue(source)).toBeInstanceOf(EvaluationException);
 
 })
+
+test("Too many evaluations", () => {
+
+    const fib = `
+    ƒ fib (n•#) •# n ≤ 1 ? n fib(n) + fib(n - 2)
+    fib(50)
+    `
+
+    const source = new Source("test", fib);
+    const project = new Project("test", source, []);
+    project.evaluate();
+    expect(project.evaluator.getLatestSourceValue(source)).toBeInstanceOf(EvaluationException);
+
+})
