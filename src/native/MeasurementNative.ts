@@ -290,13 +290,14 @@ export default function bootstrapMeasurement() {
                 return new List(requestor, list);
             }),
 
-
             // Time
             createNativeConversion(WRITE_DOCS, '#s', "#min", (requestor: Node, val: Measurement) => val.divide(requestor, new Measurement(requestor, 60, Unit.unit(["s"], ["min"])))),
             createNativeConversion(WRITE_DOCS, '#s', "#h", (requestor: Node, val: Measurement) => val.divide(requestor, new Measurement(requestor, 3600, Unit.unit(["s"], ["h"])))),
             createNativeConversion(WRITE_DOCS, '#s', "#day", (requestor: Node, val: Measurement) => val.divide(requestor, new Measurement(requestor, 86400, Unit.unit(["s"], ["day"])))),
             createNativeConversion(WRITE_DOCS, '#s', "#wk", (requestor: Node, val: Measurement) => val.divide(requestor, new Measurement(requestor, 604800, Unit.unit(["s"], ["wk"])))),
             createNativeConversion(WRITE_DOCS, '#s', "#yr", (requestor: Node, val: Measurement) => val.divide(requestor, new Measurement(requestor, 31449600, Unit.unit(["s"], ["yr"])))),
+            createNativeConversion(WRITE_DOCS, '#s', "#ms", (requestor: Node, val: Measurement) => val.multiply(requestor, new Measurement(requestor, 1000, Unit.unit(["s"], ["ms"])))),
+            createNativeConversion(WRITE_DOCS, '#ms', "#s", (requestor: Node, val: Measurement) => val.divide(requestor, new Measurement(requestor, 1000, Unit.unit(["ms"], ["s"])))),
             createNativeConversion(WRITE_DOCS, '#min', "#s", (requestor: Node, val: Measurement) => val.multiply(requestor, new Measurement(requestor, 60, Unit.unit(["s"], ["min"])))),
             createNativeConversion(WRITE_DOCS, '#h', "#s", (requestor: Node, val: Measurement) => val.multiply(requestor, new Measurement(requestor, 3600, Unit.unit(["s"], ["h"])))),
             createNativeConversion(WRITE_DOCS, '#day', "#s", (requestor: Node, val: Measurement) => val.multiply(requestor, new Measurement(requestor, 86400, Unit.unit(["s"], ["day"])))),
