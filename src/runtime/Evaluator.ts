@@ -30,6 +30,7 @@ export type EvaluationObserver = () => void;
 export type StepNumber = number;
 export type StreamChange = { stream: Stream | undefined, value: Value | undefined, stepIndex: number };
 export const MAX_CALL_STACK_DEPTH = 256;
+export const MAX_STEP_COUNT = 262144;
 
 export enum Mode { PLAY, STEP };
 
@@ -64,6 +65,11 @@ export default class Evaluator {
      * step number, it is in the past.
      * */
     #stepIndex: StepNumber = 0;
+
+    /**
+     * The total number of steps evaluated since the last reaction.
+     */
+    #latestStepCount: number = 0;
 
     /** True if the last step was triggered by a step to a particular node. */
     #steppedToNode: boolean = false;
@@ -269,6 +275,9 @@ export default class Evaluator {
         // Mark as started.
         this.#started = true;
 
+        // Reset the recent step count to zero.
+        this.#latestStepCount = 0;
+
         // If we're in the present, remember the stream change. (If we're in the past, we use the history.)
         if(!this.isInPast())
             this.changedStreams.push({ stream: changedStream, value: changedStream?.latest(), stepIndex: this.getStepCount()});
@@ -395,6 +404,8 @@ export default class Evaluator {
         const value = 
             // If it seems like we're stuck in an infinite (recursive) loop, halt.
             this.evaluations.length > MAX_CALL_STACK_DEPTH ? new EvaluationException(StackSize.FULL, this) :
+            // If it seems like we're evaluating something very time consuming, halt.
+            this.#latestStepCount > MAX_STEP_COUNT ? new EvaluationException(StackSize.LONG, this) :
             // Otherwise, step the current evaluation and get it's value
             evaluation.step(this);
 
@@ -424,8 +435,11 @@ export default class Evaluator {
         // Finally, manage the step counter. Always increment the step index, and if we're in the present,
         // then also increment the step count.
         this.#stepIndex++;
+        this.#latestStepCount++;
+
         if(!this.isInPast())
             this.#stepCount = this.#stepIndex;
+
 
     }
 

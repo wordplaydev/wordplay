@@ -1,6 +1,7 @@
 import { expect, test } from "vitest";
 import Project from "../models/Project";
 import Source from "../models/Source";
+import EvaluationException from "./EvaluationException";
 
 test.each([
     0,
@@ -8,11 +9,13 @@ test.each([
     10,
     15
 ])("Step back %i", (steps: number) => {
-    const code = `
-        ƒ fib (n•#) •# n ≤ 1 ? n fib(n - 1) + fib(n - 2)
-        fib(5)
+
+    const fib = `
+    ƒ fib (n•#) •# n ≤ 1 ? n fib(n - 1) + fib(n - 2)
+    fib(5)
     `
-    const source = new Source("test", code);
+    
+    const source = new Source("test", fib);
     const project = new Project("test", source, []);
     project.evaluate();
     const stepIndex = project.evaluator.getStepIndex();
@@ -28,3 +31,17 @@ test.each([
     expect(project.evaluator.getStepIndex() === stepIndex);
 
 });
+
+test("Too many steps", () => {
+
+    const fib = `
+    ƒ fib (n•#) •# n ≤ 1 ? n fib(n - 1) + fib(n - 2)
+    fib(50)
+    `
+
+    const source = new Source("test", fib);
+    const project = new Project("test", source, []);
+    project.evaluate();
+    expect(project.evaluator.getLatestSourceValue(source)).toBeInstanceOf(EvaluationException);
+
+})

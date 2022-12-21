@@ -2,7 +2,7 @@ import type Translations from "../nodes/Translations";
 import Exception from "./Exception";
 import type Evaluator from "./Evaluator";
 
-export enum StackSize { EMPTY, FULL }
+export enum StackSize { EMPTY, FULL, LONG }
 
 export default class EvaluationException extends Exception {
 
@@ -18,6 +18,11 @@ export default class EvaluationException extends Exception {
         return this.reason === StackSize.EMPTY ?
             {
                 eng: `Not executing any functions.`,
+                "😀": `🫙`
+            } :
+            this.reason === StackSize.LONG ?
+            {
+                eng: `Too many steps, we got tired!`,
                 "😀": `🫙`
             } :
             {
