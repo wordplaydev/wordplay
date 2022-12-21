@@ -306,6 +306,17 @@ export default class Project {
 
     }
 
+    /** Get supplements not referenced by main */
+    getUnusedSupplements(): Source[] {
+
+        // Return all supplements for which no source's borrows borrow it.
+        return this.supplements.filter(
+            supplement => !this.getSources().some(
+                source => source.expression.borrows.some(
+                    borrow => (borrow.getShare(this.evaluator.getCurrentContext()) ?? [])[0] === supplement)))
+
+    }
+
     cleanup() { 
         // Stop all streams.
         for(const stream of Object.values(this.streams))

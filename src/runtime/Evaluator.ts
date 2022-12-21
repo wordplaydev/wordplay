@@ -80,7 +80,7 @@ export default class Evaluator {
     /** A set of possible execution modes, defaulting to play. */
     mode: Mode = Mode.PLAY;
 
-    /** The value of the evaluted program, cached each time the program is evaluated. */
+    /** The value of each source, cached each time the program is evaluated. */
     sourceValues: Map<Source, Value | undefined> = new Map();
 
     /** 
@@ -146,7 +146,7 @@ export default class Evaluator {
         // No expression? No steps.
         let steps = this.steps.get(evaluation);
         if(steps === undefined) {
-            // If the evaluation is a structure definition that has no block, synthesize an empty block
+            // Get the expression of the given node and compile it.
             const expression = evaluation.expression;
             if(expression instanceof Token || expression === undefined)
                 steps = [];
@@ -269,9 +269,6 @@ export default class Evaluator {
         // Mark as started.
         this.#started = true;
 
-        // Push the main source file onto the evaluation stack.
-        this.evaluations.push(new Evaluation(this, this.getMain(), this.getMain()));
-
         // If we're in the present, remember the stream change. (If we're in the past, we use the history.)
         if(!this.isInPast())
             this.changedStreams.push({ stream: changedStream, value: changedStream?.latest(), stepIndex: this.getStepCount()});
@@ -283,6 +280,13 @@ export default class Evaluator {
         if(this.invalidatedExpressions)
             for(const expr of Array.from(this.invalidatedExpressions))
                 this.values.delete(expr);
+
+        // Find all unused supplements and start evaluating them now, so they evaluate after main.
+        for(const unused of this.project.getUnusedSupplements())
+            this.evaluations.push(new Evaluation(this, unused, unused));
+            
+        // Push the main source file onto the evaluation stack.
+        this.evaluations.push(new Evaluation(this, this.getMain(), this.getMain()));
 
         // Tell listeners that we started.
         this.broadcast();
