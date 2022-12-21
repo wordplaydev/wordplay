@@ -13,7 +13,7 @@
     let timeline: HTMLElement;
 
     // Find the latest stream change before the current step index.
-    $: currentChange = $streams.findLast(change => change.stepIndex <= $currentStepIndex) ?? $streams[0];
+    $: currentChange = evaluator.getChangePriorTo($currentStepIndex);
 
     // After each update, ensure the current change is in view
     afterUpdate(() => {
@@ -116,6 +116,7 @@
         background-color: var(--wordplay-executing-color);
         color: var(--wordplay-background);
         user-select: none;
+        cursor: pointer;
     }
 
     .timeline:focus {
@@ -135,10 +136,6 @@
     .stream-value.down {
         transform-origin: bottom;
         transform: scaleY(0.5);
-    }
-
-    .stream-value:hover {
-        cursor: pointer;
     }
 
 </style>

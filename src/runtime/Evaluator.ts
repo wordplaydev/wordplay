@@ -29,6 +29,7 @@ import NameException from "./NameException";
 export type EvaluationObserver = () => void;
 export type StepNumber = number;
 export type StreamChange = { stream: Stream | undefined, value: Value | undefined, stepIndex: number };
+export type IndexedValue = { value: Value | undefined, stepNumber: StepNumber };
 export const MAX_CALL_STACK_DEPTH = 256;
 export const MAX_STEP_COUNT = 262144;
 
@@ -86,14 +87,14 @@ export default class Evaluator {
     /** A set of possible execution modes, defaulting to play. */
     mode: Mode = Mode.PLAY;
 
-    /** The value of each source, cached each time the program is evaluated. */
-    sourceValues: Map<Source, Value | undefined> = new Map();
+    /** The value of each source, indexed by the step index at which it was created. */
+    sourceValues: Map<Source, IndexedValue[]> = new Map();
 
     /** 
      * An execution history, mapping Expressions to the sequence of values they have produced.
      * Used for avoiding reevaluation, as well as the front end for debugging.
      */
-    values: Map<Expression, ({ value: Value | undefined, stepNumber: StepNumber })[]> = new Map();
+    values: Map<Expression, IndexedValue[]> = new Map();
 
     /** 
      * A counter for each expression, tracking how many times it has executed. Used to retrieve
@@ -144,7 +145,12 @@ export default class Evaluator {
     getLastEvaluation() { return this.#lastEvaluation; }
     getCurrentContext() { return this.getCurrentEvaluation()?.getContext() ?? new Context(this.project, this.project.main); }
     /** Get whatever the latest result was of evaluating the program and its streams. */
-    getLatestSourceValue(source: Source) { return this.sourceValues.get(source); }
+    getLatestSourceValue(source: Source): Value | undefined { 
+        const indexedValues = this.sourceValues.get(source);
+        if(indexedValues === undefined) return undefined;
+        const latestValue = indexedValues.findLast(val => val.stepNumber < this.getStepIndex());
+        return latestValue === undefined ? undefined : latestValue.value;    
+    }
     getStepCount() { return this.#stepCount; }
     getStepIndex() { return this.#stepIndex; }
     getSteps(evaluation: EvaluationNode): Step[] {
@@ -467,19 +473,22 @@ export default class Evaluator {
      */
     stepBack(offset: number = -1) {
 
-        // Set our target step
+        // Compute our our target step
         const destinationStep = this.#stepIndex + offset;
-        
-        // Step back in time
-        this.#stepIndex = 0;
+
+        // Find the latest reaction prior to the desired step.
+        const change = this.getChangePriorTo(destinationStep);
+
+        // Step to the change's step index.
+        this.#stepIndex = change.stepIndex;
 
         // Reset the project to the beginning of time (but preserve stream history, since that's stored in project).
-        this.resetAll();
+        this.resetForEvaluation();
 
         // Start the evaluation fresh.
         this.start();
 
-        // Step until reaching the target time.
+        // Step until reaching the target step index.
         while(this.#stepIndex < destinationStep) {
             // If done, then something's broken, since it should always be possible to ... GET BACK TO THE FUTURE (lol)
             if(this.isDone())
@@ -571,6 +580,12 @@ export default class Evaluator {
     }
 
     // STREAM AND REACTION MANAGMEENT
+
+    getChangePriorTo(stepIndex: StepNumber): StreamChange {
+
+        return this.changedStreams.findLast(change => change.stepIndex <= stepIndex) ?? this.changedStreams[0];
+
+    }
 
     didStreamCauseReaction(stream: Stream) {
 
@@ -683,8 +698,14 @@ export default class Evaluator {
             throw Error("Shouldn't be possible to end an evaluation on an empty evaluation stack.");
         this.#lastEvaluation = evaluation;
         const def = evaluation.getDefinition();
-        if(def instanceof Source)
-            this.sourceValues.set(def, value);
+        if(def instanceof Source) {
+            // If not in the past, save the source value.
+            if(!this.isInPast()) {
+                const indexedValues = this.sourceValues.get(def) ?? [];
+                indexedValues.push({ stepNumber: this.#stepCount, value });
+                this.sourceValues.set(def, indexedValues);
+            }
+        }
     }
     
     startExpression(expression: Expression) {
