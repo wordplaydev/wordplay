@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type FunctionValue from "../runtime/FunctionValue";
     import { languages } from "../models/languages";

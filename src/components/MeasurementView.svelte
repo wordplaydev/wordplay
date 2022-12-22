@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import TokenType from "../nodes/TokenType";
     import type Measurement from "../runtime/Measurement";

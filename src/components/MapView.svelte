@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type Map from "../runtime/Map";
     import SymbolView from "./SymbolView.svelte";

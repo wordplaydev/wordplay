@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type Table from "../runtime/Table";
     import { languages } from "../models/languages";

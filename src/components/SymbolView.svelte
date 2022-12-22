@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type TokenType from "../nodes/TokenType";
     import TokenCategories from "../editor/TokenCategories";

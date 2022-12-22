@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type Value from "../runtime/Value";
     import renderValue from "./valueToView";

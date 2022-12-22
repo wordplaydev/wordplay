@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import VerseView from './VerseView.svelte';
     import Editor from '../editor/Editor.svelte';

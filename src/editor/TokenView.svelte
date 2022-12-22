@@ -1,6 +1,4 @@
-<svelte:options immutable={true}/>
-
-<script lang="ts">
+<svelte:options immutable={true}/><script lang="ts">
     import type Token from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";

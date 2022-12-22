@@ -1,6 +1,4 @@
-<svelte:options immutable={true}/>
-
-<script lang="ts">
+<svelte:options immutable={true}/><script lang="ts">
     import { languages } from "../models/languages";
     import { selectTranslation } from "../nodes/Translations";
     import type Phrase from "../output/Phrase";

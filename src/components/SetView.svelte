@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type Set from "../runtime/Set";
     import SymbolView from "./SymbolView.svelte";

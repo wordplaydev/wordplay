@@ -1,6 +1,4 @@
-<svelte:options immutable={true}/>
-
-<script lang="ts">
+<svelte:options immutable={true}/><script lang="ts">
     import type Bind from "../nodes/Bind";
     import NodeView from "./NodeView.svelte";
 

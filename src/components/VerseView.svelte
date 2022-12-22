@@ -1,6 +1,4 @@
-<svelte:options immutable={true}/>
-
-<script lang="ts">
+<svelte:options immutable={true}/><script lang="ts">
     import { onMount, setContext } from "svelte";
     import type Project from "../models/Project";
     import type Verse from "../output/Verse";

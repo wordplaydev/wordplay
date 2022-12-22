@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script lang="ts">
     import type StructureDefinitionValue from "../runtime/StructureDefinitionValue";
     import { languages } from "../models/languages";
