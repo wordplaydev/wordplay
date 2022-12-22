@@ -89,7 +89,7 @@
         <p class="description">
             {#if historyTrimmed && currentChange === $streams[0]}
                 Can't remember before this…
-            {:else if currentChange.stream}
+            {:else if currentChange && currentChange.stream}
                 {currentChange.stream.docs.getTranslations().eng}
             {/if}
         </p>
