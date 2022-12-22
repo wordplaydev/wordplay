@@ -43,16 +43,16 @@ export default class Name extends Node {
     getGrammar() { 
         return [
             { name: "separator", types:[ Token, undefined ] },
-            { name: "name", types:[ Token, undefined ] },
+            { name: "name", types:[ Token ] },
             { name: "lang", types:[ Token, undefined ] },
         ];
     }
 
     replace(original?: Node, replacement?: Node) { 
         return new Name(
+            this.replaceChild("separator", this.separator, original, replacement),
             this.replaceChild("name", this.name, original, replacement), 
             this.replaceChild("lang", this.lang, original, replacement),
-            this.replaceChild("separator", this.separator, original, replacement)
         ) as this;
     }
 

@@ -51,7 +51,7 @@ export default class Names extends Node {
 
     getGrammar() { 
         return [
-            { name: "names", types:[[ Name ]] },
+            { name: "names", types: [[ Name ]] },
         ];
     }
 

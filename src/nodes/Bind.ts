@@ -87,14 +87,14 @@ export default class Bind extends Expression {
 
     getGrammar() { 
         return [
-            { name: "docs", types:[ Docs, undefined ] },
-            { name: "share", types:[ Token, undefined ] },
-            { name: "names", types:[ Names ] },
-            { name: "etc", types:[ Token, undefined ] },
-            { name: "dot", types:[ Token, undefined ] },
-            { name: "type", types:[ Type, undefined ] },
-            { name: "colon", types:[ Token, undefined ] },
-            { name: "value", types:[ Expression, undefined ] },
+            { name: "docs", types: [ Docs, undefined ] },
+            { name: "share", types: [ Token, undefined ] },
+            { name: "names", types: [ Names ] },
+            { name: "etc", types: [ Token, undefined ] },
+            { name: "dot", types: [ Token, undefined ] },
+            { name: "type", types: [ Type, undefined ] },
+            { name: "colon", types: [ Token, undefined ] },
+            { name: "value", types: [ Expression, undefined ] },
         ];
     }
 

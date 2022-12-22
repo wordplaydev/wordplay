@@ -27,7 +27,6 @@ import StructureDefinition from "../nodes/StructureDefinition";
 import type Spaces from "../parser/Spaces";
 import None from "../runtime/None";
 import type SetOpenToken from "../nodes/SetOpenToken";
-import TokenList from "../parser/TokenList";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -186,6 +185,11 @@ export default class Source extends Expression {
         return newCode == undefined ? undefined : this.reparse(newCode.toString());;
     }
 
+    /** 
+     * Given a new program, construct a new source that reuses as many existing Nodes as possible. 
+     * This isn't really optimized for parsing speed as much as it is reuse, since responsiveness is
+     * dominated by the UI, not by parsing, since programs are small.
+     * */
     reparse(newCode: string): Source {
 
         // Tokenize the new text
@@ -195,6 +199,8 @@ export default class Source extends Expression {
 
         // Make a mutable list of the old tokens
         const oldTokens = [ ... this.tokens ];
+        let added: Token[] = [];
+        let removed: Token[] = [];
 
         // Scan through the new tokens, reusing as many tokens as possible.
         for(let i = 0; i < newTokens.length; i++) {
@@ -207,16 +213,26 @@ export default class Source extends Expression {
                 newTokens[i] = oldToken;
                 // Point the new spaces to the old token
                 spaces.replace(newToken, oldToken);
+                // Remember what we're about to remove
+                for(let j = 0; j < index; j++) removed.push(oldTokens[j]);
                 // Rid of all the tokens prior to the reused one, since they're obsolete.
                 oldTokens.splice(0, index + 1);
             }
+            else {
+                // Add this to the added list.
+                added.push(newToken);
+            }
         }
 
-        // Reparse the program with the reused tokens.
-        const program = parseProgram(new Tokens(newTokens, spaces));
-
-        // Return a new source file
-        return new Source(this.names, [ program, spaces ]);
+        // If only space changed, return a new source with the old program for maximum zippiness.
+        if(added.length === 0 && removed.length === 0)
+            return new Source(this.names, [ this.expression, spaces ]);
+        // If only one token was added and removed and they're the same type, replace the token in the existing program
+        else if(added.length === 1 && removed.length === 1 && added[0].getTypes().some(type => removed[0].is(type)))
+            return new Source(this.names, [ this.expression.replace(removed[0], added[0]), spaces ]);
+        // Otherwise, reparse the program with the reused tokens and return a new source file
+        else 
+            return new Source(this.names, [ parseProgram(new Tokens(newTokens, spaces)), spaces ]);
 
     }
 

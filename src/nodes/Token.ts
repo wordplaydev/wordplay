@@ -56,8 +56,9 @@ export default class Token extends Node {
     // TOKEN TYPES
 
     isnt(type: TokenType) { return !this.is(type); }
-    is(type: TokenType) { return Array.isArray(this.types) ? this.types.includes(type) : type === this.types; }
+    is(type: TokenType) { return this.getTypes().includes(type); }
     isName() { return this.is(TokenType.NAME); }
+    getTypes() { return Array.isArray(this.types) ? this.types : [ this.types ]; }
 
     // TEXT UTILITIES
 
