@@ -1,6 +1,7 @@
 import type { Edit } from "../editor/util/Commands";
 import Node from "../nodes/Node";
 import Token from "../nodes/Token";
+import TokenType from "../nodes/TokenType";
 import { DELIMITERS, PLACEHOLDER_SYMBOL, PROPERTY_SYMBOL, REVERSE_DELIMITERS } from "../parser/Tokenizer";
 import type Source from "./Source";
 
@@ -271,7 +272,11 @@ export default class Caret {
             let closed = false;
 
             // If the character we're inserting is already immediately after the caret and is a matched closing deimiter, don't insert, just move the caret forward.
-            if(this.token && text === this.source.code.at(this.position) && this.token.getText() in REVERSE_DELIMITERS && this.source.getMatchedDelimiter(this.token) !== undefined)
+            // We handle two cases: discrete matched tokens ([], {}, ()) text tokens that have internal matched delimiters.
+            if(this.token && text === this.source.code.at(this.position) && (
+                (this.token.is(TokenType.TEXT) && DELIMITERS[this.token.getText().charAt(0)] === text) ||
+                (this.token.getText() in REVERSE_DELIMITERS && this.source.getMatchedDelimiter(this.token) !== undefined)
+            ))
                 return [ this.source, new Caret(this.source, this.position + 1) ];
             // Otherwise, if the text to insert is an opening delimiter, automatically insert its closing counterpart.
             else if(text in DELIMITERS) {
