@@ -154,9 +154,7 @@ export default class Evaluator {
     }
     getStepCount() { return this.#stepCount; }
     getStepIndex() { return this.#stepIndex; }
-    getEarliestStepIndexAvailable() { 
-        console.log(this.reactions[0]?.stepIndex);
-        return this.reactions[0]?.stepIndex ?? 0; }
+    getEarliestStepIndexAvailable() { return this.reactions[0]?.stepIndex ?? 0; }
     getSteps(evaluation: EvaluationNode): Step[] {
 
         // No expression? No steps.
@@ -294,7 +292,6 @@ export default class Evaluator {
             this.reactions.push({ stream: changedStream, value: changedStream?.latest(), stepIndex: this.getStepCount()});
             // Keep trimmed to a reasonable size to prevent memory leaks and remember the earliest step available.
             if(this.reactions.length > MAX_STREAM_LENGTH) {
-                console.log("Trimmed reactions");
                 const oldest = Math.max(0, this.reactions.length - MAX_STREAM_LENGTH);
                 this.reactions = this.reactions.slice(oldest, oldest + MAX_STREAM_LENGTH);
             }

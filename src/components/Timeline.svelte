@@ -81,13 +81,13 @@
 
 {#if nonEmptyStreams.length > 0}
     <section class="reactions">
-        <div class="description">
+        <p class="description">
             {#if historyTrimmed && currentChange === $streams[0]}
                 Can't remember before this…
             {:else if currentChange.stream}
                 {currentChange.stream.docs.getTranslations().eng}
             {/if}
-        </div>
+        </p>
         <div 
             class="timeline" 
             tabIndex="0"
@@ -134,10 +134,6 @@
         white-space: nowrap;
         user-select: none;
         cursor: pointer;
-    }
-
-    .description {
-        margin-bottom: var(--wordplay-spacing);
     }
 
     .timeline:focus {
