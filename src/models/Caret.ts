@@ -1,7 +1,7 @@
 import type { Edit } from "../editor/util/Commands";
 import Node from "../nodes/Node";
 import Token from "../nodes/Token";
-import { DELIMITERS, PLACEHOLDER_SYMBOL, PROPERTY_SYMBOL } from "../parser/Tokenizer";
+import { DELIMITERS, PLACEHOLDER_SYMBOL, PROPERTY_SYMBOL, REVERSE_DELIMITERS } from "../parser/Tokenizer";
 import type Source from "./Source";
 
 export type InsertionContext = { before: Node[], after: Node[] };
@@ -262,10 +262,22 @@ export default class Caret {
     insert(text: string): Edit | undefined {
         if(typeof this.position === "number") {
 
-            // If the inserted string matches a single matched delimiter, complete it.
-            const closed = text in DELIMITERS;
-            if(closed)
+            // If the inserted string matches a single matched delimiter, complete it, unless:
+            // 1) we’re immediately before an matched closing delimiter, in which case we insert nothing, but move the caret forward
+            // 2) the character being inserted closes an unmatched delimiter, in which case we just insert the character.
+            // const closed = text in DELIMITERS;
+            // if(closed) {
+
+            let closed = false;
+
+            // If the character we're inserting is already immediately after the caret and is a matched closing deimiter, don't insert, just move the caret forward.
+            if(this.token && text === this.source.code.at(this.position) && this.token.getText() in REVERSE_DELIMITERS && this.source.getMatchedDelimiter(this.token) !== undefined)
+                return [ this.source, new Caret(this.source, this.position + 1) ];
+            // Otherwise, if the text to insert is an opening delimiter, automatically insert its closing counterpart.
+            else if(text in DELIMITERS) {
+                closed = true;
                 text += DELIMITERS[text];
+            }
 
             const newSource = this.source.withGraphemesAt(text, this.position);
             

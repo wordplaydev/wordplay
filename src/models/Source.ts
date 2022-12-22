@@ -3,7 +3,7 @@ import Token from "../nodes/Token";
 import Program from "../nodes/Program";
 import type Conflict from "../conflicts/Conflict";
 import { parseProgram, Tokens } from "../parser/Parser";
-import { tokenize } from "../parser/Tokenizer";
+import { DELIMITERS, REVERSE_DELIMITERS, tokenize } from "../parser/Tokenizer";
 import UnicodeString from "./UnicodeString";
 import type Value from "../runtime/Value";
 import type Context from "../nodes/Context";
@@ -26,6 +26,7 @@ import FunctionDefinition from "../nodes/FunctionDefinition";
 import StructureDefinition from "../nodes/StructureDefinition";
 import type Spaces from "../parser/Spaces";
 import None from "../runtime/None";
+import type SetOpenToken from "../nodes/SetOpenToken";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -147,6 +148,15 @@ export default class Source extends Expression {
         return this.expression.expression.statements.find(n => 
             (n instanceof Bind && n.hasName(name) && n.isShared()) ||
             ((n instanceof FunctionDefinition || n instanceof StructureDefinition) && n.hasName(name))) as SharedDefinition | undefined;
+
+    }
+
+    getMatchedDelimiter(delimiter: Token): Token | undefined {
+
+        const text = delimiter.getText();
+        const match = text in DELIMITERS ? DELIMITERS[text] : text in REVERSE_DELIMITERS ? REVERSE_DELIMITERS[text] : undefined;
+        if(match === undefined) return;
+        return this.get(delimiter)?.getParent()?.getChildren().find((node): node is SetOpenToken => node instanceof Token && node.getText() === match);
 
     }
 

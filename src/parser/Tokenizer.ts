@@ -203,7 +203,7 @@ for(const [open, close] of Object.entries(TEXT_DELIMITERS))
 // Construct the reverse delimiters.
 export const REVERSE_DELIMITERS: Record<string,string> = {};
 
-for(const [ open, close ] of Object.values(DELIMITERS))
+for(const [ open, close ] of Object.entries(DELIMITERS))
     REVERSE_DELIMITERS[close] = open;
 
 export function tokens(source: string): Token[] {
