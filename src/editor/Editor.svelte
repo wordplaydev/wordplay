@@ -1124,6 +1124,7 @@
         padding: var(--wordplay-spacing);
         position: relative;
         user-select: none;
+        min-height: 100%;
     }
 
     .keyboard-input {
