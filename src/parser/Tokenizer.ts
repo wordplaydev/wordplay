@@ -184,8 +184,7 @@ const TEXT_DELIMITERS: Record<string,string> = {
     '‹': '›',
     '«': '»',
     '「': '」',
-    '『': '』',
-    '⎡': '⎦'
+    '『': '』'
 }
 
 export const DELIMITERS: Record<string,string> = {};
@@ -195,6 +194,8 @@ DELIMITERS[EVAL_OPEN_SYMBOL] = EVAL_CLOSE_SYMBOL;
 DELIMITERS[LIST_OPEN_SYMBOL] = LIST_CLOSE_SYMBOL;
 DELIMITERS[SET_OPEN_SYMBOL] = SET_CLOSE_SYMBOL;
 DELIMITERS[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
+DELIMITERS[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
+
 // Add the text delimiters.
 for(const [open, close] of Object.entries(TEXT_DELIMITERS))
     DELIMITERS[open] = close;
