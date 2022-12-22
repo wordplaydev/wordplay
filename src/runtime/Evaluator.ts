@@ -24,6 +24,7 @@ import Context from "../nodes/Context";
 import Native from "../native/NativeBindings";
 import { Animations } from "../output/Animation";
 import NameException from "./NameException";
+import { MAX_STREAM_LENGTH } from "./Stream";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -76,7 +77,7 @@ export default class Evaluator {
     #steppedToNode: boolean = false;
 
     /** The streams changes that triggered this evaluation */
-    changedStreams: StreamChange[] = [];
+    reactions: StreamChange[] = [];
 
     /** The expressions that need to be re-evaluated, if any. */
     invalidatedExpressions: Set<Expression> | undefined = undefined;
@@ -153,6 +154,9 @@ export default class Evaluator {
     }
     getStepCount() { return this.#stepCount; }
     getStepIndex() { return this.#stepIndex; }
+    getEarliestStepIndexAvailable() { 
+        console.log(this.reactions[0]?.stepIndex);
+        return this.reactions[0]?.stepIndex ?? 0; }
     getSteps(evaluation: EvaluationNode): Step[] {
 
         // No expression? No steps.
@@ -285,8 +289,17 @@ export default class Evaluator {
         this.#latestStepCount = 0;
 
         // If we're in the present, remember the stream change. (If we're in the past, we use the history.)
-        if(!this.isInPast())
-            this.changedStreams.push({ stream: changedStream, value: changedStream?.latest(), stepIndex: this.getStepCount()});
+        if(!this.isInPast()) {
+         
+            this.reactions.push({ stream: changedStream, value: changedStream?.latest(), stepIndex: this.getStepCount()});
+            // Keep trimmed to a reasonable size to prevent memory leaks and remember the earliest step available.
+            if(this.reactions.length > MAX_STREAM_LENGTH) {
+                console.log("Trimmed reactions");
+                const oldest = Math.max(0, this.reactions.length - MAX_STREAM_LENGTH);
+                this.reactions = this.reactions.slice(oldest, oldest + MAX_STREAM_LENGTH);
+            }
+
+        }
 
         // Remember what expressions need to be reevaluated.
         this.invalidatedExpressions = invalidatedExpressions;
@@ -374,7 +387,7 @@ export default class Evaluator {
         // If we're in the past and there's another stream change at this step index, start again.
         if(this.isInPast()) {
             let next;
-            for(const change of this.changedStreams) {
+            for(const change of this.reactions) {
                 if(change.stepIndex >= this.getStepIndex()) {
                     next = change;
                     break;
@@ -474,7 +487,7 @@ export default class Evaluator {
     stepBack(offset: number = -1) {
 
         // Compute our our target step
-        const destinationStep = this.#stepIndex + offset;
+        const destinationStep = Math.max(this.#stepIndex + offset, this.getEarliestStepIndexAvailable());
 
         // Find the latest reaction prior to the desired step.
         const change = this.getChangePriorTo(destinationStep);
@@ -525,7 +538,7 @@ export default class Evaluator {
     stepToInput() {
 
         // Find the input after the current index.
-        const change = this.changedStreams.find(change => change.stepIndex > this.getStepIndex());
+        const change = this.reactions.find(change => change.stepIndex > this.getStepIndex());
 
         if(change === undefined) return false;
 
@@ -543,7 +556,7 @@ export default class Evaluator {
     stepBackToInput() {
         // Find the changed stream just before the current step index and step back to it.
         let latestChange;
-        for(const change of this.changedStreams) {
+        for(const change of this.reactions) {
             if(change.stepIndex >= this.getStepIndex())
                 break;
             else
@@ -583,7 +596,7 @@ export default class Evaluator {
 
     getChangePriorTo(stepIndex: StepNumber): StreamChange {
 
-        return this.changedStreams.findLast(change => change.stepIndex <= stepIndex) ?? this.changedStreams[0];
+        return this.reactions.findLast(change => change.stepIndex <= stepIndex) ?? this.reactions[0];
 
     }
 
@@ -592,7 +605,7 @@ export default class Evaluator {
         // Find the latest stream change after the current step index,
         // and return the stream that triggered evaluation, if any.
         let latest;
-        for(const change of this.changedStreams) {
+        for(const change of this.reactions) {
             latest = change;
             // Stop once we've passed the current time.
             if(change.stepIndex > this.getStepIndex())

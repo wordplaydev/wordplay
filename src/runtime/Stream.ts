@@ -10,7 +10,7 @@ import type Evaluator from "./Evaluator";
 import type { StepNumber } from "./Evaluator";
 import type { NativeTypeName } from "../native/NativeConstants";
 
-const HISTORY_LIMIT = 256;
+export const MAX_STREAM_LENGTH = 32;
 
 export default abstract class Stream<ValueType extends Value = Value> extends Primitive {
 
@@ -58,9 +58,9 @@ export default abstract class Stream<ValueType extends Value = Value> extends Pr
         // Update the time.
         this.values.push({ value: value, stepIndex: this.evaluator.getStepIndex() });
 
-        // Limit the array to 1000 values to avoid leaking memory.
-        const oldest = Math.max(0, this.values.length - HISTORY_LIMIT);
-        this.values = this.values.slice(oldest, oldest + HISTORY_LIMIT);
+        // Limit the array length to avoid leaking memory.
+        const oldest = Math.max(0, this.values.length - MAX_STREAM_LENGTH);
+        this.values = this.values.slice(oldest, oldest + MAX_STREAM_LENGTH);
 
         // Notify subscribers of the state change.
         if(!silent)

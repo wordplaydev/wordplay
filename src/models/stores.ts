@@ -29,7 +29,7 @@ function updateEvaluatorStores() {
         currentStep.set(evaluator.getCurrentStep());
         currentStepIndex.set(evaluator.getStepIndex());
         playing.set(evaluator.isPlaying())
-        streams.set(evaluator.changedStreams);
+        streams.set(evaluator.reactions);
         animations.set(Array.from(evaluator.animations.animations.values()));
     }
 }

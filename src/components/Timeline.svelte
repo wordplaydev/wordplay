@@ -14,6 +14,7 @@
 
     // Find the latest stream change before the current step index.
     $: currentChange = evaluator.getChangePriorTo($currentStepIndex);
+    $: historyTrimmed = $currentStepIndex && evaluator.getEarliestStepIndexAvailable() > 0;
 
     // After each update, ensure the current change is in view
     afterUpdate(() => {
@@ -79,44 +80,64 @@
 </script>
 
 {#if nonEmptyStreams.length > 0}
-    <div 
-        class="timeline" 
-        tabIndex="0"
-        on:keydown={event => event.key === "ArrowLeft" ? leap(-1) : event.key === "ArrowRight" ? leap(1) : undefined }
-        on:mousedown={event => stepToMouse(event) }
-        on:mousemove={event => (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
-        bind:this={timeline}>
-        {#each $streams as change }
-            {@const down = change.stream instanceof Keyboard ? change.value?.resolve("down") : change.stream instanceof MouseButton ? change.value : undefined }
-            <span 
-                class={`stream-value ${currentChange === change ? "current" : ""} ${down instanceof Bool && down.bool ? "down" : "" }`}
-                data-index={change.stepIndex}
-            >
-                {#if change.stream === undefined}
-                    →
-                {:else}
-                    {#if change.stream instanceof Keyboard && change.value}
-                        {@const key = change.value.resolve("key")}
-                        {#if key instanceof Text}{key.text}{/if}
+    <section class="reactions">
+        <div class="description">
+            {#if historyTrimmed && currentChange === $streams[0]}
+                Can't remember before this…
+            {:else if currentChange.stream}
+                {currentChange.stream.docs.getTranslations().eng}
+            {/if}
+        </div>
+        <div 
+            class="timeline" 
+            tabIndex="0"
+            on:keydown={event => event.key === "ArrowLeft" ? leap(-1) : event.key === "ArrowRight" ? leap(1) : undefined }
+            on:mousedown={event => stepToMouse(event) }
+            on:mousemove={event => (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
+            bind:this={timeline}
+        >
+            {#if historyTrimmed}<span class="stream-value">…</span>{/if}
+            {#each $streams as change }
+                {@const down = change.stream instanceof Keyboard ? change.value?.resolve("down") : change.stream instanceof MouseButton ? change.value : undefined }
+                <span 
+                    class={`stream-value ${currentChange === change ? "current" : ""} ${down instanceof Bool && down.bool ? "down" : "" }`}
+                    data-index={change.stepIndex}
+                >
+                    {#if change.stream === undefined}
+                        →
                     {:else}
-                        {change.stream.names.getTranslation("😀")}
+                        {#if change.stream instanceof Keyboard && change.value}
+                            {@const key = change.value.resolve("key")}
+                            {#if key instanceof Text}{key.text}{/if}
+                        {:else}
+                            {change.stream.names.getTranslation("😀")}
+                        {/if}
                     {/if}
-                {/if}
-            </span>
-        {/each}
-    </div>
+                </span>
+            {/each}
+        </div>
+    </section>
 {/if}
 
 <style>
-    .timeline {
-        overflow-x: hidden;
-        width: 100%;
-        white-space: nowrap;
+
+    .reactions {
         padding: var(--wordplay-spacing);
         background-color: var(--wordplay-executing-color);
         color: var(--wordplay-background);
+    }
+
+    .timeline {
+        overflow-x: hidden;
+        position: relative;
+        width: 100%;
+        white-space: nowrap;
         user-select: none;
         cursor: pointer;
+    }
+
+    .description {
+        margin-bottom: var(--wordplay-spacing);
     }
 
     .timeline:focus {
