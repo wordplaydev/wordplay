@@ -40,6 +40,7 @@
 
     let editor: HTMLElement;
     export let input: HTMLInputElement | null = null;
+    let focusRequested = false;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     let caret = writable<Caret>(new Caret(source, 0));
@@ -201,6 +202,12 @@
     // and make sure the text input field is in focus.
     afterUpdate(() => {
         if(editor === undefined || editor === null) return;
+
+        // Focus the text field if requested.
+        if(focusRequested && input !== null) {
+            focusRequested = false;
+            input.focus();
+        }
 
         // Position the menu if a node is selected.
         if(menu !== undefined && editor !== undefined && $caret.isNode()) {
@@ -538,7 +545,8 @@
             stepToNodeAt(event);
 
         // After we handle the click, focus on keyboard input, in case it's not focused.
-        input?.focus();
+        if(input && caretLocation)
+            focusRequested = true;
 
     }
 
@@ -983,7 +991,8 @@
         caretChanged = true;
 
         // After every edit, focus back on on text input
-        input?.focus();
+        if(input !== null)
+            input.focus();
 
     }
 
@@ -1103,16 +1112,18 @@
         </div>
     {/if}
     <!-- Render the invisible text field that allows us to capture inputs -->
-    <input 
-        type="text"
-        class="keyboard-input" 
-        style={`left: ${caretLocation?.left ?? 0}; top: ${caretLocation?.top ?? 0};`}
-        bind:this={input}
-        on:input={handleTextInput}
-        on:keydown={handleKeyDown}
-        on:focus={handleTextInputFocusGain}
-        on:blur={handleTextInputFocusLoss}
-    />
+    {#if caretLocation !== undefined}
+        <input 
+            type="text"
+            class="keyboard-input" 
+            style={`left: ${caretLocation.left}; top: ${caretLocation.top};`}
+            bind:this={input}
+            on:input={handleTextInput}
+            on:keydown={handleKeyDown}
+            on:focus={handleTextInputFocusGain}
+            on:blur={handleTextInputFocusLoss}
+        />
+    {/if}
 </div>
 
 <style>
