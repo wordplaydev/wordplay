@@ -1,4 +1,11 @@
 <svelte:options immutable={true}/>
+<script context="module" lang="ts">
+
+    let spaceWidth: number | null = null;
+    let tabWidth: number | null = null;
+
+</script>
+
 <script lang="ts">
     import { afterUpdate } from "svelte";
     import Token from "../nodes/Token";
@@ -211,15 +218,16 @@
             const editorPaddingTop = parseInt(editorStyle.getPropertyValue('padding-top').replace("px", "")) + 4;
 
             // Get some measurements on spaces and tab.
-            const spaceElement = editorView.querySelector(`.space[data-id="${token.id}"]`);
-            if(spaceElement === null) return;
-            const spaceRect = spaceElement.getBoundingClientRect();
-            const spaceText = spaceElement.innerHTML;
-            spaceElement.innerHTML = SPACE_HTML;
-            const spaceWidth = spaceRect.width;
-            spaceElement.innerHTML = tabToHTML();
-            const tabWidth = spaceRect.width;
-            spaceElement.innerHTML = spaceText;
+            if(spaceWidth === null || tabWidth === null) {
+                const spaceElement = editorView.querySelector(`.space[data-id="${token.id}"]`);
+                if(spaceElement === null) return;
+                const spaceText = spaceElement.innerHTML;
+                spaceElement.innerHTML = SPACE_HTML;
+                spaceWidth = spaceElement.getBoundingClientRect().width;
+                spaceElement.innerHTML = tabToHTML();
+                tabWidth = spaceElement.getBoundingClientRect().width;
+                spaceElement.innerHTML = spaceText;
+            }
 
             // Find the right side of token just prior to the current one that has this space.
             const priorToken = $caret.source.getNextToken(token, -1);
