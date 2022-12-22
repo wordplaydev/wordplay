@@ -221,17 +221,6 @@
                 }
             }
         }
-
-        if(caretChanged && editor.contains(document.activeElement)) {
-            caretChanged = false;
-            const el = 
-                $caret.position instanceof Node ? 
-                    getNodeView($caret.position) :
-                    document.querySelector(".caret");
-            if(el)
-                ensureElementIsVisible(el, true);
-        }
-
     });
 
     function addHighlight(map: Highlights, node: Node, type: HighlightType) {
@@ -966,7 +955,7 @@
 
     }
 
-    function handleEdit(edit: Edit | undefined) {
+    async function handleEdit(edit: Edit | undefined) {
 
         if(edit === undefined) return;
 
@@ -985,8 +974,10 @@
         // Mark that we need to make caret visible.
         caretChanged = true;
 
-        // After every edit, focus back on on text input
-        input?.focus();
+        // After every edit and everything is updated, focus back on on text input
+        await tick();
+        if(input && caretLocation)
+            input.focus();
 
     }
 
