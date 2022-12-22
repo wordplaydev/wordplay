@@ -71,7 +71,7 @@
     afterUpdate(() => {
 
         // Now that we've rendered the caret, if it's out of the viewport and we're not executing, scroll to it.
-        if(element && $playing && element.contains(document.activeElement))
+        if(element && $playing)
             element.scrollIntoView({ block: "nearest" });
 
         // Update the caret's location, in case other things changed.
