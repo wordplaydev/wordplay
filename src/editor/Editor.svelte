@@ -991,8 +991,7 @@
         caretChanged = true;
 
         // After every edit, focus back on on text input
-        if(input !== null)
-            input.focus();
+        input?.focus();
 
     }
 
@@ -1112,18 +1111,16 @@
         </div>
     {/if}
     <!-- Render the invisible text field that allows us to capture inputs -->
-    {#if caretLocation !== undefined}
-        <input 
-            type="text"
-            class="keyboard-input" 
-            style={`left: ${caretLocation.left}; top: ${caretLocation.top};`}
-            bind:this={input}
-            on:input={handleTextInput}
-            on:keydown={handleKeyDown}
-            on:focus={handleTextInputFocusGain}
-            on:blur={handleTextInputFocusLoss}
-        />
-    {/if}
+    <input 
+        type="text"
+        class="keyboard-input" 
+        style={`left: ${caretLocation?.left ?? 0}; top: ${caretLocation?.top ?? 0};`}
+        bind:this={input}
+        on:input={handleTextInput}
+        on:keydown={handleKeyDown}
+        on:focus={handleTextInputFocusGain}
+        on:blur={handleTextInputFocusLoss}
+    />
 </div>
 
 <style>
