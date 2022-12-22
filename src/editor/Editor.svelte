@@ -970,9 +970,6 @@
             caret.set(newCaret);
         }
 
-        // Mark that we need to make caret visible.
-        caretChanged = true;
-
         // After every edit and everything is updated, focus back on on text input
         await tick();
         if(input && caretLocation)
