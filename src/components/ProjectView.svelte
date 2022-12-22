@@ -17,9 +17,11 @@
     onDestroy(() => project.cleanup());
 
     $: {
-        // If the keyboard is idle and the evaluator hasn't started yet, start it.
-        if($KeyboardIdle && !project.evaluator.isStarted())
+        // If the keyboard is idle and the evaluator hasn't started yet, analyze the program and evaluate it.
+        if($KeyboardIdle && !project.evaluator.isStarted()) {
+            project.analyze();
             project.evaluate();
+        }
     }
 
     // Create a global context for a node being dragged

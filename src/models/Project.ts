@@ -99,9 +99,6 @@ export default class Project {
             ...ImplicitShares.map(share => new Tree(share))
         ]
         
-        // Analyze the project
-        this.analyze();
-
     }
 
     get(node: Node): Tree | undefined {
