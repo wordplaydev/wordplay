@@ -34,13 +34,13 @@
     import type Project from '../models/Project';
     import { currentStep, playing, animations } from '../models/stores';
     import type Conflict from '../conflicts/Conflict';
+    import { tick } from 'svelte';
     
     export let project: Project;
     export let source: Source;
 
     let editor: HTMLElement;
     export let input: HTMLInputElement | null = null;
-    let focusRequested = false;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     let caret = writable<Caret>(new Caret(source, 0));
@@ -202,12 +202,6 @@
     // and make sure the text input field is in focus.
     afterUpdate(() => {
         if(editor === undefined || editor === null) return;
-
-        // Focus the text field if requested.
-        if(focusRequested && input !== null) {
-            focusRequested = false;
-            input.focus();
-        }
 
         // Position the menu if a node is selected.
         if(menu !== undefined && editor !== undefined && $caret.isNode()) {
@@ -532,7 +526,7 @@
 
     }
 
-    function handleMouseDown(event: MouseEvent) {
+    async function handleMouseDown(event: MouseEvent) {
 
         if(evaluator === undefined) return;
 
@@ -545,8 +539,9 @@
             stepToNodeAt(event);
 
         // After we handle the click, focus on keyboard input, in case it's not focused.
+        await tick();
         if(input && caretLocation)
-            focusRequested = true;
+            input.focus();
 
     }
 
