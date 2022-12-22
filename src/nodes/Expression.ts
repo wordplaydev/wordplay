@@ -30,18 +30,7 @@ export default abstract class Expression extends Node {
     abstract computeType(context: Context): Type;
 
     getType(context: Context): Type {
-
-        if(this._type === undefined) {
-            if(context.visited(this))
-                this._type = new CycleType(this, context.stack.slice(context.stack.indexOf(this)));
-            else {
-                context.visit(this);
-                this._type = this.computeType(context);
-                context.unvisit();
-            }
-        }
-        return this._type;
-
+        return context.getType(this);
     }
 
     abstract getDependencies(_: Context): (Expression | Stream<Value>)[];

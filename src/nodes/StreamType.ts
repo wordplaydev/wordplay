@@ -19,7 +19,7 @@ export default class StreamType extends Type {
     readonly stream: Token;
     readonly type: Type;
 
-    constructor(stream: Token, type: Type, ) {
+    constructor(stream: Token, type: Type) {
         super();
 
         this.stream = stream;
@@ -53,8 +53,8 @@ export default class StreamType extends Type {
 
     replace(original?: Node, replacement?: Node) { 
         return new StreamType(
-            this.replaceChild("type", this.type, original, replacement), 
-            this.replaceChild("stream", this.stream, original, replacement)
+            this.replaceChild("stream", this.stream, original, replacement),
+            this.replaceChild("type", this.type, original, replacement)
         ) as this; 
     }
 

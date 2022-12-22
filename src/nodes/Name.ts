@@ -44,7 +44,7 @@ export default class Name extends Node {
         return [
             { name: "separator", types:[ Token, undefined ] },
             { name: "name", types:[ Token ] },
-            { name: "lang", types:[ Token, undefined ] },
+            { name: "lang", types:[ Language, undefined ] },
         ];
     }
 

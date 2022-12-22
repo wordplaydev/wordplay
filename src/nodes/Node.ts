@@ -19,9 +19,6 @@ export default abstract class Node {
     /* A cache of the children of this node, in parse order. */
     _children: undefined | Node[] = undefined;
 
-    /** A cache of conflicts on this node. Undefined means no cache. */
-    _conflicts: undefined | Conflict[] = undefined;
-
     constructor() {
         this.id = NODE_ID_COUNTER++;
     }
@@ -127,13 +124,9 @@ export default abstract class Node {
     }
 
     /** Compute and store the conflicts. */
-    getConflicts(context: Context) { 
-        if(this._conflicts === undefined)
-            this._conflicts = this.computeConflicts(context) ?? [];
-        return this._conflicts;
+    getConflicts(context: Context): Conflict[] { 
+        return this.computeConflicts(context) ?? [];
     }
-
-    getConflictCache() { return this._conflicts === undefined ? [] : this._conflicts; }
     
     /** Returns all the conflicts in this tree. */
     getAllConflicts(context: Context): Conflict[] {
@@ -201,7 +194,7 @@ export default abstract class Node {
     /** Creates a deep clone of this node and it's descendants. If it encounters replacement along the way, it uses that instead of the existing node. */
     abstract replace(original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
 
-    replaceChild<ExpectedTypes>(field: keyof this, child: Node | Node[] | undefined, original: Node | string | undefined, replacement: Node | undefined): ExpectedTypes {
+    replaceChild<ChildType extends Node | Node[] | undefined>(field: keyof this, child: ChildType, original: Node | string | undefined, replacement: Node | undefined): ChildType {
 
         function allowedToString(allowedTypes: (Function | Function[] | undefined)[]) {
             return `[${allowedTypes.map(type => type instanceof Function ? type.name : Array.isArray(type) ? type.map(type => type.name) : "undefined").join(", ")}]`;
@@ -245,20 +238,20 @@ export default abstract class Node {
                         newList[index] = replacement;
 
                     // Replace the item in the list.
-                    return newList.map(child => child === replacement ? replacement : child) as ExpectedTypes;
+                    return newList.map(child => child === replacement ? replacement : child) as ChildType;
 
                 }
                 else throw Error(`Somehow didn't find index of original in child. This shouldn't be possibe.`);
                 
             }
-            else return replacement as ExpectedTypes;
+            else return replacement as ChildType;
         }
 
         // If we didn't find a match above, just return the existing list or child.
         if(Array.isArray(child))
-            return child.map(n => original !== undefined && (typeof original === "string" || n.contains(original)) ? n.replace(original, replacement) : n) as ExpectedTypes
+            return child.map(n => original !== undefined && (typeof original === "string" || n.contains(original)) ? n.replace(original, replacement) : n) as ChildType
         else
-            return (child && original !== undefined && (typeof original === "string" || child.contains(original)) ? child.replace(original, replacement) : child) as ExpectedTypes;
+            return (child && original !== undefined && (typeof original === "string" || child.contains(original)) ? child.replace(original, replacement) : child) as ChildType;
 
     }
 

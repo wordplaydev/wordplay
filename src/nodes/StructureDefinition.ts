@@ -90,29 +90,29 @@ export default class StructureDefinition extends Expression {
 
     getGrammar() { 
         return [
-            { name: "docs", types:[ Docs, undefined ] },
-            { name: "type", types:[ Token ] },
-            { name: "names", types:[ Names ] },
-            { name: "interfaces", types:[[ Reference ] ] },
-            { name: "types", types:[ TypeVariables, undefined ] },
+            { name: "docs", types: [ Docs, undefined ] },
+            { name: "type", types: [ Token ] },
+            { name: "names", types: [ Names ] },
+            { name: "interfaces", types: [[ Reference ] ] },
+            { name: "types", types: [ TypeVariables, undefined ] },
             { name: "open", types:[ Token, undefined ] },
-            { name: "inputs", types:[[ Bind ]] },
-            { name: "close", types:[ Token, undefined ] },
-            { name: "expression", types:[ Block, undefined ] },
+            { name: "inputs", types: [[ Bind ]] },
+            { name: "close", types: [ Token, undefined ] },
+            { name: "expression", types: [ Block, undefined ] },
         ];
     }
 
     replace(original?: Node, replacement?: Node) {
         return new StructureDefinition(
             this.replaceChild("docs", this.docs, original, replacement),
+            this.replaceChild("type", this.type, original, replacement),
             this.replaceChild("names", this.names, original, replacement),
             this.replaceChild("interfaces", this.interfaces, original, replacement), 
             this.replaceChild("types", this.types, original, replacement),
-            this.replaceChild("inputs", this.inputs, original, replacement),
-            this.replaceChild("expression", this.expression, original, replacement),
-            this.replaceChild("type", this.type, original, replacement),
             this.replaceChild("open", this.open, original, replacement),
-            this.replaceChild("close", this.close, original, replacement)
+            this.replaceChild("inputs", this.inputs, original, replacement),
+            this.replaceChild("close", this.close, original, replacement),
+            this.replaceChild("expression", this.expression, original, replacement)
         ) as this;
     }
 

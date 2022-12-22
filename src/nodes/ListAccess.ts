@@ -62,8 +62,8 @@ export default class ListAccess extends Expression {
 
     getGrammar() { 
         return [
-            { name: "list", types:[ Expression ] },
             { name: "open", types:[ Token ] },
+            { name: "list", types:[ Expression ] },
             { name: "index", types:[ Expression ] },
             { name: "close", types:[ Token, undefined ] },
         ];
@@ -71,9 +71,9 @@ export default class ListAccess extends Expression {
 
     replace(original?: Node, replacement?: Node) { 
         return new ListAccess(
+            this.replaceChild("open", this.open, original, replacement), 
             this.replaceChild("list", this.list, original, replacement), 
             this.replaceChild("index", this.index, original, replacement), 
-            this.replaceChild("open", this.open, original, replacement), 
             this.replaceChild("close", this.close, original, replacement)
         ) as this; 
     }

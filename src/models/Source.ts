@@ -230,12 +230,62 @@ export default class Source extends Expression {
         // If only one token was added and removed and they're the same type, replace the token in the existing program
         else if(added.length === 1 && removed.length === 1 && added[0].getTypes().some(type => removed[0].is(type)))
             return new Source(this.names, [ this.expression.replace(removed[0], added[0]), spaces ]);
+        
+        // Try to reuse as many Nodes as possible by parsing the program with revised tokens, then identifying 
+        // subtrees that are equivalent in the old and new tree, then recycling them in the new tree. Equivalence is defined as any node 
+        // that has an referentially identical sequence of Tokens.
+        let newProgram = parseProgram(new Tokens(newTokens, spaces));
+
+        // Start with a list of old tokens that survived the transformation
+        let oldTokensRemaining = this.tokens.filter(token => !removed.includes(token));
+        let replacements: [ Node, Node ][] = [];
+
+        // Iteratively search for equivalent subtrees, removing their tokens from the set as we find them.
+        while(oldTokensRemaining.length > 0) {
+            // Pick the next old token.
+            const nextOldToken = this.get(oldTokensRemaining.shift() as Token);
+            if(nextOldToken) {
+                // Find the last ancestor in the old that exists in the new tree, mapping the ancestors onto replacements.
+                let oldAncestors = nextOldToken.getAncestors();
+                let correspondingNewAncestors = nextOldToken.getAncestors().map(oldAncestor => {
+                    const oldTokenSequence = oldAncestor.nodes().filter((n): n is Token => n instanceof Token);
+                    const match = newProgram.nodes().find(newAncestor => {
+                        const newTokenSequence = newAncestor.nodes().filter((n): n is Token => n instanceof Token);
+                        if(oldAncestor.constructor !== newAncestor.constructor) return false;
+                        if(oldTokenSequence.length !== newTokenSequence.length) return false;
+                        for (var i = 0; i < oldTokenSequence.length; ++i)
+                            if (oldTokenSequence[i] !== newTokenSequence[i]) 
+                                return false;
+                        return true;
+                    });
+                    return match;
+                });
+
+                const index = correspondingNewAncestors.findLastIndex((a): a is Node => a !== undefined);
+                const oldTree = oldAncestors[index];
+                const newTree = correspondingNewAncestors[index];
+                if(oldTree && newTree) {
+
+                    // Remove the tokens of the old tree from the old tokens remaining
+                    const oldTokenSequence = oldTree.nodes().filter((n): n is Token => n instanceof Token);
+                    oldTokensRemaining = oldTokensRemaining.filter(t => !oldTokenSequence.includes(t));
+
+                    // Remember the replacement
+                    replacements.push([ oldTree, newTree ]);
+                }
+            }
+        }
+
+        // If we found old subtrees to preserve, replace them in the new tree.
+        while(replacements.length > 0) {
+            const [ oldTree, newTree ] = replacements.shift()!;
+            newProgram = newProgram.replace(newTree, oldTree);
+        }
+
         // Otherwise, reparse the program with the reused tokens and return a new source file
-        else 
-            return new Source(this.names, [ parseProgram(new Tokens(newTokens, spaces)), spaces ]);
+        return new Source(this.names, [ newProgram, spaces ]);
 
     }
-
 
     withCode(code: string) {
         return new Source(this.names, new UnicodeString(code));

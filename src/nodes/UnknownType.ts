@@ -37,7 +37,7 @@ export default abstract class UnknownType<ExpressionType extends Node> extends T
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: `unknown, because ${this.getReasons().map(unknown => unknown.getReason().eng).join(", because")}`
+            eng: `unknown, because ${this.getReasons().map(unknown => unknown.getReason().eng).join(", because ")}`
         };
     }
 

@@ -60,10 +60,10 @@ export default class MapType extends NativeType {
 
     replace(original?: Node, replacement?: Node) { 
         return new MapType(
-            this.replaceChild("key", this.key, original, replacement), 
-            this.replaceChild("value", this.value, original, replacement),
             this.replaceChild("open", this.open, original, replacement),
+            this.replaceChild("key", this.key, original, replacement), 
             this.replaceChild("bind", this.bind, original, replacement), 
+            this.replaceChild("value", this.value, original, replacement),
             this.replaceChild("close", this.close, original, replacement) 
         ) as this; 
     }

@@ -64,17 +64,17 @@ export default class PropertyReference extends Expression {
 
     getGrammar() { 
         return [
-            { name: "structure", types:[ Expression ] },
-            { name: "dot", types:[ Token ] },
-            { name: "name", types:[ Token, undefined ] },
+            { name: "structure", types: [ Expression ] },
+            { name: "dot", types: [ Token ] },
+            { name: "name", types: [ Reference, undefined ] },
         ];
     }
 
     replace(original?: Node, replacement?: Node) { 
         return new PropertyReference(
             this.replaceChild("structure", this.structure, original, replacement),
-            this.replaceChild("name", this.name, original, replacement),
-            this.replaceChild("dot", this.dot, original, replacement)
+            this.replaceChild("dot", this.dot, original, replacement),
+            this.replaceChild("name", this.name, original, replacement)
         ) as this;
     }
 

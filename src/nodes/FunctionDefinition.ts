@@ -121,14 +121,14 @@ export default class FunctionDefinition extends Expression {
         return new FunctionDefinition(
             this.replaceChild("docs", this.docs, original, replacement), 
             this.replaceChild("fun", this.fun, original, replacement), 
-            this.replaceChild<Names>("names", this.names, original, replacement),
+            this.replaceChild("names", this.names, original, replacement),
             this.replaceChild("types", this.types, original, replacement), 
             this.replaceChild("open", this.open, original, replacement), 
             this.replaceChild("inputs", this.inputs, original, replacement), 
             this.replaceChild("close", this.close, original, replacement),
             this.replaceChild("dot", this.dot, original, replacement), 
             this.replaceChild("output", this.output, original, replacement), 
-            this.replaceChild<Expression|Token>("expression", this.expression, original, replacement)
+            this.replaceChild("expression", this.expression, original, replacement)
         ) as this;
     }
 

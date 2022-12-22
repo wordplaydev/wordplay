@@ -159,6 +159,11 @@ export default class Project {
     
     analyze() {
 
+        this.primaryConflicts.clear();
+        this.secondaryConflicts.clear();
+        this.evaluations.clear();
+        this.dependencies.clear();
+
         // Build a mapping from nodes to conflicts.
         for(const source of this.getSources()) {
 

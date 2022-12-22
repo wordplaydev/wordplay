@@ -17,14 +17,14 @@ export default class TableType extends Type {
     
     readonly open: Token;
     readonly columns: Bind[];
-    readonly close: Token;
+    readonly close: Token | undefined;
 
-    constructor(open: Token, columns: Bind[], close?: Token) {
+    constructor(open: Token, columns: Bind[], close: Token | undefined) {
         super();
 
         this.open = open;
         this.columns = columns;
-        this.close = close ?? new Token(TABLE_CLOSE_SYMBOL, TokenType.TABLE_CLOSE);
+        this.close = close;
 
         this.computeChildren();
 
@@ -38,12 +38,13 @@ export default class TableType extends Type {
         return [
             { name: "open", types: [ Token ]},
             { name: "columns", types: [[ Bind ]] },
-            { name: "close", types:[ Type ] },
+            { name: "close", types: [ Type ] },
         ];
     }
 
     replace(original?: Node, replacement?: Node) { 
         return new TableType(
+            this.replaceChild("open", this.open, original, replacement),
             this.replaceChild("columns", this.columns, original, replacement),
             this.replaceChild("close", this.close, original, replacement)
         ) as this; 

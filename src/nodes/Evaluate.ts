@@ -91,9 +91,9 @@ export default class Evaluate extends Expression {
     replace(original?: Node, replacement?: Node) { 
         return new Evaluate(
             this.replaceChild("func", this.func, original, replacement), 
-            this.replaceChild("open", this.open, original, replacement), 
             this.replaceChild("types", this.types, original, replacement), 
-            this.replaceChild<Expression[]>("inputs", this.inputs, original, replacement),
+            this.replaceChild("open", this.open, original, replacement), 
+            this.replaceChild("inputs", this.inputs, original, replacement),
             this.replaceChild("close", this.close, original, replacement)
         ) as this;
     }

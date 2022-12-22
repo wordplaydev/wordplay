@@ -67,8 +67,8 @@ export default class SetOrMapAccess extends Expression {
     replace(original?: Node, replacement?: Node) { 
         return new SetOrMapAccess(
             this.replaceChild("setOrMap", this.setOrMap, original, replacement), 
-            this.replaceChild("key", this.key, original, replacement), 
             this.replaceChild("open", this.open, original, replacement),
+            this.replaceChild("key", this.key, original, replacement), 
             this.replaceChild("close", this.close, original, replacement)
         ) as this; 
     }
