@@ -38,6 +38,7 @@ export default class Spaces {
     getTokens() { return this.#spaces.keys(); }
     hasSpace(token: Token) { return this.#spaces.has(token); }
     getSpace(token: Token): string { return this.#spaces.get(token) ?? ""; }
+    getSpaces() { return this.#spaces; }
     getLines(token: Token): string[] { return this.getSpace(token).split("\n"); }
     getLineCount(token: Token): number { return this.getLines(token).length; }
     getLineBreakCount(token: Token): number { return this.getLines(token).length - 1; }
@@ -133,6 +134,14 @@ export default class Spaces {
         newSpaces.set(firstToken, space);
         return new Spaces(this.root, newSpaces);
 
+    }
+
+    replace(existing: Token, replacement: Token) {
+        const space = this.#spaces.get(existing);
+        if(space) {
+            this.#spaces.set(replacement, space);
+            this.#spaces.delete(existing);
+        }
     }
     
     withRoot(root: Root) { return new Spaces(root, this.#spaces); }

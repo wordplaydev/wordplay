@@ -27,6 +27,7 @@ import StructureDefinition from "../nodes/StructureDefinition";
 import type Spaces from "../parser/Spaces";
 import None from "../runtime/None";
 import type SetOpenToken from "../nodes/SetOpenToken";
+import TokenList from "../parser/TokenList";
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -38,6 +39,9 @@ export default class Source extends Expression {
 
     /** The program this source can evaluate. */
     readonly expression: Program;
+
+    /** The tokens of this program */
+    readonly tokens: Token[];
 
     /** The spaces preceding each token in the program. */
     readonly spaces: Spaces;
@@ -63,14 +67,16 @@ export default class Source extends Expression {
         if(typeof code === "string" || code instanceof UnicodeString) {
             // Generate the AST from the provided code.
             const tokens = tokenize(code instanceof UnicodeString ? code.getText() : code);
-            this.expression = parseProgram(new Tokens(tokens.getTokens(), tokens.getSpaces()));            
+            this.tokens = tokens.getTokens();
+            this.expression = parseProgram(new Tokens(this.tokens, tokens.getSpaces()));            
             this.spaces = tokens.getSpaces().withRoot(this);
         }
         else {
             // Save the AST provided
             const [ program, spaces ] = code;
             this.expression = program;
-            this.spaces = spaces;
+            this.tokens = program.nodes().filter((n): n is Token => n instanceof Token);
+            this.spaces = spaces.withRoot(this);
         }
 
         // A facade for analyzing the tree.
@@ -162,23 +168,58 @@ export default class Source extends Expression {
 
     withPreviousGraphemeReplaced(char: string, position: number) {
         const newCode = this.code.withPreviousGraphemeReplaced(char, position);
-        return newCode === undefined ? undefined : new Source(this.names, newCode);
+        return newCode === undefined ? undefined : this.reparse(newCode.toString());;
     }
 
     withGraphemesAt(char: string, position: number) {
         const newCode = this.code.withGraphemesAt(char, position);
-        return newCode == undefined ? undefined : new Source(this.names, newCode);
+        return newCode == undefined ? undefined : this.reparse(newCode.toString());
     }
 
     withoutGraphemeAt(position: number) {
         const newCode = this.code.withoutGraphemeAt(position);
-        return newCode == undefined ? undefined : new Source(this.names, newCode);
+        return newCode == undefined ? undefined : this.reparse(newCode.toString());;
     }
 
     withoutGraphemesBetween(start: number, endExclusive: number) {
         const newCode = this.code.withoutGraphemesBetween(start, endExclusive);
-        return newCode == undefined ? undefined : new Source(this.names, newCode);
+        return newCode == undefined ? undefined : this.reparse(newCode.toString());;
     }
+
+    reparse(newCode: string): Source {
+
+        // Tokenize the new text
+        const tokenList = tokenize(newCode);
+        const newTokens = tokenList.getTokens();
+        const spaces = tokenList.getSpaces();
+
+        // Make a mutable list of the old tokens
+        const oldTokens = [ ... this.tokens ];
+
+        // Scan through the new tokens, reusing as many tokens as possible.
+        for(let i = 0; i < newTokens.length; i++) {
+            const newToken = newTokens[i];
+            // Search the existing tokens for a match, and if we find one, discard everything prior
+            const index = oldTokens.findIndex(old => old.getText() === newToken.getText());
+            if(index >= 0) {
+                const oldToken = oldTokens[index];
+                // Replace the new token with the old token
+                newTokens[i] = oldToken;
+                // Point the new spaces to the old token
+                spaces.replace(newToken, oldToken);
+                // Rid of all the tokens prior to the reused one, since they're obsolete.
+                oldTokens.splice(0, index + 1);
+            }
+        }
+
+        // Reparse the program with the reused tokens.
+        const program = parseProgram(new Tokens(newTokens, spaces));
+
+        // Return a new source file
+        return new Source(this.names, [ program, spaces ]);
+
+    }
+
 
     withCode(code: string) {
         return new Source(this.names, new UnicodeString(code));

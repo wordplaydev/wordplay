@@ -222,7 +222,7 @@ export function tokenize(source: string): TokenList {
     const openTemplates: Token[] = [];
     while(source.length > 0) {
 
-        const [ nextToken, space ] = getNextToken(source, openTemplates);
+        let [ nextToken, space ] = getNextToken(source, openTemplates);
 
         // Add the token to the list
         tokens.push(nextToken);
