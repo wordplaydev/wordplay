@@ -10,7 +10,7 @@ import type Evaluator from "./Evaluator";
 import type { StepNumber } from "./Evaluator";
 import type { NativeTypeName } from "../native/NativeConstants";
 
-export const MAX_STREAM_LENGTH = 32;
+export const MAX_STREAM_LENGTH = 1024;
 
 export default abstract class Stream<ValueType extends Value = Value> extends Primitive {
 
