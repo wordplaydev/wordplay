@@ -44,7 +44,6 @@
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     let caret = writable<Caret>(new Caret(source, 0));
-    let caretChanged: boolean = false;
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
