@@ -129,7 +129,7 @@
         if(textElement === null) return;
 
         // Figure out where the token view is, so we can properly offset the caret position in the editor.
-        const tokenViewRect = (tokenView.querySelector(".text") as Element).getBoundingClientRect();
+        const tokenViewRect = textElement.getBoundingClientRect();
 
         let tokenLeft = tokenViewRect.left + viewportXOffset;
         let tokenTop = tokenViewRect.top + viewportYOffset;
@@ -206,17 +206,19 @@
             let spaceTop: number;
 
             // Get some measurements about the viewport.
-            const editorPaddingLeft = parseInt(window.getComputedStyle(editorView).getPropertyValue('padding-left').replace("px", ""));
-            const editorPaddingTop = parseInt(window.getComputedStyle(editorView).getPropertyValue('padding-top').replace("px", "")) + 4;
+            const editorStyle = window.getComputedStyle(editorView);
+            const editorPaddingLeft = parseInt(editorStyle.getPropertyValue('padding-left').replace("px", ""));
+            const editorPaddingTop = parseInt(editorStyle.getPropertyValue('padding-top').replace("px", "")) + 4;
 
             // Get some measurements on spaces and tab.
             const spaceElement = editorView.querySelector(`.space[data-id="${token.id}"]`);
             if(spaceElement === null) return;
+            const spaceRect = spaceElement.getBoundingClientRect();
             const spaceText = spaceElement.innerHTML;
             spaceElement.innerHTML = SPACE_HTML;
-            const spaceWidth = spaceElement.getBoundingClientRect().width;
+            const spaceWidth = spaceRect.width;
             spaceElement.innerHTML = tabToHTML();
-            const tabWidth = spaceElement.getBoundingClientRect().width;
+            const tabWidth = spaceRect.width;
             spaceElement.innerHTML = spaceText;
 
             // Find the right side of token just prior to the current one that has this space.

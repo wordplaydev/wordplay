@@ -154,7 +154,7 @@ export default class Caret {
     isAtPropertyReference() {
 
         if(this.position instanceof Node) return false;
-        return this.source.getCode().at(this.position - 1) === PROPERTY_SYMBOL;
+        return this.source.getCode().toString().charAt(this.position - 1) === PROPERTY_SYMBOL;
 
     }
 
