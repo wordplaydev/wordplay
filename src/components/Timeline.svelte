@@ -15,18 +15,21 @@
     // Find the latest stream change before the current step index.
     $: currentChange = evaluator.getChangePriorTo($currentStepIndex);
     $: historyTrimmed = $currentStepIndex && evaluator.getEarliestStepIndexAvailable() > 0;
+    let keyboardNavigation = false;
 
     // After each update, ensure the current change is in view
     afterUpdate(() => {
         
-        if(currentChange === undefined) return;
+        if(currentChange === undefined || !keyboardNavigation) return;
         
+        keyboardNavigation = false;
+
         const el = document.querySelector(`.stream-value[data-index="${currentChange.stepIndex}"]`)
         // Move the timeline's scroll left such that the element is in the center.
         if(el && timeline) {
             const timelineRect = timeline.getBoundingClientRect();
             const changeRect = el.getBoundingClientRect();
-            const position = changeRect.left - timelineRect.left;
+            const position = changeRect.left - timelineRect.left + timeline.scrollLeft;
             timeline.scrollLeft = position - timelineRect.width / 2;
         }
 
@@ -64,8 +67,10 @@
             return;
 
         const change = $streams.find((_, index) => ((index - direction >= 0) && (index - direction) < $streams.length) && $streams[index - direction] === currentChange)
-        if(change)
+        if(change) {
+            keyboardNavigation = true;
             stepTo(change.stepIndex);
+        }
 
     }
 
