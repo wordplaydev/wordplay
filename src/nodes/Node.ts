@@ -19,6 +19,9 @@ export default abstract class Node {
     /* A cache of the children of this node, in parse order. */
     _children: undefined | Node[] = undefined;
 
+    /** A cache of leaves in this node */
+    _leaves: Node[] | undefined = undefined;
+
     constructor() {
         this.id = NODE_ID_COUNTER++;
     }
@@ -157,6 +160,24 @@ export default abstract class Node {
         if(every)
             inspector.call(undefined, this);
         return every;
+    }
+
+    traverseTopDown(sequence: Node[] = []): Node[] {
+        sequence.push(this);
+        for(const child of this.getChildren())
+            child.traverseTopDown(sequence);
+        return sequence;
+    }
+
+    leaves(): Node[] {
+        if(this._leaves === undefined) {
+            this._leaves = [];
+            if(this.isLeaf()) this._leaves.push(this);
+            for(const child of this.getChildren())
+                for(const leaf of child.leaves())
+                    this._leaves.push(leaf);
+        }
+        return this._leaves;
     }
 
     /** Returns all this and all decedants in depth first order. Optionally uses the given function to decide whether to include a node. */

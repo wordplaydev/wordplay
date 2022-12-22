@@ -74,7 +74,7 @@ export default class Source extends Expression {
             // Save the AST provided
             const [ program, spaces ] = code;
             this.expression = program;
-            this.tokens = program.nodes().filter((n): n is Token => n instanceof Token);
+            this.tokens = program.leaves() as Token[];
             this.spaces = spaces.withRoot(this);
         }
 
@@ -233,46 +233,47 @@ export default class Source extends Expression {
         
         // Try to reuse as many Nodes as possible by parsing the program with revised tokens, then identifying 
         // subtrees that are equivalent in the old and new tree, then recycling them in the new tree. Equivalence is defined as any node 
-        // that has an referentially identical sequence of Tokens.
+        // that has an referentially identical sequence of Tokens and is of the same type.
         let newProgram = parseProgram(new Tokens(newTokens, spaces));
 
-        // Start with a list of old tokens that survived the transformation
-        let oldTokensRemaining = this.tokens.filter(token => !removed.includes(token));
+        // Make an empty list of replacements.
         let replacements: [ Node, Node ][] = [];
 
-        // Iteratively search for equivalent subtrees, removing their tokens from the set as we find them.
-        while(oldTokensRemaining.length > 0) {
-            // Pick the next old token.
-            const nextOldToken = this.get(oldTokensRemaining.shift() as Token);
-            if(nextOldToken) {
-                // Find the last ancestor in the old that exists in the new tree, mapping the ancestors onto replacements.
-                let oldAncestors = nextOldToken.getAncestors();
-                let correspondingNewAncestors = nextOldToken.getAncestors().map(oldAncestor => {
-                    const oldTokenSequence = oldAncestor.nodes().filter((n): n is Token => n instanceof Token);
-                    const match = newProgram.nodes().find(newAncestor => {
-                        const newTokenSequence = newAncestor.nodes().filter((n): n is Token => n instanceof Token);
-                        if(oldAncestor.constructor !== newAncestor.constructor) return false;
-                        if(oldTokenSequence.length !== newTokenSequence.length) return false;
-                        for (var i = 0; i < oldTokenSequence.length; ++i)
-                            if (oldTokenSequence[i] !== newTokenSequence[i]) 
-                                return false;
-                        return true;
-                    });
-                    return match;
-                });
+        // Create a set of all of the old program's nodes, except the program itself.
+        const unmatchedOldNodes = new Set(this.expression.traverseTopDown());
+        unmatchedOldNodes.delete(this.expression);
+        // Create a list of new nodes to iterate through to find matches. Skip the program, which always changes.
+        const newNodes = newProgram.traverseTopDown();
+        newNodes.shift();
+        // Remember what we've matched so we don't redundantly match subtrees.
+        const matched = new Set<Node>();
+        // Cache old node token ID sequences for speed.
+        const oldNodeTokenIDSequences = new Map<Node, string>();
 
-                const index = correspondingNewAncestors.findLastIndex((a): a is Node => a !== undefined);
-                const oldTree = oldAncestors[index];
-                const newTree = correspondingNewAncestors[index];
-                if(oldTree && newTree) {
-
-                    // Remove the tokens of the old tree from the old tokens remaining
-                    const oldTokenSequence = oldTree.nodes().filter((n): n is Token => n instanceof Token);
-                    oldTokensRemaining = oldTokensRemaining.filter(t => !oldTokenSequence.includes(t));
-
-                    // Remember the replacement
-                    replacements.push([ oldTree, newTree ]);
+        // Iterate through all of the new nodes in the program
+        for(const newNode of newNodes) {
+            // If we've already matched this node, skip it. Also skip the program; it always changes and is large.
+            if(matched.has(newNode)) continue;
+            // Get the (likely cached) tokens in the new node
+            const newTokens = newNode.leaves().map(token => token.id).join(" ");
+            // Iterate through all of the unmatched old nodes to see if there's a match.
+            let match = undefined;
+            for(const oldNode of unmatchedOldNodes) {
+                if(newNode.constructor === oldNode.constructor) {
+                    const oldTokens = oldNodeTokenIDSequences.get(oldNode) ?? oldNode.leaves().map(token => token.id).join(" ");
+                    if(oldTokens === newTokens) {
+                        match = oldNode;
+                        break;
+                    }
                 }
+            }
+            if(match) {
+                // Remove all nodes in the match from the search.
+                for(const node of match.traverseTopDown()) unmatchedOldNodes.delete(node);
+                // Mark all nodes in the matched new node as matched, so we don't try to find matches for them.
+                for(const node of newNode.traverseTopDown()) matched.add(node);
+                // Remember the replacement.
+                replacements.push([ match, newNode ]);
             }
         }
 
