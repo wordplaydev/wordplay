@@ -26,7 +26,7 @@ import { overrideWithDocs, TRANSLATE } from "./Translations"
 import Exception from "../runtime/Exception";
 import type Definition from "./Definition";
 import AnyType from "./AnyType";
-import { PLACEHOLDER_SYMBOL, SHARE_SYMBOL } from "../parser/Tokenizer";
+import { ETC_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL } from "../parser/Tokenizer";
 import FunctionDefinition from "./FunctionDefinition";
 import type LanguageCode from "./LanguageCode";
 import BindToken from "./BindToken";
@@ -82,7 +82,7 @@ export default class Bind extends Expression {
             { name: "docs", types: [ Docs, undefined ] },
             { name: "share", types: [ Token, undefined ], getToken: () => new Token(SHARE_SYMBOL, TokenType.SHARE) },
             { name: "names", types: [ Names ] },
-            { name: "etc", types: [ Token, undefined ] },
+            { name: "etc", types: [ Token, undefined ], getToken: () => new Token(ETC_SYMBOL, TokenType.ETC) },
             { name: "dot", types: [ Token, undefined ] },
             { name: "type", types: [ Type, undefined ] },
             { name: "colon", types: [ Token, undefined ] },
