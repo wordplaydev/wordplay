@@ -36,9 +36,9 @@ export default class Name extends Node {
 
     getGrammar() { 
         return [
-            { name: "separator", types:[ Token, undefined ] },
-            { name: "name", types:[ Token ] },
-            { name: "lang", types:[ Language, undefined ] },
+            { name: "separator", types: [ Token, undefined ] },
+            { name: "name", types: [ Token ] },
+            { name: "lang", types: [ Language, undefined ] },
         ];
     }
 

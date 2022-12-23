@@ -57,9 +57,9 @@ export default class Bind extends Expression {
         this.share = share;
         this.names = names;
         this.etc = etc;
-        this.dot = dot;
+        this.dot = type !== undefined && dot === undefined ? new TypeToken() : dot;
         this.type = type;
-        this.colon = colon;
+        this.colon = value !== undefined && colon === undefined ? new BindToken() : colon;
         this.value = value;
 
         this.computeChildren();

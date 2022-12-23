@@ -3,6 +3,8 @@ import Token from "./Token";
 import NameToken from "./NameToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import { EXPONENT_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
 
 export default class Dimension extends Node {
 
@@ -14,7 +16,7 @@ export default class Dimension extends Node {
         super();
 
         this.name = typeof name === "string" ? new NameToken(name) : name;
-        this.caret = caret === undefined ? undefined : caret;
+        this.caret = exponent !== undefined && caret === undefined ? new Token(EXPONENT_SYMBOL, TokenType.BINARY_OP) : caret;
         this.exponent = exponent === undefined ? undefined : exponent;
 
         this.computeChildren();

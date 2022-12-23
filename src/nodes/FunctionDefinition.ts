@@ -29,6 +29,7 @@ import type TypeVariables from "./TypeVariables";
 import NoExpression from "../conflicts/NoExpression";
 import UnimplementedType from "./UnimplementedType";
 import AnyType from "./AnyType";
+import TypeToken from "./TypeToken";
 
 export default class FunctionDefinition extends Expression {
 
@@ -64,7 +65,7 @@ export default class FunctionDefinition extends Expression {
         this.open = open;
         this.inputs = inputs;
         this.close = close;
-        this.dot = dot;
+        this.dot = output !== undefined && dot === undefined ? new TypeToken() : dot;
         this.output = output;
         this.expression = expression;
 
@@ -81,7 +82,7 @@ export default class FunctionDefinition extends Expression {
             new EvalOpenToken(),
             inputs,
             new EvalCloseToken(),
-            output === undefined ? undefined : new Token(TYPE_SYMBOL, TokenType.TYPE),
+            output === undefined ? undefined : new TypeToken(),
             output,
             expression,
         );

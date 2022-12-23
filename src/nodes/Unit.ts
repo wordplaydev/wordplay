@@ -8,6 +8,7 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type TypeSet from "./TypeSet";
 import type { NativeTypeName } from "../native/NativeConstants";
+import LanguageToken from "./LanguageToken";
 
 export default class Unit extends Type {
 
@@ -27,7 +28,7 @@ export default class Unit extends Type {
         if(exponents === undefined) {
 
             this.numerator = numerator ?? [];
-            this.slash = slash;
+            this.slash = slash === undefined && denominator !== undefined && denominator.length > 0 ? new LanguageToken() : slash;
             this.denominator =  denominator ?? [];
 
             this.exponents = new Map();
@@ -220,7 +221,7 @@ export default class Unit extends Type {
         return Unit.get(newExponents);
         
     }
-    
+ 
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
