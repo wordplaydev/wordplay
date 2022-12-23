@@ -12,9 +12,6 @@ import type Stream from "../runtime/Stream";
 import { TRANSLATE } from "./Translations";
 
 export default abstract class Expression extends Node {
-
-    /** A cache of the type computed for this epxression. Undefined means its not computed. */
-    _type: Type | undefined = undefined;
     
     constructor() {
         super();

@@ -38,7 +38,6 @@ import UnknownInput from "../conflicts/UnknownInput";
 import getConcreteExpectedType from "./Generics";
 import FunctionDefinitionType from "./FunctionDefinitionType";
 import type Names from "./Names";
-import NameException from "../runtime/NameException";
 import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
 import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";

@@ -33,11 +33,6 @@ export default class Reference extends Expression {
     
     readonly name: Token;
 
-    /**
-     * A cache of the possible types this name might have at this point in the program.
-     */
-    _unionTypes: Type | undefined;
-
     constructor(name: Token) {
 
         super();
@@ -130,7 +125,7 @@ export default class Reference extends Expression {
         const type = definition.getType(context);
 
         // Is the type a union? Find the subset of types that are feasible, given any type checks in conditionals.
-        if(definition instanceof Bind && type instanceof UnionType && this._unionTypes === undefined) {
+        if(definition instanceof Bind && type instanceof UnionType && context.getReferenceType(this) === undefined) {
 
             // Find any conditionals with type checks that refer to the value bound to this name.
             // Reverse them so they are in furthest to nearest ancestor, so we narrow types in execution order.
@@ -150,7 +145,7 @@ export default class Reference extends Expression {
             }
         }
 
-        return this._unionTypes !== undefined ? this._unionTypes : type;
+        return context.getReferenceType(this) ?? type;
 
     }
 
@@ -159,7 +154,7 @@ export default class Reference extends Expression {
 
         // Cache the type of this name at this point in execution.
         if(this.getDefinition(context) === bind)
-            this._unionTypes = UnionType.getPossibleUnion(context, current.list());
+            context.setReferenceType(this, UnionType.getPossibleUnion(context, current.list()));
 
         return current;
     }

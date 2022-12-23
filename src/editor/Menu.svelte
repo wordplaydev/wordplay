@@ -1,7 +1,6 @@
 <script lang="ts">
     import type Transform from "../transforms/Transform";
     import { languages } from "../models/languages";
-    import getNodeView from "./util/nodeToView";
     import RootView from "./RootView.svelte";
 
     export let transforms: Transform[];
