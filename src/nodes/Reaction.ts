@@ -157,10 +157,15 @@ export default class Reaction extends Expression {
 
     }
     
+    getPreferredPrecedingSpace(child: Node): string {
+        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
+        return child === this.delta || child === this.next ? " " : "";
+    }
+
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "A reaction to a stream change"
+            eng: "a reaction to a stream change"
         }
     }
 

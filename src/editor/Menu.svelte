@@ -2,6 +2,7 @@
     import type Transform from "../transforms/Transform";
     import { languages } from "../models/languages";
     import getNodeView from "./util/nodeToView";
+    import RootView from "./RootView.svelte";
 
     export let transforms: Transform[];
     export let selection: number;
@@ -36,7 +37,7 @@
             >
                 <td class="col">
                     {#if newNode !== undefined }
-                        <svelte:component this={getNodeView(newNode)} node={newNode} />
+                        <RootView node={newNode}/>
                     {:else}
                         <em>Remove</em>
                     {/if}

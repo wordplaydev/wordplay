@@ -53,10 +53,12 @@
     $: additional = 
         // No node or no first token, no additional space
         !isSpaceRoot || node === undefined || leaf === undefined ? undefined :
-        // In an editor? Use the existing space
-        $caret ? $caret.source.spaces.getAdditionalSpace(leaf, $caret.source.get(leaf)?.getPreferredPrecedingSpace() ?? "") : 
-        // Not in an editor? Just use the preferred space
+        // In an editor whose source contains this node? Use the existing space
+        $caret && $caret.source.contains(leaf) ? $caret.source.spaces.getAdditionalSpace(leaf, $caret.source.get(leaf)?.getPreferredPrecedingSpace() ?? "") : 
+        // Not in an editor? Just use the preferred space for the node, pretty printing it
         $rootTree?.get(leaf)?.getPreferredPrecedingSpace();
+
+    $: console.log(`${node?.toWordplay()} => "${additional}", ${$caret}, ${isSpaceRoot}, ${$rootTree}`);
 
 </script>
 

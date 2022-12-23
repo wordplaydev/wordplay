@@ -73,7 +73,7 @@ export default class BinaryOperation extends Expression {
                     return type instanceof MeasurementType ? type.withOp(this) : type;
                 }
             }
-        ]; 
+        ];
     }
 
     replace(original?: Node, replacement?: Node) { 
