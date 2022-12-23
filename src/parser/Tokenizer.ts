@@ -41,6 +41,7 @@ export const THIS_SYMBOL = "*";
 export const BASE_SYMBOL = ";";
 export const PRODUCT_SYMBOL = "·";
 export const EXPONENT_SYMBOL = "^";
+export const NEGATE_SYMBOL = "-";
 
 const RESERVED_SYMBOLS = [
     TEMPLATE_SYMBOL,
@@ -77,7 +78,7 @@ const RESERVED_SYMBOLS = [
 ];
 
 const TEXT_SEPARATORS = "'‘’\"“”„«»‹›「」『』";
-const UNARY_OPERATORS = "~-";
+const UNARY_OPERATORS = `${NOT_SYMBOL}${NEGATE_SYMBOL}`;
 const BINARY_OPERATORS = '+\\-×·÷%^<≤=≠≥>&|~\?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F';
 
 export const BinaryOpRegEx = new RegExp(`^[${BINARY_OPERATORS}]`, "u");

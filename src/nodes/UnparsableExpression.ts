@@ -5,7 +5,6 @@ import Halt from "../runtime/Halt";
 import UnparsableException from "../runtime/UnparsableException";
 import type Step from "../runtime/Step";
 import type Value from "../runtime/Value";
-import type Transform from "../transforms/Transform";
 import type Bind from "./Bind";
 import Expression from "./Expression";
 import Node from "./Node";
@@ -74,9 +73,8 @@ export default class UnparsableExpression extends Expression {
         }
     }
 
-    getChildReplacement(): Transform[] | undefined { return undefined; }
-    getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(): Transform[] | undefined { return undefined; }
-    getChildRemoval(): Transform | undefined { return undefined; }
+
+    
+    
 
 }

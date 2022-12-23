@@ -15,12 +15,6 @@ import type TypeSet from "./TypeSet";
 import Start from "../runtime/Start";
 import TokenType from "./TokenType";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import type Transform from "../transforms/Transform"
-import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
-import Replace from "../transforms/Replace";
-import Add from "../transforms/Add";
-import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
@@ -43,11 +37,15 @@ export default class Template extends Expression {
 
     }
 
+    static make() {
+        return new Template(new Token('"\\', TokenType.TEXT_OPEN), [ new Token('\\"', TokenType.TEXT_CLOSE) ]);
+    }
+
     getGrammar() { 
         return [
-            { name: "open", types:[ Token ] },
-            { name: "expressions", types:[[ Expression, Token ]] },
-            { name: "format", types:[ Language, undefined ] },
+            { name: "open", types: [ Token ] },
+            { name: "expressions", types: [[ Expression, Token ]] },
+            { name: "format", types: [ Language, undefined ] },
         ];
     }
 
@@ -100,40 +98,7 @@ export default class Template extends Expression {
         this.expressions.forEach(part => { if(part instanceof Expression) part.evaluateTypeSet(bind, original, current, context); });
         return current;
     }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
     
-        const project = context.project;
-
-        const index = this.expressions.indexOf(child as TemplatePart);
-        if(index >= 0) {
-            const part = this.expressions[index];
-            if(part instanceof Expression)
-                return getExpressionReplacements(this, part, context);
-        }
-        else if(child === this.format && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Replace(context, child, Language.make(l)));
-
-    }
-    
-    getInsertionBefore() { return undefined; }
-    
-    getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
-        
-        const project = context.project;
-
-        return [
-            ...getPossiblePostfix(context, this, this.getType(context)),
-            ...(this.format === undefined && project !== undefined ? getPossibleLanguages(project).map(l => new Add(context, position, this, "format", Language.make(l))) : [])
-        ];
-
-    }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.expressions.includes(child as TemplatePart)) return new Remove(context, this, child);
-        else if(child === this.format) return new Remove(context, this, child);
-    }
-
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,

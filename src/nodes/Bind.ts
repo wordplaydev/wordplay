@@ -1,6 +1,5 @@
 import Expression from "./Expression";
 import type Node from "./Node";
-import type Transform from "../transforms/Transform"
 import type Context from "./Context";
 import Token from "./Token";
 import Type from "./Type";
@@ -26,20 +25,12 @@ import type Translations from "./Translations";
 import { overrideWithDocs, TRANSLATE } from "./Translations"
 import Exception from "../runtime/Exception";
 import type Definition from "./Definition";
-import { getPossibleTypeAdds, getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import AnyType from "./AnyType";
-import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
-import TokenType from "./TokenType";
-import TypePlaceholder from "./TypePlaceholder";
+import { PLACEHOLDER_SYMBOL, SHARE_SYMBOL } from "../parser/Tokenizer";
 import FunctionDefinition from "./FunctionDefinition";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type LanguageCode from "./LanguageCode";
-import Add from "../transforms/Add";
-import Replace from "../transforms/Replace";
 import BindToken from "./BindToken";
 import TypeToken from "./TypeToken";
-import Remove from "../transforms/Remove";
 import Docs from "./Docs";
 import Names from "./Names";
 import { MissingShareLanguages } from "../conflicts/MissingShareLanguages";
@@ -47,6 +38,7 @@ import { MisplacedShare } from "../conflicts/MisplacedShare";
 import { DuplicateShare } from "../conflicts/DuplicateShare";
 import type TypeSet from "./TypeSet";
 import type Value from "../runtime/Value";
+import TokenType from "./TokenType";
 
 export default class Bind extends Expression {    
     readonly docs?: Docs;
@@ -88,13 +80,17 @@ export default class Bind extends Expression {
     getGrammar() { 
         return [
             { name: "docs", types: [ Docs, undefined ] },
-            { name: "share", types: [ Token, undefined ] },
+            { name: "share", types: [ Token, undefined ], getToken: () => new Token(SHARE_SYMBOL, TokenType.SHARE) },
             { name: "names", types: [ Names ] },
             { name: "etc", types: [ Token, undefined ] },
             { name: "dot", types: [ Token, undefined ] },
             { name: "type", types: [ Type, undefined ] },
             { name: "colon", types: [ Token, undefined ] },
-            { name: "value", types: [ Expression, undefined ] },
+            { 
+                name: "value", types: [ Expression, undefined ],
+                // If there's a type, the value must match it, otherwise anything
+                getType: () => this.type ?? new AnyType()
+            }
         ];
     }
 
@@ -312,65 +308,6 @@ export default class Bind extends Expression {
         };
         return this.docs ? overrideWithDocs(defaultDocs, this.docs) : defaultDocs;
         
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-        if(child === this.type) {
-            return getPossibleTypeReplacements(child, context);
-        }
-        else if(child === this.value) {
-            return getExpressionReplacements(this, this.value, context, this.type instanceof Type ? this.type : new AnyType());
-        }
-    }
-
-    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
-        
-        const parent = context.get(this)?.getParent();
-        // Before the first name? a name? Offer an etc or a documentation
-        if(child === this.names) {
-            if(this.etc === undefined) {
-                if((parent instanceof FunctionDefinition || parent instanceof StructureDefinition) && parent.inputs.find(input => input.contains(child)) === parent.inputs[parent.inputs.length - 1])
-                    return [ 
-                        new Add(context, position, this, "etc", new Token(PLACEHOLDER_SYMBOL, TokenType.PLACEHOLDER)),
-                    ];
-            }
-        }
-        // Before colon? Offer a type.
-        else if(child === this.colon && this.type === undefined)
-            return [ 
-                new Replace(context, this, new Bind(this.docs, this.share, this.names, this.etc, new TypeToken(), new TypePlaceholder(), this.colon, this.value))
-            ];
-
-    }
-    getInsertionAfter(context: Context, position: number): Transform[] | undefined {
-        
-        const children  = this.getChildren();
-        const lastChild = children[children.length - 1];
-
-        const withValue = new Replace(context, this, new Bind(this.docs, this.share, this.names, this.etc, this.dot, this.type, new BindToken(), new ExpressionPlaceholder()));
-
-        if(lastChild === this.dot)
-            return getPossibleTypeAdds(this, "context", context, position);
-        else if(lastChild === this.type)
-            return [ 
-                withValue
-            ];
-        else if(lastChild === this.colon)
-            return [ 
-                withValue
-            ];
-
-    }
-
-    withoutType() { 
-
-    }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        
-        if(child === this.type && this.dot) return new Remove(context, this, this.dot, this.type);
-        else if(child === this.value && this.colon) return new Remove(context, this, this.colon, this.value);
-
     }
 
 }

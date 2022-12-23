@@ -16,13 +16,8 @@ import type Bind from "./Bind";
 import type TypeSet from "./TypeSet";
 import TypeException from "../runtime/TypeException";
 import AnyType from "./AnyType";
-import Reference from "./Reference";
 import TokenType from "./TokenType";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import { CHANGE_SYMBOL } from "../parser/Tokenizer";
-import type Transform from "../transforms/Transform";
-import Replace from "../transforms/Replace";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Start from "../runtime/Start";
@@ -52,8 +47,12 @@ export default class Changed extends Expression {
 
     getGrammar() { 
         return [
-            { name: "change", types:[ Token ] },
-            { name: "stream", types:[ Expression ] }
+            { name: "change", types: [ Token ] },
+            { 
+                name: "stream", types: [ Expression ],
+                // Must be a stream with any type
+                getType: () => StreamType.make(new AnyType())
+            }
         ];
     }
 
@@ -108,23 +107,6 @@ export default class Changed extends Expression {
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.stream instanceof Expression) this.stream.evaluateTypeSet(bind, original, current, context);
         return current;
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-        
-        if(child === this.stream)
-            return  this.getAllDefinitions(this, context)
-                    .filter((def): def is Stream => def instanceof Stream)
-                    .map(stream => new Replace<Reference>(context, child, [ name => Reference.make(name), stream ]))
-
-    }
-
-    getInsertionBefore() { return undefined; }
-
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined { 
-        if(child === this.stream) return new Replace(context, child, new ExpressionPlaceholder());
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {

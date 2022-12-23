@@ -3,7 +3,6 @@ import type Node from "./Node";
 import TokenType from "./TokenType";
 import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import NativeType from "./NativeType";
-import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type TypeSet from "./TypeSet";
@@ -47,9 +46,8 @@ export default class BooleanType extends NativeType {
         }
     }
 
-    getChildReplacement(): Transform[] | undefined { return undefined; }
-    getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(): Transform[] | undefined { return undefined; }
-    getChildRemoval(): Transform | undefined { return undefined; }
+
+    
+    
     
 }

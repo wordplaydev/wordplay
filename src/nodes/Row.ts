@@ -27,7 +27,7 @@ export default class Row extends Node {
         return [
             { name: "open", types: [ Token ] },
             { name: "cells", types: [ [ Bind, Expression ] ] },
-            { name: "close", types: [ Token, undefined ] },
+            { name: "close", types: [ Token ] },
         ]; 
     }
 
@@ -49,10 +49,9 @@ export default class Row extends Node {
         ) as this; 
     }
 
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval() { return undefined; }
+    
+    
+    
 
     getDescriptions(): Translations {
         return {

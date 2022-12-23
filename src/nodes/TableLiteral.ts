@@ -14,8 +14,6 @@ import type Context from "./Context";
 import type TypeSet from "./TypeSet";
 import { analyzeRow } from "./util";
 import Exception from "../runtime/Exception";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
@@ -116,11 +114,6 @@ export default class TableLiteral extends Expression {
         this.rows.forEach(row => { if(row instanceof Expression) row.evaluateTypeSet(bind, original, current, context); });
         return current;
     }
-
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-    getChildRemoval() { return undefined; }
 
     getStart() { return this.type; }
     getFinish() { return this.rows[this.rows.length - 1] ?? this.type; }

@@ -18,8 +18,6 @@ import NameException from "../runtime/NameException";
 import { THIS_SYMBOL } from "../parser/Tokenizer";
 import ConversionDefinition from "./ConversionDefinition";
 import MeasurementType from "./MeasurementType";
-import type Transform from "../transforms/Transform";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import StartFinish from "../runtime/StartFinish";
@@ -112,11 +110,6 @@ export default class This extends Expression {
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
-
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-    getChildRemoval() { return undefined; }
 
     getStart() { return this.dis; }
     getFinish() { return this.dis; }

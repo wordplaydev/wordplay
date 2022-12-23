@@ -19,9 +19,6 @@ import Halt from "../runtime/Halt";
 import AnyType from "./AnyType";
 import type Bind from "./Bind";
 import UnparsableException from "../runtime/UnparsableException";
-import type Transform from "../transforms/Transform";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import BindToken from "./BindToken";
@@ -143,15 +140,6 @@ export default class MapLiteral extends Expression {
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         this.values.forEach(val => { if(val instanceof Expression) val.evaluateTypeSet(bind, original, current, context); });
         return current;
-    }
-
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.values.includes(child as KeyValue)) return new Remove(context, this, child);
     }
 
     getDescriptions(): Translations {

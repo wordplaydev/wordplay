@@ -25,7 +25,7 @@ export default class Add<NodeType extends Node> extends Transform {
     }
 
     getNewNode(languages: LanguageCode[]): Node {
-        return this.child instanceof Node ? this.child : this.child[0](this.child[1].getTranslation(languages));
+        return this.child instanceof Node ? this.child : this.child.getNode(languages);
     }
 
     getEdit(languages: LanguageCode[]): Edit | undefined  {
@@ -33,14 +33,11 @@ export default class Add<NodeType extends Node> extends Transform {
         // Make the new node
         const newNode = this.getNewNode(languages);
 
-        // Find the token at the position.
-        const tokenAfter = this.context.source.getTokenAt(this.position);
+        // Split the space using the position, defaulting to the original space.
+        let newSpaces = Transform.splitSpace(this.context.source, this.position, newNode);
 
-        // Create a new program with the parent's field set to the new node.
-        const newSource = this.context.source.withProgram(
-            this.context.source.expression.replace(this.parent, this.parent.replace(this.field, newNode)),
-            this.context.source.spaces.withSpace(newNode, tokenAfter === undefined ? "" : this.context.source.spaces.getSpace(tokenAfter))
-        );
+        const newProgram = this.context.source.expression.replace(this.parent, this.parent.replace(this.field, newNode));
+        const newSource = this.context.source.withProgram(newProgram, newSpaces);
 
         // Place the caret at first placeholder or the end of the node in the source.
         let newCaretPosition = newNode.getFirstPlaceholder() || newSource.getNodeLastPosition(newNode);

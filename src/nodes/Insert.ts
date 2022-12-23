@@ -19,8 +19,6 @@ import type TypeSet from "./TypeSet";
 import { analyzeRow } from "./util";
 import Halt from "../runtime/Halt";
 import Exception from "../runtime/Exception";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import TypeException from "../runtime/TypeException";
@@ -147,11 +145,6 @@ export default class Insert extends Expression {
         if(this.row instanceof Expression) this.row.evaluateTypeSet(bind, original, current, context);
         return current;
     }
-
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-    getChildRemoval(): Transform | undefined { return undefined; }
 
     getDescriptions(): Translations {
         return {

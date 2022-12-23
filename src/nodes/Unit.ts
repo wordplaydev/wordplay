@@ -4,13 +4,6 @@ import Token from "./Token";
 import Type from "./Type";
 import type Node from "./Node";
 import Measurement from "../runtime/Measurement";
-import type Context from "./Context";
-import { getPossibleDimensions } from "../transforms/getPossibleUnits";
-import type Transform from "../transforms/Transform";
-import Replace from "../transforms/Replace";
-import Add from "../transforms/Add";
-import LanguageToken from "./LanguageToken";
-import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type TypeSet from "./TypeSet";
@@ -227,34 +220,7 @@ export default class Unit extends Type {
         return Unit.get(newExponents);
         
     }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
     
-        const project = context.project;
-
-        if(child !== this.slash && project !== undefined)
-            return getPossibleDimensions(project).map(dim => new Replace(context, child, new Dimension(dim)));
-
-    }
-    
-    getInsertionBefore() { return undefined; }
-    
-    getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
-        
-        if(this.slash === undefined)
-            return [ new Add(context, position, this, "slash", new LanguageToken()) ];
-
-    }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.numerator.includes(child as Dimension)) return new Remove(context, this, child);
-        else if(this.denominator.includes(child as Dimension)) {
-            if(this.denominator.length === 1 && this.slash) return new Remove(context, this, this.slash, child);
-            else return new Remove(context, this, child);
-        }
-            
-    }
-
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,

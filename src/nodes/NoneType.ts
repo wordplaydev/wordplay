@@ -47,11 +47,6 @@ export default class NoneType extends NativeType {
         ) as this; 
     }
 
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval() {  return undefined; }
-
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,

@@ -10,9 +10,9 @@ import type Context from "../nodes/Context";
 export default class Replace<NodeType extends Node> extends Transform {
 
     readonly node: Node;
-    readonly replacement: NodeType | Refer<NodeType>;
+    readonly replacement: NodeType | Refer<NodeType> | undefined;
 
-    constructor(context: Context, node: Node, replacement: NodeType | Refer<NodeType>) {
+    constructor(context: Context, node: Node, replacement: NodeType | Refer<NodeType> | undefined) {
         super(context);
 
         this.node = node;
@@ -38,10 +38,10 @@ export default class Replace<NodeType extends Node> extends Transform {
             // Replace the parent with the new parent
             this.context.source.expression.replace(parent, newParent),
             // Preserve the space before the old parent
-            this.context.source.spaces.withReplacement(parent, newParent)
+            this.context.source.spaces.withReplacement(this.node, replacement)
         );
 
-        let newCaretPosition = replacement.getFirstPlaceholder() ?? newSource.getNodeLastPosition(replacement);
+        let newCaretPosition = replacement !== undefined ? replacement.getFirstPlaceholder() ?? newSource.getNodeLastPosition(replacement) : position;
         if(newCaretPosition === undefined) return;
 
         // Return the new source and place the caret after the replacement.
@@ -51,11 +51,10 @@ export default class Replace<NodeType extends Node> extends Transform {
 
     getNewNode(languages: LanguageCode[]) { 
         
-        if(!Array.isArray(this.replacement)) 
+        if(this.replacement instanceof Node) 
             return this.replacement;
 
-        const [ creator, def ] = this.replacement;
-        return creator(def.getTranslation(languages));
+        return this.replacement?.getNode(languages);
         
     }
 
@@ -67,12 +66,12 @@ export default class Replace<NodeType extends Node> extends Transform {
 
         if(translations === undefined) {
             const replacement = this.getNewNode(languages);
-            translations = replacement.getDescriptions(this.context);
+            translations = replacement?.getDescriptions(this.context);
         }
 
         const descriptions = {
-            eng: `Replace with ${translations.eng}`,
-            "😀": `${TRANSLATE} → ${translations["😀"]}`
+            eng: `Replace with ${translations?.eng ?? "nothing"}`,
+            "😀": `${TRANSLATE} → ${translations === undefined ? "_" : translations["😀"]}`
         };
         return descriptions[languages.find(lang => lang in descriptions) ?? "eng"];
 

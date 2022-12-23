@@ -27,9 +27,8 @@ export default class NeverType extends Type {
         }
     }
 
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval() { return undefined; }
+    
+    
+    
 
 }

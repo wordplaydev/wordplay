@@ -13,9 +13,6 @@ import type Context from "./Context";
 import UnionType from "./UnionType";
 import type TypeSet from "./TypeSet";
 import type Bind from "./Bind";
-import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import type Transform from "../transforms/Transform"
-import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
@@ -50,9 +47,9 @@ export default class ListLiteral extends Expression {
 
     getGrammar() { 
         return [
-            { name: "open", types:[ Token ] },
-            { name: "values", types:[[ Expression ]] },
-            { name: "close", types:[ Token, undefined ] },
+            { name: "open", types: [ Token ] },
+            { name: "values", types: [[ Expression ]] },
+            { name: "close", types: [ Token ] },
         ];
     }
 
@@ -113,28 +110,6 @@ export default class ListLiteral extends Expression {
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         this.values.forEach(val => { if(val instanceof Expression) val.evaluateTypeSet(bind, original, current, context); });
         return current;
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
-
-        if(this.values.includes(child as Expression))
-            return getExpressionReplacements(this, child as Expression, context);
-
-    }
-    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined { 
-
-        const index = this.values.indexOf(child as Expression);
-        if(index >= 0)
-            return getExpressionInsertions(position, this, this.values, child, context);
-        else if(child === this.close)
-            return getExpressionInsertions(position, this, this.values, child, context);
-    
-    }
-
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.values.includes(child as Expression)) return new Remove(context, this, child);
     }
 
     getDescriptions(): Translations {

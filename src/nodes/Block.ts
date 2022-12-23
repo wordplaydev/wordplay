@@ -19,13 +19,8 @@ import type TypeSet from "./TypeSet";
 import ValueException from "../runtime/ValueException";
 import None from "../runtime/None";
 import ConversionDefinition from "./ConversionDefinition";
-import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import Name from "./Name";
-import type Transform from "../transforms/Transform"
-import Replace from "../transforms/Replace";
-import Append from "../transforms/Append";
-import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
@@ -67,9 +62,9 @@ export default class Block extends Expression {
     getGrammar() { 
         return [
             { name: "docs", types:[ Docs, undefined ] },
-            { name: "open", types:[ Token, undefined ] },
+            { name: "open", types:[ Token ] },
             { name: "statements", types:[[ Expression, Bind ]] },
-            { name: "close", types:[ Token, undefined ] },
+            { name: "close", types:[ Token ] },
         ];
     }
 
@@ -209,51 +204,6 @@ export default class Block extends Expression {
             fun, 
             type 
         ];
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-        
-        const index = this.statements.indexOf(child as Expression);
-        if(index >= 0) {
-            const statement = this.statements[index];
-            if(statement instanceof Expression)
-                return [
-                    ... this.getInsertions().map(insertion => new Replace(context, child, insertion)),
-                    ...(index === this.statements.length - 1 ? getExpressionReplacements(this, statement, context) : []),
-                ]
-        }
-
-    }
-    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
-
-        if(context.source.isEmptyLine(position)) {
-            const index = this.statements.indexOf(child as Expression);
-            if(index >= 0) {
-                const firstToken = child.nodes(n => n instanceof Token)[0];
-                if(firstToken instanceof Token && context.source.spaces.hasLineBreak(firstToken))
-                    return this.getInsertions().map(insertion => new Append(context, position, this, this.statements, child, insertion));
-            }
-        }
-
-    }
-
-    getInsertionAfter(context: Context, position: number): Transform[] | undefined {
-
-        if(this.root) return [];
-
-        return [
-            ...getPossiblePostfix(context, this, this.getType(context)),
-            ...context.source.isEmptyLine(position) ?
-                [
-                    ...this.getInsertions().map(insertion => new Append(context, position, this, this.statements, undefined, insertion)),
-                    ...(this.root ? getExpressionInsertions(position, this, this.statements, undefined, context) : [])
-                ] : []
-        ];
-
-    }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        return new Remove(context, this, child);
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {

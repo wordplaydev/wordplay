@@ -14,12 +14,10 @@ import type Context from "./Context";
 import UnionType from "./UnionType";
 import type TypeSet from "./TypeSet";
 import Exception from "../runtime/Exception";
-import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import type Transform from "../transforms/Transform"
-import Replace from "../transforms/Replace";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
+import { CHANGE_SYMBOL } from "../parser/Tokenizer";
+import TokenType from "./TokenType";
 
 export default class Reaction extends Expression {
 
@@ -36,6 +34,10 @@ export default class Reaction extends Expression {
 
         this.computeChildren();
 
+    }
+
+    static make(initial: Expression, next: Expression) {
+        return new Reaction(initial, new Token(CHANGE_SYMBOL, TokenType.CHANGE), next);
     }
 
     getGrammar() { 
@@ -141,23 +143,6 @@ export default class Reaction extends Expression {
         if(this.initial instanceof Expression) this.initial.evaluateTypeSet(bind, original, current, context);
         if(this.next instanceof Expression) this.next.evaluateTypeSet(bind, original, current, context);
         return current;
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
-
-        if(child === this.initial)
-            return getExpressionReplacements(this, this.initial, context);
-        else if(child === this.next)
-            return getExpressionReplacements(this, this.next, context);    
-
-    }
-
-    getInsertionBefore() { return undefined; }
- 
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.initial || child === this.next) return new Replace(context, child, new ExpressionPlaceholder());
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {

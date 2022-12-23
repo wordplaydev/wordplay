@@ -41,11 +41,6 @@ export default class TypeVariable extends Node {
 
     computeConflicts() {}
 
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval() { return undefined; }
-
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,

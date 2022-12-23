@@ -76,10 +76,9 @@ export default class StructureDefinitionType extends Type {
 
     toWordplay() { return this.structure.getNames()[0]; }
 
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval() { return undefined; }
+    
+    
+    
 
     getDescriptions(): Translations {
         return {

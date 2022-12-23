@@ -42,10 +42,9 @@ export default class FunctionDefinitionType extends Type {
 
     toWordplay() { return `${FUNCTION_SYMBOL}${EVAL_OPEN_SYMBOL}${this.fun.inputs.map(n => n.toWordplay()).join(" ")}${EVAL_CLOSE_SYMBOL}`; }
 
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval() { return undefined; }
+    
+    
+    
 
     getDescriptions(): Translations {
         return {

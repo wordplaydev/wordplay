@@ -6,10 +6,6 @@ import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
-import type Transform from "../transforms/Transform"
-import TypePlaceholder from "./TypePlaceholder";
-import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type TypeSet from "./TypeSet";
@@ -81,13 +77,4 @@ export default class ListType extends NativeType {
         }
     }
 
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
-        if(child === this.type)
-            return getPossibleTypeReplacements(child, context);
-    }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.type) return new Replace(context, child, new TypePlaceholder());
-    }
 }

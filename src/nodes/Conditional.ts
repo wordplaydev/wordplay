@@ -15,10 +15,6 @@ import type Bind from "./Bind";
 import Start from "../runtime/Start";
 import { BOOLEAN_TYPE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import type Transform from "../transforms/Transform"
-import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import Replace from "../transforms/Replace";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Finish from "../runtime/Finish";
@@ -50,8 +46,12 @@ export default class Conditional extends Expression {
 
     getGrammar() { 
         return [
-            { name: "condition", types:[ Expression ] },
-            { name: "conditional", types:[ Token ] },
+            { 
+                name: "condition", types: [ Expression ],
+                // Must be boolean typed
+                getType: () => new BooleanType()
+            },
+            { name: "conditional", types: [ Token ] },
             { name: "yes", types:[ Expression ] },
             { name: "no", types:[ Expression ] },
         ]; 
@@ -145,24 +145,6 @@ export default class Conditional extends Expression {
     
     }
     
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
-        
-        if(child === this.condition)
-            return getExpressionReplacements(this, this.condition, context, new BooleanType());
-        if(child === this.yes)
-            return getExpressionReplacements(this, this.yes, context);
-        if(child === this.no)
-            return getExpressionReplacements(this, this.no, context);
-
-    }
-
-    getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.condition || child === this.yes || child === this.no)
-            return new Replace(context, this, new ExpressionPlaceholder());
-    }
-
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.condition) return {
             "😀": TRANSLATE,

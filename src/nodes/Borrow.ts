@@ -9,7 +9,6 @@ import Measurement from "../runtime/Measurement";
 import Unit from "./Unit";
 import TokenType from "./TokenType";
 import { BORROW_SYMBOL } from "../parser/Tokenizer";
-import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Expression from "./Expression";
@@ -192,11 +191,9 @@ export default class Borrow extends Expression {
 
     getVersion() { return this.version === undefined ? undefined : (new Measurement(this, this.version, Unit.Empty)).toNumber(); }
 
-    getChildReplacement(): Transform[] | undefined { return undefined; }
 
-    getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(): Transform[] | undefined { return undefined; }
-    getChildRemoval(): Transform | undefined { return undefined; }
+    
+    
 
     getDescriptions(): Translations {
         return {

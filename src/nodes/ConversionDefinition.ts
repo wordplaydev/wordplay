@@ -16,12 +16,6 @@ import { CONVERT_SYMBOL } from "../parser/Tokenizer";
 import type Bind from "./Bind";
 import type TypeSet from "./TypeSet";
 import EvaluationException, { StackSize } from "../runtime/EvaluationException";
-import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
-import type Transform from "../transforms/Transform"
-import Replace from "../transforms/Replace";
-import TypePlaceholder from "./TypePlaceholder";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
@@ -62,11 +56,15 @@ export default class ConversionDefinition extends Expression {
 
     getGrammar() { 
         return [
-            { name: "docs", types:[ Docs, undefined ] },
-            { name: "arrow", types:[ Token ] },
-            { name: "input", types:[ Type ] },
-            { name: "output", types:[ Type ] },
-            { name: "expression", types:[ Expression ] },
+            { name: "docs", types: [ Docs, undefined ] },
+            { name: "arrow", types: [ Token ] },
+            { name: "input", types: [ Type ] },
+            { name: "output", types: [ Type ] },
+            { 
+                name: "expression", types: [ Expression ],
+                // Must match the output type
+                getType: () => this.output
+            },
         ]; 
     }
 
@@ -137,24 +135,6 @@ export default class ConversionDefinition extends Expression {
         return current;
     }
  
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
-        
-        if(child === this.input || child === this.output)
-            return getPossibleTypeReplacements(child, context);
-        // Expression can be anything
-        if(child === this.expression)
-            return getExpressionReplacements(this, this.expression, context);
-
-    }
-
-    getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(): Transform[] | undefined { return []; }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.input || child === this.output) return new Replace(context, child, new TypePlaceholder());
-        else if(child === this.expression) return new Replace(context, child, new ExpressionPlaceholder());
-    }
-
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,

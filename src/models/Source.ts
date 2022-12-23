@@ -19,7 +19,6 @@ import type Type from "../nodes/Type";
 import type TypeSet from "../nodes/TypeSet";
 import type Step from "../runtime/Step";
 import type Stream from "../runtime/Stream";
-import type Transform from "../transforms/Transform";
 import { WRITE_DOCS } from "../nodes/Translations";
 import type { SharedDefinition } from "../nodes/Borrow";
 import FunctionDefinition from "../nodes/FunctionDefinition";
@@ -332,6 +331,9 @@ export default class Source extends Expression {
         return position >= index - this.spaces.getSpace(token).length && position <= index;     
     }
 
+    getTokenBefore(token: Token) { return this.getNextToken(token, -1); }
+    getTokenafter(token: Token) { return this.getNextToken(token, 1); }
+
     getNextToken(token: Token, direction: -1 | 1): Token | undefined {
 
         const tokens = this.expression.nodes(n => n instanceof Token) as Token[];
@@ -443,9 +445,8 @@ export default class Source extends Expression {
     getStartExplanations(): Translations { return WRITE_DOCS; }
     getFinishExplanations(): Translations { return WRITE_DOCS; }
     computeConflicts(): void | Conflict[] { return []; }
-    getChildReplacement(): Transform[] | undefined { return undefined; }
-    getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(): Transform[] | undefined { return undefined; }
-    getChildRemoval(): Transform | undefined { return undefined; }
+
+    
+    
 
 }

@@ -1,13 +1,7 @@
 import MissingLanguage from "../conflicts/MissingLanguage";
-import type Context from "./Context";
 import Node from "./Node";
 import Token from "./Token";
-import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
-import type Transform from "../transforms/Transform";
-import Replace from "../transforms/Replace";
-import Add from "../transforms/Add";
 import NameToken from "./NameToken";
-import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import LanguageToken from "./LanguageToken";
@@ -79,25 +73,4 @@ export default class Language extends Node {
         }
     }
 
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
-
-        const project = context.project;
-        if(child === this.lang && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Replace(context, this.lang as Token, new NameToken(l)))
-
-    }
-
-    getInsertionBefore() { return undefined; }
-
-    getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
-
-        const project = context.project;
-        if(this.lang === undefined && project !== undefined)
-            return getPossibleLanguages(project).map(l => new Add(context, position, this, "lang", new NameToken(l)));
-
-     }
-
-     getChildRemoval(child: Node, context: Context): Transform | undefined {
-         if(child === this.lang) return new Remove(context, this, child);
-     }
 }

@@ -4,7 +4,7 @@
     import type Transform from "../transforms/Transform";
     import Node from '../nodes/Node';
     import Caret, { insertionPointsEqual, type InsertionPoint } from '../models/Caret';
-    import { afterUpdate, onDestroy, setContext } from 'svelte';
+    import { setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
     import commands, { type Edit } from './util/Commands';
     import type Source from '../models/Source';
@@ -35,6 +35,7 @@
     import { currentStep, playing, animations } from '../models/stores';
     import type Conflict from '../conflicts/Conflict';
     import { tick } from 'svelte';
+    import { getEditsAt } from './util/Autocomplete';
     
     export let project: Project;
     export let source: Source;
@@ -126,9 +127,6 @@
         transforms: Transform[],
     } | undefined = undefined;
 
-    // Triggered by escape.
-    let menuVisible = false;
-
     let menuSelection: number = -1;
 
     // The store the contains the current node being dragged.
@@ -137,36 +135,10 @@
     // The point at which a drag started.
     let dragPoint: { x: number, y: number} | undefined = undefined;
 
-    // When keyboard idle changes to false, reset the menu if nothing is selected.
-    const menuKeyboardIdleReset = KeyboardIdle.subscribe(idle => {
-        // Sart by assuming there shouldn't be a menu.
-        if(!idle && menuSelection < 0)
-            hideMenu();
-    });
-    onDestroy(menuKeyboardIdleReset);
-
-    // When caret changes, reset the menu
-    const menuResetCaretChange = caret.subscribe(() => {
-        hideMenu();
-    });
-    onDestroy(menuResetCaretChange);
-
     // When source changes, update various nested state from the source.
     $: {
         caret.set($caret.withSource(source));
         setContext(CaretSymbol, caret);
-    }
-
-    // When the caret location changes, position the menu and invisible input, and optionally scroll to the caret.
-    $: {
-        if(caretLocation !== undefined && menuVisible && menu !== undefined) {
-            menu = {
-                node: menu.node,
-                transforms: menu.transforms,
-                location: { left: caretLocation.left, top: `${caretLocation.bottom}px` }
-            }
-        }
-        else menuVisible = false;
     }
 
     // Determine the conflict under the caret whenever the caret changes.
@@ -196,31 +168,6 @@
             }
         }
     }
-
-    // When the editor view changes, position selections, the menu, and scroll the caret or executing node into view
-    // and make sure the text input field is in focus.
-    afterUpdate(() => {
-        if(editor === undefined || editor === null) return;
-
-        // Position the menu if a node is selected.
-        if(menu !== undefined && editor !== undefined && $caret.isNode()) {
-            const viewport = editor.parentElement;
-            const el = getNodeView(menu.node);
-            if(el && viewport) {
-                const placeholderRect = el.getBoundingClientRect();
-                const viewportRect = viewport.getBoundingClientRect();
-                // Yay, we have everything we need to show a menu!
-                menu = {
-                    node: menu.node,
-                    transforms: menu.transforms,
-                    location: {
-                        left: `${placeholderRect.left - viewportRect.left + viewport.scrollLeft}px`,
-                        top: `${placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10}px`
-                    }
-                }
-            }
-        }
-    });
 
     function addHighlight(map: Highlights, node: Node, type: HighlightType) {
 
@@ -829,50 +776,64 @@
 
     }
 
-    function showMenu() {
+    async function showMenu() {
 
         if(evaluator === undefined) return;
 
-        const context = project.getContext(source);
-
         // Is the caret on a specific token or node?
         const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
-        const between = $caret.getNodesBetween();
+        if(node === undefined) return;
 
-        const transforms = 
-            between !== undefined ? 
-                [
-                    // Get all of the replacements possible immediately before the position.
-                    ... between.before.reduce((transforms: Transform[], child) =>
-                        [ ... transforms, ...($caret.source.get(child)?.getParent()?.getInsertionBefore(child, context, $caret.position as number) ?? []) ], []),
-                    // Get all of the replacements possible and the ends of the nodes just before the position.
-                    ... between.after.reduce((transforms: Transform[], child) => {
-                        return [ ...transforms, ...(child.getInsertionAfter(context, $caret.position as number) ?? []) ]
-                    }, [])
-                ] :
-            node !== undefined ? $caret.source.get(node)?.getParent()?.getChildReplacement(node, context) :
-                undefined;
+        // Get the unique valid edits at the caret.
+        const transforms = getEditsAt(project, $caret);
 
-        if(node !== undefined && transforms !== undefined && transforms.length > 0) {
-            menu = {
-                node: node,
-                // Filter out duplicates
-                transforms: transforms.filter((item1, index1) => transforms.find((item2, index2) => index2 > index1 && item1.equals(item2)) === undefined),
-                location: undefined // This gets defined after rendering.
+        // Convert into a menu specification for rendering.
+        if(transforms.length > 0) {
+
+            // Make a menu, but without a location, so other things know there's a menu while we're waiting.
+            menu = { node, transforms, location: undefined };
+
+            // Wait for everything to be rendered so we can get the position of things.
+            await tick();
+
+            // Position the menu if a node is selected.
+            let position: { left: string, top: string } | undefined = undefined;
+
+            // Position it near the selected node or caret
+            if(editor && $caret.isNode()) {
+                const viewport = editor.parentElement;
+                const el = getNodeView(node);
+                if(el && viewport) {
+                    const placeholderRect = el.getBoundingClientRect();
+                    const viewportRect = viewport.getBoundingClientRect();
+                    position = {
+                        left: `${placeholderRect.left - viewportRect.left + viewport.scrollLeft}px`,
+                        top: `${placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10}px`
+                    }
+                }
+            }
+            else if(caretLocation && $caret.isIndex()) {
+                position = {
+                    left: `${caretLocation.left}px`,
+                    top: `${caretLocation.bottom}px`
+                }
             }
 
-            // Make it visible if a node is selected. Otherwise, wait for it to be triggered.
-            menuVisible = true;
-
-            // We made a menu! Return and show it rather than executing a command.
+            // If we got a location, we have everything we need to show a menu!
+            if(position)
+                menu = { node: menu.node, transforms: menu.transforms, location: position };
         }
 
     }
 
-    // Always show the menu if the caret is immediately after a property reference.
+    // Always show the menu if the caret is after a property reference.
     $: {
-        if($caret.isAtPropertyReference())
+        if($caret.isNode() || 
+            $caret.tokenPrior?.is(TokenType.ACCESS) || 
+            ($caret.tokenPrior !== undefined && $caret.tokenPrior.is(TokenType.NAME) && source.getTokenBefore($caret.tokenPrior)?.is(TokenType.ACCESS)))
             showMenu();
+        else
+            hideMenu();
     }
 
     function handleKeyDown(event: KeyboardEvent) {
@@ -882,28 +843,26 @@
         // Assume we'll handle it.
         lastKeyDownIgnored = false;
 
-        if(menu !== undefined && menuVisible) {
-            if(event.key === "ArrowDown" && menuSelection < menu.transforms.length - 1) { menuSelection += 1; return; }
-            else if(event.key === "ArrowUp" && menuSelection >= 0) { menuSelection -= 1; return; }
+        if(menu !== undefined) {
+            if(event.key === "ArrowDown") { if(menuSelection < menu.transforms.length - 1) menuSelection += 1; return; }
+            else if(event.key === "ArrowUp") { if(menuSelection >= 0) menuSelection -= 1; return; }
             else if(event.key === "Enter" && menuSelection >= 0 && menu.transforms.length > 0) {
                 handleEdit(menu.transforms[menuSelection].getEdit($languages));
+                hideMenu();
                 return;
             }
         }
 
         if(event.key === "Escape") {
-
-            if(menu === undefined && !menuVisible) {
-
+            // If there's no menu showing, show one, then return.
+            if(menu === undefined) {
                 showMenu();
-                // If we made a menu, return, and don't handle a command.
-                if(menu !== undefined) return;
+                if(menu !== undefined)
+                    return;
             }
-            // Ride of the menu and let the commands process the Escape key.
-            else {
-                menuVisible = false;
-                menu = undefined;
-            }
+            // Rid of the menu and let the commands process the Escape key.
+            else
+                hideMenu();
         }
 
         // Hide the menu, then process the navigation.
@@ -1083,7 +1042,7 @@
         <CaretView {source} blink={$KeyboardIdle && focused} ignored={lastKeyDownIgnored} bind:location={caretLocation}/>
     {/if}
     <!-- Are we on a placeholder? Show a menu! -->
-    {#if menu !== undefined && menu.location !== undefined && menuVisible }
+    {#if menu !== undefined && menu.location !== undefined }
         <div class="menu" style={`left: ${menu.location.left}; top: ${menu.location.top};`}>
             <Menu 
                 transforms={menu.transforms} 

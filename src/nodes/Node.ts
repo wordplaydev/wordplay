@@ -1,15 +1,27 @@
 import type Conflict from "../conflicts/Conflict";
 import type Definition from "./Definition";
 import type Context from "./Context";
-import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import type Spaces from "../parser/Spaces";
+import type Type from "./Type";
+import type Token from "./Token";
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
 
 export type NodeType = (undefined | Function | Function[]);
-export type Field = { name: string, types: NodeType[] }
+export type Field = { 
+    /** The name of the field, corresponding to a name on the Node class. Redundant with the class, but no reflection in JavaScript. */
+    name: string, 
+    /** A list of possible Node class types that the field may be. Redundant with the class, but no reflection in JavaScript. */
+    types: NodeType[],
+    /** Generates a Token of the expected type, if a token is permitted on the field */
+    getToken?: (text?: string) => Token,
+    /** Given a context and an optional index in a list, return a type required for this field. Used to filter autocomplete menus. */
+    getType?: (context: Context, index: number | undefined) => Type,
+    /** Given a context and an optional prefix, determine definitions are available for this field. Used to populate autocomplete menus. */
+    getDefinitions?: (context: Context) => Definition[],
+}
 
 export default abstract class Node {
 
@@ -66,6 +78,14 @@ export default abstract class Node {
         return children;
     }
 
+    /** Use the subclass's child name list to construct a flat list of nodes. We use this list for tree traversal. */
+    getChildrenAsGrammar(): Record<string, Node | Node[] | undefined> {
+        const children: Record<string, Node | Node[] | undefined> = {};
+        for(const name of this.getChildNames())
+            children[name] = (this as any)[name] as (Node | Node[] | undefined);
+        return children;
+    }
+    
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
     abstract computeConflicts(context: Context): Conflict[] | void;
 
@@ -269,10 +289,12 @@ export default abstract class Node {
         }
 
         // If we didn't find a match above, just return the existing list or child.
+        // If the child we're trying to replace is an array, map the existing array onto existing values or a replacement.
         if(Array.isArray(child))
-            return child.map(n => original !== undefined && (typeof original === "string" || n.contains(original)) ? n.replace(original, replacement) : n) as ChildType
+            return child.map(n => original instanceof Node && n.contains(original) ? n.replace(original, replacement) : n) as ChildType
+        // If it's not an array, try replacing the original in the child if it's a Node
         else
-            return (child && original !== undefined && (typeof original === "string" || child.contains(original)) ? child.replace(original, replacement) : child) as ChildType;
+            return (child && original instanceof Node && child.contains(original) ? child.replace(original, replacement) : child) as ChildType;
 
     }
 
@@ -318,11 +340,6 @@ export default abstract class Node {
 
     abstract getDescriptions(context: Context): Translations;
 
-    abstract getChildReplacement(child: Node, context: Context): Transform[] | undefined;
-    abstract getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined;
-    abstract getInsertionAfter(context: Context, position: number): Transform[] | undefined;
-    abstract getChildRemoval(child: Node, context: Context): Transform | undefined;
-    
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined { child; context; return undefined; }
 

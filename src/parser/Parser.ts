@@ -427,7 +427,7 @@ export function parseBinaryOperation(tokens: Tokens): Expression {
     while(tokens.hasNext() && (tokens.nextIs(TokenType.BINARY_OP) || (tokens.nextIs(TokenType.TYPE_OP) && !tokens.nextHasPrecedingLineBreak()))) {
         left = tokens.nextIs(TokenType.TYPE_OP) ? 
             new Is(left, tokens.read(TokenType.TYPE_OP), parseType(tokens)) :
-            new BinaryOperation(tokens.read(TokenType.BINARY_OP), left, parseAtomicExpression(tokens));
+            new BinaryOperation(left, tokens.read(TokenType.BINARY_OP), parseAtomicExpression(tokens));
     }
     return left;
 

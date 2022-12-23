@@ -25,10 +25,9 @@ export default abstract class UnknownType<ExpressionType extends Node> extends T
 
     toWordplay() { return "⁇"; }
     
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval() { return undefined; }
+    
+    
+    
 
     getReasons(): UnknownType<any>[] {
         return [ this, ...(this.why instanceof UnknownType ? [ ...this.why.getReasons() ] : [] ) ];

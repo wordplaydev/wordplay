@@ -1,7 +1,6 @@
 import type Conflict from "../conflicts/Conflict";
 import { UnparsableConflict } from "../conflicts/UnparsableConflict";
 import type { NativeTypeName } from "../native/NativeConstants";
-import type Transform from "../transforms/Transform";
 import Node from "./Node";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations";
@@ -45,10 +44,9 @@ export default class UnparsableType extends Type {
         }
     }
 
-    getChildReplacement(): Transform[] | undefined { return undefined; }
-    getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(): Transform[] | undefined { return undefined; }
-    getChildRemoval(): Transform | undefined { return undefined; }
+
+    
+    
 
 
 

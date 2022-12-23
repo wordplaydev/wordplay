@@ -16,8 +16,6 @@ import UnimplementedException from "../runtime/UnimplementedException";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import PlaceholderToken from "./PlaceholderToken";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import type Transform from "../transforms/Transform";
 import UnimplementedType from "./UnimplementedType";
 
 const ExpressionLabels: Translations = {
@@ -36,6 +34,10 @@ export default class ExpressionPlaceholder extends Expression {
 
         this.computeChildren();
 
+    }
+
+    static make() {
+        return new ExpressionPlaceholder(new PlaceholderToken());
     }
 
     getGrammar() { 
@@ -71,12 +73,7 @@ export default class ExpressionPlaceholder extends Expression {
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
- 
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-    getChildRemoval() { return undefined; }
-    
+     
     getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined {
         if(child === this.placeholder) {
             const parent = context.get(this)?.getParent();

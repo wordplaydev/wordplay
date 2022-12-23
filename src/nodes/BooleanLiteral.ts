@@ -11,9 +11,6 @@ import type Bind from "./Bind";
 import type Context from "./Context";
 import type TypeSet from "./TypeSet";
 import TokenType from "./TokenType";
-import type Transform from "../transforms/Transform";
-import Replace from "../transforms/Replace";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type Evaluator from "../runtime/Evaluator";
@@ -34,7 +31,7 @@ export default class BooleanLiteral extends Expression {
 
     getGrammar() { 
         return [
-            { name: "value", types:[ Token ] },
+            { name: "value", types: [ Token ] },
         ]; 
     }
 
@@ -71,15 +68,8 @@ export default class BooleanLiteral extends Expression {
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
 
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
-        return [
-            new Replace(context, child, new Token(!this.bool() ? TRUE_SYMBOL : FALSE_SYMBOL, TokenType.BOOLEAN))
-        ];
-    }
 
-    getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-    getChildRemoval(): Transform | undefined { return undefined; }
+    
 
     getDescriptions(): Translations {
         return {

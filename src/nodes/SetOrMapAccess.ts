@@ -20,13 +20,8 @@ import type Bind from "./Bind";
 import type TypeSet from "./TypeSet";
 import TypeException from "../runtime/TypeException";
 import UnionType from "./UnionType";
-import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import AnyType from "./AnyType";
-import type Transform from "../transforms/Transform"
 import SetOpenToken from "./SetOpenToken";
 import SetCloseToken from "./SetCloseToken";
-import Replace from "../transforms/Replace";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import { NotASetOrMap } from "../conflicts/NotASetOrMap";
@@ -57,10 +52,14 @@ export default class SetOrMapAccess extends Expression {
 
     getGrammar() { 
         return [
-            { name: "setOrMap", types:[ Expression ] },
+            { 
+                name: "setOrMap", types:[ Expression ],
+                // Must be a number
+                getType: () => UnionType.make(SetType.make(), MapType.make())
+            },
             { name: "open", types:[ Token ] },
             { name: "key", types:[ Expression ] },
-            { name: "close", types:[ Token, undefined ] },
+            { name: "close", types:[ Token ] },
         ];
     }
 
@@ -132,29 +131,6 @@ export default class SetOrMapAccess extends Expression {
         if(this.setOrMap instanceof Expression) this.setOrMap.evaluateTypeSet(bind, original, current, context);
         if(this.key instanceof Expression) this.key.evaluateTypeSet(bind, original, current, context);
         return current;
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined  {
-
-        if(child === this.setOrMap) {
-            return getExpressionReplacements(this, this.setOrMap, context, UnionType.make(SetType.make(new AnyType()), MapType.make(new AnyType(), new AnyType())));
-        }
-        else if(child === this.key) {
-            const setMapType = this.setOrMap.getType(context);
-            return getExpressionReplacements(this, this.key, context, 
-                (setMapType instanceof SetType || setMapType instanceof MapType) && setMapType.key instanceof Type ? setMapType.key :
-                new AnyType()
-            )
-        }
-
-    }
-
-    getInsertionBefore() { return undefined; }
-
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.setOrMap || child === this.key) return new Replace(context, child, new ExpressionPlaceholder());
     }
 
     getStart() { return this.open; }

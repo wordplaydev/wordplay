@@ -4,10 +4,6 @@ import NativeType from "./NativeType";
 import type Node from "./Node";
 import Token from "./Token";
 import Type from "./Type";
-import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
-import type Transform from "../transforms/Transform"
-import Replace from "../transforms/Replace";
-import TypePlaceholder from "./TypePlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import SetOpenToken from "./SetOpenToken";
@@ -82,20 +78,6 @@ export default class SetType extends NativeType {
     resolveTypeVariable(name: string): Type | undefined { 
         return Object.values(SET_TYPE_VAR_NAMES).includes(name) && this.key instanceof Type ? this.key : undefined;
     };
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined  {
-
-        if(child === this.key)
-            return getPossibleTypeReplacements(child, context);
-
-    }
-
-    getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter() { return undefined; }
-    
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.key) return new Replace(context, child, new TypePlaceholder());
-    }
 
     getDescriptions(): Translations {
         return {

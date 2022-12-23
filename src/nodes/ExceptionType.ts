@@ -42,9 +42,8 @@ export default class ExceptionType extends Type {
         }
     }
 
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval() { return undefined; }
+    
+    
+    
 
 }

@@ -21,13 +21,6 @@ import IncompatibleInput from "../conflicts/IncompatibleInput";
 import Evaluation from "../runtime/Evaluation";
 import UnparsableException from "../runtime/UnparsableException";
 import NotAFunction from "../conflicts/NotAFunction";
-import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import AnyType from "./AnyType";
-import TokenType from "./TokenType";
-import type Transform from "../transforms/Transform"
-import Replace from "../transforms/Replace";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import PlaceholderToken from "./PlaceholderToken";
 import type Translations from "./Translations";
 import { TRANSLATE, WRITE } from "./Translations"
 import type LanguageCode from "./LanguageCode";
@@ -35,6 +28,10 @@ import getConcreteExpectedType from "./Generics";
 import type Value from "../runtime/Value";
 import UnknownNameType from "./UnknownNameType";
 import Action from "../runtime/Action";
+import NeverType from "./NeverType";
+import type Definition from "./Definition";
+import TokenType from "./TokenType";
+import MeasurementType from "./MeasurementType";
 
 export default class BinaryOperation extends Expression {
 
@@ -42,11 +39,11 @@ export default class BinaryOperation extends Expression {
     readonly operator: Token;
     readonly right: Expression;
 
-    constructor(operator: Token | string, left: Expression, right: Expression) {
+    constructor(left: Expression, operator: Token, right: Expression) {
         super();
 
-        this.operator = operator instanceof Token ? operator : new Token(operator, TokenType.BINARY_OP);
         this.left = left;
+        this.operator = operator;
         this.right = right;
 
         this.computeChildren();
@@ -55,17 +52,35 @@ export default class BinaryOperation extends Expression {
 
     getGrammar() { 
         return [
-            { name: "left", types:[ Expression ] },
-            { name: "operator", types:[ Token ] },
-            { name: "right", types:[ Expression ] }
+            { name: "left", types: [ Expression ] },
+            { 
+                name: "operator", types: [ Token ],
+                // The operators should be all those that exist on the type on the left.
+                getToken: (text?: string): Token => new Token(text ?? "_", TokenType.BINARY_OP),
+                getDefinitions: (context: Context): Definition[] => {
+                    const leftType = this.left instanceof Expression ? this.left.getType(context) : undefined;
+                    return leftType?.getDefinitions(this, context) ?? [];
+                }
+            },
+            { 
+                name: "right", types: [ Expression ],
+                // The type of the right should be the type of the single input to the function corresponding to the operator.
+                getType: (context: Context) => {
+                    const fun = this.getFunction(context);
+                    if(fun === undefined || fun.inputs.length === 0) return new NeverType();
+                    const type = fun.inputs[0].getType(context);
+                    // If this is a measurement type, pass along this binary op so that we can infer units.
+                    return type instanceof MeasurementType ? type.withOp(this) : type;
+                }
+            }
         ]; 
     }
 
     replace(original?: Node, replacement?: Node) { 
         return new BinaryOperation(
-            this.replaceChild<Token>("operator", this.operator, original, replacement), 
             this.replaceChild("left", this.left, original, replacement), 
-            this.replaceChild<Expression>("right", this.right, original, replacement)
+            this.replaceChild("operator", this.operator, original, replacement), 
+            this.replaceChild("right", this.right, original, replacement)
         ) as this; 
     }
 
@@ -76,7 +91,7 @@ export default class BinaryOperation extends Expression {
 
     getOperator() { return this.operator.text.toString(); }
 
-    getFunction(context: Context) {
+    getFunction(context: Context): FunctionDefinition | undefined {
 
         // Find the function on the left's type.
         const leftType = this.left instanceof Expression ? this.left.getType(context) : undefined;
@@ -263,36 +278,6 @@ export default class BinaryOperation extends Expression {
             return current;
         }
     
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-
-        const expectedType = this.getFunction(context)?.inputs[0]?.getType(context);
-
-        // Left can be anything
-        if(child === this.left) {
-            return getExpressionReplacements(this, this.left, context);
-        }
-        // Operator must exist on the type of the left, unless not specified
-        else if(child === this.operator) {
-            const leftType = this.left instanceof Expression ? this.left.getType(context) : undefined;
-            const funs = leftType?.getAllDefinitions(this, context)?.filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.isOperator());
-            return funs?.map(fun => new Replace<Token>(context, child, [ name => new Token(name, TokenType.BINARY_OP), fun ])) ?? []
-        }
-        // Right should comply with the expected type, unless it's not a known function
-        else if(child === this.right) {
-            return getExpressionReplacements(this, this.right, context, expectedType ?? new AnyType());
-        }
-
-    }
-
-    getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        
-        if(child === this.left || child === this.right) return new Replace(context, child, new ExpressionPlaceholder());
-        else if(child === this.operator) return new Replace(context, child, new PlaceholderToken());
-
     }
 
     getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined {

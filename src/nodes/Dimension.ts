@@ -1,14 +1,6 @@
-import { EXPONENT_SYMBOL } from "../parser/Tokenizer";
-import Add from "../transforms/Add";
-import Replace from "../transforms/Replace";
-import type Transform from "../transforms/Transform";
-import type Context from "./Context";
-import { getPossibleDimensions } from "../transforms/getPossibleUnits";
 import Node from "./Node";
 import Token from "./Token";
-import TokenType from "./TokenType";
 import NameToken from "./NameToken";
-import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
@@ -84,28 +76,6 @@ export default class Dimension extends Node {
                 dim === "pt" ? "font size" :
                 "A dimension"
             }
-    }
-
-    getChildReplacement(child: Node, context: Context) {
-
-        const project = context.project;
-        // Dimension names can be any of the possible dimensions in the project.
-        if(child === this.name && project !== undefined)
-            return getPossibleDimensions(project)
-                .map(dimension => new Replace(context, child, new NameToken(dimension)));
-
-    }
-
-    getInsertionBefore() { return undefined; }
-
-    getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
-
-        if(this.caret === undefined)
-            return [ new Add(context, position, this, "exponent", new Token(EXPONENT_SYMBOL, TokenType.UNARY_OP)) ];
-    }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.exponent && this.caret) return new Remove(context, this, this.caret, child);
     }
 
 }

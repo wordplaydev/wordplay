@@ -19,7 +19,6 @@ import { Unimplemented } from "../conflicts/Unimplemented";
 import { Implemented } from "../conflicts/Implemented";
 import { DisallowedInputs } from "../conflicts/DisallowedInputs";
 import EvaluationException, { StackSize } from "../runtime/EvaluationException";
-import type Transform from "../transforms/Transform"
 import type LanguageCode from "./LanguageCode";
 import TypeToken from "./TypeToken";
 import EvalOpenToken from "./EvalOpenToken";
@@ -95,9 +94,9 @@ export default class StructureDefinition extends Expression {
             { name: "names", types: [ Names ] },
             { name: "interfaces", types: [[ Reference ] ] },
             { name: "types", types: [ TypeVariables, undefined ] },
-            { name: "open", types:[ Token, undefined ] },
+            { name: "open", types:[ Token ] },
             { name: "inputs", types: [[ Bind ]] },
-            { name: "close", types: [ Token, undefined ] },
+            { name: "close", types: [ Token ] },
             { name: "expression", types: [ Block, undefined ] },
         ];
     }
@@ -274,11 +273,6 @@ export default class StructureDefinition extends Expression {
         if(this.expression instanceof Expression) this.expression.evaluateTypeSet(bind, original, current, context);
         return current;
     }
-
-    getChildReplacement(): Transform[] | undefined { return undefined; }
-    getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(): Transform[] | undefined { return []; }
-    getChildRemoval(): Transform | undefined { return undefined; }
 
     getStart() { return this.type; }
     getFinish() { return this.names; }

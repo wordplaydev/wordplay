@@ -21,8 +21,6 @@ import type Definition from "./Definition";
 import type TypeSet from "./TypeSet";
 import UnimplementedException from "../runtime/UnimplementedException";
 import type Evaluator from "../runtime/Evaluator";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
@@ -147,11 +145,6 @@ export default class Update extends Expression {
         if(this.query instanceof Expression) this.query.evaluateTypeSet(bind, original, current, context);
         return current;
     }
-
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-    getChildRemoval() { return undefined; }
 
     getDescriptions(): Translations {
         return {

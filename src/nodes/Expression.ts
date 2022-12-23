@@ -27,6 +27,8 @@ export default abstract class Expression extends Node {
     isEvaluationInvolved() { return false; }
     isEvaluationRoot() { return false; }
 
+    /** True if binary operations can be applied to this without wrapping it in parentheses */
+
     abstract computeType(context: Context): Type;
 
     getType(context: Context): Type {

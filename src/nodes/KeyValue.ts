@@ -1,12 +1,7 @@
-import type Context from "./Context";
 import Expression from "./Expression";
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
 import Node from "./Node";
-import type Transform from "../transforms/Transform"
 import Token from "./Token";
 import BindToken from "./BindToken";
-import Replace from "../transforms/Replace";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
@@ -52,17 +47,4 @@ export default class KeyValue extends Node {
         }
     }
 
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
-
-        if(child === this.key)
-            return getExpressionReplacements(this, this.key, context);
-        if(child === this.value)
-            return getExpressionReplacements(this, this.value, context);
-
-    }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.key || child === this.value) return new Replace(context, child, new ExpressionPlaceholder());
-    }
 }

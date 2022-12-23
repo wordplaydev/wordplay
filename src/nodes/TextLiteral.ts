@@ -11,12 +11,6 @@ import type Bind from "./Bind";
 import type Context from "./Context";
 import type TypeSet from "./TypeSet";
 import TokenType from "./TokenType";
-import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
-import Add from "../transforms/Add";
-import Replace from "../transforms/Replace";
-import type Transform from "../transforms/Transform";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type Evaluator from "../runtime/Evaluator";
@@ -79,36 +73,6 @@ export default class TextLiteral extends Expression {
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
-
-    getChildReplacement(child: Node, context: Context) {
-    
-        const project = context.project;
-        // Formats can be any Language tags that are used in the project.
-        if(project !== undefined && child === this.format)
-            return getPossibleLanguages(project).map(lang => new Replace(context, child, Language.make(lang)));
-
-    }
-    
-    getInsertionBefore() { return undefined; }
-    
-    getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
-        
-        const project = context.project;
-
-        // Formats can be any Language tags that are used in the project.
-        return [
-            ...getPossiblePostfix(context, this, this.getType(context)),
-            ...(project !== undefined && this.format === undefined ? 
-                getPossibleLanguages(project).map(lang => new Add(context, position, this, "format", Language.make(lang))) :
-                []
-            )
-        ];
-
-    }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.format) return new Remove(context, this, child);
-    }
 
     getDescriptions(): Translations {
         return {

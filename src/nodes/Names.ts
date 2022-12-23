@@ -110,9 +110,4 @@ export default class Names extends Node {
         }
     }
 
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter(){ return undefined; }
-    getChildRemoval() { return undefined; }
-
 }

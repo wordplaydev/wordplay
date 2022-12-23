@@ -38,7 +38,7 @@ export default class TypeVariables extends Node {
         return [
             { name: "open", types:[ Token ] },
             { name: "variables", types:[ Names ] },
-            { name: "close", types:[ Token, undefined ] },
+            { name: "close", types:[ Token ] },
         ];
     }
 
@@ -62,10 +62,9 @@ export default class TypeVariables extends Node {
 
     }
 
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval() { return undefined; }
+    
+    
+    
 
     getDescriptions(): Translations {
         return {

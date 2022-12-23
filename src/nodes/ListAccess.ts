@@ -22,10 +22,6 @@ import Unit from "./Unit";
 import type Bind from "./Bind";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import type Transform from "../transforms/Transform"
-import Replace from "../transforms/Replace";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import { NotAList } from "../conflicts/NotAList";
 import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
 import ListOpenToken from "./ListOpenToken";
@@ -62,10 +58,18 @@ export default class ListAccess extends Expression {
 
     getGrammar() { 
         return [
-            { name: "open", types:[ Token ] },
-            { name: "list", types:[ Expression ] },
-            { name: "index", types:[ Expression ] },
-            { name: "close", types:[ Token, undefined ] },
+            { name: "open", types: [ Token ] },
+            { 
+                name: "list", types: [ Expression ],
+                // Must be a list
+                getType: () => ListType.make()
+            },
+            { 
+                name: "index", types: [ Expression ],
+                // Must be a number
+                getType: () => MeasurementType.make()
+            },
+            { name: "close", types: [ Token ] },
         ];
     }
 
@@ -160,22 +164,6 @@ export default class ListAccess extends Expression {
             "😀": TRANSLATE,
             eng: "Get a value from a list by index"
         }
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
-
-        if(child === this.list)
-            return getExpressionReplacements(this, this.list, context, ListType.make());
-        else if(child === this.index)
-            return getExpressionReplacements(this, this.index, context, MeasurementType.make());
-
-    }
-    getInsertionBefore() { return undefined; }
-
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.list || child === this.index) return new Replace(context, child, new ExpressionPlaceholder());
     }
     
     getChildPlaceholderLabel(child: Node): Translations | undefined {

@@ -11,10 +11,6 @@ import type Node from "./Node";
 import Language from "./Language";
 import Unit from "./Unit";
 import Dimension from "./Dimension";
-import type Transform from "../transforms/Transform";
-import Append from "../transforms/Append";
-import Remove from "../transforms/Remove";
-import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
@@ -52,7 +48,7 @@ export default class Program extends Expression {
             { name: "docs", types: [ Docs, undefined ] },
             { name: "borrows", types: [[ Borrow ]] },
             { name: "expression", types: [ Block ] },
-            { name: "end", types:[ Token ] },
+            { name: "end", types: [ Token ] },
         ]; 
     }
 
@@ -135,22 +131,6 @@ export default class Program extends Expression {
         // Return the value.
         return value;
 
-    }
-
-    getChildReplacement() { return undefined; }
-
-    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
-    
-        if(child === this.expression || this.borrows.includes(child as Borrow))
-            return [ new Append(context, position, this, this.borrows, child, new Borrow()) ];
-    
-    }
-
-    getInsertionAfter(): Transform[] | undefined { return undefined; }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.borrows.includes(child as Borrow)) return new Remove(context, this, child);
-        else if(child === this.expression) return new Replace(context, this.expression, new Block([], this.expression instanceof Block ? this.expression.root : false, this.expression instanceof Block ? this.expression.creator : false));
     }
 
     getTranslation(languages: LanguageCode[]) {

@@ -19,18 +19,9 @@ import { PROPERTY_SYMBOL, PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import TypeVariable from "./TypeVariable";
-import type Transform from "../transforms/Transform"
 import NameException from "../runtime/NameException";
 import NativeType from "./NativeType";
-import Replace from "../transforms/Replace";
-import FunctionDefinition from "./FunctionDefinition";
-import StructureDefinition from "./StructureDefinition";
-import Evaluate from "./Evaluate";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import NameToken from "./NameToken";
-import PlaceholderToken from "./PlaceholderToken";
 import { NameLabels } from "./Name";
 import type Definition from "./Definition";
 import type Value from "../runtime/Value";
@@ -66,7 +57,16 @@ export default class PropertyReference extends Expression {
         return [
             { name: "structure", types: [ Expression ] },
             { name: "dot", types: [ Token ] },
-            { name: "name", types: [ Reference, undefined ] },
+            { 
+                name: "name", types: [ Reference ],
+                // The valid definitions of the name are based on the referenced structure type, prefix filtered by whatever name is already provided.
+                getDefinitions: (context: Context) => {
+                    let defs = this.getDefinitions(this, context);
+                    if(this.name)
+                        defs = defs.filter(def => def.getNames().some(name => this.name && name.startsWith(this.name.getName())));
+                    return defs;
+                }
+            },
         ];
     }
 
@@ -216,44 +216,6 @@ export default class PropertyReference extends Expression {
             subjectType instanceof NativeType ? subjectType?.getDefinitions(this, context) : [];
         return definitions
             .filter(def => def.getNames().find(n => this.name === undefined || this.name.getName() === PLACEHOLDER_SYMBOL || n.startsWith(this.name.getName())) !== undefined);
-
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-
-        if(child === this.structure)
-            return getExpressionReplacements(this, this.structure, context);
-        else if(child === this.name)
-            return this.getNameTransforms(context)
-                .map(def => new Replace<Token>(context, child, [ name => new NameToken(name), def ]));
-
-    }
-
-    getInsertionBefore(): Transform[] | undefined { return undefined; }
-
-    getInsertionAfter(context: Context): Transform[] | undefined {
-
-        return [
-            ...getPossiblePostfix(context, this, this.getType(context)),
-            ...(this.dot === undefined ? [] : 
-                    this.getNameTransforms(context)
-                    .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
-                        // Include 
-                        new Replace(context, this, [ name => Evaluate.make(
-                            PropertyReference.make(this.structure, Reference.make(name)), 
-                            def.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())
-                        ), def ]) : 
-                        new Replace(context, this, [ name => PropertyReference.make(this.structure, Reference.make(name)), def ])
-                    )
-            )
-        ]
-
-    }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        
-        if(child === this.structure) return new Replace(context, child, new ExpressionPlaceholder());
-        else if(child === this.name) return new Replace(context, child, new PlaceholderToken());
 
     }
 

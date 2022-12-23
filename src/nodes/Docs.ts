@@ -22,7 +22,7 @@ export default class Docs extends Node {
 
     getGrammar() { 
         return [
-            { name: "docs", types:[[Doc]] },
+            { name: "docs", types: [[Doc]] },
         ];
     }
 
@@ -58,10 +58,5 @@ export default class Docs extends Node {
             eng: "documentation"
         }
     }
-
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() {  return undefined; }
-    getChildRemoval() { return undefined; }
 
 }

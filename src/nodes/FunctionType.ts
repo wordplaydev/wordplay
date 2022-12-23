@@ -8,8 +8,6 @@ import Bind from "./Bind";
 import { getEvaluationInputConflicts } from "./util";
 import EvalCloseToken from "./EvalCloseToken";
 import EvalOpenToken from "./EvalOpenToken";
-import type Transform from "../transforms/Transform";
-import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import FunctionDefinitionType from "./FunctionDefinitionType";
@@ -55,9 +53,9 @@ export default class FunctionType extends Type {
         return [
             { name: "fun", types: [ Token ] },
             { name: "types", types: [ [ TypeVariables] ] },
-            { name: "open", types: [ Token, undefined ] },
+            { name: "open", types: [ Token ] },
             { name: "inputs", types: [[ Bind ]] },
-            { name: "close", types: [ Token, undefined ] },
+            { name: "close", types: [ Token ] },
             { name: "output", types: [ Type ] },
         ]; 
     }
@@ -107,16 +105,6 @@ export default class FunctionType extends Type {
             "😀": TRANSLATE,
             eng: "A function type."
         }
-    }
-
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.inputs.includes(child as Bind))
-            return new Remove(context, this, child);
-        else if(child === this.output) return new Remove(context, this, this.output);
     }
     
 }

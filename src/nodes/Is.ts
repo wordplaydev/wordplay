@@ -17,12 +17,6 @@ import { IncompatibleType } from "../conflicts/IncompatibleType";
 import UnionType from "./UnionType";
 import TypeSet from "./TypeSet";
 import Start from "../runtime/Start";
-import { getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
-import type Transform from "../transforms/Transform"
-import Replace from "../transforms/Replace";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import TypePlaceholder from "./TypePlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
@@ -45,9 +39,9 @@ export default class Is extends Expression {
 
     getGrammar() { 
         return [
-            { name: "expression", types:[ Expression ] },
-            { name: "operator", types:[ Token ] },
-            { name: "type", types:[ Type ] },
+            { name: "expression", types: [ Expression ] },
+            { name: "operator", types: [ Token ] },
+            { name: "type", types: [ Type ] },
         ]; 
     }
 
@@ -114,24 +108,6 @@ export default class Is extends Expression {
 
         return current;
     
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined { 
-
-        if(child === this.expression)
-            return getExpressionReplacements(this, this.expression, context);
-        if(child === this.type)
-            return getPossibleTypeReplacements(child, context);
-
-    }
-
-    getInsertionBefore() { return undefined; }
-
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.expression) return new Replace(context, child, new ExpressionPlaceholder());
-        else if(child === this.type) return new Replace(context, child, new TypePlaceholder());
     }
 
     getDescriptions(): Translations {

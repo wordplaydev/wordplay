@@ -81,10 +81,9 @@ export default class TableType extends Type {
      
     getNativeTypeName(): NativeTypeName { return "table"; }
 
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval() { return undefined; }
+    
+    
+    
 
     getDescriptions(): Translations {
         return {

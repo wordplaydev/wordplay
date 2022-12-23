@@ -12,10 +12,6 @@ import { NotANumber } from "../conflicts/NotANumber";
 import type Bind from "./Bind";
 import type Context from "./Context";
 import type TypeSet from "./TypeSet";
-import { getPossibleUnits } from "../transforms/getPossibleUnits";
-import type Transform from "../transforms/Transform";
-import Replace from "../transforms/Replace";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import PlaceholderToken from "./PlaceholderToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
@@ -54,8 +50,8 @@ export default class MeasurementLiteral extends Expression {
 
     getGrammar() { 
         return [
-            { name: "number", types:[ Token ] },
-            { name: "unit", types:[ Unit ] },
+            { name: "number", types: [ Token ] },
+            { name: "unit", types: [ Unit ] },
         ];
     }
 
@@ -94,23 +90,6 @@ export default class MeasurementLiteral extends Expression {
     }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { bind; original; context; return current; }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-
-        const project = context.project;
-        // Any unit in the project
-        if(child === this.unit && project !== undefined)
-            return getPossibleUnits(project).map(unit => new Replace(context, child, unit));
-
-    }
-
-    getInsertionBefore() { return undefined; }
-
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.unit) return new Replace(context, child, Unit.Empty);
-    }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.number) return {

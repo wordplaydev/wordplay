@@ -6,10 +6,6 @@ import type Node from "./Node";
 import TokenType from "./TokenType";
 import Type from "./Type";
 import { OR_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
-import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
-import type Transform from "../transforms/Transform"
-import Replace from "../transforms/Replace";
-import TypePlaceholder from "./TypePlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type Definition from "./Definition";
@@ -95,20 +91,6 @@ export default class UnionType extends Type {
 
     computeConflicts() {}
     
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-
-        if(child === this.left || child === this.right)
-            return getPossibleTypeReplacements(child, context);
-
-    }
-
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.left || child === this.right) return new Replace(context, child, new TypePlaceholder());
-    }
-
     getDefinitions(node: Node, context: Context): Definition[] {
 
         // Get definitions of each type

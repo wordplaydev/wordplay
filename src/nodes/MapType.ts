@@ -4,11 +4,7 @@ import NativeType from "./NativeType";
 import type Node from "./Node";
 import Token from "./Token";
 import Type from "./Type";
-import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
-import type Transform from "../transforms/Transform"
 import BindToken from "./BindToken";
-import TypePlaceholder from "./TypePlaceholder";
-import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import SetOpenToken from "./SetOpenToken";
@@ -116,17 +112,4 @@ export default class MapType extends NativeType {
         }
     }
 
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-
-        if(child === this.key || child === this.value)
-            return getPossibleTypeReplacements(child, context);
-
-    }
-
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.key || child === this.value) return new Replace(context, child, new TypePlaceholder());
-    }
 }

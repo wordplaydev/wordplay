@@ -7,9 +7,6 @@ import TokenType from "./TokenType";
 import Unit from "./Unit";
 import BinaryOperation from "./BinaryOperation";
 import NativeType from "./NativeType";
-import { getPossibleUnits } from "../transforms/getPossibleUnits";
-import type Transform from "../transforms/Transform";
-import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import UnaryOperation from "./UnaryOperation";
@@ -146,23 +143,6 @@ export default class MeasurementType extends NativeType {
             "😀": TRANSLATE,
             eng: this.unit instanceof Unit ? this.unit.getDescriptions().eng : "a number"
         }
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-
-        const project = context.project;
-        if(child === this.unit && project !== undefined) {
-            // Any unit in the project
-            return getPossibleUnits(project).map(unit => new Replace(context, child, unit));
-        }
-
-    }
-
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.unit) return new Replace(context, child, Unit.Empty);
     }
 
 }

@@ -62,7 +62,7 @@ export default class Caret {
     getNodesBetween() {
 
         // If the caret is a node, there is no notion of between.
-        if(this.position instanceof Node) return undefined;
+        if(this.position instanceof Node) return { before: [], after: [] };
 
         // If it's an index, then we want to find all of the nodes that could insert something at this position,
         // so we can make suggestions about what to put there. For example, consider this code and caret position.
@@ -107,9 +107,12 @@ export default class Caret {
         // Find the token whose space contains the current position. This is the token text to the right of the caret.
         const tokens = this.getProgram().nodes().filter(token => token instanceof Token) as Token[];
         const tokenAfter = this.source.getTokenWithSpaceAt(this.position);
-        if(tokenAfter === undefined) return undefined;
+        if(tokenAfter === undefined) return { before: [], after: [] };
+
         // Find the token before the caret
         const tokenBefore = tokens[0] === tokenAfter ? undefined : tokens[tokens.indexOf(tokenAfter) - 1];
+
+        // Find the line that 
 
         // Make a list of parent/child nodes that are adjacent to the caret.
         const pairs: InsertionContext = {
@@ -155,7 +158,7 @@ export default class Caret {
     isAtPropertyReference() {
 
         if(this.position instanceof Node) return false;
-        return this.source.getCode().toString().charAt(this.position - 1) === PROPERTY_SYMBOL;
+        return this.source.getCode().at(this.position - 1) === PROPERTY_SYMBOL;
 
     }
 

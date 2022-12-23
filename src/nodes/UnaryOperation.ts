@@ -15,11 +15,6 @@ import FunctionException from "../runtime/FunctionException";
 import FunctionDefinition from "./FunctionDefinition";
 import NotAFunction from "../conflicts/NotAFunction";
 import Evaluation from "../runtime/Evaluation";
-import TokenType from "./TokenType";
-import type Transform from "../transforms/Transform"
-import Replace from "../transforms/Replace";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import type Translations from "./Translations";
 import { TRANSLATE, WRITE } from "./Translations"
 import type LanguageCode from "./LanguageCode";
@@ -45,8 +40,8 @@ export default class UnaryOperation extends Expression {
 
     getGrammar() { 
         return [
-            { name: "operator", types:[ Token ] },
-            { name: "operand", types:[ Expression ] },
+            { name: "operator", types: [ Token ] },
+            { name: "operand", types: [ Expression ] }
         ]; 
     }
 
@@ -148,25 +143,6 @@ export default class UnaryOperation extends Expression {
         // Return the difference between the original types and the possible types, 
         return original.difference(possible, context);
 
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-        
-        // Operator must exist on the type of the left, unless not specified
-        if(child === this.operator) {
-            const expressionType = this.operand instanceof Expression ? this.operand.getType(context) : undefined;
-            const funs = expressionType?.getAllDefinitions(this, context).filter((def): def is FunctionDefinition => def instanceof FunctionDefinition && def.inputs.length === 0);;
-            return funs?.map(fun => new Replace(context, child, new Token(fun.getNames()[0] as string, TokenType.UNARY_OP))) ?? []
-        }
-
-        return [];
-
-    }
-
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.operand) return new Replace(context, child, new ExpressionPlaceholder());
     }
 
     getDescriptions(context: Context): Translations {

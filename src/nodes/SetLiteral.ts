@@ -14,11 +14,8 @@ import type TypeSet from "./TypeSet";
 import SetType from "./SetType";
 import AnyType from "./AnyType";
 import type Bind from "./Bind";
-import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import type Transform from "../transforms/Transform"
-import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
@@ -51,7 +48,7 @@ export default class SetLiteral extends Expression {
         return [
             { name: "open", types:[ Token ] },
             { name: "values", types:[[ Expression ]] },
-            { name: "close", types:[ Token, undefined ] },
+            { name: "close", types:[ Token ] },
         ];
     }
 
@@ -108,28 +105,6 @@ export default class SetLiteral extends Expression {
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         this.values.forEach(val => { if(val instanceof Expression) val.evaluateTypeSet(bind, original, current, context); });
         return current;
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined  {
-
-        const index = this.values.indexOf(child as Expression);
-        if(index >= 0)
-            return getExpressionReplacements(this, this.values[index], context);
-
-    }
-
-    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined { 
-
-        const index = this.values.indexOf(child as Expression);
-        if(index >= 0 || child === this.close)
-            return getExpressionInsertions(position, this, this.values, child, context);
-    
-    }
-
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-    
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(this.values.includes(child as Expression)) return new Remove(context, this, child);
     }
 
     getDescriptions(): Translations {

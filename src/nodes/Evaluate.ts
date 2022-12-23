@@ -34,11 +34,6 @@ import ValueException from "../runtime/ValueException";
 import Exception from "../runtime/Exception";
 import type Translations from "./Translations";
 import { overrideWithDocs, TRANSLATE, WRITE } from "./Translations"
-import Reference from "./Reference";
-import { getExpressionInsertions, getExpressionReplacements, getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import type Transform from "../transforms/Transform"
-import Replace from "../transforms/Replace";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
 import UnknownInput from "../conflicts/UnknownInput";
 import getConcreteExpectedType from "./Generics";
 import FunctionDefinitionType from "./FunctionDefinitionType";
@@ -51,6 +46,7 @@ import InvalidTypeInput from "../conflicts/InvalidTypeInput";
 import NotAFunctionType from "./NotAFunctionType";
 import PropertyReference from "./PropertyReference";
 import Action from "../runtime/Action";
+import NeverType from "./NeverType";
 
 export default class Evaluate extends Expression {
 
@@ -66,7 +62,6 @@ export default class Evaluate extends Expression {
         this.open = open;
         this.func = func;
         this.types = types;
-        // Inputs must have space between them if they have adjacent names.
         this.inputs = inputs;
         this.close = close;
 
@@ -80,11 +75,20 @@ export default class Evaluate extends Expression {
 
     getGrammar() { 
         return [
-            { name: "func", types:[ Expression ] },
-            { name: "types", types:[ TypeInputs, undefined ] },
-            { name: "open", types:[ Token ] },
-            { name: "inputs", types:[[ Expression ]] },
-            { name: "close", types:[ Token, undefined ] },
+            { name: "func", types: [ Expression ] },
+            { name: "types", types: [ TypeInputs, undefined ] },
+            { name: "open", types: [ Token ] },
+            { 
+                name: "inputs", types: [[ Expression ]],
+                // The type of an input depends on the function it's calling and the position in the list.
+                getType: (context: Context, index: number | undefined): Type => {
+                    const fun = this.getFunction(context);
+                    if(fun === undefined) return new NeverType();
+                    // Undefined list index means empty, so we get the type of the first input.
+                    return fun.inputs[index ?? 0].getType(context) ?? new NeverType();
+                }
+            },
+            { name: "close", types: [ Token ] },
         ];
     }
 
@@ -527,69 +531,6 @@ export default class Evaluate extends Expression {
         if(this.func instanceof Expression) this.func.evaluateTypeSet(bind, original, current, context);
         this.inputs.forEach(input => { if(input instanceof Expression) input.evaluateTypeSet(bind, original, current, context); });
         return current;
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-        
-        const functionType = this.func.getType(context);
-        if(!(functionType instanceof FunctionDefinitionType || functionType instanceof StructureDefinitionType))
-            return;
-        
-        // Functions can be any function names in scope
-        if(child === this.func)
-            return  this.getDefinitions(this, context)
-                    .filter((def): def is FunctionDefinition => def instanceof FunctionDefinition)
-                    .map(fun => new Replace<Reference>(context, child, [ name => Reference.make(name), fun ]))
-        
-        // Input expressions should match whatever the function expects, if there is one.
-        const index = this.inputs.indexOf(child as Expression);
-        if(index >= 0) {
-            const input = this.inputs[index];
-            if(input instanceof Expression) {
-
-                const bind = functionType instanceof FunctionDefinitionType ? functionType.fun.inputs[index] : functionType.structure.inputs[index];
-                if(bind === undefined)
-                    return [];
-
-                const expectedType = bind.getType(context);
-
-                return getExpressionReplacements(this, input, context, expectedType);
-            }
-
-        }
-
-    }
-    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
-        
-        const functionType = this.func.getType(context);
-        if(!(functionType instanceof FunctionDefinitionType || functionType instanceof StructureDefinitionType))
-            return;
-
-        // If we're before the close, then see if there are any inputs to append
-        if(child === this.close) {
-
-            const index = this.inputs.length;
-
-            const bind = 
-                functionType instanceof FunctionDefinitionType ? functionType.fun.inputs[index] : 
-                functionType.structure.inputs[index];
-
-            if(bind === undefined)
-                return [];
-
-            const expectedType = bind.getType(context);
-
-            // Suggest expressions of the expected type.
-            return getExpressionInsertions(position, this, this.inputs, child, context, expectedType);
-
-        }
-    
-    }
-
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.func) return new Replace(context, child, new ExpressionPlaceholder());
     }
 
     getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined {

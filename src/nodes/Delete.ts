@@ -17,8 +17,6 @@ import type Definition from "./Definition";
 import type TypeSet from "./TypeSet";
 import UnimplementedException from "../runtime/UnimplementedException";
 import type Evaluator from "../runtime/Evaluator";
-import type Transform from "../transforms/Transform";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 
@@ -41,9 +39,13 @@ export default class Delete extends Expression {
 
     getGrammar() { 
         return [
-            { name: "table", types:[ Expression ] },
-            { name: "del", types:[ Token ] },
-            { name: "query", types:[ Expression ] },
+            { name: "table", types: [ Expression ] },
+            { name: "del", types: [ Token ] },
+            { 
+                name: "query", types: [ Expression ],
+                // Must be a boolean 
+                getType: () => new BooleanType()
+            },
         ];
     }
 
@@ -110,10 +112,8 @@ export default class Delete extends Expression {
         return current;
     }
 
-    getChildReplacement(): Transform[] | undefined { return undefined; }
-    getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-    getChildRemoval(): Transform | undefined { return undefined; }
+
+    
     
     getDescriptions(): Translations {
         return {

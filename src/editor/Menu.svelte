@@ -28,14 +28,18 @@
         <td colspan=2>Edit…</td>
     </tr>
     {#each transforms as transform, index}
+        {@const newNode = transform.getNewNode($languages)}
         {#if index >= minItem && index <= maxItem }
             <!-- Prevent default is to ensure focus isn't lost on editor -->
             <tr class={`item option ${index === selection ? "selected" : ""}`} 
                 on:mousedown|preventDefault|stopPropagation={() => handleItemClick(transform)}
             >
                 <td class="col">
-                    <!-- svelte-ignore missing-declaration -->
-                    <svelte:component this={getNodeView(transform.getNewNode($languages))} node={transform.getNewNode($languages)} />
+                    {#if newNode !== undefined }
+                        <svelte:component this={getNodeView(newNode)} node={newNode} />
+                    {:else}
+                        <em>Remove</em>
+                    {/if}
                 <td class="col"><em>{transform.getDescription($languages)}</em></td>
             </tr>
         {:else if (index === minItem - 1 && minItem > 0) || (index === maxItem + 1 && maxItem < transforms.length - 1) }

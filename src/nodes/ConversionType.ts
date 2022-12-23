@@ -4,10 +4,7 @@ import type Context from "./Context";
 import type Node from "./Node";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import type Transform from "../transforms/Transform";
 import Type from "./Type";
-import TypePlaceholder from "./TypePlaceholder";
-import Replace from "../transforms/Replace";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type TypeSet from "./TypeSet";
@@ -63,13 +60,6 @@ export default class ConversionType extends Type {
             "😀": TRANSLATE,
             eng: "A conversion function type"
         }
-    }
-
-    getChildReplacement(): Transform[] | undefined { return undefined; }
-    getInsertionBefore(): Transform[] | undefined { return undefined; }
-    getInsertionAfter(): Transform[] | undefined { return undefined; }
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.input || child === this.output) return new Replace(context, child, new TypePlaceholder());
     }
 
 }

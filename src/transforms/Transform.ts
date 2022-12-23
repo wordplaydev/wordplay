@@ -2,6 +2,8 @@ import type { Edit } from "../editor/util/Commands";
 import type Node from "../nodes/Node";
 import type LanguageCode from "../nodes/LanguageCode";
 import type Context from "../nodes/Context";
+import type Source from "../models/Source";
+import type Spaces from "../parser/Spaces";
 
 export default abstract class Transform {
 
@@ -15,7 +17,24 @@ export default abstract class Transform {
 
     abstract getEdit(lang: LanguageCode[]): Edit | undefined ;
     abstract getDescription(lang: LanguageCode[]): string;
-    abstract getNewNode(lang: LanguageCode[]): Node;
+    abstract getNewNode(lang: LanguageCode[]): Node | undefined;
     abstract equals(transform: Transform): boolean;
+
+    static splitSpace(source: Source, position: number, newNode: Node): Spaces {
+
+        const tokenAfter = source.getTokenAt(position);
+        let newSpaces = source.spaces;
+        if(tokenAfter !== undefined) {
+            const spaceAfter = source.spaces.getSpace(tokenAfter);
+            const spaceOffset = position - source.getTokenSpacePosition(tokenAfter);
+            const newSpaceBefore = spaceAfter.substring(0, spaceOffset);
+            const newSpaceAfter = spaceAfter.substring(spaceOffset);
+            newSpaces = newSpaces
+                .withSpace(newNode, newSpaceBefore)
+                .withSpace(tokenAfter, newSpaceAfter);
+        }
+        return newSpaces;
+
+    }
 
 }

@@ -12,22 +12,13 @@ import FunctionValue from "../runtime/FunctionValue";
 import type Step from "../runtime/Step";
 import type Context from "./Context";
 import type Definition from "./Definition";
-import Name from "./Name";
 import { BinaryOpRegEx, FUNCTION_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 import type TypeSet from "./TypeSet";
 import EvaluationException, { StackSize } from "../runtime/EvaluationException";
 import type Translations from "./Translations";
 import { overrideWithDocs, TRANSLATE } from "./Translations"
-import { getPossibleTypeReplacements } from "../transforms/getPossibleTypes";
-import { getExpressionReplacements } from "../transforms/getPossibleExpressions";
-import AnyType from "./AnyType";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import type Transform from "../transforms/Transform"
-import Append from "../transforms/Append";
 import EvalCloseToken from "./EvalCloseToken";
 import EvalOpenToken from "./EvalOpenToken";
-import Remove from "../transforms/Remove";
-import Replace from "../transforms/Replace";
 import Docs from "./Docs";
 import Names from "./Names";
 import type LanguageCode from "./LanguageCode";
@@ -37,6 +28,7 @@ import StartFinish from "../runtime/StartFinish";
 import type TypeVariables from "./TypeVariables";
 import NoExpression from "../conflicts/NoExpression";
 import UnimplementedType from "./UnimplementedType";
+import AnyType from "./AnyType";
 
 export default class FunctionDefinition extends Expression {
 
@@ -101,12 +93,16 @@ export default class FunctionDefinition extends Expression {
             { name: "fun", types: [ Token ] },
             { name: "names", types: [ Names ] },
             { name: "types", types: [[ TypeVariable ]] },
-            { name: "open", types: [ Token, undefined ] },
+            { name: "open", types: [ Token ] },
             { name: "inputs", types: [[ Bind ]] },
-            { name: "close", types: [ Token, undefined] },
+            { name: "close", types: [ Token] },
             { name: "dot", types: [ Token, undefined ] },
             { name: "output", types: [ Type, undefined ] },
-            { name: "expression", types: [ Expression, Token, undefined ] },
+            { 
+                name: "expression", types: [ Expression, Token, undefined ],
+                // Must match output type if provided
+                getType: () => this.output ?? new AnyType()
+            },
         ];
     }
 
@@ -250,34 +246,6 @@ export default class FunctionDefinition extends Expression {
             eng: "A named function" 
         };
         return this.docs ? overrideWithDocs(defaultDocs, this.docs) : defaultDocs;
-    }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-
-        if(child === this.output)
-            return getPossibleTypeReplacements(child, context);
-        // Expression must be of output type, or any type if there isn't one.
-        else if(child === this.expression && this.expression instanceof Expression)
-            return getExpressionReplacements(this, this.expression, context, this.output === undefined ? new AnyType() : this.output);
-
-    }
-
-    getInsertionBefore(child: Node, context: Context, position: number): Transform[] | undefined {
-
-        const newBind = Bind.make(undefined, new Names([Name.make()]));
-
-        if(child === this.close)
-            return [ new Append(context, position, this, this.inputs, this.close, newBind)]
-        else if(this.inputs.includes(child as Bind))
-            return [ new Append(context, position, this, this.inputs, child, newBind) ];
-
-    }
-
-    getInsertionAfter(): Transform[] | undefined { return []; }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.output && this.dot) return new Remove(context, this, this.dot, this.output);
-        else if(child === this.expression) return new Replace(context, child, new ExpressionPlaceholder());    
     }
 
 }

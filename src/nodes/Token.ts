@@ -33,10 +33,9 @@ export default class Token extends Node {
     getGrammar() { return []; }
     isLeaf() { return true; }
     computeConflicts() {}
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval() { return undefined; }
+    
+    
+    
 
     getDescriptions(): Translations {
         return {

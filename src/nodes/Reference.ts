@@ -20,14 +20,8 @@ import UnionType from "./UnionType";
 import type TypeSet from "./TypeSet";
 import Is from "./Is";
 import NameException from "../runtime/NameException";
-import type Transform from "../transforms/Transform";
-import Replace from "../transforms/Replace";
-import Evaluate from "./Evaluate";
-import FunctionDefinition from "./FunctionDefinition";
-import StructureDefinition from "./StructureDefinition";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
+import type StructureDefinition from "./StructureDefinition";
 import NameToken from "./NameToken";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Stream from "../runtime/Stream";
@@ -214,31 +208,5 @@ export default class Reference extends Expression {
             eng: "Let's find the closest definition of the name."
         }
     }
-
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-
-        if(child === this.name)
-            return this.getAllDefinitions(this, context)
-                .map(def => new Replace<Token>(context, child, [ name => new NameToken(name), def ]))
-
-    }
-
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter(context: Context): Transform[] | undefined { 
-
-        return [
-            ...getPossiblePostfix(context, this, this.getType(context)),
-            ...this.getAllDefinitions(this, context)
-                .filter(def => def.getNames().find(name => name.startsWith(this.getName())) !== undefined)
-                .map(def => (def instanceof FunctionDefinition || def instanceof StructureDefinition) ? 
-                                // Include 
-                                new Replace(context, this, [ name => Evaluate.make(Reference.make(name), def.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())), def ]) : 
-                                new Replace(context, this, [ name => Reference.make(name), def ])
-                )
-        ];
-    
-    }
-
-    getChildRemoval(): Transform | undefined { return undefined; }
 
 }

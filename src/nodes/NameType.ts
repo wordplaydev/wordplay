@@ -9,8 +9,6 @@ import Value from "../runtime/Value";
 import type Definition from "./Definition";
 import StructureDefinition from "./StructureDefinition";
 import VariableType from "./VariableType";
-import type Transform from "../transforms/Transform";
-import Replace from "../transforms/Replace";
 import NameToken from "./NameToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
@@ -110,24 +108,8 @@ export default class NameType extends Type {
         }
     }
 
-    getChildReplacement(child: Node, context: Context): Transform[] | undefined {
-
-        const definition = this.resolve(context);
-        if(child === this.name)
-            // Any StructureDefinition and Type Variable in
-            return (this.getAllDefinitions(this, context)
-                    .filter(def => 
-                        (def instanceof StructureDefinition || def instanceof TypeVariable) && 
-                        def !== definition &&
-                        // If the current name doesn't correspond to a type, then filter the types down to those that match the prefix.
-                        (this.getName() === "" || def.getNames().find(name => name.startsWith(this.getName()) !== undefined))
-                    ) as (StructureDefinition|TypeVariable)[])
-                    .map(def => new Replace(context, child, [ name => new NameToken(name), def ]))
-
-    }
-
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval(): Transform | undefined { return undefined; }
+    
+    
+    
 
 }

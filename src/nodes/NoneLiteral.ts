@@ -11,8 +11,6 @@ import type Context from "./Context";
 import type TypeSet from "./TypeSet";
 import { NONE_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
-import { getPossiblePostfix } from "../transforms/getPossibleExpressions";
-import type Transform from "../transforms/Transform";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type Evaluator from "../runtime/Evaluator";
@@ -92,10 +90,5 @@ export default class NoneLiteral extends Expression {
             eng: "A none value"
         }
     }
-
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter(context: Context): Transform[] | undefined { return getPossiblePostfix(context, this, this.getType(context)); }
-    getChildRemoval() { return undefined; }
 
 }

@@ -30,10 +30,8 @@ export default abstract class HOF extends Expression {
         }
     }
 
-    getChildReplacement() { return undefined; }
-    getInsertionBefore() { return undefined; }
-    getInsertionAfter() { return undefined; }
-    getChildRemoval() { return undefined; }
+    
+    
 
     getStart() { return this; }
     getFinish() { return this; }

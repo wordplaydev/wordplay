@@ -1,12 +1,6 @@
-import Add from "../transforms/Add";
-import Replace from "../transforms/Replace";
-import type Context from "./Context";
-import { getPossibleLanguages } from "../transforms/getPossibleLanguages";
 import Language from "./Language";
 import Node from "./Node";
 import Token from "./Token";
-import type Transform from "../transforms/Transform";
-import Remove from "../transforms/Remove";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import DocToken from "./DocToken";
@@ -48,30 +42,6 @@ export default class Doc extends Node {
             "😀": TRANSLATE,
             eng: "Documentation"
         }
-    }
-
-    getChildReplacement(child: Node, context: Context) {
-
-        const project = context.project;
-        if(project !== undefined && child === this.lang)
-            return getPossibleLanguages(project).map(l => new Replace(context, child, Language.make(l)));
-            
-        return [];
-
-    }
-
-    getInsertionBefore() { return undefined; }
-
-    getInsertionAfter(context: Context, position: number): Transform[] | undefined { 
-
-        const project = context.project;
-        if(project !== undefined && this.lang === undefined)
-            return getPossibleLanguages(project).map(l => new Add(context, position, this, "lang", Language.make(l)));
-
-    }
-
-    getChildRemoval(child: Node, context: Context): Transform | undefined {
-        if(child === this.lang) return new Remove(context, this, child);
     }
 
 }
