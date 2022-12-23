@@ -21,6 +21,8 @@ export type Field = {
     getType?: (context: Context, index: number | undefined) => Type,
     /** Given a context and an optional prefix, determine definitions are available for this field. Used to populate autocomplete menus. */
     getDefinitions?: (context: Context) => Definition[],
+    /** Given position in a field that corresponds to a list, true if something can be inserted at that position.  */
+    canInsertAt?: (context: Context, index: number) => boolean
 }
 
 export default abstract class Node {

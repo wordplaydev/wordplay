@@ -48,6 +48,16 @@ import PropertyReference from "./PropertyReference";
 import Action from "../runtime/Action";
 import NeverType from "./NeverType";
 
+type Mapping = {
+    expected: Bind,
+    given: undefined | Expression | Expression[]
+}
+
+type InputMapping = {
+    inputs: Mapping[],
+    extra: Expression[]
+}
+
 export default class Evaluate extends Expression {
 
     readonly func: Expression;
@@ -86,6 +96,20 @@ export default class Evaluate extends Expression {
                     if(fun === undefined) return new NeverType();
                     // Undefined list index means empty, so we get the type of the first input.
                     return fun.inputs[index ?? 0].getType(context) ?? new NeverType();
+                },
+                canInsertAt: (context: Context, index: number) => {
+                    // We only allow insertions that are 1) required next or 2) optional, and not already provided.
+                    const fun = this.getFunction(context);
+                    if(fun === undefined) return true;
+
+                    // Get this evaluate's mapping from expected to given inputs.
+                    const mapping = this.getInputMapping(fun);
+
+                    // Find the input at this index.
+                    const input = mapping.inputs[index];
+
+                    // This position is insertable if its a variable length input or not provided.
+                    return input.given === undefined || input.expected.isVariableLength();
                 }
             },
             { name: "close", types: [ Token ] },
@@ -108,6 +132,74 @@ export default class Evaluate extends Expression {
     }
 
     isBlockFor(child: Node) { return this.inputs.includes(child as Expression); }
+
+    /** 
+     * Using the given and expected inputs, generates a mapping from expected to given inputs that can be reused during 
+     * conflict detection, compilation, and autocomplete.
+     * */
+    getInputMapping(fun: FunctionDefinition | StructureDefinition): InputMapping {
+
+        // Get the expected inputs, unless there are parsing errors..
+        const expectedInputs = fun.inputs;
+
+        // Get the given inputs.
+        const givenInputs = this.inputs.slice();
+
+        // Prepare a list of mappings.
+        const mappings: InputMapping = {
+            inputs: [],
+            extra: []
+        };
+
+        // Loop through each of the expected types and see if the given types match.
+        for(const expectedInput of expectedInputs) {
+
+            // Prepare a mapping.
+            const mapping: Mapping = {
+                expected: expectedInput,
+                given: undefined
+            };
+
+            if(expectedInput.isRequired())
+                mapping.given = givenInputs.shift();
+            // If it's optional, go through each input to see if it's provided in the remaining inputs.
+            else {
+                // If it's variable length, check all of the remaining given inputs to see if they match this type.
+                if(expectedInput.isVariableLength()) {
+                    mapping.given = [];
+                    while(givenInputs.length > 0) {
+                        const given = givenInputs.shift();
+                        if(given) mapping.given.push(given);
+                    }
+                }
+                // If it's just an optional input, see if any of the given inputs provide it by name.
+                else {
+                    // Is there a named input that matches?
+                    const bind = givenInputs.find(i => i instanceof Bind && i.sharesName(expectedInput));
+                    if(bind instanceof Bind) {
+                        // Remove it from the given inputs list.
+                        givenInputs.splice(givenInputs.indexOf(bind), 1);
+                        mapping.given = bind;
+                    }
+                    // If there wasn't a named input matching, see if the next non-bind expression matches the type.
+                    else if(givenInputs.length > 0) {
+                        mapping.given = givenInputs.shift();
+                    }
+                    // Otherwise, there's no given input for this optional input.
+                }
+            }
+
+            // Add the mapping to the mappings.
+            mappings.inputs.push(mapping);
+        }
+
+        // Add any extra given inputs to the extra.
+        mappings.extra = givenInputs;
+
+        // Return the final mappings. Now we have a complete spec of which expressions were provided for each function input.
+        return mappings;
+
+    }
 
     computeConflicts(context: Context): Conflict[] { 
     
@@ -138,135 +230,70 @@ export default class Evaluate extends Expression {
                 return [ new NotInstantiable(this, fun, abstractFunctions) ];
         }
 
-        // Verify that all of the inputs provided are valid.
-        const candidateInputs = fun.inputs;
-
-        // If any of the expected inputs is unparsable, return nothing.
-        if(!candidateInputs.every(i => i instanceof Bind)) return [];
-
         // We made it! Let's analyze the given and expected inputs and see if there are any problems.
-        const expectedInputs = candidateInputs;
+        const expectedInputs = fun.inputs;
 
         // If the target inputs has conflicts with its names, defaults, or variable length inputs,
         // then we don't analyze this.
         if(getEvaluationInputConflicts(expectedInputs).length > 0) return [];
 
         // To verify that this evaluation's given inputs match the target inputs, 
-        // the algorithm needs to check that all required inputs are provided and a compatible type, 
-        // that optional arguments have valid names and are the compatible type
-        // and that all variable length inputs have compatible types.
-        // To do this, we loop through target inputs and consume the given inputs according to matching rules.
-        const givenInputs = this.inputs.slice();
+        // we get the mapping from expected to given, then look for various conflicts in the mapping,
+        // one expected input at a time.
+        const mapping = this.getInputMapping(fun);
 
         // Loop through each of the expected types and see if the given types match.
-        for(const expectedInput of expectedInputs) {
+        for(const { expected, given } of mapping.inputs) {
+
+            // If it's required but not given, conflict
+            if(expected.isRequired() && given === undefined)
+                return [ new MissingInput(fun, this, this.close ?? this.inputs[this.inputs.length - 1] ?? this.open, expected) ];
+                
+            // Given a bind with an incompatible name? Conflict.
+            if(given instanceof Bind && !expected.sharesName(given)) 
+                return [ new UnexpectedInput(fun, this, expected, given) ];
 
             // Figure out what type this expected input is. Resolve any type variables to concrete values.
-            const expectedType = getConcreteExpectedType(fun, expectedInput, this, context);
-
-            if(expectedInput.isRequired()) {
-                const given = givenInputs.shift();
-
-                // No more inputs? Mark one missing and stop.
-                if(given === undefined) return [ new MissingInput(fun, this, this.close ?? this.inputs[this.inputs.length - 1] ?? this.open, expectedInput) ];
-                
-                // If the given input is a named input, 
-                // 1) the given name should match the required input.
-                // 2) it shouldn't already be set.
-                if(given instanceof Bind) {
-                    // If we've already given the name...
-                    // The given name has to match the required name.
-                    if(!expectedInput.sharesName(given))
-                        return [ new UnexpectedInput(fun, this, expectedInput, given) ];
-                    // The types have to match
-                    if(expectedType !== undefined && given.value instanceof Expression) {
-                        const givenType = given.value.getType(context);
-                        if(!expectedType.accepts(givenType, context, given.value))
-                            conflicts.push(new IncompatibleInput(fun, this, given.value, givenType, expectedType));
-                    }
-                }
-                // If the given value input isn't a bind, check the type of the input.
-                else {
-                    const givenType = given.getType(context);
-                    if(expectedType !== undefined && !expectedType.accepts(givenType, context, given))
-                        conflicts.push(new IncompatibleInput(fun, this, given, givenType, expectedType));
-                }
-
-            }
-            // If it's optional, go through each one to see if it's provided in the remaining inputs.
-            else {
-                // If it's variable length, check all of the remaining given inputs to see if they match this type.
-                if(expectedInput.isVariableLength()) {
-                    // If there's only one and it matches the type, then we're good.
-                    let isVariableListInput = false;
-                    if(givenInputs.length === 1) {
-                        const lastType = givenInputs[0].getType(context);
-                        if(lastType instanceof ListType && expectedType instanceof ListType && (lastType.type === undefined || expectedType.type?.accepts(lastType.type, context))) {
-                            isVariableListInput = true;
-                            // Consume the input.
-                            givenInputs.shift();
-                        }
-                    }
-
-                    // If it's not a list input for a variable length input, check every input to make sure it's valid.
-                    if(!isVariableListInput) {
-                        while(givenInputs.length > 0) {
-                            const given = givenInputs.shift();
-                            if(given !== undefined && !(given instanceof Bind)) {
-                                const givenType = given.getType(context);
-                                if(!(expectedType instanceof ListType))
-                                    throw Error(`Expected list type on variable length input, but received ${expectedType.constructor.name}`);
-                                else if(expectedType.type instanceof Type && !expectedType.type.accepts(givenType, context, given))
-                                    conflicts.push(new IncompatibleInput(fun, this, given, givenType, expectedType.type));
-                            }
-                        }
-                    }
-                }
-                // If it's just an optional input, see if any of the given inputs provide it by name.
-                else {
-                    // Is there a named input that matches?
-                    const matchingBind = givenInputs.find(i => i instanceof Bind && i.sharesName(expectedInput));
-                    if(matchingBind instanceof Bind) {
-                        // If the types don't match, there's a conflict.
-                        if(matchingBind.value !== undefined && matchingBind.value !== undefined) {
-                            const givenType = matchingBind.value.getType(context);
-                            if(!expectedType.accepts(givenType, context, matchingBind.value))
-                                conflicts.push(new IncompatibleInput(fun, this, matchingBind.value, givenType, expectedType));
-                        }
-                        // Remove it from the given inputs list.
-                        givenInputs.splice(givenInputs.indexOf(matchingBind), 1);
-
-                    }
-                    // If there wasn't a named input matching, see if the next non-bind expression matches the type.
-                    else if(givenInputs.length > 0) {
-                        const given = givenInputs[0];
-                        // If the given input is an expression, map it to the expected input, and see if there's a type error.
-                        if(!(given instanceof Bind)) {
-                            const givenType = given.getType(context);
-                            if(!expectedType.accepts(givenType, context, given))
-                                conflicts.push(new IncompatibleInput(fun, this, given, givenType, expectedType));
-                            givenInputs.shift();
-                        }
-                    }
-                    // Otherwise, there's no given input for this optional input.
-                }
-
+            if(given instanceof Expression) {
+                const expectedType = getConcreteExpectedType(fun, expected, this, context);
+                const givenType = given.getType(context);
+                if(!expectedType.accepts(givenType, context, given))
+                    conflicts.push(new IncompatibleInput(fun, this, given, givenType, expectedType));
             }
 
-        }
+            // If it's variable length verify that all inputs are an acceptable type.
+            if(expected.isVariableLength() && Array.isArray(given)) {
+                let isVariableListInput = false;
+                // It's okay to provide a compatible list as the input, instead of a sequence of inputs to the evaluate.
+                if(given.length === 1) {
+                    const lastType = given[0].getType(context);
+                    if(lastType instanceof ListType && expected instanceof ListType && (lastType.type === undefined || expected.type?.accepts(lastType.type, context)))
+                        isVariableListInput = true;
+                }
 
-        // See if any of the remaining given inputs are bound to unknown names.
-        for(const given of givenInputs) {
-            if(given instanceof Bind && expectedInputs.find(expected => expected.sharesName(given)) === undefined) {
-                conflicts.push(new UnknownInput(fun, this, given));
-                givenInputs.splice(givenInputs.indexOf(given), 1);
+                // If it's not a list input for a variable length input, check every input to make sure it's valid.
+                if(!isVariableListInput) {
+                    for(const item of given) {
+                        const givenType = item.getType(context);
+                        if(expected.type instanceof Type && !expected.type.accepts(givenType, context))
+                            conflicts.push(new IncompatibleInput(fun, this, item, givenType, expected.type));
+                    }
+                }
             }
+
         }
         
-        // If there are remaining given inputs that didn't match anything, something's wrong.
-        if(givenInputs.length > 0)
-            conflicts.push(new UnexpectedInputs(fun, this, givenInputs));    
+        // See if any of the remaining given inputs are bound to unknown names.
+        for(const given of mapping.extra) {
+            if(given instanceof Bind && !fun.inputs.some(expected => expected.sharesName(given)))
+                conflicts.push(new UnknownInput(fun, this, given));
+        }
 
+        // If there are remaining given inputs that didn't match anything, something's wrong.
+        if(mapping.extra.length > 0)
+            conflicts.push(new UnexpectedInputs(fun, this, mapping.extra));
+
+        // Check type
         const expected = fun.types;
 
         // If there are type inputs provided, verify that they exist on the function.
@@ -330,90 +357,44 @@ export default class Evaluate extends Expression {
         // To compile an evaluate, we need to compile all of the given and default values in
         // order of the function's declaration. This requires getting the function/structure definition
         // and finding an expression to compile for each input.
-        const funcType = this.func.getType(context);
-        const candidateExpectedInputs = funcType instanceof FunctionDefinitionType ? funcType.fun.inputs :
-            funcType instanceof StructureDefinitionType ? funcType.structure.inputs :
-            undefined;
+        const fun = this.getFunction(context);
 
         // Halt if we couldn't find the function.
-        if(candidateExpectedInputs === undefined)
+        if(fun === undefined)
             return [ new Halt(evaluator => new FunctionException(evaluator, this, undefined, this.func.toWordplay()), this) ];
 
-        // Make typescript happy now that we've guarded against unparsables.
-        const expectedInputs = candidateExpectedInputs as Bind[];
-        const givenInputs = this.inputs.slice() as (Expression|Bind)[];
+        // Get the mapping from expected to given.
+        const mapping = this.getInputMapping(fun);
 
         // Iterate through the inputs, compiling given or default expressions.
-        const inputSteps = expectedInputs.map(expectedInput => {
+        const inputSteps = mapping.inputs.map(input => {
 
-            // Find the given input that corresponds to the next desired input.
+            const { expected, given } = input;
 
-            // If the next expected input is required, grab the next given input.
-            if(expectedInput.isRequired()) {
-                const input = givenInputs.shift();
-                // If there isn't one, exception!
-                if(input === undefined)
-                    return [ new Halt(evaluator => new ValueException(evaluator), this) ];
-                // If the given input is a bind...
-                else if(input instanceof Bind) {
-                    // And it doesn't have a default value, halt.
-                    if(input.value === undefined) 
-                        return [ new Halt(evaluator => new UnparsableException(evaluator, input), this) ];
-                    // But it doesn't correspond to the required input, halt
-                    else if(!input.sharesName(expectedInput))
-                        return [ new Halt(evaluator => new NameException(input.toWordplay(), evaluator), this) ];
-                    // Otherwise, compile the bind's expression.
-                    else
-                        return input.value.compile(context);
-                }
-                // Otherwise, compile the expression.
-                else
-                    return input.compile(context);
+            // If nothing was given...
+            if(given === undefined) {
+                // Is there a default value?
+                return expected.value !== undefined ?
+                    // Compile that.
+                    expected.value.compile(context) :
+                    // Otherwise, halt on an expected value.
+                    [ new Halt(evaluator => new ValueException(evaluator), this) ]
             }
-            // If the next expected input is optional...
+            // If something was given...
             else {
-                // ... and it's not a variable length input, first search for a named input, otherwise grab the next input.
-                if(!expectedInput.isVariableLength()) {
-                    const bind = givenInputs.find(g => g instanceof Bind && expectedInput.sharesName(g));
-                    // If we found a bind with a matching name and it has a value, compile it's value. Halt if it has no value.
-                    if(bind instanceof Bind) {
-                        if(bind.value === undefined)
-                            return [ new Halt(evaluator => new ValueException(evaluator), this) ];
-                        // Remove the given input from the list of inputs
-                        givenInputs.splice(givenInputs.indexOf(bind), 1);
-                        // Return the compiled value.
-                        return bind.value.compile(context);
-                    }
-
-                    // If we didn't find a matching bind for this expected input, see if there's a non-bind expression next, use it.
-                    const optionalInput = givenInputs.length > 0 && !(givenInputs[0] instanceof Bind) ? givenInputs.shift() : undefined;
-                    if(optionalInput !== undefined)
-                        return optionalInput.compile(context);
-                    
-                    // If there wasn't one, use the expected input's default value.
-                    return expectedInput.value === undefined ? 
-                        [ new Halt(evaluator => new UnparsableException(evaluator, expectedInput), this) ] :
-                        expectedInput.value.compile(context);
+                // Is it a variable length value?
+                if(Array.isArray(given)) {
+                    if(expected.isVariableLength())
+                        return given.reduce((prev: Step[], next) => [ ...prev, ...next.compile(context) ], []);
+                    else
+                        // Otherwise, halt on an expected value.
+                        return [ new Halt(evaluator => new ValueException(evaluator), this) ]
                 }
-                // If it is a variable length input, reduce the remaining given input expressions into a list of steps.
-                else {
-                    return givenInputs.reduce((prev: Step[], next) =>
-                        [
-                            ...prev, 
-                            ...(
-                                next instanceof Bind ? 
-                                    (
-                                        next.value === undefined ? 
-                                            [ new Halt(evaluator => new UnparsableException(evaluator, next), this) ] : 
-                                            next.value.compile(context)
-                                    ) :
-                                next.compile(context)
-                            )                        
-                        ],
-                        []
-                    );
-                }
+                // Otherise, just compile it
+                else
+                    return given.compile(context);
             }
+
         });
     
         // Evaluate the function expression, then the inputs, then evaluate this using the resulting values.
@@ -590,4 +571,3 @@ export default class Evaluate extends Expression {
     }
 
 }
-

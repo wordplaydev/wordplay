@@ -217,14 +217,19 @@ function getEditsBefore(project: Project, context: Context, anchor: Node, positi
             // the list is now defining what's eligible before.
             if(list.index !== undefined && list.index > 0)
                 transforms.length = 0;
+            
+            // The insertion index is either at the beginning for an empty list, or after this index.
+            const index = list.index === undefined ? 0 : list.index + 1;
             // If we haven't found the node, and it's possibly next, we could insert one of the types.
-            for(const type of kinds)
-                if(type !== undefined) {
-                    const index = list.index === undefined ? 0 : list.index + 1;
-                    // Pass the index after the current index, in case the anchor node is next.
-                    for(const possible of getPossibleNodes(context, node, type, field, index))
-                        transforms.push(new Append(context, position, parent, list.list, index, possible));
+            if(field.canInsertAt === undefined || field.canInsertAt(context, index)) {
+                for(const type of kinds) {
+                    if(type !== undefined) {
+                        // Pass the index after the current index, in case the anchor node is next.
+                        for(const possible of getPossibleNodes(context, node, type, field, index))
+                            transforms.push(new Append(context, position, parent, list.list, index, possible));
+                    }
                 }
+            }
         }
         // If a standalone node, either mark found or add possible types and stop.
         else if(node !== undefined) {
@@ -274,11 +279,12 @@ function getEditsAfter(project: Project, context: Context, anchor: Node, positio
             if(node === anchor) {
                 found = true;
             }
+            // The insertion index is either at the beginning for an empty list, or after the found node.
+            const index = list.index === undefined ? 0 : list.index + 1;
             // If we've already found the anchor, create transforms for all possible valid insertions.
-            if(found) {
+            if(found && (field.canInsertAt === undefined || field.canInsertAt(context, index))) {
                 for(const kind of kinds)
                     if(kind !== undefined) {
-                        const index = list.index === undefined ? 0 : list.index + 1;
                         // Pass the index after the current index, since we're trying to see what can be added after.
                         for(const possible of getPossibleNodes(context, node, kind, field, index))
                             transforms.push(new Append(context, position, parent, list.list, index, possible));
