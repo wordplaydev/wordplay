@@ -4,7 +4,6 @@ import Expression from "./Expression";
 import Token from "./Token";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import TypeVariable from "./TypeVariables";
 import type Conflict from "../conflicts/Conflict";
 import { getEvaluationInputConflicts } from "./util";
 import type Evaluator from "../runtime/Evaluator";
@@ -12,7 +11,7 @@ import FunctionValue from "../runtime/FunctionValue";
 import type Step from "../runtime/Step";
 import type Context from "./Context";
 import type Definition from "./Definition";
-import { BinaryOpRegEx, FUNCTION_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
+import { BinaryOpRegEx, FUNCTION_SYMBOL } from "../parser/Tokenizer";
 import type TypeSet from "./TypeSet";
 import EvaluationException, { StackSize } from "../runtime/EvaluationException";
 import type Translations from "./Translations";
@@ -25,7 +24,7 @@ import type LanguageCode from "./LanguageCode";
 import FunctionDefinitionType from "./FunctionDefinitionType";
 import type Value from "../runtime/Value";
 import StartFinish from "../runtime/StartFinish";
-import type TypeVariables from "./TypeVariables";
+import TypeVariables from "./TypeVariables";
 import NoExpression from "../conflicts/NoExpression";
 import UnimplementedType from "./UnimplementedType";
 import AnyType from "./AnyType";
@@ -93,7 +92,7 @@ export default class FunctionDefinition extends Expression {
             { name: "docs", types: [ Docs, undefined ] },
             { name: "fun", types: [ Token ] },
             { name: "names", types: [ Names ] },
-            { name: "types", types: [[ TypeVariable ]] },
+            { name: "types", types: [ TypeVariables ] },
             { name: "open", types: [ Token ] },
             { name: "inputs", types: [[ Bind ]] },
             { name: "close", types: [ Token] },

@@ -139,13 +139,13 @@ function traverseGrammar(
         if(Array.isArray(value)) {
             let types = field.types[0];
             if(!Array.isArray(types))
-                throw Error(`Found list on non-list field ${parent.constructor.name}.${field.name}`);
+                throw Error(`Found list on non-list field '${field.name}'`);
             if(value.length === 0)
                 visit(field, undefined, types, { list: value, index: undefined, length: 0 });
             else {
                 for(const [ index, sibling ] of value.entries()) {
                     if(!Array.isArray(types))
-                        throw Error(`Found list on non-list field ${parent.constructor.name}.${field.name}`);
+                        throw Error(`Found list on non-list field '${field.name}'`);
                     else {
                         if(visit(field, sibling, types, { list: value, index, length: value.length }))
                             return;
@@ -156,7 +156,7 @@ function traverseGrammar(
         else if(value instanceof Node) {
             const types = field.types;
             if(Array.isArray(types[0]))
-                throw Error(`Found list of nodes on field declared as a single node ${parent.constructor.name}.${field.name}`);
+                throw Error(`Found list of nodes on field declared as a single node '${field.name}'`);
             else if(visit(field, value, types as (undefined | Function)[], undefined))
                 return;
         }
@@ -164,7 +164,7 @@ function traverseGrammar(
         else if(value === undefined) {
             const types = field.types;
             if(Array.isArray(types[0]))
-                throw Error(`Found list of nodes on field declared as a single node ${parent.constructor.name}.${field.name}`);
+                throw Error(`Found list of nodes on field declared as a single node '${field.name}'`);
             visit(field, value, types as (undefined | Function)[], undefined);
         }
     }
