@@ -787,42 +787,38 @@
         // Get the unique valid edits at the caret.
         const transforms = getEditsAt(project, $caret);
 
-        // Convert into a menu specification for rendering.
-        if(transforms.length > 0) {
+        // Make a menu, but without a location, so other things know there's a menu while we're waiting.
+        menu = { node, transforms, location: undefined };
 
-            // Make a menu, but without a location, so other things know there's a menu while we're waiting.
-            menu = { node, transforms, location: undefined };
+        // Wait for everything to be rendered so we can get the position of things.
+        await tick();
 
-            // Wait for everything to be rendered so we can get the position of things.
-            await tick();
+        // Position the menu if a node is selected.
+        let position: { left: string, top: string } | undefined = undefined;
 
-            // Position the menu if a node is selected.
-            let position: { left: string, top: string } | undefined = undefined;
-
-            // Position it near the selected node or caret
-            if(editor && $caret.isNode()) {
-                const viewport = editor.parentElement;
-                const el = getNodeView(node);
-                if(el && viewport) {
-                    const placeholderRect = el.getBoundingClientRect();
-                    const viewportRect = viewport.getBoundingClientRect();
-                    position = {
-                        left: `${placeholderRect.left - viewportRect.left + viewport.scrollLeft}px`,
-                        top: `${placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10}px`
-                    }
-                }
-            }
-            else if(caretLocation && $caret.isIndex()) {
+        // Position it near the selected node or caret
+        if(editor && $caret.isNode()) {
+            const viewport = editor.parentElement;
+            const el = getNodeView(node);
+            if(el && viewport) {
+                const placeholderRect = el.getBoundingClientRect();
+                const viewportRect = viewport.getBoundingClientRect();
                 position = {
-                    left: `${caretLocation.left}px`,
-                    top: `${caretLocation.bottom}px`
+                    left: `${placeholderRect.left - viewportRect.left + viewport.scrollLeft}px`,
+                    top: `${placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10}px`
                 }
             }
-
-            // If we got a location, we have everything we need to show a menu!
-            if(position)
-                menu = { node: menu.node, transforms: menu.transforms, location: position };
         }
+        else if(caretLocation && $caret.isIndex()) {
+            position = {
+                left: `${caretLocation.left}px`,
+                top: `${caretLocation.bottom}px`
+            }
+        }
+
+        // If we got a location, we have everything we need to show a menu!
+        if(position)
+            menu = { node: menu.node, transforms: menu.transforms, location: position };
 
     }
 

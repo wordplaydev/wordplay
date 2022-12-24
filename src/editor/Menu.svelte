@@ -46,8 +46,8 @@
             <tr class="item"><td colspan=2>…</td></tr>
         {/if}
     {:else}
-        <!-- Feedback if there are no items. -->
-        No suggested edits.
+        <!-- Feedback if there are no items.-->
+        <tr><td colspan=2><center>&mdash;</center></td></tr>
     {/each}
 
 </table>
@@ -67,7 +67,7 @@
 
     .menu td {
         text-align: left;
-        width: 50%;        
+        width: 50%;
     }
 
     .menu td {
