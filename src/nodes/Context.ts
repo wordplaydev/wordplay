@@ -6,6 +6,7 @@ import type Source from "../models/Source";
 import type Type from "./Type";
 import Expression, { CycleType } from "./Expression";
 import type Reference from "./Reference";
+import type PropertyReference from "./PropertyReference";
 
 /** Passed around during type inference and conflict detection to facilitate program analysis and cycle-detection. */
 export default class Context {
@@ -16,7 +17,7 @@ export default class Context {
 
     readonly stack: Node[] = [];
     readonly types: Map<Node, Type> = new Map();
-    readonly referenceUnions: Map<Reference, Type> = new Map();
+    readonly referenceUnions: Map<PropertyReference | Reference, Type> = new Map();
     
     constructor(project: Project, source: Source) {
 
@@ -52,7 +53,7 @@ export default class Context {
         return cache;
     }
 
-    getReferenceType(ref: Reference) { return this.referenceUnions.get(ref); }
-    setReferenceType(ref: Reference, type: Type) { return this.referenceUnions.set(ref, type); }
+    getReferenceType(ref: Reference | PropertyReference) { return this.referenceUnions.get(ref); }
+    setReferenceType(ref: Reference | PropertyReference, type: Type) { return this.referenceUnions.set(ref, type); }
 
 }

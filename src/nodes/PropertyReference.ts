@@ -36,8 +36,6 @@ export default class PropertyReference extends Expression {
     readonly dot: Token;
     readonly name?: Reference;
 
-    _unionType: Type | undefined;
-
     constructor(subject: Expression, dot: Token, name?: Reference) {
         super();
 
@@ -146,7 +144,7 @@ export default class PropertyReference extends Expression {
             // Narrow the type if it's a union.
 
             // Is the type a union? Find the subset of types that are feasible, given any type checks in conditionals.
-            if(type instanceof UnionType && this._unionType === undefined) {
+            if(type instanceof UnionType && context.getReferenceType(this) === undefined) {
 
                 // Find any conditionals with type checks that refer to the value bound to this name.
                 // Reverse them so they are in furthest to nearest ancestor, so we narrow types in execution order.
@@ -171,7 +169,7 @@ export default class PropertyReference extends Expression {
                 }
             }
             
-            return this._unionType !== undefined ? this._unionType : type;
+            return context.getReferenceType(this) ?? type;
 
         }
         else 
@@ -202,7 +200,7 @@ export default class PropertyReference extends Expression {
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         if(this.structure instanceof Expression) {
             const possibleTypes = this.structure.evaluateTypeSet(bind, original, current, context);
-            this._unionType = UnionType.getPossibleUnion(context, possibleTypes.list());
+            context.setReferenceType(this, UnionType.getPossibleUnion(context, possibleTypes.list()));
         }
         return current;
     }
