@@ -340,6 +340,18 @@ export default abstract class Node {
         return undefined;
     }
 
+    /** A node equals another node if its of the same type and its children are equal */
+    equals(node: Node) {
+        if(this.constructor !== node.constructor) return false;
+        const thisChildren = this.getChildren();
+        const thatChildren = node.getChildren();
+        if(thisChildren.length !== thatChildren.length) return false;
+        for(const [ index, child ] of thisChildren.entries())
+            if(!child.equals(thatChildren[index]))
+                return false;
+        return true;
+    }
+
     abstract getDescriptions(context: Context): Translations;
 
     /** Provide localized labels for any child that can be a placeholder. */

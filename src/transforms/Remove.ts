@@ -96,11 +96,7 @@ export default class Remove extends Transform {
     }
 
     equals(transform: Transform) {
-        return transform instanceof Remove && (
-            (this.node instanceof Node && transform.node instanceof Node && this.node === transform.node) ||
-            (Array.isArray(this.node) && Array.isArray(transform.node) && this.node.every((node, index) => Array.isArray(transform.node) && transform.node[index] === node))
-        );
-
+        return transform instanceof Remove && this.node instanceof Node && transform.node instanceof Node && this.node.equals(transform.node);
     }
 
 }

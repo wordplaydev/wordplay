@@ -328,7 +328,7 @@ function getEditsAfter(project: Project, context: Context, anchor: Node, positio
 
 }
 
-function getPossibleNodes(context: Context, node: Node | undefined, kind: Function, field: Field, index?: number): (Node | Refer<Node>)[] {
+function getPossibleNodes(context: Context, node: Node | undefined, kind: Function, field: Field, index?: number): (Node | Refer)[] {
 
     const expectedType = field.getType ? field.getType(context, index) : undefined;
     // Get possible definitions, using the field override, or defaulting to all definitions in scope at the location.

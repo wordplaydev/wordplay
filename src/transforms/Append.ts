@@ -2,7 +2,7 @@ import Node from "../nodes/Node";
 import Transform from "./Transform";
 import type LanguageCode from "../nodes/LanguageCode";
 import type { Edit } from "../editor/util/Commands";
-import type Refer from "./Refer";
+import Refer from "./Refer";
 import Caret from "../models/Caret";
 import { TRANSLATE } from "../nodes/Translations";
 import type Context from "../nodes/Context";
@@ -14,9 +14,9 @@ export default class Append<NodeType extends Node> extends Transform {
     /** Undefined means after the last child. Otherwise, the node should be whatever child we're inserting before, even if it's not part of the list. */
     readonly index: number;
     readonly list: Node[];
-    readonly insertion: NodeType | Refer<NodeType>
+    readonly insertion: NodeType | Refer
 
-    constructor(context: Context, position: number, parent: Node, list: Node[], index: number, insertion: NodeType | Refer<NodeType>) {
+    constructor(context: Context, position: number, parent: Node, list: Node[], index: number, insertion: NodeType | Refer) {
 
         super(context);
 
@@ -98,8 +98,8 @@ export default class Append<NodeType extends Node> extends Transform {
 
     equals(transform: Transform): boolean {
         return transform instanceof Append && this.index === transform.index && this.list === transform.list && (
-            (this.insertion instanceof Node && transform.insertion instanceof Node && this.insertion.toWordplay() === transform.insertion.toWordplay()) ||
-            (Array.isArray(this.insertion) && Array.isArray(transform.insertion) && this.insertion[1] === transform.insertion[1])
+            (this.insertion instanceof Node && transform.insertion instanceof Node && this.insertion.equals(transform.insertion)) ||
+            (this.insertion instanceof Refer && transform.insertion instanceof Refer && this.insertion.equals(transform.insertion))
         )
     }
 

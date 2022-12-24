@@ -76,6 +76,10 @@ export default class Token extends Node {
         else return this;
     }
 
+    equals(node: Node) {
+        return node instanceof Token && this.getText() === node.getText();
+    }
+
     // DEBUGGING
 
     toString(depth: number=0){ return `${"\t".repeat(depth)}${Array.isArray(this.types) ? this.types.map(t => TokenType[t]).join('/') : TokenType[this.types]}: ${this.text.toString().replaceAll("\n", "\\n").replaceAll("\t", "\\t")}`; }

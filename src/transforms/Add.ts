@@ -2,7 +2,7 @@ import type { Edit } from "../editor/util/Commands";
 import Transform from "./Transform";
 import Node from "../nodes/Node";
 import type LanguageCode from "../nodes/LanguageCode";
-import type Refer from "./Refer";
+import Refer from "./Refer";
 import Caret from "../models/Caret";
 import { TRANSLATE } from "../nodes/Translations";
 import type Context from "../nodes/Context";
@@ -11,10 +11,10 @@ export default class Add<NodeType extends Node> extends Transform {
 
     readonly parent: Node;
     readonly position: number;
-    readonly child: NodeType | Refer<NodeType>;
+    readonly child: NodeType | Refer;
     readonly field: string;
 
-    constructor(context: Context, position: number, parent: Node, field: string, child: NodeType | Refer<NodeType>) {
+    constructor(context: Context, position: number, parent: Node, field: string, child: NodeType | Refer) {
         super(context);
 
         this.parent = parent;
@@ -68,8 +68,8 @@ export default class Add<NodeType extends Node> extends Transform {
 
     equals(transform: Transform) {
         return transform instanceof Add && this.parent === transform.parent && (
-            (this.child instanceof Node && transform.child instanceof Node && this.child === transform.child) || 
-            (Array.isArray(this.child) && Array.isArray(transform.child) && this.child[1] === transform.child[1])
+            (this.child instanceof Node && transform.child instanceof Node && this.child.equals(transform.child)) || 
+            (this.child instanceof Refer && transform.child instanceof Refer && this.child.equals(transform.child))
         );
     }
 

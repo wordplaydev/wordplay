@@ -3,16 +3,16 @@ import Transform from "./Transform";
 import Node from "../nodes/Node";
 import Caret from "../models/Caret";
 import type LanguageCode from "../nodes/LanguageCode";
-import type Refer from "./Refer";
+import Refer from "./Refer";
 import { TRANSLATE } from "../nodes/Translations";
 import type Context from "../nodes/Context";
 
 export default class Replace<NodeType extends Node> extends Transform {
 
     readonly node: Node;
-    readonly replacement: NodeType | Refer<NodeType> | undefined;
+    readonly replacement: NodeType | Refer | undefined;
 
-    constructor(context: Context, node: Node, replacement: NodeType | Refer<NodeType> | undefined) {
+    constructor(context: Context, node: Node, replacement: NodeType | Refer | undefined) {
         super(context);
 
         this.node = node;
@@ -79,8 +79,8 @@ export default class Replace<NodeType extends Node> extends Transform {
 
     equals(transform: Transform) {
         return transform instanceof Replace && this.node === transform.node && (
-            (this.replacement instanceof Node && transform.replacement instanceof Node && this.replacement.toWordplay() === transform.replacement.toWordplay()) || 
-            (Array.isArray(this.replacement) && Array.isArray(transform.replacement) && this.replacement[1] === transform.replacement[1])
+            (this.replacement instanceof Node && transform.replacement instanceof Node && this.replacement.equals(transform.replacement)) || 
+            (this.replacement instanceof Refer && transform.replacement instanceof Refer && this.replacement.equals(transform.replacement))
         );
     }
 
