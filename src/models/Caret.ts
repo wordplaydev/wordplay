@@ -71,6 +71,8 @@ export default class Caret {
         const lineNumber = this.source.getLine(this.position);
         if(lineNumber === undefined) return empty;
 
+        const emptyLine = this.source.isEmptyLine(this.position);
+
         // If it's an index, then we want to find all of the nodes that could insert something at this position,
         // so we can make suggestions about what to put there. For example, consider this code and caret position.
         // 
@@ -135,7 +137,7 @@ export default class Caret {
             if(firstToken === undefined || !this.source.tokenSpaceContains(firstToken, this.position))
                 break;
             const parent: Node | undefined = this.source.get(node)?.getParent();
-            if(parent && (this.source.getLine(node) === lineNumber || parent instanceof Block))
+            if(parent && (this.source.getLine(node) === lineNumber || (parent instanceof Block && emptyLine)))
                 pairs.before.push(node);
             node = parent;
         }
@@ -146,7 +148,7 @@ export default class Caret {
             while(node instanceof Node) {
                 const parent: Node | undefined = this.source.get(node)?.getParent();
                 const nodeLineNumber = this.source.getLine(node);
-                if(nodeLineNumber === lineNumber || parent instanceof Block) {
+                if(nodeLineNumber === lineNumber || (parent instanceof Block && emptyLine)) {
                     const nodesTokens = node.nodes(t => t instanceof Token);
                     if(parent && nodesTokens.length > 0 && nodesTokens[nodesTokens.length - 1] === tokenBefore)
                         pairs.after.push(node);
