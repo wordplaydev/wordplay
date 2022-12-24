@@ -193,7 +193,7 @@ export default class Reference extends Expression {
             definition.getDescriptions() : 
             {
                 "😀": TRANSLATE,
-                eng: "an undefined name"
+                eng: this.getName()
             }
     }
 
