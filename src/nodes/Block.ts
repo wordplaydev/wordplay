@@ -69,9 +69,23 @@ export default class Block extends Expression {
     }
 
     getPreferredPrecedingSpace(child: Node, space: "", depth: number): string {
-        // If the child has a new line, indent it.
+        // Is this one of this block's statements?
         const childIndex = this.statements.indexOf(child as Expression);
-        return childIndex >= 0 && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
+        // If we're in a root, just require newlines between statements
+        if(this.root) {
+            if(childIndex > 0)
+                return "\n"
+            else
+                return "";
+        }
+        else {
+            if(!this.root && childIndex >= 0 && (this.statements.length > 1 || space.indexOf("\n") >= 0))
+                return `\n${"\t".repeat(depth)}`;
+            else if(child === this.close && this.statements.length > 1)
+                return `\n${"\t".repeat(depth > 0 ? depth - 1 : 0)}`;
+            else
+                return "";
+        }
     }
 
     isBlockFor(child: Node) { return !this.root && this.statements.includes(child as Expression); }

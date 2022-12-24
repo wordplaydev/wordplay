@@ -331,8 +331,12 @@ function getEditsAfter(project: Project, context: Context, anchor: Node, positio
 function getPossibleNodes(context: Context, node: Node | undefined, kind: Function, field: Field, index?: number): (Node | Refer)[] {
 
     const expectedType = field.getType ? field.getType(context, index) : undefined;
-    // Get possible definitions, using the field override, or defaulting to all definitions in scope at the location.
-    const definitions = field.getDefinitions ? field.getDefinitions(context) : node !== undefined ? node.getAllDefinitions(node, context) : [];
+    // Get possible definitions, using the field override if there is one, or all definitions in the node's scope at the location by default.
+    let definitions = field.getDefinitions ? field.getDefinitions(context) : node !== undefined ? node.getAllDefinitions(node, context) : [];
+
+    // Special case references; no need to reference them if already referencing them.
+    if(node instanceof Reference)
+        definitions = definitions.filter(def => !def.hasName(node.getName()));
 
     switch(kind) {
         case Bind:

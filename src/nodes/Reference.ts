@@ -49,7 +49,12 @@ export default class Reference extends Expression {
 
     getGrammar() { 
         return [
-            { name: "name", types:[ Token ] }
+            { 
+                name: "name", types: [ Token ],
+                // The valid definitions of the name are anything in scope, except for the current name.
+                getDefinitions: (context: Context) => 
+                    this.getAllDefinitions(this, context).filter(def => !def.hasName(this.getName()))
+            }
         ]; 
     }
 

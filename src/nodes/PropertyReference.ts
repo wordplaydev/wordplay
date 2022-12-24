@@ -61,7 +61,7 @@ export default class PropertyReference extends Expression {
                 getDefinitions: (context: Context) => {
                     let defs = this.getDefinitions(this, context);
                     if(this.name)
-                        defs = defs.filter(def => def.getNames().some(name => this.name && name.startsWith(this.name.getName())));
+                        defs = defs.filter(def => def.getNames().some(name => this.name && name.startsWith(this.name.getName()) && name !== this.name.getName()));
                     return defs;
                 }
             },

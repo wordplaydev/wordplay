@@ -58,6 +58,8 @@
         // Not in an editor? Just use the preferred space for the node, pretty printing it
         $rootTree?.get(leaf)?.getPreferredPrecedingSpace();
 
+    $: console.log(`${node?.toWordplay()} => '${additional}'`)
+
 </script>
 
 <!-- Don't render anything if we weren't given a node. -->
