@@ -16,7 +16,7 @@ export type Field = {
     /** A list of possible Node class types that the field may be. Redundant with the class, but no reflection in JavaScript. */
     types: NodeType[],
     /** Generates a Token of the expected type, if a token is permitted on the field */
-    getToken?: (text?: string) => Token,
+    getToken?: (text?: string, op?: string) => Token,
     /** Given a context and an optional index in a list, return a type required for this field. Used to filter autocomplete menus. */
     getType?: (context: Context, index: number | undefined) => Type,
     /** Given a context and an optional prefix, determine definitions are available for this field. Used to populate autocomplete menus. */

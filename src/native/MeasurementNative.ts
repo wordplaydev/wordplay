@@ -265,7 +265,7 @@ export default function bootstrapMeasurement() {
                 WRITE_DOCS,
                 {
                     eng: "cos",
-                    "😀": `${WRITE_DOCS}cos`
+                    "😀": `${WRITE}cos`
                 },
                 MeasurementType.make(unit => unit),
                 (requestor, left) => left.cos(requestor)
@@ -274,7 +274,7 @@ export default function bootstrapMeasurement() {
                 WRITE_DOCS,
                 {
                     eng: "sin",
-                    "😀": `${WRITE_DOCS}sin`
+                    "😀": `${WRITE}sin`
                 },
                 MeasurementType.make(unit => unit),
                 (requestor, left) => left.sin(requestor)

@@ -387,7 +387,7 @@ function getPossibleNodes(context: Context, node: Node | undefined, kind: Functi
             // If we know what type of token to make, make it.
             if(field.getToken)
                 if(definitions.length > 0)
-                    return definitions.map(def => new Refer(name => (field.getToken as Function)(name), def));
+                    return definitions.map(def => new Refer((name, op) => (field.getToken as Function)(name, op), def));
                 else
                     return [ field.getToken(undefined) ];
         

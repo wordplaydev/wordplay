@@ -56,7 +56,7 @@ export default class BinaryOperation extends Expression {
             { 
                 name: "operator", types: [ Token ],
                 // The operators should be all those that exist on the type on the left.
-                getToken: (text?: string): Token => new Token(text ?? "_", TokenType.BINARY_OP),
+                getToken: (text?: string, op?: string): Token => new Token(op ?? text ?? "_", TokenType.BINARY_OP),
                 getDefinitions: (context: Context): Definition[] => {
                     const leftType = this.left instanceof Expression ? this.left.getType(context) : undefined;
                     return leftType?.getDefinitions(this, context) ?? [];
