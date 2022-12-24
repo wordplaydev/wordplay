@@ -30,23 +30,12 @@ export default class Append<NodeType extends Node> extends Transform {
 
     getEdit(lang: LanguageCode[]): Edit | undefined {
 
-        // Get the node to insert.
-        let newChild = this.getNewNode(lang);
+        const [ newChild, newParent ] = this.getEditedNode(lang);
 
         // Find the space before the insertion by finding the token that contains the index.
         // Insert the space we find before it.
         const newSpaces = Transform.splitSpace(this.context.source, this.position, newChild);
 
-        // Clone the list.
-        let newList = [ ... this.list ];
-
-        // Insert the new child in the list. 
-        // If its unspecified or it is but it's not in the list, then it's at the end of the list.
-        // If a child before was given and it's in the list, then 
-        newList.splice(this.index, 0, newChild);
-
-        // Clone the parent with the new list, pretty printing.
-        const newParent = this.parent.replace(this.list, newList);
         
         // Make a new program with the new parent
         let newProgram = this.context.source.expression.replace(this.parent, newParent);
@@ -67,6 +56,26 @@ export default class Append<NodeType extends Node> extends Transform {
 
         // Return the new source and put the caret immediately after the inserted new child.
         return [ newSource, new Caret(newSource, newCaretPosition ?? this.position) ];
+
+    }
+
+    getEditedNode(lang: LanguageCode[]): [Node, Node] {
+        
+        // Get the node to insert.
+        let newChild = this.getNewNode(lang);
+
+        // Clone the list.
+        let newList = [ ... this.list ];
+
+        // Insert the new child in the list. 
+        // If its unspecified or it is but it's not in the list, then it's at the end of the list.
+        // If a child before was given and it's in the list, then 
+        newList.splice(this.index, 0, newChild);
+        
+        // Clone the parent with the new list, pretty printing.
+        const newParent = this.parent.replace(this.list, newList);
+
+        return [ newChild, newParent ];
 
     }
 

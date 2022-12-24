@@ -17,7 +17,13 @@ export default abstract class Transform {
 
     abstract getEdit(lang: LanguageCode[]): Edit | undefined ;
     abstract getDescription(lang: LanguageCode[]): string;
+
+    /** Gets the node to be added, removed, inserted, etc. */
     abstract getNewNode(lang: LanguageCode[]): Node | undefined;
+
+    /** Gets the added or removed node, and the revised node, which incorporates the new node. May be the same node. Used for the actual edit, but also for previews. */
+    abstract getEditedNode(lang: LanguageCode[]): [ Node | undefined, Node ];
+
     abstract equals(transform: Transform): boolean;
 
     static splitSpace(source: Source, position: number, newNode: Node): Spaces {

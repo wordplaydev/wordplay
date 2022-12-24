@@ -51,6 +51,10 @@ export default class Remove extends Transform {
 
     getNodes() { return [ this.node, ...this.nodes ]; }
 
+    getEditedNode(): [Node, Node] {
+        return [ this.node, this.getNewNode()];
+    }
+
     getNewNode() { 
 
         // Create the parent node without the nodes we're removing.

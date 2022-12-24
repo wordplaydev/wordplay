@@ -174,11 +174,11 @@ function getReplacements(project: Project, context: Context, selection: Node): T
         if(node === selection) {
             for(const kind of kinds)
                 if(kind === undefined)
-                    transforms.push(new Replace(context, selection, undefined));
+                    transforms.push(new Replace(context, parent, selection, undefined));
                 else {
                     // Pass the list index if the replacement is in a list.
                     for(const possibility of getPossibleNodes(context, node, kind, field, list?.index))
-                        transforms.push(new Replace(context, selection, possibility));
+                        transforms.push(new Replace(context, parent, selection, possibility));
                 }
             // Stop iterating.
             return true;
@@ -294,7 +294,7 @@ function getEditsAfter(project: Project, context: Context, anchor: Node, positio
                     for(const kind of kinds) {
                         if(kind !== undefined)
                             for(const possible of getPossibleNodes(context, node, kind, field))
-                                transforms.push(new Replace(context, node, possible));
+                                transforms.push(new Replace(context, parent, node, possible));
                     }
                 }
             }
@@ -303,10 +303,10 @@ function getEditsAfter(project: Project, context: Context, anchor: Node, positio
                 // ... And the next node is unparsable, offer to replace.
                 for(const kind of kinds)
                     if(kind === undefined)
-                        transforms.push(new Replace(context, node, undefined));
+                        transforms.push(new Replace(context, parent, node, undefined));
                     else {
                         for(const possible of getPossibleNodes(context, node, kind, field))
-                            transforms.push(new Replace(context, node, possible));
+                            transforms.push(new Replace(context, parent, node, possible));
                     }
                 return true;
             }
@@ -399,37 +399,38 @@ function getPossibleNodes(context: Context, node: Node | undefined, kind: Functi
 
 function getPostfixEdits(context: Context, expr: Expression): Transform[] {
 
+    const parent = context.get(expr)?.getParent();
     const field = getFieldOf(expr, context);
-    if(field && (field.types.includes(Expression) || (Array.isArray(field.types[0]) && field.types[0].includes(Expression)))) {
+    if(parent && field && (field.types.includes(Expression) || (Array.isArray(field.types[0]) && field.types[0].includes(Expression)))) {
 
         const type = expr.getType(context);
 
         return [
             // If the type is a boolean, offer a conditional
             ...(type instanceof BooleanType ? [ 
-                    new Replace(context, expr, Conditional.make(expr, new ExpressionPlaceholder(), new ExpressionPlaceholder())),
-                    new Replace(context, expr, new UnaryOperation(new Token(NOT_SYMBOL, TokenType.UNARY_OP), expr))
+                    new Replace(context, parent, expr, Conditional.make(expr, new ExpressionPlaceholder(), new ExpressionPlaceholder())),
+                    new Replace(context, parent, expr, new UnaryOperation(new Token(NOT_SYMBOL, TokenType.UNARY_OP), expr))
             ] : []),
             ...(type instanceof MeasurementType ? [
-                new Replace(context, expr, new UnaryOperation(new Token(NEGATE_SYMBOL, TokenType.UNARY_OP), expr))
+                new Replace(context, parent, expr, new UnaryOperation(new Token(NEGATE_SYMBOL, TokenType.UNARY_OP), expr))
             ] : []),
             // If the type is a list, offer a list access
-            ...(type instanceof ListType ? [ new Replace(context, expr, ListAccess.make(expr, new ExpressionPlaceholder())) ] : []),
+            ...(type instanceof ListType ? [ new Replace(context, parent, expr, ListAccess.make(expr, new ExpressionPlaceholder())) ] : []),
             // If the type is a set or map, offer a list access
-            ...(type instanceof SetType || type instanceof MapType ? [ new Replace(context, expr, SetOrMapAccess.make(expr, new ExpressionPlaceholder())) ] : []),
+            ...(type instanceof SetType || type instanceof MapType ? [ new Replace(context, parent, expr, SetOrMapAccess.make(expr, new ExpressionPlaceholder())) ] : []),
             // If the type is a stream, offer a previous
-            ...(type instanceof StreamType ? [ new Replace(context, expr, Previous.make(expr, new ExpressionPlaceholder())) ] : []),
+            ...(type instanceof StreamType ? [ new Replace(context, parent, expr, Previous.make(expr, new ExpressionPlaceholder())) ] : []),
             // Reactions
-            ...[ new Replace(context, expr, Reaction.make(expr, new ExpressionPlaceholder()))],
+            ...[ new Replace(context, parent, expr, Reaction.make(expr, new ExpressionPlaceholder()))],
             // If given a type, any binary operations that are available on the type. Wrap in a block if a BinaryOperation or Conditional
             ...((type === undefined ? [] : type.getAllDefinitions(expr, context).filter((def: Definition): def is FunctionDefinition => def instanceof FunctionDefinition && def.isOperator()) 
                 .map((def: FunctionDefinition) => 
-                    new Replace(context, expr, new Refer(() => new BinaryOperation(Block.make([ expr ]), new Token(def.getOperatorName() ?? "", TokenType.BINARY_OP), new ExpressionPlaceholder()), def ))))),
+                    new Replace(context, parent, expr, new Refer(() => new BinaryOperation(Block.make([ expr ]), new Token(def.getOperatorName() ?? "", TokenType.BINARY_OP), new ExpressionPlaceholder()), def ))))),
             // Get any conversions available
             ...(type === undefined ? [] :
                     type.getAllConversions(context)
                         .filter(conversion => conversion.input instanceof Type && type.accepts(conversion.input, context))
-                        .map(conversion => new Replace(context, expr, new Convert(expr, conversion.output.replace()))))
+                        .map(conversion => new Replace(context, parent, expr, new Convert(expr, conversion.output.replace()))))
         ];
 
     }

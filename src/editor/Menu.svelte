@@ -28,7 +28,7 @@
         <td colspan=2>Edit…</td>
     </tr>
     {#each transforms as transform, index}
-        {@const newNode = transform.getNewNode($languages)}
+        {@const [ newNode, newParent ] = transform.getEditedNode($languages)}
         {#if index >= minItem && index <= maxItem }
             <!-- Prevent default is to ensure focus isn't lost on editor -->
             <tr class={`item option ${index === selection ? "selected" : ""}`} 
@@ -36,7 +36,7 @@
             >
                 <td class="col">
                     {#if newNode !== undefined }
-                        <RootView node={newNode}/>
+                        <RootView node={newParent}/>
                     {:else}
                         <em>Remove</em>
                     {/if}

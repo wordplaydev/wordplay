@@ -127,7 +127,10 @@ export default class Evaluate extends Expression {
 
     getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
         // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return (this.inputs.includes(child as Expression)) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
+        const index = this.inputs.indexOf(child as Expression);
+        return index >= 0 && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : 
+            index > 0 ? " " : 
+            "";
     }
 
     isBlockFor(child: Node) { return this.inputs.includes(child as Expression); }
