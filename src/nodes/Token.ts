@@ -40,11 +40,12 @@ export default class Token extends Node {
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: this.is(TokenType.NAME) ? "A name" : 
-                this.is(TokenType.BINARY_OP) || this.is(TokenType.UNARY_OP) ? "An operator" :
-                this.is(TokenType.DOCS) ? "Documentation" :
-                this.is(TokenType.JAPANESE) || this.is(TokenType.ROMAN) || this.is(TokenType.NUMBER) || this.is(TokenType.PI) || this.is(TokenType.INFINITY) ? "A number" :            
-                "A token"
+            eng: this.is(TokenType.NAME) ? "a name" : 
+                this.is(TokenType.BINARY_OP) || this.is(TokenType.UNARY_OP) ? "an operator" :
+                this.is(TokenType.DOCS) ? "documentation" :
+                this.is(TokenType.JAPANESE) || this.is(TokenType.ROMAN) || this.is(TokenType.NUMBER) || this.is(TokenType.PI) || this.is(TokenType.INFINITY) ? "a number" :
+                this.is(TokenType.SHARE) ? "share" :
+                "a token"
         }
     }
 
