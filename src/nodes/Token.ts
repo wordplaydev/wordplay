@@ -34,9 +34,6 @@ export default class Token extends Node {
     isLeaf() { return true; }
     computeConflicts() {}
     
-    
-    
-
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
