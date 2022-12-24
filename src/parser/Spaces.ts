@@ -44,8 +44,7 @@ export default class Spaces {
     getLineBreakCount(token: Token): number { return this.getLines(token).length - 1; }
     getLastLine(token: Token): string { return this.getLines(token).at(-1) ?? ""; }
     hasLineBreak(token: Token): boolean { return this.getLineBreakCount(token) > 0; }
-    getLastLineSpaces(token: Token): number { return this.getLastLine(token).replaceAll("\t", " ".repeat(TAB_WIDTH)).length; }
- 
+    getLastLineSpaces(token: Token): number { return this.getLastLine(token).replaceAll("\t", " ".repeat(TAB_WIDTH)).length; }    
     /** Given some preferred space prior to a token, compute additional space to append to ensure preferred space. */
     getAdditionalSpace(token: Token, preferredSpace: string): string {
 

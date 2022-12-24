@@ -1,4 +1,4 @@
-import type Node from "../nodes/Node";
+import Node from "../nodes/Node";
 import Token from "../nodes/Token";
 import Program from "../nodes/Program";
 import type Conflict from "../conflicts/Conflict";
@@ -308,6 +308,26 @@ export default class Source extends Expression {
 
     getTokenSpacePosition(token: Token) { return this.getTokenTextPosition(token) - this.spaces.getSpace(token).length; }
     getTokenLastPosition(token: Token) { return this.getTokenTextPosition(token) + token.getTextLength(); }
+
+    /** Given a node in this source, return the line the node is one */
+    getLine(position: number | Node): number | undefined {
+        if(position instanceof Node) {
+            const leaf = position.getFirstLeaf();
+            if(leaf === undefined) return undefined;
+
+            // Iterate through all of the tokens in order
+            let count = 0;
+            for(const token of this.leaves()) {
+                count += this.spaces.getSpace(token as Token).split("\n").length - 1;
+                if(leaf === token)
+                    return count;
+            }
+            return undefined;
+        }
+        else {
+            return this.code.substring(0, position).toString().split("\n").length - 1;
+        }
+    }
 
     getTokenAt(position: number, includingWhitespace: boolean = true) {
         // This could be faster with binary search, but let's not prematurely optimize.

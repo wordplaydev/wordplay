@@ -71,24 +71,15 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
     if(typeof caret.position === "number") {
 
         let { before, after } = caret.getNodesBetween();
-    
-        let beforeToAnalyze = before;
-        let afterToAnalyze = after;
-
-        // If not on an empty line, filter out nodes in blocks, since it's confusing to get recommendations on the same line for blocks.
-        if(typeof caret.position === "number" && !source.isEmptyLine(caret.position)) {
-            beforeToAnalyze = before.filter(node => !(project.get(node)?.getParent() instanceof Block));
-            afterToAnalyze = after.filter(node => !(project.get(node)?.getParent() instanceof Block));
-        }
 
         // Get a list of transforms before and after this position.
         transforms = 
             [
                 // // Get all of the replacements possible immediately before the position.
-                ... beforeToAnalyze.reduce((transforms: Transform[], child) =>
+                ... before.reduce((transforms: Transform[], child) =>
                     [ ... transforms, ...getEditsBefore(project, context, child, caret.position as number) ], []),
                 // Get all of the replacements possible and the ends of the nodes just before the position.
-                ... afterToAnalyze.reduce((transforms: Transform[], child) =>
+                ... after.reduce((transforms: Transform[], child) =>
                     [ ...transforms, ...getEditsAfter(project, context, child, caret.position as number) ], [])
             ];
 

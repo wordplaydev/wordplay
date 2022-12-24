@@ -1,4 +1,5 @@
 import type { Edit } from "../editor/util/Commands";
+import Block from "../nodes/Block";
 import Node from "../nodes/Node";
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
@@ -61,8 +62,14 @@ export default class Caret {
 
     getNodesBetween() {
 
+        const empty = { before: [], after: [] };
+
         // If the caret is a node, there is no notion of between.
-        if(this.position instanceof Node) return { before: [], after: [] };
+        if(this.position instanceof Node || this.token === undefined) return empty;
+
+        // Get the line number of the position.
+        const lineNumber = this.source.getLine(this.position);
+        if(lineNumber === undefined) return empty;
 
         // If it's an index, then we want to find all of the nodes that could insert something at this position,
         // so we can make suggestions about what to put there. For example, consider this code and caret position.
@@ -107,7 +114,8 @@ export default class Caret {
         // Find the token whose space contains the current position. This is the token text to the right of the caret.
         const tokens = this.getProgram().nodes().filter(token => token instanceof Token) as Token[];
         const tokenAfter = this.source.getTokenWithSpaceAt(this.position);
-        if(tokenAfter === undefined) return { before: [], after: [] };
+
+        if(tokenAfter === undefined) return empty;
 
         // Find the token before the caret
         const tokenBefore = tokens[0] === tokenAfter ? undefined : tokens[tokens.indexOf(tokenAfter) - 1];
@@ -127,7 +135,7 @@ export default class Caret {
             if(firstToken === undefined || !this.source.tokenSpaceContains(firstToken, this.position))
                 break;
             const parent: Node | undefined = this.source.get(node)?.getParent();
-            if(parent)
+            if(parent && (this.source.getLine(node) === lineNumber || parent instanceof Block))
                 pairs.before.push(node);
             node = parent;
         }
@@ -137,9 +145,12 @@ export default class Caret {
             let node: Node | undefined | null = tokenBefore;
             while(node instanceof Node) {
                 const parent: Node | undefined = this.source.get(node)?.getParent();
-                const nodesTokens = node.nodes(t => t instanceof Token);
-                if(parent && nodesTokens.length > 0 && nodesTokens[nodesTokens.length - 1] === tokenBefore)
-                    pairs.after.push(node);
+                const nodeLineNumber = this.source.getLine(node);
+                if(nodeLineNumber === lineNumber || parent instanceof Block) {
+                    const nodesTokens = node.nodes(t => t instanceof Token);
+                    if(parent && nodesTokens.length > 0 && nodesTokens[nodesTokens.length - 1] === tokenBefore)
+                        pairs.after.push(node);
+                }
                 node = parent;
             }
         }
