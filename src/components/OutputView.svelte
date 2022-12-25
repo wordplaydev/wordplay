@@ -155,11 +155,12 @@
     }
 
     .fill .message {
-        width: 50%;
-        height: 50%;
+        width: 100%;
+        height: auto;
+        padding: var(--wordplay-spacing);
         text-align: center;
         line-height: 100%;
-        font-size: calc(var(--wordplay-font-size) * 2);
+        font-size: 48pt;
         transform-origin: center;        
     }
 
