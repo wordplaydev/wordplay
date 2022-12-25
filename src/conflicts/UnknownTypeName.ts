@@ -13,10 +13,10 @@ export class UnknownTypeName extends Conflict {
     }
 
     getConflictingNodes() { 
-        return { primary: [ this.name ] }; 
+        return { primary: this.name, secondary: [] }; 
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `I don't know what type I am!`

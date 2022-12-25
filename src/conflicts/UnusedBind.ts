@@ -14,10 +14,10 @@ export default class UnusedBind extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.bind.names.names };
+        return { primary: this.bind.names, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `No one use using ${this.bind.getNames().length === 1 ? "me" : "us"} :(`

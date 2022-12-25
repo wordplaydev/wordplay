@@ -18,10 +18,10 @@ export class Unimplemented extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.structure.names.names, secondary: [ this.fun ] };
+        return { primary: this.structure.names, secondary: [ this.fun ] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Because this structure implements interface ${this.interfaceStructure.getNames()}, it has to implement function ${this.fun.getNames()}.`

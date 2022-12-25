@@ -14,10 +14,10 @@ export class NotAMap extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.map.values.filter(n => n instanceof Expression) };
+        return { primary: this.map.open, secondary: this.map.values.filter(n => n instanceof Expression) };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `These values aren't key:value pairs, but others are, so this is an invalid map literal.`

@@ -15,10 +15,10 @@ export default class VariableLengthArgumentMustBeLast extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.bind ] };
+        return { primary: this.bind, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Variable length inputs must be last.`

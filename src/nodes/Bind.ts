@@ -139,8 +139,8 @@ export default class Bind extends Expression {
         const conflicts = [];
 
         // Etc tokens can't appear in block bindings, just structure and function definitions.
-        if(this.isVariableLength() && context.get(this)?.getParent() instanceof Block)
-            conflicts.push(new UnexpectedEtc(this));
+        if(this.etc && context.get(this)?.getParent() instanceof Block)
+            conflicts.push(new UnexpectedEtc(this.etc, this));
 
         // If there's a type, the value must match.
         if(this.type !== undefined && this.value && this.value instanceof Expression) {

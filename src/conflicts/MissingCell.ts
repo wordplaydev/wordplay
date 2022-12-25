@@ -21,10 +21,10 @@ export default class MissingCell extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.row ], secondary: [ this.column ] };
+        return { primary: this.row, secondary: [ this.column ] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `This row is missing column ${this.column.toWordplay()}.`

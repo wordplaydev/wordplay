@@ -8,9 +8,9 @@ import type Names from "../nodes/Names";
 export default class DuplicateLanguages extends Conflict {
 
     readonly tagged: Docs | Names;
-    readonly duplicates: (Language|undefined)[];
+    readonly duplicates: Language[];
 
-    constructor(tagged: Docs | Names, duplicates: (Language|undefined)[]) {
+    constructor(tagged: Docs | Names, duplicates: Language[]) {
 
         super(false);
 
@@ -20,10 +20,10 @@ export default class DuplicateLanguages extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.duplicates.map(lang => lang ?? this.tagged) };
+        return { primary: this.duplicates[0], secondary: this.duplicates.slice(1) };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         const dupes = this.duplicates.map(dupe => dupe ?? this.tagged).join(", ");
         return {
             eng: `Duplicate languages ${dupes}.`,

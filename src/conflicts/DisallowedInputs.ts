@@ -13,10 +13,10 @@ export class DisallowedInputs extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.structure.names.names, secondary: this.structure.inputs };
+        return { primary: this.structure.names, secondary: this.structure.inputs };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             eng: `Interfaces can't have inputs.`,
             "😀": `${TRANSLATE}: … → 🚫 ()`

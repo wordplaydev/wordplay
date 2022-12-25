@@ -14,10 +14,10 @@ export class IgnoredExpression extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.expr ] }
+        return { primary: this.expr, secondary: [] }
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `I feel useless. I am useless! Someone use me!`

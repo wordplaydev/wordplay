@@ -17,10 +17,10 @@ export class IncompatibleType extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.is.expression ], secondary: [ this.is.type ] };
+        return { primary: this.is.expression, secondary: [ this.is.type ] };
     }
 
-    getExplanations(context: Context): Translations {
+    getPrimaryExplanation(context: Context): Translations {
         return {
             "😀": TRANSLATE,
             eng: `This can never be a ${this.is.type.toWordplay()}, it's a ${this.givenType.getDescriptions(context).eng}`

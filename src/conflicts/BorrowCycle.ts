@@ -18,10 +18,10 @@ export class BorrowCycle extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.borrow ] };
+        return { primary: this.borrow, secondary: [ this.borrow ] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `This borrow depends on ${this.cycle[0].getTranslation(["eng"])}${this.cycle.slice(1).map(source => `, which depends on ${source.getNames()}`).join("")}, which depends on ${this.cycle[0].getNames()}.`

@@ -13,10 +13,10 @@ export class UnexpectedTypeVariable extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.name ] };
+        return { primary: this.name, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `I describe kinds of values, but I'm not one. I don't now what to do!`

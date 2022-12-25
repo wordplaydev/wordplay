@@ -12,10 +12,10 @@ export default class ExpectedColumnType extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.column ] };
+        return { primary: this.column, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             eng: `Table columns have to have a type.`,
             "😀": TRANSLATE

@@ -95,7 +95,7 @@
     }
 
     :global(.secondary) > .underline path {
-        stroke: var(--wordplay-warning);
+    stroke: var(--wordplay-warning);
     }
 
 </style>

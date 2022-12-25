@@ -23,10 +23,10 @@ export default class UnexpectedInputs extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.inputs };
+        return { primary: this.evaluate instanceof Evaluate ? this.evaluate.func : this.evaluate.operator, secondary: this.inputs };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `This evaluation of ${this.evaluate instanceof Evaluate ? this.evaluate.func.toWordplay() : this.evaluate.operator.toWordplay()} has too many inputs.`

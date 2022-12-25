@@ -14,10 +14,10 @@ export default class ExpectedSelectName extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.cell ] };
+        return { primary: this.cell, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             eng: `This has to be a column name`,
             "😀": TRANSLATE

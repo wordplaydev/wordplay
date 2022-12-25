@@ -24,10 +24,10 @@ export default class IncompatibleCellType extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary:  [this.cell ], secondary: [ this.type ] };
+        return { primary: this.cell, secondary: [ this.type ] };
     }
 
-    getExplanations(context: Context): Translations { 
+    getPrimaryExplanation(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Expected ${this.expected.toWordplay()}, received ${this.received.getDescriptions(context).eng}`

@@ -13,10 +13,10 @@ export class MissingShareLanguages extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.share ] };
+        return { primary: this.share, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `To share something, you must tag it's names with languages.`

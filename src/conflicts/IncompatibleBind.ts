@@ -21,10 +21,10 @@ export default class IncompatibleBind extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.value ], secondary: [ this.expectedType ] };
+        return { primary: this.value, secondary: [ this.expectedType ] };
     }
 
-    getExplanations(context: Context): Translations { 
+    getPrimaryExplanation(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Expected ${this.expectedType.toWordplay()}, got ${this.valueType.getDescriptions(context).eng}`

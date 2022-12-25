@@ -16,10 +16,10 @@ export class Implemented extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.structure.names.names, secondary: this.functions };
+        return { primary: this.structure.names, secondary: this.functions };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Structures that don't implement some functions can't implement others.`

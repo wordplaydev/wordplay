@@ -20,10 +20,10 @@ export default class ExpectedBooleanCondition extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.conditional.condition ] };
+        return { primary: this.conditional.condition, secondary: [] };
     }
 
-    getExplanations(context: Context): Translations { 
+    getPrimaryExplanation(context: Context): Translations { 
         return {
             eng: `Expected boolean; this is type ${this.type.getDescriptions(context).eng}`,
             "😀": TRANSLATE

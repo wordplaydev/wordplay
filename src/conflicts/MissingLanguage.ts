@@ -16,10 +16,10 @@ export default class MissingLanguage extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.slash ] };
+        return { primary: this.slash, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Languages require a language code.`

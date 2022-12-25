@@ -18,8 +18,8 @@
     --wordplay-border-color: rgb(220, 220, 220);
     --wordplay-executing-color: var(--color-pink);
     --wordplay-highlight: var(--color-yellow);
-    --wordplay-error: var(--color-pink);
-    --wordplay-warning: var(--color-orange);
+    --wordplay-error: var(--color-orange);
+    --wordplay-warning: var(--color-yellow);
     --wordplay-disabled-color: var(--color-lightgrey);
     --wordplay-spacing: 0.5em;
     --wordplay-font-face: "Noto Sans", "Noto Emoji", sans-serif;

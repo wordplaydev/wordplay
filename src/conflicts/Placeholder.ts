@@ -14,10 +14,10 @@ export default class Placeholder extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.placeholder ] };
+        return { primary: this.placeholder, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Don't forget to replace his with some code!`

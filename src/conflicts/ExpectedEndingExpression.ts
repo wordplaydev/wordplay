@@ -14,10 +14,10 @@ export class ExpectedEndingExpression extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.block.statements.length === 0 ? this.block : this.block.statements[this.block.statements.length - 1] ] };
+        return { primary: this.block, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             eng: `Every block must end with an expression.`,
             "😀": `${TRANSLATE} …?`

@@ -13,10 +13,10 @@ export class UnknownName extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.name ] };
+        return { primary: this.name, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `I don't know who I am!`

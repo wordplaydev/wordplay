@@ -19,10 +19,10 @@ export default class NotInstantiable extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.evaluate.func ], secondary: this.abstractFunctions.map(f => f.names) };
+        return { primary: this.evaluate.func, secondary: this.abstractFunctions.map(f => f.names) };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Can't make a structure that has undefined functions.`

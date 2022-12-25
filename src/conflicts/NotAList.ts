@@ -18,10 +18,10 @@ export class NotAList extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.access.list ] };
+        return { primary: this.access.list, secondary: [] };
     }
 
-    getExplanations(context: Context): Translations { 
+    getPrimaryExplanation(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `This isn't a list, it's ${this.received.getDescriptions(context).eng}.`

@@ -18,10 +18,10 @@ export class NotASetOrMap extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.access.setOrMap ] };
+        return { primary: this.access.setOrMap, secondary: [] };
     }
 
-    getExplanations(context: Context): Translations { 
+    getPrimaryExplanation(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `This isn't a set or map, it's a ${this.received.getDescriptions(context).eng}.`

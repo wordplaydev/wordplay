@@ -21,10 +21,10 @@ export default class NotATable extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.op.table ] };
+        return { primary: this.op.table, secondary: [] };
     }
 
-    getExplanations(context: Context): Translations { 
+    getPrimaryExplanation(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Expected a table, but this is ${this.received.getDescriptions(context).eng}`

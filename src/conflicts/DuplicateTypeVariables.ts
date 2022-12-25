@@ -17,10 +17,10 @@ export default class DuplicateTypeVariables extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.duplicates };
+        return { primary: this.duplicates[0], secondary: this.duplicates.slice(1) };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             eng: `Duplicate type variables ${this.duplicates.map(dupe => dupe.toWordplay())}.`,
             "😀": TRANSLATE

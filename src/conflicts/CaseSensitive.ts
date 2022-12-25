@@ -17,10 +17,10 @@ export default class CaseSensitive extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.name ], secondarty: [ this.alias ] };
+        return { primary: this.name, secondary: [ this.alias ] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             eng: `This name ${this.name.getName()} looks a lot like ${this.alias.getName()}, but they're different cases.`,
             "😀": `${TRANSLATE} ${this.name.getName()} ≠ ${this.alias.getName()}`

@@ -21,10 +21,10 @@ export default class NonBooleanQuery extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.op.query ] };
+        return { primary: this.op.query, secondary: [] };
     }
 
-    getExplanations(context: Context): Translations { 
+    getPrimaryExplanation(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Table queries have to be Boolean-typed; this is ${this.type.getDescriptions(context).eng}`

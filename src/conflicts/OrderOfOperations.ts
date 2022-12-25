@@ -16,10 +16,10 @@ export default class OrderOfOperations extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.operation.operator, this.after.operator ] };
+        return { primary: this.operation.operator, secondary: [ this.after.operator ] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `All operators evalute left to right, unlike math. Use parentheses to specify which order to evaluate these.`

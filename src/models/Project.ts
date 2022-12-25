@@ -176,10 +176,7 @@ export default class Project {
             // and adding to the conflict to each node's list of conflicts.
             conflicts.forEach(conflict => {
                 const complicitNodes = conflict.getConflictingNodes();
-                complicitNodes.primary.forEach(node => {
-                    let nodeConflicts = this.primaryConflicts.get(node) ?? [];
-                    this.primaryConflicts.set(node, [ ... nodeConflicts, conflict ]);
-                });
+                this.primaryConflicts.set(complicitNodes.primary, [ ... (this.primaryConflicts.get(complicitNodes.primary) ?? []), conflict ]);
                 complicitNodes.secondary?.forEach(node => {
                     let nodeConflicts = this.secondaryConflicts.get(node) ?? [];
                     this.secondaryConflicts.set(node, [ ... nodeConflicts, conflict ]);

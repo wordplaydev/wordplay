@@ -19,10 +19,10 @@ export class IncompatibleKey extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.access.key ], secondary: [ this.expected ] };
+        return { primary: this.access.key, secondary: [ this.expected ] };
     }
 
-    getExplanations(context: Context): Translations { 
+    getPrimaryExplanation(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `I expect keys of type ${this.expected.toWordplay()}, but this is ${this.received.getDescriptions(context).eng}`

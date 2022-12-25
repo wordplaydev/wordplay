@@ -13,10 +13,10 @@ export class UnparsableConflict extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.unparsable ] };
+        return { primary: this.unparsable, secondary: [] };
     }
 
-    getExplanations(): Translations {
+    getPrimaryExplanation(): Translations {
         return {
             "😀": TRANSLATE,
             eng: this.unparsable instanceof UnparsableType ?

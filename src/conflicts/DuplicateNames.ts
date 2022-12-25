@@ -19,10 +19,10 @@ export default class DuplicateNames extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.duplicates };
+        return { primary: this.duplicates[0], secondary: this.duplicates.slice(1) };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         const dupes = this.duplicates.map(dupe => dupe.toWordplay()).join(", ");
         return {
             eng: `Duplicate names ${dupes}.`,

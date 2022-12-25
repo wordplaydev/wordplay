@@ -72,9 +72,12 @@ export default class Names extends Node {
         // Names must have unique language tags.
         const duplicateLanguages = this.names
             .filter(name1 => this.names.find(name2 => name1 !== name2 && name1.getLanguage() === name2.getLanguage()) !== undefined)
-            .map(name => name.lang);
+            .map(name => name.lang)
+            .filter((lang): lang is Language => lang !== undefined);
         if(duplicateLanguages.length > 0)
             return [ new DuplicateLanguages(this, duplicateLanguages) ];
+
+        return [];
     
     }
 

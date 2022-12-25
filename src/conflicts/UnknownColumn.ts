@@ -16,10 +16,10 @@ export default class UnknownColumn extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.cell ] };
+        return { primary: this.cell, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `This isn't one of the columns in this table type.`

@@ -19,10 +19,10 @@ export class NotAListIndex extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.access.index ] };
+        return { primary: this.access.index, secondary: [] };
     }
 
-    getExplanations(context: Context): Translations { 
+    getPrimaryExplanation(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Lists can only be accessed with #'s, this is ${this.indexType.getDescriptions(context).eng}`

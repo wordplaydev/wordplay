@@ -146,7 +146,7 @@
                     if(source.contains(node)) {
                         const start = source.getNodeFirstPosition(node);
                         const end = source.getNodeLastPosition(node);
-                        if(start && end && start <= $caret.position && end >= $caret.position)
+                        if(start !== undefined && end !== undefined && start <= $caret.position && end >= $caret.position)
                             conflicts = [ ... conflicts, ...nodeConflicts ];
                     }
                 }
@@ -225,7 +225,7 @@
             addHighlight(newHighlights, primary, "primary");
 
         // Tag all nodes with secondary conflicts as primary
-        for(const secondary of project.getPrimaryConflicts().keys())
+        for(const secondary of project.getSecondaryConflicts().keys())
             addHighlight(newHighlights, secondary, "secondary");
 
         // Are there any poses in this file being animated?

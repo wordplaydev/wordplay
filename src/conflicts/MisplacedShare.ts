@@ -16,10 +16,10 @@ export class MisplacedShare extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.share ] };
+        return { primary: this.share, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Can only share things in the main block.`

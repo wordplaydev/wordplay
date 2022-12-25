@@ -18,10 +18,10 @@ export default class DuplicateBinds extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.bind.names.names, secondary: this.duplicates };
+        return { primary: this.bind.names, secondary: this.duplicates };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             eng: `${this.bind.names.names[0].getName()} is already defined.`,
             "😀": `${this.bind.names.names[0].getName()} ${this.bind.names.names[0].getName()}`

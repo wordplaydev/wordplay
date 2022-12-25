@@ -24,10 +24,10 @@ export default class NotAFunction extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.evaluate instanceof Evaluate ? this.evaluate.func : this.evaluate.operator ] };
+        return { primary: this.evaluate instanceof Evaluate ? this.evaluate.func : this.evaluate.operator, secondary: [] };
     }
 
-    getExplanations(context: Context): Translations { 
+    getPrimaryExplanation(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
             eng: this.type ? 

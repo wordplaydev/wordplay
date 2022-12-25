@@ -13,10 +13,10 @@ export class NotANumber extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.measurement ] };
+        return { primary: this.measurement, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `This number isn't formatted correctly`

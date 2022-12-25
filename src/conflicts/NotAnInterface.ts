@@ -16,10 +16,10 @@ export default class NotAnInterface extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.ref ], secondary: [ this.def.names ] };
+        return { primary: this.ref, secondary: [ this.def.names ] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Structures can only implement interfaces, and ${this.def.names.getTranslation("eng")} ${

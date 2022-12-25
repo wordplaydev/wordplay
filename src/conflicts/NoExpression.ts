@@ -14,10 +14,10 @@ export default class NoExpression extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.def.names ] };
+        return { primary: this.def.names, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             eng: `Did you mean to give this function an expression?`,
             "😀": WRITE

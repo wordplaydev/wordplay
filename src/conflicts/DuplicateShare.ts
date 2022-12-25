@@ -14,10 +14,10 @@ export class DuplicateShare extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.share.names.names, secondary: this.other.names.names };
+        return { primary: this.share.names, secondary: [ this.other.names ] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             eng: `This share has the same name as a share in another file.`,
             "😀": TRANSLATE

@@ -23,10 +23,10 @@ export default class UnexpectedInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.given.names.names };
+        return { primary: this.given.names, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `We expected ${this.expected.getNames().join(",")} here.`

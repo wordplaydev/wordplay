@@ -21,10 +21,10 @@ export default class InvalidTypeInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.type ], secondary: [ this.definition.names ] };
+        return { primary: this.type, secondary: [ this.definition.names ] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `This definition doesn't accept this type input.`

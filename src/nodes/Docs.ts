@@ -4,6 +4,7 @@ import { TRANSLATE } from "./Translations"
 import Doc from "./Doc";
 import type LanguageCode from "./LanguageCode";
 import DuplicateLanguages from "../conflicts/DuplicateLanguages";
+import type Language from "./Language";
 
 export default class Docs extends Node {
     
@@ -37,7 +38,8 @@ export default class Docs extends Node {
         // Docs must have unique language tags
         const duplicates = this.docs
             .filter(doc1 => this.docs.find(doc2 => doc1 !== doc2 && doc1.getLanguage() === doc2.getLanguage()) !== undefined)
-            .map(doc => doc.lang);
+            .map(doc => doc.lang)
+            .filter((lang): lang is Language => lang !== undefined);
         if(duplicates.length > 0)
             return [ new DuplicateLanguages(this, duplicates) ];
     }

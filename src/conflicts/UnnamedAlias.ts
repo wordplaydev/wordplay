@@ -11,10 +11,10 @@ export default class UnnamedAlias extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.alias ] };
+        return { primary: this.alias, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Don't forget to name me!`

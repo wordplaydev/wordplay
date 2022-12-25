@@ -28,10 +28,10 @@ export default class IncompatibleInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.givenNode ], secondary: [ this.expectedType ] };
+        return { primary: this.givenNode, secondary: [ this.expectedType ] };
     }
 
-    getExplanations(context: Context): Translations {
+    getPrimaryExplanation(context: Context): Translations {
         return {
             "😀": TRANSLATE,
             eng: `Expected input of type ${this.expectedType.toWordplay()}, received ${this.givenType.getDescriptions(context).eng}`

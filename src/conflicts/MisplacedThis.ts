@@ -13,10 +13,10 @@ export class MisplacedThis extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.dis.dis ] };
+        return { primary: this.dis, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Can only use ${THIS_SYMBOL} inside a structure definition or reaction.`

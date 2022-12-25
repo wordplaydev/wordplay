@@ -12,10 +12,10 @@ export class UnknownProperty extends Conflict {
     }
 
     getConflictingNodes() { 
-        return { primary: [ this.access.name ?? this.access.dot ], secondary: [ this.access.structure ] };
+        return { primary: this.access.name ?? this.access.dot, secondary: [ this.access.structure ] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `I don't know who I am!`

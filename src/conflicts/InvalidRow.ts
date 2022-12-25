@@ -12,10 +12,10 @@ export default class InvalidRow extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.row ] };
+        return { primary: this.row, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Inserted rows have to either include every column or every cell has to be named.`

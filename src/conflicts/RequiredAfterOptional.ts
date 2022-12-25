@@ -14,10 +14,10 @@ export default class RequiredAfterOptional extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.bind ] }
+        return { primary: this.bind, secondary: [] }
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Required inputs can't come after optional ones.`

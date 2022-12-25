@@ -14,10 +14,10 @@ export class MisplacedConversion extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.conversion ] };
+        return { primary: this.conversion, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Can't put a conversion here.`

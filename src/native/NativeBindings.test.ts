@@ -37,7 +37,7 @@ function checkNativeNodes(nodes: Node[]) {
 
         if(conflicts.length > 0)
             for(const conflict of conflicts)
-                console.log(`Conflict on:\n${node.toWordplay()}\nPrimary node: ${conflict.getConflictingNodes().primary.map(n => n.toWordplay()).join("\n")}\n\t${conflict.getExplanation(context, "eng")}`);
+                console.log(`Conflict on:\n${node.toWordplay()}\nPrimary node: ${conflict.getConflictingNodes().primary.toWordplay()}\n\t${conflict.getExplanation(context, "eng")}`);
 
         expect(conflicts).toHaveLength(0);
     }

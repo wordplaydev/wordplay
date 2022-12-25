@@ -19,10 +19,10 @@ export class NotAStreamIndex extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.previous.index ] };
+        return { primary: this.previous.index, secondary: [] };
     }
 
-    getExplanations(context: Context): Translations { 
+    getPrimaryExplanation(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `This has to be number, but it's a ${this.indexType.getDescriptions(context).eng}`

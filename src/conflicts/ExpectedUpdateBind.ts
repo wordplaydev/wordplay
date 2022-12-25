@@ -13,10 +13,10 @@ export default class ExpectedUpdateBind extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.cell ] };
+        return { primary: this.cell, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             eng: `This has to provide a value, can't update without one!`,
             "😀": TRANSLATE

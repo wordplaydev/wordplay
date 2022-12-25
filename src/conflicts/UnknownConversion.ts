@@ -15,10 +15,10 @@ export class UnknownConversion extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.convert.type ] };
+        return { primary: this.convert.type, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `There's no conversion from this to this type.`

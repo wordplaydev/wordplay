@@ -16,10 +16,10 @@ export class UnknownBorrow extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.borrow.source === undefined ? this.borrow.borrow : this.borrow.source ] };
+        return { primary: this.borrow.source === undefined ? this.borrow.borrow : this.borrow.source, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `I don't know who this is, can't borrow!`

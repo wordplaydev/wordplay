@@ -24,10 +24,10 @@ export default class MissingInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.last ], secondary: this.input.names.names };
+        return { primary: this.last, secondary: [ this.input.names ] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `Expected an input ${this.input.names.getTranslation("eng")}, but it wasn't provided.`

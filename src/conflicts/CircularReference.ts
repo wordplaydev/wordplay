@@ -14,10 +14,10 @@ export default class CircularReference extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.name ] };
+        return { primary: this.name, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             eng: `I can't compute ${this.name.getName()} using itself!`,
             "😀": `${TRANSLATE} ⟲`

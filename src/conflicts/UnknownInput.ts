@@ -21,10 +21,10 @@ export default class UnknownInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.given.names.names };
+        return { primary: this.given.names, secondary: [] };
     }
 
-    getExplanations(): Translations { 
+    getPrimaryExplanation(): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `This given input doesn't correspond to any of this function's inputs.`

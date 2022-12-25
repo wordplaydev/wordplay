@@ -1,4 +1,4 @@
-import type Changed from "../nodes/Changed";
+import Changed from "../nodes/Changed";
 import type Context from "../nodes/Context";
 import type Previous from "../nodes/Previous";
 import type Translations from "../nodes/Translations";
@@ -21,10 +21,10 @@ export class NotAStream extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: [ this.stream.stream ] };
+        return { primary: this.stream.stream, secondary: [ this.stream instanceof Changed ? this.stream.change : this.stream.previous] };
     }
 
-    getExplanations(context: Context): Translations { 
+    getPrimaryExplanation(context: Context): Translations { 
         return {
             "😀": TRANSLATE,
             eng: `This has to be a stream, but it's a ${this.received.getDescriptions(context).eng}`

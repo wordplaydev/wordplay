@@ -24,7 +24,11 @@
         latest = project.evaluator.getLatestSourceValue(source);
     }
     $: stepping = !$playing;
+
+    // The list of conflicts from the editor.
     let conflicts: Conflict[] = [];
+
+    $: { console.log(conflicts); }
 
 </script>
 
@@ -33,9 +37,7 @@
     <section class="code" class:stepping transition:fade>
         <Editor {project} {source} bind:conflicts={conflicts} bind:input={input}/>
     </section>
-    {#if conflicts.length > 0}
-        <ConflictsView context={project.getContext(source)} {conflicts}/>
-    {/if}
+    <ConflictsView context={project.getContext(source)} {conflicts}/>
 {/if}
 <OutputView {project} {source} {latest} mode={fullscreen ? "fullscreen" : "peripheral"} on:fullscreen />
 
