@@ -85,7 +85,7 @@
     <Controls {project}/>
     {#if stepping}
         <EvaluatorView evaluator={project.evaluator}/>
-    {:else}
+    {:else if !fullscreen}
         <div class="palette">
             <Palette/>    
         </div>
