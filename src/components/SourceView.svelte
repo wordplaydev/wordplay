@@ -15,6 +15,7 @@
     export let project: Project;
     export let source: Source;
     export let fullscreen: boolean;
+    export let input: HTMLInputElement | null;
 
     let latest: Value | undefined;
     $: {
@@ -30,7 +31,7 @@
 {#if !fullscreen}
     <h2 class="name">{source.getNames()}</h2>
     <section class="code" class:stepping transition:fade>
-        <Editor {project} {source} bind:conflicts={conflicts}/>
+        <Editor {project} {source} bind:conflicts={conflicts} bind:input={input}/>
     </section>
     {#if conflicts.length > 0}
         <ConflictsView context={project.getContext(source)} {conflicts}/>

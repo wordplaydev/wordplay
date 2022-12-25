@@ -37,7 +37,6 @@
     class={`overlay ${mode}`}
     class:active
     class:mode={mode}
-    tabIndex=0
     on:focusin={activate}
     on:focusout={deactivate}
 >
@@ -66,7 +65,7 @@
             </div>
         <!-- Otherwise, show the Verse -->
         {:else}
-            <VerseView {project} {verse} interactive={source === project.main}/>
+            <VerseView {project} {verse} interactive={mode !== "mini" && source === project.main}/>
         {/if}
     </div>
     {#if active && mode !== "fullscreen" && source === project.main}

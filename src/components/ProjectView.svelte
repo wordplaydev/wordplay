@@ -43,6 +43,7 @@
 
     // Create a global full screen flag
     let fullscreen = false;
+    let input: HTMLInputElement | null = null;
 
     let mouseX = 0;
     let mouseY = 0;
@@ -71,13 +72,14 @@
 <div 
     class="project" 
     class:stepping
+    on:mousedown={() => input?.focus() }
     on:mouseup={() => dragged.set(undefined)}
     on:mousemove={event => { if($dragged) { mouseX = event.clientX + window.scrollX; mouseY = event.clientY + window.scrollY; } }}
     on:keydown={event => event.key === "Escape" ? fullscreen = false : undefined }
 >
     <div class="source" class:stepping>
         {#if activeSource}
-            <SourceView {project} source={activeSource} {fullscreen} on:fullscreen={handleFullscreen}/>
+            <SourceView {project} source={activeSource} {fullscreen} on:fullscreen={handleFullscreen} bind:input={input}/>
         {:else}
             No source selected
         {/if}
@@ -156,6 +158,7 @@
         bottom: 0;
         outline: var(--wordplay-highlight) solid var(--wordplay-border-width);
         outline-offset: calc(-1 * var(--wordplay-border-width));
+        pointer-events: none;
     }
 
     :global(body:has(.code.stepping)):after {
@@ -167,6 +170,7 @@
         bottom: 0;
         outline: var(--wordplay-executing-color) solid var(--wordplay-border-width);
         outline-offset: calc(-1 * var(--wordplay-border-width));
+        pointer-events: none;
     }
 
 </style>
