@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import Manager from '../components/Manager.svelte';
+    import App from '../components/App.svelte';
 
 </script>
 
@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
 </svelte:head>
 
-<Manager/>
+<App/>
 
 <style>
     :global(body) {

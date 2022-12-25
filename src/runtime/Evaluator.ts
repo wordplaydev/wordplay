@@ -25,6 +25,8 @@ import Native from "../native/NativeBindings";
 import { Animations } from "../output/Animation";
 import NameException from "./NameException";
 import { MAX_STREAM_LENGTH } from "./Stream";
+import Start from "./Start";
+import Finish from "./Finish";
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -171,6 +173,31 @@ export default class Evaluator {
             this.steps.set(evaluation, steps);
         }
         return steps;
+
+    }
+
+    /** 
+     * Gets the node corresponding to the current step within this project.
+     * If the current step isn't in this project, chooses the nearest node
+     * in this project that started an evaluation.
+     */
+    getStepNode() {
+
+        // Iterate through the current evaluations until we find one in this project.
+        let step = undefined;
+        for(const evaluation of this.evaluations) {
+            const currentStep = evaluation.currentStep();
+            if(currentStep && this.project.contains(currentStep.node)) {
+                step = currentStep;
+                break;
+            }
+        }
+
+        if(step === undefined) return;
+        
+        return step instanceof Start ? step.node.getStart() :
+            step instanceof Finish ? step.node.getFinish() :
+            step.node.getStart();
 
     }
 

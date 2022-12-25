@@ -56,7 +56,7 @@
 
     .button:focus {
         outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
-        transform: scale(1.1, 1.1);
+        transform: scale(1.15, 1.15);
     }
 
     .button:focus, .button.inactive {
@@ -71,11 +71,15 @@
         cursor: pointer;
         background-color: var(--wordplay-border-color);
         border-color: var(--wordplay-highlight);
+        transform: scale(1.15, 1.15);
+    }
+
+    .button.inactive {
         transform: scale(1.1, 1.1);
     }
 
     .button.active {
-        transform: translate(0px, 2px);
+        transform: scale(1);
         background-color: var(--wordplay-background);
     }
 

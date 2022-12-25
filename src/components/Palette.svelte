@@ -19,6 +19,7 @@
     import RootView from "../editor/RootView.svelte";
     import { WRITE } from "../nodes/Translations";
     import Button from "./Button.svelte";
+    import { fly, slide } from "svelte/transition";
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
@@ -90,7 +91,6 @@
     ];
 
     let dragged = getDragged();
-    let expanded = false;
     let selected: TypeEntry | undefined = undefined;
 
     /** Search through the entries to find a corresponding node */
@@ -109,8 +109,6 @@
     }
 
     function handleDrag(event: MouseEvent) {
-
-        expanded = true;
 
         if(event.buttons !== 1 || $dragged) return;
 
@@ -160,10 +158,10 @@
 <svelte:window on:blur={ () => dragged.set(undefined) } />
 
 <section 
-    class={`palette ${expanded ? "expanded" : ""}`}
+    class="palette"
     on:mouseup={handleDrop}
     on:mousemove={handleDrag}
-    on:mouseleave={() => expanded = false }
+    transition:fly={{ x: -500 }}
 >
     {#if selected }
         <section class="type">
@@ -196,20 +194,24 @@
 
 <style>
     .palette {
-        min-width: 3em;
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        border-radius: var(--wordplay-border-radius);
-        background: var(--wordplay-chrome);
+        position: fixed;
+        left: var(--wordplay-border-width);
+        top: var(--wordplay-border-width);
+        bottom: var(--wordplay-border-width);
+        z-index: 3;
+        width: 13em;
+
+        overflow: scroll;
+
+        background-color: var(--wordplay-background);
+
         padding: var(--wordplay-spacing);
         user-select: none;
-        transition: min-width 0.25s ease, opacity 0.25s ease, overflow 0.25s;
         white-space: nowrap;
         overflow: hidden;
-    }
 
-    .palette.expanded {
-        min-width: 12em;
-        overflow: auto;
+        border-right: 1px solid var(--wordplay-border-color);
+
     }
 
     p {

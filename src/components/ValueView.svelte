@@ -7,7 +7,7 @@
 
 </script>
 
-<span><svelte:component this={renderValue(value.constructor)} value={value} /></span>
+<span class="value" data-id={value.id}><svelte:component this={renderValue(value.constructor)} value={value} /></span>
 
 <style>
     span {

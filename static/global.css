@@ -23,7 +23,7 @@
     --wordplay-disabled-color: var(--color-lightgrey);
     --wordplay-spacing: 0.5em;
     --wordplay-font-face: "Noto Sans", "Noto Emoji", sans-serif;
-    --wordplay-code-font-face: "Noto Mono", "Noto Emoji", monospace;
+    --wordplay-code-font: "Noto Mono", "Noto Emoji", monospace;
     --wordplay-font-weight: 500;
     --wordplay-font-size: 10pt;
     --wordplay-border-width: 3px;
@@ -99,6 +99,10 @@
     40%, 60% {
         transform: translate3d(0, 4px, 0) scale(1, .5);
     }
+}
+
+h1, h2, h3 {
+    margin-bottom: var(--wordplay-spacing);
 }
 
 h1 {

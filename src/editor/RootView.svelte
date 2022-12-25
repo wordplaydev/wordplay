@@ -24,7 +24,7 @@
 
 <style>
     .root {
-        font-family: var(--wordplay-code-font-face);
+        font-family: var(--wordplay-code-font);
         font-size: var(--wordplay-font-size);
         font-weight: 400;
     }

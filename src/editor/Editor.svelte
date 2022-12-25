@@ -29,8 +29,6 @@
     import StructureDefinition from '../nodes/StructureDefinition';
     import Tree from '../nodes/Tree';
     import RootView from './RootView.svelte';
-    import Start from '../runtime/Start';
-    import Finish from '../runtime/Finish';
     import type Project from '../models/Project';
     import { currentStep, playing, animations } from '../models/stores';
     import type Conflict from '../conflicts/Conflict';
@@ -78,7 +76,7 @@
         executingNode = evaluator?.getCurrentStep()?.node;
 
         // If the program contains this node, scroll it's first token into view.
-        const stepNode = getStepNode();
+        const stepNode = evaluator.getStepNode();
         if(stepping && stepNode && source.contains(stepNode)) {
             let highlight: Node | undefined = stepNode;
             let element = null;
@@ -95,19 +93,6 @@
             // Set the caret to the current step node if stepping.
             caret.set($caret.withPosition(evaluator.isDone() ? source.expression.end : stepNode));
         }
-
-    }
-
-    function getStepNode() {
-
-        if(evaluator === undefined) return;
-
-        const currentStep = evaluator.getCurrentStep();
-        if(currentStep === undefined) return undefined;
-        
-        return currentStep instanceof Start ? currentStep.node.getStart() :
-            currentStep instanceof Finish ? currentStep.node.getFinish() :
-            currentStep.node;
 
     }
 
@@ -188,7 +173,7 @@
         const newHighlights = new Map<Node, Set<HighlightType>>();
 
         // Is there a step we're actively executing? Highlight it!
-        const stepNode = getStepNode();
+        const stepNode = evaluator.getStepNode();
         if(stepNode)
             addHighlight(newHighlights, stepNode, "executing");
 
@@ -461,9 +446,7 @@
 
     }
 
-    async function handleMouseDown(event: MouseEvent) {
-
-        if(evaluator === undefined) return;
+    function handleMouseDown(event: MouseEvent) {
 
         // Prevent the OS from giving the document body focus.
         event.preventDefault();
@@ -474,9 +457,7 @@
             stepToNodeAt(event);
 
         // After we handle the click, focus on keyboard input, in case it's not focused.
-        await tick();
-        if(input && caretLocation)
-            input.focus();
+        input?.focus();
 
     }
 
@@ -824,15 +805,22 @@
 
     // Always show the menu if the caret is after a property reference.
     $: {
-        if($caret.isNode() || 
-            $caret.tokenPrior?.is(TokenType.ACCESS) || 
-            ($caret.tokenPrior !== undefined && $caret.tokenPrior.is(TokenType.NAME) && source.getTokenBefore($caret.tokenPrior)?.is(TokenType.ACCESS)))
+        if($playing && 
+            (
+                $caret.isNode() || 
+                $caret.tokenPrior?.is(TokenType.ACCESS) || 
+                ($caret.tokenPrior !== undefined && $caret.tokenPrior.is(TokenType.NAME) && source.getTokenBefore($caret.tokenPrior)?.is(TokenType.ACCESS))
+            )
+        )
             showMenu();
         else
             hideMenu();
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+
+        // Never handle tab; that's for keyboard navigation.
+        if(event.key === "Tab") return
 
         if(evaluator === undefined) return;
 
@@ -849,7 +837,7 @@
             }
         }
 
-        if(event.key === "Escape") {
+        if($playing && event.key === "Escape") {
             // If there's no menu showing, show one, then return.
             if(menu === undefined) {
                 showMenu();
@@ -1004,8 +992,14 @@
     }
 
     function handleTextInputFocusLoss() {
+
         hideMenu();
         focused = false;
+
+        // If we lost focus to the body somehow, ask for the input to get it back.
+        if(document.activeElement === document.body)
+            input?.focus();
+
     }
 
     function handleTextInputFocusGain() {
@@ -1025,7 +1019,7 @@
 
 <div class={`editor ${stepping ? "stepping" : ""}`}
     bind:this={editor}
-    on:mousedown|preventDefault={event => handleMouseDown(event)}
+    on:mousedown={event => handleMouseDown(event)}
     on:dblclick={event => { let node = getNodeAt(event, false); if(node) caret.set($caret.withPosition(node)); }}
     on:mouseup={handleRelease}
     on:mousemove={handleMouseMove}
@@ -1063,13 +1057,12 @@
 <style>
 
     .editor {
-        flex: 1;
         white-space: nowrap;
         line-height: var(--wordplay-code-line-height);
-        padding: var(--wordplay-spacing);
         position: relative;
         user-select: none;
-        min-height: 100%;
+        width: 100vw;
+        height: 100vh;
     }
 
     .keyboard-input {

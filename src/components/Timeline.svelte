@@ -7,6 +7,7 @@
     import Bool from "../runtime/Bool";
     import MouseButton from "../streams/MouseButton";
     import Text from "../runtime/Text";
+    import { slide } from "svelte/transition";
 
     export let evaluator: Evaluator;
 
@@ -80,49 +81,45 @@
         evaluator.stepTo(stepIndex);
     }
 
-    $: nonEmptyStreams = $streams.filter(s => s.stream !== undefined);
-
 </script>
 
-{#if nonEmptyStreams.length > 0}
-    <section class="reactions">
-        <p class="description">
-            {#if historyTrimmed && currentChange === $streams[0]}
-                Can't remember before this…
-            {:else if currentChange && currentChange.stream}
-                {currentChange.stream.docs.getTranslations().eng}
-            {/if}
-        </p>
-        <div 
-            class="timeline" 
-            tabIndex="0"
-            on:keydown={event => event.key === "ArrowLeft" ? leap(-1) : event.key === "ArrowRight" ? leap(1) : undefined }
-            on:mousedown={event => stepToMouse(event) }
-            on:mousemove={event => (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
-            bind:this={timeline}
-        >
-            {#if historyTrimmed}<span class="stream-value">…</span>{/if}
-            {#each $streams as change }
-                {@const down = change.stream instanceof Keyboard ? change.value?.resolve("down") : change.stream instanceof MouseButton ? change.value : undefined }
-                <span 
-                    class={`stream-value ${currentChange === change ? "current" : ""} ${down instanceof Bool && down.bool ? "down" : "" }`}
-                    data-index={change.stepIndex}
-                >
-                    {#if change.stream === undefined}
-                        →
+<section class="reactions" transition:slide>
+    <div 
+        class="timeline" 
+        tabIndex="0"
+        on:keydown={event => event.key === "ArrowLeft" ? leap(-1) : event.key === "ArrowRight" ? leap(1) : undefined }
+        on:mousedown={event => stepToMouse(event) }
+        on:mousemove={event => (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
+        bind:this={timeline}
+    >
+        {#if historyTrimmed}<span class="stream-value">…</span>{/if}
+        {#each $streams as change }
+            {@const down = change.stream instanceof Keyboard ? change.value?.resolve("down") : change.stream instanceof MouseButton ? change.value : undefined }
+            <span 
+                class={`stream-value ${currentChange === change ? "current" : ""} ${down instanceof Bool && down.bool ? "down" : "" }`}
+                data-index={change.stepIndex}
+            >
+                {#if change.stream === undefined}
+                    →
+                {:else}
+                    {#if change.stream instanceof Keyboard && change.value}
+                        {@const key = change.value.resolve("key")}
+                        {#if key instanceof Text}{key.text}{/if}
                     {:else}
-                        {#if change.stream instanceof Keyboard && change.value}
-                            {@const key = change.value.resolve("key")}
-                            {#if key instanceof Text}{key.text}{/if}
-                        {:else}
-                            {change.stream.names.getTranslation("😀")}
-                        {/if}
+                        {change.stream.names.getTranslation("😀")}
                     {/if}
-                </span>
-            {/each}
-        </div>
-    </section>
-{/if}
+                {/if}
+            </span>
+        {/each}
+    </div>
+    <p class="description">
+        {#if historyTrimmed && currentChange === $streams[0]}
+            Can't remember before this…
+        {:else if currentChange && currentChange.stream}
+            {currentChange.stream.docs.getTranslations().eng}
+        {/if}
+    </p>
+</section>
 
 <style>
 

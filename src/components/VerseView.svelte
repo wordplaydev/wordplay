@@ -41,11 +41,17 @@
     }
 
     function handleKeyUp(event: KeyboardEvent) {
+        // Never handle tab; that's for keyboard navigation.
+        if(event.key === "Tab") return;
+
         if(project.evaluator.isPlaying())
             project.streams.keyboard.record(event.key, false);
         else ignore();
     }
     function handleKeyDown(event: KeyboardEvent) {
+        // Never handle tab; that's for keyboard navigation.
+        if(event.key === "Tab") return;
+
         if(project.evaluator.isPlaying())
             project.streams.keyboard.record(event.key, true);
         else ignore();
@@ -76,7 +82,7 @@
         on:mousedown={interactive ? handleMouseDown : null}
         on:mouseup={interactive ? handleMouseUp : null}
         on:mousemove={interactive ? handleMouseMove : null}
-        on:keydown|stopPropagation|preventDefault={interactive ? handleKeyDown : null}
+        on:keydown={interactive ? handleKeyDown : null}
         on:keyup={interactive ? handleKeyUp : null}
     >
         <div class="viewport">
