@@ -28,8 +28,6 @@
     // The list of conflicts from the editor.
     let conflicts: Conflict[] = [];
 
-    $: { console.log(conflicts); }
-
 </script>
 
 {#if !fullscreen}
