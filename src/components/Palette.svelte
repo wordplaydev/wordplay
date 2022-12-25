@@ -19,7 +19,7 @@
     import RootView from "../editor/RootView.svelte";
     import { WRITE } from "../nodes/Translations";
     import Button from "./Button.svelte";
-    import { fly, slide } from "svelte/transition";
+    import { fly } from "svelte/transition";
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.

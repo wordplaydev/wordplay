@@ -19,7 +19,7 @@
         tabIndex=0 
         title={offTip[$languages[0]]}
         on:click={() => toggle(false)} 
-        on:keydown={event => event.key === "Enter" || event.key === "Space" ? toggle(false) : undefined }    
+        on:keydown={event => event.key === "Enter" || event.key === " " ? toggle(false) : undefined }    
     >
         {offLabel[$languages[0]]}
     </span><span 
@@ -27,7 +27,7 @@
         tabIndex=0 
         title={onTip[$languages[0]]}
         on:click={() => toggle(true)} 
-        on:keydown={event => event.key === "Enter" || event.key === "Space" ? toggle(true) : undefined }    
+        on:keydown={event => event.key === "Enter" || event.key === " " ? toggle(true) : undefined }    
     >
         {onLabel[$languages[0]]}
     </span>

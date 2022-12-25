@@ -996,10 +996,6 @@
         hideMenu();
         focused = false;
 
-        // If we lost focus to the body somehow, ask for the input to get it back.
-        if(document.activeElement === document.body)
-            input?.focus();
-
     }
 
     function handleTextInputFocusGain() {

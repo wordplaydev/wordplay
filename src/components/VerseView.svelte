@@ -16,6 +16,7 @@
     export let interactive: boolean;
 
     let ignored = false;
+    let view: HTMLElement | null = null;
 
     function ignore() {
         ignored = true;
@@ -23,6 +24,7 @@
     }
 
     function handleMouseDown() {
+        view?.focus();
         if(project.evaluator.isPlaying())
             project.streams.mouseButton.record(true);
         else ignore();
@@ -73,6 +75,7 @@
     <div 
         class="verse {interactive && $playing ? "" : "inert"} {ignored ? "ignored" : ""}" 
         tabIndex={interactive ? 0 : null}
+        bind:this={view}
         style={toCSS({
             "font-family": verse.font,
             // Background is set in source view
