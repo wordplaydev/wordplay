@@ -37,9 +37,7 @@
     class={`overlay ${mode}`}
     class:active
     class:mode={mode}
-    on:mouseover={activate}
-    on:mouseleave={deactivate}
-    on:focus={activate}
+    tabIndex=0
     on:focusin={activate}
     on:focusout={deactivate}
 >
