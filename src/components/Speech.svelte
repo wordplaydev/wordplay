@@ -8,7 +8,7 @@
 
     let scrollTop: number = 0;
     let scrollLeft: number = 0;
-    let position: { left: number, top: number };
+    let position: { left: number, top: number } | undefined = undefined;
     $: {
         // Find the view of the node.
         let nodeView = node ? document.querySelector(`.node-view[data-id="${node.id}"]`) : undefined;
@@ -33,8 +33,8 @@
     class="speech"
     class:secondary
     transition:fade={{ duration: 250 }}
-    style:left={`${position.left}px`}
-    style:top={`${position.top}px`}
+    style:left={position ? `${position.left}px` : null}
+    style:top={position ? `${position.top}px` : null}
 >
     {explanation}
 </div>
