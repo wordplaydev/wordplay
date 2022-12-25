@@ -144,7 +144,7 @@
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
-        z-index: 2;
+        z-index: 3;
     }
 
     :global(body:has(.code:focus-within)):after {
