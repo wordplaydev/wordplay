@@ -844,9 +844,11 @@
                 if(menu !== undefined)
                     return;
             }
-            // Rid of the menu and let the commands process the Escape key.
-            else
+            // Rid of the menu.
+            else {
                 hideMenu();
+                return;
+            }
         }
 
         // Hide the menu, then process the navigation.
