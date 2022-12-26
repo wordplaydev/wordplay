@@ -35,7 +35,7 @@ export default class ListAccess extends Expression {
     readonly index: Expression;
     readonly close?: Token;
 
-    constructor(open: Token, list: Expression, index: Expression, close?: Token) {
+    constructor(list: Expression, open: Token, index: Expression, close?: Token) {
         super();
 
         this.list = list;
@@ -49,8 +49,8 @@ export default class ListAccess extends Expression {
 
     static make(list: Expression, index: Expression) {
         return new ListAccess(
-            new ListOpenToken(),
             list,
+            new ListOpenToken(),
             index,
             new ListCloseToken()
         );
@@ -58,12 +58,12 @@ export default class ListAccess extends Expression {
 
     getGrammar() { 
         return [
-            { name: "open", types: [ Token ] },
             { 
                 name: "list", types: [ Expression ],
                 // Must be a list
                 getType: () => ListType.make()
             },
+            { name: "open", types: [ Token ] },
             { 
                 name: "index", types: [ Expression ],
                 // Must be a number
@@ -75,8 +75,8 @@ export default class ListAccess extends Expression {
 
     replace(original?: Node, replacement?: Node) { 
         return new ListAccess(
-            this.replaceChild("open", this.open, original, replacement), 
             this.replaceChild("list", this.list, original, replacement), 
+            this.replaceChild("open", this.open, original, replacement), 
             this.replaceChild("index", this.index, original, replacement), 
             this.replaceChild("close", this.close, original, replacement)
         ) as this; 

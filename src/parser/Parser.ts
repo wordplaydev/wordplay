@@ -662,7 +662,7 @@ function parseListAccess(left: Expression, tokens: Tokens): Expression {
         const index = parseExpression(tokens);
         const close = tokens.nextIs(TokenType.LIST_CLOSE) ? tokens.read(TokenType.LIST_CLOSE) : undefined;
 
-        left = new ListAccess(open, left, index, close);
+        left = new ListAccess(left, open, index, close);
 
         // But wait, is it a function evaluation?
         if(nextIsEvaluate(tokens) && tokens.nextLacksPrecedingSpace())

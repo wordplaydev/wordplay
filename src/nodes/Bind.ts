@@ -38,8 +38,6 @@ import type Value from "../runtime/Value";
 import TokenType from "./TokenType";
 import type Name from "./Name";
 import DuplicateNames from "../conflicts/DuplicateNames";
-import BinaryOperation from "./BinaryOperation";
-import Evaluate from "./Evaluate";
 
 export default class Bind extends Expression {    
     readonly docs?: Docs;
