@@ -1057,8 +1057,8 @@
         line-height: var(--wordplay-code-line-height);
         position: relative;
         user-select: none;
-        width: 100vw;
-        height: 100vh;
+        min-width: calc(100vw - 15em);
+        min-height: 100vh;
     }
 
     .keyboard-input {

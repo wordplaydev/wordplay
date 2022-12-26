@@ -104,7 +104,8 @@ export default class Block extends Expression {
     getLast() { return this.statements.length === 0 ? undefined : this.statements[this.statements.length - 1]; }
 
     isEvaluationInvolved() { return true; }
-    isBindingEnclosureOfChild(): boolean { return true; }
+    
+    getScopeOfChild(): Node | undefined { return this; }
 
     computeConflicts(): Conflict[] {
 
@@ -137,20 +138,15 @@ export default class Block extends Expression {
 
     }
 
-    getDefinitions(node: Node, context: Context): Definition[] {
+    getDefinitions(node: Node): Definition[] {
 
         const index = this.getStatementIndexContaining(node);
         if(index === undefined) return [];
 
-        // Do any of the binds, structure, or function definitions declare it?
-        return [
-            // Expose all the binds in the block
-            // Note that we allow an bind to refer to itself, since bound reactions can refer to themselves.
-            ...(this.statements.filter((s, i): s is Bind  => i <= index && s instanceof Bind)),
-            // Expose all of the FunctionDefinition and StructureDefinition for which this is the binding enclosure
-            ...(this.nodes().filter((n): n is FunctionDefinition | StructureDefinition => 
-            (n instanceof FunctionDefinition || n instanceof StructureDefinition ) && context.get(n)?.getBindingScope() === this))
-         ];
+        // Expose any bind, function, or structures, and allow them to refer to themselves, but don't expose any definitions if the node is after
+        // the definition.
+        return this.statements.filter((s, i): s is Bind | FunctionDefinition | StructureDefinition  => 
+            i <= index && (s instanceof Bind || s instanceof FunctionDefinition || s instanceof StructureDefinition));
         
     }
  

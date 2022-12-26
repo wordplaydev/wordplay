@@ -63,7 +63,10 @@ export default class Select extends Expression {
         ) as this; 
     }
 
-    isBindingEnclosureOfChild(child: Node): boolean { return child === this.query || child === this.row; }
+    getScopeOfChild(child: Node, context: Context): Node | undefined { 
+        // The query and row are scoped by the table.
+        return child === this.query || child === this.row ? this.table.getType(context) : this.getParent(context);    
+    }
 
     computeConflicts(context: Context): Conflict[] { 
         

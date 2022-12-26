@@ -151,11 +151,8 @@ export default class Project {
     getSourceWithProgram(program: Program) { return this.getSources().find(source => source.expression === program); }
     getNative() { return Native; }
 
-    getImplicitlySharedStream(name: string): Stream | undefined {
-        if(this.streams.random.hasName(name))
-            return this.streams.random;
-        return undefined;
-    }
+    getImplicitlySharedStreams() { return [ this.streams.random ]; }
+    getImplicitlySharedStream(name: string ) { return this.getImplicitlySharedStreams().find(stream => stream.hasName(name)); }
     
     analyze() {
 
@@ -352,7 +349,7 @@ export default class Project {
         for(const source of this.getSources()) {
             const context = this.getContext(source);
             for(const ref of (source.nodes(n => n instanceof Reference || n instanceof PropertyReference) as (Reference | PropertyReference)[])) {
-                if(ref.getDefinition(context) === bind)
+                if(ref.resolve(context) === bind)
                     refs.push(ref);
             }
         }

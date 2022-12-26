@@ -62,7 +62,7 @@ export default class Program extends Expression {
     }
 
     isEvaluationInvolved() { return true; }
-    isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression; }
+    getScopeOfChild(child: Node, context: Context): Node | undefined { return child === this.expression ? this : this.getParent(context); }
 
     computeConflicts(context: Context) {
 

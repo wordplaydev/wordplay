@@ -36,11 +36,6 @@ export default class Row extends Node {
 
     computeConflicts() {}
 
-    /**
-     * Is a binding enclosure of its columns and rows, because it defines columns.
-     * */ 
-    isBindingEnclosureOfChild(child: Node): boolean { return this.cells.includes(child as (Expression | Bind)); }
-
     replace(original?: Node, replacement?: Node) { 
         return new Row(
             this.replaceChild("open", this.open, original, replacement),

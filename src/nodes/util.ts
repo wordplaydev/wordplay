@@ -1,13 +1,10 @@
-import CaseSensitive from "../conflicts/CaseSensitive";
 import DuplicateTypeVariables from "../conflicts/DuplicateTypeVariables";
 import RequiredAfterOptional from "../conflicts/RequiredAfterOptional";
 import VariableLengthArgumentMustBeLast from "../conflicts/VariableLengthArgumentMustBeLast";
-import type Name from "./Name";
 import Bind from "./Bind";
 import type Context from "./Context";
 import type TypeVariable from "./TypeVariable";
 import type Node from "./Node";
-import type Reference from "./Reference";
 import type TableType from "./TableType";
 import type Row from "./Row";
 import type Conflict from "../conflicts/Conflict";
@@ -17,9 +14,8 @@ import MissingCell from "../conflicts/MissingCell";
 import InvalidRow from "../conflicts/InvalidRow";
 import Token from "./Token";
 import TokenType from "./TokenType";
-import DuplicateBinds from "../conflicts/DuplicateBinds";
-import { languages } from "../models/languages";
-import { get } from "svelte/store";
+import type Name from "./Name";
+import DuplicateNames from "../conflicts/DuplicateNames";
 
 export function typeVarsAreUnique(vars: TypeVariable[]): DuplicateTypeVariables | undefined {
     const duplicateTypeVars = 
@@ -59,10 +55,10 @@ export function getEvaluationInputConflicts(inputs: Bind[]) {
     const conflicts = [];
 
     // Structure input names must be unique
-    const bindInputs = inputs.map(i => i instanceof Bind ? i : []).flat() as Bind[];
-    const duplicateBinds = bindInputs.filter(bind1 => bindInputs.find(bind2 => bind1 !== bind2 && bind1.sharesName(bind2)) !== undefined);
-    if(duplicateBinds.length > 0) 
-        conflicts.push(new DuplicateBinds(duplicateBinds[0], duplicateBinds));
+    const names = inputs.reduce((names: Name[], bind: Bind) => names.concat(bind.names.names), []);
+    const duplicates = names.filter(bind1 => names.some(bind2 => bind1 !== bind2 && bind1.getName() === bind2.getName()));
+    if(duplicates.length > 0) 
+        conflicts.push(new DuplicateNames(duplicates));
     
     // Required inputs can never follow an optional one.
     const requiredAfterOptional = requiredBindAfterOptional(inputs);
@@ -73,27 +69,6 @@ export function getEvaluationInputConflicts(inputs: Bind[]) {
     if(restIsntLast) conflicts.push(restIsntLast);
     
     return conflicts;
-
-}
-
-export function getCaseCollision(name: string, enclosure: Node | undefined, context: Context, node: Reference | Name): CaseSensitive | undefined {
-
-    if(enclosure === undefined) return;
-
-    const locale = get(languages);
-
-    const upper = name.toLocaleUpperCase(locale);
-    const lower = name.toLocaleLowerCase(locale);
-    const otherCase = upper === lower ? undefined : name === upper ? lower : upper;
-
-    if(otherCase === undefined) return;
-
-    const otherBind = enclosure.getDefinitionOfName(otherCase, context, node);
-    if(otherBind instanceof Bind) {
-        const alias = otherBind.names.names.find(n => n.getName() === otherCase);
-        if(alias !== undefined)
-            return new CaseSensitive(node, alias);
-    }
 
 }
 

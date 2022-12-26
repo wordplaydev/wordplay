@@ -45,8 +45,8 @@ export default function bootstrapMap() {
                 "😀": WRITE
             },
             {
-                eng: "value",
-                "😀": `${TRANSLATE}value`
+                eng: "val",
+                "😀": `${TRANSLATE}val`
             },
             new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng)
         )
@@ -70,8 +70,8 @@ export default function bootstrapMap() {
                 "😀": WRITE
             },
             {
-                eng: "value",
-                "😀": `${TRANSLATE}value`
+                eng: "val",
+                "😀": `${TRANSLATE}val`
             },
             new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng)
         )
@@ -107,7 +107,7 @@ export default function bootstrapMap() {
                 [ Bind.make(
                     WRITE_DOCS, 
                     {
-                        eng: "map",
+                        eng: "value",
                         "😀": `${TRANSLATE}1`
                     },
                     MapType.make()
@@ -115,7 +115,7 @@ export default function bootstrapMap() {
                 new BooleanType(),
                 (requestor, evaluation) => {
                         const map = evaluation?.getClosure();
-                        const other = evaluation.resolve("map");
+                        const other = evaluation.resolve("value");
                         return !(map instanceof Map && other instanceof Map) ? 
                             new TypeException(evaluation.getEvaluator(), MapType.make(), other) :
                             new Bool(requestor, map.isEqualTo(other));
@@ -137,7 +137,7 @@ export default function bootstrapMap() {
                         "😀": WRITE
                     },
                     {
-                        eng: "map",
+                        eng: "value",
                         "😀": `${TRANSLATE}1`
                     }, 
                     MapType.make() 
@@ -145,7 +145,7 @@ export default function bootstrapMap() {
                 new BooleanType(),
                 (requestor, evaluation) => {
                     const map = evaluation?.getClosure();
-                    const other = evaluation.resolve("map");
+                    const other = evaluation.resolve("value");
                     return !(map instanceof Map && other instanceof Map) ? 
                         new TypeException(evaluation.getEvaluator(), MapType.make(), other) :
                         new Bool(requestor, !map.isEqualTo(other));
@@ -179,8 +179,8 @@ export default function bootstrapMap() {
                             "😀": WRITE
                         }, 
                         {
-                            eng: "value",
-                            "😀": `${TRANSLATE}value`
+                            eng: "val",
+                            "😀": `${TRANSLATE}val`
                         }, 
                         new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng) 
                     )
@@ -189,7 +189,7 @@ export default function bootstrapMap() {
                 (requestor, evaluation) => {
                     const map = evaluation.getClosure();
                     const key = evaluation.resolve("key");
-                    const value = evaluation.resolve("value");
+                    const value = evaluation.resolve("val");
                     if(map instanceof Map && key !== undefined && value !== undefined) return map.set(requestor, key, value);
                     else return new TypeException(evaluation.getEvaluator(), MapType.make(), map);
                 }
@@ -242,8 +242,8 @@ export default function bootstrapMap() {
                             "😀": WRITE
                         }, 
                         {
-                            eng: "value",
-                            "😀": `${TRANSLATE}value`
+                            eng: "val",
+                            "😀": `${TRANSLATE}val`
                         },
                         new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng) 
                     )
@@ -251,7 +251,7 @@ export default function bootstrapMap() {
                 MapType.make(),
                 (requestor, evaluation) => {
                     const map = evaluation.getClosure();
-                    const value = evaluation.resolve("value");
+                    const value = evaluation.resolve("val");
                     if(map instanceof Map && value !== undefined) return map.remove(requestor, value);
                     else return new TypeException(evaluation.getEvaluator(), MapType.make(), map);
                 }

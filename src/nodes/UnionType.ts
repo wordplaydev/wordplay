@@ -8,7 +8,6 @@ import Type from "./Type";
 import { OR_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import type Definition from "./Definition";
 import type TypeSet from "./TypeSet";
 import NeverType from "./NeverType";
 import type { NativeTypeName } from "../native/NativeConstants";
@@ -91,17 +90,17 @@ export default class UnionType extends Type {
 
     computeConflicts() {}
     
-    getDefinitions(node: Node, context: Context): Definition[] {
+    /** Override the base class: native type scopes are their native structure definitions. */
+    getScope(context: Context): Node | undefined {
 
-        // Get definitions of each type
-        const leftDefs = this.left.getDefinitions(node, context);
-        const rightDefs = this.right.getDefinitions(node, context);
-
-        // Return the intersection of the two, only revealing definitions that appear in both sets.
-        return leftDefs.filter(def => rightDefs.includes(def));
-
-    }
-
+        // Get the scope of the left and right and only return it if it's the same.
+        // Otherwise, there is no overlapping scope.
+        const leftScope = this.left.getScope(context);
+        const rightScope = this.right.getScope(context);
+        return leftScope === rightScope ? leftScope : undefined;
+        
+   }
+    
     getDescriptions(context: Context): Translations {
         return {
             "😀": TRANSLATE,

@@ -121,10 +121,10 @@ export default class StructureDefinition extends Expression {
 
     isEvaluationInvolved() { return true; }
     isEvaluationRoot() { return true; }
-    isBindingEnclosureOfChild(child: Node): boolean { 
+    getScopeOfChild(child: Node, context: Context): Node | undefined { 
+        // This is the scope of the expression and inputs, and its parent is for everything else.
         return  child === this.expression || 
-                (child instanceof Bind && this.inputs.includes(child)) ||
-                this.interfaces.includes(child as Reference); 
+                this.inputs.includes(child as Bind) ? this : this.getParent(context);
     }
 
     getInputs() { return this.inputs.filter(i => i instanceof Bind) as Bind[]; }
@@ -152,7 +152,7 @@ export default class StructureDefinition extends Expression {
 
         let interfaces: StructureDefinition[] = [];
         for(const int of this.interfaces) {
-            const def = int.getDefinition(context);
+            const def = int.resolve(context);
             if(def instanceof StructureDefinition) {
                 interfaces.push(def);
                 interfaces = [ ...interfaces, ...def.getInterfaces(context) ];
@@ -171,7 +171,7 @@ export default class StructureDefinition extends Expression {
 
         // Interfaces must be interfaces
         for(const int of this.interfaces) {
-            const def = int.getDefinition(context);
+            const def = int.resolve(context);
             if(def !== undefined && (!(def instanceof StructureDefinition) || (def instanceof StructureDefinition && !def.isInterface())))
                 conflicts.push(new NotAnInterface(def, int));
         }

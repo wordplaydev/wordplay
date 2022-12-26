@@ -58,7 +58,7 @@ export default class UnaryOperation extends Expression {
 
         // Find the function on the left's type.
         const expressionType = this.operand instanceof Expression ? this.operand.getType(context) : undefined;
-        const fun = expressionType?.getDefinitionOfName(this.getOperator(), context, this);
+        const fun = expressionType?.getDefinitionOfNameInScope(this.getOperator(), context);
         return fun instanceof FunctionDefinition ? fun : undefined;
 
     }
@@ -111,7 +111,7 @@ export default class UnaryOperation extends Expression {
         // Get the value of the operand.
         const value = evaluator.popValue(undefined);
 
-        const fun = value.getType(evaluator.getCurrentContext()).getDefinitionOfName(this.getOperator(), evaluator.getCurrentContext(), this);
+        const fun = value.getType(evaluator.getCurrentContext()).getDefinitionOfNameInScope(this.getOperator(), evaluator.getCurrentContext());
         if(!(fun instanceof FunctionDefinition) || !(fun.expression instanceof Expression))
             return new FunctionException(evaluator, this, value, this.getOperator());
 

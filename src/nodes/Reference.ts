@@ -11,7 +11,6 @@ import Value from "../runtime/Value";
 import type Step from "../runtime/Step";
 import type Context from "./Context";
 import type Definition from "./Definition";
-import { getCaseCollision } from "./util";
 import Bind from "./Bind";
 import CircularReference from "../conflicts/CircularReference";
 import Reaction from "./Reaction";
@@ -53,7 +52,7 @@ export default class Reference extends Expression {
                 name: "name", types: [ Token ],
                 // The valid definitions of the name are anything in scope, except for the current name.
                 getDefinitions: (context: Context) => 
-                    this.getAllDefinitions(this, context).filter(def => !def.hasName(this.getName()))
+                    this.getDefinitionsInScope(context).filter(def => !def.hasName(this.getName()))
             }
         ]; 
     }
@@ -68,8 +67,7 @@ export default class Reference extends Expression {
 
     computeConflicts(context: Context): Conflict[] { 
 
-        const name = this.getName();
-        const bindOrTypeVar = this.getDefinition(context);
+        const bindOrTypeVar = this.resolve(context);
 
         const conflicts = [];
 
@@ -89,28 +87,24 @@ export default class Reference extends Expression {
                 conflicts.push(new CircularReference(this));
         }
 
-        // Is there match with the other case? Warn about it.
-        const caseCollision = getCaseCollision(name, context.get(this)?.getBindingScope(), context, this);
-        if(caseCollision) conflicts.push(caseCollision);
-
         return conflicts;
         
     }
 
-    getDefinition(context: Context): Definition | undefined {
+    resolve(context: Context): Definition | undefined {
 
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
-        return context.get(this)?.getBindingScope()?.getDefinitionOfName(this.getName(), context, this);
+        return this.getDefinitionOfNameInScope(this.getName(), context);
 
     }
 
     refersTo(context: Context, def: StructureDefinition) {
-        return this.getDefinition(context) === def;
+        return this.resolve(context) === def;
     }
 
     computeType(context: Context): Type {
         // The type is the type of the bind.
-        const definition = this.getDefinition(context);
+        const definition = this.resolve(context);
 
         // If we couldn't find a definition or the definition is a type variable, return unknown.
         if(definition === undefined || definition instanceof TypeVariable)
@@ -138,7 +132,7 @@ export default class Reference extends Expression {
                     a instanceof Conditional &&
                     a.condition.nodes(
                         n =>    context.get(n)?.getParent() instanceof Is && 
-                                n instanceof Reference && definition === n.getDefinition(context)
+                                n instanceof Reference && definition === n.resolve(context)
                     )
                 ).reverse() as Conditional[];
 
@@ -158,14 +152,14 @@ export default class Reference extends Expression {
         bind; original; context;
 
         // Cache the type of this name at this point in execution.
-        if(this.getDefinition(context) === bind)
+        if(this.resolve(context) === bind)
             context.setReferenceType(this, UnionType.getPossibleUnion(context, current.list()));
 
         return current;
     }
 
     getDependencies(context: Context) {
-        const def = this.getDefinition(context);
+        const def = this.resolve(context);
         return def instanceof Expression || def instanceof Stream ? [ def ] : [];
     }
 
@@ -186,7 +180,7 @@ export default class Reference extends Expression {
     
     getDescriptions(context: Context): Translations {
         // Default descriptions.
-        const definition = this.getDefinition(context);
+        const definition = this.resolve(context);
 
         // Override with definition's descriptions.
         return definition !== undefined ? 

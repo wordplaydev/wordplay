@@ -83,7 +83,7 @@ export default class NameType extends Type {
     resolve(context: Context): Definition | undefined {
 
         // Find the name in the binding scope.
-        return context.get(this)?.getBindingScope()?.getDefinitionOfName(this.getName(), context, this);
+        return this.getDefinitionOfNameInScope(this.getName(), context);
 
     }
 

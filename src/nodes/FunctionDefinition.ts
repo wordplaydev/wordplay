@@ -156,7 +156,12 @@ export default class FunctionDefinition extends Expression {
 
     isEvaluationInvolved() { return true; }
     isEvaluationRoot() { return true; }
-    isBindingEnclosureOfChild(child: Node): boolean { return child === this.expression || child === this.output || this.inputs.includes(child as Bind); }
+    getScopeOfChild(child: Node, context: Context): Node | undefined { 
+        // A function definition is the scope for its expression (since it defines inputs the expression might use), 
+        // but also for its output type and inputs, since they may refer to type variables declared on the function.
+        // All other children's scope are the function's parent.
+        return child === this.expression || child === this.output || this.inputs.includes(child as Bind) ? this : this.getParent(context);
+    }
 
     computeConflicts(): Conflict[] { 
 

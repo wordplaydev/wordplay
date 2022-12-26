@@ -53,6 +53,7 @@ export default class Name extends Node {
     computeConflicts(): Conflict[] { return []; }
 
     getName(): string | undefined { return this.name instanceof Token ? this.name.text.toString() : this.name; }
+    getLowerCaseName(): string | undefined { return this.name.getText().toLocaleLowerCase(this.lang?.getBCP47()); }
     getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
     isLanguage(lang: LanguageCode) { return this.getLanguage() === lang as LanguageCode; }
 

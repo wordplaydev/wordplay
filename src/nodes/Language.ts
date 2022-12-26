@@ -61,6 +61,10 @@ export default class Language extends Node {
 
     getLanguage() { return this.lang instanceof Token ? this.lang.text.toString() : ""; }
     getLanguageCode() { return this.getLanguage() as LanguageCode }
+    getBCP47() { 
+        const lang = this.getLanguage();
+        return lang.length !== 3  || !(lang in Languages) ? undefined : lang.substring(0, 2); 
+    }
 
     equals(lang: Language) {
         return this.getLanguage() === lang.getLanguage();

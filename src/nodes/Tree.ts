@@ -42,13 +42,6 @@ export default class Tree {
 
     isRoot() { return this.parent === undefined; }
     
-    /** Get the binding enclosure of this tree's node by recursively asking ancestors if they are binding enclosures of the given node. */
-    getBindingScope(): Node | undefined {
-        return this.parent instanceof Tree ?
-            (this.parent.node.isBindingEnclosureOfChild(this.node) ? this.parent.node : this.parent.getBindingScope()) :
-            undefined;
-    }
-
     /** Get the tree representing the given node. Depth-first search for the node. */
     get(node: Node): Tree | undefined {
         if(this.node === node) return this;

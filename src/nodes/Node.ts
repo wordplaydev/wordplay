@@ -40,6 +40,13 @@ export default abstract class Node {
         this.id = NODE_ID_COUNTER++;
     }
 
+    // PREDICTATES
+
+    isLeaf() { return false; }
+
+
+    // CHILDREN
+
     /**
      * A list of fields that represent this node's sequence of nodes and the types of nodes allowed on each field.
      */
@@ -80,101 +87,23 @@ export default abstract class Node {
         return children;
     }
 
-    /** Use the subclass's child name list to construct a flat list of nodes. We use this list for tree traversal. */
-    getChildrenAsGrammar(): Record<string, Node | Node[] | undefined> {
-        const children: Record<string, Node | Node[] | undefined> = {};
-        for(const name of this.getChildNames())
-            children[name] = (this as any)[name] as (Node | Node[] | undefined);
-        return children;
-    }
-    
-    /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
-    abstract computeConflicts(context: Context): Conflict[] | void;
-
-    /**
-     * Get all bindings defined by this node.
-     */
-    getDefinitions(_: Node, __: Context): Definition[] { return []; }
-    
-    /** 
-     * Get all bindings defined by this node and all binding enclosures. 
-     * The general sequence should be:
-     * 1) All binding enclosures in the Program
-     * 2) All borrowed definitions in the Program
-     * */
-    getAllDefinitions(node: Node, context: Context): Definition[] {
-
-        let definitions: Definition[] = [];
-        let current: Node | undefined = this;
-        while(current !== undefined) {
-            definitions = [ ...current.getDefinitions(node, context), ...definitions ];
-            current = context.get(current)?.getBindingScope();
+    getFirstLeaf(): Node | undefined {
+        if(this.isLeaf()) return this;
+        for(const child of this.getChildren()) {
+            const leaf = child.getFirstLeaf();
+            if(leaf) return leaf;
         }
-        return definitions;
-
+        return undefined;
     }
 
-    /** 
-     * Each node has the option of exposing bindings. By default, nodes expose no bindings.
-     **/
-    getDefinitionOfName(name: string, context: Context, node: Node): Definition | undefined {
-        
-        let current: Node | undefined = this;
-        while(current !== undefined) {
-            const def = current.getDefinitions(node, context).find(def => def.hasName(name));
-            if(def !== undefined) return def;
-            current = context.get(current)?.getBindingScope();
+    getFirstPlaceholder(): Node | undefined {
+        for(const child of this.getChildren()) {
+            const placeholder = child.getFirstPlaceholder();
+            if(placeholder)
+                return placeholder;
         }
-
-        // If we didn't find anything, check the default shares and then the project's implicitly shared streams.
-        return context.project.getDefaultShares().find(def => def.hasName(name)) ?? context.project.getImplicitlySharedStream(name);
-
-    };
-    
-    /**
-     * Gathers all matching definitions in scope, useful for checking for duplicate bindings.
-     */
-    getAllDefinitionsOfName(name: string, context: Context, node: Node): Definition[] {
-
-        const definitions = [];
-        let current: Node | undefined = this;
-        while(current !== undefined) {
-            const definition = current.getDefinitionOfName(name, context, node);
-            if(definition !== undefined)
-                definitions.unshift(definition);
-            current = context.get(current)?.getBindingScope();
-        }
-        return definitions;
-
+        return undefined;
     }
-
-    /** Compute and store the conflicts. */
-    getConflicts(context: Context): Conflict[] { 
-        return this.computeConflicts(context) ?? [];
-    }
-    
-    /** Returns all the conflicts in this tree. */
-    getAllConflicts(context: Context): Conflict[] {
-        let conflicts: Conflict[] = [];
-        this.traverse(node => {
-            const nodeConflicts = node.getConflicts(context);
-            if(nodeConflicts !== undefined)
-                conflicts = conflicts.concat(nodeConflicts);
-            return true;
-        });
-        return conflicts;
-    }
-
-    /** True if the given node is a child of this node and this node should act as a binding enclosure of it. */
-    isBindingEnclosureOfChild(_: Node): boolean { return false; }
-
-    toString(depth: number=0): string {
-        const tabs = "\t".repeat(depth);
-        return `${tabs}${this.constructor.name}\n${this.getChildren().map(n => n.toString(depth + 1)).join("\n")}`;
-    }
-
-    /** Translates the node back into Wordplay text, using spaces if provided and . */
-    toWordplay(spaces?: Spaces): string { return this.getChildren().map(t => t.toWordplay(spaces)).join(""); }
 
     /** A depth first traversal of this node and its descendants. Keeps traversing until the inspector returns false. */
     traverse(inspector: (node: Node) => boolean): boolean {
@@ -233,6 +162,105 @@ export default abstract class Node {
         return this === node || this.getChildren().some(child => child.contains(node));
 
     }
+    
+    /** Use the subclass's child name list to construct a flat list of nodes. We use this list for tree traversal. */
+    getChildrenAsGrammar(): Record<string, Node | Node[] | undefined> {
+        const children: Record<string, Node | Node[] | undefined> = {};
+        for(const name of this.getChildNames())
+            children[name] = (this as any)[name] as (Node | Node[] | undefined);
+        return children;
+    }
+    
+    hasField(field: string): boolean {
+        return this.getChildNames().includes(field);
+    }
+
+    getField(field: string): Node | Node[] | undefined {
+
+        if(!this.hasField(field)) return undefined;
+        return (this as any)[field] as Node | Node[] | undefined;
+
+    }
+
+    getAllowedFieldNodeTypes(name: string): NodeType[] | undefined {
+        let field = this.getGrammar().find(field => field.name === name);
+        if(field === undefined) return undefined;
+        else return field.types;
+    }
+
+    // CONFLICTS
+
+    /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
+    abstract computeConflicts(context: Context): Conflict[] | void;
+
+    /** Compute and store the conflicts. */
+    getConflicts(context: Context): Conflict[] { 
+        return this.computeConflicts(context) ?? [];
+    }
+
+    /** Returns all the conflicts in this tree. */
+    getAllConflicts(context: Context): Conflict[] {
+        let conflicts: Conflict[] = [];
+        this.traverse(node => {
+            const nodeConflicts = node.getConflicts(context);
+            if(nodeConflicts !== undefined)
+                conflicts = conflicts.concat(nodeConflicts);
+            return true;
+        });
+        return conflicts;
+    }
+    
+    getParent(context: Context) { return context.get(this)?.getParent(); }
+
+    // BINDINGS
+
+    /** Get the nearest binding scope of this. */
+    getScope(context: Context): Node | undefined { return this.getParent(context)?.getScopeOfChild(this, context); }
+
+    /** By default, the scope of a child is it's parent's parent. */
+    getScopeOfChild(_: Node, context: Context): Node | undefined { return this.getParent(context); }
+
+    /**
+     * Get the Definitions defined specifically by this node.
+     */
+    getDefinitions(_: Node, __: Context): Definition[] { return []; }
+    
+    /** 
+     * Get all bindings defined by this node and all binding enclosures. 
+     * The general sequence should be:
+     * 1) All binding enclosures in the Program
+     * 2) All borrowed definitions in the Program
+     * */
+    getDefinitionsInScope(context: Context): Definition[] {
+
+        let definitions: Definition[] = [];
+        // Start with this node and see if it exposes any definitions to itself.
+        let scope: Node | undefined = this.getScope(context);
+        while(scope !== undefined) {
+            // Order matters here: defintions close in the tree have precedent, so they should go first.
+            definitions = definitions.concat(scope.getDefinitions(this, context));
+            // After getting definitions from the scope, get the scope's scope.
+            scope = scope.getScope(context);
+        }
+
+        // Finally, add project and native level definitions.
+        definitions = definitions
+            .concat(context.project.getDefaultShares())
+            .concat(context.project.getImplicitlySharedStreams());
+
+        // Return the definitions we found, in order.
+        return definitions;
+
+    }
+
+    /** 
+     * Each node has the option of exposing bindings. By default, nodes expose no bindings.
+     **/
+    getDefinitionOfNameInScope(name: string, context: Context): Definition | undefined {        
+        return this.getDefinitionsInScope(context).find(def => def.hasName(name));
+    };
+        
+    // MODIFICATION
 
     /** Creates a deep clone of this node and it's descendants. If it encounters replacement along the way, it uses that instead of the existing node. */
     abstract replace(original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
@@ -300,46 +328,14 @@ export default abstract class Node {
 
     }
 
-    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string { child; space; depth; return ""; }
-    
-    getFirstLeaf(): Node | undefined {
-        if(this.isLeaf()) return this;
-        for(const child of this.getChildren()) {
-            const leaf = child.getFirstLeaf();
-            if(leaf) return leaf;
-        }
-        return undefined;
-    }
+    // WHITESPACE
 
-    isLeaf() { return false; }
     isBlockFor(_: Node) { return false; }
 
-    hasField(field: string): boolean {
-        return this.getChildNames().includes(field);
-    }
+    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string { child; space; depth; return ""; }
 
-    getField(field: string): Node | Node[] | undefined {
-
-        if(!this.hasField(field)) return undefined;
-        return (this as any)[field] as Node | Node[] | undefined;
-
-    }
-
-    getAllowedFieldNodeTypes(name: string): NodeType[] | undefined {
-        let field = this.getGrammar().find(field => field.name === name);
-        if(field === undefined) return undefined;
-        else return field.types;
-    }
-
-    getFirstPlaceholder(): Node | undefined {
-        for(const child of this.getChildren()) {
-            const placeholder = child.getFirstPlaceholder();
-            if(placeholder)
-                return placeholder;
-        }
-        return undefined;
-    }
-
+    // EQUALITY
+    
     /** A node equals another node if its of the same type and its children are equal */
     equals(node: Node) {
         if(this.constructor !== node.constructor) return false;
@@ -352,9 +348,20 @@ export default abstract class Node {
         return true;
     }
 
+    // DESCRIPTIONS
+
     abstract getDescriptions(context: Context): Translations;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined { child; context; return undefined; }
+
+    /** Translates the node back into Wordplay text, using spaces if provided and . */
+    toWordplay(spaces?: Spaces): string { return this.getChildren().map(t => t.toWordplay(spaces)).join(""); }
+
+    /** A representation for debugging */
+    toString(depth: number=0): string {
+        const tabs = "\t".repeat(depth);
+        return `${tabs}${this.constructor.name}\n${this.getChildren().map(n => n.toString(depth + 1)).join("\n")}`;
+    }
 
 }

@@ -94,7 +94,7 @@ export default class Is extends Expression {
 
         if(this.expression instanceof Reference) {
             // If this is the bind we're looking for and this type check's type is in the set
-            if(this.expression.getDefinition(context) === bind && current.acceptedBy(this.type, context))
+            if(this.expression.resolve(context) === bind && current.acceptedBy(this.type, context))
                 return new TypeSet([ this.type ], context);
         }
 

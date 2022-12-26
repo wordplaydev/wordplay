@@ -64,10 +64,9 @@ export default class Names extends Node {
     computeConflicts() {
 
         // Names must be unique.
-        const duplicateNames = this.names
-            .filter(name1 => this.names.find(name2 => name1 !== name2 && name1.getName() === name2.getName()) !== undefined)
-        if(duplicateNames.length > 0)
-            return [ new DuplicateNames(this, duplicateNames) ];
+        const duplicates = this.names.filter(name1 => this.names.some(name2 => name1 !== name2 && name1.getName() === name2.getName()))
+        if(duplicates.length > 0)
+            return [ new DuplicateNames(duplicates) ];
 
         // Names must have unique language tags.
         const duplicateLanguages = this.names
@@ -100,7 +99,8 @@ export default class Names extends Node {
 
     hasTranslation(lang: LanguageCode) { return this.names.find(name => name.getLanguage() === lang) !== undefined; }
 
-    getNames() { return this.names.map(a => a.getName()).filter(n => n !== undefined) as string[]; }
+    getNames() { return this.names.map(a => a.getName()).filter((n): n is string => n !== undefined); }
+    getLowerCaseNames() { return this.names.map(a => a.getName()?.toLocaleLowerCase(a.getLanguage()?.substring(0, 2))).filter((n): n is string => n !== undefined); }
 
     hasName(name: string) {
         return this.names.find(a => a.getName() === name) !== undefined;

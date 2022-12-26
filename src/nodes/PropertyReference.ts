@@ -80,14 +80,19 @@ export default class PropertyReference extends Expression {
 
         const conflicts = [];
 
-        const def = this.getDefinition(context);
+        const def = this.resolve(context);
         if(def === undefined)
             conflicts.push(new UnknownProperty(this));
 
         return conflicts;
     }
 
-    isBindingEnclosureOfChild(child: Node): boolean { return child === this.name; }
+    getScopeOfChild(child: Node, context: Context): Node | undefined { 
+        // The name's scope is the structure referred to in the subject expression. 
+        // The subject expression's scope is this property reference's parent.
+        if(child === this.name) return this.getSubjectType(context);
+        else return this.getParent(context); 
+    }
 
     getDefinitions(_: Node, context: Context): Definition[] {
 
@@ -98,13 +103,13 @@ export default class PropertyReference extends Expression {
 
     }
 
-    getDefinition(context: Context): Definition | undefined {
+    resolve(context: Context): Definition | undefined {
         if(this.name === undefined) return undefined;
 
         const subjectType = this.getSubjectType(context);
         
         if(subjectType instanceof StructureDefinitionType) return subjectType.getDefinition(this.name.getName());
-        else return subjectType.getDefinitionOfName(this.name.getName(), context, this); 
+        else return subjectType.getDefinitionOfNameInScope(this.name.getName(), context); 
         
     }
 
@@ -122,7 +127,7 @@ export default class PropertyReference extends Expression {
         const subjectType = this.getSubjectType(context);
 
         // Get the definition.
-        const def = this.getDefinition(context);
+        const def = this.resolve(context);
 
         // No definition? Unknown type.
         if(def === undefined || def instanceof TypeVariable) return new UnknownNameType(this, this.name?.name, subjectType);

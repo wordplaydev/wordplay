@@ -39,7 +39,7 @@ export default function bootstrapSet() {
             "😀": WRITE
         },
         {
-            eng: "set",
+            eng: "Set",
             "😀": `${TRANSLATE}set`
         },
         // No interfaces
@@ -66,7 +66,7 @@ export default function bootstrapSet() {
                         "😀": WRITE
                     }, 
                     {
-                        eng: "set",
+                        eng: "value",
                         "😀": `${TRANSLATE}1`
                     }, 
                     SetType.make() 
@@ -74,7 +74,7 @@ export default function bootstrapSet() {
                 new BooleanType(),
                 (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
-                        const other = evaluation.resolve("set");
+                        const other = evaluation.resolve("value");
                         return !(set instanceof Set && other instanceof Set) ? 
                             new TypeException(evaluation.getEvaluator(), SetType.make(), other) :
                             new Bool(requestor, set.isEqualTo(other));
@@ -96,7 +96,7 @@ export default function bootstrapSet() {
                         "😀": WRITE
                     }, 
                     {
-                        eng: "set",
+                        eng: "value",
                         "😀": `${TRANSLATE}1`
                     }, 
                     SetType.make() 
@@ -104,7 +104,7 @@ export default function bootstrapSet() {
                 new BooleanType(),
                 (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
-                        const other = evaluation.resolve("set");
+                        const other = evaluation.resolve("value");
                         return !(set instanceof Set && other instanceof Set) ? 
                             new TypeException(evaluation.getEvaluator(), SetType.make(), other) :
                             new Bool(requestor, !set.isEqualTo(other));
@@ -184,7 +184,7 @@ export default function bootstrapSet() {
                         "😀": WRITE
                     }, 
                     {
-                        eng: "set",
+                        eng: "value",
                         "😀": `${TRANSLATE}1`
                     }, 
                     SetType.make(new NameType(SET_TYPE_VAR_NAMES.eng)) 
@@ -192,7 +192,7 @@ export default function bootstrapSet() {
                 SetType.make(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
                     const set = evaluation.getClosure();
-                    const newSet = evaluation.resolve("set");
+                    const newSet = evaluation.resolve("value");
                     if(set instanceof Set && newSet instanceof Set) return set.union(requestor, newSet);
                     else return new TypeException(evaluation.getEvaluator(), SetType.make(), set);
                 }
@@ -213,14 +213,14 @@ export default function bootstrapSet() {
                         "😀": WRITE
                     }, 
                     {
-                        eng: "set",
+                        eng: "value",
                         "😀": `${TRANSLATE}1`
                     }
                 ) ], 
                 SetType.make(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
                     const set = evaluation.getClosure();
-                    const newSet = evaluation.resolve("set");
+                    const newSet = evaluation.resolve("value");
                     if(set instanceof Set && newSet instanceof Set) return set.intersection(requestor, newSet);
                     else return new TypeException(evaluation.getEvaluator(), SetType.make(), set);
                 }
@@ -241,14 +241,14 @@ export default function bootstrapSet() {
                         "😀": WRITE
                     }, 
                     {
-                        eng: "set",
+                        eng: "value",
                         "😀": `${TRANSLATE}1`
                     }
                 ) ], 
                 SetType.make(new NameType(SET_TYPE_VAR_NAMES.eng)),
                 (requestor, evaluation) => {
                     const set = evaluation.getClosure();
-                    const newSet = evaluation.resolve("set");
+                    const newSet = evaluation.resolve("value");
                     if(set instanceof Set && newSet instanceof Set) return set.difference(requestor, newSet);
                     else return new TypeException(evaluation.getEvaluator(), SetType.make(), set);
                 }

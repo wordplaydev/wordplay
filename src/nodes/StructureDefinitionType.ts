@@ -7,6 +7,8 @@ import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type TypeSet from "./TypeSet";
 import type { NativeTypeName } from "../native/NativeConstants";
+import type Definition from "./Definition";
+import type Node from "./Node";
 
 export const STRUCTURE_NATIVE_TYPE_NAME = "structure";
 
@@ -32,6 +34,10 @@ export default class StructureDefinitionType extends Type {
     computeConflicts() { return []; }
 
     getDefinition(name: string) { return this.structure.getDefinition(name); }
+
+    getDefinitions(node: Node): Definition[] {
+        return this.structure.getDefinitions(node);
+    }
 
     /** Compatible if it's the same structure definition, or the given type is a refinement of the given structure.*/
     acceptsAll(types: TypeSet, context: Context): boolean {
@@ -74,11 +80,7 @@ export default class StructureDefinitionType extends Type {
 
     replace() { return this; }
 
-    toWordplay() { return this.structure.getNames()[0]; }
-
-    
-    
-    
+    toWordplay() { return this.structure.getNames()[0]; }   
 
     getDescriptions(): Translations {
         return {

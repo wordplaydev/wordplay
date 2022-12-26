@@ -57,7 +57,7 @@ export default class Delete extends Expression {
         ) as this; 
     }
 
-    isBindingEnclosureOfChild(child: Node): boolean { return child === this.query; }
+    getScopeOfChild(child: Node, context: Context): Node | undefined { return child === this.query ? this.table : this.getParent(context); }
 
     computeConflicts(context: Context): Conflict[] { 
 

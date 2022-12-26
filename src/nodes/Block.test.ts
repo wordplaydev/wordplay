@@ -14,8 +14,8 @@ test("Test block conflicts", () => {
     testConflict('(1)', '()', Block, ExpectedEndingExpression);
     testConflict('`hi`/eng`hola`/spa\n"hi"', '`hi`/eng`hola`/eng\n"hi"', Docs, DuplicateLanguages);
     testConflict('1 + 1', '1 + 1\n2 + 2', Block, IgnoredExpression);
-    testConflict('a: ƒ b() 1\nb()', "a: (ƒ b() 1)\nb()'", Evaluate, NotAFunction)
-    testConflict('a: •B()\nB()', "a: (•B())\nB()'", Evaluate, NotAFunction)
+    testConflict('ƒ b() 1\nb()', "(ƒ b() 1)\nb()'", Evaluate, NotAFunction)
+    testConflict('•B()\nB()', "a: (•B())\nB()'", Evaluate, NotAFunction)
 
 });
 

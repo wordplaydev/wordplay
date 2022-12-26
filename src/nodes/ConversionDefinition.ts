@@ -96,8 +96,7 @@ export default class ConversionDefinition extends Expression {
         const conflicts: Conflict[] = [];
     
         // Can only appear in a block or nowhere, but not anywhere else
-        const enclosure = context.get(this)?.getBindingScope();
-        if(enclosure !== undefined && !(enclosure instanceof Block))
+        if(!(this.getParent(context) instanceof Block))
             conflicts.push(new MisplacedConversion(this));
     
         return conflicts; 

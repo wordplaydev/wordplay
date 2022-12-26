@@ -57,7 +57,10 @@ export default class Insert extends Expression {
         ) as this; 
     }
 
-    isBindingEnclosureOfChild(child: Node): boolean { return child === this.row; }
+    getScopeOfChild(child: Node, context: Context): Node | undefined { 
+        // The row's scope is the table (because the row's names must be defined in the table).
+        return child === this.row ? this.getType(context) : this.getParent(context); 
+    }
 
     computeConflicts(context: Context): Conflict[] { 
      

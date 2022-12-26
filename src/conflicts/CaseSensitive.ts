@@ -1,29 +1,28 @@
 import type Name from "../nodes/Name";
-import type Reference from "../nodes/Reference";
 import type Translations from "../nodes/Translations";
 import { TRANSLATE } from "../nodes/Translations";
 import Conflict from "./Conflict";
 
 export default class CaseSensitive extends Conflict {
 
-    readonly name: Reference | Name;
-    readonly alias: Name;
+    readonly name: Name;
+    readonly aliases: Name[];
     
-    constructor(name: Reference | Name, alias: Name) { 
+    constructor(name: Name, aliases: Name[]) { 
         super(true);
 
         this.name = name;
-        this.alias = alias;
+        this.aliases = aliases;
     }
 
     getConflictingNodes() {
-        return { primary: this.name, secondary: [ this.alias ] };
+        return { primary: this.name, secondary: this.aliases };
     }
 
     getPrimaryExplanation(): Translations { 
         return {
-            eng: `This name ${this.name.getName()} looks a lot like ${this.alias.getName()}, but they're different cases.`,
-            "😀": `${TRANSLATE} ${this.name.getName()} ≠ ${this.alias.getName()}`
+            eng: `This name "${this.name.getName()}" looks a lot like "${this.aliases[0].getName()}", but they're different cases.`,
+            "😀": `${TRANSLATE} ${this.name.getName()} ≠ ${this.aliases[0].getName()}`
         }
     }
 

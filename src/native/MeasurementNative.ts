@@ -80,7 +80,7 @@ export default function bootstrapMeasurement() {
     return StructureDefinition.make(
         WRITE_DOCS, 
         {
-            eng: "number",
+            eng: "Measurement",
             "😀": "#"
         }, 
         [], undefined, [],

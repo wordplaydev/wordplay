@@ -108,7 +108,9 @@ export default class TableLiteral extends Expression {
     /**
      * Is a binding enclosure of its columns and rows, because it defines columns.
      * */ 
-    isBindingEnclosureOfChild(child: Node): boolean { return this.type.columns.includes(child as Bind) || this.rows.includes(child as Row); }
+    getScopeOfChild(child: Node, context: Context): Node | undefined { 
+        return this.rows.includes(child as Row) ? this.type : this.getParent(context);
+    }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
         this.rows.forEach(row => { if(row instanceof Expression) row.evaluateTypeSet(bind, original, current, context); });

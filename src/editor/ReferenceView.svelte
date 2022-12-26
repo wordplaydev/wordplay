@@ -8,7 +8,7 @@
     export let node: Reference;
 
     $: context = $project.getNodeContext(node);
-    $: stream = context === undefined ? undefined : node.getDefinition(context);
+    $: stream = context === undefined ? undefined : node.resolve(context);
 
     // If this evaluated to the stream that recently changed, style it.
     let evaluated = false;

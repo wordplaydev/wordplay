@@ -5,19 +5,16 @@ import Token from "./Token";
 import Type from "./Type";
 import type Conflict from "../conflicts/Conflict";
 import UnusedBind from "../conflicts/UnusedBind";
-import DuplicateBinds from "../conflicts/DuplicateBinds";
 import IncompatibleBind from "../conflicts/IncompatibleBind";
 import UnexpectedEtc from "../conflicts/UnexpectedEtc";
 import NameType from "./NameType";
 import StructureDefinitionType from "./StructureDefinitionType";
 import StructureDefinition from "./StructureDefinition";
-import TypeVariable from "./TypeVariable";
 import type Evaluator from "../runtime/Evaluator";
 import type Step from "../runtime/Step";
 import Start from "../runtime/Start";
 import Halt from "../runtime/Halt";
 import Finish from "../runtime/Finish";
-import { getCaseCollision } from "./util";
 import Block from "./Block";
 import ListType from "./ListType";
 import ValueException from "../runtime/ValueException";
@@ -39,6 +36,8 @@ import { DuplicateShare } from "../conflicts/DuplicateShare";
 import type TypeSet from "./TypeSet";
 import type Value from "../runtime/Value";
 import TokenType from "./TokenType";
+import type Name from "./Name";
+import DuplicateNames from "../conflicts/DuplicateNames";
 
 export default class Bind extends Expression {    
     readonly docs?: Docs;
@@ -149,35 +148,30 @@ export default class Bind extends Expression {
                 conflicts.push(new IncompatibleBind(this.type, this.value, valueType));
         }
 
-        // Find the scoping enclosure for this bind.
-        const enclosure = context.get(this)?.getBindingScope();
+        // It can't already be defined. Warn on similar casing.
+        for(const name of this.names.names) {
+            const text = name.getName();
+            if(text !== undefined) {
+                // Check for duplicate names.
+                const defs = this.getDefinitionsInScope(context);
+                const names = defs.reduce((names: Name[], def: Definition): Name[] => names.concat(def.names.names), []);
+                const defsWithName = names.filter(alias => name !== alias && name.getName() === alias.getName());
 
-        // It can't already be defined.
-        if(enclosure !== undefined) {
-            const definitions = this.names.names.reduce((definitions: Definition[], alias) => {
-                const name: string | undefined = alias.getName();
-                return name === undefined ? definitions : definitions.concat(enclosure.getAllDefinitionsOfName(name, context, this));
-            }, []).filter(def => def !== undefined && def !== this && (def instanceof Bind || def instanceof TypeVariable)) as (Bind | TypeVariable)[];
-            if(definitions.length > 0)
-                conflicts.push(new DuplicateBinds(this, definitions));
-        }
+                if(defsWithName.length > 0)
+                    conflicts.push(new DuplicateNames(defsWithName));
 
-        // Warn if there are similarly cased definitions.
-        // Is there match with the other case?
-        if(enclosure !== undefined) {
-            this.names.names.forEach(alias => {
-                // Is there match with the other case?
-                const name = alias.getName();
-                if(name !== undefined) {
-                    const caseCollision = getCaseCollision(name, enclosure, context, alias);
-                    if(caseCollision) conflicts.push(caseCollision);
-                }
-            });
+                // Check for similar cases on bind, function, and structure names.
+                // const nonTypeVariableNames = defs.reduce((names: Name[], def: Definition): Name[] => names.concat(def instanceof TypeVariable ? [] : def.names.names), []);
+                // const lowercase = name.getLowerCaseName();
+                // const defsWithSimilarName = nonTypeVariableNames.filter(alias => name !== alias && lowercase != undefined && alias.getLowerCaseName() === lowercase)
+                // if(defsWithSimilarName.length > 0)
+                //     conflicts.push(new CaseSensitive(name, defsWithSimilarName));
+            }
         }
 
         // Search the project for references and warn if there aren't any.
         const parent = context.get(this)?.getParent();
-        if(enclosure && !this.isShared() && (parent instanceof Block || parent instanceof FunctionDefinition || parent instanceof StructureDefinition)) {
+        if(!this.isShared() && (parent instanceof Block || parent instanceof FunctionDefinition || parent instanceof StructureDefinition)) {
             const references = context.project.getReferences(this);
             // Don't warn on placeholder symbols.
             if(references.length === 0 && !this.names.hasName(PLACEHOLDER_SYMBOL))
@@ -240,7 +234,7 @@ export default class Bind extends Expression {
         
     }
 
-    getDefinitionOfName() { return undefined; }
+    getDefinitionOfNameInScope() { return undefined; }
 
     getDependencies(context: Context): Expression[] {
 

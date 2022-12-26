@@ -332,7 +332,7 @@ function getPossibleNodes(context: Context, node: Node | undefined, kind: Functi
 
     const expectedType = field.getType ? field.getType(context, index) : undefined;
     // Get possible definitions, using the field override if there is one, or all definitions in the node's scope at the location by default.
-    let definitions = field.getDefinitions ? field.getDefinitions(context) : node !== undefined ? node.getAllDefinitions(node, context) : [];
+    let definitions = field.getDefinitions ? field.getDefinitions(context) : node !== undefined ? node.getDefinitionsInScope(context) : [];
 
     // Special case references; no need to reference them if already referencing them.
     if(node instanceof Reference)
@@ -427,7 +427,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
             // Reactions
             ...[ new Replace(context, parent, expr, Reaction.make(expr, new ExpressionPlaceholder()))],
             // If given a type, any binary operations that are available on the type. Wrap in a block if a BinaryOperation or Conditional
-            ...((type === undefined ? [] : type.getAllDefinitions(expr, context).filter((def: Definition): def is FunctionDefinition => def instanceof FunctionDefinition && def.isOperator()) 
+            ...((type === undefined ? [] : type.getDefinitionsInScope(context).filter((def: Definition): def is FunctionDefinition => def instanceof FunctionDefinition && def.isOperator()) 
                 .map((def: FunctionDefinition) => 
                     new Replace(context, parent, expr, new Refer(() => new BinaryOperation(Block.make([ expr ]), new Token(def.getOperatorName() ?? "", TokenType.BINARY_OP), new ExpressionPlaceholder()), def ))))),
             // Get any conversions available

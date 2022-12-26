@@ -61,7 +61,9 @@ export default class Update extends Expression {
         ) as this; 
     }
 
-    isBindingEnclosureOfChild(child: Node): boolean { return child === this.query; }
+    getScopeOfChild(child: Node, context: Context): Node | undefined { 
+        return child === this.query ? this.table.getType(context) : this.getParent(context);
+    }
 
     computeConflicts(context: Context): Conflict[] { 
         
