@@ -184,7 +184,7 @@ export default class Evaluate extends Expression {
                         mapping.given = bind;
                     }
                     // If there wasn't a named input matching, see if the next non-bind expression matches the type.
-                    else if(givenInputs.length > 0) {
+                    else if(givenInputs.length > 0 && !(givenInputs[0] instanceof Bind)) {
                         mapping.given = givenInputs.shift();
                     }
                     // Otherwise, there's no given input for this optional input.
