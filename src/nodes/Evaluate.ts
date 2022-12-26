@@ -108,7 +108,7 @@ export default class Evaluate extends Expression {
                     const input = mapping.inputs[index];
 
                     // This position is insertable if its a variable length input or not provided.
-                    return input.given === undefined || input.expected.isVariableLength();
+                    return input?.given === undefined || input?.expected.isVariableLength();
                 }
             },
             { name: "close", types: [ Token ] },
