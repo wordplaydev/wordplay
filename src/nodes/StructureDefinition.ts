@@ -216,7 +216,6 @@ export default class StructureDefinition extends Expression {
     getDefinitions(node: Node): Definition[] {
         // Does an input delare the name that isn't the one asking?
         return [
-            this,
             ... this.inputs.filter(i => i instanceof Bind && i !== node) as Bind[], 
             ... (this.types ? this.types.variables : []),
             ... (this.expression instanceof Block ? this.expression.statements.filter(s => s instanceof FunctionDefinition || s instanceof StructureDefinition || s instanceof Bind) as Definition[] : [])

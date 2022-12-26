@@ -143,10 +143,12 @@ export default class Block extends Expression {
         const index = this.getStatementIndexContaining(node);
         if(index === undefined) return [];
 
-        // Expose any bind, function, or structures, and allow them to refer to themselves, but don't expose any definitions if the node is after
-        // the definition.
+        // Expose any bind, function, or structures, including on the line that contains this node, to allow them to refer to themselves.
+        // But don't expose any definitions if the node is after the definition.
         return this.statements.filter((s, i): s is Bind | FunctionDefinition | StructureDefinition  => 
-            i <= index && (s instanceof Bind || s instanceof FunctionDefinition || s instanceof StructureDefinition));
+            (s instanceof Bind || s instanceof FunctionDefinition || s instanceof StructureDefinition) &&
+            i <= index
+        );
         
     }
  

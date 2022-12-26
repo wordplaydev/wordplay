@@ -33,6 +33,12 @@ export default class StructureDefinitionType extends Type {
 
     computeConflicts() { return []; }
 
+    /** 
+     * Types have no scope beyond themselves; this is key to ensuring that autocomplete on a type only exposes
+     * the names in the structure.
+     */
+    getScope() { return undefined; }
+
     getDefinition(name: string) { return this.structure.getDefinition(name); }
 
     getDefinitions(node: Node): Definition[] {
