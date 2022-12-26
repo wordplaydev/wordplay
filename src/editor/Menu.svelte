@@ -63,7 +63,6 @@
         box-shadow: var(--wordplay-border-radius) var(--wordplay-border-radius) var(--wordplay-border-radius) 0px var(--wordplay-lightgrey);
         max-width: 40em;
         overflow-x: hidden;
-        z-index: 4;
         border-spacing: 0;
     }
 

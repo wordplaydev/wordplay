@@ -66,7 +66,7 @@
         justify-content: center;
         align-items: center;
 
-        z-index: 4;
+        z-index: var(----wordplay-layer-controls);
     }
 
     .settings.collapsed {

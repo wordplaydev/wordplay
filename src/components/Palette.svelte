@@ -198,7 +198,7 @@
         left: var(--wordplay-border-width);
         top: var(--wordplay-border-width);
         bottom: var(--wordplay-border-width);
-        z-index: 3;
+        z-index: var(--wordplay-layer-controls);
         width: 13em;
 
         overflow: scroll;

@@ -30,6 +30,15 @@
     --wordplay-border-radius: 5px;
     --wordplay-code-line-height: 1.6;
 
+    /* Define some z-index variables for semantic naming of layers */
+    --wordplay-layer-code: 1;
+    --wordplay-layer-highlight: 2;
+    --wordplay-layer-annotation: 3;
+    --wordplay-layer-modification: 4;
+    --wordplay-layer-controls: 5;
+    --wordplay-layer-drag: 6;
+    --wordplay-layer-fullscreen: 7;
+
 }
 
 @keyframes wobble {

@@ -10,7 +10,7 @@
         animation-name: grow;
         animation-duration: 0.25s;
         animation-iteration-count: 1;
-        z-index: 2;
+        z-index: var(--wordplay-layer-modification);
     }
 
     @keyframes grow {

@@ -1080,7 +1080,7 @@
 
     .menu {
         position: absolute;
-        z-index: 2;
+        z-index: var(--wordplay-layer-modification);
     }
 
 </style>

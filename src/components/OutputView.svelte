@@ -89,7 +89,7 @@
         position: fixed;
         top: var(--wordplay-spacing);
         right: var(--wordplay-spacing);
-        z-index: 3;
+        z-index: var(--wordplay-layer-controls);
         width: 40em;
         height: 40em;
 
@@ -145,7 +145,6 @@
         box-shadow: none;
         background-color: var(--wordplay-background);
         transform-origin: center;
-        z-index: 0;
     }
 
     .fill {
@@ -199,7 +198,7 @@
         right: var(--wordplay-spacing);
         width: 2em;
         height: 2em;
-        z-index: 3;
+        z-index: var(--wordplay-layer-fullscreen);
         fill: var(--wordplay-disabled-color);
     }
     

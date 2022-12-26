@@ -34,11 +34,11 @@
     }
 
     .outline {
-        z-index: 0;
+        z-index: var(--wordplay-layer-highlight);
     }
 
     .underline {
-        z-index: 2;
+        z-index: var(--wordplay-layer-highlight);
     }
     
     .highlight path {

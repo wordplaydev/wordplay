@@ -71,7 +71,7 @@
         top: var(--wordplay-spacing);
         left: 50%;
         transform: translateX(-50%);
-        z-index: 2;
+        z-index: var(--wordplay-layer-controls);
     }
 
 </style>

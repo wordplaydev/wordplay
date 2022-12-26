@@ -126,7 +126,7 @@
     .draggable {
         position: absolute;
         cursor: none;
-        z-index: 2;
+        z-index: var(--wordplay-layer-drag);
         white-space: nowrap;
         pointer-events: none;
     }
@@ -149,7 +149,7 @@
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
-        z-index: 3;
+        z-index: var(--wordplay-layer-controls);
     }
 
     :global(body:has(.code:focus-within)):after {

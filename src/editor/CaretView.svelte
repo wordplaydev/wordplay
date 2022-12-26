@@ -310,7 +310,7 @@
         position: absolute;
         width: 2px;
         background-color: var(--color-black);
-        z-index: 2;
+        z-index: var(--wordplay-layer-code);
     }
 
     .caret.blink {

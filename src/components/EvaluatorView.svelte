@@ -111,7 +111,7 @@
     .evaluator {
         position: absolute;
         padding: var(--wordplay-spacing);
-        z-index: 2;
+        z-index: var(--wordplay-layer-annotation);
         background-color: var(--wordplay-executing-color);
         color: var(--wordplay-background);
         box-shadow: -2px calc(2 * var(--wordplay-border-width)) calc(2 * var(--wordplay-border-width)) rgba(0,0,0,.5);
