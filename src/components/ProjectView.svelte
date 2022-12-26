@@ -17,7 +17,7 @@
 
     // The currently viewed source
     let activeSourceName = project.main.getNames()[0];
-    let activeSource: Source | undefined = undefined;
+    let activeSource: Source = project.main;
     $: activeSource = project.getSources().find(source => source.getNames()[0] === activeSourceName) ?? project.main;
 
     // Clean up the project when unmounted.
@@ -59,7 +59,7 @@
     $: {
         if(!$playing && $currentStep) {
             if(!activeSource?.contains($currentStep.node)) {
-                activeSource = project.getSourceOf($currentStep.node);
+                activeSource = project.getSourceOf($currentStep.node) ?? project.main;
             }
         }
     }
@@ -76,11 +76,7 @@
 >
     <Palette hidden={stepping}/>
     <div class="source">
-        {#if activeSource}
-            <SourceView {project} source={activeSource} {fullscreen} on:fullscreen={handleFullscreen} bind:input={input} on:activate={handleActivate}/>
-        {:else}
-            No source selected
-        {/if}
+        <SourceView {project} source={activeSource} {fullscreen} on:fullscreen={handleFullscreen} bind:input={input} on:activate={handleActivate}/>
     </div>
     <!-- Render the dragged node over the whole project -->
     {#if $dragged !== undefined}
