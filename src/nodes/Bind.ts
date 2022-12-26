@@ -38,6 +38,8 @@ import type Value from "../runtime/Value";
 import TokenType from "./TokenType";
 import type Name from "./Name";
 import DuplicateNames from "../conflicts/DuplicateNames";
+import BinaryOperation from "./BinaryOperation";
+import Evaluate from "./Evaluate";
 
 export default class Bind extends Expression {    
     readonly docs?: Docs;
@@ -149,23 +151,26 @@ export default class Bind extends Expression {
         }
 
         // It can't already be defined. Warn on similar casing.
-        for(const name of this.names.names) {
-            const text = name.getName();
-            if(text !== undefined) {
-                // Check for duplicate names.
-                const defs = this.getDefinitionsInScope(context);
-                const names = defs.reduce((names: Name[], def: Definition): Name[] => names.concat(def.names.names), []);
-                const defsWithName = names.filter(alias => name !== alias && name.getName() === alias.getName());
+        // Check for duplicate names, unless this is an input in an evaluate, in which
+        // case the name isn't actually a binding.
+        if(!this.isEvaluationInput(context)) {
+            for(const name of this.names.names) {
+                const text = name.getName();
+                if(text !== undefined) {
+                    const defs = this.getDefinitionsInScope(context);
+                    const names = defs.reduce((names: Name[], def: Definition): Name[] => names.concat(def.names.names), []);
+                    const defsWithName = names.filter(alias => name !== alias && name.getName() === alias.getName());
 
-                if(defsWithName.length > 0)
-                    conflicts.push(new DuplicateNames([ name, ... defsWithName ]));
+                    if(defsWithName.length > 0)
+                        conflicts.push(new DuplicateNames([ name, ... defsWithName ]));
 
-                // Check for similar cases on bind, function, and structure names.
-                // const nonTypeVariableNames = defs.reduce((names: Name[], def: Definition): Name[] => names.concat(def instanceof TypeVariable ? [] : def.names.names), []);
-                // const lowercase = name.getLowerCaseName();
-                // const defsWithSimilarName = nonTypeVariableNames.filter(alias => name !== alias && lowercase != undefined && alias.getLowerCaseName() === lowercase)
-                // if(defsWithSimilarName.length > 0)
-                //     conflicts.push(new CaseSensitive(name, defsWithSimilarName));
+                    // Check for similar cases on bind, function, and structure names.
+                    // const nonTypeVariableNames = defs.reduce((names: Name[], def: Definition): Name[] => names.concat(def instanceof TypeVariable ? [] : def.names.names), []);
+                    // const lowercase = name.getLowerCaseName();
+                    // const defsWithSimilarName = nonTypeVariableNames.filter(alias => name !== alias && lowercase != undefined && alias.getLowerCaseName() === lowercase)
+                    // if(defsWithSimilarName.length > 0)
+                    //     conflicts.push(new CaseSensitive(name, defsWithSimilarName));
+                }
             }
         }
 
@@ -203,6 +208,11 @@ export default class Bind extends Expression {
 
         return conflicts;
 
+    }
+
+    isEvaluationInput(context: Context) { 
+        const parent = this.getParent(context);
+        return !(parent instanceof FunctionDefinition || parent instanceof StructureDefinition || parent instanceof Block);
     }
 
     isShared() { return this.share !== undefined; }
