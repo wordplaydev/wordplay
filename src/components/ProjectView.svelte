@@ -84,19 +84,21 @@
             No source selected
         {/if}
     </div>
-    <Controls {project}/>
-    {#if stepping}
-        <EvaluatorView evaluator={project.evaluator}/>
-    {:else if !fullscreen}
-        <div class="palette">
-            <Palette/>    
-        </div>
+    {#if !fullscreen}
+        <Controls {project}/>
+        {#if stepping}
+            <EvaluatorView evaluator={project.evaluator}/>
+        {:else}
+            <div class="palette">
+                <Palette/>    
+            </div>
+        {/if}
+        <section class="minimized">
+            {#each project.getSources().filter(source => source !== activeSource) as source}
+                <MiniSourceView {project} {source} on:activate={handleActivate}/>
+            {/each}
+        </section>
     {/if}
-    <section class="minimized">
-        {#each project.getSources().filter(source => source !== activeSource) as source}
-            <MiniSourceView {project} {source} on:activate={handleActivate}/>
-        {/each}
-    </section>
     <!-- Render the dragged node over the whole project -->
     {#if $dragged !== undefined}
         <div class="draggable" style="left: {mouseX}px; top:{mouseY}px;"><NodeView node={$dragged.node}/><div class="cursor">🐲</div></div>
