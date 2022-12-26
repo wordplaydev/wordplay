@@ -35,7 +35,6 @@
 
 <style>
     .switch {
-        background-color: var(--wordplay-chrome);
         display: inline-block;
         user-select: none;
         font-family: var(--wordplay-font-face);
@@ -49,7 +48,6 @@
         background-color: var(--wordplay-chrome);
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        vertical-align: middle;
         transition: transform 0.25s;
         transform-origin: center;
     }
@@ -75,7 +73,7 @@
     }
 
     .button.inactive {
-        transform: scale(1.1, 1.1);
+        transform: scale(1, 1);
     }
 
     .button.active {
