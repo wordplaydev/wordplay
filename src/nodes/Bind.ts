@@ -158,7 +158,7 @@ export default class Bind extends Expression {
                 const defsWithName = names.filter(alias => name !== alias && name.getName() === alias.getName());
 
                 if(defsWithName.length > 0)
-                    conflicts.push(new DuplicateNames(defsWithName));
+                    conflicts.push(new DuplicateNames([ name, ... defsWithName ]));
 
                 // Check for similar cases on bind, function, and structure names.
                 // const nonTypeVariableNames = defs.reduce((names: Name[], def: Definition): Name[] => names.concat(def instanceof TypeVariable ? [] : def.names.names), []);

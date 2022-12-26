@@ -1,9 +1,11 @@
 import { test, expect } from "vitest";
-import { examples, makeProject } from "./examples";
+import { examples, makeProject, type Stuff } from "./examples";
 
-for(const example of examples) {
-    test(`Ensure "${example.name}" has no conflicts`, () => {
-        const project = makeProject(example);
-        expect(project.primaryConflicts).toHaveLength(0);
-    });
-}
+test.each(examples)(`Ensure $name has no conflicts`, (example: Stuff) => {
+    const project = makeProject(example);
+    project.analyze();
+    const context = project.getContext(project.main);
+    for(const conflict of Array.from(project.primaryConflicts.values()).flat())
+        console.error(conflict.getExplanation(context, "eng"))
+    expect(project.primaryConflicts).toHaveLength(0);
+});
