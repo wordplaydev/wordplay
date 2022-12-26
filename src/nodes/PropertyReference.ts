@@ -94,12 +94,12 @@ export default class PropertyReference extends Expression {
         else return this.getParent(context); 
     }
 
-    getDefinitions(_: Node, context: Context): Definition[] {
+    getDefinitions(node: Node, context: Context): Definition[] {
 
         const subjectType = this.getSubjectType(context);
 
-        if(subjectType instanceof StructureDefinitionType) return subjectType.structure.getDefinitions(_);
-        else return subjectType.getDefinitions(_, context); 
+        if(subjectType instanceof StructureDefinitionType) return subjectType.structure.getDefinitions(node);
+        else return subjectType.getDefinitions(node, context); 
 
     }
 
@@ -218,7 +218,7 @@ export default class PropertyReference extends Expression {
             subjectType instanceof StructureDefinitionType ? subjectType.structure.getDefinitions(this) :
             subjectType instanceof NativeType ? subjectType?.getDefinitions(this, context) : [];
         return definitions
-            .filter(def => def.getNames().find(n => this.name === undefined || this.name.getName() === PLACEHOLDER_SYMBOL || n.startsWith(this.name.getName())) !== undefined);
+            .filter(def => def.getNames().find((n: string) => this.name === undefined || this.name.getName() === PLACEHOLDER_SYMBOL || n.startsWith(this.name.getName())) !== undefined);
 
     }
 

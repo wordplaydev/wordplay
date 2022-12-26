@@ -1,6 +1,7 @@
 import type Context from "./Context";
 import Type from "./Type";
 import type Node from "./Node";
+import type Definition from "./Definition";
 
 export default abstract class NativeType extends Type {
 
@@ -13,4 +14,11 @@ export default abstract class NativeType extends Type {
         return context.native.getStructureDefinition(this.getNativeTypeName());
     }
 
+    /**
+     * Get the in the native structure definitions.
+     */
+    getDefinitions(_: Node, context: Context): Definition[] { 
+        return context.native.getStructureDefinition(this.getNativeTypeName())?.getDefinitions(this) ?? []; 
+    }
+    
 }
