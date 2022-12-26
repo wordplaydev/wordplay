@@ -11,10 +11,7 @@
     import NodeView from "../editor/NodeView.svelte";
     import type Tree from "../nodes/Tree";
     import type Source from "../models/Source";
-    import MiniSourceView from "./MiniSourceView.svelte";
     import { playing, currentStep } from "../models/stores";
-    import EvaluatorView from "./EvaluatorView.svelte";
-    import Controls from "./Controls.svelte";
 
     export let project: Project;
 
@@ -72,34 +69,19 @@
 <!-- Render the app header and the current project, if there is one. -->
 <div 
     class="project" 
-    class:stepping
     on:mousedown={() => input?.focus() }
     on:mouseup={() => dragged.set(undefined)}
     on:mousemove={event => { if($dragged) { mouseX = event.clientX + window.scrollX; mouseY = event.clientY + window.scrollY; } }}
     on:keydown={event => event.key === "Escape" ? fullscreen = false : undefined }
 >
-    <div class="source" class:stepping>
+    <Palette hidden={stepping}/>
+    <div class="source">
         {#if activeSource}
-            <SourceView {project} source={activeSource} {fullscreen} on:fullscreen={handleFullscreen} bind:input={input}/>
+            <SourceView {project} source={activeSource} {fullscreen} on:fullscreen={handleFullscreen} bind:input={input} on:activate={handleActivate}/>
         {:else}
             No source selected
         {/if}
     </div>
-    {#if !fullscreen}
-        <Controls {project}/>
-        {#if stepping}
-            <EvaluatorView evaluator={project.evaluator}/>
-        {:else}
-            <div class="palette">
-                <Palette/>    
-            </div>
-        {/if}
-        <section class="minimized">
-            {#each project.getSources().filter(source => source !== activeSource) as source}
-                <MiniSourceView {project} {source} on:activate={handleActivate}/>
-            {/each}
-        </section>
-    {/if}
     <!-- Render the dragged node over the whole project -->
     {#if $dragged !== undefined}
         <div class="draggable" style="left: {mouseX}px; top:{mouseY}px;"><NodeView node={$dragged.node}/><div class="cursor">🐲</div></div>
@@ -111,16 +93,16 @@
     .project {
         width: 100vw;
         height: 100vh;
-        padding: var(--wordplay-spacing);
         background-color: var(--wordplay-background);
-    }
 
-    .source {
-        margin-left: 15em;
-        transition: margin-left 0.25s ease-out;
+        display: flex;
+        flex-direction: row;
     }
-    .source.stepping {
-        margin-left: var(--wordplay-spacing);
+    
+    .source {
+        flex-grow: 1;
+        min-width: 10em;
+        min-height: 10em;
     }
 
     .draggable {
@@ -138,41 +120,6 @@
         top: -1.5rem;
         left: -1.5rem;
         font-family: "Noto Sans";
-        pointer-events: none;
-    }
-
-    .minimized {
-        position: fixed;
-        bottom: var(--wordplay-spacing);
-        left: var(--wordplay-spacing);
-        right: var(--wordplay-spacing);
-        display: flex;
-        flex-direction: row;
-        gap: var(--wordplay-spacing);
-        z-index: var(--wordplay-layer-controls);
-    }
-
-    :global(body:has(.code:focus-within)):after {
-        content: "";
-        position: fixed;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        outline: var(--wordplay-highlight) solid var(--wordplay-border-width);
-        outline-offset: calc(-1 * var(--wordplay-border-width));
-        pointer-events: none;
-    }
-
-    :global(body:has(.code.stepping)):after {
-        content: "";
-        position: fixed;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        outline: var(--wordplay-executing-color) solid var(--wordplay-border-width);
-        outline-offset: calc(-1 * var(--wordplay-border-width));
         pointer-events: none;
     }
 

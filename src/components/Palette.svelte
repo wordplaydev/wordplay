@@ -21,6 +21,8 @@
     import Button from "./Button.svelte";
     import { fly } from "svelte/transition";
 
+    export let hidden: boolean;
+
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
      * Each type has a dedicated page that lists 1) language constructs associated with the type,
@@ -159,6 +161,7 @@
 
 <section 
     class="palette"
+    class:hidden
     on:mouseup={handleDrop}
     on:mousemove={handleDrag}
     transition:fly={{ x: -500 }}
@@ -194,24 +197,26 @@
 
 <style>
     .palette {
-        position: fixed;
-        left: var(--wordplay-border-width);
-        top: var(--wordplay-border-width);
-        bottom: var(--wordplay-border-width);
         z-index: var(--wordplay-layer-controls);
-        width: 13em;
+        width: var(--wordplay-palette-max-width);
 
-        overflow: scroll;
+        overflow-y: scroll;
 
         background-color: var(--wordplay-background);
 
         padding: var(--wordplay-spacing);
         user-select: none;
         white-space: nowrap;
-        overflow: hidden;
 
-        border-right: 1px solid var(--wordplay-border-color);
+        border-right: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        transition: width 0.25s ease-out, visibility 0.25s ease-out, opacity 0.25s ease-out;
 
+    }
+
+    .palette.hidden {
+        width: 0;
+        opacity: 0;
+        visibility: hidden;
     }
 
     p {

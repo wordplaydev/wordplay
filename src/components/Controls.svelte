@@ -30,13 +30,6 @@
 </script>
 
 <section class="controls">
-    <Button
-        label={{ eng: "restart", "😀": WRITE }}
-        tip={{ eng: "Restart the evaluation of the project from the beginning.", "😀": WRITE }}
-        action={reset}
-        enabled={$streams.length > 1}
-    />
-    <!-- If it's output, show controls -->
     <Switch 
         on={$playing}
         toggle={playPause} 
@@ -44,6 +37,12 @@
         onTip={{ eng: "Evaluate the program fully", "😀": WRITE }}
         offLabel={{ eng: "||", "😀": WRITE }}
         onLabel={{ eng: "▷", "😀": WRITE }}
+    />
+    <Button
+        label={{ eng: "⇤", "😀": WRITE }}
+        tip={{ eng: "Restart the evaluation of the project from the beginning.", "😀": WRITE }}
+        action={reset}
+        enabled={$streams.length > 1}
     />
     <Button
         label={{ eng: "←", "😀": WRITE }}
@@ -63,15 +62,16 @@
         action={handleStep} 
         enabled={!$playing && $currentStepIndex < project.evaluator.getStepCount()} 
     />
+    <Button
+        label={{ eng: "⇥", "😀": WRITE }}
+        tip={{ eng: "Advance to the present.", "😀": WRITE }}
+        action={() => project.evaluator.play()}
+        enabled={$streams.length > 1}
+    />
 </section>
 
 <style>
     .controls {
-        position: fixed;
-        top: var(--wordplay-spacing);
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: var(--wordplay-layer-controls);
+        white-space: nowrap;
     }
-
 </style>

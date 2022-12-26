@@ -10,8 +10,8 @@
     import ValueView from "./ValueView.svelte";
     import type Source from "../models/Source";
     import VerseView from "./VerseView.svelte";
-    import Timeline from "./Timeline.svelte";
     import { createEventDispatcher } from "svelte";
+    import { slide } from "svelte/transition";
 
     export let project: Project;
     export let source: Source;
@@ -34,14 +34,15 @@
 </script>
 
 <section 
-    class={`overlay ${mode}`}
+    class={`output ${mode}`}
     class:active
     class:mode={mode}
     on:focusin={activate}
     on:focusout={deactivate}
+    transition:slide
 >
     <div 
-        class="output" 
+        class="verse" 
         style="{verse !== undefined ? `background-color: ${verse.background.toCSS()};` : undefined}"
     >
         <!-- If there's an exception, show that. -->
@@ -68,9 +69,6 @@
             <VerseView {project} {verse} interactive={mode !== "mini" && source === project.main}/>
         {/if}
     </div>
-    {#if active && mode !== "fullscreen" && source === project.main}
-        <Timeline evaluator={project.evaluator} />
-    {/if}
     {#if mode !== "mini" }
         <!-- A few buttons for minimize and maximize -->
         <div class="maximize" on:click={maximize} tabIndex=0 on:keydown={event => event.key === "Enter" || event.key === " " ? maximize() : undefined }>
@@ -85,35 +83,25 @@
 </section>
 
 <style>
-    .overlay {
-        position: fixed;
-        top: var(--wordplay-spacing);
-        right: var(--wordplay-spacing);
-        z-index: var(--wordplay-layer-controls);
-        width: 40em;
-        height: 40em;
-
-        transition: transform 0.25s ease-in, width 0.25s ease-in, height 0.25s ease-in;
+    .output {
+        transition: ease-in, width 0.25s ease-in, height 0.25s ease-in;
         transform-origin: top right;
-        box-shadow: -2px calc(var(--wordplay-border-width)) calc(2 * var(--wordplay-border-width)) rgba(0,0,0,.2);
 
         display: flex;
         flex-direction: column;
         background-color: var(--wordplay-background);
-        
-        border-radius: var(--wordplay-border-radius);
+
         overflow: hidden;
-    }
+        z-index: var(--wordplay-layer-output);
 
-    .peripheral {
-        transform: scale(0.3);
-    }
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-    .peripheral.active {
-        transform: scale(1);
     }
 
     .fullscreen {
+        position: fixed;
         width: 100vw;
         height: 100vh;
         top: 0;
@@ -122,26 +110,26 @@
         bottom: 0;
     }
 
-    .fullscreen .output {
+    .fullscreen .verse {
         width: 100%;
         height: 100%;
     }
 
-    .output {
+    .verse {
         overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
         cursor: pointer;
-        width: 40em;
-        height: 40em;
-
+        width: 100%;
+        height: 25vh;
+        min-height: 20em;
     }
 
     .mini {
         position: static;
-        width: 5em;
-        height: 5em;
+        width: 3em;
+        height: 3em;
         box-shadow: none;
         background-color: var(--wordplay-background);
         transform-origin: center;
@@ -186,7 +174,7 @@
         animation: shake .1s 3;
     }
 
-    .output:focus-within {
+    .verse:focus-within {
         outline: var(--wordplay-highlight) solid var(--wordplay-border-width);
         outline-offset: calc(-1 * var(--wordplay-border-width));
         z-index: 2;

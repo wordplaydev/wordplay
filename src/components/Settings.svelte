@@ -76,7 +76,7 @@
     }
 
     .settings:focus-within {
-        outline: var(--wordplay-highlight) solid var(--wordplay-border-width);
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
     }
 
 </style>

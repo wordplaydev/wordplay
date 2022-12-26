@@ -8,6 +8,7 @@
     import MouseButton from "../streams/MouseButton";
     import Text from "../runtime/Text";
     import { slide } from "svelte/transition";
+    import Controls from "./Controls.svelte";
 
     export let evaluator: Evaluator;
 
@@ -83,9 +84,10 @@
 
 </script>
 
-<section class="reactions" transition:slide>
+<section class="timeline" transition:slide>
+    <Controls project={evaluator.project}/>
     <div 
-        class="timeline" 
+        class="inputs" 
         tabIndex="0"
         on:keydown={event => event.key === "ArrowLeft" ? leap(-1) : event.key === "ArrowRight" ? leap(1) : undefined }
         on:mousedown={event => stepToMouse(event) }
@@ -111,35 +113,38 @@
                 {/if}
             </span>
         {/each}
+        <div class="description">
+            {#if historyTrimmed && currentChange === $streams[0]}
+                Can't remember before this…
+            {:else if currentChange && currentChange.stream}
+                {currentChange.stream.docs.getTranslations().eng}
+            {/if}
+        </div>
     </div>
-    <p class="description">
-        {#if historyTrimmed && currentChange === $streams[0]}
-            Can't remember before this…
-        {:else if currentChange && currentChange.stream}
-            {currentChange.stream.docs.getTranslations().eng}
-        {/if}
-    </p>
 </section>
 
 <style>
 
-    .reactions {
+    .timeline {
         padding: var(--wordplay-spacing);
-        background-color: var(--wordplay-executing-color);
-        color: var(--wordplay-background);
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
+        border-bottom: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
-    .timeline {
+    .inputs {
         overflow-x: hidden;
         position: relative;
-        width: 100%;
         white-space: nowrap;
         user-select: none;
         cursor: pointer;
     }
 
-    .timeline:focus {
-        outline: var(--wordplay-highlight) solid var(--wordplay-border-width);
+    .inputs:focus {
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
     }
 
     .stream-value {

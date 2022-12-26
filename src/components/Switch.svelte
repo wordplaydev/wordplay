@@ -40,6 +40,7 @@
         font-family: var(--wordplay-font-face);
         font-size: var(--wordplay-font-size);
         font-weight: var(--wordplay-font-weight);
+        color: var(--wordplay-foreground);
     }
 
     .button {
@@ -52,8 +53,12 @@
         transform-origin: center;
     }
 
+    .button:first-child {
+        border-right: none;
+    }
+
     .button:focus {
-        outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
         transform: scale(1.15, 1.15);
     }
 
@@ -67,7 +72,6 @@
 
     .button.inactive:hover {
         cursor: pointer;
-        background-color: var(--wordplay-border-color);
         border-color: var(--wordplay-highlight);
         transform: scale(1.15, 1.15);
     }
@@ -78,7 +82,7 @@
 
     .button.active {
         transform: scale(1);
-        background-color: var(--wordplay-background);
+        background-color: var(--wordplay-disabled-color);
     }
 
     .off {

@@ -8,6 +8,7 @@
 
     export let project: Project;
     export let source: Source;
+    export let selected: boolean;
 
     const dispatch = createEventDispatcher<{ activate: { source: Source }}>();
 
@@ -23,39 +24,41 @@
 
 </script>
 
-<div class="mini"
+<div class="mini" class:selected
     tabIndex=0
     on:click={activate}
-    on:keydown={ event => (event.key === "Enter" || event.key === " ") ? activate() : undefined }
+    on:keydown={ event => { if (event.key === "Enter" || event.key === " ") { activate(); event.preventDefault() }}}
 >
     <div class="name">{source.getNames()}</div>
-    <OutputView {project} {source} {latest} mode="mini" />
+    {#if !selected}
+        <OutputView {project} {source} {latest} mode="mini" />
+    {/if}
 </div>
 
 <style>
-
     .mini {
         width: auto;
-        height: 5em;
         user-select: none;
         display: flex;
         flex-direction: row;
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        border-radius: var(--wordplay-border-radius);
         overflow: hidden;
         cursor: pointer;
+        opacity: 0.5;
+        border-right: var(--wordplay-border-width) solid var(--wordplay-border-color);
+    }
+
+    .selected {
+        opacity: 1;
     }
 
     .name {
         display: flex;
         justify-content: center;
         align-items: center;
-        font-family: var(--wordplay-code-font);
         padding: var(--wordplay-spacing);
-        background: var(--wordplay-chrome);
     }
 
-    .mini:hover, .mini:focus {
-        outline: var(--wordplay-border-width) solid var(--wordplay-highlight);
+    .mini:focus {
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
     }
 </style>

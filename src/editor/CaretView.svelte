@@ -100,7 +100,7 @@
         const editorView = element.parentElement;
         if(editorView === null) return;
 
-        const viewport = editorView.parentElement;
+        const viewport = editorView;
         if(viewport === null) return;
         const viewportRect = viewport.getBoundingClientRect();
 

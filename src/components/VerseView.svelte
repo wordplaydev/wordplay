@@ -46,16 +46,20 @@
         // Never handle tab; that's for keyboard navigation.
         if(event.key === "Tab") return;
 
-        if(project.evaluator.isPlaying())
+        if(project.evaluator.isPlaying()) {
             project.streams.keyboard.record(event.key, false);
+            event.preventDefault();
+        }
         else ignore();
     }
     function handleKeyDown(event: KeyboardEvent) {
         // Never handle tab; that's for keyboard navigation.
         if(event.key === "Tab") return;
 
-        if(project.evaluator.isPlaying())
+        if(project.evaluator.isPlaying()) {
             project.streams.keyboard.record(event.key, true);
+            event.preventDefault();
+        }
         else ignore();
     }
 
@@ -118,10 +122,6 @@
     .verse:focus {
         outline: none;
     }
-
-    /* .inert {
-        
-    } */
 
     .ignored {
         animation: shake 0.25s 1;

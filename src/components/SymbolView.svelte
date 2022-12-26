@@ -13,7 +13,7 @@
 
 <style>
     .symbol {
-        color: var(--wordplay-executing-color);
+        color: var(--wordplay-evaluation-color);
     }
 
     .category-name { font-weight: bold; }

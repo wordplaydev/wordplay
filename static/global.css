@@ -14,19 +14,20 @@
     --wordplay-editor-radius: 3px;
     --wordplay-foreground: var(--color-black); 
     --wordplay-background: var(--color-white);
-    --wordplay-chrome: rgb(240, 240, 240);
-    --wordplay-border-color: rgb(220, 220, 220);
-    --wordplay-executing-color: var(--color-pink);
+    --wordplay-chrome: rgba(240, 240, 240, 0.75);
+    --wordplay-border-color: rgba(200, 200, 200, 0.5);
+    --wordplay-evaluation-color: var(--color-pink);
     --wordplay-highlight: var(--color-yellow);
     --wordplay-error: var(--color-orange);
     --wordplay-warning: var(--color-yellow);
-    --wordplay-disabled-color: var(--color-lightgrey);
+    --wordplay-disabled-color: rgb(180, 180, 180);
     --wordplay-spacing: 0.5em;
     --wordplay-font-face: "Noto Sans", "Noto Emoji", sans-serif;
     --wordplay-code-font: "Noto Mono", "Noto Emoji", monospace;
     --wordplay-font-weight: 500;
     --wordplay-font-size: 12pt;
-    --wordplay-border-width: 3px;
+    --wordplay-border-width: 2px;
+    --wordplay-focus-width: 4px;
     --wordplay-border-radius: 5px;
     --wordplay-code-line-height: 1.6;
 
@@ -35,9 +36,13 @@
     --wordplay-layer-highlight: 2;
     --wordplay-layer-annotation: 3;
     --wordplay-layer-modification: 4;
-    --wordplay-layer-controls: 5;
-    --wordplay-layer-drag: 6;
-    --wordplay-layer-fullscreen: 7;
+    --wordplay-layer-output: 5;
+    --wordplay-layer-controls: 6;
+    --wordplay-layer-drag: 7;
+    --wordplay-layer-fullscreen: 8;
+
+    --wordplay-palette-min-width: 5em;
+    --wordplay-palette-max-width: 20em;
 
 }
 

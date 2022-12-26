@@ -24,6 +24,7 @@
     button {
         display: inline-block;
         background-color: var(--wordplay-chrome);
+        color: var(--wordplay-foreground);
         font-family: var(--wordplay-font-face);
         font-size: var(--wordplay-font-size);
         font-weight: var(--wordplay-font-weight);
@@ -36,7 +37,7 @@
 
     button:focus {
         outline: var(--wordplay-highlight);
-        outline-width: var(--wordplay-border-width);
+        outline-width: var(--wordplay-focus-width);
     }
 
     button:hover:not(:disabled) {
@@ -49,8 +50,8 @@
 
     button:disabled {
         cursor: default;
-        background-color: var(--wordplay-disabled-color);
-        opacity: 0.8;
+        background: none;
+        color: var(--wordplay-disabled-color)
     }
 
 </style>

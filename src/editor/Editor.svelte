@@ -1015,7 +1015,7 @@
 <!-- Drop what's being dragged if the window loses focus. -->
 <svelte:window on:blur={handleRelease} />
 
-<div class={`editor ${stepping ? "stepping" : ""}`}
+<div class="editor" class:stepping
     bind:this={editor}
     on:mousedown={event => handleMouseDown(event)}
     on:dblclick={event => { let node = getNodeAt(event, false); if(node) caret.set($caret.withPosition(node)); }}
@@ -1059,8 +1059,20 @@
         line-height: var(--wordplay-code-line-height);
         position: relative;
         user-select: none;
-        min-width: calc(100vw - 15em);
-        min-height: 100vh;
+        padding: var(--wordplay-spacing);
+        flex-grow: 1;
+        scroll-behavior: smooth;
+        overflow: scroll;
+    }
+
+    .editor:focus-within {
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
+    }
+
+    .editor.stepping {
+        outline: var(--wordplay-evaluation-color) solid var(--wordplay-focus-width);
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
     .keyboard-input {
