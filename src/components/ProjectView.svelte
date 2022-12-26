@@ -20,7 +20,8 @@
 
     // The currently viewed source
     let activeSourceName = project.main.getNames()[0];
-    $: activeSource = project.getSources().find(source => source.getNames()[0] === activeSourceName);
+    let activeSource: Source | undefined = undefined;
+    $: activeSource = project.getSources().find(source => source.getNames()[0] === activeSourceName) ?? project.main;
 
     // Clean up the project when unmounted.
     onDestroy(() => project.cleanup());
