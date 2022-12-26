@@ -346,6 +346,8 @@ export class Animations {
     
     animate(currentTime: number) {
 
+        console.log("Animating");
+
         const completed: PhraseName[] = [];
     
         // For all of the active sequences, make progress on their current pose's moves, and advance to next poses.

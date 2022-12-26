@@ -90,8 +90,10 @@
         top: var(--wordplay-spacing);
         right: var(--wordplay-spacing);
         z-index: 3;
-        transition: transform 0.25s ease-in, width 0.25s ease-in, height 0.25s ease-in;
+        width: 40em;
+        height: 40em;
 
+        transition: transform 0.25s ease-in, width 0.25s ease-in, height 0.25s ease-in;
         transform-origin: top right;
         box-shadow: -2px calc(var(--wordplay-border-width)) calc(2 * var(--wordplay-border-width)) rgba(0,0,0,.2);
 
@@ -126,13 +128,14 @@
     }
 
     .output {
-        width: 40em;
-        height: 40em;
         overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        width: 40em;
+        height: 40em;
+
     }
 
     .mini {
