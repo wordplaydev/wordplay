@@ -5,19 +5,18 @@
     import type Project from '../models/Project';
     import { currentStep } from '../models/stores';
     import { languages } from "../models/languages";
-    import ConflictsView from '../editor/ConflictsView.svelte';
     import type Conflict from '../conflicts/Conflict';
     import type Value from '../runtime/Value';
     import OutputView from './OutputView.svelte';
-    import { playing } from '../models/stores';
     import MiniSourceView from './MiniSourceView.svelte';
     import Timeline from './Timeline.svelte';
-    import EvaluatorView from './EvaluatorView.svelte';
 
     export let project: Project;
     export let source: Source;
     export let fullscreen: boolean;
     export let input: HTMLInputElement | null;
+    export let conflicts: Conflict[] = [];
+    export let scrollposition: { left: number, top: number } | undefined;
 
     let latest: Value | undefined;
     $: {
@@ -25,10 +24,6 @@
         $languages;
         latest = project.evaluator.getLatestSourceValue(source);
     }
-    $: stepping = !$playing;
-
-    // The list of conflicts from the editor.
-    let conflicts: Conflict[] = [];
 
 </script>
 
@@ -41,12 +36,7 @@
                 <MiniSourceView {project} source={src} selected={source === src} on:activate/>
             {/each}
         </div>
-        <Editor {project} {source} bind:conflicts={conflicts} bind:input={input}/>
-        {#if stepping}
-            <EvaluatorView evaluator={project.evaluator}/>
-        {:else}
-            <ConflictsView context={project.getContext(source)} {conflicts}/>
-        {/if}
+        <Editor {project} {source} bind:conflicts={conflicts} bind:input={input} bind:scrollposition/>
     {/if}
 </section>
 

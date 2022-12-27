@@ -41,6 +41,7 @@
     .token-view {
         display: inline-block;
         position: relative;
+        z-index: 2;
     }
 
     .token-category-delimiter { color: var(--color-grey); }

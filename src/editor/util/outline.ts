@@ -22,7 +22,7 @@ function getEditorOffset(el: HTMLElement) {
     let currentNode: HTMLElement | null = el;
 
     // Account for the editor's viewport
-    const editorViewport = el.closest(".code");
+    const editorViewport = el.closest(".editor");
     
     var _x = 0;
     var _y = 0;

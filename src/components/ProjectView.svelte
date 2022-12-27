@@ -12,6 +12,8 @@
     import type Tree from "../nodes/Tree";
     import type Source from "../models/Source";
     import { playing, currentStep } from "../models/stores";
+    import Annotations from "./Annotations.svelte";
+    import type Conflict from "../conflicts/Conflict";
 
     export let project: Project;
 
@@ -19,6 +21,11 @@
     let activeSourceName = project.main.getNames()[0];
     let activeSource: Source = project.main;
     $: activeSource = project.getSources().find(source => source.getNames()[0] === activeSourceName) ?? project.main;
+
+    // The conflicts focused in the editor
+    let conflicts: Conflict[] = [];
+
+    let scrollposition: { left: number, top: number };
 
     // Clean up the project when unmounted.
     onDestroy(() => project.cleanup());
@@ -76,8 +83,14 @@
 >
     <Palette hidden={stepping}/>
     <div class="source">
-        <SourceView {project} source={activeSource} {fullscreen} on:fullscreen={handleFullscreen} bind:input={input} on:activate={handleActivate}/>
+        <SourceView 
+            {project} source={activeSource} {fullscreen} 
+            bind:input={input} bind:conflicts bind:scrollposition
+            on:fullscreen={handleFullscreen} 
+            on:activate={handleActivate}
+        />
     </div>
+    <Annotations {project} {conflicts} {stepping} {scrollposition}/>
     <!-- Render the dragged node over the whole project -->
     {#if $dragged !== undefined}
         <div class="draggable" style="left: {mouseX}px; top:{mouseY}px;"><NodeView node={$dragged.node}/><div class="cursor">🐲</div></div>

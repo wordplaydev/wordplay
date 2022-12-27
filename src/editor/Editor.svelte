@@ -34,12 +34,14 @@
     import type Conflict from '../conflicts/Conflict';
     import { tick } from 'svelte';
     import { getEditsAt } from './util/Autocomplete';
+    import type Position from '../components/Position';
     
     export let project: Project;
     export let source: Source;
+    export let scrollposition: Position | undefined;
+    export let input: HTMLInputElement | null = null;
 
     let editor: HTMLElement;
-    export let input: HTMLInputElement | null = null;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     let caret = writable<Caret>(new Caret(source, 0));
@@ -242,7 +244,7 @@
 
     // Update the highlights when any of these stores change.
     $: {
-        if($dragged || $caret || $hovered || executingNode || $animations)
+        if($dragged || $caret || $hovered || executingNode || $animations || scrollposition)
             updateHighlights();
     }
 
@@ -1022,6 +1024,7 @@
     on:mouseup={handleRelease}
     on:mousemove={handleMouseMove}
     on:mouseleave={handleMouseLeave}
+    on:scroll={() => scrollposition = { left: editor?.scrollLeft ?? 0, top: editor?.scrollTop ?? 0 }}
 >
     <!-- Render the program -->
     <RootView node={program}/>
@@ -1063,6 +1066,7 @@
         flex-grow: 1;
         scroll-behavior: smooth;
         overflow: scroll;
+        z-index: var(--wordplay-layer-code);
     }
 
     .editor:focus-within {

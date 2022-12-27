@@ -33,7 +33,6 @@
 
     /* Define some z-index variables for semantic naming of layers */
     --wordplay-layer-code: 1;
-    --wordplay-layer-highlight: 2;
     --wordplay-layer-annotation: 3;
     --wordplay-layer-modification: 4;
     --wordplay-layer-output: 5;
