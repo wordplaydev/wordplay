@@ -69,6 +69,7 @@
     .outline.executing path {
         fill: var(--wordplay-evaluation-color);
         stroke: var(--wordplay-evaluation-color);
+        opacity: 0.70;
     }
 
     .outline.exception path {

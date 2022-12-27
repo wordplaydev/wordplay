@@ -73,6 +73,10 @@
         if(annotations && scrollposition && windowWidth && windowHeight)
             annotations = annotations.map(annotation => { 
                 annotation.position = getPosition(annotation.element);
+                if(annotation.position === undefined) {
+                    console.log("No position of...")
+                    console.log(annotation.element);
+                }
                 return annotation;
             });
     }
@@ -126,6 +130,8 @@
         }
         // If we couldn't find a view, put it in the corner.
         else {
+            console.log("No view of...")
+            console.log(view);
             return { left: 0, top: 0};
         }
 

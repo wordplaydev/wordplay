@@ -271,8 +271,13 @@
     let outlines: { types: HighlightType[], outline: Outline, underline: Outline }[] = [];
     $: {
         outlines = [];
-        if($highlights.size > 0) {
-            for(const [ node, types ] of $highlights.entries()) {
+        if($highlights.size > 0)
+            updateOutlines();
+    }
+
+    function updateOutlines() {
+        outlines = [];
+        for(const [ node, types ] of $highlights.entries()) {
                 const nodeView = getNodeView(node);
                 if(nodeView)
                     outlines.push({
@@ -281,11 +286,12 @@
                         underline: getUnderlineOf(nodeView)
                     });
             }
-        }
     }
 
     // After updates, manage highlight classes on nodes
     afterUpdate(() => {
+        updateOutlines();
+
         if(editor) {
             // Remove any existing highlights
             for(const highlighted of editor.querySelectorAll(".highlighted"))

@@ -34,7 +34,6 @@
         if($KeyboardIdle && !project.evaluator.isStarted()) {
             project.analyze();
             nodeConflicts.set(project.getConflicts());
-            console.log($nodeConflicts);
             project.evaluate();
         }
     }
