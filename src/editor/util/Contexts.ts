@@ -39,3 +39,7 @@ export function getRoot() { return getContext<RootContext>(RootSymbol); }
 export const SpaceSymbol = Symbol("space");
 export type SpaceContext = Writable<Map<Node, { token: Token, space: string, additional: string }>>;
 export function getSpace() { return getContext<SpaceContext>(SpaceSymbol); }
+
+export const HiddenSymbol = Symbol("hidden");
+export type HiddenContext = Writable<Set<Node>>;
+export function getHidden() { return getContext<HiddenContext>(HiddenSymbol); }

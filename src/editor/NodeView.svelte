@@ -1,7 +1,7 @@
 <svelte:options immutable={true}/>
 <script lang="ts">
     import type Node from "../nodes/Node";
-    import { getSpace } from "./util/Contexts";
+    import { getHidden, getSpace } from "./util/Contexts";
     import getNodeView from "./util/nodeToView";
     import { project, currentStep, playing } from '../models/stores';
     import Expression from "../nodes/Expression";
@@ -30,12 +30,16 @@
     // See if this node has any to render.
     $: space = node ? $spaces?.get(node) : undefined;
 
+    // Get the hidden context.
+    let hidden = getHidden();
+    $: hide = node ? $hidden?.has(node) : false;
+
 </script>
 
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
-    {#if space }<Space {...space} />{/if}<div class="{node.constructor.name} node-view" data-id={node.id}>{#if value}<ValueView {value}/>{:else}<svelte:component this={getNodeView(node)} node={node} />{/if}</div>
+    {#if space && !hide}<Space {...space} />{/if}<div class="{node.constructor.name} node-view" class:hide data-id={node.id}>{#if value}<ValueView {value}/>{:else}<svelte:component this={getNodeView(node)} node={node} />{/if}</div>
 {/if}
 
 <style>
@@ -45,6 +49,7 @@
         position: relative;
         border-top-left-radius: var(--wordplay-editor-radius);
         border-bottom-right-radius: var(--wordplay-editor-radius);
+        transition: transform 0.25s linear;
     }
 
     .node-view.hovered {
@@ -57,6 +62,13 @@
     }
     .dragged :global(.highlight) {
         opacity: .2;
+    }
+
+    .hide {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        overflow: hidden;
     }
 
 </style>

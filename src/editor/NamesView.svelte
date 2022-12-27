@@ -1,10 +1,10 @@
 <svelte:options immutable={true}/>
 <script lang="ts">
     import type Names from "../nodes/Names";
-    import LanguageTaggedNodeSequence from "./LanguageTaggedNodeSequence.svelte";
+    import NodeSequenceView from "./NodeSequenceView.svelte";
 
     export let node: Names;
 
 </script>
 
-<LanguageTaggedNodeSequence {node} list={node.names} />
+<NodeSequenceView nodes={node.names} />

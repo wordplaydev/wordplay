@@ -16,7 +16,7 @@
     import KeyboardIdle from '../models/KeyboardIdle';
     import CaretView from './CaretView.svelte';
     import { PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
-    import { CaretSymbol, HoveredSymbol, HighlightSymbol, InsertionPointsSymbol, getDragged } from './util/Contexts';
+    import { CaretSymbol, HoveredSymbol, HighlightSymbol, InsertionPointsSymbol, getDragged, HiddenSymbol } from './util/Contexts';
     import { languages } from "../models/languages";
     import { type HighlightType, type Highlights, highlightTypes } from './util/Highlights'
     import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
@@ -38,6 +38,9 @@
     import Highlight from './Highlight.svelte';
     import { afterUpdate } from 'svelte';
     import type Rect from '../components/Rect';
+    import Doc from '../nodes/Doc';
+    import Name from '../nodes/Name';
+    import type LanguageCode from '../nodes/LanguageCode';
     
     export let project: Project;
     export let source: Source;
@@ -64,6 +67,10 @@
 
     let insertions = writable<Map<Token,InsertionPoint>>(new Map());
     setContext(InsertionPointsSymbol, insertions);
+
+    // A set of hidden nodes, such as hidden translations.
+    let hidden = writable<Set<Node>>(new Set());
+    setContext(HiddenSymbol, hidden);
 
     // A shorthand for the current program.
     $: program = source.expression;
@@ -185,6 +192,20 @@
             map.get(node)?.add(type);
         }
 
+    }
+
+    // When the caret changes, the update what's hidden.
+    $: {
+        const newHidden = new Set<Node>();
+        
+        // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't one of the selected tags.
+        for(const tag of source.nodes(n => n instanceof Doc || n instanceof Name) as (Doc | Name)[]) {
+            if(!tag.getLanguage() !== undefined && !$languages.includes((tag.getLanguage() ?? "") as LanguageCode) && !$caret.isIn(tag))
+                newHidden.add(tag);
+        }
+
+        // Update hidden nodes.
+        hidden.set(newHidden);
     }
 
     // We should replace if there are no insertions or we're hovered over a placeholder.
@@ -838,6 +859,9 @@
         // Get the unique valid edits at the caret.
         const transforms = getEditsAt(project, $caret);
 
+        if(transforms.length === 0)
+            return;
+
         // Make a menu, but without a location, so other things know there's a menu while we're waiting.
         menu = { node, transforms, location: undefined };
 
@@ -868,7 +892,7 @@
         }
 
         // If we got a location and we have transforms, we have everything we need to show a menu!
-        if(position && transforms.length > 0)
+        if(position)
             menu = { node: menu.node, transforms: menu.transforms, location: position };
 
     }
