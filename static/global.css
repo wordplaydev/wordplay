@@ -34,12 +34,13 @@
     /* Define some z-index variables for semantic naming of layers */
     --wordplay-layer-highlight: 1;
     --wordplay-layer-code: 2;
-    --wordplay-layer-output: 3;
-    --wordplay-layer-annotation: 4;
-    --wordplay-layer-modification: 5;
-    --wordplay-layer-controls: 6;
-    --wordplay-layer-drag: 7;
-    --wordplay-layer-fullscreen: 8;
+    --wordplay-layer-palette: 3;
+    --wordplay-layer-output: 4;
+    --wordplay-layer-annotation: 5;
+    --wordplay-layer-modification: 6;
+    --wordplay-layer-controls: 7;
+    --wordplay-layer-drag: 8;
+    --wordplay-layer-fullscreen: 9;
 
     --wordplay-palette-min-width: 5em;
     --wordplay-palette-max-width: 15em;

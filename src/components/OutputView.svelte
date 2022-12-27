@@ -122,8 +122,9 @@
         align-items: center;
         cursor: pointer;
         width: 100%;
-        height: 25vh;
-        min-height: 20em;
+        height: 100%;
+        min-width: 30em;
+        min-height: 30em;
     }
 
     .mini {

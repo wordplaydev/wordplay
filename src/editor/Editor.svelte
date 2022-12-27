@@ -1141,9 +1141,9 @@
         position: relative;
         user-select: none;
         padding: calc(2 * var(--wordplay-spacing));
-        flex-grow: 1;
         scroll-behavior: smooth;
         overflow: scroll;
+        flex-grow: 1;
         z-index: var(--wordplay-layer-code);
     }
 

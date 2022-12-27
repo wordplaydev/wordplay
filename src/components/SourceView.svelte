@@ -29,25 +29,59 @@
 </script>
 
 <section class="source">
-    <OutputView {project} {source} {latest} mode={fullscreen ? "fullscreen" : "peripheral"} on:fullscreen />
-    {#if !fullscreen}
-        <Timeline evaluator={project.evaluator} />
-        <div class="sources">
-            {#each project.getSources() as src}
-                <MiniSourceView {project} source={src} selected={source === src} on:activate/>
-            {/each}
-        </div>
-        <Editor {project} {source} bind:conflicts={conflicts} bind:input={input} bind:viewport/>
-    {/if}
+    <div class="half first">
+        <OutputView {project} {source} {latest} mode={fullscreen ? "fullscreen" : "peripheral"} on:fullscreen />
+        {#if !fullscreen}
+            <Timeline evaluator={project.evaluator} />
+        {/if}
+    </div>
+    <div class="half last">
+        {#if !fullscreen}
+            <div class="sources">
+                {#each project.getSources() as src}
+                    <MiniSourceView {project} source={src} selected={source === src} on:activate/>
+                {/each}
+            </div>
+            <Editor {project} {source} bind:conflicts={conflicts} bind:input={input} bind:viewport/>
+        {/if}
+    </div>
 </section>
 
 <style>
-
     .source {
         display: flex;
-        flex-direction: column;
         height: 100vh;
     }
+
+    @media (max-aspect-ratio: 4/5) {
+        .source {
+            flex-direction: column;
+        }
+    }
+    @media (min-aspect-ratio: 4/5) {
+        .source {
+            flex-direction: row-reverse;
+        }
+        .first {
+            border-left: var(--wordplay-border-width) solid var(--wordplay-border-color);
+            height: 100vh;
+        }
+        .last {
+            height: 100vh;
+            width: 100%;
+        }
+    }
+
+    .last {
+        flex-grow: 1;
+    }
+
+    .half {
+        display: flex;
+        flex-direction: column;
+        min-width: 30em;
+        min-height: 30em;
+    }    
 
     .sources {
         display: flex;

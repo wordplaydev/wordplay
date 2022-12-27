@@ -200,7 +200,7 @@
         width: 100%;
         max-width: var(--wordplay-palette-max-width);
         
-
+        z-index: var(--wordplay-layer-palette);
         overflow-y: scroll;
 
         background-color: var(--wordplay-background);
