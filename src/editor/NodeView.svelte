@@ -1,11 +1,8 @@
 <svelte:options immutable={true}/>
 <script lang="ts">
-    import { afterUpdate } from "svelte";
     import type Node from "../nodes/Node";
-    import { getHighlights, getCaret, getRoot } from "./util/Contexts";
-    import NodeHighlight from "./NodeHighlight.svelte";
+    import { getCaret, getRoot } from "./util/Contexts";
     import getNodeView from "./util/nodeToView";
-    import getOutlineOf, { getUnderlineOf, type Outline } from "./util/outline";
     import { project, currentStep, playing } from '../models/stores';
     import Expression from "../nodes/Expression";
     import ValueView from "../components/ValueView.svelte";
@@ -16,10 +13,8 @@
     export let node: Node | undefined;
     export let root: boolean = false;
 
-    let highlights = getHighlights();
     let caret = getCaret();
 
-    $: highlightTypes = (node ? $highlights?.get(node) : undefined) ?? new Set();
     let value: Value | undefined;
     $: {
         $currentStep;
@@ -33,18 +28,6 @@
                 value = $project.evaluator.getLatestValueOf(node, evaluation.getStepNumber());
         }
     }
-
-    let element: HTMLElement | null = null;
-    let outline: Outline | undefined;
-    let underline: Outline | undefined;
-
-    // After each update, update the outlines if there's something to highlight.
-    afterUpdate(() => {
-        if(element && highlightTypes.size > 0) {
-            outline = getOutlineOf(element);
-            underline = getUnderlineOf(element);
-        }
-    });
 
     $: rootTree = getRoot();
     $: leaf = node?.getFirstLeaf() as Token | undefined;
@@ -64,10 +47,9 @@
 {#if node !== undefined}
     <!-- Render space preceding this node if it is the highest ancestor of its first token, ensuring the space is outside of the node's view -->
     {#if leaf && additional !== undefined}<Space token={leaf} {space} {additional}/>{/if}<div 
-        class="{node.constructor.name} node-view {root ? "root" : ""} {highlightTypes.size > 0 ? "highlighted" : ""} { Array.from(highlightTypes).join(" ")}"
+        class="{node.constructor.name} node-view {root ? "root" : ""}"
         data-id={node.id}
-        bind:this={element}
-    >{#if value}<ValueView {value}/>{:else}<svelte:component this={getNodeView(node)} node={node} />{#if outline && underline }<NodeHighlight {outline} {underline}/>{/if}{/if}</div>
+    >{#if value}<ValueView {value}/>{:else}<svelte:component this={getNodeView(node)} node={node} />{/if}</div>
 {/if}
 
 <style>

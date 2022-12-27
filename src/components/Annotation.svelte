@@ -10,7 +10,7 @@
 
 <div
     class={`annotation ${kind}`}
-    transition:fade={{ duration: 250 }}
+    transition:fade={{ duration: 100 }}
     style:left={`${position.left}px`}
     style:top={`${position.top}px`}
 >

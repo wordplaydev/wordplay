@@ -1,6 +1,6 @@
 <svelte:options immutable={true}/>
 <script lang="ts">
-    import { updateProject } from '../models/stores';
+    import { nodeConflicts, updateProject } from '../models/stores';
     import type Transform from "../transforms/Transform";
     import Node from '../nodes/Node';
     import Caret, { insertionPointsEqual, type InsertionPoint } from '../models/Caret';
@@ -18,7 +18,7 @@
     import { PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
     import { CaretSymbol, HoveredSymbol, HighlightSymbol, InsertionPointsSymbol, getDragged } from './util/Contexts';
     import { languages } from "../models/languages";
-    import type { HighlightType, Highlights } from './util/Highlights'
+    import { type HighlightType, type Highlights, highlightTypes } from './util/Highlights'
     import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
     import Expression from '../nodes/Expression';
     import TypePlaceholder from '../nodes/TypePlaceholder';
@@ -35,13 +35,16 @@
     import { tick } from 'svelte';
     import { getEditsAt } from './util/Autocomplete';
     import type Position from '../components/Position';
+    import getOutlineOf, { getUnderlineOf, type Outline } from './util/outline';
+    import Highlight from './Highlight.svelte';
+    import { afterUpdate } from 'svelte';
     
     export let project: Project;
     export let source: Source;
-    export let scrollposition: Position | undefined;
+    export let scrollposition: Position | undefined = { left: 0, top: 0 };
     export let input: HTMLInputElement | null = null;
 
-    let editor: HTMLElement;
+    let editor: HTMLElement | null;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     let caret = writable<Caret>(new Caret(source, 0));
@@ -131,25 +134,27 @@
     // Determine the conflict under the caret whenever the caret changes.
     export let conflicts: Conflict[] = [];
     $: {
-        // The project and source can update at different types, so we only do this if the current souce is in the project.
+        // The project and source can update at different times, so we only do this if the current souce is in the project.
         if(project.contains(source)) {
             conflicts = [];
-            // Find the conflicts on this specific node.
-            if($caret.position instanceof Node) {
-                conflicts = [ 
-                    ...project.getPrimaryConflictsInvolvingNode($caret.position) ?? [],
-                    ...project.getSecondaryConflictsInvolvingNode($caret.position) ?? []
-                ]
-            } 
-            // Find all the conflicts on the nodes at this position.
-            else {
-                // Search the primary conflicts on nodes that contain this caret position.
-                for(const [ node, nodeConflicts ] of project.getPrimaryConflicts()) {
-                    if(source.contains(node)) {
-                        const start = source.getNodeFirstPosition(node);
-                        const end = source.getNodeLastPosition(node);
-                        if(start !== undefined && end !== undefined && start <= $caret.position && end >= $caret.position)
-                            conflicts = [ ... conflicts, ...nodeConflicts ];
+            if($nodeConflicts.size > 0) {
+                // Find the conflicts on this specific node.
+                if($caret.position instanceof Node) {
+                    conflicts = [ 
+                        ...project.getPrimaryConflictsInvolvingNode($caret.position) ?? [],
+                        ...project.getSecondaryConflictsInvolvingNode($caret.position) ?? []
+                    ]
+                } 
+                // Find all the conflicts on the nodes at this position.
+                else {
+                    // Search the primary conflicts on nodes that contain this caret position.
+                    for(const [ node, nodeConflictList ] of project.getPrimaryConflicts()) {
+                        if(source.contains(node)) {
+                            const start = source.getNodeFirstPosition(node);
+                            const end = source.getNodeLastPosition(node);
+                            if(start !== undefined && end !== undefined && start <= $caret.position && end >= $caret.position)
+                                conflicts = [ ... conflicts, ...nodeConflictList ];
+                        }
                     }
                 }
             }
@@ -242,14 +247,51 @@
 
     }
 
-    // Update the highlights when any of these stores change.
+    // Update the highlights when any of these values change
     $: {
         if($dragged || $caret || $hovered || executingNode || $animations || scrollposition)
             updateHighlights();
     }
 
+    // Update the outline positions any time the highlights.
+    let outlines: { types: HighlightType[], outline: Outline, underline: Outline }[] = [];
+    $: {
+        outlines = [];
+        if($highlights.size > 0) {
+            for(const [ node, types ] of $highlights.entries()) {
+                const nodeView = getNodeView(node);
+                if(nodeView)
+                    outlines.push({
+                        types: Array.from(types),
+                        outline: getOutlineOf(nodeView),
+                        underline: getUnderlineOf(nodeView)
+                    });
+            }
+        }
+    }
+
+    // After updates, manage highlight classes on nodes
+    afterUpdate(() => {
+        if(editor) {
+            // Remove any existing highlights
+            for(const highlighted of editor.querySelectorAll(".highlighted"))
+                for(const highlightType of Object.keys(highlightTypes))
+                    highlighted.classList.remove(highlightType);
+
+            // Add any new highlights of highlighted nodes.
+            for(const [ node, types ] of $highlights.entries()) {
+                const view = getNodeView(node);
+                if(view) {
+                    view.classList.add("highlighted");
+                    for(const type of types)
+                        view.classList.add(type);
+                }
+            }
+        }
+    });
+
     function getNodeView(node: Node): HTMLElement | undefined {
-        const view = editor.querySelector(`.node-view[data-id="${node.id}"]`);
+        const view = editor?.querySelector(`.node-view[data-id="${node.id}"]`);
         return view instanceof HTMLElement ? view : undefined;
     }
 
@@ -525,6 +567,7 @@
 
         // If there's no element (which should be impossible), return nothing.
         if(elementAtCursor === null) return undefined;
+        if(editor === null) return undefined;
 
         // If there's text, figure out what position in the text to place the caret.
         if(elementAtCursor.classList.contains("text")) {
@@ -825,6 +868,7 @@
         if(event.key === "Tab") return
 
         if(evaluator === undefined) return;
+        if(editor === null) return;
 
         // Assume we'll handle it.
         lastKeyDownIgnored = false;
@@ -849,7 +893,6 @@
             // Rid of the menu.
             else {
                 hideMenu();
-                return;
             }
         }
 
@@ -1012,6 +1055,11 @@
         menuSelection = -1;
     }
 
+    function updateScrollPosition() {
+        if(editor)
+            scrollposition = { left: editor.scrollLeft, top: editor.scrollTop };
+    }
+
 </script>
 
 <!-- Drop what's being dragged if the window loses focus. -->
@@ -1024,7 +1072,7 @@
     on:mouseup={handleRelease}
     on:mousemove={handleMouseMove}
     on:mouseleave={handleMouseLeave}
-    on:scroll={() => scrollposition = { left: editor?.scrollLeft ?? 0, top: editor?.scrollTop ?? 0 }}
+    on:scroll={updateScrollPosition}
 >
     <!-- Render the program -->
     <RootView node={program}/>
@@ -1053,6 +1101,11 @@
         on:focus={handleTextInputFocusGain}
         on:blur={handleTextInputFocusLoss}
     />
+    <!-- Render highlights -->
+    {#each outlines as outline}
+        <Highlight {...outline} />
+    {/each}
+
 </div>
 
 <style>
@@ -1062,7 +1115,7 @@
         line-height: var(--wordplay-code-line-height);
         position: relative;
         user-select: none;
-        padding: var(--wordplay-spacing);
+        padding: calc(2 * var(--wordplay-spacing));
         flex-grow: 1;
         scroll-behavior: smooth;
         overflow: scroll;

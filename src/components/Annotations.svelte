@@ -39,7 +39,6 @@
             ]
 
         } else {
-
             // Conflict all of the active conflicts to a list of annotations.
             annotations = conflicts.map((conflict: Conflict) => {
                 const conflictNodes = conflict.getConflictingNodes();
@@ -120,8 +119,6 @@
             if(rect.right - scrollposition.left > window.innerWidth) return undefined;
             if(rect.bottom - scrollposition.top < 0) return undefined;
             if(rect.bottom - scrollposition.top > window.innerHeight) return undefined;
-            
-            console.log(rect.bottom);
 
             return { left: rect.right, top: rect.bottom }
         }

@@ -218,6 +218,8 @@
     .palette.hidden {
         width: 0;
         opacity: 0;
+        padding: 0;
+        border: 0;
         visibility: hidden;
     }
 

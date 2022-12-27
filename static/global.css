@@ -32,10 +32,11 @@
     --wordplay-code-line-height: 1.6;
 
     /* Define some z-index variables for semantic naming of layers */
-    --wordplay-layer-code: 1;
-    --wordplay-layer-annotation: 3;
-    --wordplay-layer-modification: 4;
-    --wordplay-layer-output: 5;
+    --wordplay-layer-highlight: 1;
+    --wordplay-layer-code: 2;
+    --wordplay-layer-output: 3;
+    --wordplay-layer-annotation: 4;
+    --wordplay-layer-modification: 5;
     --wordplay-layer-controls: 6;
     --wordplay-layer-drag: 7;
     --wordplay-layer-fullscreen: 8;

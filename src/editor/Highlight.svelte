@@ -1,21 +1,23 @@
 <svelte:options immutable={true}/>
 <script lang="ts">
+    import type { HighlightType } from "./util/Highlights";
     import type { Outline } from "./util/outline";
 
     const HIGHLIGHT_PADDING = 20;
 
     export let outline: Outline;
     export let underline: Outline;
+    export let types: HighlightType[];
 
 </script>
 
-<svg class={`highlight outline`} 
+<svg class={`highlight outline ${types.join(" ")}`} 
      style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${outline.minx - HIGHLIGHT_PADDING}px; `} 
      width={outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2} 
      height={outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2} 
      viewBox={`${outline.minx - HIGHLIGHT_PADDING} ${outline.miny - HIGHLIGHT_PADDING} ${outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2 - 1} ${outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2 - 1}`}>
      <path d={outline.path}/>
-</svg><svg class={`highlight underline`} 
+</svg><svg class={`highlight underline ${types.join(" ")}`} 
      style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${outline.minx - HIGHLIGHT_PADDING}px; `} 
      width={outline.maxx - outline.minx + HIGHLIGHT_PADDING * 2} 
      height={outline.maxy - outline.miny + HIGHLIGHT_PADDING * 2} 
@@ -34,11 +36,11 @@
     }
 
     .outline {
-        z-index: 1;
+        z-index: var(--wordplay-layer-highlight);
     }
 
     .underline {
-        z-index: 1;
+        z-index: var(--wordplay-layer-annotation);
     }
     
     .highlight path {
@@ -48,23 +50,23 @@
     }
 
     /* Selections do stroke and background of different colors to give the node a sense of shape */
-    :global(.hovered:not(.selected)) > .outline path {
+    .hovered:not(.selected).outline path {
         stroke: var(--wordplay-highlight);
         fill: var(--wordplay-highlight);
         opacity: 0.2;
     }
 
-    :global(.selected) > .outline path {
+    .outline.selected path {
         stroke: var(--wordplay-highlight);
         fill: var(--wordplay-highlight);
     }
 
-    :global(.dragged) > .outline path {
+    .outline.dragged path {
         fill: var(--wordplay-highlight);
         stroke: var(--wordplay-highlight);
     }
  
-    :global(.executing) > .outline path {
+    .outline.executing path {
         fill: var(--wordplay-evaluation-color);
         stroke: var(--wordplay-evaluation-color);
     }
@@ -73,28 +75,28 @@
         .executing .token-view,
         .dragged .token-view,
         .selected .token-view
-    ) { 
+    ) {
         color: var(--color-white) !important; 
     }
 
     /* Drop targets animate stroke */
-    :global(.target) > .outline path {
+    .outline.target path {
         stroke: var(--wordplay-highlight);
         animation: pulse 1s infinite;
         opacity: 1.0;
     }
 
-    :global(.match) > .outline path{
+    .outline.match path{
         stroke: var(--wordplay-highlight);
         animation: pulse .2s infinite;
     }
 
     /* Conflicts layer on top of everything else */
-    :global(.primary) > .underline path {
+    .underline.primary path {
         stroke: var(--wordplay-error);
     }
 
-    :global(.secondary) > .underline path {
+    .underline.secondary path {
     stroke: var(--wordplay-warning);
     }
 

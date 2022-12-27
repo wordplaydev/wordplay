@@ -1,4 +1,15 @@
 import type Node from "../../nodes/Node";
 
-export type HighlightType = "selected" | "executing" | "exception" | "hovered" | "dragged" | "target" | "match" | "primary" | "secondary"
+export const highlightTypes = { 
+    "selected": true, 
+    "executing": true,
+    "exception": true,
+    "hovered": true,
+    "dragged": true,
+    "target": true,
+    "match": true,
+    "primary": true,
+    "secondary": true
+};
+export type HighlightType = keyof typeof highlightTypes;
 export type Highlights = Map<Node, Set<HighlightType>>;

@@ -1,5 +1,4 @@
 
-<!-- A window manager that displays a set of windows -->
 <script lang="ts">
     import { onDestroy, setContext } from "svelte";
     import { writable } from "svelte/store";
@@ -11,7 +10,7 @@
     import NodeView from "../editor/NodeView.svelte";
     import type Tree from "../nodes/Tree";
     import type Source from "../models/Source";
-    import { playing, currentStep } from "../models/stores";
+    import { playing, currentStep, nodeConflicts } from "../models/stores";
     import Annotations from "./Annotations.svelte";
     import type Conflict from "../conflicts/Conflict";
 
@@ -34,6 +33,7 @@
         // If the keyboard is idle and the evaluator hasn't started yet, analyze the program and evaluate it.
         if($KeyboardIdle && !project.evaluator.isStarted()) {
             project.analyze();
+            nodeConflicts.set(project.getPrimaryConflicts());
             project.evaluate();
         }
     }

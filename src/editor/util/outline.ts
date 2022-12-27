@@ -19,30 +19,37 @@ function bottommost(rects: Rect[], at?: number) {
 
 function getEditorOffset(el: HTMLElement) {
 
-    let currentNode: HTMLElement | null = el;
+    // let currentNode: HTMLElement | null = el;
 
     // Account for the editor's viewport
     const editorViewport = el.closest(".editor");
     
     var _x = 0;
     var _y = 0;
-    while(currentNode && !isNaN( currentNode.offsetLeft ) && !isNaN( currentNode.offsetTop )) {
-        // Stop if we reach the viewport, since outline's are rendered relative to the viewport.
-        if(currentNode === editorViewport)
-            break;
-        _x += currentNode.offsetLeft;
-        _y += currentNode.offsetTop;
-        currentNode = currentNode.offsetParent instanceof HTMLElement ? currentNode.offsetParent : null;
+
+    if(editorViewport) {
+        const editorRect = editorViewport.getBoundingClientRect();
+        _x = _x + editorRect.left - editorViewport.scrollLeft;
+        _y = _y + editorRect.top - editorViewport.scrollTop;
     }
 
+    // while(currentNode && !isNaN( currentNode.offsetLeft ) && !isNaN( currentNode.offsetTop )) {
+    //     // Stop if we reach the viewport, since outline's are rendered relative to the viewport.
+    //     if(currentNode === editorViewport)
+    //         break;
+    //     _x += currentNode.offsetLeft;
+    //     _y += currentNode.offsetTop;
+    //     currentNode = currentNode.offsetParent instanceof HTMLElement ? currentNode.offsetParent : null;
+    // }
+
     // Account for the viewport's scrolling.
-    if(editorViewport) {
-        _x -= editorViewport.scrollLeft;
-        _y -= editorViewport.scrollTop;
-    }
+    // if(editorViewport) {
+    //     _x += editorViewport.scrollLeft;
+    //     _y += editorViewport.scrollTop;
+    // }
     // Account for the document's scrolling.
-    _x -= document.documentElement.scrollLeft;
-    _y -= document.documentElement.scrollTop;
+    // _x -= document.documentElement.scrollLeft;
+    // _y -= document.documentElement.scrollTop;
 
     return { top: _y, left: _x };
 }
