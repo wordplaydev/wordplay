@@ -71,7 +71,13 @@
         stroke: var(--wordplay-evaluation-color);
     }
 
+    .outline.exception path {
+    fill: var(--wordplay-error);
+        stroke: var(--wordplay-error);
+    }
+
     :global(
+        .exception .token-view,
         .executing .token-view,
         .dragged .token-view,
         .selected .token-view

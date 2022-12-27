@@ -74,10 +74,4 @@
         padding: 2px;
     }
 
-    :global(.exception) .text {
-        display: inline-block;
-        white-space: nowrap;
-        animation: squish .8s cubic-bezier(.36,.07,.19,.97) infinite;
-    }
-
 </style>
