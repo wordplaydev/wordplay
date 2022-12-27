@@ -142,34 +142,33 @@
             conflicts = [];
             // If there are any conflicts in the project...
             if($nodeConflicts.size > 0) {
+                let conflictSelection: Node | undefined = undefined;
+
                 // Is the mouse hovering over one? Get the node at the mouse, including tokens
                 // and see if it, or any of its parents, are involved in node conflicts.
-                const conflictedHover = $hoveredAny === undefined ? undefined : ([ $hoveredAny, ...(project.get($hoveredAny)?.getAncestors() ?? [])]).find(node => project.nodeInvolvedInConflicts(node));
-                if(conflictedHover) {
-                    conflicts = [ 
-                        ...project.getPrimaryConflictsInvolvingNode(conflictedHover) ?? [],
-                        ...project.getSecondaryConflictsInvolvingNode(conflictedHover) ?? []
-                    ]
-                }
+                const conflictedHover = $hoveredAny === undefined ? undefined : (project.get($hoveredAny)?.getSelfAndAncestors() ?? []).find(node => project.nodeInvolvedInConflicts(node));
+                if(conflictedHover)
+                    conflictSelection = conflictedHover;
+
                 // If not, is there a node selected?
-                else if($caret.position instanceof Node) {
-                    conflicts = [ 
-                        ...project.getPrimaryConflictsInvolvingNode($caret.position) ?? [],
-                        ...project.getSecondaryConflictsInvolvingNode($caret.position) ?? []
-                    ]
-                } 
-                // Find all the conflicts on the nodes at this position.
-                else {
-                    // Search the primary conflicts on nodes that contain this caret position.
-                    for(const [ node, nodeConflictList ] of project.getPrimaryConflicts()) {
-                        if(source.contains(node)) {
-                            const start = source.getNodeFirstPosition(node);
-                            const end = source.getNodeLastPosition(node);
-                            if(start !== undefined && end !== undefined && start <= $caret.position && end >= $caret.position)
-                                conflicts = [ ... conflicts, ...nodeConflictList ];
-                        }
-                    }
+                if(conflictSelection === undefined && $caret.position instanceof Node && project.nodeInvolvedInConflicts($caret.position))
+                    conflictSelection = $caret.position;
+
+                // If not, what is the "nearest" conflicted node at the caret position?
+                if(conflictSelection === undefined && typeof $caret.position === "number") {
+                    let tokenAtPosition = source.getTokenAt($caret.position);
+                    let nodesAtPosition = tokenAtPosition === undefined ? [] : project.get(tokenAtPosition)?.getSelfAndAncestors() ?? [];
+                    let conflictsAtPosition = nodesAtPosition.find(node => project.nodeInvolvedInConflicts(node));
+                    if(conflictsAtPosition !== undefined)
+                        conflictSelection = conflictsAtPosition;
                 }
+
+                // If we found a selection, get its conflicts.
+                if(conflictSelection)
+                    conflicts = [ 
+                        ...project.getPrimaryConflictsInvolvingNode(conflictSelection) ?? [],
+                        ...project.getSecondaryConflictsInvolvingNode(conflictSelection) ?? []
+                    ];
             }
         }
     }

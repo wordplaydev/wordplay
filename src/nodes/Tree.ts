@@ -69,6 +69,12 @@ export default class Tree {
         return ancestors;
     }
 
+    getSelfAndAncestors(): Node[] {
+        const ancestors = this.getAncestors();
+        ancestors.unshift(this.node);
+        return ancestors;
+    }
+
     /** Returns the nearest evaluation root, which is the closest ancestor for which isEvaluating() is true. */
     getEvaluationRoot() {
         return this.getAncestors().find(ancestor => ancestor instanceof Expression && ancestor.isEvaluationRoot()) as Expression | undefined;
