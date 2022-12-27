@@ -197,7 +197,6 @@
 
 <style>
     .palette {
-        z-index: var(--wordplay-layer-controls);
         width: 100%;
         max-width: var(--wordplay-palette-max-width);
         

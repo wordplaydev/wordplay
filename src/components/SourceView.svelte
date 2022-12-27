@@ -10,13 +10,14 @@
     import OutputView from './OutputView.svelte';
     import MiniSourceView from './MiniSourceView.svelte';
     import Timeline from './Timeline.svelte';
+    import type Rect from './Rect';
 
     export let project: Project;
     export let source: Source;
     export let fullscreen: boolean;
     export let input: HTMLInputElement | null;
     export let conflicts: Conflict[] = [];
-    export let scrollposition: { left: number, top: number } | undefined;
+    export let viewport: Rect | undefined;
 
     let latest: Value | undefined;
     $: {
@@ -36,7 +37,7 @@
                 <MiniSourceView {project} source={src} selected={source === src} on:activate/>
             {/each}
         </div>
-        <Editor {project} {source} bind:conflicts={conflicts} bind:input={input} bind:scrollposition/>
+        <Editor {project} {source} bind:conflicts={conflicts} bind:input={input} bind:viewport/>
     {/if}
 </section>
 

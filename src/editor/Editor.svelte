@@ -34,17 +34,18 @@
     import type Conflict from '../conflicts/Conflict';
     import { tick } from 'svelte';
     import { getEditsAt } from './util/Autocomplete';
-    import type Position from '../components/Position';
     import getOutlineOf, { getUnderlineOf, type Outline } from './util/outline';
     import Highlight from './Highlight.svelte';
     import { afterUpdate } from 'svelte';
+    import type Rect from '../components/Rect';
     
     export let project: Project;
     export let source: Source;
-    export let scrollposition: Position | undefined = { left: 0, top: 0 };
+    export let viewport: Rect | undefined = { left: 0, top: 0, width: 0, height: 0 };
     export let input: HTMLInputElement | null = null;
 
     let editor: HTMLElement | null;
+    $: viewport = { left: editor?.scrollLeft ?? 0, top: editor?.scrollTop ?? 0, width: editor?.clientWidth ?? 0, height: editor?.clientHeight ?? 0 };
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     let caret = writable<Caret>(new Caret(source, 0));
@@ -263,7 +264,7 @@
 
     // Update the highlights when any of these values change
     $: {
-        if($dragged || $caret || $hovered || evaluatingNode || $animations || scrollposition || $nodeConflicts || source)
+        if($dragged || $caret || $hovered || evaluatingNode || $animations || viewport || $nodeConflicts || source)
             updateHighlights();
     }
 
@@ -1078,7 +1079,7 @@
 
     function updateScrollPosition() {
         if(editor)
-            scrollposition = { left: editor.scrollLeft, top: editor.scrollTop };
+            viewport = { left: editor.scrollLeft, top: editor.scrollTop, width: editor.clientWidth, height: editor.clientHeight };
     }
 
 </script>

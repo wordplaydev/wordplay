@@ -13,6 +13,7 @@
     import { playing, currentStep, nodeConflicts } from "../models/stores";
     import Annotations from "./Annotations.svelte";
     import type Conflict from "../conflicts/Conflict";
+    import type Rect from "./Rect";
 
     export let project: Project;
 
@@ -24,7 +25,7 @@
     // The conflicts focused in the editor
     let conflicts: Conflict[] = [];
 
-    let scrollposition: { left: number, top: number };
+    let viewport: Rect;
 
     // Clean up the project when unmounted.
     onDestroy(() => project.cleanup());
@@ -85,12 +86,12 @@
     <div class="source">
         <SourceView 
             {project} source={activeSource} {fullscreen} 
-            bind:input={input} bind:conflicts bind:scrollposition
+            bind:input={input} bind:conflicts bind:viewport
             on:fullscreen={handleFullscreen} 
             on:activate={handleActivate}
         />
     </div>
-    <Annotations {project} {conflicts} {stepping} {scrollposition}/>
+    <Annotations {project} {conflicts} {stepping} {viewport}/>
     <!-- Render the dragged node over the whole project -->
     {#if $dragged !== undefined}
         <div class="draggable" style="left: {mouseX}px; top:{mouseY}px;"><NodeView node={$dragged.node}/><div class="cursor">🐲</div></div>

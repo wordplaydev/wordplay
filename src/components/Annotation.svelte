@@ -1,15 +1,21 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
+    import { afterUpdate } from "svelte";
 
+    export let id: number;
     export let text: string;
     export let position: { left: number, top: number }
     export let kind: "step" | "primary" | "secondary"
 
-    // Find the position of the node and show it's explanation
+    afterUpdate(() => {
+        console.log("updated annotation");
+
+    });
 </script>
 
 <div
     class={`annotation ${kind}`}
+    data-annotationid={id}
     transition:fade={{ duration: 100 }}
     style:left={`${position.left}px`}
     style:top={`${position.top}px`}

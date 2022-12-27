@@ -9,18 +9,18 @@
     import Annotation from "./Annotation.svelte";
     import type Position from "./Position";
     import { tick } from "svelte";
+    import { afterUpdate } from "svelte";
+    import type Rect from "./Rect";
 
     export let project: Project;
     export let stepping: boolean;
     export let conflicts: Conflict[];
-    export let scrollposition: Position | undefined;
+    export let viewport: Rect | undefined;
 
     $: evaluator = project.evaluator;
-    type Place = { element: Element | null, text: string, kind: "step" | "primary" | "secondary", position?: Position | undefined };
+    type Annotation = { node: Node, element: Element | null, text: string, kind: "step" | "primary" | "secondary", position?: Position | undefined };
 
-    let annotations: Place[] = [];
-    let windowWidth: number;
-    let windowHeight: number;
+    let annotations: Annotation[] = [];
 
     // When current step or conflicts change, update the annotations.
     $: {
@@ -36,19 +36,21 @@
         annotations = [];
         if(stepping) {
 
-            const view = getStepView();
+            const [ node, view ] = getStepView();
 
             // Return a singl annotation for the step.
-            annotations = [
-                {
-                    element: view,
-                    text: $currentStep ? $currentStep.getExplanations(project.evaluator)[$languages[0]] :
-                        project.evaluator.steppedToNode() && project.evaluator.isDone() ? "The selected node didn't evaluate." :
-                        "Done evaluating",
-                    kind: "step",
-                    position: getPosition(view)
-                }
-            ]
+            if(node)
+                annotations = [
+                    {
+                        node: node,
+                        element: view,
+                        text: $currentStep ? $currentStep.getExplanations(project.evaluator)[$languages[0]] :
+                            project.evaluator.steppedToNode() && project.evaluator.isDone() ? "The selected node didn't evaluate." :
+                            "Done evaluating",
+                        kind: "step",
+                        position: getPosition(view)
+                    }
+                ]
 
         } else {
             // Conflict all of the active conflicts to a list of annotations.
@@ -61,12 +63,14 @@
                 // From these, we generate one or two speech bubbles to illustrate the conflict.
                 return [
                     {
+                        node: conflictNodes.primary,
                         element: getNodeView(conflictNodes.primary),
                         text: selectTranslation(conflict.getPrimaryExplanation(project.getNodeContext(conflictNodes.primary) ?? project.getContext(project.main)), $languages),
                         kind: "primary" as const
                     },
                     ...conflictNodes.secondary.map((secondary: Node) => {
                         return {
+                            node: secondary,
                             element: getNodeView(secondary),
                             text: selectTranslation(conflict.getSecondaryExplanation(project.getNodeContext(secondary) ?? project.getContext(project.main)), $languages),
                             kind: "secondary" as const
@@ -78,19 +82,93 @@
         }
     }
 
-    // When the annotations or editor scroll position change, update the positions
+    // When the annotations or editor scroll position change, update the positions to their default positions.
     $: { 
-        if(annotations && scrollposition && windowWidth && windowHeight)
+        if(annotations && viewport)
             annotations = annotations.map(annotation => { 
                 annotation.position = getPosition(annotation.element);
                 return annotation;
             });
     }
 
-    function getStepView() {
+
+    type Box = { left: number, top: number, right: number, bottom: number, width: number, height: number };
+    // After the annotations are rendered, resolve layout conflicts now that we know they're size.
+    afterUpdate(() => {
+
+        // Find all of the annotation views
+        const views = document.querySelectorAll(".annotation");
+
+        // Compute all of their bounding boxes.
+        const annotationViews = new Map<Annotation, HTMLElement>();
+        const annotationRects = new Map<Annotation, Box>();
+        for(const view of views) {
+            const id = (view as HTMLElement).dataset.annotationid;
+            const annotation = id === undefined ? undefined : annotations[parseInt(id)];
+            if(annotation && annotation.position) {
+                const rect = domRectToRect(view.getBoundingClientRect());
+                // Reset the position to the starting position, just reusing the dimensions.
+                rect.left = annotation.position.left;
+                rect.top = annotation.position.top;
+                rect.right = rect.left + rect.width;
+                rect.bottom = rect.top + rect.height;
+                annotationRects.set(annotation, rect);
+                annotationViews.set(annotation, view as HTMLElement);
+            }
+        }
+
+        // Find all of the node views in the editor
+        const nodeRects = new Map<number, Box>();
+        for(const annotation of annotations) {
+            const nodeView = getNodeView(annotation.node);
+            if(nodeView) {
+                nodeRects.set(annotation.node.id, domRectToRect(nodeView.getBoundingClientRect()));
+            }
+        }
+
+        // For each annotation, see it overlaps with other annotations or annotated code, and move it if it does.
+        for(const annotation of annotations) {
+            const annotationRect = annotationRects.get(annotation);
+            if(annotationRect === undefined) continue;            
+            for(const [ otherAnnotation, otherAnnotationRect ] of annotationRects.entries())
+                if(otherAnnotation !== annotation)
+                    adjustPosition(annotationRect, otherAnnotationRect);
+            for(const nodeRect of nodeRects.values())
+                adjustPosition(annotationRect, nodeRect);
+        }
+
+        // Update the annotations based on the new rect positions.
+        for(const [ annotation, view ] of annotationViews) {
+            const rect = annotationRects.get(annotation);
+            if(rect) {
+                view.style.left = `${rect.left}px`;
+                view.style.top = `${rect.top}px`;
+            }
+        }
+        // annotations = annotations.map(a => Object.assign({}, a));
+
+    });
+
+    function domRectToRect(rect: DOMRect) {
+        return { left: rect.left, top: rect.top, bottom: rect.bottom, right: rect.right, width: rect.width, height: rect.height };
+    }
+
+    function adjustPosition(primary: Box, other: Box) {
+
+        // If no overlap, do nothing.
+        if(primary.left > other.right || other.left > primary.right) return;
+        if(primary.top > other.bottom || other.top > primary.bottom) return;
+
+        // Shift it up from its current position to prevent overlap.
+        primary.top = other.top - primary.height;
+        primary.bottom = primary.top + primary.height;
+
+    }
+
+    function getStepView(): [ Node | null, Element | null ] {
 
         // Find the node corresponding to the step being rendered.
-        const node = evaluator.getStepNode();
+        const node = evaluator.getStepNode() ?? null;
 
         // Find the view of the node.
         let nodeView = node ? getNodeView(node) : null;
@@ -110,7 +188,7 @@
             }
         }
 
-        return nodeView;
+        return [ node, nodeView ];
 
     }
 
@@ -121,23 +199,23 @@
     function getPosition(view: Element | null): Position | undefined {
 
         // If there's no view, it's likely native code, so pick some generic place, like centered at the top of the screen
-        if(view && scrollposition) {
+        if(view && viewport) {
 
             // Find the position of the node.
             const rect = view.getBoundingClientRect();
 
             // If the bubble would be outside the bounds of the window, adjust it's position.
-            if(rect.right - scrollposition.left < 0) return undefined;
-            if(rect.right - scrollposition.left > windowWidth) return undefined;
-            if(rect.bottom - scrollposition.top < 0) return undefined;
-            if(rect.bottom - scrollposition.top > windowHeight) return undefined;
-
-            return { left: rect.right, top: rect.bottom }
+            return { 
+                left:   rect.right < 0 ? 0 :
+                        rect.right > viewport.width ? viewport.width :
+                        rect.right,
+                top:    rect.bottom < 0 ? 0 :
+                        rect.bottom > viewport.height ? viewport.height :
+                        rect.bottom 
+            }
         }
         // If we couldn't find a view, put it in the corner of the editor.
         else {
-            console.log("No view of...")
-            console.log(view);
             return { left: 0, top: 0};
         }
 
@@ -145,10 +223,8 @@
 
 </script>
 
-<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
-
-{#each annotations as annotation}
+{#each annotations as annotation, index}
     {#if annotation.position}
-        <Annotation text={annotation.text} position={annotation.position} kind={annotation.kind} />
+        <Annotation id={index} text={annotation.text} position={annotation.position} kind={annotation.kind} />
     {/if}
 {/each}
