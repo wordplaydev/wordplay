@@ -22,19 +22,22 @@
     let caret = getCaret();
     let project = getProject();
 
-    $: isPlaceholder = node.is(TokenType.PLACEHOLDER);
-    $: showBox = 
-        ($caret?.getTokenExcludingWhitespace() === node) || 
-        ($caret?.tokenPrior === node && $caret.atBeginningOfToken() && $caret.token && $caret.tokenAtHasPrecedingSpace()) || 
-        isPlaceholder;
+    $: placeholder = node.is(TokenType.PLACEHOLDER);
+    $: active = 
+        ($caret?.getTokenExcludingSpace() === node) || 
+        ($caret?.tokenPrior === node && $caret.atBeginningOfToken() && $caret.token && $caret.tokenAtHasPrecedingSpace());
+
     $: textToShow = 
-        isPlaceholder ? choosePlaceholder() : 
+        placeholder ? choosePlaceholder() : 
         node.text.getLength() === 0 ? "\u00A0" : 
         node.text.toString().replaceAll(" ", "&nbsp;");
     
 </script>
 
-<span class="token-view token-{kind} {node.is(TokenType.NAME_SEPARATOR) ? "comma" : ""} {showBox ? "active" : ""} {isPlaceholder ? "placeholder" : ""} {$caret !== undefined ? "editable" : ""} {`token-category-${kind}`}" data-id={node.id}><span class="text">{@html textToShow }</span></span>
+<span 
+    class="token-view token-{kind} {`token-category-${kind}`} {node.is(TokenType.NAME_SEPARATOR) ? "comma" : ""} {$caret !== undefined ? "editable" : ""}" 
+    class:active
+    data-id={node.id}><span class="text">{@html textToShow }</span></span>
 
 <style>
 
@@ -54,6 +57,7 @@
     .token-category-type { color: var(--color-orange); }
     .token-category-operator { color: var(--color-orange); }
     .token-category-unknown { color: var(--color-pink); }
+    .token-category-placeholder { color: var(--wordplay-disabled-color); }
 
     .token-view.newline {
         display: block;
@@ -69,8 +73,6 @@
 
     .placeholder .text {
         font-family: var(--wordplay-font-face);
-        color: var(--wordplay-disabled-color);
-        background-color: var(--color-white);
         padding: 2px;
     }
 

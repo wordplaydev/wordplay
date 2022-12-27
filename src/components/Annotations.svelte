@@ -217,10 +217,10 @@
             return { 
                 left:   rect.right < 0 ? 0 :
                         rect.right > viewport.width ? viewport.width :
-                        rect.right,
+                        rect.right + 1,
                 top:    rect.bottom < 0 ? 0 :
                         rect.bottom > viewport.height ? viewport.height :
-                        rect.bottom 
+                        rect.bottom + 1 
             }
         }
         // If we couldn't find a view, put it in the corner of the editor.

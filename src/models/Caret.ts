@@ -57,7 +57,7 @@ export default class Caret {
     getCode() { return this.source.getCode(); }
     getProgram() { return this.source.expression; }
     getToken(): Token | undefined { return this.token; }
-    getTokenExcludingWhitespace(): Token | undefined { return this.tokenExcludingWhitespace; }
+    getTokenExcludingSpace(): Token | undefined { return this.tokenExcludingWhitespace; }
     tokenAtHasPrecedingSpace(): boolean { return this.token !== undefined && this.source.spaces.getSpace(this.token).length > 0; }
 
     getNodesBetween() {

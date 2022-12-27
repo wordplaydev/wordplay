@@ -10,6 +10,7 @@ const TokenCategoryName = "name";
 const TokenCategoryType = "type";
 const TokenCategoryOperator = "operator";
 const TokenCategoryUnknown = "unknown";
+const TokenCategoryPlaceholder = "placeholder";
 const TokenCategoryEnd = "end";
 
 const TokenCategories: Map<TokenType, string> = new Map();
@@ -50,7 +51,7 @@ TokenCategories.set(TokenType.REACTION, TokenCategoryOperator);
 TokenCategories.set(TokenType.STREAM_TYPE, TokenCategoryType);
 TokenCategories.set(TokenType.PREVIOUS, TokenCategoryOperator);
 TokenCategories.set(TokenType.CHANGE, TokenCategoryOperator);
-TokenCategories.set(TokenType.PLACEHOLDER, TokenCategoryRelation);
+TokenCategories.set(TokenType.PLACEHOLDER, TokenCategoryPlaceholder);
 TokenCategories.set(TokenType.UNARY_OP, TokenCategoryOperator);
 TokenCategories.set(TokenType.BINARY_OP, TokenCategoryOperator);
 TokenCategories.set(TokenType.CONDITIONAL, TokenCategoryOperator);

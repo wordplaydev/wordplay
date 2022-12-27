@@ -867,8 +867,8 @@
             }
         }
 
-        // If we got a location, we have everything we need to show a menu!
-        if(position)
+        // If we got a location and we have transforms, we have everything we need to show a menu!
+        if(position && transforms.length > 0)
             menu = { node: menu.node, transforms: menu.transforms, location: position };
 
     }
