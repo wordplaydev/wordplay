@@ -1100,7 +1100,7 @@
     on:scroll={updateScrollPosition}
 >
     <!-- Render the program -->
-    <RootView node={program}/>
+    <RootView node={program} spaces={source.spaces}/>
     <!-- Render the caret on top of the program -->
     {#if !stepping }
         <CaretView {source} blink={$KeyboardIdle && focused} ignored={lastKeyDownIgnored} bind:location={caretLocation}/>

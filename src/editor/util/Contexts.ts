@@ -35,3 +35,7 @@ export function getHighlights() { return getContext<HighlightContext>(HighlightS
 export type RootContext = Writable<Tree> | undefined;
 export const RootSymbol = Symbol("root");
 export function getRoot() { return getContext<RootContext>(RootSymbol); }
+
+export const SpaceSymbol = Symbol("space");
+export type SpaceContext = Writable<Map<Node, { token: Token, space: string, additional: string }>>;
+export function getSpace() { return getContext<SpaceContext>(SpaceSymbol); }
