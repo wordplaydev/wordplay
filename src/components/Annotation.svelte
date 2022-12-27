@@ -1,16 +1,11 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
-    import { afterUpdate } from "svelte";
 
     export let id: number;
     export let text: string;
     export let position: { left: number, top: number }
     export let kind: "step" | "primary" | "secondary"
 
-    afterUpdate(() => {
-        console.log("updated annotation");
-
-    });
 </script>
 
 <div

@@ -107,12 +107,16 @@
             const annotation = id === undefined ? undefined : annotations[parseInt(id)];
             if(annotation && annotation.position) {
                 const rect = domRectToRect(view.getBoundingClientRect());
-                // Reset the position to the starting position, just reusing the dimensions.
-                rect.left = annotation.position.left;
-                rect.top = annotation.position.top;
-                rect.right = rect.left + rect.width;
-                rect.bottom = rect.top + rect.height;
-                annotationRects.set(annotation, rect);
+                // Reset the position to the starting position, just reusing the dimensions,
+                // so every time we rerender, we're starting from the same starting position.
+                annotationRects.set(annotation, {
+                    left: annotation.position.left,
+                    top: annotation.position.top,
+                    right: annotation.position.left + rect.width,
+                    bottom: annotation.position.top + rect.height,
+                    width: rect.width,
+                    height: rect.height
+                });
                 annotationViews.set(annotation, view as HTMLElement);
             }
         }
@@ -126,15 +130,21 @@
             }
         }
 
-        // For each annotation, see it overlaps with other annotations or annotated code, and move it if it does.
+        // For each annotation, see it overlaps with a node and move it out of the way.
+        for(const annotation of annotations) {
+            const annotationRect = annotationRects.get(annotation);
+            if(annotationRect === undefined) continue;            
+            for(const nodeRect of nodeRects.values())
+                adjustPosition(annotationRect, nodeRect);
+        }
+
+        // Then, for each anontation, see it overlaps with other annotations or annotated code, and move it if it does.
         for(const annotation of annotations) {
             const annotationRect = annotationRects.get(annotation);
             if(annotationRect === undefined) continue;            
             for(const [ otherAnnotation, otherAnnotationRect ] of annotationRects.entries())
                 if(otherAnnotation !== annotation)
                     adjustPosition(annotationRect, otherAnnotationRect);
-            for(const nodeRect of nodeRects.values())
-                adjustPosition(annotationRect, nodeRect);
         }
 
         // Update the annotations based on the new rect positions.
@@ -145,7 +155,6 @@
                 view.style.top = `${rect.top}px`;
             }
         }
-        // annotations = annotations.map(a => Object.assign({}, a));
 
     });
 
@@ -160,6 +169,7 @@
         if(primary.top > other.bottom || other.top > primary.bottom) return;
 
         // Shift it up from its current position to prevent overlap.
+        console.log("Moving " + primary.top + " up to " + (other.top - primary.height));
         primary.top = other.top - primary.height;
         primary.bottom = primary.top + primary.height;
 

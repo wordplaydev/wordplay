@@ -157,7 +157,7 @@ export default class Bind extends Expression {
                 if(text !== undefined) {
                     const defs = this.getDefinitionsInScope(context);
                     const names = defs.reduce((names: Name[], def: Definition): Name[] => names.concat(def.names.names), []);
-                    const defsWithName = names.filter(alias => name !== alias && name.getName() === alias.getName());
+                    const defsWithName = names.filter(alias => name !== alias && name.getName() === alias.getName() && context.get(alias)?.getParent() !== this.names);
 
                     if(defsWithName.length > 0)
                         conflicts.push(new DuplicateNames([ name, ... defsWithName ]));

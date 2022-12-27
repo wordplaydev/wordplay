@@ -166,10 +166,13 @@
 
                 // If we found a selection, get its conflicts.
                 if(conflictSelection)
-                    conflicts = [ 
+                    // Get all conflicts involving the selection
+                    conflicts = [
                         ...project.getPrimaryConflictsInvolvingNode(conflictSelection) ?? [],
                         ...project.getSecondaryConflictsInvolvingNode(conflictSelection) ?? []
-                    ];
+                    ]
+                    // Eliminate duplicate conflicts
+                    .filter((c1, i1, list) => !list.some((c2, i2) => c1 === c2 && i2 > i1 && i1 !== i2));
             }
         }
     }
