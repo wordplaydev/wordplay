@@ -2,7 +2,7 @@ import type Node from "../../nodes/Node";
 
 export const highlightTypes = { 
     "selected": true, 
-    "executing": true,
+    "evaluating": true,
     "exception": true,
     "hovered": true,
     "dragged": true,

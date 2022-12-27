@@ -66,7 +66,7 @@
         stroke: var(--wordplay-highlight);
     }
  
-    .outline.executing path {
+    .outline.evaluating path {
         fill: var(--wordplay-evaluation-color);
         stroke: var(--wordplay-evaluation-color);
         opacity: 0.70;
@@ -80,7 +80,7 @@
 
     :global(
         .exception .token-view,
-        .executing .token-view,
+        .evaluating .token-view,
         .dragged .token-view,
         .selected .token-view
     ) {

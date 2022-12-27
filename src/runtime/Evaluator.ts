@@ -43,7 +43,7 @@ export default class Evaluator {
     /** The project that this is evaluating. */
     readonly project: Project;
 
-    /** This represents a stack of node evaluations. The first element of the stack is the currently executing node. */
+    /** This represents a stack of node evaluations. The first element of the stack is the currently evaluating node. */
     readonly evaluations: Evaluation[] = [];
 
     /** The last evaluation to be removed from the stack */

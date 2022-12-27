@@ -68,7 +68,7 @@
     $: program = source.expression;
 
     // A shorthand for the current evaluator
-    let executingNode: Node | undefined = undefined;
+    let evaluatingNode: Node | undefined = undefined;
     let stepping = false;
     $: evaluator = project.evaluator;
     $: {
@@ -81,7 +81,7 @@
         if(evaluator === undefined) return;
 
         stepping = evaluator.isStepping();
-        executingNode = evaluator?.getCurrentStep()?.node;
+        evaluatingNode = evaluator?.getCurrentStep()?.node;
 
         // If the program contains this node, scroll it's first token into view.
         const stepNode = evaluator.getStepNode();
@@ -193,10 +193,10 @@
         // Build a set of highlights to render.
         const newHighlights = new Map<Node, Set<HighlightType>>();
 
-        // Is there a step we're actively executing? Highlight it!
+        // Is there a step we're actively evaluating? Highlight it!
         const stepNode = evaluator.getStepNode();
         if(stepNode)
-            addHighlight(newHighlights, stepNode, "executing");
+            addHighlight(newHighlights, stepNode, "evaluating");
 
         // Is there an exception on the last step? Highlight the node that created it!
         if(latestValue instanceof Exception && latestValue.step !== undefined && latestValue.step.node instanceof Node)
@@ -253,7 +253,7 @@
         if(animations)
             for(const animation of $animations.values()) {
                 if(source.contains(animation.currentPose.value.creator))
-                    addHighlight(newHighlights, animation.currentPose.value.creator, "executing");
+                    addHighlight(newHighlights, animation.currentPose.value.creator, "evaluating");
             }
 
         // Update the store, broadcasting the highlights to all node views for rendering.
@@ -263,7 +263,7 @@
 
     // Update the highlights when any of these values change
     $: {
-        if($dragged || $caret || $hovered || executingNode || $animations || scrollposition || $nodeConflicts || source)
+        if($dragged || $caret || $hovered || evaluatingNode || $animations || scrollposition || $nodeConflicts || source)
             updateHighlights();
     }
 

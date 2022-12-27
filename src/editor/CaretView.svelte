@@ -77,7 +77,7 @@
     // After we render, update the caret position.
     afterUpdate(() => {
 
-        // Now that we've rendered the caret, if it's out of the viewport and we're not executing, scroll to it.
+        // Now that we've rendered the caret, if it's out of the viewport and we're not evaluating, scroll to it.
         if(element && $playing)
             element.scrollIntoView({ block: "nearest" });
 

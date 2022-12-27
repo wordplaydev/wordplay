@@ -17,7 +17,7 @@ export default class EvaluationException extends Exception {
     getExplanations(): Translations {
         return this.reason === StackSize.EMPTY ?
             {
-                eng: `Not executing any functions.`,
+                eng: `Not evaluating any functions.`,
                 "😀": `🫙`
             } :
             this.reason === StackSize.LONG ?
