@@ -38,7 +38,6 @@
     import Highlight from './Highlight.svelte';
     import { afterUpdate } from 'svelte';
     import type Rect from '../components/Rect';
-    import type { C } from 'vitest/dist/types-71ccd11d';
     
     export let project: Project;
     export let source: Source;
