@@ -228,6 +228,8 @@ export default class Project {
     getPrimaryConflicts() { return this.primaryConflicts; }
     getSecondaryConflicts() { return this.secondaryConflicts; }
 
+    nodeInvolvedInConflicts(node: Node) { return this.primaryConflicts.has(node) || this.secondaryConflicts.has(node); }
+
     /** Given a node N, and the set of conflicts C in the program, determines the subset of C in which the given N is complicit. */
     getPrimaryConflictsInvolvingNode(node: Node) {
         return this.primaryConflicts.get(node);

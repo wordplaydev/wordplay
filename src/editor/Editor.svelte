@@ -54,9 +54,12 @@
     let highlights = writable<Highlights>(new Map());
     setContext(HighlightSymbol, highlights);
 
-    // A store of what node is hovered over, used in drag and drop.
+    // A store of what node is hovered over, excluding tokens, used in drag and drop.
     let hovered = writable<Node|undefined>(undefined);
     setContext(HoveredSymbol, hovered);
+
+    // A store of what node is hovered over, including tokens.
+    let hoveredAny = writable<Node|undefined>(undefined);
 
     let insertions = writable<Map<Token,InsertionPoint>>(new Map());
     setContext(InsertionPointsSymbol, insertions);
@@ -131,15 +134,25 @@
         setContext(CaretSymbol, caret);
     }
 
-    // Determine the conflict under the caret whenever the caret changes.
+    // Determine the conflicts of interest based on caret and mouse position.
     export let conflicts: Conflict[] = [];
     $: {
         // The project and source can update at different times, so we only do this if the current souce is in the project.
         if(project.contains(source)) {
             conflicts = [];
+            // If there are any conflicts in the project...
             if($nodeConflicts.size > 0) {
-                // Find the conflicts on this specific node.
-                if($caret.position instanceof Node) {
+                // Is the mouse hovering over one? Get the node at the mouse, including tokens
+                // and see if it, or any of its parents, are involved in node conflicts.
+                const conflictedHover = $hoveredAny === undefined ? undefined : ([ $hoveredAny, ...(project.get($hoveredAny)?.getAncestors() ?? [])]).find(node => project.nodeInvolvedInConflicts(node));
+                if(conflictedHover) {
+                    conflicts = [ 
+                        ...project.getPrimaryConflictsInvolvingNode(conflictedHover) ?? [],
+                        ...project.getSecondaryConflictsInvolvingNode(conflictedHover) ?? []
+                    ]
+                }
+                // If not, is there a node selected?
+                else if($caret.position instanceof Node) {
                     conflicts = [ 
                         ...project.getPrimaryConflictsInvolvingNode($caret.position) ?? [],
                         ...project.getSecondaryConflictsInvolvingNode($caret.position) ?? []
@@ -752,6 +765,7 @@
 
         // By default, set the hovered state to whatever node is under the mouse.
         hovered.set(getNodeAt(event, false));
+        hoveredAny.set(getNodeAt(event, true));
 
         // If the primary mouse button is down, start dragging and set insertion.
         // We only start dragging if the cursor has moved more than a certain amount since last click.
