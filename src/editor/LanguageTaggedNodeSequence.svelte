@@ -16,12 +16,12 @@
     let root = getRoot();
     let caret = getCaret();
     $: show = !($root?.node instanceof Program) || ($project.evaluator.isPlaying() && $caret?.isIn(node));
-    $: visible = list.filter(item => $languages.includes((item.lang?.getLanguage() ?? "") as LanguageCode));
+    $: visible = list.filter(item => item.lang === undefined || item.getLanguage() === "" || $languages.includes((item.getLanguage() as LanguageCode)));
 
 </script>
 
 <!-- If the caret is in the docs, show all of them for navigation and editing purposes. Otherwise, just show the selected languages -->
-{#each list as item, index }{@const lang = item.lang?.getLanguageCode() }<span class={`language-tagged ${(visible.length === 0 && index === 0) || (lang && $languages.includes(lang)) ? "visible" : show ? "inside" : "hidden"} ${(visible.length > 0 && visible[0] === item) || (visible.length === 0 && index === 0) ? "first-visible" : ""} ${index === 0 ? "first" : ""}`}><NodeView node={item} /></span>{/each}
+{#each list as item, index }{@const lang = item.lang?.getLanguageCode() }<span class={`language-tagged ${(visible.length === 0 && index === 0) || (lang === undefined || $languages.includes(lang)) ? "visible" : show ? "inside" : "hidden"} ${(visible.length > 0 && visible[0] === item) || (visible.length === 0 && index === 0) ? "first-visible" : ""} ${index === 0 ? "first" : ""}`}><NodeView node={item} /></span>{/each}
 
 <style>
     .language-tagged :global(.text) {
