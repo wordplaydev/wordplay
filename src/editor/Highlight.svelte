@@ -72,8 +72,9 @@
     }
 
     .outline.exception path {
-    fill: var(--wordplay-error);
+        fill: var(--wordplay-error);
         stroke: var(--wordplay-error);
+        opacity: 0.70;
     }
 
     :global(

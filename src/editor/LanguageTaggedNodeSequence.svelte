@@ -26,7 +26,6 @@
 <style>
     .language-tagged :global(.text) {
         display: inline-block;
-        transition: transform 0.25s, max-width 0.25s, max-height 0.25s;
         transform: scale(1, 1);
         max-width: 100em;
     }
