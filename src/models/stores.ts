@@ -5,7 +5,6 @@ import type Step from '../runtime/Step';
 import type Project from './Project';
 import type Animation from '../output/Animation';
 import type Conflict from '../conflicts/Conflict';
-import type Node from '../nodes/Node';
 
 // A global store that contains the project currently being viewed.
 export const project: Writable<Project> = writable<Project>();
@@ -26,7 +25,7 @@ export const streams: Writable<StreamChange[]> = writable<StreamChange[]>([]);
 export const animations: Writable<Animation[]> = writable<Animation[]>([]);
 
 // A global store of project conflicts
-export const nodeConflicts: Writable<Map<Node, Conflict[]>> = writable(new Map());
+export const nodeConflicts: Writable<Conflict[]> = writable([]);
 
 function updateEvaluatorStores() {
     const evaluator = get(project)?.evaluator;

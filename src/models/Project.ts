@@ -52,7 +52,8 @@ export default class Project {
     /** The evaluator that evaluates the source. */
     readonly evaluator: Evaluator;
     
-    /** Conflicts by node. */
+    /** Conflicts. */
+    conflicts: Conflict[] = []
     readonly primaryConflicts: Map<Node, Conflict[]> = new Map();
     readonly secondaryConflicts: Map<Node, Conflict[]> = new Map();
 
@@ -156,6 +157,7 @@ export default class Project {
     
     analyze() {
 
+        this.conflicts = [];
         this.primaryConflicts.clear();
         this.secondaryConflicts.clear();
         this.evaluations.clear();
@@ -167,11 +169,11 @@ export default class Project {
             const context = this.getContext(source);
 
             // Compute all of the conflicts in the program.
-            const conflicts = source.expression.getAllConflicts(context);
+            this.conflicts = this.conflicts.concat(source.expression.getAllConflicts(context));
 
             // Build conflict indices by going through each conflict, asking for the conflicting nodes
             // and adding to the conflict to each node's list of conflicts.
-            conflicts.forEach(conflict => {
+            this.conflicts.forEach(conflict => {
                 const complicitNodes = conflict.getConflictingNodes();
                 this.primaryConflicts.set(complicitNodes.primary, [ ... (this.primaryConflicts.get(complicitNodes.primary) ?? []), conflict ]);
                 complicitNodes.secondary?.forEach(node => {
@@ -225,6 +227,7 @@ export default class Project {
 
     }
 
+    getConflicts() { return this.conflicts; }
     getPrimaryConflicts() { return this.primaryConflicts; }
     getSecondaryConflicts() { return this.secondaryConflicts; }
 

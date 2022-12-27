@@ -141,7 +141,7 @@
         if(project.contains(source)) {
             conflicts = [];
             // If there are any conflicts in the project...
-            if($nodeConflicts.size > 0) {
+            if($nodeConflicts.length > 0) {
                 let conflictSelection: Node | undefined = undefined;
 
                 // Is the mouse hovering over one? Get the node at the mouse, including tokens

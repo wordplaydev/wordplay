@@ -33,7 +33,8 @@
         // If the keyboard is idle and the evaluator hasn't started yet, analyze the program and evaluate it.
         if($KeyboardIdle && !project.evaluator.isStarted()) {
             project.analyze();
-            nodeConflicts.set(project.getPrimaryConflicts());
+            nodeConflicts.set(project.getConflicts());
+            console.log($nodeConflicts);
             project.evaluate();
         }
     }
