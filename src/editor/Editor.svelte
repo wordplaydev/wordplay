@@ -261,7 +261,7 @@
 
     // Update the highlights when any of these values change
     $: {
-        if($dragged || $caret || $hovered || executingNode || $animations || scrollposition)
+        if($dragged || $caret || $hovered || executingNode || $animations || scrollposition || $nodeConflicts)
             updateHighlights();
     }
 
