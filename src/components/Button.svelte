@@ -36,8 +36,7 @@
     }
 
     button:focus {
-        outline: var(--wordplay-highlight);
-        outline-width: var(--wordplay-focus-width);
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
     }
 
     button:hover:not(:disabled) {
