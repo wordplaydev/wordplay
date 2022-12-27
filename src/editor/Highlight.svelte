@@ -76,6 +76,8 @@
         fill: var(--wordplay-error);
         stroke: var(--wordplay-error);
         opacity: 0.70;
+        transform: rotate(1deg);
+        transform-box: fill-box;
     }
 
     :global(
