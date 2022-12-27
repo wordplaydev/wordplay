@@ -169,7 +169,6 @@
         if(primary.top > other.bottom || other.top > primary.bottom) return;
 
         // Shift it up from its current position to prevent overlap.
-        console.log("Moving " + primary.top + " up to " + (other.top - primary.height));
         primary.top = other.top - primary.height;
         primary.bottom = primary.top + primary.height;
 
