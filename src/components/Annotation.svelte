@@ -4,7 +4,7 @@
     export let id: number;
     export let text: string;
     export let position: { left: number, top: number }
-    export let kind: "step" | "primary" | "secondary"
+    export let kind: "step" | "primary" | "secondary" | "minor"
 
 </script>
 
@@ -35,11 +35,11 @@
         background-color: var(--wordplay-evaluation-color);
     }
 
-    .secondary {
+    .primary {
         background-color: var(--wordplay-error);
     }
 
-    .secondary {
+    .secondary, .minor {
         background-color: var(--wordplay-warning);
     }
 </style>

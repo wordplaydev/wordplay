@@ -106,8 +106,8 @@
         stroke: var(--wordplay-error);
     }
 
-    .underline.secondary path {
-    stroke: var(--wordplay-warning);
+    .underline.secondary path, .underline.minor path {
+        stroke: var(--wordplay-warning);
     }
 
 </style>

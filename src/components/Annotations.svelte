@@ -18,7 +18,7 @@
     export let viewport: Rect | undefined;
 
     $: evaluator = project.evaluator;
-    type Annotation = { node: Node, element: Element | null, text: string, kind: "step" | "primary" | "secondary", position?: Position | undefined };
+    type Annotation = { node: Node, element: Element | null, text: string, kind: "step" | "primary" | "secondary" | "minor", position?: Position | undefined };
 
     let annotations: Annotation[] = [];
 
@@ -66,7 +66,7 @@
                         node: conflictNodes.primary,
                         element: getNodeView(conflictNodes.primary),
                         text: selectTranslation(conflict.getPrimaryExplanation(project.getNodeContext(conflictNodes.primary) ?? project.getContext(project.main)), $languages),
-                        kind: "primary" as const
+                        kind: conflict.isMinor() ? "minor" as const : "primary" as const
                     },
                     ...conflictNodes.secondary.map((secondary: Node) => {
                         return {

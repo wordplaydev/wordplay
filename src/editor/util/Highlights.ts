@@ -9,7 +9,8 @@ export const highlightTypes = {
     "target": true,
     "match": true,
     "primary": true,
-    "secondary": true
+    "secondary": true,
+    "minor": true,
 };
 export type HighlightType = keyof typeof highlightTypes;
 export type Highlights = Map<Node, Set<HighlightType>>;

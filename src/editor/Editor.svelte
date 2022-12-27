@@ -38,6 +38,7 @@
     import Highlight from './Highlight.svelte';
     import { afterUpdate } from 'svelte';
     import type Rect from '../components/Rect';
+    import type { C } from 'vitest/dist/types-71ccd11d';
     
     export let project: Project;
     export let source: Source;
@@ -246,8 +247,8 @@
             addHighlight(newHighlights, $hovered, "hovered");
 
         // Tag all nodes with primary conflicts as primary
-        for(const primary of project.getPrimaryConflicts().keys())
-            addHighlight(newHighlights, primary, "primary");
+        for(const [ primary, conflicts ] of project.getPrimaryConflicts())
+            addHighlight(newHighlights, primary, conflicts.every(c => !c.isMinor()) ? "primary" : "minor");
 
         // Tag all nodes with secondary conflicts as primary
         for(const secondary of project.getSecondaryConflicts().keys())
