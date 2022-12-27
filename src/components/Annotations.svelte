@@ -18,6 +18,8 @@
     type Place = { element: Element | null, text: string, kind: "step" | "primary" | "secondary", position?: Position | undefined };
 
     let annotations: Place[] = [];
+    let windowWidth: number;
+    let windowHeight: number;
 
     // When current step or conflicts change, update the annotations.
     $: {
@@ -68,7 +70,7 @@
 
     // When the annotations or editor scroll position change, update the positions
     $: { 
-        if(annotations && scrollposition)
+        if(annotations && scrollposition && windowWidth && windowHeight)
             annotations = annotations.map(annotation => { 
                 annotation.position = getPosition(annotation.element);
                 return annotation;
@@ -116,9 +118,9 @@
 
             // If the bubble would be outside the bounds of the window, adjust it's position.
             if(rect.right - scrollposition.left < 0) return undefined;
-            if(rect.right - scrollposition.left > window.innerWidth) return undefined;
+            if(rect.right - scrollposition.left > windowWidth) return undefined;
             if(rect.bottom - scrollposition.top < 0) return undefined;
-            if(rect.bottom - scrollposition.top > window.innerHeight) return undefined;
+            if(rect.bottom - scrollposition.top > windowHeight) return undefined;
 
             return { left: rect.right, top: rect.bottom }
         }
@@ -130,6 +132,8 @@
     }
 
 </script>
+
+<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
 {#each annotations as annotation}
     {#if annotation.position}
