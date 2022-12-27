@@ -9,14 +9,12 @@
 
     export let node: Node;
 
-    // Make a store for the root.
+    // Make a store for the root and set it as context.
     let root = writable<Tree>(new Tree(node));
-
+    setContext<RootContext>(RootSymbol, root);
+ 
     // When the node changes, update the store.
-    $: {
-        root.set(new Tree(node));
-        setContext<RootContext>(RootSymbol, root);
-    }
+    $: root.set(new Tree(node));
 
 </script>
 
