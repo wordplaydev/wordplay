@@ -8,6 +8,7 @@
     import { selectTranslation } from "../nodes/Translations";
     import Annotation from "./Annotation.svelte";
     import type Position from "./Position";
+    import { tick } from "svelte";
 
     export let project: Project;
     export let stepping: boolean;
@@ -23,6 +24,15 @@
 
     // When current step or conflicts change, update the annotations.
     $: {
+        if(stepping || conflicts)
+            updateAnnotations();
+    }
+
+    async function updateAnnotations() {
+
+        // Wait for DOM updates so that everything is in position before we layout annotations.
+        await tick();
+
         annotations = [];
         if(stepping) {
 
@@ -73,10 +83,6 @@
         if(annotations && scrollposition && windowWidth && windowHeight)
             annotations = annotations.map(annotation => { 
                 annotation.position = getPosition(annotation.element);
-                if(annotation.position === undefined) {
-                    console.log("No position of...")
-                    console.log(annotation.element);
-                }
                 return annotation;
             });
     }
@@ -128,7 +134,7 @@
 
             return { left: rect.right, top: rect.bottom }
         }
-        // If we couldn't find a view, put it in the corner.
+        // If we couldn't find a view, put it in the corner of the editor.
         else {
             console.log("No view of...")
             console.log(view);
