@@ -1,6 +1,7 @@
 import type Token from "../nodes/Token";
 import type Node from "../nodes/Node";
 import type Root from "./Root";
+import type Tree from "../nodes/Tree";
 
 export const TAB_WIDTH = 2;
 export const SPACE_HTML = "&middot;";
@@ -92,6 +93,29 @@ export default class Spaces {
 
     }
 
+    /** Recurse up the ancestors, constructing preferred preceding space. */
+    static getPreferredPrecedingSpace(currentPrecedingSpace: string, leafTree: Tree): string {
+
+        // Start from this node, walking up the ancestor tree
+        const leaf: Node = leafTree.node;
+        const depth = leafTree.getDepth();
+        let child: Tree = leafTree;
+        let parent = leafTree.parent;
+        let preferredSpace = "";
+        while(parent) {
+            // If the current child's first token is still this, prepend some more space.
+            if(child.node.getFirstLeaf() === leaf) {
+                // See what space the parent would prefer based on the current space in place.
+                preferredSpace = parent.node.getPreferredPrecedingSpace(child.node, currentPrecedingSpace, depth) + preferredSpace;
+                child = parent;
+                parent = parent.parent;
+            }
+            // Otherwise, the child was the last parent that could influence space.
+            else break;
+        }
+        return preferredSpace;
+    }
+    
     /** 
      * Creates a new set of spaces with the same mapping, but replacing the space for the first token of the
      * replaced node with the first token of the replacement node.

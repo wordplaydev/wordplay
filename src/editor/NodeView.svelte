@@ -28,7 +28,7 @@
     // Get the root's computed spaces store
     let spaces = getSpace();
     // See if this node has any to render.
-    $: space = node ? $spaces.get(node) : undefined;
+    $: space = node ? $spaces?.get(node) : undefined;
 
 </script>
 

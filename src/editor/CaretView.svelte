@@ -12,7 +12,7 @@
     import TokenType from "../nodes/TokenType";
     import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
     import { getCaret } from "./util/Contexts";
-    import { SPACE_HTML, tabToHTML } from "../parser/Spaces";
+    import Spaces, { SPACE_HTML, tabToHTML } from "../parser/Spaces";
     import type Source from "../models/Source";
     import { playing } from "../models/stores";
     
@@ -125,6 +125,9 @@
 
         // No token? No caret.
         if(token === undefined) return;
+
+        const tokenTree = $caret.source.get(token);
+        if(tokenTree === undefined) return;
 
         // No index to render? No caret.
         if(caretIndex === undefined) return;
@@ -277,8 +280,9 @@
                 spaceOnLastLine = spaceOnLastLine.substring(0, spaceOnLastLine.length - (explicitSpace.length - spaceIndex));
 
                 // If there's preferred space after the explicit space, and we're on the last line of explicit space, include it.
-                if(explicitSpace.length - spaceIndex === 0)
-                    spaceOnLastLine += $caret.source.spaces.getAdditionalSpace(token, $caret.source.get(token)?.getPreferredPrecedingSpace() ?? "");
+                if(explicitSpace.length - spaceIndex === 0) {
+                    spaceOnLastLine += $caret.source.spaces.getAdditionalSpace(token, Spaces.getPreferredPrecedingSpace($caret.source.spaces.getSpace(token), tokenTree) ?? "");
+                }
 
                 // Compute the spaces prior to the caret on this line.
                 spaces = spaceOnLastLine.split(" ").length - 1;

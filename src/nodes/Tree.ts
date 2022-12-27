@@ -1,7 +1,6 @@
 import Source from "../models/Source";
 import Expression from "./Expression";
 import type Node from "./Node";
-import type Token from "./Token";
 
 export type Path = [ string, number ][];
 
@@ -95,31 +94,6 @@ export default class Tree {
             parent = parent.parent;
         }
         return depth;
-    }
-
-    /** Recurse up the ancestors, constructing preferred preceding space. */
-    getPreferredPrecedingSpace(): string {
-
-        // Start from this node, walking up the ancestor tree
-        let leaf: Node = this.node;
-        let child: Tree = this;
-        let parent = this.parent;
-        let firstToken = this.node.getFirstLeaf() as Token | undefined;
-        let space = this.source && firstToken ? this.source.spaces.getSpace(firstToken) : "";
-        let depth = this.getDepth();
-        let preferredSpace = "";
-        while(parent) {
-            // If the current child's first token is still this, prepend some more space.
-            if(child.node.getFirstLeaf() === leaf) {
-                // See what space the parent would prefer based on the current space in place.
-                preferredSpace = parent.node.getPreferredPrecedingSpace(child.node, space, depth) + preferredSpace;
-                child = parent;
-                parent = parent.parent;
-            }
-            // Otherwise, the child was the last parent that could influence space.
-            else break;
-        }
-        return preferredSpace;
     }
 
     /** A node is in a list if it's parent says so. */

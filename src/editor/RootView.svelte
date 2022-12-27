@@ -5,13 +5,13 @@
     import type Node from "../nodes/Node";
     import type Token from "../nodes/Token";
     import Tree from "../nodes/Tree";
-    import type Spaces from "../parser/Spaces";
+    import Spaces from "../parser/Spaces";
     import NodeView from "./NodeView.svelte";
     import { RootSymbol, SpaceSymbol, type RootContext, type SpaceContext } from "./util/Contexts";
 
     export let node: Node;
     /** Optional space; if not provided, all nodes are rendered with preferred space. */
-    export let spaces: Spaces | undefined = undefined; 
+    export let spaces: Spaces | undefined = undefined;
     
     // Make a store for the root and set it as context.
     let root = writable<Tree>(new Tree(node));
@@ -41,7 +41,7 @@
                 // What's the given space?
                 let space = spaces ? spaces.getSpace(firstLeaf) : "";
                 // What is the leaf's preferred space?
-                let preferred = leafTree.getPreferredPrecedingSpace();
+                let preferred = Spaces.getPreferredPrecedingSpace(space, leafTree);
                 // Compute the additional space for rendering.
                 let additional = spaces ? spaces.getAdditionalSpace(firstLeaf, preferred) : preferred;
                 // Save what we computed
