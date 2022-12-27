@@ -56,7 +56,6 @@
         flex-direction: row;
         overflow: hidden;
         cursor: pointer;
-        opacity: 0.5;
         border-right: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
@@ -69,15 +68,17 @@
         text-align: center;
         margin-left: var(--wordplay-spacing);
     }
+
     .primary {
         background-color: var(--wordplay-error);
     }
+
     .secondary {
         background-color: var(--wordplay-warning);
     }
 
     .selected {
-        opacity: 1;
+        font-weight: bold;
     }
 
     .name {
