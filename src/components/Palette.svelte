@@ -198,7 +198,9 @@
 <style>
     .palette {
         z-index: var(--wordplay-layer-controls);
-        width: var(--wordplay-palette-max-width);
+        width: 100%;
+        max-width: var(--wordplay-palette-max-width);
+        
 
         overflow-y: scroll;
 

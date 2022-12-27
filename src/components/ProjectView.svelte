@@ -110,8 +110,8 @@
     
     .source {
         flex-grow: 1;
-        min-width: 10em;
-        min-height: 10em;
+        min-width: 40em;
+        min-height: 40em;
     }
 
     .draggable {
