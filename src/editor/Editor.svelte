@@ -175,9 +175,11 @@
 
     function addHighlight(map: Highlights, node: Node, type: HighlightType) {
 
-        if(!map.has(node))
-            map.set(node, new Set<HighlightType>());
-        map.get(node)?.add(type);
+        if(source.contains(node)) {
+            if(!map.has(node))
+                map.set(node, new Set<HighlightType>());
+            map.get(node)?.add(type);
+        }
 
     }
 
@@ -261,7 +263,7 @@
 
     // Update the highlights when any of these values change
     $: {
-        if($dragged || $caret || $hovered || executingNode || $animations || scrollposition || $nodeConflicts)
+        if($dragged || $caret || $hovered || executingNode || $animations || scrollposition || $nodeConflicts || source)
             updateHighlights();
     }
 
