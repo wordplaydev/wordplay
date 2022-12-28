@@ -19,7 +19,6 @@
     import RootView from "../editor/RootView.svelte";
     import { WRITE } from "../nodes/Translations";
     import Button from "./Button.svelte";
-    import { fly } from "svelte/transition";
 
     export let hidden: boolean;
 
@@ -93,6 +92,7 @@
     ];
 
     let dragged = getDragged();
+    let dragging = false;
     let selected: TypeEntry | undefined = undefined;
 
     /** Search through the entries to find a corresponding node */
@@ -110,9 +110,9 @@
         return undefined;
     }
 
-    function handleDrag(event: MouseEvent) {
+    function handleMouseDown(event: MouseEvent) {
 
-        if(event.buttons !== 1 || $dragged) return;
+        if(event.buttons !== 1) return;
 
         // Map the element to the coresponding node in the palette.
         const root = document.elementFromPoint(event.clientX, event.clientY)?.closest(".root")?.querySelector(".node-view");
@@ -169,9 +169,8 @@
 <section 
     class="palette"
     class:hidden
+    on:mousedown={handleMouseDown}
     on:mouseup={handleDrop}
-    on:mousemove={handleDrag}
-    transition:fly={{ x: -500 }}
 >
     {#if selected }
         <section class="type">
