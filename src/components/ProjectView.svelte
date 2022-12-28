@@ -79,6 +79,8 @@
 
     let dragContainer: HTMLElement | undefined;
     let outline: HighlightSpec | undefined = undefined;
+
+    // Measure an outline of the node view in the drag container.
     afterUpdate(() => {
         const nodeView = dragContainer?.querySelector(".node-view");
         if(nodeView instanceof HTMLElement)
@@ -146,7 +148,6 @@
         position: absolute;
         cursor: none;
         z-index: var(--wordplay-layer-drag);
-        white-space: nowrap;
         pointer-events: none;
     }
 
