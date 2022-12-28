@@ -1,4 +1,4 @@
-import { EXPONENT_SYMBOL, tokenize } from "./Tokenizer";
+import { EXPONENT_SYMBOL, PRODUCT_SYMBOL, tokenize } from "./Tokenizer";
 import type Node from "../nodes/Node";
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
@@ -137,8 +137,8 @@ export class Tokens {
     }
 
     /** Returns true if and only if the next token is the specified type. */
-    nextIs(type: TokenType): boolean {
-        return this.hasNext() && this.peek()?.is(type) === true;
+    nextIs(type: TokenType, text?: string): boolean {
+        return this.hasNext() && this.peek()?.is(type) === true && (text === undefined || this.peekText() === text);
     }
 
     /** Returns true if and only if there is a next token and it's not the specified type. */
@@ -566,24 +566,25 @@ function parseMeasurement(tokens: Tokens): MeasurementLiteral {
 
 }
 
-/** UNIT :: DIMENSION* (/ DIMENSION*)? */
+/** UNIT :: DIMENSION (·DIMENSION)* (/ DIMENSION (·DIMENSION*))? */
 function parseUnit(tokens: Tokens): Unit {
 
+    // Parse a wildcard unit.
     if(tokens.nextIs(TokenType.CONDITIONAL)) {
-        return new Unit(undefined, [ new Dimension(tokens.read(TokenType.CONDITIONAL)) ], undefined, []);
+        return new Unit(undefined, [ new Dimension(undefined, tokens.read(TokenType.CONDITIONAL), undefined, undefined) ], undefined, []);
     }
 
     // A unit is just a series of names, carets, numbers, and product symbols not separated by spaces.
     const numerator: Dimension[] = [];
 
-    while(tokens.nextIs(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
+    while((tokens.nextIs(TokenType.NAME) || tokens.nextIs(TokenType.BINARY_OP, PRODUCT_SYMBOL)) && tokens.nextLacksPrecedingSpace())
         numerator.push(parseDimension(tokens));
 
     let slash = undefined;
     const denominator: Dimension[] = [];
     if(tokens.nextIs(TokenType.LANGUAGE)) {
         slash = tokens.read(TokenType.LANGUAGE);
-        while(tokens.nextIsOneOf(TokenType.NAME) && tokens.nextLacksPrecedingSpace())
+        while((tokens.nextIs(TokenType.NAME) || tokens.nextIs(TokenType.BINARY_OP, PRODUCT_SYMBOL)) && tokens.nextLacksPrecedingSpace())
             denominator.push(parseDimension(tokens));
     }
 
@@ -594,14 +595,15 @@ function parseUnit(tokens: Tokens): Unit {
 /** DIMENSION :: NAME (^NUMBER)? */
 function parseDimension(tokens: Tokens): Dimension {
 
+    const product = tokens.nextIs(TokenType.BINARY_OP, PRODUCT_SYMBOL) ? tokens.read(TokenType.BINARY_OP) : undefined;
     const name = tokens.read(TokenType.NAME);
     let caret = undefined;
     let exponent = undefined;
-    if(tokens.nextIs(TokenType.BINARY_OP) && tokens.peekText() === EXPONENT_SYMBOL && tokens.nextLacksPrecedingSpace()) {
+    if(tokens.nextIs(TokenType.BINARY_OP, EXPONENT_SYMBOL) && tokens.nextLacksPrecedingSpace()) {
         caret = tokens.read(TokenType.BINARY_OP);
         exponent = tokens.nextIs(TokenType.NUMBER) && tokens.nextLacksPrecedingSpace() ? tokens.read(TokenType.NUMBER) : undefined;
     }
-    return new Dimension(name, caret, exponent);
+    return new Dimension(product, name, caret, exponent);
 
 }
 
@@ -947,7 +949,7 @@ export function parseType(tokens: Tokens, isExpression:boolean=false): Type {
         tokens.nextIs(TokenType.PLACEHOLDER) ? new TypePlaceholder(tokens.read(TokenType.PLACEHOLDER)) :
         tokens.nextIs(TokenType.NAME) ? parseNameType(tokens) :
         tokens.nextIs(TokenType.BOOLEAN_TYPE) ? new BooleanType(tokens.read(TokenType.BOOLEAN_TYPE)) :
-        (tokens.peekText() === "%" || tokens.nextIsOneOf(TokenType.NUMBER, TokenType.NUMBER_TYPE)) ? parseMeasurementType(tokens) :
+        tokens.nextIs(TokenType.BINARY_OP, "%") || tokens.nextIsOneOf(TokenType.NUMBER, TokenType.NUMBER_TYPE) ? parseMeasurementType(tokens) :
         tokens.nextIs(TokenType.TEXT) ? parseTextType(tokens) :
         tokens.nextIs(TokenType.NONE) ? parseNoneType(tokens) :
         tokens.nextIs(TokenType.LIST_OPEN) ? parseListType(tokens) :
@@ -990,7 +992,7 @@ function parseTextType(tokens: Tokens): TextType {
 /** NUMBER_TYPE :: #NAME? */
 function parseMeasurementType(tokens: Tokens): MeasurementType {
 
-    if(tokens.nextIs(TokenType.BINARY_OP) && tokens.peekText() === "%")
+    if(tokens.nextIs(TokenType.BINARY_OP, "%"))
         return new MeasurementType(tokens.read(TokenType.BINARY_OP));
 
     const number = 

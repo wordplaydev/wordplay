@@ -1,6 +1,5 @@
 import Node from "./Node";
 import Token from "./Token";
-import NameToken from "./NameToken";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import { EXPONENT_SYMBOL } from "../parser/Tokenizer";
@@ -8,14 +7,16 @@ import TokenType from "./TokenType";
 
 export default class Dimension extends Node {
 
+    readonly product: Token | undefined;
     readonly name: Token;
-    readonly caret?: Token;
-    readonly exponent?: Token;
+    readonly caret: Token | undefined;
+    readonly exponent: Token | undefined;
 
-    constructor(name: Token | string, caret?: Token, exponent?: Token) {
+    constructor(product: Token | undefined, name: Token, caret: Token | undefined, exponent: Token | undefined) {
         super();
 
-        this.name = typeof name === "string" ? new NameToken(name) : name;
+        this.product = product;
+        this.name = name;
         this.caret = exponent !== undefined && caret === undefined ? new Token(EXPONENT_SYMBOL, TokenType.BINARY_OP) : caret;
         this.exponent = exponent === undefined ? undefined : exponent;
 
@@ -25,14 +26,16 @@ export default class Dimension extends Node {
 
     getGrammar() { 
         return [
-            { name: "name", types:[ Token ] },
-            { name: "caret", types:[ Token, undefined ] },
-            { name: "exponent", types:[ Token, undefined ] },
+            { name: "product", types: [ Token ] },
+            { name: "name", types: [ Token ] },
+            { name: "caret", types: [ Token, undefined ] },
+            { name: "exponent", types: [ Token, undefined ] },
         ]; 
     }
 
     replace(original?: Node, replacement?: Node) { 
         return new Dimension(
+            this.replaceChild("product", this.product, original, replacement), 
             this.replaceChild("name", this.name, original, replacement), 
             this.replaceChild("caret", this.caret, original, replacement),
             this.replaceChild("exponent", this.exponent, original, replacement)

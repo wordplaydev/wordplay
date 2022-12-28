@@ -161,6 +161,10 @@ test("Parse expressions", () => {
     expect(denom).toBeInstanceOf(MeasurementLiteral);
     expect((denom as MeasurementLiteral).unit?.toWordplay()).toBe("/s");
 
+    const product = parseExpression(toTokens("1cat^2·dog/s"));
+    expect(product).toBeInstanceOf(MeasurementLiteral);
+    expect((product as MeasurementLiteral).unit?.toWordplay()).toBe("cat^2·dog/s");
+
     const text = parseExpression(toTokens("«hola»"));
     expect(text).toBeInstanceOf(TextLiteral);
 
