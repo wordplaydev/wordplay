@@ -1,4 +1,5 @@
 import type Node from "../../nodes/Node";
+import type { Outline } from "./outline";
 
 export const highlightTypes = { 
     "selected": true, 
@@ -6,6 +7,7 @@ export const highlightTypes = {
     "exception": true,
     "hovered": true,
     "dragged": true,
+    "dragging": true,
     "target": true,
     "match": true,
     "primary": true,
@@ -14,3 +16,4 @@ export const highlightTypes = {
 };
 export type HighlightType = keyof typeof highlightTypes;
 export type Highlights = Map<Node, Set<HighlightType>>;
+export type HighlightSpec = { types: HighlightType[], outline: Outline, underline: Outline };

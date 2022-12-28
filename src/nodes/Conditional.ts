@@ -70,7 +70,7 @@ export default class Conditional extends Expression {
 
     getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
         return child === this.conditional ? " " : 
-            (child === this.yes || child === this.no) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : (child === this.no ? " " : "");
+            (child === this.yes || child === this.no) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : (child === this.yes || child === this.no ? " " : "");
     }
 
     computeConflicts(context: Context): Conflict[] {

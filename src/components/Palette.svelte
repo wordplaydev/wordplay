@@ -23,6 +23,8 @@
 
     export let hidden: boolean;
 
+    let dragging = false;
+
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
      * Each type has a dedicated page that lists 1) language constructs associated with the type,
@@ -128,9 +130,16 @@
     // When a creator drops on the palette, remove the dragged node from the source it was dragged from.
     function handleDrop() {
 
-        if($dragged === undefined) return;
+        const node: Tree | undefined = $dragged;
 
-        const program = $dragged.getRoot();
+        // Release the dragged node.
+        dragged.set(undefined);
+
+        // No node released? We're done.
+        if(node === undefined) return;
+
+        // See if we can remove the node from it's root.
+        const program = node.getRoot();
         if(!(program instanceof Program)) return;
 
         // Find the source that contains the dragged root.
@@ -138,15 +147,15 @@
         if(source === undefined) return;
 
         // Figure out what to replace the dragged node with. By default, we remove it.
-        let replacement = $dragged.inList() ? undefined : new ExpressionPlaceholder();
+        let replacement = node.inList() ? undefined : new ExpressionPlaceholder();
 
         // Update the project with the new source files
         updateProject(
             $project.withSource(
                 source, 
                 source.withProgram(
-                    program.replace($dragged.node, replacement),
-                    source.spaces.withReplacement($dragged.node, replacement)
+                    program.replace(node.node, replacement),
+                    source.spaces.withReplacement(node.node, replacement)
                 )
             )
         );

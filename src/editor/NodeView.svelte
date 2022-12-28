@@ -60,9 +60,6 @@
     .dragged :global(.token-view) {
         opacity: 0;
     }
-    .dragged :global(.highlight) {
-        opacity: .2;
-    }
 
     .hide {
         display: inline-block;

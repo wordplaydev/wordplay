@@ -31,4 +31,9 @@
     .space {
         color: var(--wordplay-disabled-color);
     }
+
+    /* If the space is in something dragged, hide it */
+    :global(.dragged) .space {
+        visibility: hidden;
+    }
 </style>

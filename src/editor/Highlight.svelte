@@ -64,6 +64,16 @@
     .outline.dragged path {
         fill: var(--wordplay-highlight);
         stroke: var(--wordplay-highlight);
+        opacity: 0.2;
+    }
+
+    .outline.dragging path {
+        fill: var(--wordplay-highlight);
+        stroke: var(--wordplay-highlight);
+    }
+
+    .outline.dragging {
+        z-index: var(--wordplay-layer-drag);
     }
  
     .outline.evaluating path {
@@ -83,7 +93,7 @@
     :global(
         .exception .token-view,
         .evaluating .token-view,
-        .dragged .token-view,
+        .dragging .token-view,
         .selected .token-view
     ) {
         color: var(--color-white) !important; 

@@ -7,7 +7,6 @@
     import type Project from "../models/Project";
     import Palette from "./Palette.svelte";
     import SourceView from "./SourceView.svelte";
-    import NodeView from "../editor/NodeView.svelte";
     import type Tree from "../nodes/Tree";
     import type Source from "../models/Source";
     import { playing, currentStep, nodeConflicts } from "../models/stores";
@@ -15,6 +14,11 @@
     import type Conflict from "../conflicts/Conflict";
     import type Rect from "./Rect";
     import Split from "./Split.svelte";
+    import RootView from "../editor/RootView.svelte";
+    import Highlight from "../editor/Highlight.svelte";
+    import { afterUpdate } from "svelte";
+    import getOutlineOf, { getUnderlineOf } from "../editor/util/outline";
+    import type { HighlightSpec } from "../editor/util/Highlights";
 
     export let project: Project;
 
@@ -73,6 +77,19 @@
         }
     }
 
+    let dragContainer: HTMLElement | undefined;
+    let outline: HighlightSpec | undefined = undefined;
+    afterUpdate(() => {
+        const nodeView = dragContainer?.querySelector(".node-view");
+        if(nodeView instanceof HTMLElement)
+            outline = {
+                types: [ "dragging" ],
+                outline: getOutlineOf(nodeView),
+                underline: getUnderlineOf(nodeView)
+            };
+
+    });
+
 </script>
 
 <!-- Render the app header and the current project, if there is one. -->
@@ -97,7 +114,11 @@
     </Split>
     <!-- Render the dragged node over the whole project -->
     {#if $dragged !== undefined}
-        <div class="draggable" style="left: {mouseX}px; top:{mouseY}px;"><NodeView node={$dragged.node}/><div class="cursor">🐲</div></div>
+        {#if outline}<Highlight {...outline}/>{/if}
+        <div class="drag-container dragging" style="left: {mouseX}px; top:{mouseY}px;" bind:this={dragContainer}>
+            <RootView node={$dragged.node} spaces={project.getSourceOf($dragged.node)?.spaces}/>
+            <div class="cursor">🐲</div>
+        </div>
     {/if}
 </div>
 
@@ -118,7 +139,7 @@
         min-height: 2em;
     }
 
-    .draggable {
+    .drag-container {
         position: absolute;
         cursor: none;
         z-index: var(--wordplay-layer-drag);

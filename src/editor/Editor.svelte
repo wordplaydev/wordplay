@@ -18,7 +18,7 @@
     import { PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
     import { CaretSymbol, HoveredSymbol, HighlightSymbol, InsertionPointsSymbol, getDragged, HiddenSymbol } from './util/Contexts';
     import { languages } from "../models/languages";
-    import { type HighlightType, type Highlights, highlightTypes } from './util/Highlights'
+    import { type HighlightType, type Highlights, highlightTypes, type HighlightSpec } from './util/Highlights'
     import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
     import Expression from '../nodes/Expression';
     import TypePlaceholder from '../nodes/TypePlaceholder';
@@ -136,6 +136,9 @@
     // The point at which a drag started.
     let dragPoint: { x: number, y: number} | undefined = undefined;
 
+    // The possible candidate for dragging
+    let dragCandidate: Node | undefined = undefined;
+
     // When source changes, update various nested state from the source.
     $: {
         caret.set($caret.withSource(source));
@@ -232,10 +235,10 @@
             addHighlight(newHighlights, $caret.position, "selected");
 
         // Is a node being dragged?
-        if($dragged instanceof Node) {
+        if($dragged !== undefined) {
 
             // Highlight the node.
-            addHighlight(newHighlights, $dragged, "dragged");
+            addHighlight(newHighlights, $dragged.node, "dragged");
 
             // If there's an insertion point, let the nodes render them
             if(shouldReplace()) {
@@ -293,7 +296,7 @@
     }
 
     // Update the outline positions any time the highlights.
-    let outlines: { types: HighlightType[], outline: Outline, underline: Outline }[] = [];
+    let outlines: HighlightSpec[] = [];
     $: {
         outlines = [];
         if($highlights.size > 0)
@@ -392,12 +395,11 @@
             
         // Release the dragged node.
         dragged.set(undefined);
+        dragCandidate = undefined;
+        dragPoint = undefined;
 
         // Reset the insertion points.
         insertions.set(new Map());
-
-        // Reset the drag point
-        dragPoint = undefined;
 
     }
 
@@ -565,6 +567,15 @@
         // If we found a position, set it.
         if(!stepping && newPosition !== undefined)
             caret.set($caret.withPosition(newPosition));
+
+        // Mark that the creator might want to drag the node under the mouse and remember where the click started.
+        if(nonTokenNodeUnderMouse) {
+            dragCandidate = nonTokenNodeUnderMouse;
+            // If the primary mouse button is down, start dragging and set insertion.
+            // We only start dragging if the cursor has moved more than a certain amount since last click.
+            if(dragCandidate && event.buttons === 1)
+                dragPoint = { x: event.clientX, y: event.clientY };
+        }
 
     }
 
@@ -799,31 +810,31 @@
         hovered.set(getNodeAt(event, false));
         hoveredAny.set(getNodeAt(event, true));
 
-        // If the primary mouse button is down, start dragging and set insertion.
-        // We only start dragging if the cursor has moved more than a certain amount since last click.
-        if($hovered && event.buttons === 1 && $dragged === undefined) {
-            dragged.set($caret.source.get($hovered));
-            dragPoint = { x: event.clientX, y: event.clientY };
-        }
+        // If we have a drag candidate and it's past 5 pixels from the start point, set the insertion points to whatever points are under the mouse.
+        if(dragCandidate && exceededDragThreshold(event)) {
+            const tree = source.get(dragCandidate);
+            if(tree) {
+                dragged.set(source.get(dragCandidate));
 
-        // If something is being dragged and is past 5 pixels from the start point, set the insertion points to whatever points are under the mouse.
-        if($dragged && exceededDragThreshold(event)) {
+                dragCandidate = undefined;
+                dragPoint = undefined;
 
-            // Get the insertion points at the current mouse position
-            // And filter them by kinds that match, getting the field's allowed types,
-            // and seeing if the dragged node is an instance of any of the dragged types.
-            // This only works if the types list contains a single item that is a list of types.
-            const newInsertionPoints = getInsertionPointsAt(event).filter(insertion => {
-                const types = insertion.node.getAllowedFieldNodeTypes(insertion.field);
-                return $dragged && Array.isArray(types) && Array.isArray(types[0]) && types[0].some(kind => $dragged?.node instanceof kind);
-            });
+                // Get the insertion points at the current mouse position
+                // And filter them by kinds that match, getting the field's allowed types,
+                // and seeing if the dragged node is an instance of any of the dragged types.
+                // This only works if the types list contains a single item that is a list of types.
+                const newInsertionPoints = getInsertionPointsAt(event).filter(insertion => {
+                    const types = insertion.node.getAllowedFieldNodeTypes(insertion.field);
+                    return $dragged && Array.isArray(types) && Array.isArray(types[0]) && types[0].some(kind => $dragged?.node instanceof kind);
+                });
 
-            // Did they change? We keep them the same to avoid UI updates, especially with animations.
-            if(newInsertionPoints.length === 0 || !newInsertionPoints.every(point => Object.values($insertions).some(point2 => insertionPointsEqual(point, point2)))) {
-                const insertionPointsMap = new Map<Token, InsertionPoint>();
-                for(const point of newInsertionPoints)
-                    insertionPointsMap.set(point.token, point);
-                insertions.set(insertionPointsMap);
+                // Did they change? We keep them the same to avoid UI updates, especially with animations.
+                if(newInsertionPoints.length === 0 || !newInsertionPoints.every(point => Object.values($insertions).some(point2 => insertionPointsEqual(point, point2)))) {
+                    const insertionPointsMap = new Map<Token, InsertionPoint>();
+                    for(const point of newInsertionPoints)
+                        insertionPointsMap.set(point.token, point);
+                    insertions.set(insertionPointsMap);
+                }
             }
 
         }

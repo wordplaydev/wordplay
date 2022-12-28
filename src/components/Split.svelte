@@ -28,9 +28,9 @@
         split = Math.min(max, Math.max(min, Math.round(percent)));    
     }
 
-    function grab() { dragging = true; console.log("grab")}
+    function grab() { dragging = true; }
 
-    function release() { dragging = false; console.log("release") }
+    function release() { dragging = false; }
 
     function drag(event: MouseEvent) {
         const rect = container?.getBoundingClientRect();
@@ -74,7 +74,6 @@
     }
 
     .divider {
-        z-index: var(--wordplay-layer-controls);
         background-color: var(--wordplay-border-color);
     }
 

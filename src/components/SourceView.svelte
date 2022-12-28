@@ -30,7 +30,7 @@
 </script>
 
 <div class="source">
-    <Split split={65} responsive flip>
+    <Split split={35} responsive flip>
         <div class="output" slot="first">
             <OutputView {project} {source} {latest} mode={fullscreen ? "fullscreen" : "peripheral"} on:fullscreen />
             {#if !fullscreen}
