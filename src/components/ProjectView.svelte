@@ -102,7 +102,7 @@
         // Release the drag if a mouse up makes it all the way to the project view.
         dragged.set(undefined) 
     }
-    on:mousemove={event => { if($dragged) { mouseX = event.clientX + window.scrollX; mouseY = event.clientY + window.scrollY; } }}
+    on:mousemove={event => { mouseX = event.clientX + window.scrollX; mouseY = event.clientY + window.scrollY; }}
     on:keydown={event => event.key === "Escape" ? fullscreen = false : undefined }
 >
     <Split split={20} min={10} max={40}>
