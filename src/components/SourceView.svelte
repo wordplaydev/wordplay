@@ -101,6 +101,7 @@
 
     .divider:focus {
         outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+        background-color: var(--wordplay-highlight);
     }
 
     @media screen {
@@ -123,7 +124,7 @@
             cursor: ew-resize;
         }
     }
-    
+
     @media screen and (max-width: 1280px) {
         .source {
             flex-direction: column;
