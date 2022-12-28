@@ -36,7 +36,7 @@ export default class Row extends Node {
 
     computeConflicts() {}
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Row(
             this.replaceChild("open", this.open, original, replacement),
             this.replaceChild("cells", this.cells, original, replacement),

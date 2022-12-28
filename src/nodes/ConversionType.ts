@@ -47,7 +47,7 @@ export default class ConversionType extends Type {
 
     getNativeTypeName(): NativeTypeName { return "conversion"; }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new ConversionType(
             this.replaceChild("input", this.input, original, replacement), 
             this.replaceChild("convert", this.convert, original, replacement),

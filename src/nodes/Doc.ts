@@ -26,7 +26,7 @@ export default class Doc extends Node {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Doc(
             this.replaceChild("docs", this.docs, original, replacement), 
             this.replaceChild("lang", this.lang, original, replacement)

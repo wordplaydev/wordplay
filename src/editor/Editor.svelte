@@ -34,7 +34,7 @@
     import type Conflict from '../conflicts/Conflict';
     import { tick } from 'svelte';
     import { getEditsAt } from './util/Autocomplete';
-    import getOutlineOf, { getUnderlineOf, type Outline } from './util/outline';
+    import getOutlineOf, { getUnderlineOf } from './util/outline';
     import Highlight from './Highlight.svelte';
     import { afterUpdate } from 'svelte';
     import type Rect from '../components/Rect';
@@ -440,7 +440,7 @@
                 // Remember where it is in the tree
                 const pathToReplacedOrListContainingNode = replacedOrListContainingNode === undefined ? undefined : $caret.source.get(replacedOrListContainingNode)?.getPath();
                 // Replace the dragged node with the placeholder or nothing, effectively removing the node we're moving from the program.
-                editedProgram = editedProgram.replace(draggedNode, replacement);
+                editedProgram = editedProgram.clone(draggedNode, replacement);
                 // Update the node to replace to the cloned node.
                 replacedOrListContainingNode = pathToReplacedOrListContainingNode === undefined ? undefined : new Tree(editedProgram).resolvePath(pathToReplacedOrListContainingNode);
             }
@@ -456,7 +456,7 @@
                             source, 
                             source.withProgram(
                                 // Replace the node in the dragged root
-                                draggedRoot.replace(draggedNode, replacement),
+                                draggedRoot.clone(draggedNode, replacement),
                                 // Preserve the spaces before the dragged node
                                 source.spaces.withReplacement(draggedNode, replacement)
                             ) 
@@ -470,7 +470,7 @@
         // If we should replace and we still have a hovered node, replace the hovered node with the dragged node, preserving preceding space.
         if(replacedOrListContainingNode) {
             if(shouldReplace()) {
-                editedProgram = editedProgram.replace(replacedOrListContainingNode, draggedNode);            
+                editedProgram = editedProgram.clone(replacedOrListContainingNode, draggedNode);            
                 newSources.push([ 
                     source, 
                     source.withProgram(
@@ -500,7 +500,7 @@
                     const indexOfDraggedNodeInList = insertion.list.indexOf(draggedNode);
                     const insertionIndex = insertion.index + (indexOfDraggedNodeInList >= 0 && insertion.index > indexOfDraggedNodeInList ? 1 : 0);
                     // Replace the list with a new list that has the dragged node inserted.
-                    const clonedListParent = replacedOrListContainingNode.replace(
+                    const clonedListParent = replacedOrListContainingNode.clone(
                         listToUpdate, 
                         [ 
                             ...listToUpdate.slice(0, insertionIndex), 
@@ -510,7 +510,7 @@
                     );
 
                     // Update the program with the new list parent.
-                    editedProgram = editedProgram.replace(replacedOrListContainingNode, clonedListParent);
+                    editedProgram = editedProgram.clone(replacedOrListContainingNode, clonedListParent);
 
                     // Find the token after the last token of the node we inserted and give it the original space after the insertion point.
                     let tokenInsertedBefore = editedProgram.nodes(n => n instanceof Token)[indexOfTokenInsertedBefore + draggedNode.nodes(n => n instanceof Token).length] as Token;

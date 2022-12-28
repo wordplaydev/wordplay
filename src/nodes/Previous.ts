@@ -66,7 +66,7 @@ export default class Previous extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Previous(
             this.replaceChild("stream", this.stream, original, replacement), 
             this.replaceChild("previous", this.previous, original, replacement),

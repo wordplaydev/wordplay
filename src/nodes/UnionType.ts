@@ -41,7 +41,7 @@ export default class UnionType extends Type {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new UnionType(
             this.replaceChild("left", this.left, original, replacement), 
             this.replaceChild("or", this.or, original, replacement),

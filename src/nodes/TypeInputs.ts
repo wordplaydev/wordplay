@@ -29,7 +29,7 @@ export default class TypeInputs extends Node {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new TypeInputs(
             this.replaceChild("open", this.open, original, replacement),
             this.replaceChild("types", this.types, original, replacement),

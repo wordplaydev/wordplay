@@ -63,7 +63,7 @@ export default class MapLiteral extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new MapLiteral(
             this.replaceChild("open", this.open, original, replacement), 
             this.replaceChild<KeyValue[]>("values", this.values, original, replacement),

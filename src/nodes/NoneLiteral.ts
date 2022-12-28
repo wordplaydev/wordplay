@@ -39,7 +39,7 @@ export default class NoneLiteral extends Expression {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new NoneLiteral(
             this.replaceChild("none", this.none, original, replacement)
         ) as this; 

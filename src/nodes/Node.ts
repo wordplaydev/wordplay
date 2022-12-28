@@ -266,8 +266,8 @@ export default abstract class Node {
         
     // MODIFICATION
 
-    /** Creates a deep clone of this node and it's descendants. If it encounters replacement along the way, it uses that instead of the existing node. */
-    abstract replace(original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
+    /** Creates a shallow clone of this node, reusing all descendants, optionally replacing a given node with another node. */
+    abstract clone(original?: Node | Node[] | string, replacement?: Node | Node[] | undefined): this;
 
     replaceChild<ChildType extends Node | Node[] | undefined>(field: keyof this, child: ChildType, original: Node | string | undefined, replacement: Node | undefined): ChildType {
 
@@ -325,10 +325,10 @@ export default abstract class Node {
         // If we didn't find a match above, just return the existing list or child.
         // If the child we're trying to replace is an array, map the existing array onto existing values or a replacement.
         if(Array.isArray(child))
-            return child.map(n => original instanceof Node && n.contains(original) ? n.replace(original, replacement) : n) as ChildType
+            return child.map(n => original instanceof Node && n.contains(original) ? n.clone(original, replacement) : n) as ChildType
         // If it's not an array, try replacing the original in the child if it's a Node
         else
-            return (child && original instanceof Node && child.contains(original) ? child.replace(original, replacement) : child) as ChildType;
+            return (child && original instanceof Node && child.contains(original) ? child.clone(original, replacement) : child) as ChildType;
 
     }
 

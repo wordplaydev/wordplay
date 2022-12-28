@@ -23,8 +23,6 @@
 
     export let hidden: boolean;
 
-    let dragging = false;
-
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
      * Each type has a dedicated page that lists 1) language constructs associated with the type,
@@ -154,7 +152,7 @@
             $project.withSource(
                 source, 
                 source.withProgram(
-                    program.replace(node.node, replacement),
+                    program.clone(node.node, replacement),
                     source.spaces.withReplacement(node.node, replacement)
                 )
             )

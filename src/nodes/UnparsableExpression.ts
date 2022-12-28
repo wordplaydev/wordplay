@@ -33,7 +33,7 @@ export default class UnparsableExpression extends Expression {
         return [ new UnparsableConflict(this) ];
     }
 
-    replace(original?: Node, replacement?: Node): this {
+    clone(original?: Node, replacement?: Node): this {
         return new UnparsableExpression(
             this.replaceChild("unparsables", this.unparsables, original, replacement),
         ) as this; 

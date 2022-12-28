@@ -54,7 +54,7 @@ export default class Select extends Expression {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Select(
             this.replaceChild("table", this.table, original, replacement), 
             this.replaceChild("select", this.select, original, replacement), 

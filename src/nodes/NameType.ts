@@ -40,7 +40,7 @@ export default class NameType extends Type {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new NameType(
             this.replaceChild("name", this.name, original, replacement),
             this.replaceChild("types", this.types, original, replacement)

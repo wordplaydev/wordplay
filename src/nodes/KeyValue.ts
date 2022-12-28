@@ -30,7 +30,7 @@ export default class KeyValue extends Node {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new KeyValue(
             this.replaceChild("key", this.key, original, replacement), 
             this.replaceChild("value", this.value, original, replacement),

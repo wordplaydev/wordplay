@@ -53,7 +53,7 @@ export default class ListLiteral extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new ListLiteral(
             this.replaceChild("open", this.open, original, replacement),
             this.replaceChild<Expression[]>("values", this.values, original, replacement),

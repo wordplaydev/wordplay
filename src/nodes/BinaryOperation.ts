@@ -76,7 +76,7 @@ export default class BinaryOperation extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new BinaryOperation(
             this.replaceChild("left", this.left, original, replacement), 
             this.replaceChild("operator", this.operator, original, replacement), 

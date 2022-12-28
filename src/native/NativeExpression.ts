@@ -49,7 +49,7 @@ export default class NativeExpression extends Expression {
     }
 
     /** Can't clone native expressions, there's only one of them! We just erase their parent and let whatever wants them claim them. */
-    replace() { return this; }
+    clone() { return this; }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { context; bind; original; return current; }
 

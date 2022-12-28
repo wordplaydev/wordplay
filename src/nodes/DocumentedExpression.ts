@@ -50,7 +50,7 @@ export default class DocumentedExpression extends Expression {
     evaluate(evaluator: Evaluator): Value { 
         return evaluator.popValue(undefined); }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new DocumentedExpression(
             this.replaceChild("docs", this.docs, original, replacement),
             this.replaceChild("expression", this.expression, original, replacement)

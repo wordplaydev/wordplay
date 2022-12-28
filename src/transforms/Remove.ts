@@ -39,7 +39,7 @@ export default class Remove extends Transform {
 
         // Replace the child in the parent, pretty printing it, then clone the program with the new parent, and create a new source from it.
         const newSource = this.context.source.withProgram(
-            this.context.source.expression.replace(this.parent, newParent),
+            this.context.source.expression.clone(this.parent, newParent),
             // Preserve the space before the removed node.
             this.context.source.spaces.withReplacement(this.node, undefined)
         );
@@ -77,7 +77,7 @@ export default class Remove extends Transform {
             // Get the correponding child.
             const node = parent.getChildren()[indicies[0]];
             // Remove the child
-            parent = parent.replace(node, undefined);
+            parent = parent.clone(node, undefined);
             // Drop the index we just removed.
             indicies.shift(); 
         }

@@ -21,7 +21,7 @@ export default abstract class UnknownType<ExpressionType extends Node> extends T
     computeConflicts() {}
     acceptsAll() { return false; }
     getNativeTypeName(): NativeTypeName { return "unknown"; }
-    replace() { return this; }
+    clone() { return this; }
 
     toWordplay() { return "⁇"; }
     

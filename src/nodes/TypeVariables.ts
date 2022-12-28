@@ -42,7 +42,7 @@ export default class TypeVariables extends Node {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new TypeVariables(
             this.replaceChild("open", this.open, original, replacement),
             this.replaceChild("variables", this.variables, original, replacement), 

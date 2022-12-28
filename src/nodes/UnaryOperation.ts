@@ -45,7 +45,7 @@ export default class UnaryOperation extends Expression {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new UnaryOperation(
             this.replaceChild("operator", this.operator, original, replacement), 
             this.replaceChild("operand", this.operand, original, replacement)

@@ -33,7 +33,7 @@ export default class Replace<NodeType extends Node> extends Transform {
         // Replace the child in the parent, pretty printing it, then clone the program with the new parent, and create a new source from it.
         const newSource = this.context.source.withProgram(
             // Replace the parent with the new parent
-            this.context.source.expression.replace(this.parent, newParent),
+            this.context.source.expression.clone(this.parent, newParent),
             // Preserve the space before the old parent
             this.context.source.spaces.withReplacement(this.node, replacement)
         );
@@ -49,7 +49,7 @@ export default class Replace<NodeType extends Node> extends Transform {
     getEditedNode(lang: LanguageCode[]): [Node | undefined, Node] {
         // Get or create the replacement with the original node's space.
         const replacement = this.getNewNode(lang);
-        const newParent = this.parent.replace(this.node, replacement);
+        const newParent = this.parent.clone(this.node, replacement);
         return [ replacement, newParent ];
     }
 

@@ -51,7 +51,7 @@ export default class MeasurementType extends NativeType {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new MeasurementType(
             this.replaceChild("number", this.number, original, replacement), 
             this.unit === undefined || this.unit instanceof Function ? this.unit : this.replaceChild("unit", this.unit, original, replacement)

@@ -13,7 +13,7 @@ export default abstract class HOF extends Expression {
     computeConflicts() {}
     
     // We don't clone these, we just erase their parent, since there's only one of them.
-    replace() { return this; }
+    clone() { return this; }
     
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { context; bind; original; return current; }
 

@@ -49,7 +49,7 @@ export default class Template extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Template(
             this.replaceChild("open", this.open, original, replacement),
             this.replaceChild("expressions", this.expressions, original, replacement),

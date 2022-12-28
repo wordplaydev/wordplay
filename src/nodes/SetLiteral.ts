@@ -52,7 +52,7 @@ export default class SetLiteral extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new SetLiteral(
             this.replaceChild("open", this.open, original, replacement), 
             this.replaceChild<Expression[]>("values", this.values, original, replacement),

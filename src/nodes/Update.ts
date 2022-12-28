@@ -52,7 +52,7 @@ export default class Update extends Expression {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) {
+    clone(original?: Node, replacement?: Node) {
         return new Update(
             this.replaceChild("table", this.table, original, replacement), 
             this.replaceChild("update", this.update, original, replacement), 

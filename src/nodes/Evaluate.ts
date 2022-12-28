@@ -115,7 +115,7 @@ export default class Evaluate extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Evaluate(
             this.replaceChild("func", this.func, original, replacement), 
             this.replaceChild("types", this.types, original, replacement), 

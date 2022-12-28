@@ -49,7 +49,7 @@ export default class Insert extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Insert(
             this.replaceChild("table", this.table, original, replacement),
             this.replaceChild("insert", this.insert, original, replacement),

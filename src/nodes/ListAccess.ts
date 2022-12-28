@@ -73,7 +73,7 @@ export default class ListAccess extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new ListAccess(
             this.replaceChild("list", this.list, original, replacement), 
             this.replaceChild("open", this.open, original, replacement), 

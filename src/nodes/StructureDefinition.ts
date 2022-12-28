@@ -101,7 +101,7 @@ export default class StructureDefinition extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) {
+    clone(original?: Node, replacement?: Node) {
         return new StructureDefinition(
             this.replaceChild("docs", this.docs, original, replacement),
             this.replaceChild("type", this.type, original, replacement),

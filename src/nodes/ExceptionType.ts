@@ -33,7 +33,7 @@ export default class ExceptionType extends Type {
         return this.exception.toString();
     }
 
-    replace() { return new ExceptionType(this.exception) as this; }
+    clone() { return new ExceptionType(this.exception) as this; }
 
     getDescriptions(): Translations {
         return {

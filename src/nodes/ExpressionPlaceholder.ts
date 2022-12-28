@@ -46,7 +46,7 @@ export default class ExpressionPlaceholder extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new ExpressionPlaceholder(
             this.replaceChild("placeholder", this.placeholder, original, replacement)
         ) as this; 

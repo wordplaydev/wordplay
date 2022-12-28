@@ -48,7 +48,7 @@ export default class StreamType extends Type {
 
     getNativeTypeName(): NativeTypeName { return "stream"; }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new StreamType(
             this.replaceChild("stream", this.stream, original, replacement),
             this.replaceChild("type", this.type, original, replacement)

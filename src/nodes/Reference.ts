@@ -57,7 +57,7 @@ export default class Reference extends Expression {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Reference(
             this.replaceChild("name", this.name, original, replacement)
         ) as this;

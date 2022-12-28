@@ -42,7 +42,7 @@ export default class TableType extends Type {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new TableType(
             this.replaceChild("open", this.open, original, replacement),
             this.replaceChild("columns", this.columns, original, replacement),

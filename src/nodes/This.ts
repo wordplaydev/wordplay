@@ -44,7 +44,7 @@ export default class This extends Expression {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new This(this.replaceChild("dis", this.dis, original, replacement)) as this; 
     }
 

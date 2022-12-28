@@ -41,7 +41,7 @@ export default class NoneType extends NativeType {
 
     getNativeTypeName(): NativeTypeName { return "none"; }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new NoneType(
             this.replaceChild("none", this.none, original, replacement)
         ) as this; 

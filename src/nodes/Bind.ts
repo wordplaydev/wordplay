@@ -93,7 +93,7 @@ export default class Bind extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Bind(
             this.replaceChild("docs", this.docs, original, replacement), 
             this.replaceChild("share", this.share, original, replacement), 

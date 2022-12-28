@@ -68,7 +68,7 @@ export default class PropertyReference extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new PropertyReference(
             this.replaceChild("structure", this.structure, original, replacement),
             this.replaceChild("dot", this.dot, original, replacement),

@@ -54,7 +54,7 @@ export default class MapType extends NativeType {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new MapType(
             this.replaceChild("open", this.open, original, replacement),
             this.replaceChild("key", this.key, original, replacement), 

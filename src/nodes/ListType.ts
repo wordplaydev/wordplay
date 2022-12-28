@@ -42,7 +42,7 @@ export default class ListType extends NativeType {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new ListType(
             this.replaceChild("open", this.open, original, replacement),
             this.replaceChild("type", this.type, original, replacement),

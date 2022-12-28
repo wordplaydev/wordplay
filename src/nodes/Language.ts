@@ -36,7 +36,7 @@ export default class Language extends Node {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Language(
             this.replaceChild("slash", this.slash, original, replacement),
             this.replaceChild("lang", this.lang, original, replacement)

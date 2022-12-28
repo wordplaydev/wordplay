@@ -48,7 +48,7 @@ export default class Reaction extends Expression {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Reaction(
             this.replaceChild("initial", this.initial, original, replacement), 
             this.replaceChild<Token>("delta", this.delta, original, replacement),

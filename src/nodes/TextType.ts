@@ -36,7 +36,7 @@ export default class TextType extends NativeType {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new TextType(
             this.replaceChild("text", this.text, original, replacement), 
             this.replaceChild("format", this.format, original, replacement)

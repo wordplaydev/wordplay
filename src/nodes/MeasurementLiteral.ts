@@ -41,7 +41,7 @@ export default class MeasurementLiteral extends Expression {
         )
     }
     
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new MeasurementLiteral(
             this.replaceChild("number", this.number, original, replacement), 
             this.replaceChild("unit", this.unit, original, replacement)

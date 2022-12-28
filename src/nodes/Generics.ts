@@ -67,7 +67,7 @@ export default function getConcreteExpectedType(definition: FunctionDefinition |
                 getConcreteTypeVariable(nextAbstractType, definition, evaluation, context) :
                 getConcreteMeasurementInput(nextAbstractType, evaluation, context);
             // Clone the current type, replacing the abstract type with the concrete type.
-            type = type.replace(nextAbstractType, concreteType);
+            type = type.clone(nextAbstractType, concreteType);
         }
         // If there isn't another abstract type, we have our type!
         else break;

@@ -55,7 +55,7 @@ export default class Names extends Node {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Names(
             this.replaceChild<Name[]>("names", this.names, original, replacement)
         ) as this; 

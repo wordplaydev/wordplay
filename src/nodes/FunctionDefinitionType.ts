@@ -38,7 +38,7 @@ export default class FunctionDefinitionType extends Type {
 
     getNativeTypeName(): NativeTypeName { return "function"; }
 
-    replace() { return new FunctionDefinitionType(this.fun) as this; }
+    clone() { return new FunctionDefinitionType(this.fun) as this; }
 
     toWordplay() { return `${FUNCTION_SYMBOL}${EVAL_OPEN_SYMBOL}${this.fun.inputs.map(n => n.toWordplay()).join(" ")}${EVAL_CLOSE_SYMBOL}`; }
 

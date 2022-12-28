@@ -57,7 +57,7 @@ export default class Conditional extends Expression {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Conditional(
             this.replaceChild("condition", this.condition, original, replacement), 
             this.replaceChild<Expression>("yes", this.yes, original, replacement), 

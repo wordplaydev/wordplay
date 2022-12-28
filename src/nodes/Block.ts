@@ -90,7 +90,7 @@ export default class Block extends Expression {
 
     isBlockFor(child: Node) { return !this.root && this.statements.includes(child as Expression); }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Block(
             this.replaceChild<Expression[]>("statements", this.statements, original, replacement),
             this.root,

@@ -229,7 +229,7 @@ export default class Source extends Expression {
         //     return new Source(this.names, [ this.expression, spaces ]);
         // If only one token was added and removed and they're the same type, replace the token in the existing program
         if(added.length === 1 && removed.length === 1 && added[0].getTypes().some(type => removed[0].is(type)))
-            return new Source(this.names, [ this.expression.replace(removed[0], added[0]), spaces ]);
+            return new Source(this.names, [ this.expression.clone(removed[0], added[0]), spaces ]);
         
         // Try to reuse as many Nodes as possible by parsing the program with revised tokens, then identifying 
         // subtrees that are equivalent in the old and new tree, then recycling them in the new tree. Equivalence is defined as any node 
@@ -280,7 +280,7 @@ export default class Source extends Expression {
         // If we found old subtrees to preserve, replace them in the new tree.
         while(replacements.length > 0) {
             const [ oldTree, newTree ] = replacements.shift()!;
-            newProgram = newProgram.replace(newTree, oldTree);
+            newProgram = newProgram.clone(newTree, oldTree);
         }
 
         // Otherwise, reparse the program with the reused tokens and return a new source file
@@ -296,7 +296,7 @@ export default class Source extends Expression {
         return new Source(this.names, [ program, spaces ]);
     }
 
-    replace() {
+    clone() {
         return new Source(this.names, [ this.expression, this.spaces ]) as this;
     }
 

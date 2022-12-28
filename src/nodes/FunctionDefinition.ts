@@ -113,7 +113,7 @@ export default class FunctionDefinition extends Expression {
         return this.expression === child && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new FunctionDefinition(
             this.replaceChild("docs", this.docs, original, replacement), 
             this.replaceChild("fun", this.fun, original, replacement), 

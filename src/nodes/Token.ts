@@ -67,7 +67,7 @@ export default class Token extends Node {
 
     // TRANSFORMATIONS
 
-    replace(original?: Node, replacement?: Node): this {
+    clone(original?: Node, replacement?: Node): this {
         // Is this what we're replacing? Replace it.
         if(original === this && replacement instanceof Token) return replacement as this;
         // Otherwise, just return this, since it isn't changing.

@@ -98,7 +98,7 @@ export default class TableLiteral extends Expression {
 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new TableLiteral(
             this.replaceChild("type", this.type, original, replacement), 
             this.replaceChild("rows", this.rows, original, replacement)

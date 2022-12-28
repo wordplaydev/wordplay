@@ -52,7 +52,7 @@ export default class Program extends Expression {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Program(
             this.replaceChild("docs", this.docs, original, replacement),
             this.replaceChild("borrows", this.borrows, original, replacement), 

@@ -33,7 +33,7 @@ export default class Dimension extends Node {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Dimension(
             this.replaceChild("product", this.product, original, replacement), 
             this.replaceChild("name", this.name, original, replacement), 

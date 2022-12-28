@@ -56,7 +56,7 @@ export default class Changed extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Changed(
             this.replaceChild("change", this.change, original, replacement),
             this.replaceChild("stream", this.stream, original, replacement)

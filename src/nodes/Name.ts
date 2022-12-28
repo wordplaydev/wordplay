@@ -42,7 +42,7 @@ export default class Name extends Node {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Name(
             this.replaceChild("separator", this.separator, original, replacement),
             this.replaceChild("name", this.name, original, replacement), 

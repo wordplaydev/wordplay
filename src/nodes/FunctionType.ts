@@ -60,7 +60,7 @@ export default class FunctionType extends Type {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new FunctionType(
             this.replaceChild("fun", this.fun, original, replacement),
             this.replaceChild("types", this.types, original, replacement),

@@ -375,10 +375,10 @@ export default class Project {
         // trigger an update. Without this, we'd have the same Source, Program, and Nodes, and the views would have no idea
         // that the conflicts in those same objects have changed.
         const mainReplacement = replacements.find(replacement => replacement[0] === this.main);
-        const newMain = mainReplacement ? mainReplacement[1] : this.main.replace();
+        const newMain = mainReplacement ? mainReplacement[1] : this.main.clone();
         const newSupplements = this.supplements.map(supplement => {
             const supplementReplacement = replacements.find(replacement => replacement[0] === supplement);
-            return supplementReplacement ? supplementReplacement[1] : supplement.replace();
+            return supplementReplacement ? supplementReplacement[1] : supplement.clone();
         });
         return new Project(this.name, newMain, newSupplements);
     }

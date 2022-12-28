@@ -45,7 +45,7 @@ export default class Is extends Expression {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Is(
             this.replaceChild("expression", this.expression, original, replacement), 
             this.replaceChild("operator", this.operator, original, replacement),

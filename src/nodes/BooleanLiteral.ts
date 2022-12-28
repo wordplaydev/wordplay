@@ -60,7 +60,7 @@ export default class BooleanLiteral extends Expression {
         return this.value.text.toString() === TRUE_SYMBOL;
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new BooleanLiteral(
             this.replaceChild("value", this.value, original, replacement)
         ) as this; 

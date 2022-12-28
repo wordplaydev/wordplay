@@ -30,7 +30,7 @@ export default class Add<NodeType extends Node> extends Transform {
 
     getEditedNode(lang: LanguageCode[]): [ Node, Node ] {
         const newNode = this.getNewNode(lang);
-        return [ newNode, this.parent.replace(this.field, newNode) ];
+        return [ newNode, this.parent.clone(this.field, newNode) ];
     }
 
     getEdit(languages: LanguageCode[]): Edit | undefined  {
@@ -40,7 +40,7 @@ export default class Add<NodeType extends Node> extends Transform {
         // Split the space using the position, defaulting to the original space.
         let newSpaces = Transform.splitSpace(this.context.source, this.position, newNode);
 
-        const newProgram = this.context.source.expression.replace(this.parent, newParent);
+        const newProgram = this.context.source.expression.clone(this.parent, newParent);
         const newSource = this.context.source.withProgram(newProgram, newSpaces);
 
         // Place the caret at first placeholder or the end of the node in the source.

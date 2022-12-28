@@ -41,7 +41,7 @@ export default class SetType extends NativeType {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new SetType(
             this.replaceChild("open", this.open, original, replacement), 
             this.replaceChild("key", this.key, original, replacement),

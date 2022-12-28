@@ -49,7 +49,7 @@ export default class Delete extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Delete(
             this.replaceChild("table", this.table, original, replacement), 
             this.replaceChild("del", this.del, original, replacement), 

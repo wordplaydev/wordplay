@@ -51,7 +51,7 @@ export default class Convert extends Expression {
         ];
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Convert(
             this.replaceChild("expression", this.expression, original, replacement), 
             this.replaceChild("type", this.type, original, replacement),

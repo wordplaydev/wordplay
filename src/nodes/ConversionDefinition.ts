@@ -68,7 +68,7 @@ export default class ConversionDefinition extends Expression {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new ConversionDefinition(
             this.replaceChild("docs", this.docs, original, replacement), 
             this.replaceChild("arrow", this.arrow, original, replacement),

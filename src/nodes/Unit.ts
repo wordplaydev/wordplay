@@ -88,7 +88,7 @@ export default class Unit extends Type {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Unit(
             this.exponents === undefined ? undefined : new Map(this.exponents),
             this.replaceChild("numerator", this.numerator, original, replacement), 

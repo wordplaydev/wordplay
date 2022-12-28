@@ -62,7 +62,7 @@ export default class Borrow extends Expression {
         ]; 
     }
 
-    replace(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) { 
         return new Borrow(
             this.replaceChild("borrow", this.borrow, original, replacement), 
             this.replaceChild("source", this.source, original, replacement),
