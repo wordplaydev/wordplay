@@ -92,7 +92,7 @@
     ];
 
     let dragged = getDragged();
-    let dragging = false;
+    
     let selected: TypeEntry | undefined = undefined;
 
     /** Search through the entries to find a corresponding node */

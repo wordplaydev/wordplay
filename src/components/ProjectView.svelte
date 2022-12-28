@@ -96,7 +96,10 @@
 <div 
     class="project" 
     on:mousedown={() => input?.focus() }
-    on:mouseup={() => dragged.set(undefined)}
+    on:mouseup={() => 
+        // Release the drag if a mouse up makes it all the way to the project view.
+        dragged.set(undefined) 
+    }
     on:mousemove={event => { if($dragged) { mouseX = event.clientX + window.scrollX; mouseY = event.clientY + window.scrollY; } }}
     on:keydown={event => event.key === "Escape" ? fullscreen = false : undefined }
 >

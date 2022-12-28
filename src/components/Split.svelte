@@ -30,7 +30,7 @@
 
     function grab() { dragging = true; }
 
-    function release() { dragging = false; }
+    function release(event: MouseEvent) { if(event.currentTarget === container) dragging = false; }
 
     function drag(event: MouseEvent) {
         const rect = container?.getBoundingClientRect();
@@ -47,7 +47,7 @@
 <section class="split" class:responsive class:flip
     style="--divider-split: {responsive && flip && horizontal() ? 100 - split : split}"
     on:mousemove={drag}
-    on:mouseup|stopPropagation={release}
+    on:mouseup={release}
     bind:this={container}
 >
     <div class="half first">
@@ -58,7 +58,7 @@
         tabIndex=0
         on:mousedown|stopPropagation={grab}
         on:keydown={handleDividerMove}
-        on:blur={release}
+        on:blur={() => dragging = false }
     />
     <div class="half last">
         <slot name="last"></slot>
