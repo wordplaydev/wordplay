@@ -224,10 +224,11 @@ export default class Source extends Expression {
         }
 
         // If only space changed, return a new source with the old program for maximum zippiness.
-        if(added.length === 0 && removed.length === 0)
-            return new Source(this.names, [ this.expression, spaces ]);
+        // NOTE: Parsing is space dependent, so we can't really do this.
+        // if(added.length === 0 && removed.length === 0)
+        //     return new Source(this.names, [ this.expression, spaces ]);
         // If only one token was added and removed and they're the same type, replace the token in the existing program
-        else if(added.length === 1 && removed.length === 1 && added[0].getTypes().some(type => removed[0].is(type)))
+        if(added.length === 1 && removed.length === 1 && added[0].getTypes().some(type => removed[0].is(type)))
             return new Source(this.names, [ this.expression.replace(removed[0], added[0]), spaces ]);
         
         // Try to reuse as many Nodes as possible by parsing the program with revised tokens, then identifying 
@@ -254,12 +255,12 @@ export default class Source extends Expression {
             // If we've already matched this node, skip it. Also skip the program; it always changes and is large.
             if(matched.has(newNode)) continue;
             // Get the (likely cached) tokens in the new node
-            const newTokens = newNode.leaves().map(token => token.id).join(" ");
+            const newTokens = newNode.hash();
             // Iterate through all of the unmatched old nodes to see if there's a match.
             let match = undefined;
             for(const oldNode of unmatchedOldNodes) {
                 if(newNode.constructor === oldNode.constructor) {
-                    const oldTokens = oldNodeTokenIDSequences.get(oldNode) ?? oldNode.leaves().map(token => token.id).join(" ");
+                    const oldTokens = oldNodeTokenIDSequences.get(oldNode) ?? oldNode.hash();
                     if(oldTokens === newTokens) {
                         match = oldNode;
                         break;

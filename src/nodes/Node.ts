@@ -131,6 +131,10 @@ export default abstract class Node {
         return this._leaves;
     }
 
+    hash(): string {
+        return this.isLeaf() ? "" + this.id : `•${this.getChildren().map(n => n.hash()).join(" ")}•`;
+    }
+
     /** Returns all this and all decedants in depth first order. Optionally uses the given function to decide whether to include a node. */
     nodes(include?: (node: Node) => boolean): Node[] {
         const nodes: Node[] = [];

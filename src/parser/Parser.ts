@@ -182,12 +182,7 @@ export class Tokens {
     nextHasPrecedingLineBreak(): boolean | undefined {
         return !this.hasNext() ? undefined : this.#spaces.hasLineBreak(this.#unread[0]);
     }
-    
-    /** Returns true if and only if the next token after next has a preceding line break. */
-    afterNextHasPrecedingLineBreak(): boolean {
-        return this.#unread.length > 1 && this.#spaces.hasLineBreak(this.#unread[1]);
-    }
-    
+     
     /** Returns true if there's a space ahead with more than one line break */
     nextHasMoreThanOneLineBreak(): boolean {    
         return (this.peekSpace() ?? "").split("\n").length - 1 >= 2;
@@ -283,7 +278,7 @@ export function parseBlock(tokens: Tokens, root: boolean=false, creator: boolean
     const statements = [];
     while(tokens.hasNext() && (root || tokens.nextIsnt(TokenType.EVAL_CLOSE)))
         statements.push(
-            nextIsBind(tokens, true) ? parseBind(tokens) : parseExpression(tokens)
+            nextIsBind(tokens, true) ? parseBind(tokens) : parseExpression(tokens, true)
         );
 
     const close = root ?
@@ -404,7 +399,13 @@ export function parseLanguage(tokens: Tokens): Language {
 }
 
 /** EXPRESSION :: BINARY_OPERATION [ conditional EXPRESSION EXPRESSION ]? */
-export function parseExpression(tokens: Tokens): Expression {
+export function parseExpression(tokens: Tokens, expectSpace: boolean = false): Expression {
+
+    // If the next token has more than one preceding line break, just return an unparsable.
+    // This prevents runaway expressions and provides an opportunity to provide feedback precisely
+    // where the expression was expected.
+    if(!expectSpace && tokens.nextHasMoreThanOneLineBreak())
+        return new UnparsableExpression([]);
 
     const left = parseBinaryOperation(tokens);
 
@@ -629,7 +630,7 @@ function parseTemplate(tokens: Tokens): Template {
             expressions.push(close);
         if(close === undefined || close.is(TokenType.TEXT_CLOSE))
             break;
-    } while(true);
+    } while(tokens.hasNext() && !tokens.nextHasMoreThanOneLineBreak());
 
     // Read an optional format.
     const format = tokens.nextIs(TokenType.LANGUAGE) ? parseLanguage(tokens) : undefined;
@@ -720,7 +721,7 @@ function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression {
         if(nextIsEvaluate(tokens) && tokens.nextLacksPrecedingSpace())
             left = parseEvaluate(left, tokens);
 
-    } while(tokens.hasNext() && tokens.nextIs(TokenType.SET_OPEN));
+    } while(tokens.hasNext() && tokens.nextIs(TokenType.SET_OPEN) && !tokens.nextHasMoreThanOneLineBreak());
 
     // Return the series of accesses and evaluations we created.
     return left;
@@ -756,7 +757,7 @@ function parseRow(tokens: Tokens): Row {
 
     const cells: (Bind | Expression)[] = [];
     // Read the cells.
-    while(tokens.hasNext() && !tokens.nextIs(TokenType.TABLE_CLOSE))
+    while(tokens.hasNext() && !tokens.nextIs(TokenType.TABLE_CLOSE) && !tokens.nextHasMoreThanOneLineBreak())
         cells.push(nextIsBind(tokens, true) ? parseBind(tokens) : parseExpression(tokens));
 
     // Read the closing row marker.
