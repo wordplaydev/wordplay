@@ -161,13 +161,6 @@ export default class Bind extends Expression {
 
                     if(defsWithName.length > 0)
                         conflicts.push(new DuplicateNames([ name, ... defsWithName ]));
-
-                    // Check for similar cases on bind, function, and structure names.
-                    // const nonTypeVariableNames = defs.reduce((names: Name[], def: Definition): Name[] => names.concat(def instanceof TypeVariable ? [] : def.names.names), []);
-                    // const lowercase = name.getLowerCaseName();
-                    // const defsWithSimilarName = nonTypeVariableNames.filter(alias => name !== alias && lowercase != undefined && alias.getLowerCaseName() === lowercase)
-                    // if(defsWithSimilarName.length > 0)
-                    //     conflicts.push(new CaseSensitive(name, defsWithSimilarName));
                 }
             }
         }
