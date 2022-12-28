@@ -78,7 +78,7 @@ function getTokenRects(nodeView: HTMLElement) {
     const nodeViewportOffset = getEditorOffset(nodeView);
 
     // Get the rectangles of all of the tokens's text
-    const tokenViews = nodeView.querySelectorAll(".Token .text");
+    const tokenViews = nodeView.querySelectorAll(".token-view .text");
     for(const view of tokenViews)
         rects.push(getViewRect(nodeViewportOffset, view as HTMLElement));
 
