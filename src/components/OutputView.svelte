@@ -87,14 +87,15 @@
         transition: ease-in, width 0.25s ease-in, height 0.25s ease-in;
         transform-origin: top right;
 
-        display: flex;
-        flex-direction: column;
+
         background-color: var(--wordplay-background);
 
         overflow: hidden;
         z-index: var(--wordplay-layer-output);
 
+        flex: 1;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
 
@@ -108,6 +109,7 @@
         left: 0;
         right: 0;
         bottom: 0;
+        z-index: var(--wordplay-layer-fullscreen);
     }
 
     .fullscreen .verse {
@@ -121,10 +123,9 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        flex: 1;
         width: 100%;
-        height: 100%;
-        min-width: 100vw;
-        min-height: 100vh;
+        min-height: 2em;
     }
 
     .mini {

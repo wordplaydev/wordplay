@@ -197,8 +197,7 @@
 
 <style>
     .palette {
-        width: 100%;
-        max-width: var(--wordplay-palette-max-width);
+        flex: 1;
         
         z-index: var(--wordplay-layer-palette);
         overflow-y: scroll;

@@ -14,6 +14,7 @@
     import Annotations from "./Annotations.svelte";
     import type Conflict from "../conflicts/Conflict";
     import type Rect from "./Rect";
+    import Split from "./Split.svelte";
 
     export let project: Project;
 
@@ -82,16 +83,18 @@
     on:mousemove={event => { if($dragged) { mouseX = event.clientX + window.scrollX; mouseY = event.clientY + window.scrollY; } }}
     on:keydown={event => event.key === "Escape" ? fullscreen = false : undefined }
 >
-    <Palette hidden={stepping}/>
-    <div class="source">
-        <SourceView 
-            {project} source={activeSource} {fullscreen} 
-            bind:input={input} bind:conflicts bind:viewport
-            on:fullscreen={handleFullscreen} 
-            on:activate={handleActivate}
-        />
-    </div>
-    <Annotations {project} {conflicts} {stepping} {viewport}/>
+    <Split split={20} min={10} max={40}>
+        <Palette slot="first" hidden={stepping}/>
+        <div slot="last" class="source">
+            <SourceView 
+                {project} source={activeSource} {fullscreen} 
+                bind:input={input} bind:conflicts bind:viewport
+                on:fullscreen={handleFullscreen} 
+                on:activate={handleActivate}
+            />
+            <Annotations {project} {conflicts} {stepping} {viewport}/>
+        </div>
+    </Split>
     <!-- Render the dragged node over the whole project -->
     {#if $dragged !== undefined}
         <div class="draggable" style="left: {mouseX}px; top:{mouseY}px;"><NodeView node={$dragged.node}/><div class="cursor">🐲</div></div>
@@ -110,7 +113,7 @@
     }
     
     .source {
-        flex-grow: 1;
+        flex: 1;
         min-width: 2em;
         min-height: 2em;
     }

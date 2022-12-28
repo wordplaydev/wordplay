@@ -1167,7 +1167,7 @@
         padding: calc(2 * var(--wordplay-spacing));
         scroll-behavior: smooth;
         overflow: scroll;
-        flex-grow: 1;
+        flex: 1;
         z-index: var(--wordplay-layer-code);
     }
 
