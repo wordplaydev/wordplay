@@ -310,14 +310,14 @@
     function updateOutlines() {
         outlines = [];
         for(const [ node, types ] of $highlights.entries()) {
-                const nodeView = getNodeView(node);
-                if(nodeView)
-                    outlines.push({
-                        types: Array.from(types),
-                        outline: getOutlineOf(nodeView),
-                        underline: getUnderlineOf(nodeView)
-                    });
-            }
+            const nodeView = getNodeView(node);
+            if(nodeView)
+                outlines.push({
+                    types: Array.from(types),
+                    outline: getOutlineOf(nodeView),
+                    underline: getUnderlineOf(nodeView)
+                });
+        }
     }
 
     // After updates, manage highlight classes on nodes
