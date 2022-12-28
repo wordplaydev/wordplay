@@ -2,13 +2,12 @@
     import { getDragged } from "../editor/util/Contexts";
     import { parseExpression, parseType, toTokens } from "../parser/Parser";
     import { project, updateProject } from "../models/stores";
-    import Program from "../nodes/Program";
     import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
     import { BoolDefinition, ListDefinition, MapDefinition, MeasurementDefinition, NoneDefinition, SetDefinition, TextDefinition } from "../native/NativeBindings";
     import ImplicitShares from "../runtime/ImplicitShares";
     import StructureDefinition from "../nodes/StructureDefinition";
     import type Type from "../nodes/Type";
-    import type Expression from "../nodes/Expression";
+    import Expression from "../nodes/Expression";
     import NameType from "../nodes/NameType";
     import type Node from "../nodes/Node";
     import Evaluate from "../nodes/Evaluate";
@@ -19,6 +18,7 @@
     import RootView from "../editor/RootView.svelte";
     import { WRITE } from "../nodes/Translations";
     import Button from "./Button.svelte";
+    import Source from "../models/Source";
 
     export let hidden: boolean;
 
@@ -137,22 +137,18 @@
         if(node === undefined) return;
 
         // See if we can remove the node from it's root.
-        const program = node.getRoot();
-        if(!(program instanceof Program)) return;
-
-        // Find the source that contains the dragged root.
-        const source = $project.getSourceWithProgram(program);
-        if(source === undefined) return;
+        const source = node.getRoot();
+        if(!(source instanceof Source)) return;
 
         // Figure out what to replace the dragged node with. By default, we remove it.
-        let replacement = node.inList() ? undefined : new ExpressionPlaceholder();
+        let replacement = node instanceof Expression && !node.inList() ? new ExpressionPlaceholder() : undefined;
 
         // Update the project with the new source files
         updateProject(
             $project.withSource(
                 source, 
                 source.withProgram(
-                    program.clone(node.node, replacement),
+                    source.expression.clone(node.node, replacement),
                     source.spaces.withReplacement(node.node, replacement)
                 )
             )
