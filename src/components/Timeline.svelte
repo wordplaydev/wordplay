@@ -132,7 +132,6 @@
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
-        border-bottom: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
     .inputs {

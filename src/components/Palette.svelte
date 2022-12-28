@@ -214,7 +214,6 @@
         user-select: none;
         white-space: nowrap;
 
-        border-right: var(--wordplay-border-width) solid var(--wordplay-border-color);
         transition: width 0.25s ease-out, visibility 0.25s ease-out, opacity 0.25s ease-out;
 
     }

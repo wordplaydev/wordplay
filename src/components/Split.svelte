@@ -73,10 +73,6 @@
         width: 100%;
     }
 
-    .divider {
-        background-color: var(--wordplay-border-color);
-    }
-
     .divider:focus {
         outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
         background-color: var(--wordplay-highlight);
@@ -87,7 +83,6 @@
             flex-direction: row-reverse;
         }
         .first {
-            border-left: var(--wordplay-border-width) solid var(--wordplay-border-color);
             height: 100vh;
             flex-basis: calc(var(--divider-split) * 1vw);
         }
@@ -100,6 +95,8 @@
             height: 100%;
             width: var(--wordplay-spacing);
             cursor: ew-resize;
+            border-bottom: var(--wordplay-border-color) solid var(--wordplay-border-width);
+            border-right: var(--wordplay-border-color) solid var(--wordplay-border-width);
         }
     }
 
@@ -116,6 +113,7 @@
             width: 100%;
             height: var(--wordplay-spacing);
             cursor: ns-resize;
+            border-right: var(--wordplay-border-color) solid var(--wordplay-border-width);
         }
     }
 
