@@ -5,6 +5,7 @@
     export let flip: boolean = false;
     export let min: number = 0;
     export let max: number = 100;
+    export let hide: boolean = false;
 
     let container: HTMLElement | undefined;
     let divider: HTMLElement | undefined;
@@ -44,7 +45,7 @@
 
 </script>
 
-<section class="split" class:responsive class:flip
+<section class="split" class:responsive class:flip class:hide
     style="--divider-split: {responsive && flip && horizontal() ? 100 - split : split}"
     on:mousemove={drag}
     on:mouseup={release}
@@ -76,6 +77,18 @@
     .divider:focus {
         outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
         background-color: var(--wordplay-highlight);
+    }
+
+    .first {
+        transition: flex-basis 0.1s ease-out;
+    }
+
+    .hide > .first {
+        flex-basis: 0;
+    }
+    .hide > .divider {
+        width: 0;
+        display: none;
     }
 
     @media screen {
@@ -125,8 +138,8 @@
     .half {
         display: flex;
         flex-direction: column;
-        min-width: 2em;
-        min-height: 2em;
+        min-width: 0em;
+        min-height: 0em;
     }    
 
 

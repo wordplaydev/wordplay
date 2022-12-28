@@ -19,6 +19,7 @@
     import { WRITE } from "../nodes/Translations";
     import Button from "./Button.svelte";
     import Source from "../models/Source";
+    import { fly } from "svelte/transition";
 
     export let hidden: boolean;
 
@@ -167,6 +168,7 @@
     class:hidden
     on:mousedown={handleMouseDown}
     on:mouseup={handleDrop}
+    transition:fly={{ x: -200 }}
 >
     {#if selected }
         <section class="type">

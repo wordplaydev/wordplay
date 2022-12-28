@@ -46,8 +46,8 @@ export function updateProject(newProject: Project) {
         oldProject.evaluator.ignore(updateEvaluatorStores);
     }
 
-    newProject.evaluator.observe(updateEvaluatorStores);
     project.set(newProject);
+    newProject.evaluator.observe(updateEvaluatorStores);
 
     if(typeof window !== "undefined")
         window.localStorage.setItem("project", newProject.name);

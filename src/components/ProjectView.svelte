@@ -32,6 +32,13 @@
 
     let viewport: Rect;
 
+    /** A global full screen flag */
+    let fullscreen = false;
+    let input: HTMLInputElement | null = null;
+
+    let mouseX = 0;
+    let mouseY = 0;
+
     // Clean up the project when unmounted.
     onDestroy(() => project.cleanup());
 
@@ -52,12 +59,6 @@
     let projectStore = writable<Project>(project);
     setContext<ProjectContext>(ProjectSymbol, projectStore);
 
-    // Create a global full screen flag
-    let fullscreen = false;
-    let input: HTMLInputElement | null = null;
-
-    let mouseX = 0;
-    let mouseY = 0;
 
     function handleActivate(event: CustomEvent<{ source: Source }>) {
         activeSourceName = event.detail.source.getNames()[0];
@@ -105,7 +106,7 @@
     on:mousemove={event => { mouseX = event.clientX + window.scrollX; mouseY = event.clientY + window.scrollY; }}
     on:keydown={event => event.key === "Escape" ? fullscreen = false : undefined }
 >
-    <Split split={20} min={10} max={40}>
+    <Split split={20} min={20} max={40} hide={stepping}>
         <Palette slot="first" hidden={stepping}/>
         <div slot="last" class="source">
             <SourceView 
