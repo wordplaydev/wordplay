@@ -116,10 +116,14 @@ export default class Changed extends Expression {
         };
     }
 
+    getPreferredPrecedingSpace(child: Node): string {
+        return child === this.stream ? " " : "";
+    }
+
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "A previous stream value"
+            eng: "true if a stream changed"
         }
     }
 

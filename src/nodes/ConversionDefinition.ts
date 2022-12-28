@@ -134,6 +134,10 @@ export default class ConversionDefinition extends Expression {
         return current;
     }
  
+    getPreferredPrecedingSpace(child: Node): string {
+        return child === this.input || child === this.output || child === this.expression ? " " : "";
+    }
+
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,

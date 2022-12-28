@@ -6,6 +6,7 @@
     import DocsView from "./Note.svelte";
 
     export let node: Node;
+    export let docs: boolean = true;
     export let interactive: boolean = false;
     
     let context = getContext<Context>("context");
@@ -14,8 +15,10 @@
 
 <div class="code" class:interactive>
     <RootView {node}/>
+    {#if docs}
+        <DocsView docs={node.getDescriptions(context).eng}/>
+    {/if}
 </div>
-<br/><DocsView docs={node.getDescriptions(context).eng}/>
 
 <style>
 

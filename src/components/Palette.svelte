@@ -15,8 +15,8 @@
     import TypeCategoryView from "./TypeCategoryView.svelte";
     import TypeView from "./TypeView.svelte";
     import { constructs } from "./ConstructEntries";
-    import ConstructView from "./ConstructView.svelte";
     import { setContext } from "svelte";
+    import ConstructsView from "./ConstructsView.svelte";
 
     export let hidden: boolean;
 
@@ -137,10 +137,7 @@
     {:else}
 
         <input type="text"/>
-        <h2>code</h2>
-        {#each constructs as entry}
-            <ConstructView {entry} />
-        {/each}
+        <ConstructsView entries={constructs} />
         <section class="types">
             <TypeCategoryView category="project" entries={customEntries} on:selected={handleSelection} />
             <TypeCategoryView category="data" entries={nativeTypeEntries} on:selected={handleSelection} />

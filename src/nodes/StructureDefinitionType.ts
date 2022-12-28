@@ -91,7 +91,7 @@ export default class StructureDefinitionType extends Type {
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "A structure type"
+            eng: this.structure.docs?.getTranslations().eng ?? "a type"
         }
     }
 
