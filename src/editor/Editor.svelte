@@ -369,19 +369,21 @@
 
         if($dragged === undefined) return false;
 
+        const node = $dragged.node;
+
         // Allow expressions ot be dropped on expressions.
-        if($dragged instanceof Expression && $hovered instanceof Expression)
+        if(node instanceof Expression && $hovered instanceof Expression)
             return true;
 
         // Allow binds to be dropped on children of blocks.
-        if($dragged instanceof Bind && $hovered) {
+        if(node instanceof Bind && $hovered) {
             const hoverParent = $caret.source.get($hovered)?.getParent();
             if(hoverParent instanceof Block && hoverParent.statements.includes($hovered as Expression))
                 return true;
         }
 
         // Allow types to be dropped on types.
-        if($dragged instanceof Type && $hovered instanceof Type)
+        if(node instanceof Type && $hovered instanceof Type)
             return true;
 
         // Allow inserts to be inserted.
