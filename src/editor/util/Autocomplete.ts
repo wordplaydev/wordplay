@@ -427,9 +427,9 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
             // Reactions
             ...[ new Replace(context, parent, expr, Reaction.make(expr, new ExpressionPlaceholder()))],
             // If given a type, any binary operations that are available on the type. Wrap in a block if a BinaryOperation or Conditional
-            ...((type === undefined ? [] : type.getDefinitionsInScope(context).filter((def: Definition): def is FunctionDefinition => def instanceof FunctionDefinition && def.isOperator()) 
+            ...((type === undefined ? [] : type.getDefinitionsInScope(context).filter((def: Definition): def is FunctionDefinition => def instanceof FunctionDefinition && def.isBinaryOperator()) 
                 .map((def: FunctionDefinition) => 
-                    new Replace(context, parent, expr, new Refer(() => new BinaryOperation(Block.make([ expr ]), new Token(def.getOperatorName() ?? "", TokenType.BINARY_OP), new ExpressionPlaceholder()), def ))))),
+                    new Replace(context, parent, expr, new Refer(() => new BinaryOperation(Block.make([ expr ]), new Token(def.getBinaryOperatorName() ?? "", TokenType.BINARY_OP), new ExpressionPlaceholder()), def ))))),
             // Get any conversions available
             ...(type === undefined ? [] :
                     type.getAllConversions(context)

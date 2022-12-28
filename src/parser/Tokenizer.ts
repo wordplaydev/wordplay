@@ -81,6 +81,7 @@ const TEXT_SEPARATORS = "'‘’\"“”„«»‹›「」『』";
 const UNARY_OPERATORS = `${NOT_SYMBOL}${NEGATE_SYMBOL}`;
 const BINARY_OPERATORS = `+\\-×${PRODUCT_SYMBOL}÷%^<≤=≠≥>&|~\?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;
 
+export const UnaryOpRegEx = new RegExp(`^[${UNARY_OPERATORS}](?! )`, "u");
 export const BinaryOpRegEx = new RegExp(`^[${BINARY_OPERATORS}]`, "u");
 
 function escapeRegexCharacter(c: string) { return /[\\\/\(\)\[\]\{\}]/.test(c) ? "\\" + c : c }
@@ -167,7 +168,7 @@ const patterns = [
     // - Supplementary operators: U+2A00–U+2AFF
     // - Arrows: U+2190–U+21FF, U+27F0–U+27FF, U+2900–U+297F
     // - Basic latin operators: +-×·÷%^<≤=≠≥>&|
-    { pattern: new RegExp(`^[${UNARY_OPERATORS}](?! )`, "u"), types: [ TokenType.UNARY_OP ] },
+    { pattern: UnaryOpRegEx, types: [ TokenType.UNARY_OP ] },
     { pattern: BinaryOpRegEx, types: [ TokenType.BINARY_OP ] },
     // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
     { 

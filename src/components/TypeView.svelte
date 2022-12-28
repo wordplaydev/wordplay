@@ -9,6 +9,10 @@
     import Convert from "../nodes/Convert";
     import Note from "./Note.svelte";
     import { fly } from "svelte/transition";
+    import BinaryOperation from "../nodes/BinaryOperation";
+    import Token from "../nodes/Token";
+    import TokenType from "../nodes/TokenType";
+    import UnaryOperation from "../nodes/UnaryOperation";
 
     export let entry: TypeEntry;
 
@@ -52,9 +56,13 @@
     <h2>functions</h2>
     {#each def.getFunctions() as fun }
         <CodeView node={
-            Evaluate.make(
-                PropertyReference.make(new ExpressionPlaceholder(), Reference.make(fun.names.getTranslation($languages))),
-                fun.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())
+            fun.isUnaryOperator() ?
+                new UnaryOperation(new Token(fun.getUnaryOperatorName() ?? "_", TokenType.UNARY_OP), new ExpressionPlaceholder()) :
+            fun.isBinaryOperator() ?
+                new BinaryOperation(new ExpressionPlaceholder(), new Token(fun.getBinaryOperatorName() ?? "_", TokenType.BINARY_OP), new ExpressionPlaceholder()) :
+                Evaluate.make(
+                    PropertyReference.make(new ExpressionPlaceholder(), Reference.make(fun.names.getTranslation($languages))),
+                    fun.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())
             )
         }/>
     {/each}

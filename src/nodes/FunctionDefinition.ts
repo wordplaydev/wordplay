@@ -11,7 +11,7 @@ import FunctionValue from "../runtime/FunctionValue";
 import type Step from "../runtime/Step";
 import type Context from "./Context";
 import type Definition from "./Definition";
-import { BinaryOpRegEx, FUNCTION_SYMBOL } from "../parser/Tokenizer";
+import { BinaryOpRegEx, FUNCTION_SYMBOL, UnaryOpRegEx } from "../parser/Tokenizer";
 import type TypeSet from "./TypeSet";
 import EvaluationException, { StackSize } from "../runtime/EvaluationException";
 import type Translations from "./Translations";
@@ -134,10 +134,14 @@ export default class FunctionDefinition extends Expression {
     getNames() { return this.names.getNames(); }
     getTranslation(lang: LanguageCode[]) { return this.names.getTranslation(lang); }
 
-    isOperator() { return this.inputs.length === 1 && this.getOperatorName() !== undefined; }
+    isBinaryOperator() { return this.inputs.length === 1 && this.getBinaryOperatorName() !== undefined; }
+    isUnaryOperator() { return this.inputs.length === 0 && this.getUnaryOperatorName() !== undefined; }
     
-    getOperatorName() { 
+    getBinaryOperatorName() { 
         return this.names.getNames().find(name => BinaryOpRegEx.test(name));
+    }
+    getUnaryOperatorName() { 
+        return this.names.getNames().find(name => UnaryOpRegEx.test(name));
     }
 
     /**
