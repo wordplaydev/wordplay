@@ -890,7 +890,7 @@ function parseConvert(expression: Expression, tokens: Tokens): Convert {
     const convert = tokens.read(TokenType.CONVERT);
     const type = parseType(tokens, true);
         
-    return new Convert(expression, type, convert);
+    return new Convert(expression, convert, type);
 
 }
 

@@ -121,17 +121,17 @@ h1, h2, h3 {
 }
 
 h1 {
-    font-size: x-large;
-    font-weight: bold;
-}
-
-h2 {
     font-size: large;
     font-weight: bold;
 }
 
-h3 {
+h2 {
     font-size: medium;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: small;
     font-style: italic;
     font-weight: normal;
 }

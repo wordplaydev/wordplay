@@ -434,7 +434,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
             ...(type === undefined ? [] :
                     type.getAllConversions(context)
                         .filter(conversion => conversion.input instanceof Type && type.accepts(conversion.input, context))
-                        .map(conversion => new Replace(context, parent, expr, new Convert(expr, conversion.output.clone()))))
+                        .map(conversion => new Replace(context, parent, expr, Convert.make(expr, conversion.output.clone()))))
         ];
 
     }

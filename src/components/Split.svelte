@@ -91,6 +91,10 @@
         display: none;
     }
 
+    .split.dragging > .divider, .divider:focus {
+        border: none;
+    }
+
     @media screen {
         .split.responsive.flip  {
             flex-direction: row-reverse;
@@ -129,6 +133,7 @@
             border-right: var(--wordplay-border-color) solid var(--wordplay-border-width);
         }
     }
+
 
     .last {
         flex: 1;

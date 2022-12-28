@@ -1,25 +1,22 @@
 <script lang="ts">
     import { getDragged } from "../editor/util/Contexts";
-    import { parseExpression, parseType, toTokens } from "../parser/Parser";
     import { project, updateProject } from "../models/stores";
     import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
-    import { BoolDefinition, ListDefinition, MapDefinition, MeasurementDefinition, NoneDefinition, SetDefinition, TextDefinition } from "../native/NativeBindings";
-    import ImplicitShares from "../runtime/ImplicitShares";
     import StructureDefinition from "../nodes/StructureDefinition";
-    import type Type from "../nodes/Type";
     import Expression from "../nodes/Expression";
-    import NameType from "../nodes/NameType";
-    import type Node from "../nodes/Node";
-    import Evaluate from "../nodes/Evaluate";
-    import PropertyReference from "../nodes/PropertyReference";
-    import Bind from "../nodes/Bind";
-    import Reference from "../nodes/Reference";
     import Tree from "../nodes/Tree";
-    import RootView from "../editor/RootView.svelte";
     import { WRITE } from "../nodes/Translations";
     import Button from "./Button.svelte";
     import Source from "../models/Source";
     import { fly } from "svelte/transition";
+    import type Node from "../nodes/Node";
+    import { nativeTypeEntries, nonNativeStructureToEntry, outputTypeEntries } from "./TypeEntries";
+    import type { TypeEntry } from "./TypeEntries";
+    import TypeCategoryView from "./TypeCategoryView.svelte";
+    import TypeView from "./TypeView.svelte";
+    import { constructs } from "./ConstructEntries";
+    import ConstructView from "./ConstructView.svelte";
+    import { setContext } from "svelte";
 
     export let hidden: boolean;
 
@@ -29,72 +26,23 @@
      * 2) functions on the type. It includes any creator-defined types and borrowed types in the active project.
      */
 
-    type TypeEntry = {
-        definition: StructureDefinition, 
-        creators: Expression[],
-        name: Type,
-        constructs: Expression[],
-        functions: Evaluate[]
-    }
+    $: customEntries = [ $project.main, ...$project.supplements ]
+        .map(source => 
+            (source.expression.nodes(n => n instanceof StructureDefinition) as StructureDefinition[])
+            .map(def => nonNativeStructureToEntry("project", def))).flat();
 
-    function structureToEntry(literals: Expression[] | undefined, def: StructureDefinition, name: Type, constructs: Expression[]): TypeEntry {
-        return { 
-            definition: def,
-            creators: literals ?? [ Evaluate.make(
-                Reference.make(def.names.names[0].name.getText()),
-                def.inputs.filter(input => input instanceof Bind && !input.hasDefault()).map(() => new ExpressionPlaceholder())
-            ) ],
-            name: name,
-            constructs: constructs,
-            // Map each function to an Evaluate with placeholders for the structure and required arguments
-            functions: def.getFunctions(true).map(fun => 
-                Evaluate.make(
-                    PropertyReference.make(new ExpressionPlaceholder(), Reference.make(fun.names.names[0].name.getText())),
-                    fun.inputs.filter(input => input instanceof Bind && !input.hasDefault()).map(() => new ExpressionPlaceholder())
-                )
-            )
-        };
-    }
-
-    function nativeStructureToEntry(def: StructureDefinition, literals: string[], type: string, constructs: string[]): TypeEntry {
-        return structureToEntry(
-            literals.map(literal => parseExpression(toTokens(literal)) as Expression),
-            def, 
-            parseType(toTokens(type)) as Type,
-            constructs.map(construct => parseExpression(toTokens(construct)) as Expression)
-        );
-    }
-
-    function nonNativeStructureToEntry(def: StructureDefinition): TypeEntry {
-        return structureToEntry(
-            undefined,
-            def, 
-            new NameType(def.names.names[0].name.getText()),
-            []
-        );
-    }
-
-    let entries: TypeEntry[] = [
-        nativeStructureToEntry(BoolDefinition, [ "⊤", "⊥" ], "?", [ "_ ? _ _" ]),
-        nativeStructureToEntry(TextDefinition, [ '""' ], '""', [ "'\\_\\'" ]),
-        nativeStructureToEntry(MeasurementDefinition, [ "0", "π", "∞" ], '#', [ "_[ _ ]" ]),
-        nativeStructureToEntry(ListDefinition, [ '[]' ], '[]', [ "_[ _ ]" ]),
-        nativeStructureToEntry(SetDefinition, [ '{}' ], '{}', [ "_{ _ }" ]),
-        nativeStructureToEntry(MapDefinition, [ '{:}' ], '{:}', [ "_{ _ }" ]),
-        nativeStructureToEntry(NoneDefinition, [ "!" ], "!", [ "_ ? _ _" ]),
-        
-        ...ImplicitShares.filter((s): s is StructureDefinition => s instanceof StructureDefinition).map(def => nonNativeStructureToEntry(def)),
-
-        ...[ $project.main, ...$project.supplements ]
-            .map(source => 
-                (source.expression.nodes(n => n instanceof StructureDefinition) as StructureDefinition[])
-                .map(def => nonNativeStructureToEntry(def))).flat()
-
-    ];
+    $: entries = [ 
+        ... customEntries,
+        ... nativeTypeEntries,
+        ... outputTypeEntries
+    ]
 
     let dragged = getDragged();
     
     let selected: TypeEntry | undefined = undefined;
+
+    // Set a context that stores a project context for nodes in the palette to use.
+    $: setContext("context", $project.getContext($project.main));
 
     /** Search through the entries to find a corresponding node */
     function idToNode(id: number): Node | undefined {
@@ -107,6 +55,10 @@
                 if(construct.id === id) return construct;
             for(const fun of entry.functions)
                 if(fun.id === id) return fun;
+        }
+        for(const construct of constructs) {
+            if(construct.example.id === id)
+                return construct.example;
         }
         return undefined;
     }
@@ -157,6 +109,9 @@
 
     }
 
+    function handleSelection(event: CustomEvent<{ entry: TypeEntry }>) {
+        selected = event.detail.entry;
+    }
 
 </script>
 
@@ -177,24 +132,19 @@
                 tip={{ eng: "Return to the types menu.", "😀": WRITE }}
                 action={() => selected = undefined } 
             />
-            <h3>{#each selected.creators as creator, index}{#if index > 0}, {/if}<RootView node={creator}/>{/each}</h3>
-
-            {#each selected.constructs as node }
-                <p><RootView {node}/></p>
-            {/each}
-
-            {#each selected.functions as node }
-                <p><RootView {node}/></p>
-            {/each}
-
+            <TypeView entry={selected} />
         </section>
     {:else}
-        <section class="types">
-            <h3>Types</h3>
 
-            {#each entries as type}
-                <p on:mousedown|stopPropagation={() => selected = type}><RootView node={type.name}/></p>
-            {/each}
+        <input type="text"/>
+        <h2>code</h2>
+        {#each constructs as entry}
+            <ConstructView {entry} />
+        {/each}
+        <section class="types">
+            <TypeCategoryView category="project" entries={customEntries} on:selected={handleSelection} />
+            <TypeCategoryView category="data" entries={nativeTypeEntries} on:selected={handleSelection} />
+            <TypeCategoryView category="output" entries={outputTypeEntries} on:selected={handleSelection} />
         </section>
     {/if}
 </section>
@@ -210,7 +160,6 @@
 
         padding: var(--wordplay-spacing);
         user-select: none;
-        white-space: nowrap;
 
         transition: width 0.25s ease-out, visibility 0.25s ease-out, opacity 0.25s ease-out;
 
@@ -222,10 +171,6 @@
         padding: 0;
         border: 0;
         visibility: hidden;
-    }
-
-    p {
-        cursor: pointer;
     }
 
 </style>

@@ -32,15 +32,19 @@ export default class Convert extends Expression {
     readonly convert: Token;
     readonly type: Type;
 
-    constructor(expression: Expression, type: Type, convert?: Token) {
+    constructor(expression: Expression, convert: Token, type: Type) {
         super();
 
         this.expression = expression;
-        this.convert = convert ?? new Token(CONVERT_SYMBOL, TokenType.CONVERT);
+        this.convert = convert;
         this.type = type;
 
         this.computeChildren();
 
+    }
+
+    static make(expression: Expression, type: Type) {
+        return new Convert(expression, new Token(CONVERT_SYMBOL, TokenType.CONVERT), type);
     }
 
     getGrammar() { 
@@ -54,8 +58,8 @@ export default class Convert extends Expression {
     clone(original?: Node, replacement?: Node) { 
         return new Convert(
             this.replaceChild("expression", this.expression, original, replacement), 
-            this.replaceChild("type", this.type, original, replacement),
-            this.replaceChild("convert", this.convert, original, replacement)
+            this.replaceChild("convert", this.convert, original, replacement),
+            this.replaceChild("type", this.type, original, replacement)
         ) as this; 
     }
 
