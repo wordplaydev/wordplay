@@ -13,6 +13,7 @@
     import Token from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
     import UnaryOperation from "../nodes/UnaryOperation";
+    import { selectTranslation } from "../nodes/Translations";
 
     export let entry: TypeEntry;
 
@@ -23,7 +24,7 @@
 <div class="docs" transition:fly={{ x: -200}}>
     <h1>{def.names.getTranslation($languages)}</h1>
 
-    <p>{def.getDescriptions().eng}</p>
+    <p>{selectTranslation(def.getDescriptions(), $languages)}</p>
 
     <h2>examples</h2>
     {#each entry.creators as creator }    

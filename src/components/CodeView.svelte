@@ -1,8 +1,10 @@
 <script lang="ts">
     import { getContext } from "svelte";
     import RootView from "../editor/RootView.svelte";
+    import { languages } from "../models/languages";
     import type Context from "../nodes/Context";
     import type Node from "../nodes/Node";
+    import { selectTranslation } from "../nodes/Translations";
     import DocsView from "./Note.svelte";
 
     export let node: Node;
@@ -16,7 +18,7 @@
 <div class="code" class:interactive>
     <RootView {node}/>
     {#if docs}
-        <DocsView docs={node.getDescriptions(context).eng}/>
+        <DocsView docs={selectTranslation(node.getDescriptions(context), $languages)}/>
     {/if}
 </div>
 
