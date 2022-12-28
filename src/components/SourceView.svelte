@@ -37,7 +37,7 @@
                 <Timeline evaluator={project.evaluator} />
             {/if}
         </div>
-        <div slot="last">
+        <div class="code" slot="last">
             {#if !fullscreen}
                 <div class="sources">
                     {#each project.getSources() as src}
@@ -66,6 +66,12 @@
         flex-direction: column;
         flex: 1;
         width: 100%;
+    }
+
+    .code {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
     }
 
 </style>
