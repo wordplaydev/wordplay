@@ -82,16 +82,7 @@
         opacity: 0.70;
     }
 
-    .outline.exception path {
-        fill: var(--wordplay-error);
-        stroke: var(--wordplay-error);
-        opacity: 0.70;
-        transform: rotate(1deg);
-        transform-box: fill-box;
-    }
-
     :global(
-        .exception .token-view,
         .evaluating .token-view,
         .dragging .token-view,
         .selected .token-view
@@ -118,6 +109,19 @@
 
     .underline.secondary path, .underline.minor path {
         stroke: var(--wordplay-warning);
+    }
+
+    .underline.exception path {
+        stroke: var(--wordplay-error);
+        fill: var(--wordplay-error);
+        stroke-width: calc(2 * var(--wordplay-border-width));
+        stroke-dasharray: calc(2 * var(--wordplay-border-width));
+        animation: exception 0.5s linear infinite;
+    }
+
+    @keyframes exception {
+        0% { stroke-dashoffset: 0; }
+        100% { stroke-dashoffset: calc(4 * var(--wordplay-border-width)); }
     }
 
 </style>
