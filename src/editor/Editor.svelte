@@ -200,7 +200,7 @@
         
         // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't one of the selected tags.
         for(const tag of source.nodes(n => n instanceof Doc || n instanceof Name) as (Doc | Name)[]) {
-            if(!tag.getLanguage() !== undefined && !$languages.includes((tag.getLanguage() ?? "") as LanguageCode) && !$caret.isIn(tag))
+            if(tag.getLanguage() !== undefined && !$languages.includes((tag.getLanguage() ?? "") as LanguageCode) && !$caret.isIn(tag))
                 newHidden.add(tag);
         }
 
