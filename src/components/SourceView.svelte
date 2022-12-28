@@ -57,6 +57,9 @@
         .source {
             flex-direction: column;
         }
+        .first {
+            height: 30vh;
+        }
     }
     @media (min-aspect-ratio: 4/5) {
         .source {
@@ -65,6 +68,7 @@
         .first {
             border-left: var(--wordplay-border-width) solid var(--wordplay-border-color);
             height: 100vh;
+            width: 30vw;
         }
         .last {
             height: 100vh;
@@ -79,8 +83,8 @@
     .half {
         display: flex;
         flex-direction: column;
-        min-width: 30em;
-        min-height: 30em;
+        min-width: 20em;
+        min-height: 20em;
     }    
 
     .sources {
