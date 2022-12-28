@@ -195,7 +195,7 @@
             <h3>Types</h3>
 
             {#each entries as type}
-                <p on:mousedown={() => selected = type}><RootView node={type.name}/></p>
+                <p on:mousedown|stopPropagation={() => selected = type}><RootView node={type.name}/></p>
             {/each}
         </section>
     {/if}
