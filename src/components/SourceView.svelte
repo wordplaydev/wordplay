@@ -60,7 +60,6 @@
 
 <section class="source" 
     style="--divider-split: {split}"
-    on:mousedown|stopPropagation={grab}
     on:mousemove|stopPropagation={drag}
     on:mouseup|stopPropagation={release}
 >
@@ -73,6 +72,7 @@
     <div class="divider"
         bind:this={divider}
         tabIndex=0
+        on:mousedown|stopPropagation={grab}
         on:keydown={handleDividerMove}
         on:blur={release}
     />
