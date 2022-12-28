@@ -37,6 +37,7 @@
 <span 
     class="token-view token-{kind} {`token-category-${kind}`} {node.is(TokenType.NAME_SEPARATOR) ? "comma" : ""} {$caret !== undefined ? "editable" : ""}" 
     class:active
+    class:placeholder
     data-id={node.id}><span class="text">{@html textToShow }</span></span>
 
 <style>
@@ -73,7 +74,7 @@
 
     .placeholder .text {
         font-family: var(--wordplay-font-face);
-        padding: 2px;
+        font-style: italic;
     }
 
 </style>
