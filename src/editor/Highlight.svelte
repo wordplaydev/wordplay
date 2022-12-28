@@ -83,9 +83,9 @@
     }
 
     :global(
-        .evaluating .token-view,
-        .dragging .token-view,
-        .selected .token-view
+        .node-view.evaluating .token-view,
+        .node-view.dragging .token-view,
+        .node-view.selected .token-view
     ) {
         color: var(--color-white) !important; 
     }

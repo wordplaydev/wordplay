@@ -45,7 +45,7 @@
 
 </script>
 
-<section class="split" class:responsive class:flip class:hide
+<section class="split" class:responsive class:flip class:hide class:dragging
     style="--divider-split: {responsive && flip && horizontal() ? 100 - split : split}"
     on:mousemove={drag}
     on:mouseup={release}
@@ -79,7 +79,7 @@
         background-color: var(--wordplay-highlight);
     }
 
-    .first {
+    :not(.dragging) > .first {
         transition: flex-basis 0.1s ease-out;
     }
 
