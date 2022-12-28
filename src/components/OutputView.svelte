@@ -135,7 +135,7 @@
         box-shadow: none;
         background-color: var(--wordplay-background);
         transform-origin: center;
-        z-index: auto;
+        z-index: 1;
     }
 
     .fill {

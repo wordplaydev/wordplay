@@ -95,6 +95,5 @@
 
     .mini:focus {
         outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
-        outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 </style>
