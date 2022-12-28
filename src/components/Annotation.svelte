@@ -31,15 +31,15 @@
         transition: left, right, 0.25s ease-out;
     }
 
-    .step {
+    .annotation.step {
         background-color: var(--wordplay-evaluation-color);
     }
 
-    .primary {
+    .annotation.primary {
         background-color: var(--wordplay-error);
     }
 
-    .secondary, .minor {
+    .annotation.secondary, .annotation.minor {
         background-color: var(--wordplay-warning);
     }
 </style>

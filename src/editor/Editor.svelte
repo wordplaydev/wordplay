@@ -533,8 +533,8 @@
 
             }
 
-            // Using the label, set the cursor to the dragged node, then unlabel the sources.
-            caret.set($caret.withPosition(draggedNode));
+            // Using the label, set the cursor to the first placeholder or the dragged node, then unlabel the sources.
+            caret.set($caret.withPosition(draggedNode.getFirstPlaceholder() ?? draggedNode));
 
             // Update the project with the new source files
             updateProject(project.withSources(newSources));
@@ -779,8 +779,6 @@
 
             // What nodes are between this and are any of them insertion points?
             const between = caret.getNodesBetween();
-
-            console.log(position);
 
             // If there are nodes between the point, construct insertion points
             // that exist in lists.
