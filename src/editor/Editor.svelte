@@ -151,6 +151,10 @@
         // The project and source can update at different times, so we only do this if the current souce is in the project.
         if(project.contains(source)) {
             conflicts = [];
+
+            // If dragging, don't show conlicts.
+            if($dragged !== undefined) break $;
+
             // If there are any conflicts in the project...
             if($nodeConflicts.length > 0) {
                 let conflictSelection: Node | undefined = undefined;
