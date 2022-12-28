@@ -19,6 +19,9 @@
     export let conflicts: Conflict[] = [];
     export let viewport: Rect | undefined;
 
+    let divider: HTMLElement | undefined;
+    let split = 25;
+
     let latest: Value | undefined;
     $: {
         $currentStep;
@@ -26,15 +29,53 @@
         latest = project.evaluator.getLatestSourceValue(source);
     }
 
+    function handleDividerMove(event: KeyboardEvent) {
+
+        if(event.key === "ArrowRight" || event.key === "ArrowUp") {
+            split = Math.max(0, split - 5);
+            event.preventDefault();
+        }
+        else if(event.key === "ArrowLeft" || event.key === "ArrowDown") {
+            split = Math.min(100, split + 5);
+            event.preventDefault();
+        }
+
+    }
+
+    let dragging = false;
+
+    function grab() { dragging = true; }
+    function release() { dragging = false; }
+    function drag(event: MouseEvent) {
+        const rect = event.currentTarget instanceof Element ? event.currentTarget.getBoundingClientRect() : undefined;
+        if(rect === undefined || divider === undefined || dragging === false) return;
+        const horizontal = divider.clientWidth < 25;
+        const [ position, length ] = horizontal ? [ event.clientX - rect.left, rect.width ] : [ event.clientY - rect.top, rect.height ];
+        console.log(position + " " + length);
+        split = Math.min(100, Math.max(0, Math.round(100 * position / length)));
+        if(horizontal) split = 100 - split;
+        event.preventDefault();
+    }
+
 </script>
 
-<section class="source">
+<section class="source" 
+    style="--divider-split: {split}"
+    on:mousedown|stopPropagation={grab}
+    on:mousemove|stopPropagation={drag}
+    on:mouseup|stopPropagation={release}
+>
     <div class="half first">
         <OutputView {project} {source} {latest} mode={fullscreen ? "fullscreen" : "peripheral"} on:fullscreen />
         {#if !fullscreen}
             <Timeline evaluator={project.evaluator} />
         {/if}
     </div>
+    <div class="divider"
+        bind:this={divider}
+        tabIndex=0
+        on:keydown={handleDividerMove}
+    ></div>
     <div class="half last">
         {#if !fullscreen}
             <div class="sources">
@@ -53,38 +94,62 @@
         height: 100vh;
     }
 
-    @media (max-aspect-ratio: 4/5) {
-        .source {
-            flex-direction: column;
-        }
-        .first {
-            height: 30vh;
-        }
+    .divider {
+        z-index: var(--wordplay-layer-controls);
+        background-color: var(--wordplay-border-color);
     }
-    @media (min-aspect-ratio: 4/5) {
+
+    .divider:focus {
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+    }
+
+    @media screen {
         .source {
             flex-direction: row-reverse;
         }
         .first {
             border-left: var(--wordplay-border-width) solid var(--wordplay-border-color);
             height: 100vh;
-            width: 30vw;
+            flex-basis: calc(var(--divider-split) * 1vw);
         }
+        
         .last {
             height: 100vh;
+        }
+
+        .divider {
+            height: 100%;
+            width: var(--wordplay-spacing);
+            cursor: ew-resize;
+        }
+    }
+    
+    @media screen and (max-width: 1280px) {
+        .source {
+            flex-direction: column;
+        }
+        
+        .first {
+            flex-basis: calc(var(--divider-split) * 1vh);
+        }
+        
+        .divider {
             width: 100%;
+            height: var(--wordplay-spacing);
+            cursor: ns-resize;
         }
     }
 
     .last {
         flex-grow: 1;
+        flex-basis: 10em;
     }
 
     .half {
         display: flex;
         flex-direction: column;
-        min-width: 20em;
-        min-height: 20em;
+        min-width: 2em;
+        min-height: 2em;
     }    
 
     .sources {
