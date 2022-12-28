@@ -101,7 +101,7 @@ export default class MeasurementLiteral extends Expression {
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "A number with an optional unit"
+            eng: this.number.is(TokenType.PI) ? "pi" : this.number.is(TokenType.INFINITY) ? "infinity" : this.unit.isUnitless() ? "a number" : "a number with a unit"
         }
     }
 
