@@ -20,7 +20,7 @@
     export let viewport: Rect | undefined;
 
     let divider: HTMLElement | undefined;
-    let split = 25;
+    let split = 35;
 
     let latest: Value | undefined;
     $: {
@@ -51,7 +51,6 @@
         if(rect === undefined || divider === undefined || dragging === false) return;
         const horizontal = divider.clientWidth < 25;
         const [ position, length ] = horizontal ? [ event.clientX - rect.left, rect.width ] : [ event.clientY - rect.top, rect.height ];
-        console.log(position + " " + length);
         split = Math.min(100, Math.max(0, Math.round(100 * position / length)));
         if(horizontal) split = 100 - split;
         event.preventDefault();
@@ -75,7 +74,8 @@
         bind:this={divider}
         tabIndex=0
         on:keydown={handleDividerMove}
-    ></div>
+        on:blur={release}
+    />
     <div class="half last">
         {#if !fullscreen}
             <div class="sources">
