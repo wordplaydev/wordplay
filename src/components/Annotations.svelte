@@ -202,7 +202,7 @@
     }
 
     function getNodeView(node: Node) {
-        return document.querySelector(`.node-view[data-id="${node.id}"]`)
+        return document.querySelector(`.editor .node-view[data-id="${node.id}"]`)
     }
 
     function getPosition(view: Element | null): Position | undefined {

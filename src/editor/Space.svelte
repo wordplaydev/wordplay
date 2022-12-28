@@ -24,7 +24,7 @@
 
 </script>
 
-{#if insertion}<span class="space" data-id={token.id}>{@html spaceBeforeHTML}</span><InsertionPointView/>{/if}<span class="space" data-id={token.id}>{@html spaceAfterHTML }</span>
+<span class="space" data-id={token.id}>{#if insertion}{@html spaceBeforeHTML}<InsertionPointView/>{/if}{@html spaceAfterHTML }</span>
 
 <style>
     /* Make space visible, but just so. */

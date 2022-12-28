@@ -651,24 +651,25 @@
         }
         // If its the editor, find the closest text and choose either it's right or left side.
         // Map the token text to a list of vertical and horizontal distances
-        const closestText = Array.from(editor.querySelectorAll(".token-view")).map(tokenView => {
-            const textView = tokenView.querySelector(".text");
-            const textRect = textView?.getBoundingClientRect();
-            return {
-                view: tokenView,
-                textDistance: textRect === undefined ? Number.POSITIVE_INFINITY : Math.abs(event.clientY - (textRect.top + textRect.height / 2)),
-                textTop: textRect === undefined ? Number.POSITIVE_INFINITY : textRect.top,
-                textBottom: textRect === undefined ? Number.POSITIVE_INFINITY : textRect.bottom,
-                leftDistance: textRect === undefined ? Number.POSITIVE_INFINITY : Math.abs(event.clientX - textRect.left),
-                rightDistance: textRect === undefined ? Number.POSITIVE_INFINITY : Math.abs(event.clientX - textRect.right)
-            };
-        })
-        // Sort by increasing horizontal distance from the smaller of view's left and right
-        .sort((a, b) => Math.min(a.leftDistance, a.rightDistance) - Math.min(b.leftDistance, b.rightDistance))
-        // Sort by increasing vertical distance from the smaller of view's space top and text middle.
-        .sort((a, b) => a.textDistance - b.textDistance)
-        // Choose the closest.
-        [0];
+        const closestText = Array.from(editor.querySelectorAll(".token-view"))
+            .map(tokenView => {
+                const textView = tokenView.querySelector(".text");
+                const textRect = textView?.getBoundingClientRect();
+                return {
+                    view: tokenView,
+                    textDistance: textRect === undefined ? Number.POSITIVE_INFINITY : Math.abs(event.clientY - (textRect.top + textRect.height / 2)),
+                    textTop: textRect === undefined ? Number.POSITIVE_INFINITY : textRect.top,
+                    textBottom: textRect === undefined ? Number.POSITIVE_INFINITY : textRect.bottom,
+                    leftDistance: textRect === undefined ? Number.POSITIVE_INFINITY : Math.abs(event.clientX - textRect.left),
+                    rightDistance: textRect === undefined ? Number.POSITIVE_INFINITY : Math.abs(event.clientX - textRect.right)
+                };
+            })
+            // Sort by increasing horizontal distance from the smaller of view's left and right
+            .sort((a, b) => Math.min(a.leftDistance, a.rightDistance) - Math.min(b.leftDistance, b.rightDistance))
+            // Sort by increasing vertical distance from the smaller of view's space top and text middle.
+            .sort((a, b) => a.textDistance - b.textDistance)
+            // Choose the closest.
+            [0];
 
         // If we found one, choose either 1) the nearest empty line or 2) its left or right side of text.
         if(closestText) {
@@ -779,6 +780,8 @@
             // What nodes are between this and are any of them insertion points?
             const between = caret.getNodesBetween();
 
+            console.log(position);
+
             // If there are nodes between the point, construct insertion points
             // that exist in lists.
             return between === undefined ? [] :
@@ -824,23 +827,27 @@
 
                 dragCandidate = undefined;
                 dragPoint = undefined;
+            }
+        }
 
-                // Get the insertion points at the current mouse position
-                // And filter them by kinds that match, getting the field's allowed types,
-                // and seeing if the dragged node is an instance of any of the dragged types.
-                // This only works if the types list contains a single item that is a list of types.
-                const newInsertionPoints = getInsertionPointsAt(event).filter(insertion => {
-                    const types = insertion.node.getAllowedFieldNodeTypes(insertion.field);
-                    return $dragged && Array.isArray(types) && Array.isArray(types[0]) && types[0].some(kind => $dragged?.node instanceof kind);
-                });
+        // Update insertion points
+        if($dragged) {
 
-                // Did they change? We keep them the same to avoid UI updates, especially with animations.
-                if(newInsertionPoints.length === 0 || !newInsertionPoints.every(point => Object.values($insertions).some(point2 => insertionPointsEqual(point, point2)))) {
-                    const insertionPointsMap = new Map<Token, InsertionPoint>();
-                    for(const point of newInsertionPoints)
-                        insertionPointsMap.set(point.token, point);
-                    insertions.set(insertionPointsMap);
-                }
+            // Get the insertion points at the current mouse position
+            // And filter them by kinds that match, getting the field's allowed types,
+            // and seeing if the dragged node is an instance of any of the dragged types.
+            // This only works if the types list contains a single item that is a list of types.
+            const newInsertionPoints = getInsertionPointsAt(event).filter(insertion => {
+                const types = insertion.node.getAllowedFieldNodeTypes(insertion.field);
+                return $dragged && Array.isArray(types) && Array.isArray(types[0]) && types[0].some(kind => $dragged?.node instanceof kind);
+            });
+
+            // Did they change? We keep them the same to avoid UI updates, especially with animations.
+            if(newInsertionPoints.length === 0 || !newInsertionPoints.every(point => Object.values($insertions).some(point2 => insertionPointsEqual(point, point2)))) {
+                const insertionPointsMap = new Map<Token, InsertionPoint>();
+                for(const point of newInsertionPoints)
+                    insertionPointsMap.set(point.token, point);
+                insertions.set(insertionPointsMap);
             }
 
         }
