@@ -1,10 +1,7 @@
 <script lang="ts">
-
-    export let docs: string;
-
 </script>
 
-<div>{docs}</div>
+<div><slot></slot></div>
 
 <style>
     div {

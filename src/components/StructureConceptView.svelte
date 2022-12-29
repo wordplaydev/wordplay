@@ -1,25 +1,15 @@
 <script lang="ts">
     import CodeView from "./CodeView.svelte";
-    import { languages } from "../models/languages";
     import Note from "./Note.svelte";
-    import { slide } from "svelte/transition";
-    import { selectTranslation } from "../nodes/Translations";
     import type StructureConcept from "../concepts/StructureConcept";
-    import FunctionConceptView from "./FunctionConceptView.svelte";
     import BindConceptView from "./BindConceptView.svelte";
-    import ConversionConceptView from "./ConversionConceptView.svelte";
+    import ConceptView from "./ConceptView.svelte";
 
     export let concept: StructureConcept;
 
-    $: def = concept.definition;
-
 </script>
 
-<div class="docs" transition:slide={{ duration: 250 }}>
-    <h1>{def.names.getTranslation($languages)}{#if def.types}<CodeView {concept} node={def.types}/>{/if}</h1>
-
-    <p>{selectTranslation(def.getDescriptions(), $languages)}</p>
-
+<ConceptView {concept}>
     {#if concept.examples.length > 0}
         <h2>examples</h2>
         {#each concept.examples as creator }    
@@ -27,25 +17,32 @@
         {/each}
     {/if}
 
-    <h2>properties</h2>
-    {#each concept.binds as bind }
+    <h2>inputs</h2>
+    {#each concept.inputs as bind }
         <BindConceptView concept={bind}/>
     {:else}
-        <Note docs="none"/>
+        <Note>None</Note>
+    {/each}
+
+    <h2>properties</h2>
+    {#each concept.properties as bind }
+        <BindConceptView concept={bind}/>
+    {:else}
+        <Note>None</Note>
     {/each}
 
     <h2>functions</h2>
     {#each concept.functions as fun }
-        <FunctionConceptView concept={fun} />
+        <CodeView node={fun.getRepresentation()} concept={fun} selectable />
     {:else}
-        <Note docs="none"/>
+        <Note>None</Note>
     {/each}
 
     <h2>conversions</h2>
     {#each concept.conversions as conversion }
-        <ConversionConceptView concept={conversion}/>
+        <CodeView node={conversion.getRepresentation()} concept={conversion} selectable  />
     {:else}
-        <Note docs="none"/>
+        <Note>None</Note>
     {/each}
 
-</div>
+</ConceptView>

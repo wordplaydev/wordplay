@@ -25,7 +25,7 @@ export default class FunctionConcept extends Concept {
     readonly example: Node;
     
     /** A derived list of BindConcepts */
-    readonly binds: BindConcept[];
+    readonly inputs: BindConcept[];
 
     constructor(definition: FunctionDefinition, context: Context | undefined, structure?: StructureConcept) {
 
@@ -47,7 +47,7 @@ export default class FunctionConcept extends Concept {
                 this.definition.inputs.filter(input => !input.hasDefault()).map(input => ExpressionPlaceholder.make(input.type))
             )
 
-        this.binds = this.definition.inputs.map(bind => new BindConcept(bind));
+        this.inputs = this.definition.inputs.map(bind => new BindConcept(bind));
 
     }
 
@@ -62,7 +62,7 @@ export default class FunctionConcept extends Concept {
     }
 
     getConcepts(): Set<Concept> {
-        return new Set(this.binds);
+        return new Set(this.inputs);
     }
 
 }

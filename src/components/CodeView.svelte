@@ -40,7 +40,7 @@
         <RootView {node}/>
     </div>
     {#if describe}
-        <Note docs={selectTranslation(node.getDescriptions(concept.context ?? context), $languages)}/>
+        <Note>{selectTranslation(node.getDescriptions(concept.context ?? context), $languages)}</Note>
     {/if}
 </div>
 

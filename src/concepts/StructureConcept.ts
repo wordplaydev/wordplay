@@ -22,8 +22,11 @@ export default class StructureConcept extends Concept {
     /** A derived list of FunctionConcepts */
     readonly functions: FunctionConcept[];
 
-    /** A derived list of BindConcepts */
-    readonly binds: BindConcept[];
+    /** A derived list of BindConcepts for inputs */
+    readonly inputs: BindConcept[];
+
+    /** A derived list of BindConcepts for properties */
+    readonly properties: BindConcept[];
 
     /** A derived list of ConversionConcepts */
     readonly conversions: ConversionConcept[];
@@ -39,10 +42,8 @@ export default class StructureConcept extends Concept {
         this.functions = this.definition.getFunctions().map(def => new FunctionConcept(def, context, this));
         this.conversions = this.definition.getAllConversions().map(def => new ConversionConcept(def, context, this));
 
-        this.binds = [
-            ...this.definition.inputs.map(bind => new BindConcept(bind, context)),
-            ...this.definition.getProperties().map(bind => new BindConcept(bind, context))
-        ]
+        this.inputs = this.definition.inputs.map(bind => new BindConcept(bind, context));
+        this.properties = this.definition.getProperties().map(bind => new BindConcept(bind, context));
 
     }
 
@@ -57,7 +58,7 @@ export default class StructureConcept extends Concept {
     }
 
     getConcepts(): Set<Concept> {
-        return new Set( [ ... this.binds, ...this.functions, ...this.conversions ] )
+        return new Set( [ ... this.inputs, ...this.properties, ...this.functions, ...this.conversions ] )
     }
 
 }
