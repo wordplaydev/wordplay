@@ -6,7 +6,7 @@
 <style>
     div {
         font-style: italic;
-        font-size: medium;
+        font-size: small;
         color: var(--wordplay-disabled-color);
     }
 </style>

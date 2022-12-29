@@ -223,7 +223,7 @@
         flex: 1;
         
         z-index: var(--wordplay-layer-palette);
-        overflow-y: scroll;
+        overflow: scroll;
 
         background-color: var(--wordplay-background);
 

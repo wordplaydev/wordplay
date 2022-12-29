@@ -135,3 +135,10 @@ h3 {
     font-style: italic;
     font-weight: normal;
 }
+
+p {
+    margin: 0;
+}
+p + p {
+    margin-top: var(--wordplay-spacing);
+}

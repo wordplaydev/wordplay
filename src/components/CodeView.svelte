@@ -57,11 +57,10 @@
 <style>
     .code {
         display: inline-block;
+        vertical-align: middle;
     }
 
     .code.border {
-        margin-bottom: var(--wordplay-spacing);
-        margin-right: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
         border-radius: calc(2 * var(--wordplay-border-radius)) var(--wordplay-border-radius) var(--wordplay-border-radius) calc(2 * var(--wordplay-border-radius));
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);

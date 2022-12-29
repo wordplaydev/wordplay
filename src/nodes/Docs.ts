@@ -57,7 +57,8 @@ export default class Docs extends Node {
     getTranslation(lang: LanguageCode[]): string {
         const translations = this.getTranslations();
         const preferredTranslation = lang.find(l => l in translations);
-        return preferredTranslation === undefined ? translations.eng : translations[preferredTranslation];
+        const defaultTranslation = Object.values(translations)[0] ?? "—";
+        return preferredTranslation === undefined ? defaultTranslation : translations[preferredTranslation] ?? defaultTranslation;
     }
 
     getDescriptions(): Translations {
