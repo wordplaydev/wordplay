@@ -12,7 +12,7 @@
     export let describe: boolean = true;
     export let selectable: boolean = false;
 
-    $: draggable = !selectable && concept.getNodes().has(node);
+    $: draggable = concept.getNodes().has(node);
 
     function select(event: MouseEvent | KeyboardEvent) {
         if(selectable && selection) {
@@ -35,17 +35,20 @@
 </script>
 
 <div class="code" 
-    class:selectable
     class:draggable
-    tabIndex={selectable ? 0 : null }
-    on:mousedown={select}
-    on:keydown={event => event.key === "Enter" || event.key === " " ? select(event) : undefined }    
 >
     <div class="root">
         <RootView {node}/>
     </div>
     {#if describe}
-        <Note>{selectTranslation(node.getDescriptions(concept.context), $languages)}</Note>
+        <div class="description"
+            class:selectable
+            tabIndex={selectable ? 0 : null }
+            on:mousedown={select}
+            on:keydown={event => event.key === "Enter" || event.key === " " ? select(event) : undefined }        
+        >
+            <Note>{selectTranslation(node.getDescriptions(concept.context), $languages)}</Note>
+        </div>
     {/if}
 </div>
 
@@ -54,9 +57,6 @@
         display: inline-block;
         margin-bottom: var(--wordplay-spacing);
         margin-right: var(--wordplay-spacing);
-    }
-
-    .code.draggable {
         padding: var(--wordplay-spacing);
         border-radius: calc(2 * var(--wordplay-border-radius)) var(--wordplay-border-radius) var(--wordplay-border-radius) calc(2 * var(--wordplay-border-radius));
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
@@ -72,15 +72,15 @@
         animation: wobble 0.25s ease-out infinite;
     }
 
-    .code.selectable {
+    .description.selectable {
         cursor: pointer;
     }
 
-    .code.selectable .root {
+    .description.selectable {
         border-bottom: var(--wordplay-border-color) solid var(--wordplay-border-width);
     }
 
-    .code.selectable:hover .root {
+    .description.selectable:hover {
         border-bottom-color: var(--wordplay-highlight);
     }
 

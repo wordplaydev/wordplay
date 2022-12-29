@@ -55,7 +55,7 @@ export default class StructureConcept extends Concept {
     getRepresentation() { return this.type; }
 
     getNodes(): Set<Node> {
-        return new Set( this.examples );
+        return new Set( [ this.type, ...this.examples ] );
     }
 
     getText(): Set<string> {
