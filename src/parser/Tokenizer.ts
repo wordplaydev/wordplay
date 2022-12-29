@@ -105,7 +105,8 @@ const patterns = [
     { pattern: SHARE_SYMBOL, types: [ TokenType.SHARE ] },
     { pattern: CONVERT_SYMBOL, types: [ TokenType.CONVERT ] },
     { pattern: THIS_SYMBOL, types: [ TokenType.THIS ] },
-    { pattern: new RegExp(`^${DOCS_SYMBOL}.*?${DOCS_SYMBOL}`), types: [ TokenType.DOCS ] },
+    // End comments after multiple newlines
+    { pattern: new RegExp(`^${DOCS_SYMBOL}.*?(${DOCS_SYMBOL}|(?=\n\n))`), types: [ TokenType.DOCS ] },
     { pattern: NONE_SYMBOL, types: [ TokenType.NONE, TokenType.NONE_TYPE ] },
     { pattern: TYPE_SYMBOL, types: [ TokenType.TYPE, TokenType.TYPE_OP ] },
     { pattern: OR_SYMBOL, types: [ TokenType.BINARY_OP, TokenType.UNION ] },

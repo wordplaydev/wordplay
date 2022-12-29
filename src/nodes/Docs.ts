@@ -5,6 +5,7 @@ import Doc from "./Doc";
 import type LanguageCode from "./LanguageCode";
 import DuplicateLanguages from "../conflicts/DuplicateLanguages";
 import type Language from "./Language";
+import { DOCS_SYMBOL } from "../parser/Tokenizer";
 
 export default class Docs extends Node {
     
@@ -48,7 +49,10 @@ export default class Docs extends Node {
 
         const translations: Record<string, string | undefined> = {};
         for(const docs of this.docs) {
-            translations[docs.getLanguage() ?? ""] = docs.docs.getText();
+            let text = docs.docs.getText();
+            if(text.charAt(0) === DOCS_SYMBOL) text = text.substring(1);
+            if(text.charAt(text.length - 1) === DOCS_SYMBOL) text = text.substring(0, text.length - 2);
+            translations[docs.getLanguage() ?? ""] = text;
         }
         return translations as Translations;
     

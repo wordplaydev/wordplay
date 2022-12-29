@@ -16,10 +16,8 @@ export const WRITE_DOCS = {
 export function overrideWithDocs(translations: Translations, docs: Docs) {
 
     // Override with documentation, if available.
-    for(const doc of docs.docs) {
-        const lang = doc.getLanguage();
-        if(lang !== undefined)
-        translations[lang as LanguageCode] = doc.docs.getText();
+    for(const [ lang, doc ] of Object.entries(docs.getTranslations())) {
+        translations[lang as LanguageCode] = doc;
     }
     return translations;
     
