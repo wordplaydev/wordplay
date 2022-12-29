@@ -28,6 +28,7 @@
     import CodeView from "./CodeView.svelte";
     import ConversionConcept from "../concepts/ConversionConcept";
     import ConversionConceptView from "./ConversionConceptView.svelte";
+    import StreamConceptView from "./StreamConceptView.svelte";
 
     export let hidden: boolean;
 
@@ -164,6 +165,8 @@
                 <BindConceptView concept={$selected} />
             {:else if $selected instanceof ConversionConcept }
                 <ConversionConceptView concept={$selected} />
+            {:else if $selected instanceof StreamConcept }
+                <StreamConceptView concept={$selected} />
             {:else}
                 <CodeView node={$selected.getRepresentation()} concept={$selected} />
             {/if}
