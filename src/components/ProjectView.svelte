@@ -149,7 +149,7 @@
         position: absolute;
         cursor: none;
         z-index: var(--wordplay-layer-drag);
-        pointer-events: none;
+        pointer-events: none;        
     }
 
     /* A fancy dragon cursor for dragon drop! Get it? */
@@ -160,6 +160,10 @@
         left: -1.5rem;
         font-family: "Noto Sans";
         pointer-events: none;
+    }
+
+    .drag-container :global(.token-view .text) {
+        color: var(--wordplay-background);
     }
 
 </style>
