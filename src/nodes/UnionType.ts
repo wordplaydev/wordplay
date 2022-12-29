@@ -5,7 +5,7 @@ import Token from "./Token";
 import type Node from "./Node";
 import TokenType from "./TokenType";
 import Type from "./Type";
-import { OR_SYMBOL, TYPE_SYMBOL } from "../parser/Tokenizer";
+import { OR_SYMBOL } from "../parser/Tokenizer";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import type TypeSet from "./TypeSet";
@@ -30,7 +30,7 @@ export default class UnionType extends Type {
     }
 
     static make(left: Type, right: Type) {
-        return new UnionType(left, new Token(TYPE_SYMBOL, TokenType.UNION), right);
+        return new UnionType(left, new Token(OR_SYMBOL, TokenType.UNION), right);
     }
 
     getGrammar() { 

@@ -1,11 +1,9 @@
 import type { Edit } from "../editor/util/Commands";
 import Block from "../nodes/Block";
-import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
 import Node from "../nodes/Node";
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
-import TypePlaceholder from "../nodes/TypePlaceholder";
-import { DELIMITERS, PLACEHOLDER_SYMBOL, PROPERTY_SYMBOL, REVERSE_DELIMITERS } from "../parser/Tokenizer";
+import { DELIMITERS, PROPERTY_SYMBOL, REVERSE_DELIMITERS } from "../parser/Tokenizer";
 import type Source from "./Source";
 
 export type InsertionContext = { before: Node[], after: Node[] };

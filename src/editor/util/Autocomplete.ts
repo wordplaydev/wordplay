@@ -346,8 +346,8 @@ function getPossibleNodes(context: Context, node: Node | undefined, kind: Functi
             const possibilities = [
                 ...definitions.map(def => new Refer((name: string) => Reference.make(name), def)),
                 Block.make([ ExpressionPlaceholder.make() ]),
-                new BooleanLiteral(true),
-                new BooleanLiteral(false),
+                BooleanLiteral.make(true),
+                BooleanLiteral.make(false),
                 TextLiteral.make(""),
                 Template.make(),
                 Conditional.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),

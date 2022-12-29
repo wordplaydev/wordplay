@@ -28,22 +28,31 @@ import StartFinish from "../runtime/StartFinish";
 import StreamType from "./StreamType";
 import UnknownNameType from "./UnknownNameType";
 
+/** 
+ * A reference to some Definition. Can optionally take the definition which it refers,
+ * which is helpful when reasoning about References that aren't situated in a program (e.g, example code),
+ * but nevertheless have a known definition to which they refer. This is also helpful
+ * in localization, allowing us to easily switch definitions.
+ */
 export default class Reference extends Expression {
     
     readonly name: Token;
+    readonly definition: Definition | undefined;
 
-    constructor(name: Token) {
+    constructor(name: Token, definition?: Definition) {
 
         super();
 
         this.name = name;
+        this.definition = definition;
 
         this.computeChildren();
 
     }
 
-    static make(name: string) {
-        return new Reference(new NameToken(name));
+    static make(name: string | Definition) {
+        const isString = typeof name === "string";
+        return new Reference(new NameToken(isString ? name : "_"), isString ? undefined : name);
     }
 
     getGrammar() { 
@@ -91,10 +100,10 @@ export default class Reference extends Expression {
         
     }
 
-    resolve(context: Context): Definition | undefined {
+    resolve(context?: Context): Definition | undefined {
 
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
-        return this.getDefinitionOfNameInScope(this.getName(), context);
+        return this.definition ?? (context === undefined ? undefined : this.getDefinitionOfNameInScope(this.getName(), context));
 
     }
 

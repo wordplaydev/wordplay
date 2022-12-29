@@ -61,15 +61,11 @@ export default class TypeVariables extends Node {
         return conflicts;
 
     }
-
     
-    
-    
-
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,
-            eng: "A variable type"
+            eng: "variable types"
         }
     }
 

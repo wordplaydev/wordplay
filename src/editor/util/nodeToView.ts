@@ -226,6 +226,6 @@ export default function getNodeView(node: Node) {
         const view = nodeToView.get(constructor);
         if(view !== undefined) return view;
         constructor = Object.getPrototypeOf(constructor);
-    } while(constructor !== undefined);
+    } while(constructor);
     return UnknownNodeView;
 }

@@ -148,6 +148,14 @@ export default class StructureDefinition extends Expression {
 
     }
 
+    /** Gets bindings that aren't functions */
+    getProperties(): Bind[] {
+
+        if(this.expression === undefined) return [];
+        return this.expression.statements.filter<Bind>((s: Expression): s is Bind => s instanceof Bind && !(s.value instanceof FunctionDefinition));
+
+    }
+
     getInterfaces(context: Context): StructureDefinition[] {
 
         let interfaces: StructureDefinition[] = [];

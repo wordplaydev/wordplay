@@ -10,13 +10,20 @@
     import Source from "../models/Source";
     import { fly } from "svelte/transition";
     import type Node from "../nodes/Node";
-    import { nativeTypeEntries, nonNativeStructureToEntry, outputTypeEntries } from "./TypeEntries";
-    import type { TypeEntry } from "./TypeEntries";
-    import TypeCategoryView from "./TypeCategoryView.svelte";
-    import TypeView from "./TypeView.svelte";
-    import { constructs } from "./ConstructEntries";
+    import ConceptsView from "./ConceptsView.svelte";
+    import StructureConceptView from "./StructureConceptView.svelte";
     import { setContext } from "svelte";
-    import ConstructsView from "./ConstructsView.svelte";
+    import ConstructsConceptsView from "./ConstructConceptsView.svelte";
+    import { ConstructConcepts, NativeConcepts, OutputConcepts } from "../concepts/DefaultConcepts";
+    import StructureConcept from "../concepts/StructureConcept";
+    import FunctionDefinition from "../nodes/FunctionDefinition";
+    import FunctionConcept from "../concepts/FunctionConcept";
+    import Bind from "../nodes/Bind";
+    import BindConcept from "../concepts/BindConcept";
+    import type Concept from "../concepts/Concept";
+    import { writable, type Writable } from "svelte/store";
+    import FunctionConceptView from "./FunctionConceptView.svelte";
+    import BindConceptView from "./BindConceptView.svelte";
 
     export let hidden: boolean;
 
@@ -26,20 +33,32 @@
      * 2) functions on the type. It includes any creator-defined types and borrowed types in the active project.
      */
 
-    $: customEntries = [ $project.main, ...$project.supplements ]
-        .map(source => 
-            (source.expression.nodes(n => n instanceof StructureDefinition) as StructureDefinition[])
-            .map(def => nonNativeStructureToEntry("project", def))).flat();
+    $: projectConcepts = [ $project.main, ...$project.supplements ]
+        .map(source => (source.expression.nodes(n => n instanceof StructureDefinition) as StructureDefinition[])
+            .map(def => new StructureConcept(def, undefined, [], $project.getContext(source))))
+        .flat();
 
-    $: entries = [ 
-        ... customEntries,
-        ... nativeTypeEntries,
-        ... outputTypeEntries
+    $: projectFunctions = [ $project.main, ...$project.supplements ]
+        .map(source => (source.expression.expression.statements.filter((n): n is FunctionDefinition => n instanceof FunctionDefinition))
+            .map(def => new FunctionConcept(def, $project.getContext(source), undefined, )))
+        .flat();
+
+    $: projectBinds = [ $project.main, ...$project.supplements ]
+        .map(source => (source.expression.expression.statements.filter((n): n is Bind => n instanceof Bind))
+            .map(def => new BindConcept(def, $project.getContext(source))))
+        .flat();
+
+    $: concepts = [ 
+        ... projectConcepts,
+        ... ConstructConcepts,
+        ... NativeConcepts,
+        ... OutputConcepts
     ]
 
     let dragged = getDragged();
     
-    let selected: TypeEntry | undefined = undefined;
+    let selected: Writable<Concept | undefined> = writable(undefined);
+    setContext("selection", selected);
 
     // Set a context that stores a project context for nodes in the palette to use.
     $: setContext("context", $project.getContext($project.main));
@@ -47,18 +66,10 @@
     /** Search through the entries to find a corresponding node */
     function idToNode(id: number): Node | undefined {
         // Search all entries for a matching node.
-        for(const entry of entries) {
-            if(entry.name.id === id) return entry.name;
-            for(const literal of entry.creators)
-                if(literal.id === id) return literal;
-            for(const construct of entry.constructs)
-                if(construct.id === id) return construct;
-            for(const fun of entry.functions)
-                if(fun.id === id) return fun;
-        }
-        for(const construct of constructs) {
-            if(construct.example.id === id)
-                return construct.example;
+        for(const concept of concepts) {
+            const match = concept.getNode(id);
+            if(match)
+                return match;
         }
         return undefined;
     }
@@ -110,10 +121,6 @@
 
     }
 
-    function handleSelection(event: CustomEvent<{ entry: TypeEntry }>) {
-        selected = event.detail.entry;
-    }
-
 </script>
 
 <!-- Drop what's being dragged if the window loses focus. -->
@@ -126,21 +133,27 @@
     on:mouseup={handleDrop}
     transition:fly={{ x: -200 }}
 >
-    {#if selected }
+    {#if $selected }
         <section class="type">
             <Button 
                 label={{ eng: "back" , "😀": WRITE }}
                 tip={{ eng: "Return to the types menu.", "😀": WRITE }}
-                action={() => selected = undefined } 
+                action={() => selected.set(undefined) } 
             />
-            <TypeView entry={selected} />
+            {#if $selected instanceof StructureConcept }
+                <StructureConceptView concept={$selected} />
+            {:else if $selected instanceof FunctionConcept }
+                <FunctionConceptView concept={$selected} />
+            {:else if $selected instanceof BindConcept }
+                <BindConceptView concept={$selected} />
+            {/if}
         </section>
     {:else}
-        <ConstructsView entries={constructs} />
+        <ConstructsConceptsView concepts={ConstructConcepts} />
         <section class="types">
-            <TypeCategoryView category="project" entries={customEntries} on:selected={handleSelection} />
-            <TypeCategoryView category="data" entries={nativeTypeEntries} on:selected={handleSelection} />
-            <TypeCategoryView category="output" entries={outputTypeEntries} on:selected={handleSelection} />
+            <ConceptsView category="project" concepts={[ ... projectConcepts, ...projectBinds, ... projectFunctions ]} />
+            <ConceptsView category="data" concepts={NativeConcepts} />
+            <ConceptsView category="output" concepts={OutputConcepts} />
         </section>
     {/if}
 </section>

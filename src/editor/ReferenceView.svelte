@@ -4,11 +4,14 @@
     import NodeView from "./NodeView.svelte";
     import { project, currentStep, playing } from "../models/stores";
     import Stream from "../runtime/Stream";
+    import { languages } from "../models/languages";
+    import { getCaret } from "./util/Contexts";
+    import NameToken from "../nodes/NameToken";
     
     export let node: Reference;
 
     $: context = $project.getNodeContext(node);
-    $: stream = context === undefined ? undefined : node.resolve(context);
+    $: definition = node.resolve(context);
 
     // If this evaluated to the stream that recently changed, style it.
     let evaluated = false;
@@ -21,9 +24,9 @@
             // We're done evaluating
             $currentStep === undefined && 
             // This node refers to a stream
-            stream instanceof Stream && 
+            definition instanceof Stream && 
             // The stream caused the most recent reaction
-            $project.evaluator.didStreamCauseReaction(stream) && 
+            $project.evaluator.didStreamCauseReaction(definition) && 
             // This node was evaluated
             $project.evaluator.getLatestValueOf(node) !== undefined;
         if(evaluated) {
@@ -33,14 +36,20 @@
         }
     }
 
+    // Choose what name to render, constructing a token if necessary.
+    // If the caret is in the node, we choose the name that it is, so that it's editable.
+    // Otherwise we choose the best name from of the preferred languages.
+    let caret = getCaret();
+    $: name = definition === undefined || $caret?.isIn(node) ? node.name : new NameToken(definition.names.getTranslation($languages));
+
 </script>
 
 {#if animating}
     <span class="changed">
-        <NodeView node={node.name} />
+        <NodeView node={name} />
     </span>
 {:else}
-    <NodeView node={node.name} />
+    <NodeView node={name} />
 {/if}
 
 

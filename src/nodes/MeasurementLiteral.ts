@@ -34,9 +34,9 @@ export default class MeasurementLiteral extends Expression {
 
     }
 
-    static make(number?: number, unit?: Unit) {
+    static make(number?: number | string, unit?: Unit) {
         return new MeasurementLiteral(
-            number === undefined ? new PlaceholderToken() : new Token("" + number, TokenType.DECIMAL),
+            number === undefined ? new PlaceholderToken() : new Token(typeof number === "number" ? "" + number : number, TokenType.DECIMAL),
             unit === undefined ? Unit.Empty : unit
         )
     }

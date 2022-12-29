@@ -22,15 +22,22 @@ export default class NameType extends Type {
 
     readonly name: Token;
     readonly types: TypeInputs | undefined;
+    readonly definition: Definition | undefined;
 
-    constructor(type: Token | string, types?: TypeInputs) {
+    constructor(type: Token | string, types?: TypeInputs, definition?: Definition) {
         super();
 
         this.name = typeof type === "string" ? new NameToken(type) : type;
         this.types = types;
+        this.definition = definition;
 
         this.computeChildren();
 
+    }
+
+    static make(name: string | Definition) {
+        const isString = typeof name === "string";
+        return new NameType(new NameToken(isString ? name : "_"), undefined, isString ? undefined : name);
     }
 
     getGrammar() { 
@@ -80,10 +87,10 @@ export default class NameType extends Type {
         return types.list().every(type => thisType.accepts(type, context));
     }
 
-    resolve(context: Context): Definition | undefined {
+    resolve(context?: Context): Definition | undefined {
 
         // Find the name in the binding scope.
-        return this.getDefinitionOfNameInScope(this.getName(), context);
+        return this.definition ?? (context === undefined ? undefined : this.getDefinitionOfNameInScope(this.getName(), context));
 
     }
 

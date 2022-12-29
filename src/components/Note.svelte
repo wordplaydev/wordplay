@@ -4,10 +4,10 @@
 
 </script>
 
-<span>{docs}</span>
+<div>{docs}</div>
 
 <style>
-    span {
+    div {
         font-style: italic;
         font-size: small;
         color: var(--wordplay-disabled-color);

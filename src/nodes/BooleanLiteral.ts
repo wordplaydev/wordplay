@@ -20,13 +20,17 @@ export default class BooleanLiteral extends Expression {
 
     readonly value: Token;
 
-    constructor(value: Token | boolean) {
+    constructor(value: Token) {
         super();
      
-        this.value = value === true || value === false ? new Token(value ? TRUE_SYMBOL : FALSE_SYMBOL, TokenType.BOOLEAN) : value;
+        this.value = value;
 
         this.computeChildren();
 
+    }
+
+    static make(value: boolean) {
+        return new BooleanLiteral(new Token(value === true ? TRUE_SYMBOL : FALSE_SYMBOL, TokenType.BOOLEAN));
     }
 
     getGrammar() { 

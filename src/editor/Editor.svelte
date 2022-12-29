@@ -15,7 +15,6 @@
     import Token from '../nodes/Token';
     import KeyboardIdle from '../models/KeyboardIdle';
     import CaretView from './CaretView.svelte';
-    import { PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
     import { CaretSymbol, HoveredSymbol, HighlightSymbol, InsertionPointsSymbol, getDragged, HiddenSymbol } from './util/Contexts';
     import { languages } from "../models/languages";
     import { type HighlightType, type Highlights, highlightTypes, type HighlightSpec } from './util/Highlights'
