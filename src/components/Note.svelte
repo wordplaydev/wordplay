@@ -9,7 +9,7 @@
 <style>
     div {
         font-style: italic;
-        font-size: small;
+        font-size: medium;
         color: var(--wordplay-disabled-color);
     }
 </style>

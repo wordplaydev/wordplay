@@ -24,6 +24,8 @@
     import { writable, type Writable } from "svelte/store";
     import FunctionConceptView from "./FunctionConceptView.svelte";
     import BindConceptView from "./BindConceptView.svelte";
+    import StreamConcept from "../concepts/StreamConcept";
+    import CodeView from "./CodeView.svelte";
 
     export let hidden: boolean;
 
@@ -48,11 +50,14 @@
             .map(def => new BindConcept(def, $project.getContext(source))))
         .flat();
 
+    $: streams = $project.getAllStreams().map(s => new StreamConcept(s, $project.getContext($project.main)));
+
     $: concepts = [ 
         ... projectConcepts,
         ... ConstructConcepts,
         ... NativeConcepts,
-        ... OutputConcepts
+        ... OutputConcepts,
+        ... streams
     ]
 
     let dragged = getDragged();
@@ -146,15 +151,16 @@
                 <FunctionConceptView concept={$selected} />
             {:else if $selected instanceof BindConcept }
                 <BindConceptView concept={$selected} />
+            {:else}
+                <CodeView node={$selected.getRepresentation()} concept={$selected} />
             {/if}
         </section>
     {:else}
         <ConstructsConceptsView concepts={ConstructConcepts} />
-        <section class="types">
-            <ConceptsView category="project" concepts={[ ... projectConcepts, ...projectBinds, ... projectFunctions ]} />
-            <ConceptsView category="data" concepts={NativeConcepts} />
-            <ConceptsView category="output" concepts={OutputConcepts} />
-        </section>
+        <ConceptsView category="project" concepts={[ ... projectConcepts, ...projectBinds, ... projectFunctions ]} />
+        <ConceptsView category="data" concepts={NativeConcepts} />
+        <ConceptsView category="input" concepts={streams} />
+        <ConceptsView category="output" concepts={OutputConcepts} />
     {/if}
 </section>
 

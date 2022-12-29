@@ -152,6 +152,7 @@ export default class Project {
     getSourceWithProgram(program: Program) { return this.getSources().find(source => source.expression === program); }
     getNative() { return Native; }
 
+    getAllStreams() { return Object.values(this.streams); }
     getImplicitlySharedStreams() { return [ this.streams.random ]; }
     getImplicitlySharedStream(name: string ) { return this.getImplicitlySharedStreams().find(stream => stream.hasName(name)); }
     
