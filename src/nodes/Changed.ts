@@ -49,7 +49,7 @@ export default class Changed extends Expression {
         return [
             { name: "change", types: [ Token ] },
             { 
-                name: "stream", types: [ Expression ],
+                name: "stream", types: [ Expression ], space: true,
                 // Must be a stream with any type
                 getType: () => StreamType.make(new AnyType())
             }
@@ -114,10 +114,6 @@ export default class Changed extends Expression {
             "😀": TRANSLATE,
             eng: "stream"
         };
-    }
-
-    getPreferredPrecedingSpace(child: Node): string {
-        return child === this.stream ? " " : "";
     }
 
     getDescriptions(): Translations {

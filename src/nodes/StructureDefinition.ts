@@ -95,9 +95,9 @@ export default class StructureDefinition extends Expression {
             { name: "interfaces", types: [[ Reference ] ] },
             { name: "types", types: [ TypeVariables, undefined ] },
             { name: "open", types:[ Token ] },
-            { name: "inputs", types: [[ Bind ]] },
+            { name: "inputs", types: [[ Bind ]], space: true, indent: true },
             { name: "close", types: [ Token ] },
-            { name: "expression", types: [ Block, undefined ] },
+            { name: "expression", types: [ Block, undefined ], space: true, indent: true },
         ];
     }
 

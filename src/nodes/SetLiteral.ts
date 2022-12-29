@@ -47,7 +47,7 @@ export default class SetLiteral extends Expression {
     getGrammar() { 
         return [
             { name: "open", types:[ Token ] },
-            { name: "values", types:[[ Expression ]] },
+            { name: "values", types:[[ Expression ]], space: true, indent: true },
             { name: "close", types:[ Token ] },
         ];
     }
@@ -58,11 +58,6 @@ export default class SetLiteral extends Expression {
             this.replaceChild<Expression[]>("values", this.values, original, replacement),
             this.replaceChild("close", this.close, original, replacement)
         ) as this; 
-    }
-
-    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
-        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return (this.values.includes(child as Expression)) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth + 1)}` : "";
     }
 
     computeConflicts() {}

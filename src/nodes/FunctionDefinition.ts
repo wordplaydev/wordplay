@@ -94,12 +94,12 @@ export default class FunctionDefinition extends Expression {
             { name: "names", types: [ Names ] },
             { name: "types", types: [ TypeVariables ] },
             { name: "open", types: [ Token ] },
-            { name: "inputs", types: [[ Bind ]] },
+            { name: "inputs", types: [[ Bind ]], space: true, indent: true },
             { name: "close", types: [ Token] },
             { name: "dot", types: [ Token, undefined ] },
             { name: "output", types: [ Type, undefined ] },
             { 
-                name: "expression", types: [ Expression, Token, undefined ],
+                name: "expression", types: [ Expression, Token, undefined ], space: true, indent: true,
                 // Must match output type if provided
                 getType: () => this.output ?? new AnyType()
             },
@@ -107,11 +107,6 @@ export default class FunctionDefinition extends Expression {
     }
 
     isBlockFor(child: Node) { return child === this.expression; }
-
-    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
-        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return this.expression === child && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
-    }
 
     clone(original?: Node, replacement?: Node) { 
         return new FunctionDefinition(

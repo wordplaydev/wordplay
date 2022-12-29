@@ -51,9 +51,9 @@ export default class Conditional extends Expression {
                 // Must be boolean typed
                 getType: () => new BooleanType()
             },
-            { name: "conditional", types: [ Token ] },
-            { name: "yes", types:[ Expression ] },
-            { name: "no", types:[ Expression ] },
+            { name: "conditional", types: [ Token ], space: false },
+            { name: "yes", types:[ Expression ], space: true, indent: true },
+            { name: "no", types:[ Expression ], space: true, indent: true },
         ]; 
     }
 
@@ -67,11 +67,6 @@ export default class Conditional extends Expression {
     }
 
     isBlockFor(child: Node) { return child === this.yes || child === this.no; }
-
-    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
-        return child === this.conditional ? " " : 
-            (child === this.yes || child === this.no) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : (child === this.yes || child === this.no ? " " : "");
-    }
 
     computeConflicts(context: Context): Conflict[] {
     

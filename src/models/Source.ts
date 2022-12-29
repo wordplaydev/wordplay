@@ -100,7 +100,7 @@ export default class Source extends Expression {
 
     getGrammar() { 
         return [
-            { name: "expression", types:[ Program ] },
+            { name: "expression", types: [ Program ] },
         ]; 
     }
 

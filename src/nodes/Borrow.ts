@@ -54,11 +54,11 @@ export default class Borrow extends Expression {
 
     getGrammar() { 
         return [
-            { name: "borrow", types:[ Token ] },
-            { name: "source", types:[ Token, undefined ] },
-            { name: "dot", types:[ Token, undefined ] },
-            { name: "name", types:[ Token, undefined ] },
-            { name: "version", types:[ Token, undefined ] },
+            { name: "borrow", types: [ Token ] },
+            { name: "source", types: [ Token, undefined ], space: true },
+            { name: "dot", types: [ Token, undefined ] },
+            { name: "name", types: [ Token, undefined ] },
+            { name: "version", types: [ Token, undefined ] },
         ]; 
     }
 

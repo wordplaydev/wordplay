@@ -54,7 +54,7 @@ export default class BinaryOperation extends Expression {
         return [
             { name: "left", types: [ Expression ] },
             { 
-                name: "operator", types: [ Token ],
+                name: "operator", types: [ Token ], space: true, indent: true,
                 // The operators should be all those that exist on the type on the left.
                 getToken: (text?: string, op?: string): Token => new Token(op ?? text ?? "_", TokenType.BINARY_OP),
                 getDefinitions: (context: Context): Definition[] => {
@@ -63,7 +63,7 @@ export default class BinaryOperation extends Expression {
                 }
             },
             { 
-                name: "right", types: [ Expression ],
+                name: "right", types: [ Expression ], space: true, indent: true,
                 // The type of the right should be the type of the single input to the function corresponding to the operator.
                 getType: (context: Context) => {
                     const fun = this.getFunction(context);
@@ -82,11 +82,6 @@ export default class BinaryOperation extends Expression {
             this.replaceChild("operator", this.operator, original, replacement), 
             this.replaceChild("right", this.right, original, replacement)
         ) as this; 
-    }
-
-    getPreferredPrecedingSpace(child: Node): string {
-        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return child === this.operator || child === this.right ? " " : "";
     }
 
     getOperator() { return this.operator.text.toString(); }

@@ -86,7 +86,7 @@ export default class Bind extends Expression {
             { name: "type", types: [ Type, undefined ] },
             { name: "colon", types: [ Token, undefined ] },
             { 
-                name: "value", types: [ Expression, undefined ],
+                name: "value", types: [ Expression, undefined ], space: true, indent: true,
                 // If there's a type, the value must match it, otherwise anything
                 getType: () => this.type ?? new AnyType()
             }
@@ -107,11 +107,6 @@ export default class Bind extends Expression {
     }
 
     isEvaluationInvolved() { return true; }
-
-    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
-        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return (child === this.value) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : "";
-    }
 
     evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context): TypeSet {
         return this.value === undefined ? current : this.value.evaluateTypeSet(bind, original, current, context);

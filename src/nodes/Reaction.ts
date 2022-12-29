@@ -43,8 +43,8 @@ export default class Reaction extends Expression {
     getGrammar() { 
         return [
             { name: "initial", types:[ Expression ] },
-            { name: "delta", types:[ Token ] },
-            { name: "next", types:[ Expression ] },
+            { name: "delta", types:[ Token ], space: true, indent: true },
+            { name: "next", types:[ Expression ], space: true, indent: true },
         ]; 
     }
 
@@ -157,11 +157,6 @@ export default class Reaction extends Expression {
 
     }
     
-    getPreferredPrecedingSpace(child: Node): string {
-        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return child === this.delta || child === this.next ? " " : "";
-    }
-
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,

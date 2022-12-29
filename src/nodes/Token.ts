@@ -62,7 +62,6 @@ export default class Token extends Node {
     /** Get the grapheme length of the text (as opposed to the codepoint length) */
     getText() { return this.text.toString(); }
     getTextLength() { return this.text.getLength(); }
-    getPreferredPrecedingSpace() { return ""; }
     toWordplay(spaces?: Spaces) { return `${spaces?.getSpace(this) ?? ""}${this.text.toString()}`; }
 
     // TRANSFORMATIONS

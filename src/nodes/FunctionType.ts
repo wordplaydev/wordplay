@@ -54,7 +54,7 @@ export default class FunctionType extends Type {
             { name: "fun", types: [ Token ] },
             { name: "types", types: [ [ TypeVariables] ] },
             { name: "open", types: [ Token ] },
-            { name: "inputs", types: [[ Bind ]] },
+            { name: "inputs", types: [[ Bind ]], space: true, indent: true },
             { name: "close", types: [ Token ] },
             { name: "output", types: [ Type ] },
         ]; 

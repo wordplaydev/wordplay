@@ -32,11 +32,7 @@ export default class VariableType extends Type {
 
     toWordplay() { return this.definition.toWordplay(); }
 
-    clone() { return new VariableType(this.definition) as this; }
-
-    
-    
-    
+    clone() { return new VariableType(this.definition) as this; }   
 
     getDescriptions(): Translations {
         return {

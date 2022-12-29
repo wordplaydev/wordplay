@@ -15,6 +15,10 @@ export type Field = {
     name: string, 
     /** A list of possible Node class types that the field may be. Redundant with the class, but no reflection in JavaScript. */
     types: NodeType[],
+    /** True if a preceding space is preferred the node */
+    space?: boolean,
+    /** True if the field should be indented if on a new line */
+    indent?: boolean,
     /** Generates a Token of the expected type, if a token is permitted on the field */
     getToken?: (text?: string, op?: string) => Token,
     /** Given a context and an optional index in a list, return a type required for this field. Used to filter autocomplete menus. */
@@ -173,6 +177,13 @@ export default abstract class Node {
         for(const name of this.getChildNames())
             children[name] = (this as any)[name] as (Node | Node[] | undefined);
         return children;
+    }
+
+    getFieldOfChild(child: Node): Field | undefined {
+        return this.getGrammar().find(field => {
+            const value = (this as any)[field.name];
+            return Array.isArray(value) ? value.includes(child) : value === child;
+        });
     }
     
     hasField(field: string): boolean {
@@ -336,7 +347,26 @@ export default abstract class Node {
 
     isBlockFor(_: Node) { return false; }
 
-    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string { child; space; depth; return ""; }
+    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string { 
+    
+        const field = this.getFieldOfChild(child);
+        
+        if(field === undefined)
+            return "";
+
+        if(field.indent === true) {
+            const newline = space.indexOf("\n") >= 0;
+            if(newline)
+                return `\n${"\t".repeat(depth)}`;
+        }
+        
+        if(field.space === true) { 
+            const value = this.getField(field.name);
+            return !Array.isArray(value) || value[0] !== child ? " " : "";
+        }
+        return "";
+    
+    }
 
     // EQUALITY
     

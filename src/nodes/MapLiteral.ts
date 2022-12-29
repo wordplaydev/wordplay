@@ -57,7 +57,7 @@ export default class MapLiteral extends Expression {
     getGrammar() { 
         return [
             { name: "open", types:[ Token ] },
-            { name: "values", types:[[ KeyValue ]] },
+            { name: "values", types:[[ KeyValue ]], space: true, indent: true },
             { name: "close", types:[ Token ] },
             { name: "bind", types:[ Token, undefined ] },
         ];
@@ -70,11 +70,6 @@ export default class MapLiteral extends Expression {
             this.replaceChild("bind", this.bind, original, replacement),
             this.replaceChild("close", this.close, original, replacement)
         ) as this; 
-    }
-
-    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
-        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        return (this.values.includes(child as KeyValue)) && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth + 1)}` : "";
     }
 
     notAMap() { return this.values.find(v => v instanceof Expression) !== undefined; }

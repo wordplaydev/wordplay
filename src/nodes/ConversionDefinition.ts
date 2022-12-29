@@ -57,11 +57,11 @@ export default class ConversionDefinition extends Expression {
     getGrammar() { 
         return [
             { name: "docs", types: [ Docs, undefined ] },
-            { name: "arrow", types: [ Token ] },
-            { name: "input", types: [ Type ] },
-            { name: "output", types: [ Type ] },
+            { name: "arrow", types: [ Token ], space: true },
+            { name: "input", types: [ Type ], space: true },
+            { name: "output", types: [ Type ], space: true },
             { 
-                name: "expression", types: [ Expression ],
+                name: "expression", types: [ Expression ], space: true, indent: true,
                 // Must match the output type
                 getType: () => this.output
             },
@@ -134,10 +134,6 @@ export default class ConversionDefinition extends Expression {
         return current;
     }
  
-    getPreferredPrecedingSpace(child: Node): string {
-        return child === this.input || child === this.output || child === this.expression ? " " : "";
-    }
-
     getDescriptions(): Translations {
         return {
             "😀": TRANSLATE,

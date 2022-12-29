@@ -88,7 +88,7 @@ export default class Evaluate extends Expression {
             { name: "types", types: [ TypeInputs, undefined ] },
             { name: "open", types: [ Token ] },
             { 
-                name: "inputs", types: [[ Expression ]],
+                name: "inputs", types: [[ Expression ]], space: true, indent: true,
                 // The type of an input depends on the function it's calling and the position in the list.
                 getType: (context: Context, index: number | undefined): Type => {
                     const fun = this.getFunction(context);
@@ -123,14 +123,6 @@ export default class Evaluate extends Expression {
             this.replaceChild("inputs", this.inputs, original, replacement),
             this.replaceChild("close", this.close, original, replacement)
         ) as this;
-    }
-
-    getPreferredPrecedingSpace(child: Node, space: string, depth: number): string {
-        // If the block has more than one statement, and the space doesn't yet include a newline followed by the number of types tab, then prefix the child with them.
-        const index = this.inputs.indexOf(child as Expression);
-        return index >= 0 && space.indexOf("\n") >= 0 ? `${"\t".repeat(depth)}` : 
-            index > 0 ? " " : 
-            "";
     }
 
     isBlockFor(child: Node) { return this.inputs.includes(child as Expression); }
