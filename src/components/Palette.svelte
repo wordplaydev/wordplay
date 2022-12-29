@@ -9,7 +9,6 @@
     import Button from "./Button.svelte";
     import Source from "../models/Source";
     import { fly } from "svelte/transition";
-    import type Node from "../nodes/Node";
     import ConceptsView from "./ConceptsView.svelte";
     import StructureConceptView from "./StructureConceptView.svelte";
     import { setContext } from "svelte";
@@ -32,6 +31,7 @@
     import KeyboardIdle from "../models/KeyboardIdle";
     import type Project from "../models/Project";
     import type ConstructConcept from "../concepts/ConstructConcept";
+    import ConceptIndex from "../concepts/ConceptIndex";
 
     export let hidden: boolean;
 
@@ -52,7 +52,7 @@
     let constructs: ConstructConcept[] = [];
     let native: StructureConcept[] = [];
     let output: StructureConcept[] = [];
-    let concepts: Concept[] = [];
+    let index: ConceptIndex = new ConceptIndex([]);
 
     $: {
         // When the project changes and the keyboard is idle, recompute the concepts.
@@ -81,16 +81,20 @@
             native = getNativeConcepts($project.getContext($project.main));
             output = getOutputConcepts($project.getContext($project.main));
 
-            concepts = [ 
-                ... projectStructures,
-                ... constructs,
-                ... native,
-                ... output,
-                ... streams
-            ].map(c => c.getAllConcepts()).flat();
+            index = new ConceptIndex(
+                [ 
+                    ... projectStructures,
+                    ... projectFunctions,
+                    ... projectBinds,
+                    ... constructs,
+                    ... native,
+                    ... output,
+                    ... streams
+                ].map(c => c.getAllConcepts()).flat()
+            );
 
             // Map the old path to the new one using concept equality.
-            path.set($path.map(concept => concepts.find(c => c.equals(concept))).filter((c): c is Concept => c !== undefined));
+            path.set($path.map(concept => index.getEquivalent(concept)).filter((c): c is Concept => c !== undefined));
 
         }
     }
@@ -104,17 +108,6 @@
     // Set a context that stores a project context for nodes in the palette to use.
     $: setContext("context", $project.getContext($project.main));
 
-    /** Search through the entries to find a corresponding node */
-    function idToNode(id: number): Node | undefined {
-        // Search all entries for a matching node.
-        for(const concept of concepts) {
-            const match = concept.getNode(id);
-            if(match)
-                return match;
-        }
-        return undefined;
-    }
-
     function handleMouseDown(event: MouseEvent) {
 
         palette?.focus();
@@ -124,7 +117,7 @@
         // Map the element to the coresponding node in the palette.
         const root = document.elementFromPoint(event.clientX, event.clientY)?.closest(".root")?.querySelector(".node-view");
         if(root instanceof HTMLElement) {
-            const node = idToNode(parseInt(root.dataset.id ?? ""));
+            const node = index.getNode(parseInt(root.dataset.id ?? ""));
             if(node !== undefined) {
                 dragged.set(new Tree(node));
             }

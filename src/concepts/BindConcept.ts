@@ -24,7 +24,7 @@ export default class BindConcept extends Concept {
     getRepresentation() { return this.reference; }
 
     getNodes(): Set<Node> {
-        return new Set();
+        return new Set([ this.reference ]);
     }
 
     getText(): Set<string> {
