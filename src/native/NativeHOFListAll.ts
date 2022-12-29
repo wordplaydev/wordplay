@@ -31,7 +31,7 @@ export default class NativeHOFListAll extends HOF {
         this.hofType = hofType;
     }
 
-    computeType() { return new BooleanType(); }
+    computeType() { return BooleanType.make(); }
 
     compile(): Step[] { 
         return [
@@ -98,7 +98,7 @@ export default class NativeHOFListAll extends HOF {
                 evaluator => {
 
                     // Get the bool from the matcher
-                    const matched = evaluator.popValue(new BooleanType());
+                    const matched = evaluator.popValue(BooleanType.make());
                     if(!(matched instanceof Bool)) return matched;
 
                     // Get the current index

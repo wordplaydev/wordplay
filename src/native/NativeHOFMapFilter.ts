@@ -101,7 +101,7 @@ export default class NativeHOFMapFilter extends HOF {
                 evaluator => {
 
                 // Get the boolean from the function evaluation.
-                const include = evaluator.popValue(new BooleanType());
+                const include = evaluator.popValue(BooleanType.make());
                 if(!(include instanceof Bool)) return include;
 
                 // Get the current index.
@@ -115,7 +115,7 @@ export default class NativeHOFMapFilter extends HOF {
 
                 // If the include decided yes, append the value.
                 const newMap = evaluator.resolve(MAP);
-                if(!(include instanceof Bool)) return new TypeException(evaluator, new BooleanType(), include);
+                if(!(include instanceof Bool)) return new TypeException(evaluator, BooleanType.make(), include);
                 else if(!(newMap instanceof MapValue)) return new TypeException(evaluator, MapType.make(), newMap);
                 if(newMap instanceof MapValue && include instanceof Bool) {
                     if(include.bool) {

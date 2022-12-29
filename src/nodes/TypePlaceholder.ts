@@ -38,10 +38,8 @@ export default class TypePlaceholder extends Type {
             this.replaceChild("placeholder", this.placeholder, original, replacement)
         ) as this; 
     }
-
     
-    
-    
+    isPlaceholder() { return true; }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
         if(child === this.placeholder) return {

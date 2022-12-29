@@ -32,16 +32,16 @@ export default function bootstrapBool() {
                     "😀": WRITE
                 }, 
                 OperandNames, 
-                new BooleanType()
+                BooleanType.make()
             ) ],
             new NativeExpression(
-                new BooleanType(), 
+                BooleanType.make(), 
                 (requestor, evaluation) => {
                     const left = evaluation.getClosure();
                     const right: Value | undefined = evaluation.resolve(OperandNames.eng);
                     // This should be impossible, but the type system doesn't know it.
-                    if(!(left instanceof Bool)) return new TypeException(evaluation.getEvaluator(), new BooleanType(), left);
-                    if(!(right instanceof Bool)) return new TypeException(evaluation.getEvaluator(), new BooleanType(), right);
+                    if(!(left instanceof Bool)) return new TypeException(evaluation.getEvaluator(), BooleanType.make(), left);
+                    if(!(right instanceof Bool)) return new TypeException(evaluation.getEvaluator(), BooleanType.make(), right);
                     return expression(requestor, left, right);
                 },
                 { 
@@ -49,7 +49,7 @@ export default function bootstrapBool() {
                     eng: "Native boolean operation." 
                 }
             ),
-            new BooleanType()
+            BooleanType.make()
         );
     }
 
@@ -100,11 +100,11 @@ export default function bootstrapBool() {
                 undefined, 
                 [],
                 new NativeExpression(
-                    new BooleanType(), 
+                    BooleanType.make(), 
                     (requestor, evaluation) => {
                         const left = evaluation.getClosure();
                         // This should be impossible, but the type system doesn't know it.
-                        if(!(left instanceof Bool)) return new TypeException(evaluation.getEvaluator(), new BooleanType(), left);
+                        if(!(left instanceof Bool)) return new TypeException(evaluation.getEvaluator(), BooleanType.make(), left);
                         return left.not(requestor);
                     },
                     {
@@ -112,7 +112,7 @@ export default function bootstrapBool() {
                         eng: "Logical not." 
                     }
                 ),
-                new BooleanType()
+                BooleanType.make()
             ),
             createBooleanFunction(
                 {

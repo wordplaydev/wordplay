@@ -27,7 +27,7 @@ const Key = StructureDefinition.make(
                 eng: "down",
                 "😀": `${TRANSLATE}2`
             },
-            new BooleanType()
+            BooleanType.make()
         )
     ]
 );

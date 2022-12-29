@@ -30,7 +30,7 @@ export default class Template extends Expression {
         super();
 
         this.open = open;
-        this.expressions = expressions ?? [ new Token("'\\", TokenType.TEXT_OPEN), new ExpressionPlaceholder(), new Token("\\'", TokenType.TEXT_CLOSE )];
+        this.expressions = expressions ?? [ new Token("'\\", TokenType.TEXT_OPEN), ExpressionPlaceholder.make(TextType.make()), new Token("\\'", TokenType.TEXT_CLOSE )];
         this.format = format;
 
         this.computeChildren();

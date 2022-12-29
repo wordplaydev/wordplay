@@ -59,7 +59,7 @@ export default function bootstrapList() {
             },
             new NameType(LIST_TYPE_VAR_NAMES.eng)
         )
-    ], new BooleanType());
+    ], BooleanType.make());
 
     const listAllHOFType = FunctionType.make(undefined, [ 
         Bind.make(
@@ -70,7 +70,7 @@ export default function bootstrapList() {
             },
             new NameType(LIST_TYPE_VAR_NAMES.eng)
         )
-    ], new BooleanType());
+    ], BooleanType.make());
 
 
     const listUntilHOFType = FunctionType.make(undefined, [ 
@@ -80,7 +80,7 @@ export default function bootstrapList() {
                 eng: "value",
                 "😀": `${TRANSLATE}value`
             },
-            new BooleanType()
+            BooleanType.make()
         )
     ], new NameType(LIST_TYPE_VAR_NAMES.eng));
 
@@ -92,7 +92,7 @@ export default function bootstrapList() {
                 eng: "value",
                 "😀": `${TRANSLATE}value`
             },
-            new BooleanType()
+            BooleanType.make()
         )
     ], new NameType(LIST_TYPE_VAR_NAMES.eng));
 
@@ -215,7 +215,7 @@ export default function bootstrapList() {
                     }, 
                     new NameType(LIST_TYPE_VAR_NAMES.eng)
                 ) ], 
-                new BooleanType(),
+                BooleanType.make(),
                 (requestor, evaluation) => {
                     const list: Value | Evaluation | undefined = evaluation.getClosure();
                     const value = evaluation.resolve("value");
@@ -368,7 +368,7 @@ export default function bootstrapList() {
                     }, 
                     ListType.make()
                 ) ],
-                new NativeExpression(new BooleanType(), 
+                new NativeExpression(BooleanType.make(), 
                 (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         const value = evaluation.resolve("value");
@@ -381,7 +381,7 @@ export default function bootstrapList() {
                         eng: "Comparing list values."
                     }
                 ),
-                new BooleanType()
+                BooleanType.make()
             ),
             FunctionDefinition.make(
                 WRITE_DOCS, 
@@ -398,7 +398,7 @@ export default function bootstrapList() {
                     }, 
                     ListType.make()
                 ) ],
-                new NativeExpression(new BooleanType(), 
+                new NativeExpression(BooleanType.make(), 
                 (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         const value = evaluation.resolve("value");
@@ -411,7 +411,7 @@ export default function bootstrapList() {
                         eng: "Comparing list values."
                     }
                 ),
-                new BooleanType()
+                BooleanType.make()
             ),
             FunctionDefinition.make(
                 WRITE_DOCS, 
@@ -465,7 +465,7 @@ export default function bootstrapList() {
                     listAllHOFType
                 ) ],
                 new NativeHOFListAll(listAllHOFType),
-                new BooleanType()
+                BooleanType.make()
             ),        
             FunctionDefinition.make(
                 WRITE_DOCS, 

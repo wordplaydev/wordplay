@@ -47,7 +47,7 @@ export default abstract class Node {
     // PREDICTATES
 
     isLeaf() { return false; }
-
+    isPlaceholder() { return false; }
 
     // CHILDREN
 

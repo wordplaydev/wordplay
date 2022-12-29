@@ -50,7 +50,7 @@ export default function bootstrapMap() {
             },
             new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng)
         )
-    ], new BooleanType());
+    ], BooleanType.make());
 
     const mapTranslateHOFType = FunctionType.make(undefined, [ 
         Bind.make(
@@ -112,7 +112,7 @@ export default function bootstrapMap() {
                     },
                     MapType.make()
                 ) ], 
-                new BooleanType(),
+                BooleanType.make(),
                 (requestor, evaluation) => {
                         const map = evaluation?.getClosure();
                         const other = evaluation.resolve("value");
@@ -142,7 +142,7 @@ export default function bootstrapMap() {
                     }, 
                     MapType.make() 
                 ) ], 
-                new BooleanType(),
+                BooleanType.make(),
                 (requestor, evaluation) => {
                     const map = evaluation?.getClosure();
                     const other = evaluation.resolve("value");

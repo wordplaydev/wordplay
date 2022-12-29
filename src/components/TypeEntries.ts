@@ -11,33 +11,36 @@ import type Type from "../nodes/Type";
 import { parseExpression, parseType, toTokens } from "../parser/Parser";
 import ImplicitShares from "../runtime/ImplicitShares";
 import type Node from "../nodes/Node";
+import StructureDefinitionType from "../nodes/StructureDefinitionType";
 
 export type TypeCategory = "data" | "output" | "project";
 
 export type TypeEntry = {
     kind: TypeCategory,
-    definition: StructureDefinition, 
+    definition: StructureDefinition,
+    type: Type,
     creators: Expression[],
     name: Node,
     constructs: Expression[],
     functions: Evaluate[]
 }
 
-function structureToEntry(kind: TypeCategory, literals: Expression[] | undefined, def: StructureDefinition, name: Node, constructs: Expression[]): TypeEntry {
+function structureToEntry(kind: TypeCategory, literals: Expression[] | undefined, def: StructureDefinition, type: Type, name: Node, constructs: Expression[]): TypeEntry {
     return { 
         kind,
         definition: def,
         creators: literals ?? [ Evaluate.make(
             Reference.make(def.names.names[0].name.getText()),
-            def.inputs.filter(input => input instanceof Bind && !input.hasDefault()).map(() => new ExpressionPlaceholder())
+            def.inputs.filter(input => input instanceof Bind && !input.hasDefault()).map(input => ExpressionPlaceholder.make(input.type))
         ) ],
+        type,
         name: name,
         constructs: constructs,
         // Map each function to an Evaluate with placeholders for the structure and required arguments
         functions: def.getFunctions(true).map(fun => 
             Evaluate.make(
-                PropertyReference.make(new ExpressionPlaceholder(), Reference.make(fun.names.names[0].name.getText())),
-                fun.inputs.filter(input => input instanceof Bind && !input.hasDefault()).map(() => new ExpressionPlaceholder())
+                PropertyReference.make(ExpressionPlaceholder.make(new StructureDefinitionType(def, [])), Reference.make(fun.names.names[0].name.getText())),
+                fun.inputs.filter(input => input instanceof Bind && !input.hasDefault()).map(input => ExpressionPlaceholder.make(input.type))
             )
         )
     };
@@ -49,6 +52,7 @@ function nativeStructureToEntry(def: StructureDefinition, literals: string[], ty
         literals.map(literal => parseExpression(toTokens(literal)) as Expression),
         def, 
         parseType(toTokens(type)) as Type,
+        parseType(toTokens(type)) as Type,
         constructs.map(construct => parseExpression(toTokens(construct)) as Expression)
     );
 }
@@ -58,6 +62,7 @@ export function nonNativeStructureToEntry(kind: TypeCategory, def: StructureDefi
         kind,
         undefined,
         def, 
+        new StructureDefinitionType(def, []),
         new NameType(def.names.names[0].name.getText()),
         []
     );

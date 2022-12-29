@@ -60,6 +60,10 @@ import ProgramView from "../ProgramView.svelte";
 import UnparsableTypeView from "../UnparsableTypeView.svelte";
 import DimensionView from "../DimensionView.svelte";
 import UnparsableExpressionView from "../UnparsableExpressionView.svelte";
+import AnyTypeView from "../AnyTypeView.svelte";
+import DocumentedExpressionView from "../DocumentedExpressionView.svelte";
+import TypeInputsView from "../TypeInputsView.svelte";
+import ChangedView from "../ChangedView.svelte";
 
 import type Node from "../../nodes/Node";
 import Program from "../../nodes/Program";
@@ -125,10 +129,8 @@ import Docs from "../../nodes/Docs";
 import UnparsableType from "../../nodes/UnparsableType";
 import UnparsableExpression from "../../nodes/UnparsableExpression";
 import DocumentedExpression from "../../nodes/DocumentedExpression";
-import DocumentedExpressionView from "../DocumentedExpressionView.svelte";
 import TypeVariable from "../../nodes/TypeVariable";
-import TypeInputsView from "../TypeInputsView.svelte";
-import ChangedView from "../ChangedView.svelte";
+import AnyType from "../../nodes/AnyType";
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Program, ProgramView);
@@ -214,6 +216,8 @@ nodeToView.set(TypePlaceholder, TypePlaceholderView);
 nodeToView.set(Is, IsView);
 
 nodeToView.set(This, ThisView);
+
+nodeToView.set(AnyType, AnyTypeView);
 
 export default function getNodeView(node: Node) {
 

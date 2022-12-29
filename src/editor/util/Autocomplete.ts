@@ -54,6 +54,7 @@ import TokenType from "../../nodes/TokenType";
 import Convert from "../../nodes/Convert";
 import UnaryOperation from "../../nodes/UnaryOperation";
 import { NEGATE_SYMBOL, NOT_SYMBOL } from "../../parser/Tokenizer";
+import AnyType from "../../nodes/AnyType";
 
 /** Given a project and a caret in it, generate a set of valid transformations at that caret. */
 export function getEditsAt(project: Project, caret: Caret): Transform[] {
@@ -344,7 +345,7 @@ function getPossibleNodes(context: Context, node: Node | undefined, kind: Functi
         case Expression:
             const possibilities = [
                 ...definitions.map(def => new Refer((name: string) => Reference.make(name), def)),
-                Block.make([ new ExpressionPlaceholder() ]),
+                Block.make([ ExpressionPlaceholder.make() ]),
                 new BooleanLiteral(true),
                 new BooleanLiteral(false),
                 TextLiteral.make(""),
@@ -352,10 +353,10 @@ function getPossibleNodes(context: Context, node: Node | undefined, kind: Functi
                 Conditional.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
                 ListLiteral.make([]),
                 SetLiteral.make([]),
-                MapLiteral.make([ new KeyValue(new ExpressionPlaceholder(), new ExpressionPlaceholder())]),
-                FunctionDefinition.make(undefined, new Names([ Name.make() ]), undefined, [], new ExpressionPlaceholder()),
+                MapLiteral.make([ new KeyValue(ExpressionPlaceholder.make(), ExpressionPlaceholder.make())]),
+                FunctionDefinition.make(undefined, new Names([ Name.make() ]), undefined, [], ExpressionPlaceholder.make()),
                 StructureDefinition.make(undefined, new Names([ Name.make() ]), [], undefined, []),
-                ConversionDefinition.make(undefined, new TypePlaceholder(), new TypePlaceholder(), new ExpressionPlaceholder()),
+                ConversionDefinition.make(undefined, new TypePlaceholder(), new TypePlaceholder(), ExpressionPlaceholder.make()),
                 Reaction.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make())
             ];
             // Filter by type if we have one.            
@@ -365,7 +366,7 @@ function getPossibleNodes(context: Context, node: Node | undefined, kind: Functi
              }) : possibilities;
         case Type: 
             return [
-                new BooleanType(),
+                BooleanType.make(),
                 ...[ MeasurementType.make(), ... (getPossibleUnits(context.project).map(u => MeasurementType.make(u))) ],
                 ...[ TextType.make(), ... (getPossibleLanguages(context.project).map(l => TextType.make(Language.make(l)))) ],
                 ListType.make(new TypePlaceholder()),
@@ -412,24 +413,24 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
         return [
             // If the type is a boolean, offer a conditional
             ...(type instanceof BooleanType ? [ 
-                    new Replace(context, parent, expr, Conditional.make(expr, new ExpressionPlaceholder(), new ExpressionPlaceholder())),
+                    new Replace(context, parent, expr, Conditional.make(expr, ExpressionPlaceholder.make(), ExpressionPlaceholder.make())),
                     new Replace(context, parent, expr, new UnaryOperation(new Token(NOT_SYMBOL, TokenType.UNARY_OP), expr))
             ] : []),
             ...(type instanceof MeasurementType ? [
                 new Replace(context, parent, expr, new UnaryOperation(new Token(NEGATE_SYMBOL, TokenType.UNARY_OP), expr))
             ] : []),
             // If the type is a list, offer a list access
-            ...(type instanceof ListType ? [ new Replace(context, parent, expr, ListAccess.make(expr, new ExpressionPlaceholder())) ] : []),
+            ...(type instanceof ListType ? [ new Replace(context, parent, expr, ListAccess.make(expr, ExpressionPlaceholder.make(MeasurementType.make()))) ] : []),
             // If the type is a set or map, offer a list access
-            ...(type instanceof SetType || type instanceof MapType ? [ new Replace(context, parent, expr, SetOrMapAccess.make(expr, new ExpressionPlaceholder())) ] : []),
+            ...(type instanceof SetType || type instanceof MapType ? [ new Replace(context, parent, expr, SetOrMapAccess.make(expr, ExpressionPlaceholder.make(SetType.make()))) ] : []),
             // If the type is a stream, offer a previous
-            ...(type instanceof StreamType ? [ new Replace(context, parent, expr, Previous.make(expr, new ExpressionPlaceholder())) ] : []),
+            ...(type instanceof StreamType ? [ new Replace(context, parent, expr, Previous.make(expr, ExpressionPlaceholder.make(StreamType.make(new AnyType())))) ] : []),
             // Reactions
-            ...[ new Replace(context, parent, expr, Reaction.make(expr, new ExpressionPlaceholder()))],
+            ...[ new Replace(context, parent, expr, Reaction.make(expr, ExpressionPlaceholder.make()))],
             // If given a type, any binary operations that are available on the type. Wrap in a block if a BinaryOperation or Conditional
             ...((type === undefined ? [] : type.getDefinitionsInScope(context).filter((def: Definition): def is FunctionDefinition => def instanceof FunctionDefinition && def.isBinaryOperator()) 
                 .map((def: FunctionDefinition) => 
-                    new Replace(context, parent, expr, new Refer(() => new BinaryOperation(Block.make([ expr ]), new Token(def.getBinaryOperatorName() ?? "", TokenType.BINARY_OP), new ExpressionPlaceholder()), def ))))),
+                    new Replace(context, parent, expr, new Refer(() => new BinaryOperation(Block.make([ expr ]), new Token(def.getBinaryOperatorName() ?? "", TokenType.BINARY_OP), ExpressionPlaceholder.make()), def ))))),
             // Get any conversions available
             ...(type === undefined ? [] :
                     type.getAllConversions(context)

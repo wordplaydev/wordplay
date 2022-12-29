@@ -70,7 +70,7 @@ export default function bootstrapText() {
                     }, 
                     TextType.make()
                 )],
-                new BooleanType(), 
+                BooleanType.make(), 
                 (requestor, text, evaluation) => {
                     const val = evaluation.resolve("val");
                     if(val instanceof Text) return new Bool(requestor, text.isEqualTo(val));
@@ -96,7 +96,7 @@ export default function bootstrapText() {
                     }, 
                     TextType.make()
                 )], 
-                new BooleanType(), 
+                BooleanType.make(), 
                 (requestor, text, evaluation) => {
                     const val = evaluation.resolve("val");
                     if(val instanceof Text) return new Bool(requestor, !text.isEqualTo(val));

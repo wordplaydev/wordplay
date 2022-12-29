@@ -86,7 +86,10 @@ export default function bootstrapMeasurement() {
         [], undefined, [],
         new Block([
             createBinaryOp(
-                WRITE_DOCS,
+                {
+                    eng: "add two numbers",
+                    "😀": WRITE
+                },
                 {
                     eng: "add",
                     "😀": "+"
@@ -205,7 +208,7 @@ export default function bootstrapMeasurement() {
                     "😀": "<"
                 },
                 WRITE_DOCS,
-                MeasurementType.make(unit => unit), new BooleanType(),
+                MeasurementType.make(unit => unit), BooleanType.make(),
                 (requestor, left, right) => left.lessThan(requestor, right)
             ),
             createBinaryOp(
@@ -215,7 +218,7 @@ export default function bootstrapMeasurement() {
                     "😀": ">"
                 },
                 WRITE_DOCS,
-                MeasurementType.make(unit => unit), new BooleanType(),
+                MeasurementType.make(unit => unit), BooleanType.make(),
                 (requestor, left, right) => left.greaterThan(requestor, right)
             ),
             createBinaryOp(
@@ -225,7 +228,7 @@ export default function bootstrapMeasurement() {
                     "😀": "≤"
                 },
                 WRITE_DOCS,
-                MeasurementType.make(unit => unit), new BooleanType(),
+                MeasurementType.make(unit => unit), BooleanType.make(),
                 (requestor, left, right) => new Bool(requestor, left.lessThan(requestor, right).bool || left.isEqualTo(right))
             ),
             createBinaryOp(
@@ -235,7 +238,7 @@ export default function bootstrapMeasurement() {
                     "😀": "≥"
                 },
                 WRITE_DOCS,
-                MeasurementType.make(unit => unit), new BooleanType(),
+                MeasurementType.make(unit => unit), BooleanType.make(),
                 (requestor, left, right) => new Bool(requestor, left.greaterThan(requestor, right).bool || left.isEqualTo(right))
             ),
             createBinaryOp(
@@ -246,7 +249,7 @@ export default function bootstrapMeasurement() {
                 },
                 WRITE_DOCS,
                 MeasurementType.make(unit => unit), 
-                new BooleanType(),
+                BooleanType.make(),
                 (requestor, left, right) => new Bool(requestor, left.isEqualTo(right))
             ),
             createBinaryOp(
@@ -256,7 +259,7 @@ export default function bootstrapMeasurement() {
                     "😀": "≠"
                 },
                 WRITE_DOCS,
-                MeasurementType.make(unit => unit), new BooleanType(),
+                MeasurementType.make(unit => unit), BooleanType.make(),
                 (requestor, left, right) => new Bool(requestor, !left.isEqualTo(right))
             ),
             

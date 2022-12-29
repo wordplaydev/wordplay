@@ -19,12 +19,9 @@ import type TypeSet from "./TypeSet";
 import ValueException from "../runtime/ValueException";
 import None from "../runtime/None";
 import ConversionDefinition from "./ConversionDefinition";
-import ExpressionPlaceholder from "./ExpressionPlaceholder";
-import Name from "./Name";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
-import Names from "./Names";
 import type Value from "../runtime/Value";
 import EvalCloseToken from "./EvalCloseToken";
 import EvalOpenToken from "./EvalOpenToken";
@@ -185,17 +182,6 @@ export default class Block extends Expression {
         const last = this.statements[this.statements.length - 1];
         return last instanceof Expression ? last.evaluateTypeSet(bind, original, current, context) : current;
 
-    }
-
-    getInsertions() {
-        const bind = Bind.make(undefined, new Names([ Name.make() ]), undefined, new ExpressionPlaceholder());
-        const type = FunctionDefinition.make(undefined, new Names([ Name.make() ]), undefined, [], new ExpressionPlaceholder());
-        const fun = StructureDefinition.make(undefined, new Names([ Name.make() ]), [], undefined, []);
-        return [ 
-            bind, 
-            fun, 
-            type 
-        ];
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {

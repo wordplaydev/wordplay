@@ -20,7 +20,7 @@ export default class Bool extends Primitive {
 
     toWordplay() { return this.bool ? TRUE_SYMBOL : FALSE_SYMBOL; }
 
-    getType() { return new BooleanType(); }
+    getType() { return BooleanType.make(); }
     
     getNativeTypeName(): NativeTypeName { return "boolean" }
 

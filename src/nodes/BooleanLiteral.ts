@@ -38,7 +38,7 @@ export default class BooleanLiteral extends Expression {
     computeConflicts() {}
 
     computeType(): Type {
-        return new BooleanType();
+        return BooleanType.make();
     }
 
     getDependencies(): Expression[] {

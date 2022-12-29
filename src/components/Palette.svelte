@@ -94,7 +94,8 @@
         if(!(source instanceof Source)) return;
 
         // Figure out what to replace the dragged node with. By default, we remove it.
-        let replacement = node instanceof Expression && !node.inList() ? new ExpressionPlaceholder() : undefined;
+        const type = node.node instanceof Expression ? node.node.getType($project.getContext(source)) : undefined;
+        let replacement = node.node instanceof Expression && !node.inList() ? ExpressionPlaceholder.make(type) : undefined;
 
         // Update the project with the new source files
         updateProject(
@@ -135,8 +136,6 @@
             <TypeView entry={selected} />
         </section>
     {:else}
-
-        <input type="text"/>
         <ConstructsView entries={constructs} />
         <section class="types">
             <TypeCategoryView category="project" entries={customEntries} on:selected={handleSelection} />

@@ -32,10 +32,10 @@ export default function bootstrapNone() {
                     eng: "val",
                     "😀": `${TRANSLATE}1`
                 }, 
-                new BooleanType()
+                BooleanType.make()
             ) ],
             new NativeExpression(
-                new BooleanType(), 
+                BooleanType.make(), 
                 (requestor, evaluation) => {
                     const left = evaluation.getClosure();
                     const right = evaluation.resolve("val");
@@ -49,7 +49,7 @@ export default function bootstrapNone() {
                     eng: "Native none operation." 
                 }
             ),
-            new BooleanType()
+            BooleanType.make()
         );
     }
     

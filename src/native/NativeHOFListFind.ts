@@ -96,7 +96,7 @@ export default class NativeHOFListFind extends HOF {
                 evaluator => {
 
                 // Get the boolean from the function evaluation.
-                const matched = evaluator.popValue(new BooleanType());
+                const matched = evaluator.popValue(BooleanType.make());
                 if(!(matched instanceof Bool)) return matched;
 
                 // If this matches, skip the loop.

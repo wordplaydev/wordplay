@@ -96,7 +96,7 @@ export default class SetOrMapAccess extends Expression {
         // Either a set or map type, and if so, the key or value's type.
         const setOrMapType = this.setOrMap.getType(context);
         if(setOrMapType instanceof MapType && setOrMapType.value instanceof Type) return setOrMapType.value;
-        else if(setOrMapType instanceof SetType) return new BooleanType();
+        else if(setOrMapType instanceof SetType) return BooleanType.make();
         else return new NotASetOrMapType(this, setOrMapType);
     }
 

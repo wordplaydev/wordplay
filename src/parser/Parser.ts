@@ -459,7 +459,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
         // This
         tokens.nextIs(TokenType.THIS) ? new This(tokens.read(TokenType.THIS)) :
         // Placeholder
-        tokens.nextIs(TokenType.PLACEHOLDER) ? new ExpressionPlaceholder(tokens.read(TokenType.PLACEHOLDER)) :
+        tokens.nextIs(TokenType.PLACEHOLDER) ? parsePlaceholder(tokens) :
         // Change
         tokens.nextIs(TokenType.CHANGE) ? parseChanged(tokens) :
         // Nones
@@ -524,6 +524,20 @@ function parseAtomicExpression(tokens: Tokens): Expression {
     }
     return left;
     
+}
+
+function parsePlaceholder(tokens: Tokens): ExpressionPlaceholder {
+
+    const placeholder = tokens.read(TokenType.PLACEHOLDER);
+    
+    let dot;
+    let type;
+    if(tokens.nextIs(TokenType.TYPE)) {
+        dot = tokens.read(TokenType.TYPE);
+        type = parseType(tokens);
+    }
+
+    return new ExpressionPlaceholder(placeholder, dot, type);
 }
 
 function parseReference(tokens: Tokens): Reference {

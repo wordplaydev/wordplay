@@ -26,8 +26,4 @@ export default class AnyType extends Type {
         }
     }
 
-    
-    
-    
-
 }

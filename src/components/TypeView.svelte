@@ -58,19 +58,19 @@
     {#each def.getFunctions() as fun }
         <CodeView node={
             fun.isUnaryOperator() ?
-                new UnaryOperation(new Token(fun.getUnaryOperatorName() ?? "_", TokenType.UNARY_OP), new ExpressionPlaceholder()) :
+                new UnaryOperation(new Token(fun.getUnaryOperatorName() ?? "_", TokenType.UNARY_OP), ExpressionPlaceholder.make(entry.type)) :
             fun.isBinaryOperator() ?
-                new BinaryOperation(new ExpressionPlaceholder(), new Token(fun.getBinaryOperatorName() ?? "_", TokenType.BINARY_OP), new ExpressionPlaceholder()) :
+                new BinaryOperation(ExpressionPlaceholder.make(entry.type), new Token(fun.getBinaryOperatorName() ?? "_", TokenType.BINARY_OP), ExpressionPlaceholder.make(fun.inputs[0]?.type)) :
                 Evaluate.make(
-                    PropertyReference.make(new ExpressionPlaceholder(), Reference.make(fun.names.getTranslation($languages))),
-                    fun.inputs.filter(input => !input.hasDefault()).map(() => new ExpressionPlaceholder())
+                    PropertyReference.make(ExpressionPlaceholder.make(entry.type), Reference.make(fun.names.getTranslation($languages))),
+                    fun.inputs.filter(input => !input.hasDefault()).map(input => ExpressionPlaceholder.make(input.type))
             )
         }/>
     {/each}
 
     <h2>conversions</h2>
     {#each def.getAllConversions() as conversion }
-        <CodeView node={Convert.make(ExpressionPlaceholder.make(), conversion.output.clone())}/>
+        <CodeView node={Convert.make(ExpressionPlaceholder.make(entry.type), conversion.output.clone())}/>
     {/each}
 
 </div>

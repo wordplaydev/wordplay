@@ -1,5 +1,7 @@
+import AnyType from "../nodes/AnyType"
 import Bind from "../nodes/Bind"
 import Block from "../nodes/Block"
+import BooleanType from "../nodes/BooleanType"
 import Changed from "../nodes/Changed"
 import Conditional from "../nodes/Conditional"
 import ConversionDefinition from "../nodes/ConversionDefinition"
@@ -9,6 +11,7 @@ import FunctionDefinition from "../nodes/FunctionDefinition"
 import Names from "../nodes/Names"
 import type Node from "../nodes/Node"
 import Reaction from "../nodes/Reaction"
+import StreamType from "../nodes/StreamType"
 import StructureDefinition from "../nodes/StructureDefinition"
 import TypePlaceholder from "../nodes/TypePlaceholder"
 
@@ -29,7 +32,7 @@ export type ConstructEntry = {
 export const constructs: ConstructEntry[] = [
     { 
         category: "names",
-        example: Bind.make(undefined, Names.make([ "_" ]), undefined, new ExpressionPlaceholder())
+        example: Bind.make(undefined, Names.make([ "_" ]), undefined, ExpressionPlaceholder.make())
     },
     {
         category: "names",
@@ -37,11 +40,11 @@ export const constructs: ConstructEntry[] = [
     },
     {
         category: "names",
-        example: StructureDefinition.make(undefined, Names.make(["_"]), [], undefined, [], Block.make([]))
+        example: StructureDefinition.make(undefined, Names.make(["_"]), [], undefined, [], Block.make([ ExpressionPlaceholder.make() ]))
     },
     {
         category: "choosing",
-        example: Conditional.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make(), ExpressionPlaceholder.make())
+        example: Conditional.make(ExpressionPlaceholder.make(BooleanType.make()), ExpressionPlaceholder.make(), ExpressionPlaceholder.make())
     },
     {
         category: "evaluation",
@@ -49,11 +52,11 @@ export const constructs: ConstructEntry[] = [
     },
     {
         category: "streams",
-        example: Changed.make(ExpressionPlaceholder.make())
+        example: Changed.make(ExpressionPlaceholder.make(StreamType.make(new AnyType())))
     },
     {
         category: "streams",
-        example: Reaction.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make())
+        example: Reaction.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make(StreamType.make(new AnyType())))
     },
     {
         category: "conversion",

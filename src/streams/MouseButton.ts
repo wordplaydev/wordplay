@@ -36,6 +36,6 @@ export default class MouseButton extends Stream<Bool> {
         this.on = false;
     }
 
-    getType() { return StreamType.make(new BooleanType()); }
+    getType() { return StreamType.make(BooleanType.make()); }
 
 }

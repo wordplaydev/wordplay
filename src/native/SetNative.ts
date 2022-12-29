@@ -29,7 +29,7 @@ export default function bootstrapSet() {
                 eng: "value",
                 "😀": `${TRANSLATE}value`
             },
-            new BooleanType()
+            BooleanType.make()
         )
     ], new NameType(SET_TYPE_VAR_NAMES.eng));
     
@@ -71,7 +71,7 @@ export default function bootstrapSet() {
                     }, 
                     SetType.make() 
                 ) ], 
-                new BooleanType(),
+                BooleanType.make(),
                 (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
                         const other = evaluation.resolve("value");
@@ -101,7 +101,7 @@ export default function bootstrapSet() {
                     }, 
                     SetType.make() 
                 ) ], 
-                new BooleanType(),
+                BooleanType.make(),
                 (requestor, evaluation) => {
                         const set = evaluation?.getClosure();
                         const other = evaluation.resolve("value");

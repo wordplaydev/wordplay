@@ -12,13 +12,17 @@ export default class BooleanType extends NativeType {
 
     readonly type: Token;
 
-    constructor(type?: Token) {
+    constructor(type: Token) {
         super();
 
-        this.type = type ?? new Token(BOOLEAN_TYPE_SYMBOL, TokenType.BOOLEAN_TYPE);
+        this.type = type;
 
         this.computeChildren();
 
+    }
+
+    static make() {
+        return new BooleanType(new Token(BOOLEAN_TYPE_SYMBOL, TokenType.BOOLEAN_TYPE));
     }
 
     getGrammar() { 

@@ -53,7 +53,7 @@ export default class Is extends Expression {
         ) as this; 
     }
 
-    computeType() { return new BooleanType(); }
+    computeType() { return BooleanType.make(); }
     computeConflicts(context: Context) {
 
         // Is the type of the expression compatible with the specified type? If not, warn.

@@ -8,13 +8,12 @@
 
 <script lang="ts">
     import { afterUpdate } from "svelte";
-    import Token from "../nodes/Token";
     import TokenType from "../nodes/TokenType";
-    import { PLACEHOLDER_SYMBOL } from "../parser/Tokenizer";
     import { getCaret } from "./util/Contexts";
     import Spaces, { SPACE_HTML, tabToHTML } from "../parser/Spaces";
     import type Source from "../models/Source";
     import { playing } from "../models/stores";
+    import Node from "../nodes/Node";
     
     type CaretPosition = { top: string, left: string, height: string, bottom: number };
 
@@ -108,9 +107,9 @@
         const viewportYOffset = -viewportRect.top + viewport.scrollTop;
 
         // If the caret is a node and it's a placeholder, then position a caret in it's center
-        if($caret.position instanceof Token && $caret.position.getText() === PLACEHOLDER_SYMBOL) {
+        if($caret.position instanceof Node && $caret.position.isPlaceholder()) {
 
-            const tokenView = editorView.querySelector(`.token-view[data-id="${$caret.position.id}"]`);
+            const tokenView = editorView.querySelector(`.node-view[data-id="${$caret.position.id}"]`);
             if(tokenView === null) return;
             const tokenViewRect = tokenView.getBoundingClientRect();
 

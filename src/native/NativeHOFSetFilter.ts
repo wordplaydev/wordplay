@@ -98,7 +98,7 @@ export default class NativeHOFSetFilter extends HOF {
                 evaluator => {
 
                     // Get the boolean from the function evaluation.
-                    const include = evaluator.popValue(new BooleanType());
+                    const include = evaluator.popValue(BooleanType.make());
                     if(!(include instanceof Bool)) return include;
 
                     // Get the current index.

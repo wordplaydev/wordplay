@@ -97,7 +97,7 @@ export default class NativeHOFListMap extends HOF {
                 evaluator => {
 
                     // Get the boolean from the function evaluation.
-                    const include = evaluator.popValue(new BooleanType());
+                    const include = evaluator.popValue(BooleanType.make());
                     if(!(include instanceof Bool)) return include;
 
                     // Get the current index.
@@ -111,7 +111,7 @@ export default class NativeHOFListMap extends HOF {
                         return new TypeException(evaluator, ListType.make(), list);
 
                     const newList = evaluator.resolve(LIST);
-                    if(!(include instanceof Bool)) return new TypeException(evaluator, new BooleanType(), include);
+                    if(!(include instanceof Bool)) return new TypeException(evaluator, BooleanType.make(), include);
                     else if(!(newList instanceof List)) return new TypeException(evaluator, ListType.make(), newList);
                     else {
                         // If the include decided yes, append the value.

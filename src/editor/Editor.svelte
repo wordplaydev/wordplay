@@ -235,7 +235,7 @@
             addHighlight(newHighlights, latestValue.step.node, "exception");
 
         // Is the caret selecting a node? Highlight it.
-        if($caret.position instanceof Node)
+        if($caret.position instanceof Node && !$caret.position.isPlaceholder())
             addHighlight(newHighlights, $caret.position, "selected");
 
         // Is a node being dragged?
@@ -433,10 +433,10 @@
 
             // If the node isn't in a list, then we replace it with an expression placeholder, to preserve syntax.
             if(!$dragged.inList()) {
-                // Make a placeholder to replace the hovered node.
+                // Make a placeholder to replace the hovered node. Try to specify the former type.
                 replacement = 
                     draggedNode instanceof Block && $dragged.getParent() instanceof StructureDefinition ? undefined :
-                    draggedNode instanceof Expression ? (new ExpressionPlaceholder()) :
+                    draggedNode instanceof Expression ? ExpressionPlaceholder.make(draggedNode.getType(project.getContext(source))) :
                     draggedNode instanceof Type ? (new TypePlaceholder()) :
                     undefined;
             }
@@ -1055,24 +1055,29 @@
             // Get the last grapheme entered.
             const lastChar = value.substring(value.getLength() - 1, value.getLength());
 
-            const isPlaceholder = $caret.position instanceof Token && $caret.position.getText() === PLACEHOLDER_SYMBOL;
+            let newCaret = $caret;
+            let newSource: Source | undefined = source;
 
-            const position = 
-                typeof $caret.position === "number" ? $caret.position :
-                isPlaceholder ? source.getTokenTextPosition($caret.position as Token) :
-                undefined;
-
-            if(position !== undefined) {
+            if(newCaret.position instanceof Node) {
+                const edit = newCaret.deleteNode(newCaret.position);
+                if(edit) {
+                    newSource = edit[0];
+                    newCaret = edit[1];
+                }
+                else return;
+            }
+            
+            if(typeof newCaret.position === "number") {
 
                 // If the last keyboard value length is equal to the new one, then it was a diacritic.
                 // Replace the last grapheme entered with this grapheme, then reset the input text field.
                 if(lastKeyboardInputValue !== undefined && lastKeyboardInputValue.getLength() === value.getLength()) {
                     const char = lastChar.toString();
-                    const newSource = source.withPreviousGraphemeReplaced(char, position);
+                    newSource = source.withPreviousGraphemeReplaced(char, newCaret.position);
                     if(newSource) {
                         // Reset the hidden field.
                         input.value = "";
-                        edit = [ newSource, new Caret(newSource, position) ];
+                        edit = [ newSource, new Caret(newSource, newCaret.position) ];
                     }
                 }
                 // Otherwise, just insert the grapheme and limit the input field to the last character.
@@ -1081,10 +1086,7 @@
                     const char = lastChar.toString();
 
                     // If it was a placeholder, first remove the 
-                    let newSource: Source | undefined = source;
-                    if(isPlaceholder)
-                        newSource = newSource.withoutGraphemeAt(position);
-                    edit = $caret.insert(char);
+                    edit = newCaret.insert(char);
                     if(edit) {
                         if(value.getLength() > 1)
                             input.value = lastChar.toString();

@@ -1,8 +1,10 @@
 import type { Edit } from "../editor/util/Commands";
 import Block from "../nodes/Block";
+import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
 import Node from "../nodes/Node";
 import Token from "../nodes/Token";
 import TokenType from "../nodes/TokenType";
+import TypePlaceholder from "../nodes/TypePlaceholder";
 import { DELIMITERS, PLACEHOLDER_SYMBOL, PROPERTY_SYMBOL, REVERSE_DELIMITERS } from "../parser/Tokenizer";
 import type Source from "./Source";
 
@@ -244,15 +246,25 @@ export default class Caret {
             if(this.position === (direction < 0 ? 0 : this.source.getCode().getLength())) return this;
             let pos = this.position + direction;
 
-            // If we're at a placeholder, return the token at this position
-            if(this.source.code.at(this.position - (direction < 0 ? 1 : 0)) === PLACEHOLDER_SYMBOL) {
-                const placeholderToken = this.source.getTokenAt(this.position - (direction < 0 ? 1 : 0));
-                if(placeholderToken)
-                    return this.withPosition(placeholderToken);
-            }
+            // See if the token at this position is a placeholder token or in a placeholder expression.
+            const placeholder = this.getPlaceholderAtPosition(this.position - (direction < 0 ? 1 : 0));
+            if(placeholder)
+                return this.withPosition(placeholder);
+            // // If we're at a placeholder, return the token at this position
+            // if(this.source.code.at(this.position - (direction < 0 ? 1 : 0)) === PLACEHOLDER_SYMBOL) {
+            //     const placeholderToken = this.source.getTokenAt(this.position - (direction < 0 ? 1 : 0));
+            //     if(placeholderToken)
+            //         return this.withPosition(placeholderToken);
+            // }
 
             return this.withPosition(pos);
         }
+    }
+
+    getPlaceholderAtPosition(position: number): Node | undefined {
+        const tokenAtPosition = this.source.getTokenAt(position, false);
+        if(tokenAtPosition === undefined) return undefined;
+        return this.source.get(tokenAtPosition)?.getAncestors().find(a => a.isPlaceholder());
     }
 
     moveNodeHorizontal(direction: -1 | 1) {
@@ -277,6 +289,7 @@ export default class Caret {
     withSource(source: Source) { return new Caret(source, this.position); }
 
     insert(text: string): Edit | undefined {
+
         if(typeof this.position === "number") {
 
             // If the inserted string matches a single matched delimiter, complete it, unless:
@@ -304,13 +317,11 @@ export default class Caret {
             
             return newSource === undefined ? undefined : [ newSource, new Caret(newSource, this.position + (closed ? 1 : text.length)) ];
         }
-        else if(this.position instanceof Token && this.position.getText() === PLACEHOLDER_SYMBOL) {
-            const indexOfPlaceholder = this.source.getTokenTextPosition(this.position);
-            let newSource = this.source.withoutGraphemeAt(indexOfPlaceholder);
-            newSource = newSource?.withGraphemesAt(text, indexOfPlaceholder);
-            return newSource === undefined ? undefined : [ newSource, new Caret(newSource, indexOfPlaceholder + text.length)]
-
-
+        else if(this.position.isPlaceholder()) {
+            const edit = this.deleteNode(this.position);
+            if(edit === undefined || edit[1].position instanceof Node) return;
+            const newSource = edit[0].withGraphemesAt(text, edit[1].position);
+            return newSource === undefined ? undefined : [ newSource, new Caret(newSource, edit[1].position + text.length)]
         }
     }
 
@@ -341,9 +352,18 @@ export default class Caret {
     }
     
     backspace(): Edit | undefined  {
+
         if(typeof this.position === "number") {
+
+
             const before = this.source.getCode().at(this.position - 1);
             const after = this.source.getCode().at(this.position);
+
+            // Is this just after a placeholder? Delete the whole placeholder.
+            const placeholder = this.getPlaceholderAtPosition(this.position - 1);
+            if(placeholder)
+                return this.deleteNode(placeholder);
+
             if(before && after && DELIMITERS[before] === after) {
                 // If there's an adjacent pair of delimiters, delete them both.
                 let newSource = this.source.withoutGraphemeAt(this.position);
@@ -363,12 +383,16 @@ export default class Caret {
             // if(removal) return removal.getEdit(["eng"]);
             // else {
                 // Delete the text between the first and last token.
-                const range = this.getRange(this.position);
-                if(range === undefined) return; 
-                const newSource = this.source.withoutGraphemesBetween(range[0], range[1]);
-                return newSource === undefined ? undefined : [ newSource , new Caret(newSource, range[0]) ];
+                return this.deleteNode(this.position);
             // }
         }
+    }
+
+    deleteNode(node: Node): [ Source, Caret ] | undefined {
+        const range = this.getRange(node);
+        if(range === undefined) return; 
+        const newSource = this.source.withoutGraphemesBetween(range[0], range[1]);
+        return newSource === undefined ? undefined : [ newSource , new Caret(newSource, range[0]) ];
     }
     
     moveVertical(editor: HTMLElement, direction: 1 | -1): Edit | undefined  {

@@ -44,7 +44,7 @@ export default class Delete extends Expression {
             { 
                 name: "query", types: [ Expression ],
                 // Must be a boolean 
-                getType: () => new BooleanType()
+                getType: () => BooleanType.make()
             },
         ];
     }
