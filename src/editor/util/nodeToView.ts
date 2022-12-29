@@ -131,6 +131,8 @@ import UnparsableExpression from "../../nodes/UnparsableExpression";
 import DocumentedExpression from "../../nodes/DocumentedExpression";
 import TypeVariable from "../../nodes/TypeVariable";
 import AnyType from "../../nodes/AnyType";
+import StructureDefinitionType from "../../nodes/StructureDefinitionType";
+import StructureDefinitionTypeView from "../StructureDefinitionTypeView.svelte";
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Program, ProgramView);
@@ -218,6 +220,8 @@ nodeToView.set(Is, IsView);
 nodeToView.set(This, ThisView);
 
 nodeToView.set(AnyType, AnyTypeView);
+
+nodeToView.set(StructureDefinitionType, StructureDefinitionTypeView);
 
 export default function getNodeView(node: Node) {
 
