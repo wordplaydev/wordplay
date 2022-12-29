@@ -42,6 +42,7 @@ export default class ExpressionPlaceholder extends Expression {
     }
 
     static make(type?: Type) {
+        // Clone the type; we don't want it making it's way to a program.
         return new ExpressionPlaceholder(new PlaceholderToken(), type !== undefined ? new TypeToken() : undefined, type);
     }
 

@@ -52,7 +52,7 @@ export default class FunctionType extends Type {
     getGrammar() { 
         return [
             { name: "fun", types: [ Token ] },
-            { name: "types", types: [ [ TypeVariables] ] },
+            { name: "types", types: [ TypeVariables, undefined ] },
             { name: "open", types: [ Token ] },
             { name: "inputs", types: [[ Bind ]], space: true, indent: true },
             { name: "close", types: [ Token ] },

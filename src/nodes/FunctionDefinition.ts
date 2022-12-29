@@ -92,7 +92,7 @@ export default class FunctionDefinition extends Expression {
             { name: "docs", types: [ Docs, undefined ] },
             { name: "fun", types: [ Token ] },
             { name: "names", types: [ Names ] },
-            { name: "types", types: [ TypeVariables ] },
+            { name: "types", types: [ TypeVariables, undefined ] },
             { name: "open", types: [ Token ] },
             { name: "inputs", types: [[ Bind ]], space: true, indent: true },
             { name: "close", types: [ Token] },

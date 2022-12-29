@@ -32,6 +32,9 @@
     import type Project from "../models/Project";
     import type ConstructConcept from "../concepts/ConstructConcept";
     import ConceptIndex from "../concepts/ConceptIndex";
+    import Reference from "../nodes/Reference";
+    import type Node from "../nodes/Node";
+    import { languages } from "../models/languages";
 
     export let hidden: boolean;
 
@@ -118,8 +121,12 @@
         // Map the element to the coresponding node in the palette.
         const root = document.elementFromPoint(event.clientX, event.clientY)?.closest(".root")?.querySelector(".node-view");
         if(root instanceof HTMLElement) {
-            const node = $index.getNode(parseInt(root.dataset.id ?? ""));
+            let node: Node | undefined = $index.getNode(parseInt(root.dataset.id ?? ""));
             if(node !== undefined) {
+                // If the node is a Reference with a definition, "harden" it into a preferred language.
+                if(node instanceof Reference && node.definition !== undefined)
+                    node = Reference.make(node.definition.names.getTranslation($languages));
+
                 dragged.set(new Tree(node));
             }
         }

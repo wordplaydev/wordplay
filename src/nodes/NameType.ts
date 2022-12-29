@@ -43,7 +43,7 @@ export default class NameType extends Type {
     getGrammar() { 
         return [
             { name: "name", types: [ Token ] },
-            { name: "types", types: [ TypeInputs ] },
+            { name: "types", types: [ TypeInputs, undefined ] },
         ];
     }
 
