@@ -1,8 +1,7 @@
 <script lang="ts">
-    import { getContext } from "svelte";
-    import type { Writable } from "svelte/store";
     import type Concept from "../concepts/Concept";
     import RootView from "../editor/RootView.svelte";
+    import { getPalettePath } from "../editor/util/Contexts";
     import { languages } from "../models/languages";
     import type Node from "../nodes/Node";
     import { selectTranslation } from "../nodes/Translations";
@@ -17,13 +16,21 @@
 
     function select(event: MouseEvent | KeyboardEvent) {
         if(selectable && selection) {
-            selection.set(concept);
+            // If the concept is already in the selection, pop back to it.
+            if($selection.includes(concept)) {
+                while($selection.at(-1) !== concept)
+                    $selection.pop();
+                selection.set( [ ... $selection ]);
+            }
+            else {
+                selection.set( [ ...$selection, concept ]);
+            }
             // Don't let the palette handle it.
             event.stopPropagation();
         }
     }
 
-    $: selection = getContext<Writable<Concept | undefined>>("selection");
+    $: selection = getPalettePath();
 
 </script>
 

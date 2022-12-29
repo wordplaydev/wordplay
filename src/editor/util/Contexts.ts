@@ -1,5 +1,6 @@
 import { getContext } from "svelte";
 import type { Writable } from "svelte/store";
+import type Concept from "../../concepts/Concept";
 import type { InsertionPoint } from "../../models/Caret";
 import type Caret from "../../models/Caret";
 import type Project from "../../models/Project";
@@ -43,3 +44,7 @@ export function getSpace() { return getContext<SpaceContext>(SpaceSymbol); }
 export const HiddenSymbol = Symbol("hidden");
 export type HiddenContext = Writable<Set<Node>>;
 export function getHidden() { return getContext<HiddenContext>(HiddenSymbol); }
+
+export const PalettePathSymbol = Symbol("palette-path");
+export type PalettePathContext = Writable<Concept[]>
+export function getPalettePath() { return getContext<PalettePathContext>(PalettePathSymbol); }

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getDragged } from "../editor/util/Contexts";
+    import { getDragged, PalettePathSymbol, type PalettePathContext } from "../editor/util/Contexts";
     import { project, updateProject } from "../models/stores";
     import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
     import StructureDefinition from "../nodes/StructureDefinition";
@@ -20,7 +20,7 @@
     import Bind from "../nodes/Bind";
     import BindConcept from "../concepts/BindConcept";
     import type Concept from "../concepts/Concept";
-    import { writable, type Writable } from "svelte/store";
+    import { writable } from "svelte/store";
     import FunctionConceptView from "./FunctionConceptView.svelte";
     import BindConceptView from "./BindConceptView.svelte";
     import StreamConcept from "../concepts/StreamConcept";
@@ -95,8 +95,8 @@
 
     let dragged = getDragged();
     
-    let selected: Writable<Concept | undefined> = writable(undefined);
-    setContext("selection", selected);
+    let selected: PalettePathContext = writable([]);
+    setContext(PalettePathSymbol, selected);
 
     // Set a context that stores a project context for nodes in the palette to use.
     $: setContext("context", $project.getContext($project.main));
@@ -161,6 +161,13 @@
 
     }
 
+    function back() {
+
+        $selected.pop();
+        selected.set([ ...$selected ]);
+
+    }
+
 </script>
 
 <!-- Drop what's being dragged if the window loses focus. -->
@@ -172,33 +179,39 @@
     on:mousedown={handleMouseDown}
     on:mouseup={handleDrop}
     tabIndex=0
-    on:keydown={event => event.key === "Escape" || event.key === "Backspace" ? selected.set(undefined) : undefined }
+    on:keydown={event => event.key === "Escape" || event.key === "Backspace" ? back() : undefined }
     transition:fly={{ x: -200 }}
     bind:this={palette}
 >
-    {#if $selected }
-        <section class="type">
-            <div class="back">
-                <Button 
-                    label={{ eng: "◁" , "😀": WRITE }}
-                    tip={{ eng: "Return to the types menu.", "😀": WRITE }}
-                    action={() => selected.set(undefined) } 
-                />
-            </div>
-            {#if $selected instanceof StructureConcept }
-                <StructureConceptView concept={$selected} />
-            {:else if $selected instanceof FunctionConcept }
-                <FunctionConceptView concept={$selected} />
-            {:else if $selected instanceof BindConcept }
-                <BindConceptView concept={$selected} />
-            {:else if $selected instanceof ConversionConcept }
-                <ConversionConceptView concept={$selected} />
-            {:else if $selected instanceof StreamConcept }
-                <StreamConceptView concept={$selected} />
-            {:else}
-                <CodeView node={$selected.getRepresentation()} concept={$selected} />
-            {/if}
-        </section>
+    {#if $selected.length > 0 }
+        {@const concept = $selected.at(-1)}
+        {#if concept}
+            <section class="type">
+                <div class="back">
+                    <Button 
+                        label={{ eng: "◁" , "😀": WRITE }}
+                        tip={{ eng: "Return to the types menu.", "😀": WRITE }}
+                        action={back} 
+                    />
+                    {#each $selected as concept }
+                        … <CodeView node={concept.getRepresentation()} {concept} selectable describe={false}/>
+                    {/each}
+                </div>
+                {#if concept instanceof StructureConcept }
+                    <StructureConceptView {concept} />
+                {:else if concept instanceof FunctionConcept }
+                    <FunctionConceptView {concept} />
+                {:else if concept instanceof BindConcept }
+                    <BindConceptView {concept} />
+                {:else if concept instanceof ConversionConcept }
+                    <ConversionConceptView {concept} />
+                {:else if concept instanceof StreamConcept }
+                    <StreamConceptView {concept} />
+                {:else}
+                    <CodeView node={concept.getRepresentation()} {concept} />
+                {/if}
+            </section>
+        {/if}
     {:else}
         <ConstructsConceptsView concepts={constructs} />
         <ConceptsView category="project" concepts={[ ... projectStructures, ...projectBinds, ... projectFunctions ]} />
@@ -239,8 +252,11 @@
 
     .back {
         position: sticky;
-        top: var(--wordplay-spacing);
+        top: 0;
+        padding-bottom: var(--wordplay-spacing);
         z-index: var(--wordplay-layer-controls);
+        background-color: var(--wordplay-background);
+        border-bottom: var(--wordplay-border-color) solid var(--wordplay-border-width);
     }
 
 </style>
