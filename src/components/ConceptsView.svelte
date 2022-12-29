@@ -17,6 +17,7 @@
 <style>
     .group {
         margin: var(--wordplay-spacing);
+        margin-left: 0;
         display: flex;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);

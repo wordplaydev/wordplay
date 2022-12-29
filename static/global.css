@@ -117,6 +117,7 @@
 }
 
 h1, h2, h3 {
+    margin-top: calc(2 * var(--wordplay-spacing));
     margin-bottom: var(--wordplay-spacing);
 }
 
@@ -139,6 +140,7 @@ h3 {
 p {
     margin: 0;
 }
+
 p + p {
     margin-top: var(--wordplay-spacing);
 }

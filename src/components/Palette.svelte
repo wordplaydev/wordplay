@@ -12,7 +12,6 @@
     import ConceptsView from "./ConceptsView.svelte";
     import StructureConceptView from "./StructureConceptView.svelte";
     import { setContext } from "svelte";
-    import ConstructsConceptsView from "./ConstructConceptsView.svelte";
     import StructureConcept from "../concepts/StructureConcept";
     import FunctionDefinition from "../nodes/FunctionDefinition";
     import FunctionConcept from "../concepts/FunctionConcept";
@@ -217,7 +216,7 @@
             </section>
         {/if}
     {:else}
-        <ConstructsConceptsView concepts={constructs} />
+        <ConceptsView category="code" concepts={constructs} />
         <ConceptsView category="project" concepts={[ ... projectStructures, ...projectBinds, ... projectFunctions ]} />
         <ConceptsView category="data" concepts={native} />
         <ConceptsView category="input" concepts={streams} />
