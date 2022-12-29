@@ -65,4 +65,8 @@ export default class FunctionConcept extends Concept {
         return new Set(this.inputs);
     }
 
+    equals(concept: Concept) {
+        return concept instanceof FunctionConcept && concept.definition.equals(this.definition);
+    }
+
 }

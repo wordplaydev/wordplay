@@ -66,4 +66,8 @@ export default class StructureConcept extends Concept {
         return new Set( [ ... this.inputs, ...this.properties, ...this.functions, ...this.conversions ] )
     }
 
+    equals(concept: Concept) {
+        return concept instanceof StructureConcept && concept.definition === this.definition;
+    }
+
 }

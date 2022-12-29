@@ -42,4 +42,8 @@ export default class ConversionConcept extends Concept {
         return new Set();
     }
 
+    equals(concept: Concept) {
+        return concept instanceof ConversionConcept && concept.definition === this.definition;
+    }
+
 }

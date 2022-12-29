@@ -44,4 +44,8 @@ export default class StreamConcept extends Concept {
         return new Set([ ... (this.type ? [ this.type ] : []) ]);
     }
 
+    equals(concept: Concept) {
+        return concept instanceof StreamConcept && concept.stream.constructor === this.stream.constructor;
+    }
+
 }

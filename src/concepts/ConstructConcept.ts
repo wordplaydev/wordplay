@@ -28,4 +28,8 @@ export default class ConstructConcept extends Concept {
         return new Set();
     }
 
+    equals(concept: Concept) {
+        return concept instanceof ConstructConcept && concept.template.equals(this.template);
+    }
+
 }

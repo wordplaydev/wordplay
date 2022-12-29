@@ -53,4 +53,14 @@ export default abstract class Concept {
         return undefined;
     }
 
+    /** Recurse and find all concepts in the tree */
+    getAllConcepts(): Concept[] {
+        let concepts: Concept[] = [ this ];
+        for(const concept of this.getConcepts())
+           concepts = concepts.concat(concept.getAllConcepts());
+        return concepts;
+    }
+
+    abstract equals(concept: Concept): boolean;
+
 }

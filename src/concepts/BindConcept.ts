@@ -35,4 +35,8 @@ export default class BindConcept extends Concept {
         return new Set();
     }
 
+    equals(concept: Concept) {
+        return concept instanceof BindConcept && concept.bind === this.bind;
+    }
+
 }

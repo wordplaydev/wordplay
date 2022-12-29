@@ -10,6 +10,7 @@
     export let node: Node;
     export let concept: Concept;
     export let describe: boolean = true;
+    export let border: boolean = true;
     export let selectable: boolean = false;
 
     $: draggable = concept.getNodes().has(node);
@@ -36,6 +37,7 @@
 
 <div class="code" 
     class:draggable
+    class:border
 >
     <div class="root">
         <RootView {node}/>
@@ -55,6 +57,9 @@
 <style>
     .code {
         display: inline-block;
+    }
+
+    .code.border {
         margin-bottom: var(--wordplay-spacing);
         margin-right: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);

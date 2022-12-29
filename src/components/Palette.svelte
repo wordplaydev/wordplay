@@ -87,7 +87,10 @@
                 ... native,
                 ... output,
                 ... streams
-            ]
+            ].map(c => c.getAllConcepts()).flat();
+
+            // Map the old path to the new one using concept equality.
+            path.set($path.map(concept => concepts.find(c => c.equals(concept))).filter((c): c is Concept => c !== undefined));
 
         }
     }
@@ -95,8 +98,8 @@
 
     let dragged = getDragged();
     
-    let selected: PalettePathContext = writable([]);
-    setContext(PalettePathSymbol, selected);
+    let path: PalettePathContext = writable([]);
+    setContext(PalettePathSymbol, path);
 
     // Set a context that stores a project context for nodes in the palette to use.
     $: setContext("context", $project.getContext($project.main));
@@ -163,8 +166,8 @@
 
     function back() {
 
-        $selected.pop();
-        selected.set([ ...$selected ]);
+        $path.pop();
+        path.set([ ...$path ]);
 
     }
 
@@ -183,8 +186,8 @@
     transition:fly={{ x: -200 }}
     bind:this={palette}
 >
-    {#if $selected.length > 0 }
-        {@const concept = $selected.at(-1)}
+    {#if $path.length > 0 }
+        {@const concept = $path.at(-1)}
         {#if concept}
             <section class="type">
                 <div class="back">
@@ -193,8 +196,8 @@
                         tip={{ eng: "Return to the types menu.", "😀": WRITE }}
                         action={back} 
                     />
-                    {#each $selected as concept }
-                        … <CodeView node={concept.getRepresentation()} {concept} selectable describe={false}/>
+                    {#each $path as concept }
+                        … <CodeView node={concept.getRepresentation()} {concept} selectable describe={false} border={false}/>
                     {/each}
                 </div>
                 {#if concept instanceof StructureConcept }
