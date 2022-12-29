@@ -17,6 +17,13 @@
         {/each}
     {/if}
 
+    {#if concept.inter.length > 0}
+        <h2>interfaces</h2>
+        {#each concept.inter as inter }
+            <CodeView concept={inter} node={inter.getRepresentation()} selectable/>
+        {/each}
+    {/if}
+
     <h2>inputs</h2>
     {#each concept.inputs as bind }
         <BindConceptView concept={bind}/>

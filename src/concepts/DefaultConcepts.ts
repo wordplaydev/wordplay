@@ -6,6 +6,7 @@ import BooleanLiteral from "../nodes/BooleanLiteral";
 import BooleanType from "../nodes/BooleanType";
 import Changed from "../nodes/Changed";
 import Conditional from "../nodes/Conditional";
+import type Context from "../nodes/Context";
 import ConversionDefinition from "../nodes/ConversionDefinition";
 import Convert from "../nodes/Convert";
 import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
@@ -32,28 +33,33 @@ import ImplicitShares from "../runtime/ImplicitShares";
 import ConstructConcept from "./ConstructConcept";
 import StructureConcept from "./StructureConcept";
 
-export const ConstructConcepts: ConstructConcept[] = [
-    new ConstructConcept(Bind.make(undefined, Names.make([ "_" ]), undefined, ExpressionPlaceholder.make())),
-    new ConstructConcept(Block.make([ ExpressionPlaceholder.make() ])),
-    new ConstructConcept(StructureDefinition.make(undefined, Names.make(["_"]), [], undefined, [], Block.make([ ExpressionPlaceholder.make() ]))),
-    new ConstructConcept(Conditional.make(ExpressionPlaceholder.make(BooleanType.make()), ExpressionPlaceholder.make(), ExpressionPlaceholder.make())),
-    new ConstructConcept(FunctionDefinition.make(undefined, Names.make(["_"]), undefined, [], ExpressionPlaceholder.make())),
-    new ConstructConcept(Changed.make(ExpressionPlaceholder.make(StreamType.make(new AnyType())))),
-    new ConstructConcept(Reaction.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make(StreamType.make(new AnyType())))),
-    new ConstructConcept(ConversionDefinition.make(undefined, new TypePlaceholder(), new TypePlaceholder(), ExpressionPlaceholder.make())),
-    new ConstructConcept(Convert.make(ExpressionPlaceholder.make(), new TypePlaceholder()))
-]
+export function getConstructConcepts(context: Context): ConstructConcept[] {
+    return [
+        new ConstructConcept(Bind.make(undefined, Names.make([ "_" ]), undefined, ExpressionPlaceholder.make()), context),
+        new ConstructConcept(Block.make([ ExpressionPlaceholder.make() ]), context),
+        new ConstructConcept(StructureDefinition.make(undefined, Names.make(["_"]), [], undefined, [], Block.make([ ExpressionPlaceholder.make() ])), context),
+        new ConstructConcept(Conditional.make(ExpressionPlaceholder.make(BooleanType.make()), ExpressionPlaceholder.make(), ExpressionPlaceholder.make()), context),
+        new ConstructConcept(FunctionDefinition.make(undefined, Names.make(["_"]), undefined, [], ExpressionPlaceholder.make()), context),
+        new ConstructConcept(Changed.make(ExpressionPlaceholder.make(StreamType.make(new AnyType()))), context),
+        new ConstructConcept(Reaction.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make(StreamType.make(new AnyType()))), context),
+        new ConstructConcept(ConversionDefinition.make(undefined, new TypePlaceholder(), new TypePlaceholder(), ExpressionPlaceholder.make()), context),
+        new ConstructConcept(Convert.make(ExpressionPlaceholder.make(), new TypePlaceholder()), context)
+    ]
+};
 
-export const NativeConcepts: StructureConcept[] = [
-    new StructureConcept(BoolDefinition, BooleanType.make(), [ BooleanLiteral.make(true), BooleanLiteral.make(false) ]),
-    new StructureConcept(TextDefinition, TextType.make(), [ TextLiteral.make(""), Template.make() ]),
-    new StructureConcept(MeasurementDefinition, MeasurementType.make(), [ MeasurementLiteral.make(0), MeasurementLiteral.make("π"), MeasurementLiteral.make("∞") ]),
-    new StructureConcept(ListDefinition, ListType.make(), [ ListLiteral.make([]) ]),
-    new StructureConcept(SetDefinition, SetType.make(), [ SetLiteral.make([]) ]),
-    new StructureConcept(MapDefinition, MapType.make(), [ MapLiteral.make([]) ]),
-    new StructureConcept(NoneDefinition, NoneType.make(), [ NoneLiteral.make() ])
-]
+export function getNativeConcepts(context: Context): StructureConcept[] {
+    return [
+        new StructureConcept(BoolDefinition, BooleanType.make(), [ BooleanLiteral.make(true), BooleanLiteral.make(false) ], context),
+        new StructureConcept(TextDefinition, TextType.make(), [ TextLiteral.make(""), Template.make() ], context),
+        new StructureConcept(MeasurementDefinition, MeasurementType.make(), [ MeasurementLiteral.make(0), MeasurementLiteral.make("π"), MeasurementLiteral.make("∞") ], context),
+        new StructureConcept(ListDefinition, ListType.make(), [ ListLiteral.make([]) ], context),
+        new StructureConcept(SetDefinition, SetType.make(), [ SetLiteral.make([]) ], context),
+        new StructureConcept(MapDefinition, MapType.make(), [ MapLiteral.make([]) ], context),
+        new StructureConcept(NoneDefinition, NoneType.make(), [ NoneLiteral.make() ], context)
+    ]
+}
 
-export const OutputConcepts = 
-    ImplicitShares.filter((s): s is StructureDefinition => 
-        s instanceof StructureDefinition).map(def => new StructureConcept(def, undefined, []));
+export function getOutputConcepts(context: Context): StructureConcept[] { 
+    return ImplicitShares.filter((s): s is StructureDefinition => 
+        s instanceof StructureDefinition).map(def => new StructureConcept(def, undefined, [], context));
+}

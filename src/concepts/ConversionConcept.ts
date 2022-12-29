@@ -17,7 +17,7 @@ export default class ConversionConcept extends Concept {
     /** A derived example */
     readonly example: Node;
     
-    constructor(definition: ConversionDefinition, context: Context | undefined, structure?: StructureConcept) {
+    constructor(definition: ConversionDefinition, context: Context, structure?: StructureConcept) {
 
         super(context);
 

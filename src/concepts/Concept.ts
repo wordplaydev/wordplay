@@ -8,9 +8,9 @@ import type Node from "../nodes/Node";
  */
 export default abstract class Concept {
 
-    readonly context: Context | undefined;
+    readonly context: Context;
 
-    constructor(context?: Context) {
+    constructor(context: Context) {
 
         this.context = context;
     }

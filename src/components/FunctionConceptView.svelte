@@ -4,18 +4,14 @@
     import ConceptView from "./ConceptView.svelte";
     import BindConceptView from "./BindConceptView.svelte";
     import Note from "./Note.svelte";
-    import { getContext } from "svelte";
-    import type Context from "../nodes/Context";
 
     export let concept: FunctionConcept;
-
-    $: context = getContext<Context>("context");
 
 </script>
 
 <ConceptView {concept}>
 
-    <CodeView {concept} node={concept.definition.getType(concept.context ?? context)} />
+    <CodeView {concept} node={concept.definition.getType(concept.context)} />
 
     <h2>inputs</h2>
     {#each concept.inputs as input}
@@ -25,6 +21,6 @@
     {/each}
 
     <h2>output</h2>
-    <CodeView {concept} node={concept.definition.getOutputType(concept.context ?? context)} />
+    <CodeView {concept} node={concept.definition.getOutputType(concept.context)} />
 
 </ConceptView>

@@ -27,7 +27,7 @@ export default class FunctionConcept extends Concept {
     /** A derived list of BindConcepts */
     readonly inputs: BindConcept[];
 
-    constructor(definition: FunctionDefinition, context: Context | undefined, structure?: StructureConcept) {
+    constructor(definition: FunctionDefinition, context: Context, structure?: StructureConcept) {
 
         super(context);
 
@@ -47,7 +47,7 @@ export default class FunctionConcept extends Concept {
                 this.definition.inputs.filter(input => !input.hasDefault()).map(input => ExpressionPlaceholder.make(input.type))
             )
 
-        this.inputs = this.definition.inputs.map(bind => new BindConcept(bind));
+        this.inputs = this.definition.inputs.map(bind => new BindConcept(bind, context));
 
     }
 

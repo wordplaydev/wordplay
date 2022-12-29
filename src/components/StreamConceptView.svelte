@@ -2,12 +2,8 @@
     import CodeView from "./CodeView.svelte";
     import ConceptView from "./ConceptView.svelte";
     import type StreamConcept from "../concepts/StreamConcept";
-    import { getContext } from "svelte";
-    import type Context from "../nodes/Context";
 
     export let concept: StreamConcept;
-
-    $: context = getContext<Context>("context");
 
 </script>
 
@@ -17,7 +13,7 @@
     {#if concept.type}
         <CodeView concept={concept.type} node={concept.type.getRepresentation()} selectable />
     {:else}
-        <CodeView {concept} node={concept.stream.getType(concept.context ?? context)} selectable />
+        <CodeView {concept} node={concept.stream.getType(concept.context)} selectable />
     {/if}
 
 </ConceptView>

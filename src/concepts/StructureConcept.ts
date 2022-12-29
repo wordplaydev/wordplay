@@ -19,6 +19,9 @@ export default class StructureConcept extends Concept {
     /** A list of examples for creating the structure. For native types, likely literals, but for custom types, other useful examples. */
     readonly examples: Node[];
 
+    /** A derived list of interfaces */
+    readonly inter: StructureConcept[];
+
     /** A derived list of FunctionConcepts */
     readonly functions: FunctionConcept[];
 
@@ -31,7 +34,7 @@ export default class StructureConcept extends Concept {
     /** A derived list of ConversionConcepts */
     readonly conversions: ConversionConcept[];
 
-    constructor(definition: StructureDefinition, type: Type | undefined, examples: Node[], context?: Context) {
+    constructor(definition: StructureDefinition, type: Type | undefined, examples: Node[], context: Context) {
 
         super(context);
 
@@ -44,6 +47,8 @@ export default class StructureConcept extends Concept {
 
         this.inputs = this.definition.inputs.map(bind => new BindConcept(bind, context));
         this.properties = this.definition.getProperties().map(bind => new BindConcept(bind, context));
+
+        this.inter = this.definition.getInterfaces(context).map(inter => new StructureConcept(inter, NameType.make(inter), [], context));
 
     }
 

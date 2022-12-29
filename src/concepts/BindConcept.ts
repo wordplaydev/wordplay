@@ -12,7 +12,7 @@ export default class BindConcept extends Concept {
     /** A derived reference to the bind */
     readonly reference: Reference;
 
-    constructor(bind: Bind, context?: Context) {
+    constructor(bind: Bind, context: Context) {
 
         super(context);
 

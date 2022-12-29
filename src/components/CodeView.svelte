@@ -4,7 +4,6 @@
     import type Concept from "../concepts/Concept";
     import RootView from "../editor/RootView.svelte";
     import { languages } from "../models/languages";
-    import type Context from "../nodes/Context";
     import type Node from "../nodes/Node";
     import { selectTranslation } from "../nodes/Translations";
     import Note from "./Note.svelte";
@@ -24,7 +23,6 @@
         }
     }
 
-    $: context = getContext<Context>("context");
     $: selection = getContext<Writable<Concept | undefined>>("selection");
 
 </script>
@@ -40,7 +38,7 @@
         <RootView {node}/>
     </div>
     {#if describe}
-        <Note>{selectTranslation(node.getDescriptions(concept.context ?? context), $languages)}</Note>
+        <Note>{selectTranslation(node.getDescriptions(concept.context), $languages)}</Note>
     {/if}
 </div>
 

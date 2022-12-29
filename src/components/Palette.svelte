@@ -14,7 +14,6 @@
     import StructureConceptView from "./StructureConceptView.svelte";
     import { setContext } from "svelte";
     import ConstructsConceptsView from "./ConstructConceptsView.svelte";
-    import { ConstructConcepts, NativeConcepts, OutputConcepts } from "../concepts/DefaultConcepts";
     import StructureConcept from "../concepts/StructureConcept";
     import FunctionDefinition from "../nodes/FunctionDefinition";
     import FunctionConcept from "../concepts/FunctionConcept";
@@ -29,6 +28,7 @@
     import ConversionConcept from "../concepts/ConversionConcept";
     import ConversionConceptView from "./ConversionConceptView.svelte";
     import StreamConceptView from "./StreamConceptView.svelte";
+    import { getConstructConcepts, getNativeConcepts, getOutputConcepts } from "../concepts/DefaultConcepts";
 
     export let hidden: boolean;
 
@@ -57,11 +57,15 @@
 
     $: streams = $project.getAllStreams().map(s => new StreamConcept(s, $project.getContext($project.main)));
 
+    $: constructs = getConstructConcepts($project.getContext($project.main));
+    $: native = getNativeConcepts($project.getContext($project.main));
+    $: output = getOutputConcepts($project.getContext($project.main));
+
     $: concepts = [ 
         ... projectConcepts,
-        ... ConstructConcepts,
-        ... NativeConcepts,
-        ... OutputConcepts,
+        ... constructs,
+        ... native,
+        ... output,
         ... streams
     ]
 
@@ -172,11 +176,11 @@
             {/if}
         </section>
     {:else}
-        <ConstructsConceptsView concepts={ConstructConcepts} />
+        <ConstructsConceptsView concepts={constructs} />
         <ConceptsView category="project" concepts={[ ... projectConcepts, ...projectBinds, ... projectFunctions ]} />
-        <ConceptsView category="data" concepts={NativeConcepts} />
+        <ConceptsView category="data" concepts={native} />
         <ConceptsView category="input" concepts={streams} />
-        <ConceptsView category="output" concepts={OutputConcepts} />
+        <ConceptsView category="output" concepts={output} />
     {/if}
 </section>
 

@@ -1,13 +1,14 @@
 import Concept from "./Concept";
 import type Node from "../nodes/Node";
+import type Context from "../nodes/Context";
 
 export default class ConstructConcept extends Concept {
 
     readonly template: Node;
     
-    constructor(template: Node) {
+    constructor(template: Node, context: Context) {
 
-        super();
+        super(context);
 
         this.template = template;
 
