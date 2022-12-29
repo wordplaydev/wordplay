@@ -29,6 +29,9 @@
     import ConversionConceptView from "./ConversionConceptView.svelte";
     import StreamConceptView from "./StreamConceptView.svelte";
     import { getConstructConcepts, getNativeConcepts, getOutputConcepts } from "../concepts/DefaultConcepts";
+    import KeyboardIdle from "../models/KeyboardIdle";
+    import type Project from "../models/Project";
+    import type ConstructConcept from "../concepts/ConstructConcept";
 
     export let hidden: boolean;
 
@@ -40,34 +43,55 @@
      * 2) functions on the type. It includes any creator-defined types and borrowed types in the active project.
      */
 
-    $: projectConcepts = [ $project.main, ...$project.supplements ]
-        .map(source => (source.expression.nodes(n => n instanceof StructureDefinition) as StructureDefinition[])
-            .map(def => new StructureConcept(def, undefined, [], $project.getContext(source))))
-        .flat();
+    let latestProject: Project | undefined;
 
-    $: projectFunctions = [ $project.main, ...$project.supplements ]
-        .map(source => (source.expression.expression.statements.filter((n): n is FunctionDefinition => n instanceof FunctionDefinition))
-            .map(def => new FunctionConcept(def, $project.getContext(source), undefined, )))
-        .flat();
+    let projectStructures: StructureConcept[] = [];
+    let projectFunctions: FunctionConcept[] = [];
+    let projectBinds: BindConcept[] = [];
+    let streams: StreamConcept[] = [];
+    let constructs: ConstructConcept[] = [];
+    let native: StructureConcept[] = [];
+    let output: StructureConcept[] = [];
+    let concepts: Concept[] = [];
 
-    $: projectBinds = [ $project.main, ...$project.supplements ]
-        .map(source => (source.expression.expression.statements.filter((n): n is Bind => n instanceof Bind))
-            .map(def => new BindConcept(def, $project.getContext(source))))
-        .flat();
+    $: {
+        // When the project changes and the keyboard is idle, recompute the concepts.
+        if($KeyboardIdle && latestProject !== $project) {
 
-    $: streams = $project.getAllStreams().map(s => new StreamConcept(s, $project.getContext($project.main)));
+            latestProject = $project;
 
-    $: constructs = getConstructConcepts($project.getContext($project.main));
-    $: native = getNativeConcepts($project.getContext($project.main));
-    $: output = getOutputConcepts($project.getContext($project.main));
+            projectStructures = [ $project.main, ...$project.supplements ]
+                .map(source => (source.expression.nodes(n => n instanceof StructureDefinition) as StructureDefinition[])
+                    .map(def => new StructureConcept(def, undefined, [], $project.getContext(source))))
+                .flat();
 
-    $: concepts = [ 
-        ... projectConcepts,
-        ... constructs,
-        ... native,
-        ... output,
-        ... streams
-    ]
+            projectFunctions = [ $project.main, ...$project.supplements ]
+                .map(source => (source.expression.expression.statements.filter((n): n is FunctionDefinition => n instanceof FunctionDefinition))
+                    .map(def => new FunctionConcept(def, $project.getContext(source), undefined, )))
+                .flat();
+
+            projectBinds = [ $project.main, ...$project.supplements ]
+                .map(source => (source.expression.expression.statements.filter((n): n is Bind => n instanceof Bind))
+                    .map(def => new BindConcept(def, $project.getContext(source))))
+                .flat();
+
+            streams = $project.getAllStreams().map(s => new StreamConcept(s, $project.getContext($project.main)));
+
+            constructs = getConstructConcepts($project.getContext($project.main));
+            native = getNativeConcepts($project.getContext($project.main));
+            output = getOutputConcepts($project.getContext($project.main));
+
+            concepts = [ 
+                ... projectStructures,
+                ... constructs,
+                ... native,
+                ... output,
+                ... streams
+            ]
+
+        }
+    }
+
 
     let dragged = getDragged();
     
@@ -177,7 +201,7 @@
         </section>
     {:else}
         <ConstructsConceptsView concepts={constructs} />
-        <ConceptsView category="project" concepts={[ ... projectConcepts, ...projectBinds, ... projectFunctions ]} />
+        <ConceptsView category="project" concepts={[ ... projectStructures, ...projectBinds, ... projectFunctions ]} />
         <ConceptsView category="data" concepts={native} />
         <ConceptsView category="input" concepts={streams} />
         <ConceptsView category="output" concepts={output} />
