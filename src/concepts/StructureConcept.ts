@@ -7,6 +7,7 @@ import FunctionConcept from "./FunctionConcept";
 import NameType from "../nodes/NameType";
 import type Context from "../nodes/Context";
 import ConversionConcept from "./ConversionConcept";
+import StructureDefinitionType from "../nodes/StructureDefinitionType";
 
 export default class StructureConcept extends Concept {
 
@@ -68,6 +69,15 @@ export default class StructureConcept extends Concept {
 
     equals(concept: Concept) {
         return concept instanceof StructureConcept && concept.definition === this.definition;
+    }
+
+    /**
+     * True if the concept represents the given type. Used to map types to concepts.
+     */
+    representsType(type: Type) { 
+        return type instanceof StructureDefinitionType && this.definition === type.structure ||
+            type instanceof NameType && type.definition && this.definition == type.definition ||
+            this.type && this.type.accepts(type, this.context);
     }
 
 }

@@ -10,6 +10,7 @@ import { PlaceType } from "../output/Place";
 import { SequenceType } from "../output/Sequence";
 import { careful, cautious, elastic, erratic, fast, pokey, quick, rushed, straight, wreckless, zippy, bouncy } from "../output/Easing";
 import type FunctionDefinition from "../nodes/FunctionDefinition";
+import Key from "../streams/Key";
 
 const ImplicitShares: (StructureDefinition|FunctionDefinition)[] = [
     VerseType,
@@ -21,6 +22,7 @@ const ImplicitShares: (StructureDefinition|FunctionDefinition)[] = [
     PlaceType,
     PoseType,
     SequenceType,
+    Key,
     straight,
     pokey,
     fast,

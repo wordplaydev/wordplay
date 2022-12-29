@@ -11,6 +11,6 @@
 </script>
 
 <p>
-    <em>{bind.names.getTranslation($languages)}</em> <CodeView {concept} node={bind.getType(concept.context)} describe={false}/>
+    <em>{bind.names.getTranslation($languages)}</em>: <CodeView {concept} node={bind.getType(concept.context)} describe={false} border={false}/>
     <br/>{#if bind.docs}<Note>{bind.docs.getTranslation($languages)}</Note>{/if}
 </p>

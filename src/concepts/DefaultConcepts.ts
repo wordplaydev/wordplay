@@ -30,7 +30,9 @@ import TextLiteral from "../nodes/TextLiteral";
 import TextType from "../nodes/TextType";
 import TypePlaceholder from "../nodes/TypePlaceholder";
 import ImplicitShares from "../runtime/ImplicitShares";
+import type Concept from "./Concept";
 import ConstructConcept from "./ConstructConcept";
+import FunctionConcept from "./FunctionConcept";
 import StructureConcept from "./StructureConcept";
 
 export function getConstructConcepts(context: Context): ConstructConcept[] {
@@ -59,7 +61,6 @@ export function getNativeConcepts(context: Context): StructureConcept[] {
     ]
 }
 
-export function getOutputConcepts(context: Context): StructureConcept[] { 
-    return ImplicitShares.filter((s): s is StructureDefinition => 
-        s instanceof StructureDefinition).map(def => new StructureConcept(def, undefined, [], context));
+export function getOutputConcepts(context: Context): Concept[] { 
+    return ImplicitShares.map(def => def instanceof StructureDefinition ? new StructureConcept(def, undefined, [], context) : new FunctionConcept(def, context, undefined));
 }

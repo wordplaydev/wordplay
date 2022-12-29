@@ -4,8 +4,12 @@
     import ConceptView from "./ConceptView.svelte";
     import BindConceptView from "./BindConceptView.svelte";
     import Note from "./Note.svelte";
+    import { getPaletteIndex } from "../editor/util/Contexts";
 
     export let concept: FunctionConcept;
+
+    let index = getPaletteIndex();
+    $: output = $index.getConceptOfType(concept.definition.getOutputType(concept.context));
 
 </script>
 
@@ -19,6 +23,6 @@
     {/each}
 
     <h2>output</h2>
-    <CodeView {concept} node={concept.definition.getOutputType(concept.context)} />
+    <CodeView concept={output ?? concept} node={output?.getRepresentation() ?? concept.definition.getOutputType(concept.context)} selectable={output !== undefined}/>
 
 </ConceptView>

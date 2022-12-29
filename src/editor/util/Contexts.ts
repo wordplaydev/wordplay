@@ -1,6 +1,7 @@
 import { getContext } from "svelte";
 import type { Writable } from "svelte/store";
 import type Concept from "../../concepts/Concept";
+import type ConceptIndex from "../../concepts/ConceptIndex";
 import type { InsertionPoint } from "../../models/Caret";
 import type Caret from "../../models/Caret";
 import type Project from "../../models/Project";
@@ -48,3 +49,7 @@ export function getHidden() { return getContext<HiddenContext>(HiddenSymbol); }
 export const PalettePathSymbol = Symbol("palette-path");
 export type PalettePathContext = Writable<Concept[]>
 export function getPalettePath() { return getContext<PalettePathContext>(PalettePathSymbol); }
+
+export const PaletteIndexSymbol = Symbol("palette-index");
+export type PaletteIndexContext = Writable<ConceptIndex>
+export function getPaletteIndex() { return getContext<PaletteIndexContext>(PaletteIndexSymbol); }

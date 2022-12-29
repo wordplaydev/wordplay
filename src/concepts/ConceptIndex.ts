@@ -1,5 +1,7 @@
 import type Concept from "./Concept";
 import type Node from "../nodes/Node";
+import type Type from "../nodes/Type";
+import StructureConcept from "./StructureConcept";
 
 export default class ConceptIndex {
 
@@ -24,6 +26,12 @@ export default class ConceptIndex {
 
     getEquivalent(concept: Concept): Concept | undefined {
         return this.concepts.find(c => c.equals(concept));
+    }
+
+    getConceptOfType(type: Type): Concept | undefined {
+
+        return this.concepts.find(c => c instanceof StructureConcept && c.representsType(type));
+        
     }
 
 }

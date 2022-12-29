@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getDragged, PalettePathSymbol, type PalettePathContext } from "../editor/util/Contexts";
+    import { getDragged, PaletteIndexSymbol, PalettePathSymbol, type PaletteIndexContext, type PalettePathContext } from "../editor/util/Contexts";
     import { project, updateProject } from "../models/stores";
     import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
     import StructureDefinition from "../nodes/StructureDefinition";
@@ -51,8 +51,9 @@
     let streams: StreamConcept[] = [];
     let constructs: ConstructConcept[] = [];
     let native: StructureConcept[] = [];
-    let output: StructureConcept[] = [];
-    let index: ConceptIndex = new ConceptIndex([]);
+    let output: Concept[] = [];
+    let index: PaletteIndexContext = writable(new ConceptIndex([]));
+    setContext(PaletteIndexSymbol, index);
 
     $: {
         // When the project changes and the keyboard is idle, recompute the concepts.
@@ -81,7 +82,7 @@
             native = getNativeConcepts($project.getContext($project.main));
             output = getOutputConcepts($project.getContext($project.main));
 
-            index = new ConceptIndex(
+            index.set(new ConceptIndex(
                 [ 
                     ... projectStructures,
                     ... projectFunctions,
@@ -91,10 +92,10 @@
                     ... output,
                     ... streams
                 ].map(c => c.getAllConcepts()).flat()
-            );
+            ));
 
             // Map the old path to the new one using concept equality.
-            path.set($path.map(concept => index.getEquivalent(concept)).filter((c): c is Concept => c !== undefined));
+            path.set($path.map(concept => $index.getEquivalent(concept)).filter((c): c is Concept => c !== undefined));
 
         }
     }
@@ -117,7 +118,7 @@
         // Map the element to the coresponding node in the palette.
         const root = document.elementFromPoint(event.clientX, event.clientY)?.closest(".root")?.querySelector(".node-view");
         if(root instanceof HTMLElement) {
-            const node = index.getNode(parseInt(root.dataset.id ?? ""));
+            const node = $index.getNode(parseInt(root.dataset.id ?? ""));
             if(node !== undefined) {
                 dragged.set(new Tree(node));
             }
