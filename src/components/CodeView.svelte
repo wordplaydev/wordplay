@@ -63,7 +63,7 @@
     .code.border {
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        border-radius: calc(2 * var(--wordplay-border-radius)) var(--wordplay-border-radius) var(--wordplay-border-radius) calc(2 * var(--wordplay-border-radius));
+        border-radius:  var(--wordplay-border-radius) calc(3 * var(--wordplay-border-radius)) calc(3 * var(--wordplay-border-radius)) var(--wordplay-border-radius);
     }
 
     .root {
