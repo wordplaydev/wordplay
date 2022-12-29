@@ -2,7 +2,7 @@
     import CodeView from "./CodeView.svelte";
     import { languages } from "../models/languages";
     import Note from "./Note.svelte";
-    import { fly } from "svelte/transition";
+    import { slide } from "svelte/transition";
     import { selectTranslation } from "../nodes/Translations";
     import type StructureConcept from "../concepts/StructureConcept";
     import FunctionConceptView from "./FunctionConceptView.svelte";
@@ -15,7 +15,7 @@
 
 </script>
 
-<div class="docs" transition:fly={{ x: -200}}>
+<div class="docs" transition:slide={{ duration: 250 }}>
     <h1>{def.names.getTranslation($languages)}{#if def.types}<CodeView {concept} node={def.types}/>{/if}</h1>
 
     <p>{selectTranslation(def.getDescriptions(), $languages)}</p>

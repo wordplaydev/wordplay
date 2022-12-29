@@ -14,8 +14,8 @@
     --wordplay-editor-radius: 3px;
     --wordplay-foreground: var(--color-black); 
     --wordplay-background: var(--color-white);
-    --wordplay-chrome: rgba(240, 240, 240, 0.75);
-    --wordplay-border-color: rgba(200, 200, 200, 0.5);
+    --wordplay-chrome: rgb(240, 240, 240);
+    --wordplay-border-color: rgb(200, 200, 200);
     --wordplay-evaluation-color: var(--color-pink);
     --wordplay-highlight: var(--color-yellow);
     --wordplay-error: var(--color-orange);

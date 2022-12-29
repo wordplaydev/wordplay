@@ -29,6 +29,8 @@
 
     export let hidden: boolean;
 
+    let palette: HTMLElement | undefined;
+
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
      * Each type has a dedicated page that lists 1) language constructs associated with the type,
@@ -80,6 +82,8 @@
     }
 
     function handleMouseDown(event: MouseEvent) {
+
+        palette?.focus();
 
         if(event.buttons !== 1) return;
 
@@ -136,15 +140,20 @@
     class:hidden
     on:mousedown={handleMouseDown}
     on:mouseup={handleDrop}
+    tabIndex=0
+    on:keydown={event => event.key === "Escape" || event.key === "Backspace" ? selected.set(undefined) : undefined }
     transition:fly={{ x: -200 }}
+    bind:this={palette}
 >
     {#if $selected }
         <section class="type">
-            <Button 
-                label={{ eng: "back" , "😀": WRITE }}
-                tip={{ eng: "Return to the types menu.", "😀": WRITE }}
-                action={() => selected.set(undefined) } 
-            />
+            <div class="back">
+                <Button 
+                    label={{ eng: "◁" , "😀": WRITE }}
+                    tip={{ eng: "Return to the types menu.", "😀": WRITE }}
+                    action={() => selected.set(undefined) } 
+                />
+            </div>
             {#if $selected instanceof StructureConcept }
                 <StructureConceptView concept={$selected} />
             {:else if $selected instanceof FunctionConcept }
@@ -173,7 +182,7 @@
 
         background-color: var(--wordplay-background);
 
-        padding: var(--wordplay-spacing);
+        padding: calc(2 * var(--wordplay-spacing));
         user-select: none;
 
         transition: width 0.25s ease-out, visibility 0.25s ease-out, opacity 0.25s ease-out;
@@ -186,6 +195,17 @@
         padding: 0;
         border: 0;
         visibility: hidden;
+    }
+
+    .palette:focus {
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
+    }
+
+    .back {
+        position: sticky;
+        top: var(--wordplay-spacing);
+        z-index: var(--wordplay-layer-controls);
     }
 
 </style>

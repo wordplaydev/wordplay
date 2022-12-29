@@ -112,7 +112,7 @@
             height: 100%;
             width: var(--wordplay-spacing);
             cursor: ew-resize;
-            border-bottom: var(--wordplay-border-color) solid var(--wordplay-border-width);
+            border-left: var(--wordplay-border-color) solid var(--wordplay-border-width);
             border-right: var(--wordplay-border-color) solid var(--wordplay-border-width);
         }
     }
@@ -130,7 +130,9 @@
             width: 100%;
             height: var(--wordplay-spacing);
             cursor: ns-resize;
-            border-right: var(--wordplay-border-color) solid var(--wordplay-border-width);
+            border: none;
+            border-top: var(--wordplay-border-color) solid var(--wordplay-border-width);
+            border-bottom: var(--wordplay-border-color) solid var(--wordplay-border-width);
         }
     }
 

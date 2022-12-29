@@ -32,6 +32,7 @@
 <div class="code" 
     class:selectable
     class:draggable
+    tabIndex={selectable ? 0 : null }
     on:mousedown={select}
     on:keydown={event => event.key === "Enter" || event.key === " " ? select(event) : undefined }    
 >
@@ -77,6 +78,14 @@
     .code.selectable:hover .root {
         border-bottom-color: var(--wordplay-highlight);
     }
+
+    .code:focus .root {
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+    }
+    .code:focus {
+        outline: none;
+    }
+
 
     @keyframes wobble {
         0% { transform: rotate(5deg); }
