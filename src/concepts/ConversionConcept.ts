@@ -24,7 +24,7 @@ export default class ConversionConcept extends Concept {
         this.definition = definition;
         this.structure = structure;
 
-        this.example = Convert.make(ExpressionPlaceholder.make(this.structure?.type), definition.output);
+        this.example = Convert.make(ExpressionPlaceholder.make(this.definition.input), definition.output);
 
     }
 

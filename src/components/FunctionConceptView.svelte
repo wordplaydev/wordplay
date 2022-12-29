@@ -11,13 +11,11 @@
 
 <ConceptView {concept}>
 
-    <CodeView {concept} node={concept.definition.getType(concept.context)} />
-
     <h2>inputs</h2>
     {#each concept.inputs as input}
         <BindConceptView concept={input} />
     {:else}
-        <Note>No inputs.</Note>
+        <Note>None</Note>
     {/each}
 
     <h2>output</h2>
