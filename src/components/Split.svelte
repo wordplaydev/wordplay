@@ -112,8 +112,22 @@
             height: 100%;
             width: var(--wordplay-spacing);
             cursor: ew-resize;
-            border-left: var(--wordplay-border-color) solid var(--wordplay-border-width);
-            border-right: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        }
+
+        .split.dragging { 
+            cursor: ew-resize;
+        }
+
+        .divider:not(:focus)::after {
+            content: "";
+            position: relative;
+            display: block;
+            left: var(--wordplay-border-width);
+            top: 0;
+            bottom: 0;
+            width: var(--wordplay-border-width);
+            height: 100%;
+            background-color: var(--wordplay-border-color);
         }
     }
 
@@ -130,9 +144,22 @@
             width: 100%;
             height: var(--wordplay-spacing);
             cursor: ns-resize;
-            border: none;
-            border-top: var(--wordplay-border-color) solid var(--wordplay-border-width);
-            border-bottom: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        }
+
+        .split.responsive.dragging {
+            cursor: ns-resize;
+        }
+
+        .split.responsive .divider:not(:focus)::after {
+            content: "";
+            position: relative;
+            display: block;
+            top: calc(var(--wordplay-border-width));
+            left: 0;
+            right: 0;
+            height: var(--wordplay-border-width);
+            width: 100%;
+            background-color: var(--wordplay-border-color);
         }
     }
 
