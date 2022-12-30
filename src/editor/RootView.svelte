@@ -35,29 +35,23 @@
 
         // Compute the space for every node
         for (const n of node.nodes()) {
-            // If this isn't the root node (which gets no space), figure out it's space.
-            if (n !== node) {
-                // Get the first leaf of this node.
-                const firstLeaf = n.getFirstLeaf() as Token | undefined;
-                if (firstLeaf === undefined) continue;
-                const leafTree = $root.get(firstLeaf);
-                if (leafTree === undefined) continue;
-                // Determine if the first leaf is the leaf's space root.
-                if (leafTree.getSpaceRoot() !== n) continue;
-                // What's the given space?
-                let space = spaces ? spaces.getSpace(firstLeaf) : '';
-                // What is the leaf's preferred space?
-                let preferred = Spaces.getPreferredPrecedingSpace(
-                    space,
-                    leafTree
-                );
-                // Compute the additional space for rendering.
-                let additional = spaces
-                    ? spaces.getAdditionalSpace(firstLeaf, preferred)
-                    : preferred;
-                // Save what we computed
-                newSpace.set(n, { token: firstLeaf, space, additional });
-            }
+            // Get the first leaf of this node.
+            const firstLeaf = n.getFirstLeaf() as Token | undefined;
+            if (firstLeaf === undefined) continue;
+            const leafTree = $root.get(firstLeaf);
+            if (leafTree === undefined) continue;
+            // Determine if the first leaf is the leaf's space root.
+            if (leafTree.getSpaceRoot() !== n) continue;
+            // What's the given space?
+            let space = spaces ? spaces.getSpace(firstLeaf) : '';
+            // What is the leaf's preferred space?
+            let preferred = Spaces.getPreferredPrecedingSpace(space, leafTree);
+            // Compute the additional space for rendering.
+            let additional = spaces
+                ? spaces.getAdditionalSpace(firstLeaf, preferred)
+                : preferred;
+            // Save what we computed
+            newSpace.set(n, { token: firstLeaf, space, additional });
         }
 
         renderedSpace.set(newSpace);
