@@ -105,9 +105,8 @@
 <div
     class="project"
     on:mousedown={() => input?.focus()}
-    on:mouseup={() =>
-        // Release the drag if a mouse up makes it all the way to the project view.
-        dragged.set(undefined)}
+    on:mouseup={() => dragged.set(undefined)}
+    on:mouseleave={() => dragged.set(undefined)}
     on:mousemove={(event) => {
         mouseX = event.clientX + window.scrollX;
         mouseY = event.clientY + window.scrollY;
