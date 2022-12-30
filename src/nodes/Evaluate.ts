@@ -111,10 +111,11 @@ export default class Evaluate extends Expression {
                     const fun = this.getFunction(context);
                     if (fun === undefined) return new NeverType();
                     // Undefined list index means empty, so we get the type of the first input.
-                    return (
-                        fun.inputs[index ?? 0].getType(context) ??
-                        new NeverType()
-                    );
+                    return index !== undefined &&
+                        index >= 0 &&
+                        index < fun.inputs.length
+                        ? fun.inputs[index ?? 0].getType(context)
+                        : new NeverType();
                 },
                 canInsertAt: (context: Context, index: number) => {
                     // We only allow insertions that are 1) required next or 2) optional, and not already provided.
