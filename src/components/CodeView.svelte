@@ -33,9 +33,6 @@
 
     $: selection = getPalettePath();
 
-    // Description is the docs if there are any and the node description if not.
-    $: description = concept.getDocs()?.getTranslation($languages) ?? selectTranslation(node.getDescriptions(concept.context), $languages);
-
 </script>
 
 <div class="code" 
@@ -52,7 +49,7 @@
             on:mousedown={select}
             on:keydown={event => event.key === "Enter" || event.key === " " ? select(event) : undefined }        
         >
-            <Note>{description}</Note>
+            <Note>{concept.getDescription($languages)}</Note>
         </div>
     {/if}
 </div>

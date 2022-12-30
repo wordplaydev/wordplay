@@ -3,6 +3,7 @@
     import type BindConcept from "../concepts/BindConcept";
     import { languages } from "../models/languages";
     import { getPaletteIndex } from "../editor/util/Contexts";
+    import parseRichText from "../output/parseRichText";
 
     export let concept: BindConcept;
     
@@ -19,7 +20,7 @@
     </p>
     {#if bind.docs}
         <p>
-            {bind.docs.getTranslation($languages)}
+            {@html parseRichText(concept.getDescription($languages)).toHTML()}
         </p>
     {/if}
 </section>

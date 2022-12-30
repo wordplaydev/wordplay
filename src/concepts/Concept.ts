@@ -1,6 +1,8 @@
 import type Context from "../nodes/Context";
 import type Docs from "../nodes/Docs";
+import type LanguageCode from "../nodes/LanguageCode";
 import type Node from "../nodes/Node";
+import { selectTranslation } from "../nodes/Translations";
 
 /** 
  * Represents some part of the Wordplay language, API, or example ecosystem.
@@ -60,6 +62,10 @@ export default abstract class Concept {
         for(const concept of this.getConcepts())
            concepts = concepts.concat(concept.getAllConcepts());
         return concepts;
+    }
+
+    getDescription(languages: LanguageCode[]): string {
+        return this.getDocs()?.getTranslation(languages) ?? selectTranslation(this.getRepresentation().getDescriptions(this.context), languages);
     }
 
     abstract getDocs(): Docs | undefined;
