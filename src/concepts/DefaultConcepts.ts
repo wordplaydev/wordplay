@@ -61,5 +61,5 @@ export function getNativeConcepts(context: Context): StructureConcept[] {
 }
 
 export function getOutputConcepts(context: Context): Concept[] { 
-    return ImplicitShares.map(def => def instanceof StructureDefinition ? new StructureConcept(def, undefined, [], context) : new FunctionConcept(def, context, undefined));
+    return ImplicitShares.map(def => def instanceof StructureDefinition ? new StructureConcept(def, undefined, undefined, context) : new FunctionConcept(def, context, undefined));
 }

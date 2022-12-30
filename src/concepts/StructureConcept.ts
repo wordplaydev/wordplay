@@ -8,6 +8,9 @@ import NameType from "../nodes/NameType";
 import type Context from "../nodes/Context";
 import ConversionConcept from "./ConversionConcept";
 import StructureDefinitionType from "../nodes/StructureDefinitionType";
+import Evaluate from "../nodes/Evaluate";
+import Reference from "../nodes/Reference";
+import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
 
 export default class StructureConcept extends Concept {
 
@@ -35,13 +38,15 @@ export default class StructureConcept extends Concept {
     /** A derived list of ConversionConcepts */
     readonly conversions: ConversionConcept[];
 
-    constructor(definition: StructureDefinition, type: Type | undefined, examples: Node[], context: Context) {
+    constructor(definition: StructureDefinition, type: Type | undefined, examples: Node[] | undefined, context: Context) {
 
         super(context);
 
         this.definition = definition;
-        this.type = type ?? NameType.make(definition);
-        this.examples = examples;
+        this.type = type ?? NameType.make(this.definition);
+        this.examples = examples === undefined || examples.length === 0 ? 
+            [ Evaluate.make(Reference.make(this.definition), this.definition.inputs.filter(input => !input.hasDefault()).map(input => ExpressionPlaceholder.make(input.type))) ] :
+            examples;
 
         this.functions = this.definition.getFunctions().map(def => new FunctionConcept(def, context, this));
         this.conversions = this.definition.getAllConversions().map(def => new ConversionConcept(def, context, this));
@@ -55,7 +60,7 @@ export default class StructureConcept extends Concept {
 
     getDocs() { return this.definition.docs; }
 
-    getRepresentation() { return this.type; }
+    getRepresentation() { return this.examples[0]; }
 
     getNodes(): Set<Node> {
         return new Set( [ this.type, ...this.examples ] );
