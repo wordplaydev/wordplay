@@ -75,6 +75,10 @@
         animation: wobble 0.25s ease-out infinite;
     }
 
+    .description:focus {
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+    }
+
     .description.selectable {
         cursor: pointer;
     }
@@ -86,13 +90,6 @@
 
     .description.selectable:hover {
         border-bottom-color: var(--wordplay-highlight);
-    }
-
-    .code:focus .root {
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
-    }
-    .code:focus {
-        outline: none;
     }
 
     @keyframes wobble {
