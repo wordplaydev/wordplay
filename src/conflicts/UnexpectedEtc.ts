@@ -1,9 +1,8 @@
-import type Bind from "../nodes/Bind";
-import type Token from "../nodes/Token";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import Conflict from "./Conflict";
-
+import type Bind from '../nodes/Bind';
+import type Token from '../nodes/Token';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import Conflict from './Conflict';
 
 export default class UnexpectedEtc extends Conflict {
     readonly etc: Token;
@@ -18,11 +17,10 @@ export default class UnexpectedEtc extends Conflict {
         return { primary: this.etc, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations { 
+    getPrimaryExplanation(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: `Variable length only applies to evaluations, they can't go here.`
-        }
+            '😀': TRANSLATE,
+            eng: `Variable length only applies to evaluations, they can't go here.`,
+        };
     }
-
 }

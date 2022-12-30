@@ -1,4 +1,3 @@
-
 enum TokenType {
     EVAL_OPEN,
     EVAL_CLOSE,
@@ -65,7 +64,7 @@ enum TokenType {
     BOOLEAN,
     NAME,
     UNKNOWN,
-    END
+    END,
 }
 
 export default TokenType;

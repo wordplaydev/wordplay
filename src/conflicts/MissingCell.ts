@@ -1,13 +1,11 @@
-import type Bind from "../nodes/Bind";
-import type Row from "../nodes/Row";
-import type TableType from "../nodes/TableType";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import Conflict from "./Conflict";
-
+import type Bind from '../nodes/Bind';
+import type Row from '../nodes/Row';
+import type TableType from '../nodes/TableType';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import Conflict from './Conflict';
 
 export default class MissingCell extends Conflict {
-    
     readonly row: Row;
     readonly type: TableType;
     readonly column: Bind;
@@ -21,14 +19,13 @@ export default class MissingCell extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.row, secondary: [ this.column ] };
+        return { primary: this.row, secondary: [this.column] };
     }
 
-    getPrimaryExplanation(): Translations { 
+    getPrimaryExplanation(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: `This row is missing column ${this.column.toWordplay()}.`
-        }
+            '😀': TRANSLATE,
+            eng: `This row is missing column ${this.column.toWordplay()}.`,
+        };
     }
-
 }

@@ -1,11 +1,10 @@
-import type ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import type TypePlaceholder from "../nodes/TypePlaceholder";
-import Conflict from "./Conflict";
+import type ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import type TypePlaceholder from '../nodes/TypePlaceholder';
+import Conflict from './Conflict';
 
 export default class Placeholder extends Conflict {
-
     readonly placeholder: ExpressionPlaceholder | TypePlaceholder;
 
     constructor(placeholder: ExpressionPlaceholder | TypePlaceholder) {
@@ -17,11 +16,10 @@ export default class Placeholder extends Conflict {
         return { primary: this.placeholder, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations { 
+    getPrimaryExplanation(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: `Don't forget to replace his with some code!`
-        }
+            '😀': TRANSLATE,
+            eng: `Don't forget to replace his with some code!`,
+        };
     }
-
 }

@@ -1,38 +1,35 @@
-import type { Edit } from "../editor/util/Commands";
-import Transform from "./Transform";
-import Node from "../nodes/Node";
-import Caret from "../models/Caret";
-import type LanguageCode from "../nodes/LanguageCode";
-import { TRANSLATE } from "../nodes/Translations";
-import type Context from "../nodes/Context";
+import type { Edit } from '../editor/util/Commands';
+import Transform from './Transform';
+import Node from '../nodes/Node';
+import Caret from '../models/Caret';
+import type LanguageCode from '../nodes/LanguageCode';
+import { TRANSLATE } from '../nodes/Translations';
+import type Context from '../nodes/Context';
 
 /**
  * Remove a node from sequence of nodes in a parent.
  */
 export default class Remove extends Transform {
-
     readonly parent: Node;
     readonly node: Node;
     readonly nodes: Node[];
-    
+
     constructor(context: Context, parent: Node, node: Node, ...nodes: Node[]) {
         super(context);
 
         this.parent = parent;
         this.node = node;
         this.nodes = nodes;
-
     }
 
     getEdit(): Edit | undefined {
-
         // Generalize the nodes given to a list.
         const nodes = this.getNodes();
-        if(nodes.length === 0) return;
+        if (nodes.length === 0) return;
 
         // Get the position of the first node we're removing.
         const position = this.context.source.getNodeFirstPosition(nodes[0]);
-        if(position === undefined) return;
+        if (position === undefined) return;
 
         // Get the new parent without the nodes.
         const newParent = this.getNewNode();
@@ -45,18 +42,18 @@ export default class Remove extends Transform {
         );
 
         // Return the new source and place the caret after the replacement.
-        return [ newSource, new Caret(newSource, position) ];
-
+        return [newSource, new Caret(newSource, position)];
     }
 
-    getNodes() { return [ this.node, ...this.nodes ]; }
+    getNodes() {
+        return [this.node, ...this.nodes];
+    }
 
     getEditedNode(): [Node, Node] {
-        return [ this.node, this.getNewNode()];
+        return [this.node, this.getNewNode()];
     }
 
-    getNewNode() { 
-
+    getNewNode() {
         // Create the parent node without the nodes we're removing.
         const nodes = this.getNodes();
 
@@ -66,41 +63,48 @@ export default class Remove extends Transform {
         // We get them in reverse since some children are recreated during cloning of their sibling exists.
         // (For example, a colon before a value in a Bind). Reversing ensures that the contingent value is removed first.
         // It also ensures that the child indices do not change as we remove them.
-        let indicies = nodes.map(node => parent.getChildren().indexOf(node)).reverse();
+        let indicies = nodes
+            .map((node) => parent.getChildren().indexOf(node))
+            .reverse();
 
         // Verify that this is a valid replacement.
-        if(!indicies.every(index => index >= 0))
-            throw Error("Uh oh, someone passed children that aren't in the given parent.");
+        if (!indicies.every((index) => index >= 0))
+            throw Error(
+                "Uh oh, someone passed children that aren't in the given parent."
+            );
 
         // Remove each child.
-        while(indicies.length > 0) {
+        while (indicies.length > 0) {
             // Get the correponding child.
             const node = parent.getChildren()[indicies[0]];
             // Remove the child
             parent = parent.clone(node, undefined);
             // Drop the index we just removed.
-            indicies.shift(); 
+            indicies.shift();
         }
 
         // Return the new parent.
         return parent;
-
     }
 
     getDescription(languages: LanguageCode[]): string {
-
         const translations = this.getNewNode().getDescriptions(this.context);
         const descriptions = {
             eng: `Remove ${translations.eng}`,
-            "😀": TRANSLATE
+            '😀': TRANSLATE,
         };
 
-        return descriptions[languages.find(lang => lang in descriptions) ?? "eng"];;
-
+        return descriptions[
+            languages.find((lang) => lang in descriptions) ?? 'eng'
+        ];
     }
 
     equals(transform: Transform) {
-        return transform instanceof Remove && this.node instanceof Node && transform.node instanceof Node && this.node.equals(transform.node);
+        return (
+            transform instanceof Remove &&
+            this.node instanceof Node &&
+            transform.node instanceof Node &&
+            this.node.equals(transform.node)
+        );
     }
-
 }

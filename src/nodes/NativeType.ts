@@ -1,10 +1,9 @@
-import type Context from "./Context";
-import Type from "./Type";
-import type Node from "./Node";
-import type Definition from "./Definition";
+import type Context from './Context';
+import Type from './Type';
+import type Node from './Node';
+import type Definition from './Definition';
 
 export default abstract class NativeType extends Type {
-
     constructor() {
         super();
     }
@@ -17,8 +16,11 @@ export default abstract class NativeType extends Type {
     /**
      * Get the in the native structure definitions.
      */
-    getDefinitions(_: Node, context: Context): Definition[] { 
-        return context.native.getStructureDefinition(this.getNativeTypeName())?.getDefinitions(this) ?? []; 
+    getDefinitions(_: Node, context: Context): Definition[] {
+        return (
+            context.native
+                .getStructureDefinition(this.getNativeTypeName())
+                ?.getDefinitions(this) ?? []
+        );
     }
-    
 }

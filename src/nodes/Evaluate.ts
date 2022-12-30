@@ -1,71 +1,76 @@
-import Bind from "../nodes/Bind";
-import type Conflict from "../conflicts/Conflict";
-import UnexpectedInput from "../conflicts/UnexpectedInput";
-import MissingInput from "../conflicts/MissingInput";
-import UnexpectedInputs from "../conflicts/UnexpectedInputs";
-import IncompatibleInput from "../conflicts/IncompatibleInput";
-import NotInstantiable from "../conflicts/NotInstantiable";
-import NotAFunction from "../conflicts/NotAFunction";
-import StructureDefinitionType from "./StructureDefinitionType";
-import Expression from "./Expression";
-import Token from "./Token";
-import type Node from "./Node";
-import Type from "./Type";
-import type Evaluator from "../runtime/Evaluator";
-import type Value from "../runtime/Value";
-import Evaluation from "../runtime/Evaluation";
-import FunctionValue from "../runtime/FunctionValue";
-import type Step from "../runtime/Step";
-import Finish from "../runtime/Finish";
-import Start from "../runtime/Start";
-import StructureDefinitionValue from "../runtime/StructureDefinitionValue";
-import type Context from "./Context";
-import Halt from "../runtime/Halt";
-import List from "../runtime/List";
-import StructureDefinition from "./StructureDefinition";
-import FunctionDefinition from "./FunctionDefinition";
-import TypeInputs from "./TypeInputs";
-import { getEvaluationInputConflicts } from "./util";
-import ListType from "./ListType";
-import type TypeSet from "./TypeSet";
-import UnparsableException from "../runtime/UnparsableException";
-import FunctionException from "../runtime/FunctionException";
-import ValueException from "../runtime/ValueException";
-import Exception from "../runtime/Exception";
-import type Translations from "./Translations";
-import { TRANSLATE, WRITE } from "./Translations"
-import UnknownInput from "../conflicts/UnknownInput";
-import getConcreteExpectedType from "./Generics";
-import FunctionDefinitionType from "./FunctionDefinitionType";
-import type Names from "./Names";
-import EvalOpenToken from "./EvalOpenToken";
-import EvalCloseToken from "./EvalCloseToken";
-import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
-import InvalidTypeInput from "../conflicts/InvalidTypeInput";
-import NotAFunctionType from "./NotAFunctionType";
-import PropertyReference from "./PropertyReference";
-import Action from "../runtime/Action";
-import NeverType from "./NeverType";
+import Bind from '../nodes/Bind';
+import type Conflict from '../conflicts/Conflict';
+import UnexpectedInput from '../conflicts/UnexpectedInput';
+import MissingInput from '../conflicts/MissingInput';
+import UnexpectedInputs from '../conflicts/UnexpectedInputs';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
+import NotInstantiable from '../conflicts/NotInstantiable';
+import NotAFunction from '../conflicts/NotAFunction';
+import StructureDefinitionType from './StructureDefinitionType';
+import Expression from './Expression';
+import Token from './Token';
+import type Node from './Node';
+import Type from './Type';
+import type Evaluator from '../runtime/Evaluator';
+import type Value from '../runtime/Value';
+import Evaluation from '../runtime/Evaluation';
+import FunctionValue from '../runtime/FunctionValue';
+import type Step from '../runtime/Step';
+import Finish from '../runtime/Finish';
+import Start from '../runtime/Start';
+import StructureDefinitionValue from '../runtime/StructureDefinitionValue';
+import type Context from './Context';
+import Halt from '../runtime/Halt';
+import List from '../runtime/List';
+import StructureDefinition from './StructureDefinition';
+import FunctionDefinition from './FunctionDefinition';
+import TypeInputs from './TypeInputs';
+import { getEvaluationInputConflicts } from './util';
+import ListType from './ListType';
+import type TypeSet from './TypeSet';
+import UnparsableException from '../runtime/UnparsableException';
+import FunctionException from '../runtime/FunctionException';
+import ValueException from '../runtime/ValueException';
+import Exception from '../runtime/Exception';
+import type Translations from './Translations';
+import { TRANSLATE, WRITE } from './Translations';
+import UnknownInput from '../conflicts/UnknownInput';
+import getConcreteExpectedType from './Generics';
+import FunctionDefinitionType from './FunctionDefinitionType';
+import type Names from './Names';
+import EvalOpenToken from './EvalOpenToken';
+import EvalCloseToken from './EvalCloseToken';
+import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
+import InvalidTypeInput from '../conflicts/InvalidTypeInput';
+import NotAFunctionType from './NotAFunctionType';
+import PropertyReference from './PropertyReference';
+import Action from '../runtime/Action';
+import NeverType from './NeverType';
 
 type Mapping = {
-    expected: Bind,
-    given: undefined | Expression | Expression[]
-}
+    expected: Bind;
+    given: undefined | Expression | Expression[];
+};
 
 type InputMapping = {
-    inputs: Mapping[],
-    extra: Expression[]
-}
+    inputs: Mapping[];
+    extra: Expression[];
+};
 
 export default class Evaluate extends Expression {
-
     readonly func: Expression;
     readonly types: TypeInputs | undefined;
     readonly open: Token;
     readonly inputs: Expression[];
     readonly close?: Token;
 
-    constructor(func: Expression, types: TypeInputs | undefined, open: Token, inputs: Expression[], close?: Token) {
+    constructor(
+        func: Expression,
+        types: TypeInputs | undefined,
+        open: Token,
+        inputs: Expression[],
+        close?: Token
+    ) {
         super();
 
         this.open = open;
@@ -75,31 +80,45 @@ export default class Evaluate extends Expression {
         this.close = close;
 
         this.computeChildren();
-
     }
 
     static make(func: Expression, inputs: Expression[]) {
-        return new Evaluate(func, undefined, new EvalOpenToken(), inputs, new EvalCloseToken());
+        return new Evaluate(
+            func,
+            undefined,
+            new EvalOpenToken(),
+            inputs,
+            new EvalCloseToken()
+        );
     }
 
-    getGrammar() { 
+    getGrammar() {
         return [
-            { name: "func", types: [ Expression ] },
-            { name: "types", types: [ TypeInputs, undefined ] },
-            { name: "open", types: [ Token ] },
-            { 
-                name: "inputs", types: [[ Expression ]], space: true, indent: true,
+            { name: 'func', types: [Expression] },
+            { name: 'types', types: [TypeInputs, undefined] },
+            { name: 'open', types: [Token] },
+            {
+                name: 'inputs',
+                types: [[Expression]],
+                space: true,
+                indent: true,
                 // The type of an input depends on the function it's calling and the position in the list.
-                getType: (context: Context, index: number | undefined): Type => {
+                getType: (
+                    context: Context,
+                    index: number | undefined
+                ): Type => {
                     const fun = this.getFunction(context);
-                    if(fun === undefined) return new NeverType();
+                    if (fun === undefined) return new NeverType();
                     // Undefined list index means empty, so we get the type of the first input.
-                    return fun.inputs[index ?? 0].getType(context) ?? new NeverType();
+                    return (
+                        fun.inputs[index ?? 0].getType(context) ??
+                        new NeverType()
+                    );
                 },
                 canInsertAt: (context: Context, index: number) => {
                     // We only allow insertions that are 1) required next or 2) optional, and not already provided.
                     const fun = this.getFunction(context);
-                    if(fun === undefined) return true;
+                    if (fun === undefined) return true;
 
                     // Get this evaluate's mapping from expected to given inputs.
                     const mapping = this.getInputMapping(fun);
@@ -108,31 +127,37 @@ export default class Evaluate extends Expression {
                     const input = mapping.inputs[index];
 
                     // This position is insertable if its a variable length input or not provided.
-                    return input?.given === undefined || input?.expected.isVariableLength();
-                }
+                    return (
+                        input?.given === undefined ||
+                        input?.expected.isVariableLength()
+                    );
+                },
             },
-            { name: "close", types: [ Token ] },
+            { name: 'close', types: [Token] },
         ];
     }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) {
         return new Evaluate(
-            this.replaceChild("func", this.func, original, replacement), 
-            this.replaceChild("types", this.types, original, replacement), 
-            this.replaceChild("open", this.open, original, replacement), 
-            this.replaceChild("inputs", this.inputs, original, replacement),
-            this.replaceChild("close", this.close, original, replacement)
+            this.replaceChild('func', this.func, original, replacement),
+            this.replaceChild('types', this.types, original, replacement),
+            this.replaceChild('open', this.open, original, replacement),
+            this.replaceChild('inputs', this.inputs, original, replacement),
+            this.replaceChild('close', this.close, original, replacement)
         ) as this;
     }
 
-    isBlockFor(child: Node) { return this.inputs.includes(child as Expression); }
+    isBlockFor(child: Node) {
+        return this.inputs.includes(child as Expression);
+    }
 
-    /** 
-     * Using the given and expected inputs, generates a mapping from expected to given inputs that can be reused during 
+    /**
+     * Using the given and expected inputs, generates a mapping from expected to given inputs that can be reused during
      * conflict detection, compilation, and autocomplete.
      * */
-    getInputMapping(fun: FunctionDefinition | StructureDefinition): InputMapping {
-
+    getInputMapping(
+        fun: FunctionDefinition | StructureDefinition
+    ): InputMapping {
         // Get the expected inputs, unless there are parsing errors..
         const expectedInputs = fun.inputs;
 
@@ -142,41 +167,44 @@ export default class Evaluate extends Expression {
         // Prepare a list of mappings.
         const mappings: InputMapping = {
             inputs: [],
-            extra: []
+            extra: [],
         };
 
         // Loop through each of the expected types and see if the given types match.
-        for(const expectedInput of expectedInputs) {
-
+        for (const expectedInput of expectedInputs) {
             // Prepare a mapping.
             const mapping: Mapping = {
                 expected: expectedInput,
-                given: undefined
+                given: undefined,
             };
 
-            if(expectedInput.isRequired())
-                mapping.given = givenInputs.shift();
+            if (expectedInput.isRequired()) mapping.given = givenInputs.shift();
             // If it's optional, go through each input to see if it's provided in the remaining inputs.
             else {
                 // If it's variable length, check all of the remaining given inputs to see if they match this type.
-                if(expectedInput.isVariableLength()) {
+                if (expectedInput.isVariableLength()) {
                     mapping.given = [];
-                    while(givenInputs.length > 0) {
+                    while (givenInputs.length > 0) {
                         const given = givenInputs.shift();
-                        if(given) mapping.given.push(given);
+                        if (given) mapping.given.push(given);
                     }
                 }
                 // If it's just an optional input, see if any of the given inputs provide it by name.
                 else {
                     // Is there a named input that matches?
-                    const bind = givenInputs.find(i => i instanceof Bind && i.sharesName(expectedInput));
-                    if(bind instanceof Bind) {
+                    const bind = givenInputs.find(
+                        (i) => i instanceof Bind && i.sharesName(expectedInput)
+                    );
+                    if (bind instanceof Bind) {
                         // Remove it from the given inputs list.
                         givenInputs.splice(givenInputs.indexOf(bind), 1);
                         mapping.given = bind;
                     }
                     // If there wasn't a named input matching, see if the next non-bind expression matches the type.
-                    else if(givenInputs.length > 0 && !(givenInputs[0] instanceof Bind)) {
+                    else if (
+                        givenInputs.length > 0 &&
+                        !(givenInputs[0] instanceof Bind)
+                    ) {
                         mapping.given = givenInputs.shift();
                     }
                     // Otherwise, there's no given input for this optional input.
@@ -192,36 +220,43 @@ export default class Evaluate extends Expression {
 
         // Return the final mappings. Now we have a complete spec of which expressions were provided for each function input.
         return mappings;
-
     }
 
-    computeConflicts(context: Context): Conflict[] { 
-    
+    computeConflicts(context: Context): Conflict[] {
         const conflicts = [];
 
-        if(this.close === undefined)
-            conflicts.push(new UnclosedDelimiter(this, this.open, new EvalCloseToken()));
+        if (this.close === undefined)
+            conflicts.push(
+                new UnclosedDelimiter(this, this.open, new EvalCloseToken())
+            );
 
         // Get the function this evaluate is trying to... evaluate.
         const fun = this.getFunction(context);
 
         // The function must be a function or structure. If it's not, that's a conflict.
         // Then stop checking because we can't analyze anything.
-        if(!(fun instanceof FunctionDefinition || fun instanceof StructureDefinition))
-            return [ 
+        if (
+            !(
+                fun instanceof FunctionDefinition ||
+                fun instanceof StructureDefinition
+            )
+        )
+            return [
                 new NotAFunction(
-                    this, 
-                    this.func, 
-                    this.func instanceof PropertyReference ? this.func.structure.getType(context) : undefined
-                )
+                    this,
+                    this.func,
+                    this.func instanceof PropertyReference
+                        ? this.func.structure.getType(context)
+                        : undefined
+                ),
             ];
 
         // If it's a structure definition, can we create it?
-        if(fun instanceof StructureDefinition) {
+        if (fun instanceof StructureDefinition) {
             // Can't create interfaces that don't have missing function definitions.
             const abstractFunctions = fun.getAbstractFunctions();
-            if(abstractFunctions.length > 0)
-                return [ new NotInstantiable(this, fun, abstractFunctions) ];
+            if (abstractFunctions.length > 0)
+                return [new NotInstantiable(this, fun, abstractFunctions)];
         }
 
         // We made it! Let's analyze the given and expected inputs and see if there are any problems.
@@ -229,79 +264,119 @@ export default class Evaluate extends Expression {
 
         // If the target inputs has conflicts with its names, defaults, or variable length inputs,
         // then we don't analyze this.
-        if(getEvaluationInputConflicts(expectedInputs).length > 0) return [];
+        if (getEvaluationInputConflicts(expectedInputs).length > 0) return [];
 
-        // To verify that this evaluation's given inputs match the target inputs, 
+        // To verify that this evaluation's given inputs match the target inputs,
         // we get the mapping from expected to given, then look for various conflicts in the mapping,
         // one expected input at a time.
         const mapping = this.getInputMapping(fun);
 
         // Loop through each of the expected types and see if the given types match.
-        for(const { expected, given } of mapping.inputs) {
-
+        for (const { expected, given } of mapping.inputs) {
             // If it's required but not given, conflict
-            if(expected.isRequired() && given === undefined)
-                return [ new MissingInput(fun, this, this.close ?? this.inputs[this.inputs.length - 1] ?? this.open, expected) ];
-                
+            if (expected.isRequired() && given === undefined)
+                return [
+                    new MissingInput(
+                        fun,
+                        this,
+                        this.close ??
+                            this.inputs[this.inputs.length - 1] ??
+                            this.open,
+                        expected
+                    ),
+                ];
+
             // Given a bind with an incompatible name? Conflict.
-            if(given instanceof Bind && !expected.sharesName(given)) 
-                return [ new UnexpectedInput(fun, this, expected, given) ];
+            if (given instanceof Bind && !expected.sharesName(given))
+                return [new UnexpectedInput(fun, this, expected, given)];
 
             // Figure out what type this expected input is. Resolve any type variables to concrete values.
-            if(given instanceof Expression) {
-                const expectedType = getConcreteExpectedType(fun, expected, this, context);
+            if (given instanceof Expression) {
+                const expectedType = getConcreteExpectedType(
+                    fun,
+                    expected,
+                    this,
+                    context
+                );
                 const givenType = given.getType(context);
-                if(!expectedType.accepts(givenType, context, given))
-                    conflicts.push(new IncompatibleInput(fun, this, given, givenType, expectedType));
+                if (!expectedType.accepts(givenType, context, given))
+                    conflicts.push(
+                        new IncompatibleInput(
+                            fun,
+                            this,
+                            given,
+                            givenType,
+                            expectedType
+                        )
+                    );
             }
 
             // If it's variable length verify that all inputs are an acceptable type.
-            if(expected.isVariableLength() && Array.isArray(given)) {
+            if (expected.isVariableLength() && Array.isArray(given)) {
                 let isVariableListInput = false;
                 // It's okay to provide a compatible list as the input, instead of a sequence of inputs to the evaluate.
-                if(given.length === 1) {
+                if (given.length === 1) {
                     const lastType = given[0].getType(context);
-                    if(lastType instanceof ListType && expected instanceof ListType && (lastType.type === undefined || expected.type?.accepts(lastType.type, context)))
+                    if (
+                        lastType instanceof ListType &&
+                        expected instanceof ListType &&
+                        (lastType.type === undefined ||
+                            expected.type?.accepts(lastType.type, context))
+                    )
                         isVariableListInput = true;
                 }
 
                 // If it's not a list input for a variable length input, check every input to make sure it's valid.
-                if(!isVariableListInput) {
-                    for(const item of given) {
+                if (!isVariableListInput) {
+                    for (const item of given) {
                         const givenType = item.getType(context);
-                        if(expected.type instanceof Type && !expected.type.accepts(givenType, context))
-                            conflicts.push(new IncompatibleInput(fun, this, item, givenType, expected.type));
+                        if (
+                            expected.type instanceof Type &&
+                            !expected.type.accepts(givenType, context)
+                        )
+                            conflicts.push(
+                                new IncompatibleInput(
+                                    fun,
+                                    this,
+                                    item,
+                                    givenType,
+                                    expected.type
+                                )
+                            );
                     }
                 }
             }
-
         }
-        
+
         // See if any of the remaining given inputs are bound to unknown names.
-        for(const given of mapping.extra) {
-            if(given instanceof Bind && !fun.inputs.some(expected => expected.sharesName(given)))
+        for (const given of mapping.extra) {
+            if (
+                given instanceof Bind &&
+                !fun.inputs.some((expected) => expected.sharesName(given))
+            )
                 conflicts.push(new UnknownInput(fun, this, given));
         }
 
         // If there are remaining given inputs that didn't match anything, something's wrong.
-        if(mapping.extra.length > 0)
+        if (mapping.extra.length > 0)
             conflicts.push(new UnexpectedInputs(fun, this, mapping.extra));
 
         // Check type
         const expected = fun.types;
 
         // If there are type inputs provided, verify that they exist on the function.
-        if(this.types && this.types.types.length > 0) {
-            for(let index = 0; index < this.types.types.length; index++) {
-                if(index >= (expected?.variables.length ?? 0)) {
-                    conflicts.push(new InvalidTypeInput(this, this.types.types[index], fun));
+        if (this.types && this.types.types.length > 0) {
+            for (let index = 0; index < this.types.types.length; index++) {
+                if (index >= (expected?.variables.length ?? 0)) {
+                    conflicts.push(
+                        new InvalidTypeInput(this, this.types.types[index], fun)
+                    );
                     break;
                 }
             }
         }
 
         return conflicts;
-    
     }
 
     getTypeInputs(): TypeInputs | undefined {
@@ -309,225 +384,299 @@ export default class Evaluate extends Expression {
         return this.types;
     }
 
-    getFunction(context: Context): FunctionDefinition | StructureDefinition | undefined {
-
+    getFunction(
+        context: Context
+    ): FunctionDefinition | StructureDefinition | undefined {
         const type = this.func.getType(context);
 
-        return type instanceof FunctionDefinitionType ? type.fun :
-            type instanceof StructureDefinitionType ? type.structure :
-            undefined;
-
+        return type instanceof FunctionDefinitionType
+            ? type.fun
+            : type instanceof StructureDefinitionType
+            ? type.structure
+            : undefined;
     }
 
     computeType(context: Context): Type {
-        
         const fun = this.getFunction(context);
 
         // If it's a function type with an output type, then return the output type.
-        if(fun instanceof FunctionDefinition) return getConcreteExpectedType(fun, undefined, this, context);
+        if (fun instanceof FunctionDefinition)
+            return getConcreteExpectedType(fun, undefined, this, context);
         // If it's a structure, then this is an instantiation of the structure, so this evaluate resolves
         // to a value of the structure's type.
-        else if(fun instanceof StructureDefinition) return new StructureDefinitionType(fun, [...(this.types ? this.types.types : []) ]);
+        else if (fun instanceof StructureDefinition)
+            return new StructureDefinitionType(fun, [
+                ...(this.types ? this.types.types : []),
+            ]);
         // Otherwise, who knows.
         else return new NotAFunctionType(this, this.func.getType(context));
-
     }
 
     getDependencies(context: Context): Expression[] {
-
         const fun = this.getFunction(context);
-        const expression = 
-            fun === undefined ? undefined : 
-            fun instanceof FunctionDefinition && fun.expression instanceof Expression ? fun.expression : 
-            fun instanceof StructureDefinition ? fun.expression :
-            undefined;
+        const expression =
+            fun === undefined
+                ? undefined
+                : fun instanceof FunctionDefinition &&
+                  fun.expression instanceof Expression
+                ? fun.expression
+                : fun instanceof StructureDefinition
+                ? fun.expression
+                : undefined;
 
         // Evaluates depend on their function, their inputs, and the function's expression.
-        return [ this.func, ...this.inputs, ...(expression === undefined ? [] : [ expression ]) ];
+        return [
+            this.func,
+            ...this.inputs,
+            ...(expression === undefined ? [] : [expression]),
+        ];
     }
 
     compile(context: Context): Step[] {
-
         // To compile an evaluate, we need to compile all of the given and default values in
         // order of the function's declaration. This requires getting the function/structure definition
         // and finding an expression to compile for each input.
         const fun = this.getFunction(context);
 
         // Halt if we couldn't find the function.
-        if(fun === undefined)
-            return [ new Halt(evaluator => new FunctionException(evaluator, this, undefined, this.func.toWordplay()), this) ];
+        if (fun === undefined)
+            return [
+                new Halt(
+                    (evaluator) =>
+                        new FunctionException(
+                            evaluator,
+                            this,
+                            undefined,
+                            this.func.toWordplay()
+                        ),
+                    this
+                ),
+            ];
 
         // Get the mapping from expected to given.
         const mapping = this.getInputMapping(fun);
 
         // Iterate through the inputs, compiling given or default expressions.
-        const inputSteps = mapping.inputs.map(input => {
-
+        const inputSteps = mapping.inputs.map((input) => {
             const { expected, given } = input;
 
             // If nothing was given...
-            if(given === undefined) {
+            if (given === undefined) {
                 // Is there a default value?
-                return expected.value !== undefined ?
-                    // Compile that.
-                    expected.value.compile(context) :
-                    // Otherwise, halt on an expected value.
-                    [ new Halt(evaluator => new ValueException(evaluator), this) ]
+                return expected.value !== undefined
+                    ? // Compile that.
+                      expected.value.compile(context)
+                    : // Otherwise, halt on an expected value.
+                      [
+                          new Halt(
+                              (evaluator) => new ValueException(evaluator),
+                              this
+                          ),
+                      ];
             }
             // If something was given...
             else {
                 // Is it a variable length value?
-                if(Array.isArray(given)) {
-                    if(expected.isVariableLength())
-                        return given.reduce((prev: Step[], next) => [ ...prev, ...next.compile(context) ], []);
+                if (Array.isArray(given)) {
+                    if (expected.isVariableLength())
+                        return given.reduce(
+                            (prev: Step[], next) => [
+                                ...prev,
+                                ...next.compile(context),
+                            ],
+                            []
+                        );
+                    // Otherwise, halt on an expected value.
                     else
-                        // Otherwise, halt on an expected value.
-                        return [ new Halt(evaluator => new ValueException(evaluator), this) ]
+                        return [
+                            new Halt(
+                                (evaluator) => new ValueException(evaluator),
+                                this
+                            ),
+                        ];
                 }
                 // Otherise, just compile it
-                else
-                    return given.compile(context);
+                else return given.compile(context);
             }
-
         });
-    
+
         // Evaluate the function expression, then the inputs, then evaluate this using the resulting values.
-        return [ 
+        return [
             new Start(this),
-            ...inputSteps.reduce((steps: Step[], s) => [ ...steps, ...s], []), 
+            ...inputSteps.reduce((steps: Step[], s) => [...steps, ...s], []),
             ...this.func.compile(context),
-            new Action(this,
+            new Action(
+                this,
                 {
-                    eng: "Start evaluating the function with the inputs",
-                    "😀": WRITE
+                    eng: 'Start evaluating the function with the inputs',
+                    '😀': WRITE,
                 },
-                evaluator => this.startEvaluation(evaluator)
-            ),                
-            new Finish(this)
+                (evaluator) => this.startEvaluation(evaluator)
+            ),
+            new Finish(this),
         ];
     }
 
     startEvaluation(evaluator: Evaluator) {
-
         // Get the function off the stack and bail if it's not a function.
         const functionOrStructure = evaluator.popValue(undefined);
-        if(!(functionOrStructure instanceof FunctionValue || functionOrStructure instanceof StructureDefinitionValue)) 
-            return new FunctionException(evaluator, this, functionOrStructure, this.func.toWordplay());
+        if (
+            !(
+                functionOrStructure instanceof FunctionValue ||
+                functionOrStructure instanceof StructureDefinitionValue
+            )
+        )
+            return new FunctionException(
+                evaluator,
+                this,
+                functionOrStructure,
+                this.func.toWordplay()
+            );
 
         // Pop as many values as the definition requires, or the number of inputs provided, whichever is larger.
         // This accounts for variable length arguments.
         const count = Math.max(
-            functionOrStructure instanceof FunctionValue ? functionOrStructure.definition.inputs.length :
-            functionOrStructure instanceof StructureDefinitionValue ? functionOrStructure.definition.inputs.length :
-            0,
+            functionOrStructure instanceof FunctionValue
+                ? functionOrStructure.definition.inputs.length
+                : functionOrStructure instanceof StructureDefinitionValue
+                ? functionOrStructure.definition.inputs.length
+                : 0,
             this.inputs.length
-        )
+        );
 
         // Get all the values off the stack, getting as many as is defined.
         const values = [];
-        for(let i = 0; i < count; i++) {
+        for (let i = 0; i < count; i++) {
             const value = evaluator.popValue(undefined);
-            if(value instanceof Exception) return value;
+            if (value instanceof Exception) return value;
             else values.unshift(value);
         }
-        
-        if(functionOrStructure instanceof FunctionValue) {
 
+        if (functionOrStructure instanceof FunctionValue) {
             const definition = functionOrStructure.definition;
             const body = functionOrStructure.definition.expression;
 
             // Bail if the function's body isn't an expression.
-            if(!(body instanceof Expression))
+            if (!(body instanceof Expression))
                 return new UnparsableException(evaluator, body ?? definition);
 
             // Build the bindings.
-            const bindings = this.buildBindings(evaluator, definition.inputs, values);
-            if(bindings instanceof Exception) return bindings;
-
-            evaluator.startEvaluation(new Evaluation(
-                evaluator, 
-                this,
-                definition, 
-                functionOrStructure.context, 
-                bindings)
+            const bindings = this.buildBindings(
+                evaluator,
+                definition.inputs,
+                values
             );
+            if (bindings instanceof Exception) return bindings;
 
-        }
-        else if(functionOrStructure instanceof StructureDefinitionValue) {
-
+            evaluator.startEvaluation(
+                new Evaluation(
+                    evaluator,
+                    this,
+                    definition,
+                    functionOrStructure.context,
+                    bindings
+                )
+            );
+        } else if (functionOrStructure instanceof StructureDefinitionValue) {
             // Build the custom type's bindings.
-            const bindings = this.buildBindings(evaluator, functionOrStructure.definition.inputs, values);
-            if(bindings instanceof Exception) return bindings;
+            const bindings = this.buildBindings(
+                evaluator,
+                functionOrStructure.definition.inputs,
+                values
+            );
+            if (bindings instanceof Exception) return bindings;
 
             // Evaluate the structure's block with the bindings, generating an evaluation context with the
             // type's inputs and functions.
-            evaluator.startEvaluation(new Evaluation(
-                evaluator, 
-                this, 
-                functionOrStructure.definition, 
-                evaluator.getCurrentEvaluation(), 
-                bindings)
+            evaluator.startEvaluation(
+                new Evaluation(
+                    evaluator,
+                    this,
+                    functionOrStructure.definition,
+                    evaluator.getCurrentEvaluation(),
+                    bindings
+                )
             );
-
         }
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
-        
-        if(prior) return prior;
+        if (prior) return prior;
 
         return evaluator.popValue(undefined);
-
     }
 
-    buildBindings(evaluator: Evaluator, inputs: Bind[], values: Value[]): Map<Names, Value> | Exception {
-
+    buildBindings(
+        evaluator: Evaluator,
+        inputs: Bind[],
+        values: Value[]
+    ): Map<Names, Value> | Exception {
         // Build the bindings, backwards because they are in reverse on the stack.
         const bindings = new Map<Names, Value>();
-        for(let i = 0; i < inputs.length; i++) {
+        for (let i = 0; i < inputs.length; i++) {
             const bind = inputs[i];
-            if(i >= values.length) 
-                return new ValueException(evaluator);
-            
+            if (i >= values.length) return new ValueException(evaluator);
+
             // If it's variable length, take the rest of the values and stop.
-            if(bind.isVariableLength()) {
+            if (bind.isVariableLength()) {
                 // If there's only one more value and it's already a list, just set it to the list.
-                bindings.set(bind.names, values[i] instanceof List ? values[i] : new List(this, values.slice(i)));
+                bindings.set(
+                    bind.names,
+                    values[i] instanceof List
+                        ? values[i]
+                        : new List(this, values.slice(i))
+                );
                 break;
             }
             // Otherwise, just set this value.
             bindings.set(bind.names, values[i]);
         }
         return bindings;
-
     }
- 
-    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
-        if(this.func instanceof Expression) this.func.evaluateTypeSet(bind, original, current, context);
-        this.inputs.forEach(input => { if(input instanceof Expression) input.evaluateTypeSet(bind, original, current, context); });
+
+    evaluateTypeSet(
+        bind: Bind,
+        original: TypeSet,
+        current: TypeSet,
+        context: Context
+    ) {
+        if (this.func instanceof Expression)
+            this.func.evaluateTypeSet(bind, original, current, context);
+        this.inputs.forEach((input) => {
+            if (input instanceof Expression)
+                input.evaluateTypeSet(bind, original, current, context);
+        });
         return current;
     }
 
-    getChildPlaceholderLabel(child: Node, context: Context): Translations | undefined {
+    getChildPlaceholderLabel(
+        child: Node,
+        context: Context
+    ): Translations | undefined {
         // Find the corresponding input's definition, getting names from the Binds.
-        if(child === this.func) 
+        if (child === this.func)
             return {
-                "😀": TRANSLATE,
-                eng: "function"    
-            }
-        if(this.inputs.includes(child as Expression)) {
+                '😀': TRANSLATE,
+                eng: 'function',
+            };
+        if (this.inputs.includes(child as Expression)) {
             const index = this.inputs.indexOf(child as Expression);
-            if(index >= 0) {
+            if (index >= 0) {
                 const funType = this.func.getType(context);
-                if(funType instanceof FunctionDefinitionType && index < funType.fun.inputs.length) {
+                if (
+                    funType instanceof FunctionDefinitionType &&
+                    index < funType.fun.inputs.length
+                ) {
                     const bind = funType.fun.inputs[index];
-                    if(bind instanceof Bind) {
+                    if (bind instanceof Bind) {
                         return bind.names.getTranslations();
                     }
-                }
-                else if(funType instanceof StructureDefinitionType && index < funType.structure.inputs.length) {
+                } else if (
+                    funType instanceof StructureDefinitionType &&
+                    index < funType.structure.inputs.length
+                ) {
                     const bind = funType.structure.inputs[index];
-                    if(bind instanceof Bind) {
+                    if (bind instanceof Bind) {
                         return bind.names.getTranslations();
                     }
                 }
@@ -537,26 +686,29 @@ export default class Evaluate extends Expression {
 
     getDescriptions(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: "evaluate a function"
-        }        
+            '😀': TRANSLATE,
+            eng: 'evaluate a function',
+        };
     }
 
-    getStart() { return this.open; }
-    getFinish() { return this.close ?? this.func; }
+    getStart() {
+        return this.open;
+    }
+    getFinish() {
+        return this.close ?? this.func;
+    }
 
-    getStartExplanations(): Translations { 
+    getStartExplanations(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: "We first have to evaluate all of the inputs, then the function to evaluate."
-        }
-     }
+            '😀': TRANSLATE,
+            eng: 'We first have to evaluate all of the inputs, then the function to evaluate.',
+        };
+    }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: "Now that we have the inputs and the function, we can start evaluating the function."
-        }
+            '😀': TRANSLATE,
+            eng: 'Now that we have the inputs and the function, we can start evaluating the function.',
+        };
     }
-
 }

@@ -1,19 +1,22 @@
-import type Evaluate from "../nodes/Evaluate";
-import type FunctionDefinition from "../nodes/FunctionDefinition";
-import type NameType from "../nodes/NameType";
-import type StructureDefinition from "../nodes/StructureDefinition";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import type Type from "../nodes/Type";
-import Conflict from "./Conflict";
+import type Evaluate from '../nodes/Evaluate';
+import type FunctionDefinition from '../nodes/FunctionDefinition';
+import type NameType from '../nodes/NameType';
+import type StructureDefinition from '../nodes/StructureDefinition';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import type Type from '../nodes/Type';
+import Conflict from './Conflict';
 
 export default class InvalidTypeInput extends Conflict {
-
     readonly evaluate: NameType | Evaluate;
     readonly type: Type;
     readonly definition: StructureDefinition | FunctionDefinition;
 
-    constructor(evaluate: NameType | Evaluate, type: Type, definition: StructureDefinition | FunctionDefinition) {
+    constructor(
+        evaluate: NameType | Evaluate,
+        type: Type,
+        definition: StructureDefinition | FunctionDefinition
+    ) {
         super(false);
         this.evaluate = evaluate;
         this.type = type;
@@ -21,14 +24,13 @@ export default class InvalidTypeInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.type, secondary: [ this.definition.names ] };
+        return { primary: this.type, secondary: [this.definition.names] };
     }
 
-    getPrimaryExplanation(): Translations { 
+    getPrimaryExplanation(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: `This definition doesn't accept this type input.`
-        }
+            '😀': TRANSLATE,
+            eng: `This definition doesn't accept this type input.`,
+        };
     }
-
 }

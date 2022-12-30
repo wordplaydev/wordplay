@@ -1,7 +1,7 @@
-import type Bind from "../nodes/Bind";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import Conflict from "./Conflict";
+import type Bind from '../nodes/Bind';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import Conflict from './Conflict';
 
 export default class ExpectedColumnType extends Conflict {
     readonly column: Bind;
@@ -15,11 +15,10 @@ export default class ExpectedColumnType extends Conflict {
         return { primary: this.column, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations { 
+    getPrimaryExplanation(): Translations {
         return {
             eng: `Table columns have to have a type.`,
-            "😀": TRANSLATE
-        }
+            '😀': TRANSLATE,
+        };
     }
-
 }

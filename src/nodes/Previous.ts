@@ -1,36 +1,35 @@
-import type Conflict from "../conflicts/Conflict";
-import Expression from "./Expression";
-import MeasurementType from "./MeasurementType";
-import Token from "./Token";
-import type Type from "./Type";
-import type Node from "./Node";
-import UnknownType from "./UnknownType";
-import type Evaluator from "../runtime/Evaluator";
-import type Value from "../runtime/Value";
-import Measurement from "../runtime/Measurement";
-import type Step from "../runtime/Step";
-import Finish from "../runtime/Finish";
-import type Context from "./Context";
-import { NotAStream } from "../conflicts/NotAStream";
-import StreamType from "./StreamType";
-import { NotAStreamIndex } from "../conflicts/NotAStreamIndex";
-import Stream from "../runtime/Stream";
-import KeepStream from "../runtime/KeepStream";
-import type Bind from "./Bind";
-import type TypeSet from "./TypeSet";
-import TypeException from "../runtime/TypeException";
-import AnyType from "./AnyType";
-import TokenType from "./TokenType";
-import { PREVIOUS_SYMBOL } from "../parser/Tokenizer";
-import type Translations from "./Translations";
-import { TRANSLATE } from "./Translations"
-import Start from "../runtime/Start";
-import UnionType from "./UnionType";
-import NoneType from "./NoneType";
-import type Changed from "./Changed";
+import type Conflict from '../conflicts/Conflict';
+import Expression from './Expression';
+import MeasurementType from './MeasurementType';
+import Token from './Token';
+import type Type from './Type';
+import type Node from './Node';
+import UnknownType from './UnknownType';
+import type Evaluator from '../runtime/Evaluator';
+import type Value from '../runtime/Value';
+import Measurement from '../runtime/Measurement';
+import type Step from '../runtime/Step';
+import Finish from '../runtime/Finish';
+import type Context from './Context';
+import { NotAStream } from '../conflicts/NotAStream';
+import StreamType from './StreamType';
+import { NotAStreamIndex } from '../conflicts/NotAStreamIndex';
+import Stream from '../runtime/Stream';
+import KeepStream from '../runtime/KeepStream';
+import type Bind from './Bind';
+import type TypeSet from './TypeSet';
+import TypeException from '../runtime/TypeException';
+import AnyType from './AnyType';
+import TokenType from './TokenType';
+import { PREVIOUS_SYMBOL } from '../parser/Tokenizer';
+import type Translations from './Translations';
+import { TRANSLATE } from './Translations';
+import Start from '../runtime/Start';
+import UnionType from './UnionType';
+import NoneType from './NoneType';
+import type Changed from './Changed';
 
 export default class Previous extends Expression {
-
     readonly stream: Expression;
     readonly previous: Token;
     readonly index: Expression;
@@ -43,127 +42,151 @@ export default class Previous extends Expression {
         this.index = index;
 
         this.computeChildren();
-
     }
 
     static make(stream: Expression, index: Expression) {
-        return new Previous(stream, new Token(PREVIOUS_SYMBOL, TokenType.PREVIOUS), index);
+        return new Previous(
+            stream,
+            new Token(PREVIOUS_SYMBOL, TokenType.PREVIOUS),
+            index
+        );
     }
 
-    getGrammar() { 
+    getGrammar() {
         return [
-            { 
-                name: "stream", types: [ Expression ],
+            {
+                name: 'stream',
+                types: [Expression],
                 // Must be a stream
-                getType: () => StreamType.make(new AnyType())
+                getType: () => StreamType.make(new AnyType()),
             },
-            { name: "previous", types: [ Token ] },
-            { 
-                name: "index", types: [ Expression ],
+            { name: 'previous', types: [Token] },
+            {
+                name: 'index',
+                types: [Expression],
                 // Must be a number
-                getType: () => MeasurementType.make()
+                getType: () => MeasurementType.make(),
             },
         ];
     }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) {
         return new Previous(
-            this.replaceChild("stream", this.stream, original, replacement), 
-            this.replaceChild("previous", this.previous, original, replacement),
-            this.replaceChild("index", this.index, original, replacement)
-        ) as this; 
+            this.replaceChild('stream', this.stream, original, replacement),
+            this.replaceChild('previous', this.previous, original, replacement),
+            this.replaceChild('index', this.index, original, replacement)
+        ) as this;
     }
 
-    computeConflicts(context: Context): Conflict[] { 
-
+    computeConflicts(context: Context): Conflict[] {
         const streamType = this.stream.getType(context);
 
-        if(!(streamType instanceof StreamType))
-            return [ new NotAStream(this, streamType) ];
+        if (!(streamType instanceof StreamType))
+            return [new NotAStream(this, streamType)];
 
         const indexType = this.index.getType(context);
-        if(!(indexType instanceof MeasurementType) || indexType.unit !== undefined)
-            return [ new NotAStreamIndex(this, indexType) ];
+        if (
+            !(indexType instanceof MeasurementType) ||
+            indexType.unit !== undefined
+        )
+            return [new NotAStreamIndex(this, indexType)];
 
         return [];
-    
     }
 
     computeType(context: Context): Type {
         // The type is the stream's type.
         const streamType = this.stream.getType(context);
-        return streamType instanceof StreamType ? UnionType.make(streamType.type, NoneType.None) : new NotAStreamType(this, streamType);
+        return streamType instanceof StreamType
+            ? UnionType.make(streamType.type, NoneType.None)
+            : new NotAStreamType(this, streamType);
     }
 
     getDependencies(): Expression[] {
-        return [ this.stream, this.index ];
+        return [this.stream, this.index];
     }
 
     compile(context: Context): Step[] {
-        return [ 
-            new Start(this), 
-            ...this.stream.compile(context), 
-            new KeepStream(this), 
-            ...this.index.compile(context), 
-            new Finish(this) 
+        return [
+            new Start(this),
+            ...this.stream.compile(context),
+            new KeepStream(this),
+            ...this.index.compile(context),
+            new Finish(this),
         ];
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
-        
-        if(prior) return prior;
+        if (prior) return prior;
 
         const index = evaluator.popValue(MeasurementType.make());
-        if(!(index instanceof Measurement) || !index.num.isInteger()) return index;
+        if (!(index instanceof Measurement) || !index.num.isInteger())
+            return index;
 
         const stream = evaluator.popValue(StreamType.make(new AnyType()));
-        if(!(stream instanceof Stream)) return new TypeException(evaluator, StreamType.make(new AnyType()), stream);
+        if (!(stream instanceof Stream))
+            return new TypeException(
+                evaluator,
+                StreamType.make(new AnyType()),
+                stream
+            );
 
         return stream.at(this, index.toNumber());
-
     }
 
-    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
-        if(this.stream instanceof Expression) this.stream.evaluateTypeSet(bind, original, current, context);
-        if(this.index instanceof Expression) this.index.evaluateTypeSet(bind, original, current, context);
+    evaluateTypeSet(
+        bind: Bind,
+        original: TypeSet,
+        current: TypeSet,
+        context: Context
+    ) {
+        if (this.stream instanceof Expression)
+            this.stream.evaluateTypeSet(bind, original, current, context);
+        if (this.index instanceof Expression)
+            this.index.evaluateTypeSet(bind, original, current, context);
         return current;
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if(child === this.stream) return {
-            "😀": TRANSLATE,
-            eng: "stream"
-        };
-        else if(child === this.index) return {
-            "😀": TRANSLATE,
-            eng: "index"
-        };
-
+        if (child === this.stream)
+            return {
+                '😀': TRANSLATE,
+                eng: 'stream',
+            };
+        else if (child === this.index)
+            return {
+                '😀': TRANSLATE,
+                eng: 'index',
+            };
     }
 
     getDescriptions(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: "A previous stream value"
-        }
+            '😀': TRANSLATE,
+            eng: 'A previous stream value',
+        };
     }
 
-    getStart() { return this.previous; }
-    getFinish() { return this.previous; }
+    getStart() {
+        return this.previous;
+    }
+    getFinish() {
+        return this.previous;
+    }
 
-    getStartExplanations(): Translations { return this.getFinishExplanations(); }
+    getStartExplanations(): Translations {
+        return this.getFinishExplanations();
+    }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: "Let's get the stream value at this index."
-        }
+            '😀': TRANSLATE,
+            eng: "Let's get the stream value at this index.",
+        };
     }
-
 }
 
-export class NotAStreamType extends UnknownType<Previous|Changed> {
-
+export class NotAStreamType extends UnknownType<Previous | Changed> {
     constructor(previous: Previous | Changed, why: Type) {
         super(previous, why);
     }
@@ -171,8 +194,7 @@ export class NotAStreamType extends UnknownType<Previous|Changed> {
     getReason(): Translations {
         return {
             eng: `${this.expression.stream.toWordplay()} is not a stream`,
-            "😀": `${TRANSLATE} •🤔`
-        }
+            '😀': `${TRANSLATE} •🤔`,
+        };
     }
-
 }

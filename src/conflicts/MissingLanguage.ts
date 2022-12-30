@@ -1,9 +1,8 @@
-import type Language from "../nodes/Language";
-import type Token from "../nodes/Token";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import Conflict from "./Conflict";
-
+import type Language from '../nodes/Language';
+import type Token from '../nodes/Token';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import Conflict from './Conflict';
 
 export default class MissingLanguage extends Conflict {
     readonly language: Language;
@@ -19,11 +18,10 @@ export default class MissingLanguage extends Conflict {
         return { primary: this.slash, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations { 
+    getPrimaryExplanation(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: `Languages require a language code.`
-        }
+            '😀': TRANSLATE,
+            eng: `Languages require a language code.`,
+        };
     }
-
 }

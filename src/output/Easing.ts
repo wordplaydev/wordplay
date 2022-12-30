@@ -1,4 +1,4 @@
-import toFunction from "../native/toFunction";
+import toFunction from '../native/toFunction';
 
 export const straight = toFunction(`
     ƒ straight/eng(x/eng•#) x

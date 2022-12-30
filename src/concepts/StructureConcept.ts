@@ -1,22 +1,21 @@
-import type StructureDefinition from "../nodes/StructureDefinition";
-import type Type from "../nodes/Type";
-import type Node from "../nodes/Node";
-import BindConcept from "./BindConcept";
-import Concept from "./Concept";
-import FunctionConcept from "./FunctionConcept";
-import NameType from "../nodes/NameType";
-import type Context from "../nodes/Context";
-import ConversionConcept from "./ConversionConcept";
-import StructureDefinitionType from "../nodes/StructureDefinitionType";
-import Evaluate from "../nodes/Evaluate";
-import Reference from "../nodes/Reference";
-import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
+import type StructureDefinition from '../nodes/StructureDefinition';
+import type Type from '../nodes/Type';
+import type Node from '../nodes/Node';
+import BindConcept from './BindConcept';
+import Concept from './Concept';
+import FunctionConcept from './FunctionConcept';
+import NameType from '../nodes/NameType';
+import type Context from '../nodes/Context';
+import ConversionConcept from './ConversionConcept';
+import StructureDefinitionType from '../nodes/StructureDefinitionType';
+import Evaluate from '../nodes/Evaluate';
+import Reference from '../nodes/Reference';
+import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 
 export default class StructureConcept extends Concept {
-
     /** The type this concept represents. */
     readonly definition: StructureDefinition;
-    
+
     /** The type of the structure definition, enabling the creation of examples with typed placeholders */
     readonly type: Type;
 
@@ -38,32 +37,67 @@ export default class StructureConcept extends Concept {
     /** A derived list of ConversionConcepts */
     readonly conversions: ConversionConcept[];
 
-    constructor(definition: StructureDefinition, type: Type | undefined, examples: Node[] | undefined, context: Context) {
-
+    constructor(
+        definition: StructureDefinition,
+        type: Type | undefined,
+        examples: Node[] | undefined,
+        context: Context
+    ) {
         super(context);
 
         this.definition = definition;
         this.type = type ?? NameType.make(this.definition);
-        this.examples = examples === undefined || examples.length === 0 ? 
-            [ Evaluate.make(Reference.make(this.definition), this.definition.inputs.filter(input => !input.hasDefault()).map(input => ExpressionPlaceholder.make(input.type))) ] :
-            examples;
+        this.examples =
+            examples === undefined || examples.length === 0
+                ? [
+                      Evaluate.make(
+                          Reference.make(this.definition),
+                          this.definition.inputs
+                              .filter((input) => !input.hasDefault())
+                              .map((input) =>
+                                  ExpressionPlaceholder.make(input.type)
+                              )
+                      ),
+                  ]
+                : examples;
 
-        this.functions = this.definition.getFunctions().map(def => new FunctionConcept(def, context, this));
-        this.conversions = this.definition.getAllConversions().map(def => new ConversionConcept(def, context, this));
+        this.functions = this.definition
+            .getFunctions()
+            .map((def) => new FunctionConcept(def, context, this));
+        this.conversions = this.definition
+            .getAllConversions()
+            .map((def) => new ConversionConcept(def, context, this));
 
-        this.inputs = this.definition.inputs.map(bind => new BindConcept(bind, context));
-        this.properties = this.definition.getProperties().map(bind => new BindConcept(bind, context));
+        this.inputs = this.definition.inputs.map(
+            (bind) => new BindConcept(bind, context)
+        );
+        this.properties = this.definition
+            .getProperties()
+            .map((bind) => new BindConcept(bind, context));
 
-        this.inter = this.definition.getInterfaces(context).map(inter => new StructureConcept(inter, NameType.make(inter), [], context));
-
+        this.inter = this.definition
+            .getInterfaces(context)
+            .map(
+                (inter) =>
+                    new StructureConcept(
+                        inter,
+                        NameType.make(inter),
+                        [],
+                        context
+                    )
+            );
     }
 
-    getDocs() { return this.definition.docs; }
+    getDocs() {
+        return this.definition.docs;
+    }
 
-    getRepresentation() { return this.examples[0]; }
+    getRepresentation() {
+        return this.examples[0];
+    }
 
     getNodes(): Set<Node> {
-        return new Set( [ this.type, ...this.examples ] );
+        return new Set([this.type, ...this.examples]);
     }
 
     getText(): Set<string> {
@@ -71,20 +105,34 @@ export default class StructureConcept extends Concept {
     }
 
     getConcepts(): Set<Concept> {
-        return new Set( [ ... this.inputs, ...this.properties, ...this.functions, ...this.conversions ] )
+        return new Set([
+            ...this.inputs,
+            ...this.properties,
+            ...this.functions,
+            ...this.conversions,
+        ]);
     }
 
     equals(concept: Concept) {
-        return concept instanceof StructureConcept && concept.definition === this.definition;
+        return (
+            concept instanceof StructureConcept &&
+            concept.definition === this.definition
+        );
     }
 
     /**
      * True if the concept represents the given type. Used to map types to concepts.
      */
-    representsType(type: Type) { 
-        return (type instanceof StructureDefinitionType && this.definition === type.structure) ||
-            (type instanceof NameType && type.definition && this.definition == type.definition) ||
-            (type !== undefined && this.type !== undefined && type.constructor === this.type.constructor);
+    representsType(type: Type) {
+        return (
+            (type instanceof StructureDefinitionType &&
+                this.definition === type.structure) ||
+            (type instanceof NameType &&
+                type.definition &&
+                this.definition == type.definition) ||
+            (type !== undefined &&
+                this.type !== undefined &&
+                type.constructor === this.type.constructor)
+        );
     }
-
 }

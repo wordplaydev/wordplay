@@ -10,7 +10,9 @@ import type Conflict from '../conflicts/Conflict';
 export const project: Writable<Project> = writable<Project>();
 
 // A global store that contains the current step of the evaluator.
-export const currentStep: Writable<Step | undefined> = writable<Step | undefined>(undefined);
+export const currentStep: Writable<Step | undefined> = writable<
+    Step | undefined
+>(undefined);
 
 // A global store that contains the current step of the evaluator.
 export const currentStepIndex: Writable<number> = writable<number>(0);
@@ -29,19 +31,18 @@ export const nodeConflicts: Writable<Conflict[]> = writable([]);
 
 function updateEvaluatorStores() {
     const evaluator = get(project)?.evaluator;
-    if(evaluator) {
+    if (evaluator) {
         currentStep.set(evaluator.getCurrentStep());
         currentStepIndex.set(evaluator.getStepIndex());
-        playing.set(evaluator.isPlaying())
+        playing.set(evaluator.isPlaying());
         streams.set(evaluator.reactions);
         animations.set(Array.from(evaluator.animations.animations.values()));
     }
 }
 
 export function updateProject(newProject: Project) {
-
     const oldProject = get(project);
-    if(oldProject) {
+    if (oldProject) {
         oldProject.cleanup();
         oldProject.evaluator.ignore(updateEvaluatorStores);
     }
@@ -49,15 +50,18 @@ export function updateProject(newProject: Project) {
     project.set(newProject);
     newProject.evaluator.observe(updateEvaluatorStores);
 
-    if(typeof window !== "undefined")
-        window.localStorage.setItem("project", newProject.name);
+    if (typeof window !== 'undefined')
+        window.localStorage.setItem('project', newProject.name);
 }
 
 let defaultProject = examples[0].name;
-if(typeof window !== "undefined") {
-    const priorProject = window.localStorage.getItem("project");
-    if(priorProject !== null)
-        defaultProject = priorProject;
+if (typeof window !== 'undefined') {
+    const priorProject = window.localStorage.getItem('project');
+    if (priorProject !== null) defaultProject = priorProject;
 }
 
-updateProject(makeProject(examples.find(ex => ex.name === defaultProject) ?? examples[0]));
+updateProject(
+    makeProject(
+        examples.find((ex) => ex.name === defaultProject) ?? examples[0]
+    )
+);

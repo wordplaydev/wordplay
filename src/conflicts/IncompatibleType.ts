@@ -1,15 +1,14 @@
-import Conflict from "./Conflict";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import type Type from "../nodes/Type";
-import type Is from "../nodes/Is";
-import type Context from "../nodes/Context";
+import Conflict from './Conflict';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import type Type from '../nodes/Type';
+import type Is from '../nodes/Is';
+import type Context from '../nodes/Context';
 
 export class IncompatibleType extends Conflict {
-    
     readonly is: Is;
     readonly givenType: Type;
-    
+
     constructor(is: Is, givenType: Type) {
         super(false);
         this.is = is;
@@ -17,14 +16,15 @@ export class IncompatibleType extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.is.expression, secondary: [ this.is.type ] };
+        return { primary: this.is.expression, secondary: [this.is.type] };
     }
 
     getPrimaryExplanation(context: Context): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: `This can never be a ${this.is.type.toWordplay()}, it's a ${this.givenType.getDescriptions(context).eng}`
-        }
+            '😀': TRANSLATE,
+            eng: `This can never be a ${this.is.type.toWordplay()}, it's a ${
+                this.givenType.getDescriptions(context).eng
+            }`,
+        };
     }
-
 }

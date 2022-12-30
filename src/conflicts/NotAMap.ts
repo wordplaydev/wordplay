@@ -1,9 +1,8 @@
-import Expression from "../nodes/Expression";
-import type MapLiteral from "../nodes/MapLiteral";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import Conflict from "./Conflict";
-
+import Expression from '../nodes/Expression';
+import type MapLiteral from '../nodes/MapLiteral';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import Conflict from './Conflict';
 
 export class NotAMap extends Conflict {
     readonly map: MapLiteral;
@@ -14,14 +13,16 @@ export class NotAMap extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.map.open, secondary: this.map.values.filter(n => n instanceof Expression) };
-    }
-
-    getPrimaryExplanation(): Translations { 
         return {
-            "😀": TRANSLATE,
-            eng: `These values aren't key:value pairs, but others are, so this is an invalid map literal.`
-        }
+            primary: this.map.open,
+            secondary: this.map.values.filter((n) => n instanceof Expression),
+        };
     }
 
+    getPrimaryExplanation(): Translations {
+        return {
+            '😀': TRANSLATE,
+            eng: `These values aren't key:value pairs, but others are, so this is an invalid map literal.`,
+        };
+    }
 }

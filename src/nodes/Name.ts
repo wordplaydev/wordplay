@@ -1,20 +1,19 @@
-import Node from "./Node";
-import Token from "./Token";
-import type Conflict from "../conflicts/Conflict";
-import Language from "./Language";
-import type LanguageCode from "./LanguageCode";
-import NameToken from "./NameToken";
-import PlaceholderToken from "./PlaceholderToken";
-import type Translations from "./Translations";
-import { TRANSLATE } from "./Translations"
+import Node from './Node';
+import Token from './Token';
+import type Conflict from '../conflicts/Conflict';
+import Language from './Language';
+import type LanguageCode from './LanguageCode';
+import NameToken from './NameToken';
+import PlaceholderToken from './PlaceholderToken';
+import type Translations from './Translations';
+import { TRANSLATE } from './Translations';
 
 export const NameLabels: Translations = {
-    "😀": TRANSLATE,
-    eng: "name"
+    '😀': TRANSLATE,
+    eng: 'name',
 };
 
 export default class Name extends Node {
-
     readonly separator?: Token;
     readonly name: Token;
     readonly lang?: Language;
@@ -27,57 +26,76 @@ export default class Name extends Node {
         this.lang = lang;
 
         this.computeChildren();
-        
     }
 
     static make(name?: string) {
-        return new Name(undefined, name ? new NameToken(name) : new PlaceholderToken(), );
+        return new Name(
+            undefined,
+            name ? new NameToken(name) : new PlaceholderToken()
+        );
     }
 
-    getGrammar() { 
+    getGrammar() {
         return [
-            { name: "separator", types: [ Token, undefined ] },
-            { name: "name", types: [ Token ] },
-            { name: "lang", types: [ Language, undefined ] },
+            { name: 'separator', types: [Token, undefined] },
+            { name: 'name', types: [Token] },
+            { name: 'lang', types: [Language, undefined] },
         ];
     }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) {
         return new Name(
-            this.replaceChild("separator", this.separator, original, replacement),
-            this.replaceChild("name", this.name, original, replacement), 
-            this.replaceChild("lang", this.lang, original, replacement),
+            this.replaceChild(
+                'separator',
+                this.separator,
+                original,
+                replacement
+            ),
+            this.replaceChild('name', this.name, original, replacement),
+            this.replaceChild('lang', this.lang, original, replacement)
         ) as this;
     }
 
-    computeConflicts(): Conflict[] { return []; }
+    computeConflicts(): Conflict[] {
+        return [];
+    }
 
-    getName(): string | undefined { return this.name instanceof Token ? this.name.text.toString() : this.name; }
-    getLowerCaseName(): string | undefined { return this.name.getText().toLocaleLowerCase(this.lang?.getBCP47()); }
-    getLanguage() { return this.lang === undefined ? undefined : this.lang.getLanguage(); }
-    isLanguage(lang: LanguageCode) { return this.getLanguage() === lang as LanguageCode; }
+    getName(): string | undefined {
+        return this.name instanceof Token
+            ? this.name.text.toString()
+            : this.name;
+    }
+    getLowerCaseName(): string | undefined {
+        return this.name.getText().toLocaleLowerCase(this.lang?.getBCP47());
+    }
+    getLanguage() {
+        return this.lang === undefined ? undefined : this.lang.getLanguage();
+    }
+    isLanguage(lang: LanguageCode) {
+        return this.getLanguage() === (lang as LanguageCode);
+    }
 
-    equals(alias: Name) { 
-
+    equals(alias: Name) {
         const thisLang = this.lang;
         const thatLang = alias.lang;
 
-        return this.getName() === alias.getName() && (
-            (thisLang === undefined && thatLang === undefined) ||
-            (thisLang !== undefined && thatLang !== undefined && thisLang.equals(thatLang))
+        return (
+            this.getName() === alias.getName() &&
+            ((thisLang === undefined && thatLang === undefined) ||
+                (thisLang !== undefined &&
+                    thatLang !== undefined &&
+                    thisLang.equals(thatLang)))
         );
     }
 
     getDescriptions(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: "A name"
-        }
+            '😀': TRANSLATE,
+            eng: 'A name',
+        };
     }
 
     getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if(child === this.name) return NameLabels;
+        if (child === this.name) return NameLabels;
     }
-
 }
-

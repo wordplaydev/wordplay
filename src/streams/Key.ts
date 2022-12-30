@@ -1,14 +1,14 @@
-import Bind from "../nodes/Bind";
-import BooleanType from "../nodes/BooleanType";
-import StructureDefinition from "../nodes/StructureDefinition";
-import TextType from "../nodes/TextType";
-import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
+import Bind from '../nodes/Bind';
+import BooleanType from '../nodes/BooleanType';
+import StructureDefinition from '../nodes/StructureDefinition';
+import TextType from '../nodes/TextType';
+import { TRANSLATE, WRITE_DOCS } from '../nodes/Translations';
 
 const Key = StructureDefinition.make(
     WRITE_DOCS,
     {
-        eng: "Key",
-        "😀": TRANSLATE
+        eng: 'Key',
+        '😀': TRANSLATE,
     },
     [],
     undefined,
@@ -16,19 +16,19 @@ const Key = StructureDefinition.make(
         Bind.make(
             WRITE_DOCS,
             {
-                eng: "key",
-                "😀": `${TRANSLATE}1`
+                eng: 'key',
+                '😀': `${TRANSLATE}1`,
             },
             TextType.make()
         ),
         Bind.make(
             WRITE_DOCS,
             {
-                eng: "down",
-                "😀": `${TRANSLATE}2`
+                eng: 'down',
+                '😀': `${TRANSLATE}2`,
             },
             BooleanType.make()
-        )
+        ),
     ]
 );
 

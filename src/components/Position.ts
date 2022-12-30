@@ -1,2 +1,2 @@
-type Position = { left: number, top: number };
+type Position = { left: number; top: number };
 export default Position;

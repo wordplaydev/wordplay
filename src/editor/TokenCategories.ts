@@ -1,17 +1,17 @@
-import TokenType from "../nodes/TokenType";
+import TokenType from '../nodes/TokenType';
 
-const TokenCategoryDelimiter = "delimiter";
-const TokenCategoryRelation = "relation";
-const TokenCategoryShare = "share";
-const TokenCategoryEvaluation = "eval";
-const TokenCategoryDocs = "docs";
-const TokenCategoryLiteral = "literal";
-const TokenCategoryName = "name";
-const TokenCategoryType = "type";
-const TokenCategoryOperator = "operator";
-const TokenCategoryUnknown = "unknown";
-const TokenCategoryPlaceholder = "placeholder";
-const TokenCategoryEnd = "end";
+const TokenCategoryDelimiter = 'delimiter';
+const TokenCategoryRelation = 'relation';
+const TokenCategoryShare = 'share';
+const TokenCategoryEvaluation = 'eval';
+const TokenCategoryDocs = 'docs';
+const TokenCategoryLiteral = 'literal';
+const TokenCategoryName = 'name';
+const TokenCategoryType = 'type';
+const TokenCategoryOperator = 'operator';
+const TokenCategoryUnknown = 'unknown';
+const TokenCategoryPlaceholder = 'placeholder';
+const TokenCategoryEnd = 'end';
 
 const TokenCategories: Map<TokenType, string> = new Map();
 TokenCategories.set(TokenType.EVAL_OPEN, TokenCategoryDelimiter);

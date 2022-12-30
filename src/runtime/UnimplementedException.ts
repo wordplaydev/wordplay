@@ -1,10 +1,9 @@
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import type Evaluator from "./Evaluator";
-import Exception from "./Exception";
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import type Evaluator from './Evaluator';
+import Exception from './Exception';
 
 export default class UnimplementedException extends Exception {
-
     constructor(evaluator: Evaluator) {
         super(evaluator);
     }
@@ -12,8 +11,7 @@ export default class UnimplementedException extends Exception {
     getExplanations(): Translations {
         return {
             eng: `${this.step?.node.toWordplay()} isn't implemented.`,
-            "😀": `${TRANSLATE} 🔨`
-        }
-    };
-
+            '😀': `${TRANSLATE} 🔨`,
+        };
+    }
 }

@@ -1,38 +1,54 @@
-import type { NativeTypeName } from "../native/NativeConstants";
-import type Context from "../nodes/Context";
-import type FunctionDefinition from "../nodes/FunctionDefinition";
-import type LanguageCode from "../nodes/LanguageCode";
-import { FUNCTION_SYMBOL } from "../parser/Tokenizer";
-import type Evaluation from "./Evaluation";
-import Value from "./Value";
+import type { NativeTypeName } from '../native/NativeConstants';
+import type Context from '../nodes/Context';
+import type FunctionDefinition from '../nodes/FunctionDefinition';
+import type LanguageCode from '../nodes/LanguageCode';
+import { FUNCTION_SYMBOL } from '../parser/Tokenizer';
+import type Evaluation from './Evaluation';
+import Value from './Value';
 
 // We could have just called this Function, but Javascript claims that globally.
 export default class FunctionValue extends Value {
     /** The definition from the AST. */
     readonly definition: FunctionDefinition;
-    
+
     /** The evaluation context in which this function was created. This enables closures. */
     readonly context: Evaluation | Value | undefined;
 
-    constructor(definition: FunctionDefinition, context: Evaluation | Value | undefined) {
-    super(definition);
+    constructor(
+        definition: FunctionDefinition,
+        context: Evaluation | Value | undefined
+    ) {
+        super(definition);
 
         this.definition = definition;
         this.context = context;
     }
 
-    getType(context: Context) { return this.context instanceof Value ? this.context.getType(context) : this.definition.getType(context); }
-    
-    getNativeTypeName(): NativeTypeName { return "function"; }
+    getType(context: Context) {
+        return this.context instanceof Value
+            ? this.context.getType(context)
+            : this.definition.getType(context);
+    }
 
-    resolve() { return undefined; }
+    getNativeTypeName(): NativeTypeName {
+        return 'function';
+    }
+
+    resolve() {
+        return undefined;
+    }
 
     toWordplay(languages: LanguageCode[]) {
-        return `${FUNCTION_SYMBOL} ${this.definition.names.getTranslation(languages)}()`;
+        return `${FUNCTION_SYMBOL} ${this.definition.names.getTranslation(
+            languages
+        )}()`;
     }
 
     isEqualTo(value: Value): boolean {
-        return value instanceof FunctionValue && this.definition === value.definition && this.context === value.context;
+        return (
+            value instanceof FunctionValue &&
+            this.definition === value.definition &&
+            this.context === value.context
+        );
     }
-
 }

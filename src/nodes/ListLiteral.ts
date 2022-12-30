@@ -1,27 +1,26 @@
-import Expression from "./Expression";
-import ListType from "./ListType";
-import Token from "./Token";
-import type Type from "./Type";
-import type Node from "./Node";
-import List from "../runtime/List";
-import type Evaluator from "../runtime/Evaluator";
-import type Value from "../runtime/Value";
-import type Step from "../runtime/Step";
-import Finish from "../runtime/Finish";
-import Start from "../runtime/Start";
-import type Context from "./Context";
-import UnionType from "./UnionType";
-import type TypeSet from "./TypeSet";
-import type Bind from "./Bind";
-import type Translations from "./Translations";
-import { TRANSLATE } from "./Translations"
-import UnclosedDelimiter from "../conflicts/UnclosedDelimiter";
-import type Conflict from "../conflicts/Conflict";
-import ListOpenToken from "./ListOpenToken";
-import ListCloseToken from "./ListCloseToken";
+import Expression from './Expression';
+import ListType from './ListType';
+import Token from './Token';
+import type Type from './Type';
+import type Node from './Node';
+import List from '../runtime/List';
+import type Evaluator from '../runtime/Evaluator';
+import type Value from '../runtime/Value';
+import type Step from '../runtime/Step';
+import Finish from '../runtime/Finish';
+import Start from '../runtime/Start';
+import type Context from './Context';
+import UnionType from './UnionType';
+import type TypeSet from './TypeSet';
+import type Bind from './Bind';
+import type Translations from './Translations';
+import { TRANSLATE } from './Translations';
+import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
+import type Conflict from '../conflicts/Conflict';
+import ListOpenToken from './ListOpenToken';
+import ListCloseToken from './ListCloseToken';
 
 export default class ListLiteral extends Expression {
-
     readonly open: Token;
     readonly values: Expression[];
     readonly close?: Token;
@@ -34,7 +33,6 @@ export default class ListLiteral extends Expression {
         this.close = close;
 
         this.computeChildren();
-
     }
 
     static make(values: Expression[]) {
@@ -45,90 +43,120 @@ export default class ListLiteral extends Expression {
         );
     }
 
-    getGrammar() { 
+    getGrammar() {
         return [
-            { name: "open", types: [ Token ] },
-            { name: "values", types: [[ Expression ]], space: true, indent: true },
-            { name: "close", types: [ Token ] },
+            { name: 'open', types: [Token] },
+            {
+                name: 'values',
+                types: [[Expression]],
+                space: true,
+                indent: true,
+            },
+            { name: 'close', types: [Token] },
         ];
     }
 
-    clone(original?: Node, replacement?: Node) { 
+    clone(original?: Node, replacement?: Node) {
         return new ListLiteral(
-            this.replaceChild("open", this.open, original, replacement),
-            this.replaceChild<Expression[]>("values", this.values, original, replacement),
-            this.replaceChild("close", this.close, original, replacement)
-         ) as this; 
+            this.replaceChild('open', this.open, original, replacement),
+            this.replaceChild<Expression[]>(
+                'values',
+                this.values,
+                original,
+                replacement
+            ),
+            this.replaceChild('close', this.close, original, replacement)
+        ) as this;
     }
 
     computeType(context: Context): Type {
-        const expressions = this.values.filter(e => e instanceof Expression) as Expression[];
-        let itemType = expressions.length === 0 ? undefined : UnionType.getPossibleUnion(context, expressions.map(v => v.getType(context)));
+        const expressions = this.values.filter(
+            (e) => e instanceof Expression
+        ) as Expression[];
+        let itemType =
+            expressions.length === 0
+                ? undefined
+                : UnionType.getPossibleUnion(
+                      context,
+                      expressions.map((v) => v.getType(context))
+                  );
         return ListType.make(itemType, this.values.length);
     }
 
     computeConflicts(): Conflict[] {
-
-        if(this.close === undefined)
-            return [ new UnclosedDelimiter(this, this.open, new ListCloseToken()) ]
+        if (this.close === undefined)
+            return [
+                new UnclosedDelimiter(this, this.open, new ListCloseToken()),
+            ];
 
         return [];
-
     }
 
     getDependencies(): Expression[] {
-        return [ ...this.values ];
+        return [...this.values];
     }
 
-    compile(context: Context):Step[] {
-        return [ 
+    compile(context: Context): Step[] {
+        return [
             new Start(this),
-            ...this.values.reduce((steps: Step[], item) => [...steps, ...item.compile(context)], []),
-            new Finish(this)
+            ...this.values.reduce(
+                (steps: Step[], item) => [...steps, ...item.compile(context)],
+                []
+            ),
+            new Finish(this),
         ];
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
-        
-        if(prior) return prior;
+        if (prior) return prior;
 
         // Pop all of the values.
         const values = [];
-        for(let i = 0; i < this.values.length; i++)
+        for (let i = 0; i < this.values.length; i++)
             values.unshift(evaluator.popValue(undefined));
 
         // Construct the new list.
         return new List(this, values);
-        
     }
 
-    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
-        this.values.forEach(val => { if(val instanceof Expression) val.evaluateTypeSet(bind, original, current, context); });
+    evaluateTypeSet(
+        bind: Bind,
+        original: TypeSet,
+        current: TypeSet,
+        context: Context
+    ) {
+        this.values.forEach((val) => {
+            if (val instanceof Expression)
+                val.evaluateTypeSet(bind, original, current, context);
+        });
         return current;
     }
 
     getDescriptions(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: "A list of values"
-        }
+            '😀': TRANSLATE,
+            eng: 'A list of values',
+        };
     }
 
-    getStart() { return this.open; }
-    getFinish() { return this.close ?? this.values[this.values.length - 1] ?? this.open; }
+    getStart() {
+        return this.open;
+    }
+    getFinish() {
+        return this.close ?? this.values[this.values.length - 1] ?? this.open;
+    }
 
-    getStartExplanations(): Translations { 
+    getStartExplanations(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: "First evaluate all of the values for this list."
-        }
-     }
+            '😀': TRANSLATE,
+            eng: 'First evaluate all of the values for this list.',
+        };
+    }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: "Now make the list!"
-        }
+            '😀': TRANSLATE,
+            eng: 'Now make the list!',
+        };
     }
-
 }

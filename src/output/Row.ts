@@ -1,12 +1,12 @@
-import toStructure from "../native/toStructure";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE, WRITE_DOCS } from "../nodes/Translations";
-import type Value from "../runtime/Value";
-import type Color from "./Color";
-import Group, { type RenderContext } from "./Group";
-import { toGroups } from "./toGroups";
-import Place from "./Place";
-import Decimal from "decimal.js";
+import toStructure from '../native/toStructure';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE, WRITE_DOCS } from '../nodes/Translations';
+import type Value from '../runtime/Value';
+import type Color from './Color';
+import Group, { type RenderContext } from './Group';
+import { toGroups } from './toGroups';
+import Place from './Place';
+import Decimal from 'decimal.js';
 
 export const RowType = toStructure(`
     •Row/eng,${TRANSLATE}Row/😀 Group(
@@ -15,7 +15,6 @@ export const RowType = toStructure(`
 `);
 
 export class Row extends Group {
-
     readonly groups: Group[] = [];
     readonly padding = new Decimal(1);
 
@@ -23,26 +22,31 @@ export class Row extends Group {
         super(value);
 
         this.groups = phrases;
-
     }
 
     // Width is the sum of widths plus padding
     getWidth(context: RenderContext): Decimal {
-        return this.groups.reduce((height, group) => height.add(group.getWidth(context)), new Decimal(0))
-            .add(this.padding.times(this.groups.length - 1))
+        return this.groups
+            .reduce(
+                (height, group) => height.add(group.getWidth(context)),
+                new Decimal(0)
+            )
+            .add(this.padding.times(this.groups.length - 1));
     }
 
     // Height is the max height
     getHeight(context: RenderContext): Decimal {
-        return this.groups.reduce((max, group) => Decimal.max(max, group.getHeight(context)), new Decimal(0));
+        return this.groups.reduce(
+            (max, group) => Decimal.max(max, group.getHeight(context)),
+            new Decimal(0)
+        );
     }
 
     getGroups(): Group[] {
-       return this.groups;
+        return this.groups;
     }
 
-    getPlaces(context: RenderContext): [Group,Place][] {
-
+    getPlaces(context: RenderContext): [Group, Place][] {
         // Start at half the height, so we can center everything.
         let position = new Decimal(0);
 
@@ -50,14 +54,21 @@ export class Row extends Group {
         let height = this.getHeight(context);
 
         const positions: [Group, Place][] = [];
-        for(const group of this.groups) {
-            positions.push([ group, new Place(this.value, position, height.sub(group.getHeight(context)).div(2), new Decimal(0))]);
+        for (const group of this.groups) {
+            positions.push([
+                group,
+                new Place(
+                    this.value,
+                    position,
+                    height.sub(group.getHeight(context)).div(2),
+                    new Decimal(0)
+                ),
+            ]);
             position = position.add(group.getWidth(context));
             position = position.add(this.padding);
         }
 
         return positions;
-
     }
 
     getBackground(): Color | undefined {
@@ -67,13 +78,12 @@ export class Row extends Group {
     getDescriptions(): Translations {
         return WRITE_DOCS;
     }
-
 }
 
 export function toRow(value: Value | undefined): Row | undefined {
-
-    if(value === undefined) return undefined;
-    const phrases = toGroups(value.resolve(RowType.inputs[0].names.getNames()[0]));
+    if (value === undefined) return undefined;
+    const phrases = toGroups(
+        value.resolve(RowType.inputs[0].names.getNames()[0])
+    );
     return phrases ? new Row(value, phrases) : undefined;
-
 }

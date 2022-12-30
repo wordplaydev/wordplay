@@ -1,7 +1,7 @@
-import type Name from "../nodes/Name";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import Conflict from "./Conflict";
+import type Name from '../nodes/Name';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import Conflict from './Conflict';
 
 export default class UnnamedAlias extends Conflict {
     readonly alias: Name;
@@ -14,11 +14,10 @@ export default class UnnamedAlias extends Conflict {
         return { primary: this.alias, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations { 
+    getPrimaryExplanation(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: `Don't forget to name me!`
-        }
+            '😀': TRANSLATE,
+            eng: `Don't forget to name me!`,
+        };
     }
-
 }

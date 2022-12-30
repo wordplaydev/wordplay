@@ -1,9 +1,8 @@
-import type This from "../nodes/This";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import { THIS_SYMBOL } from "../parser/Tokenizer";
-import Conflict from "./Conflict";
-
+import type This from '../nodes/This';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import { THIS_SYMBOL } from '../parser/Tokenizer';
+import Conflict from './Conflict';
 
 export class MisplacedThis extends Conflict {
     readonly dis: This;
@@ -16,12 +15,10 @@ export class MisplacedThis extends Conflict {
         return { primary: this.dis, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations { 
+    getPrimaryExplanation(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: `Can only use ${THIS_SYMBOL} inside a structure definition or reaction.`
-        }
+            '😀': TRANSLATE,
+            eng: `Can only use ${THIS_SYMBOL} inside a structure definition or reaction.`,
+        };
     }
-
 }
-

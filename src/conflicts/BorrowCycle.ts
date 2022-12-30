@@ -1,9 +1,9 @@
-import type Source from "../models/Source";
-import type Borrow from "../nodes/Borrow";
-import type Program from "../nodes/Program";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations";
-import Conflict from "./Conflict";
+import type Source from '../models/Source';
+import type Borrow from '../nodes/Borrow';
+import type Program from '../nodes/Program';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import Conflict from './Conflict';
 
 export class BorrowCycle extends Conflict {
     readonly program: Program;
@@ -18,14 +18,18 @@ export class BorrowCycle extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.borrow, secondary: [ this.borrow ] };
+        return { primary: this.borrow, secondary: [this.borrow] };
     }
 
-    getPrimaryExplanation(): Translations { 
+    getPrimaryExplanation(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: `This borrow depends on ${this.cycle[0].getTranslation(["eng"])}${this.cycle.slice(1).map(source => `, which depends on ${source.getNames()}`).join("")}, which depends on ${this.cycle[0].getNames()}.`
-        }
+            '😀': TRANSLATE,
+            eng: `This borrow depends on ${this.cycle[0].getTranslation([
+                'eng',
+            ])}${this.cycle
+                .slice(1)
+                .map((source) => `, which depends on ${source.getNames()}`)
+                .join('')}, which depends on ${this.cycle[0].getNames()}.`,
+        };
     }
-
 }

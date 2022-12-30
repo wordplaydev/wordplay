@@ -1,10 +1,9 @@
-import type Expression from "../nodes/Expression";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import Conflict from "./Conflict";
+import type Expression from '../nodes/Expression';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import Conflict from './Conflict';
 
 export default class ExpectedUpdateBind extends Conflict {
-
     readonly cell: Expression;
 
     constructor(cell: Expression) {
@@ -16,11 +15,10 @@ export default class ExpectedUpdateBind extends Conflict {
         return { primary: this.cell, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations { 
+    getPrimaryExplanation(): Translations {
         return {
             eng: `This has to provide a value, can't update without one!`,
-            "😀": TRANSLATE
-        }
+            '😀': TRANSLATE,
+        };
     }
-
 }

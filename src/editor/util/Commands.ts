@@ -1,74 +1,101 @@
-import type Caret from "../../models/Caret";
-import Node from "../../nodes/Node";
-import { AND_SYMBOL, BORROW_SYMBOL, CONVERT_SYMBOL, FALSE_SYMBOL, FUNCTION_SYMBOL, NOT_SYMBOL, OR_SYMBOL, SHARE_SYMBOL, STREAM_SYMBOL as CHANGE, TRUE_SYMBOL, TYPE_SYMBOL, PREVIOUS_SYMBOL, TYPE_OPEN_SYMBOL, TYPE_CLOSE_SYMBOL, ETC_SYMBOL } from "../../parser/Tokenizer";
-import type Source from "../../models/Source";
-import Evaluator, { Mode } from "../../runtime/Evaluator";
+import type Caret from '../../models/Caret';
+import Node from '../../nodes/Node';
+import {
+    AND_SYMBOL,
+    BORROW_SYMBOL,
+    CONVERT_SYMBOL,
+    FALSE_SYMBOL,
+    FUNCTION_SYMBOL,
+    NOT_SYMBOL,
+    OR_SYMBOL,
+    SHARE_SYMBOL,
+    STREAM_SYMBOL as CHANGE,
+    TRUE_SYMBOL,
+    TYPE_SYMBOL,
+    PREVIOUS_SYMBOL,
+    TYPE_OPEN_SYMBOL,
+    TYPE_CLOSE_SYMBOL,
+    ETC_SYMBOL,
+} from '../../parser/Tokenizer';
+import type Source from '../../models/Source';
+import Evaluator, { Mode } from '../../runtime/Evaluator';
 
-export type Edit = Caret | [ Source, Caret];
+export type Edit = Caret | [Source, Caret];
 
 export type Command = {
-    description: string,
-    key?: string,
-    shift?: boolean,
-    alt?: boolean,
-    control?: boolean,
-    mode: Mode | undefined,
-    execute: (caret: Caret, editor: HTMLElement, evaluator: Evaluator, key: string) => Edit | Promise<Edit | undefined> | boolean | undefined
-}
+    description: string;
+    key?: string;
+    shift?: boolean;
+    alt?: boolean;
+    control?: boolean;
+    mode: Mode | undefined;
+    execute: (
+        caret: Caret,
+        editor: HTMLElement,
+        evaluator: Evaluator,
+        key: string
+    ) => Edit | Promise<Edit | undefined> | boolean | undefined;
+};
 
 const commands: Command[] = [
     {
-        description: "Move caret up a line to the closest horizontal position visually",
+        description:
+            'Move caret up a line to the closest horizontal position visually',
         alt: false,
-        key: "ArrowUp",
+        key: 'ArrowUp',
         mode: undefined,
-        execute: (caret: Caret, editor: HTMLElement) => caret.moveVertical(editor, -1)
+        execute: (caret: Caret, editor: HTMLElement) =>
+            caret.moveVertical(editor, -1),
     },
     {
-        description: "Move caret down a line to the closest horizontal position visually",
+        description:
+            'Move caret down a line to the closest horizontal position visually',
         alt: false,
-        key: "ArrowDown",
+        key: 'ArrowDown',
         mode: undefined,
-        execute: (caret: Caret, editor: HTMLElement) => caret.moveVertical(editor, 1)
+        execute: (caret: Caret, editor: HTMLElement) =>
+            caret.moveVertical(editor, 1),
     },
     {
-        description: "Move the caret one position left",
+        description: 'Move the caret one position left',
         alt: false,
-        key: "ArrowLeft",
+        key: 'ArrowLeft',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.left()
+        execute: (caret: Caret) => caret.left(),
     },
     {
-        description: "Move the caret one position right",
+        description: 'Move the caret one position right',
         alt: false,
-        key: "ArrowRight",
+        key: 'ArrowRight',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.right()
+        execute: (caret: Caret) => caret.right(),
     },
     {
-        description: "Move the caret one position left",
+        description: 'Move the caret one position left',
         alt: false,
-        key: "ArrowLeft",
+        key: 'ArrowLeft',
         mode: Mode.STEP,
-        execute: (caret: Caret) => caret.moveNodeHorizontal(-1)
+        execute: (caret: Caret) => caret.moveNodeHorizontal(-1),
     },
     {
-        description: "Move the caret one position right",
+        description: 'Move the caret one position right',
         alt: false,
-        key: "ArrowRight",
+        key: 'ArrowRight',
         mode: Mode.STEP,
-        execute: (caret: Caret) => caret.moveNodeHorizontal(1)
+        execute: (caret: Caret) => caret.moveNodeHorizontal(1),
     },
     {
-        description: "Select the parent of the current caret position",
-        key: "Escape",
+        description: 'Select the parent of the current caret position',
+        key: 'Escape',
         control: false,
         mode: Mode.PLAY,
         execute: (caret: Caret) => {
             const position = caret.position;
-            if(position instanceof Node) {
+            if (position instanceof Node) {
                 // Select the parent node
-                let parent: Node | undefined | null = caret.source.get(position)?.getParent();
+                let parent: Node | undefined | null = caret.source
+                    .get(position)
+                    ?.getParent();
                 // // What tokens are selected currently?
                 // const selectedTokens = position.nodes(n => n instanceof Token) as Token[];
                 // let parentTokens = parent?.nodes(n => n instanceof Token) as Token[];
@@ -81,231 +108,268 @@ const commands: Command[] = [
                 //     }
                 //     else break;
                 // }
-                // If we still have a parent, 
-                if(parent)
-                    return caret.withPosition(parent);
+                // If we still have a parent,
+                if (parent) return caret.withPosition(parent);
             }
             // Find the node corresponding to the position.
             // And if it's parent only has the one child, select it.
             else {
                 const token = caret.getToken();
-                if(token !== undefined) {
+                if (token !== undefined) {
                     const parent = caret.source.get(token)?.getParent();
-                    return caret.withPosition(parent?.getChildren()[0] === token ? parent : token);
+                    return caret.withPosition(
+                        parent?.getChildren()[0] === token ? parent : token
+                    );
                 }
             }
-        }        
+        },
     },
     {
-        description: "Select the entire program",
+        description: 'Select the entire program',
         control: true,
-        key: "KeyA",
+        key: 'KeyA',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.withPosition(caret.getProgram())
+        execute: (caret: Caret) => caret.withPosition(caret.getProgram()),
     },
     {
         description: `Insert reaction symbol (${CHANGE})`,
-        alt: true, key: "KeyD",
+        alt: true,
+        key: 'KeyD',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(CHANGE)
+        execute: (caret: Caret) => caret.insert(CHANGE),
     },
     {
         description: `Insert borrow symbol (${BORROW_SYMBOL})`,
-        alt: true, key: "ArrowDown",
+        alt: true,
+        key: 'ArrowDown',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(BORROW_SYMBOL)
+        execute: (caret: Caret) => caret.insert(BORROW_SYMBOL),
     },
     {
         description: `Insert previous symbol (${PREVIOUS_SYMBOL})`,
-        alt: true, key: "ArrowLeft",
+        alt: true,
+        key: 'ArrowLeft',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(PREVIOUS_SYMBOL)
+        execute: (caret: Caret) => caret.insert(PREVIOUS_SYMBOL),
     },
     {
         description: `Insert convert symbol (${CONVERT_SYMBOL})`,
-        alt: true, key: "ArrowRight",
+        alt: true,
+        key: 'ArrowRight',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(CONVERT_SYMBOL)
+        execute: (caret: Caret) => caret.insert(CONVERT_SYMBOL),
     },
     {
         description: `Insert share symbol (${SHARE_SYMBOL})`,
-        alt: true, key: "ArrowUp",
+        alt: true,
+        key: 'ArrowUp',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(SHARE_SYMBOL)
+        execute: (caret: Caret) => caret.insert(SHARE_SYMBOL),
     },
     {
         description: `Insert type open symbol (${TYPE_OPEN_SYMBOL})`,
-        shift: true, control: true, key: "Digit9",
+        shift: true,
+        control: true,
+        key: 'Digit9',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(TYPE_OPEN_SYMBOL)
+        execute: (caret: Caret) => caret.insert(TYPE_OPEN_SYMBOL),
     },
     {
         description: `Insert type close symbol (${TYPE_CLOSE_SYMBOL})`,
-        shift: true, control: true, key: "Digit0",
+        shift: true,
+        control: true,
+        key: 'Digit0',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(TYPE_CLOSE_SYMBOL)
+        execute: (caret: Caret) => caret.insert(TYPE_CLOSE_SYMBOL),
     },
     {
         description: `Insert share (${SHARE_SYMBOL})`,
-        alt: true, key: "ArrowUp",
+        alt: true,
+        key: 'ArrowUp',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(SHARE_SYMBOL)
+        execute: (caret: Caret) => caret.insert(SHARE_SYMBOL),
     },
     {
         description: `Insert infinity symbol (∞)`,
-        alt: true, key: "Digit5",
+        alt: true,
+        key: 'Digit5',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert("∞")
+        execute: (caret: Caret) => caret.insert('∞'),
     },
     {
-        description: "Insert pi symbol (π)",
-        alt: true, key: "KeyP",
+        description: 'Insert pi symbol (π)',
+        alt: true,
+        key: 'KeyP',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert("π")
+        execute: (caret: Caret) => caret.insert('π'),
     },
     {
         description: `Insert Boolean AND symbol (${AND_SYMBOL})`,
-        alt: true, key: "Digit6",
+        alt: true,
+        key: 'Digit6',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(AND_SYMBOL)
+        execute: (caret: Caret) => caret.insert(AND_SYMBOL),
     },
     {
         description: `Insert Boolean OR symbol (${OR_SYMBOL})`,
-        alt: true, key: "Digit7",
+        alt: true,
+        key: 'Digit7',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(OR_SYMBOL)
+        execute: (caret: Caret) => caret.insert(OR_SYMBOL),
     },
     {
         description: `Insert type symbol (${TYPE_SYMBOL})`,
-        shift: false, alt: true, key: "Digit8",
+        shift: false,
+        alt: true,
+        key: 'Digit8',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(TYPE_SYMBOL)
+        execute: (caret: Caret) => caret.insert(TYPE_SYMBOL),
     },
     {
         description: `Insert true symbol (${TRUE_SYMBOL})`,
-        shift: false, control: false, alt: true, key: "Digit9",
+        shift: false,
+        control: false,
+        alt: true,
+        key: 'Digit9',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(TRUE_SYMBOL)
+        execute: (caret: Caret) => caret.insert(TRUE_SYMBOL),
     },
     {
         description: `Insert false symbol (${FALSE_SYMBOL})`,
-        shift: false, control: false, alt: true, key: "Digit0",
+        shift: false,
+        control: false,
+        alt: true,
+        key: 'Digit0',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(FALSE_SYMBOL)
+        execute: (caret: Caret) => caret.insert(FALSE_SYMBOL),
     },
     {
-        description: "Insert not equal symbol (≠)",
-        alt: true, key: "Equal",
+        description: 'Insert not equal symbol (≠)',
+        alt: true,
+        key: 'Equal',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert("≠")
+        execute: (caret: Caret) => caret.insert('≠'),
     },
     {
         description: `Insert function symbol (${FUNCTION_SYMBOL})`,
-        alt: true, key: "KeyF",
+        alt: true,
+        key: 'KeyF',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(FUNCTION_SYMBOL)
+        execute: (caret: Caret) => caret.insert(FUNCTION_SYMBOL),
     },
     {
         description: `Insert Boolean NOT symbol (${NOT_SYMBOL})`,
-        alt: true, key: "Digit1",
+        alt: true,
+        key: 'Digit1',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(NOT_SYMBOL)
+        execute: (caret: Caret) => caret.insert(NOT_SYMBOL),
     },
     {
-        description: "Insert less than or equal to symbol (≤)",
-        alt: true, key: "Comma",
+        description: 'Insert less than or equal to symbol (≤)',
+        alt: true,
+        key: 'Comma',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert("≤")
+        execute: (caret: Caret) => caret.insert('≤'),
     },
     {
-        description: "Insert greater than or equal to symbol (≥)",
-        alt: true, key: "Period",
+        description: 'Insert greater than or equal to symbol (≥)',
+        alt: true,
+        key: 'Period',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert("≥")
+        execute: (caret: Caret) => caret.insert('≥'),
     },
     {
         description: `Insert etc symbol (${ETC_SYMBOL})`,
-        alt: true, key: "Semicolon",
+        alt: true,
+        key: 'Semicolon',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(ETC_SYMBOL)
+        execute: (caret: Caret) => caret.insert(ETC_SYMBOL),
     },
     {
-        description: "Insert multiply symbol (·)",
-        alt: true, key: "KeyX",
+        description: 'Insert multiply symbol (·)',
+        alt: true,
+        key: 'KeyX',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert("·")
+        execute: (caret: Caret) => caret.insert('·'),
     },
     {
-        description: "Insert divide symbol (÷)",
-        alt: true, key: "Slash",
+        description: 'Insert divide symbol (÷)',
+        alt: true,
+        key: 'Slash',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert("÷")
+        execute: (caret: Caret) => caret.insert('÷'),
     },
     {
-        description: "Insert new line",
-        key: "Enter",
+        description: 'Insert new line',
+        key: 'Enter',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert("\n")
+        execute: (caret: Caret) => caret.insert('\n'),
     },
     {
-        description: "Step to node",
-        key: "Enter",
+        description: 'Step to node',
+        key: 'Enter',
         mode: Mode.STEP,
         execute: (caret: Caret, _, evaluator) => {
-            if(caret.position instanceof Node) {
+            if (caret.position instanceof Node) {
                 const evaluable = evaluator.getEvaluableNode(caret.position);
-                if(evaluable)
-                    evaluator.stepToNode(evaluable);
+                if (evaluable) evaluator.stepToNode(evaluable);
             }
             return undefined;
-        }
+        },
     },
     {
-        description: "Insert tab",
-        key: "Tab",
+        description: 'Insert tab',
+        key: 'Tab',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert("\t")
+        execute: (caret: Caret) => caret.insert('\t'),
     },
     {
-        description: "Delete previous character",
-        key: "Backspace",
+        description: 'Delete previous character',
+        key: 'Backspace',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.backspace()
+        execute: (caret: Caret) => caret.backspace(),
     },
     {
-        description: "Copy",
+        description: 'Copy',
         control: true,
-        key: "KeyC",
+        key: 'KeyC',
         mode: Mode.PLAY,
         execute: (caret: Caret) => {
-
-            if(!(caret.position instanceof Node)) return undefined;
+            if (!(caret.position instanceof Node)) return undefined;
 
             // Set the OS clipboard.
-            if(navigator.clipboard) {
-                return navigator.clipboard.write([
-                    new ClipboardItem({
-                        "text/plain": new Blob([ caret.position.toWordplay(caret.source.spaces) ], { type: "text/plain" })
-                    })
-                ]).then(() => undefined);
+            if (navigator.clipboard) {
+                return navigator.clipboard
+                    .write([
+                        new ClipboardItem({
+                            'text/plain': new Blob(
+                                [
+                                    caret.position.toWordplay(
+                                        caret.source.spaces
+                                    ),
+                                ],
+                                { type: 'text/plain' }
+                            ),
+                        }),
+                    ])
+                    .then(() => undefined);
             }
             return undefined;
-        }
+        },
     },
     {
-        description: "Paste",
+        description: 'Paste',
         control: true,
-        key: "KeyV",
+        key: 'KeyV',
         mode: Mode.PLAY,
         execute: async (caret: Caret) => {
-
             // See if there's something on the clipboard.
-            if(navigator.clipboard === undefined) return undefined;
+            if (navigator.clipboard === undefined) return undefined;
 
             const items = await navigator.clipboard.read();
-            for(const item of items) {
-                for(const type of item.types) {
-                    if(type === "text/plain") {
+            for (const item of items) {
+                for (const type of item.types) {
+                    if (type === 'text/plain') {
                         const blob = await item.getType(type);
                         const text = await blob.text();
                         return caret.insert(text);
@@ -313,46 +377,45 @@ const commands: Command[] = [
                 }
             }
             return undefined;
-
-        }
+        },
     },
     {
-        description: "Step forward to input",
+        description: 'Step forward to input',
         shift: true,
-        key: "Space",
+        key: 'Space',
         mode: Mode.STEP,
-        execute: (_, __, evaluator) => evaluator.stepToInput()
+        execute: (_, __, evaluator) => evaluator.stepToInput(),
     },
     {
-        description: "Step back to input",
+        description: 'Step back to input',
         shift: true,
-        key: "Backspace",
+        key: 'Backspace',
         mode: Mode.STEP,
-        execute: (_, __, evaluator) => evaluator.stepBackToInput()
+        execute: (_, __, evaluator) => evaluator.stepBackToInput(),
     },
     {
-        description: "Step forward",
-        key: "Space",
+        description: 'Step forward',
+        key: 'Space',
         mode: Mode.STEP,
-        execute: (_, __, evaluator) => evaluator.stepWithinProgram()
+        execute: (_, __, evaluator) => evaluator.stepWithinProgram(),
     },
     {
-        description: "Step back",
-        key: "Backspace",
+        description: 'Step back',
+        key: 'Backspace',
         mode: Mode.STEP,
-        execute: (_, __, evaluator) => evaluator.stepBackWithinProgram()
+        execute: (_, __, evaluator) => evaluator.stepBackWithinProgram(),
     },
     {
-        description: "Switch between play/pause.",
+        description: 'Switch between play/pause.',
         control: true,
-        key: "KeyP",
+        key: 'KeyP',
         mode: undefined,
         execute: (_, __, evaluator) => {
-            if(evaluator.isPlaying()) evaluator.pause();
+            if (evaluator.isPlaying()) evaluator.pause();
             else evaluator.play();
             return undefined;
-        }
-    }
+        },
+    },
 ];
 
 export default commands;

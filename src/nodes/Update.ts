@@ -1,31 +1,30 @@
-import type Node from "./Node";
-import Token from "./Token";
-import Expression from "./Expression";
-import Row from "./Row";
-import type Conflict from "../conflicts/Conflict";
-import UnknownColumn from "../conflicts/UnknownColumn";
-import IncompatibleCellType from "../conflicts/IncompatibleCellType";
-import ExpectedUpdateBind from "../conflicts/ExpectedUpdateBind";
-import NonBooleanQuery from "../conflicts/NonBooleanQuery";
-import NotATable from "../conflicts/NotATable";
-import type Type from "./Type";
-import Bind from "../nodes/Bind";
-import TableType from "./TableType";
-import BooleanType from "./BooleanType";
-import type Value from "../runtime/Value";
-import type Step from "../runtime/Step";
-import Finish from "../runtime/Finish";
-import Start from "../runtime/Start";
-import type Context from "./Context";
-import type Definition from "./Definition";
-import type TypeSet from "./TypeSet";
-import UnimplementedException from "../runtime/UnimplementedException";
-import type Evaluator from "../runtime/Evaluator";
-import type Translations from "./Translations";
-import { TRANSLATE } from "./Translations"
+import type Node from './Node';
+import Token from './Token';
+import Expression from './Expression';
+import Row from './Row';
+import type Conflict from '../conflicts/Conflict';
+import UnknownColumn from '../conflicts/UnknownColumn';
+import IncompatibleCellType from '../conflicts/IncompatibleCellType';
+import ExpectedUpdateBind from '../conflicts/ExpectedUpdateBind';
+import NonBooleanQuery from '../conflicts/NonBooleanQuery';
+import NotATable from '../conflicts/NotATable';
+import type Type from './Type';
+import Bind from '../nodes/Bind';
+import TableType from './TableType';
+import BooleanType from './BooleanType';
+import type Value from '../runtime/Value';
+import type Step from '../runtime/Step';
+import Finish from '../runtime/Finish';
+import Start from '../runtime/Start';
+import type Context from './Context';
+import type Definition from './Definition';
+import type TypeSet from './TypeSet';
+import UnimplementedException from '../runtime/UnimplementedException';
+import type Evaluator from '../runtime/Evaluator';
+import type Translations from './Translations';
+import { TRANSLATE } from './Translations';
 
 export default class Update extends Expression {
-    
     readonly table: Expression;
     readonly update: Token;
     readonly row: Row;
@@ -40,136 +39,168 @@ export default class Update extends Expression {
         this.query = query;
 
         this.computeChildren();
-
     }
 
-    getGrammar() { 
+    getGrammar() {
         return [
-            { name: "table", types:[ Expression ] },
-            { name: "update", types:[ Token ] },
-            { name: "row", types:[ Row ] },
-            { name: "query", types:[ Expression ] },
-        ]; 
+            { name: 'table', types: [Expression] },
+            { name: 'update', types: [Token] },
+            { name: 'row', types: [Row] },
+            { name: 'query', types: [Expression] },
+        ];
     }
 
     clone(original?: Node, replacement?: Node) {
         return new Update(
-            this.replaceChild("table", this.table, original, replacement), 
-            this.replaceChild("update", this.update, original, replacement), 
-            this.replaceChild("row", this.row, original, replacement), 
-            this.replaceChild("query", this.query, original, replacement)
-        ) as this; 
+            this.replaceChild('table', this.table, original, replacement),
+            this.replaceChild('update', this.update, original, replacement),
+            this.replaceChild('row', this.row, original, replacement),
+            this.replaceChild('query', this.query, original, replacement)
+        ) as this;
     }
 
-    getScopeOfChild(child: Node, context: Context): Node | undefined { 
-        return child === this.query ? this.table.getType(context) : this.getParent(context);
+    getScopeOfChild(child: Node, context: Context): Node | undefined {
+        return child === this.query
+            ? this.table.getType(context)
+            : this.getParent(context);
     }
 
-    computeConflicts(context: Context): Conflict[] { 
-        
+    computeConflicts(context: Context): Conflict[] {
         const conflicts: Conflict[] = [];
 
         const tableType = this.table.getType(context);
 
         // Table must be table typed.
-        if(!(tableType instanceof TableType)) {
+        if (!(tableType instanceof TableType)) {
             conflicts.push(new NotATable(this, tableType));
             return conflicts;
         }
 
-        this.row.cells.forEach(cell => {
+        this.row.cells.forEach((cell) => {
             // The columns in an update must be binds with expressions.
-            if(!(cell instanceof Bind && cell.value !== undefined && cell.names.names.length === 1))
-                conflicts.push(new ExpectedUpdateBind(cell))
-            else if(tableType instanceof TableType) {
-                const alias = cell instanceof Bind && cell.names.names.length > 0 ? cell.names.names[0] : undefined;
+            if (
+                !(
+                    cell instanceof Bind &&
+                    cell.value !== undefined &&
+                    cell.names.names.length === 1
+                )
+            )
+                conflicts.push(new ExpectedUpdateBind(cell));
+            else if (tableType instanceof TableType) {
+                const alias =
+                    cell instanceof Bind && cell.names.names.length > 0
+                        ? cell.names.names[0]
+                        : undefined;
                 const name = alias === undefined ? undefined : alias.getName();
-                const columnType = name === undefined ? undefined : tableType.getColumnNamed(name);
+                const columnType =
+                    name === undefined
+                        ? undefined
+                        : tableType.getColumnNamed(name);
                 // The named table column must exist.
-                if(columnType === undefined)
+                if (columnType === undefined)
                     conflicts.push(new UnknownColumn(tableType, cell));
                 // The types of the bound values must match the column types.
-                else if(columnType instanceof Bind) {
+                else if (columnType instanceof Bind) {
                     const bindType = columnType.getType(context);
                     const cellType = cell.getType(context);
-                    if(!bindType.accepts(cellType, context))
-                        conflicts.push(new IncompatibleCellType(tableType, cell, bindType, cellType));
+                    if (!bindType.accepts(cellType, context))
+                        conflicts.push(
+                            new IncompatibleCellType(
+                                tableType,
+                                cell,
+                                bindType,
+                                cellType
+                            )
+                        );
                 }
             }
         });
 
         // The query must be truthy.
         const queryType = this.query.getType(context);
-        if(this.query instanceof Expression && !(queryType instanceof BooleanType))
-            conflicts.push(new NonBooleanQuery(this, queryType))
+        if (
+            this.query instanceof Expression &&
+            !(queryType instanceof BooleanType)
+        )
+            conflicts.push(new NonBooleanQuery(this, queryType));
 
-        return conflicts; 
-    
+        return conflicts;
     }
 
     computeType(context: Context): Type {
         // The type of an update is the type of its table
-        return this.table.getType(context);        
+        return this.table.getType(context);
     }
-    
-    getDefinitions(node: Node, context: Context): Definition[] {
 
+    getDefinitions(node: Node, context: Context): Definition[] {
         node;
         const type = this.table.getType(context);
-        if(type instanceof TableType)
-            return type.columns.filter(col => col instanceof Bind).map(col => col) as Bind[];
-        else
-            return [];
-
+        if (type instanceof TableType)
+            return type.columns
+                .filter((col) => col instanceof Bind)
+                .map((col) => col) as Bind[];
+        else return [];
     }
 
     getDependencies(): Expression[] {
-        return [ this.table, ...this.row.cells.map(cell => cell), this.query ];
+        return [this.table, ...this.row.cells.map((cell) => cell), this.query];
     }
 
     compile(context: Context): Step[] {
         return [
             new Start(this),
             ...this.table.compile(context),
-            new Finish(this)
+            new Finish(this),
         ];
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
-        if(prior) return prior;
+        if (prior) return prior;
         return new UnimplementedException(evaluator);
     }
 
-    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet, context: Context) { 
-        if(this.table instanceof Expression) this.table.evaluateTypeSet(bind, original, current, context);
-        if(this.update instanceof Expression) this.update.evaluateTypeSet(bind, original, current, context);
-        if(this.row instanceof Expression) this.row.evaluateTypeSet(bind, original, current, context);
-        if(this.query instanceof Expression) this.query.evaluateTypeSet(bind, original, current, context);
+    evaluateTypeSet(
+        bind: Bind,
+        original: TypeSet,
+        current: TypeSet,
+        context: Context
+    ) {
+        if (this.table instanceof Expression)
+            this.table.evaluateTypeSet(bind, original, current, context);
+        if (this.update instanceof Expression)
+            this.update.evaluateTypeSet(bind, original, current, context);
+        if (this.row instanceof Expression)
+            this.row.evaluateTypeSet(bind, original, current, context);
+        if (this.query instanceof Expression)
+            this.query.evaluateTypeSet(bind, original, current, context);
         return current;
     }
 
     getDescriptions(): Translations {
         return {
-            eng: "Update rows in a table",
-            "😀": TRANSLATE
-        }
+            eng: 'Update rows in a table',
+            '😀': TRANSLATE,
+        };
     }
 
-    getStart() { return this.update; }
-    getFinish() { return this.update; }
+    getStart() {
+        return this.update;
+    }
+    getFinish() {
+        return this.update;
+    }
 
-    getStartExplanations(): Translations { 
+    getStartExplanations(): Translations {
         return {
-            eng: "First we get the table, then we select values from it.",
-            "😀": TRANSLATE
-        }
-     }
+            eng: 'First we get the table, then we select values from it.',
+            '😀': TRANSLATE,
+        };
+    }
 
     getFinishExplanations(): Translations {
         return {
             eng: "Now that we have the table, let's create a new table with the updated values.",
-            "😀": TRANSLATE
-        }
+            '😀': TRANSLATE,
+        };
     }
-
 }

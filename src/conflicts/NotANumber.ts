@@ -1,8 +1,7 @@
-import type MeasurementLiteral from "../nodes/MeasurementLiteral";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import Conflict from "./Conflict";
-
+import type MeasurementLiteral from '../nodes/MeasurementLiteral';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import Conflict from './Conflict';
 
 export class NotANumber extends Conflict {
     readonly measurement: MeasurementLiteral;
@@ -16,10 +15,10 @@ export class NotANumber extends Conflict {
         return { primary: this.measurement, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations { 
+    getPrimaryExplanation(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: `This number isn't formatted correctly`
-        }
+            '😀': TRANSLATE,
+            eng: `This number isn't formatted correctly`,
+        };
     }
 }

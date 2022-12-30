@@ -1,40 +1,41 @@
 {
-	"name": "wordplay",
-	"version": "0.0.1",
-	"scripts": {
-		"dev": "vite dev",
-		"build": "svelte-kit build",
-		"package": "svelte-kit package",
-		"preview": "svelte-kit preview",
-		"prepare": "svelte-kit sync",
-		"check": "svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "eslint .",
-		"test": "vitest",
-		"test:coverage": "vitest run --coverage"
-	},
-	"devDependencies": {
-		"@sveltejs/adapter-auto": "next",
-		"@sveltejs/kit": "1.0.1",
-		"@testing-library/jest-dom": "^5.16.5",
-		"@testing-library/svelte": "^3.2.2",
-		"@typescript-eslint/eslint-plugin": "^5.46.1",
-		"@typescript-eslint/parser": "^5.46.1",
-		"eslint": "^8.29.0",
-		"eslint-plugin-svelte3": "^4.0.0",
-		"svelte": "^3.55.0",
-		"svelte-check": "^2.10.2",
-		"svelte-jester": "^2.3.2",
-		"svelte-preprocess": "^5.0.0",
-		"ts-jest": "^29.0.3",
-		"tslib": "^2.4.1",
-		"typescript": "^4.9.4",
-		"vite": "^4.0.1",
-		"vitest": "latest"
-	},
-	"type": "module",
-	"dependencies": {
-		"colorjs.io": "^0.4.2",
-		"decimal.js": "^10.4.3",
-		"graphemer": "^1.4.0"
-	}
+    "name": "wordplay",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "vite dev",
+        "build": "svelte-kit build",
+        "package": "svelte-kit package",
+        "preview": "svelte-kit preview",
+        "prepare": "svelte-kit sync",
+        "check": "svelte-check --tsconfig ./tsconfig.json --watch",
+        "lint": "eslint .",
+        "test": "vitest",
+        "test:coverage": "vitest run --coverage"
+    },
+    "devDependencies": {
+        "@sveltejs/adapter-auto": "next",
+        "@sveltejs/kit": "1.0.1",
+        "@testing-library/jest-dom": "^5.16.5",
+        "@testing-library/svelte": "^3.2.2",
+        "@typescript-eslint/eslint-plugin": "^5.46.1",
+        "@typescript-eslint/parser": "^5.46.1",
+        "eslint": "^8.29.0",
+        "eslint-plugin-svelte3": "^4.0.0",
+        "prettier": "2.8.1",
+        "svelte": "^3.55.0",
+        "svelte-check": "^2.10.2",
+        "svelte-jester": "^2.3.2",
+        "svelte-preprocess": "^5.0.0",
+        "ts-jest": "^29.0.3",
+        "tslib": "^2.4.1",
+        "typescript": "^4.9.4",
+        "vite": "^4.0.1",
+        "vitest": "latest"
+    },
+    "type": "module",
+    "dependencies": {
+        "colorjs.io": "^0.4.2",
+        "decimal.js": "^10.4.3",
+        "graphemer": "^1.4.0"
+    }
 }

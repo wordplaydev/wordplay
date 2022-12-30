@@ -1,9 +1,9 @@
-import Conflict from "./Conflict";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import type Reference from "../nodes/Reference";
-import type Definition from "../nodes/Definition";
-import StructureDefinition from "../nodes/StructureDefinition";
+import Conflict from './Conflict';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import type Reference from '../nodes/Reference';
+import type Definition from '../nodes/Definition';
+import StructureDefinition from '../nodes/StructureDefinition';
 
 export default class NotAnInterface extends Conflict {
     readonly def: Definition;
@@ -16,18 +16,19 @@ export default class NotAnInterface extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.ref, secondary: [ this.def.names ] };
+        return { primary: this.ref, secondary: [this.def.names] };
     }
 
-    getPrimaryExplanation(): Translations { 
+    getPrimaryExplanation(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: `Structures can only implement interfaces, and ${this.def.names.getTranslation("eng")} ${
-                this.def instanceof StructureDefinition ? 
-                    " isn't an interface because it implements functions and/or has inputs " : 
-                    " isn't a structure."
-            }`
-        }
+            '😀': TRANSLATE,
+            eng: `Structures can only implement interfaces, and ${this.def.names.getTranslation(
+                'eng'
+            )} ${
+                this.def instanceof StructureDefinition
+                    ? " isn't an interface because it implements functions and/or has inputs "
+                    : " isn't a structure."
+            }`,
+        };
     }
-
 }

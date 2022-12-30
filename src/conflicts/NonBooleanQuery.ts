@@ -1,12 +1,11 @@
-import type Context from "../nodes/Context";
-import type Delete from "../nodes/Delete";
-import type Select from "../nodes/Select";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import type Type from "../nodes/Type";
-import type Update from "../nodes/Update";
-import Conflict from "./Conflict";
-
+import type Context from '../nodes/Context';
+import type Delete from '../nodes/Delete';
+import type Select from '../nodes/Select';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import type Type from '../nodes/Type';
+import type Update from '../nodes/Update';
+import Conflict from './Conflict';
 
 export default class NonBooleanQuery extends Conflict {
     readonly op: Select | Delete | Update;
@@ -17,18 +16,18 @@ export default class NonBooleanQuery extends Conflict {
 
         this.op = op;
         this.type = type;
-
     }
 
     getConflictingNodes() {
         return { primary: this.op.query, secondary: [] };
     }
 
-    getPrimaryExplanation(context: Context): Translations { 
+    getPrimaryExplanation(context: Context): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: `Table queries have to be Boolean-typed; this is ${this.type.getDescriptions(context).eng}`
-        }
+            '😀': TRANSLATE,
+            eng: `Table queries have to be Boolean-typed; this is ${
+                this.type.getDescriptions(context).eng
+            }`,
+        };
     }
-
 }

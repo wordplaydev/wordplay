@@ -1,11 +1,10 @@
-import type Language from "../nodes/Language";
-import type Token from "../nodes/Token";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import Conflict from "./Conflict";
+import type Language from '../nodes/Language';
+import type Token from '../nodes/Token';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import Conflict from './Conflict';
 
 export default class InvalidLanguage extends Conflict {
-
     readonly language: Language;
     readonly code: Token;
 
@@ -16,14 +15,13 @@ export default class InvalidLanguage extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.code, secondary: [ this.language ] };
+        return { primary: this.code, secondary: [this.language] };
     }
 
-    getPrimaryExplanation(): Translations { 
+    getPrimaryExplanation(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: `This isn't a valid language code, so it won't appear anywhere.`
-        }
+            '😀': TRANSLATE,
+            eng: `This isn't a valid language code, so it won't appear anywhere.`,
+        };
     }
-
 }

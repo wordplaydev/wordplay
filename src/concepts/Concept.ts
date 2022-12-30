@@ -1,20 +1,18 @@
-import type Context from "../nodes/Context";
-import type Docs from "../nodes/Docs";
-import type LanguageCode from "../nodes/LanguageCode";
-import type Node from "../nodes/Node";
-import { selectTranslation } from "../nodes/Translations";
+import type Context from '../nodes/Context';
+import type Docs from '../nodes/Docs';
+import type LanguageCode from '../nodes/LanguageCode';
+import type Node from '../nodes/Node';
+import { selectTranslation } from '../nodes/Translations';
 
-/** 
+/**
  * Represents some part of the Wordplay language, API, or example ecosystem.
  * Used as a common interface for indexing (to support search) and for drag and drop,
  * which requires some mapping from specific rendered example code in the UI to Nodes.
  */
 export default abstract class Concept {
-
     readonly context: Context;
 
     constructor(context: Context) {
-
         this.context = context;
     }
 
@@ -23,10 +21,10 @@ export default abstract class Concept {
      */
     abstract getRepresentation(): Node;
 
-    /** 
-     * Provides a set of Nodes that could be rendered in the UI. 
+    /**
+     * Provides a set of Nodes that could be rendered in the UI.
      * This enables other components to index them, enabling a mapping
-     * from representations of the nodes back to the nodes. 
+     * from representations of the nodes back to the nodes.
      * */
     abstract getNodes(): Set<Node>;
 
@@ -47,29 +45,36 @@ export default abstract class Concept {
      * Given a node ID, finds the node in the concept graph that corresponds.
      */
     getNode(id: number): Node | undefined {
-        const match = Array.from(this.getNodes()).find(node => node.id === id);
-        if(match) return match;
-        for(const concept of this.getConcepts()) {
+        const match = Array.from(this.getNodes()).find(
+            (node) => node.id === id
+        );
+        if (match) return match;
+        for (const concept of this.getConcepts()) {
             const subMatch = concept.getNode(id);
-            if(subMatch) return subMatch;
+            if (subMatch) return subMatch;
         }
         return undefined;
     }
 
     /** Recurse and find all concepts in the tree */
     getAllConcepts(): Concept[] {
-        let concepts: Concept[] = [ this ];
-        for(const concept of this.getConcepts())
-           concepts = concepts.concat(concept.getAllConcepts());
+        let concepts: Concept[] = [this];
+        for (const concept of this.getConcepts())
+            concepts = concepts.concat(concept.getAllConcepts());
         return concepts;
     }
 
     getDescription(languages: LanguageCode[]): string {
-        return this.getDocs()?.getTranslation(languages) ?? selectTranslation(this.getRepresentation().getDescriptions(this.context), languages);
+        return (
+            this.getDocs()?.getTranslation(languages) ??
+            selectTranslation(
+                this.getRepresentation().getDescriptions(this.context),
+                languages
+            )
+        );
     }
 
     abstract getDocs(): Docs | undefined;
 
     abstract equals(concept: Concept): boolean;
-
 }

@@ -1,39 +1,42 @@
-import type Context from "../nodes/Context";
-import type Node from "../nodes/Node";
-import Reference from "../nodes/Reference";
-import StreamType from "../nodes/StreamType";
-import type Stream from "../runtime/Stream";
-import Concept from "./Concept";
-import type ConceptIndex from "./ConceptIndex";
+import type Context from '../nodes/Context';
+import type Node from '../nodes/Node';
+import Reference from '../nodes/Reference';
+import StreamType from '../nodes/StreamType';
+import type Stream from '../runtime/Stream';
+import Concept from './Concept';
+import type ConceptIndex from './ConceptIndex';
 
 export default class StreamConcept extends Concept {
-
     /** The type this concept represents. */
     readonly stream: Stream;
-    
+
     /** A derived reference to the stream */
     readonly reference: Reference;
 
     constructor(stream: Stream, context: Context) {
-
         super(context);
 
         this.stream = stream;
         this.reference = Reference.make(this.stream);
-
     }
 
-    getDocs() { return this.stream.docs; }
+    getDocs() {
+        return this.stream.docs;
+    }
 
     getTypeConcept(index: ConceptIndex): Concept | undefined {
         const type = this.stream.getType(this.context);
-        return type instanceof StreamType ? index.getConceptOfType(type.type) : undefined;
+        return type instanceof StreamType
+            ? index.getConceptOfType(type.type)
+            : undefined;
     }
 
-    getRepresentation() { return this.reference; }
+    getRepresentation() {
+        return this.reference;
+    }
 
     getNodes(): Set<Node> {
-        return new Set([ this.reference ]);
+        return new Set([this.reference]);
     }
 
     getText(): Set<string> {
@@ -45,7 +48,9 @@ export default class StreamConcept extends Concept {
     }
 
     equals(concept: Concept) {
-        return concept instanceof StreamConcept && concept.stream.constructor === this.stream.constructor;
+        return (
+            concept instanceof StreamConcept &&
+            concept.stream.constructor === this.stream.constructor
+        );
     }
-
 }

@@ -1,13 +1,12 @@
-import type Context from "../nodes/Context";
-import type ConversionDefinition from "../nodes/ConversionDefinition";
-import Convert from "../nodes/Convert";
-import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
-import type Node from "../nodes/Node";
-import Concept from "./Concept";
-import type StructureConcept from "./StructureConcept";
+import type Context from '../nodes/Context';
+import type ConversionDefinition from '../nodes/ConversionDefinition';
+import Convert from '../nodes/Convert';
+import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
+import type Node from '../nodes/Node';
+import Concept from './Concept';
+import type StructureConcept from './StructureConcept';
 
 export default class ConversionConcept extends Concept {
-
     /** The function this concept represents. */
     readonly definition: ConversionDefinition;
 
@@ -16,24 +15,33 @@ export default class ConversionConcept extends Concept {
 
     /** A derived example */
     readonly example: Node;
-    
-    constructor(definition: ConversionDefinition, context: Context, structure?: StructureConcept) {
 
+    constructor(
+        definition: ConversionDefinition,
+        context: Context,
+        structure?: StructureConcept
+    ) {
         super(context);
 
         this.definition = definition;
         this.structure = structure;
 
-        this.example = Convert.make(ExpressionPlaceholder.make(this.definition.input), definition.output);
-
+        this.example = Convert.make(
+            ExpressionPlaceholder.make(this.definition.input),
+            definition.output
+        );
     }
 
-    getDocs() { return this.definition.docs; }
+    getDocs() {
+        return this.definition.docs;
+    }
 
-    getRepresentation() { return this.example; }
+    getRepresentation() {
+        return this.example;
+    }
 
     getNodes(): Set<Node> {
-        return new Set([ this.example ]);
+        return new Set([this.example]);
     }
 
     getText(): Set<string> {
@@ -45,7 +53,9 @@ export default class ConversionConcept extends Concept {
     }
 
     equals(concept: Concept) {
-        return concept instanceof ConversionConcept && concept.definition === this.definition;
+        return (
+            concept instanceof ConversionConcept &&
+            concept.definition === this.definition
+        );
     }
-
 }

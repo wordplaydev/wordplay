@@ -1,162 +1,219 @@
-import Bind from "../nodes/Bind";
-import BooleanType from "../nodes/BooleanType";
-import Expression from "../nodes/Expression";
-import type FunctionType from "../nodes/FunctionType";
-import ListType from "../nodes/ListType";
-import MapType from "../nodes/MapType";
-import MeasurementType from "../nodes/MeasurementType";
-import Names from "../nodes/Names";
-import NameType from "../nodes/NameType";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import type Type from "../nodes/Type";
-import Action from "../runtime/Action";
-import Bool from "../runtime/Bool";
-import Evaluation from "../runtime/Evaluation";
-import type Evaluator from "../runtime/Evaluator";
-import Finish from "../runtime/Finish";
-import FunctionValue from "../runtime/FunctionValue";
-import MapValue from "../runtime/Map";
-import Measurement from "../runtime/Measurement";
-import Start from "../runtime/Start";
-import type Step from "../runtime/Step";
-import TypeException from "../runtime/TypeException";
-import type Value from "../runtime/Value";
-import HOF from "./HOF";
-import { LIST_TYPE_VAR_NAMES } from "./NativeConstants";
+import Bind from '../nodes/Bind';
+import BooleanType from '../nodes/BooleanType';
+import Expression from '../nodes/Expression';
+import type FunctionType from '../nodes/FunctionType';
+import ListType from '../nodes/ListType';
+import MapType from '../nodes/MapType';
+import MeasurementType from '../nodes/MeasurementType';
+import Names from '../nodes/Names';
+import NameType from '../nodes/NameType';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import type Type from '../nodes/Type';
+import Action from '../runtime/Action';
+import Bool from '../runtime/Bool';
+import Evaluation from '../runtime/Evaluation';
+import type Evaluator from '../runtime/Evaluator';
+import Finish from '../runtime/Finish';
+import FunctionValue from '../runtime/FunctionValue';
+import MapValue from '../runtime/Map';
+import Measurement from '../runtime/Measurement';
+import Start from '../runtime/Start';
+import type Step from '../runtime/Step';
+import TypeException from '../runtime/TypeException';
+import type Value from '../runtime/Value';
+import HOF from './HOF';
+import { LIST_TYPE_VAR_NAMES } from './NativeConstants';
 
-const INDEX = Names.make([ "index" ]);
-const MAP = Names.make([ "map" ]);
+const INDEX = Names.make(['index']);
+const MAP = Names.make(['map']);
 
 export default class NativeHOFMapFilter extends HOF {
-
     readonly hofType: FunctionType;
     constructor(hofType: FunctionType) {
-        super();        
+        super();
         this.hofType = hofType;
     }
 
-    computeType(): Type { return ListType.make(new NameType(LIST_TYPE_VAR_NAMES.eng)); }
+    computeType(): Type {
+        return ListType.make(new NameType(LIST_TYPE_VAR_NAMES.eng));
+    }
 
-    compile(): Step[] { 
+    compile(): Step[] {
         return [
             new Start(this),
             // Initialize an iterator and an empty list in this scope.
-            new Action(this, 
+            new Action(
+                this,
                 {
-                    "😀": TRANSLATE,
-                    eng: "Initialize an index and map"
+                    '😀': TRANSLATE,
+                    eng: 'Initialize an index and map',
                 },
-                evaluator => {
+                (evaluator) => {
                     evaluator.bind(INDEX, new Measurement(this, 1));
                     evaluator.bind(MAP, new MapValue(this, []));
                     return undefined;
-                }),
-            new Action(this, 
+                }
+            ),
+            new Action(
+                this,
                 {
-                    "😀": TRANSLATE,
-                    eng: "Check the next map value."
+                    '😀': TRANSLATE,
+                    eng: 'Check the next map value.',
                 },
-                evaluator => {
+                (evaluator) => {
                     const index = evaluator.resolve(INDEX);
                     const map = evaluator.getCurrentEvaluation()?.getClosure();
                     // If the index is past the last index of the list, jump to the end.
-                    if(!(index instanceof Measurement)) return new TypeException(evaluator, MeasurementType.make(), index);
-                    else if(!(map instanceof MapValue)) return new TypeException(evaluator, MapType.make(), map);
+                    if (!(index instanceof Measurement))
+                        return new TypeException(
+                            evaluator,
+                            MeasurementType.make(),
+                            index
+                        );
+                    else if (!(map instanceof MapValue))
+                        return new TypeException(
+                            evaluator,
+                            MapType.make(),
+                            map
+                        );
                     else {
-                        if(index.greaterThan(this, map.size(this)).bool)
+                        if (index.greaterThan(this, map.size(this)).bool)
                             evaluator.jump(1);
                         // Otherwise, apply the given translator function to the current list value.
                         else {
-                            const checker = evaluator.resolve("checker");
-                            const mapKey = map.values[index.num.toNumber() - 1][0];
-                            const mapValue = map.values[index.num.toNumber() - 1][1];
-                            if(checker instanceof FunctionValue && 
-                                checker.definition.expression instanceof Expression && 
+                            const checker = evaluator.resolve('checker');
+                            const mapKey =
+                                map.values[index.num.toNumber() - 1][0];
+                            const mapValue =
+                                map.values[index.num.toNumber() - 1][1];
+                            if (
+                                checker instanceof FunctionValue &&
+                                checker.definition.expression instanceof
+                                    Expression &&
                                 checker.definition.inputs[0] instanceof Bind &&
-                                checker.definition.inputs[1] instanceof Bind) {
+                                checker.definition.inputs[1] instanceof Bind
+                            ) {
                                 const bindings = new Map<Names, Value>();
                                 // Bind the key
-                                bindings.set(checker.definition.inputs[0].names, mapKey);
-                                bindings.set(checker.definition.inputs[1].names, mapValue);
+                                bindings.set(
+                                    checker.definition.inputs[0].names,
+                                    mapKey
+                                );
+                                bindings.set(
+                                    checker.definition.inputs[1].names,
+                                    mapValue
+                                );
                                 // Apply the translator function to the value
-                                evaluator.startEvaluation(new Evaluation(
-                                    evaluator, 
-                                    this,
-                                    checker.definition, 
-                                    checker.context, 
-                                    bindings
-                                ));
-                            }
-                            else return new TypeException(evaluator, this.hofType, checker);
+                                evaluator.startEvaluation(
+                                    new Evaluation(
+                                        evaluator,
+                                        this,
+                                        checker.definition,
+                                        checker.context,
+                                        bindings
+                                    )
+                                );
+                            } else
+                                return new TypeException(
+                                    evaluator,
+                                    this.hofType,
+                                    checker
+                                );
                         }
                     }
-                }),
-            // Save the translated value and then jump to the conditional.
-            new Action(this, 
-                {
-                    "😀": TRANSLATE,
-                    eng: "Include if it matched."
-                },
-                evaluator => {
-
-                // Get the boolean from the function evaluation.
-                const include = evaluator.popValue(BooleanType.make());
-                if(!(include instanceof Bool)) return include;
-
-                // Get the current index.
-                const index = evaluator.resolve(INDEX);
-                if(!(index instanceof Measurement))
-                    return new TypeException(evaluator, MeasurementType.make(), index);
-
-                const map = evaluator.getCurrentEvaluation()?.getClosure();
-                if(!(map instanceof MapValue))
-                    return new TypeException(evaluator, MapType.make(), map);
-
-                // If the include decided yes, append the value.
-                const newMap = evaluator.resolve(MAP);
-                if(!(include instanceof Bool)) return new TypeException(evaluator, BooleanType.make(), include);
-                else if(!(newMap instanceof MapValue)) return new TypeException(evaluator, MapType.make(), newMap);
-                if(newMap instanceof MapValue && include instanceof Bool) {
-                    if(include.bool) {
-                        const mapKey = map.values[index.num.toNumber() - 1][0];
-                        const mapValue = map.values[index.num.toNumber() - 1][1];
-                        evaluator.bind(MAP, newMap.set(this, mapKey, mapValue));
-                    }
                 }
+            ),
+            // Save the translated value and then jump to the conditional.
+            new Action(
+                this,
+                {
+                    '😀': TRANSLATE,
+                    eng: 'Include if it matched.',
+                },
+                (evaluator) => {
+                    // Get the boolean from the function evaluation.
+                    const include = evaluator.popValue(BooleanType.make());
+                    if (!(include instanceof Bool)) return include;
 
-                // Increment the counter
-                evaluator.bind(INDEX, index.add(this, new Measurement(this, 1)));
+                    // Get the current index.
+                    const index = evaluator.resolve(INDEX);
+                    if (!(index instanceof Measurement))
+                        return new TypeException(
+                            evaluator,
+                            MeasurementType.make(),
+                            index
+                        );
 
-                // Jump to the conditional
-                evaluator.jump(-2);
+                    const map = evaluator.getCurrentEvaluation()?.getClosure();
+                    if (!(map instanceof MapValue))
+                        return new TypeException(
+                            evaluator,
+                            MapType.make(),
+                            map
+                        );
 
-                return undefined;
-            }),
-            new Finish(this)
+                    // If the include decided yes, append the value.
+                    const newMap = evaluator.resolve(MAP);
+                    if (!(include instanceof Bool))
+                        return new TypeException(
+                            evaluator,
+                            BooleanType.make(),
+                            include
+                        );
+                    else if (!(newMap instanceof MapValue))
+                        return new TypeException(
+                            evaluator,
+                            MapType.make(),
+                            newMap
+                        );
+                    if (newMap instanceof MapValue && include instanceof Bool) {
+                        if (include.bool) {
+                            const mapKey =
+                                map.values[index.num.toNumber() - 1][0];
+                            const mapValue =
+                                map.values[index.num.toNumber() - 1][1];
+                            evaluator.bind(
+                                MAP,
+                                newMap.set(this, mapKey, mapValue)
+                            );
+                        }
+                    }
+
+                    // Increment the counter
+                    evaluator.bind(
+                        INDEX,
+                        index.add(this, new Measurement(this, 1))
+                    );
+
+                    // Jump to the conditional
+                    evaluator.jump(-2);
+
+                    return undefined;
+                }
+            ),
+            new Finish(this),
         ];
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
-        
-        if(prior) return prior;
+        if (prior) return prior;
 
         // Evaluate to the filtered list.
-        return evaluator.resolve("map");
+        return evaluator.resolve('map');
     }
 
     getStartExplanations(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: "Make a new map of matching values."
-        }
+            '😀': TRANSLATE,
+            eng: 'Make a new map of matching values.',
+        };
     }
 
     getFinishExplanations(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: "Evaluate to the new map."
-        }
+            '😀': TRANSLATE,
+            eng: 'Evaluate to the new map.',
+        };
     }
-
 }

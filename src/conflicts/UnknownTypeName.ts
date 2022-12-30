@@ -1,8 +1,7 @@
-import type NameType from "../nodes/NameType";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import Conflict from "./Conflict";
-
+import type NameType from '../nodes/NameType';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import Conflict from './Conflict';
 
 export class UnknownTypeName extends Conflict {
     readonly name: NameType;
@@ -12,15 +11,14 @@ export class UnknownTypeName extends Conflict {
         this.name = name;
     }
 
-    getConflictingNodes() { 
-        return { primary: this.name, secondary: [] }; 
+    getConflictingNodes() {
+        return { primary: this.name, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations { 
+    getPrimaryExplanation(): Translations {
         return {
-            "😀": TRANSLATE,
-            eng: `I don't know what type I am!`
-        }
+            '😀': TRANSLATE,
+            eng: `I don't know what type I am!`,
+        };
     }
-
 }

@@ -1,6 +1,6 @@
-import Evaluator from "../runtime/Evaluator";
-import { test, expect } from "vitest";
+import Evaluator from '../runtime/Evaluator';
+import { test, expect } from 'vitest';
 
-test("Test text functions", () => {
-    expect(Evaluator.evaluateCode('"hello".length()')?.toString()).toBe("5");
-})
+test('Test text functions', () => {
+    expect(Evaluator.evaluateCode('"hello".length()')?.toString()).toBe('5');
+});

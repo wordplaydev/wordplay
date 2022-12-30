@@ -1,22 +1,16 @@
-import { expect, test } from "vitest";
-import Project from "../models/Project";
-import Source from "../models/Source";
-import EvaluationException from "./EvaluationException";
+import { expect, test } from 'vitest';
+import Project from '../models/Project';
+import Source from '../models/Source';
+import EvaluationException from './EvaluationException';
 
-test.each([
-    0,
-    1,
-    10,
-    15
-])("Step back %i", (steps: number) => {
-
+test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {
     const fib = `
     ƒ fib (n•#) •# n ≤ 1 ? n fib(n - 1) + fib(n - 2)
     fib(5)
-    `
-    
-    const source = new Source("test", fib);
-    const project = new Project("test", source, []);
+    `;
+
+    const source = new Source('test', fib);
+    const project = new Project('test', source, []);
     project.evaluate();
     const stepIndex = project.evaluator.getStepIndex();
 
@@ -29,33 +23,32 @@ test.each([
     // Back to the future
     project.evaluator.stepTo(stepIndex);
     expect(project.evaluator.getStepIndex() === stepIndex);
-
 });
 
-test("Too many steps", () => {
-
+test('Too many steps', () => {
     const fib = `
     ƒ fib (n•#) •# n ≤ 1 ? n fib(n - 1) + fib(n - 2)
     fib(50)
-    `
+    `;
 
-    const source = new Source("test", fib);
-    const project = new Project("test", source, []);
+    const source = new Source('test', fib);
+    const project = new Project('test', source, []);
     project.evaluate();
-    expect(project.evaluator.getLatestSourceValue(source)).toBeInstanceOf(EvaluationException);
+    expect(project.evaluator.getLatestSourceValue(source)).toBeInstanceOf(
+        EvaluationException
+    );
+});
 
-})
-
-test("Too many evaluations", () => {
-
+test('Too many evaluations', () => {
     const fib = `
     ƒ fib (n•#) •# n ≤ 1 ? n fib(n) + fib(n - 2)
     fib(50)
-    `
+    `;
 
-    const source = new Source("test", fib);
-    const project = new Project("test", source, []);
+    const source = new Source('test', fib);
+    const project = new Project('test', source, []);
     project.evaluate();
-    expect(project.evaluator.getLatestSourceValue(source)).toBeInstanceOf(EvaluationException);
-
-})
+    expect(project.evaluator.getLatestSourceValue(source)).toBeInstanceOf(
+        EvaluationException
+    );
+});

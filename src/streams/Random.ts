@@ -1,24 +1,23 @@
-import MeasurementType from "../nodes/MeasurementType";
-import StreamType from "../nodes/StreamType";
-import { TRANSLATE } from "../nodes/Translations";
-import type Evaluator from "../runtime/Evaluator";
-import Measurement from "../runtime/Measurement";
-import Stream from "../runtime/Stream";
+import MeasurementType from '../nodes/MeasurementType';
+import StreamType from '../nodes/StreamType';
+import { TRANSLATE } from '../nodes/Translations';
+import type Evaluator from '../runtime/Evaluator';
+import Measurement from '../runtime/Measurement';
+import Stream from '../runtime/Stream';
 
 export const FREQUENCY = 33;
 
 export default class Random extends Stream<Measurement> {
-
     constructor(evaluator: Evaluator) {
         super(
             evaluator,
             {
-                eng: "An infinite sequence of random numbers between 0 and 1",
-                "😀": TRANSLATE
-            }, 
+                eng: 'An infinite sequence of random numbers between 0 and 1',
+                '😀': TRANSLATE,
+            },
             {
-                "😀": "⚁",
-                eng: "random"
+                '😀': '⚁',
+                eng: 'random',
             },
             Random.next(evaluator)
         );
@@ -31,18 +30,18 @@ export default class Random extends Stream<Measurement> {
     /**
      * Override latest behavior: if in the present, silently add a new value to return. (If in the past, do as normal).
      */
-     latest() { 
+    latest() {
         // If in the present, add a value without causing a reaction.
-        if(!this.evaluator.isInPast())
+        if (!this.evaluator.isInPast())
             this.add(Random.next(this.evaluator), true);
         // Return the latest value (present or past).
         return super.latest();
     }
 
-
     start() {}
     stop() {}
 
-    getType() { return StreamType.make(MeasurementType.make()); }
-
+    getType() {
+        return StreamType.make(MeasurementType.make());
+    }
 }

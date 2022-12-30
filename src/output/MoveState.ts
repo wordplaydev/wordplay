@@ -1,5 +1,4 @@
 export default class MoveState<Kind> {
-
     start: Kind;
     end: Kind;
     value: Kind;
@@ -9,5 +8,4 @@ export default class MoveState<Kind> {
         this.end = end;
         this.value = start;
     }
-
 }

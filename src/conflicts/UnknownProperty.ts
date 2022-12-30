@@ -1,7 +1,7 @@
-import type PropertyReference from "../nodes/PropertyReference";
-import type Translations from "../nodes/Translations";
-import { TRANSLATE } from "../nodes/Translations"
-import Conflict from "./Conflict";
+import type PropertyReference from '../nodes/PropertyReference';
+import type Translations from '../nodes/Translations';
+import { TRANSLATE } from '../nodes/Translations';
+import Conflict from './Conflict';
 
 export class UnknownProperty extends Conflict {
     readonly access: PropertyReference;
@@ -11,15 +11,17 @@ export class UnknownProperty extends Conflict {
         this.access = access;
     }
 
-    getConflictingNodes() { 
-        return { primary: this.access.name ?? this.access.dot, secondary: [ this.access.structure ] };
-    }
-
-    getPrimaryExplanation(): Translations { 
+    getConflictingNodes() {
         return {
-            "😀": TRANSLATE,
-            eng: `I don't know who I am!`
-        }
+            primary: this.access.name ?? this.access.dot,
+            secondary: [this.access.structure],
+        };
     }
 
+    getPrimaryExplanation(): Translations {
+        return {
+            '😀': TRANSLATE,
+            eng: `I don't know who I am!`,
+        };
+    }
 }

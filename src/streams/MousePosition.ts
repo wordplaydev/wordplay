@@ -1,24 +1,29 @@
-import type Names from "../nodes/Names";
-import StreamType from "../nodes/StreamType";
-import StructureDefinitionType from "../nodes/StructureDefinitionType";
-import { TRANSLATE } from "../nodes/Translations";
-import Unit from "../nodes/Unit";
-import Measurement from "../runtime/Measurement";
-import Stream from "../runtime/Stream";
-import Structure, { createStructure } from "../runtime/Structure";
-import type Value from "../runtime/Value";
-import { PlaceType } from "../output/Place";
-import type Evaluator from "../runtime/Evaluator";
+import type Names from '../nodes/Names';
+import StreamType from '../nodes/StreamType';
+import StructureDefinitionType from '../nodes/StructureDefinitionType';
+import { TRANSLATE } from '../nodes/Translations';
+import Unit from '../nodes/Unit';
+import Measurement from '../runtime/Measurement';
+import Stream from '../runtime/Stream';
+import Structure, { createStructure } from '../runtime/Structure';
+import type Value from '../runtime/Value';
+import { PlaceType } from '../output/Place';
+import type Evaluator from '../runtime/Evaluator';
 
 function position(evaluator: Evaluator, x: number, y: number) {
     const bindings = new Map<Names, Value>();
-    bindings.set(PlaceType.inputs[0].names, new Measurement(evaluator.getMain(), x, Unit.unit([ "px"])));
-    bindings.set(PlaceType.inputs[0].names, new Measurement(evaluator.getMain(), y, Unit.unit([ "px"])));
-    return createStructure(evaluator, PlaceType, bindings)
+    bindings.set(
+        PlaceType.inputs[0].names,
+        new Measurement(evaluator.getMain(), x, Unit.unit(['px']))
+    );
+    bindings.set(
+        PlaceType.inputs[0].names,
+        new Measurement(evaluator.getMain(), y, Unit.unit(['px']))
+    );
+    return createStructure(evaluator, PlaceType, bindings);
 }
 
 export default class MousePosition extends Stream<Structure> {
-
     readonly evaluator: Evaluator;
     on: boolean = false;
 
@@ -26,12 +31,12 @@ export default class MousePosition extends Stream<Structure> {
         super(
             evaluator,
             {
-                eng: "A stream of mouse move events",
-                "😀": TRANSLATE
-            }, 
+                eng: 'A stream of mouse move events',
+                '😀': TRANSLATE,
+            },
             {
-                "😀": "⌖",
-                eng: "mouse"
+                '😀': '⌖',
+                eng: 'mouse',
             },
             position(evaluator, 0, 0)
         );
@@ -40,8 +45,7 @@ export default class MousePosition extends Stream<Structure> {
     }
 
     record(x: number, y: number) {
-        if(this.on)
-            this.add(position(this.evaluator, x, y));
+        if (this.on) this.add(position(this.evaluator, x, y));
     }
 
     start() {
@@ -51,6 +55,7 @@ export default class MousePosition extends Stream<Structure> {
         this.on = false;
     }
 
-    getType() { return StreamType.make(new StructureDefinitionType(PlaceType, [])); }
-
+    getType() {
+        return StreamType.make(new StructureDefinitionType(PlaceType, []));
+    }
 }

@@ -1,11 +1,9 @@
-import { SET_OPEN_SYMBOL } from "../parser/Tokenizer";
-import Token from "./Token";
-import TokenType from "./TokenType";
+import { SET_OPEN_SYMBOL } from '../parser/Tokenizer';
+import Token from './Token';
+import TokenType from './TokenType';
 
 export default class SetOpenToken extends Token {
-
     constructor() {
         super(SET_OPEN_SYMBOL, TokenType.SET_OPEN);
     }
-    
 }
