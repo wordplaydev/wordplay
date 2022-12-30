@@ -33,7 +33,7 @@ import FunctionException from "../runtime/FunctionException";
 import ValueException from "../runtime/ValueException";
 import Exception from "../runtime/Exception";
 import type Translations from "./Translations";
-import { overrideWithDocs, TRANSLATE, WRITE } from "./Translations"
+import { TRANSLATE, WRITE } from "./Translations"
 import UnknownInput from "../conflicts/UnknownInput";
 import getConcreteExpectedType from "./Generics";
 import FunctionDefinitionType from "./FunctionDefinitionType";
@@ -535,16 +535,11 @@ export default class Evaluate extends Expression {
         }
     }
 
-    getDescriptions(context: Context): Translations {
-        const descriptions: Translations = {
+    getDescriptions(): Translations {
+        return {
             "😀": TRANSLATE,
-            eng: "Evaluate an unknown function"
-        }
-
-        // Find the function on the left's type.
-        const fun = this.getFunction(context);
-        return fun && fun.docs ? overrideWithDocs(descriptions, fun.docs) : descriptions;
-        
+            eng: "evaluate a function"
+        }        
     }
 
     getStart() { return this.open; }

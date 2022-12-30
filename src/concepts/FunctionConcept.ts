@@ -51,6 +51,8 @@ export default class FunctionConcept extends Concept {
 
     }
 
+    getDocs() { return this.definition.docs; }
+
     getRepresentation() { return this.example; }
 
     getNodes(): Set<Node> {

@@ -19,7 +19,7 @@ import Block from "./Block";
 import ListType from "./ListType";
 import ValueException from "../runtime/ValueException";
 import type Translations from "./Translations";
-import { overrideWithDocs, TRANSLATE } from "./Translations"
+import { TRANSLATE } from "./Translations"
 import Exception from "../runtime/Exception";
 import type Definition from "./Definition";
 import AnyType from "./AnyType";
@@ -291,12 +291,10 @@ export default class Bind extends Expression {
     }
     
     getDescriptions(): Translations {
-
-        const defaultDocs = { 
+        return { 
             "😀": TRANSLATE,
-            eng: "A named value" 
+            eng: "a named value" 
         };
-        return this.docs ? overrideWithDocs(defaultDocs, this.docs) : defaultDocs;
         
     }
 

@@ -15,7 +15,7 @@ import { BinaryOpRegEx, FUNCTION_SYMBOL, UnaryOpRegEx } from "../parser/Tokenize
 import type TypeSet from "./TypeSet";
 import EvaluationException, { StackSize } from "../runtime/EvaluationException";
 import type Translations from "./Translations";
-import { overrideWithDocs, TRANSLATE } from "./Translations"
+import { TRANSLATE } from "./Translations"
 import EvalCloseToken from "./EvalCloseToken";
 import EvalOpenToken from "./EvalOpenToken";
 import Docs from "./Docs";
@@ -245,11 +245,10 @@ export default class FunctionDefinition extends Expression {
     }
 
     getDescriptions(): Translations {
-        const defaultDocs = { 
+        return { 
             "😀": TRANSLATE,
-            eng: "A named function" 
+            eng: "a function" 
         };
-        return this.docs ? overrideWithDocs(defaultDocs, this.docs) : defaultDocs;
     }
 
 }

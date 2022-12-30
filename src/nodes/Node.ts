@@ -48,7 +48,7 @@ export default abstract class Node {
 
     isLeaf() { return false; }
     isPlaceholder() { return false; }
-
+    
     // CHILDREN
 
     /**

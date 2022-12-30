@@ -29,5 +29,4 @@ export function selectTranslation(translations: Translations, languages: Languag
     const choice = languages.find(lang => available.includes(lang)) ?? available[0];
     return translations[choice as LanguageCode];
 
-
 }

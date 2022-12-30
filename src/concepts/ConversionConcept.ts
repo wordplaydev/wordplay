@@ -28,6 +28,8 @@ export default class ConversionConcept extends Concept {
 
     }
 
+    getDocs() { return this.definition.docs; }
+
     getRepresentation() { return this.example; }
 
     getNodes(): Set<Node> {

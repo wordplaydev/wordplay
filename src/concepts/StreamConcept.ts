@@ -23,6 +23,8 @@ export default class StreamConcept extends Concept {
 
     }
 
+    getDocs() { return this.stream.docs; }
+
     getTypeConcept(index: ConceptIndex): Concept | undefined {
         const type = this.stream.getType(this.context);
         return type instanceof StreamType ? index.getConceptOfType(type.type) : undefined;

@@ -1,4 +1,5 @@
 import type Context from "../nodes/Context";
+import type Docs from "../nodes/Docs";
 import type Node from "../nodes/Node";
 
 /** 
@@ -60,6 +61,8 @@ export default abstract class Concept {
            concepts = concepts.concat(concept.getAllConcepts());
         return concepts;
     }
+
+    abstract getDocs(): Docs | undefined;
 
     abstract equals(concept: Concept): boolean;
 

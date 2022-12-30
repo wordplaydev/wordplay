@@ -24,7 +24,7 @@ import TypeToken from "./TypeToken";
 import EvalOpenToken from "./EvalOpenToken";
 import EvalCloseToken from "./EvalCloseToken";
 import type Translations from "./Translations";
-import { overrideWithDocs, TRANSLATE } from "./Translations"
+import { TRANSLATE } from "./Translations"
 import Docs from "./Docs";
 import Names from "./Names";
 import type Value from "../runtime/Value";
@@ -294,11 +294,10 @@ export default class StructureDefinition extends Expression {
     }
 
     getDescriptions(): Translations {
-        const defaultDocs = { 
-            eng: "A structure",
+        return { 
+            eng: "a structure",
             "😀": TRANSLATE
         };
-        return this.docs ? overrideWithDocs(defaultDocs, this.docs) : defaultDocs;
     }
 
 }

@@ -53,6 +53,8 @@ export default class StructureConcept extends Concept {
 
     }
 
+    getDocs() { return this.definition.docs; }
+
     getRepresentation() { return this.type; }
 
     getNodes(): Set<Node> {

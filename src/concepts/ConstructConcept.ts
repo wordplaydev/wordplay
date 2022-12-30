@@ -14,6 +14,8 @@ export default class ConstructConcept extends Concept {
 
     }
 
+    getDocs() { return undefined; }
+
     getRepresentation() { return this.template; }
 
     getNodes(): Set<Node> {
