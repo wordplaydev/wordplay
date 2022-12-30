@@ -107,7 +107,7 @@ export default class StructureConcept extends Concept {
     }
 
     getRepresentation() {
-        return this.examples[0];
+        return this.type instanceof NameType ? this.examples[0] : this.type;
     }
 
     getNodes(): Set<Node> {
