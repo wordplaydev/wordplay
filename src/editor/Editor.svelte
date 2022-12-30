@@ -1152,11 +1152,11 @@
 
         if (transforms.length === 0) return;
 
-        // Make a menu, but without a location, so other things know there's a menu while we're waiting.
-        menu = { node, transforms, location: undefined };
-
         // Wait for everything to be rendered so we can get the position of things.
         await tick();
+
+        // Make a menu, but without a location, so other things know there's a menu while we're waiting.
+        menu = { node, transforms, location: undefined };
 
         // Position the menu if a node is selected.
         let position: { left: string; top: string } | undefined = undefined;
