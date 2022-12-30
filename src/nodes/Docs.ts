@@ -51,7 +51,7 @@ export default class Docs extends Node {
         for(const docs of this.docs) {
             let text = docs.docs.getText();
             if(text.charAt(0) === DOCS_SYMBOL) text = text.substring(1);
-            if(text.charAt(text.length - 1) === DOCS_SYMBOL) text = text.substring(0, text.length - 2);
+            if(text.charAt(text.length - 1) === DOCS_SYMBOL) text = text.substring(0, text.length - 1);
             translations[docs.getLanguage() ?? ""] = text;
         }
         return translations as Translations;
