@@ -2,8 +2,9 @@ import Node from "./Node";
 import Token from "./Token";
 import type Translations from "./Translations";
 import { TRANSLATE } from "./Translations"
-import { EXPONENT_SYMBOL } from "../parser/Tokenizer";
+import { EXPONENT_SYMBOL, PRODUCT_SYMBOL } from "../parser/Tokenizer";
 import TokenType from "./TokenType";
+import NameToken from "./NameToken";
 
 export default class Dimension extends Node {
 
@@ -22,6 +23,15 @@ export default class Dimension extends Node {
 
         this.computeChildren();
 
+    }
+
+    static make(subsequent: boolean, unit: string, exponent: number) {
+        return new Dimension(
+            subsequent ? new Token(PRODUCT_SYMBOL, TokenType.BINARY_OP) : undefined,
+            new NameToken(unit),
+            exponent > 1 ? new Token(EXPONENT_SYMBOL, TokenType.BINARY_OP) : undefined,
+            exponent > 1 ? new Token("" + exponent, TokenType.NUMBER) : undefined
+        );
     }
 
     getGrammar() { 

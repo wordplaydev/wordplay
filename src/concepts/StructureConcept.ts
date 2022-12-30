@@ -77,9 +77,9 @@ export default class StructureConcept extends Concept {
      * True if the concept represents the given type. Used to map types to concepts.
      */
     representsType(type: Type) { 
-        return type instanceof StructureDefinitionType && this.definition === type.structure ||
-            type instanceof NameType && type.definition && this.definition == type.definition ||
-            this.type && this.type.accepts(type, this.context);
+        return (type instanceof StructureDefinitionType && this.definition === type.structure) ||
+            (type instanceof NameType && type.definition && this.definition == type.definition) ||
+            (type !== undefined && this.type !== undefined && type.constructor === this.type.constructor);
     }
 
 }

@@ -9,6 +9,7 @@ import { TRANSLATE } from "./Translations"
 import type TypeSet from "./TypeSet";
 import type { NativeTypeName } from "../native/NativeConstants";
 import LanguageToken from "./LanguageToken";
+import TokenType from "./TokenType";
 
 export default class Unit extends Type {
 
@@ -53,20 +54,33 @@ export default class Unit extends Type {
 
         }
         else {
-            // Set the exponents directly, if given.
+            // Start as empty.
+            this.numerator = [];
+            this.denominator = [];
+    
+            // Set the exponents directly, if given, and construct tokens to represent it, in case this unit is displayed or copied.
             if(exponents !== undefined) {
                 const cleanExponents = new Map();
                 // Eliminate any 0 exponent units.
-                for(const unit of exponents.keys())
-                    if(exponents.get(unit) !== 0) cleanExponents.set(unit, exponents.get(unit));
+                for(const unit of exponents.keys()) {
+                    const exp = exponents.get(unit)
+                    if(exp !== undefined && exp !== 0) {
+                        cleanExponents.set(unit, exp);
+                        if(exp > 0)
+                            this.numerator.push(Dimension.make(this.numerator.length > 0, unit, exp));
+                        else {
+                            this.denominator.push(Dimension.make(this.numerator.length > 0, unit, exp));
+                            if(this.slash === undefined)
+                                this.slash = new Token(LANGUAGE_SYMBOL, TokenType.LANGUAGE)
+                        }
+                    }
+                }
                 this.exponents = cleanExponents;
 
             }
-            else
+            else {
                 this.exponents = new Map();
-
-            this.numerator = [];
-            this.denominator = [];
+            }
         }
 
         this.computeChildren();
