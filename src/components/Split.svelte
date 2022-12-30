@@ -112,6 +112,7 @@
     .split.dragging > .divider,
     .divider:focus {
         border: none;
+        z-index: var(--wordplay-layer-controls);
     }
 
     @media screen {
