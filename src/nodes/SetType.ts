@@ -4,7 +4,6 @@ import {
 } from '../native/NativeConstants';
 import type Context from './Context';
 import NativeType from './NativeType';
-import type Node from './Node';
 import Token from './Token';
 import Type from './Type';
 import type Translations from './Translations';
@@ -14,6 +13,7 @@ import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type Conflict from '../conflicts/Conflict';
 import type TypeSet from './TypeSet';
+import type { Replacement } from './Node';
 
 export default class SetType extends NativeType {
     readonly open: Token;
@@ -42,11 +42,11 @@ export default class SetType extends NativeType {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new SetType(
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild('key', this.key, original, replacement),
-            this.replaceChild('close', this.close, original, replacement)
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('key', this.key, replace),
+            this.replaceChild('close', this.close, replace)
         ) as this;
     }
 

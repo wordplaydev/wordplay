@@ -7,7 +7,6 @@ import {
 import Dimension from './Dimension';
 import Token from './Token';
 import Type from './Type';
-import type Node from './Node';
 import Measurement from '../runtime/Measurement';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
@@ -15,6 +14,7 @@ import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import LanguageToken from './LanguageToken';
 import TokenType from './TokenType';
+import type { Replacement } from './Node';
 
 export default class Unit extends Type {
     /** In case this was parsed, we keep the original tokens around. */
@@ -135,22 +135,12 @@ export default class Unit extends Type {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Unit(
             this.exponents === undefined ? undefined : new Map(this.exponents),
-            this.replaceChild(
-                'numerator',
-                this.numerator,
-                original,
-                replacement
-            ),
-            this.replaceChild('slash', this.slash, original, replacement),
-            this.replaceChild(
-                'denominator',
-                this.denominator,
-                original,
-                replacement
-            )
+            this.replaceChild('numerator', this.numerator, replace),
+            this.replaceChild('slash', this.slash, replace),
+            this.replaceChild('denominator', this.denominator, replace)
         ) as this;
     }
 

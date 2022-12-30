@@ -1,6 +1,6 @@
 import UnicodeString from '../models/UnicodeString';
 import type Spaces from '../parser/Spaces';
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
@@ -91,7 +91,14 @@ export default class Token extends Node {
 
     // TRANSFORMATIONS
 
-    clone(original?: Node, replacement?: Node): this {
+    clone(replace?: Replacement): this {
+        if (replace === undefined)
+            return new Token(
+                this.text,
+                Array.isArray(this.types) ? [...this.types] : this.types
+            ) as this;
+
+        const { original, replacement } = replace;
         // Is this what we're replacing? Replace it.
         if (original === this && replacement instanceof Token)
             return replacement as this;

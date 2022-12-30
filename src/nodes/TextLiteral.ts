@@ -2,7 +2,6 @@ import Expression from './Expression';
 import TextType from './TextType';
 import Token from './Token';
 import type Type from './Type';
-import type Node from './Node';
 import type Value from '../runtime/Value';
 import Text from '../runtime/Text';
 import type Step from '../runtime/Step';
@@ -15,6 +14,7 @@ import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import type Evaluator from '../runtime/Evaluator';
 import StartFinish from '../runtime/StartFinish';
+import type { Replacement } from './Node';
 
 export default class TextLiteral extends Expression {
     readonly text: Token;
@@ -42,10 +42,10 @@ export default class TextLiteral extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new TextLiteral(
-            this.replaceChild('text', this.text, original, replacement),
-            this.replaceChild('format', this.format, original, replacement)
+            this.replaceChild('text', this.text, replace),
+            this.replaceChild('format', this.format, replace)
         ) as this;
     }
 

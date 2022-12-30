@@ -1,5 +1,4 @@
 import Token from './Token';
-import type Node from './Node';
 import TokenType from './TokenType';
 import { BOOLEAN_TYPE_SYMBOL } from '../parser/Tokenizer';
 import NativeType from './NativeType';
@@ -7,6 +6,7 @@ import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type { Replacement } from './Node';
 
 export default class BooleanType extends NativeType {
     readonly type: Token;
@@ -29,9 +29,9 @@ export default class BooleanType extends NativeType {
         return [{ name: 'type', types: [Token] }];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new BooleanType(
-            this.replaceChild('type', this.type, original, replacement)
+            this.replaceChild('type', this.type, replace)
         ) as this;
     }
 

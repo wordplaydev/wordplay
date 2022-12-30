@@ -20,6 +20,7 @@ import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import Docs from './Docs';
 import StartFinish from '../runtime/StartFinish';
+import type { Replacement } from './Node';
 
 export default class ConversionDefinition extends Expression {
     readonly docs: Docs | undefined;
@@ -78,18 +79,13 @@ export default class ConversionDefinition extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new ConversionDefinition(
-            this.replaceChild('docs', this.docs, original, replacement),
-            this.replaceChild('arrow', this.arrow, original, replacement),
-            this.replaceChild('input', this.input, original, replacement),
-            this.replaceChild('output', this.output, original, replacement),
-            this.replaceChild(
-                'expression',
-                this.expression,
-                original,
-                replacement
-            )
+            this.replaceChild('docs', this.docs, replace),
+            this.replaceChild('arrow', this.arrow, replace),
+            this.replaceChild('input', this.input, replace),
+            this.replaceChild('output', this.output, replace),
+            this.replaceChild('expression', this.expression, replace)
         ) as this;
     }
 

@@ -2,7 +2,6 @@ import Expression from './Expression';
 import KeyValue from './KeyValue';
 import Token from './Token';
 import type Type from './Type';
-import type Node from './Node';
 import type Conflict from '../conflicts/Conflict';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
@@ -25,6 +24,7 @@ import BindToken from './BindToken';
 import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
+import type { Replacement } from './Node';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;
@@ -61,17 +61,12 @@ export default class MapLiteral extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new MapLiteral(
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild<KeyValue[]>(
-                'values',
-                this.values,
-                original,
-                replacement
-            ),
-            this.replaceChild('bind', this.bind, original, replacement),
-            this.replaceChild('close', this.close, original, replacement)
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild<KeyValue[]>('values', this.values, replace),
+            this.replaceChild('bind', this.bind, replace),
+            this.replaceChild('close', this.close, replace)
         ) as this;
     }
 

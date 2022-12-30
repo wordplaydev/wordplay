@@ -27,6 +27,7 @@ import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
 import MeasurementLiteral from './MeasurementLiteral';
+import type { Replacement } from './Node';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -78,12 +79,12 @@ export default class ListAccess extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new ListAccess(
-            this.replaceChild('list', this.list, original, replacement),
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild('index', this.index, original, replacement),
-            this.replaceChild('close', this.close, original, replacement)
+            this.replaceChild('list', this.list, replace),
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('index', this.index, replace),
+            this.replaceChild('close', this.close, replace)
         ) as this;
     }
 

@@ -27,6 +27,7 @@ import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import NoExpressionType from './NoExpressionType';
+import type { Replacement } from './Node';
 
 export default class Block extends Expression {
     readonly docs?: Docs;
@@ -90,19 +91,14 @@ export default class Block extends Expression {
         return !this.root && this.statements.includes(child as Expression);
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Block(
-            this.replaceChild<Expression[]>(
-                'statements',
-                this.statements,
-                original,
-                replacement
-            ),
+            this.replaceChild('statements', this.statements, replace),
             this.root,
             this.creator,
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild('close', this.close, original, replacement),
-            this.replaceChild('docs', this.docs, original, replacement)
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('close', this.close, replace),
+            this.replaceChild('docs', this.docs, replace)
         ) as this;
     }
 

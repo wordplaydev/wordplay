@@ -25,6 +25,7 @@ import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import NotATableType from './NotATableType';
 import UnknownNameType from './UnknownNameType';
+import type { Replacement } from './Node';
 
 export default class Select extends Expression {
     readonly table: Expression;
@@ -52,12 +53,12 @@ export default class Select extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Select(
-            this.replaceChild('table', this.table, original, replacement),
-            this.replaceChild('select', this.select, original, replacement),
-            this.replaceChild('row', this.row, original, replacement),
-            this.replaceChild('query', this.query, original, replacement)
+            this.replaceChild('table', this.table, replace),
+            this.replaceChild('select', this.select, replace),
+            this.replaceChild('row', this.row, replace),
+            this.replaceChild('query', this.query, replace)
         ) as this;
     }
 

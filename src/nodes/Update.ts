@@ -23,6 +23,7 @@ import UnimplementedException from '../runtime/UnimplementedException';
 import type Evaluator from '../runtime/Evaluator';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
+import type { Replacement } from './Node';
 
 export default class Update extends Expression {
     readonly table: Expression;
@@ -50,12 +51,12 @@ export default class Update extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Update(
-            this.replaceChild('table', this.table, original, replacement),
-            this.replaceChild('update', this.update, original, replacement),
-            this.replaceChild('row', this.row, original, replacement),
-            this.replaceChild('query', this.query, original, replacement)
+            this.replaceChild('table', this.table, replace),
+            this.replaceChild('update', this.update, replace),
+            this.replaceChild('row', this.row, replace),
+            this.replaceChild('query', this.query, replace)
         ) as this;
     }
 

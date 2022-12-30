@@ -22,6 +22,7 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import type Value from '../runtime/Value';
 import type LanguageCode from './LanguageCode';
+import type { Replacement } from './Node';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -54,17 +55,12 @@ export default class Program extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Program(
-            this.replaceChild('docs', this.docs, original, replacement),
-            this.replaceChild('borrows', this.borrows, original, replacement),
-            this.replaceChild(
-                'expression',
-                this.expression,
-                original,
-                replacement
-            ),
-            this.replaceChild('end', this.end, original, replacement)
+            this.replaceChild('docs', this.docs, replace),
+            this.replaceChild('borrows', this.borrows, replace),
+            this.replaceChild('expression', this.expression, replace),
+            this.replaceChild('end', this.end, replace)
         ) as this;
     }
 

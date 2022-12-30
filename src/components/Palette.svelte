@@ -41,7 +41,6 @@
     import type Project from '../models/Project';
     import type ConstructConcept from '../concepts/ConstructConcept';
     import ConceptIndex from '../concepts/ConceptIndex';
-    import Reference from '../nodes/Reference';
     import type Node from '../nodes/Node';
     import { languages } from '../models/languages';
 
@@ -68,8 +67,8 @@
     setContext(PaletteIndexSymbol, index);
 
     $: {
-        // When the project changes and the keyboard is idle, recompute the concepts.
-        if ($KeyboardIdle && latestProject !== $project) {
+        // When the project changes, languages change, and the keyboard is idle, recompute the concepts.
+        if ($languages && $KeyboardIdle && latestProject !== $project) {
             latestProject = $project;
 
             projectStructures = [$project.main, ...$project.supplements]
@@ -84,6 +83,7 @@
                                 def,
                                 undefined,
                                 [],
+                                $languages,
                                 $project.getContext(source)
                             )
                     )
@@ -101,8 +101,9 @@
                             (def) =>
                                 new FunctionConcept(
                                     def,
-                                    $project.getContext(source),
-                                    undefined
+                                    undefined,
+                                    $languages,
+                                    $project.getContext(source)
                                 )
                         )
                 )
@@ -116,6 +117,7 @@
                             (def) =>
                                 new BindConcept(
                                     def,
+                                    $languages,
                                     $project.getContext(source)
                                 )
                         )
@@ -126,14 +128,24 @@
                 .getAllStreams()
                 .map(
                     (s) =>
-                        new StreamConcept(s, $project.getContext($project.main))
+                        new StreamConcept(
+                            s,
+                            $languages,
+                            $project.getContext($project.main)
+                        )
                 );
 
             constructs = getConstructConcepts(
                 $project.getContext($project.main)
             );
-            native = getNativeConcepts($project.getContext($project.main));
-            output = getOutputConcepts($project.getContext($project.main));
+            native = getNativeConcepts(
+                $languages,
+                $project.getContext($project.main)
+            );
+            output = getOutputConcepts(
+                $languages,
+                $project.getContext($project.main)
+            );
 
             index.set(
                 new ConceptIndex(
@@ -183,13 +195,8 @@
                 parseInt(root.dataset.id ?? '')
             );
             if (node !== undefined) {
-                // If the node is a Reference with a definition, "harden" it into a preferred language.
-                if (node instanceof Reference && node.definition !== undefined)
-                    node = Reference.make(
-                        node.definition.names.getTranslation($languages)
-                    );
-
-                dragged.set(new Tree(node));
+                // Set the dragged node to a deep clone of the (it may contain nodes from declarations that we don't want leaking into the program);
+                dragged.set(new Tree(node.clone()));
             }
         }
     }
@@ -223,7 +230,7 @@
             $project.withSource(
                 source,
                 source.withProgram(
-                    source.expression.clone(node.node, replacement),
+                    source.expression.replace(node.node, replacement),
                     source.spaces.withReplacement(node.node, replacement)
                 )
             )

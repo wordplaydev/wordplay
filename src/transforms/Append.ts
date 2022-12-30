@@ -44,7 +44,7 @@ export default class Append<NodeType extends Node> extends Transform {
         );
 
         // Make a new program with the new parent
-        let newProgram = this.context.source.expression.clone(
+        let newProgram = this.context.source.expression.replace(
             this.parent,
             newParent
         );
@@ -83,7 +83,7 @@ export default class Append<NodeType extends Node> extends Transform {
         newList.splice(this.index, 0, newChild);
 
         // Clone the parent with the new list, pretty printing.
-        const newParent = this.parent.clone(this.list, newList);
+        const newParent = this.parent.replace(this.list, newList);
 
         return [newChild, newParent];
     }

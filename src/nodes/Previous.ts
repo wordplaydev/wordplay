@@ -28,6 +28,7 @@ import Start from '../runtime/Start';
 import UnionType from './UnionType';
 import NoneType from './NoneType';
 import type Changed from './Changed';
+import type { Replacement } from './Node';
 
 export default class Previous extends Expression {
     readonly stream: Expression;
@@ -70,11 +71,11 @@ export default class Previous extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Previous(
-            this.replaceChild('stream', this.stream, original, replacement),
-            this.replaceChild('previous', this.previous, original, replacement),
-            this.replaceChild('index', this.index, original, replacement)
+            this.replaceChild('stream', this.stream, replace),
+            this.replaceChild('previous', this.previous, replace),
+            this.replaceChild('index', this.index, replace)
         ) as this;
     }
 

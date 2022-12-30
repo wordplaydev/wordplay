@@ -36,7 +36,7 @@ export default class Add<NodeType extends Node> extends Transform {
 
     getEditedNode(lang: LanguageCode[]): [Node, Node] {
         const newNode = this.getNewNode(lang);
-        return [newNode, this.parent.clone(this.field, newNode)];
+        return [newNode, this.parent.replace(this.field, newNode)];
     }
 
     getEdit(languages: LanguageCode[]): Edit | undefined {
@@ -49,7 +49,7 @@ export default class Add<NodeType extends Node> extends Transform {
             newNode
         );
 
-        const newProgram = this.context.source.expression.clone(
+        const newProgram = this.context.source.expression.replace(
             this.parent,
             newParent
         );

@@ -46,6 +46,7 @@ import NotAFunctionType from './NotAFunctionType';
 import PropertyReference from './PropertyReference';
 import Action from '../runtime/Action';
 import NeverType from './NeverType';
+import type { Replacement } from './Node';
 
 type Mapping = {
     expected: Bind;
@@ -137,13 +138,13 @@ export default class Evaluate extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Evaluate(
-            this.replaceChild('func', this.func, original, replacement),
-            this.replaceChild('types', this.types, original, replacement),
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild('inputs', this.inputs, original, replacement),
-            this.replaceChild('close', this.close, original, replacement)
+            this.replaceChild('func', this.func, replace),
+            this.replaceChild('types', this.types, replace),
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('inputs', this.inputs, replace),
+            this.replaceChild('close', this.close, replace)
         ) as this;
     }
 

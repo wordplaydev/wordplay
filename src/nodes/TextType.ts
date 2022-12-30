@@ -2,7 +2,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import { TEXT_SYMBOL } from '../parser/Tokenizer';
 import Language from './Language';
 import NativeType from './NativeType';
-import type Node from './Node';
+import type { Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import type Translations from './Translations';
@@ -34,10 +34,10 @@ export default class TextType extends NativeType {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new TextType(
-            this.replaceChild('text', this.text, original, replacement),
-            this.replaceChild('format', this.format, original, replacement)
+            this.replaceChild('text', this.text, replace),
+            this.replaceChild('format', this.format, replace)
         ) as this;
     }
 

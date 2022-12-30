@@ -1,5 +1,5 @@
 import Language from './Language';
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import Token from './Token';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
@@ -30,10 +30,10 @@ export default class Doc extends Node {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Doc(
-            this.replaceChild('docs', this.docs, original, replacement),
-            this.replaceChild('lang', this.lang, original, replacement)
+            this.replaceChild('docs', this.docs, replace),
+            this.replaceChild('lang', this.lang, replace)
         ) as this;
     }
 

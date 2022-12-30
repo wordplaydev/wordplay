@@ -7,7 +7,7 @@ import type Step from '../runtime/Step';
 import type Value from '../runtime/Value';
 import type Bind from './Bind';
 import Expression from './Expression';
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import type TypeSet from './TypeSet';
@@ -30,14 +30,9 @@ export default class UnparsableExpression extends Expression {
         return [new UnparsableConflict(this)];
     }
 
-    clone(original?: Node, replacement?: Node): this {
+    clone(replace?: Replacement): this {
         return new UnparsableExpression(
-            this.replaceChild(
-                'unparsables',
-                this.unparsables,
-                original,
-                replacement
-            )
+            this.replaceChild('unparsables', this.unparsables, replace)
         ) as this;
     }
 

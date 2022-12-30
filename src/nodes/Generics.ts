@@ -89,7 +89,7 @@ export default function getConcreteExpectedType(
                           context
                       );
             // Clone the current type, replacing the abstract type with the concrete type.
-            type = type.clone(nextAbstractType, concreteType);
+            type = type.replace(nextAbstractType, concreteType);
         }
         // If there isn't another abstract type, we have our type!
         else break;

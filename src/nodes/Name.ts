@@ -1,4 +1,4 @@
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import Token from './Token';
 import type Conflict from '../conflicts/Conflict';
 import Language from './Language';
@@ -43,16 +43,11 @@ export default class Name extends Node {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Name(
-            this.replaceChild(
-                'separator',
-                this.separator,
-                original,
-                replacement
-            ),
-            this.replaceChild('name', this.name, original, replacement),
-            this.replaceChild('lang', this.lang, original, replacement)
+            this.replaceChild('separator', this.separator, replace),
+            this.replaceChild('name', this.name, replace),
+            this.replaceChild('lang', this.lang, replace)
         ) as this;
     }
 

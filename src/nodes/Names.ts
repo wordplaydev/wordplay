@@ -1,4 +1,4 @@
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import type LanguageCode from './LanguageCode';
@@ -67,14 +67,9 @@ export default class Names extends Node {
         return [{ name: 'names', types: [[Name]] }];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Names(
-            this.replaceChild<Name[]>(
-                'names',
-                this.names,
-                original,
-                replacement
-            )
+            this.replaceChild<Name[]>('names', this.names, replace)
         ) as this;
     }
 

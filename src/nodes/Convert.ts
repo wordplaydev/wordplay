@@ -2,7 +2,6 @@ import type Conflict from '../conflicts/Conflict';
 import { UnknownConversion } from '../conflicts/UnknownConversion';
 import Expression from './Expression';
 import Type from './Type';
-import type Node from './Node';
 import Token from './Token';
 import Finish from '../runtime/Finish';
 import type Step from '../runtime/Step';
@@ -25,6 +24,7 @@ import Names from './Names';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
 import NotAFunctionType from './NotAFunctionType';
+import type { Replacement } from './Node';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -57,16 +57,11 @@ export default class Convert extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Convert(
-            this.replaceChild(
-                'expression',
-                this.expression,
-                original,
-                replacement
-            ),
-            this.replaceChild('convert', this.convert, original, replacement),
-            this.replaceChild('type', this.type, original, replacement)
+            this.replaceChild('expression', this.expression, replace),
+            this.replaceChild('convert', this.convert, replace),
+            this.replaceChild('type', this.type, replace)
         ) as this;
     }
 

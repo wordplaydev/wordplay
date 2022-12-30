@@ -29,6 +29,7 @@ import StreamType from './StreamType';
 import Reference from './Reference';
 import NameType from './NameType';
 import UnknownNameType from './UnknownNameType';
+import type { Replacement } from './Node';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -80,16 +81,11 @@ export default class PropertyReference extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new PropertyReference(
-            this.replaceChild(
-                'structure',
-                this.structure,
-                original,
-                replacement
-            ),
-            this.replaceChild('dot', this.dot, original, replacement),
-            this.replaceChild('name', this.name, original, replacement)
+            this.replaceChild('structure', this.structure, replace),
+            this.replaceChild('dot', this.dot, replace),
+            this.replaceChild('name', this.name, replace)
         ) as this;
     }
 

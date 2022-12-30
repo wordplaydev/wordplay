@@ -42,6 +42,7 @@ import type Value from '../runtime/Value';
 import TokenType from './TokenType';
 import type Name from './Name';
 import DuplicateNames from '../conflicts/DuplicateNames';
+import type { Replacement } from './Node';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -127,20 +128,19 @@ export default class Bind extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Bind(
-            this.replaceChild('docs', this.docs, original, replacement),
-            this.replaceChild('share', this.share, original, replacement),
-            this.replaceChild('names', this.names, original, replacement),
-            this.replaceChild('etc', this.etc, original, replacement),
-            this.replaceChild('dot', this.dot, original, replacement),
-            this.replaceChild('type', this.type, original, replacement),
-            this.replaceChild('colon', this.colon, original, replacement),
+            this.replaceChild('docs', this.docs, replace),
+            this.replaceChild('share', this.share, replace),
+            this.replaceChild('names', this.names, replace),
+            this.replaceChild('etc', this.etc, replace),
+            this.replaceChild('dot', this.dot, replace),
+            this.replaceChild('type', this.type, replace),
+            this.replaceChild('colon', this.colon, replace),
             this.replaceChild<Expression | undefined>(
                 'value',
                 this.value,
-                original,
-                replacement
+                replace
             )
         ) as this;
     }

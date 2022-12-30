@@ -5,13 +5,13 @@ import {
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '../parser/Tokenizer';
 import type Context from './Context';
 import NativeType from './NativeType';
-import type Node from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import Type from './Type';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import type TypeSet from './TypeSet';
+import type { Replacement } from './Node';
 
 export default class ListType extends NativeType {
     readonly open: Token;
@@ -53,11 +53,11 @@ export default class ListType extends NativeType {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new ListType(
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild('type', this.type, original, replacement),
-            this.replaceChild('close', this.close, original, replacement)
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('type', this.type, replace),
+            this.replaceChild('close', this.close, replace)
         ) as this;
     }
 

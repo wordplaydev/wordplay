@@ -18,6 +18,7 @@ import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import { CHANGE_SYMBOL } from '../parser/Tokenizer';
 import TokenType from './TokenType';
+import type { Replacement } from './Node';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -50,21 +51,11 @@ export default class Reaction extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Reaction(
-            this.replaceChild('initial', this.initial, original, replacement),
-            this.replaceChild<Token>(
-                'delta',
-                this.delta,
-                original,
-                replacement
-            ),
-            this.replaceChild<Expression>(
-                'next',
-                this.next,
-                original,
-                replacement
-            )
+            this.replaceChild('initial', this.initial, replace),
+            this.replaceChild<Token>('delta', this.delta, replace),
+            this.replaceChild<Expression>('next', this.next, replace)
         ) as this;
     }
 

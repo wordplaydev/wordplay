@@ -1,5 +1,5 @@
 import MissingLanguage from '../conflicts/MissingLanguage';
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import Token from './Token';
 import NameToken from './NameToken';
 import type Translations from './Translations';
@@ -34,10 +34,10 @@ export default class Language extends Node {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Language(
-            this.replaceChild('slash', this.slash, original, replacement),
-            this.replaceChild('lang', this.lang, original, replacement)
+            this.replaceChild('slash', this.slash, replace),
+            this.replaceChild('lang', this.lang, replace)
         ) as this;
     }
 

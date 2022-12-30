@@ -20,6 +20,7 @@ import { TRANSLATE } from './Translations';
 import Finish from '../runtime/Finish';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
+import type { Replacement } from './Node';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
@@ -66,27 +67,12 @@ export default class Conditional extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Conditional(
-            this.replaceChild(
-                'condition',
-                this.condition,
-                original,
-                replacement
-            ),
-            this.replaceChild<Expression>(
-                'yes',
-                this.yes,
-                original,
-                replacement
-            ),
-            this.replaceChild<Expression>('no', this.no, original, replacement),
-            this.replaceChild<Token>(
-                'conditional',
-                this.conditional,
-                original,
-                replacement
-            )
+            this.replaceChild('condition', this.condition, replace),
+            this.replaceChild<Expression>('yes', this.yes, replace),
+            this.replaceChild<Expression>('no', this.no, replace),
+            this.replaceChild<Token>('conditional', this.conditional, replace)
         ) as this;
     }
 

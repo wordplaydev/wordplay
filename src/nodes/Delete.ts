@@ -19,6 +19,7 @@ import UnimplementedException from '../runtime/UnimplementedException';
 import type Evaluator from '../runtime/Evaluator';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
+import type { Replacement } from './Node';
 
 export default class Delete extends Expression {
     readonly table: Expression;
@@ -48,11 +49,11 @@ export default class Delete extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Delete(
-            this.replaceChild('table', this.table, original, replacement),
-            this.replaceChild('del', this.del, original, replacement),
-            this.replaceChild('query', this.query, original, replacement)
+            this.replaceChild('table', this.table, replace),
+            this.replaceChild('del', this.del, replace),
+            this.replaceChild('query', this.query, replace)
         ) as this;
     }
 

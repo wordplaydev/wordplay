@@ -1,7 +1,7 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import { NONE_SYMBOL } from '../parser/Tokenizer';
 import NativeType from './NativeType';
-import type Node from './Node';
+import type { Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import type Translations from './Translations';
@@ -39,9 +39,9 @@ export default class NoneType extends NativeType {
         return 'none';
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new NoneType(
-            this.replaceChild('none', this.none, original, replacement)
+            this.replaceChild('none', this.none, replace)
         ) as this;
     }
 

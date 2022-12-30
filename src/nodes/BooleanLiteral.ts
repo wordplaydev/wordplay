@@ -5,7 +5,6 @@ import type Type from './Type';
 import type Value from '../runtime/Value';
 import Bool from '../runtime/Bool';
 import type Step from '../runtime/Step';
-import type Node from './Node';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Tokenizer';
 import type Bind from './Bind';
 import type Context from './Context';
@@ -15,6 +14,7 @@ import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import type Evaluator from '../runtime/Evaluator';
 import StartFinish from '../runtime/StartFinish';
+import type { Replacement } from './Node';
 
 export default class BooleanLiteral extends Expression {
     readonly value: Token;
@@ -63,9 +63,9 @@ export default class BooleanLiteral extends Expression {
         return this.value.text.toString() === TRUE_SYMBOL;
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new BooleanLiteral(
-            this.replaceChild('value', this.value, original, replacement)
+            this.replaceChild('value', this.value, replace)
         ) as this;
     }
 

@@ -16,6 +16,7 @@ import { analyzeRow } from './util';
 import Exception from '../runtime/Exception';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
+import type { Replacement } from './Node';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -99,10 +100,10 @@ export default class TableLiteral extends Expression {
         return new Table(this, rows);
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new TableLiteral(
-            this.replaceChild('type', this.type, original, replacement),
-            this.replaceChild('rows', this.rows, original, replacement)
+            this.replaceChild('type', this.type, replace),
+            this.replaceChild('rows', this.rows, replace)
         ) as this;
     }
 

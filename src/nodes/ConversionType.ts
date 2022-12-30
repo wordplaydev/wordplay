@@ -1,13 +1,13 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import { CONVERT_SYMBOL } from '../parser/Tokenizer';
 import type Context from './Context';
-import type Node from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import Type from './Type';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import type TypeSet from './TypeSet';
+import type { Replacement } from './Node';
 
 export default class ConversionType extends Type {
     readonly input: Type;
@@ -50,11 +50,11 @@ export default class ConversionType extends Type {
         return 'conversion';
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new ConversionType(
-            this.replaceChild('input', this.input, original, replacement),
-            this.replaceChild('convert', this.convert, original, replacement),
-            this.replaceChild('output', this.output, original, replacement)
+            this.replaceChild('input', this.input, replace),
+            this.replaceChild('convert', this.convert, replace),
+            this.replaceChild('output', this.output, replace)
         ) as this;
     }
 

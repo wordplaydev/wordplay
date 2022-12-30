@@ -1,5 +1,6 @@
 import type Bind from '../nodes/Bind';
 import type Context from '../nodes/Context';
+import type LanguageCode from '../nodes/LanguageCode';
 import type Node from '../nodes/Node';
 import Reference from '../nodes/Reference';
 import Concept from './Concept';
@@ -11,11 +12,14 @@ export default class BindConcept extends Concept {
     /** A derived reference to the bind */
     readonly reference: Reference;
 
-    constructor(bind: Bind, context: Context) {
+    constructor(bind: Bind, languages: LanguageCode[], context: Context) {
         super(context);
 
         this.bind = bind;
-        this.reference = Reference.make(this.bind);
+        this.reference = Reference.make(
+            this.bind.names.getTranslation(languages),
+            this.bind
+        );
     }
 
     getDocs() {

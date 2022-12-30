@@ -1,4 +1,4 @@
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import Token from './Token';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
@@ -27,11 +27,11 @@ export default class TypeInputs extends Node {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new TypeInputs(
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild('types', this.types, original, replacement),
-            this.replaceChild('close', this.close, original, replacement)
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('types', this.types, replace),
+            this.replaceChild('close', this.close, replace)
         ) as this;
     }
 

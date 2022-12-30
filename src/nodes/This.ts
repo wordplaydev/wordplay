@@ -1,6 +1,5 @@
 import type Conflict from '../conflicts/Conflict';
 import type Type from './Type';
-import type Node from './Node';
 import type Value from '../runtime/Value';
 import type Step from '../runtime/Step';
 import type Bind from './Bind';
@@ -23,6 +22,7 @@ import { TRANSLATE } from './Translations';
 import StartFinish from '../runtime/StartFinish';
 import Reaction from './Reaction';
 import ValueException from '../runtime/ValueException';
+import type { Replacement } from './Node';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
@@ -40,10 +40,8 @@ export default class This extends Expression {
         return [{ name: 'dis', types: [Token] }];
     }
 
-    clone(original?: Node, replacement?: Node) {
-        return new This(
-            this.replaceChild('dis', this.dis, original, replacement)
-        ) as this;
+    clone(replace?: Replacement) {
+        return new This(this.replaceChild('dis', this.dis, replace)) as this;
     }
 
     getEnclosingStructure(context: Context): ThisStructure | undefined {

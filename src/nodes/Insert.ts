@@ -23,6 +23,7 @@ import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import TypeException from '../runtime/TypeException';
 import UnparsableException from '../runtime/UnparsableException';
+import type { Replacement } from './Node';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -47,11 +48,11 @@ export default class Insert extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Insert(
-            this.replaceChild('table', this.table, original, replacement),
-            this.replaceChild('insert', this.insert, original, replacement),
-            this.replaceChild('row', this.row, original, replacement)
+            this.replaceChild('table', this.table, replace),
+            this.replaceChild('insert', this.insert, replace),
+            this.replaceChild('row', this.row, replace)
         ) as this;
     }
 

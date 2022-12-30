@@ -1,7 +1,6 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import { MEASUREMENT_SYMBOL } from '../parser/Tokenizer';
 import type Context from './Context';
-import type Node from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import Unit from './Unit';
@@ -15,6 +14,7 @@ import Measurement from '../runtime/Measurement';
 import Evaluate from './Evaluate';
 import PropertyReference from './PropertyReference';
 import type TypeSet from './TypeSet';
+import type { Replacement } from './Node';
 
 type UnitDeriver = (
     left: Unit,
@@ -64,12 +64,12 @@ export default class MeasurementType extends NativeType {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new MeasurementType(
-            this.replaceChild('number', this.number, original, replacement),
+            this.replaceChild('number', this.number, replace),
             this.unit === undefined || this.unit instanceof Function
                 ? this.unit
-                : this.replaceChild('unit', this.unit, original, replacement)
+                : this.replaceChild('unit', this.unit, replace)
         ) as this;
     }
 

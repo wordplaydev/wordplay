@@ -1,5 +1,4 @@
 import Type from './Type';
-import type Node from './Node';
 import Bind from '../nodes/Bind';
 import type Context from './Context';
 import Token from './Token';
@@ -12,6 +11,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import AnyType from './AnyType';
 import type Conflict from '../conflicts/Conflict';
 import ExpectedColumnType from '../conflicts/ExpectedColumnType';
+import type { Replacement } from './Node';
 
 export default class TableType extends Type {
     readonly open: Token;
@@ -44,11 +44,11 @@ export default class TableType extends Type {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new TableType(
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild('columns', this.columns, original, replacement),
-            this.replaceChild('close', this.close, original, replacement)
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('columns', this.columns, replace),
+            this.replaceChild('close', this.close, replace)
         ) as this;
     }
 

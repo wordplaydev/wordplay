@@ -32,6 +32,7 @@ import NeverType from './NeverType';
 import type Definition from './Definition';
 import TokenType from './TokenType';
 import MeasurementType from './MeasurementType';
+import type { Replacement } from './Node';
 
 export default class BinaryOperation extends Expression {
     readonly left: Expression;
@@ -87,11 +88,11 @@ export default class BinaryOperation extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new BinaryOperation(
-            this.replaceChild('left', this.left, original, replacement),
-            this.replaceChild('operator', this.operator, original, replacement),
-            this.replaceChild('right', this.right, original, replacement)
+            this.replaceChild('left', this.left, replace),
+            this.replaceChild('operator', this.operator, replace),
+            this.replaceChild('right', this.right, replace)
         ) as this;
     }
 

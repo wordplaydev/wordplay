@@ -3,7 +3,6 @@ import { UnexpectedTypeVariable } from '../conflicts/UnexpectedTypeVariable';
 import { UnknownName } from '../conflicts/UnknownName';
 import Expression from './Expression';
 import Token from './Token';
-import type Node from './Node';
 import type Type from './Type';
 import TypeVariable from './TypeVariable';
 import type Evaluator from '../runtime/Evaluator';
@@ -27,6 +26,7 @@ import Stream from '../runtime/Stream';
 import StartFinish from '../runtime/StartFinish';
 import StreamType from './StreamType';
 import UnknownNameType from './UnknownNameType';
+import type { Replacement } from './Node';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -47,12 +47,8 @@ export default class Reference extends Expression {
         this.computeChildren();
     }
 
-    static make(name: string | Definition) {
-        const isString = typeof name === 'string';
-        return new Reference(
-            new NameToken(isString ? name : '_'),
-            isString ? undefined : name
-        );
+    static make(name: string, definition?: Definition) {
+        return new Reference(new NameToken(name), definition);
     }
 
     getGrammar() {
@@ -69,9 +65,9 @@ export default class Reference extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Reference(
-            this.replaceChild('name', this.name, original, replacement)
+            this.replaceChild('name', this.name, replace)
         ) as this;
     }
 

@@ -3,6 +3,7 @@ import type Context from '../nodes/Context';
 import Evaluate from '../nodes/Evaluate';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
+import type LanguageCode from '../nodes/LanguageCode';
 import type Node from '../nodes/Node';
 import PropertyReference from '../nodes/PropertyReference';
 import Reference from '../nodes/Reference';
@@ -28,15 +29,19 @@ export default class FunctionConcept extends Concept {
 
     constructor(
         definition: FunctionDefinition,
-        context: Context,
-        structure?: StructureConcept
+        structure: StructureConcept | undefined,
+        languages: LanguageCode[],
+        context: Context
     ) {
         super(context);
 
         this.definition = definition;
         this.structure = structure;
 
-        const reference = Reference.make(this.definition);
+        const reference = Reference.make(
+            this.definition.names.getTranslation(languages),
+            this.definition
+        );
 
         this.example =
             this.definition.isUnaryOperator() && this.structure
@@ -73,7 +78,7 @@ export default class FunctionConcept extends Concept {
                   );
 
         this.inputs = this.definition.inputs.map(
-            (bind) => new BindConcept(bind, context)
+            (bind) => new BindConcept(bind, languages, context)
         );
     }
 

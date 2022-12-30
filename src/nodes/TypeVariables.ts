@@ -1,4 +1,4 @@
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Tokenizer';
@@ -40,16 +40,11 @@ export default class TypeVariables extends Node {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new TypeVariables(
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild(
-                'variables',
-                this.variables,
-                original,
-                replacement
-            ),
-            this.replaceChild('close', this.open, original, replacement)
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('variables', this.variables, replace),
+            this.replaceChild('close', this.open, replace)
         ) as this;
     }
 

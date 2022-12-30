@@ -1,7 +1,6 @@
 import Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
-import type Node from './Node';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
 import Set from '../runtime/Set';
@@ -18,6 +17,7 @@ import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '../parser/Tokenizer';
 import TokenType from './TokenType';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
+import type { Replacement } from './Node';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
@@ -55,16 +55,11 @@ export default class SetLiteral extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new SetLiteral(
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild<Expression[]>(
-                'values',
-                this.values,
-                original,
-                replacement
-            ),
-            this.replaceChild('close', this.close, original, replacement)
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild<Expression[]>('values', this.values, replace),
+            this.replaceChild('close', this.close, replace)
         ) as this;
     }
 

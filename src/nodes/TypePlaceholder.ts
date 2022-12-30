@@ -7,6 +7,7 @@ import PlaceholderToken from './PlaceholderToken';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type { Replacement } from './Node';
 
 export default class TypePlaceholder extends Type {
     readonly placeholder: Token;
@@ -35,14 +36,9 @@ export default class TypePlaceholder extends Type {
         return 'unknown';
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new TypePlaceholder(
-            this.replaceChild(
-                'placeholder',
-                this.placeholder,
-                original,
-                replacement
-            )
+            this.replaceChild('placeholder', this.placeholder, replace)
         ) as this;
     }
 

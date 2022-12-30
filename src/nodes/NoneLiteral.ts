@@ -2,7 +2,6 @@ import Token from './Token';
 import Expression from './Expression';
 import NoneType from './NoneType';
 import type Type from './Type';
-import type Node from './Node';
 import None from '../runtime/None';
 import type Value from '../runtime/Value';
 import type Step from '../runtime/Step';
@@ -15,6 +14,7 @@ import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import type Evaluator from '../runtime/Evaluator';
 import StartFinish from '../runtime/StartFinish';
+import type { Replacement } from './Node';
 
 export default class NoneLiteral extends Expression {
     readonly none: Token;
@@ -35,9 +35,9 @@ export default class NoneLiteral extends Expression {
         return [{ name: 'none', types: [Token] }];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new NoneLiteral(
-            this.replaceChild('none', this.none, original, replacement)
+            this.replaceChild('none', this.none, replace)
         ) as this;
     }
 

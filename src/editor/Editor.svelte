@@ -560,7 +560,7 @@
                               .get(replacedOrListContainingNode)
                               ?.getPath();
                 // Replace the dragged node with the placeholder or nothing, effectively removing the node we're moving from the program.
-                editedProgram = editedProgram.clone(draggedNode, replacement);
+                editedProgram = editedProgram.replace(draggedNode, replacement);
                 // Update the node to replace to the cloned node.
                 replacedOrListContainingNode =
                     pathToReplacedOrListContainingNode === undefined
@@ -580,7 +580,7 @@
                         source,
                         source.withProgram(
                             // Replace the node in the dragged root
-                            draggedRoot.clone(draggedNode, replacement),
+                            draggedRoot.replace(draggedNode, replacement),
                             // Preserve the spaces before the dragged node
                             source.spaces.withReplacement(
                                 draggedNode,
@@ -595,7 +595,7 @@
         // If we should replace and we still have a hovered node, replace the hovered node with the dragged node, preserving preceding space.
         if (replacedOrListContainingNode) {
             if (shouldReplace()) {
-                editedProgram = editedProgram.clone(
+                editedProgram = editedProgram.replace(
                     replacedOrListContainingNode,
                     draggedNode
                 );
@@ -647,17 +647,15 @@
                             ? 1
                             : 0);
                     // Replace the list with a new list that has the dragged node inserted.
-                    const clonedListParent = replacedOrListContainingNode.clone(
-                        listToUpdate,
-                        [
+                    const clonedListParent =
+                        replacedOrListContainingNode.replace(listToUpdate, [
                             ...listToUpdate.slice(0, insertionIndex),
                             draggedNode,
                             ...listToUpdate.slice(insertionIndex),
-                        ]
-                    );
+                        ]);
 
                     // Update the program with the new list parent.
-                    editedProgram = editedProgram.clone(
+                    editedProgram = editedProgram.replace(
                         replacedOrListContainingNode,
                         clonedListParent
                     );
@@ -870,10 +868,7 @@
                     Math.min(b.leftDistance, b.rightDistance)
             )
             // Sort by increasing vertical distance from the smaller of view's space top and text middle.
-            .sort(
-                (a, b) => a.textDistance - b.textDistance
-            )[// Choose the closest.
-        0];
+            .sort((a, b) => a.textDistance - b.textDistance)[0]; // Choose the closest.
 
         // If we found one, choose either 1) the nearest empty line or 2) its left or right side of text.
         if (closestText) {
@@ -926,8 +921,7 @@
                         br !== undefined
                 )
                 // Sort by increasing offset from mouse y
-                .sort((a, b) => a.offset - b.offset)[// Chose the closest
-            0];
+                .sort((a, b) => a.offset - b.offset)[0]; // Chose the closest
 
         // If we have a closest line, find the line number
         if (closestLine)

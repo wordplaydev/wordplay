@@ -9,12 +9,13 @@ import type Token from './Token';
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
 
-export type NodeType = undefined | Function | Function[];
+export type FieldValue = Node | Node[] | undefined;
+export type FieldType = undefined | Function | Function[];
 export type Field = {
     /** The name of the field, corresponding to a name on the Node class. Redundant with the class, but no reflection in JavaScript. */
     name: string;
     /** A list of possible Node class types that the field may be. Redundant with the class, but no reflection in JavaScript. */
-    types: NodeType[];
+    types: FieldType[];
     /** True if a preceding space is preferred the node */
     space?: boolean;
     /** True if the field should be indented if on a new line */
@@ -27,6 +28,11 @@ export type Field = {
     getDefinitions?: (context: Context) => Definition[];
     /** Given position in a field that corresponds to a list, true if something can be inserted at that position.  */
     canInsertAt?: (context: Context, index: number) => boolean;
+};
+
+export type Replacement = {
+    original: Node | Node[] | string;
+    replacement: FieldValue;
 };
 
 export default abstract class Node {
@@ -197,7 +203,7 @@ export default abstract class Node {
         return (this as any)[field] as Node | Node[] | undefined;
     }
 
-    getAllowedFieldNodeTypes(name: string): NodeType[] | undefined {
+    getAllowedFieldNodeTypes(name: string): FieldType[] | undefined {
         let field = this.getGrammar().find((field) => field.name === name);
         if (field === undefined) return undefined;
         else return field.types;
@@ -290,135 +296,174 @@ export default abstract class Node {
 
     // MODIFICATION
 
-    /** Creates a shallow clone of this node, reusing all descendants, optionally replacing a given node with another node. */
-    abstract clone(
-        original?: Node | Node[] | string,
-        replacement?: Node | Node[] | undefined
-    ): this;
+    /**
+     * Creates a clone of this node one one of two modes:
+     * 1) which creates a shallow copy that replaces a given node with a replacement, only creating new nodes
+     *    that contain the original and preserving all others.
+     * 2) deep, which creates a deep copy of the node, with no replacement
+     **/
+    abstract clone(replace?: Replacement): this;
 
-    replaceChild<ChildType extends Node | Node[] | undefined>(
+    replaceChild<Child extends FieldValue>(
         field: keyof this,
-        child: ChildType,
-        original: Node | string | undefined,
-        replacement: Node | undefined
-    ): ChildType {
-        function allowedToString(
-            allowedTypes: (Function | Function[] | undefined)[]
-        ) {
-            return `[${allowedTypes
-                .map((type) =>
-                    type instanceof Function
-                        ? type.name
-                        : Array.isArray(type)
-                        ? type.map((type) => type.name)
-                        : 'undefined'
-                )
-                .join(', ')}]`;
-        }
-
-        function isAllowed(
-            node: Node | undefined,
-            allowedTypes: (Function | Function[] | undefined)[]
-        ) {
-            return allowedTypes.some(
-                (type) =>
-                    (type instanceof Function && node instanceof type) ||
-                    (type === undefined && node === undefined) ||
-                    (Array.isArray(type) &&
-                        type.some((listType) => node instanceof listType))
-            );
-        }
-
-        // If we're replacing something --- defined by either the original or replacement being undefined ---
-        // and one of three cases is true: 1) we're replacing the field name, 2) we're replacing a child of this onde, 3) we're replacing a child in a list of this node
-        // then verify the replacemen type and return the replacement instead of a clone of the original child.
-        if (
-            ((original !== undefined || replacement !== undefined) &&
-                typeof original === 'string' &&
-                original === field) ||
-            child === original ||
-            (Array.isArray(child) &&
-                original instanceof Node &&
-                child.includes(original))
-        ) {
-            // Find the types expected for this field
-            const allowedTypes = this.getGrammar().find(
-                (child) => child.name === field
-            )?.types;
-
-            if (allowedTypes === undefined)
-                throw Error(
-                    `Couldn't find allowed types of field ${field.toString()}`
-                );
-            else if (
-                Array.isArray(child) &&
-                Array.isArray(replacement) &&
-                Array.isArray(allowedTypes[0])
-            ) {
-                const listTypes = allowedTypes[0];
-                if (
-                    Array.isArray(listTypes) &&
-                    !replacement.every(
-                        (node) =>
-                            listTypes.find(
-                                (type) =>
-                                    type !== undefined && node instanceof type
-                            ) !== undefined
-                    )
-                )
-                    throw Error(
-                        `Replacement list contains an element of an invalid type. Expected ${allowedToString(
-                            allowedTypes
-                        )}, but received ${replacement
-                            .map((n) => n.constructor.name)
-                            .join(', ')}`
-                    );
-            } else if (
-                (!Array.isArray(child) || replacement !== undefined) &&
-                !isAllowed(replacement, allowedTypes)
-            )
-                throw Error(
-                    `Replacement isn't of a valid type. Received ${
-                        replacement?.constructor.name
-                    }, expected ${allowedToString(allowedTypes)}`
-                );
-
-            // If the child we're replacing is an array but the original is a single node, either replace or remove the original.
-            if (Array.isArray(child) && original instanceof Node) {
-                const index = child.indexOf(original);
-                const newList: Node[] = child.slice();
-                if (index >= 0) {
-                    // If the replacement is undefined, remove it from the list.
-                    if (replacement === undefined) newList.splice(index, 1);
-                    // Otherwise replace it.
-                    else newList[index] = replacement;
-
-                    // Replace the item in the list.
-                    return newList.map((child) =>
-                        child === replacement ? replacement : child
-                    ) as ChildType;
-                } else
-                    throw Error(
-                        `Somehow didn't find index of original in child. This shouldn't be possibe.`
-                    );
-            } else return replacement as ChildType;
-        }
-
-        // If we didn't find a match above, just return the existing list or child.
-        // If the child we're trying to replace is an array, map the existing array onto existing values or a replacement.
-        if (Array.isArray(child))
-            return child.map((n) =>
-                original instanceof Node && n.contains(original)
-                    ? n.clone(original, replacement)
-                    : n
-            ) as ChildType;
-        // If it's not an array, try replacing the original in the child if it's a Node
-        else
+        child: Child,
+        replace?: Replacement
+    ): Child {
+        // If there is no replacement, deep clone the child.
+        if (replace === undefined)
             return (
-                child && original instanceof Node && child.contains(original)
-                    ? child.clone(original, replacement)
-                    : child
-            ) as ChildType;
+                child === undefined
+                    ? undefined
+                    : Array.isArray(child)
+                    ? child.map((c) => c.clone())
+                    : child.clone()
+            ) as Child;
+
+        // Otherwise, begin the search for the replacement by first destructuring the requested change.
+        const { original, replacement } = replace;
+
+        // Let's get the allowed types of the field we're trying to update.
+        const allowedTypes = this.getGrammar().find(
+            (f) => f.name === field
+        )?.types;
+
+        // Bail if the field couldn't be found. This means there's a fatal problem with one of the Node's clone() implementations.
+        if (typeof field !== 'string' || allowedTypes === undefined)
+            throw Error(
+                `Could not find field ${String(field)} on ${
+                    this.constructor.name
+                }`
+            );
+
+        // There are four types of originals to handle. Let's check each for validity.
+        // The default of undefined here means that we have not confirmed that the specified field
+        // is to be replaced.
+        let valid = undefined;
+
+        // Replacement by field name:
+        if (typeof original === 'string') {
+            // Is this the field we're trying to update?
+            if (field === original) {
+                // See if the replacement is valid.
+                valid = Array.isArray(replacement)
+                    ? replacement.every((n) =>
+                          Node.nodeIsAllowed(n, allowedTypes)
+                      )
+                    : Node.nodeIsAllowed(replacement, allowedTypes);
+                if (!valid) {
+                    console.error(
+                        Node.invalidReplacementToString(
+                            field,
+                            allowedTypes,
+                            replacement
+                        )
+                    );
+                    return child as Child;
+                }
+            }
+            // Otherwise, delegate the search to the child below.
+        }
+        // Replacement by array:
+        else if (Array.isArray(original)) {
+            // Does this node have the list provided?
+            if (child === original) {
+                // Verify that the replacement list is valid.
+                valid =
+                    Array.isArray(replacement) &&
+                    replacement.every((r) =>
+                        Node.nodeIsAllowed(r, allowedTypes)
+                    );
+                if (!valid) {
+                    console.error(
+                        Node.invalidReplacementToString(
+                            field,
+                            allowedTypes,
+                            replacement
+                        )
+                    );
+                    return child as Child;
+                }
+            }
+            // Otherwise, delegate the search to the child below.
+        }
+        // Replacement by node
+        else if (original instanceof Node) {
+            // Does this node have the node provided?
+            if (child === original) {
+                // Verify that the replacement node is valid.
+                valid = Node.nodeIsAllowed(replacement, allowedTypes);
+                if (!valid) {
+                    console.error(
+                        Node.invalidReplacementToString(
+                            field,
+                            allowedTypes,
+                            replacement
+                        )
+                    );
+                    return child as Child;
+                }
+            }
+            // Otherwise, delegate the search to the child below.
+        }
+
+        // If this child turns out to be the one to replace, and the replacement is valid, return it.
+        // If not, see if the existing child contains the original, and if so, delegate replacement to it.
+        // Otherwise, leave this child alone.
+        if (valid === true) return replacement as Child;
+        else if (child === undefined) return undefined as Child;
+        else if (child instanceof Node) {
+            if (original instanceof Node && child.contains(original))
+                return child.clone(replace) as Child;
+            else return child;
+        } else {
+            if (original instanceof Node) {
+                const match = child.find((c) => c.contains(original));
+                if (match)
+                    return child.map((c) =>
+                        c === match ? c.clone(replace) : c
+                    ) as Child;
+            }
+            return child;
+        }
+    }
+
+    /** A helper function that generates an error message about allowed types on a node. */
+    static invalidReplacementToString(
+        field: string,
+        allowedTypes: FieldType[],
+        replacement: FieldValue
+    ) {
+        return `Attempt to replace list field ${String(
+            field
+        )} failed because replacement list is not a list or contains invalid items; expected [${allowedTypes
+            .map((type) =>
+                type instanceof Function
+                    ? type.name
+                    : Array.isArray(type)
+                    ? type.map((type) => type.name)
+                    : 'undefined'
+            )
+            .join(', ')}], but received ${(Array.isArray(replacement)
+            ? replacement
+            : [replacement]
+        )
+            .map((n) => n?.constructor.name)
+            .join(', ')}`;
+    }
+
+    /** A helper functino that checks whether the given node or undefined value is allowed on the specified types */
+    static nodeIsAllowed(node: FieldValue, allowedTypes: FieldType[]) {
+        return allowedTypes.some(
+            (type) =>
+                (type instanceof Function && node instanceof type) ||
+                (type === undefined && node === undefined) ||
+                (Array.isArray(type) &&
+                    type.some((listType) => node instanceof listType))
+        );
+    }
+
+    replace(original: Node | Node[] | string, replacement: FieldValue) {
+        return this.clone({ original, replacement });
     }
 
     // WHITESPACE

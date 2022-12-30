@@ -33,6 +33,7 @@ import NoExpression from '../conflicts/NoExpression';
 import UnimplementedType from './UnimplementedType';
 import AnyType from './AnyType';
 import TypeToken from './TypeToken';
+import type { Replacement } from './Node';
 
 export default class FunctionDefinition extends Expression {
     readonly docs?: Docs;
@@ -123,23 +124,18 @@ export default class FunctionDefinition extends Expression {
         return child === this.expression;
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new FunctionDefinition(
-            this.replaceChild('docs', this.docs, original, replacement),
-            this.replaceChild('fun', this.fun, original, replacement),
-            this.replaceChild('names', this.names, original, replacement),
-            this.replaceChild('types', this.types, original, replacement),
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild('inputs', this.inputs, original, replacement),
-            this.replaceChild('close', this.close, original, replacement),
-            this.replaceChild('dot', this.dot, original, replacement),
-            this.replaceChild('output', this.output, original, replacement),
-            this.replaceChild(
-                'expression',
-                this.expression,
-                original,
-                replacement
-            )
+            this.replaceChild('docs', this.docs, replace),
+            this.replaceChild('fun', this.fun, replace),
+            this.replaceChild('names', this.names, replace),
+            this.replaceChild('types', this.types, replace),
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('inputs', this.inputs, replace),
+            this.replaceChild('close', this.close, replace),
+            this.replaceChild('dot', this.dot, replace),
+            this.replaceChild('output', this.output, replace),
+            this.replaceChild('expression', this.expression, replace)
         ) as this;
     }
 

@@ -1,5 +1,5 @@
 import Expression from './Expression';
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import Token from './Token';
 import BindToken from './BindToken';
 import type Translations from './Translations';
@@ -28,11 +28,11 @@ export default class KeyValue extends Node {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new KeyValue(
-            this.replaceChild('key', this.key, original, replacement),
-            this.replaceChild('value', this.value, original, replacement),
-            this.replaceChild('bind', this.bind, original, replacement)
+            this.replaceChild('key', this.key, replace),
+            this.replaceChild('value', this.value, replace),
+            this.replaceChild('bind', this.bind, replace)
         ) as this;
     }
 

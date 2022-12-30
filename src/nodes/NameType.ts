@@ -2,7 +2,6 @@ import type Conflict from '../conflicts/Conflict';
 import { UnknownTypeName } from '../conflicts/UnknownTypeName';
 import Token from './Token';
 import Type from './Type';
-import type Node from './Node';
 import TypeVariable from './TypeVariable';
 import type Context from './Context';
 import Value from '../runtime/Value';
@@ -17,6 +16,7 @@ import InvalidTypeInput from '../conflicts/InvalidTypeInput';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import UnknownNameType from './UnknownNameType';
+import type { Replacement } from './Node';
 
 export default class NameType extends Type {
     readonly name: Token;
@@ -37,13 +37,8 @@ export default class NameType extends Type {
         this.computeChildren();
     }
 
-    static make(name: string | Definition) {
-        const isString = typeof name === 'string';
-        return new NameType(
-            new NameToken(isString ? name : '_'),
-            undefined,
-            isString ? undefined : name
-        );
+    static make(name: string, definition?: Definition) {
+        return new NameType(new NameToken(name), undefined, definition);
     }
 
     getGrammar() {
@@ -53,10 +48,10 @@ export default class NameType extends Type {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new NameType(
-            this.replaceChild('name', this.name, original, replacement),
-            this.replaceChild('types', this.types, original, replacement)
+            this.replaceChild('name', this.name, replace),
+            this.replaceChild('types', this.types, replace)
         ) as this;
     }
 

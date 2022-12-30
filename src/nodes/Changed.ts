@@ -25,6 +25,7 @@ import UnionType from './UnionType';
 import NoneType from './NoneType';
 import Bool from '../runtime/Bool';
 import { NotAStreamType } from './Previous';
+import type { Replacement } from './Node';
 
 export default class Changed extends Expression {
     readonly change: Token;
@@ -56,10 +57,10 @@ export default class Changed extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Changed(
-            this.replaceChild('change', this.change, original, replacement),
-            this.replaceChild('stream', this.stream, original, replacement)
+            this.replaceChild('change', this.change, replace),
+            this.replaceChild('stream', this.stream, replace)
         ) as this;
     }
 

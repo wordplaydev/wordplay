@@ -1,4 +1,4 @@
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import Doc from './Doc';
@@ -29,9 +29,9 @@ export default class Docs extends Node {
         return [{ name: 'docs', types: [[Doc]] }];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Docs(
-            this.replaceChild<Doc[]>('docs', this.docs, original, replacement)
+            this.replaceChild<Doc[]>('docs', this.docs, replace)
         ) as this;
     }
 

@@ -32,6 +32,7 @@ import StartFinish from '../runtime/StartFinish';
 import TypeVariables from './TypeVariables';
 import Reference from './Reference';
 import NotAnInterface from '../conflicts/NotAnInterface';
+import type { Replacement } from './Node';
 
 export default class StructureDefinition extends Expression {
     readonly docs: Docs | undefined;
@@ -110,27 +111,17 @@ export default class StructureDefinition extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new StructureDefinition(
-            this.replaceChild('docs', this.docs, original, replacement),
-            this.replaceChild('type', this.type, original, replacement),
-            this.replaceChild('names', this.names, original, replacement),
-            this.replaceChild(
-                'interfaces',
-                this.interfaces,
-                original,
-                replacement
-            ),
-            this.replaceChild('types', this.types, original, replacement),
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild('inputs', this.inputs, original, replacement),
-            this.replaceChild('close', this.close, original, replacement),
-            this.replaceChild(
-                'expression',
-                this.expression,
-                original,
-                replacement
-            )
+            this.replaceChild('docs', this.docs, replace),
+            this.replaceChild('type', this.type, replace),
+            this.replaceChild('names', this.names, replace),
+            this.replaceChild('interfaces', this.interfaces, replace),
+            this.replaceChild('types', this.types, replace),
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('inputs', this.inputs, replace),
+            this.replaceChild('close', this.close, replace),
+            this.replaceChild('expression', this.expression, replace)
         ) as this;
     }
 

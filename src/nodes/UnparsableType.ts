@@ -1,7 +1,7 @@
 import type Conflict from '../conflicts/Conflict';
 import { UnparsableConflict } from '../conflicts/UnparsableConflict';
 import type { NativeTypeName } from '../native/NativeConstants';
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import Type from './Type';
@@ -31,14 +31,9 @@ export default class UnparsableType extends Type {
         return [new UnparsableConflict(this)];
     }
 
-    clone(original?: Node, replacement?: Node): this {
+    clone(replace?: Replacement): this {
         return new UnparsableType(
-            this.replaceChild(
-                'unparsables',
-                this.unparsables,
-                original,
-                replacement
-            )
+            this.replaceChild('unparsables', this.unparsables, replace)
         ) as this;
     }
 

@@ -8,7 +8,6 @@ import Expression from './Expression';
 import type Context from './Context';
 import Token from './Token';
 import Type from './Type';
-import type Node from './Node';
 import type Bind from './Bind';
 import Reference from './Reference';
 import PropertyReference from './PropertyReference';
@@ -19,6 +18,7 @@ import TypeSet from './TypeSet';
 import Start from '../runtime/Start';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
+import type { Replacement } from './Node';
 
 export default class Is extends Expression {
     readonly expression: Expression;
@@ -43,16 +43,11 @@ export default class Is extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Is(
-            this.replaceChild(
-                'expression',
-                this.expression,
-                original,
-                replacement
-            ),
-            this.replaceChild('operator', this.operator, original, replacement),
-            this.replaceChild('type', this.type, original, replacement)
+            this.replaceChild('expression', this.expression, replace),
+            this.replaceChild('operator', this.operator, replace),
+            this.replaceChild('type', this.type, replace)
         ) as this;
     }
 

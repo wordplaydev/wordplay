@@ -1,4 +1,4 @@
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import Names from './Names';
@@ -23,9 +23,9 @@ export default class TypeVariable extends Node {
         return [{ name: 'names', types: [Names] }];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new TypeVariable(
-            this.replaceChild('names', this.names, original, replacement)
+            this.replaceChild('names', this.names, replace)
         ) as this;
     }
 

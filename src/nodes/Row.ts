@@ -1,4 +1,4 @@
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import Token from './Token';
 import Bind from './Bind';
 import type Translations from './Translations';
@@ -41,11 +41,11 @@ export default class Row extends Node {
 
     computeConflicts() {}
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Row(
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild('cells', this.cells, original, replacement),
-            this.replaceChild('close', this.close, original, replacement)
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('cells', this.cells, replace),
+            this.replaceChild('close', this.close, replace)
         ) as this;
     }
 

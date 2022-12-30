@@ -268,7 +268,7 @@ export default class Source extends Expression {
             added[0].getTypes().some((type) => removed[0].is(type))
         )
             return new Source(this.names, [
-                this.expression.clone(removed[0], added[0]),
+                this.expression.replace(removed[0], added[0]),
                 spaces,
             ]);
 
@@ -323,7 +323,7 @@ export default class Source extends Expression {
         // If we found old subtrees to preserve, replace them in the new tree.
         while (replacements.length > 0) {
             const [oldTree, newTree] = replacements.shift()!;
-            newProgram = newProgram.clone(newTree, oldTree);
+            newProgram = newProgram.replace(newTree, oldTree);
         }
 
         // Otherwise, reparse the program with the reused tokens and return a new source file

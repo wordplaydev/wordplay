@@ -18,6 +18,7 @@ import { TRANSLATE } from './Translations';
 import TokenType from './TokenType';
 import type Evaluator from '../runtime/Evaluator';
 import StartFinish from '../runtime/StartFinish';
+import type { Replacement } from './Node';
 
 export default class MeasurementLiteral extends Expression {
     readonly number: Token;
@@ -44,10 +45,10 @@ export default class MeasurementLiteral extends Expression {
         );
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new MeasurementLiteral(
-            this.replaceChild('number', this.number, original, replacement),
-            this.replaceChild('unit', this.unit, original, replacement)
+            this.replaceChild('number', this.number, replace),
+            this.replaceChild('unit', this.unit, replace)
         ) as this;
     }
 

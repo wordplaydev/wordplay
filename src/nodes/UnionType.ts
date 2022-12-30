@@ -11,6 +11,7 @@ import { TRANSLATE } from './Translations';
 import type TypeSet from './TypeSet';
 import NeverType from './NeverType';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type { Replacement } from './Node';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -43,11 +44,11 @@ export default class UnionType extends Type {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new UnionType(
-            this.replaceChild('left', this.left, original, replacement),
-            this.replaceChild('or', this.or, original, replacement),
-            this.replaceChild('right', this.right, original, replacement)
+            this.replaceChild('left', this.left, replace),
+            this.replaceChild('or', this.or, replace),
+            this.replaceChild('right', this.right, replace)
         ) as this;
     }
 

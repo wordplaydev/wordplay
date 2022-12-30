@@ -18,6 +18,7 @@ import ConversionDefinition from '../nodes/ConversionDefinition';
 import Convert from '../nodes/Convert';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import FunctionDefinition from '../nodes/FunctionDefinition';
+import type LanguageCode from '../nodes/LanguageCode';
 import ListLiteral from '../nodes/ListLiteral';
 import ListType from '../nodes/ListType';
 import MapLiteral from '../nodes/MapLiteral';
@@ -119,18 +120,23 @@ export function getConstructConcepts(context: Context): ConstructConcept[] {
     ];
 }
 
-export function getNativeConcepts(context: Context): StructureConcept[] {
+export function getNativeConcepts(
+    languages: LanguageCode[],
+    context: Context
+): StructureConcept[] {
     return [
         new StructureConcept(
             BoolDefinition,
             BooleanType.make(),
             [BooleanLiteral.make(true), BooleanLiteral.make(false)],
+            languages,
             context
         ),
         new StructureConcept(
             TextDefinition,
             TextType.make(),
             [TextLiteral.make(''), Template.make()],
+            languages,
             context
         ),
         new StructureConcept(
@@ -141,39 +147,53 @@ export function getNativeConcepts(context: Context): StructureConcept[] {
                 MeasurementLiteral.make('π'),
                 MeasurementLiteral.make('∞'),
             ],
+            languages,
             context
         ),
         new StructureConcept(
             ListDefinition,
             ListType.make(),
             [ListLiteral.make([])],
+            languages,
             context
         ),
         new StructureConcept(
             SetDefinition,
             SetType.make(),
             [SetLiteral.make([])],
+            languages,
             context
         ),
         new StructureConcept(
             MapDefinition,
             MapType.make(),
             [MapLiteral.make([])],
+            languages,
             context
         ),
         new StructureConcept(
             NoneDefinition,
             NoneType.make(),
             [NoneLiteral.make()],
+            languages,
             context
         ),
     ];
 }
 
-export function getOutputConcepts(context: Context): Concept[] {
+export function getOutputConcepts(
+    languages: LanguageCode[],
+    context: Context
+): Concept[] {
     return ImplicitShares.map((def) =>
         def instanceof StructureDefinition
-            ? new StructureConcept(def, undefined, undefined, context)
-            : new FunctionConcept(def, context, undefined)
+            ? new StructureConcept(
+                  def,
+                  undefined,
+                  undefined,
+                  languages,
+                  context
+              )
+            : new FunctionConcept(def, undefined, languages, context)
     );
 }

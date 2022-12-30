@@ -1,4 +1,5 @@
 import type Context from '../nodes/Context';
+import type LanguageCode from '../nodes/LanguageCode';
 import type Node from '../nodes/Node';
 import Reference from '../nodes/Reference';
 import StreamType from '../nodes/StreamType';
@@ -13,11 +14,14 @@ export default class StreamConcept extends Concept {
     /** A derived reference to the stream */
     readonly reference: Reference;
 
-    constructor(stream: Stream, context: Context) {
+    constructor(stream: Stream, languages: LanguageCode[], context: Context) {
         super(context);
 
         this.stream = stream;
-        this.reference = Reference.make(this.stream);
+        this.reference = Reference.make(
+            stream.names.getTranslation(languages),
+            this.stream
+        );
     }
 
     getDocs() {

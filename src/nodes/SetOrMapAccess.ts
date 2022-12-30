@@ -26,6 +26,7 @@ import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
 import { NotASetOrMap } from '../conflicts/NotASetOrMap';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
+import type { Replacement } from './Node';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -72,12 +73,12 @@ export default class SetOrMapAccess extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new SetOrMapAccess(
-            this.replaceChild('setOrMap', this.setOrMap, original, replacement),
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild('key', this.key, original, replacement),
-            this.replaceChild('close', this.close, original, replacement)
+            this.replaceChild('setOrMap', this.setOrMap, replace),
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('key', this.key, replace),
+            this.replaceChild('close', this.close, replace)
         ) as this;
     }
 

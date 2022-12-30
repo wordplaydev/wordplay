@@ -2,7 +2,6 @@ import Expression from './Expression';
 import TextType from './TextType';
 import Token from './Token';
 import type Type from './Type';
-import type Node from './Node';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
 import Text from '../runtime/Text';
@@ -17,6 +16,7 @@ import TokenType from './TokenType';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
+import type { Replacement } from './Node';
 
 export type TemplatePart = Expression | Token;
 
@@ -53,16 +53,11 @@ export default class Template extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Template(
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild(
-                'expressions',
-                this.expressions,
-                original,
-                replacement
-            ),
-            this.replaceChild('format', this.format, original, replacement)
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('expressions', this.expressions, replace),
+            this.replaceChild('format', this.format, replace)
         ) as this;
     }
 

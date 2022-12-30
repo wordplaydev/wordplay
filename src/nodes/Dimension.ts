@@ -1,4 +1,4 @@
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import Token from './Token';
 import type Translations from './Translations';
 import { TRANSLATE } from './Translations';
@@ -55,12 +55,12 @@ export default class Dimension extends Node {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Dimension(
-            this.replaceChild('product', this.product, original, replacement),
-            this.replaceChild('name', this.name, original, replacement),
-            this.replaceChild('caret', this.caret, original, replacement),
-            this.replaceChild('exponent', this.exponent, original, replacement)
+            this.replaceChild('product', this.product, replace),
+            this.replaceChild('name', this.name, replace),
+            this.replaceChild('caret', this.caret, replace),
+            this.replaceChild('exponent', this.exponent, replace)
         ) as this;
     }
 

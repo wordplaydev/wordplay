@@ -18,6 +18,7 @@ import { TRANSLATE } from './Translations';
 import PlaceholderToken from './PlaceholderToken';
 import UnimplementedType from './UnimplementedType';
 import TypeToken from './TypeToken';
+import type { Replacement } from './Node';
 
 const ExpressionLabels: Translations = {
     '😀': TRANSLATE,
@@ -60,16 +61,11 @@ export default class ExpressionPlaceholder extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new ExpressionPlaceholder(
-            this.replaceChild(
-                'placeholder',
-                this.placeholder,
-                original,
-                replacement
-            ),
-            this.replaceChild('dot', this.dot, original, replacement),
-            this.replaceChild('type', this.type, original, replacement)
+            this.replaceChild('placeholder', this.placeholder, replace),
+            this.replaceChild('dot', this.dot, replace),
+            this.replaceChild('type', this.type, replace)
         ) as this;
     }
 

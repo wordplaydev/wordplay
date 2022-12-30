@@ -1,6 +1,5 @@
 import type Conflict from '../conflicts/Conflict';
 import { UnknownBorrow } from '../conflicts/UnknownBorrow';
-import type Node from './Node';
 import type Context from './Context';
 import Token from './Token';
 import type Evaluator from '../runtime/Evaluator';
@@ -29,6 +28,7 @@ import Start from '../runtime/Start';
 import Finish from '../runtime/Finish';
 import UnknownNameType from './UnknownNameType';
 import ValueException from '../runtime/ValueException';
+import type { Replacement } from './Node';
 
 export type SharedDefinition =
     | Source
@@ -72,13 +72,13 @@ export default class Borrow extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new Borrow(
-            this.replaceChild('borrow', this.borrow, original, replacement),
-            this.replaceChild('source', this.source, original, replacement),
-            this.replaceChild('dot', this.dot, original, replacement),
-            this.replaceChild('name', this.name, original, replacement),
-            this.replaceChild('version', this.version, original, replacement)
+            this.replaceChild('borrow', this.borrow, replace),
+            this.replaceChild('source', this.source, replace),
+            this.replaceChild('dot', this.dot, replace),
+            this.replaceChild('name', this.name, replace),
+            this.replaceChild('version', this.version, replace)
         ) as this;
     }
 

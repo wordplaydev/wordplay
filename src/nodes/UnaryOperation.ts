@@ -2,7 +2,6 @@ import type Conflict from '../conflicts/Conflict';
 import Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
-import type Node from './Node';
 import type Evaluator from '../runtime/Evaluator';
 import type Step from '../runtime/Step';
 import Finish from '../runtime/Finish';
@@ -22,6 +21,7 @@ import getConcreteExpectedType from './Generics';
 import type Value from '../runtime/Value';
 import UnknownNameType from './UnknownNameType';
 import Action from '../runtime/Action';
+import type { Replacement } from './Node';
 
 export default class UnaryOperation extends Expression {
     readonly operator: Token;
@@ -43,10 +43,10 @@ export default class UnaryOperation extends Expression {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new UnaryOperation(
-            this.replaceChild('operator', this.operator, original, replacement),
-            this.replaceChild('operand', this.operand, original, replacement)
+            this.replaceChild('operator', this.operator, replace),
+            this.replaceChild('operand', this.operand, replace)
         ) as this;
     }
 

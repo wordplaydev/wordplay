@@ -1,4 +1,3 @@
-import type Node from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import Type from './Type';
@@ -14,6 +13,7 @@ import FunctionDefinitionType from './FunctionDefinitionType';
 import TypeVariables from './TypeVariables';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type { Replacement } from './Node';
 
 export default class FunctionType extends Type {
     readonly fun: Token;
@@ -69,14 +69,14 @@ export default class FunctionType extends Type {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new FunctionType(
-            this.replaceChild('fun', this.fun, original, replacement),
-            this.replaceChild('types', this.types, original, replacement),
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild('inputs', this.inputs, original, replacement),
-            this.replaceChild('close', this.close, original, replacement),
-            this.replaceChild('output', this.output, original, replacement)
+            this.replaceChild('fun', this.fun, replace),
+            this.replaceChild('types', this.types, replace),
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('inputs', this.inputs, replace),
+            this.replaceChild('close', this.close, replace),
+            this.replaceChild('output', this.output, replace)
         ) as this;
     }
 

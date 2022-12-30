@@ -5,7 +5,6 @@ import {
 } from '../native/NativeConstants';
 import type Context from './Context';
 import NativeType from './NativeType';
-import type Node from './Node';
 import Token from './Token';
 import Type from './Type';
 import BindToken from './BindToken';
@@ -16,6 +15,7 @@ import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type Conflict from '../conflicts/Conflict';
 import type TypeSet from './TypeSet';
+import type { Replacement } from './Node';
 
 export default class MapType extends NativeType {
     readonly open: Token;
@@ -62,13 +62,13 @@ export default class MapType extends NativeType {
         ];
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new MapType(
-            this.replaceChild('open', this.open, original, replacement),
-            this.replaceChild('key', this.key, original, replacement),
-            this.replaceChild('bind', this.bind, original, replacement),
-            this.replaceChild('value', this.value, original, replacement),
-            this.replaceChild('close', this.close, original, replacement)
+            this.replaceChild('open', this.open, replace),
+            this.replaceChild('key', this.key, replace),
+            this.replaceChild('bind', this.bind, replace),
+            this.replaceChild('value', this.value, replace),
+            this.replaceChild('close', this.close, replace)
         ) as this;
     }
 

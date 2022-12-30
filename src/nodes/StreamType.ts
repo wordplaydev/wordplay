@@ -1,7 +1,7 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import { STREAM_SYMBOL } from '../parser/Tokenizer';
 import type Context from './Context';
-import type Node from './Node';
+import type { Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import type Translations from './Translations';
@@ -54,10 +54,10 @@ export default class StreamType extends Type {
         return 'stream';
     }
 
-    clone(original?: Node, replacement?: Node) {
+    clone(replace?: Replacement) {
         return new StreamType(
-            this.replaceChild('stream', this.stream, original, replacement),
-            this.replaceChild('type', this.type, original, replacement)
+            this.replaceChild('stream', this.stream, replace),
+            this.replaceChild('type', this.type, replace)
         ) as this;
     }
 
