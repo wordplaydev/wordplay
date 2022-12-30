@@ -295,7 +295,11 @@
             </section>
         {/if}
     {:else}
-        <ConceptsView category="code" concepts={constructs} />
+        <ConceptsView
+            category="code"
+            concepts={constructs}
+            selectable={false}
+        />
         <ConceptsView
             category="project"
             concepts={[

@@ -4,12 +4,13 @@
 
     export let category: string;
     export let concepts: Concept[];
+    export let selectable: boolean = true;
 </script>
 
 <h2>{category}</h2>
 <div class="group {category}">
     {#each concepts as concept}
-        <CodeView {concept} node={concept.getRepresentation()} selectable />
+        <CodeView {concept} node={concept.getRepresentation()} {selectable} />
     {/each}
 </div>
 

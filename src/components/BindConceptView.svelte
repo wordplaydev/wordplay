@@ -15,7 +15,7 @@
 
 <section>
     <p class="bind">
-        <CodeView {concept} node={concept.reference} /> • <CodeView
+        <CodeView {concept} node={concept.reference} describe={false} /> • <CodeView
             concept={type ?? concept}
             node={type?.getRepresentation() ?? bind.getType(concept.context)}
         />
