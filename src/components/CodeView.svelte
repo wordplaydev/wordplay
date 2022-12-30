@@ -4,7 +4,6 @@
     import { getPalettePath } from "../editor/util/Contexts";
     import { languages } from "../models/languages";
     import type Node from "../nodes/Node";
-    import { selectTranslation } from "../nodes/Translations";
     import Note from "./Note.svelte";
 
     export let node: Node;
