@@ -54,7 +54,6 @@ import TokenType from "../../nodes/TokenType";
 import Convert from "../../nodes/Convert";
 import UnaryOperation from "../../nodes/UnaryOperation";
 import { NEGATE_SYMBOL, NOT_SYMBOL } from "../../parser/Tokenizer";
-import AnyType from "../../nodes/AnyType";
 
 /** Given a project and a caret in it, generate a set of valid transformations at that caret. */
 export function getEditsAt(project: Project, caret: Caret): Transform[] {
@@ -424,7 +423,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
             // If the type is a set or map, offer a list access
             ...(type instanceof SetType || type instanceof MapType ? [ new Replace(context, parent, expr, SetOrMapAccess.make(expr, ExpressionPlaceholder.make(SetType.make()))) ] : []),
             // If the type is a stream, offer a previous
-            ...(type instanceof StreamType ? [ new Replace(context, parent, expr, Previous.make(expr, ExpressionPlaceholder.make(StreamType.make(new AnyType())))) ] : []),
+            ...(type instanceof StreamType ? [ new Replace(context, parent, expr, Previous.make(expr, ExpressionPlaceholder.make(StreamType.make(new TypePlaceholder())))) ] : []),
             // Reactions
             ...[ new Replace(context, parent, expr, Reaction.make(expr, ExpressionPlaceholder.make()))],
             // If given a type, any binary operations that are available on the type. Wrap in a block if a BinaryOperation or Conditional

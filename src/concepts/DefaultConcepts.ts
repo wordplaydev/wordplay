@@ -1,5 +1,4 @@
 import { BoolDefinition, ListDefinition, MapDefinition, MeasurementDefinition, NoneDefinition, SetDefinition, TextDefinition } from "../native/NativeBindings";
-import AnyType from "../nodes/AnyType";
 import Bind from "../nodes/Bind";
 import Block from "../nodes/Block";
 import BooleanLiteral from "../nodes/BooleanLiteral";
@@ -42,8 +41,8 @@ export function getConstructConcepts(context: Context): ConstructConcept[] {
         new ConstructConcept(StructureDefinition.make(undefined, Names.make(["_"]), [], undefined, [], Block.make([ ExpressionPlaceholder.make() ])), context),
         new ConstructConcept(Conditional.make(ExpressionPlaceholder.make(BooleanType.make()), ExpressionPlaceholder.make(), ExpressionPlaceholder.make()), context),
         new ConstructConcept(FunctionDefinition.make(undefined, Names.make(["_"]), undefined, [], ExpressionPlaceholder.make()), context),
-        new ConstructConcept(Changed.make(ExpressionPlaceholder.make(StreamType.make(new AnyType()))), context),
-        new ConstructConcept(Reaction.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make(StreamType.make(new AnyType()))), context),
+        new ConstructConcept(Changed.make(ExpressionPlaceholder.make(StreamType.make(new TypePlaceholder()))), context),
+        new ConstructConcept(Reaction.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make(StreamType.make(new TypePlaceholder()))), context),
         new ConstructConcept(ConversionDefinition.make(undefined, new TypePlaceholder(), new TypePlaceholder(), ExpressionPlaceholder.make()), context),
         new ConstructConcept(Convert.make(ExpressionPlaceholder.make(), new TypePlaceholder()), context)
     ]
