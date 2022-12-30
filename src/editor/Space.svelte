@@ -4,7 +4,6 @@
     import type Token from '../nodes/Token';
     import { getInsertionPoints } from './util/Contexts';
     import InsertionPointView from './InsertionPointView.svelte';
-    import { SPACE_HTML, TAB_WIDTH, TAB_HTML } from '../parser/Spaces';
 
     export let token: Token;
     export let space: string;
