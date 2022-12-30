@@ -1,7 +1,7 @@
 <script lang="ts">
 </script>
 
-<div><slot></slot></div>
+<div><slot /></div>
 
 <style>
     div {

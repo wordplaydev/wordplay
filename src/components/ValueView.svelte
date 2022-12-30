@@ -1,13 +1,15 @@
-<svelte:options immutable={true}/>
+<svelte:options immutable={true} />
+
 <script lang="ts">
-    import type Value from "../runtime/Value";
-    import renderValue from "./valueToView";
+    import type Value from '../runtime/Value';
+    import renderValue from './valueToView';
 
     export let value: Value;
-
 </script>
 
-<span class="value" data-id={value.id}><svelte:component this={renderValue(value.constructor)} value={value} /></span>
+<span class="value" data-id={value.id}
+    ><svelte:component this={renderValue(value.constructor)} {value} /></span
+>
 
 <style>
     span {

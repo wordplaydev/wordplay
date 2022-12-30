@@ -1,14 +1,13 @@
 <script lang="ts">
-    import { slide } from "svelte/transition";
-    import type Concept from "../concepts/Concept";
-    import CodeView from "./CodeView.svelte";
-    import { languages } from "../models/languages";
-    import parseRichText from "../output/parseRichText";
+    import { slide } from 'svelte/transition';
+    import type Concept from '../concepts/Concept';
+    import CodeView from './CodeView.svelte';
+    import { languages } from '../models/languages';
+    import parseRichText from '../output/parseRichText';
 
     export let concept: Concept;
 
     $: node = concept.getRepresentation();
-
 </script>
 
 <div transition:slide={{ duration: 250 }}>
@@ -18,6 +17,5 @@
         {@html parseRichText(concept.getDescription($languages)).toHTML()}
     </p>
 
-    <slot></slot>
-
+    <slot />
 </div>

@@ -1,10 +1,12 @@
-<svelte:options immutable={true}/>
+<svelte:options immutable={true} />
+
 <script lang="ts">
-    import type Update from "../nodes/Update";
-    import NodeView from "./NodeView.svelte";
+    import type Update from '../nodes/Update';
+    import NodeView from './NodeView.svelte';
 
     export let node: Update;
-
 </script>
 
-<NodeView node={node.table}/><NodeView node={node.update}/><NodeView node={node.row}/><NodeView node={node.query}/>
+<NodeView node={node.table} /><NodeView node={node.update} /><NodeView
+    node={node.row}
+/><NodeView node={node.query} />

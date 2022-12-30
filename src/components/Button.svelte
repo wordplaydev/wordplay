@@ -1,21 +1,22 @@
-<svelte:options immutable={true}/>
+<svelte:options immutable={true} />
+
 <script lang="ts">
-    import { languages } from "../models/languages";
-    import type Translations from "../nodes/Translations";
+    import { languages } from '../models/languages';
+    import type Translations from '../nodes/Translations';
 
     export let label: Translations;
     export let tip: Translations;
     export let action: () => void;
     export let enabled: boolean = true;
-
 </script>
 
-<button 
-    title={tip[$languages[0]]} 
-    tabIndex={0} 
-    on:click={action} 
+<button
+    title={tip[$languages[0]]}
+    tabIndex={0}
+    on:click={action}
     disabled={!enabled}
-    on:keydown={event => event.key === "Enter" || event.key === "Space" ? action() : undefined}
+    on:keydown={(event) =>
+        event.key === 'Enter' || event.key === 'Space' ? action() : undefined}
 >
     {label[$languages[0]]}
 </button>
@@ -42,7 +43,7 @@
     button:hover:not(:disabled) {
         cursor: pointer;
         background-color: var(--wordplay-border-color);
-        border-color: var(--wordplay-highlight);        
+        border-color: var(--wordplay-highlight);
         transform: scale(1.1, 1.1);
         z-index: 2;
     }
@@ -50,7 +51,6 @@
     button:disabled {
         cursor: default;
         background: none;
-        color: var(--wordplay-disabled-color)
+        color: var(--wordplay-disabled-color);
     }
-
 </style>

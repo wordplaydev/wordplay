@@ -1,5 +1,4 @@
 <script lang="ts">
-
     export let split: number = 50;
     export let responsive: boolean = false;
     export let flip: boolean = false;
@@ -12,62 +11,81 @@
     let dragging = false;
 
     function handleDividerMove(event: KeyboardEvent) {
-
-        if(event.key === "ArrowRight" || event.key === "ArrowUp") {
+        if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
             adjust(split + (!responsive || flip ? 1 : -1) * 5);
             event.preventDefault();
-        }
-        else if(event.key === "ArrowLeft" || event.key === "ArrowDown") {
+        } else if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
             adjust(split + (!responsive || flip ? -1 : 1) * 5);
             event.preventDefault();
         }
-
     }
 
-    function adjust(percent: number) { 
-        if(divider === undefined) return;
-        split = Math.min(max, Math.max(min, Math.round(percent)));    
+    function adjust(percent: number) {
+        if (divider === undefined) return;
+        split = Math.min(max, Math.max(min, Math.round(percent)));
     }
 
-    function grab() { dragging = true; }
+    function grab() {
+        dragging = true;
+    }
 
-    function release(event: MouseEvent) { if(event.currentTarget === container) dragging = false; }
+    function release(event: MouseEvent) {
+        if (event.currentTarget === container) dragging = false;
+    }
 
     function drag(event: MouseEvent) {
         const rect = container?.getBoundingClientRect();
-        if(rect === undefined || divider === undefined || dragging === false || event.currentTarget !== container) return;
-        const [ position, length ] = horizontal() ? [ event.clientX - rect.left, rect.width ] : [ event.clientY - rect.top, rect.height ];
-        adjust(Math.min(max, Math.max(min, Math.round(100 * position / length))));
+        if (
+            rect === undefined ||
+            divider === undefined ||
+            dragging === false ||
+            event.currentTarget !== container
+        )
+            return;
+        const [position, length] = horizontal()
+            ? [event.clientX - rect.left, rect.width]
+            : [event.clientY - rect.top, rect.height];
+        adjust(
+            Math.min(max, Math.max(min, Math.round((100 * position) / length)))
+        );
         event.preventDefault();
     }
 
-    function horizontal() { return divider !== undefined && divider.clientWidth < 25; }
-
+    function horizontal() {
+        return divider !== undefined && divider.clientWidth < 25;
+    }
 </script>
 
-<section class="split" class:responsive class:flip class:hide class:dragging
-    style="--divider-split: {responsive && flip && horizontal() ? 100 - split : split}"
+<section
+    class="split"
+    class:responsive
+    class:flip
+    class:hide
+    class:dragging
+    style="--divider-split: {responsive && flip && horizontal()
+        ? 100 - split
+        : split}"
     on:mousemove={drag}
     on:mouseup={release}
     bind:this={container}
 >
     <div class="half first">
-        <slot name="first"></slot>
+        <slot name="first" />
     </div>
-    <div class="divider"
+    <div
+        class="divider"
         bind:this={divider}
-        tabIndex=0
+        tabIndex="0"
         on:mousedown|stopPropagation={grab}
         on:keydown={handleDividerMove}
-        on:blur={() => dragging = false }
+        on:blur={() => (dragging = false)}
     />
     <div class="half last">
-        <slot name="last"></slot>
+        <slot name="last" />
     </div>
 </section>
 
 <style>
-
     .split {
         display: flex;
         height: 100%;
@@ -91,19 +109,20 @@
         display: none;
     }
 
-    .split.dragging > .divider, .divider:focus {
+    .split.dragging > .divider,
+    .divider:focus {
         border: none;
     }
 
     @media screen {
-        .split.responsive.flip  {
+        .split.responsive.flip {
             flex-direction: row-reverse;
         }
         .first {
             height: 100vh;
             flex-basis: calc(var(--divider-split) * 1vw);
         }
-        
+
         .last {
             height: 100vh;
         }
@@ -114,12 +133,12 @@
             cursor: ew-resize;
         }
 
-        .split.dragging { 
+        .split.dragging {
             cursor: ew-resize;
         }
 
         .divider:not(:focus)::after {
-            content: "";
+            content: '';
             position: relative;
             display: block;
             left: var(--wordplay-border-width);
@@ -132,14 +151,15 @@
     }
 
     @media screen and (max-width: 1280px) {
-        .split.responsive, .split.responsive.flip {
+        .split.responsive,
+        .split.responsive.flip {
             flex-direction: column;
         }
-        
+
         .split.responsive .first {
             flex-basis: calc(var(--divider-split) * 1vh);
         }
-        
+
         .split.responsive .divider {
             width: 100%;
             height: var(--wordplay-spacing);
@@ -151,7 +171,7 @@
         }
 
         .split.responsive .divider:not(:focus)::after {
-            content: "";
+            content: '';
             position: relative;
             display: block;
             top: calc(var(--wordplay-border-width));
@@ -163,7 +183,6 @@
         }
     }
 
-
     .last {
         flex: 1;
         flex-basis: 10em;
@@ -174,7 +193,5 @@
         flex-direction: column;
         min-width: 0em;
         min-height: 0em;
-    }    
-
-
+    }
 </style>

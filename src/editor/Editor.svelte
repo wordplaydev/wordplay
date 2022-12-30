@@ -1,9 +1,13 @@
-<svelte:options immutable={true}/>
+<svelte:options immutable={true} />
+
 <script lang="ts">
     import { nodeConflicts, updateProject } from '../models/stores';
-    import type Transform from "../transforms/Transform";
+    import type Transform from '../transforms/Transform';
     import Node from '../nodes/Node';
-    import Caret, { insertionPointsEqual, type InsertionPoint } from '../models/Caret';
+    import Caret, {
+        insertionPointsEqual,
+        type InsertionPoint,
+    } from '../models/Caret';
     import { setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
     import commands, { type Edit } from './util/Commands';
@@ -15,9 +19,21 @@
     import Token from '../nodes/Token';
     import KeyboardIdle from '../models/KeyboardIdle';
     import CaretView from './CaretView.svelte';
-    import { CaretSymbol, HoveredSymbol, HighlightSymbol, InsertionPointsSymbol, getDragged, HiddenSymbol } from './util/Contexts';
-    import { languages } from "../models/languages";
-    import { type HighlightType, type Highlights, highlightTypes, type HighlightSpec } from './util/Highlights'
+    import {
+        CaretSymbol,
+        HoveredSymbol,
+        HighlightSymbol,
+        InsertionPointsSymbol,
+        getDragged,
+        HiddenSymbol,
+    } from './util/Contexts';
+    import { languages } from '../models/languages';
+    import {
+        type HighlightType,
+        type Highlights,
+        highlightTypes,
+        type HighlightSpec,
+    } from './util/Highlights';
     import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
     import Expression from '../nodes/Expression';
     import TypePlaceholder from '../nodes/TypePlaceholder';
@@ -40,14 +56,24 @@
     import Doc from '../nodes/Doc';
     import Name from '../nodes/Name';
     import type LanguageCode from '../nodes/LanguageCode';
-    
+
     export let project: Project;
     export let source: Source;
-    export let viewport: Rect | undefined = { left: 0, top: 0, width: 0, height: 0 };
+    export let viewport: Rect | undefined = {
+        left: 0,
+        top: 0,
+        width: 0,
+        height: 0,
+    };
     export let input: HTMLInputElement | null = null;
 
     let editor: HTMLElement | null;
-    $: viewport = { left: editor?.scrollLeft ?? 0, top: editor?.scrollTop ?? 0, width: editor?.clientWidth ?? 0, height: editor?.clientHeight ?? 0 };
+    $: viewport = {
+        left: editor?.scrollLeft ?? 0,
+        top: editor?.scrollTop ?? 0,
+        width: editor?.clientWidth ?? 0,
+        height: editor?.clientHeight ?? 0,
+    };
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     let caret = writable<Caret>(new Caret(source, 0));
@@ -58,13 +84,13 @@
     setContext(HighlightSymbol, highlights);
 
     // A store of what node is hovered over, excluding tokens, used in drag and drop.
-    let hovered = writable<Node|undefined>(undefined);
+    let hovered = writable<Node | undefined>(undefined);
     setContext(HoveredSymbol, hovered);
 
     // A store of what node is hovered over, including tokens.
-    let hoveredAny = writable<Node|undefined>(undefined);
+    let hoveredAny = writable<Node | undefined>(undefined);
 
-    let insertions = writable<Map<Token,InsertionPoint>>(new Map());
+    let insertions = writable<Map<Token, InsertionPoint>>(new Map());
     setContext(InsertionPointsSymbol, insertions);
 
     // A set of hidden nodes, such as hidden translations.
@@ -84,31 +110,34 @@
     }
 
     function evalUpdate() {
-
-        if(evaluator === undefined) return;
+        if (evaluator === undefined) return;
 
         stepping = evaluator.isStepping();
         evaluatingNode = evaluator?.getCurrentStep()?.node;
 
         // If the program contains this node, scroll it's first token into view.
         const stepNode = evaluator.getStepNode();
-        if(stepping && stepNode && source.contains(stepNode)) {
+        if (stepping && stepNode && source.contains(stepNode)) {
             let highlight: Node | undefined = stepNode;
             let element = null;
             // Keep searching for a visible node, in case the step node is invisible.
             do {
-                element = document.querySelector(`[data-id="${highlight.id}"] .text`);
-                if(element !== null) break;
+                element = document.querySelector(
+                    `[data-id="${highlight.id}"] .text`
+                );
+                if (element !== null) break;
                 else highlight = source.get(highlight)?.getParent();
-            } while(element === null && highlight !== undefined);
+            } while (element === null && highlight !== undefined);
 
-            if(element !== null)
-                ensureElementIsVisible(element);
+            if (element !== null) ensureElementIsVisible(element);
 
             // Set the caret to the current step node if stepping.
-            caret.set($caret.withPosition(evaluator.isDone() ? source.expression.end : stepNode));
+            caret.set(
+                $caret.withPosition(
+                    evaluator.isDone() ? source.expression.end : stepNode
+                )
+            );
         }
-
     }
 
     // Focused when the active element is the text input.
@@ -118,14 +147,18 @@
     let lastKeyDownIgnored = false;
 
     // Caret location comes from the caret
-    let caretLocation: { top: string, left: string, height: string, bottom: number } | undefined = undefined;
+    let caretLocation:
+        | { top: string; left: string; height: string; bottom: number }
+        | undefined = undefined;
 
     // A menu of potential transformations based on the caret position.
-    let menu: {
-        node: Node,
-        location: { left: string, top: string } | undefined,
-        transforms: Transform[],
-    } | undefined = undefined;
+    let menu:
+        | {
+              node: Node;
+              location: { left: string; top: string } | undefined;
+              transforms: Transform[];
+          }
+        | undefined = undefined;
 
     let menuSelection: number = -1;
 
@@ -133,7 +166,7 @@
     let dragged = getDragged();
 
     // The point at which a drag started.
-    let dragPoint: { x: number, y: number} | undefined = undefined;
+    let dragPoint: { x: number; y: number } | undefined = undefined;
 
     // The possible candidate for dragging
     let dragCandidate: Node | undefined = undefined;
@@ -148,65 +181,101 @@
     export let conflicts: Conflict[] = [];
     $: {
         // The project and source can update at different times, so we only do this if the current souce is in the project.
-        if(project.contains(source)) {
+        if (project.contains(source)) {
             conflicts = [];
 
             // If dragging, don't show conlicts.
-            if($dragged !== undefined) break $;
+            if ($dragged !== undefined) break $;
 
             // If there are any conflicts in the project...
-            if($nodeConflicts.length > 0) {
+            if ($nodeConflicts.length > 0) {
                 let conflictSelection: Node | undefined = undefined;
 
                 // Is the mouse hovering over one? Get the node at the mouse, including tokens
                 // and see if it, or any of its parents, are involved in node conflicts.
-                const conflictedHover = $hoveredAny === undefined ? undefined : (project.get($hoveredAny)?.getSelfAndAncestors() ?? []).find(node => project.nodeInvolvedInConflicts(node));
-                if(conflictedHover)
-                    conflictSelection = conflictedHover;
+                const conflictedHover =
+                    $hoveredAny === undefined
+                        ? undefined
+                        : (
+                              project.get($hoveredAny)?.getSelfAndAncestors() ??
+                              []
+                          ).find((node) =>
+                              project.nodeInvolvedInConflicts(node)
+                          );
+                if (conflictedHover) conflictSelection = conflictedHover;
 
                 // If not, is there a node selected?
-                if(conflictSelection === undefined && $caret.position instanceof Node && project.nodeInvolvedInConflicts($caret.position))
+                if (
+                    conflictSelection === undefined &&
+                    $caret.position instanceof Node &&
+                    project.nodeInvolvedInConflicts($caret.position)
+                )
                     conflictSelection = $caret.position;
 
                 // If not, what is the "nearest" conflicted node at the caret position?
-                if(conflictSelection === undefined && typeof $caret.position === "number") {
+                if (
+                    conflictSelection === undefined &&
+                    typeof $caret.position === 'number'
+                ) {
                     let tokenAtPosition = source.getTokenAt($caret.position);
-                    let nodesAtPosition = tokenAtPosition === undefined ? [] : project.get(tokenAtPosition)?.getSelfAndAncestors() ?? [];
-                    let conflictsAtPosition = nodesAtPosition.find(node => project.nodeInvolvedInConflicts(node));
-                    if(conflictsAtPosition !== undefined)
+                    let nodesAtPosition =
+                        tokenAtPosition === undefined
+                            ? []
+                            : project
+                                  .get(tokenAtPosition)
+                                  ?.getSelfAndAncestors() ?? [];
+                    let conflictsAtPosition = nodesAtPosition.find((node) =>
+                        project.nodeInvolvedInConflicts(node)
+                    );
+                    if (conflictsAtPosition !== undefined)
                         conflictSelection = conflictsAtPosition;
                 }
 
                 // If we found a selection, get its conflicts.
-                if(conflictSelection)
+                if (conflictSelection)
                     // Get all conflicts involving the selection
                     conflicts = [
-                        ...project.getPrimaryConflictsInvolvingNode(conflictSelection) ?? [],
-                        ...project.getSecondaryConflictsInvolvingNode(conflictSelection) ?? []
+                        ...(project.getPrimaryConflictsInvolvingNode(
+                            conflictSelection
+                        ) ?? []),
+                        ...(project.getSecondaryConflictsInvolvingNode(
+                            conflictSelection
+                        ) ?? []),
                     ]
-                    // Eliminate duplicate conflicts
-                    .filter((c1, i1, list) => !list.some((c2, i2) => c1 === c2 && i2 > i1 && i1 !== i2));
+                        // Eliminate duplicate conflicts
+                        .filter(
+                            (c1, i1, list) =>
+                                !list.some(
+                                    (c2, i2) =>
+                                        c1 === c2 && i2 > i1 && i1 !== i2
+                                )
+                        );
             }
         }
     }
 
     function addHighlight(map: Highlights, node: Node, type: HighlightType) {
-
-        if(source.contains(node)) {
-            if(!map.has(node))
-                map.set(node, new Set<HighlightType>());
+        if (source.contains(node)) {
+            if (!map.has(node)) map.set(node, new Set<HighlightType>());
             map.get(node)?.add(type);
         }
-
     }
 
     // When the caret changes, the update what's hidden.
     $: {
         const newHidden = new Set<Node>();
-        
+
         // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't one of the selected tags.
-        for(const tag of source.nodes(n => n instanceof Doc || n instanceof Name) as (Doc | Name)[]) {
-            if(tag.getLanguage() !== undefined && !$languages.includes((tag.getLanguage() ?? "") as LanguageCode) && !$caret.isIn(tag))
+        for (const tag of source.nodes(
+            (n) => n instanceof Doc || n instanceof Name
+        ) as (Doc | Name)[]) {
+            if (
+                tag.getLanguage() !== undefined &&
+                !$languages.includes(
+                    (tag.getLanguage() ?? '') as LanguageCode
+                ) &&
+                !$caret.isIn(tag)
+            )
                 newHidden.add(tag);
         }
 
@@ -215,10 +284,15 @@
     }
 
     // We should replace if there are no insertions or we're hovered over a placeholder.
-    function shouldReplace() { return $insertions.size === 0 || $hovered instanceof ExpressionPlaceholder || $hovered instanceof TypePlaceholder; }
+    function shouldReplace() {
+        return (
+            $insertions.size === 0 ||
+            $hovered instanceof ExpressionPlaceholder ||
+            $hovered instanceof TypePlaceholder
+        );
+    }
 
     function updateHighlights() {
-
         const latestValue = evaluator.getLatestSourceValue(source);
 
         // Build a set of highlights to render.
@@ -226,75 +300,103 @@
 
         // Is there a step we're actively evaluating? Highlight it!
         const stepNode = evaluator.getStepNode();
-        if(stepNode)
-            addHighlight(newHighlights, stepNode, "evaluating");
+        if (stepNode) addHighlight(newHighlights, stepNode, 'evaluating');
 
         // Is there an exception on the last step? Highlight the node that created it!
-        if(latestValue instanceof Exception && latestValue.step !== undefined && latestValue.step.node instanceof Node)
-            addHighlight(newHighlights, latestValue.step.node, "exception");
+        if (
+            latestValue instanceof Exception &&
+            latestValue.step !== undefined &&
+            latestValue.step.node instanceof Node
+        )
+            addHighlight(newHighlights, latestValue.step.node, 'exception');
 
         // Is the caret selecting a node? Highlight it.
-        if($caret.position instanceof Node && !$caret.position.isPlaceholder())
-            addHighlight(newHighlights, $caret.position, "selected");
+        if ($caret.position instanceof Node && !$caret.position.isPlaceholder())
+            addHighlight(newHighlights, $caret.position, 'selected');
 
         // Is a node being dragged?
-        if($dragged !== undefined) {
-
+        if ($dragged !== undefined) {
             // Highlight the node.
-            addHighlight(newHighlights, $dragged.node, "dragged");
+            addHighlight(newHighlights, $dragged.node, 'dragged');
 
             // If there's an insertion point, let the nodes render them
-            if(shouldReplace()) {
-
+            if (shouldReplace()) {
                 // If we're hovered over a valid drop target, highlight the hovered node.
-                if($hovered && isValidDropTarget()) {
-                    addHighlight(newHighlights, $hovered, "match");
+                if ($hovered && isValidDropTarget()) {
+                    addHighlight(newHighlights, $hovered, 'match');
                 }
                 // Otherwise, highlight targets.
-                else {                
+                else {
                     // Find all of the expression placeholders and highlight them as drop targets,
                     // unless they are dragged or contained in the dragged node
-                    if($dragged instanceof Expression)
-                        for(const placeholder of source.expression.nodes(n => n instanceof ExpressionPlaceholder))
-                            if(!$dragged.contains(placeholder))
-                                addHighlight(newHighlights, placeholder, "target");
+                    if ($dragged instanceof Expression)
+                        for (const placeholder of source.expression.nodes(
+                            (n) => n instanceof ExpressionPlaceholder
+                        ))
+                            if (!$dragged.contains(placeholder))
+                                addHighlight(
+                                    newHighlights,
+                                    placeholder,
+                                    'target'
+                                );
 
                     // Find all of the type placeholders and highlight them sa drop target
-                    if($dragged instanceof Type)
-                        for(const placeholder of source.expression.nodes(n => n instanceof TypePlaceholder))
-                            if(!$dragged.contains(placeholder))
-                                addHighlight(newHighlights, placeholder, "target");
+                    if ($dragged instanceof Type)
+                        for (const placeholder of source.expression.nodes(
+                            (n) => n instanceof TypePlaceholder
+                        ))
+                            if (!$dragged.contains(placeholder))
+                                addHighlight(
+                                    newHighlights,
+                                    placeholder,
+                                    'target'
+                                );
                 }
             }
-
         }
         // Otherwise, is a node hovered over? Highlight it.
-        else if($hovered instanceof Node)
-            addHighlight(newHighlights, $hovered, "hovered");
+        else if ($hovered instanceof Node)
+            addHighlight(newHighlights, $hovered, 'hovered');
 
         // Tag all nodes with primary conflicts as primary
-        for(const [ primary, conflicts ] of project.getPrimaryConflicts())
-            addHighlight(newHighlights, primary, conflicts.every(c => !c.isMinor()) ? "primary" : "minor");
+        for (const [primary, conflicts] of project.getPrimaryConflicts())
+            addHighlight(
+                newHighlights,
+                primary,
+                conflicts.every((c) => !c.isMinor()) ? 'primary' : 'minor'
+            );
 
         // Tag all nodes with secondary conflicts as primary
-        for(const secondary of project.getSecondaryConflicts().keys())
-            addHighlight(newHighlights, secondary, "secondary");
+        for (const secondary of project.getSecondaryConflicts().keys())
+            addHighlight(newHighlights, secondary, 'secondary');
 
         // Are there any poses in this file being animated?
-        if(animations)
-            for(const animation of $animations.values()) {
-                if(source.contains(animation.currentPose.value.creator))
-                    addHighlight(newHighlights, animation.currentPose.value.creator, "evaluating");
+        if (animations)
+            for (const animation of $animations.values()) {
+                if (source.contains(animation.currentPose.value.creator))
+                    addHighlight(
+                        newHighlights,
+                        animation.currentPose.value.creator,
+                        'evaluating'
+                    );
             }
 
         // Update the store, broadcasting the highlights to all node views for rendering.
         highlights.set(newHighlights);
-
     }
 
     // Update the highlights when any of these values change
     $: {
-        if($dragged || $caret || $hovered || evaluatingNode || $animations || viewport || $nodeConflicts || source)
+        if (
+            $dragged ||
+            $caret ||
+            $hovered ||
+            evaluatingNode ||
+            $animations ||
+            viewport ||
+            $nodeConflicts ||
+            source
+        )
             updateHighlights();
     }
 
@@ -302,19 +404,18 @@
     let outlines: HighlightSpec[] = [];
     $: {
         outlines = [];
-        if($highlights.size > 0)
-            updateOutlines();
+        if ($highlights.size > 0) updateOutlines();
     }
 
     function updateOutlines() {
         outlines = [];
-        for(const [ node, types ] of $highlights.entries()) {
+        for (const [node, types] of $highlights.entries()) {
             const nodeView = getNodeView(node);
-            if(nodeView)
+            if (nodeView)
                 outlines.push({
                     types: Array.from(types),
                     outline: getOutlineOf(nodeView),
-                    underline: getUnderlineOf(nodeView)
+                    underline: getUnderlineOf(nodeView),
                 });
         }
     }
@@ -323,19 +424,18 @@
     afterUpdate(() => {
         updateOutlines();
 
-        if(editor) {
+        if (editor) {
             // Remove any existing highlights
-            for(const highlighted of editor.querySelectorAll(".highlighted"))
-                for(const highlightType of Object.keys(highlightTypes))
+            for (const highlighted of editor.querySelectorAll('.highlighted'))
+                for (const highlightType of Object.keys(highlightTypes))
                     highlighted.classList.remove(highlightType);
 
             // Add any new highlights of highlighted nodes.
-            for(const [ node, types ] of $highlights.entries()) {
+            for (const [node, types] of $highlights.entries()) {
                 const view = getNodeView(node);
-                if(view) {
-                    view.classList.add("highlighted");
-                    for(const type of types)
-                        view.classList.add(type);
+                if (view) {
+                    view.classList.add('highlighted');
+                    for (const type of types) view.classList.add(type);
                 }
             }
         }
@@ -347,57 +447,62 @@
     }
 
     function getTokenByView(program: Program, tokenView: Element) {
-        if(tokenView instanceof HTMLElement && tokenView.dataset.id !== undefined) {
+        if (
+            tokenView instanceof HTMLElement &&
+            tokenView.dataset.id !== undefined
+        ) {
             const node = program.getNodeByID(parseInt(tokenView.dataset.id));
             return node instanceof Token ? node : undefined;
         }
         return undefined;
     }
 
-    function ensureElementIsVisible(element: Element, nearest: boolean = false) {
-
+    function ensureElementIsVisible(
+        element: Element,
+        nearest: boolean = false
+    ) {
         const viewport = editor?.parentElement;
-        if(viewport === null) return;
+        if (viewport === null) return;
 
         // Note that we don't set "smooth" here because it break's Chrome's abiilty to horizontally scroll.
-        element.scrollIntoView({ block: nearest ? "nearest" : "center", inline: nearest ? "nearest" : "center"});
-
+        element.scrollIntoView({
+            block: nearest ? 'nearest' : 'center',
+            inline: nearest ? 'nearest' : 'center',
+        });
     }
 
     function isValidDropTarget(): boolean {
-
-        if($dragged === undefined) return false;
+        if ($dragged === undefined) return false;
 
         const node = $dragged.node;
 
         // Allow expressions ot be dropped on expressions.
-        if(node instanceof Expression && $hovered instanceof Expression)
+        if (node instanceof Expression && $hovered instanceof Expression)
             return true;
 
         // Allow binds to be dropped on children of blocks.
-        if(node instanceof Bind && $hovered) {
+        if (node instanceof Bind && $hovered) {
             const hoverParent = $caret.source.get($hovered)?.getParent();
-            if(hoverParent instanceof Block && hoverParent.statements.includes($hovered as Expression))
+            if (
+                hoverParent instanceof Block &&
+                hoverParent.statements.includes($hovered as Expression)
+            )
                 return true;
         }
 
         // Allow types to be dropped on types.
-        if(node instanceof Type && $hovered instanceof Type)
-            return true;
+        if (node instanceof Type && $hovered instanceof Type) return true;
 
         // Allow inserts to be inserted.
-        if($insertions.size > 0) return true;
+        if ($insertions.size > 0) return true;
 
         return false;
-
     }
 
     function handleRelease() {
-
         // Is the creator hovering over a valid drop target? If so, execute the edit.
-        if(isValidDropTarget())
-            drop();
-            
+        if (isValidDropTarget()) drop();
+
         // Release the dragged node.
         dragged.set(undefined);
         dragCandidate = undefined;
@@ -405,12 +510,10 @@
 
         // Reset the insertion points.
         insertions.set(new Map());
-
     }
 
     function drop() {
-
-        if($dragged === undefined) return;
+        if ($dragged === undefined) return;
 
         let editedProgram = source.expression;
         const draggedNode: Node = $dragged.node;
@@ -418,337 +521,464 @@
 
         // This is the node that will either be replaced or contains the list in which we will insert the dragged node.
         // For replacements its the node that the creator is hovered over, and for insertions its the node that contains the list we're inserting into.
-        let replacedOrListContainingNode: Node | undefined = shouldReplace() ? $hovered : insertion.node;
+        let replacedOrListContainingNode: Node | undefined = shouldReplace()
+            ? $hovered
+            : insertion.node;
 
         const newSources: [Source, Source][] = [];
 
         // If the dragged node is in a program, remove it if in a list or replace it with an expression placeholder if not.
         // If it's not in a program, it's probably coming from a palette or the visual clipboard.
         const draggedRoot = $dragged.getRoot();
-        if(draggedRoot instanceof Program) {
-
+        if (draggedRoot instanceof Program) {
             // Figure out what to replace the dragged node with. By default, we remove it.
             let replacement = undefined;
 
             // If the node isn't in a list, then we replace it with an expression placeholder, to preserve syntax.
-            if(!$dragged.inList()) {
+            if (!$dragged.inList()) {
                 // Make a placeholder to replace the hovered node. Try to specify the former type.
-                replacement = 
-                    draggedNode instanceof Block && $dragged.getParent() instanceof StructureDefinition ? undefined :
-                    draggedNode instanceof Expression ? ExpressionPlaceholder.make(draggedNode.getType(project.getContext(source))) :
-                    draggedNode instanceof Type ? (new TypePlaceholder()) :
-                    undefined;
+                replacement =
+                    draggedNode instanceof Block &&
+                    $dragged.getParent() instanceof StructureDefinition
+                        ? undefined
+                        : draggedNode instanceof Expression
+                        ? ExpressionPlaceholder.make(
+                              draggedNode.getType(project.getContext(source))
+                          )
+                        : draggedNode instanceof Type
+                        ? new TypePlaceholder()
+                        : undefined;
             }
 
             // If it's from this program, then update this program.
-            if(draggedRoot === editedProgram) {
+            if (draggedRoot === editedProgram) {
                 // Remember where it is in the tree
-                const pathToReplacedOrListContainingNode = replacedOrListContainingNode === undefined ? undefined : $caret.source.get(replacedOrListContainingNode)?.getPath();
+                const pathToReplacedOrListContainingNode =
+                    replacedOrListContainingNode === undefined
+                        ? undefined
+                        : $caret.source
+                              .get(replacedOrListContainingNode)
+                              ?.getPath();
                 // Replace the dragged node with the placeholder or nothing, effectively removing the node we're moving from the program.
                 editedProgram = editedProgram.clone(draggedNode, replacement);
                 // Update the node to replace to the cloned node.
-                replacedOrListContainingNode = pathToReplacedOrListContainingNode === undefined ? undefined : new Tree(editedProgram).resolvePath(pathToReplacedOrListContainingNode);
+                replacedOrListContainingNode =
+                    pathToReplacedOrListContainingNode === undefined
+                        ? undefined
+                        : new Tree(editedProgram).resolvePath(
+                              pathToReplacedOrListContainingNode
+                          );
             }
             // If it's from another program, then update that program.
-            else if(draggedRoot instanceof Program) {
+            else if (draggedRoot instanceof Program) {
                 // Find the source that contains the dragged root.
                 const source = project.getSourceWithProgram(draggedRoot);
                 // If we found one, update the project with a new source with a new program that replaces the dragged node with the placeholder
                 // and preserves the space preceding the dragged node.
-                if(source)
-                    newSources.push(
-                        [ 
-                            source, 
-                            source.withProgram(
-                                // Replace the node in the dragged root
-                                draggedRoot.clone(draggedNode, replacement),
-                                // Preserve the spaces before the dragged node
-                                source.spaces.withReplacement(draggedNode, replacement)
-                            ) 
-                        ]
-                    );
+                if (source)
+                    newSources.push([
+                        source,
+                        source.withProgram(
+                            // Replace the node in the dragged root
+                            draggedRoot.clone(draggedNode, replacement),
+                            // Preserve the spaces before the dragged node
+                            source.spaces.withReplacement(
+                                draggedNode,
+                                replacement
+                            )
+                        ),
+                    ]);
             }
             // If it was from a palette, do nothing, since there's nothing to remove.
-
         }
 
         // If we should replace and we still have a hovered node, replace the hovered node with the dragged node, preserving preceding space.
-        if(replacedOrListContainingNode) {
-            if(shouldReplace()) {
-                editedProgram = editedProgram.clone(replacedOrListContainingNode, draggedNode);            
-                newSources.push([ 
-                    source, 
+        if (replacedOrListContainingNode) {
+            if (shouldReplace()) {
+                editedProgram = editedProgram.clone(
+                    replacedOrListContainingNode,
+                    draggedNode
+                );
+                newSources.push([
+                    source,
                     source.withProgram(
                         editedProgram,
-                        source.spaces.withReplacement(replacedOrListContainingNode, draggedNode)
-                    ) 
+                        source.spaces.withReplacement(
+                            replacedOrListContainingNode,
+                            draggedNode
+                        )
+                    ),
                 ]);
             }
             // If we're not replacing, and there's something to insert, insert!
-            else if($insertions.size > 0) {
-
-                const listToUpdate = replacedOrListContainingNode.getField(insertion.field);
-                if(Array.isArray(listToUpdate)) {
-
+            else if ($insertions.size > 0) {
+                const listToUpdate = replacedOrListContainingNode.getField(
+                    insertion.field
+                );
+                if (Array.isArray(listToUpdate)) {
                     // Get the index at which to split space.
-                    const spaceToSplit = source.spaces.getSpace(insertion.token);
-                    const spaceInsertionIndex = spaceToSplit.split("\n", insertion.line).join("\n").length + 1;
-                    const spaceBefore = spaceToSplit.substring(0, spaceInsertionIndex);
-                    const spaceAfter = spaceToSplit.substring(spaceInsertionIndex);
+                    const spaceToSplit = source.spaces.getSpace(
+                        insertion.token
+                    );
+                    const spaceInsertionIndex =
+                        spaceToSplit.split('\n', insertion.line).join('\n')
+                            .length + 1;
+                    const spaceBefore = spaceToSplit.substring(
+                        0,
+                        spaceInsertionIndex
+                    );
+                    const spaceAfter =
+                        spaceToSplit.substring(spaceInsertionIndex);
 
                     // Remember the index of the token inserted before.
-                    const indexOfTokenInsertedBefore = source.expression.nodes(n => n instanceof Token).indexOf(insertion.token);
+                    const indexOfTokenInsertedBefore = source.expression
+                        .nodes((n) => n instanceof Token)
+                        .indexOf(insertion.token);
 
                     // If we're inserting into the same list the dragged node is from, then it was already removed from the list above.
                     // If we're inserting after it's prior location, then the index is now 1 position to high, because everything shifted down.
                     // Therefore, if the node of the insertion is in the list inserted, we adjust the insertion index.
-                    const indexOfDraggedNodeInList = insertion.list.indexOf(draggedNode);
-                    const insertionIndex = insertion.index + (indexOfDraggedNodeInList >= 0 && insertion.index > indexOfDraggedNodeInList ? 1 : 0);
+                    const indexOfDraggedNodeInList =
+                        insertion.list.indexOf(draggedNode);
+                    const insertionIndex =
+                        insertion.index +
+                        (indexOfDraggedNodeInList >= 0 &&
+                        insertion.index > indexOfDraggedNodeInList
+                            ? 1
+                            : 0);
                     // Replace the list with a new list that has the dragged node inserted.
                     const clonedListParent = replacedOrListContainingNode.clone(
-                        listToUpdate, 
-                        [ 
-                            ...listToUpdate.slice(0, insertionIndex), 
+                        listToUpdate,
+                        [
+                            ...listToUpdate.slice(0, insertionIndex),
                             draggedNode,
-                            ...listToUpdate.slice(insertionIndex)
+                            ...listToUpdate.slice(insertionIndex),
                         ]
                     );
 
                     // Update the program with the new list parent.
-                    editedProgram = editedProgram.clone(replacedOrListContainingNode, clonedListParent);
+                    editedProgram = editedProgram.clone(
+                        replacedOrListContainingNode,
+                        clonedListParent
+                    );
 
                     // Find the token after the last token of the node we inserted and give it the original space after the insertion point.
-                    let tokenInsertedBefore = editedProgram.nodes(n => n instanceof Token)[indexOfTokenInsertedBefore + draggedNode.nodes(n => n instanceof Token).length] as Token;
+                    let tokenInsertedBefore = editedProgram.nodes(
+                        (n) => n instanceof Token
+                    )[
+                        indexOfTokenInsertedBefore +
+                            draggedNode.nodes((n) => n instanceof Token).length
+                    ] as Token;
 
                     const newSource = source.withProgram(
-                        editedProgram, 
+                        editedProgram,
                         source.spaces
                             .withSpace(draggedNode, spaceBefore)
                             .withSpace(tokenInsertedBefore, spaceAfter)
-                        );
-                    newSources.push([ source, newSource]);
-
+                    );
+                    newSources.push([source, newSource]);
                 }
-
             }
 
             // Using the label, set the cursor to the first placeholder or the dragged node, then unlabel the sources.
-            caret.set($caret.withPosition(draggedNode.getFirstPlaceholder() ?? draggedNode));
+            caret.set(
+                $caret.withPosition(
+                    draggedNode.getFirstPlaceholder() ?? draggedNode
+                )
+            );
 
             // Update the project with the new source files
             updateProject(project.withSources(newSources));
-
         }
-
     }
 
     function handleMouseDown(event: MouseEvent) {
-
         // Prevent the OS from giving the document body focus.
         event.preventDefault();
 
-        if(evaluator.isPlaying())
-            placeCaretAt(event);
-        else
-            stepToNodeAt(event);
+        if (evaluator.isPlaying()) placeCaretAt(event);
+        else stepToNodeAt(event);
 
         // After we handle the click, focus on keyboard input, in case it's not focused.
         input?.focus();
-
     }
 
     function placeCaretAt(event: MouseEvent) {
-
         const tokenUnderMouse = getNodeAt(event, true);
         const nonTokenNodeUnderMouse = getNodeAt(event, false);
-        const newPosition = 
-                // If shift is down, select the non-token node at the position.
-                event.shiftKey && nonTokenNodeUnderMouse !== undefined ? nonTokenNodeUnderMouse :
-                // If the node is a placeholder token, select it
-                tokenUnderMouse instanceof Token && tokenUnderMouse.is(TokenType.PLACEHOLDER) ? tokenUnderMouse :
-                // Otherwise choose an index position under the mouse
-                getCaretPositionAt(event);
+        const newPosition =
+            // If shift is down, select the non-token node at the position.
+            event.shiftKey && nonTokenNodeUnderMouse !== undefined
+                ? nonTokenNodeUnderMouse
+                : // If the node is a placeholder token, select it
+                tokenUnderMouse instanceof Token &&
+                  tokenUnderMouse.is(TokenType.PLACEHOLDER)
+                ? tokenUnderMouse
+                : // Otherwise choose an index position under the mouse
+                  getCaretPositionAt(event);
 
         // If we found a position, set it.
-        if(!stepping && newPosition !== undefined)
+        if (!stepping && newPosition !== undefined)
             caret.set($caret.withPosition(newPosition));
 
         // Mark that the creator might want to drag the node under the mouse and remember where the click started.
-        if(nonTokenNodeUnderMouse) {
+        if (nonTokenNodeUnderMouse) {
             dragCandidate = nonTokenNodeUnderMouse;
             // If the primary mouse button is down, start dragging and set insertion.
             // We only start dragging if the cursor has moved more than a certain amount since last click.
-            if(dragCandidate && event.buttons === 1)
+            if (dragCandidate && event.buttons === 1)
                 dragPoint = { x: event.clientX, y: event.clientY };
         }
-
     }
 
     function stepToNodeAt(event: MouseEvent) {
-
-        if(evaluator === undefined) return;
+        if (evaluator === undefined) return;
 
         const nodeUnderMouse = getNodeAt(event, false);
-        if(nodeUnderMouse) {
+        if (nodeUnderMouse) {
             const evaluable = evaluator.getEvaluableNode(nodeUnderMouse);
-            if(evaluable)
-                evaluator.stepToNode(evaluable);
+            if (evaluable) evaluator.stepToNode(evaluable);
         }
-
     }
-    
+
     function getNodeAt(event: MouseEvent, includeTokens: boolean) {
         const el = document.elementFromPoint(event.clientX, event.clientY);
         // Only return a node if hovering over its text. Space isn't eligible.
-        if(el instanceof HTMLElement && el.classList.contains("text")) {
-            const nodeView = el.closest(`.node-view${includeTokens ? "" : ":not(.Token)"}`);
-            if(nodeView instanceof HTMLElement && nodeView.dataset.id) {
-                return source.expression.getNodeByID(parseInt(nodeView.dataset.id))
+        if (el instanceof HTMLElement && el.classList.contains('text')) {
+            const nodeView = el.closest(
+                `.node-view${includeTokens ? '' : ':not(.Token)'}`
+            );
+            if (nodeView instanceof HTMLElement && nodeView.dataset.id) {
+                return source.expression.getNodeByID(
+                    parseInt(nodeView.dataset.id)
+                );
             }
         }
         return undefined;
     }
 
-    function getTokenFromElement(textOrSpace: Element): [ Token, Element ] | undefined {
-        const tokenView = textOrSpace.closest(".Token");
-        const token = tokenView === null ? undefined : getTokenByView($caret.getProgram(), tokenView)
-        return tokenView === null || token === undefined ? undefined : [ token, tokenView ];
+    function getTokenFromElement(
+        textOrSpace: Element
+    ): [Token, Element] | undefined {
+        const tokenView = textOrSpace.closest('.Token');
+        const token =
+            tokenView === null
+                ? undefined
+                : getTokenByView($caret.getProgram(), tokenView);
+        return tokenView === null || token === undefined
+            ? undefined
+            : [token, tokenView];
     }
 
-    function getTokenFromLineBreak(textOrSpace: Element): [ Token, Element ] | undefined {
-        const spaceView = textOrSpace.closest(".space") as HTMLElement;
-        const tokenID = spaceView instanceof HTMLElement && spaceView.dataset.id ? parseInt(spaceView.dataset.id) : undefined;
-        return tokenID ? [ source.getNodeByID(tokenID) as Token, spaceView ] : undefined;
+    function getTokenFromLineBreak(
+        textOrSpace: Element
+    ): [Token, Element] | undefined {
+        const spaceView = textOrSpace.closest('.space') as HTMLElement;
+        const tokenID =
+            spaceView instanceof HTMLElement && spaceView.dataset.id
+                ? parseInt(spaceView.dataset.id)
+                : undefined;
+        return tokenID
+            ? [source.getNodeByID(tokenID) as Token, spaceView]
+            : undefined;
     }
 
     function getCaretPositionAt(event: MouseEvent): number | undefined {
-
         // What element is under the mouse?
-        const elementAtCursor = document.elementFromPoint(event.clientX, event.clientY);
+        const elementAtCursor = document.elementFromPoint(
+            event.clientX,
+            event.clientY
+        );
 
         // If there's no element (which should be impossible), return nothing.
-        if(elementAtCursor === null) return undefined;
-        if(editor === null) return undefined;
+        if (elementAtCursor === null) return undefined;
+        if (editor === null) return undefined;
 
         // If there's text, figure out what position in the text to place the caret.
-        if(elementAtCursor.classList.contains("text")) {
+        if (elementAtCursor.classList.contains('text')) {
             // Find the token this corresponds to.
-            const [ token, tokenView ] = getTokenFromElement(elementAtCursor) ?? [];
+            const [token, tokenView] =
+                getTokenFromElement(elementAtCursor) ?? [];
             // If we found a token, find the position in it corresponding to the mouse position.
-            if(token instanceof Token && tokenView instanceof Element && event.target instanceof Element) {
+            if (
+                token instanceof Token &&
+                tokenView instanceof Element &&
+                event.target instanceof Element
+            ) {
                 const startIndex = $caret.source.getTokenTextPosition(token);
                 const lastIndex = $caret.source.getTokenLastPosition(token);
-                if(startIndex !== undefined && lastIndex !== undefined) {
+                if (startIndex !== undefined && lastIndex !== undefined) {
                     // The mouse event's offset is relative to what was clicked on, not the element handling the click, so we have to compute the real offset.
                     const targetRect = event.target.getBoundingClientRect();
                     const tokenRect = elementAtCursor.getBoundingClientRect();
-                    const offset = event.offsetX + (targetRect.left - tokenRect.left);
-                    const newPosition = Math.max(startIndex, Math.min(lastIndex, startIndex + (tokenRect.width === 0 ? 0 : Math.round(token.getTextLength() * (offset / tokenRect.width)))));
+                    const offset =
+                        event.offsetX + (targetRect.left - tokenRect.left);
+                    const newPosition = Math.max(
+                        startIndex,
+                        Math.min(
+                            lastIndex,
+                            startIndex +
+                                (tokenRect.width === 0
+                                    ? 0
+                                    : Math.round(
+                                          token.getTextLength() *
+                                              (offset / tokenRect.width)
+                                      ))
+                        )
+                    );
                     return newPosition;
                 }
             }
         }
         // If its the editor, find the closest text and choose either it's right or left side.
         // Map the token text to a list of vertical and horizontal distances
-        const closestText = Array.from(editor.querySelectorAll(".token-view"))
-            .map(tokenView => {
-                const textView = tokenView.querySelector(".text");
+        const closestText = Array.from(editor.querySelectorAll('.token-view'))
+            .map((tokenView) => {
+                const textView = tokenView.querySelector('.text');
                 const textRect = textView?.getBoundingClientRect();
                 return {
                     view: tokenView,
-                    textDistance: textRect === undefined ? Number.POSITIVE_INFINITY : Math.abs(event.clientY - (textRect.top + textRect.height / 2)),
-                    textTop: textRect === undefined ? Number.POSITIVE_INFINITY : textRect.top,
-                    textBottom: textRect === undefined ? Number.POSITIVE_INFINITY : textRect.bottom,
-                    leftDistance: textRect === undefined ? Number.POSITIVE_INFINITY : Math.abs(event.clientX - textRect.left),
-                    rightDistance: textRect === undefined ? Number.POSITIVE_INFINITY : Math.abs(event.clientX - textRect.right)
+                    textDistance:
+                        textRect === undefined
+                            ? Number.POSITIVE_INFINITY
+                            : Math.abs(
+                                  event.clientY -
+                                      (textRect.top + textRect.height / 2)
+                              ),
+                    textTop:
+                        textRect === undefined
+                            ? Number.POSITIVE_INFINITY
+                            : textRect.top,
+                    textBottom:
+                        textRect === undefined
+                            ? Number.POSITIVE_INFINITY
+                            : textRect.bottom,
+                    leftDistance:
+                        textRect === undefined
+                            ? Number.POSITIVE_INFINITY
+                            : Math.abs(event.clientX - textRect.left),
+                    rightDistance:
+                        textRect === undefined
+                            ? Number.POSITIVE_INFINITY
+                            : Math.abs(event.clientX - textRect.right),
                 };
             })
             // Sort by increasing horizontal distance from the smaller of view's left and right
-            .sort((a, b) => Math.min(a.leftDistance, a.rightDistance) - Math.min(b.leftDistance, b.rightDistance))
+            .sort(
+                (a, b) =>
+                    Math.min(a.leftDistance, a.rightDistance) -
+                    Math.min(b.leftDistance, b.rightDistance)
+            )
             // Sort by increasing vertical distance from the smaller of view's space top and text middle.
-            .sort((a, b) => a.textDistance - b.textDistance)
-            // Choose the closest.
-            [0];
+            .sort(
+                (a, b) => a.textDistance - b.textDistance
+            )[// Choose the closest.
+        0];
 
         // If we found one, choose either 1) the nearest empty line or 2) its left or right side of text.
-        if(closestText) {
-            const [ token ] = getTokenFromElement(closestText.view) ?? [];
-            if(token === undefined) return undefined;
+        if (closestText) {
+            const [token] = getTokenFromElement(closestText.view) ?? [];
+            if (token === undefined) return undefined;
             // If the mouse was within the vertical bounds of the text, choose its left or right.
-            if(event.clientY < closestText.textBottom && event.clientY >= closestText.textTop) {
-                return closestText.leftDistance < closestText.rightDistance ? 
-                    $caret.source.getTokenTextPosition(token) : 
-                    $caret.source.getTokenLastPosition(token)
+            if (
+                event.clientY < closestText.textBottom &&
+                event.clientY >= closestText.textTop
+            ) {
+                return closestText.leftDistance < closestText.rightDistance
+                    ? $caret.source.getTokenTextPosition(token)
+                    : $caret.source.getTokenLastPosition(token);
             }
         }
 
         // Otherwise, if the mouse wasn't within the vertical bounds of the nearest token text, choose the nearest empty line.
-        type BreakInfo = { token: Token, offset: number, index: number};
+        type BreakInfo = { token: Token; offset: number; index: number };
 
         // Find all tokens with empty lines and choose the nearest.
-        const closestLine = 
+        const closestLine =
             // Find all of the token line breaks, which are wrapped in spans to enable consistent measurement.
             // This is because line breaks and getBoundingClientRect() are jumpy depending on what's around them.
-            Array.from(editor.querySelectorAll(".space br"))
-            // Map each one to 1) the token, 2) token view, 3) line break top, 4) index within each token's space
-            .map(br => {
-                const [ token, tokenView ] = getTokenFromLineBreak(br) ?? [];
-                // Check the br container, which gives us a more accurate bounding client rect.
-                const rect = (br.parentElement as HTMLElement).getBoundingClientRect();
-                return tokenView === undefined || token === undefined ? 
-                    undefined :
-                    {
-                        token,
-                        offset: Math.abs((rect.top + rect.height / 2) - event.clientY),
-                        // We add one because the position of the span that contains the <br/> is one line above the br,
-                        // but we actually want to measure the line after the br.
-                        index: Array.from(tokenView.querySelectorAll("br")).indexOf(br as HTMLBRElement) + 1
-                    }
-            })
-            // Filter out any empty breaks that we couldn't find
-            .filter<BreakInfo>((br: BreakInfo | undefined): br is BreakInfo => br !== undefined)
-            // Sort by increasing offset from mouse y
-            .sort((a, b) => a.offset - b.offset)
-            // Chose the closest
-            [0];
+            Array.from(editor.querySelectorAll('.space br'))
+                // Map each one to 1) the token, 2) token view, 3) line break top, 4) index within each token's space
+                .map((br) => {
+                    const [token, tokenView] = getTokenFromLineBreak(br) ?? [];
+                    // Check the br container, which gives us a more accurate bounding client rect.
+                    const rect = (
+                        br.parentElement as HTMLElement
+                    ).getBoundingClientRect();
+                    return tokenView === undefined || token === undefined
+                        ? undefined
+                        : {
+                              token,
+                              offset: Math.abs(
+                                  rect.top + rect.height / 2 - event.clientY
+                              ),
+                              // We add one because the position of the span that contains the <br/> is one line above the br,
+                              // but we actually want to measure the line after the br.
+                              index:
+                                  Array.from(
+                                      tokenView.querySelectorAll('br')
+                                  ).indexOf(br as HTMLBRElement) + 1,
+                          };
+                })
+                // Filter out any empty breaks that we couldn't find
+                .filter<BreakInfo>(
+                    (br: BreakInfo | undefined): br is BreakInfo =>
+                        br !== undefined
+                )
+                // Sort by increasing offset from mouse y
+                .sort((a, b) => a.offset - b.offset)[// Chose the closest
+            0];
 
         // If we have a closest line, find the line number
-        if(closestLine)
-            return $caret.source.getTokenSpacePosition(closestLine.token) + source.spaces.getSpace(closestLine.token).split("\n", closestLine.index).join("\n").length;
+        if (closestLine)
+            return (
+                $caret.source.getTokenSpacePosition(closestLine.token) +
+                source.spaces
+                    .getSpace(closestLine.token)
+                    .split('\n', closestLine.index)
+                    .join('\n').length
+            );
 
         // Otherwise, choose nothing.
         return undefined;
     }
 
-    function getInsertionPoint(node: Node, before: boolean, token: Token, line: number) {
-
+    function getInsertionPoint(
+        node: Node,
+        before: boolean,
+        token: Token,
+        line: number
+    ) {
         const tree = $caret.source.get(node);
-        if(tree === undefined) return;
+        if (tree === undefined) return;
 
         const parent = tree.getParent();
-        if(parent === undefined) return;
+        if (parent === undefined) return;
 
         // Special case the end token of the Program, since it's block has no delimters.
-        if(node instanceof Token && node.is(TokenType.END)) {
+        if (node instanceof Token && node.is(TokenType.END)) {
             const program = tree.getParent();
-            if(program instanceof Program && program.expression instanceof Block) {
+            if (
+                program instanceof Program &&
+                program.expression instanceof Block
+            ) {
                 return {
                     node: program.expression,
-                    field: "statements",
+                    field: 'statements',
                     list: program.expression.statements,
                     token: node,
                     line: line,
                     // Account empty lists
-                    index: 0
+                    index: 0,
                 };
             }
         }
-        
+
         // Find the list this node is either in or delimits.
         let field = tree.getContainingParentList(before);
-        if(field === undefined) return;
+        if (field === undefined) return;
         const list = parent.getField(field);
-        if(!Array.isArray(list)) return undefined;
+        if (!Array.isArray(list)) return undefined;
         const index = list.indexOf(node);
         return {
             node: parent,
@@ -757,69 +987,95 @@
             token: token,
             line: line,
             // Account for empty lists
-            index: index < 0 ? 0 : index + (before ? 0 : 1)
+            index: index < 0 ? 0 : index + (before ? 0 : 1),
         };
-
     }
 
     function getInsertionPointsAt(event: MouseEvent) {
-
         // Is the caret position between tokens? If so, are any of the token's parents inside a list in which we could insert something?
         const position = getCaretPositionAt(event);
-        if(position !== undefined) {            
+        if (position !== undefined) {
             const caret = new Caret(source, position);
             const token = caret.getToken();
-            if(token === undefined) return [];
+            if (token === undefined) return [];
             // What is the space prior to this insertion point?
-            const spacePrior = token === undefined ? "" : source.spaces.getSpace(token).substring(0, position - source.getTokenSpacePosition(token));
+            const spacePrior =
+                token === undefined
+                    ? ''
+                    : source.spaces
+                          .getSpace(token)
+                          .substring(
+                              0,
+                              position - source.getTokenSpacePosition(token)
+                          );
 
             // How many lines does the space prior include?
-            const line = spacePrior.split("\n").length - 1;
+            const line = spacePrior.split('\n').length - 1;
 
             // What nodes are between this and are any of them insertion points?
             const between = caret.getNodesBetween();
 
             // If there are nodes between the point, construct insertion points
             // that exist in lists.
-            return between === undefined ? [] :
-                [
-                    ...between.before.map(node => getInsertionPoint(node, true, token, line)),
-                    ...between.after.map(node => getInsertionPoint(node, false, token, line))
-                ]
-                // Filter out duplicates and undefineds
-                .filter<InsertionPoint>((insertion1: InsertionPoint | undefined, i1, insertions): insertion1 is InsertionPoint => 
-                    insertion1 !== undefined && insertions.find((insertion2, i2) => 
-                        i1 > i2 && insertion1 !== insertion2 && insertion2 !== undefined && insertionPointsEqual(insertion1, insertion2)) === undefined)
+            return between === undefined
+                ? []
+                : [
+                      ...between.before.map((node) =>
+                          getInsertionPoint(node, true, token, line)
+                      ),
+                      ...between.after.map((node) =>
+                          getInsertionPoint(node, false, token, line)
+                      ),
+                  ]
+                      // Filter out duplicates and undefineds
+                      .filter<InsertionPoint>(
+                          (
+                              insertion1: InsertionPoint | undefined,
+                              i1,
+                              insertions
+                          ): insertion1 is InsertionPoint =>
+                              insertion1 !== undefined &&
+                              insertions.find(
+                                  (insertion2, i2) =>
+                                      i1 > i2 &&
+                                      insertion1 !== insertion2 &&
+                                      insertion2 !== undefined &&
+                                      insertionPointsEqual(
+                                          insertion1,
+                                          insertion2
+                                      )
+                              ) === undefined
+                      );
         }
         return [];
-
     }
 
     function exceededDragThreshold(event: MouseEvent) {
-        return dragPoint === undefined || Math.sqrt(Math.pow(event.clientX - dragPoint.x, 2) + Math.pow(event.clientY - dragPoint.y, 2)) >= 5;
+        return (
+            dragPoint === undefined ||
+            Math.sqrt(
+                Math.pow(event.clientX - dragPoint.x, 2) +
+                    Math.pow(event.clientY - dragPoint.y, 2)
+            ) >= 5
+        );
     }
 
     function handleMouseMove(event: MouseEvent) {
+        if (evaluator === undefined) return;
 
-        if(evaluator === undefined) return;
-
-        if(evaluator.isPlaying())
-            handleEditHover(event);
-        else
-            handleDebugHover(event);
-
+        if (evaluator.isPlaying()) handleEditHover(event);
+        else handleDebugHover(event);
     }
 
     function handleEditHover(event: MouseEvent) {
-
         // By default, set the hovered state to whatever node is under the mouse.
         hovered.set(getNodeAt(event, false));
         hoveredAny.set(getNodeAt(event, true));
 
         // If we have a drag candidate and it's past 5 pixels from the start point, set the insertion points to whatever points are under the mouse.
-        if(dragCandidate && exceededDragThreshold(event)) {
+        if (dragCandidate && exceededDragThreshold(event)) {
             const tree = source.get(dragCandidate);
-            if(tree) {
+            if (tree) {
                 dragged.set(source.get(dragCandidate));
 
                 dragCandidate = undefined;
@@ -828,60 +1084,74 @@
         }
 
         // Update insertion points
-        if($dragged) {
-
+        if ($dragged) {
             // Get the insertion points at the current mouse position
             // And filter them by kinds that match, getting the field's allowed types,
             // and seeing if the dragged node is an instance of any of the dragged types.
             // This only works if the types list contains a single item that is a list of types.
-            const newInsertionPoints = getInsertionPointsAt(event).filter(insertion => {
-                const types = insertion.node.getAllowedFieldNodeTypes(insertion.field);
-                return $dragged && Array.isArray(types) && Array.isArray(types[0]) && types[0].some(kind => $dragged?.node instanceof kind);
-            });
+            const newInsertionPoints = getInsertionPointsAt(event).filter(
+                (insertion) => {
+                    const types = insertion.node.getAllowedFieldNodeTypes(
+                        insertion.field
+                    );
+                    return (
+                        $dragged &&
+                        Array.isArray(types) &&
+                        Array.isArray(types[0]) &&
+                        types[0].some((kind) => $dragged?.node instanceof kind)
+                    );
+                }
+            );
 
             // Did they change? We keep them the same to avoid UI updates, especially with animations.
-            if(newInsertionPoints.length === 0 || !newInsertionPoints.every(point => Object.values($insertions).some(point2 => insertionPointsEqual(point, point2)))) {
+            if (
+                newInsertionPoints.length === 0 ||
+                !newInsertionPoints.every((point) =>
+                    Object.values($insertions).some((point2) =>
+                        insertionPointsEqual(point, point2)
+                    )
+                )
+            ) {
                 const insertionPointsMap = new Map<Token, InsertionPoint>();
-                for(const point of newInsertionPoints)
+                for (const point of newInsertionPoints)
                     insertionPointsMap.set(point.token, point);
                 insertions.set(insertionPointsMap);
             }
-
         }
-
     }
 
     function handleDebugHover(event: MouseEvent) {
-
-        if(evaluator === undefined) return;
+        if (evaluator === undefined) return;
 
         const node = getNodeAt(event, false);
 
         // if the node is associated with a step, set it, otherwise unset it.
-        hovered.set(evaluator.isDone() || node === undefined ? undefined : evaluator.getEvaluableNode(node));
-
+        hovered.set(
+            evaluator.isDone() || node === undefined
+                ? undefined
+                : evaluator.getEvaluableNode(node)
+        );
     }
 
     function handleMouseLeave() {
-
         hovered.set(undefined);
         insertions.set(new Map());
-
     }
 
     async function showMenu() {
-
-        if(evaluator === undefined) return;
+        if (evaluator === undefined) return;
 
         // Is the caret on a specific token or node?
-        const node = $caret.position instanceof Node ? $caret.position : $caret.getToken() ?? undefined;
-        if(node === undefined) return;
+        const node =
+            $caret.position instanceof Node
+                ? $caret.position
+                : $caret.getToken() ?? undefined;
+        if (node === undefined) return;
 
         // Get the unique valid edits at the caret.
         const transforms = getEditsAt(project, $caret);
 
-        if(transforms.length === 0)
-            return;
+        if (transforms.length === 0) return;
 
         // Make a menu, but without a location, so other things know there's a menu while we're waiting.
         menu = { node, transforms, location: undefined };
@@ -890,75 +1160,98 @@
         await tick();
 
         // Position the menu if a node is selected.
-        let position: { left: string, top: string } | undefined = undefined;
+        let position: { left: string; top: string } | undefined = undefined;
 
         // Position it near the selected node or caret
-        if(editor && $caret.isNode()) {
+        if (editor && $caret.isNode()) {
             const viewport = editor.parentElement;
             const el = getNodeView(node);
-            if(el && viewport) {
+            if (el && viewport) {
                 const placeholderRect = el.getBoundingClientRect();
                 const viewportRect = viewport.getBoundingClientRect();
                 position = {
-                    left: `${placeholderRect.left - viewportRect.left + viewport.scrollLeft}px`,
-                    top: `${placeholderRect.top - viewportRect.top + viewport.scrollTop + ($caret.isIndex() ? placeholderRect.height : Math.min(placeholderRect.height, 100)) + 10}px`
-                }
+                    left: `${
+                        placeholderRect.left -
+                        viewportRect.left +
+                        viewport.scrollLeft
+                    }px`,
+                    top: `${
+                        placeholderRect.top -
+                        viewportRect.top +
+                        viewport.scrollTop +
+                        ($caret.isIndex()
+                            ? placeholderRect.height
+                            : Math.min(placeholderRect.height, 100)) +
+                        10
+                    }px`,
+                };
             }
-        }
-        else if(caretLocation && $caret.isIndex()) {
+        } else if (caretLocation && $caret.isIndex()) {
             position = {
                 left: `${caretLocation.left}px`,
-                top: `${caretLocation.bottom}px`
-            }
+                top: `${caretLocation.bottom}px`,
+            };
         }
 
         // If we got a location and we have transforms, we have everything we need to show a menu!
-        if(position)
-            menu = { node: menu.node, transforms: menu.transforms, location: position };
-
+        if (position)
+            menu = {
+                node: menu.node,
+                transforms: menu.transforms,
+                location: position,
+            };
     }
 
     // Always show the menu if the caret is after a property reference.
     $: {
-        if($playing && 
-            (
-                $caret.isNode() || 
-                $caret.tokenPrior?.is(TokenType.ACCESS) || 
-                ($caret.tokenPrior !== undefined && $caret.tokenPrior.is(TokenType.NAME) && source.getTokenBefore($caret.tokenPrior)?.is(TokenType.ACCESS))
-            )
+        if (
+            $playing &&
+            ($caret.isNode() ||
+                $caret.tokenPrior?.is(TokenType.ACCESS) ||
+                ($caret.tokenPrior !== undefined &&
+                    $caret.tokenPrior.is(TokenType.NAME) &&
+                    source
+                        .getTokenBefore($caret.tokenPrior)
+                        ?.is(TokenType.ACCESS)))
         )
             showMenu();
-        else
-            hideMenu();
+        else hideMenu();
     }
 
     function handleKeyDown(event: KeyboardEvent) {
-
         // Never handle tab; that's for keyboard navigation.
-        if(event.key === "Tab") return
+        if (event.key === 'Tab') return;
 
-        if(evaluator === undefined) return;
-        if(editor === null) return;
+        if (evaluator === undefined) return;
+        if (editor === null) return;
 
         // Assume we'll handle it.
         lastKeyDownIgnored = false;
 
-        if(menu !== undefined) {
-            if(event.key === "ArrowDown") { if(menuSelection < menu.transforms.length - 1) menuSelection += 1; return; }
-            else if(event.key === "ArrowUp") { if(menuSelection >= 0) menuSelection -= 1; return; }
-            else if(event.key === "Enter" && menuSelection >= 0 && menu.transforms.length > 0) {
+        if (menu !== undefined) {
+            if (event.key === 'ArrowDown') {
+                if (menuSelection < menu.transforms.length - 1)
+                    menuSelection += 1;
+                return;
+            } else if (event.key === 'ArrowUp') {
+                if (menuSelection >= 0) menuSelection -= 1;
+                return;
+            } else if (
+                event.key === 'Enter' &&
+                menuSelection >= 0 &&
+                menu.transforms.length > 0
+            ) {
                 handleEdit(menu.transforms[menuSelection].getEdit($languages));
                 hideMenu();
                 return;
             }
         }
 
-        if($playing && event.key === "Escape") {
+        if ($playing && event.key === 'Escape') {
             // If there's no menu showing, show one, then return.
-            if(menu === undefined) {
+            if (menu === undefined) {
                 showMenu();
-                if(menu !== undefined)
-                    return;
+                if (menu !== undefined) return;
             }
             // Rid of the menu.
             else {
@@ -967,24 +1260,32 @@
         }
 
         // Hide the menu, then process the navigation.
-        if(event.key === "ArrowLeft" || event.key === "ArrowRight")
-            hideMenu();
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') hideMenu();
 
         // Map meta to control on Mac OS/iOS.
         const control = event.metaKey || event.ctrlKey;
 
         // Loop through the commands and see if there's a match to this event.
-        for(let i = 0; i < commands.length; i++) {
+        for (let i = 0; i < commands.length; i++) {
             const command = commands[i];
             // Does this command match the event?
-            if( (command.control === undefined || command.control === control) &&
-                (command.shift === undefined || command.shift === event.shiftKey) &&
+            if (
+                (command.control === undefined ||
+                    command.control === control) &&
+                (command.shift === undefined ||
+                    command.shift === event.shiftKey) &&
                 (command.alt === undefined || command.alt === event.altKey) &&
                 (command.key === undefined || command.key === event.code) &&
-                (command.mode === undefined || evaluator?.getMode() === command.mode)) {
-
+                (command.mode === undefined ||
+                    evaluator?.getMode() === command.mode)
+            ) {
                 // If so, execute it.
-                const result = command.execute($caret, editor, evaluator, event.code);
+                const result = command.execute(
+                    $caret,
+                    editor,
+                    evaluator,
+                    event.code
+                );
 
                 // Prevent the OS from executing the default behavior for this keystroke.
                 // This is key to preventing the hidden text field intercepting backspaces and arrow key navigation,
@@ -992,38 +1293,33 @@
                 event.preventDefault();
 
                 // If it produced a new caret and optionally a new project, update the stores.
-                if(result !== undefined) {
-                    if(typeof result === "boolean") {
-                        if(result === false)
-                            lastKeyDownIgnored = true;
-                    }
-                    else if(result instanceof Promise)
-                        result.then(edit => handleEdit(edit));
-                    else
-                        handleEdit(result);
+                if (result !== undefined) {
+                    if (typeof result === 'boolean') {
+                        if (result === false) lastKeyDownIgnored = true;
+                    } else if (result instanceof Promise)
+                        result.then((edit) => handleEdit(edit));
+                    else handleEdit(result);
 
                     // Stop looking for commands, we found one and tried it!
                     return;
-                }                
+                }
             }
         }
 
         // Give feedback that we didn't execute a command.
-        if(!/^(Shift|Control|Alt|Meta)$/.test(event.key))
+        if (!/^(Shift|Control|Alt|Meta)$/.test(event.key))
             lastKeyDownIgnored = true;
-
     }
 
     async function handleEdit(edit: Edit | undefined) {
-
-        if(edit === undefined) return;
+        if (edit === undefined) return;
 
         // Get the new caret and source to display.
         const newCaret = edit instanceof Caret ? edit : edit[1];
         const newSource = edit instanceof Caret ? undefined : edit[0];
 
         // Update the caret and project.
-        if(newSource) {
+        if (newSource) {
             updateProject(project.withSource(source, newSource));
             caret.set(newCaret.withSource(newSource));
         } else {
@@ -1032,67 +1328,71 @@
 
         // After every edit and everything is updated, focus back on on text input
         await tick();
-        if(input && caretLocation)
-            input.focus();
-
+        if (input && caretLocation) input.focus();
     }
 
     let lastKeyboardInputValue: undefined | UnicodeString = undefined;
 
     function handleTextInput(event: Event) {
-
         lastKeyDownIgnored = false;
 
         let edit: Edit | undefined = undefined;
 
         // Get the character that was typed into the text box.
-        if(input) {
-
+        if (input) {
             // Wrap the string in a unicode wrapper so we can account for graphemes.
             const value = new UnicodeString(input.value);
 
             // Get the last grapheme entered.
-            const lastChar = value.substring(value.getLength() - 1, value.getLength());
+            const lastChar = value.substring(
+                value.getLength() - 1,
+                value.getLength()
+            );
 
             let newCaret = $caret;
             let newSource: Source | undefined = source;
 
-            if(newCaret.position instanceof Node) {
+            if (newCaret.position instanceof Node) {
                 const edit = newCaret.deleteNode(newCaret.position);
-                if(edit) {
+                if (edit) {
                     newSource = edit[0];
                     newCaret = edit[1];
-                }
-                else return;
+                } else return;
             }
-            
-            if(typeof newCaret.position === "number") {
 
+            if (typeof newCaret.position === 'number') {
                 // If the last keyboard value length is equal to the new one, then it was a diacritic.
                 // Replace the last grapheme entered with this grapheme, then reset the input text field.
-                if(lastKeyboardInputValue !== undefined && lastKeyboardInputValue.getLength() === value.getLength()) {
+                if (
+                    lastKeyboardInputValue !== undefined &&
+                    lastKeyboardInputValue.getLength() === value.getLength()
+                ) {
                     const char = lastChar.toString();
-                    newSource = source.withPreviousGraphemeReplaced(char, newCaret.position);
-                    if(newSource) {
+                    newSource = source.withPreviousGraphemeReplaced(
+                        char,
+                        newCaret.position
+                    );
+                    if (newSource) {
                         // Reset the hidden field.
-                        input.value = "";
-                        edit = [ newSource, new Caret(newSource, newCaret.position) ];
+                        input.value = '';
+                        edit = [
+                            newSource,
+                            new Caret(newSource, newCaret.position),
+                        ];
                     }
                 }
                 // Otherwise, just insert the grapheme and limit the input field to the last character.
                 else {
-
                     const char = lastChar.toString();
 
-                    // If it was a placeholder, first remove the 
+                    // If it was a placeholder, first remove the
                     edit = newCaret.insert(char);
-                    if(edit) {
-                        if(value.getLength() > 1)
+                    if (edit) {
+                        if (value.getLength() > 1)
                             input.value = lastChar.toString();
                     }
                     // Rest the field to the last character.
                 }
-
             }
 
             // Remember the last value of the input field for comparison on the next keystroke.
@@ -1103,18 +1403,13 @@
         }
 
         // Did we make an update?
-        if(edit)
-            handleEdit(edit);
-        else
-            lastKeyDownIgnored = true;
-
+        if (edit) handleEdit(edit);
+        else lastKeyDownIgnored = true;
     }
 
     function handleTextInputFocusLoss() {
-
         hideMenu();
         focused = false;
-
     }
 
     function handleTextInputFocusGain() {
@@ -1128,45 +1423,65 @@
     }
 
     function updateScrollPosition() {
-        if(editor)
-            viewport = { left: editor.scrollLeft, top: editor.scrollTop, width: editor.clientWidth, height: editor.clientHeight };
+        if (editor)
+            viewport = {
+                left: editor.scrollLeft,
+                top: editor.scrollTop,
+                width: editor.clientWidth,
+                height: editor.clientHeight,
+            };
     }
-
 </script>
 
 <!-- Drop what's being dragged if the window loses focus. -->
 <svelte:window on:blur={handleRelease} />
 
-<div class="editor" class:stepping
+<div
+    class="editor"
+    class:stepping
     bind:this={editor}
-    on:mousedown={event => handleMouseDown(event)}
-    on:dblclick={event => { let node = getNodeAt(event, false); if(node) caret.set($caret.withPosition(node)); }}
+    on:mousedown={(event) => handleMouseDown(event)}
+    on:dblclick={(event) => {
+        let node = getNodeAt(event, false);
+        if (node) caret.set($caret.withPosition(node));
+    }}
     on:mouseup={handleRelease}
     on:mousemove={handleMouseMove}
     on:mouseleave={handleMouseLeave}
     on:scroll={updateScrollPosition}
 >
     <!-- Render the program -->
-    <RootView node={program} spaces={source.spaces}/>
+    <RootView node={program} spaces={source.spaces} />
     <!-- Render the caret on top of the program -->
-    {#if !stepping }
-        <CaretView {source} blink={$KeyboardIdle && focused} ignored={lastKeyDownIgnored} bind:location={caretLocation}/>
+    {#if !stepping}
+        <CaretView
+            {source}
+            blink={$KeyboardIdle && focused}
+            ignored={lastKeyDownIgnored}
+            bind:location={caretLocation}
+        />
     {/if}
     <!-- Are we on a placeholder? Show a menu! -->
-    {#if menu !== undefined && menu.location !== undefined }
-        <div class="menu" style={`left: ${menu.location.left}; top: ${menu.location.top};`}>
-            <Menu 
-                transforms={menu.transforms} 
-                selection={menuSelection} 
-                select={transform => handleEdit(transform.getEdit($languages)) }
+    {#if menu !== undefined && menu.location !== undefined}
+        <div
+            class="menu"
+            style={`left: ${menu.location.left}; top: ${menu.location.top};`}
+        >
+            <Menu
+                transforms={menu.transforms}
+                selection={menuSelection}
+                select={(transform) =>
+                    handleEdit(transform.getEdit($languages))}
             />
         </div>
     {/if}
     <!-- Render the invisible text field that allows us to capture inputs -->
-    <input 
+    <input
         type="text"
-        class="keyboard-input" 
-        style={`left: ${caretLocation?.left ?? 0}; top: ${caretLocation?.top ?? 0};`}
+        class="keyboard-input"
+        style={`left: ${caretLocation?.left ?? 0}; top: ${
+            caretLocation?.top ?? 0
+        };`}
         bind:this={input}
         on:input={handleTextInput}
         on:keydown={handleKeyDown}
@@ -1177,11 +1492,9 @@
     {#each outlines as outline}
         <Highlight {...outline} />
     {/each}
-
 </div>
 
 <style>
-
     .editor {
         white-space: nowrap;
         line-height: var(--wordplay-code-line-height);
@@ -1200,7 +1513,8 @@
     }
 
     .editor.stepping {
-        outline: var(--wordplay-evaluation-color) solid var(--wordplay-focus-width);
+        outline: var(--wordplay-evaluation-color) solid
+            var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
@@ -1216,12 +1530,10 @@
         /* outline: 1px solid red;
         opacity: 1;
         width: 10px; */
-
     }
 
     .menu {
         position: absolute;
         z-index: var(--wordplay-layer-modification);
     }
-
 </style>

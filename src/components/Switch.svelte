@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { languages } from "../models/languages";
-    import type Translations from "../nodes/Translations";
+    import { languages } from '../models/languages';
+    import type Translations from '../nodes/Translations';
 
     export let on: boolean;
     export let toggle: (on: boolean) => void;
@@ -8,26 +8,29 @@
     export let onLabel: Translations;
     export let offTip: Translations;
     export let onTip: Translations;
-
 </script>
 
-<span
-    class="switch"
->
-    <span 
-        class={`button off ${on ? "inactive" : "active"}`}
-        tabIndex=0 
+<span class="switch">
+    <span
+        class={`button off ${on ? 'inactive' : 'active'}`}
+        tabIndex="0"
         title={offTip[$languages[0]]}
-        on:click={() => toggle(false)} 
-        on:keydown={event => event.key === "Enter" || event.key === " " ? toggle(false) : undefined }    
+        on:click={() => toggle(false)}
+        on:keydown={(event) =>
+            event.key === 'Enter' || event.key === ' '
+                ? toggle(false)
+                : undefined}
     >
         {offLabel[$languages[0]]}
-    </span><span 
-        class={`button on ${on ? "active" : "inactive"}`}
-        tabIndex=0 
+    </span><span
+        class={`button on ${on ? 'active' : 'inactive'}`}
+        tabIndex="0"
         title={onTip[$languages[0]]}
-        on:click={() => toggle(true)} 
-        on:keydown={event => event.key === "Enter" || event.key === " " ? toggle(true) : undefined }    
+        on:click={() => toggle(true)}
+        on:keydown={(event) =>
+            event.key === 'Enter' || event.key === ' '
+                ? toggle(true)
+                : undefined}
     >
         {onLabel[$languages[0]]}
     </span>
@@ -62,7 +65,8 @@
         transform: scale(1.15, 1.15);
     }
 
-    .button:focus, .button.inactive {
+    .button:focus,
+    .button.inactive {
         z-index: 2;
     }
 
@@ -86,7 +90,8 @@
     }
 
     .off {
-        border-right: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-right: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
         border-top-left-radius: var(--wordplay-border-radius);
         border-bottom-left-radius: var(--wordplay-border-radius);
     }
@@ -95,5 +100,4 @@
         border-top-right-radius: var(--wordplay-border-radius);
         border-bottom-right-radius: var(--wordplay-border-radius);
     }
-
 </style>

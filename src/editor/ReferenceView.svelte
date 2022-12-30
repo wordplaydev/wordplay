@@ -1,13 +1,14 @@
-<svelte:options immutable={true}/>
+<svelte:options immutable={true} />
+
 <script lang="ts">
-    import type Reference from "../nodes/Reference";
-    import NodeView from "./NodeView.svelte";
-    import { project, currentStep, playing } from "../models/stores";
-    import Stream from "../runtime/Stream";
-    import { languages } from "../models/languages";
-    import { getCaret } from "./util/Contexts";
-    import NameToken from "../nodes/NameToken";
-    
+    import type Reference from '../nodes/Reference';
+    import NodeView from './NodeView.svelte';
+    import { project, currentStep, playing } from '../models/stores';
+    import Stream from '../runtime/Stream';
+    import { languages } from '../models/languages';
+    import { getCaret } from './util/Contexts';
+    import NameToken from '../nodes/NameToken';
+
     export let node: Reference;
 
     $: context = $project.getNodeContext(node);
@@ -18,21 +19,21 @@
     let animating = false;
     $: {
         // Evaluated if...
-        evaluated = 
-            // The evaluator is playing    
-            $playing && 
+        evaluated =
+            // The evaluator is playing
+            $playing &&
             // We're done evaluating
-            $currentStep === undefined && 
+            $currentStep === undefined &&
             // This node refers to a stream
-            definition instanceof Stream && 
+            definition instanceof Stream &&
             // The stream caused the most recent reaction
-            $project.evaluator.didStreamCauseReaction(definition) && 
+            $project.evaluator.didStreamCauseReaction(definition) &&
             // This node was evaluated
             $project.evaluator.getLatestValueOf(node) !== undefined;
-        if(evaluated) {
+        if (evaluated) {
             animating = true;
             // Reset after the animation is done.
-            setTimeout(() => animating = false, 250);
+            setTimeout(() => (animating = false), 250);
         }
     }
 
@@ -40,8 +41,10 @@
     // If the caret is in the node, we choose the name that it is, so that it's editable.
     // Otherwise we choose the best name from of the preferred languages.
     let caret = getCaret();
-    $: name = definition === undefined || $caret?.isIn(node) ? node.name : new NameToken(definition.names.getTranslation($languages));
-
+    $: name =
+        definition === undefined || $caret?.isIn(node)
+            ? node.name
+            : new NameToken(definition.names.getTranslation($languages));
 </script>
 
 {#if animating}
@@ -52,7 +55,6 @@
     <NodeView node={name} />
 {/if}
 
-
 <style>
     .changed :global(.token-view) {
         display: inline-block;
@@ -60,10 +62,20 @@
     }
 
     @keyframes pop {
-        0% { transform: scale(1); }
-        20% { transform: scale(2); }
-        60% { transform: scale(1.5); }
-        80% { transform: scale(1.25); }
-        100% { transform: scale(1); }
+        0% {
+            transform: scale(1);
+        }
+        20% {
+            transform: scale(2);
+        }
+        60% {
+            transform: scale(1.5);
+        }
+        80% {
+            transform: scale(1.25);
+        }
+        100% {
+            transform: scale(1);
+        }
     }
 </style>

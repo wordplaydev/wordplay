@@ -1,9 +1,12 @@
-<svelte:options immutable={true}/><script lang="ts">
-    import type BinaryOperation from "../nodes/BinaryOperation";
-    import NodeView from "./NodeView.svelte";
+<svelte:options immutable={true} />
+
+<script lang="ts">
+    import type BinaryOperation from '../nodes/BinaryOperation';
+    import NodeView from './NodeView.svelte';
 
     export let node: BinaryOperation;
-
 </script>
 
-<NodeView node={node.left}/><NodeView node={node.operator}/><NodeView node={node.right}/>
+<NodeView node={node.left} /><NodeView node={node.operator} /><NodeView
+    node={node.right}
+/>

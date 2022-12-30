@@ -2,7 +2,7 @@
 
 <style>
     div {
-        font-family: "Courier New", monospace;
+        font-family: 'Courier New', monospace;
         font-size: 72pt;
         height: 100vh;
         display: flex;
@@ -12,9 +12,14 @@
     }
 
     @keyframes wobble {
-        0% { transform: rotate(0deg); }
-        50% { transform: rotate(180deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+            transform: rotate(0deg);
+        }
+        50% {
+            transform: rotate(180deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
     }
-
 </style>

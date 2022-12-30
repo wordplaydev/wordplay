@@ -1,8 +1,9 @@
-<svelte:options immutable={true}/>
+<svelte:options immutable={true} />
+
 <script lang="ts">
 </script>
 
-<span><slot/></span>
+<span><slot /></span>
 
 <style>
     span {

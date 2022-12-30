@@ -10,14 +10,14 @@
     export let source: Source;
     export let selected: boolean;
 
-    const dispatch = createEventDispatcher<{ activate: { source: Source }}>();
+    const dispatch = createEventDispatcher<{ activate: { source: Source } }>();
 
     function activate() {
-        dispatch("activate", { source });
+        dispatch('activate', { source });
     }
 
     let latest: Value | undefined;
-    $: { 
+    $: {
         $currentStep;
         latest = project.evaluator.getLatestSourceValue(source);
     }
@@ -28,26 +28,38 @@
     $: {
         primaryCount = 0;
         secondaryCount = 0;
-        for(const conflict of $nodeConflicts) {
+        for (const conflict of $nodeConflicts) {
             const nodes = conflict.getConflictingNodes();
-            if(source.contains(nodes.primary)) {
-                if(!conflict.isMinor())
-                    primaryCount++;
-                else
-                    secondaryCount++;
-            }
-            else secondaryCount += nodes.secondary.filter(node => source.contains(node)).length;
+            if (source.contains(nodes.primary)) {
+                if (!conflict.isMinor()) primaryCount++;
+                else secondaryCount++;
+            } else
+                secondaryCount += nodes.secondary.filter((node) =>
+                    source.contains(node)
+                ).length;
         }
     }
-
 </script>
 
-<div class="mini" class:selected
-    tabIndex=0
+<div
+    class="mini"
+    class:selected
+    tabIndex="0"
     on:click={activate}
-    on:keydown={ event => { if (event.key === "Enter" || event.key === " ") { activate(); event.preventDefault() }}}
+    on:keydown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            activate();
+            event.preventDefault();
+        }
+    }}
 >
-    <div class="name">{source.getNames()}{#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}{#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span>{/if}</div>
+    <div class="name"
+        >{source.getNames()}{#if primaryCount > 0}<span class="count primary"
+                >{primaryCount}</span
+            >{/if}{#if secondaryCount > 0}<span class="count secondary"
+                >{secondaryCount}</span
+            >{/if}</div
+    >
     {#if !selected}
         <OutputView {project} {source} {latest} mode="mini" />
     {/if}
@@ -61,7 +73,8 @@
         flex-direction: row;
         overflow: hidden;
         cursor: pointer;
-        border-right: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-right: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
     }
 
     .count {

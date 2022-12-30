@@ -1,39 +1,49 @@
 <script lang="ts">
-    import { getDragged, PaletteIndexSymbol, PalettePathSymbol, type PaletteIndexContext, type PalettePathContext } from "../editor/util/Contexts";
-    import { project, updateProject } from "../models/stores";
-    import ExpressionPlaceholder from "../nodes/ExpressionPlaceholder";
-    import StructureDefinition from "../nodes/StructureDefinition";
-    import Expression from "../nodes/Expression";
-    import Tree from "../nodes/Tree";
-    import { WRITE } from "../nodes/Translations";
-    import Button from "./Button.svelte";
-    import Source from "../models/Source";
-    import { fly } from "svelte/transition";
-    import ConceptsView from "./ConceptsView.svelte";
-    import StructureConceptView from "./StructureConceptView.svelte";
-    import { setContext } from "svelte";
-    import StructureConcept from "../concepts/StructureConcept";
-    import FunctionDefinition from "../nodes/FunctionDefinition";
-    import FunctionConcept from "../concepts/FunctionConcept";
-    import Bind from "../nodes/Bind";
-    import BindConcept from "../concepts/BindConcept";
-    import type Concept from "../concepts/Concept";
-    import { writable } from "svelte/store";
-    import FunctionConceptView from "./FunctionConceptView.svelte";
-    import BindConceptView from "./BindConceptView.svelte";
-    import StreamConcept from "../concepts/StreamConcept";
-    import CodeView from "./CodeView.svelte";
-    import ConversionConcept from "../concepts/ConversionConcept";
-    import ConversionConceptView from "./ConversionConceptView.svelte";
-    import StreamConceptView from "./StreamConceptView.svelte";
-    import { getConstructConcepts, getNativeConcepts, getOutputConcepts } from "../concepts/DefaultConcepts";
-    import KeyboardIdle from "../models/KeyboardIdle";
-    import type Project from "../models/Project";
-    import type ConstructConcept from "../concepts/ConstructConcept";
-    import ConceptIndex from "../concepts/ConceptIndex";
-    import Reference from "../nodes/Reference";
-    import type Node from "../nodes/Node";
-    import { languages } from "../models/languages";
+    import {
+        getDragged,
+        PaletteIndexSymbol,
+        PalettePathSymbol,
+        type PaletteIndexContext,
+        type PalettePathContext,
+    } from '../editor/util/Contexts';
+    import { project, updateProject } from '../models/stores';
+    import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
+    import StructureDefinition from '../nodes/StructureDefinition';
+    import Expression from '../nodes/Expression';
+    import Tree from '../nodes/Tree';
+    import { WRITE } from '../nodes/Translations';
+    import Button from './Button.svelte';
+    import Source from '../models/Source';
+    import { fly } from 'svelte/transition';
+    import ConceptsView from './ConceptsView.svelte';
+    import StructureConceptView from './StructureConceptView.svelte';
+    import { setContext } from 'svelte';
+    import StructureConcept from '../concepts/StructureConcept';
+    import FunctionDefinition from '../nodes/FunctionDefinition';
+    import FunctionConcept from '../concepts/FunctionConcept';
+    import Bind from '../nodes/Bind';
+    import BindConcept from '../concepts/BindConcept';
+    import type Concept from '../concepts/Concept';
+    import { writable } from 'svelte/store';
+    import FunctionConceptView from './FunctionConceptView.svelte';
+    import BindConceptView from './BindConceptView.svelte';
+    import StreamConcept from '../concepts/StreamConcept';
+    import CodeView from './CodeView.svelte';
+    import ConversionConcept from '../concepts/ConversionConcept';
+    import ConversionConceptView from './ConversionConceptView.svelte';
+    import StreamConceptView from './StreamConceptView.svelte';
+    import {
+        getConstructConcepts,
+        getNativeConcepts,
+        getOutputConcepts,
+    } from '../concepts/DefaultConcepts';
+    import KeyboardIdle from '../models/KeyboardIdle';
+    import type Project from '../models/Project';
+    import type ConstructConcept from '../concepts/ConstructConcept';
+    import ConceptIndex from '../concepts/ConceptIndex';
+    import Reference from '../nodes/Reference';
+    import type Node from '../nodes/Node';
+    import { languages } from '../models/languages';
 
     export let hidden: boolean;
 
@@ -59,156 +69,218 @@
 
     $: {
         // When the project changes and the keyboard is idle, recompute the concepts.
-        if($KeyboardIdle && latestProject !== $project) {
-
+        if ($KeyboardIdle && latestProject !== $project) {
             latestProject = $project;
 
-            projectStructures = [ $project.main, ...$project.supplements ]
-                .map(source => (source.expression.nodes(n => n instanceof StructureDefinition) as StructureDefinition[])
-                    .map(def => new StructureConcept(def, undefined, [], $project.getContext(source))))
+            projectStructures = [$project.main, ...$project.supplements]
+                .map((source) =>
+                    (
+                        source.expression.nodes(
+                            (n) => n instanceof StructureDefinition
+                        ) as StructureDefinition[]
+                    ).map(
+                        (def) =>
+                            new StructureConcept(
+                                def,
+                                undefined,
+                                [],
+                                $project.getContext(source)
+                            )
+                    )
+                )
                 .flat();
 
-            projectFunctions = [ $project.main, ...$project.supplements ]
-                .map(source => (source.expression.expression.statements.filter((n): n is FunctionDefinition => n instanceof FunctionDefinition))
-                    .map(def => new FunctionConcept(def, $project.getContext(source), undefined, )))
+            projectFunctions = [$project.main, ...$project.supplements]
+                .map((source) =>
+                    source.expression.expression.statements
+                        .filter(
+                            (n): n is FunctionDefinition =>
+                                n instanceof FunctionDefinition
+                        )
+                        .map(
+                            (def) =>
+                                new FunctionConcept(
+                                    def,
+                                    $project.getContext(source),
+                                    undefined
+                                )
+                        )
+                )
                 .flat();
 
-            projectBinds = [ $project.main, ...$project.supplements ]
-                .map(source => (source.expression.expression.statements.filter((n): n is Bind => n instanceof Bind))
-                    .map(def => new BindConcept(def, $project.getContext(source))))
+            projectBinds = [$project.main, ...$project.supplements]
+                .map((source) =>
+                    source.expression.expression.statements
+                        .filter((n): n is Bind => n instanceof Bind)
+                        .map(
+                            (def) =>
+                                new BindConcept(
+                                    def,
+                                    $project.getContext(source)
+                                )
+                        )
+                )
                 .flat();
 
-            streams = $project.getAllStreams().map(s => new StreamConcept(s, $project.getContext($project.main)));
+            streams = $project
+                .getAllStreams()
+                .map(
+                    (s) =>
+                        new StreamConcept(s, $project.getContext($project.main))
+                );
 
-            constructs = getConstructConcepts($project.getContext($project.main));
+            constructs = getConstructConcepts(
+                $project.getContext($project.main)
+            );
             native = getNativeConcepts($project.getContext($project.main));
             output = getOutputConcepts($project.getContext($project.main));
 
-            index.set(new ConceptIndex(
-                [ 
-                    ... projectStructures,
-                    ... projectFunctions,
-                    ... projectBinds,
-                    ... constructs,
-                    ... native,
-                    ... output,
-                    ... streams
-                ].map(c => c.getAllConcepts()).flat()
-            ));
+            index.set(
+                new ConceptIndex(
+                    [
+                        ...projectStructures,
+                        ...projectFunctions,
+                        ...projectBinds,
+                        ...constructs,
+                        ...native,
+                        ...output,
+                        ...streams,
+                    ]
+                        .map((c) => c.getAllConcepts())
+                        .flat()
+                )
+            );
 
             // Map the old path to the new one using concept equality.
-            path.set($path.map(concept => $index.getEquivalent(concept)).filter((c): c is Concept => c !== undefined));
-
+            path.set(
+                $path
+                    .map((concept) => $index.getEquivalent(concept))
+                    .filter((c): c is Concept => c !== undefined)
+            );
         }
     }
 
-
     let dragged = getDragged();
-    
+
     let path: PalettePathContext = writable([]);
     setContext(PalettePathSymbol, path);
 
     // Set a context that stores a project context for nodes in the palette to use.
-    $: setContext("context", $project.getContext($project.main));
+    $: setContext('context', $project.getContext($project.main));
 
     function handleMouseDown(event: MouseEvent) {
-
         palette?.focus();
 
-        if(event.buttons !== 1) return;
+        if (event.buttons !== 1) return;
 
         // Map the element to the coresponding node in the palette.
-        const root = document.elementFromPoint(event.clientX, event.clientY)?.closest(".root")?.querySelector(".node-view");
-        if(root instanceof HTMLElement) {
-            let node: Node | undefined = $index.getNode(parseInt(root.dataset.id ?? ""));
-            if(node !== undefined) {
+        const root = document
+            .elementFromPoint(event.clientX, event.clientY)
+            ?.closest('.root')
+            ?.querySelector('.node-view');
+        if (root instanceof HTMLElement) {
+            let node: Node | undefined = $index.getNode(
+                parseInt(root.dataset.id ?? '')
+            );
+            if (node !== undefined) {
                 // If the node is a Reference with a definition, "harden" it into a preferred language.
-                if(node instanceof Reference && node.definition !== undefined)
-                    node = Reference.make(node.definition.names.getTranslation($languages));
+                if (node instanceof Reference && node.definition !== undefined)
+                    node = Reference.make(
+                        node.definition.names.getTranslation($languages)
+                    );
 
                 dragged.set(new Tree(node));
             }
         }
-
     }
 
     // When a creator drops on the palette, remove the dragged node from the source it was dragged from.
     function handleDrop() {
-
         const node: Tree | undefined = $dragged;
 
         // Release the dragged node.
         dragged.set(undefined);
 
         // No node released? We're done.
-        if(node === undefined) return;
+        if (node === undefined) return;
 
         // See if we can remove the node from it's root.
         const source = node.getRoot();
-        if(!(source instanceof Source)) return;
+        if (!(source instanceof Source)) return;
 
         // Figure out what to replace the dragged node with. By default, we remove it.
-        const type = node.node instanceof Expression ? node.node.getType($project.getContext(source)) : undefined;
-        let replacement = node.node instanceof Expression && !node.inList() ? ExpressionPlaceholder.make(type) : undefined;
+        const type =
+            node.node instanceof Expression
+                ? node.node.getType($project.getContext(source))
+                : undefined;
+        let replacement =
+            node.node instanceof Expression && !node.inList()
+                ? ExpressionPlaceholder.make(type)
+                : undefined;
 
         // Update the project with the new source files
         updateProject(
             $project.withSource(
-                source, 
+                source,
                 source.withProgram(
                     source.expression.clone(node.node, replacement),
                     source.spaces.withReplacement(node.node, replacement)
                 )
             )
         );
-
     }
 
     function back() {
-
         $path.pop();
-        path.set([ ...$path ]);
-
+        path.set([...$path]);
     }
-
 </script>
 
 <!-- Drop what's being dragged if the window loses focus. -->
-<svelte:window on:blur={ () => dragged.set(undefined) } />
+<svelte:window on:blur={() => dragged.set(undefined)} />
 
-<section 
+<section
     class="palette"
     class:hidden
     on:mousedown={handleMouseDown}
     on:mouseup={handleDrop}
-    tabIndex=0
-    on:keydown={event => event.key === "Escape" || event.key === "Backspace" ? back() : undefined }
+    tabIndex="0"
+    on:keydown={(event) =>
+        event.key === 'Escape' || event.key === 'Backspace'
+            ? back()
+            : undefined}
     transition:fly={{ x: -200 }}
     bind:this={palette}
 >
-    {#if $path.length > 0 }
+    {#if $path.length > 0}
         {@const concept = $path.at(-1)}
         {#if concept}
             <section class="type">
                 <div class="back">
-                    <Button 
-                        label={{ eng: "◁" , "😀": WRITE }}
-                        tip={{ eng: "Return to the types menu.", "😀": WRITE }}
-                        action={back} 
+                    <Button
+                        label={{ eng: '◁', '😀': WRITE }}
+                        tip={{ eng: 'Return to the types menu.', '😀': WRITE }}
+                        action={back}
                     />
-                    {#each $path as concept }
-                        … <CodeView node={concept.getRepresentation()} {concept} selectable describe={false} border={false}/>
+                    {#each $path as concept}
+                        … <CodeView
+                            node={concept.getRepresentation()}
+                            {concept}
+                            selectable
+                            describe={false}
+                            border={false}
+                        />
                     {/each}
                 </div>
-                {#if concept instanceof StructureConcept }
+                {#if concept instanceof StructureConcept}
                     <StructureConceptView {concept} />
-                {:else if concept instanceof FunctionConcept }
+                {:else if concept instanceof FunctionConcept}
                     <FunctionConceptView {concept} />
-                {:else if concept instanceof BindConcept }
+                {:else if concept instanceof BindConcept}
                     <BindConceptView {concept} />
-                {:else if concept instanceof ConversionConcept }
+                {:else if concept instanceof ConversionConcept}
                     <ConversionConceptView {concept} />
-                {:else if concept instanceof StreamConcept }
+                {:else if concept instanceof StreamConcept}
                     <StreamConceptView {concept} />
                 {:else}
                     <CodeView node={concept.getRepresentation()} {concept} />
@@ -217,7 +289,14 @@
         {/if}
     {:else}
         <ConceptsView category="code" concepts={constructs} />
-        <ConceptsView category="project" concepts={[ ... projectStructures, ...projectBinds, ... projectFunctions ]} />
+        <ConceptsView
+            category="project"
+            concepts={[
+                ...projectStructures,
+                ...projectBinds,
+                ...projectFunctions,
+            ]}
+        />
         <ConceptsView category="data" concepts={native} />
         <ConceptsView category="input" concepts={streams} />
         <ConceptsView category="output" concepts={output} />
@@ -227,7 +306,7 @@
 <style>
     .palette {
         flex: 1;
-        
+
         z-index: var(--wordplay-layer-palette);
         overflow: scroll;
 
@@ -236,8 +315,8 @@
         padding: calc(2 * var(--wordplay-spacing));
         user-select: none;
 
-        transition: width 0.25s ease-out, visibility 0.25s ease-out, opacity 0.25s ease-out;
-
+        transition: width 0.25s ease-out, visibility 0.25s ease-out,
+            opacity 0.25s ease-out;
     }
 
     .palette.hidden {
@@ -259,7 +338,7 @@
         padding-bottom: var(--wordplay-spacing);
         z-index: var(--wordplay-layer-controls);
         background-color: var(--wordplay-background);
-        border-bottom: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        border-bottom: var(--wordplay-border-color) solid
+            var(--wordplay-border-width);
     }
-
 </style>

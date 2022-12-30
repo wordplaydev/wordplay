@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type Concept from "../concepts/Concept";
-    import RootView from "../editor/RootView.svelte";
-    import { getPalettePath } from "../editor/util/Contexts";
-    import { languages } from "../models/languages";
-    import type Node from "../nodes/Node";
-    import Note from "./Note.svelte";
+    import type Concept from '../concepts/Concept';
+    import RootView from '../editor/RootView.svelte';
+    import { getPalettePath } from '../editor/util/Contexts';
+    import { languages } from '../models/languages';
+    import type Node from '../nodes/Node';
+    import Note from './Note.svelte';
 
     export let node: Node;
     export let concept: Concept;
@@ -42,7 +42,7 @@
             tabIndex={selectable ? 0 : null}
             on:mousedown={select}
             on:keydown={(event) =>
-                event.key === "Enter" || event.key === " "
+                event.key === 'Enter' || event.key === ' '
                     ? select(event)
                     : undefined}
         >

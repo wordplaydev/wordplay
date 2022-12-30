@@ -1,22 +1,24 @@
 <script lang="ts">
-    import CodeView from "./CodeView.svelte";
-    import type BindConcept from "../concepts/BindConcept";
-    import { languages } from "../models/languages";
-    import { getPaletteIndex } from "../editor/util/Contexts";
-    import parseRichText from "../output/parseRichText";
+    import CodeView from './CodeView.svelte';
+    import type BindConcept from '../concepts/BindConcept';
+    import { languages } from '../models/languages';
+    import { getPaletteIndex } from '../editor/util/Contexts';
+    import parseRichText from '../output/parseRichText';
 
     export let concept: BindConcept;
-    
+
     $: bind = concept.bind;
 
     let index = getPaletteIndex();
     $: type = $index.getConceptOfType(bind.getType(concept.context));
-
 </script>
 
 <section>
     <p class="bind">
-        <CodeView {concept} node={concept.reference} /> • <CodeView concept={type ?? concept} node={type?.getRepresentation() ?? bind.getType(concept.context)}/>
+        <CodeView {concept} node={concept.reference} /> • <CodeView
+            concept={type ?? concept}
+            node={type?.getRepresentation() ?? bind.getType(concept.context)}
+        />
     </p>
     {#if bind.docs}
         <p>

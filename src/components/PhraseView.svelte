@@ -1,23 +1,26 @@
-<svelte:options immutable={true}/><script lang="ts">
-    import { languages } from "../models/languages";
-    import { selectTranslation } from "../nodes/Translations";
-    import type Phrase from "../output/Phrase";
-    import type Place from "../output/Place";
-    import parseRichText from "../output/parseRichText";
-    import phraseToCSS from "../output/phraseToCSS";
-    
+<svelte:options immutable={true} />
+
+<script lang="ts">
+    import { languages } from '../models/languages';
+    import { selectTranslation } from '../nodes/Translations';
+    import type Phrase from '../output/Phrase';
+    import type Place from '../output/Place';
+    import parseRichText from '../output/parseRichText';
+    import phraseToCSS from '../output/phraseToCSS';
+
     export let phrase: Phrase;
     export let place: Place;
     export let focus: Place;
-
 </script>
 
-<div 
+<div
     class="phrase"
     id={`phrase-${phrase.getName()}`}
     style={phraseToCSS(phrase, phrase.place ?? place, focus)}
 >
-    {@html parseRichText(selectTranslation(phrase.getDescriptions(), $languages)).toHTML()}
+    {@html parseRichText(
+        selectTranslation(phrase.getDescriptions(), $languages)
+    ).toHTML()}
 </div>
 
 <style>
@@ -34,5 +37,4 @@
     .phrase > :global(.extra) {
         font-weight: 700;
     }
-
 </style>

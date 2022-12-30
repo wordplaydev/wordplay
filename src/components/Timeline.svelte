@@ -1,15 +1,15 @@
 <script lang="ts">
-    import { afterUpdate } from "svelte";
-    import { streams } from "../models/stores";
-    import type Evaluator from "../runtime/Evaluator";
-    import { currentStepIndex } from "../models/stores";
-    import Keyboard from "../streams/Keyboard";
-    import Bool from "../runtime/Bool";
-    import MouseButton from "../streams/MouseButton";
-    import Text from "../runtime/Text";
-    import { slide } from "svelte/transition";
-    import Controls from "./Controls.svelte";
-    import { languages } from "../models/languages";
+    import { afterUpdate } from 'svelte';
+    import { streams } from '../models/stores';
+    import type Evaluator from '../runtime/Evaluator';
+    import { currentStepIndex } from '../models/stores';
+    import Keyboard from '../streams/Keyboard';
+    import Bool from '../runtime/Bool';
+    import MouseButton from '../streams/MouseButton';
+    import Text from '../runtime/Text';
+    import { slide } from 'svelte/transition';
+    import Controls from './Controls.svelte';
+    import { languages } from '../models/languages';
 
     export let evaluator: Evaluator;
 
@@ -17,100 +17,112 @@
 
     // Find the latest stream change before the current step index.
     $: currentChange = evaluator.getChangePriorTo($currentStepIndex);
-    $: historyTrimmed = $currentStepIndex && evaluator.getEarliestStepIndexAvailable() > 0;
+    $: historyTrimmed =
+        $currentStepIndex && evaluator.getEarliestStepIndexAvailable() > 0;
     let keyboardNavigation = false;
 
     // After each update, ensure the current change is in view
     afterUpdate(() => {
-        
-        if(currentChange === undefined || !keyboardNavigation) return;
-        
+        if (currentChange === undefined || !keyboardNavigation) return;
+
         keyboardNavigation = false;
 
-        const el = document.querySelector(`.stream-value[data-index="${currentChange.stepIndex}"]`)
+        const el = document.querySelector(
+            `.stream-value[data-index="${currentChange.stepIndex}"]`
+        );
         // Move the timeline's scroll left such that the element is in the center.
-        if(el && timeline) {
+        if (el && timeline) {
             const timelineRect = timeline.getBoundingClientRect();
             const changeRect = el.getBoundingClientRect();
-            const position = changeRect.left - timelineRect.left + timeline.scrollLeft;
+            const position =
+                changeRect.left - timelineRect.left + timeline.scrollLeft;
             timeline.scrollLeft = position - timelineRect.width / 2;
         }
-
     });
 
     function stepToMouse(event: MouseEvent) {
-
         // Map the mouse position onto a change.
-        const el = document.elementFromPoint(event.clientX, event.clientY)?.closest(".stream-value");
-        if(el instanceof HTMLElement && el.dataset.index !== undefined) {
+        const el = document
+            .elementFromPoint(event.clientX, event.clientY)
+            ?.closest('.stream-value');
+        if (el instanceof HTMLElement && el.dataset.index !== undefined) {
             const index = parseInt(el.dataset.index);
-            const change = $streams.find(change => change.stepIndex === index);
-            if(change)
-                stepTo(change.stepIndex);
+            const change = $streams.find(
+                (change) => change.stepIndex === index
+            );
+            if (change) stepTo(change.stepIndex);
         }
 
         // If we're on the edge, autoscroll.
-        if(timeline) {
+        if (timeline) {
             const rect = timeline.getBoundingClientRect();
             const offset = event.clientX - rect.left;
             const width = rect.width;
-            if(offset < 50)
-                timeline.scrollLeft = timeline.scrollLeft - 10;
-            else if(offset > width - 50)
+            if (offset < 50) timeline.scrollLeft = timeline.scrollLeft - 10;
+            else if (offset > width - 50)
                 timeline.scrollLeft = timeline.scrollLeft + 10;
-
         }
-
     }
 
     /** Step before or after the current change. */
     function leap(direction: -1 | 1) {
+        if (currentChange === undefined && direction < 0) return;
 
-        if(currentChange === undefined && direction < 0) 
-            return;
-
-        const change = $streams.find((_, index) => ((index - direction >= 0) && (index - direction) < $streams.length) && $streams[index - direction] === currentChange)
-        if(change) {
+        const change = $streams.find(
+            (_, index) =>
+                index - direction >= 0 &&
+                index - direction < $streams.length &&
+                $streams[index - direction] === currentChange
+        );
+        if (change) {
             keyboardNavigation = true;
             stepTo(change.stepIndex);
         }
-
     }
 
     function stepTo(stepIndex: number) {
-
         evaluator.pause();
         evaluator.stepTo(stepIndex);
     }
-
 </script>
 
 <section class="timeline" transition:slide>
-    <Controls project={evaluator.project}/>
-    <div 
-        class="inputs" 
+    <Controls project={evaluator.project} />
+    <div
+        class="inputs"
         tabIndex="0"
-        on:keydown={event => event.key === "ArrowLeft" ? leap(-1) : event.key === "ArrowRight" ? leap(1) : undefined }
-        on:mousedown={event => stepToMouse(event) }
-        on:mousemove={event => (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
+        on:keydown={(event) =>
+            event.key === 'ArrowLeft'
+                ? leap(-1)
+                : event.key === 'ArrowRight'
+                ? leap(1)
+                : undefined}
+        on:mousedown={(event) => stepToMouse(event)}
+        on:mousemove={(event) =>
+            (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
         bind:this={timeline}
     >
         {#if historyTrimmed}<span class="stream-value">…</span>{/if}
-        {#each $streams as change }
-            {@const down = change.stream instanceof Keyboard ? change.value?.resolve("down") : change.stream instanceof MouseButton ? change.value : undefined }
-            <span 
-                class={`stream-value ${currentChange === change ? "current" : ""} ${down instanceof Bool && down.bool ? "down" : "" }`}
+        {#each $streams as change}
+            {@const down =
+                change.stream instanceof Keyboard
+                    ? change.value?.resolve('down')
+                    : change.stream instanceof MouseButton
+                    ? change.value
+                    : undefined}
+            <span
+                class={`stream-value ${
+                    currentChange === change ? 'current' : ''
+                } ${down instanceof Bool && down.bool ? 'down' : ''}`}
                 data-index={change.stepIndex}
             >
                 {#if change.stream === undefined}
                     →
+                {:else if change.stream instanceof Keyboard && change.value}
+                    {@const key = change.value.resolve('key')}
+                    {#if key instanceof Text}{key.text}{/if}
                 {:else}
-                    {#if change.stream instanceof Keyboard && change.value}
-                        {@const key = change.value.resolve("key")}
-                        {#if key instanceof Text}{key.text}{/if}
-                    {:else}
-                        {change.stream.names.getTranslation("😀")}
-                    {/if}
+                    {change.stream.names.getTranslation('😀')}
                 {/if}
             </span>
         {/each}
@@ -125,7 +137,6 @@
 </section>
 
 <style>
-
     .timeline {
         padding: var(--wordplay-spacing);
         width: 100%;
@@ -149,17 +160,16 @@
 
     .stream-value {
         display: inline-block;
-        transition: font-size .25s;
+        transition: font-size 0.25s;
         opacity: 0.6;
     }
 
     .stream-value.current {
-        opacity: 1.0;
+        opacity: 1;
     }
 
     .stream-value.down {
         transform-origin: bottom;
         transform: scaleY(0.5);
     }
-
 </style>

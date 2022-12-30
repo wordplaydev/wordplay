@@ -1,15 +1,13 @@
 <script lang="ts">
-
     import App from '../components/App.svelte';
-
 </script>
 
 <svelte:head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
 </svelte:head>
 
-<App/>
+<App />
 
 <style>
     :global(body) {
@@ -26,6 +24,6 @@
     }
 
     :global(*) {
-         box-sizing: inherit;
+        box-sizing: inherit;
     }
 </style>

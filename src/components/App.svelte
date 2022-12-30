@@ -1,4 +1,3 @@
-
 <!-- A window manager that displays a set of windows -->
 <script lang="ts">
     import Settings from './Settings.svelte';
@@ -11,13 +10,12 @@
     let fontsLoaded = false;
 
     // Wait for the fonts to load before we display
-    onMount(() => document.fonts.ready.then(() => fontsLoaded = true));
-
+    onMount(() => document.fonts.ready.then(() => (fontsLoaded = true)));
 </script>
 
-{#if fontsLoaded }
+{#if fontsLoaded}
     <ProjectView project={$project} />
-    <Settings></Settings>
+    <Settings />
 {:else}
-    <Loading/>
+    <Loading />
 {/if}

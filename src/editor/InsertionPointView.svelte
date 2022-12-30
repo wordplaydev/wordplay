@@ -1,4 +1,4 @@
-<span class="insertion-point"></span>
+<span class="insertion-point" />
 
 <style>
     .insertion-point {
@@ -9,5 +9,4 @@
         outline: 2px solid var(--wordplay-highlight);
         z-index: var(--wordplay-layer-modification);
     }
-
 </style>

@@ -1,11 +1,12 @@
-<svelte:options immutable={true}/>
+<svelte:options immutable={true} />
+
 <script lang="ts">
-    import type TokenType from "../nodes/TokenType";
-    import TokenCategories from "../editor/TokenCategories";
+    import type TokenType from '../nodes/TokenType';
+    import TokenCategories from '../editor/TokenCategories';
 
     export let symbol: string;
     export let type: TokenType;
-    
+
     $: category = TokenCategories.get(type);
 </script>
 
@@ -16,8 +17,12 @@
         color: var(--wordplay-evaluation-color);
     }
 
-    .category-name { font-weight: bold; }
-    .category-literal { font-style: italic; }
+    .category-name {
+        font-weight: bold;
+    }
+    .category-literal {
+        font-style: italic;
+    }
 
     /* .category-delimiter { color: var(--color-grey); }
     .category-relation { color: var(--color-orange); }
@@ -27,5 +32,4 @@
     .category-type { color: var(--color-orange); }
     .category-operator { color: var(--color-orange); }
     .category-unknown { color: var(--color-pink); } */
-
 </style>

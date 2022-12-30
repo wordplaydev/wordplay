@@ -1,10 +1,14 @@
-<svelte:options immutable={true}/>
+<svelte:options immutable={true} />
+
 <script lang="ts">
-    import { languages } from "../models/languages";
+    import { languages } from '../models/languages';
     import { examples, makeProject, type Stuff } from '../examples/examples';
     import { updateProject } from '../models/stores';
     import type LanguageCode from '../nodes/LanguageCode';
-    import { languageCodeToLanguage, SupportedLanguages } from '../nodes/LanguageCode';
+    import {
+        languageCodeToLanguage,
+        SupportedLanguages,
+    } from '../nodes/LanguageCode';
 
     let example: Stuff;
     let language: LanguageCode;
@@ -19,16 +23,19 @@
         languages.set([language]);
     }
 
-    function show() { collapsed = false; }
-    function hide() { collapsed = true; }
-    
+    function show() {
+        collapsed = false;
+    }
+    function hide() {
+        collapsed = true;
+    }
 </script>
 
-<div 
-    class="settings" 
+<div
+    class="settings"
     class:collapsed
-    tabIndex=0 
-    on:mouseover={show} 
+    tabIndex="0"
+    on:mouseover={show}
     on:mouseleave={hide}
     on:focus={show}
     on:focusin={show}
@@ -38,16 +45,16 @@
         ⚙
     {:else}
         <select bind:value={example} on:change={changeProject}>
-            {#each examples as example }
+            {#each examples as example}
                 <option value={example}>{example.name}</option>
             {/each}
         </select>
         <select bind:value={language} on:change={changeLanguage}>
-            {#each SupportedLanguages as lang }
+            {#each SupportedLanguages as lang}
                 <option value={lang}>{languageCodeToLanguage[lang]}</option>
             {/each}
         </select>
-        {/if}
+    {/if}
 </div>
 
 <style>
@@ -78,5 +85,4 @@
     .settings:focus-within {
         outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
     }
-
 </style>

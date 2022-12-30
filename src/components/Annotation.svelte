@@ -1,11 +1,10 @@
 <script lang="ts">
-    import { fade } from "svelte/transition";
+    import { fade } from 'svelte/transition';
 
     export let id: number;
     export let text: string;
-    export let position: { left: number, top: number }
-    export let kind: "step" | "primary" | "secondary" | "minor"
-
+    export let position: { left: number; top: number };
+    export let kind: 'step' | 'primary' | 'secondary' | 'minor';
 </script>
 
 <div
@@ -25,7 +24,8 @@
         z-index: var(--wordplay-layer-annotation);
         background-color: var(--wordplay-error);
         color: var(--wordplay-background);
-        box-shadow: -2px calc(2 * var(--wordplay-border-width)) calc(2 * var(--wordplay-border-width)) rgba(0,0,0,.5);
+        box-shadow: -2px calc(2 * var(--wordplay-border-width))
+            calc(2 * var(--wordplay-border-width)) rgba(0, 0, 0, 0.5);
         max-width: 20em;
         border-radius: var(--wordplay-border-radius);
         transition: left, right, 0.25s ease-out;
@@ -39,7 +39,8 @@
         background-color: var(--wordplay-error);
     }
 
-    .annotation.secondary, .annotation.minor {
+    .annotation.secondary,
+    .annotation.minor {
         background-color: var(--wordplay-warning);
     }
 </style>
