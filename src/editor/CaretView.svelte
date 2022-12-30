@@ -9,7 +9,7 @@
     import { afterUpdate } from 'svelte';
     import TokenType from '../nodes/TokenType';
     import { getCaret } from './util/Contexts';
-    import Spaces, { SPACE_HTML, tabToHTML } from '../parser/Spaces';
+    import Spaces, { SPACE_HTML, TAB_HTML } from '../parser/Spaces';
     import type Source from '../models/Source';
     import { playing } from '../models/stores';
     import Node from '../nodes/Node';
@@ -250,7 +250,7 @@
                 const spaceText = spaceElement.innerHTML;
                 spaceElement.innerHTML = SPACE_HTML;
                 spaceWidth = spaceElement.getBoundingClientRect().width;
-                spaceElement.innerHTML = tabToHTML();
+                spaceElement.innerHTML = TAB_HTML;
                 tabWidth = spaceElement.getBoundingClientRect().width;
                 spaceElement.innerHTML = spaceText;
             }

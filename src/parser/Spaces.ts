@@ -5,9 +5,7 @@ import type Tree from '../nodes/Tree';
 
 export const TAB_WIDTH = 2;
 export const SPACE_HTML = '&middot;';
-export function tabToHTML() {
-    return '&nbsp;'.repeat(TAB_WIDTH - 1) + '→';
-}
+export const TAB_HTML = '&nbsp;'.repeat(TAB_WIDTH - 1) + '→';
 
 /**
  * An immutable mapping from tokens to spaces that should appear before them.

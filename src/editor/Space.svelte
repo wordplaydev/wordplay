@@ -4,7 +4,7 @@
     import type Token from '../nodes/Token';
     import { getInsertionPoints } from './util/Contexts';
     import InsertionPointView from './InsertionPointView.svelte';
-    import { SPACE_HTML, TAB_WIDTH, tabToHTML } from '../parser/Spaces';
+    import { SPACE_HTML, TAB_WIDTH, TAB_HTML } from '../parser/Spaces';
 
     export let token: Token;
     export let space: string;
@@ -19,27 +19,25 @@
             ? space.split('\n', insertion.line).join('\n').length + 1
             : undefined;
     // If there's an insertion, figure out what space to render before the insertion.
-    $: spaceBeforeHTML = (
-        insertionIndex === undefined ? '' : space.substring(0, insertionIndex)
-    )
-        .replaceAll(' ', SPACE_HTML)
-        .replaceAll('\t', tabToHTML())
-        .replaceAll('\n', "<span class='break'><br/></span>");
+    $: beforeSpaces =
+        insertionIndex === undefined
+            ? undefined
+            : space.substring(0, insertionIndex);
     // If there's no insertion, just render the space, otherwise render the right side of the insertion.
-    $: spaceAfterHTML =
-        (insertionIndex === undefined ? space : space.substring(insertionIndex))
-            .replaceAll(' ', SPACE_HTML)
-            .replaceAll('\t', tabToHTML())
-            .replaceAll('\n', "<span class='break'><br/></span>") +
-        additional
-            .replaceAll(' ', '&nbsp;')
-            .replaceAll('\t', '&nbsp;'.repeat(TAB_WIDTH))
-            .replaceAll('\n', "<span class='break'><br/></span>");
+    $: afterSpaces =
+        insertionIndex === undefined ? space : space.substring(insertionIndex);
 </script>
 
+<!-- This monstrosity avoids rendering large chunks of @html, which are notoriously unreliable in hydration. -->
 <span class="space" data-id={token.id}
-    >{#if insertion}{@html spaceBeforeHTML}<InsertionPointView
-        />{/if}{@html spaceAfterHTML}</span
+    >{#if beforeSpaces !== undefined}{#each beforeSpaces.split('') as c}{#if c === ' '}&middot;{:else if c === '\t'}&nbsp;→{:else}<span
+                    class="break"><br /></span
+                >{/if}{/each}<InsertionPointView
+        />{/if}{#each afterSpaces.split('') as c}{#if c === ' '}&middot;{:else if c === '\t'}&nbsp;&nbsp;{:else}<span
+                class="break"><br /></span
+            >{/if}{/each}{#each additional.split('') as c}{#if c === ' '}&nbsp;{:else if c === '\t'}&nbsp;&nbsp;{:else}<span
+                class="break"><br /></span
+            >{/if}{/each}</span
 >
 
 <style>
