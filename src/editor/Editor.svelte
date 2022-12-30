@@ -512,7 +512,7 @@
         insertions.set(new Map());
     }
 
-    function drop() {
+    async function drop() {
         if ($dragged === undefined) return;
 
         let editedProgram = source.expression;
@@ -687,6 +687,11 @@
 
             // Update the project with the new source files
             updateProject(project.withSources(newSources));
+
+            await tick();
+
+            // Focus the editor.
+            input?.focus();
         }
     }
 

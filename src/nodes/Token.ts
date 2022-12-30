@@ -57,10 +57,6 @@ export default class Token extends Node {
         };
     }
 
-    getFirstPlaceholder(): Node | undefined {
-        return this.is(TokenType.PLACEHOLDER) ? this : undefined;
-    }
-
     // TOKEN TYPES
 
     isnt(type: TokenType) {

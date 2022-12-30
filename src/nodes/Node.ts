@@ -108,6 +108,7 @@ export default abstract class Node {
     }
 
     getFirstPlaceholder(): Node | undefined {
+        if (this.isPlaceholder()) return this;
         for (const child of this.getChildren()) {
             const placeholder = child.getFirstPlaceholder();
             if (placeholder) return placeholder;
