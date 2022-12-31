@@ -885,16 +885,8 @@
                     .join('\n').length
             );
 
-        // Otherwise, if the only token is the end token, choose zero.
-        const leaves = source.leaves();
-        if (
-            leaves.length === 1 &&
-            leaves[0] instanceof Token &&
-            leaves[0].is(TokenType.END)
-        )
-            return 0;
-
-        return undefined;
+        // Otherwise, choose the last position if nothing else matches.
+        return source.getTokenLastPosition(source.expression.end);
     }
 
     function getInsertionPoint(
@@ -922,7 +914,7 @@
                     list: program.expression.statements,
                     token: node,
                     line: line,
-                    // Account empty lists
+                    // The index is at the end of the statements.
                     index: program.expression.statements.length,
                 };
             }
