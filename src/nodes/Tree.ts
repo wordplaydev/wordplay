@@ -1,5 +1,6 @@
 import Source from '../models/Source';
 import Expression from './Expression';
+import type { Field } from './Node';
 import type Node from './Node';
 
 export type Path = [string, number][];
@@ -189,5 +190,10 @@ export default class Tree {
             this._spaceRoot = root;
         }
         return this._spaceRoot;
+    }
+
+    /* Get the field of the node */
+    getField(): Field | undefined {
+        return this.parent?.node.getFieldOfChild(this.node);
     }
 }

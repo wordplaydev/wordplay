@@ -1,7 +1,8 @@
-import type Token from '../nodes/Token';
+import Token from '../nodes/Token';
 import type Node from '../nodes/Node';
 import type Root from './Root';
 import type Tree from '../nodes/Tree';
+import type Source from '../models/Source';
 
 export const TAB_WIDTH = 2;
 export const SPACE_HTML = '&middot;';
@@ -41,8 +42,12 @@ export default class Spaces {
     hasSpace(token: Token) {
         return this.#spaces.has(token);
     }
-    getSpace(token: Token): string {
-        return this.#spaces.get(token) ?? '';
+    getSpace(node: Node): string {
+        const token =
+            node instanceof Token
+                ? node
+                : (node.getFirstLeaf() as Token | undefined);
+        return token ? this.#spaces.get(token) ?? '' : '';
     }
     getSpaces() {
         return this.#spaces;
@@ -186,6 +191,23 @@ export default class Spaces {
         const newSpaces = new Map(this.#spaces);
         newSpaces.set(firstToken, space);
         return new Spaces(this.root, newSpaces);
+    }
+
+    /** Create a version of space with preferred space for all tokens. (Pretty print). */
+    withPreferredSpace(source: Source) {
+        const newSpace = new Spaces(this.root, this.#spaces);
+        for (const token of source.getTokens()) {
+            const tree = source.get(token);
+            const currentSpace = newSpace.getSpace(token);
+            const preferred = tree
+                ? Spaces.getPreferredPrecedingSpace(currentSpace, tree)
+                : currentSpace;
+            newSpace.#spaces.set(
+                token,
+                currentSpace + this.getAdditionalSpace(token, preferred)
+            );
+        }
+        return newSpace;
     }
 
     replace(existing: Token, replacement: Token) {

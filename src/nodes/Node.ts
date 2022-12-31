@@ -139,6 +139,15 @@ export default abstract class Node {
         return this._leaves;
     }
 
+    getLeafAfter(node: Node): Node | undefined {
+        let found = false;
+        for (const n of this.nodes()) {
+            if (n === node) found = true;
+            else if (found && n.isLeaf()) return n;
+        }
+        return undefined;
+    }
+
     hash(): string {
         return this.isLeaf()
             ? '' + this.id
@@ -202,6 +211,28 @@ export default abstract class Node {
     getField(field: string): Node | Node[] | undefined {
         if (!this.hasField(field)) return undefined;
         return (this as any)[field] as Node | Node[] | undefined;
+    }
+
+    getNodeAfterField(name: string): Node | undefined {
+        const grammar = this.getGrammar();
+        let found = false;
+        for (const f of grammar) {
+            if (f.name === name) found = true;
+            else if (found) {
+                const node = this.getField(f.name);
+                if (Array.isArray(node)) {
+                    if (node.length > 0) return node[0];
+                } else return node;
+            }
+        }
+        return undefined;
+    }
+
+    hasList(list: Node[]): boolean {
+        return (
+            Object.values(this.getChildrenAsGrammar()).includes(list) ||
+            this.getChildren().some((c) => c.hasList(list))
+        );
     }
 
     getAllowedFieldNodeTypes(name: string): FieldType[] | undefined {
@@ -389,8 +420,29 @@ export default abstract class Node {
         }
         // Replacement by node
         else if (original instanceof Node) {
-            // Does this node have the node provided?
-            if (child === original) {
+            // If this is a list, is the child in it?
+            if (
+                Array.isArray(child) &&
+                child.includes(original) &&
+                Array.isArray(allowedTypes[0])
+            ) {
+                // Verify that the replacement node is valid. It can be undefined (which indicates removal) or one of the allowed types.
+                valid =
+                    replacement === undefined ||
+                    Node.nodeIsAllowed(replacement, allowedTypes[0]);
+                if (!valid) {
+                    console.error(
+                        Node.invalidReplacementToString(
+                            field,
+                            allowedTypes,
+                            replacement
+                        )
+                    );
+                    return child as Child;
+                }
+            }
+            // Is this child the node provided?
+            else if (child === original) {
                 // Verify that the replacement node is valid.
                 valid = Node.nodeIsAllowed(replacement, allowedTypes);
                 if (!valid) {
@@ -410,21 +462,49 @@ export default abstract class Node {
         // If this child turns out to be the one to replace, and the replacement is valid, return it.
         // If not, see if the existing child contains the original, and if so, delegate replacement to it.
         // Otherwise, leave this child alone.
-        if (valid === true) return replacement as Child;
+        if (valid === true) {
+            // Is this an array?
+            if (Array.isArray(child)) {
+                // Are we removing an item?
+                if (replacement === undefined)
+                    // Create a new list without the item
+                    return child
+                        .map((c) => (c === original ? undefined : c))
+                        .filter((c): c is Node => c !== undefined) as Child;
+                // Is the replacement a list? Return the new list.
+                else if (Array.isArray(replacement))
+                    return replacement as Child;
+                // Otherwise, create a new list with the replacement inside it.
+                return child.map((c) =>
+                    c === original ? replacement : c
+                ) as Child;
+            }
+            // Otherwise, just return the replacement, whatever it is.
+            else return replacement as Child;
+        }
+        // If the child is undefined, no need to search, just return undefined.
         else if (child === undefined) return undefined as Child;
+        // If the child is a node and it contains the original node or list
         else if (child instanceof Node) {
-            if (original instanceof Node && child.contains(original))
+            if (
+                (original instanceof Node && child.contains(original)) ||
+                (Array.isArray(original) && child.hasList(original))
+            )
                 return child.clone(replace) as Child;
             else return child;
-        } else {
-            if (original instanceof Node) {
-                const match = child.find((c) => c.contains(original));
-                if (match)
-                    return child.map((c) =>
-                        c === match ? c.clone(replace) : c
-                    ) as Child;
-            }
-            return child;
+        }
+        // If the child is a list and it contains the original node or list
+        else {
+            const match = child.find(
+                (c) =>
+                    (original instanceof Node && c.contains(original)) ||
+                    (Array.isArray(original) && c.hasList(original))
+            );
+            if (match)
+                return child.map((c) =>
+                    c === match ? c.clone(replace) : c
+                ) as Child;
+            else return child;
         }
     }
 

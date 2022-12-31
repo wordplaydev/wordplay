@@ -11,7 +11,7 @@
     import { setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
     import commands, { type Edit } from './util/Commands';
-    import type Source from '../models/Source';
+    import Source from '../models/Source';
     import { writable } from 'svelte/store';
     import Exception from '../runtime/Exception';
     import Program from '../nodes/Program';
@@ -41,8 +41,6 @@
     import Bind from '../nodes/Bind';
     import Block from '../nodes/Block';
     import TokenType from '../nodes/TokenType';
-    import StructureDefinition from '../nodes/StructureDefinition';
-    import Tree from '../nodes/Tree';
     import RootView from './RootView.svelte';
     import type Project from '../models/Project';
     import { currentStep, playing, animations } from '../models/stores';
@@ -283,15 +281,6 @@
         hidden.set(newHidden);
     }
 
-    // We should replace if there are no insertions or we're hovered over a placeholder.
-    function shouldReplace() {
-        return (
-            $insertion ||
-            $hovered instanceof ExpressionPlaceholder ||
-            $hovered instanceof TypePlaceholder
-        );
-    }
-
     function updateHighlights() {
         const latestValue = evaluator.getLatestSourceValue(source);
 
@@ -319,39 +308,29 @@
             // Highlight the node.
             addHighlight(newHighlights, $dragged.node, 'dragged');
 
-            // If there's an insertion point, let the nodes render them
-            if (shouldReplace()) {
-                // If we're hovered over a valid drop target, highlight the hovered node.
-                if ($hovered && isValidDropTarget()) {
-                    addHighlight(newHighlights, $hovered, 'match');
-                }
-                // Otherwise, highlight targets.
-                else {
-                    // Find all of the expression placeholders and highlight them as drop targets,
-                    // unless they are dragged or contained in the dragged node
-                    if ($dragged instanceof Expression)
-                        for (const placeholder of source.expression.nodes(
-                            (n) => n instanceof ExpressionPlaceholder
-                        ))
-                            if (!$dragged.contains(placeholder))
-                                addHighlight(
-                                    newHighlights,
-                                    placeholder,
-                                    'target'
-                                );
+            // If there's something hovered or an insertion point, show targets and matches.
+            // If we're hovered over a valid drop target, highlight the hovered node.
+            if ($hovered && isValidDropTarget()) {
+                addHighlight(newHighlights, $hovered, 'match');
+            }
+            // Otherwise, highlight targets.
+            else if ($insertion === undefined) {
+                // Find all of the expression placeholders and highlight them as drop targets,
+                // unless they are dragged or contained in the dragged node
+                if ($dragged.node instanceof Expression)
+                    for (const placeholder of source.expression.nodes(
+                        (n) => n instanceof ExpressionPlaceholder
+                    ))
+                        if (!$dragged.node.contains(placeholder))
+                            addHighlight(newHighlights, placeholder, 'target');
 
-                    // Find all of the type placeholders and highlight them sa drop target
-                    if ($dragged instanceof Type)
-                        for (const placeholder of source.expression.nodes(
-                            (n) => n instanceof TypePlaceholder
-                        ))
-                            if (!$dragged.contains(placeholder))
-                                addHighlight(
-                                    newHighlights,
-                                    placeholder,
-                                    'target'
-                                );
-                }
+                // Find all of the type placeholders and highlight them sa drop target
+                if ($dragged.node instanceof Type)
+                    for (const placeholder of source.expression.nodes(
+                        (n) => n instanceof TypePlaceholder
+                    ))
+                        if (!$dragged.node.contains(placeholder))
+                            addHighlight(newHighlights, placeholder, 'target');
             }
         }
         // Otherwise, is a node hovered over? Highlight it.
@@ -516,186 +495,148 @@
         if ($dragged === undefined) return;
 
         let editedProgram = source.expression;
-        const draggedNode: Node = $dragged.node;
+        let editedSpace = source.spaces;
 
-        // This is the node that will either be replaced or contains the list in which we will insert the dragged node.
-        // For replacements its the node that the creator is hovered over, and for insertions its the node that contains the list we're inserting into.
-        let replacedOrListContainingNode: Node | undefined = shouldReplace()
-            ? $hovered
-            : $insertion
-            ? $insertion.node
-            : undefined;
+        // Clone the dragged node in case it came with nodes that we shouldn't mess with.
+        const draggedNode = $dragged.node;
+        const draggedClone: Node = draggedNode.clone();
 
-        if (replacedOrListContainingNode === undefined) return;
+        // First, decide whether to remove the node or replace it with a placeholder.
+        // We do this based on the node's field: if it is in a list or can be undefined, then we remove,
+        // otherwise we replace with a placeholder. This ensures that we don't introduce a syntax error.
 
-        const newSources: [Source, Source][] = [];
+        // Get the field of the node.
+        const field = $dragged.getField();
 
-        // If the dragged node is in a program, remove it if in a list or replace it with an expression placeholder if not.
-        // If it's not in a program, it's coming from a palette or some other place and no action is required.
+        // Get the root of the dragged program.
         const draggedRoot = $dragged.getRoot();
-        if (draggedRoot instanceof Program) {
-            // Figure out what to replace the dragged node with. By default, we remove it.
-            let replacement = undefined;
+        const draggedInSource = draggedRoot instanceof Source;
 
-            // If the node isn't in a list, then we replace it with an expression placeholder, to preserve syntax.
-            if (!$dragged.inList()) {
-                // Make a placeholder to replace the hovered node. Try to specify the former type.
-                replacement =
-                    draggedNode instanceof Block &&
-                    $dragged.getParent() instanceof StructureDefinition
-                        ? undefined
-                        : draggedNode instanceof Expression
-                        ? ExpressionPlaceholder.make(
-                              draggedNode.getType(project.getContext(source))
-                          )
-                        : draggedNode instanceof Type
-                        ? new TypePlaceholder()
-                        : undefined;
+        const replacement =
+            // Not in a program? Don't do a replacement (which we represent with null).
+            field === undefined || !draggedInSource
+                ? null
+                : // Does the field allow undefined or the field is a list? Replace with undefined (which means unset or remove from the list).
+                field.types.includes(undefined) || Array.isArray(field.types[0])
+                ? undefined
+                : // Is the node an expression and the field allows expressions? Replace with an expression placeholder of the type of the current expression.
+                $dragged.node instanceof Expression &&
+                  field.types.includes(Expression)
+                ? ExpressionPlaceholder.make(
+                      $dragged.node.getType(project.getContext(source))
+                  )
+                : // Is the field a type? Replace with a type placeholder.
+                field.types.includes(Type)
+                ? new TypePlaceholder()
+                : // Otherwise, don't do a replacement.
+                  null;
+
+        // This is a list of sources to replace with other sources. This can be
+        // one or more sources, since it's possible to drag from one source to another.
+        const sourceReplacements: [Source, Source][] = [];
+
+        // Case 1: We're replacing the hovered node with the dragged node.
+        if ($hovered) {
+            // Replace the hovered node in this source with the dragged node.
+            editedProgram = editedProgram.replace($hovered, draggedClone);
+
+            // Give the space of the hovered node to the dragged clone.
+            editedSpace = editedSpace.withReplacement($hovered, draggedClone);
+        }
+        // Case 2: We're inserting into a list
+        else if ($insertion) {
+            // Replace the old list with a new one that has the insertion.
+            editedProgram = editedProgram.replace($insertion.list, [
+                ...$insertion.list.slice(0, $insertion.index),
+                draggedClone,
+                ...$insertion.list.slice($insertion.index),
+            ]);
+
+            // Find the node at the index. It's either the node in the list at the index or or the token after the list,
+            // which might be empty. To find this, we ask the node the list is in
+            // We get the token
+            const nodeAtIndex =
+                $insertion.list[$insertion.index] ??
+                // Get the node after the list field
+                $insertion.node.getNodeAfterField($insertion.field) ??
+                // And if there's not one of those, get the token after the node.
+                editedProgram.getLeafAfter($insertion.node) ??
+                // Otherwise, default to the end token.
+                editedProgram.end;
+
+            // Find the space before the node, if there is one.
+            const space = nodeAtIndex ? editedSpace.getSpace(nodeAtIndex) : '';
+
+            // Find the index of the insertion line
+            let index = 0;
+            let count = 0;
+            for (; index < space.length; index++) {
+                if (space.charAt(index) === '\n') count++;
+                if (count > $insertion.line) break;
             }
 
-            // If it's from this program, then update this program.
-            if (draggedRoot === editedProgram) {
-                // Remember where it is in the tree
-                const pathToReplacedOrListContainingNode =
-                    replacedOrListContainingNode === undefined
-                        ? undefined
-                        : $caret.source
-                              .get(replacedOrListContainingNode)
-                              ?.getPath();
-                // Replace the dragged node with the placeholder or nothing, effectively removing the node we're moving from the program.
+            // Split it based on the line number in the preceding space.
+            const beforeSpace = space.substring(0, index);
+            const afterSpace = space.substring(index);
+
+            // Give the space prior to the index to the dragged node.
+            editedSpace = editedSpace.withSpace(draggedClone, beforeSpace);
+            if (nodeAtIndex) {
+                // Make sure the preferred space is there, to avoid parsing issues.
+                editedSpace = editedSpace.withSpace(nodeAtIndex, afterSpace);
+            }
+        }
+
+        // If the dragged node came from a Source we have a replacement (undefined or a Node)
+        // update the the source. We handle it differently based on whether it was this editors source or another editor's source.
+        if (replacement !== null && draggedInSource) {
+            // If it's this source, do the replacement on it.
+            if (draggedRoot === source) {
                 editedProgram = editedProgram.replace(draggedNode, replacement);
-                // Update the node to replace to the cloned node.
-                replacedOrListContainingNode =
-                    pathToReplacedOrListContainingNode === undefined
-                        ? undefined
-                        : new Tree(editedProgram).resolvePath(
-                              pathToReplacedOrListContainingNode
-                          );
+                editedSpace = editedSpace.withReplacement(
+                    draggedNode,
+                    replacement
+                );
             }
-            // If it's from another program, then update that program.
-            else if (draggedRoot instanceof Program) {
-                // Find the source that contains the dragged root.
-                const source = project.getSourceWithProgram(draggedRoot);
+            // Some other source...
+            else {
                 // If we found one, update the project with a new source with a new program that replaces the dragged node with the placeholder
                 // and preserves the space preceding the dragged node.
-                if (source)
-                    newSources.push([
-                        source,
-                        source.withProgram(
-                            // Replace the node in the dragged root
-                            draggedRoot.replace(draggedNode, replacement),
-                            // Preserve the spaces before the dragged node
-                            source.spaces.withReplacement(
+                sourceReplacements.push([
+                    draggedRoot,
+                    draggedRoot
+                        .replace(draggedNode, replacement)
+                        .withSpaces(
+                            draggedRoot.spaces.withReplacement(
                                 draggedNode,
                                 replacement
                             )
                         ),
-                    ]);
-            }
-            // If it was from a palette, do nothing, since there's nothing to remove.
-        }
-
-        // If we should replace and we still have a hovered node, replace the hovered node with the dragged node, preserving preceding space.
-        if (replacedOrListContainingNode) {
-            if (shouldReplace()) {
-                editedProgram = editedProgram.replace(
-                    replacedOrListContainingNode,
-                    draggedNode
-                );
-                newSources.push([
-                    source,
-                    source.withProgram(
-                        editedProgram,
-                        source.spaces.withReplacement(
-                            replacedOrListContainingNode,
-                            draggedNode
-                        )
-                    ),
                 ]);
             }
-            // If we're not replacing, and there's something to insert, insert!
-            else if ($insertion) {
-                const listToUpdate = replacedOrListContainingNode.getField(
-                    $insertion.field
-                );
-                if (Array.isArray(listToUpdate)) {
-                    // Get the index at which to split space.
-                    const spaceToSplit = source.spaces.getSpace(
-                        $insertion.token
-                    );
-                    const spaceInsertionIndex =
-                        spaceToSplit.split('\n', $insertion.line).join('\n')
-                            .length + 1;
-                    const spaceBefore = spaceToSplit.substring(
-                        0,
-                        spaceInsertionIndex
-                    );
-                    const spaceAfter =
-                        spaceToSplit.substring(spaceInsertionIndex);
-
-                    // Remember the index of the token inserted before.
-                    const indexOfTokenInsertedBefore = source.expression
-                        .nodes((n) => n instanceof Token)
-                        .indexOf($insertion.token);
-
-                    // If we're inserting into the same list the dragged node is from, then it was already removed from the list above.
-                    // If we're inserting after it's prior location, then the index is now 1 position to high, because everything shifted down.
-                    // Therefore, if the node of the insertion is in the list inserted, we adjust the insertion index.
-                    const indexOfDraggedNodeInList =
-                        $insertion.list.indexOf(draggedNode);
-                    const insertionIndex =
-                        $insertion.index +
-                        (indexOfDraggedNodeInList >= 0 &&
-                        $insertion.index > indexOfDraggedNodeInList
-                            ? 1
-                            : 0);
-                    // Replace the list with a new list that has the dragged node inserted.
-                    const clonedListParent =
-                        replacedOrListContainingNode.replace(listToUpdate, [
-                            ...listToUpdate.slice(0, insertionIndex),
-                            draggedNode,
-                            ...listToUpdate.slice(insertionIndex),
-                        ]);
-
-                    // Update the program with the new list parent.
-                    editedProgram = editedProgram.replace(
-                        replacedOrListContainingNode,
-                        clonedListParent
-                    );
-
-                    // Find the token after the last token of the node we inserted and give it the original space after the insertion point.
-                    let tokenInsertedBefore = editedProgram.nodes(
-                        (n) => n instanceof Token
-                    )[
-                        indexOfTokenInsertedBefore +
-                            draggedNode.nodes((n) => n instanceof Token).length
-                    ] as Token;
-
-                    const newSource = source.withProgram(
-                        editedProgram,
-                        source.spaces
-                            .withSpace(draggedNode, spaceBefore)
-                            .withSpace(tokenInsertedBefore, spaceAfter)
-                    );
-                    newSources.push([source, newSource]);
-                }
-            }
-
-            // Using the label, set the cursor to the first placeholder or the dragged node, then unlabel the sources.
-            caret.set(
-                $caret.withPosition(
-                    draggedNode.getFirstPlaceholder() ?? draggedNode
-                )
-            );
-
-            // Update the project with the new source files
-            updateProject(project.withSources(newSources));
-
-            await tick();
-
-            // Focus the editor.
-            input?.focus();
         }
+
+        // Finally, add this editor's updated source to the list of sources to replace in the project.
+        sourceReplacements.push([
+            source,
+            source.withProgram(editedProgram, editedSpace),
+        ]);
+
+        // Set the caret to the first placeholder or the dragged node, or the node itself if there isn't one.
+        caret.set(
+            $caret.withPosition(
+                draggedClone.getFirstPlaceholder() ?? draggedClone
+            )
+        );
+
+        // Update the project with the new source files
+        updateProject(project.withSources(sourceReplacements));
+
+        // Wait for the DOM updates.
+        await tick();
+
+        // Focus the editor.
+        input?.focus();
     }
 
     function handleMouseDown(event: MouseEvent) {
@@ -979,7 +920,7 @@
                     token: node,
                     line: line,
                     // Account empty lists
-                    index: 0,
+                    index: program.expression.statements.length,
                 };
             }
         }
@@ -989,7 +930,9 @@
         if (field === undefined) return;
         const list = parent.getField(field);
         if (!Array.isArray(list)) return undefined;
-        const index = list.indexOf(node);
+        const index = list.length === 0 ? 0 : list.indexOf(node);
+        if (index < 0) return;
+
         return {
             node: parent,
             field: field,
@@ -997,7 +940,7 @@
             token: token,
             line: line,
             // Account for empty lists
-            index: index < 0 ? 0 : index + (before ? 0 : 1),
+            index: index + (before ? 0 : 1),
         };
     }
 
@@ -1093,24 +1036,28 @@
             }
         }
 
-        // Update insertion points
+        // Update insertion points if there's nothing hovered.
         if ($dragged) {
             // Get the insertion points at the current mouse position
             // And filter them by kinds that match, getting the field's allowed types,
             // and seeing if the dragged node is an instance of any of the dragged types.
             // This only works if the types list contains a single item that is a list of types.
             insertion.set(
-                getInsertionPointsAt(event).filter((insertion) => {
-                    const types = insertion.node.getAllowedFieldNodeTypes(
-                        insertion.field
-                    );
-                    return (
-                        $dragged &&
-                        Array.isArray(types) &&
-                        Array.isArray(types[0]) &&
-                        types[0].some((kind) => $dragged?.node instanceof kind)
-                    );
-                })[0]
+                $hovered
+                    ? undefined
+                    : getInsertionPointsAt(event).filter((insertion) => {
+                          const types = insertion.node.getAllowedFieldNodeTypes(
+                              insertion.field
+                          );
+                          return (
+                              $dragged &&
+                              Array.isArray(types) &&
+                              Array.isArray(types[0]) &&
+                              types[0].some(
+                                  (kind) => $dragged?.node instanceof kind
+                              )
+                          );
+                      })[0]
             );
         }
     }

@@ -63,6 +63,9 @@ export default class Source extends Expression {
 
         this.names = names instanceof Names ? names : Names.make([names]);
 
+        // A facade for analyzing the tree.
+        this.tree = new Tree(this);
+
         if (typeof code === 'string' || code instanceof UnicodeString) {
             // Generate the AST from the provided code.
             const tokens = tokenize(
@@ -72,7 +75,10 @@ export default class Source extends Expression {
             this.expression = parseProgram(
                 new Tokens(this.tokens, tokens.getSpaces())
             );
-            this.spaces = tokens.getSpaces().withRoot(this);
+            this.spaces = tokens
+                .getSpaces()
+                .withRoot(this)
+                .withPreferredSpace(this);
         } else {
             // Save the AST provided
             const [program, spaces] = code;
@@ -81,11 +87,10 @@ export default class Source extends Expression {
             this.spaces = spaces.withRoot(this);
         }
 
-        // A facade for analyzing the tree.
-        this.tree = new Tree(this);
-
         // Generate the text from the AST, which is responsible for pretty printing.
-        this.code = new UnicodeString(this.expression.toWordplay(this.spaces));
+        this.code = new UnicodeString(
+            this.expression.toWordplay(this.spaces.withPreferredSpace(this))
+        );
 
         // Create an index of the token positions and space roots.
         let index = 0;
@@ -188,6 +193,10 @@ export default class Source extends Expression {
                 (node): node is SetOpenToken =>
                     node instanceof Token && node.getText() === match
             );
+    }
+
+    withSpaces(spaces: Spaces) {
+        return new Source(this.names, [this.expression, spaces]);
     }
 
     withPreviousGraphemeReplaced(char: string, position: number) {
@@ -486,6 +495,10 @@ export default class Source extends Expression {
             next = children[children.length - 1];
         } while (next !== undefined);
         return undefined;
+    }
+
+    getTokens() {
+        return this.tokens;
     }
 
     isEmptyLine(position: number) {
