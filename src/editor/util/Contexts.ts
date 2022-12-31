@@ -22,12 +22,12 @@ export function getHovered() {
     return getContext<HoveredContext>(HoveredSymbol);
 }
 
-export type InsertionPointsContext =
-    | Writable<Map<Token, InsertionPoint>>
+export type InsertionPointContext =
+    | Writable<InsertionPoint | undefined>
     | undefined;
 export const InsertionPointsSymbol = Symbol('insertions');
-export function getInsertionPoints() {
-    return getContext<InsertionPointsContext>(InsertionPointsSymbol);
+export function getInsertionPoint() {
+    return getContext<InsertionPointContext>(InsertionPointsSymbol);
 }
 
 export type DraggedContext = Writable<Tree | undefined>;

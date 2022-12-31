@@ -2,17 +2,18 @@
 
 <script lang="ts">
     import type Token from '../nodes/Token';
-    import { getInsertionPoints } from './util/Contexts';
+    import { getInsertionPoint } from './util/Contexts';
     import InsertionPointView from './InsertionPointView.svelte';
 
     export let token: Token;
     export let space: string;
     export let additional: string;
 
-    let insertionPoints = getInsertionPoints();
+    let insertionPoint = getInsertionPoint();
 
     // Is there an insertion point before this token? Show one!
-    $: insertion = $insertionPoints?.get(token);
+    $: insertion =
+        $insertionPoint?.token === token ? $insertionPoint : undefined;
     $: insertionIndex =
         insertion !== undefined
             ? space.split('\n', insertion.line).join('\n').length + 1

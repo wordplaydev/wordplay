@@ -90,8 +90,8 @@
     // A store of what node is hovered over, including tokens.
     let hoveredAny = writable<Node | undefined>(undefined);
 
-    let insertions = writable<Map<Token, InsertionPoint>>(new Map());
-    setContext(InsertionPointsSymbol, insertions);
+    let insertion = writable<InsertionPoint | undefined>(undefined);
+    setContext(InsertionPointsSymbol, insertion);
 
     // A set of hidden nodes, such as hidden translations.
     let hidden = writable<Set<Node>>(new Set());
@@ -286,7 +286,7 @@
     // We should replace if there are no insertions or we're hovered over a placeholder.
     function shouldReplace() {
         return (
-            $insertions.size === 0 ||
+            $insertion ||
             $hovered instanceof ExpressionPlaceholder ||
             $hovered instanceof TypePlaceholder
         );
@@ -476,7 +476,7 @@
 
         const node = $dragged.node;
 
-        // Allow expressions ot be dropped on expressions.
+        // Allow expressions to be dropped on expressions.
         if (node instanceof Expression && $hovered instanceof Expression)
             return true;
 
@@ -494,7 +494,7 @@
         if (node instanceof Type && $hovered instanceof Type) return true;
 
         // Allow inserts to be inserted.
-        if ($insertions.size > 0) return true;
+        if ($insertion) return true;
 
         return false;
     }
@@ -509,7 +509,7 @@
         dragPoint = undefined;
 
         // Reset the insertion points.
-        insertions.set(new Map());
+        insertion.set(undefined);
     }
 
     async function drop() {
@@ -517,18 +517,21 @@
 
         let editedProgram = source.expression;
         const draggedNode: Node = $dragged.node;
-        const insertion = Array.from($insertions.values())[0];
 
         // This is the node that will either be replaced or contains the list in which we will insert the dragged node.
         // For replacements its the node that the creator is hovered over, and for insertions its the node that contains the list we're inserting into.
         let replacedOrListContainingNode: Node | undefined = shouldReplace()
             ? $hovered
-            : insertion.node;
+            : $insertion
+            ? $insertion.node
+            : undefined;
+
+        if (replacedOrListContainingNode === undefined) return;
 
         const newSources: [Source, Source][] = [];
 
         // If the dragged node is in a program, remove it if in a list or replace it with an expression placeholder if not.
-        // If it's not in a program, it's probably coming from a palette or the visual clipboard.
+        // If it's not in a program, it's coming from a palette or some other place and no action is required.
         const draggedRoot = $dragged.getRoot();
         if (draggedRoot instanceof Program) {
             // Figure out what to replace the dragged node with. By default, we remove it.
@@ -611,17 +614,17 @@
                 ]);
             }
             // If we're not replacing, and there's something to insert, insert!
-            else if ($insertions.size > 0) {
+            else if ($insertion) {
                 const listToUpdate = replacedOrListContainingNode.getField(
-                    insertion.field
+                    $insertion.field
                 );
                 if (Array.isArray(listToUpdate)) {
                     // Get the index at which to split space.
                     const spaceToSplit = source.spaces.getSpace(
-                        insertion.token
+                        $insertion.token
                     );
                     const spaceInsertionIndex =
-                        spaceToSplit.split('\n', insertion.line).join('\n')
+                        spaceToSplit.split('\n', $insertion.line).join('\n')
                             .length + 1;
                     const spaceBefore = spaceToSplit.substring(
                         0,
@@ -633,17 +636,17 @@
                     // Remember the index of the token inserted before.
                     const indexOfTokenInsertedBefore = source.expression
                         .nodes((n) => n instanceof Token)
-                        .indexOf(insertion.token);
+                        .indexOf($insertion.token);
 
                     // If we're inserting into the same list the dragged node is from, then it was already removed from the list above.
                     // If we're inserting after it's prior location, then the index is now 1 position to high, because everything shifted down.
                     // Therefore, if the node of the insertion is in the list inserted, we adjust the insertion index.
                     const indexOfDraggedNodeInList =
-                        insertion.list.indexOf(draggedNode);
+                        $insertion.list.indexOf(draggedNode);
                     const insertionIndex =
-                        insertion.index +
+                        $insertion.index +
                         (indexOfDraggedNodeInList >= 0 &&
-                        insertion.index > indexOfDraggedNodeInList
+                        $insertion.index > indexOfDraggedNodeInList
                             ? 1
                             : 0);
                     // Replace the list with a new list that has the dragged node inserted.
@@ -1096,8 +1099,8 @@
             // And filter them by kinds that match, getting the field's allowed types,
             // and seeing if the dragged node is an instance of any of the dragged types.
             // This only works if the types list contains a single item that is a list of types.
-            const newInsertionPoints = getInsertionPointsAt(event).filter(
-                (insertion) => {
+            insertion.set(
+                getInsertionPointsAt(event).filter((insertion) => {
                     const types = insertion.node.getAllowedFieldNodeTypes(
                         insertion.field
                     );
@@ -1107,23 +1110,8 @@
                         Array.isArray(types[0]) &&
                         types[0].some((kind) => $dragged?.node instanceof kind)
                     );
-                }
+                })[0]
             );
-
-            // Did they change? We keep them the same to avoid UI updates, especially with animations.
-            if (
-                newInsertionPoints.length === 0 ||
-                !newInsertionPoints.every((point) =>
-                    Object.values($insertions).some((point2) =>
-                        insertionPointsEqual(point, point2)
-                    )
-                )
-            ) {
-                const insertionPointsMap = new Map<Token, InsertionPoint>();
-                for (const point of newInsertionPoints)
-                    insertionPointsMap.set(point.token, point);
-                insertions.set(insertionPointsMap);
-            }
         }
     }
 
@@ -1142,7 +1130,7 @@
 
     function handleMouseLeave() {
         hovered.set(undefined);
-        insertions.set(new Map());
+        insertion.set(undefined);
     }
 
     async function showMenu() {
