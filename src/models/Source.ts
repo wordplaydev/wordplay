@@ -88,9 +88,7 @@ export default class Source extends Expression {
         }
 
         // Generate the text from the AST, which is responsible for pretty printing.
-        this.code = new UnicodeString(
-            this.expression.toWordplay(this.spaces.withPreferredSpace(this))
-        );
+        this.code = new UnicodeString(this.expression.toWordplay(this.spaces));
 
         // Create an index of the token positions and space roots.
         let index = 0;

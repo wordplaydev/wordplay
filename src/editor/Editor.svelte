@@ -616,10 +616,13 @@
             }
         }
 
+        // Make a new source
+        const newSource = source.withProgram(editedProgram, editedSpace);
+
         // Finally, add this editor's updated source to the list of sources to replace in the project.
         sourceReplacements.push([
             source,
-            source.withProgram(editedProgram, editedSpace),
+            newSource.withSpaces(editedSpace.withPreferredSpace(newSource)),
         ]);
 
         // Set the caret to the first placeholder or the dragged node, or the node itself if there isn't one.
