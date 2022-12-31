@@ -550,7 +550,7 @@ export default abstract class Node {
     // WHITESPACE
 
     isBlockFor(_: Node) {
-        return false;
+        return this.getFieldOfChild(_)?.indent;
     }
 
     getPreferredPrecedingSpace(

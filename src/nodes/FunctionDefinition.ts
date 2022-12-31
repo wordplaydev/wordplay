@@ -120,10 +120,6 @@ export default class FunctionDefinition extends Expression {
         ];
     }
 
-    isBlockFor(child: Node) {
-        return child === this.expression;
-    }
-
     clone(replace?: Replacement) {
         return new FunctionDefinition(
             this.replaceChild('docs', this.docs, replace),

@@ -160,10 +160,6 @@ export default class Bind extends Expression {
             : this.value.evaluateTypeSet(bind, original, current, context);
     }
 
-    isBlockFor(child: Node) {
-        return child === this.value;
-    }
-
     hasName(name: string) {
         return this.names.hasName(name);
     }

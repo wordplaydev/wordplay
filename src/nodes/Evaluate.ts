@@ -149,10 +149,6 @@ export default class Evaluate extends Expression {
         ) as this;
     }
 
-    isBlockFor(child: Node) {
-        return this.inputs.includes(child as Expression);
-    }
-
     /**
      * Using the given and expected inputs, generates a mapping from expected to given inputs that can be reused during
      * conflict detection, compilation, and autocomplete.

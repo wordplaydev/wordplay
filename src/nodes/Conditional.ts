@@ -76,10 +76,6 @@ export default class Conditional extends Expression {
         ) as this;
     }
 
-    isBlockFor(child: Node) {
-        return child === this.yes || child === this.no;
-    }
-
     computeConflicts(context: Context): Conflict[] {
         const children = [];
 
