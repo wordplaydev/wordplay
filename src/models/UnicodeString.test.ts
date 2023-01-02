@@ -1,13 +1,19 @@
 import { test, expect } from 'vitest';
 import UnicodeString from './UnicodeString';
 
-test('Insert and remove.', () => {
-    const s = new UnicodeString('happy');
-    expect(s.withGraphemesAt('!', 5)?.toString()).toBe('happy!');
-    expect(s.withGraphemesAt('s', 0)?.toString()).toBe('shappy');
-    expect(s.withoutGraphemeAt(0)?.toString()).toBe('appy');
+test.each([
+    ['happy', '!', 5, 'happy!'],
+    ['happy', 's', 0, 'shappy'],
+    ['happy', '!', 6, undefined],
+])('Insert "%s" "%s" at %i', (start, insertion, position, result) => {
+    const s = new UnicodeString(start);
+    expect(s.withGraphemesAt(insertion, position)?.toString()).toBe(result);
+});
 
-    const e = new UnicodeString('');
-    expect(e.withGraphemesAt('!', 5)).toBe(undefined);
-    expect(e.withoutGraphemeAt(0)).toBe(undefined);
+test.each([
+    ['happy', 0, 'appy'],
+    ['', 0, undefined],
+])('Remove grapheme', (start, position, result) => {
+    const s = new UnicodeString(start);
+    expect(s.withoutGraphemeAt(position)?.toString()).toBe(result);
 });
