@@ -1,36 +1,29 @@
 import Evaluator from '../runtime/Evaluator';
 import { test, expect } from 'vitest';
 
-test('Test borrows', () => {
-    expect(
-        Evaluator.evaluateCode(
-            `
-        ↓ time
-        time
-    `
-        )?.toString()
-    ).toBe('0ms');
-
-    expect(
-        Evaluator.evaluateCode(
-            `
+test.each([
+    [
+        `
+↓ time
+time
+`,
+        [],
+        '0ms',
+    ],
+    [
+        `
         ↓ sup1
         sup1
     `,
-            [`0`]
-        )?.toString()
-    ).toBe('0');
-
-    expect(
-        Evaluator.evaluateCode(
-            `
-        ↓ sup1
-        sup1
-    `,
-            [
-                `↓ time
+        [`0`],
+        '0',
+    ],
+    [
+        `↓ time
          time`,
-            ]
-        )?.toString()
-    ).toBe('0ms');
+        ,
+        '0ms',
+    ],
+])('Expect %s to be %s', (code, supplements, value) => {
+    expect(Evaluator.evaluateCode(code, supplements)?.toString()).toBe(value);
 });

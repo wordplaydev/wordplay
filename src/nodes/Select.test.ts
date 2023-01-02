@@ -6,29 +6,34 @@ import NonBooleanQuery from '../conflicts/NonBooleanQuery';
 import NotATable from '../conflicts/NotATable';
 import Select from './Select';
 
-test('Test select conflicts', () => {
-    testConflict(
+test.each([
+    [
         'table: ⎡one•#⎦\ntable ⎡? ⎡one⎦ 1 < 2',
         'table: 1\ntable ⎡? ⎡one⎦ 1 < 2',
         Select,
-        NotATable
-    );
-    testConflict(
+        NotATable,
+    ],
+    [
         'table: ⎡one•#⎦\ntable ⎡? ⎡one⎦ 1 < 2',
         'table: 1\ntable ⎡? ⎡one⎦ 1 + 2',
         Select,
-        NonBooleanQuery
-    );
-    testConflict(
+        NonBooleanQuery,
+    ],
+    [
         'table: ⎡one•#⎦\ntable ⎡? ⎡one⎦ 1 < 2',
         'table: ⎡one•#⎦\ntable ⎡? ⎡two⎦ 1 < 2',
         Select,
-        UnknownColumn
-    );
-    testConflict(
+        UnknownColumn,
+    ],
+    [
         'table: ⎡one•#⎦\ntable ⎡? ⎡one⎦ one < 1',
         'table: ⎡one•#⎦\ntable ⎡? ⎡1⎦ one < 1',
         Select,
-        ExpectedSelectName
-    );
-});
+        ExpectedSelectName,
+    ],
+])(
+    'Expect %s no conflicts, %s to have %s with %s',
+    (good, bad, node, conflict) => {
+        testConflict(good, bad, node, conflict);
+    }
+);

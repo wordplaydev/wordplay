@@ -2,52 +2,20 @@ import { test, expect } from 'vitest';
 import { NONE_SYMBOL } from '../parser/Tokenizer';
 import Evaluator from '../runtime/Evaluator';
 
-test('Test boolean conversions', () => {
-    expect(Evaluator.evaluateCode("⊤→''")?.toString()).toBe('"⊤"');
-});
+test.each([
+    ["⊤→''", '"⊤"'],
+    [`${NONE_SYMBOL}→''`, `"${NONE_SYMBOL}"`],
+    ["'boomy'→['']", '["b" "o" "o" "m" "y"]'],
+    ["1.234→''", '"1.234"'],
+    ["{1 2 3}→''", '"{1 2 3}"'],
+    ['{1 2 3}→[]', '[1 2 3]'],
 
-test('Test none conversions', () => {
-    expect(Evaluator.evaluateCode(`${NONE_SYMBOL}→''`)?.toString()).toBe(
-        `"${NONE_SYMBOL}"`
-    );
-});
-
-test('Test text conversions', () => {
-    expect(Evaluator.evaluateCode("'boomy'→['']")?.toString()).toBe(
-        '["b" "o" "o" "m" "y"]'
-    );
-});
-
-test('Test measurement conversion', () => {
-    expect(Evaluator.evaluateCode("1.234→''")?.toString()).toBe('"1.234"');
-});
-
-test('Test set conversions', () => {
-    expect(Evaluator.evaluateCode("{1 2 3}→''")?.toString()).toBe('"{1 2 3}"');
-    expect(Evaluator.evaluateCode('{1 2 3}→[]')?.toString()).toBe('[1 2 3]');
-});
-
-test('Test list conversions', () => {
-    expect(Evaluator.evaluateCode("[1 2 3]→''")?.toString()).toBe('"[1 2 3]"');
-    expect(Evaluator.evaluateCode('[1 1 1]→{}')?.toString()).toBe('{1}');
-});
-
-test('Test map conversions', () => {
-    expect(
-        Evaluator.evaluateCode("{1:'cat' 2:'dog' 3:'rat'}→''")?.toString()
-    ).toBe('"{1:"cat" 2:"dog" 3:"rat"}"');
-    expect(
-        Evaluator.evaluateCode("{1:'cat' 2:'dog' 3:'rat'}→{}")?.toString()
-    ).toBe('{1 2 3}');
-    expect(
-        Evaluator.evaluateCode("{1:'cat' 2:'dog' 3:'rat'}→[]")?.toString()
-    ).toBe('["cat" "dog" "rat"]');
-});
-
-test('Test primitive extensions', () => {
-    expect(
-        Evaluator.evaluateCode(
-            '→ #s #kitty * · 1kitty + 1kitty\n5s→#kitty'
-        )?.toString()
-    ).toBe('6kitty');
+    ["[1 2 3]→''", '"[1 2 3]"'],
+    ['[1 1 1]→{}', '{1}'],
+    ["{1:'cat' 2:'dog' 3:'rat'}→''", '"{1:"cat" 2:"dog" 3:"rat"}"'],
+    ["{1:'cat' 2:'dog' 3:'rat'}→{}", '{1 2 3}'],
+    ["{1:'cat' 2:'dog' 3:'rat'}→[]", '["cat" "dog" "rat"]'],
+    ['→ #s #kitty * · 1kitty + 1kitty\n5s→#kitty', '6kitty'],
+])('Expect %s to be %s', (code, value) => {
+    expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
 });

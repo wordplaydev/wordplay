@@ -24,10 +24,6 @@ test.each([
     }
 );
 
-test('Test binding logic', () => {
-    expect(Evaluator.evaluateCode('a: 5\na')?.toString()).toBe('5');
-});
-
 test.each([['a: 5\na', '5']])('Expect %s to be %s', (code, value) => {
     expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
 });

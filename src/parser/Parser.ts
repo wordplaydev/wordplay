@@ -631,7 +631,7 @@ function parseNone(tokens: Tokens): NoneLiteral {
 }
 
 /** NUMBER :: number name? */
-function parseMeasurement(tokens: Tokens): MeasurementLiteral {
+export function parseMeasurement(tokens: Tokens): MeasurementLiteral {
     const number = tokens.read(TokenType.NUMBER);
     const unit =
         tokens.nextIsOneOf(TokenType.NAME, TokenType.LANGUAGE) &&

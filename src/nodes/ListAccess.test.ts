@@ -5,15 +5,22 @@ import Evaluator from '../runtime/Evaluator';
 import ListAccess from './ListAccess';
 import { NotAList } from '../conflicts/NotAList';
 
-test('Test list access conflicts', () => {
-    testConflict('[1 2 3][0]', '[1 2 "hi"]["hi"]', ListAccess, NotAListIndex);
-    testConflict('[1][1]', '1[1]', ListAccess, NotAList);
-});
+test.each([
+    ['[1 2 3][0]', '[1 2 "hi"]["hi"]', ListAccess, NotAListIndex],
+    ['[1][1]', '1[1]', ListAccess, NotAList],
+])(
+    'Expect %s no conflicts, %s to have %s with %s',
+    (good, bad, node, conflict) => {
+        testConflict(good, bad, node, conflict);
+    }
+);
 
-test('Test list access evaluation', () => {
-    expect(Evaluator.evaluateCode('[1 2 3][2]')?.toString()).toBe('2');
-    expect(Evaluator.evaluateCode('[1 2 3][0]')?.toString()).toBe('ø');
-    expect(Evaluator.evaluateCode('[1 2 3][-1]')?.toString()).toBe('3');
-    expect(Evaluator.evaluateCode('[1 2 3][-3]')?.toString()).toBe('1');
-    expect(Evaluator.evaluateCode('[1 2 3][-4]')?.toString()).toBe('ø');
+test.each([
+    ['[1 2 3][2]', '2'],
+    ['[1 2 3][0]', 'ø'],
+    ['[1 2 3][-1]', '3'],
+    ['[1 2 3][-3]', '1'],
+    ['[1 2 3][-4]', 'ø'],
+])('Expect %s to be %s', (code, value) => {
+    expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
 });

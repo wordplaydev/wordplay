@@ -4,17 +4,17 @@ import { testConflict } from '../conflicts/TestUtilities';
 import { UnknownTypeName } from '../conflicts/UnknownTypeName';
 import NameType from './NameType';
 
-test('Test name type conflicts', () => {
-    testConflict(
-        '•Cat() ()\na•Cat: Cat()',
-        'a•Cat: 1',
-        NameType,
-        UnknownTypeName
-    );
-    testConflict(
+test.each([
+    ['•Cat() ()\na•Cat: Cat()', 'a•Cat: 1', NameType, UnknownTypeName],
+    [
         '•Cat⸨T⸩() ()\na•Cat⸨#⸩: Cat(1)',
         '•Cat()\na•Cat⸨#⸩: Cat()',
         NameType,
-        InvalidTypeInput
-    );
-});
+        InvalidTypeInput,
+    ],
+])(
+    'Expect %s no conflicts, %s to have %s with %s',
+    (good, bad, node, conflict) => {
+        testConflict(good, bad, node, conflict);
+    }
+);

@@ -8,14 +8,19 @@ import Source from '../models/Source';
 import Project from '../models/Project';
 import Bind from './Bind';
 
-test('Test access name conflicts', () => {
-    testConflict(
+test.each([
+    [
         '•Cat(name•"") ()\nboomy: Cat("boom")\nboomy.name',
         '•Cat(name•"") ()\nboomy: Cat("boom")\nboomy.nam',
         PropertyReference,
-        UnknownProperty
-    );
-});
+        UnknownProperty,
+    ],
+])(
+    'Expect %s no conflicts, %s to have %s with %s',
+    (good, bad, node, conflict) => {
+        testConflict(good, bad, node, conflict);
+    }
+);
 
 test('Test scoping', () => {
     const code = `

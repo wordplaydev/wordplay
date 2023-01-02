@@ -9,19 +9,24 @@ import Docs from './Docs';
 import Evaluate from './Evaluate';
 import NotAFunction from '../conflicts/NotAFunction';
 
-test('Test block conflicts', () => {
-    testConflict('(1)', '()', Block, ExpectedEndingExpression);
-    testConflict(
+test.each([
+    ['(1)', '()', Block, ExpectedEndingExpression],
+    [
         '`hi`/eng`hola`/spa\n"hi"',
         '`hi`/eng`hola`/eng\n"hi"',
         Docs,
-        DuplicateLanguages
-    );
-    testConflict('1 + 1', '1 + 1\n2 + 2', Block, IgnoredExpression);
-    testConflict('ƒ b() 1\nb()', "(ƒ b() 1)\nb()'", Evaluate, NotAFunction);
-    testConflict('•B()\nB()', "a: (•B())\nB()'", Evaluate, NotAFunction);
-});
+        DuplicateLanguages,
+    ],
+    ['1 + 1', '1 + 1\n2 + 2', Block, IgnoredExpression],
+    ['ƒ b() 1\nb()', "(ƒ b() 1)\nb()'", Evaluate, NotAFunction],
+    ['•B()\nB()', "a: (•B())\nB()'", Evaluate, NotAFunction],
+])(
+    'Expect %s no conflicts, %s to have %s with %s',
+    (good, bad, node, conflict, number?) => {
+        testConflict(good, bad, node, conflict, number);
+    }
+);
 
-test('Test block evaluation', () => {
-    expect(Evaluator.evaluateCode('b: (a: 5\na)\nb')?.toString()).toBe('5');
+test.each([['b: (a: 5\na)\nb', '5']])('Expect %s to be %s', (code, value) => {
+    expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
 });
