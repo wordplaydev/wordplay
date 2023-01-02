@@ -61,17 +61,3 @@ test.each([
         expect(newExpr.equals(expected)).toBeTruthy();
     }
 );
-
-// test('Replace Node with invalid Node ', () => {
-// });
-// test('Replace Node with invalid Node in list', () => {
-// });
-// });
-// test('Replace Node with invalid undefined ', () => {
-// });
-// test('Replace field with invalid Node ', () => {
-// });
-// test('Replace field with invalid Node[] ', () => {
-// });
-// test('Replace field with invalid undefined ', () => {
-// });
