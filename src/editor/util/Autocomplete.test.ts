@@ -10,35 +10,42 @@ import MeasurementLiteral from '../../nodes/MeasurementLiteral';
 import Add from '../../transforms/Add';
 
 test.each([
-    ['a: 1 a +', 8, Replace, 'a'],
-    ['a•?:', 4, Replace, '⊤'],
-    [`ƒ sum(a•? b•?) a & b\nsum()`, 25, Append, '⊤'],
-    [`ƒ sum(a•? b•?) a & b\nsum()`, 26, Replace, '(sum())=_'],
-    [`"hi".`, 5, Add, 'length'],
-    [`•Cat(hat•"")\nboomy: Cat("none")\nboomy.`, 38, Add, 'hat'],
-    // Selecting b should offer to replace with c
+    ['a: 1 a +**', undefined, Replace, 'a'],
+    ['a•?:**', undefined, Replace, '⊤'],
+    [`ƒ sum(a•? b•?) a & b\nsum(**)`, undefined, Append, '⊤'],
+    [`ƒ sum(a•? b•?) a & b\nsum()**`, undefined, Replace, '(sum())=_'],
+    [`"hi".**`, undefined, Add, 'length'],
+    [`•Cat(hat•"")\nboomy: Cat("none")\nboomy.**`, undefined, Add, 'hat'],
+    // Selecting 2 should offer to replace with c
     [
         `c: 1\n1 + 2`,
         (node: Node) =>
-            node instanceof MeasurementLiteral && node.toString() === '2',
+            node instanceof MeasurementLiteral && node.toWordplay() === '2',
         Replace,
         'c',
     ],
 ])(
-    'Code %s at position %i should have a transform',
+    'Code %s should have a transform',
     (
         code: string,
-        position: ((node: Node) => boolean) | number,
+        position: ((node: Node) => boolean) | undefined,
         kind: Function,
         edit: string
     ) => {
+        // See if there's a placeholder for the caret.
+        const insertionPoint = code.indexOf('**');
+        if (insertionPoint >= 0)
+            code =
+                code.substring(0, insertionPoint) +
+                code.substring(insertionPoint + 2);
+
         const source = new Source('test', code);
         const project = new Project('test', source, []);
         let resolvedPosition =
-            typeof position === 'number'
-                ? position
+            position === undefined
+                ? insertionPoint
                 : source.nodes().find((node) => position(node));
-        expect(position).toBeDefined();
+        expect(resolvedPosition).toBeDefined();
         if (resolvedPosition) {
             const caret = new Caret(source, resolvedPosition);
             const transforms = getEditsAt(project, caret);
