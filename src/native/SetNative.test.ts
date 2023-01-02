@@ -9,6 +9,6 @@ test.each([
     ['{1 2 3}.intersection({2 3 4})', '{2 3}'],
     ['{1 2 3}.difference({3 4 5})', '{1 2}'],
     ['{1 2 3}.filter(ƒ(v) v % 2 = 1)', '{1 3}'],
-])('Test set functions', (code, value) => {
+])('Expect %s to be %s', (code, value) => {
     expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
 });
