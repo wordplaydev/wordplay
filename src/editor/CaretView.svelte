@@ -10,7 +10,7 @@
     import TokenType from '../nodes/TokenType';
     import { getCaret } from './util/Contexts';
     import Spaces, { SPACE_HTML, TAB_HTML } from '../parser/Spaces';
-    import type Source from '../models/Source';
+    import type Source from '../nodes/Source';
     import { playing } from '../models/stores';
     import Node from '../nodes/Node';
 

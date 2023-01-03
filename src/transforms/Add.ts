@@ -3,7 +3,7 @@ import Transform from './Transform';
 import Node from '../nodes/Node';
 import type LanguageCode from '../nodes/LanguageCode';
 import Refer from './Refer';
-import Caret from '../models/Caret';
+import Caret from '../editor/util/Caret';
 import { TRANSLATE } from '../nodes/Translations';
 import type Context from '../nodes/Context';
 

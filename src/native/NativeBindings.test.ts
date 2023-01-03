@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import Source from '../models/Source';
+import Source from '../nodes/Source';
 import Context from '../nodes/Context';
 import ImplicitShares from '../runtime/ImplicitShares';
 import Native from './NativeBindings';

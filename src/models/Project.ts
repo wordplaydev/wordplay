@@ -12,7 +12,7 @@ import type StructureDefinition from '../nodes/StructureDefinition';
 import Evaluator from '../runtime/Evaluator';
 import type Stream from '../runtime/Stream';
 import type Value from '../runtime/Value';
-import type Source from './Source';
+import type Source from '../nodes/Source';
 import type Node from '../nodes/Node';
 import HOF from '../native/HOF';
 import FunctionDefinitionType from '../nodes/FunctionDefinitionType';

@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import Editor from '../editor/Editor.svelte';
-    import type Source from '../models/Source';
+    import type Source from '../nodes/Source';
     import type Project from '../models/Project';
     import { currentStep } from '../models/stores';
     import { languages } from '../models/languages';

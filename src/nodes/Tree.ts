@@ -1,4 +1,4 @@
-import Source from '../models/Source';
+import Source from './Source';
 import Expression from './Expression';
 import type { Field } from './Node';
 import type Node from './Node';

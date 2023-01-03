@@ -4,20 +4,17 @@
     import { nodeConflicts, updateProject } from '../models/stores';
     import type Transform from '../transforms/Transform';
     import Node from '../nodes/Node';
-    import Caret, {
-        insertionPointsEqual,
-        type InsertionPoint,
-    } from '../models/Caret';
+    import Caret from './util/Caret';
     import { setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
     import commands, { type Edit } from './util/Commands';
-    import Source from '../models/Source';
+    import type Source from '../nodes/Source';
     import { writable } from 'svelte/store';
     import Exception from '../runtime/Exception';
-    import Program from '../nodes/Program';
+    import type Program from '../nodes/Program';
     import Menu from './Menu.svelte';
     import Token from '../nodes/Token';
-    import KeyboardIdle from '../models/KeyboardIdle';
+    import KeyboardIdle from './util/KeyboardIdle';
     import CaretView from './CaretView.svelte';
     import {
         CaretSymbol,
@@ -54,6 +51,12 @@
     import Doc from '../nodes/Doc';
     import Name from '../nodes/Name';
     import type LanguageCode from '../nodes/LanguageCode';
+    import {
+        dropNodeOnSource,
+        getInsertionPoint,
+        InsertionPoint,
+    } from './Drag';
+    import type Tree from '../nodes/Tree';
 
     export let project: Project;
     export let source: Source;
@@ -493,147 +496,26 @@
 
     async function drop() {
         if ($dragged === undefined) return;
+        if ($hovered === undefined && $insertion === undefined) return;
 
-        let editedProgram = source.expression;
-        let editedSpace = source.spaces;
-
-        // Clone the dragged node in case it came with nodes that we shouldn't mess with.
-        const draggedNode = $dragged.node;
-        const draggedClone: Node = draggedNode.clone();
-
-        // First, decide whether to remove the node or replace it with a placeholder.
-        // We do this based on the node's field: if it is in a list or can be undefined, then we remove,
-        // otherwise we replace with a placeholder. This ensures that we don't introduce a syntax error.
-
-        // Get the field of the node.
-        const field = $dragged.getField();
-
-        // Get the root of the dragged program.
-        const draggedRoot = $dragged.getRoot();
-        const draggedInSource = draggedRoot instanceof Source;
-
-        const replacement =
-            // Not in a program? Don't do a replacement (which we represent with null).
-            field === undefined || !draggedInSource
-                ? null
-                : // Does the field allow undefined or the field is a list? Replace with undefined (which means unset or remove from the list).
-                field.types.includes(undefined) || Array.isArray(field.types[0])
-                ? undefined
-                : // Is the node an expression and the field allows expressions? Replace with an expression placeholder of the type of the current expression.
-                $dragged.node instanceof Expression &&
-                  field.types.includes(Expression)
-                ? ExpressionPlaceholder.make(
-                      $dragged.node.getType(project.getContext(source))
-                  )
-                : // Is the field a type? Replace with a type placeholder.
-                field.types.includes(Type)
-                ? new TypePlaceholder()
-                : // Otherwise, don't do a replacement.
-                  null;
-
-        // This is a list of sources to replace with other sources. This can be
-        // one or more sources, since it's possible to drag from one source to another.
-        const sourceReplacements: [Source, Source][] = [];
-
-        // Case 1: We're replacing the hovered node with the dragged node.
-        if ($hovered) {
-            // Replace the hovered node in this source with the dragged node.
-            editedProgram = editedProgram.replace($hovered, draggedClone);
-
-            // Give the space of the hovered node to the dragged clone.
-            editedSpace = editedSpace.withReplacement($hovered, draggedClone);
-        }
-        // Case 2: We're inserting into a list
-        else if ($insertion) {
-            // Replace the old list with a new one that has the insertion.
-            editedProgram = editedProgram.replace($insertion.list, [
-                ...$insertion.list.slice(0, $insertion.index),
-                draggedClone,
-                ...$insertion.list.slice($insertion.index),
-            ]);
-
-            // Find the node at the index. It's either the node in the list at the index or or the token after the list,
-            // which might be empty. To find this, we ask the node the list is in
-            // We get the token
-            const nodeAtIndex =
-                $insertion.list[$insertion.index] ??
-                // Get the node after the list field
-                $insertion.node.getNodeAfterField($insertion.field) ??
-                // And if there's not one of those, get the token after the node.
-                editedProgram.getLeafAfter($insertion.node) ??
-                // Otherwise, default to the end token.
-                editedProgram.end;
-
-            // Find the space before the node, if there is one.
-            const space = nodeAtIndex ? editedSpace.getSpace(nodeAtIndex) : '';
-
-            // Find the index of the insertion line
-            let index = 0;
-            let count = 0;
-            for (; index < space.length; index++) {
-                if (space.charAt(index) === '\n') count++;
-                if (count > $insertion.line) break;
-            }
-
-            // Split it based on the line number in the preceding space.
-            const beforeSpace = space.substring(0, index);
-            const afterSpace = space.substring(index);
-
-            // Give the space prior to the index to the dragged node.
-            editedSpace = editedSpace.withSpace(draggedClone, beforeSpace);
-            if (nodeAtIndex) {
-                // Make sure the preferred space is there, to avoid parsing issues.
-                editedSpace = editedSpace.withSpace(nodeAtIndex, afterSpace);
-            }
-        }
-
-        // If the dragged node came from a Source we have a replacement (undefined or a Node)
-        // update the the source. We handle it differently based on whether it was this editors source or another editor's source.
-        if (replacement !== null && draggedInSource) {
-            // If it's this source, do the replacement on it.
-            if (draggedRoot === source) {
-                editedProgram = editedProgram.replace(draggedNode, replacement);
-                editedSpace = editedSpace.withReplacement(
-                    draggedNode,
-                    replacement
-                );
-            }
-            // Some other source...
-            else {
-                // If we found one, update the project with a new source with a new program that replaces the dragged node with the placeholder
-                // and preserves the space preceding the dragged node.
-                sourceReplacements.push([
-                    draggedRoot,
-                    draggedRoot
-                        .replace(draggedNode, replacement)
-                        .withSpaces(
-                            draggedRoot.spaces.withReplacement(
-                                draggedNode,
-                                replacement
-                            )
-                        ),
-                ]);
-            }
-        }
-
-        // Make a new source
-        const newSource = source.withProgram(editedProgram, editedSpace);
-
-        // Finally, add this editor's updated source to the list of sources to replace in the project.
-        sourceReplacements.push([
+        const [newProject, droppedNode] = dropNodeOnSource(
+            project,
             source,
-            newSource.withSpaces(editedSpace.withPreferredSpace(newSource)),
-        ]);
+            $dragged,
+            $hovered ?? ($insertion as Node | InsertionPoint)
+        ) ?? [undefined, undefined];
+
+        if (newProject === undefined || droppedNode === undefined) return;
 
         // Set the caret to the first placeholder or the dragged node, or the node itself if there isn't one.
         caret.set(
             $caret.withPosition(
-                draggedClone.getFirstPlaceholder() ?? draggedClone
+                droppedNode.getFirstPlaceholder() ?? droppedNode
             )
         );
 
         // Update the project with the new source files
-        updateProject(project.withSources(sourceReplacements));
+        updateProject(newProject);
 
         // Wait for the DOM updates.
         await tick();
@@ -889,56 +771,6 @@
         return source.getTokenLastPosition(source.expression.end);
     }
 
-    function getInsertionPoint(
-        node: Node,
-        before: boolean,
-        token: Token,
-        line: number
-    ) {
-        const tree = $caret.source.get(node);
-        if (tree === undefined) return;
-
-        const parent = tree.getParent();
-        if (parent === undefined) return;
-
-        // Special case the end token of the Program, since it's block has no delimters.
-        if (node instanceof Token && node.is(TokenType.END)) {
-            const program = tree.getParent();
-            if (
-                program instanceof Program &&
-                program.expression instanceof Block
-            ) {
-                return {
-                    node: program.expression,
-                    field: 'statements',
-                    list: program.expression.statements,
-                    token: node,
-                    line: line,
-                    // The index is at the end of the statements.
-                    index: program.expression.statements.length,
-                };
-            }
-        }
-
-        // Find the list this node is either in or delimits.
-        let field = tree.getContainingParentList(before);
-        if (field === undefined) return;
-        const list = parent.getField(field);
-        if (!Array.isArray(list)) return undefined;
-        const index = list.length === 0 ? 0 : list.indexOf(node);
-        if (index < 0) return;
-
-        return {
-            node: parent,
-            field: field,
-            list: list,
-            token: token,
-            line: line,
-            // Account for empty lists
-            index: index + (before ? 0 : 1),
-        };
-    }
-
     function getInsertionPointsAt(event: MouseEvent) {
         // Is the caret position between tokens? If so, are any of the token's parents inside a list in which we could insert something?
         const position = getCaretPositionAt(event);
@@ -968,12 +800,18 @@
             return between === undefined
                 ? []
                 : [
-                      ...between.before.map((node) =>
-                          getInsertionPoint(node, true, token, line)
-                      ),
-                      ...between.after.map((node) =>
-                          getInsertionPoint(node, false, token, line)
-                      ),
+                      ...between.before
+                          .map((node) => source.get(node))
+                          .filter((node): node is Tree => node !== undefined)
+                          .map((tree) =>
+                              getInsertionPoint(tree, true, token, line)
+                          ),
+                      ...between.after
+                          .map((node) => source.get(node))
+                          .filter((node): node is Tree => node !== undefined)
+                          .map((tree) =>
+                              getInsertionPoint(tree, false, token, line)
+                          ),
                   ]
                       // Filter out duplicates and undefineds
                       .filter<InsertionPoint>(
@@ -988,10 +826,7 @@
                                       i1 > i2 &&
                                       insertion1 !== insertion2 &&
                                       insertion2 !== undefined &&
-                                      insertionPointsEqual(
-                                          insertion1,
-                                          insertion2
-                                      )
+                                      insertion1.equals(insertion2)
                               ) === undefined
                       );
         }

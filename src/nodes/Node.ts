@@ -167,6 +167,10 @@ export default abstract class Node {
         return nodes;
     }
 
+    find<NodeType extends Node>(type: Function, nth: number = 0) {
+        return this.nodes((node) => node instanceof type)[nth] as NodeType;
+    }
+
     /** Finds the descendant of this node (or this node) that has the given ID. */
     getNodeByID(id: number): Node | undefined {
         if (this.id === id) return this;

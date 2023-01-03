@@ -13,7 +13,7 @@
     import Tree from '../nodes/Tree';
     import { WRITE } from '../nodes/Translations';
     import Button from './Button.svelte';
-    import Source from '../models/Source';
+    import Source from '../nodes/Source';
     import { fly } from 'svelte/transition';
     import ConceptsView from './ConceptsView.svelte';
     import StructureConceptView from './StructureConceptView.svelte';
@@ -37,7 +37,7 @@
         getNativeConcepts,
         getOutputConcepts,
     } from '../concepts/DefaultConcepts';
-    import KeyboardIdle from '../models/KeyboardIdle';
+    import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Project from '../models/Project';
     import type ConstructConcept from '../concepts/ConstructConcept';
     import ConceptIndex from '../concepts/ConceptIndex';

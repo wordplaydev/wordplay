@@ -12,7 +12,7 @@ import Exception from './Exception';
 import ValueException from './ValueException';
 import type Type from '../nodes/Type';
 import type NativeInterface from '../native/NativeInterface';
-import Source from '../models/Source';
+import Source from '../nodes/Source';
 import type Names from '../nodes/Names';
 import Expression from '../nodes/Expression';
 import Project from '../models/Project';

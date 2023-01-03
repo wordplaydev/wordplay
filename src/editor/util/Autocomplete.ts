@@ -1,5 +1,5 @@
 import Node, { type Field } from '../../nodes/Node';
-import type Caret from '../../models/Caret';
+import type Caret from './Caret';
 import type Project from '../../models/Project';
 import type Transform from '../../transforms/Transform';
 import Append from '../../transforms/Append';

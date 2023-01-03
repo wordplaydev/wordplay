@@ -1,4 +1,4 @@
-import type Caret from '../../models/Caret';
+import type Caret from './Caret';
 import Node from '../../nodes/Node';
 import {
     AND_SYMBOL,
@@ -17,7 +17,7 @@ import {
     TYPE_CLOSE_SYMBOL,
     ETC_SYMBOL,
 } from '../../parser/Tokenizer';
-import type Source from '../../models/Source';
+import type Source from '../../nodes/Source';
 import Evaluator, { Mode } from '../../runtime/Evaluator';
 
 export type Edit = Caret | [Source, Caret];

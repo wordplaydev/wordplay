@@ -23,7 +23,7 @@ import type UnaryOperation from '../nodes/UnaryOperation';
 import type BinaryOperation from '../nodes/BinaryOperation';
 import type Evaluate from '../nodes/Evaluate';
 import type HOF from '../native/HOF';
-import type Source from '../models/Source';
+import type Source from '../nodes/Source';
 import type Convert from '../nodes/Convert';
 import type Borrow from '../nodes/Borrow';
 import Context from '../nodes/Context';

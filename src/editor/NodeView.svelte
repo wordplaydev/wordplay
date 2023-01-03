@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import type Node from '../nodes/Node';
-    import { getHidden, getSpace } from './util/Contexts';
+    import { getHidden, getInsertionPoint, getSpace } from './util/Contexts';
     import getNodeView from './util/nodeToView';
     import { project, currentStep, playing } from '../models/stores';
     import Expression from '../nodes/Expression';
@@ -43,12 +43,20 @@
     // Get the hidden context.
     let hidden = getHidden();
     $: hide = node ? $hidden?.has(node) : false;
+
+    // Get the insertion point
+    let insertion = getInsertionPoint();
 </script>
 
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
-    {#if space && !hide}<Space {...space} />{/if}<div
+    {#if space && !hide}<Space
+            {...space}
+            insertion={$insertion?.token === space.token
+                ? $insertion
+                : undefined}
+        />{/if}<div
         class="{node.constructor.name} node-view"
         class:hide
         data-id={node.id}

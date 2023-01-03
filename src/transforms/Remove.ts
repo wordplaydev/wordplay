@@ -1,7 +1,7 @@
 import type { Edit } from '../editor/util/Commands';
 import Transform from './Transform';
 import Node from '../nodes/Node';
-import Caret from '../models/Caret';
+import Caret from '../editor/util/Caret';
 import type LanguageCode from '../nodes/LanguageCode';
 import { TRANSLATE } from '../nodes/Translations';
 import type Context from '../nodes/Context';

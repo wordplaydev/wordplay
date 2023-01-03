@@ -16,7 +16,7 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import type Stream from '../runtime/Stream';
 import type Value from '../runtime/Value';
-import Source from '../models/Source';
+import Source from './Source';
 import Evaluation from '../runtime/Evaluation';
 import NameException from '../runtime/NameException';
 import FunctionDefinition from './FunctionDefinition';

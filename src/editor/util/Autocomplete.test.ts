@@ -1,7 +1,7 @@
 import { test, expect } from 'vitest';
-import Caret from '../../models/Caret';
+import Caret from './Caret';
 import Project from '../../models/Project';
-import Source from '../../models/Source';
+import Source from '../../nodes/Source';
 import Append from '../../transforms/Append';
 import Replace from '../../transforms/Replace';
 import { getEditsAt } from './Autocomplete';

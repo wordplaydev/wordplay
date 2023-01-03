@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import Project from '../models/Project';
-import Source from '../models/Source';
+import Source from '../nodes/Source';
 import EvaluationException from './EvaluationException';
 
 test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {

@@ -2,7 +2,7 @@ import type Node from './Node';
 import type NativeInterface from '../native/NativeInterface';
 import type Tree from './Tree';
 import type Project from '../models/Project';
-import type Source from '../models/Source';
+import type Source from './Source';
 import type Type from './Type';
 import Expression, { CycleType } from './Expression';
 import type Reference from './Reference';

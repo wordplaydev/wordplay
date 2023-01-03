@@ -1,4 +1,4 @@
-import type Source from '../models/Source';
+import type Source from './Source';
 import type Bind from '../nodes/Bind';
 import type Stream from '../runtime/Stream';
 import type FunctionDefinition from './FunctionDefinition';

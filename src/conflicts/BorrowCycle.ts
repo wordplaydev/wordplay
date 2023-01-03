@@ -1,4 +1,4 @@
-import type Source from '../models/Source';
+import type Source from '../nodes/Source';
 import type Borrow from '../nodes/Borrow';
 import type Program from '../nodes/Program';
 import type Translations from '../nodes/Translations';

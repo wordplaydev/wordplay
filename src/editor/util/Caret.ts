@@ -1,39 +1,16 @@
-import type { Edit } from '../editor/util/Commands';
-import Block from '../nodes/Block';
-import Node from '../nodes/Node';
-import Token from '../nodes/Token';
-import TokenType from '../nodes/TokenType';
+import type { Edit } from './Commands';
+import Block from '../../nodes/Block';
+import Node from '../../nodes/Node';
+import Token from '../../nodes/Token';
+import TokenType from '../../nodes/TokenType';
 import {
     DELIMITERS,
     PROPERTY_SYMBOL,
     REVERSE_DELIMITERS,
-} from '../parser/Tokenizer';
-import type Source from './Source';
+} from '../../parser/Tokenizer';
+import type Source from '../../nodes/Source';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
-
-// Represents a node, list on the node, and index in the list at which to insert a node.
-export type InsertionPoint = {
-    node: Node;
-    field: string;
-    list: Node[];
-    token: Token;
-    line: number;
-    index: number;
-};
-
-export function insertionPointsEqual(
-    insertion1: InsertionPoint,
-    insertion2: InsertionPoint
-) {
-    return (
-        insertion1.node === insertion2.node &&
-        insertion1.list === insertion2.list &&
-        insertion1.token === insertion2.token &&
-        insertion1.line === insertion2.line &&
-        insertion1.index === insertion2.index
-    );
-}
 
 export default class Caret {
     readonly time: number;

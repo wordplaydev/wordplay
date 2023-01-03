@@ -5,10 +5,10 @@
     import type Value from '../runtime/Value';
     import { languages } from '../models/languages';
     import { playing } from '../models/stores';
-    import KeyboardIdle from '../models/KeyboardIdle';
+    import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Project from '../models/Project';
     import ValueView from './ValueView.svelte';
-    import type Source from '../models/Source';
+    import type Source from '../nodes/Source';
     import VerseView from './VerseView.svelte';
     import { createEventDispatcher } from 'svelte';
     import { slide } from 'svelte/transition';

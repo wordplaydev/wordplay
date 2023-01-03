@@ -1,7 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import type Project from '../models/Project';
-    import type Source from '../models/Source';
+    import type Source from '../nodes/Source';
     import type Value from '../runtime/Value';
     import OutputView from './OutputView.svelte';
     import { currentStep, nodeConflicts } from '../models/stores';

@@ -7,12 +7,12 @@
         type ProjectContext,
         ProjectSymbol,
     } from '../editor/util/Contexts';
-    import KeyboardIdle from '../models/KeyboardIdle';
+    import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Project from '../models/Project';
     import Palette from './Palette.svelte';
     import SourceView from './SourceView.svelte';
     import type Tree from '../nodes/Tree';
-    import type Source from '../models/Source';
+    import type Source from '../nodes/Source';
     import { playing, currentStep, nodeConflicts } from '../models/stores';
     import Annotations from './Annotations.svelte';
     import type Conflict from '../conflicts/Conflict';

@@ -2,7 +2,7 @@ import { expect } from 'vitest';
 import Block from '../nodes/Block';
 import Expression from '../nodes/Expression';
 import Context from '../nodes/Context';
-import Source from '../models/Source';
+import Source from '../nodes/Source';
 import Project from '../models/Project';
 
 export function testConflict(

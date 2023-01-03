@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest';
 import Project from '../models/Project';
-import Source from '../models/Source';
+import Source from './Source';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Tokenizer';
 import type Stream from '../runtime/Stream';
 import type Value from '../runtime/Value';

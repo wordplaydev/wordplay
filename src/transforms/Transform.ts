@@ -2,7 +2,7 @@ import type { Edit } from '../editor/util/Commands';
 import type Node from '../nodes/Node';
 import type LanguageCode from '../nodes/LanguageCode';
 import type Context from '../nodes/Context';
-import type Source from '../models/Source';
+import type Source from '../nodes/Source';
 import type Spaces from '../parser/Spaces';
 
 export default abstract class Transform {

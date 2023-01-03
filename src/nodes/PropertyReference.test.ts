@@ -4,7 +4,7 @@ import Evaluator from '../runtime/Evaluator';
 import PropertyReference from './PropertyReference';
 import Text from '../runtime/Text';
 import { test, expect } from 'vitest';
-import Source from '../models/Source';
+import Source from './Source';
 import Project from '../models/Project';
 import Bind from './Bind';
 
